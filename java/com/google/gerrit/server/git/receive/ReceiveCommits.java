@@ -387,6 +387,7 @@ class ReceiveCommits {
   private boolean newChangeForAllNotInTarget;
   private String setFullNameTo;
   private boolean setChangeAsPrivate;
+  private NoteDbPushOption noteDbPushOption;
 
   // Handles for outputting back over the wire to the end user.
   private Task newProgress;
@@ -824,6 +825,19 @@ class ReceiveCommits {
         }
       }
     }
+
+    List<String> noteDbValues = pushOptions.get("notedb");
+    if (!noteDbValues.isEmpty()) {
+      // These semantics for duplicates/errors are somewhat arbitrary and may not match e.g. the
+      // CommandLineParser behavior used by MagicBranchInput.
+      String value = noteDbValues.get(noteDbValues.size() - 1);
+      noteDbPushOption = NoteDbPushOption.parse(value);
+      if (noteDbPushOption == null) {
+        addError("Invalid value in -o " + NoteDbPushOption.OPTION_NAME + "=" + value);
+      }
+    } else {
+      noteDbPushOption = NoteDbPushOption.DISALLOW;
+    }
   }
 
   private void parseCommands(Collection<ReceiveCommand> commands)
@@ -876,6 +890,38 @@ class ReceiveCommits {
           reject(cmd, "upload to refs/changes not allowed");
         }
         continue;
+      }
+
+      if (RefNames.isNoteDbMetaRef(cmd.getRefName())) {
+        // Reject pushes to NoteDb refs without a special option and permission. Note that this
+        // prohibition doesn't depend on NoteDb being enabled in any way, since all sites will
+        // migrate to NoteDb eventually, and we don't want garbage data waiting there when the
+        // migration finishes.
+        logDebug(
+            "{} NoteDb ref {} with {}={}",
+            cmd.getType(),
+            cmd.getRefName(),
+            NoteDbPushOption.OPTION_NAME,
+            noteDbPushOption);
+        if (noteDbPushOption != NoteDbPushOption.ALLOW) {
+          // Only reject this command, not the whole push. This supports the use case of "git clone
+          // --mirror" followed by "git push --mirror", when the user doesn't really intend to clone
+          // or mirror the NoteDb data; there is no single refspec that describes all refs *except*
+          // NoteDb refs.
+          reject(
+              cmd,
+              "NoteDb update requires -o "
+                  + NoteDbPushOption.OPTION_NAME
+                  + "="
+                  + NoteDbPushOption.ALLOW.value());
+          continue;
+        }
+        try {
+          permissionBackend.user(user).check(GlobalPermission.ACCESS_DATABASE);
+        } catch (AuthException e) {
+          reject(cmd, "NoteDb update requires access database permission");
+          continue;
+        }
       }
 
       switch (cmd.getType()) {

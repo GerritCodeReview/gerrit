@@ -20,6 +20,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.assertPushRejected;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.GitUtil.pushOne;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
@@ -30,6 +31,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -48,6 +50,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -78,6 +81,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.git.receive.NoteDbPushOption;
 import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.git.validators.CommitValidators.ChangeIdValidator;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -2016,6 +2020,53 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     result.assertOkStatus();
     assertThat(result.getMessage())
         .endsWith("Pushing to refs/publish/* is deprecated, use refs/for/* instead.\n");
+  }
+
+  @Test
+  public void pushNoteDbRef() throws Exception {
+    String ref = "refs/changes/34/1234/meta";
+    RevCommit c = testRepo.commit().message("Junk NoteDb commit").create();
+    PushResult pr = pushOne(testRepo, c.name(), ref, false, false, null);
+    assertThat(pr.getMessages()).doesNotContain(NoteDbPushOption.OPTION_NAME);
+    assertPushRejected(pr, ref, "NoteDb update requires -o notedb=allow");
+
+    pr = pushOne(testRepo, c.name(), ref, false, false, ImmutableList.of("notedb=foobar"));
+    assertThat(pr.getMessages()).contains("Invalid value in -o notedb=foobar");
+    assertPushRejected(pr, ref, "NoteDb update requires -o notedb=allow");
+
+    List<String> opts = ImmutableList.of("notedb=allow");
+    pr = pushOne(testRepo, c.name(), ref, false, false, opts);
+    assertPushRejected(pr, ref, "NoteDb update requires access database permission");
+
+    allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
+    pr = pushOne(testRepo, c.name(), ref, false, false, opts);
+    assertPushRejected(pr, ref, "prohibited by Gerrit: create not permitted for " + ref);
+
+    grant(project, "refs/changes/*", Permission.CREATE);
+    grant(project, "refs/changes/*", Permission.PUSH);
+    grantSkipValidation(project, "refs/changes/*", REGISTERED_USERS);
+    pr = pushOne(testRepo, c.name(), ref, false, false, opts);
+    assertPushOk(pr, ref);
+  }
+
+  @Test
+  public void pushNoteDbRefWithoutOptionOnlyFailsThatCommand() throws Exception {
+    String ref = "refs/changes/34/1234/meta";
+    RevCommit noteDbCommit = testRepo.commit().message("Junk NoteDb commit").create();
+    RevCommit changeCommit =
+        testRepo.branch("HEAD").commit().message("A change").insertChangeId().create();
+    PushResult pr =
+        Iterables.getOnlyElement(
+            testRepo
+                .git()
+                .push()
+                .setRefSpecs(
+                    new RefSpec(noteDbCommit.name() + ":" + ref),
+                    new RefSpec(changeCommit.name() + ":refs/for/master"))
+                .call());
+
+    assertPushRejected(pr, ref, "NoteDb update requires -o notedb=allow");
+    assertPushOk(pr, "refs/for/master");
   }
 
   private DraftInput newDraft(String path, int line, String message) {

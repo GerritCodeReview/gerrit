@@ -165,8 +165,8 @@ public class GroupRebuilderTest extends AbstractGroupTest {
             + "\n"
             + "Add: Account 1 <1@server-id>\n"
             + "Add: Account 2 <2@server-id>\n"
-            + "Add-group: Group <x>\n"
-            + "Add-group: Group <y>");
+            + "Add-group: Group x <x>\n"
+            + "Add-group: Group y <y>");
   }
 
   @Test
@@ -263,9 +263,10 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(4);
     assertServerCommit(log.get(0), "Create group");
-    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <y>", "Account 8", "8@server-id");
-    assertCommit(log.get(2), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
-    assertCommit(log.get(3), "Update group\n\nRemove-group: Group <y>", "Account 9", "9@server-id");
+    assertCommit(log.get(1), "Update group\n\nAdd-group: Group y <y>", "Account 8", "8@server-id");
+    assertCommit(log.get(2), "Update group\n\nAdd-group: Group x <x>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(3), "Update group\n\nRemove-group: Group y <y>", "Account 9", "9@server-id");
   }
 
   @Test
@@ -284,8 +285,9 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
-    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
-    assertServerCommit(log.get(2), "Update group\n\nAdd-group: Group <y>\nAdd-group: Group <z>");
+    assertCommit(log.get(1), "Update group\n\nAdd-group: Group x <x>", "Account 8", "8@server-id");
+    assertServerCommit(
+        log.get(2), "Update group\n\nAdd-group: Group y <y>\nAdd-group: Group z <z>");
   }
 
   @Test
@@ -329,12 +331,13 @@ public class GroupRebuilderTest extends AbstractGroupTest {
         log.get(3),
         "Update group\n"
             + "\n"
-            + "Add-group: Group <x>\n"
-            + "Add-group: Group <y>\n"
-            + "Add-group: Group <z>",
+            + "Add-group: Group x <x>\n"
+            + "Add-group: Group y <y>\n"
+            + "Add-group: Group z <z>",
         "Account 8",
         "8@server-id");
-    assertCommit(log.get(4), "Update group\n\nRemove-group: Group <z>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(4), "Update group\n\nRemove-group: Group z <z>", "Account 8", "8@server-id");
   }
 
   @Test
@@ -368,12 +371,12 @@ public class GroupRebuilderTest extends AbstractGroupTest {
         "8@server-id");
     assertCommit(
         log.get(2),
-        "Update group\n\nAdd-group: Group <x>\nAdd-group: Group <z>",
+        "Update group\n\nAdd-group: Group x <x>\nAdd-group: Group z <z>",
         "Account 8",
         "8@server-id");
     assertCommit(
         log.get(3), "Update group\n\nAdd: Account 2 <2@server-id>", "Account 9", "9@server-id");
-    assertCommit(log.get(4), "Update group\n\nAdd-group: Group <y>", "Account 9", "9@server-id");
+    assertCommit(log.get(4), "Update group\n\nAdd-group: Group y <y>", "Account 9", "9@server-id");
   }
 
   @Test
@@ -396,8 +399,9 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
-    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
-    assertServerCommit(log.get(2), "Update group\n\nAdd-group: Group <y>\nAdd-group: Group <z>");
+    assertCommit(log.get(1), "Update group\n\nAdd-group: Group x <x>", "Account 8", "8@server-id");
+    assertServerCommit(
+        log.get(2), "Update group\n\nAdd-group: Group y <y>\nAdd-group: Group z <z>");
 
     assertThat(log.stream().map(c -> c.committer.date).collect(toImmutableList()))
         .named("%s", log)
@@ -511,8 +515,9 @@ public class GroupRebuilderTest extends AbstractGroupTest {
     ImmutableList<CommitInfo> log = log(g);
     assertThat(log).hasSize(3);
     assertServerCommit(log.get(0), "Create group");
-    assertCommit(log.get(1), "Update group\n\nAdd-group: Group <x>", "Account 8", "8@server-id");
-    assertCommit(log.get(2), "Update group\n\nRemove-group: Group <x>", "Account 9", "9@server-id");
+    assertCommit(log.get(1), "Update group\n\nAdd-group: Group x <x>", "Account 8", "8@server-id");
+    assertCommit(
+        log.get(2), "Update group\n\nRemove-group: Group x <x>", "Account 9", "9@server-id");
   }
 
   @Test

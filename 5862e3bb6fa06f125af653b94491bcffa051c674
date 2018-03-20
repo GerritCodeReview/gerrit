@@ -78,6 +78,30 @@
     },
     {
       "key": {
+        "uuid": "31352d9d_1f59a9e4",
+        "filename": "java/com/google/gerrit/server/schema/Schema_167.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-20T11:04:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26e8ff31_479839ca",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 49
+      },
+      "revId": "5862e3bb6fa06f125af653b94491bcffa051c674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a5bdb49_e4b105ea",
         "filename": "javatests/com/google/gerrit/server/schema/Schema_166_to_167_Test.java",
         "patchSetId": 3

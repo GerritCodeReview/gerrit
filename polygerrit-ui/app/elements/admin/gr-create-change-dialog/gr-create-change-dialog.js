@@ -34,6 +34,7 @@
         },
       },
       baseChange: String,
+      privateByDefault: String,
       canCreate: {
         type: Boolean,
         notify: true,
@@ -47,8 +48,9 @@
     ],
 
     attached() {
+      if (!this.repoName) { return; }
       this.$.restAPI.getProjectConfig(this.repoName).then(config => {
-        this._repoConfig = config;
+        this.privateByDefault = config.private_by_default;
       });
     },
 

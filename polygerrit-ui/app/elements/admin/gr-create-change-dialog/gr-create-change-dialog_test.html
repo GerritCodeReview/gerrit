@@ -102,11 +102,9 @@ limitations under the License.
     });
 
     test('new change created with private', done => {
-      element._repoConfig = {
-        private_by_default: {
-          configured_value: 'TRUE',
-          inherited_value: false,
-        },
+      element.privateByDefault = {
+        configured_value: 'TRUE',
+        inherited_value: false,
       };
       sandbox.stub(element, '_formatBooleanString', () => {
         return Promise.resolve(true);

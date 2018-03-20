@@ -46,13 +46,13 @@ import org.slf4j.LoggerFactory;
 
 /** NoteDb reader for group audit log. */
 @Singleton
-class AuditLogReader {
+public class AuditLogReader {
   private static final Logger log = LoggerFactory.getLogger(AuditLogReader.class);
 
   private final String serverId;
 
   @Inject
-  AuditLogReader(@GerritServerId String serverId) {
+  public AuditLogReader(@GerritServerId String serverId) {
     this.serverId = serverId;
   }
 
@@ -60,8 +60,8 @@ class AuditLogReader {
   // ReviewDb. Once ReviewDb is gone, the audit record interface becomes more flexible and we can
   // revisit this, e.g. to do only a single walk, or even change the record types.
 
-  ImmutableList<AccountGroupMemberAudit> getMembersAudit(Repository repo, AccountGroup.UUID uuid)
-      throws IOException, ConfigInvalidException {
+  public ImmutableList<AccountGroupMemberAudit> getMembersAudit(
+      Repository repo, AccountGroup.UUID uuid) throws IOException, ConfigInvalidException {
     return getMembersAudit(getGroupId(repo, uuid), parseCommits(repo, uuid));
   }
 
@@ -97,8 +97,8 @@ class AuditLogReader {
     return result.build();
   }
 
-  ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(Repository repo, AccountGroup.UUID uuid)
-      throws IOException, ConfigInvalidException {
+  public ImmutableList<AccountGroupByIdAud> getSubgroupsAudit(
+      Repository repo, AccountGroup.UUID uuid) throws IOException, ConfigInvalidException {
     return getSubgroupsAudit(getGroupId(repo, uuid), parseCommits(repo, uuid));
   }
 

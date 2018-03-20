@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9eb5e3b_5dc579a0",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-20T18:45:52Z",
+      "side": 1,
+      "message": "Nit: don\u0027t need the ID if it\u0027s not being used.",
+      "range": {
+        "startLine": 337,
+        "startChar": 13,
+        "endLine": 337,
+        "endChar": 29
+      },
+      "revId": "1c749ed7b6fecde3f78b48173e29b9a45832952a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d945e59_eca6841a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-20T18:45:52Z",
+      "side": 1,
+      "message": "I think you should use the exiting function _cloneMenu, and update that function to take a \u0027prefs\u0027 argument, so you can specify where the prefs are coming from.",
+      "range": {
+        "startLine": 352,
+        "startChar": 9,
+        "endLine": 352,
+        "endChar": 42
+      },
+      "revId": "1c749ed7b6fecde3f78b48173e29b9a45832952a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

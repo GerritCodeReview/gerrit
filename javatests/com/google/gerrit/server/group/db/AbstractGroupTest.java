@@ -137,7 +137,7 @@ public class AbstractGroupTest extends GerritBaseTests {
 
           @Override
           public String getName() {
-            return "Group";
+            return "Group " + uuid;
           }
 
           @Nullable

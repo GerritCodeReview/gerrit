@@ -22,6 +22,30 @@
       "revId": "597e994c1940a9b66b7f2a12f47f81d6f71877a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf025842_13773c8c",
+        "filename": "javatests/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1056821
+      },
+      "writtenOn": "2018-03-20T11:40:07Z",
+      "side": 0,
+      "message": "Thank you. Sure. To be done.",
+      "parentUuid": "c911f405_12019b76",
+      "range": {
+        "startLine": 42,
+        "startChar": 25,
+        "endLine": 42,
+        "endChar": 28
+      },
+      "revId": "597e994c1940a9b66b7f2a12f47f81d6f71877a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

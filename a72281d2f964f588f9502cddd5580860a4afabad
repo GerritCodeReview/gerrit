@@ -142,6 +142,30 @@
       "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be23fe9c_2aab525a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1056821
+      },
+      "writtenOn": "2018-03-20T11:40:07Z",
+      "side": 1,
+      "message": "For the current purpose (authenticated rate limiting) and apparently for other purposes (Javamelody), changing the semantic of AllRequestFilter is perfectly fine.\n\nStill, would like to remind that the original Sean\u0027s idea was \"to glue in very early in the serving pipeline\" and \"before any user authentication can happen\". From a conceptual point of view, such an extension point is important in my opinion. I would rather add a comment somewhere in the AllRequestFilter that it should NOT be used to get the user authentication. (In fact, factoring the user session provisioning out of RequestContextFilter could be considered.)\n\nAn understanding question: why after modules.add(sysInjector.getInstance(GitOverHttpModule.class)) and not after modules.add(sysInjector.getInstance(GetUserFilter.Module.class)), which if enabled sets the request\u0027s \"User\" attribute needed for logging as far as I see? That\u0027s just to make sure the original cautiousness not to put the extension point before something important were baseless.",
+      "parentUuid": "5cb68ae5_735e31c5",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.Access;
 import com.google.gwtorm.server.AtomicUpdate;
 import com.google.gwtorm.server.OrmException;
@@ -36,12 +37,23 @@ import com.google.gwtorm.server.StatementExecutor;
 import java.util.Map;
 
 public class ReviewDbWrapper implements ReviewDb {
+  public static JdbcSchema unwrapJbdcSchema(ReviewDb db) {
+    if (db instanceof ReviewDbWrapper) {
+      return unwrapJbdcSchema(((ReviewDbWrapper) db).unsafeGetDelegate());
+    }
+    return (JdbcSchema) db;
+  }
+
   protected final ReviewDb delegate;
 
   private boolean inTransaction;
 
   protected ReviewDbWrapper(ReviewDb delegate) {
     this.delegate = checkNotNull(delegate);
+  }
+
+  public ReviewDb unsafeGetDelegate() {
+    return delegate;
   }
 
   public boolean inTransaction() {

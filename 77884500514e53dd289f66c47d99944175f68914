@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04454e23_80636a1e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-20T00:36:06Z",
+      "side": 1,
+      "message": "I can remove this change, (actually, i doin\u0027t need to edit gr-menu-editor) makes testing easier.",
+      "parentUuid": "e2723d3c_c2c316db",
+      "range": {
+        "startLine": 21,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 8
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3abab5ac_d1a54136",
         "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
         "patchSetId": 16
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-19T23:37:21Z",
       "side": 1,
       "message": "Object.assign({}, data.my) \n\nThis way we don\u0027t manipulate the actual response itself.",
+      "range": {
+        "startLine": 67,
+        "startChar": 32,
+        "endLine": 67,
+        "endChar": 39
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55213cec_667ff088",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-20T00:36:06Z",
+      "side": 1,
+      "message": "I\u0027ve removed changes to gr-menu-editor",
+      "parentUuid": "3abab5ac_d1a54136",
       "range": {
         "startLine": 67,
         "startChar": 32,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "3ae23c65_0533fe14",
+        "filename": "polygerrit-ui/app/elements/settings/gr-menu-editor/gr-menu-editor_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-20T00:36:06Z",
+      "side": 1,
+      "message": "I\u0027ve removed changes to gr-menu-editor",
+      "parentUuid": "49a8e02c_f79361ec",
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c868d4bb_743c1bde",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
         "patchSetId": 16
@@ -76,6 +142,30 @@
       "writtenOn": "2018-03-19T23:37:21Z",
       "side": 1,
       "message": "Can these down to new lines each (see gr-buttons right below)",
+      "range": {
+        "startLine": 336,
+        "startChar": 25,
+        "endLine": 336,
+        "endChar": 68
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8601143c_c70e09e6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-20T00:36:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c868d4bb_743c1bde",
       "range": {
         "startLine": 336,
         "startChar": 25,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "62782464_86e36c70",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-20T00:36:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c01af3a5_101f6e1d",
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86a6109d_6be0153e",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
         "patchSetId": 16
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "db53e84a_49405dff",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-20T00:36:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "86a6109d_6be0153e",
+      "range": {
+        "startLine": 431,
+        "startChar": 13,
+        "endLine": 431,
+        "endChar": 18
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "279a3731_9e271e56",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 16
@@ -139,6 +271,30 @@
       "writtenOn": "2018-03-19T23:37:21Z",
       "side": 1,
       "message": "I don\u0027t think you need any of this now either",
+      "range": {
+        "startLine": 757,
+        "startChar": 68,
+        "endLine": 760,
+        "endChar": 12
+      },
+      "revId": "77884500514e53dd289f66c47d99944175f68914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d7cc2e7_0af8243f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-20T00:36:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "279a3731_9e271e56",
       "range": {
         "startLine": 757,
         "startChar": 68,

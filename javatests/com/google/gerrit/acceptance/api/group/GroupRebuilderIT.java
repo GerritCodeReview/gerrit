@@ -29,18 +29,16 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupBundle;
 import com.google.gerrit.server.group.db.GroupRebuilder;
-import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gerrit.testing.TestTimeUtil.TempClockStep;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -60,16 +58,20 @@ import org.junit.Test;
 @NoHttpd
 public class GroupRebuilderIT extends AbstractDaemonTest {
   @Inject @GerritServerId private String serverId;
-  @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdate;
   @Inject private GroupBundle.Factory bundleFactory;
-  @Inject private GroupRebuilder rebuilder;
   @Inject private GroupsMigration migration;
+
+  private GroupRebuilder rebuilder;
 
   @Before
   public void setUp() {
     // This test is explicitly testing the migration from ReviewDb to NoteDb, and handles reading
     // from NoteDb manually. It should work regardless of the value of noteDb.groups.write, however.
     assume().that(migration.readFromNoteDb()).isFalse();
+
+    AuditLogFormatter auditLogFormatter =
+        AuditLogFormatter.createBackedBy(accountCache, groupBackend, serverId);
+    rebuilder = new GroupRebuilder(serverIdent.get(), allUsers, auditLogFormatter);
   }
 
   @Before

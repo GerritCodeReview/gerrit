@@ -57,7 +57,6 @@ import org.eclipse.jgit.lib.Repository;
 public class GroupRebuilder {
   private final PersonIdent serverIdent;
   private final AllUsersName allUsers;
-
   private final AuditLogFormatter auditLogFormatter;
 
   public GroupRebuilder(

@@ -23,6 +23,11 @@ are added to the same query string, they further restrict the
 returned results. Search can also be performed by typing only a
 text with no operator, which will match against a variety of fields.
 
+[[cansee]]
+cansee:'CHANGE'::
++
+Matches accounts that can see the change 'CHANGE'.
+
 [[email]]
 email:'EMAIL'::
 +

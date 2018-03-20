@@ -153,7 +153,8 @@ public abstract class GroupBundle {
           auditLogReader.getSubgroupsAudit(repo, uuid));
     }
 
-    public GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id groupId) throws OrmException {
+    public static GroupBundle fromReviewDb(ReviewDb db, AccountGroup.Id groupId)
+        throws OrmException {
       AccountGroup group = readAccountGroupFromReviewDb(db, groupId);
 
       return create(

@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "88b7af3e_9ac9d9bf",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-20T13:19:00Z",
+      "side": 1,
+      "message": "Sorry, I meant in-memory.",
+      "parentUuid": "7d2ab063_fc3a3cab",
+      "range": {
+        "startLine": 63,
+        "startChar": 39,
+        "endLine": 63,
+        "endChar": 49
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ec3bf7f_bbae9076",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1398bfd0_30b945f7",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-20T13:19:00Z",
+      "side": 1,
+      "message": "You\u0027re right, I should at least run some synthetic benchmarks to see how much overhead this adds to loading from the ProjectCache.\n\nTesting this in our production environment is maybe not entirely infeasible but is certainly a lot more work.",
+      "parentUuid": "1ec3bf7f_bbae9076",
+      "range": {
+        "startLine": 158,
+        "startChar": 13,
+        "endLine": 158,
+        "endChar": 47
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b64961f5_5f1202ae",
         "filename": "java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 1
@@ -69,6 +117,30 @@
       "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "687864c9_93a76ffc",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-20T13:19:00Z",
+      "side": 1,
+      "message": "In this case, if you look at the implementaiton of ProjectCacheEntry#getTheme, there are two reasons that we need to pass in the ProjectState:\n\n* To provide the SitePaths.\n* To call parents() when the value is inherited, which implies some mutual recursion.\n\nI agree that passing the SitePaths explicitly would help reduce the coupling, though I\u0027m not sure I would call the result less ugly. I\u0027m not sure what to do about the parents iterable though. Pass a Supplier\u003cIterable\u003cProjectState\u003e\u003e? Move all the inheritance resolution into ProjectState?",
+      "parentUuid": "b64961f5_5f1202ae",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 379,
+        "endChar": 37
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

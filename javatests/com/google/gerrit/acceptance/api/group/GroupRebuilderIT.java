@@ -86,7 +86,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
   public void basicGroupProperties() throws Exception {
     GroupInfo createdGroup = gApi.groups().create(name("group")).get();
     GroupBundle reviewDbBundle =
-        GroupBundle.Factory.fromReviewDb(db, new AccountGroup.Id(createdGroup.groupId));
+        GroupBundle.Factory.fromReviewDb(db, new AccountGroup.UUID(createdGroup.id));
     deleteGroupRefs(reviewDbBundle);
 
     assertMigratedCleanly(rebuild(reviewDbBundle), reviewDbBundle);
@@ -108,7 +108,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     }
 
     GroupBundle reviewDbBundle =
-        GroupBundle.Factory.fromReviewDb(db, new AccountGroup.Id(group1.groupId));
+        GroupBundle.Factory.fromReviewDb(db, new AccountGroup.UUID(group1.id));
     deleteGroupRefs(reviewDbBundle);
 
     GroupBundle noteDbBundle = rebuild(reviewDbBundle);
@@ -170,7 +170,7 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     db.accountGroupByIdAud().insert(Collections.singleton(audit));
 
     GroupBundle reviewDbBundle =
-        GroupBundle.Factory.fromReviewDb(db, new AccountGroup.Id(group.groupId));
+        GroupBundle.Factory.fromReviewDb(db, new AccountGroup.UUID(group.id));
     deleteGroupRefs(reviewDbBundle);
 
     GroupBundle noteDbBundle = rebuild(reviewDbBundle);

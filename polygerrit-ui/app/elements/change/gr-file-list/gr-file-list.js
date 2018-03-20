@@ -478,16 +478,18 @@
     },
 
     _handleShiftLeftKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (!this._showInlineDiffs) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
+        return;
+      }
 
       e.preventDefault();
       this.$.diffCursor.moveLeft();
     },
 
     _handleShiftRightKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (!this._showInlineDiffs) { return; }
+      if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
+        return;
+      }
 
       e.preventDefault();
       this.$.diffCursor.moveRight();
@@ -591,10 +593,10 @@
 
     _handleNKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
+          (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
+          this._noDiffsExpanded()) {
         return;
       }
-      if (!this._showInlineDiffs) { return; }
 
       e.preventDefault();
       if (this.isModifierPressed(e, 'shiftKey')) {
@@ -606,10 +608,10 @@
 
     _handlePKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
+          (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
+          this._noDiffsExpanded()) {
         return;
       }
-      if (!this._showInlineDiffs) { return; }
 
       e.preventDefault();
       if (this.isModifierPressed(e, 'shiftKey')) {
@@ -1128,6 +1130,14 @@
         hideClass = 'invisible';
       }
       return `sizeBars desktop ${hideClass}`;
+    },
+
+    /**
+     * Returns true if none of the inline diffs have been expanded.
+     * @return {boolean}
+     */
+    _noDiffsExpanded() {
+      return this.filesExpanded === GrFileListConstants.FilesExpandedState.NONE;
     },
   });
 })();

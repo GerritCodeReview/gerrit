@@ -696,7 +696,7 @@
     },
 
     getAccountAgreements() {
-      return this._fetchSharedCacheURL('/accounts/self/agreements');
+      return this.fetchJSON('/accounts/self/agreements');
     },
 
     saveAccountAgreement(name) {

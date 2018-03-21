@@ -194,7 +194,7 @@
      */
 
     properties: {
-      /** @type {{ _number: number, branch: string, project: string }} */
+      /** @type {{ _number: number, branch: string, project: string, id: string }} */
       change: Object,
       actions: {
         type: Object,

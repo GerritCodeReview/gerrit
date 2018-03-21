@@ -55,6 +55,23 @@
     },
     {
       "key": {
+        "uuid": "0f9c06d1_215371b1",
+        "filename": "java/com/google/gerrit/server/schema/GroupRebuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-21T09:29:53Z",
+      "side": 1,
+      "message": "Done by https://gerrit-review.googlesource.com/c/gerrit/+/167290",
+      "revId": "5862e3bb6fa06f125af653b94491bcffa051c674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26e8ff31_479839ca",
         "filename": "java/com/google/gerrit/server/schema/Schema_167.java",
         "patchSetId": 3

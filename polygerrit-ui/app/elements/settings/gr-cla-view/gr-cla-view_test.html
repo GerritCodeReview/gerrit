@@ -141,21 +141,21 @@ limitations under the License.
 
     test('_disableAggreements', () => {
       // In the auto verify group and have not yet signed agreement
-      assert.isTrue(element._disableAggreements(auth, groups));
+      assert.isTrue(element._disableAggreements(auth, groups, signedAgreements));
       // Not in the auto verify group and have not yet signed agreement
-      assert.isFalse(element._disableAggreements(auth2, groups));
+      assert.isFalse(element._disableAggreements(auth2, groups, signedAgreements));
       // Not in the auto verify group, have signed agreement
-      assert.isTrue(element._disableAggreements(auth3, groups));
+      assert.isTrue(element._disableAggreements(auth3, groups, signedAgreements));
     });
 
     test('_hideAggreements', () => {
       // Not in the auto verify group and have not yet signed agreement
-      assert.equal(element._hideAggreements(auth, groups), '');
+      assert.equal(element._hideAggreements(auth, groups, signedAgreements), '');
       // In the auto verify group
-      assert.equal(element._hideAggreements(auth2, groups),
+      assert.equal(element._hideAggreements(auth2, groups, signedAgreements),
           'hide');
       // Not in the auto verify group, have signed agreement
-      assert.equal(element._hideAggreements(auth3, groups),
+      assert.equal(element._hideAggreements(auth3, groups, signedAgreements),
           '');
     });
 

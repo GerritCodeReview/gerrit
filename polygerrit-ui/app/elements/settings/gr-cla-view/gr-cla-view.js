@@ -53,7 +53,7 @@
         });
       }));
 
-      promises.push(this.$.restAPI.getAccountAgreements().then(agreements => {
+      promises.push(this.$.restAPI.getAccountAgreements(true).then(agreements => {
         this._signedAgreements = agreements || [];
       }));
 
@@ -104,19 +104,19 @@
       return agreements ? 'show' : '';
     },
 
-    _disableAggreements(item, groups) {
+    _disableAggreements(item, groups, signed) {
       for (const group of groups) {
         if ((item && item.auto_verify_group &&
             item.auto_verify_group.id === group.id) ||
-            this._signedAgreements.find(i => i.name === item.name)) {
+            signed.find(i => i.name === item.name)) {
           return true;
         }
       }
       return false;
     },
 
-    _hideAggreements(item, groups) {
-      return this._disableAggreements(item, groups) ?
+    _hideAggreements(item, groups, signed) {
+      return this._disableAggreements(item, groups, signed) ?
           '' : 'hide';
     },
 

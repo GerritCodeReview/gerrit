@@ -695,8 +695,12 @@
       return this.fetchJSON('/accounts/self/groups');
     },
 
-    getAccountAgreements() {
-      return this._fetchSharedCacheURL('/accounts/self/agreements');
+    getAccountAgreements(noCache) {
+      if (!noCache) {
+        return this._fetchSharedCacheURL('/accounts/self/agreements');
+      }
+
+      return this.fetchJSON('/accounts/self/agreements');
     },
 
     saveAccountAgreement(name) {

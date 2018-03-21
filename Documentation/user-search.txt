@@ -4,9 +4,7 @@
 
 Most basic searches can be viewed by clicking on a link along the top
 menu bar.  The link will prefill the search box with a common search
-query, execute it, and present the results.  If exactly one change
-matches the search, the change will be presented instead of a list.
-
+query, execute it, and present the results.
 
 [options="header"]
 |=================================================

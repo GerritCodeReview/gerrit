@@ -417,6 +417,14 @@ limitations under the License.
       },
 
       /**
+       * Navigate to a repo settings page.
+       * @param {string} repoName
+       */
+      navigateToRepo(repoName) {
+        this._navigate(this.getUrlForRepo(repoName));
+      },
+
+      /**
        * @param {string} repoName
        * @return {string}
        */

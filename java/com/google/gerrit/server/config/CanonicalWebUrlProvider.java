@@ -16,9 +16,11 @@ package com.google.gerrit.server.config;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 /** Provides {@link CanonicalWebUrl} from {@code gerrit.canonicalWebUrl}. */
+@Singleton
 public class CanonicalWebUrlProvider implements Provider<String> {
   private final String canonicalUrl;
 

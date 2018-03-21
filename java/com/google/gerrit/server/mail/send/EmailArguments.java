@@ -27,6 +27,8 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritInstanceName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailSettings;
@@ -44,6 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.template.soy.tofu.SoyTofu;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 public class EmailArguments {
@@ -75,6 +78,8 @@ public class EmailArguments {
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
   final Provider<InternalAccountQuery> accountQueryProvider;
   final OutgoingEmailValidator validator;
+  final boolean addInstanceNameInSubject;
+  final Provider<String> instanceNameProvider;
 
   @Inject
   EmailArguments(
@@ -104,7 +109,9 @@ public class EmailArguments {
       SitePaths site,
       DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners,
       Provider<InternalAccountQuery> accountQueryProvider,
-      OutgoingEmailValidator validator) {
+      OutgoingEmailValidator validator,
+      @GerritInstanceName @Nullable Provider<String> instanceNameProvider,
+      @GerritServerConfig Config cfg) {
     this.server = server;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
@@ -132,5 +139,8 @@ public class EmailArguments {
     this.outgoingEmailValidationListeners = outgoingEmailValidationListeners;
     this.accountQueryProvider = accountQueryProvider;
     this.validator = validator;
+    this.instanceNameProvider = instanceNameProvider;
+
+    this.addInstanceNameInSubject = cfg.getBoolean("sendemail", "addInstanceNameInSubject", false);
   }
 }

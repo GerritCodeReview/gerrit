@@ -2144,6 +2144,15 @@ Path prefix for PolyGerrit's static resources if using a CDN.
 Path for PolyGerrit's favicon after link:#gerrit.canonicalWebUrl[default URL],
 including icon name and extension (.ico should be used).
 
+
+[[gerrit.shortName]]gerrit.shortName::
++
+Short identifier for this Gerrit instance.
+A good name should be short but precise enough so that users can identify the instance among others.
++
+Defaults to the full hostname of the Gerrit server.
+
+
 [[gerrit.ui]]gerrit.ui::
 +
 Default UI when the user does not request a different preference via argument
@@ -4126,6 +4135,17 @@ List of custom TLDs to allow sending emails to in addition to those specified
 in the link:http://data.iana.org/TLD/[IANA list].
 +
 Defaults to an empty list, meaning no additional TLDs are allowed.
+
+
+[[sendemail.addInstanceNameInSubject]]sendemail.addInstanceNameInSubject::
++
+When set to true, Gerrit will add its short name to the email subject, allowing recipients to quickly identify
+what Gerrit instance the email came from.
++
+The short name can be customized via the gerrit.shortName option.
++
+Defaults to true.
+
 
 [[site]]
 === Section site

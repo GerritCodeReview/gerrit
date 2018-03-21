@@ -16,6 +16,24 @@
       "revId": "27a853f8cc218e039f37e7231c312360c243e185",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4aa48fc_5503023e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-21T17:29:53Z",
+      "side": 1,
+      "message": "I coulden\u0027t find an example on how to do this cleanly, so i went with\n\n/** @type {?} */\n\nas this is ever increasing and has lots of objects in there.",
+      "parentUuid": "7a0418d8_7fc18fc1",
+      "revId": "27a853f8cc218e039f37e7231c312360c243e185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

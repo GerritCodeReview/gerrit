@@ -52,6 +52,7 @@ import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
+import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
@@ -366,6 +367,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(createIndexModule());
 
     modules.add(new WorkQueue.Module());
+    modules.add(new GerritInstanceNameModule());
     modules.add(
         new CanonicalWebUrlModule() {
           @Override

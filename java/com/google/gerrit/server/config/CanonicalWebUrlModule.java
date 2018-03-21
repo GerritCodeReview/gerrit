@@ -22,7 +22,7 @@ public abstract class CanonicalWebUrlModule extends AbstractModule {
   @Override
   protected void configure() {
     // Note that the CanonicalWebUrl itself must not be a singleton, but its
-    // provider must be.
+    // provider should be.
     //
     // If the value was not configured in the system configuration data the
     // provider may try to guess it from the current HTTP request, if we are

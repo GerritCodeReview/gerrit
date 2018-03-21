@@ -22,6 +22,30 @@
       "revId": "daf6dfc1a5e482709074262d4a965b973550b8d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b38a1d0d_28966f2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-21T07:24:48Z",
+      "side": 1,
+      "message": "Yes, same here.  As I mentioned in the issue, I think this statement only applies to \"default search\" meaning where there\u0027s no predicate and it just tries to match the input to a legacy change number or change-Id.",
+      "parentUuid": "ff3f3d4b_5d71fc33",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 17
+      },
+      "revId": "daf6dfc1a5e482709074262d4a965b973550b8d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

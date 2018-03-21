@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d40f810_a55390cc",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-21T23:26:58Z",
+      "side": 1,
+      "message": "But doin\u0027t we want to replace everything with the default when we press reset?\n\npush will just add on.",
+      "parentUuid": "1189edcc_78a1b08a",
+      "range": {
+        "startLine": 228,
+        "startChar": 5,
+        "endLine": 228,
+        "endChar": 19
+      },
+      "revId": "2cc8b8312af2ba11dc3a8c7a683887dca8d0bde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47e171d0_fc90018a",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 20

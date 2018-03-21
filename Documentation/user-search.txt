@@ -580,7 +580,7 @@ label configuration. (For a more general check, use
 link:#submittable[submittable:ok].)
 
 `is:open (label:Verified-1 OR label:Code-Review-2)`::
-`is:open (label:Verified=reject OR label:Code-Review:reject)`::
+`is:open (label:Verified=reject OR label:Code-Review=reject)`::
 +
 Changes that are blocked from submission due to a blocking score.
 

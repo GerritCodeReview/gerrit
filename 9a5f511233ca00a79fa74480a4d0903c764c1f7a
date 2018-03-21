@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17afb016_ddb3b7c4",
+        "filename": "java/com/google/gerrit/server/config/CanonicalWebUrlModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-21T18:51:15Z",
+      "side": 1,
+      "message": "The providers are not Singletons, and the comment is quite confusing",
+      "revId": "9a5f511233ca00a79fa74480a4d0903c764c1f7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

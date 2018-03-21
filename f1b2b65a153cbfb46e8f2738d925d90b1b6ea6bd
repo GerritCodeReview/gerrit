@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e1d6d892_27b88385",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T20:10:38Z",
+      "side": 1,
+      "message": "We should fix the missing private-by-default config propagation to the create-change-dilaog when called from change-screen and not just provide workarounds. I\u0027m going to upload a new patch set here.",
+      "revId": "f1b2b65a153cbfb46e8f2738d925d90b1b6ea6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a53a5b3_4233ce84",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
         "patchSetId": 4
@@ -42,6 +59,52 @@
         "startChar": 10,
         "endLine": 50,
         "endChar": 24
+      },
+      "revId": "f1b2b65a153cbfb46e8f2738d925d90b1b6ea6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2ab410e_2947ee54",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T20:10:38Z",
+      "side": 1,
+      "message": "Why you need promise here? Wouldn\u0027t just return do the job?",
+      "range": {
+        "startLine": 50,
+        "startChar": 28,
+        "endLine": 50,
+        "endChar": 53
+      },
+      "revId": "f1b2b65a153cbfb46e8f2738d925d90b1b6ea6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42a071c1_733e4208",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T20:10:38Z",
+      "side": 1,
+      "message": "Well, we should e paranoic about broken API. If we do have sane project name, we do going to get the sane result. I don\u0027t think we need this if.",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 50
       },
       "revId": "f1b2b65a153cbfb46e8f2738d925d90b1b6ea6bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

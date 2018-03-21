@@ -60,18 +60,19 @@ limitations under the License.
         </gr-account-chip>
       </template>
     </div>
-    <gr-account-entry
-        borderless
-        hidden$="[[_computeEntryHidden(maxCount, accounts.*, readonly)]]"
-        id="entry"
-        change="[[change]]"
-        filter="[[filter]]"
-        placeholder="[[placeholder]]"
-        on-add="_handleAdd"
-        on-input-keydown="_handleInputKeydown"
-        allow-any-input="[[allowAnyInput]]"
-        allow-any-user="[[allowAnyUser]]">
-    </gr-account-entry>
+    <template is="dom-if" restamp if="[[_computeShowEntry(maxCount, accounts.*, readonly)]]">
+      <gr-account-entry
+          borderless
+          id="entry"
+          change="[[change]]"
+          filter="[[filter]]"
+          placeholder="[[placeholder]]"
+          on-add="_handleAdd"
+          on-input-keydown="_handleInputKeydown"
+          allow-any-input="[[allowAnyInput]]"
+          allow-any-user="[[allowAnyUser]]">
+      </gr-account-entry>
+    </template>
   </template>
   <script src="gr-account-list.js"></script>
 </dom-module>

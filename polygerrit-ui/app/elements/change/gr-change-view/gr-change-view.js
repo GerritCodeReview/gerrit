@@ -519,7 +519,7 @@
 
     _handleReplyTap(e) {
       e.preventDefault();
-      this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+      this._openReplyDialog(this.$$('#replyDialog').FocusTarget.ANY);
     },
 
     _handleOpenDiffPrefs() {
@@ -554,8 +554,8 @@
       const msg = e.detail.message.message;
       const quoteStr = msg.split('\n').map(
           line => { return '> ' + line; }).join('\n') + '\n\n';
-      this.$.replyDialog.quote = quoteStr;
-      this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
+      this.$$('#replyDialog').quote = quoteStr;
+      this._openReplyDialog(this.$$('#replyDialog').FocusTarget.BODY);
     },
 
     _handleHideBackgroundContent() {
@@ -583,9 +583,9 @@
     },
 
     _handleShowReplyDialog(e) {
-      let target = this.$.replyDialog.FocusTarget.REVIEWERS;
+      let target = this.$$('#replyDialog').FocusTarget.REVIEWERS;
       if (e.detail.value && e.detail.value.ccsOnly) {
-        target = this.$.replyDialog.FocusTarget.CCS;
+        target = this.$$('#replyDialog').FocusTarget.CCS;
       }
       this._openReplyDialog(target);
     },
@@ -740,7 +740,7 @@
               return;
             }
             if (this._getUrlParameter('revert')) {
-              this.$.actions.showRevertDialog();
+              this.$$('#actions').showRevertDialog();
             }
           });
     },
@@ -750,7 +750,7 @@
         if (!loggedIn) { return; }
 
         if (this.viewState.showReplyDialog) {
-          this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+          this._openReplyDialog(this.$$('#replyDialog').FocusTarget.ANY);
           // TODO(kaspern@): Find a better signal for when to call center.
           this.async(() => { this.$.replyOverlay.center(); }, 100);
           this.async(() => { this.$.replyOverlay.center(); }, 1000);
@@ -901,7 +901,7 @@
         }
 
         e.preventDefault();
-        this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+        this._openReplyDialog(this.$$('#replyDialog').FocusTarget.ANY);
       });
     },
 
@@ -996,8 +996,8 @@
      */
     _openReplyDialog(opt_section) {
       this.$.replyOverlay.open().then(() => {
-        this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
-        this.$.replyDialog.open(opt_section);
+        this.$.replyOverlay.setFocusStops(this.$$('#replyDialog').getFocusStops());
+        this.$$('#replyDialog').open(opt_section);
         Polymer.dom.flush();
         this.$.replyOverlay.center();
       });
@@ -1222,7 +1222,7 @@
         ]).then(() => {
           return Promise.all([
             this._getMergeability(),
-            this.$.actions.reload(),
+            this.$$('#actions').reload(),
           ]);
         });
       } else {

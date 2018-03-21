@@ -378,27 +378,30 @@ limitations under the License.
           <pre>: </pre>
           <span class="headerSubject">[[_change.subject]]</span>
         </div><!-- end headerTitle -->
-        <div class="commitActions" hidden$="[[!_loggedIn]]">
-          <gr-change-actions id="actions"
-              change="[[_change]]"
-              has-parent="[[hasParent]]"
-              actions="[[_change.actions]]"
-              revision-actions="[[_currentRevisionActions]]"
-              change-num="[[_changeNum]]"
-              change-status="[[_change.status]]"
-              commit-num="[[_commitInfo.commit]]"
-              latest-patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
-              reply-disabled="[[_replyDisabled]]"
-              reply-button-label="[[_replyButtonLabel]]"
-              commit-message="[[_latestCommitMessage]]"
-              edit-patchset-loaded="[[hasEditPatchsetLoaded(_patchRange.*)]]"
-              edit-mode="[[_editMode]]"
-              edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
-              private-by-default="[[_projectConfig.private_by_default]]"
-              on-reload-change="_handleReloadChange"
-              on-edit-tap="_handleEditTap"
-              on-stop-edit-tap="_handleStopEditTap"
-              on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
+        <div class="commitActions">
+          <template is="dom-if" if="[[_loggedIn]]">
+            <gr-change-actions
+                id="actions"
+                change="[[_change]]"
+                has-parent="[[hasParent]]"
+                actions="[[_change.actions]]"
+                revision-actions="[[_currentRevisionActions]]"
+                change-num="[[_changeNum]]"
+                change-status="[[_change.status]]"
+                commit-num="[[_commitInfo.commit]]"
+                latest-patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+                reply-disabled="[[_replyDisabled]]"
+                reply-button-label="[[_replyButtonLabel]]"
+                commit-message="[[_latestCommitMessage]]"
+                edit-patchset-loaded="[[hasEditPatchsetLoaded(_patchRange.*)]]"
+                edit-mode="[[_editMode]]"
+                edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
+                private-by-default="[[_projectConfig.private_by_default]]"
+                on-reload-change="_handleReloadChange"
+                on-edit-tap="_handleEditTap"
+                on-stop-edit-tap="_handleStopEditTap"
+                on-download-tap="_handleOpenDownloadDialog"></gr-change-actions>
+          </template>
         </div><!-- end commit actions -->
       </div><!-- end header -->
       <section class="changeInfo">
@@ -599,19 +602,20 @@ limitations under the License.
         no-cancel-on-outside-click
         no-cancel-on-esc-key
         with-backdrop>
-      <gr-reply-dialog id="replyDialog"
-          change="{{_change}}"
-          patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
-          permitted-labels="[[_change.permitted_labels]]"
-          diff-drafts="[[_diffDrafts]]"
-          server-config="[[_serverConfig]]"
-          project-config="[[_projectConfig]]"
-          can-be-started="[[_canStartReview]]"
-          on-send="_handleReplySent"
-          on-cancel="_handleReplyCancel"
-          on-autogrow="_handleReplyAutogrow"
-          hidden$="[[!_loggedIn]]">
-      </gr-reply-dialog>
+      <template is="dom-if" if="[[_loggedIn]]">
+        <gr-reply-dialog id="replyDialog"
+            change="{{_change}}"
+            patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+            permitted-labels="[[_change.permitted_labels]]"
+            diff-drafts="[[_diffDrafts]]"
+            server-config="[[_serverConfig]]"
+            project-config="[[_projectConfig]]"
+            can-be-started="[[_canStartReview]]"
+            on-send="_handleReplySent"
+            on-cancel="_handleReplyCancel"
+            on-autogrow="_handleReplyAutogrow">
+        </gr-reply-dialog>
+      </template>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -89,7 +89,9 @@
     },
 
     get focusStart() {
-      return this.$.entry.focusStart;
+      // Need to use this syntax for accessing elements behind a dom-if.
+      // See https://github.com/Polymer/polymer/issues/3170
+      return this.$$('#entry').focusStart;
     },
 
     _handleAdd(e) {
@@ -116,7 +118,7 @@
         if (!reviewer.includes('@')) {
           // Repopulate the input with what the user tried to enter and have
           // a toast tell them why they can't enter it.
-          this.$.entry.setText(reviewer);
+          this.$$('#entry').setText(reviewer);
           this.dispatchEvent(new CustomEvent('show-alert',
             {detail: {message: VALID_EMAIL_ALERT}, bubbles: true}));
           return false;
@@ -175,7 +177,7 @@
     _handleRemove(e) {
       const toRemove = e.detail.account;
       this._removeAccount(toRemove);
-      this.$.entry.focus();
+      this.$$('#entry').focus();
     },
 
     _removeAccount(toRemove) {
@@ -232,7 +234,7 @@
           } else if (index > 0) {
             chips[index - 1].focus();
           } else {
-            this.$.entry.focus();
+            this.$$('#entry').focus();
           }
           break;
         case 37: // Left arrow
@@ -246,7 +248,7 @@
           if (index < chips.length - 1) {
             chips[index + 1].focus();
           } else {
-            this.$.entry.focus();
+            this.$$('#entry').focus();
           }
           break;
       }
@@ -261,10 +263,10 @@
      *     return true.
      */
     submitEntryText() {
-      const text = this.$.entry.getText();
+      const text = this.$$('#entry').getText();
       if (!text.length) { return true; }
       const wasSubmitted = this._addReviewer(text);
-      if (wasSubmitted) { this.$.entry.clear(); }
+      if (wasSubmitted) { this.$$('#entry').clear(); }
       return wasSubmitted;
     },
 
@@ -280,8 +282,10 @@
       });
     },
 
-    _computeEntryHidden(maxCount, accountsRecord, readonly) {
-      return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
+    _computeShowEntry(maxCount, accountsRecord, readonly) {
+      if (readonly) { return false; }
+      if (maxCount && maxCount <= accountsRecord.base.length) { return false; }
+      return true;
     },
   });
 })();

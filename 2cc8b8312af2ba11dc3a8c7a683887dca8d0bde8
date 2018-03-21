@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d2ce964e_b531af6f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-21T23:43:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6d40f810_a55390cc",
+      "range": {
+        "startLine": 228,
+        "startChar": 5,
+        "endLine": 228,
+        "endChar": 19
+      },
+      "revId": "2cc8b8312af2ba11dc3a8c7a683887dca8d0bde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47e171d0_fc90018a",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 20
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "dfcf49fc_c09ee8fb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-21T23:43:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "47e171d0_fc90018a",
+      "range": {
+        "startLine": 229,
+        "startChar": 27,
+        "endLine": 229,
+        "endChar": 40
+      },
+      "revId": "2cc8b8312af2ba11dc3a8c7a683887dca8d0bde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1084c037_1f4132a2",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 20
@@ -83,6 +131,30 @@
       "writtenOn": "2018-03-21T23:24:51Z",
       "side": 1,
       "message": "this should call this._cloneMenu(prefs.my)",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 24
+      },
+      "revId": "2cc8b8312af2ba11dc3a8c7a683887dca8d0bde8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ffb5001_8a7b3c5a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-21T23:43:59Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1084c037_1f4132a2",
       "range": {
         "startLine": 347,
         "startChar": 6,

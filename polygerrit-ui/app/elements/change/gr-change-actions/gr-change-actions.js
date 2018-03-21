@@ -945,9 +945,9 @@
       this.$.overlay.close();
     },
 
-    _handleRebaseConfirm() {
+    _handleRebaseConfirm(e) {
       const el = this.$.confirmRebase;
-      const payload = {base: el.base};
+      const payload = {base: e.detail.base};
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction('/rebase', this.revisionActions.rebase, true, payload);

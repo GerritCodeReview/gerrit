@@ -6,7 +6,6 @@ acceptance_tests(
     labels = ["git"],
     deps = [
         ":push_for_review",
-        ":submodule_util",
     ],
 )
 
@@ -20,9 +19,3 @@ java_library(
     ],
 )
 
-java_library(
-    name = "submodule_util",
-    testonly = 1,
-    srcs = ["AbstractSubmoduleSubscription.java"],
-    deps = ["//gerrit-acceptance-tests:lib"],
-)

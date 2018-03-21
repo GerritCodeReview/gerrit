@@ -4,9 +4,7 @@
 
 Most basic searches can be viewed by clicking on a link along the top
 menu bar.  The link will prefill the search box with a common search
-query, execute it, and present the results.  If exactly one change
-matches the search, the change will be presented instead of a list.
-
+query, execute it, and present the results.
 
 [options="header"]
 |=================================================
@@ -601,7 +599,7 @@ label configuration. (For a more general check, use
 link:#submittable[submittable:ok].)
 
 `is:open (label:Verified-1 OR label:Code-Review-2)`::
-`is:open (label:Verified=reject OR label:Code-Review:reject)`::
+`is:open (label:Verified=reject OR label:Code-Review=reject)`::
 +
 Changes that are blocked from submission due to a blocking score.
 

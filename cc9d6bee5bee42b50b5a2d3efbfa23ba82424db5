@@ -23,6 +23,30 @@
       "revId": "cc9d6bee5bee42b50b5a2d3efbfa23ba82424db5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "254926fb_15b8f833",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-03-21T09:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce516dce_ca6ff427",
+      "range": {
+        "startLine": 158,
+        "startChar": 27,
+        "endLine": 158,
+        "endChar": 33
+      },
+      "revId": "cc9d6bee5bee42b50b5a2d3efbfa23ba82424db5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

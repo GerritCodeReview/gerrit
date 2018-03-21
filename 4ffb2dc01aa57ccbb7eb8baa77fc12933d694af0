@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "650dfddc_2157a82d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-21T23:44:54Z",
+      "side": 1,
+      "message": "I wonder how we will be able to use this from plugins.\n\nCurrently, plugin IT test needs to extend LightweightPluginDaemonTest which extend AbstractDaemonTest.\n\nIf the plugin test extends AbstractSubmoduleSubscription, then the plugin test class cannot extend LightweightPluginDaemonTest so the plugin won\u0027t be loaded.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 55
+      },
+      "revId": "4ffb2dc01aa57ccbb7eb8baa77fc12933d694af0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4934c8ff_c6b008e9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-21T17:38:27Z",
+      "side": 1,
+      "message": "signedAgreements is more clear",
+      "range": {
+        "startLine": 108,
+        "startChar": 38,
+        "endLine": 108,
+        "endChar": 44
+      },
+      "revId": "4a8fbe09fdee9bad8f829e26e869515672142510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1762eb5f_1edea5a5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-21T17:38:27Z",
+      "side": 1,
+      "message": "signedAgreements",
+      "range": {
+        "startLine": 119,
+        "startChar": 35,
+        "endLine": 119,
+        "endChar": 41
+      },
+      "revId": "4a8fbe09fdee9bad8f829e26e869515672142510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc096794_a870ca43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-21T17:38:27Z",
+      "side": 1,
+      "message": "Let\u0027s just always use no cache.",
+      "range": {
+        "startLine": 698,
+        "startChar": 4,
+        "endLine": 698,
+        "endChar": 35
+      },
+      "revId": "4a8fbe09fdee9bad8f829e26e869515672142510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

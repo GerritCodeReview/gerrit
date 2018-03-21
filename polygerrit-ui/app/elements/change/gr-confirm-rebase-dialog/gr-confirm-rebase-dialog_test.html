@@ -90,13 +90,24 @@ limitations under the License.
     });
 
     test('input cleared on cancel or submit', () => {
-      element._inputText = '123';
+      element._text = '123';
       element.$.confirmDialog.fire('confirm');
-      assert.equal(element._inputText, '');
+      assert.equal(element._text, '');
 
-      element._inputText = '123';
+      element._text = '123';
       element.$.confirmDialog.fire('cancel');
-      assert.equal(element._inputText, '');
+      assert.equal(element._text, '');
+    });
+
+    test('_getSelectedBase', () => {
+      element._text = 'test';
+      element.$.rebaseOnParentInput.checked = true;
+      assert.equal(element._getSelectedBase(), null);
+      element.$.rebaseOnParentInput.checked = false;
+      element.$.rebaseOnTipInput.checked = true;
+      assert.equal(element._getSelectedBase(), '');
+      element.$.rebaseOnTipInput.checked = false;
+      assert.equal(element._getSelectedBase(), element._text);
     });
 
     suite('parent suggestions', () => {
@@ -166,9 +177,9 @@ limitations under the License.
       test('input text change triggers function', () => {
         sandbox.spy(element, '_getRecentChanges');
         element.$.parentInput.noDebounce = true;
-        element._inputText = '1';
+        element._text = '1';
         assert.isTrue(element._getRecentChanges.calledOnce);
-        element._inputText = '12';
+        element._text = '12';
         assert.isTrue(element._getRecentChanges.calledTwice);
       });
     });

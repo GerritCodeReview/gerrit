@@ -20,6 +20,10 @@
   const ERR_INVALID_LINE = 'Invalid line number: ';
   const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
+  const EVENT_AGAINST_PARENT = 'diff-against-parent';
+  const EVENT_ZERO_REBASE = 'rebase-percent-zero';
+  const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -730,8 +734,14 @@
           Math.round(100 * rebaseDelta / totalDelta);
 
       // Report the percentage in the "diff" category.
-      this.$.reporting.reportInteraction('rebase-delta-percent',
-          percentRebaseDelta);
+      if (this.patchRange.basePatchNum === 'PARENT') {
+        this.$.reporting.reportInteraction(EVENT_AGAINST_PARENT);
+      } else if (percentRebaseDelta === 0) {
+        this.$.reporting.reportInteraction(EVENT_ZERO_REBASE);
+      } else {
+        this.$.reporting.reportInteraction(EVENT_NONZERO_REBASE,
+            percentRebaseDelta);
+      }
     },
 
     /** @return {!Promise} */

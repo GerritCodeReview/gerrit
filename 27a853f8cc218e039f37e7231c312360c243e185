@@ -53,6 +53,24 @@
       "revId": "27a853f8cc218e039f37e7231c312360c243e185",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16df2c6d_6db5f951",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-21T17:38:15Z",
+      "side": 1,
+      "message": "Yep, though i carn\u0027t find any where, where this is done on mutiple lines.\n\nAny examples please?\n\nlike\n\n/**\n * @type {{\n *   _number: string,\n *   branch: string,\n * }}\n */\n\n?",
+      "parentUuid": "d3aad2f7_3f1a7a07",
+      "revId": "27a853f8cc218e039f37e7231c312360c243e185",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

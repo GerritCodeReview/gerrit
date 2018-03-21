@@ -452,6 +452,14 @@ This plugin reports Gerrit metrics to JMX.
 link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-jmx[
 Project].
 
+[[metrics-reporter-prometheus]]
+=== metrics-reporter-prometheus
+
+This plugin exposes Gerrit metrics for consumption by Prometheus.
+
+link:https://gerrit-review.googlesource.com/#/admin/projects/plugins/metrics-reporter-prometheus[
+Project].
+
 [[motd]]
 === motd
 

@@ -280,8 +280,10 @@
       });
     },
 
-    _computeEntryHidden(maxCount, accountsRecord, readonly) {
-      return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
+    _computeShowEntry(maxCount, accountsRecord, readonly) {
+      if (readonly) { return false; }
+      if (maxCount && maxCount <= accountsRecord.base.length) { return false; }
+      return true;
     },
   });
 })();

@@ -60,7 +60,7 @@ public abstract class OutgoingEmail {
   private static final Logger log = LoggerFactory.getLogger(OutgoingEmail.class);
 
   protected String messageClass;
-  private final HashSet<Account.Id> rcptTo = new HashSet<>();
+  private final Set<Account.Id> rcptTo = new HashSet<>();
   private final Map<String, EmailHeader> headers;
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private Address smtpFromAddress;
@@ -541,9 +541,14 @@ public abstract class OutgoingEmail {
 
     soyContextEmailData = new HashMap<>();
     soyContextEmailData.put("settingsUrl", getSettingsUrl());
+    soyContextEmailData.put("instanceName", getInstanceName());
     soyContextEmailData.put("gerritHost", getGerritHost());
     soyContextEmailData.put("gerritUrl", getGerritUrl());
     soyContext.put("email", soyContextEmailData);
+  }
+
+  private String getInstanceName() {
+    return args.instanceNameProvider.get();
   }
 
   private String soyTemplate(String name, SanitizedContent.ContentKind kind) {

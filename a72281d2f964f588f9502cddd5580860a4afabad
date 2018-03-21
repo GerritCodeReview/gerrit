@@ -190,6 +190,30 @@
       "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87217e60_07cf1534",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T15:49:24Z",
+      "side": 1,
+      "message": "@Dave, do you have any comments/preferences here?",
+      "parentUuid": "be23fe9c_2aab525a",
+      "range": {
+        "startLine": 11,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "a72281d2f964f588f9502cddd5580860a4afabad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

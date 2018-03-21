@@ -3846,7 +3846,7 @@ By default, MIXED.
 Only used when `sendemail.from` is set to `USER`.
 List of allowed domains. If user's email matches one of the domains, emails will
 be sent as USER, otherwise as MIXED mode. Wildcards may be specified by
-including `*` to match any number of characters, for example `*.example.com`
+including `\*` to match any number of characters, for example `*.example.com`
 matches any subdomain of `example.com`.
 +
 By default, `*`.

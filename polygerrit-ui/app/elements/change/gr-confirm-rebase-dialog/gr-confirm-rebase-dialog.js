@@ -30,16 +30,11 @@
      */
 
     properties: {
-      /**
-       * Weird API usage requires this to be String or Null. Add this so
-       * the closure compiler doesn't complain.
-       * @type {?string} */
-      base: String,
       branch: String,
       changeNumber: Number,
       hasParent: Boolean,
       rebaseOnCurrent: Boolean,
-      _inputText: String,
+      _text: String,
       _query: {
         type: Function,
         value() {
@@ -104,22 +99,6 @@
       return !(!rebaseOnCurrent && !hasParent);
     },
 
-    _handleConfirmTap(e) {
-      e.preventDefault();
-      this._inputText = '';
-      this.fire('confirm', null, {bubbles: false});
-    },
-
-    _handleCancelTap(e) {
-      e.preventDefault();
-      this._inputText = '';
-      this.fire('cancel', null, {bubbles: false});
-    },
-
-    _handleRebaseOnOther() {
-      this.$.parentInput.focus();
-    },
-
     /**
      * There is a subtle but important difference between setting the base to an
      * empty string and omitting it entirely from the payload. An empty string
@@ -127,16 +106,27 @@
      * rebased on top of the target branch. Leaving out the base implies that it
      * should be rebased on top of its current parent.
      */
-    _handleRebaseOnTip() {
-      this.base = '';
+    _getSelectedBase() {
+      if (this.$.rebaseOnParentInput.checked) { return null; }
+      if (this.$.rebaseOnTipInput.checked) { return ''; }
+      return this._text;
     },
 
-    _handleRebaseOnParent() {
-      this.base = null;
+    _handleConfirmTap(e) {
+      e.preventDefault();
+      this.dispatchEvent(new CustomEvent('confirm',
+          {detail: {base: this._getSelectedBase()}}));
+      this._text = '';
     },
 
-    _handleBaseSelected(e) {
-      this.base = e.detail.value;
+    _handleCancelTap(e) {
+      e.preventDefault();
+      this.dispatchEvent(new CustomEvent('cancel'));
+      this._text = '';
+    },
+
+    _handleRebaseOnOther() {
+      this.$.parentInput.focus();
     },
 
     _handleEnterChangeNumberTap() {
@@ -150,13 +140,10 @@
     _updateSelectedOption(rebaseOnCurrent, hasParent) {
       if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
         this.$.rebaseOnParentInput.checked = true;
-        this._handleRebaseOnParent();
       } else if (this._displayTipOption(rebaseOnCurrent, hasParent)) {
         this.$.rebaseOnTipInput.checked = true;
-        this._handleRebaseOnTip();
       } else {
         this.$.rebaseOnOtherInput.checked = true;
-        this._handleRebaseOnOther();
       }
     },
   });

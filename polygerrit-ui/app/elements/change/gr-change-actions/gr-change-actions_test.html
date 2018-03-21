@@ -79,6 +79,7 @@ limitations under the License.
 
           return Promise.reject('bad url');
         },
+        getProjectConfig() { return Promise.resolve({}); },
       });
 
       element = fixture('basic');
@@ -332,24 +333,9 @@ limitations under the License.
           title: 'Rebase onto tip of branch or parent change',
         };
         assert.isTrue(fetchChangesStub.called);
-        // rebase on other
-        element.$.confirmRebase.base = '1234';
-        element._handleRebaseConfirm();
+        element._handleRebaseConfirm({detail: {base: '1234'}});
         assert.deepEqual(fireActionStub.lastCall.args,
           ['/rebase', rebaseAction, true, {base: '1234'}]);
-
-        // rebase on parent
-        element.$.confirmRebase.base = null;
-        element._handleRebaseConfirm();
-        assert.deepEqual(fireActionStub.lastCall.args,
-          ['/rebase', rebaseAction, true, {base: null}]);
-
-        // rebase on tip
-        element.$.confirmRebase.base = '';
-        element._handleRebaseConfirm();
-        assert.deepEqual(fireActionStub.lastCall.args,
-          ['/rebase', rebaseAction, true, {base: ''}]);
-
         done();
       });
     });

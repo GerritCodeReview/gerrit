@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "752a8c97_1953fabf",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2427,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-03-21T22:27:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b65f1499_adafc914",
+      "range": {
+        "startLine": 2423,
+        "startChar": 0,
+        "endLine": 2427,
+        "endChar": 52
+      },
+      "revId": "4119a204ec9bdea9f8cc87a018c9318468acc37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e01310a5_756e2940",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 4

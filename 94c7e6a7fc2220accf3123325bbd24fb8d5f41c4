@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbe9fdca_6ef099cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T22:30:54Z",
+      "side": 1,
+      "message": "This seems to be wrong, and differs from master, where it\u0027s missing and this seems to be the reason, why \"Included In\" button is still rendered, even though the _hideIncludedIn(change) correctly returning \u0027hide\u0027 class for open changes. On master (and on old UI) there is no \"Included In\" button. On stable-2.15 \"Included In\" button is rendered on open changes.",
+      "range": {
+        "startLine": 172,
+        "startChar": 22,
+        "endLine": 172,
+        "endChar": 31
+      },
+      "revId": "94c7e6a7fc2220accf3123325bbd24fb8d5f41c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

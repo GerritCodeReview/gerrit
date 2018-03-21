@@ -39,6 +39,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import org.eclipse.jetty.http.HttpScheme;
@@ -56,6 +57,7 @@ import org.eclipse.jetty.server.SslConnectionFactory;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.RequestLogHandler;
+import org.eclipse.jetty.server.handler.StatisticsHandler;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
@@ -147,6 +149,15 @@ public class JettyServer {
       httpd.addEventListener(mbean);
       httpd.addBean(Log.getRootLogger());
       httpd.addBean(mbean);
+    }
+
+    long gracefulStopTimeout =
+        cfg.getTimeUnit("httpd", null, "gracefulStopTimeout", 0L, TimeUnit.MILLISECONDS);
+    if (gracefulStopTimeout > 0) {
+      StatisticsHandler statsHandler = new StatisticsHandler();
+      statsHandler.setHandler(app);
+      app = statsHandler;
+      httpd.setStopTimeout(gracefulStopTimeout);
     }
 
     httpd.setHandler(app);

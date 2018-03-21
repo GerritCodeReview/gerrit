@@ -2408,6 +2408,21 @@ to permit fast restarts.
 +
 By default, true.
 
+[[httpd.gracefulStopTimeout]]httpd.gracefulStopTimeout::
++
+Set a graceful stop time. If set, the daemon ensures that all incoming
+calls are preserved for a maximum period of time, before starting
+the graceful shutdown process. Sites behind a workload balancer such as
+HAProxy would need this to be set for avoiding serving errors during
+rolling restarts.
++
+Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
++
+By default, 0 seconds (immediate shutdown).
+
 [[httpd.inheritChannel]]httpd.inheritChannel::
 +
 If true, permits the daemon to inherit its server socket channel

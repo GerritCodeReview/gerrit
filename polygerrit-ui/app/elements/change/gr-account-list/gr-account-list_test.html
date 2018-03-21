@@ -67,6 +67,7 @@ limitations under the License.
       });
       element = fixture('basic');
       element.accounts = [existingReviewer1, existingReviewer2];
+      flushAsynchronousOperations();
     });
 
     teardown(() => {
@@ -74,10 +75,13 @@ limitations under the License.
     });
 
     test('account entry only appears when editable', () => {
-      element.readonly = false;
-      assert.isFalse(element.$.entry.hasAttribute('hidden'));
       element.readonly = true;
-      assert.isTrue(element.$.entry.hasAttribute('hidden'));
+      flushAsynchronousOperations();
+      assert.notOk(element.$$('#entry'));
+
+      element.readonly = false;
+      flushAsynchronousOperations();
+      assert.ok(element.$$('#entry'));
     });
 
     test('addition and removal of account/group chips', () => {
@@ -178,13 +182,13 @@ limitations under the License.
       element.allowAnyInput = true;
       flushAsynchronousOperations();
 
-      const getTextStub = sandbox.stub(element.$.entry, 'getText');
+      const getTextStub = sandbox.stub(element.$$('#entry'), 'getText');
       getTextStub.onFirstCall().returns('');
       getTextStub.onSecondCall().returns('test');
       getTextStub.onThirdCall().returns('test@test');
 
       // When entry is empty, return true.
-      const clearStub = sandbox.stub(element.$.entry, 'clear');
+      const clearStub = sandbox.stub(element.$$('#entry'), 'clear');
       assert.isTrue(element.submitEntryText());
       assert.isFalse(clearStub.called);
 
@@ -287,14 +291,14 @@ limitations under the License.
         },
       });
       flushAsynchronousOperations();
-      assert.isTrue(element.$.entry.hasAttribute('hidden'));
+      assert.notOk(element.$$('#entry'));
     });
 
     suite('allowAnyInput', () => {
       let entry;
 
       setup(() => {
-        entry = element.$.entry;
+        entry = element.$$('#entry');
         sandbox.stub(entry, '_getReviewerSuggestions');
         sandbox.stub(entry.$.input, '_updateSuggestions');
         element.allowAnyInput = true;
@@ -330,8 +334,8 @@ limitations under the License.
 
     suite('keyboard interactions', () => {
       test('backspace at text input start removes last account', () => {
-        const input = element.$.entry.$.input;
-        sandbox.stub(element.$.entry, '_getReviewerSuggestions');
+        const input = element.$$('#entry').$.input;
+        sandbox.stub(element.$$('#entry'), '_getReviewerSuggestions');
         sandbox.stub(input, '_updateSuggestions');
         sandbox.stub(element, '_computeRemovable').returns(true);
         // Next line is a workaround for Firefix not moving cursor
@@ -351,7 +355,7 @@ limitations under the License.
       });
 
       test('arrow key navigation', () => {
-        const input = element.$.entry.$.input;
+        const input = element.$$('#entry').$.input;
         input.text = '';
         element.accounts = [makeAccount(), makeAccount()];
         MockInteractions.focus(input.$.input);

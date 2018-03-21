@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -109,6 +110,12 @@ public abstract class NotificationEmail extends OutgoingEmail {
     soyContext.put("projectName", projectName);
     // shortProjectName is the project name with the path abbreviated.
     soyContext.put("shortProjectName", projectName.replaceAll("/.*/", "..."));
+
+    String prefix = "";
+    if (args.addInstanceNameInSubject && args.instanceNameProvider != null) {
+      prefix = Strings.nullToEmpty(args.instanceNameProvider.get()) + "/";
+    }
+    soyContext.put("instanceAndProjectName", prefix + soyContext.get("shortProjectName"));
 
     soyContextEmailData.put("sshHost", getSshHost());
 

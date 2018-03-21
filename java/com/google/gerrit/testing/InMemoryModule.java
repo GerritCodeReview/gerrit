@@ -41,6 +41,7 @@ import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritGlobalModule;
+import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
@@ -203,6 +204,7 @@ public class InMemoryModule extends FactoryModule {
     bind(Key.get(schemaFactory, ReviewDbFactory.class)).to(InMemoryDatabase.class);
 
     install(NoSshKeyCache.module());
+    install(new GerritInstanceNameModule());
     install(
         new CanonicalWebUrlModule() {
           @Override

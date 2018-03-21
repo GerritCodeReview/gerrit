@@ -240,6 +240,7 @@
         type: Object,
         value() { return {}; },
       },
+      privateByDefault: String,
 
       _loading: {
         type: Boolean,

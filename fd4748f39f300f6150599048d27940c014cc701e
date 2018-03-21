@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "540f4650_5892c1ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-21T08:08:11Z",
+      "side": 1,
+      "message": "Should this be documented anywhere?",
+      "range": {
+        "startLine": 11,
+        "startChar": 51,
+        "endLine": 12,
+        "endChar": 72
+      },
+      "revId": "fd4748f39f300f6150599048d27940c014cc701e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91255f66_068643e7",
         "filename": "java/com/google/gerrit/server/git/receive/NoteDbPushOption.java",
         "patchSetId": 1
@@ -19,6 +42,29 @@
         "startChar": 16,
         "endLine": 35,
         "endChar": 32
+      },
+      "revId": "fd4748f39f300f6150599048d27940c014cc701e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba1d3f6e_36b8a5f3",
+        "filename": "java/com/google/gerrit/server/git/receive/NoteDbPushOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-21T08:08:11Z",
+      "side": 1,
+      "message": "[optional] use Enums.getIfPresent(NoteDbPushOption.class, value)",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 25
       },
       "revId": "fd4748f39f300f6150599048d27940c014cc701e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

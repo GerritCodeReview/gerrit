@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd77de98_e16be546",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2411,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T21:58:39Z",
+      "side": 1,
+      "message": "That\u0027s the methode name in JettyServer. I wonder, if we call this: gracefulStopTime would better reflect the intent?",
+      "range": {
+        "startLine": 2411,
+        "startChar": 8,
+        "endLine": 2411,
+        "endChar": 19
+      },
+      "revId": "4119a204ec9bdea9f8cc87a018c9318468acc37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15dd13a5_96947c94",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2417,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T21:58:39Z",
+      "side": 1,
+      "message": "Mention, that StatisticsHandler must be enabled that could degrade the performance?",
+      "revId": "4119a204ec9bdea9f8cc87a018c9318468acc37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e01310a5_756e2940",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T21:58:39Z",
+      "side": 1,
+      "message": "OK, that wasn\u0027t that obvious. The StatisticsHandler must be configured so that open connections can be tracked for a graceful shutdown. IOW, To enable graceful timeout feature, we pay some performance penalties: [1]. Should we mention that in the documentation?\n\n* [1] https://stackoverflow.com/questions/25561844/use-of-jetty-request-statistics-in-production",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 63
+      },
+      "revId": "4119a204ec9bdea9f8cc87a018c9318468acc37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19331846_d1c45d2e",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T21:58:39Z",
+      "side": 1,
+      "message": "If you don\u0027t enable StatisticsHandler, but just set: httpd.setStopTimeout(stopTimeout); that wouldn\u0027t have any effect, right?",
+      "range": {
+        "startLine": 159,
+        "startChar": 6,
+        "endLine": 159,
+        "endChar": 40
+      },
+      "revId": "4119a204ec9bdea9f8cc87a018c9318468acc37b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

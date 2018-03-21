@@ -43,7 +43,6 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -69,7 +68,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -114,7 +112,6 @@ public class GroupsUpdate {
   private final GroupsMigration groupsMigration;
   private final GitReferenceUpdated gitRefUpdated;
   private final RetryHelper retryHelper;
-  private final boolean reviewDbUpdatesAreBlocked;
 
   @Inject
   GroupsUpdate(
@@ -131,7 +128,6 @@ public class GroupsUpdate {
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       GroupsMigration groupsMigration,
-      @GerritServerConfig Config config,
       GitReferenceUpdated gitRefUpdated,
       RetryHelper retryHelper,
       @Assisted @Nullable IdentifiedUser currentUser) {
@@ -152,7 +148,6 @@ public class GroupsUpdate {
         getMetaDataUpdateFactory(
             metaDataUpdateInternalFactory, currentUser, serverIdent, auditLogFormatter);
     authorIdent = getAuthorIdent(serverIdent, currentUser);
-    reviewDbUpdatesAreBlocked = config.getBoolean("user", null, "blockReviewDbGroupUpdates", false);
   }
 
   private static MetaDataUpdateFactory getMetaDataUpdateFactory(
@@ -276,7 +271,6 @@ public class GroupsUpdate {
   private InternalGroup createGroupInReviewDb(
       ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmException {
-    checkIfReviewDbUpdatesAreBlocked();
 
     AccountGroupName gn = new AccountGroupName(groupCreation.getNameKey(), groupCreation.getId());
     // first insert the group name to validate that the group name hasn't
@@ -316,8 +310,6 @@ public class GroupsUpdate {
 
   private UpdateResult updateGroupInReviewDb(
       ReviewDb db, AccountGroup group, InternalGroupUpdate groupUpdate) throws OrmException {
-    checkIfReviewDbUpdatesAreBlocked();
-
     AccountGroup.NameKey originalName = group.getNameKey();
     applyUpdate(group, groupUpdate);
     AccountGroup.NameKey updatedName = group.getNameKey();
@@ -635,12 +627,6 @@ public class GroupsUpdate {
     result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
     result.getAddedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
     result.getDeletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
-  }
-
-  private void checkIfReviewDbUpdatesAreBlocked() throws OrmException {
-    if (reviewDbUpdatesAreBlocked) {
-      throw new OrmException("Updates to groups in ReviewDb are blocked");
-    }
   }
 
   private void dispatchAuditEventsOnGroupCreation(InternalGroup createdGroup) {

@@ -85,13 +85,11 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
   @Test
   public void basicGroupProperties() throws Exception {
     GroupInfo createdGroup = gApi.groups().create(name("group")).get();
-    try (BlockReviewDbUpdatesForGroups ctx = new BlockReviewDbUpdatesForGroups()) {
-      GroupBundle reviewDbBundle =
-          bundleFactory.fromReviewDb(db, new AccountGroup.Id(createdGroup.groupId));
-      deleteGroupRefs(reviewDbBundle);
+    GroupBundle reviewDbBundle =
+        bundleFactory.fromReviewDb(db, new AccountGroup.Id(createdGroup.groupId));
+    deleteGroupRefs(reviewDbBundle);
 
-      assertMigratedCleanly(rebuild(reviewDbBundle), reviewDbBundle);
-    }
+    assertMigratedCleanly(rebuild(reviewDbBundle), reviewDbBundle);
   }
 
   @Test
@@ -109,53 +107,51 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
       gApi.groups().id(group1.id).addGroups(group2.id, SystemGroupBackend.REGISTERED_USERS.get());
     }
 
-    try (BlockReviewDbUpdatesForGroups ctx = new BlockReviewDbUpdatesForGroups()) {
-      GroupBundle reviewDbBundle =
-          bundleFactory.fromReviewDb(db, new AccountGroup.Id(group1.groupId));
-      deleteGroupRefs(reviewDbBundle);
+    GroupBundle reviewDbBundle =
+        bundleFactory.fromReviewDb(db, new AccountGroup.Id(group1.groupId));
+    deleteGroupRefs(reviewDbBundle);
 
-      GroupBundle noteDbBundle = rebuild(reviewDbBundle);
-      assertMigratedCleanly(noteDbBundle, reviewDbBundle);
+    GroupBundle noteDbBundle = rebuild(reviewDbBundle);
+    assertMigratedCleanly(noteDbBundle, reviewDbBundle);
 
-      ImmutableList<CommitInfo> log = log(group1);
-      assertThat(log).hasSize(4);
+    ImmutableList<CommitInfo> log = log(group1);
+    assertThat(log).hasSize(4);
 
-      assertThat(log.get(0)).message().isEqualTo("Create group");
-      assertThat(log.get(0)).author().name().isEqualTo(serverIdent.get().getName());
-      assertThat(log.get(0)).author().email().isEqualTo(serverIdent.get().getEmailAddress());
-      assertThat(log.get(0)).author().date().isEqualTo(noteDbBundle.group().getCreatedOn());
-      assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.get().getTimeZoneOffset());
-      assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
+    assertThat(log.get(0)).message().isEqualTo("Create group");
+    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.get().getName());
+    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.get().getEmailAddress());
+    assertThat(log.get(0)).author().date().isEqualTo(noteDbBundle.group().getCreatedOn());
+    assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.get().getTimeZoneOffset());
+    assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
 
-      assertThat(log.get(1))
-          .message()
-          .isEqualTo("Update group\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
-      assertThat(log.get(1)).author().name().isEqualTo(admin.fullName);
-      assertThat(log.get(1)).author().email().isEqualTo(admin.id + "@" + serverId);
-      assertThat(log.get(1)).committer().hasSameDateAs(log.get(1).author);
+    assertThat(log.get(1))
+        .message()
+        .isEqualTo("Update group\n\nAdd: Administrator <" + admin.id + "@" + serverId + ">");
+    assertThat(log.get(1)).author().name().isEqualTo(admin.fullName);
+    assertThat(log.get(1)).author().email().isEqualTo(admin.id + "@" + serverId);
+    assertThat(log.get(1)).committer().hasSameDateAs(log.get(1).author);
 
-      assertThat(log.get(2))
-          .message()
-          .isEqualTo(
-              "Update group\n"
-                  + "\n"
-                  + ("Add: User <" + user.id + "@" + serverId + ">\n")
-                  + ("Add: User2 <" + user2.id + "@" + serverId + ">"));
-      assertThat(log.get(2)).author().name().isEqualTo(admin.fullName);
-      assertThat(log.get(2)).author().email().isEqualTo(admin.id + "@" + serverId);
-      assertThat(log.get(2)).committer().hasSameDateAs(log.get(2).author);
+    assertThat(log.get(2))
+        .message()
+        .isEqualTo(
+            "Update group\n"
+                + "\n"
+                + ("Add: User <" + user.id + "@" + serverId + ">\n")
+                + ("Add: User2 <" + user2.id + "@" + serverId + ">"));
+    assertThat(log.get(2)).author().name().isEqualTo(admin.fullName);
+    assertThat(log.get(2)).author().email().isEqualTo(admin.id + "@" + serverId);
+    assertThat(log.get(2)).committer().hasSameDateAs(log.get(2).author);
 
-      assertThat(log.get(3))
-          .message()
-          .isEqualTo(
-              "Update group\n"
-                  + "\n"
-                  + ("Add-group: " + group2.name + " <" + group2.id + ">\n")
-                  + ("Add-group: Registered Users <global:Registered-Users>"));
-      assertThat(log.get(3)).author().name().isEqualTo(admin.fullName);
-      assertThat(log.get(3)).author().email().isEqualTo(admin.id + "@" + serverId);
-      assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);
-    }
+    assertThat(log.get(3))
+        .message()
+        .isEqualTo(
+            "Update group\n"
+                + "\n"
+                + ("Add-group: " + group2.name + " <" + group2.id + ">\n")
+                + ("Add-group: Registered Users <global:Registered-Users>"));
+    assertThat(log.get(3)).author().name().isEqualTo(admin.fullName);
+    assertThat(log.get(3)).author().email().isEqualTo(admin.id + "@" + serverId);
+    assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);
   }
 
   @Test
@@ -235,20 +231,5 @@ public class GroupRebuilderIT extends AbstractDaemonTest {
     }
     assertThat(commitDates).named("commit timestamps for %s", result).isOrdered();
     return result.build();
-  }
-
-  private class BlockReviewDbUpdatesForGroups implements AutoCloseable {
-    BlockReviewDbUpdatesForGroups() {
-      blockReviewDbUpdates(true);
-    }
-
-    @Override
-    public void close() throws Exception {
-      blockReviewDbUpdates(false);
-    }
-
-    private void blockReviewDbUpdates(boolean block) {
-      cfg.setBoolean("user", null, "blockReviewDbGroupUpdates", block);
-    }
   }
 }

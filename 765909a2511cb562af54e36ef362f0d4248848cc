@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b75471da_fb718807",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-21T17:04:04Z",
+      "side": 1,
+      "message": "We also need to fix this to not use the cache version.\n\nhttps://github.com/GerritCodeReview/gerrit/blob/067b7d5bed9b4937853622062c14837e5a5dca1b/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js#L699",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 0
+      },
+      "revId": "765909a2511cb562af54e36ef362f0d4248848cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

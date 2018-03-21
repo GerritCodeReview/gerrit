@@ -22,6 +22,30 @@
       "revId": "f1b2b65a153cbfb46e8f2738d925d90b1b6ea6bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bd98f8a_01a4d32d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-03-21T07:17:14Z",
+      "side": 1,
+      "message": "The problem is, that the caller, gr-change-actions pass in the repo-name:\n\n  \u003cgr-create-change-dialog\n              id\u003d\"createFollowUpChange\"\n              branch\u003d\"[[change.branch]]\"\n              base-change\u003d\"[[change.id]]\"\n              repo-name\u003d\"[[change.project]]\"\u003e\u003c/gr-create-change-dialog\u003e\n\nbut the invocation time is too early: attached in this dialog is called before change was populated.",
+      "parentUuid": "2a53a5b3_4233ce84",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 24
+      },
+      "revId": "f1b2b65a153cbfb46e8f2738d925d90b1b6ea6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

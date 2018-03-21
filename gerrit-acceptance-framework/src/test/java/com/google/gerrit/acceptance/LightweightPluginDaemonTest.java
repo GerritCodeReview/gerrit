@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 
-public class LightweightPluginDaemonTest extends AbstractDaemonTest {
+public class LightweightPluginDaemonTest extends AbstractSubmoduleSubscription {
   @Inject private PluginGuiceEnvironment env;
 
   @Inject private PluginUser.Factory pluginUserFactory;

@@ -23,6 +23,7 @@
       _serverConfig: Object,
       _agreementsText: String,
       _agreementName: String,
+      _signedAgreements: Array,
       _showAgreements: {
         type: Boolean,
         value: false,
@@ -50,6 +51,10 @@
         this._groups = groups.sort((a, b) => {
           return a.name.localeCompare(b.name);
         });
+      }));
+
+      promises.push(this.$.restAPI.getAccountAgreements().then(agreements => {
+        this._signedAgreements = agreements || [];
       }));
 
       return Promise.all(promises);
@@ -100,19 +105,19 @@
     },
 
     _disableAggreements(item, groups) {
-      for (const value of groups) {
-        if (item && item.auto_verify_group &&
-            item.auto_verify_group.name === value.name) {
+      for (const group of groups) {
+        if ((item && item.auto_verify_group &&
+            item.auto_verify_group.id === group.id) ||
+            this._signedAgreements.find(i => i.name === item.name)) {
           return true;
         }
       }
-
       return false;
     },
 
     _hideAggreements(item, groups) {
       return this._disableAggreements(item, groups) ?
-          '' : 'agreementsSubmitted';
+          '' : 'hide';
     },
 
     _disableAgreementsText(text) {

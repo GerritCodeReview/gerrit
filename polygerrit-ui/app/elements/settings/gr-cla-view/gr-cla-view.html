@@ -50,13 +50,12 @@ limitations under the License.
       .contributorAgreementButton {
         font-family: var(--font-family-bold);
       }
-      .contributorAgreementAlreadySubmitted {
+      .alreadySubmittedText {
         color: red;
         margin: 0 2em;
         padding: .5em;
       }
-      .agreementsSubmitted,
-      .hideAgreementsTextBox {
+      .alreadySubmittedText.hide {
         display: none;
       }
       main {
@@ -79,7 +78,7 @@ limitations under the License.
               disabled$="[[_disableAggreements(item, _groups)]]">
           <label id="claNewAgreementsLabel">[[item.name]]</label>
         </span>
-        <div class$="contributorAgreementAlreadySubmitted [[_hideAggreements(item, _groups)]]">
+        <div class$="alreadySubmittedText [[_hideAggreements(item, _groups)]]">
           Agreement already submitted.
         </div>
         <div class="agreementsUrl">

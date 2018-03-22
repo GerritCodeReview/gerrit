@@ -55,6 +55,29 @@
     },
     {
       "key": {
+        "uuid": "e4726c85_53bcf95c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-22T22:33:04Z",
+      "side": 1,
+      "message": "Setting aside diagnosis of the reason of the new failing requests, when I run this change, I still see both of the offending requests appearing. Does this eliminate them when you run it?",
+      "range": {
+        "startLine": 12,
+        "startChar": 5,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "d37a18d33f6a9a9078beb986c3342dcde5a5b4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8af9817_affebf9a",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
         "patchSetId": 5

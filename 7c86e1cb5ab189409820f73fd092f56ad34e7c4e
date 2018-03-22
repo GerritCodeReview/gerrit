@@ -17,6 +17,24 @@
       "revId": "7c86e1cb5ab189409820f73fd092f56ad34e7c4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ad24db8_2ed80746",
+        "filename": "java/com/google/gerrit/server/group/db/GroupBundle.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-22T07:46:40Z",
+      "side": 1,
+      "message": "I also hope that we don\u0027t run into this case. ReviewDb doesn\u0027t seem to have a unique constraint on the group UUID. I guess if this is a problem we will find out about it soon.",
+      "parentUuid": "e9b67b72_2f4e95b0",
+      "revId": "7c86e1cb5ab189409820f73fd092f56ad34e7c4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

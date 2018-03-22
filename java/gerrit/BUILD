@@ -11,5 +11,6 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
         "//lib/prolog:runtime",
+        "@com_google_re2j//jar",
     ],
 )

@@ -1012,6 +1012,11 @@ maven_jar(
     sha1 = "9c662e7247ca8ceb1de5de629f685c9ef3e4ab58",
 )
 
+maven_jar(
+    name = "com_google_re2j",
+    artifact = "com.google.re2j:re2j:1.1",
+)
+
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
 
 npm_binary(

@@ -65,7 +65,7 @@ import org.slf4j.LoggerFactory;
 public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
   private static final Pattern PARAMETER_NAME_PATTERN =
-      Pattern.compile("^[a-zA-Z0-9]+[a-zA-Z0-9-]*$");
+      Pattern.compile("^[a-zA-Z0-9][a-zA-Z0-9-]*$");
 
   private final boolean serverEnableSignedPush;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;

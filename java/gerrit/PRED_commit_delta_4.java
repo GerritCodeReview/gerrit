@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListEntry;
 import com.google.gerrit.server.rules.StoredValues;
+import com.google.re2j.Pattern;
 import com.googlecode.prolog_cafe.exceptions.IllegalTypeException;
 import com.googlecode.prolog_cafe.exceptions.PInstantiationException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
@@ -29,7 +30,6 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 import java.util.Iterator;
-import java.util.regex.Pattern;
 
 /**
  * Given a regular expression, checks it against the file list in the most recent patchset of a

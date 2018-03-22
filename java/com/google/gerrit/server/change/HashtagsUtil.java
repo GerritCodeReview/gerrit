@@ -36,7 +36,7 @@ public class HashtagsUtil {
   }
 
   private static final CharMatcher LEADER = CharMatcher.whitespace().or(CharMatcher.is('#'));
-  private static final String PATTERN = "(?:\\s|\\A)#[\\p{L}[0-9]-_]+";
+  private static final Pattern PATTERN = Pattern.compile("(?:\\s|\\A)#[\\p{L}[0-9]-_]+");
 
   public static String cleanupHashtag(String hashtag) {
     hashtag = LEADER.trimLeadingFrom(hashtag);
@@ -47,7 +47,7 @@ public class HashtagsUtil {
   public static Set<String> extractTags(String input) {
     Set<String> result = new HashSet<>();
     if (!Strings.isNullOrEmpty(input)) {
-      Matcher matcher = Pattern.compile(PATTERN).matcher(input);
+      Matcher matcher = PATTERN.matcher(input);
       while (matcher.find()) {
         result.add(cleanupHashtag(matcher.group()));
       }

@@ -33,6 +33,8 @@ import org.eclipse.jgit.util.Base64;
 /** Verifies the token sent by {@link RegisterNewEmailSender}. */
 @Singleton
 public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
+
+  private static final Pattern TOKEN_PATTERN = Pattern.compile("^([0-9]+):(.+@.+)$");
   private final SignedToken emailRegistrationToken;
 
   public static class Module extends AbstractModule {
@@ -74,7 +76,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     }
 
     String payload = new String(Base64.decode(token.getData()), UTF_8);
-    Matcher matcher = Pattern.compile("^([0-9]+):(.+@.+)$").matcher(payload);
+    Matcher matcher = TOKEN_PATTERN.matcher(payload);
     if (!matcher.matches()) {
       throw new InvalidTokenException();
     }

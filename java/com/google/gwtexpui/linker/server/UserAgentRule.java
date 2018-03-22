@@ -14,8 +14,6 @@
 
 package com.google.gwtexpui.linker.server;
 
-import static java.util.regex.Pattern.compile;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +27,8 @@ import javax.servlet.http.HttpServletRequest;
  * <p>Ported from JavaScript in {@code com.google.gwt.user.UserAgent.gwt.xml}.
  */
 public class UserAgentRule {
-  private static final Pattern msie = compile(".*msie ([0-11]+)\\.([0-11]+).*");
-  private static final Pattern gecko = compile(".*rv:([0-9]+)\\.([0-9]+).*");
+  private static final Pattern msie = Pattern.compile(".*msie ([0-11]+)\\.([0-11]+).*");
+  private static final Pattern gecko = Pattern.compile(".*rv:([0-9]+)\\.([0-9]+).*");
 
   public String getName() {
     return "user.agent";

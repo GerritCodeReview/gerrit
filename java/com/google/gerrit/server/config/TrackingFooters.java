@@ -16,8 +16,8 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.re2j.Matcher;
 import java.util.List;
-import java.util.regex.Matcher;
 import org.eclipse.jgit.revwalk.FooterLine;
 
 public class TrackingFooters {

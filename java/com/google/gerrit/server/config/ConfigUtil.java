@@ -29,6 +29,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 public class ConfigUtil {
+  private static final Pattern TIMEUNIT_PATTERN = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$");
 
   @SuppressWarnings("unchecked")
   private static <T> T[] allValuesOf(T defaultValue) {
@@ -195,7 +196,7 @@ public class ConfigUtil {
    * @return the setting, or {@code defaultValue} if not set, expressed in {@code units}.
    */
   public static long getTimeUnit(String valueString, long defaultValue, TimeUnit wantUnit) {
-    Matcher m = Pattern.compile("^(0|[1-9][0-9]*)\\s*(.*)$").matcher(valueString);
+    Matcher m = TIMEUNIT_PATTERN.matcher(valueString);
     if (!m.matches()) {
       return defaultValue;
     }

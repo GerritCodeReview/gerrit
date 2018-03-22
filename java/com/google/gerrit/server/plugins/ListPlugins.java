@@ -27,10 +27,10 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.inject.Inject;
+import com.google.re2j.Pattern;
 import java.util.Locale;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 

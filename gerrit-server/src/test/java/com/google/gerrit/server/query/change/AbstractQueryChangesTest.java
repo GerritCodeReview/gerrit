@@ -1310,6 +1310,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
 
+    assertQuery("has:draft");
+
     DraftInput in = new DraftInput();
     in.line = 1;
     in.message = "nit: trailing whitespace";
@@ -1325,6 +1327,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     int user2 =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId().get();
 
+    assertQuery("has:draft", change2, change1);
     assertQuery("draftby:" + userId.get(), change2, change1);
     assertQuery("draftby:" + user2);
   }

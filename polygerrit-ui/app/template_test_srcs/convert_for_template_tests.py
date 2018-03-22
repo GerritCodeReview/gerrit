@@ -11,25 +11,25 @@ regexBehavior = r"<script>(.+)<\/script>"
 behaviorCompiledRegex = re.compile(regexBehavior, re.DOTALL)
 
 def replaceBehaviorLikeHTML (fileIn, fileOut):
-  with open(fileIn) as f:
+  with supportPY3Read(fileIn, "r") as f:
     file_str = f.read()
     match = behaviorCompiledRegex.search(file_str)
     if (match):
-      with open("polygerrit-ui/temp/behaviors/" + fileOut.replace("html", "js") , "w+") as f:
+      with supportPY3Read("polygerrit-ui/temp/behaviors/" + fileOut.replace("html", "js") , "w+") as f:
         f.write(match.group(1))
 
 def replaceBehaviorLikeJS (fileIn, fileOut):
-  with open(fileIn) as f:
+  with supportPY3Read(fileIn, "r") as f:
     file_str = f.read()
-    with open("polygerrit-ui/temp/behaviors/" + fileOut , "w+") as f:
+    with supportPY3Read("polygerrit-ui/temp/behaviors/" + fileOut , "w+") as f:
       f.write(file_str)
 
 def generateStubBehavior(behaviorName):
-  with open("polygerrit-ui/temp/behaviors/" + behaviorName + ".js", "w+") as f:
+  with supportPY3Read("polygerrit-ui/temp/behaviors/" + behaviorName + ".js", "w+") as f:
     f.write("/** @polymerBehavior **/\n" + behaviorName + "= {};")
 
 def replacePolymerElement (fileIn, fileOut, root):
-  with open(fileIn) as f:
+  with supportPY3Read(fileIn, "r") as f:
     key = fileOut.split('.')[0]
     # Removed self invoked function
     file_str = f.read()
@@ -38,7 +38,7 @@ def replacePolymerElement (fileIn, fileOut, root):
     if file_str_no_fn:
       package = root.replace("/", ".") + "." + fileOut
 
-      with open("polygerrit-ui/temp/" + fileOut, "w+") as f:
+      with supportPY3Read("polygerrit-ui/temp/" + fileOut, "w+") as f:
         mainFileContents = re.sub(polymerCompiledRegex, "exports = Polymer({", file_str_no_fn.group(1)).replace("'use strict';", "")
         f.write("/** \n" \
           "* @fileoverview \n" \
@@ -69,6 +69,11 @@ def writeTempFile(file, root):
   if file.endswith(".js"):
     replacePolymerElement(os.path.join(root, file), file, root)
 
+def supportPY3Read(file, readOrWrite)
+  try:
+    open(file, readOrWrite, encoding='utf-8')
+  except TypeError:
+    open(file, readOrWrite)
 
 if __name__ == "__main__":
   # Create temp directory.

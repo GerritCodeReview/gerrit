@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b51e6f69_552f99d3",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1017393
+      },
+      "writtenOn": "2018-03-22T16:12:15Z",
+      "side": 0,
+      "message": "Also here.",
+      "revId": "9b6ba052a0c709514d3af8f33b44a1b5862c16f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2b87f7_bfc88557",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1017393
+      },
+      "writtenOn": "2018-03-22T16:12:15Z",
+      "side": 0,
+      "message": "And here.",
+      "revId": "9b6ba052a0c709514d3af8f33b44a1b5862c16f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

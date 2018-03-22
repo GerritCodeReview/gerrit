@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "7b009e7a_bde765ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-22T13:53:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae3718a3_6eea30d1",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "6d83a80d06b0fb98e854e1f8a5867c5447335ae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2ed1367_9e50f331",
         "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
         "patchSetId": 1
@@ -40,6 +64,24 @@
       "revId": "6d83a80d06b0fb98e854e1f8a5867c5447335ae0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "633bace0_1ca2cd20",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-22T13:53:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2ed1367_9e50f331",
+      "revId": "6d83a80d06b0fb98e854e1f8a5867c5447335ae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

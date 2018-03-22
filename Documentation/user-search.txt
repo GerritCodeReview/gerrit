@@ -35,6 +35,9 @@ text and let Gerrit figure out the meaning:
 |Approval requirement             | Code-Review>=+2, Verified=1
 |=============================================================
 
+For change searches (i.e. those using a numerical id, Change-Id, or commit
+SHA1), if the search results in a single change that change will be
+presented instead of a list.
 
 [[search-operators]]
 == Search Operators

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a04fa64_5bf030ec",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-22T13:24:24Z",
+      "side": 1,
+      "message": "Needs to have :: at the end please.",
+      "revId": "1d49cdabd1d08d15e58b89eadd7b2bcb856225aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

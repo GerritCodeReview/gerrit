@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -1822,6 +1823,34 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
     assertThat(cd.getRefStatePatterns().stream().map(String::new).collect(toList()))
         .containsExactlyElementsIn(expectedPatterns);
+  }
+
+  @Test
+  public void watched() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
+    Change change1 = insert(repo, ins1);
+
+    TestRepository<Repo> repo2 = createProject("repo2");
+
+    ChangeInserter ins2 = newChangeWithStatus(repo2, Change.Status.NEW);
+    insert(repo2, ins2);
+
+    assertQuery("is:watched");
+    assertQuery("watchedby:self");
+
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = "repo";
+    pwi.filter = null;
+    pwi.notifyAbandonedChanges = true;
+    pwi.notifyNewChanges = true;
+    pwi.notifyAllComments = true;
+    projectsToWatch.add(pwi);
+    gApi.accounts().self().setWatchedProjects(projectsToWatch);
+
+    assertQuery("is:watched", change1);
+    assertQuery("watchedby:self", change1);
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

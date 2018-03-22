@@ -193,11 +193,17 @@ limitations under the License.
           '/admin/repos/test-repo,access');
     });
 
-    test('_computeAdminClass', () => {
+    test('_computeMainClass', () => {
       let isAdmin = true;
-      assert.equal(element._computeAdminClass(isAdmin), 'admin');
+      const editing = true;
+      const canUpload = false;
+      assert.equal(element._computeMainClass(isAdmin, canUpload), 'admin');
+      assert.equal(element._computeMainClass(isAdmin, canUpload, editing),
+          'admin editing');
       isAdmin = false;
-      assert.equal(element._computeAdminClass(isAdmin), '');
+      assert.equal(element._computeMainClass(isAdmin, canUpload), '');
+      assert.equal(element._computeMainClass(isAdmin, canUpload, editing),
+          'editing');
     });
 
     test('inherit section', () => {
@@ -239,14 +245,25 @@ limitations under the License.
         assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
         assert.notEqual(getComputedStyle(element.$.editBtn).display, 'none');
         assert.equal(element.$.editBtn.innerText, 'EDIT');
+        assert.isNotOk(element.$$('#editInheritFromInput'));
+        element._inheritsFrom = {
+          id: 'test-project',
+        };
+        flushAsynchronousOperations();
+        assert.equal(getComputedStyle(element.$$('#editInheritFromInput'))
+            .display, 'none');
 
         MockInteractions.tap(element.$.editBtn);
+        flushAsynchronousOperations();
+
 
         // Edit button changes to Cancel button, and Save button is visible but
         // disabled.
         assert.equal(element.$.editBtn.innerText, 'CANCEL');
         assert.notEqual(getComputedStyle(element.$.saveBtn).display, 'none');
         assert.isTrue(element.$.saveBtn.disabled);
+        assert.notEqual(getComputedStyle(element.$$('#editInheritFromInput'))
+            .display, 'none');
 
         // Save button should be enabled after access is modified
         element.fire('access-modified');
@@ -285,7 +302,18 @@ limitations under the License.
         assert.isTrue(element._handleAccessModified.called);
       });
 
-      test('_handleAccessModified called with event fired', () => {
+      test('_handleAccessModified called when parent changes', () => {
+        element._inheritsFrom = {
+          id: 'test-project',
+        };
+        flushAsynchronousOperations();
+        element.$$('#editInheritFromInput').fire('commit');
+        sandbox.spy(element, '_handleAccessModified');
+        element.fire('access-modified');
+        assert.isTrue(element._handleAccessModified.called);
+      });
+
+      test('_handleSaveForReview', () => {
         const saveStub =
             sandbox.stub(element.$.restAPI, 'setProjectAccessRightsForReview');
         sandbox.stub(element, '_computeAddAndRemove').returns({
@@ -332,6 +360,18 @@ limitations under the License.
 
       test('_handleSaveForReview with no changes', () => {
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
+      });
+
+      test('_handleSaveForReview parent change', () => {
+        element._inheritsFrom = {
+          id: 'test-project',
+        };
+        element._originalInheritsFrom = {
+          id: 'test-project-original',
+        };
+        assert.deepEqual(element._computeAddAndRemove(), {
+          parent: 'test-project', add: {}, remove: {},
+        });
       });
 
       test('_handleSaveForReview rules', () => {

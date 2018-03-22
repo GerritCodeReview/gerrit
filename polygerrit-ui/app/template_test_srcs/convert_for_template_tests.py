@@ -21,7 +21,7 @@ def replaceBehaviorLikeHTML (fileIn, fileOut):
 def replaceBehaviorLikeJS (fileIn, fileOut):
   with open(fileIn) as f:
     file_str = f.read()
-    with open("polygerrit-ui/temp/behaviors/" + fileOut , "w+") as f:
+    with open("polygerrit-ui/temp/behaviors/" + fileOut , "w+", encoding='utf-8') as f:
       f.write(file_str)
 
 def generateStubBehavior(behaviorName):
@@ -29,7 +29,7 @@ def generateStubBehavior(behaviorName):
     f.write("/** @polymerBehavior **/\n" + behaviorName + "= {};")
 
 def replacePolymerElement (fileIn, fileOut, root):
-  with open(fileIn) as f:
+  with open(fileIn, 'r', encoding='utf-8') as f:
     key = fileOut.split('.')[0]
     # Removed self invoked function
     file_str = f.read()
@@ -38,7 +38,7 @@ def replacePolymerElement (fileIn, fileOut, root):
     if file_str_no_fn:
       package = root.replace("/", ".") + "." + fileOut
 
-      with open("polygerrit-ui/temp/" + fileOut, "w+") as f:
+      with open("polygerrit-ui/temp/" + fileOut, "w+", encoding='utf-8') as f:
         mainFileContents = re.sub(polymerCompiledRegex, "exports = Polymer({", file_str_no_fn.group(1)).replace("'use strict';", "")
         f.write("/** \n" \
           "* @fileoverview \n" \

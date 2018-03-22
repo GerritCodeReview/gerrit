@@ -117,7 +117,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         return has(pluginPermission.permissionName())
             || (pluginPermission.fallBackToAdmin() && isAdmin());
       }
-      throw new PermissionBackendException(perm + " unsupported");
+      throw new PermissionBackendException(perm + " unknown");
     }
 
     private boolean can(GlobalPermission perm) throws PermissionBackendException {
@@ -149,7 +149,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case RUN_AS:
           return has(perm.permissionName());
       }
-      throw new PermissionBackendException(perm + " unsupported");
+      throw new PermissionBackendException(perm + " unknown");
     }
 
     private boolean isAdmin() {

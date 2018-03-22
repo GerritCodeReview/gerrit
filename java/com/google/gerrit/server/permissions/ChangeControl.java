@@ -358,7 +358,7 @@ class ChangeControl {
       } else if (perm instanceof LabelPermission.WithValue) {
         return can((LabelPermission.WithValue) perm);
       }
-      throw new PermissionBackendException(perm + " unsupported");
+      throw new PermissionBackendException(perm + " unknown");
     }
 
     private boolean can(ChangePermission perm) throws PermissionBackendException {
@@ -394,7 +394,7 @@ class ChangeControl {
       } catch (OrmException e) {
         throw new PermissionBackendException("unavailable", e);
       }
-      throw new PermissionBackendException(perm + " unsupported");
+      throw new PermissionBackendException(perm + " unknown");
     }
 
     private boolean can(LabelPermission perm) {

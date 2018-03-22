@@ -427,7 +427,7 @@ class ProjectControl {
         case WRITE_CONFIG:
           return isOwner();
       }
-      throw new PermissionBackendException(perm + " unsupported");
+      throw new PermissionBackendException(perm + " unknown");
     }
   }
 }

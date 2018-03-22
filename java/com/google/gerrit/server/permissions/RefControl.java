@@ -523,7 +523,7 @@ class RefControl {
               && canUploadMerges()
               && !projectControl.getProjectState().is(BooleanProjectConfig.USE_SIGNED_OFF_BY);
       }
-      throw new PermissionBackendException(perm + " unsupported");
+      throw new PermissionBackendException(perm + " unknown");
     }
   }
 }

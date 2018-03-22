@@ -181,10 +181,10 @@ public class GroupRebuilderTest extends GerritBaseTests {
         log.get(1),
         "Update group\n"
             + "\n"
-            + "Add: Account 1 <1@server-id>\n"
-            + "Add: Account 2 <2@server-id>\n"
             + "Add-group: Group x <x>\n"
-            + "Add-group: Group y <y>");
+            + "Add-group: Group y <y>\n"
+            + "Add: Account 1 <1@server-id>\n"
+            + "Add: Account 2 <2@server-id>");
   }
 
   @Test

@@ -196,8 +196,8 @@ public class GroupRebuilderIT extends GerritBaseTests {
         .isEqualTo(
             "Update group\n"
                 + "\n"
-                + ("Add-group: " + group2.name + " <" + group2.id + ">\n")
-                + ("Add-group: Registered Users <global:Registered-Users>"));
+                + ("Add-group: Registered Users <global:Registered-Users>\n")
+                + ("Add-group: " + group2.name + " <" + group2.id + ">"));
     assertThat(log.get(3)).author().name().isEqualTo(currentUser.getName());
     assertThat(log.get(3)).author().email().isEqualTo(currentUser.getAccountId() + "@" + serverId);
     assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);

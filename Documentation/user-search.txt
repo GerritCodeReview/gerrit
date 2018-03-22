@@ -12,7 +12,7 @@ query, execute it, and present the results.
 |All > Open           | status:open '(or is:open)'
 |All > Merged         | status:merged
 |All > Abandoned      | status:abandoned
-|My > Watched Changes | status:open is:watched
+|My > Watched Changes | is:watched is:open
 |My > Starred Changes | is:starred
 |My > Draft Comments  | has:draft
 |Open changes in Foo  | status:open project:Foo
@@ -34,6 +34,9 @@ text and let Gerrit figure out the meaning:
 |Approval requirement             | Code-Review>=+2, Verified=1
 |=============================================================
 
+For change searches (i.e. those using a numerical id, Change-Id, or commit
+SHA1), if the search results in a single change that change will be
+presented instead of a list.
 
 [[search-operators]]
 == Search Operators

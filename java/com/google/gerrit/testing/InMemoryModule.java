@@ -17,6 +17,7 @@ package com.google.gerrit.testing;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.base.Strings;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.client.AuthType;
@@ -85,6 +86,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -183,7 +185,11 @@ public class InMemoryModule extends FactoryModule {
     bind(String.class)
         .annotatedWith(AnonymousCowardName.class)
         .toProvider(AnonymousCowardNameProvider.class);
-    bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
+    bind(String.class)
+        .annotatedWith(GerritServerId.class)
+        .toProvider(TestGerritServerIdProvider.class)
+        .in(SINGLETON);
+
     bind(AllProjectsName.class).toProvider(AllProjectsNameProvider.class);
     bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
@@ -320,6 +326,29 @@ public class InMemoryModule extends FactoryModule {
           "version for schema %s was alreay set",
           schemaName);
       singleVersions.put(schemaName, version);
+    }
+  }
+
+  private static class TestGerritServerIdProvider implements Provider<String> {
+    private static final String SECTION = "gerrit";
+    private static final String KEY = "serverId";
+
+    private final String id;
+
+    @Inject
+    public TestGerritServerIdProvider(@GerritServerConfig Config cfg) {
+      String origId = cfg.getString(SECTION, null, KEY);
+      if (!Strings.isNullOrEmpty(origId)) {
+        id = origId;
+        return;
+      }
+
+      id = "gerrit";
+    }
+
+    @Override
+    public String get() {
+      return id;
     }
   }
 }

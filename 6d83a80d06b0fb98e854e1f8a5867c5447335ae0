@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1521716073 +0100\nnonce APUGfEKS8+y1YvuK68HYoOubPMObfJbZMkykxbvLAwESfFBUgKc7FzAiNUsrXFoCFWIJZJGTCMuW\n\n0000000000000000000000000000000000000000 6d83a80d06b0fb98e854e1f8a5867c5447335ae0 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqzi2kACgkQUbX9l6DQ\n71FN8gf8DGCA39ID1elV6piU1vhCob//BSQGR8YzPCAwf3JcyJbFwyUGpUKk7Dv0\nzeql7YZ3dY836c1Jn8nUq9jN0z2DceJD70I+8G5wM/UuX/0cF/zeprWTHRBSplRo\nql2OtHKl2YzqQ6VrMf/2tzUahk32tez/1ZLqh4X7hrCEnrLIZdSLpJv3flWM6lmr\n+LNxAfcwx6AJi+98Oh3B/tdBGdKxXbciMB5ZudxKETpO0E4Z+lAcS/kX/rUvMAO3\nz1GExDdlXL8M6iftdoF6y8tgKuwFKWLp7P1j56ueTh26EtOhHYZpn+2SdjkG90fK\nHZ8NjaDFRqAQyuCxzkbieKcIKqAUfQ\u003d\u003d\n\u003dAU9k\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae3718a3_6eea30d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-22T12:04:27Z",
+      "side": 1,
+      "message": "configure",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "6d83a80d06b0fb98e854e1f8a5867c5447335ae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2ed1367_9e50f331",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-22T12:04:27Z",
+      "side": 1,
+      "message": "Do these need to be public?  Looks like they\u0027re only used in the constructor below.",
+      "revId": "6d83a80d06b0fb98e854e1f8a5867c5447335ae0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

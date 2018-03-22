@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import com.google.gerrit.server.group.InternalGroup;
 import java.util.Optional;
 import java.util.Set;
@@ -55,9 +56,12 @@ class GroupConfigCommitMessage {
 
     StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
     footerJoiner.setEmptyValue("");
-    getFooterForRename().ifPresent(footerJoiner::add);
-    getFootersForMemberModifications().forEach(footerJoiner::add);
-    getFootersForSubgroupModifications().forEach(footerJoiner::add);
+    Streams.concat(
+            Streams.stream(getFooterForRename()),
+            getFootersForMemberModifications(),
+            getFootersForSubgroupModifications())
+        .sorted()
+        .forEach(footerJoiner::add);
     String footer = footerJoiner.toString();
 
     return summaryLine + footer;

@@ -63,6 +63,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -78,6 +79,7 @@ import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.common.VotingRangeInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -145,6 +147,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
@@ -387,6 +390,20 @@ public class ChangeJson {
     return out;
   }
 
+  private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
+    Collection<SubmitRecord> reqs = cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT);
+    return reqs.stream()
+        .map(t -> t.requirements)
+        .filter(Objects::nonNull)
+        .flatMap(Collection::stream)
+        .map(ChangeJson::requirementToInfo)
+        .collect(ImmutableSet.toImmutableSet());
+  }
+
+  private static SubmitRequirementInfo requirementToInfo(SubmitRequirement req) {
+    return new SubmitRequirementInfo(req.shortReason(), req.fullReason(), req.label().orElse(null));
+  }
+
   private void ensureLoaded(Iterable<ChangeData> all) throws OrmException {
     if (lazyLoad) {
       ChangeData.ensureChangeLoaded(all);
@@ -555,6 +572,7 @@ public class ChangeJson {
       out.reviewed = cd.isReviewedBy(user.getAccountId()) ? true : null;
     }
 
+    out.requirements = requirementsFor(cd);
     out.labels = labelsFor(perm, cd, has(LABELS), has(DETAILED_LABELS));
 
     if (out.labels != null && has(DETAILED_LABELS)) {

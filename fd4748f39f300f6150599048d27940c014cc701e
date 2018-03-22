@@ -144,6 +144,30 @@
       "revId": "fd4748f39f300f6150599048d27940c014cc701e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "103511bc_ef894099",
+        "filename": "java/com/google/gerrit/server/git/receive/NoteDbPushOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-22T07:25:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d9abaeed_e42deb22",
+      "range": {
+        "startLine": 36,
+        "startChar": 11,
+        "endLine": 36,
+        "endChar": 25
+      },
+      "revId": "fd4748f39f300f6150599048d27940c014cc701e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

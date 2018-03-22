@@ -13,7 +13,7 @@ query, execute it, and present the results.
 |All > Merged         | status:merged
 |All > Abandoned      | status:abandoned
 |My > Drafts          | owner:self is:draft
-|My > Watched Changes | status:open is:watched
+|My > Watched Changes | is:watched is:open
 |My > Starred Changes | is:starred
 |My > Draft Comments  | has:draft
 |Open changes in Foo  | status:open project:Foo

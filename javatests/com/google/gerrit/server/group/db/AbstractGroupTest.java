@@ -27,11 +27,14 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.TimeZone;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -116,9 +119,9 @@ public class AbstractGroupTest extends GerritBaseTests {
         getAccountName(id), getAccountEmail(id), ident.getWhen(), ident.getTimeZone());
   }
 
-  protected static AuditLogFormatter getAuditLogFormatter() {
+  protected AuditLogFormatter getAuditLogFormatter() {
     return AuditLogFormatter.create(
-        AbstractGroupTest::getAccount, AbstractGroupTest::getGroup, SERVER_ID);
+        AbstractGroupTest::getAccount, uuid -> getGroup(uuid), SERVER_ID);
   }
 
   private static Optional<Account> getAccount(Account.Id id) {
@@ -127,7 +130,7 @@ public class AbstractGroupTest extends GerritBaseTests {
     return Optional.of(account);
   }
 
-  private static Optional<GroupDescription.Basic> getGroup(AccountGroup.UUID uuid) {
+  private Optional<GroupDescription.Basic> getGroup(AccountGroup.UUID uuid) {
     GroupDescription.Basic group =
         new GroupDescription.Basic() {
           @Override
@@ -137,7 +140,14 @@ public class AbstractGroupTest extends GerritBaseTests {
 
           @Override
           public String getName() {
-            return "Group " + uuid;
+            try {
+              return GroupConfig.loadForGroup(allUsersRepo, uuid)
+                  .getLoadedGroup()
+                  .map(InternalGroup::getName)
+                  .orElse("Group " + uuid);
+            } catch (IOException | ConfigInvalidException e) {
+              return "Group " + uuid;
+            }
           }
 
           @Nullable

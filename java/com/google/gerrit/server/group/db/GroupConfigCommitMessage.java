@@ -17,6 +17,9 @@ package com.google.gerrit.server.group.db;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.server.group.InternalGroup;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
@@ -53,11 +56,15 @@ class GroupConfigCommitMessage {
   public String create() {
     String summaryLine = originalGroup.isPresent() ? "Update group" : "Create group";
 
+    List<String> footers = new ArrayList<>();
+    getFooterForRename().ifPresent(footers::add);
+    getFootersForMemberModifications().forEach(footers::add);
+    getFootersForSubgroupModifications().forEach(footers::add);
+    Collections.sort(footers);
+
     StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
     footerJoiner.setEmptyValue("");
-    getFooterForRename().ifPresent(footerJoiner::add);
-    getFootersForMemberModifications().forEach(footerJoiner::add);
-    getFootersForSubgroupModifications().forEach(footerJoiner::add);
+    footers.forEach(footerJoiner::add);
     String footer = footerJoiner.toString();
 
     return summaryLine + footer;

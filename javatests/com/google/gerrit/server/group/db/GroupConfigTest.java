@@ -1350,7 +1350,7 @@ public class GroupConfigTest {
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
     assertThat(revCommit.getFullMessage())
-        .isEqualTo("Create group\n\nAdd: John <13@server-id>\nAdd: Jane <7@server-id>");
+        .isEqualTo("Create group\n\nAdd: Jane <7@server-id>\nAdd: John <13@server-id>");
   }
 
   @Test
@@ -1397,7 +1397,7 @@ public class GroupConfigTest {
 
     RevCommit revCommit = getLatestCommitForGroup(groupUuid);
     assertThat(revCommit.getFullMessage())
-        .isEqualTo("Update group\n\nAdd: John <13@GerritServer1>\nAdd: Jane <7@GerritServer1>");
+        .isEqualTo("Update group\n\nAdd: Jane <7@GerritServer1>\nAdd: John <13@GerritServer1>");
   }
 
   @Test
@@ -1531,11 +1531,11 @@ public class GroupConfigTest {
         .isEqualTo(
             "Update group\n"
                 + "\n"
-                + "Rename from Old name to New name\n"
-                + "Remove: Jane <7@serverId>\n"
+                + "Add-group: Bots <129403>\n"
                 + "Add: John <13@serverId>\n"
                 + "Remove-group: Verifiers <8903493>\n"
-                + "Add-group: Bots <129403>");
+                + "Remove: Jane <7@serverId>\n"
+                + "Rename from Old name to New name");
   }
 
   private static Timestamp toTimestamp(LocalDateTime localDateTime) {

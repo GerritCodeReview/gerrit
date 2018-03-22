@@ -1436,18 +1436,36 @@ limitations under the License.
       assert.equal(element._computeHeaderClass(true), 'header editMode');
     });
 
-    test('_maybeScrollToMessage', () => {
-      const scrollStub = sandbox.stub(element.$.messageList, 'scrollToMessage');
+    test.only('_maybeScrollToContent', () => {
+      const scrollMsgStub = sandbox.stub(element.$.messageList,
+          'scrollToMessage');
+      const scrollToThreadStub = sandbox.stub(element.$.threadList,
+          'scrollToThread');
+      const threadsUnresolvedOnlyStub = sandbox.stub(element.$.threadList,
+          'showUnresolvedOnly');
+      const threadsDraftsOnlyStub = sandbox.stub(element.$.threadList,
+          'showDraftsOnly');
 
-      element._maybeScrollToMessage('');
-      assert.isFalse(scrollStub.called);
+      element._maybeScrollToContent('');
+      assert.isFalse(scrollMsgStub.called);
 
-      element._maybeScrollToMessage('message');
-      assert.isFalse(scrollStub.called);
+      element._maybeScrollToContent('message');
+      assert.isFalse(scrollMsgStub.called);
 
-      element._maybeScrollToMessage('#message-TEST');
-      assert.isTrue(scrollStub.called);
-      assert.equal(scrollStub.lastCall.args[0], 'TEST');
+      element._maybeScrollToContent('#message-TEST');
+      assert.isTrue(scrollMsgStub.called);
+      assert.equal(scrollMsgStub.lastCall.args[0], 'TEST');
+
+      element._maybeScrollToContent('#threads-unresolved');
+      assert.isTrue(threadsUnresolvedOnlyStub.calledOnce);
+
+      element._maybeScrollToContent('#threads-drafts');
+      assert.isTrue(threadsDraftsOnlyStub.calledOnce);
+
+      element._maybeScrollToContent('#threads-123');
+      assert.isTrue(scrollToThreadStub.calledOnce);
+      assert.isTrue(threadsUnresolvedOnlyStub.calledOnce);
+      assert.isTrue(threadsDraftsOnlyStub.calledOnce);
     });
 
     test('topic update reloads related changes', () => {

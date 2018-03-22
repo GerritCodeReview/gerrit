@@ -33,6 +33,14 @@
         type: Array,
         computed: '_computeSortedThreads(threads.*)',
       },
+      _onlyUnresolved: {
+        type: Boolean,
+        value: false,
+      },
+      _onlyDrafts: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     _computeShowDraftToggle(loggedIn) {
@@ -111,6 +119,40 @@
 
     _toggleDrafts() {
       this.$.threads.classList.toggle('draftsOnly');
+    },
+
+    showUnresolvedOnly() {
+      this._onlyUnresolved = true;
+      this._onlyDrafts = false;
+      this.$.threads.classList.add('unresolvedOnly');
+      this.$.threads.classList.remove('draftsOnly');
+      this.scrollToThread();
+    },
+
+    showDraftsOnly() {
+      this._onlyUnresolved = false;
+      this._onlyDrafts = true;
+      this.$.threads.classList.remove('unresolvedOnly');
+      this.$.threads.classList.add('draftsOnly');
+      this.scrollToThread();
+    },
+
+    scrollToThread(opt_rootId) {
+      let el;
+      if (!opt_rootId) {
+        // First thread
+        el = this.$$('gr-diff-comment-thread');
+      } else {
+        el = this.$$('[data-thread-id="' + opt_rootId + '"]');
+      }
+      if (!el) { return; }
+      let top = el.offsetTop;
+      for (let offsetParent = el.offsetParent;
+           offsetParent;
+           offsetParent = offsetParent.offsetParent) {
+        top += offsetParent.offsetTop;
+      }
+      window.scrollTo(0, top);
     },
   });
 })();

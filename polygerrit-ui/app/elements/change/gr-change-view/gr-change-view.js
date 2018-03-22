@@ -680,7 +680,7 @@
           document.documentElement.scrollTop =
               document.body.scrollTop = this.viewState.scrollTop;
         } else {
-          this._maybeScrollToMessage(window.location.hash);
+          this._maybeScrollToContent(window.location.hash);
         }
         this._initialLoadComplete = true;
       });
@@ -706,10 +706,23 @@
       this.viewState.numFilesShown = numFilesShown;
     },
 
-    _maybeScrollToMessage(hash) {
+    _maybeScrollToContent(hash) {
       const msgPrefix = '#message-';
+      const threadPrefix = '#threads-';
       if (hash.startsWith(msgPrefix)) {
         this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
+      } else if (hash.startsWith(threadPrefix)) {
+        // Select the thread view
+        this.$.commentTabs.selected = 1;
+        const threadDetail = hash.substr(threadPrefix.length);
+        if (threadDetail === 'unresolved') {
+          this.$.threadList.showUnresolvedOnly();
+          return;
+        } else if (threadDetail ==='drafts') {
+          this.$.threadList.showDraftsOnly();
+          return;
+        }
+        this.$.threadList.scrollToThread(hash.substr(threadPrefix.length));
       }
     },
 

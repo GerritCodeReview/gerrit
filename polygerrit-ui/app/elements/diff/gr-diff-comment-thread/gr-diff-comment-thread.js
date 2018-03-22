@@ -192,6 +192,10 @@
       }
     },
 
+    _computeThreadHash(rootId) {
+      return '#thread-' + rootId;
+    },
+
     _expandCollapseComments(actionIsCollapse) {
       const comments =
           Polymer.dom(this.root).querySelectorAll('gr-diff-comment');

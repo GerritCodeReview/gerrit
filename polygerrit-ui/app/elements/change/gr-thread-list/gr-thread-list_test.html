@@ -198,6 +198,53 @@ limitations under the License.
       assert.equal(computeVisibleNumber(threadElements), 5);
     });
 
+    test('showUnresolvedOnly', () => {
+      sandbox.stub(element, 'scrollToThread');
+      element.showUnresolvedOnly();
+      flushAsynchronousOperations();
+      assert.isTrue(element.scrollToThread.called);
+      const unresolvedThreads = element.$.threads
+          .querySelectorAll('gr-diff-comment-thread[unresolved]')
+      const notUnresolvedThreads = element.$.threads
+          .querySelectorAll('gr-diff-comment-thread:not([unresolved])')
+      assert.equal(notUnresolvedThreads.length, 2)
+      assert.equal(unresolvedThreads.length, 3)
+
+      for (const thread of notUnresolvedThreads) {
+        assert.equal(getComputedStyle(thread).display, 'none');
+      }
+      for (const thread of unresolvedThreads) {
+        assert.notEqual(getComputedStyle(thread).display, 'none');
+      }
+    });
+
+    test('showDraftsOnly', () => {
+      sandbox.stub(element, 'scrollToThread');
+      element.showDraftsOnly();
+      flushAsynchronousOperations();
+      assert.isTrue(element.scrollToThread.called);
+      const draftThreads = element.$.threads
+          .querySelectorAll('gr-diff-comment-thread[has-draft]')
+      const notDraftThreads = element.$.threads
+          .querySelectorAll('gr-diff-comment-thread:not([has-draft])')
+      assert.equal(notDraftThreads.length, 3)
+      assert.equal(draftThreads.length, 2)
+
+      for (const thread of notDraftThreads) {
+        assert.equal(getComputedStyle(notDraftThreads[0]).display, 'none');
+      }
+      for (const thread of draftThreads) {
+        assert.notEqual(getComputedStyle(thread).display, 'none');
+      }
+    });
+
+    test('scrollToThread', () => {
+      const thread = element.$$('[data-thread-id="scaddf38_44770ec1"]');
+      debugger
+      element.scrollToThread(scaddf38_44770ec1);
+
+    });
+
     test('_computeSortedThreads', () => {
       assert.equal(element._sortedThreads.length, 5);
       // Draft and unresolved

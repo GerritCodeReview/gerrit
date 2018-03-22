@@ -64,6 +64,7 @@ limitations under the License.
     </style>
     <template is="dom-if" if="[[showFilePath]]">
       <div class="pathInfo">
+        <a href="[[_computeThreadHash(rootId)]]">link </a>
         <a href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]">[[_computeDisplayPath(path)]]</a>
         <span class="descriptionText">Patchset [[patchNum]]</span>
       </div>

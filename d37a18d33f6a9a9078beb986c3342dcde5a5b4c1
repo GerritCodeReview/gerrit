@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d899f715_45018976",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-22T21:52:14Z",
+      "side": 1,
+      "message": "Via manual bisection, I see that this starts happening in release 471.0: https://gerrit.googlesource.com/gerrit/+log/8101bb261b6cb4ce0d90ae0cfa18049d5a137815..439b0666fb0e77c9937fffb992a152bcf82da49e",
+      "parentUuid": "1e29c0a6_64e07897",
+      "revId": "d37a18d33f6a9a9078beb986c3342dcde5a5b4c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8af9817_affebf9a",
         "filename": "polygerrit-ui/app/elements/change/gr-account-list/gr-account-list.html",
         "patchSetId": 5

@@ -16,6 +16,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 
 <dom-module id="gr-page-nav">
   <template>
@@ -33,8 +34,12 @@ limitations under the License.
         position: fixed;
       }
       @media only screen and (max-width: 53em) {
-        #nav {
-          display: none;
+        #nav,
+        #nav.pinned  {
+          width: 100%;
+          position: sticky;
+          align-items: center;
+          display: flex;
         }
       }
     </style>

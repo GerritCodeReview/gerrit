@@ -58,6 +58,43 @@ limitations under the License.
         display: inline-block;
         margin: .4em 0;
       }
+      @media only screen and (max-width: 53em) {
+        .navStyles ul {
+          align-items: center;
+          display: flex;
+          flex: 1;
+          justify-content: space-evenly;
+          padding: 0;
+        }
+        .navStyles li.sectionTitle:not(:first-child) {
+          margin-top: 0;
+        }
+        .navStyles li {
+          padding: 0;
+        }
+        .navStyles li:not(.section) {
+          display: none;
+        }
+        .navStyles li.sectionTitle {
+          padding: 0;
+        }
+        .navStyles .title {
+          font-family: var(--font-family);
+          margin: 0;
+        }
+        .navStyles .selected, {
+          font-family: var(--font-family-bold);
+          background-color: initial;
+          border-bottom: initial;
+          border-top: initial;
+        }
+        .navStyles .selected a {
+          font-family: var(--font-family-bold);
+        }
+        .navStyles .subsectionItem {
+          padding-left: 0;
+        }
+      }
     </style>
   </template>
 </dom-module>

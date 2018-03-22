@@ -255,6 +255,10 @@
       return this._computeRelativeURL(link.url);
     },
 
+    _handleBackBtn() {
+      Window.back();
+    },
+
     /**
      * @param {string} itemView
      * @param {Object} params
@@ -267,21 +271,24 @@
       if (params.view === Gerrit.Nav.View.GROUP &&
           itemView === Gerrit.Nav.View.GROUP) {
         if (!params.detail && !opt_detailType) { return 'selected'; }
-        if (params.detail === opt_detailType) { return 'selected'; }
-        return '';
+        if (params.detail === opt_detailType) { return 'section selected'; }
+        return opt_detailType ? 'section' : '';
       }
 
       if (params.view === Gerrit.Nav.View.REPO &&
           itemView === Gerrit.Nav.View.REPO) {
         if (!params.detail && !opt_detailType) { return 'selected'; }
-        if (params.detail === opt_detailType) { return 'selected'; }
-        return '';
+        if (params.detail === opt_detailType) { return 'section selected'; }
+        return opt_detailType ? 'section' : '';
       }
 
       if (params.detailType && params.detailType !== opt_detailType) {
         return '';
       }
-      return itemView === params.adminView ? 'selected' : '';
+      if (params.view === 'admin' && itemView !== params.adminView) {
+        return 'section';
+      }
+      return itemView === params.adminView ? 'section selected' : '';
     },
 
     _computeGroupName(groupId) {

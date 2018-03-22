@@ -129,10 +129,15 @@ limitations under the License.
           font-family: var(--font-family-bold);
         }
         gr-search-bar,
-        .browse,
         .rightItems .hideOnMobile,
         .links > li.hideOnMobile {
           display: none;
+        }
+        li .browse,
+        li gr-dropdown {
+          padding-left: 0;
+          padding-right: 0;
+          font-size: var(--font-size-small);
         }
         .accountContainer {
           margin-left: .5em !important;

@@ -42,6 +42,11 @@ limitations under the License.
     <style include="gr-menu-page-styles"></style>
     <style include="gr-page-nav-styles"></style>
     <gr-page-nav class="navStyles">
+        <gr-button
+          id="backBtn"
+          link
+          on-tap="_handleBackBtn">
+      <iron-icon icon="gr-icons:chevron-left"></iron-icon></gr-button>
       <ul class="sectionContent">
         <template id="adminNav" is="dom-repeat" items="[[_filteredLinks]]">
           <li class$="sectionTitle [[_computeSelectedClass(item.view, params)]]">

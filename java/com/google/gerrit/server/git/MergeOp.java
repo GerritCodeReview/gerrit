@@ -336,6 +336,9 @@ public class MergeOp implements AutoCloseable {
 
   private static String describeLabels(ChangeData cd, List<SubmitRecord.Label> labels)
       throws OrmException {
+    if (labels == null) {
+      return "";
+    }
     List<String> labelResults = new ArrayList<>();
     for (SubmitRecord.Label lbl : labels) {
       switch (lbl.status) {

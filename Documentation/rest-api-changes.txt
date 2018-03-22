@@ -5687,6 +5687,9 @@ AccountInfo] entity.
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
+|`requirements`             |optional|
+List of the link:json.html#requirement[requirements] to be met before this change
+can be submitted.
 |`labels`             |optional|
 The labels of the change as a map that maps the label names to
 link:#label-info[LabelInfo] entries. +

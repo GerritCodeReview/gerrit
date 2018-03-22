@@ -11,44 +11,84 @@ regexBehavior = r"<script>(.+)<\/script>"
 behaviorCompiledRegex = re.compile(regexBehavior, re.DOTALL)
 
 def replaceBehaviorLikeHTML (fileIn, fileOut):
-  with open(fileIn) as f:
-    file_str = f.read()
-    match = behaviorCompiledRegex.search(file_str)
-    if (match):
-      with open("polygerrit-ui/temp/behaviors/" + fileOut.replace("html", "js") , "w+") as f:
-        f.write(match.group(1))
+  try:
+    with open(fileIn, 'r', encoding='utf-8') as f:
+      file_str = f.read()
+      match = behaviorCompiledRegex.search(file_str)
+      if (match):
+        with open("polygerrit-ui/temp/behaviors/" + fileOut.replace("html", "js") , "w+", encoding='utf-8') as f:
+          f.write(match.group(1))
+  except TypeError:
+    with open(fileIn) as f:
+      file_str = f.read()
+      match = behaviorCompiledRegex.search(file_str)
+      if (match):
+        with open("polygerrit-ui/temp/behaviors/" + fileOut.replace("html", "js") , "w+") as f:
+          f.write(match.group(1))
 
 def replaceBehaviorLikeJS (fileIn, fileOut):
-  with open(fileIn) as f:
-    file_str = f.read()
-    with open("polygerrit-ui/temp/behaviors/" + fileOut , "w+") as f:
-      f.write(file_str)
+  try:
+    with open(fileIn, 'r', encoding='utf-8') as f:
+      file_str = f.read()
+      with open("polygerrit-ui/temp/behaviors/" + fileOut , "w+", encoding='utf-8') as f:
+        f.write(file_str)
+  except TypeError:
+    with open(fileIn) as f:
+      file_str = f.read()
+      with open("polygerrit-ui/temp/behaviors/" + fileOut , "w+") as f:
+        f.write(file_str)
 
 def generateStubBehavior(behaviorName):
-  with open("polygerrit-ui/temp/behaviors/" + behaviorName + ".js", "w+") as f:
-    f.write("/** @polymerBehavior **/\n" + behaviorName + "= {};")
+  try:
+    with open("polygerrit-ui/temp/behaviors/" + behaviorName + ".js", "w+", encoding='utf-8') as f:
+      f.write("/** @polymerBehavior **/\n" + behaviorName + "= {};")
+  except TypeError:
+    with open("polygerrit-ui/temp/behaviors/" + behaviorName + ".js", "w+") as f:
+      f.write("/** @polymerBehavior **/\n" + behaviorName + "= {};")
 
 def replacePolymerElement (fileIn, fileOut, root):
-  with open(fileIn) as f:
-    key = fileOut.split('.')[0]
-    # Removed self invoked function
-    file_str = f.read()
-    file_str_no_fn = fnCompiledRegex.search(file_str)
+  try:
+    with open(fileIn, 'r', encoding='utf-8') as f:
+      key = fileOut.split('.')[0]
+      # Removed self invoked function
+      file_str = f.read()
+      file_str_no_fn = fnCompiledRegex.search(file_str)
 
-    if file_str_no_fn:
-      package = root.replace("/", ".") + "." + fileOut
+      if file_str_no_fn:
+        package = root.replace("/", ".") + "." + fileOut
 
-      with open("polygerrit-ui/temp/" + fileOut, "w+") as f:
-        mainFileContents = re.sub(polymerCompiledRegex, "exports = Polymer({", file_str_no_fn.group(1)).replace("'use strict';", "")
-        f.write("/** \n" \
-          "* @fileoverview \n" \
-          "* @suppress {missingProperties} \n" \
-          "*/ \n\n" \
-          "goog.module('polygerrit." + package + "')\n\n" + mainFileContents)
+        with open("polygerrit-ui/temp/" + fileOut, "w+", encoding='utf-8') as f:
+          mainFileContents = re.sub(polymerCompiledRegex, "exports = Polymer({", file_str_no_fn.group(1)).replace("'use strict';", "")
+          f.write("/** \n" \
+            "* @fileoverview \n" \
+            "* @suppress {missingProperties} \n" \
+            "*/ \n\n" \
+            "goog.module('polygerrit." + package + "')\n\n" + mainFileContents)
 
-      # Add package and javascript to files object.
-      elements[key]["js"] = "polygerrit-ui/temp/" + fileOut
-      elements[key]["package"] = package
+        # Add package and javascript to files object.
+        elements[key]["js"] = "polygerrit-ui/temp/" + fileOut
+        elements[key]["package"] = package
+  except TypeError:
+    with open(fileIn) as f:
+      key = fileOut.split('.')[0]
+      # Removed self invoked function
+      file_str = f.read()
+      file_str_no_fn = fnCompiledRegex.search(file_str)
+
+      if file_str_no_fn:
+        package = root.replace("/", ".") + "." + fileOut
+
+        with open("polygerrit-ui/temp/" + fileOut, "w+") as f:
+          mainFileContents = re.sub(polymerCompiledRegex, "exports = Polymer({", file_str_no_fn.group(1)).replace("'use strict';", "")
+          f.write("/** \n" \
+            "* @fileoverview \n" \
+            "* @suppress {missingProperties} \n" \
+            "*/ \n\n" \
+            "goog.module('polygerrit." + package + "')\n\n" + mainFileContents)
+
+        # Add package and javascript to files object.
+        elements[key]["js"] = "polygerrit-ui/temp/" + fileOut
+        elements[key]["package"] = package
 
 def writeTempFile(file, root):
   # This is included in an extern because it is directly on the window object.

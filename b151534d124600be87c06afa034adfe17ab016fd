@@ -93,6 +93,30 @@
       "revId": "b151534d124600be87c06afa034adfe17ab016fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28bfd072_7b122248",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-22T17:59:16Z",
+      "side": 1,
+      "message": "The way this doc sounds, looks like this should be implemented in the gr-repo-command component? (unless i am wrong).\n\n(I doint mean move the doc, i mean moving it from gr-repo into gr-repo-common, though i might be missing something here)",
+      "parentUuid": "f4888129_69ba9cdb",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 61
+      },
+      "revId": "b151534d124600be87c06afa034adfe17ab016fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

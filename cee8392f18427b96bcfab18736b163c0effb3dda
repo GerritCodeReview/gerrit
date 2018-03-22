@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "963df8ec_a693d64d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-22T10:18:05Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "009ce1d9_22825a46",
+      "range": {
+        "startLine": 14,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "cee8392f18427b96bcfab18736b163c0effb3dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27d99846_c511938d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 3

@@ -418,6 +418,17 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setWorkInProgressAllowedAsAdmin() throws Exception {
+    setApiUser(user);
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+
+    setApiUser(admin);
+    gApi.changes().id(changeId).setWorkInProgress();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
+  }
+
+  @Test
   public void setReadyForReviewNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result rready = createChange();
     String changeId = rready.getChangeId();
@@ -427,6 +438,18 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(AuthException.class);
     exception.expectMessage("not allowed to set ready for review");
     gApi.changes().id(changeId).setReadyForReview();
+  }
+
+  @Test
+  public void setReadyForReviewAllowedAsAdmin() throws Exception {
+    setApiUser(user);
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+    gApi.changes().id(changeId).setWorkInProgress();
+
+    setApiUser(admin);
+    gApi.changes().id(changeId).setReadyForReview();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
   }
 
   @Test

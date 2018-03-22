@@ -155,7 +155,8 @@ Information about a ref that was updated.
 
 oldRev:: The old value of the ref, prior to the update.
 
-newRev:: The new value the ref was updated to.
+newRev:: The new value the ref was updated to. Zero value (`0000000000000000000000000000000000000000`)
+indicates that the ref was deleted.
 
 refName:: Full ref name within project.
 

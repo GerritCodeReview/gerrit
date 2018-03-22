@@ -360,6 +360,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byStatusAbandoned() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.MERGED);
+    insert(repo, ins1);
+    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.ABANDONED);
+    Change change1 = insert(repo, ins2);
+    insert(repo, newChangeWithStatus(repo, Change.Status.NEW));
+
+    Change[] expected = new Change[] {change1};
+    assertQuery("status:abandoned", expected);
+    assertQuery("status:ABANDONED", expected);
+    assertQuery("is:abandoned", expected);
+  }
+
+  @Test
   public void byStatusPrefix() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);

@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 
+<link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-download-commands/gr-download-commands.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
@@ -321,6 +322,9 @@ limitations under the License.
                 on-tap="_handleSaveRepoConfig"
                 disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>
           </fieldset>
+          <gr-endpoint-decorator name="repo-config">
+            <gr-endpoint-param name="repoName" value="[[repo]]"></gr-endpoint-param>
+          </gr-endpoint-decorator>
         </div>
       </div>
     </main>

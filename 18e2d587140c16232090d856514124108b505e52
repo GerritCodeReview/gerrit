@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5702e0f6_ba8db0a1",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/LightweightPluginDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-22T01:19:26Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s appropriate to make LightweightPluginDaemonTest derive from this.",
+      "range": {
+        "startLine": 26,
+        "startChar": 49,
+        "endLine": 26,
+        "endChar": 78
+      },
+      "revId": "18e2d587140c16232090d856514124108b505e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

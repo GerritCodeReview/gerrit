@@ -5687,6 +5687,9 @@ AccountInfo] entity.
 Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
+|`requirements`             |optional|
+List of the link:rest-api-changes.html#requirement[requirements] to be met before this change
+can be submitted.
 |`labels`             |optional|
 The labels of the change as a map that maps the label names to
 link:#label-info[LabelInfo] entries. +
@@ -6635,6 +6638,21 @@ link:#related-change-and-commit-info[RelatedChangeAndCommitInfo] entities
 describing the related changes. Sorted by git commit order, newest to
 oldest. Empty if there are no related changes.
 |===========================
+
+
+[[requirement]]
+=== Requirement
+The `Requirement` entity contains information about an unmet requirement relative to a change.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    | |Description
+|`shortReason` | | A short description of the requirement (a hint).
+|`fullReason` | | A longer and descriptive message explaining what needs to
+be changed to meet the requirement.
+|`label` |optional| The name of the linked label, if set by a pre-submit rule.
+|===========================
+
 
 [[restore-input]]
 === RestoreInput

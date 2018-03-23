@@ -333,10 +333,20 @@ limitations under the License.
       Gerrit._pluginInstalled();
     });
 
-    test('install calls _pluginInstalled', () => {
+    test('install calls _pluginInstalled or _plginSkipped', () => {
+      sandbox.stub(Gerrit, '_pluginSkipped');
       sandbox.stub(Gerrit, '_pluginInstalled');
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
+
+      // testplugin has already been installed once (in setup).
+      assert.isTrue(Gerrit._pluginSkipped.calledOnce);
+      assert.isFalse(Gerrit._pluginInstalled.called);
+
+      // testplugin2 plugin has not yet been installed.
+      Gerrit.install(p => { plugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin2/static/test.js');
+      assert.isTrue(Gerrit._pluginSkipped.calledOnce);
       assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 

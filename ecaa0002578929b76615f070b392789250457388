@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51955e7a_efd1b45f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-23T20:49:59Z",
+      "side": 1,
+      "message": "What exactly is meant by a group being external? Does it mean that the group membership is managed outside of Gerrit?\n\nIt looks like the test for internal-ness is based on whether the ID is 40 characters of hexadecimal. Does something prevent external groups from using this style of ID?",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "ecaa0002578929b76615f070b392789250457388",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

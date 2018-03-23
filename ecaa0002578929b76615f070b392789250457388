@@ -22,6 +22,30 @@
       "revId": "ecaa0002578929b76615f070b392789250457388",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83fdc7a0_a229fc53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-23T20:54:44Z",
+      "side": 1,
+      "message": "I think things like the singleusergroupplugin which creates groups that cannot be accessed by anyone.",
+      "parentUuid": "51955e7a_efd1b45f",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "ecaa0002578929b76615f070b392789250457388",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.access;
 
-import static com.google.gerrit.server.access.AccessResource.ACCESS_KIND;
+import static com.google.gerrit.server.restapi.access.AccessResource.ACCESS_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;

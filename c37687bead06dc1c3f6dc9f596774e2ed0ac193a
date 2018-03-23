@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d31b4cb_f1359fc6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-23T18:21:58Z",
+      "side": 1,
+      "message": "Im not sure where this came from, but i doint see it in the params at the top i only see _groupIsInternal",
+      "range": {
+        "startLine": 159,
+        "startChar": 18,
+        "endLine": 159,
+        "endChar": 34
+      },
+      "revId": "c37687bead06dc1c3f6dc9f596774e2ed0ac193a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

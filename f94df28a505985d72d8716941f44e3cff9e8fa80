@@ -1,4 +1,85 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1521731145 +0100\nnonce APUGfELm5Yi5H/TT0+F5QcqlPca8dqoIwi1fFaNlTP9bHAxNpHkx9QPXr3dM6LTRM68Vqu23VLbp\n\n0000000000000000000000000000000000000000 f94df28a505985d72d8716941f44e3cff9e8fa80 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqzxkkACgkQUbX9l6DQ\n71H4BAgApXwOTI+svx0N34VWFCLSTJActxxGVxu4+yRnCUO3fgU4+ESYnOAuiXBo\n5HnlHY+wkMnEa6b1sNn1bBHopGmWwVaF3nyrrb9MQ/WLQfbD45SfKrNChK4tXBNT\nrzayEfU/X8zYos2aYh5GExtmc5/ozmKcAKuMTLyIGHOlNhs+BIJtMWRUOLPgc/4C\n2NRCK04uEUV78FU11hLgn9UVlKdIQ16HWJ+jKvj6aUJapQlowiB6oLB2ocxaC0AW\nc3ETSjn3cj0qVn9luuWR8RZoc0B/f8XRht24/GEhk6Wg3Pe6NfQT/5TziWL6Hh64\neH5MMO+apeKZpLPu5MocplAfd6iS3w\u003d\u003d\n\u003dNIYf\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6821215f_cce714d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-23T00:26:52Z",
+      "side": 1,
+      "message": "be useful",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "f94df28a505985d72d8716941f44e3cff9e8fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e89fdd1_ec4b9128",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-23T00:26:52Z",
+      "side": 1,
+      "message": "than",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "f94df28a505985d72d8716941f44e3cff9e8fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b7bb3c_8c48faa7",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-23T00:26:52Z",
+      "side": 1,
+      "message": "Do these if blocks need to be nested?  What about using `\u0026\u0026` ?",
+      "revId": "f94df28a505985d72d8716941f44e3cff9e8fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38063914_b9cd800b",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetWorkInProgress.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-23T00:26:52Z",
+      "side": 1,
+      "message": "Same here with the nested ifs.",
+      "revId": "f94df28a505985d72d8716941f44e3cff9e8fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

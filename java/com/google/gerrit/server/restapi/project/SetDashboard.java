@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.acl.PermissionBackendException;
 import com.google.gerrit.server.project.DashboardResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

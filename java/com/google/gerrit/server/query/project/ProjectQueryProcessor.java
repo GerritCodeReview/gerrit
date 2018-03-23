@@ -29,7 +29,7 @@ import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
-import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.acl.PermissionBackend;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

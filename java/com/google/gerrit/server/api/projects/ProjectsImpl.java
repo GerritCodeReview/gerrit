@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.acl.PermissionBackendException;
 import com.google.gerrit.server.restapi.project.ListProjects;
 import com.google.gerrit.server.restapi.project.ListProjects.FilterType;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;

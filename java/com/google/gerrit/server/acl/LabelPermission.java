@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.permissions;
+package com.google.gerrit.server.acl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
-import static com.google.gerrit.server.permissions.LabelPermission.ForUser.SELF;
+import static com.google.gerrit.server.acl.LabelPermission.ForUser.ON_BEHALF_OF;
+import static com.google.gerrit.server.acl.LabelPermission.ForUser.SELF;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;

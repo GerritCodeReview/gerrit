@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.acl.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

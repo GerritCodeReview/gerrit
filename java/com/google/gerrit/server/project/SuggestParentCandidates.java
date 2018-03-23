@@ -18,10 +18,10 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.acl.PermissionBackend;
+import com.google.gerrit.server.acl.PermissionBackendException;
+import com.google.gerrit.server.acl.ProjectPermission;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.permissions;
+package com.google.gerrit.server.acl;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -34,7 +33,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
+import com.google.gerrit.server.acl.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -403,7 +402,7 @@ class ChangeControl {
 
     private boolean can(LabelPermission.WithValue perm) {
       PermissionRange r = label(perm.permissionName().get());
-      if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
+      if (perm.forUser() == LabelPermission.ForUser.ON_BEHALF_OF && r.isEmpty()) {
         return false;
       }
       return r.contains(perm.value());

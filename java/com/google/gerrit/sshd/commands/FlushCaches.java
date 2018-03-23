@@ -22,8 +22,8 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.acl.PermissionBackendException;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.config.ListCaches;
 import com.google.gerrit.server.restapi.config.ListCaches.OutputFormat;
 import com.google.gerrit.server.restapi.config.PostCaches;

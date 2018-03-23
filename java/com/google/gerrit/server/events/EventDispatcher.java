@@ -17,7 +17,7 @@ package com.google.gerrit.server.events;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.acl.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 
 /** Interface for posting (dispatching) Events */

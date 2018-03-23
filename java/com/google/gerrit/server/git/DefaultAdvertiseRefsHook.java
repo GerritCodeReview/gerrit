@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.acl.PermissionBackend;
+import com.google.gerrit.server.acl.PermissionBackendException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -24,8 +24,8 @@ import org.eclipse.jgit.transport.AbstractAdvertiseRefsHook;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 
 /**
- * Wrapper around {@link com.google.gerrit.server.permissions.PermissionBackend.ForProject} that
- * implements {@link org.eclipse.jgit.transport.AdvertiseRefsHook}.
+ * Wrapper around {@link PermissionBackend.ForProject} that implements {@link
+ * org.eclipse.jgit.transport.AdvertiseRefsHook}.
  */
 public class DefaultAdvertiseRefsHook extends AbstractAdvertiseRefsHook {
 

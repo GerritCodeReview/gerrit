@@ -14,10 +14,10 @@
 
 package com.google.gerrit.httpd.rpc.project;
 
-import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
-import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
-import static com.google.gerrit.server.permissions.RefPermission.READ;
-import static com.google.gerrit.server.permissions.RefPermission.WRITE_CONFIG;
+import static com.google.gerrit.server.acl.GlobalPermission.ADMINISTRATE_SERVER;
+import static com.google.gerrit.server.acl.RefPermission.CREATE_CHANGE;
+import static com.google.gerrit.server.acl.RefPermission.READ;
+import static com.google.gerrit.server.acl.RefPermission.WRITE_CONFIG;
 
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.AccessSection;
@@ -39,14 +39,14 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.acl.GlobalPermission;
+import com.google.gerrit.server.acl.PermissionBackend;
+import com.google.gerrit.server.acl.PermissionBackendException;
+import com.google.gerrit.server.acl.ProjectPermission;
+import com.google.gerrit.server.acl.RefPermission;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;

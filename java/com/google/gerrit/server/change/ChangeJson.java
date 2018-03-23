@@ -109,6 +109,10 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GpgApiAdapter;
+import com.google.gerrit.server.acl.ChangePermission;
+import com.google.gerrit.server.acl.LabelPermission;
+import com.google.gerrit.server.acl.PermissionBackend;
+import com.google.gerrit.server.acl.PermissionBackendException;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -118,10 +122,6 @@ import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.permissions.ChangePermission;
-import com.google.gerrit.server.permissions.LabelPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -1458,9 +1458,8 @@ public class ChangeJson {
   }
 
   /**
-   * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
-   *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
-   *     lazyload}.
+   * @return {@link PermissionBackend.ForChange} constructed from either an index-backed or a
+   *     database-backed {@link ChangeData} depending on {@code lazyload}.
    */
   private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
       throws OrmException {

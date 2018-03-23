@@ -12,19 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.permissions;
+package com.google.gerrit.server.acl;
 
-import static com.google.common.truth.Truth8.assertThat;
+import java.util.Optional;
 
-import com.google.gerrit.common.data.Permission;
-import org.junit.Test;
+/** A {@link ChangePermission} or a {@link LabelPermission}. */
+public interface ChangePermissionOrLabel {
+  /** @return name used in {@code project.config} permissions. */
+  public Optional<String> permissionName();
 
-public class RefPermissionTest {
-  @Test
-  public void fromName() {
-    assertThat(RefPermission.fromName("doesnotexist")).isEmpty();
-    assertThat(RefPermission.fromName("")).isEmpty();
-    assertThat(RefPermission.fromName(Permission.VIEW_PRIVATE_CHANGES))
-        .hasValue(RefPermission.READ_PRIVATE_CHANGES);
-  }
+  /** @return readable identifier of this permission for exception message. */
+  public String describeForException();
 }

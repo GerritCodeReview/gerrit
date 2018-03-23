@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.server.permissions.GlobalPermission.ADMINISTRATE_SERVER;
-import static com.google.gerrit.server.permissions.ProjectPermission.CREATE_REF;
-import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
-import static com.google.gerrit.server.permissions.RefPermission.READ;
-import static com.google.gerrit.server.permissions.RefPermission.WRITE_CONFIG;
+import static com.google.gerrit.server.acl.GlobalPermission.ADMINISTRATE_SERVER;
+import static com.google.gerrit.server.acl.ProjectPermission.CREATE_REF;
+import static com.google.gerrit.server.acl.RefPermission.CREATE_CHANGE;
+import static com.google.gerrit.server.acl.RefPermission.READ;
+import static com.google.gerrit.server.acl.RefPermission.WRITE_CONFIG;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableBiMap;
@@ -45,14 +45,14 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.acl.GlobalPermission;
+import com.google.gerrit.server.acl.PermissionBackend;
+import com.google.gerrit.server.acl.PermissionBackendException;
+import com.google.gerrit.server.acl.ProjectPermission;
+import com.google.gerrit.server.acl.RefPermission;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;

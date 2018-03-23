@@ -48,6 +48,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="change-list">
+  <template>
+    <gr-change-list></gr-change-list>
+  </template>
+</test-fixture>
+
 <script>
   suite('embed test', () => {
     test('gr-change-view is embedded', () => {
@@ -68,6 +74,11 @@ limitations under the License.
     test('change-list-view is embedded', () => {
       const element = fixture('change-list-view');
       assert.equal(element.is, 'gr-change-list-view');
+    });
+
+    test('change-list is embedded', () => {
+      const element = fixture('change-list');
+      assert.equal(element.is, 'gr-change-list');
     });
   });
 </script>

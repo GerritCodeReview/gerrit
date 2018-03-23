@@ -222,6 +222,10 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       }
 
       ProjectState projectState = createProject(args);
+      if (projectState == null) {
+        throw new RuntimeException("fail to create project " + args.getProject().get());
+      }
+
       if (input.pluginConfigValues != null) {
         ConfigInput in = new ConfigInput();
         in.pluginConfigValues = input.pluginConfigValues;

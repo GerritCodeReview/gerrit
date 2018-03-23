@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78f26156_faba22cc",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_for_template_tests.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-23T00:24:34Z",
+      "side": 1,
+      "message": "We\u0027re doing this try..except pattern in several places.  I\u0027d rather factor out a local method that does this.",
+      "revId": "5f72c04db006d236566c96a4f454fa5121c32fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "389f31bd_e0d0b925",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_for_template_tests.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-23T00:24:34Z",
+      "side": 1,
+      "message": "nit: Inconsistent usage of quotes.  In the rest of the code we use \"",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "5f72c04db006d236566c96a4f454fa5121c32fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

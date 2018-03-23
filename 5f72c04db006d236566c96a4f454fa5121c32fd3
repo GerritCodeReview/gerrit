@@ -39,6 +39,24 @@
       "revId": "5f72c04db006d236566c96a4f454fa5121c32fd3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43dfd4fd_4b007b2b",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_for_template_tests.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-23T00:43:47Z",
+      "side": 1,
+      "message": "Hmm I’m not really sure how to do this unless you mean\n\ndef \u003cfunction\u003e?\n  open(\u003cvars\u003e)\n\nOr something else?",
+      "parentUuid": "78f26156_faba22cc",
+      "revId": "5f72c04db006d236566c96a4f454fa5121c32fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

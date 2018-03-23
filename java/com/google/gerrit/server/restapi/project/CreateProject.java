@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -222,6 +224,8 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       }
 
       ProjectState projectState = createProject(args);
+      checkNotNull(projectState, "fail to create project " + args.getProject().get());
+
       if (input.pluginConfigValues != null) {
         ConfigInput in = new ConfigInput();
         in.pluginConfigValues = input.pluginConfigValues;

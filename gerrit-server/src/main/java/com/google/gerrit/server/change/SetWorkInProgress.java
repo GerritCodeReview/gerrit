@@ -24,7 +24,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.WorkInProgressOp.Input;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -38,13 +42,21 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
     implements UiAction<ChangeResource> {
   private final WorkInProgressOp.Factory opFactory;
   private final Provider<ReviewDb> db;
+  private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   SetWorkInProgress(
-      WorkInProgressOp.Factory opFactory, RetryHelper retryHelper, Provider<ReviewDb> db) {
+      WorkInProgressOp.Factory opFactory,
+      RetryHelper retryHelper,
+      Provider<ReviewDb> db,
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend) {
     super(retryHelper);
     this.opFactory = opFactory;
     this.db = db;
+    this.self = self;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -52,7 +64,8 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException {
     Change change = rsrc.getChange();
-    if (!rsrc.isUserOwner()) {
+    if (!rsrc.isUserOwner()
+        && !permissionBackend.user(self).test(GlobalPermission.ADMINISTRATE_SERVER)) {
       throw new AuthException("not allowed to set work in progress");
     }
 

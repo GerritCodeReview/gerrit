@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+co// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -427,14 +427,20 @@
     const src = opt_src || (document.currentScript &&
          (document.currentScript.src || document.currentScript.baseURI));
     const name = getPluginNameFromUrl(new URL(src));
-    const plugin = plugins[name] || new Plugin(src);
+    const existingPlugin = plugins[name];
+    const plugin = existingPlugin || new Plugin(src);
     try {
       callback(plugin);
       plugins[name] = plugin;
     } catch (e) {
       console.warn(`${name} install failed: ${e.name}: ${e.message}`);
     }
-    Gerrit._pluginInstalled();
+    // Don't double count plugins that may have an html and js install.
+    if (existingPlugin) {
+      Gerrit._pluginSkipped();
+    } else {
+      Gerrit._pluginInstalled();
+    }
   };
 
   Gerrit.getLoggedIn = function() {
@@ -522,6 +528,10 @@
 
   Gerrit._pluginInstalled = function() {
     Gerrit._setPluginsCount(Gerrit._pluginsPending - 1);
+  };
+
+  Gerrit._pluginSkipped = function() {
+    Gerrit._setPluginsCount(Gerrit._pluginsPending);
   };
 
   Gerrit._arePluginsLoaded = function() {

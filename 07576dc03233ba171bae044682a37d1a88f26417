@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed8134df_383d4ea8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-03-23T22:32:05Z",
+      "side": 1,
+      "message": "This function looks like a no-op, is that right? Can it be removed?",
+      "revId": "07576dc03233ba171bae044682a37d1a88f26417",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

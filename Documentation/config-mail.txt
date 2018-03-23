@@ -225,6 +225,10 @@ $shortProjectName::
 +
 The project name with the path abbreviated.
 
+$instanceAndProjectName::
++
+The Gerrit instance name, followed by the short project name
+
 $sshHost::
 +
 SSH hostname for the Gerrit instance.

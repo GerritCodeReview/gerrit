@@ -22,6 +22,30 @@
       "revId": "c37687bead06dc1c3f6dc9f596774e2ed0ac193a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc676a4_0e130d85",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-23T18:29:41Z",
+      "side": 1,
+      "message": "You\u0027re right this isn\u0027t supposed to be there.",
+      "parentUuid": "8d31b4cb_f1359fc6",
+      "range": {
+        "startLine": 159,
+        "startChar": 18,
+        "endLine": 159,
+        "endChar": 34
+      },
+      "revId": "c37687bead06dc1c3f6dc9f596774e2ed0ac193a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

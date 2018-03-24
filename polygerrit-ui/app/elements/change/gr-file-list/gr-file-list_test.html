@@ -977,6 +977,9 @@ limitations under the License.
     });
 
     test('_loadingChanged fired from reload in debouncer', done => {
+      stub('gr-rest-api-interface', {
+        getReviewedFiles() { return Promise.resolve([]); },
+      });
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
       element._files = [{__path: 'foo.bar'}];

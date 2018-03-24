@@ -843,6 +843,26 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseOnChangeNumber() throws Exception {
+    String branchTip = testRepo.getRepository().exactRef("HEAD").getObjectId().name();
+    PushOneCommit.Result r1 = createChange();
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result r2 = createChange();
+
+    ChangeInfo ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
+    RevisionInfo ri2 = ci2.revisions.get(ci2.currentRevision);
+    assertThat(ri2.commit.parents.get(0).commit).isEqualTo(branchTip);
+
+    RebaseInput in = new RebaseInput();
+    in.base = Integer.toString(r1.getChange().getId().get());
+    gApi.changes().id(r2.getChangeId()).rebase(in);
+
+    ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
+    ri2 = ci2.revisions.get(ci2.currentRevision);
+    assertThat(ri2.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
+  }
+
+  @Test
   public void rebaseNotAllowedWithoutPermission() throws Exception {
     // Create two changes both with the same parent
     PushOneCommit.Result r = createChange();

@@ -32,6 +32,7 @@
     D: 'Deleted',
     R: 'Renamed',
     W: 'Rewritten',
+    U: 'Unchanged',
   };
 
   const Defs = {};
@@ -97,8 +98,10 @@
         value: GrFileListConstants.FilesExpandedState.NONE,
         notify: true,
       },
+      _filesByPath: Object,
       _files: {
         type: Array,
+        computed: '_computeFiles(_filesByPath, changeComments, patchRange)',
         observer: '_filesChanged',
         value() { return []; },
       },
@@ -137,6 +140,7 @@
         type: Boolean,
         computed: '_shouldHideBinaryChangeTotals(_patchChange)',
       },
+
       _shownFiles: {
         type: Array,
         computed: '_computeFilesShown(numFilesShown, _files.*)',
@@ -229,8 +233,8 @@
       this.collapseAllDiffs();
       const promises = [];
 
-      promises.push(this._getFiles().then(files => {
-        this._files = files;
+      promises.push(this._getFiles().then(filesByPath => {
+        this._filesByPath = filesByPath;
       }));
       promises.push(this._getLoggedIn().then(loggedIn => {
         return this._loggedIn = loggedIn;
@@ -449,8 +453,27 @@
     },
 
     _getFiles() {
-      return this.$.restAPI.getChangeFilesAsSpeciallySortedArray(
+      return this.$.restAPI.getChangeOrEditFiles(
           this.changeNum, this.patchRange);
+    },
+
+    /**
+     * The closure compiler doesn't realize this.specialFilePathCompare is
+     * valid.
+     * @suppress {checkTypes}
+     */
+    _normalizeChangeFilesResponse(response) {
+      if (!response) { return []; }
+      const paths = Object.keys(response).sort(this.specialFilePathCompare);
+      const files = [];
+      for (let i = 0; i < paths.length; i++) {
+        const info = response[paths[i]];
+        info.__path = paths[i];
+        info.lines_inserted = info.lines_inserted || 0;
+        info.lines_deleted = info.lines_deleted || 0;
+        files.push(info);
+      }
+      return files;
     },
 
     /**
@@ -746,6 +769,18 @@
     _computeShowHideIcon(path, expandedFilesRecord) {
       return this._isFileExpanded(path, expandedFilesRecord) ?
           'gr-icons:expand-less' : 'gr-icons:expand-more';
+    },
+
+    _computeFiles(filesByPath, changeComments, patchRange) {
+      const commentedPaths = changeComments.getPaths(patchRange);
+      const files = Object.assign({}, filesByPath);
+      Object.keys(commentedPaths).forEach(commentedPath => {
+        if (files.hasOwnProperty(commentedPath)) {
+          return;
+        }
+        files[commentedPath] = {status: 'U'};
+      });
+      return this._normalizeChangeFilesResponse(files);
     },
 
     _computeFilesShown(numFilesShown, files) {

@@ -21,7 +21,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -47,27 +46,20 @@ public class StalenessChecker {
   private final GitRepositoryManager repoManager;
   private final IndexConfig indexConfig;
   private final AllUsersName allUsers;
-  private final GroupsMigration groupsMigration;
 
   @Inject
   StalenessChecker(
       GroupIndexCollection indexes,
       GitRepositoryManager repoManager,
       IndexConfig indexConfig,
-      AllUsersName allUsers,
-      GroupsMigration groupsMigration) {
+      AllUsersName allUsers) {
     this.indexes = indexes;
     this.repoManager = repoManager;
     this.indexConfig = indexConfig;
     this.allUsers = allUsers;
-    this.groupsMigration = groupsMigration;
   }
 
   public boolean isStale(AccountGroup.UUID uuid) throws IOException {
-    if (!groupsMigration.readFromNoteDb()) {
-      return false; // This class only treats staleness for groups in NoteDb.
-    }
-
     GroupIndex i = indexes.getSearchIndex();
     if (i == null) {
       return false; // No index; caller couldn't do anything if it is stale.

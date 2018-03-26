@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
@@ -46,16 +45,12 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class DeleteMembers implements RestModifyView<GroupResource, Input> {
   private final AccountsCollection accounts;
-  private final Provider<ReviewDb> db;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
   DeleteMembers(
-      AccountsCollection accounts,
-      Provider<ReviewDb> db,
-      @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
+      AccountsCollection accounts, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.accounts = accounts;
-    this.db = db;
     this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
@@ -93,7 +88,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
         InternalGroupUpdate.builder()
             .setMemberModification(memberIds -> Sets.difference(memberIds, accountIds))
             .build();
-    groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
+    groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
   }
 
   @Singleton

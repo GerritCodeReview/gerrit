@@ -24,14 +24,11 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -52,18 +49,15 @@ import org.slf4j.LoggerFactory;
 public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGroup, GroupIndex> {
   private static final Logger log = LoggerFactory.getLogger(AllGroupsIndexer.class);
 
-  private final SchemaFactory<ReviewDb> schemaFactory;
   private final ListeningExecutorService executor;
   private final GroupCache groupCache;
   private final Groups groups;
 
   @Inject
   AllGroupsIndexer(
-      SchemaFactory<ReviewDb> schemaFactory,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       GroupCache groupCache,
       Groups groups) {
-    this.schemaFactory = schemaFactory;
     this.executor = executor;
     this.groupCache = groupCache;
     this.groups = groups;
@@ -77,7 +71,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     List<AccountGroup.UUID> uuids;
     try {
       uuids = collectGroups(progress);
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException e) {
       log.error("Error collecting groups", e);
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
@@ -133,13 +127,10 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
   }
 
   private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws IOException, ConfigInvalidException {
     progress.beginTask("Collecting groups", ProgressMonitor.UNKNOWN);
-    try (ReviewDb db = schemaFactory.open()) {
-      return groups
-          .getAllGroupReferences(db)
-          .map(GroupReference::getUUID)
-          .collect(toImmutableList());
+    try {
+      return groups.getAllGroupReferences().map(GroupReference::getUUID).collect(toImmutableList());
     } finally {
       progress.endTask();
     }

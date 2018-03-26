@@ -23,7 +23,6 @@ import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.restapi.group.PutName;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -53,7 +52,7 @@ public class RenameGroupCommand extends SshCommand {
       NameInput input = new NameInput();
       input.name = newGroupName;
       putName.apply(rsrc, input);
-    } catch (RestApiException | OrmException | IOException | ConfigInvalidException e) {
+    } catch (RestApiException | IOException | ConfigInvalidException e) {
       throw die(e);
     }
   }

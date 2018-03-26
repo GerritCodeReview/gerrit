@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
@@ -83,7 +82,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GroupBackend groupBackend;
   private final Groups groups;
   private final GroupsCollection groupsCollection;
-  private final Provider<ReviewDb> db;
 
   private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
   private boolean visibleToAll;
@@ -232,8 +230,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final GroupsCollection groupsCollection,
       GroupJson json,
       GroupBackend groupBackend,
-      Groups groups,
-      Provider<ReviewDb> db) {
+      Groups groups) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.genericGroupControlFactory = genericGroupControlFactory;
@@ -244,7 +241,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.groupBackend = groupBackend;
     this.groups = groups;
     this.groupsCollection = groupsCollection;
-    this.db = db;
   }
 
   public void setOptions(EnumSet<ListGroupsOption> options) {
@@ -316,8 +312,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return groupInfos;
   }
 
-  private Stream<GroupReference> getAllExistingGroups()
-      throws OrmException, IOException, ConfigInvalidException {
+  private Stream<GroupReference> getAllExistingGroups() throws IOException, ConfigInvalidException {
     if (!projects.isEmpty()) {
       return projects
           .stream()
@@ -325,7 +320,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           .flatMap(Collection::stream)
           .distinct();
     }
-    return groups.getAllGroupReferences(db.get());
+    return groups.getAllGroupReferences();
   }
 
   private List<GroupInfo> suggestGroups() throws OrmException, BadRequestException {
@@ -388,7 +383,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     Pattern pattern = getRegexPattern();
     Stream<? extends GroupDescription.Internal> foundGroups =
         groups
-            .getAllGroupReferences(db.get())
+            .getAllGroupReferences()
             .filter(group -> isRelevant(pattern, group))
             .map(this::loadGroup)
             .flatMap(Streams::stream)

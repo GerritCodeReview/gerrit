@@ -18,17 +18,20 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.extensions.api.groups.GroupInput;
-import com.google.gerrit.extensions.common.GroupInfo;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.Id;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.restapi.group.CreateGroup;
+import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,6 +40,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,14 +50,22 @@ public class Schema_150_to_151_Test {
 
   @Rule public InMemoryTestEnvironment testEnv = new InMemoryTestEnvironment();
 
-  @Inject private CreateGroup.Factory createGroupFactory;
   @Inject private Schema_151 schema151;
   @Inject private ReviewDb db;
+  @Inject private IdentifiedUser currentUser;
+  @Inject private @GerritPersonIdent Provider<PersonIdent> serverIdent;
+  @Inject private Sequences seq;
 
   private Connection connection;
   private PreparedStatement createdOnRetrieval;
   private PreparedStatement createdOnUpdate;
   private PreparedStatement auditEntryDeletion;
+  private JdbcSchema jdbcSchema;
+
+  @Before
+  public void unwrapDb() {
+    jdbcSchema = ReviewDbWrapper.unwrapJbdcSchema(db);
+  }
 
   @Before
   public void setUp() throws Exception {
@@ -87,7 +99,7 @@ public class Schema_150_to_151_Test {
   @Test
   public void createdOnIsPopulatedForGroupsCreatedAfterAudit() throws Exception {
     Timestamp testStartTime = TimeUtil.nowTs();
-    AccountGroup.Id groupId = createGroup("Group for schema migration");
+    AccountGroup.Id groupId = createGroupInReviewDb("Group for schema migration");
     setCreatedOnToVeryOldTimestamp(groupId);
 
     schema151.migrateData(db, new TestUpdateUI());
@@ -98,7 +110,7 @@ public class Schema_150_to_151_Test {
 
   @Test
   public void createdOnIsPopulatedForGroupsCreatedBeforeAudit() throws Exception {
-    AccountGroup.Id groupId = createGroup("Ancient group for schema migration");
+    AccountGroup.Id groupId = createGroupInReviewDb("Ancient group for schema migration");
     setCreatedOnToVeryOldTimestamp(groupId);
     removeAuditEntriesFor(groupId);
 
@@ -108,12 +120,16 @@ public class Schema_150_to_151_Test {
     assertThat(createdOn).isEqualTo(AccountGroup.auditCreationInstantTs());
   }
 
-  private AccountGroup.Id createGroup(String name) throws Exception {
-    GroupInput groupInput = new GroupInput();
-    groupInput.name = name;
-    GroupInfo groupInfo =
-        createGroupFactory.create(name).apply(TopLevelResource.INSTANCE, groupInput);
-    return new Id(groupInfo.groupId);
+  private AccountGroup.Id createGroupInReviewDb(String name) throws Exception {
+    AccountGroup group =
+        new AccountGroup(
+            new AccountGroup.NameKey(name),
+            new AccountGroup.Id(seq.nextGroupId()),
+            GroupUUID.make(name, serverIdent.get()),
+            TimeUtil.nowTs());
+    storeInReviewDb(group);
+    addMembersInReviewDb(group.getId(), currentUser.getAccountId());
+    return group.getId();
   }
 
   private Timestamp getCreatedOn(Id groupId) throws Exception {
@@ -137,5 +153,70 @@ public class Schema_150_to_151_Test {
   private void removeAuditEntriesFor(AccountGroup.Id groupId) throws Exception {
     auditEntryDeletion.setInt(1, groupId.get());
     auditEntryDeletion.executeUpdate();
+  }
+
+  private void storeInReviewDb(AccountGroup... groups) throws Exception {
+    try (PreparedStatement stmt =
+        jdbcSchema
+            .getConnection()
+            .prepareStatement(
+                "INSERT INTO account_groups"
+                    + " (group_uuid,"
+                    + " group_id,"
+                    + " name,"
+                    + " description,"
+                    + " created_on,"
+                    + " owner_group_uuid,"
+                    + " visible_to_all) VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+      for (AccountGroup group : groups) {
+        stmt.setString(1, group.getGroupUUID().get());
+        stmt.setInt(2, group.getId().get());
+        stmt.setString(3, group.getName());
+        stmt.setString(4, group.getDescription());
+        stmt.setTimestamp(5, group.getCreatedOn());
+        stmt.setString(6, group.getOwnerGroupUUID().get());
+        stmt.setString(7, group.isVisibleToAll() ? "Y" : "N");
+        stmt.addBatch();
+      }
+      stmt.executeBatch();
+    }
+  }
+
+  private void addMembersInReviewDb(AccountGroup.Id groupId, Account.Id... memberIds)
+      throws Exception {
+    try (PreparedStatement addMemberStmt =
+            jdbcSchema
+                .getConnection()
+                .prepareStatement(
+                    "INSERT INTO account_group_members"
+                        + " (group_id,"
+                        + " account_id) VALUES ("
+                        + groupId.get()
+                        + ", ?)");
+        PreparedStatement addMemberAuditStmt =
+            jdbcSchema
+                .getConnection()
+                .prepareStatement(
+                    "INSERT INTO account_group_members_audit"
+                        + " (group_id,"
+                        + " account_id,"
+                        + " added_by,"
+                        + " added_on) VALUES ("
+                        + groupId.get()
+                        + ", ?, "
+                        + currentUser.getAccountId().get()
+                        + ", ?)")) {
+      Timestamp addedOn = TimeUtil.nowTs();
+      for (Account.Id memberId : memberIds) {
+        addMemberStmt.setInt(1, memberId.get());
+        addMemberStmt.addBatch();
+
+        addMemberAuditStmt.setInt(1, memberId.get());
+        addMemberAuditStmt.setTimestamp(2, addedOn);
+        addMemberAuditStmt.addBatch();
+      }
+      addMemberStmt.executeBatch();
+      addMemberAuditStmt.executeBatch();
+    }
   }
 }

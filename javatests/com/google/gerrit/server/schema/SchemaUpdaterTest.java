@@ -33,7 +33,6 @@ import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.testing.InMemoryDatabase;
 import com.google.gerrit.testing.InMemoryH2Type;
@@ -119,7 +118,6 @@ public class SchemaUpdaterTest {
 
                     bind(SystemGroupBackend.class);
                     install(new NotesMigration.Module());
-                    install(new GroupsMigration.Module());
                     bind(MetricMaker.class).to(DisabledMetricMaker.class);
                   }
                 })

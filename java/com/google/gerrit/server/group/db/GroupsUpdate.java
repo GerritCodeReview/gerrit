@@ -14,14 +14,10 @@
 
 package com.google.gerrit.server.group.db;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.server.group.db.Groups.getExistingGroupFromReviewDb;
-
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
@@ -29,12 +25,7 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupById;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -51,11 +42,9 @@ import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.RenameGroupOp;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
-import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -75,10 +64,10 @@ import org.eclipse.jgit.lib.Repository;
 /**
  * A database accessor for write calls related to groups.
  *
- * <p>All calls which write group related details to the database (either ReviewDb or NoteDb) are
- * gathered here. Other classes should always use this class instead of accessing the database
- * directly. There are a few exceptions though: schema classes, wrapper classes, and classes
- * executed during init. The latter ones should use {@code GroupsOnInit} instead.
+ * <p>All calls which write group related details to the database are gathered here. Other classes
+ * should always use this class instead of accessing the database directly. There are a few
+ * exceptions though: schema classes, wrapper classes, and classes executed during init. The latter
+ * ones should use {@code GroupsOnInit} instead.
  *
  * <p>If not explicitly stated, all methods of this class refer to <em>internal</em> groups.
  */
@@ -109,7 +98,6 @@ public class GroupsUpdate {
   private final AuditLogFormatter auditLogFormatter;
   private final PersonIdent authorIdent;
   private final MetaDataUpdateFactory metaDataUpdateFactory;
-  private final GroupsMigration groupsMigration;
   private final GitReferenceUpdated gitRefUpdated;
   private final RetryHelper retryHelper;
 
@@ -127,7 +115,6 @@ public class GroupsUpdate {
       @GerritServerId String serverId,
       @GerritPersonIdent PersonIdent serverIdent,
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
-      GroupsMigration groupsMigration,
       GitReferenceUpdated gitRefUpdated,
       RetryHelper retryHelper,
       @Assisted @Nullable IdentifiedUser currentUser) {
@@ -138,7 +125,6 @@ public class GroupsUpdate {
     this.indexer = indexer;
     this.auditService = auditService;
     this.renameGroupOpFactory = renameGroupOpFactory;
-    this.groupsMigration = groupsMigration;
     this.gitRefUpdated = gitRefUpdated;
     this.retryHelper = retryHelper;
     this.currentUser = currentUser;
@@ -184,37 +170,18 @@ public class GroupsUpdate {
   /**
    * Creates the specified group for the specified members (accounts).
    *
-   * @param db the {@code ReviewDb} instance to update
    * @param groupCreation an {@code InternalGroupCreation} which specifies all mandatory properties
    *     of the group
    * @param groupUpdate an {@code InternalGroupUpdate} which specifies optional properties of the
    *     group. If this {@code InternalGroupUpdate} updates a property which was already specified
    *     by the {@code InternalGroupCreation}, the value of this {@code InternalGroupUpdate} wins.
-   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
    * @throws OrmDuplicateKeyException if a group with the chosen name already exists
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @return the created {@code InternalGroup}
    */
   public InternalGroup createGroup(
-      ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws OrmException, IOException, ConfigInvalidException {
-    if (!groupsMigration.disableGroupReviewDb()) {
-      if (!groupUpdate.getUpdatedOn().isPresent()) {
-        // Set updatedOn to a specific value so that the same timestamp is used for ReviewDb and
-        // NoteDb.
-        groupUpdate = groupUpdate.toBuilder().setUpdatedOn(TimeUtil.nowTs()).build();
-      }
-
-      InternalGroup createdGroupInReviewDb =
-          createGroupInReviewDb(ReviewDbUtil.unwrapDb(db), groupCreation, groupUpdate);
-
-      if (!groupsMigration.writeToNoteDb()) {
-        updateCachesOnGroupCreation(createdGroupInReviewDb);
-        dispatchAuditEventsOnGroupCreation(createdGroupInReviewDb);
-        return createdGroupInReviewDb;
-      }
-    }
-
+      InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
+      throws OrmDuplicateKeyException, IOException, ConfigInvalidException {
     InternalGroup createdGroup = createGroupInNoteDbWithRetry(groupCreation, groupUpdate);
     updateCachesOnGroupCreation(createdGroup);
     dispatchAuditEventsOnGroupCreation(createdGroup);
@@ -224,67 +191,32 @@ public class GroupsUpdate {
   /**
    * Updates the specified group.
    *
-   * @param db the {@code ReviewDb} instance to update
    * @param groupUuid the UUID of the group to update
    * @param groupUpdate an {@code InternalGroupUpdate} which indicates the desired updates on the
    *     group
-   * @throws OrmException if an error occurs while reading/writing from/to ReviewDb
-   * @throws com.google.gwtorm.server.OrmDuplicateKeyException if the new name of the group is used
-   *     by another group
+   * @throws OrmDuplicateKeyException if the new name of the group is used by another group
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @throws NoSuchGroupException if the specified group doesn't exist
    */
-  public void updateGroup(ReviewDb db, AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
+  public void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+      throws OrmDuplicateKeyException, IOException, NoSuchGroupException, ConfigInvalidException {
     Optional<Timestamp> updatedOn = groupUpdate.getUpdatedOn();
     if (!updatedOn.isPresent()) {
-      // Set updatedOn to a specific value so that the same timestamp is used for ReviewDb and
-      // NoteDb. This timestamp is also used by audit events.
       updatedOn = Optional.of(TimeUtil.nowTs());
       groupUpdate = groupUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
     }
 
-    UpdateResult result = updateGroupInDb(db, groupUuid, groupUpdate);
+    UpdateResult result = updateGroupInDb(groupUuid, groupUpdate);
     updateCachesOnGroupUpdate(result);
     dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
   }
 
   @VisibleForTesting
-  public UpdateResult updateGroupInDb(
-      ReviewDb db, AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
-    UpdateResult reviewDbUpdateResult = null;
-    if (!groupsMigration.disableGroupReviewDb()) {
-      AccountGroup group = getExistingGroupFromReviewDb(ReviewDbUtil.unwrapDb(db), groupUuid);
-      reviewDbUpdateResult = updateGroupInReviewDb(ReviewDbUtil.unwrapDb(db), group, groupUpdate);
-
-      if (!groupsMigration.writeToNoteDb()) {
-        return reviewDbUpdateResult;
-      }
-    }
-
+  public UpdateResult updateGroupInDb(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
+      throws OrmDuplicateKeyException, NoSuchGroupException, IOException, ConfigInvalidException {
     Optional<UpdateResult> noteDbUpdateResult =
         updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
-    return noteDbUpdateResult.orElse(reviewDbUpdateResult);
-  }
-
-  private InternalGroup createGroupInReviewDb(
-      ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws OrmException {
-
-    AccountGroupName gn = new AccountGroupName(groupCreation.getNameKey(), groupCreation.getId());
-    // first insert the group name to validate that the group name hasn't
-    // already been used to create another group
-    db.accountGroupNames().insert(ImmutableList.of(gn));
-
-    Timestamp createdOn = groupUpdate.getUpdatedOn().orElseGet(TimeUtil::nowTs);
-    AccountGroup group = createAccountGroup(groupCreation, createdOn);
-    UpdateResult updateResult = updateGroupInReviewDb(db, group, groupUpdate);
-    return InternalGroup.create(
-        group,
-        updateResult.getAddedMembers(),
-        updateResult.getAddedSubgroups(),
-        updateResult.getRefState());
+    return noteDbUpdateResult.orElse(null);
   }
 
   public static AccountGroup createAccountGroup(
@@ -308,157 +240,9 @@ public class GroupsUpdate {
     groupUpdate.getVisibleToAll().ifPresent(group::setVisibleToAll);
   }
 
-  private UpdateResult updateGroupInReviewDb(
-      ReviewDb db, AccountGroup group, InternalGroupUpdate groupUpdate) throws OrmException {
-    AccountGroup.NameKey originalName = group.getNameKey();
-    applyUpdate(group, groupUpdate);
-    AccountGroup.NameKey updatedName = group.getNameKey();
-
-    // The name must be inserted first so that we stop early for already used names.
-    updateNameInReviewDb(db, group.getId(), originalName, updatedName);
-    db.accountGroups().upsert(ImmutableList.of(group));
-
-    ImmutableSet<Account.Id> originalMembers =
-        Groups.getMembersFromReviewDb(db, group.getId()).collect(toImmutableSet());
-    ImmutableSet<Account.Id> updatedMembers =
-        ImmutableSet.copyOf(groupUpdate.getMemberModification().apply(originalMembers));
-    ImmutableSet<AccountGroup.UUID> originalSubgroups =
-        Groups.getSubgroupsFromReviewDb(db, group.getId()).collect(toImmutableSet());
-    ImmutableSet<AccountGroup.UUID> updatedSubgroups =
-        ImmutableSet.copyOf(groupUpdate.getSubgroupModification().apply(originalSubgroups));
-
-    Set<Account.Id> addedMembers =
-        addGroupMembersInReviewDb(db, group.getId(), originalMembers, updatedMembers);
-    Set<Account.Id> deletedMembers =
-        deleteGroupMembersInReviewDb(db, group.getId(), originalMembers, updatedMembers);
-    Set<AccountGroup.UUID> addedSubgroups =
-        addSubgroupsInReviewDb(db, group.getId(), originalSubgroups, updatedSubgroups);
-    Set<AccountGroup.UUID> deletedSubgroups =
-        deleteSubgroupsInReviewDb(db, group.getId(), originalSubgroups, updatedSubgroups);
-
-    UpdateResult.Builder resultBuilder =
-        UpdateResult.builder()
-            .setGroupUuid(group.getGroupUUID())
-            .setGroupId(group.getId())
-            .setGroupName(group.getNameKey())
-            .setAddedMembers(addedMembers)
-            .setDeletedMembers(deletedMembers)
-            .setAddedSubgroups(addedSubgroups)
-            .setDeletedSubgroups(deletedSubgroups);
-    if (!Objects.equals(originalName, updatedName)) {
-      resultBuilder.setPreviousGroupName(originalName);
-    }
-    return resultBuilder.build();
-  }
-
-  private static void updateNameInReviewDb(
-      ReviewDb db,
-      AccountGroup.Id groupId,
-      AccountGroup.NameKey originalName,
-      AccountGroup.NameKey updatedName)
-      throws OrmException {
-    try {
-      AccountGroupName id = new AccountGroupName(updatedName, groupId);
-      db.accountGroupNames().insert(ImmutableList.of(id));
-    } catch (OrmException e) {
-      AccountGroupName other = db.accountGroupNames().get(updatedName);
-      if (other != null) {
-        // If we are using this identity, don't report the exception.
-        if (other.getId().equals(groupId)) {
-          return;
-        }
-      }
-      throw e;
-    }
-    db.accountGroupNames().deleteKeys(ImmutableList.of(originalName));
-  }
-
-  private static Set<Account.Id> addGroupMembersInReviewDb(
-      ReviewDb db,
-      AccountGroup.Id groupId,
-      ImmutableSet<Account.Id> originalMembers,
-      ImmutableSet<Account.Id> updatedMembers)
-      throws OrmException {
-    Set<Account.Id> accountIds = Sets.difference(updatedMembers, originalMembers);
-    if (accountIds.isEmpty()) {
-      return accountIds;
-    }
-
-    ImmutableSet<AccountGroupMember> newMembers = toAccountGroupMembers(groupId, accountIds);
-    db.accountGroupMembers().insert(newMembers);
-    return accountIds;
-  }
-
-  private static Set<Account.Id> deleteGroupMembersInReviewDb(
-      ReviewDb db,
-      AccountGroup.Id groupId,
-      ImmutableSet<Account.Id> originalMembers,
-      ImmutableSet<Account.Id> updatedMembers)
-      throws OrmException {
-    Set<Account.Id> accountIds = Sets.difference(originalMembers, updatedMembers);
-    if (accountIds.isEmpty()) {
-      return accountIds;
-    }
-
-    ImmutableSet<AccountGroupMember> membersToRemove = toAccountGroupMembers(groupId, accountIds);
-    db.accountGroupMembers().delete(membersToRemove);
-    return accountIds;
-  }
-
-  private static ImmutableSet<AccountGroupMember> toAccountGroupMembers(
-      AccountGroup.Id groupId, Set<Account.Id> accountIds) {
-    return accountIds
-        .stream()
-        .map(accountId -> new AccountGroupMember.Key(accountId, groupId))
-        .map(AccountGroupMember::new)
-        .collect(toImmutableSet());
-  }
-
-  private static Set<AccountGroup.UUID> addSubgroupsInReviewDb(
-      ReviewDb db,
-      AccountGroup.Id parentGroupId,
-      ImmutableSet<AccountGroup.UUID> originalSubgroups,
-      ImmutableSet<AccountGroup.UUID> updatedSubgroups)
-      throws OrmException {
-    Set<AccountGroup.UUID> subgroupUuids = Sets.difference(updatedSubgroups, originalSubgroups);
-    if (subgroupUuids.isEmpty()) {
-      return subgroupUuids;
-    }
-
-    ImmutableSet<AccountGroupById> newSubgroups = toAccountGroupByIds(parentGroupId, subgroupUuids);
-    db.accountGroupById().insert(newSubgroups);
-    return subgroupUuids;
-  }
-
-  private static Set<AccountGroup.UUID> deleteSubgroupsInReviewDb(
-      ReviewDb db,
-      AccountGroup.Id parentGroupId,
-      ImmutableSet<AccountGroup.UUID> originalSubgroups,
-      ImmutableSet<AccountGroup.UUID> updatedSubgroups)
-      throws OrmException {
-    Set<AccountGroup.UUID> subgroupUuids = Sets.difference(originalSubgroups, updatedSubgroups);
-    if (subgroupUuids.isEmpty()) {
-      return subgroupUuids;
-    }
-
-    ImmutableSet<AccountGroupById> subgroupsToRemove =
-        toAccountGroupByIds(parentGroupId, subgroupUuids);
-    db.accountGroupById().delete(subgroupsToRemove);
-    return subgroupUuids;
-  }
-
-  private static ImmutableSet<AccountGroupById> toAccountGroupByIds(
-      AccountGroup.Id parentGroupId, Set<AccountGroup.UUID> subgroupUuids) {
-    return subgroupUuids
-        .stream()
-        .map(subgroupUuid -> new AccountGroupById.Key(parentGroupId, subgroupUuid))
-        .map(AccountGroupById::new)
-        .collect(toImmutableSet());
-  }
-
   private InternalGroup createGroupInNoteDbWithRetry(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmException {
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     try {
       return retryHelper.execute(
           RetryHelper.ActionType.GROUP_UPDATE,
@@ -514,14 +298,11 @@ public class GroupsUpdate {
 
   private Optional<UpdateResult> updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, groupUuid);
       groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
       if (!groupConfig.getLoadedGroup().isPresent()) {
-        if (groupsMigration.readFromNoteDb()) {
-          throw new NoSuchGroupException(groupUuid);
-        }
         return Optional.empty();
       }
 

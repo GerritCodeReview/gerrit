@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StartupCheck;
 import com.google.gerrit.server.StartupException;
@@ -34,8 +33,6 @@ import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -191,13 +188,11 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   public static class NameCheck implements StartupCheck {
     private final Config cfg;
     private final Groups groups;
-    private final SchemaFactory<ReviewDb> schema;
 
     @Inject
-    NameCheck(@GerritServerConfig Config cfg, Groups groups, SchemaFactory<ReviewDb> schema) {
+    NameCheck(@GerritServerConfig Config cfg, Groups groups) {
       this.cfg = cfg;
       this.groups = groups;
-      this.schema = schema;
     }
 
     @Override
@@ -216,14 +211,14 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       }
 
       Optional<GroupReference> conflictingGroup;
-      try (ReviewDb db = schema.open()) {
+      try {
         conflictingGroup =
             groups
-                .getAllGroupReferences(db)
+                .getAllGroupReferences()
                 .filter(group -> hasConfiguredName(byLowerCaseConfiguredName, group))
                 .findAny();
 
-      } catch (OrmException | IOException | ConfigInvalidException ignored) {
+      } catch (IOException | ConfigInvalidException ignored) {
         return;
       }
 

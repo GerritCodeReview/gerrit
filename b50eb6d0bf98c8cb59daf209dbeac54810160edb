@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8efa1a02_ad3596de",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-26T07:34:29Z",
+      "side": 1,
+      "message": "failed",
+      "range": {
+        "startLine": 227,
+        "startChar": 34,
+        "endLine": 227,
+        "endChar": 38
+      },
+      "revId": "b50eb6d0bf98c8cb59daf209dbeac54810160edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

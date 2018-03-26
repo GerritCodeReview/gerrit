@@ -404,7 +404,7 @@ class ProjectControl {
               || isOwner();
 
         case READ:
-          return !isHidden() && allRefsAreVisible(Collections.emptySet());
+          return isOwner() || (!isHidden() && allRefsAreVisible(Collections.emptySet()));
 
         case CREATE_REF:
           return canAddRefs();

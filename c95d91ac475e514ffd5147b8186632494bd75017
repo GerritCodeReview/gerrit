@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "59c82ac1_7d920c36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-26T20:26:03Z",
+      "side": 1,
+      "message": "Yes, I borrowed a ChromeOS laptop to verify this. It\u0027s probably related to the fact that this area has sticky positioning.",
+      "parentUuid": "65d5c784_0754ccc7",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "c95d91ac475e514ffd5147b8186632494bd75017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f7d6cf2_77c126f9",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c95d91ac475e514ffd5147b8186632494bd75017",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fc87ff4_c3a77fd8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-26T20:26:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f7d6cf2_77c126f9",
+      "range": {
+        "startLine": 68,
+        "startChar": 10,
+        "endLine": 68,
+        "endChar": 66
+      },
+      "revId": "c95d91ac475e514ffd5147b8186632494bd75017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

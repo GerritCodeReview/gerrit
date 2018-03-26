@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5561a939_998ad77b",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-26T09:46:59Z",
+      "side": 1,
+      "message": "It would be more efficient to use e.statePermitsRead() as constructing an exception is expensive and in this case not required.\n\njust add\n\nif (!e.statePermitsRead()) {\n  continue;\n}\n\nbefore the try{} catch",
+      "range": {
+        "startLine": 419,
+        "startChar": 16,
+        "endLine": 419,
+        "endChar": 42
+      },
+      "revId": "4d9db97ffb27108be566af8445088bfd4fdd5b83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

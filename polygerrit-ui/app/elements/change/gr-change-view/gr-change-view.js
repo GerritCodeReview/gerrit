@@ -1102,7 +1102,7 @@
             }
             const latestRevisionSha = this._getLatestRevisionSHA(change);
             const currentRevision = change.revisions[latestRevisionSha];
-            if (currentRevision.commit && currentRevision.commit.message) {
+            if (currentRevision && currentRevision.commit && currentRevision.commit.message) {
               this._latestCommitMessage = this._prepareCommitMsgForLinkify(
                   currentRevision.commit.message);
             } else {

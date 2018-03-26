@@ -611,6 +611,7 @@ limitations under the License.
           on-send="_handleReplySent"
           on-cancel="_handleReplyCancel"
           on-autogrow="_handleReplyAutogrow"
+          on-send-disabled-changed="_resetReplyOverlayFocusStops"
           hidden$="[[!_loggedIn]]">
       </gr-reply-dialog>
     </gr-overlay>

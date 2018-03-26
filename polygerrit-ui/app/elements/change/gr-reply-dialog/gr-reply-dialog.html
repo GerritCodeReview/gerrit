@@ -291,9 +291,10 @@ limitations under the License.
               class="action cancel"
               on-tap="_cancelTapHandler">Cancel</gr-button>
           <gr-button
+              id="sendButton"
               link
               primary
-              disabled="[[_computeSendButtonDisabled(_sendButtonLabel, diffDrafts, draft, _reviewersMutated, _labelsChanged, _includeComments)]]"
+              disabled="[[_sendDisabled]]"
               class="action send"
               has-tooltip
               title$="[[_computeSendButtonTooltip(canBeStarted)]]"

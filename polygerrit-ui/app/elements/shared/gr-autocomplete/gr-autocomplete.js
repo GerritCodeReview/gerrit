@@ -18,7 +18,6 @@
   'use strict';
 
   const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
-  const DEBOUNCE_WAIT_MS = 200;
 
   Polymer({
     is: 'gr-autocomplete',
@@ -134,11 +133,12 @@
       },
 
       /**
-       * When true, querying for suggestions is not debounced w/r/t keypresses
+       * The number of milliseconds to use as the debounce wait time. If null,
+       * no debouncing is used.
        */
-      noDebounce: {
-        type: Boolean,
-        value: false,
+      debounceWait: {
+        type: Number,
+        value: null,
       },
 
       /** @type {?} */
@@ -176,7 +176,6 @@
 
     detached() {
       this.unlisten(document.body, 'tap', '_handleBodyTap');
-      this.cancelDebouncer('update-suggestions');
     },
 
     get focusStart() {
@@ -259,10 +258,10 @@
         });
       };
 
-      if (this.noDebounce) {
-        update();
+      if (this.debounceWait) {
+        this.debounce('update-suggestions', update, this.debounceWait);
       } else {
-        this.debounce('update-suggestions', update, DEBOUNCE_WAIT_MS);
+        update();
       }
     },
 

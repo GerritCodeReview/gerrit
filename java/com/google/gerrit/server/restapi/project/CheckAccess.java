@@ -88,7 +88,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
     IdentifiedUser user = userFactory.create(match.getId());
     try {
       permissionBackend.user(user).project(rsrc.getNameKey()).check(ProjectPermission.ACCESS);
-    } catch (AuthException | PermissionBackendException e) {
+    } catch (AuthException e) {
       info.message =
           String.format(
               "user %s (%s) cannot see project %s",
@@ -119,7 +119,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
             .user(user)
             .ref(new Branch.NameKey(rsrc.getNameKey(), input.ref))
             .check(refPerm);
-      } catch (AuthException | PermissionBackendException e) {
+      } catch (AuthException e) {
         info.status = HttpServletResponse.SC_FORBIDDEN;
         info.message =
             String.format(

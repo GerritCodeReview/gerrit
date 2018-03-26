@@ -14,8 +14,9 @@
 
 package com.google.gerrit.server.project;
 
-import static java.util.stream.Collectors.toList;
+import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -25,6 +26,9 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -49,12 +53,23 @@ public class SuggestParentCandidates {
   }
 
   public List<Project.NameKey> getNameKeys() throws PermissionBackendException {
-    return permissionBackend
-        .user(user)
-        .filter(ProjectPermission.ACCESS, parents())
-        .stream()
-        .sorted()
-        .collect(toList());
+    List<Project.NameKey> canSee = new ArrayList<>();
+    for (Project.NameKey parentName : parents()) {
+      ProjectState state = projectCache.get(parentName);
+      checkNotNull(state, "Failed to load project %s", parentName);
+
+      ProjectPermission permissionToCheck =
+          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+      try {
+        permissionBackend.user(user).project(parentName).check(permissionToCheck);
+        canSee.add(parentName);
+      } catch (AuthException e) {
+        // Do not include this project.
+      }
+    }
+    Collections.sort(canSee, Comparator.naturalOrder());
+
+    return canSee;
   }
 
   private Set<Project.NameKey> parents() {

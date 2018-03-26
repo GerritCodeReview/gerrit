@@ -413,16 +413,19 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               if (!type.matches(git)) {
                 continue;
               }
-              boolean canReadAllRefs;
-              try {
-                permissionBackend
-                    .user(currentUser)
-                    .project(e.getNameKey())
-                    .check(ProjectPermission.READ);
-                canReadAllRefs = true;
-              } catch (AuthException ae) {
-                canReadAllRefs = false;
+
+              boolean canReadAllRefs = e.statePermitsRead();
+              if (canReadAllRefs) {
+                try {
+                  permissionBackend
+                      .user(currentUser)
+                      .project(e.getNameKey())
+                      .check(ProjectPermission.READ);
+                } catch (AuthException exp) {
+                  canReadAllRefs = false;
+                }
               }
+
               List<Ref> refs = getBranchRefs(projectName, canReadAllRefs);
               if (!hasValidRef(refs)) {
                 continue;

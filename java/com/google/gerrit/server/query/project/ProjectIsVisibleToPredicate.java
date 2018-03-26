@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.project;
 
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.server.CurrentUser;
@@ -35,6 +36,10 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
 
   @Override
   public boolean match(ProjectData pd) throws OrmException {
+    if (!pd.getProject().getState().permitsRead()) {
+      return false;
+    }
+
     return permissionBackend
         .user(user)
         .project(pd.getProject().getNameKey())

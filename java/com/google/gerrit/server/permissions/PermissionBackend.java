@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
@@ -221,30 +220,6 @@ public abstract class PermissionBackend {
 
     public BooleanCondition testCond(GlobalOrPluginPermission perm) {
       return new PermissionBackendCondition.WithUser(this, perm);
-    }
-
-    /**
-     * Filter a set of projects using {@code check(perm)}.
-     *
-     * @param perm required permission in a project to be included in result.
-     * @param projects candidate set of projects; may be empty.
-     * @return filtered set of {@code projects} where {@code check(perm)} was successful.
-     * @throws PermissionBackendException backend cannot access its internal state.
-     */
-    public Set<Project.NameKey> filter(ProjectPermission perm, Collection<Project.NameKey> projects)
-        throws PermissionBackendException {
-      checkNotNull(perm, "ProjectPermission");
-      checkNotNull(projects, "projects");
-      Set<Project.NameKey> allowed = Sets.newHashSetWithExpectedSize(projects.size());
-      for (Project.NameKey project : projects) {
-        try {
-          project(project).check(perm);
-          allowed.add(project);
-        } catch (AuthException e) {
-          // Do not include this project in allowed.
-        }
-      }
-      return allowed;
     }
   }
 

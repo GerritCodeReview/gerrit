@@ -36,6 +36,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -412,33 +414,45 @@ class GitwebServlet extends HttpServlet {
     }
 
     Project.NameKey nameKey = new Project.NameKey(name);
+    ProjectState projectState;
     try {
-      if (projectCache.checkedGet(nameKey) == null) {
-        notFound(req, rsp);
+      projectState = projectCache.checkedGet(nameKey);
+      if (projectState == null) {
+        sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
         return;
       }
+
+      projectState.checkStatePermitsRead();
       permissionBackend.user(userProvider).project(nameKey).check(ProjectPermission.READ);
     } catch (AuthException e) {
-      notFound(req, rsp);
+      sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
       return;
     } catch (IOException | PermissionBackendException err) {
       log.error("cannot load " + name, err);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
+    } catch (ResourceConflictException e) {
+      sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_CONFLICT);
+      return;
     }
 
     try (Repository repo = repoManager.openRepository(nameKey)) {
       CacheHeaders.setNotCacheable(rsp);
-      exec(req, rsp, nameKey);
+      exec(req, rsp, projectState);
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
   }
 
-  private void notFound(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  /**
+   * Sends error response if the user is authenticated. Or redirect the user to the login page. By
+   * doing this, anonymous users cannot infer the existence of a resource from the status code.
+   */
+  private void sendErrorOrRedirect(HttpServletRequest req, HttpServletResponse rsp, int statusCode)
+      throws IOException {
     if (userProvider.get().isIdentifiedUser()) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      rsp.sendError(statusCode);
     } else {
       rsp.sendRedirect(getLoginRedirectUrl(req));
     }
@@ -475,13 +489,13 @@ class GitwebServlet extends HttpServlet {
     return params;
   }
 
-  private void exec(HttpServletRequest req, HttpServletResponse rsp, Project.NameKey project)
+  private void exec(HttpServletRequest req, HttpServletResponse rsp, ProjectState projectState)
       throws IOException {
     final Process proc =
         Runtime.getRuntime()
             .exec(
                 new String[] {gitwebCgi.toAbsolutePath().toString()},
-                makeEnv(req, project),
+                makeEnv(req, projectState),
                 gitwebCgi.toAbsolutePath().getParent().toFile());
 
     copyStderrToLog(proc.getErrorStream());
@@ -524,7 +538,7 @@ class GitwebServlet extends HttpServlet {
     }
   }
 
-  private String[] makeEnv(HttpServletRequest req, Project.NameKey nameKey) {
+  private String[] makeEnv(HttpServletRequest req, ProjectState projectState) {
     final EnvList env = new EnvList(_env);
     final int contentLength = Math.max(0, req.getContentLength());
 
@@ -562,15 +576,17 @@ class GitwebServlet extends HttpServlet {
       env.set("HTTP_" + name.toUpperCase().replace('-', '_'), value);
     }
 
+    Project.NameKey nameKey = projectState.getNameKey();
     env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
     env.set("GERRIT_PROJECT_NAME", nameKey.get());
 
     env.set("GITWEB_PROJECTROOT", repoManager.getBasePath(nameKey).toAbsolutePath().toString());
 
-    if (permissionBackend
-        .user(anonymousUserProvider)
-        .project(nameKey)
-        .testOrFalse(ProjectPermission.READ)) {
+    if (projectState.statePermitsRead()
+        && permissionBackend
+            .user(anonymousUserProvider)
+            .project(nameKey)
+            .testOrFalse(ProjectPermission.READ)) {
       env.set("GERRIT_ANONYMOUS_READ", "1");
     }
 

@@ -36,6 +36,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -413,17 +415,23 @@ class GitwebServlet extends HttpServlet {
 
     Project.NameKey nameKey = new Project.NameKey(name);
     try {
-      if (projectCache.checkedGet(nameKey) == null) {
-        notFound(req, rsp);
+      ProjectState projectState = projectCache.checkedGet(nameKey);
+      if (projectState == null) {
+        sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
         return;
       }
+
+      projectState.checkStatePermitsRead();
       permissionBackend.user(userProvider).project(nameKey).check(ProjectPermission.READ);
     } catch (AuthException e) {
-      notFound(req, rsp);
+      sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
       return;
     } catch (IOException | PermissionBackendException err) {
       log.error("cannot load " + name, err);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      return;
+    } catch (ResourceConflictException e) {
+      sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_CONFLICT);
       return;
     }
 
@@ -436,9 +444,14 @@ class GitwebServlet extends HttpServlet {
     }
   }
 
-  private void notFound(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
+  /**
+   * Sends error response if the user is authenticated. Or redirect the user to the login page. By
+   * doing this, anonymous users cannot infer the existence of a resource from the status code.
+   */
+  private void sendErrorOrRedirect(HttpServletRequest req, HttpServletResponse rsp, int statusCode)
+      throws IOException {
     if (userProvider.get().isIdentifiedUser()) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      rsp.sendError(statusCode);
     } else {
       rsp.sendRedirect(getLoginRedirectUrl(req));
     }
@@ -567,6 +580,8 @@ class GitwebServlet extends HttpServlet {
 
     env.set("GITWEB_PROJECTROOT", repoManager.getBasePath(nameKey).toAbsolutePath().toString());
 
+    // No need to check whether the project is allowed to read because it's already checked in
+    // #service(...).
     if (permissionBackend
         .user(anonymousUserProvider)
         .project(nameKey)

@@ -30,6 +30,12 @@ filegroup(
     data = ["//lib:LICENSE-highlightjs"],
 )
 
+js_component(
+    name = "ba-linkify",
+    srcs = ["//lib/ba-linkify:ba-linkify.js"],
+    license = "//lib:LICENSE-ba-linkify",
+)
+
 bower_component(
     name = "codemirror-minified",
     license = "//lib:LICENSE-codemirror-minified",

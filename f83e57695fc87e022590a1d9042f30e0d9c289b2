@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50d95945_6f02274c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5691,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:37:36Z",
+      "side": 1,
+      "message": "Done, thanks",
+      "parentUuid": "e635a8aa_cae486c3",
+      "range": {
+        "startLine": 5691,
+        "startChar": 17,
+        "endLine": 5691,
+        "endChar": 52
+      },
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dfc8e96_c32b69c2",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -48,6 +72,54 @@
     },
     {
       "key": {
+        "uuid": "d3b83364_14453d85",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dfc8e96_c32b69c2",
+      "range": {
+        "startLine": 641,
+        "startChar": 28,
+        "endLine": 641,
+        "endChar": 33
+      },
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01a4b3a6_c2495b17",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dfc8e96_c32b69c2",
+      "range": {
+        "startLine": 641,
+        "startChar": 28,
+        "endLine": 641,
+        "endChar": 33
+      },
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c456b22e_625fea73",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 2
@@ -65,6 +137,42 @@
     },
     {
       "key": {
+        "uuid": "83ad7ad3_aa107ddb",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c456b22e_625fea73",
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed1cb99b_9bc4c925",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c456b22e_625fea73",
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a47d133_873cac4a",
         "filename": "java/com/google/gerrit/server/git/MergeOp.java",
         "patchSetId": 2
@@ -79,6 +187,24 @@
       "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4748b82a_b7243206",
+        "filename": "java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a47d133_873cac4a",
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

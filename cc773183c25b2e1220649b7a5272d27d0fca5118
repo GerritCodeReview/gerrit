@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "efddc666_5d81ae18",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfigCommitMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-26T15:44:26Z",
+      "side": 1,
+      "message": "On a first try the tests are not liking this, because then we have a trailing \"\\n\\n\" if there are no footers.",
+      "parentUuid": "4c88ed0e_b769b6a1",
+      "revId": "cc773183c25b2e1220649b7a5272d27d0fca5118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09cef533_0af05360",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
         "patchSetId": 2

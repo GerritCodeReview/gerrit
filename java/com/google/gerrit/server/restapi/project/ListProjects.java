@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
@@ -415,12 +416,13 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               }
               boolean canReadAllRefs;
               try {
+                e.checkStatePermitsRead();
                 permissionBackend
                     .user(currentUser)
                     .project(e.getNameKey())
                     .check(ProjectPermission.READ);
                 canReadAllRefs = true;
-              } catch (AuthException ae) {
+              } catch (AuthException | ResourceConflictException exp) {
                 canReadAllRefs = false;
               }
               List<Ref> refs = getBranchRefs(projectName, canReadAllRefs);

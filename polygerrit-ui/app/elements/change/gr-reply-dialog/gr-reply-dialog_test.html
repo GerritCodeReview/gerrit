@@ -1100,6 +1100,33 @@ limitations under the License.
       assert.isFalse(fn('Send', {}, '', false, true, false));
     });
 
+    test('_submit blocked when no mutations exist', () => {
+      const sendStub = sandbox.stub(element, 'send').returns(Promise.resolve());
+      // Stub the below function to avoid side effects from the send promise
+      // resolving.
+      sandbox.stub(element, '_purgeReviewersPendingRemove');
+      element.diffDrafts = {};
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$$('gr-button.send'));
+      assert.isFalse(sendStub.called);
+
+      element.diffDrafts = {test: true};
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$$('gr-button.send'));
+      assert.isTrue(sendStub.called);
+    });
+
+    test('getFocusStops', () => {
+      // Setting diffDrafts to an empty object causes _sendDisabled to be
+      // computed to false.
+      element.diffDrafts = {};
+      assert.equal(element.getFocusStops().end, element.$.cancelButton);
+      element.diffDrafts = {test: true};
+      assert.equal(element.getFocusStops().end, element.$.sendButton);
+    });
+
     test('setPluginMessage', () => {
       element.setPluginMessage('foo');
       assert.equal(element.$.pluginMessage.textContent, 'foo');

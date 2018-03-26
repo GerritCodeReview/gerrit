@@ -52,6 +52,8 @@
   // googlesource.com.
   const START_REVIEW_MESSAGE = 'This change is ready for review.';
 
+  const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
+
   Polymer({
     is: 'gr-reply-dialog',
 
@@ -86,6 +88,12 @@
      *
      * @event comment-refresh
      */
+
+     /**
+      * Fires when the state of the send button (enabled/disabled) changes.
+      *
+      * @event send-disabled-changed
+      */
 
     properties: {
       /**
@@ -206,6 +214,12 @@
         type: String,
         value: '',
       },
+      _sendDisabled: {
+        type: Boolean,
+        computed: '_computeSendButtonDisabled(_sendButtonLabel, diffDrafts, ' +
+            'draft, _reviewersMutated, _labelsChanged, _includeComments)',
+        observer: '_sendDisabledChanged',
+      },
     },
 
     FocusTarget,
@@ -273,9 +287,10 @@
     },
 
     getFocusStops() {
+      const end = this._sendDisabled ? this.$.cancelButton : this.$.sendButton;
       return {
         start: this.$.reviewers.focusStart,
-        end: this.$.sendButton,
+        end,
       };
     },
 
@@ -726,6 +741,13 @@
         // the text field of the CC entry.
         return;
       }
+      if (this._sendDisabled) {
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          bubbles: true,
+          detail: {message: EMPTY_REPLY_MESSAGE},
+        }));
+        return;
+      }
       return this.send(this._includeComments, this.canBeStarted)
           .then(keepReviewers => {
             this._purgeReviewersPendingRemove(false, keepReviewers);
@@ -855,6 +877,10 @@
 
     setPluginMessage(message) {
       this._pluginMessage = message;
+    },
+
+    _sendDisabledChanged(sendDisabled) {
+      this.dispatchEvent(new CustomEvent('send-disabled-changed'));
     },
   });
 })();

@@ -999,7 +999,7 @@
      */
     _openReplyDialog(opt_section) {
       this.$.replyOverlay.open().then(() => {
-        this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
+        this._resetReplyOverlayFocusStops();
         this.$.replyDialog.open(opt_section);
         Polymer.dom.flush();
         this.$.replyOverlay.center();
@@ -1553,6 +1553,10 @@
 
     _handleStopEditTap() {
       Gerrit.Nav.navigateToChange(this._change, this._patchRange.patchNum);
+    },
+
+    _resetReplyOverlayFocusStops() {
+      this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
     },
   });
 })();

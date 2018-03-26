@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "8a8e272d_7a1846af",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2058,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-26T16:39:32Z",
+      "side": 1,
+      "message": "Ping",
+      "parentUuid": "39bfad62_22da475f",
+      "range": {
+        "startLine": 2058,
+        "startChar": 0,
+        "endLine": 2058,
+        "endChar": 27
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0b188a4_63ea381f",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
         "patchSetId": 3
@@ -390,6 +414,30 @@
       "side": 1,
       "message": "Good point on context path.\n\nI couldn\u0027t figure out why getPathInfo() was returning null always, so added support for context path using getContextPath() and getServletPath() - since Module in this file installs filters in configureServets, it looked like a good match.\n\nLet me know if this looks better, this isn\u0027t something I\u0027m totally familiar with.",
       "parentUuid": "f7653602_7383a777",
+      "range": {
+        "startLine": 81,
+        "startChar": 18,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "6969ded9170c2cd2930c68e8138dce583cd971f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c8e0559_15fe0444",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/LinkPreloadFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-26T16:39:32Z",
+      "side": 1,
+      "message": "I don\u0027t have any advice other than just try it until it works. We just need to check that it works in the supported use cases, including with/without context path.",
+      "parentUuid": "14d11df5_29cff028",
       "range": {
         "startLine": 81,
         "startChar": 18,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "468c9d97_6ba3c7a1",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-26T16:39:32Z",
+      "side": 1,
+      "message": "Since UrlModule changed packages you now need to import this class.",
+      "revId": "c8dfeba130e8f090bfc5c032456fb8a168d0b66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

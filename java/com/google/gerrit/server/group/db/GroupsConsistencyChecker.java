@@ -26,7 +26,6 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.InternalGroup;
-import com.google.gerrit.server.notedb.GroupsMigration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -52,7 +51,6 @@ public class GroupsConsistencyChecker {
   private final Accounts accounts;
   private final GitRepositoryManager repoManager;
   private final GroupsNoteDbConsistencyChecker globalChecker;
-  private final GroupsMigration groupsMigration;
 
   @Inject
   GroupsConsistencyChecker(
@@ -60,22 +58,16 @@ public class GroupsConsistencyChecker {
       GroupBackend groupBackend,
       Accounts accounts,
       GitRepositoryManager repositoryManager,
-      GroupsNoteDbConsistencyChecker globalChecker,
-      GroupsMigration groupsMigration) {
+      GroupsNoteDbConsistencyChecker globalChecker) {
     this.allUsersName = allUsersName;
     this.groupBackend = groupBackend;
     this.accounts = accounts;
     this.repoManager = repositoryManager;
     this.globalChecker = globalChecker;
-    this.groupsMigration = groupsMigration;
   }
 
   /** Checks that all internal group references exist, and that no groups have cycles. */
   public List<ConsistencyProblemInfo> check() throws IOException {
-    if (!groupsMigration.writeToNoteDb()) {
-      return new ArrayList<>();
-    }
-
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       GroupsNoteDbConsistencyChecker.Result result = globalChecker.check(repo);
       if (!result.problems.isEmpty()) {

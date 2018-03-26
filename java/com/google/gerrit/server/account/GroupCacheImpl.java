@@ -17,12 +17,10 @@ package com.google.gerrit.server.account;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -166,20 +164,16 @@ public class GroupCacheImpl implements GroupCache {
   }
 
   static class ByUUIDLoader extends CacheLoader<String, Optional<InternalGroup>> {
-    private final SchemaFactory<ReviewDb> schema;
     private final Groups groups;
 
     @Inject
-    ByUUIDLoader(SchemaFactory<ReviewDb> sf, Groups groups) {
-      schema = sf;
+    ByUUIDLoader(Groups groups) {
       this.groups = groups;
     }
 
     @Override
     public Optional<InternalGroup> load(String uuid) throws Exception {
-      try (ReviewDb db = schema.open()) {
-        return groups.getGroup(db, new AccountGroup.UUID(uuid));
-      }
+      return groups.getGroup(new AccountGroup.UUID(uuid));
     }
   }
 }

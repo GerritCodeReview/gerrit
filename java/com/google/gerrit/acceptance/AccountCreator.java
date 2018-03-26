@@ -23,7 +23,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -57,7 +55,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class AccountCreator {
   private final Map<String, TestAccount> accounts;
 
-  private final SchemaFactory<ReviewDb> reviewDbProvider;
   private final Sequences sequences;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
@@ -68,7 +65,6 @@ public class AccountCreator {
 
   @Inject
   AccountCreator(
-      SchemaFactory<ReviewDb> schema,
       Sequences sequences,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
@@ -77,7 +73,6 @@ public class AccountCreator {
       SshKeyCache sshKeyCache,
       @SshEnabled boolean sshEnabled) {
     accounts = new HashMap<>();
-    reviewDbProvider = schema;
     this.sequences = sequences;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.authorizedKeys = authorizedKeys;
@@ -98,51 +93,49 @@ public class AccountCreator {
     if (account != null) {
       return account;
     }
-    try (ReviewDb db = reviewDbProvider.open()) {
-      Account.Id id = new Account.Id(sequences.nextAccountId());
+    Account.Id id = new Account.Id(sequences.nextAccountId());
 
-      List<ExternalId> extIds = new ArrayList<>(2);
-      String httpPass = null;
-      if (username != null) {
-        httpPass = "http-pass";
-        extIds.add(ExternalId.createUsername(username, id, httpPass));
-      }
-
-      if (email != null) {
-        extIds.add(ExternalId.createEmail(id, email));
-      }
-
-      accountsUpdateProvider
-          .get()
-          .insert(
-              "Create Test Account",
-              id,
-              u -> u.setFullName(fullName).setPreferredEmail(email).addExternalIds(extIds));
-
-      if (groupNames != null) {
-        for (String n : groupNames) {
-          AccountGroup.NameKey k = new AccountGroup.NameKey(n);
-          Optional<InternalGroup> group = groupCache.get(k);
-          if (!group.isPresent()) {
-            throw new NoSuchGroupException(n);
-          }
-          addGroupMember(db, group.get().getGroupUUID(), id);
-        }
-      }
-
-      KeyPair sshKey = null;
-      if (sshEnabled && username != null) {
-        sshKey = genSshKey();
-        authorizedKeys.addKey(id, publicKey(sshKey, email));
-        sshKeyCache.evict(username);
-      }
-
-      account = new TestAccount(id, username, email, fullName, sshKey, httpPass);
-      if (username != null) {
-        accounts.put(username, account);
-      }
-      return account;
+    List<ExternalId> extIds = new ArrayList<>(2);
+    String httpPass = null;
+    if (username != null) {
+      httpPass = "http-pass";
+      extIds.add(ExternalId.createUsername(username, id, httpPass));
     }
+
+    if (email != null) {
+      extIds.add(ExternalId.createEmail(id, email));
+    }
+
+    accountsUpdateProvider
+        .get()
+        .insert(
+            "Create Test Account",
+            id,
+            u -> u.setFullName(fullName).setPreferredEmail(email).addExternalIds(extIds));
+
+    if (groupNames != null) {
+      for (String n : groupNames) {
+        AccountGroup.NameKey k = new AccountGroup.NameKey(n);
+        Optional<InternalGroup> group = groupCache.get(k);
+        if (!group.isPresent()) {
+          throw new NoSuchGroupException(n);
+        }
+        addGroupMember(group.get().getGroupUUID(), id);
+      }
+    }
+
+    KeyPair sshKey = null;
+    if (sshEnabled && username != null) {
+      sshKey = genSshKey();
+      authorizedKeys.addKey(id, publicKey(sshKey, email));
+      sshKeyCache.evict(username);
+    }
+
+    account = new TestAccount(id, username, email, fullName, sshKey, httpPass);
+    if (username != null) {
+      accounts.put(username, account);
+    }
+    return account;
   }
 
   public TestAccount create(@Nullable String username, String group) throws Exception {
@@ -193,12 +186,12 @@ public class AccountCreator {
     return out.toString(US_ASCII.name()).trim();
   }
 
-  private void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
+  private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)
       throws OrmException, IOException, NoSuchGroupException, ConfigInvalidException {
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder()
             .setMemberModification(memberIds -> Sets.union(memberIds, ImmutableSet.of(accountId)))
             .build();
-    groupsUpdateProvider.get().updateGroup(db, groupUuid, groupUpdate);
+    groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
   }
 }

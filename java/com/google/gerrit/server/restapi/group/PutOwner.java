@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -41,18 +40,15 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
   private final GroupsCollection groupsCollection;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
-  private final Provider<ReviewDb> db;
   private final GroupJson json;
 
   @Inject
   PutOwner(
       GroupsCollection groupsCollection,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
-      Provider<ReviewDb> db,
       GroupJson json) {
     this.groupsCollection = groupsCollection;
     this.groupsUpdateProvider = groupsUpdateProvider;
-    this.db = db;
     this.json = json;
   }
 
@@ -77,7 +73,7 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
       InternalGroupUpdate groupUpdate =
           InternalGroupUpdate.builder().setOwnerGroupUUID(owner.getGroupUUID()).build();
       try {
-        groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
+        groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
       } catch (NoSuchGroupException e) {
         throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
       }

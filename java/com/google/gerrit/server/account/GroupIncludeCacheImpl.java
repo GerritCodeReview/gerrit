@@ -23,13 +23,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.query.group.InternalGroupQuery;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -180,20 +178,16 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
   }
 
   static class AllExternalLoader extends CacheLoader<String, ImmutableList<AccountGroup.UUID>> {
-    private final SchemaFactory<ReviewDb> schema;
     private final Groups groups;
 
     @Inject
-    AllExternalLoader(SchemaFactory<ReviewDb> sf, Groups groups) {
-      schema = sf;
+    AllExternalLoader(Groups groups) {
       this.groups = groups;
     }
 
     @Override
     public ImmutableList<AccountGroup.UUID> load(String key) throws Exception {
-      try (ReviewDb db = schema.open()) {
-        return groups.getExternalGroups(db).collect(toImmutableList());
-      }
+      return groups.getExternalGroups().collect(toImmutableList());
     }
   }
 }

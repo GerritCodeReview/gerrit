@@ -16,18 +16,12 @@ package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.GitUtil.deleteRef;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.DISABLE_REVIEW_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.READ;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.stream.Collectors.toList;
@@ -85,7 +79,6 @@ import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.StalenessChecker;
 import com.google.gerrit.server.util.MagicBranch;
-import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -119,21 +112,6 @@ import org.junit.Test;
 
 @NoHttpd
 public class GroupsIT extends AbstractDaemonTest {
-  @ConfigSuite.Config
-  public static Config noteDbConfig() {
-    Config config = new Config();
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, true);
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, true);
-    return config;
-  }
-
-  @ConfigSuite.Config
-  public static Config disableReviewDb() {
-    Config config = noteDbConfig();
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, true);
-    return config;
-  }
-
   @Inject private Groups groups;
   @Inject @ServerInitiated private GroupsUpdate groupsUpdate;
   @Inject private GroupIncludeCache groupIncludeCache;
@@ -732,7 +710,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void listAllGroups() throws Exception {
     List<String> expectedGroups =
-        groups.getAllGroupReferences(db).map(GroupReference::getName).sorted().collect(toList());
+        groups.getAllGroupReferences().map(GroupReference::getName).sorted().collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
     assertThat(gApi.groups().list().getAsMap().keySet())
         .containsExactlyElementsIn(expectedGroups)
@@ -908,8 +886,6 @@ public class GroupsIT extends AbstractDaemonTest {
   @Sandboxed
   @IgnoreGroupInconsistencies
   public void getAuditLogAfterDeletingASubgroup() throws Exception {
-    assume().that(readGroupsFromNoteDb()).isTrue();
-
     GroupInfo parentGroup = gApi.groups().create(name("parent-group")).get();
 
     // Creates a subgroup and adds it to "parent-group" as a subgroup.
@@ -973,7 +949,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToGroupBranchIsRejectedForAllUsersRepo() throws Exception {
-    assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
     assertPushToGroupBranch(
         allUsers, RefNames.refsGroups(adminGroupUuid()), "group update not allowed");
   }
@@ -989,7 +964,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushToGroupNamesBranchIsRejectedForAllUsersRepo() throws Exception {
-    assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
     // refs/meta/group-names isn't usually available for fetch, so grant ACCESS_DATABASE
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     assertPushToGroupBranch(allUsers, RefNames.REFS_GROUPNAMES, "group update not allowed");
@@ -1114,8 +1088,6 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   @IgnoreGroupInconsistencies
   public void cannotCreateGroupNamesBranch() throws Exception {
-    assume().that(groupsInNoteDb()).isTrue();
-
     // Use ProjectResetter to restore the group names ref
     try (ProjectResetter resetter =
         projectResetter
@@ -1155,7 +1127,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void cannotDeleteGroupBranch() throws Exception {
-    assume().that(groupsInNoteDb()).isTrue();
     testCannotDeleteGroupBranch(RefNames.REFS_GROUPS + "*", RefNames.refsGroups(adminGroupUuid()));
   }
 
@@ -1168,8 +1139,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void cannotDeleteGroupNamesBranch() throws Exception {
-    assume().that(groupsInNoteDb()).isTrue();
-
     // refs/meta/group-names is only visible with ACCESS_DATABASE
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
@@ -1199,8 +1168,6 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   @IgnoreGroupInconsistencies
   public void stalenessChecker() throws Exception {
-    assume().that(readGroupsFromNoteDb()).isTrue();
-
     // Newly created group is not stale
     GroupInfo groupInfo = gApi.groups().create(name("foo")).get();
     AccountGroup.UUID groupUuid = new AccountGroup.UUID(groupInfo.id);
@@ -1246,8 +1213,6 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   @Sandboxed
   public void groupsOfUserCanBeListedInSlaveMode() throws Exception {
-    assume().that(readGroupsFromNoteDb()).isTrue();
-
     GroupInput groupInput = new GroupInput();
     groupInput.name = name("contributors");
     groupInput.members = ImmutableList.of(user.username);
@@ -1267,11 +1232,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @GerritConfig(name = "index.autoReindexIfStale", value = "false")
   @IgnoreGroupInconsistencies
   public void reindexGroupsInSlaveMode() throws Exception {
-    assume().that(readGroupsFromNoteDb()).isTrue();
-    assume().that(cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, false)).isTrue();
-
     List<AccountGroup.UUID> expectedGroups =
-        groups.getAllGroupReferences(db).map(GroupReference::getUUID).collect(toList());
+        groups.getAllGroupReferences().map(GroupReference::getUUID).collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
 
     // Restart the server as slave, on startup of the slave all groups are indexed.
@@ -1303,7 +1265,7 @@ public class GroupsIT extends AbstractDaemonTest {
       // Update a group without updating the cache or index,
       // then run the reindexer -> only the updated group is reindexed.
       groupsUpdate.updateGroupInDb(
-          db, groupUuid, InternalGroupUpdate.builder().setDescription("bar").build());
+          groupUuid, InternalGroupUpdate.builder().setDescription("bar").build());
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(groupUuid);
 
@@ -1328,10 +1290,8 @@ public class GroupsIT extends AbstractDaemonTest {
   @GerritConfig(name = "index.autoReindexIfStale", value = "false")
   @IgnoreGroupInconsistencies
   public void disabledReindexGroupsOnStartupSlaveMode() throws Exception {
-    assume().that(readGroupsFromNoteDb()).isTrue();
-
     List<AccountGroup.UUID> expectedGroups =
-        groups.getAllGroupReferences(db).map(GroupReference::getUUID).collect(toList());
+        groups.getAllGroupReferences().map(GroupReference::getUUID).collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
 
     restartAsSlave();
@@ -1360,8 +1320,6 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void pushToGroupBranchForReviewAndSubmit(
       Project.NameKey project, String groupRef, String expectedError) throws Exception {
-    assume().that(groupsInNoteDb()).isTrue(); // branch only exists when groups are in NoteDb
-
     grantLabel(
         "Code-Review", -2, 2, project, RefNames.REFS_GROUPS + "*", false, REGISTERED_USERS, false);
     grant(project, RefNames.REFS_GROUPS + "*", Permission.SUBMIT, false, REGISTERED_USERS);
@@ -1482,14 +1440,6 @@ public class GroupsIT extends AbstractDaemonTest {
     } catch (BadRequestException e) {
       // Expected
     }
-  }
-
-  private boolean groupsInNoteDb() {
-    return cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, false);
-  }
-
-  private boolean readGroupsFromNoteDb() {
-    return groupsInNoteDb() && cfg.getBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, false);
   }
 
   @Target({METHOD})

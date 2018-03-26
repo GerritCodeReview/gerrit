@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
@@ -38,7 +37,6 @@ import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +48,6 @@ import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class GetAuditLog implements RestReadView<GroupResource> {
-  private final Provider<ReviewDb> db;
   private final AccountLoader.Factory accountLoaderFactory;
   private final AllUsersName allUsers;
   private final GroupCache groupCache;
@@ -61,7 +58,6 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
   @Inject
   public GetAuditLog(
-      Provider<ReviewDb> db,
       AccountLoader.Factory accountLoaderFactory,
       AllUsersName allUsers,
       GroupCache groupCache,
@@ -69,7 +65,6 @@ public class GetAuditLog implements RestReadView<GroupResource> {
       GroupBackend groupBackend,
       Groups groups,
       GitRepositoryManager repoManager) {
-    this.db = db;
     this.accountLoaderFactory = accountLoaderFactory;
     this.allUsers = allUsers;
     this.groupCache = groupCache;
@@ -95,7 +90,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       for (AccountGroupMemberAudit auditEvent :
-          groups.getMembersAudit(db.get(), allUsersRepo, group.getGroupUUID())) {
+          groups.getMembersAudit(allUsersRepo, group.getGroupUUID())) {
         AccountInfo member = accountLoader.get(auditEvent.getMemberId());
 
         auditEvents.add(
@@ -110,7 +105,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
       }
 
       for (AccountGroupByIdAud auditEvent :
-          groups.getSubgroupsAudit(db.get(), allUsersRepo, group.getGroupUUID())) {
+          groups.getSubgroupsAudit(allUsersRepo, group.getGroupUUID())) {
         AccountGroup.UUID includedGroupUUID = auditEvent.getIncludeUUID();
         Optional<InternalGroup> includedGroup = groupCache.get(includedGroupUUID);
         GroupInfo member;

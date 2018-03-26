@@ -80,7 +80,9 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
     Map<Project.NameKey, Project> children = new HashMap<>();
     for (Project.NameKey name : projectCache.all()) {
       ProjectState c = projectCache.get(name);
-      if (c != null && parent.equals(c.getProject().getParent(allProjects))) {
+      if (c != null
+          && parent.equals(c.getProject().getParent(allProjects))
+          && c.statePermitsRead()) {
         children.put(c.getNameKey(), c.getProject());
       }
     }

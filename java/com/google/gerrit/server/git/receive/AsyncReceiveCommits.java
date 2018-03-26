@@ -18,6 +18,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
@@ -228,8 +229,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
     this.perm = permissionBackend.user(user).project(projectName);
     try {
+      projectState.checkStatePermitsRead();
       this.perm.check(ProjectPermission.READ);
-    } catch (AuthException e) {
+    } catch (AuthException | ResourceConflictException e) {
       rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
     }
 

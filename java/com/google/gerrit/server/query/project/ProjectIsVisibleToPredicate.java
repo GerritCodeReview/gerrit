@@ -35,6 +35,10 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
 
   @Override
   public boolean match(ProjectData pd) throws OrmException {
+    if (!pd.getProject().getState().permitsRead()) {
+      return false;
+    }
+
     return permissionBackend
         .user(user)
         .project(pd.getProject().getNameKey())

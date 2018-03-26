@@ -114,7 +114,8 @@ class DefaultRefFilter {
     PermissionBackend.WithUser withUser = permissionBackend.user(user);
     PermissionBackend.ForProject forProject = withUser.project(projectState.getNameKey());
     if (!projectState.isAllUsers()) {
-      if (checkProjectPermission(forProject, ProjectPermission.READ)) {
+      if (projectState.statePermitsRead()
+          && checkProjectPermission(forProject, ProjectPermission.READ)) {
         return refs;
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
         return fastHideRefsMetaConfig(refs);

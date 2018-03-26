@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Splitter;
@@ -23,6 +24,8 @@ import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.AllowedFormats;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.sshd.AbstractGitCommand;
@@ -123,6 +126,7 @@ public class UploadArchive extends AbstractGitCommand {
   @Inject private PermissionBackend permissionBackend;
   @Inject private CommitsCollection commits;
   @Inject private AllowedFormats allowedFormats;
+  @Inject private ProjectCache projectCache;
   private Options options = new Options();
 
   /**
@@ -242,6 +246,13 @@ public class UploadArchive extends AbstractGitCommand {
   }
 
   private boolean canRead(ObjectId revId) throws IOException, PermissionBackendException {
+    ProjectState projectState = projectCache.get(projectName);
+    checkNotNull(projectState, "Failed to load project %s", projectName);
+
+    if (!projectState.statePermitsRead()) {
+      return false;
+    }
+
     try {
       permissionBackend.user(user).project(projectName).check(ProjectPermission.READ);
       return true;

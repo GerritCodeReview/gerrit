@@ -16,6 +16,24 @@
       "revId": "0ecd7585b5ed862a6b4c2f43421f70b5b72227f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d074cfe4_46032f13",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-26T11:20:19Z",
+      "side": 1,
+      "message": "Hmm. OK, let\u0027s add it here, too.",
+      "parentUuid": "15df2696_6671987e",
+      "revId": "0ecd7585b5ed862a6b4c2f43421f70b5b72227f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

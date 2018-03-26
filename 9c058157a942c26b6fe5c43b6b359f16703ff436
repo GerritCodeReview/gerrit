@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32b988c4_60237bc1",
+        "filename": "java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-26T09:49:04Z",
+      "side": 1,
+      "message": "I think this logic here is wrong (and it was wrong already before).\n\nWhen a project\u0027s state does not permit read, we should just return false.\n\nIf the state permits read, we can check the permission on the project and if that check returns a negative result, fall back to reachability.",
+      "revId": "9c058157a942c26b6fe5c43b6b359f16703ff436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

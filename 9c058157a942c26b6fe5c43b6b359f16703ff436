@@ -16,6 +16,24 @@
       "revId": "9c058157a942c26b6fe5c43b6b359f16703ff436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f140c9f_06790f43",
+        "filename": "java/com/google/gerrit/sshd/commands/UploadArchive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-26T11:30:49Z",
+      "side": 1,
+      "message": "Right.",
+      "parentUuid": "32b988c4_60237bc1",
+      "revId": "9c058157a942c26b6fe5c43b6b359f16703ff436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

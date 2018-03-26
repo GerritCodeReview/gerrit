@@ -88,8 +88,11 @@ public class ListDashboards implements RestReadView<ProjectResource> {
   private Collection<ProjectState> tree(ProjectResource rsrc) throws PermissionBackendException {
     Map<Project.NameKey, ProjectState> tree = new LinkedHashMap<>();
     for (ProjectState ps : rsrc.getProjectState().tree()) {
-      tree.put(ps.getNameKey(), ps);
+      if (ps.statePermitsRead()) {
+        tree.put(ps.getNameKey(), ps);
+      }
     }
+
     tree.keySet()
         .retainAll(permissionBackend.currentUser().filter(ProjectPermission.ACCESS, tree.keySet()));
     return tree.values();

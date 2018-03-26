@@ -53,7 +53,7 @@ public class ChildProjects {
 
   /** Gets all child projects recursively. */
   public List<ProjectInfo> list(Project.NameKey parent) throws PermissionBackendException {
-    Map<Project.NameKey, Project> projects = readAllProjects();
+    Map<Project.NameKey, Project> projects = readAllReadableProjects();
     Multimap<Project.NameKey, Project.NameKey> children = parentToChildren(projects);
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
 
@@ -62,11 +62,11 @@ public class ChildProjects {
     return results;
   }
 
-  private Map<Project.NameKey, Project> readAllProjects() {
+  private Map<Project.NameKey, Project> readAllReadableProjects() {
     Map<Project.NameKey, Project> projects = new HashMap<>();
     for (Project.NameKey name : projectCache.all()) {
       ProjectState c = projectCache.get(name);
-      if (c != null) {
+      if (c != null && c.statePermitsRead()) {
         projects.put(c.getNameKey(), c.getProject());
       }
     }

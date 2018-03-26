@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e635a8aa_cae486c3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5691,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-26T13:44:57Z",
+      "side": 1,
+      "message": "In case this points to json.html you probably want to add the entity there.\n\nLooking at the rest of entities, I think we usually just add them to the bottom of this page though.",
+      "range": {
+        "startLine": 5691,
+        "startChar": 17,
+        "endLine": 5691,
+        "endChar": 52
+      },
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dfc8e96_c32b69c2",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-26T13:44:57Z",
+      "side": 1,
+      "message": "optional: toImmutableSet",
+      "range": {
+        "startLine": 641,
+        "startChar": 28,
+        "endLine": 641,
+        "endChar": 33
+      },
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c456b22e_625fea73",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-26T13:44:57Z",
+      "side": 1,
+      "message": "optional: add a constructor that takes all these arguments",
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a47d133_873cac4a",
+        "filename": "java/com/google/gerrit/server/git/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-26T13:44:57Z",
+      "side": 1,
+      "message": "This change looks unrelated?",
+      "revId": "f83e57695fc87e022590a1d9042f30e0d9c289b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

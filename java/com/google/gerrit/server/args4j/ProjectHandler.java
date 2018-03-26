@@ -84,7 +84,10 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
       if (state == null) {
         throw new CmdLineException(owner, String.format("project %s not found", nameWithoutSuffix));
       }
-      permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+
+      ProjectPermission permissionToCheck =
+          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+      permissionBackend.user(user).project(nameKey).check(permissionToCheck);
     } catch (AuthException e) {
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     } catch (PermissionBackendException | IOException e) {

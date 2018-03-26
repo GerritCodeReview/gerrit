@@ -189,8 +189,10 @@ public class GitOverHttpServlet extends GitServlet {
         }
         req.setAttribute(ATT_STATE, state);
 
+        ProjectPermission permissionToCheck =
+            state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
         try {
-          permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+          permissionBackend.user(user).project(nameKey).check(permissionToCheck);
         } catch (AuthException e) {
           if (user instanceof AnonymousUser) {
             throw new ServiceNotAuthorizedException();

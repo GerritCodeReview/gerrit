@@ -261,9 +261,7 @@ limitations under the License.
     });
 
     test('undefined or empty text results in no suggestions', () => {
-      sandbox.spy(element, '_updateSuggestions');
-      element.text = undefined;
-      assert(element._updateSuggestions.calledOnce);
+      element._updateSuggestions(undefined, false, 0, true);
       assert.equal(element._suggestions.length, 0);
     });
 

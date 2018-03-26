@@ -40,8 +40,7 @@ limitations under the License.
     const group = {
       id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
       url: '#/admin/groups/uuid-6a1e70e1a88782771a91808c8af9bbb7a9871389',
-      options: {
-      },
+      options: {},
       description: 'Gerrit Site Administrators',
       group_id: 1,
       owner: 'Administrators',
@@ -72,12 +71,31 @@ limitations under the License.
           .display === 'none');
     });
 
-    test('default values are populated', done => {
+    test('default values are populated with internal group', done => {
       sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
         return Promise.resolve(true);
       });
       element.groupId = 1;
       element._loadGroup().then(() => {
+        assert.isTrue(element._groupIsInternal);
+        assert.isFalse(element.$.visibleToAll.bindValue);
+        done();
+      });
+    });
+
+    test('default values with external group', done => {
+      const groupExternal = Object.assign({}, group);
+      groupExternal.id = 'external-group-id';
+      groupStub.restore();
+      groupStub = sandbox.stub(element.$.restAPI, 'getGroupConfig', () => {
+        return Promise.resolve(groupExternal);
+      });
+      sandbox.stub(element.$.restAPI, 'getIsGroupOwner', () => {
+        return Promise.resolve(true);
+      });
+      element.groupId = 1;
+      element._loadGroup().then(() => {
+        assert.isFalse(element._groupIsInternal);
         assert.isFalse(element.$.visibleToAll.bindValue);
         done();
       });
@@ -161,28 +179,32 @@ limitations under the License.
           });
     });
 
-    test('_computeGroupDisabled return false for admin', () => {
-      const admin = true;
-      const owner = false;
-      assert.equal(element._computeGroupDisabled(owner, admin), false);
-    });
+    test('_computeGroupDisabled', () => {
+      let admin = true;
+      let owner = false;
+      let groupIsInternal = true;
+      assert.equal(element._computeGroupDisabled(owner, admin,
+          groupIsInternal), false);
 
-    test('_computeGroupDisabled return true for admin', () => {
-      const admin = false;
-      const owner = false;
-      assert.equal(element._computeGroupDisabled(owner, admin), true);
-    });
+      admin = false;
+      assert.equal(element._computeGroupDisabled(owner, admin,
+          groupIsInternal), true);
 
-    test('_computeGroupDisabled return false for owner', () => {
-      const admin = false;
-      const owner = true;
-      assert.equal(element._computeGroupDisabled(owner, admin), false);
-    });
+      owner = true;
+      assert.equal(element._computeGroupDisabled(owner, admin,
+          groupIsInternal), false);
 
-    test('_computeGroupDisabled return true for owner', () => {
-      const admin = false;
-      const owner = false;
-      assert.equal(element._computeGroupDisabled(owner, admin), true);
+      owner = false;
+      assert.equal(element._computeGroupDisabled(owner, admin,
+          groupIsInternal), true);
+
+      groupIsInternal = false;
+      assert.equal(element._computeGroupDisabled(owner, admin,
+          groupIsInternal), true);
+
+      admin = true;
+      assert.equal(element._computeGroupDisabled(owner, admin,
+          groupIsInternal), true);
     });
 
     test('_computeLoadingClass', () => {

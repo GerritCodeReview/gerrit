@@ -17,6 +17,8 @@
 (function() {
   'use strict';
 
+  const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
+
   const OPTIONS = {
     submitFalse: {
       value: false,
@@ -43,6 +45,7 @@
         type: Boolean,
         value: false,
       },
+      _groupIsInternal: Boolean,
       _description: {
         type: Boolean,
         value: false,
@@ -109,6 +112,7 @@
             if (!config || !config.name) { return Promise.resolve(); }
 
             this._groupName = config.name;
+            this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
 
             promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
               this._isAdmin = isAdmin ? true : false;
@@ -149,7 +153,8 @@
           .then(config => {
             if (config.status === 200) {
               this._groupName = this._groupConfig.name;
-              this.fire('name-changed', {name: this._groupConfig.name});
+              this.fire('name-changed', {name: this._groupConfig.name,
+                external: this._groupIsExtenral});
               this._rename = false;
             }
           });
@@ -222,8 +227,8 @@
           });
     },
 
-    _computeGroupDisabled(owner, admin) {
-      return admin || owner ? false : true;
+    _computeGroupDisabled(owner, admin, groupIsInternal) {
+      return groupIsInternal && (admin || owner) ? false : true;
     },
   });
 })();

@@ -42,6 +42,8 @@
     view: 'gr-plugin-list',
   }];
 
+  const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
+
   const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
 
   Polymer({
@@ -58,6 +60,7 @@
         type: Number,
         observer: '_computeGroupName',
       },
+      _groupIsInternal: Boolean,
       _groupName: String,
       _groupOwner: {
         type: Boolean,
@@ -160,16 +163,17 @@
             name: this._groupName,
             view: Gerrit.Nav.View.GROUP,
             url: Gerrit.Nav.getUrlForGroup(this._groupId),
-            children: [
-              {
-                name: 'Members',
-                detailType: Gerrit.Nav.GroupDetailView.MEMBERS,
-                view: Gerrit.Nav.View.GROUP,
-                url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
-              },
-            ],
+            children: [],
           };
-          if (this._isAdmin || this._groupOwner) {
+          if (this._groupIsInternal) {
+            linkCopy.subsection.children.push({
+              name: 'Members',
+              detailType: Gerrit.Nav.GroupDetailView.MEMBERS,
+              view: Gerrit.Nav.View.GROUP,
+              url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
+            });
+          }
+          if (this._groupIsInternal && (this._isAdmin || this._groupOwner)) {
             linkCopy.subsection.children.push(
                 {
                   name: 'Audit Log',
@@ -295,6 +299,7 @@
         if (!group || !group.name) { return; }
 
         this._groupName = group.name;
+        this._groupIsInternal = !!group.id.match(INTERNAL_GROUP_REGEX);
         this.reload();
 
         promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {

@@ -312,6 +312,7 @@ limitations under the License.
           sandbox.stub(element.$.restAPI, 'getGroupConfig')
               .returns(Promise.resolve({
                 name: 'foo',
+                id: 'c0f83e941ce90caea30e6ad88f0d4ea0e841a7a9',
               }));
           sandbox.stub(element.$.restAPI, 'getIsGroupOwner')
               .returns(Promise.resolve(true));
@@ -329,7 +330,7 @@ limitations under the License.
           assert.equal(selected.textContent.trim(), 'Groups');
         });
 
-        test('group', () => {
+        test('internal group', () => {
           element.params = {
             view: Gerrit.Nav.View.GROUP,
             groupId: 1234,
@@ -337,6 +338,34 @@ limitations under the License.
           element._groupName = 'foo';
           return element.reload().then(() => {
             flushAsynchronousOperations();
+            const subsectionItems = Polymer.dom(element.root)
+                .querySelectorAll('.subsectionItem');
+            assert.equal(subsectionItems.length, 2);
+            assert.isTrue(element._groupIsInternal);
+            const selected = element.$$('gr-page-nav .selected');
+            assert.isOk(selected);
+            assert.equal(selected.textContent.trim(), 'foo');
+          });
+        });
+
+        test('external group', () => {
+          element.$.restAPI.getGroupConfig.restore();
+          sandbox.stub(element.$.restAPI, 'getGroupConfig')
+              .returns(Promise.resolve({
+                name: 'foo',
+                id: 'external-id',
+              }));
+          element.params = {
+            view: Gerrit.Nav.View.GROUP,
+            groupId: 1234,
+          };
+          element._groupName = 'foo';
+          return element.reload().then(() => {
+            flushAsynchronousOperations();
+            const subsectionItems = Polymer.dom(element.root)
+                .querySelectorAll('.subsectionItem');
+            assert.equal(subsectionItems.length, 0);
+            assert.isFalse(element._groupIsInternal);
             const selected = element.$$('gr-page-nav .selected');
             assert.isOk(selected);
             assert.equal(selected.textContent.trim(), 'foo');

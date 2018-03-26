@@ -72,9 +72,9 @@ limitations under the License.
                 <gr-autocomplete
                     id="groupNameInput"
                     text="{{_groupConfig.name}}"
-                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]"></gr-autocomplete>
+                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"></gr-autocomplete>
               </span>
-              <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]">
+              <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
                     id="inputUpdateNameBtn"
                     on-tap="_handleSaveName"
@@ -90,10 +90,10 @@ limitations under the License.
                 <gr-autocomplete
                     text="{{_groupConfig.owner}}"
                     query="[[_query]]"
-                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]">
+                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 </gr-autocomplete>
               </span>
-              <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]">
+              <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
                     on-tap="_handleSaveOwner"
                     disabled="[[!_owner]]">
@@ -109,9 +109,9 @@ limitations under the License.
                     class="description"
                     autocomplete="on"
                     bind-value="{{_groupConfig.description}}"
-                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]"></iron-autogrow-textarea>
+                    disabled="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]"></iron-autogrow-textarea>
               </div>
-              <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]">
+              <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
                     on-tap="_handleSaveDescription"
                     disabled="[[!_description]]">
@@ -131,7 +131,7 @@ limitations under the License.
                   <gr-select
                       id="visibleToAll"
                       bind-value="{{_groupConfig.options.visible_to_all}}">
-                    <select disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]">
+                    <select disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                       <template is="dom-repeat" items="[[_submitTypes]]">
                         <option value="[[item.value]]">[[item.label]]</option>
                       </template>
@@ -139,7 +139,7 @@ limitations under the License.
                   </gr-select>
                 </span>
               </section>
-              <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin)]]">
+              <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
                     on-tap="_handleSaveOptions"
                     disabled="[[!_options]]">

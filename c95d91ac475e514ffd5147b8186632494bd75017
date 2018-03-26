@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65d5c784_0754ccc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-26T19:49:25Z",
+      "side": 1,
+      "message": "This is surprising, considering that, none of the other elements have z-indices.\n\nIs Chrome OS needed to reproduce this problem?",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "c95d91ac475e514ffd5147b8186632494bd75017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f7d6cf2_77c126f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-26T19:49:25Z",
+      "side": 1,
+      "message": "Nit: this can just be issue 8602. In fact, the whole comment might be as simple as .. \n\n /* @see Issue 8602 */\n\nUp to you.",
+      "range": {
+        "startLine": 68,
+        "startChar": 10,
+        "endLine": 68,
+        "endChar": 66
+      },
+      "revId": "c95d91ac475e514ffd5147b8186632494bd75017",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

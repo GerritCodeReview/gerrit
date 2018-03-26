@@ -108,7 +108,9 @@ public class GetAuditLog implements RestReadView<GroupResource> {
         GroupDescription.Basic groupDescription = groupBackend.get(includedGroupUUID);
         member = new GroupInfo();
         member.id = Url.encode(includedGroupUUID.get());
-        member.name = groupDescription.getName();
+        if (groupDescription != null) {
+          member.name = groupDescription.getName();
+        }
       }
 
       auditEvents.add(

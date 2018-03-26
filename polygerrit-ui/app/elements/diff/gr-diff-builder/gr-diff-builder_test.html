@@ -95,7 +95,7 @@ limitations under the License.
       let buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 1);
-      assert.equal(buttons[0].textContent, 'Show 10 common lines');
+      assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 10 common lines');
 
       // Add another line.
       line.contextGroup.lines.push('lorem upsum');
@@ -105,9 +105,9 @@ limitations under the License.
       buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 3);
-      assert.equal(buttons[0].textContent, '+10↑');
-      assert.equal(buttons[1].textContent, 'Show 11 common lines');
-      assert.equal(buttons[2].textContent, '+10↓');
+      assert.equal(Polymer.dom(buttons[0]).textContent, '+10↑');
+      assert.equal(Polymer.dom(buttons[1]).textContent, 'Show 11 common lines');
+      assert.equal(Polymer.dom(buttons[2]).textContent, '+10↓');
     });
 
     test('newlines 1', () => {

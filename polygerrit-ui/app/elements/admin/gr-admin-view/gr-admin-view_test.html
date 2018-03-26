@@ -343,6 +343,7 @@ limitations under the License.
               }));
           sandbox.stub(element.$.restAPI, 'getIsGroupOwner')
               .returns(Promise.resolve(true));
+          return element.reload();
         });
 
         test('group list', () => {

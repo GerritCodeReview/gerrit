@@ -75,7 +75,7 @@
       GrReporting.prototype.reporter(ERROR.TYPE, ERROR.CATEGORY, msg, payload);
     });
   };
-  catchErrors();
+  // catchErrors();
 
   const GrReporting = Polymer({
     is: 'gr-reporting',

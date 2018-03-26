@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /** Retrieve child projects (ie. projects whose access inherits from a given parent.) */
 @Singleton
@@ -92,16 +95,21 @@ public class ChildProjects {
       Multimap<Project.NameKey, Project.NameKey> children,
       Project.NameKey parent)
       throws PermissionBackendException {
+    Set<Project.NameKey> readableProjects =
+        children.get(parent).stream().filter(p -> isReadable(p)).collect(Collectors.toSet());
     List<Project.NameKey> canSee =
-        perm.filter(ProjectPermission.ACCESS, children.get(parent))
-            .stream()
-            .sorted()
-            .collect(toList());
+        perm.filter(ProjectPermission.ACCESS, readableProjects).stream().sorted().collect(toList());
     children.removeAll(parent); // removing all entries prevents cycles.
 
     for (Project.NameKey c : canSee) {
       results.add(json.format(projects.get(c)));
       depthFirstFormat(results, perm, projects, children, c);
     }
+  }
+
+  private boolean isReadable(Project.NameKey nameKey) {
+    ProjectState projectState = projectCache.get(nameKey);
+    checkNotNull(projectState, "Failed to load project %s", nameKey);
+    return projectState.statePermitsRead();
   }
 }

@@ -150,6 +150,11 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
     try {
+      ProjectState state = projectCache.get(project);
+      if (state == null || !state.statePermitsRead()) {
+        return false;
+      }
+
       permissionBackend.user(user).project(project).check(ProjectPermission.ACCESS);
       return true;
     } catch (AuthException | PermissionBackendException e) {

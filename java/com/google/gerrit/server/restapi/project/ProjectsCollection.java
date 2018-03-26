@@ -150,8 +150,10 @@ public class ProjectsCollection
     }
 
     if (checkAccess) {
+      ProjectPermission permissionToCheck =
+          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
       try {
-        permissionBackend.currentUser().project(nameKey).check(ProjectPermission.ACCESS);
+        permissionBackend.currentUser().project(nameKey).check(permissionToCheck);
       } catch (AuthException e) {
         return null; // Pretend like not found on access denied.
       }

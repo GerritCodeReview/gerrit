@@ -259,8 +259,10 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       throws NoSuchProjectException, IOException, PermissionBackendException,
           ResourceConflictException {
     ProjectState state = projectCache.checkedGet(projectName);
+    ProjectPermission permissionToCheck =
+        state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
     try {
-      permissionBackend.currentUser().project(projectName).check(ProjectPermission.ACCESS);
+      permissionBackend.currentUser().project(projectName).check(permissionToCheck);
     } catch (AuthException e) {
       throw new NoSuchProjectException(projectName);
     }

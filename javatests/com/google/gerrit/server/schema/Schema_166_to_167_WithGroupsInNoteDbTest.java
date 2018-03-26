@@ -87,7 +87,6 @@ public class Schema_166_to_167_WithGroupsInNoteDbTest {
     // disableReviewDb == true)
     InternalGroup internalGroup =
         groupsUpdate.createGroup(
-            db,
             InternalGroupCreation.builder()
                 .setNameKey(new AccountGroup.NameKey("users"))
                 .setGroupUUID(new AccountGroup.UUID("users"))

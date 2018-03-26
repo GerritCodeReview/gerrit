@@ -16,11 +16,8 @@ package com.google.gerrit.pgm.init;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -28,8 +25,6 @@ import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupMember;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -41,17 +36,13 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
-import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gerrit.server.notedb.GroupsMigration;
-import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -74,14 +65,12 @@ public class GroupsOnInit {
   private final InitFlags flags;
   private final SitePaths site;
   private final String allUsers;
-  private final GroupsMigration groupsMigration;
 
   @Inject
   public GroupsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
     this.flags = flags;
     this.site = site;
     this.allUsers = allUsers.get();
-    this.groupsMigration = new GroupsMigration(flags.cfg);
   }
 
   /**
@@ -97,15 +86,6 @@ public class GroupsOnInit {
    */
   public InternalGroup getExistingGroup(ReviewDb db, GroupReference groupReference)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
-    if (groupsMigration.readFromNoteDb()) {
-      return getExistingGroupFromNoteDb(groupReference);
-    }
-
-    return getExistingGroupFromReviewDb(db, groupReference);
-  }
-
-  private InternalGroup getExistingGroupFromNoteDb(GroupReference groupReference)
-      throws IOException, ConfigInvalidException, NoSuchGroupException {
     File allUsersRepoPath = getPathToAllUsersRepository();
     if (allUsersRepoPath != null) {
       try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
@@ -119,23 +99,6 @@ public class GroupsOnInit {
     throw new NoSuchGroupException(groupReference.getUUID());
   }
 
-  private static InternalGroup getExistingGroupFromReviewDb(
-      ReviewDb db, GroupReference groupReference) throws OrmException, NoSuchGroupException {
-    String groupName = groupReference.getName();
-    AccountGroupName accountGroupName =
-        db.accountGroupNames().get(new AccountGroup.NameKey(groupName));
-    if (accountGroupName == null) {
-      throw new NoSuchGroupException(groupName);
-    }
-
-    AccountGroup.Id groupId = accountGroupName.getId();
-    AccountGroup group = db.accountGroups().get(groupId);
-    if (group == null) {
-      throw new NoSuchGroupException(groupName);
-    }
-    return Groups.asInternalGroup(db, group);
-  }
-
   /**
    * Returns {@code GroupReference}s for all internal groups.
    *
@@ -147,18 +110,13 @@ public class GroupsOnInit {
    */
   public Stream<GroupReference> getAllGroupReferences(ReviewDb db)
       throws OrmException, IOException, ConfigInvalidException {
-    if (groupsMigration.readFromNoteDb()) {
-      File allUsersRepoPath = getPathToAllUsersRepository();
-      if (allUsersRepoPath != null) {
-        try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
-          return GroupNameNotes.loadAllGroups(allUsersRepo).stream();
-        }
+    File allUsersRepoPath = getPathToAllUsersRepository();
+    if (allUsersRepoPath != null) {
+      try (Repository allUsersRepo = new FileRepository(allUsersRepoPath)) {
+        return GroupNameNotes.loadAllGroups(allUsersRepo).stream();
       }
-      return Stream.empty();
     }
-
-    return Streams.stream(db.accountGroups().all())
-        .map(group -> new GroupReference(group.getGroupUUID(), group.getName()));
+    return Stream.empty();
   }
 
   /**
@@ -176,49 +134,6 @@ public class GroupsOnInit {
    */
   public void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, Account account)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
-    addGroupMemberInReviewDb(db, groupUuid, account.getId());
-    if (!groupsMigration.writeToNoteDb()) {
-      return;
-    }
-    addGroupMemberInNoteDb(groupUuid, account);
-  }
-
-  private static void addGroupMemberInReviewDb(
-      ReviewDb db, AccountGroup.UUID groupUuid, Account.Id accountId)
-      throws OrmException, NoSuchGroupException {
-    AccountGroup group = getExistingGroup(db, groupUuid);
-    AccountGroup.Id groupId = group.getId();
-
-    if (isMember(db, groupId, accountId)) {
-      return;
-    }
-
-    db.accountGroupMembers()
-        .insert(
-            ImmutableList.of(
-                new AccountGroupMember(new AccountGroupMember.Key(accountId, groupId))));
-  }
-
-  private static AccountGroup getExistingGroup(ReviewDb db, AccountGroup.UUID groupUuid)
-      throws OrmException, NoSuchGroupException {
-    List<AccountGroup> accountGroups = db.accountGroups().byUUID(groupUuid).toList();
-    if (accountGroups.size() == 1) {
-      return Iterables.getOnlyElement(accountGroups);
-    } else if (accountGroups.isEmpty()) {
-      throw new NoSuchGroupException(groupUuid);
-    } else {
-      throw new OrmDuplicateKeyException("Duplicate group UUID " + groupUuid);
-    }
-  }
-
-  private static boolean isMember(ReviewDb db, AccountGroup.Id groupId, Account.Id accountId)
-      throws OrmException {
-    AccountGroupMember.Key key = new AccountGroupMember.Key(accountId, groupId);
-    return db.accountGroupMembers().get(key) != null;
-  }
-
-  private void addGroupMemberInNoteDb(AccountGroup.UUID groupUuid, Account account)
-      throws IOException, ConfigInvalidException, NoSuchGroupException {
     File allUsersRepoPath = getPathToAllUsersRepository();
     if (allUsersRepoPath != null) {
       try (Repository repository = new FileRepository(allUsersRepoPath)) {

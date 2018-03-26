@@ -360,8 +360,8 @@ public abstract class AbstractDaemonTest {
     accountIndexer.index(accountId);
   }
 
-  private void reindexAllGroups() throws OrmException, IOException, ConfigInvalidException {
-    Iterable<GroupReference> allGroups = groups.getAllGroupReferences(db)::iterator;
+  private void reindexAllGroups() throws IOException, ConfigInvalidException {
+    Iterable<GroupReference> allGroups = groups.getAllGroupReferences()::iterator;
     for (GroupReference group : allGroups) {
       groupIndexer.index(group.getUUID());
     }

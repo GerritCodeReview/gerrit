@@ -20,15 +20,12 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -43,7 +40,6 @@ public class InternalGroupBackend implements GroupBackend {
   private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
   private final Groups groups;
-  private final SchemaFactory<ReviewDb> schema;
   private final IncludingGroupMembership.Factory groupMembershipFactory;
 
   @Inject
@@ -51,12 +47,10 @@ public class InternalGroupBackend implements GroupBackend {
       GroupControl.Factory groupControlFactory,
       GroupCache groupCache,
       Groups groups,
-      SchemaFactory<ReviewDb> schema,
       IncludingGroupMembership.Factory groupMembershipFactory) {
     this.groupControlFactory = groupControlFactory;
     this.groupCache = groupCache;
     this.groups = groups;
-    this.schema = schema;
     this.groupMembershipFactory = groupMembershipFactory;
   }
 
@@ -77,13 +71,13 @@ public class InternalGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
-    try (ReviewDb db = schema.open()) {
+    try {
       return groups
-          .getAllGroupReferences(db)
+          .getAllGroupReferences()
           .filter(group -> startsWithIgnoreCase(group, name))
           .filter(this::isVisible)
           .collect(toList());
-    } catch (OrmException | IOException | ConfigInvalidException e) {
+    } catch (IOException | ConfigInvalidException e) {
       return ImmutableList.of();
     }
   }

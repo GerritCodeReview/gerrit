@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
@@ -75,7 +74,6 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
 
   private final Provider<IdentifiedUser> self;
   private final PersonIdent serverIdent;
-  private final ReviewDb db;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupCache groupCache;
   private final GroupsCollection groups;
@@ -91,7 +89,6 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   CreateGroup(
       Provider<IdentifiedUser> self,
       @GerritPersonIdent PersonIdent serverIdent,
-      ReviewDb db,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       GroupCache groupCache,
       GroupsCollection groups,
@@ -104,7 +101,6 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       Sequences sequences) {
     this.self = self;
     this.serverIdent = serverIdent;
-    this.db = db;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.groupCache = groupCache;
     this.groups = groups;
@@ -222,7 +218,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     groupUpdateBuilder.setMemberModification(
         members -> ImmutableSet.copyOf(createGroupArgs.initialMembers));
     try {
-      return groupsUpdateProvider.get().createGroup(db, groupCreation, groupUpdateBuilder.build());
+      return groupsUpdateProvider.get().createGroup(groupCreation, groupUpdateBuilder.build());
     } catch (OrmDuplicateKeyException e) {
       throw new ResourceConflictException(
           "group '" + createGroupArgs.getGroupName() + "' already exists");

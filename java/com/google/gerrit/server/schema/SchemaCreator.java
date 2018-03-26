@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.AccountGroupName;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -40,12 +38,10 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.AuditLogFormatter;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
-import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gwtorm.jdbc.JdbcExecutor;
@@ -73,7 +69,6 @@ public class SchemaCreator {
   private final PersonIdent serverUser;
   private final DataSourceType dataSourceType;
   private final GroupIndexCollection indexCollection;
-  private final GroupsMigration groupsMigration;
   private final String serverId;
 
   private final Config config;
@@ -91,7 +86,6 @@ public class SchemaCreator {
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
       GroupIndexCollection ic,
-      GroupsMigration gm,
       @GerritServerId String serverId,
       @GerritServerConfig Config config,
       MetricMaker metricMaker,
@@ -106,7 +100,6 @@ public class SchemaCreator {
         au,
         dst,
         ic,
-        gm,
         serverId,
         config,
         metricMaker,
@@ -123,7 +116,6 @@ public class SchemaCreator {
       @GerritPersonIdent PersonIdent au,
       DataSourceType dst,
       GroupIndexCollection ic,
-      GroupsMigration gm,
       String serverId,
       Config config,
       MetricMaker metricMaker,
@@ -137,7 +129,6 @@ public class SchemaCreator {
     serverUser = au;
     dataSourceType = dst;
     indexCollection = ic;
-    groupsMigration = gm;
     this.serverId = serverId;
 
     this.config = config;
@@ -176,25 +167,24 @@ public class SchemaCreator {
             allUsersName,
             metricMaker);
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-      createAdminsGroup(db, seqs, allUsersRepo, admins);
-      createBatchUsersGroup(db, seqs, allUsersRepo, batchUsers, admins.getUUID());
+      createAdminsGroup(seqs, allUsersRepo, admins);
+      createBatchUsersGroup(seqs, allUsersRepo, batchUsers, admins.getUUID());
     }
 
     dataSourceType.getIndexScript().run(db);
   }
 
   private void createAdminsGroup(
-      ReviewDb db, Sequences seqs, Repository allUsersRepo, GroupReference groupReference)
+      Sequences seqs, Repository allUsersRepo, GroupReference groupReference)
       throws OrmException, IOException, ConfigInvalidException {
     InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setDescription("Gerrit Site Administrators").build();
 
-    createGroup(db, allUsersRepo, groupCreation, groupUpdate);
+    createGroup(allUsersRepo, groupCreation, groupUpdate);
   }
 
   private void createBatchUsersGroup(
-      ReviewDb db,
       Sequences seqs,
       Repository allUsersRepo,
       GroupReference groupReference,
@@ -207,33 +197,14 @@ public class SchemaCreator {
             .setOwnerGroupUUID(adminsGroupUuid)
             .build();
 
-    createGroup(db, allUsersRepo, groupCreation, groupUpdate);
+    createGroup(allUsersRepo, groupCreation, groupUpdate);
   }
 
   private void createGroup(
-      ReviewDb db,
-      Repository allUsersRepo,
-      InternalGroupCreation groupCreation,
-      InternalGroupUpdate groupUpdate)
+      Repository allUsersRepo, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmException, ConfigInvalidException, IOException {
-    InternalGroup groupInReviewDb = createGroupInReviewDb(db, groupCreation, groupUpdate);
-
-    if (!groupsMigration.writeToNoteDb()) {
-      index(groupInReviewDb);
-      return;
-    }
-
     InternalGroup createdGroup = createGroupInNoteDb(allUsersRepo, groupCreation, groupUpdate);
     index(createdGroup);
-  }
-
-  private static InternalGroup createGroupInReviewDb(
-      ReviewDb db, InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
-      throws OrmException {
-    AccountGroup group = GroupsUpdate.createAccountGroup(groupCreation, groupUpdate);
-    db.accountGroupNames().insert(ImmutableList.of(new AccountGroupName(group)));
-    db.accountGroups().insert(ImmutableList.of(group));
-    return InternalGroup.create(group, ImmutableSet.of(), ImmutableSet.of());
   }
 
   private InternalGroup createGroupInNoteDb(

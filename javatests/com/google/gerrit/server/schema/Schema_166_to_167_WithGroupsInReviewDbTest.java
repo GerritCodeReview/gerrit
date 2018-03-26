@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.common.GroupAuditEventInfo.GroupMemberAuditE
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.Type;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.UserMemberAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -49,8 +50,10 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
@@ -89,10 +92,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -129,6 +130,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
   @Inject private GroupBundle.Factory groupBundleFactory;
   @Inject private GroupBackend groupBackend;
   @Inject private DynamicSet<GroupBackend> backends;
+  @Inject private Sequences seq;
 
   private JdbcSchema jdbcSchema;
 
@@ -169,6 +171,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     groupInput.name = "verifiers";
     groupInput.description = "old";
     GroupInfo group1 = gApi.groups().create(groupInput).get();
+    storeInReviewDb(group1);
 
     // Update group only in ReviewDb
     AccountGroup group1InReviewDb = getFromReviewDb(new AccountGroup.Id(group1.groupId));
@@ -177,6 +180,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
     // Create a second group in NoteDb and ReviewDb
     GroupInfo group2 = gApi.groups().create("contributors").get();
+    storeInReviewDb(group2);
 
     executeSchemaMigration(schema167, group1, group2);
 
@@ -193,8 +197,9 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   @Test
   public void adminGroupIsMigratedToNoteDb() throws Exception {
-    // Administrators group is automatically created for all Gerrit servers.
+    // Administrators group is automatically created for all Gerrit servers (NoteDb only).
     GroupInfo adminGroup = gApi.groups().id("Administrators").get();
+    storeInReviewDb(adminGroup);
 
     executeSchemaMigration(schema167, adminGroup);
 
@@ -206,8 +211,9 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   @Test
   public void nonInteractiveUsersGroupIsMigratedToNoteDb() throws Exception {
-    // 'Non-Interactive Users' group is automatically created for all Gerrit servers.
+    // 'Non-Interactive Users' group is automatically created for all Gerrit servers (NoteDb only).
     GroupInfo nonInteractiveUsersGroup = gApi.groups().id("Non-Interactive Users").get();
+    storeInReviewDb(nonInteractiveUsersGroup);
 
     executeSchemaMigration(schema167, nonInteractiveUsersGroup);
 
@@ -219,6 +225,11 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   @Test
   public void groupsAreConsistentAfterMigrationToNoteDb() throws Exception {
+    // Administrators group are automatically created for all Gerrit servers (NoteDb only).
+    GroupInfo adminGroup = gApi.groups().id("Administrators").get();
+    GroupInfo nonInteractiveUsersGroup = gApi.groups().id("Non-Interactive Users").get();
+    storeInReviewDb(adminGroup, nonInteractiveUsersGroup);
+
     AccountGroup group1 = newGroup().setName("verifiers").build();
     AccountGroup group2 = newGroup().setName("contributors").build();
     storeInReviewDb(group1, group2);
@@ -344,7 +355,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     storeInReviewDb(group);
     Account.Id member1 = new Account.Id(23456);
     Account.Id member2 = new Account.Id(93483);
-    addMembersInReviewDb(group, member1, member2);
+    addMembersInReviewDb(group.getId(), member1, member2);
 
     executeSchemaMigration(schema167, group);
 
@@ -370,29 +381,26 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
   public void logFormatWithAccountsAndGerritGroups() throws Exception {
     AccountInfo user1 = createAccount("user1");
     AccountInfo user2 = createAccount("user2");
-    GroupInfo group1 = gApi.groups().create("group1").get();
-    GroupInfo group2 = gApi.groups().create("group2").get();
-    GroupInfo group3 = gApi.groups().create("group3").get();
+
+    AccountGroup group1 = createInReviewDb("group1");
+    AccountGroup group2 = createInReviewDb("group2");
+    AccountGroup group3 = createInReviewDb("group3");
 
     // Add some accounts
     try (TempClockStep step = TestTimeUtil.freezeClock()) {
-      gApi.groups()
-          .id(group1.id)
-          .addMembers(Integer.toString(user1._accountId), Integer.toString(user2._accountId));
+      addMembersInReviewDb(
+          group1.getId(), new Account.Id(user1._accountId), new Account.Id(user2._accountId));
     }
     TimeUtil.nowTs();
 
     // Add some Gerrit groups
     try (TempClockStep step = TestTimeUtil.freezeClock()) {
-      gApi.groups().id(group1.id).addGroups(group2.id, group3.id);
+      addSubgroupsInReviewDb(group1.getId(), group2.getGroupUUID(), group3.getGroupUUID());
     }
-
-    AccountGroup.UUID group1Uuid = new AccountGroup.UUID(group1.id);
-    deleteGroupRefs(group1Uuid);
 
     executeSchemaMigration(schema167, group1, group2, group3);
 
-    GroupBundle noteDbBundle = readGroupBundleFromNoteDb(group1Uuid);
+    GroupBundle noteDbBundle = readGroupBundleFromNoteDb(group1.getGroupUUID());
 
     ImmutableList<CommitInfo> log = log(group1);
     assertThat(log).hasSize(4);
@@ -438,14 +446,15 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
         .isEqualTo(
             "Update group\n"
                 + "\n"
-                + ("Add-group: " + group2.name + " <" + group2.id + ">\n")
-                + ("Add-group: " + group3.name + " <" + group3.id + ">"));
+                + ("Add-group: " + group2.getName() + " <" + group2.getGroupUUID().get() + ">\n")
+                + ("Add-group: " + group3.getName() + " <" + group3.getGroupUUID().get() + ">"));
     assertThat(log.get(3)).author().name().isEqualTo(currentUser.getName());
     assertThat(log.get(3)).author().email().isEqualTo(currentUser.getAccountId() + "@" + serverId);
     assertThat(log.get(3)).committer().hasSameDateAs(log.get(3).author);
 
     // Verify that audit log is correctly read by Gerrit
-    List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(group1.id).auditLog();
+    List<? extends GroupAuditEventInfo> auditEvents =
+        gApi.groups().id(group1.getGroupUUID().get()).auditLog();
     assertThat(auditEvents).hasSize(5);
     AccountInfo currentUserInfo = gApi.accounts().id(currentUser.getAccountId().get()).get();
     assertMemberAuditEvent(
@@ -462,27 +471,22 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
         auditEvents.get(0),
         Type.ADD_GROUP,
         currentUser.getAccountId(),
-        group2,
-        group3);
+        toGroupInfo(group2),
+        toGroupInfo(group3));
   }
 
   @Test
   public void logFormatWithSystemGroups() throws Exception {
-    GroupInfo group = gApi.groups().create("group1").get();
+    AccountGroup group = createInReviewDb("group");
 
     try (TempClockStep step = TestTimeUtil.freezeClock()) {
-      gApi.groups()
-          .id(group.id)
-          .addGroups(
-              SystemGroupBackend.ANONYMOUS_USERS.get(), SystemGroupBackend.REGISTERED_USERS.get());
+      addSubgroupsInReviewDb(
+          group.getId(), SystemGroupBackend.ANONYMOUS_USERS, SystemGroupBackend.REGISTERED_USERS);
     }
-
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID(group.id);
-    deleteGroupRefs(groupUuid);
 
     executeSchemaMigration(schema167, group);
 
-    GroupBundle noteDbBundle = readGroupBundleFromNoteDb(groupUuid);
+    GroupBundle noteDbBundle = readGroupBundleFromNoteDb(group.getGroupUUID());
 
     ImmutableList<CommitInfo> log = log(group);
     assertThat(log).hasSize(3);
@@ -523,7 +527,8 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     assertThat(log.get(2)).committer().hasSameDateAs(log.get(2).author);
 
     // Verify that audit log is correctly read by Gerrit
-    List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(group.id).auditLog();
+    List<? extends GroupAuditEventInfo> auditEvents =
+        gApi.groups().id(group.getGroupUUID().get()).auditLog();
     assertThat(auditEvents).hasSize(3);
     AccountInfo currentUserInfo = gApi.accounts().id(currentUser.getAccountId().get()).get();
     assertMemberAuditEvent(
@@ -539,20 +544,17 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   @Test
   public void logFormatWithExternalGroup() throws Exception {
-    GroupInfo group = gApi.groups().create("group").get();
+    AccountGroup group = createInReviewDb("group");
 
     backends.add(new TestGroupBackend());
     AccountGroup.UUID subgroupUuid = TestGroupBackend.createUuuid("foo");
 
     assertThat(groupBackend.handles(subgroupUuid)).isTrue();
-    addSubgroupsInReviewDb(new AccountGroup.Id(group.groupId), subgroupUuid);
-
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID(group.id);
-    deleteGroupRefs(groupUuid);
+    addSubgroupsInReviewDb(group.getId(), subgroupUuid);
 
     executeSchemaMigration(schema167, group);
 
-    GroupBundle noteDbBundle = readGroupBundleFromNoteDb(groupUuid);
+    GroupBundle noteDbBundle = readGroupBundleFromNoteDb(group.getGroupUUID());
 
     ImmutableList<CommitInfo> log = log(group);
     assertThat(log).hasSize(3);
@@ -599,7 +601,8 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     assertThat(log.get(2)).committer().hasSameDateAs(log.get(2).author);
 
     // Verify that audit log is correctly read by Gerrit
-    List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(group.id).auditLog();
+    List<? extends GroupAuditEventInfo> auditEvents =
+        gApi.groups().id(group.getGroupUUID().get()).auditLog();
     assertThat(auditEvents).hasSize(2);
     AccountInfo currentUserInfo = gApi.accounts().id(currentUser.getAccountId().get()).get();
     assertMemberAuditEvent(
@@ -613,19 +616,16 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   @Test
   public void logFormatWithNonExistingExternalGroup() throws Exception {
-    GroupInfo group = gApi.groups().create("group").get();
+    AccountGroup group = createInReviewDb("group");
 
     AccountGroup.UUID subgroupUuid = new AccountGroup.UUID("notExisting:foo");
 
     assertThat(groupBackend.handles(subgroupUuid)).isFalse();
-    addSubgroupsInReviewDb(new AccountGroup.Id(group.groupId), subgroupUuid);
-
-    AccountGroup.UUID groupUuid = new AccountGroup.UUID(group.id);
-    deleteGroupRefs(groupUuid);
+    addSubgroupsInReviewDb(group.getId(), subgroupUuid);
 
     executeSchemaMigration(schema167, group);
 
-    GroupBundle noteDbBundle = readGroupBundleFromNoteDb(groupUuid);
+    GroupBundle noteDbBundle = readGroupBundleFromNoteDb(group.getGroupUUID());
 
     ImmutableList<CommitInfo> log = log(group);
     assertThat(log).hasSize(3);
@@ -665,7 +665,8 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     assertThat(log.get(2)).committer().hasSameDateAs(log.get(2).author);
 
     // Verify that audit log is correctly read by Gerrit
-    List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(group.id).auditLog();
+    List<? extends GroupAuditEventInfo> auditEvents =
+        gApi.groups().id(group.getGroupUUID().get()).auditLog();
     assertThat(auditEvents).hasSize(2);
     AccountInfo currentUserInfo = gApi.accounts().id(currentUser.getAccountId().get()).get();
     assertMemberAuditEvent(
@@ -679,6 +680,25 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
   private static TestGroup.Builder newGroup() {
     return TestGroup.builder();
+  }
+
+  private AccountGroup createInReviewDb(String groupName) throws Exception {
+    AccountGroup group =
+        new AccountGroup(
+            new AccountGroup.NameKey(groupName),
+            new AccountGroup.Id(seq.nextGroupId()),
+            GroupUUID.make(groupName, serverIdent),
+            TimeUtil.nowTs());
+    storeInReviewDb(group);
+    addMembersInReviewDb(group.getId(), currentUser.getAccountId());
+    return group;
+  }
+
+  private void storeInReviewDb(GroupInfo... groups) throws Exception {
+    storeInReviewDb(
+        Arrays.stream(groups)
+            .map(Schema_166_to_167_WithGroupsInReviewDbTest::toAccountGroup)
+            .toArray(AccountGroup[]::new));
   }
 
   private void storeInReviewDb(AccountGroup... groups) throws Exception {
@@ -772,21 +792,41 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     }
   }
 
-  private void addMembersInReviewDb(AccountGroup group, Account.Id... memberIds) throws Exception {
-    try (PreparedStatement stmt =
-        jdbcSchema
-            .getConnection()
-            .prepareStatement(
-                "INSERT INTO account_group_members"
-                    + " (group_id,"
-                    + " account_id) VALUES ("
-                    + group.getId().get()
-                    + ", ?)")) {
+  private void addMembersInReviewDb(AccountGroup.Id groupId, Account.Id... memberIds)
+      throws Exception {
+    try (PreparedStatement addMemberStmt =
+            jdbcSchema
+                .getConnection()
+                .prepareStatement(
+                    "INSERT INTO account_group_members"
+                        + " (group_id,"
+                        + " account_id) VALUES ("
+                        + groupId.get()
+                        + ", ?)");
+        PreparedStatement addMemberAuditStmt =
+            jdbcSchema
+                .getConnection()
+                .prepareStatement(
+                    "INSERT INTO account_group_members_audit"
+                        + " (group_id,"
+                        + " account_id,"
+                        + " added_by,"
+                        + " added_on) VALUES ("
+                        + groupId.get()
+                        + ", ?, "
+                        + currentUser.getAccountId().get()
+                        + ", ?)")) {
+      Timestamp addedOn = TimeUtil.nowTs();
       for (Account.Id memberId : memberIds) {
-        stmt.setInt(1, memberId.get());
-        stmt.addBatch();
+        addMemberStmt.setInt(1, memberId.get());
+        addMemberStmt.addBatch();
+
+        addMemberAuditStmt.setInt(1, memberId.get());
+        addMemberAuditStmt.setTimestamp(2, addedOn);
+        addMemberAuditStmt.addBatch();
       }
-      stmt.executeBatch();
+      addMemberStmt.executeBatch();
+      addMemberAuditStmt.executeBatch();
     }
   }
 
@@ -841,21 +881,6 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     }
   }
 
-  private void deleteGroupRefs(AccountGroup.UUID groupUuid) throws Exception {
-    try (Repository repo = gitRepoManager.openRepository(allUsersName)) {
-      String refName = RefNames.refsGroups(groupUuid);
-      RefUpdate ru = repo.updateRef(refName);
-      ru.setForceUpdate(true);
-      Ref oldRef = repo.exactRef(refName);
-      if (oldRef == null) {
-        return;
-      }
-      ru.setExpectedOldObjectId(oldRef.getObjectId());
-      ru.setNewObjectId(ObjectId.zeroId());
-      assertThat(ru.delete()).isEqualTo(RefUpdate.Result.FORCED);
-    }
-  }
-
   private void executeSchemaMigration(SchemaVersion schema, AccountGroup... groupsToVerify)
       throws Exception {
     executeSchemaMigration(
@@ -892,12 +917,12 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     assertThat(GroupBundle.compareWithAudits(expectedReviewDbBundle, noteDbBundle)).isEmpty();
   }
 
-  private ImmutableList<CommitInfo> log(GroupInfo g) throws Exception {
+  private ImmutableList<CommitInfo> log(AccountGroup group) throws Exception {
     ImmutableList.Builder<CommitInfo> result = ImmutableList.builder();
     List<Date> commitDates = new ArrayList<>();
     try (Repository allUsersRepo = gitRepoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(allUsersRepo)) {
-      Ref ref = allUsersRepo.exactRef(RefNames.refsGroups(new AccountGroup.UUID(g.id)));
+      Ref ref = allUsersRepo.exactRef(RefNames.refsGroups(group.getGroupUUID()));
       if (ref != null) {
         rw.sort(RevSort.REVERSE);
         rw.setRetainBody(true);
@@ -1027,6 +1052,35 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
       groupInfo.name = groupBackend.get(groupUuid).getName();
     }
 
+    return groupInfo;
+  }
+
+  private static AccountGroup toAccountGroup(GroupInfo info) {
+    AccountGroup group =
+        new AccountGroup(
+            new AccountGroup.NameKey(info.name),
+            new AccountGroup.Id(info.groupId),
+            new AccountGroup.UUID(info.id),
+            info.createdOn);
+    group.setDescription(info.description);
+    if (info.ownerId != null) {
+      group.setOwnerGroupUUID(new AccountGroup.UUID(info.ownerId));
+    }
+    group.setVisibleToAll(
+        info.options != null && info.options.visibleToAll != null && info.options.visibleToAll);
+    return group;
+  }
+
+  private static GroupInfo toGroupInfo(AccountGroup group) {
+    GroupInfo groupInfo = new GroupInfo();
+    groupInfo.id = group.getGroupUUID().get();
+    groupInfo.groupId = group.getId().get();
+    groupInfo.name = group.getName();
+    groupInfo.createdOn = group.getCreatedOn();
+    groupInfo.description = group.getDescription();
+    groupInfo.owner = group.getOwnerGroupUUID().get();
+    groupInfo.options = new GroupOptionsInfo();
+    groupInfo.options.visibleToAll = group.isVisibleToAll() ? true : null;
     return groupInfo;
   }
 

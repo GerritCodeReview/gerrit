@@ -15,9 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.DisallowReadFromChangesReviewDbWrapper;
-import com.google.gerrit.reviewdb.server.DisallowReadFromGroupsReviewDbWrapper;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.notedb.GroupsMigration;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
@@ -28,16 +26,12 @@ import com.google.inject.Singleton;
 public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
   private final SchemaFactory<ReviewDb> delegate;
   private final NotesMigration migration;
-  private final GroupsMigration groupsMigration;
 
   @Inject
   NotesMigrationSchemaFactory(
-      @ReviewDbFactory SchemaFactory<ReviewDb> delegate,
-      NotesMigration migration,
-      GroupsMigration groupsMigration) {
+      @ReviewDbFactory SchemaFactory<ReviewDb> delegate, NotesMigration migration) {
     this.delegate = delegate;
     this.migration = migration;
-    this.groupsMigration = groupsMigration;
   }
 
   @Override
@@ -73,22 +67,11 @@ public class NotesMigrationSchemaFactory implements SchemaFactory<ReviewDb> {
       db = new NoChangesReviewDbWrapper(db);
     }
 
-    if (groupsMigration.readFromNoteDb() && groupsMigration.disableGroupReviewDb()) {
-      // Disable writes to group tables in ReviewDb (ReviewDb access for groups are No-Ops).
-      db = new NoGroupsReviewDbWrapper(db);
-    }
-
     // Second create the wrappers which can be removed by ReviewDbUtil#unwrapDb(ReviewDb).
     if (migration.readChanges()) {
       // If reading changes from NoteDb is configured, changes should not be read from ReviewDb.
       // Make sure that any attempt to read a change from ReviewDb anyway fails with an exception.
       db = new DisallowReadFromChangesReviewDbWrapper(db);
-    }
-
-    if (groupsMigration.readFromNoteDb()) {
-      // If reading groups from NoteDb is configured, groups should not be read from ReviewDb.
-      // Make sure that any attempt to read a group from ReviewDb anyway fails with an exception.
-      db = new DisallowReadFromGroupsReviewDbWrapper(db);
     }
     return db;
   }

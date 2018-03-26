@@ -28,7 +28,6 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
@@ -43,7 +42,6 @@ import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
-import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -65,7 +63,6 @@ import org.slf4j.LoggerFactory;
 public class AccountManager {
   private static final Logger log = LoggerFactory.getLogger(AccountManager.class);
 
-  private final SchemaFactory<ReviewDb> schema;
   private final Sequences sequences;
   private final Accounts accounts;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
@@ -82,7 +79,6 @@ public class AccountManager {
 
   @Inject
   AccountManager(
-      SchemaFactory<ReviewDb> schema,
       Sequences sequences,
       @GerritServerConfig Config cfg,
       Accounts accounts,
@@ -95,7 +91,6 @@ public class AccountManager {
       ExternalIds externalIds,
       GroupsUpdate.Factory groupsUpdateFactory,
       SetInactiveFlag setInactiveFlag) {
-    this.schema = schema;
     this.sequences = sequences;
     this.accounts = accounts;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -140,51 +135,49 @@ public class AccountManager {
       throw e;
     }
     try {
-      try (ReviewDb db = schema.open()) {
-        ExternalId id = externalIds.get(who.getExternalIdKey());
-        if (id == null) {
-          if (who.getUserName().isPresent()) {
-            ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, who.getUserName().get());
-            ExternalId existingId = externalIds.get(key);
-            if (existingId != null) {
-              // An inconsistency is detected in the database, having a record for scheme "username:"
-              // but no record for scheme "gerrit:". Try to recover by linking
-              // "gerrit:" identity to the existing account.
-              log.warn(
-                  "User {} already has an account; link new identity to the existing account.",
-                  who.getUserName());
-              return link(existingId.accountId(), who);
-            }
+      ExternalId id = externalIds.get(who.getExternalIdKey());
+      if (id == null) {
+        if (who.getUserName().isPresent()) {
+          ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, who.getUserName().get());
+          ExternalId existingId = externalIds.get(key);
+          if (existingId != null) {
+            // An inconsistency is detected in the database, having a record for scheme "username:"
+            // but no record for scheme "gerrit:". Try to recover by linking
+            // "gerrit:" identity to the existing account.
+            log.warn(
+                "User {} already has an account; link new identity to the existing account.",
+                who.getUserName());
+            return link(existingId.accountId(), who);
           }
-          // New account, automatically create and return.
-          log.info("External ID not found. Attempting to create new account.");
-          return create(db, who);
         }
-
-        Optional<AccountState> accountState = byIdCache.get(id.accountId());
-        if (!accountState.isPresent()) {
-          log.error(
-              String.format(
-                  "Authentication with external ID %s failed. Account %s doesn't exist.",
-                  id.key().get(), id.accountId().get()));
-          throw new AccountException("Authentication error, account not found");
-        }
-
-        // Account exists
-        Optional<Account> act = updateAccountActiveStatus(who, accountState.get().getAccount());
-        if (!act.isPresent()) {
-          // The account was deleted since we checked for it last time. This should never happen
-          // since we don't support deletion of accounts.
-          throw new AccountException("Authentication error, account not found");
-        }
-        if (!act.get().isActive()) {
-          throw new AccountException("Authentication error, account inactive");
-        }
-
-        // return the identity to the caller.
-        update(who, id);
-        return new AuthResult(id.accountId(), who.getExternalIdKey(), false);
+        // New account, automatically create and return.
+        log.info("External ID not found. Attempting to create new account.");
+        return create(who);
       }
+
+      Optional<AccountState> accountState = byIdCache.get(id.accountId());
+      if (!accountState.isPresent()) {
+        log.error(
+            String.format(
+                "Authentication with external ID %s failed. Account %s doesn't exist.",
+                id.key().get(), id.accountId().get()));
+        throw new AccountException("Authentication error, account not found");
+      }
+
+      // Account exists
+      Optional<Account> act = updateAccountActiveStatus(who, accountState.get().getAccount());
+      if (!act.isPresent()) {
+        // The account was deleted since we checked for it last time. This should never happen
+        // since we don't support deletion of accounts.
+        throw new AccountException("Authentication error, account not found");
+      }
+      if (!act.get().isActive()) {
+        throw new AccountException("Authentication error, account inactive");
+      }
+
+      // return the identity to the caller.
+      update(who, id);
+      return new AuthResult(id.accountId(), who.getExternalIdKey(), false);
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
     }
@@ -289,7 +282,7 @@ public class AccountManager {
     }
   }
 
-  private AuthResult create(ReviewDb db, AuthRequest who)
+  private AuthResult create(AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(sequences.nextAccountId());
 
@@ -349,7 +342,7 @@ public class AccountManager {
               .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
       AccountGroup.UUID adminGroupUuid = admin.getRules().get(0).getGroup().getUUID();
-      addGroupMember(db, adminGroupUuid, user);
+      addGroupMember(adminGroupUuid, user);
     }
 
     realm.onCreateAccount(who, accountState.getAccount());
@@ -369,7 +362,7 @@ public class AccountManager {
     return ExternalId.create(SCHEME_USERNAME, username, accountId);
   }
 
-  private void addGroupMember(ReviewDb db, AccountGroup.UUID groupUuid, IdentifiedUser user)
+  private void addGroupMember(AccountGroup.UUID groupUuid, IdentifiedUser user)
       throws OrmException, IOException, ConfigInvalidException, AccountException {
     // The user initiated this request by logging in. -> Attribute all modifications to that user.
     GroupsUpdate groupsUpdate = groupsUpdateFactory.create(user);
@@ -379,7 +372,7 @@ public class AccountManager {
                 memberIds -> Sets.union(memberIds, ImmutableSet.of(user.getAccountId())))
             .build();
     try {
-      groupsUpdate.updateGroup(db, groupUuid, groupUpdate);
+      groupsUpdate.updateGroup(groupUuid, groupUpdate);
     } catch (NoSuchGroupException e) {
       throw new AccountException(String.format("Group %s not found", groupUuid));
     }

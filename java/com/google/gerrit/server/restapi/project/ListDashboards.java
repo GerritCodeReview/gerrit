@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -33,9 +35,9 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
@@ -93,13 +95,21 @@ public class ListDashboards implements RestReadView<ProjectResource> {
   }
 
   private Collection<ProjectState> tree(ProjectResource rsrc) throws PermissionBackendException {
-    Map<Project.NameKey, ProjectState> tree = new LinkedHashMap<>();
-    for (ProjectState ps : rsrc.getProjectState().tree()) {
-      tree.put(ps.getNameKey(), ps);
+    Set<ProjectState> results = new HashSet<>();
+    for (ProjectState state : rsrc.getProjectState().tree()) {
+      checkNotNull(state, "Failed to load project");
+
+      ProjectPermission permissionToCheck =
+          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+      try {
+        permissionBackend.user(user).project(state.getNameKey()).check(permissionToCheck);
+        results.add(state);
+      } catch (AuthException e) {
+        // Not added to results.
+      }
     }
-    tree.keySet()
-        .retainAll(permissionBackend.user(user).filter(ProjectPermission.ACCESS, tree.keySet()));
-    return tree.values();
+
+    return results;
   }
 
   private List<DashboardInfo> scan(ProjectState state, String project, boolean setDefault)

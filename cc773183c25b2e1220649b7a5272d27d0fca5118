@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1522069558 +0200\nnonce APUGfEIkHmiEnYCLdq/X/z4W0qJ+jKdXIdeBS8NIoxEBqz0BFpPIEHVJXDTIpIbO2J66idTDDD4i\n\n0000000000000000000000000000000000000000 5a1959aa114580df4822797091c6efc2c893e5cd refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlq48DYACgkQUbX9l6DQ\n71HdaAgAqwHAUGSudiRZv+T5PjY8NnDTRfmzqbrvDZc8aWJF1nxvkBZqDtI0By7X\n9/F4nWJGiat7EtKRfkettesdEL+zlvy37WSsPU+ZHCBdJL72GUwFiE8/dPebW2gz\n4tSQaL1wxrlV1IqGDRJRp1wH2vwziB5dvrI2asbz1FsK7J7xivLm6+MmKdlw5+3A\njOHRfdFlConSbU1a6jcrZGnSMFsgflwqLawplPX1Lt1NfDsMfjwrhRD7jrBiYIFR\nVkIizQRfwnzAW6j3vuJkhNdjTc53pqoGrRJqEDKtMtIg4vnQQmVBx7QNNM9ZW011\nsRq2u0ncON8IqGs+nx5+QJ/bgF3RiA\u003d\u003d\n\u003dPUyg\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c88ed0e_b769b6a1",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfigCommitMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-26T15:28:04Z",
+      "side": 1,
+      "message": "You can do this all in a single stream call:\n\n     return Streams.concat(\n             Streams.stream(getFooterForRename()),\n             getFootersForMemberModifications(),\n             getFootersForSubgroupModifications())\n         .sorted()\n         .collect(\n             joining(\"\\n\", originalGroup.isPresent() ? \"Update group\\n\\n\" : \"Create group\\n\\n\", \"\"));",
+      "revId": "cc773183c25b2e1220649b7a5272d27d0fca5118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09cef533_0af05360",
+        "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1539,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-26T15:28:04Z",
+      "side": 1,
+      "message": "It\u0027s probably too late to change this but why do we have a footer line that is not a footer? This doesn\u0027t confuse JGit? (It is still technically valid according to git-interpret-trailers(1)).",
+      "range": {
+        "startLine": 1538,
+        "startChar": 54,
+        "endLine": 1539,
+        "endChar": 0
+      },
+      "revId": "cc773183c25b2e1220649b7a5272d27d0fca5118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

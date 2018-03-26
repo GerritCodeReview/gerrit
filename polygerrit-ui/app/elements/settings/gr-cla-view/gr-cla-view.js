@@ -137,7 +137,7 @@
           if (!config[key].hasOwnProperty(prop)) { return; }
           if (name === config[key].name &&
               !config[key].auto_verify_group) {
-            return 'hideAgreementsTextBox';
+            return 'hide';
           }
         }
       }

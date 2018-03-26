@@ -35,6 +35,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -68,7 +69,6 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       throws OrmException, PermissionBackendException, RestApiException, IOException,
           ConfigInvalidException {
     permissionBackend.user(rsrc.getUser()).check(GlobalPermission.ADMINISTRATE_SERVER);
-    rsrc.getProjectState().checkStatePermitsRead();
 
     if (input == null) {
       throw new BadRequestException("input is required");
@@ -86,8 +86,11 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
     AccessCheckInfo info = new AccessCheckInfo();
 
     IdentifiedUser user = userFactory.create(match.getId());
+    ProjectState projectState = rsrc.getProjectState();
+    ProjectPermission permissionToCheck =
+        projectState.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
     try {
-      permissionBackend.user(user).project(rsrc.getNameKey()).check(ProjectPermission.ACCESS);
+      permissionBackend.user(user).project(rsrc.getNameKey()).check(permissionToCheck);
     } catch (AuthException | PermissionBackendException e) {
       info.message =
           String.format(

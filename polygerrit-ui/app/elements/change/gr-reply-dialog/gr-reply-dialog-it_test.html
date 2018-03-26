@@ -115,7 +115,7 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('send blocked when invalid email is supplied to ccs', () => {
+    test('_submit blocked when invalid email is supplied to ccs', () => {
       const sendStub = sandbox.stub(element, 'send').returns(Promise.resolve());
       // Stub the below function to avoid side effects from the send promise
       // resolving.

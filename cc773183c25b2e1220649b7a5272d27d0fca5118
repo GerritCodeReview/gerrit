@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "a330cf6f_1af9f1d8",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfigCommitMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-03-26T20:16:17Z",
+      "side": 1,
+      "message": "Sigh. I guess there is no way to use setEmptyValue with Collectors#joining. We could use joining(\"\\n\") and prepend the summary only if it\u0027s non-empty, but at that point it\u0027s probably uglier than what you have.",
+      "parentUuid": "efddc666_5d81ae18",
+      "revId": "cc773183c25b2e1220649b7a5272d27d0fca5118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09cef533_0af05360",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
         "patchSetId": 2

@@ -202,11 +202,6 @@ class ProjectControl {
     return false;
   }
 
-  /** Returns whether the project is hidden. */
-  private boolean isHidden() {
-    return getProject().getState().equals(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
-  }
-
   private boolean canAddRefs() {
     return (canPerformOnAnyRef(Permission.CREATE) || isAdmin());
   }
@@ -400,8 +395,7 @@ class ProjectControl {
     private boolean can(ProjectPermission perm) throws PermissionBackendException {
       switch (perm) {
         case ACCESS:
-          return (!isHidden() && (user.isInternalUser() || canPerformOnAnyRef(Permission.READ)))
-              || isOwner();
+          return user.isInternalUser() || isOwner() || canPerformOnAnyRef(Permission.READ);
 
         case READ:
           return allRefsAreVisible(Collections.emptySet());

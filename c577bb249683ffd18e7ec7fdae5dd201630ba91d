@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7d1ac1b_84e48aa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-26T21:21:56Z",
+      "side": 1,
+      "message": "Somehow this breaks the buttons/links. Clicking them no-longer expands content.",
+      "revId": "c577bb249683ffd18e7ec7fdae5dd201630ba91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc229bcf_f02e593b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-26T21:21:56Z",
+      "side": 1,
+      "message": "Nit: capitalize API",
+      "range": {
+        "startLine": 14,
+        "startChar": 54,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "c577bb249683ffd18e7ec7fdae5dd201630ba91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "becf1772_1af7298f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-26T21:21:56Z",
+      "side": 1,
+      "message": "IMO, the only style change we should do for this is to only show the underline on hover. That\u0027s also what I interpret the bug as calling for.\n\nI also much prefer leaving these in the monospaced font.",
+      "range": {
+        "startLine": 14,
+        "startChar": 63,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "c577bb249683ffd18e7ec7fdae5dd201630ba91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

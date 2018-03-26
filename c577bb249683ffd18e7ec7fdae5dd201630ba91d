@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f78d7664_4caffc19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-26T21:55:49Z",
+      "side": 1,
+      "message": "Thanks for this. Fixed, needed to switch a rootTarget to localTarget.",
+      "parentUuid": "d7d1ac1b_84e48aa4",
+      "revId": "c577bb249683ffd18e7ec7fdae5dd201630ba91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc229bcf_f02e593b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5e49ed61_347f0e9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-26T21:55:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc229bcf_f02e593b",
+      "range": {
+        "startLine": 14,
+        "startChar": 54,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "c577bb249683ffd18e7ec7fdae5dd201630ba91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "becf1772_1af7298f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "c577bb249683ffd18e7ec7fdae5dd201630ba91d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24fcc575_52795c5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-26T21:55:49Z",
+      "side": 1,
+      "message": "In the designs, the font isn\u0027t monospaced, and I also accidentally messed up the color when it was originally implemented, so I fixed that. I\u0027m ok with leaving monospaced for now if we want.",
+      "parentUuid": "becf1772_1af7298f",
+      "range": {
+        "startLine": 14,
+        "startChar": 63,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "c577bb249683ffd18e7ec7fdae5dd201630ba91d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -64,6 +64,9 @@ limitations under the License.
         display: flex;
         justify-content: space-between;
         position: sticky;
+        /* Needed to fix bug on ChromeOS where buttons would not be clickable.
+          https://bugs.chromium.org/p/gerrit/issues/detail?id=8602 */
+        z-index: 1;
       }
       .actions .right gr-button {
         margin-left: 1em;

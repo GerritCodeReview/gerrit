@@ -288,6 +288,7 @@
 
     const button = this._createElement('gr-button', 'showContext');
     button.setAttribute('link', true);
+    button.setAttribute('no-uppercase', true);
 
     let text;
     const groups = []; // The groups that replace this one if tapped.
@@ -306,7 +307,7 @@
           [0, contextLines.length - context]);
     }
 
-    button.textContent = text;
+    Polymer.dom(button).textContent = text;
 
     button.addEventListener('tap', e => {
       e.detail = {

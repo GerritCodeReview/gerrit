@@ -14,11 +14,12 @@
 
 package com.google.gerrit.server.project;
 
-import static java.util.stream.Collectors.toList;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -29,6 +30,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,11 +100,22 @@ public class ChildProjects {
       Multimap<Project.NameKey, Project.NameKey> children,
       Project.NameKey parent)
       throws PermissionBackendException {
-    List<Project.NameKey> canSee =
-        perm.filter(ProjectPermission.ACCESS, children.get(parent))
-            .stream()
-            .sorted()
-            .collect(toList());
+    List<Project.NameKey> canSee = new ArrayList<>();
+    for (Project.NameKey parentName : children.get(parent)) {
+      ProjectState state = projectCache.get(parentName);
+      checkNotNull(state, "Failed to load project %s", parentName);
+
+      ProjectPermission permissionToCheck =
+          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+      try {
+        perm.project(parentName).check(permissionToCheck);
+        canSee.add(parentName);
+      } catch (AuthException e) {
+        // Do not include this project.
+      }
+    }
+    Collections.sort(canSee, Comparator.naturalOrder());
+
     children.removeAll(parent); // removing all entries prevents cycles.
 
     for (Project.NameKey c : canSee) {

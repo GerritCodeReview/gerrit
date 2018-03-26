@@ -16,7 +16,9 @@ package com.google.gerrit.server.restapi.project;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,9 +34,10 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import org.kohsuke.args4j.Option;
 
 public class ListChildProjects implements RestReadView<ProjectResource> {
@@ -82,19 +85,28 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
 
   private List<ProjectInfo> directChildProjects(Project.NameKey parent)
       throws PermissionBackendException {
-    Map<Project.NameKey, Project> children = new HashMap<>();
-    for (Project.NameKey name : projectCache.all()) {
-      ProjectState c = projectCache.get(name);
-      if (c != null && parent.equals(c.getProject().getParent(allProjects))) {
-        children.put(c.getNameKey(), c.getProject());
+    List<Project.NameKey> projects = new ArrayList<>(projectCache.all());
+    if (projects.isEmpty()) {
+      return ImmutableList.of();
+    }
+
+    Collections.sort(projects, Comparator.naturalOrder());
+
+    List<Project> children = new ArrayList<>();
+    for (Project.NameKey name : projects) {
+      ProjectState state = projectCache.get(name);
+      if (state != null && parent.equals(state.getProject().getParent(allProjects))) {
+        ProjectPermission permissionToCheck =
+            state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+        try {
+          permissionBackend.user(user).project(name).check(permissionToCheck);
+          children.add(state.getProject());
+        } catch (AuthException e) {
+          // Not added to results.
+        }
       }
     }
-    return permissionBackend
-        .user(user)
-        .filter(ProjectPermission.ACCESS, children.keySet())
-        .stream()
-        .sorted()
-        .map((p) -> json.format(children.get(p)))
-        .collect(toList());
+
+    return children.stream().map(p -> json.format(p)).collect(toList());
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
@@ -521,11 +522,24 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     if (type == FilterType.PARENT_CANDIDATES) {
       matches = parentsOf(matches);
     }
-    // TODO(dborowitz): Streamified PermissionBackend#filter.
-    return perm.filter(ProjectPermission.ACCESS, matches.collect(toList()))
-        .stream()
-        .sorted()
-        .collect(toList());
+
+    List<Project.NameKey> results = new ArrayList<>();
+    List<Project.NameKey> projectNameKeys = matches.sorted().collect(toList());
+    for (Project.NameKey nameKey : projectNameKeys) {
+      ProjectState state = projectCache.get(nameKey);
+      checkNotNull(state, "Failed to load project %s", nameKey);
+
+      ProjectPermission permissionToCheck =
+          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+      try {
+        perm.project(nameKey).check(permissionToCheck);
+        results.add(nameKey);
+      } catch (AuthException e) {
+        // Not added to results.
+      }
+    }
+
+    return results;
   }
 
   private Stream<Project.NameKey> parentsOf(Stream<Project.NameKey> matches) {
@@ -551,13 +565,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private boolean isParentAccessible(
-      Map<Project.NameKey, Boolean> checked, PermissionBackend.WithUser perm, ProjectState p)
+      Map<Project.NameKey, Boolean> checked, PermissionBackend.WithUser perm, ProjectState state)
       throws PermissionBackendException {
-    Project.NameKey name = p.getNameKey();
+    Project.NameKey name = state.getNameKey();
     Boolean b = checked.get(name);
     if (b == null) {
       try {
-        perm.project(name).check(ProjectPermission.ACCESS);
+        ProjectPermission permissionToCheck =
+            state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+        perm.project(name).check(permissionToCheck);
         b = true;
       } catch (AuthException denied) {
         b = false;

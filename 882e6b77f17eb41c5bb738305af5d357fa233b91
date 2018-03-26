@@ -16,6 +16,24 @@
       "revId": "882e6b77f17eb41c5bb738305af5d357fa233b91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c0f9655_e63f801c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-26T07:19:34Z",
+      "side": 1,
+      "message": "I\u0027m considering grouping permission related class to a sub-package \"permission\" and permissionbackend related class to a sub-package \"backend\". That\u0027s why I tried to rename this package to a new name.\n\nIdeally, all gerrit permissions could implement the same interface, e.g. GerritPermission. But I know \"PluginPermission\" is an exception. Maybe we could define the interface \"GerritPermission\" in the \"api.access\" package. By doing this, all the permission respect the same interface and easier to manage.\n\nFor \"backend\" sub-package, I\u0027m considering if we could refactor(move, rename) those existing classes so that they will contain class like \"DefaultForProjectImpl\", \"DefaultForChangeImpl\", \"DefaultForRefImpl\", which is consistent with our other implementation.\n\nBut, this is *maybe*. I will first move non-permission logic out from the DefaultPermissionBackend.",
+      "parentUuid": "a666ba32_3c51d25c",
+      "revId": "882e6b77f17eb41c5bb738305af5d357fa233b91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

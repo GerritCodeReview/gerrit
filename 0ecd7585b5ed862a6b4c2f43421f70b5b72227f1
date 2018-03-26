@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15df2696_6671987e",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-26T09:41:37Z",
+      "side": 1,
+      "message": "I would not place these comments in code as they get outdated quite fast when the code changes.\n\nI\u0027d just remove it.\n\nAlternatively, you can just perform the check again which makes the code resilient against future changes (this method is now also called from somewhere else). The check is performed entirely in memory and just checks a boolean, so it is pretty much for free.",
+      "revId": "0ecd7585b5ed862a6b4c2f43421f70b5b72227f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

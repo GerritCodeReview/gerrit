@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "adc079c6_47e086f9",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48f0a5b8_ae4ac9e2",
+      "revId": "96611ef5988e8f599afcbaac2341feed306f3b61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6815658e_47544984",
         "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "463a0d26_39736e04",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:41:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure under what circumstances it might happen, but let\u0027s convert it to an error",
+      "parentUuid": "6815658e_47544984",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "96611ef5988e8f599afcbaac2341feed306f3b61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c865d4d_a77061de",
         "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
         "patchSetId": 5
@@ -62,6 +104,30 @@
       "revId": "96611ef5988e8f599afcbaac2341feed306f3b61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a603a794_d60b0002",
+        "filename": "java/com/google/gerrit/server/rules/DefaultSubmitRule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-03-26T16:41:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c865d4d_a77061de",
+      "range": {
+        "startLine": 124,
+        "startChar": 17,
+        "endLine": 124,
+        "endChar": 36
+      },
+      "revId": "96611ef5988e8f599afcbaac2341feed306f3b61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

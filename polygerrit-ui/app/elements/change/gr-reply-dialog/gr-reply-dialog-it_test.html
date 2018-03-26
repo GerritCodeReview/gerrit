@@ -110,8 +110,6 @@ limitations under the License.
     });
 
     teardown(() => {
-      Gerrit._pluginsPending = -1;
-      Gerrit._allPluginsPromise = undefined;
       sandbox.restore();
     });
 
@@ -132,12 +130,14 @@ limitations under the License.
     });
 
     test('lgtm plugin', done => {
+      Gerrit._resetPlugins();
       const pluginHost = fixture('plugin-host');
       pluginHost.config = {
         plugin: {
           js_resource_paths: [],
           html_resource_paths: [
-            new URL('test/plugin.html', window.location.href).toString(),
+            new URL('test/plugin.html?' + Math.random(),
+                    window.location.href).toString(),
           ],
         },
       };

@@ -37,7 +37,7 @@ limitations under the License.
     let element;
     let sandbox;
 
-    setup(() => {
+    setup(done => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
       stub('gr-rest-api-interface', {
@@ -45,7 +45,9 @@ limitations under the License.
           return Promise.resolve({});
         },
       });
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+      const pluginsLoaded = Promise.resolve();
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(pluginsLoaded);
+      pluginsLoaded.then(() => flush(done));
     });
 
     teardown(() => {
@@ -343,6 +345,7 @@ limitations under the License.
               }));
           sandbox.stub(element.$.restAPI, 'getIsGroupOwner')
               .returns(Promise.resolve(true));
+          return element.reload();
         });
 
         test('group list', () => {

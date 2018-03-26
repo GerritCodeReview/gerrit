@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.TaskResource;
@@ -30,6 +31,8 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -41,6 +44,7 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
   private final WorkQueue workQueue;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
+  private final ProjectCache projectCache;
 
   @Inject
   TasksCollection(
@@ -48,12 +52,14 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
       ListTasks list,
       WorkQueue workQueue,
       Provider<CurrentUser> self,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectCache projectCache) {
     this.views = views;
     this.list = list;
     this.workQueue = workQueue;
     this.self = self;
     this.permissionBackend = permissionBackend;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -78,11 +84,14 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
 
     Task<?> task = workQueue.getTask(taskId);
     if (task instanceof ProjectTask) {
+      Project.NameKey nameKey = ((ProjectTask<?>) task).getProjectNameKey();
+      ProjectState state = projectCache.get(nameKey);
+      if (state == null || !state.statePermitsRead()) {
+        throw new ResourceNotFoundException(String.format("project %s not found", nameKey));
+      }
+
       try {
-        permissionBackend
-            .user(user)
-            .project(((ProjectTask<?>) task).getProjectNameKey())
-            .check(ProjectPermission.ACCESS);
+        permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
         return new TaskResource(task);
       } catch (AuthException e) {
         // Fall through and try view queue permission.

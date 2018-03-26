@@ -28,6 +28,8 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,13 +48,18 @@ public class ListTasks implements RestReadView<ConfigResource> {
   private final PermissionBackend permissionBackend;
   private final WorkQueue workQueue;
   private final Provider<CurrentUser> self;
+  private final ProjectCache projectCache;
 
   @Inject
   public ListTasks(
-      PermissionBackend permissionBackend, WorkQueue workQueue, Provider<CurrentUser> self) {
+      PermissionBackend permissionBackend,
+      WorkQueue workQueue,
+      Provider<CurrentUser> self,
+      ProjectCache projectCache) {
     this.permissionBackend = permissionBackend;
     this.workQueue = workQueue;
     this.self = self;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -77,14 +84,17 @@ public class ListTasks implements RestReadView<ConfigResource> {
       if (task.projectName != null) {
         Boolean visible = visibilityCache.get(task.projectName);
         if (visible == null) {
-          try {
-            permissionBackend
-                .user(user)
-                .project(new Project.NameKey(task.projectName))
-                .check(ProjectPermission.ACCESS);
-            visible = true;
-          } catch (AuthException e) {
+          Project.NameKey nameKey = new Project.NameKey(task.projectName);
+          ProjectState state = projectCache.get(nameKey);
+          if (state == null || !state.statePermitsRead()) {
             visible = false;
+          } else {
+            try {
+              permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+              visible = true;
+            } catch (AuthException e) {
+              visible = false;
+            }
           }
           visibilityCache.put(task.projectName, visible);
         }

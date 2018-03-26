@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.reviewdb.client.Project;
@@ -26,6 +27,7 @@ import com.google.inject.Singleton;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Singleton
 public class SuggestParentCandidates {
@@ -42,12 +44,20 @@ public class SuggestParentCandidates {
   }
 
   public List<Project.NameKey> getNameKeys() throws PermissionBackendException {
+    Set<Project.NameKey> readableParents =
+        parents().stream().filter(p -> isReadable(p)).collect(Collectors.toSet());
     return permissionBackend
         .currentUser()
-        .filter(ProjectPermission.ACCESS, parents())
+        .filter(ProjectPermission.ACCESS, readableParents)
         .stream()
         .sorted()
         .collect(toList());
+  }
+
+  private boolean isReadable(Project.NameKey nameKey) {
+    ProjectState projectState = projectCache.get(nameKey);
+    checkNotNull(projectState, "Failed to load project %s", nameKey);
+    return projectState.statePermitsRead();
   }
 
   private Set<Project.NameKey> parents() {

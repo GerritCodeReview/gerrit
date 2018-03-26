@@ -34,11 +34,13 @@
     _configChanged(config) {
       const plugins = config.plugin;
       const htmlPlugins = plugins.html_resource_paths || [];
-      const jsPlugins = this._handleMigrations(plugins.js_resource_paths || [],
-          htmlPlugins);
+      const jsPlugins =
+          this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins);
       const defaultTheme = config.default_theme;
-      Gerrit._setPluginsCount(
-          jsPlugins.length + htmlPlugins.length + (defaultTheme ? 1 : 0));
+      const pluginsPending =
+            [].concat(jsPlugins, htmlPlugins, defaultTheme || []).map(
+                p => this._urlFor(p));
+      Gerrit._setPluginsPending(pluginsPending);
       if (defaultTheme) {
         // Make theme first to be first to load.
         // Load sync to work around rare theme loading race condition.
@@ -72,7 +74,9 @@
         // onload (second param) needs to be a function. When null or undefined
         // were passed, plugins were not loaded correctly.
         this.importHref(
-            this._urlFor(url), () => {}, Gerrit._pluginInstalled, async);
+            this._urlFor(url), () => {},
+            Gerrit._pluginInstallError.bind(null, `${url} import error`),
+            async);
       }
     },
 
@@ -86,18 +90,20 @@
       const el = document.createElement('script');
       el.defer = true;
       el.src = url;
-      el.onerror = Gerrit._pluginInstalled;
+      el.onerror = Gerrit._pluginInstallError.bind(null, `${url} load error`);
       return document.body.appendChild(el);
     },
 
     _urlFor(pathOrUrl) {
       if (pathOrUrl.startsWith('http')) {
+        // Plugins are loaded from another domain.
         return pathOrUrl;
       }
       if (!pathOrUrl.startsWith('/')) {
         pathOrUrl = '/' + pathOrUrl;
       }
-      return this.getBaseUrl() + pathOrUrl;
+      const {href, pathname} = window.location;
+      return href.split(pathname)[0] + this.getBaseUrl() + pathOrUrl;
     },
   });
 })();

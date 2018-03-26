@@ -69,8 +69,6 @@ limitations under the License.
     });
 
     teardown(() => {
-      Gerrit._pluginsPending = -1;
-      Gerrit._allPluginsPromise = undefined;
       sandbox.restore();
     });
 
@@ -89,6 +87,7 @@ limitations under the License.
 
     suite('with plugin style', () => {
       setup(done => {
+        Gerrit._resetPlugins();
         const pluginHost = fixture('plugin-host');
         pluginHost.config = {
           plugin: {

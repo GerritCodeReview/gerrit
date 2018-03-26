@@ -160,12 +160,15 @@ limitations under the License.
       .contextControl {
         background-color: #fff7d4;
         border: 1px solid #f6e6a5;
-        color: rgba(0,0,0.54);
       }
       .contextControl gr-button {
         display: inline-block;
-        font-family: var(--monospace-font-family);
         text-decoration: none;
+        --gr-button-color: rgba(0,0,0,.54);
+        --gr-button: {
+          font-family: var(--monospace-font-family);
+          padding: .2em;
+        }
       }
       .contextControl td:not(.lineNum) {
         text-align: center;

@@ -321,7 +321,7 @@
     },
 
     _handleTap(e) {
-      const el = Polymer.dom(e).rootTarget;
+      const el = Polymer.dom(e).localTarget;
 
       if (el.classList.contains('showContext')) {
         this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);

@@ -14,12 +14,6 @@
 
 package com.google.gerrit.testing;
 
-import com.google.gerrit.reviewdb.server.AccountGroupAccess;
-import com.google.gerrit.reviewdb.server.AccountGroupByIdAccess;
-import com.google.gerrit.reviewdb.server.AccountGroupByIdAudAccess;
-import com.google.gerrit.reviewdb.server.AccountGroupMemberAccess;
-import com.google.gerrit.reviewdb.server.AccountGroupMemberAuditAccess;
-import com.google.gerrit.reviewdb.server.AccountGroupNameAccess;
 import com.google.gerrit.reviewdb.server.ChangeAccess;
 import com.google.gerrit.reviewdb.server.ChangeMessageAccess;
 import com.google.gerrit.reviewdb.server.PatchLineCommentAccess;
@@ -82,26 +76,6 @@ public class DisabledReviewDb implements ReviewDb {
   }
 
   @Override
-  public AccountGroupAccess accountGroups() {
-    throw new Disabled();
-  }
-
-  @Override
-  public AccountGroupNameAccess accountGroupNames() {
-    throw new Disabled();
-  }
-
-  @Override
-  public AccountGroupMemberAccess accountGroupMembers() {
-    throw new Disabled();
-  }
-
-  @Override
-  public AccountGroupMemberAuditAccess accountGroupMembersAudit() {
-    throw new Disabled();
-  }
-
-  @Override
   public ChangeAccess changes() {
     throw new Disabled();
   }
@@ -123,16 +97,6 @@ public class DisabledReviewDb implements ReviewDb {
 
   @Override
   public PatchLineCommentAccess patchComments() {
-    throw new Disabled();
-  }
-
-  @Override
-  public AccountGroupByIdAccess accountGroupById() {
-    throw new Disabled();
-  }
-
-  @Override
-  public AccountGroupByIdAudAccess accountGroupByIdAud() {
     throw new Disabled();
   }
 

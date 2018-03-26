@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "278b861d_2f6983bf",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-26T07:14:16Z",
+      "side": 1,
+      "message": "Use checkNotNull?\n\nE.g.:\n\nProjectState projectState \u003d checkNotNull(createProject(args));",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 227,
+        "endChar": 7
+      },
+      "revId": "41160e495308c8ad2808bd5a31247dc892999e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

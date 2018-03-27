@@ -34,6 +34,8 @@ This command is intended to be used in scripts.
   Currently supported values:
     * changes
     * accounts
+    * groups
+    * projects
 
 --force::
   Force an online re-index.

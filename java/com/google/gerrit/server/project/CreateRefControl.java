@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -78,7 +79,7 @@ public class CreateRefControl {
     PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(branch);
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
-      checkCreateCommit(repo, (RevCommit) object, ps, perm);
+      checkCreateCommit(repo, (RevCommit) object, ps.getNameKey(), perm);
     } else if (object instanceof RevTag) {
       RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -98,7 +99,7 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit) {
-        checkCreateCommit(repo, (RevCommit) target, ps, perm);
+        checkCreateCommit(repo, (RevCommit) target, ps.getNameKey(), perm);
       } else {
         checkCreateRef(user, repo, branch, target);
       }
@@ -119,7 +120,7 @@ public class CreateRefControl {
    * new commit to the repository.
    */
   private void checkCreateCommit(
-      Repository repo, RevCommit commit, ProjectState projectState, PermissionBackend.ForRef forRef)
+      Repository repo, RevCommit commit, Project.NameKey project, PermissionBackend.ForRef forRef)
       throws AuthException, PermissionBackendException {
     try {
       // If the user has update (push) permission, they can create the ref regardless
@@ -129,7 +130,7 @@ public class CreateRefControl {
     } catch (AuthException denied) {
       // Fall through to check reachability.
     }
-    if (reachable.fromHeadsOrTags(projectState, repo, commit)) {
+    if (reachable.fromHeadsOrTags(project, repo, commit)) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref

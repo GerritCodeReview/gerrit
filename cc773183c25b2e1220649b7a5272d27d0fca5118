@@ -56,6 +56,24 @@
     },
     {
       "key": {
+        "uuid": "4d001af9_e44598bb",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfigCommitMessage.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-03-27T07:22:06Z",
+      "side": 1,
+      "message": "I think the sorting can still be done by using streams.\n\nDone",
+      "parentUuid": "a330cf6f_1af9f1d8",
+      "revId": "cc773183c25b2e1220649b7a5272d27d0fca5118",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09cef533_0af05360",
         "filename": "javatests/com/google/gerrit/server/group/db/GroupConfigTest.java",
         "patchSetId": 2

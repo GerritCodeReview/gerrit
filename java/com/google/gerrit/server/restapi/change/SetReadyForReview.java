@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.change.WorkInProgressOp.Input;
@@ -47,7 +46,6 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
     implements UiAction<ChangeResource> {
   private final WorkInProgressOp.Factory opFactory;
   private final Provider<ReviewDb> db;
-  private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
 
   @Inject
@@ -55,12 +53,10 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
       RetryHelper retryHelper,
       WorkInProgressOp.Factory opFactory,
       Provider<ReviewDb> db,
-      Provider<CurrentUser> self,
       PermissionBackend permissionBackend) {
     super(retryHelper);
     this.opFactory = opFactory;
     this.db = db;
-    this.self = self;
     this.permissionBackend = permissionBackend;
   }
 

@@ -241,16 +241,12 @@ public class GitOverHttpServlet extends GitServlet {
   static class UploadFilter implements Filter {
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final PermissionBackend permissionBackend;
-    private final Provider<CurrentUser> userProvider;
 
     @Inject
     UploadFilter(
-        UploadValidators.Factory uploadValidatorsFactory,
-        PermissionBackend permissionBackend,
-        Provider<CurrentUser> userProvider) {
+        UploadValidators.Factory uploadValidatorsFactory, PermissionBackend permissionBackend) {
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.permissionBackend = permissionBackend;
-      this.userProvider = userProvider;
     }
 
     @Override

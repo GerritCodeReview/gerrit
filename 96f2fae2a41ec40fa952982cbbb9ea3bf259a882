@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2d5c4e8_7527d169",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 633,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-27T07:00:24Z",
+      "side": 1,
+      "message": "nit: these can be static",
+      "revId": "96f2fae2a41ec40fa952982cbbb9ea3bf259a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61c4716_b19e119f",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-27T07:00:24Z",
+      "side": 1,
+      "message": "nit: can be static",
+      "revId": "96f2fae2a41ec40fa952982cbbb9ea3bf259a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "640215cf_0236d85b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-27T07:00:24Z",
+      "side": 1,
+      "message": "nit: remove and inline an anonymous class in createModule",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 62,
+        "endChar": 3
+      },
+      "revId": "96f2fae2a41ec40fa952982cbbb9ea3bf259a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

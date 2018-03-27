@@ -109,7 +109,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       JestClientBuilder clientBuilder,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, fillArgs, sitePaths, schema, clientBuilder, CHANGES_PREFIX);
+    super(cfg, fillArgs, sitePaths, schema, clientBuilder, CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     mapping = new ChangeMapping(schema);

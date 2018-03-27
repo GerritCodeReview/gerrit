@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -94,10 +95,22 @@ public abstract class PermissionBackend {
   public abstract WithUser currentUser();
 
   /**
-   * Returns an instance scoped to the specified user. If an instance scoped to the current user is
-   * desired, use {@code currentUser()} instead.
+   * Returns an instance scoped to the specified user. Should be used in cases where the user could
+   * either be the current user or an impersonated user. PermissionBackends that do not support
+   * impersonation can fail with an {@code IllegalStateException}.
+   *
+   * <p>If an instance scoped to the current user is desired, use {@code currentUser()} instead.
    */
   public abstract WithUser user(CurrentUser user);
+
+  /**
+   * Returns an instance scoped to the provided user. Should be used in cases where the caller wants
+   * to check the permissions of a user who is not the issuer of the current request and not the
+   * target of impersonation.
+   *
+   * <p>Usage should be very limited as this can expose a group-oracle.
+   */
+  public abstract WithUser absentUser(Account.Id user);
 
   /**
    * Bulk evaluate a set of {@link PermissionBackendCondition} for view handling.

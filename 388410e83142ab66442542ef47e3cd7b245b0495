@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "489a3eed_ba361298",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-27T08:35:44Z",
+      "side": 1,
+      "message": "\u003e The idea is that HIDDEN projects can need to be accessible by project owners so that they can change the state back to either one of {READ_ONLY,ACTIVE}. That requires WRITE_CONFIG as it requires a config change.\n\nHere we are caring about the \"ACCESS\" permission. When someone checks \"ACCESS\", it\u0027s checking whether the user is allowed to access the project. We don\u0027t know the original motivation of the permission check, it could be \"ListProjects\" or \"CheckAccess\". In these cases, we should make sure the check for \"ACCESS\" is correct, thus\nwe check the ProjectState to choose the right permission to check. \n\n\u003e I therefore think that WRITE_CONFIG would be the better choice.\n\nBoth \"READ_CONFIG\" and \u0027WRITE_CONFIG\" are only allowed to project owners. I chose \"READ_CONFIG\", because \"ACCESS\" is a read permissions, it doesn\u0027t grant *write*. We couldn\u0027t allow users to write by just checking a read permission?",
+      "parentUuid": "f8b70886_84eb9aca",
+      "revId": "388410e83142ab66442542ef47e3cd7b245b0495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb82028b_25144e80",
         "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-03-27T08:13:34Z",
       "side": 1,
       "message": "I think we shouldn\u0027t have this check everywhere.\n\nThe scenario we want to enable is that a project owner can still see a HIDDEN project in the API (as long as they specify the parameter for that) and then use the API to set this back to another state.\n\nThis means that we don\u0027t have to make this switch *everywhere* where we check ACCESS but only in a handful of places which let\u0027s us cut down on boiler plate significantly.\n\nI case we identify more than say three places where this is required for the scenario we have in mind it\u0027d be nice to have this in a Util class.",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 96
+      },
+      "revId": "388410e83142ab66442542ef47e3cd7b245b0495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81179d80_8295c27d",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-27T08:35:44Z",
+      "side": 1,
+      "message": "\u003e I think we shouldn\u0027t have this check everywhere.\n\u003e \n\u003e The scenario we want to enable is that a project owner can still see a HIDDEN project in the API (as long as they specify the parameter for that) and then use the API to set this back to another state.\n\u003e \n\u003e This means that we don\u0027t have to make this switch *everywhere* where we check ACCESS but only in a handful of places which let\u0027s us cut down on boiler plate significantly.\n\u003e \n\u003e I case we identify more than say three places where this is required for the scenario we have in mind it\u0027d be nice to have this in a Util class.\n\nFor me, a Util class sounds like another ProjectControl. Of course, we could do that if necessary. But for this topic, I didn\u0027t feel it will help us a lot. :(",
+      "parentUuid": "eb82028b_25144e80",
       "range": {
         "startLine": 192,
         "startChar": 8,

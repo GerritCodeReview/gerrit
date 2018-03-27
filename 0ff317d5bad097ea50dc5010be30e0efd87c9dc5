@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47a7228b_124f4f6f",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-27T18:42:30Z",
+      "side": 1,
+      "message": "Remove this TODO comment.",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 58
+      },
+      "revId": "0ff317d5bad097ea50dc5010be30e0efd87c9dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -44,6 +44,7 @@ import io.searchbox.indices.DeleteIndex;
 import io.searchbox.indices.IndicesExists;
 import java.io.IOException;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 
@@ -62,6 +63,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final FillArgs fillArgs;
   private final SitePaths sitePaths;
+  private final String indexNameRaw;
 
   protected final String indexName;
   protected final JestHttpClient client;
@@ -87,6 +89,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
             indexName,
             schema.getVersion());
     this.client = clientBuilder.build();
+    indexNameRaw = StringUtils.removeEnd(indexName, "_");
   }
 
   @Override
@@ -101,7 +104,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-    IndexUtils.setReady(sitePaths, indexName, schema.getVersion(), ready);
+    IndexUtils.setReady(sitePaths, indexNameRaw, schema.getVersion(), ready);
   }
 
   @Override

@@ -52,19 +52,9 @@ public class ElasticVersionManager extends AbstractVersionManager implements Lif
   }
 
   @Override
-  protected <V> boolean isDirty(Collection<Version<V>> inUse, Version<V> v) {
-    return !inUse.contains(v);
-  }
-
-  @Override
   protected <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>> scanVersions(
       IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
     TreeMap<Integer, Version<V>> versions = new TreeMap<>();
-    for (Schema<V> schema : def.getSchemas().values()) {
-      int v = schema.getVersion();
-      versions.put(v, new Version<>(schema, v, cfg.getReady(def.getName(), v)));
-    }
-
     try {
       for (String version : versionDiscovery.discover(prefix, def.getName())) {
         Integer v = Ints.tryParse(version);
@@ -72,12 +62,16 @@ public class ElasticVersionManager extends AbstractVersionManager implements Lif
           log.warn("Unrecognized version in index {}: {}", def.getName(), version);
           continue;
         }
-        if (!versions.containsKey(v)) {
-          versions.put(v, new Version<V>(null, v, cfg.getReady(def.getName(), v)));
-        }
+        versions.put(v, new Version<V>(null, v, true, cfg.getReady(def.getName(), v)));
       }
     } catch (IOException e) {
       log.error("Error scanning index: " + def.getName(), e);
+    }
+
+    for (Schema<V> schema : def.getSchemas().values()) {
+      int v = schema.getVersion();
+      boolean exists = versions.containsKey(v);
+      versions.put(v, new Version<>(schema, v, exists, cfg.getReady(def.getName(), v)));
     }
     return versions;
   }

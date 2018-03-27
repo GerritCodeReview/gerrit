@@ -69,7 +69,7 @@ public class PostWatchedProjects
       throws OrmException, RestApiException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 
     Map<ProjectWatchKey, Set<NotifyType>> projectWatches = asMap(input);

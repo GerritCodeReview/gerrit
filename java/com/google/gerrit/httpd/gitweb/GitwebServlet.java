@@ -112,11 +112,11 @@ class GitwebServlet extends HttpServlet {
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      Provider<AnonymousUser> anonymousUserProvider,
       Provider<CurrentUser> userProvider,
       SitePaths site,
       @GerritServerConfig Config cfg,
       SshInfo sshInfo,
+      Provider<AnonymousUser> anonymousUserProvider,
       GitwebConfig gitwebConfig,
       GitwebCgiConfig gitwebCgiConfig)
       throws IOException {
@@ -423,7 +423,10 @@ class GitwebServlet extends HttpServlet {
       }
 
       projectState.checkStatePermitsRead();
-      permissionBackend.user(userProvider).project(nameKey).check(ProjectPermission.READ);
+      permissionBackend
+          .user(anonymousUserProvider.get())
+          .project(nameKey)
+          .check(ProjectPermission.READ);
     } catch (AuthException e) {
       sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
       return;
@@ -584,7 +587,7 @@ class GitwebServlet extends HttpServlet {
 
     if (projectState.statePermitsRead()
         && permissionBackend
-            .user(anonymousUserProvider)
+            .user(anonymousUserProvider.get())
             .project(nameKey)
             .testOrFalse(ProjectPermission.READ)) {
       env.set("GERRIT_ANONYMOUS_READ", "1");

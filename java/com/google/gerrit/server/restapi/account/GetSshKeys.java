@@ -58,7 +58,7 @@ public class GetSshKeys implements RestReadView<AccountResource> {
       throws AuthException, OrmException, RepositoryNotFoundException, IOException,
           ConfigInvalidException, PermissionBackendException {
     if (self.get() != rsrc.getUser()) {
-      permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
     return apply(rsrc.getUser());
   }

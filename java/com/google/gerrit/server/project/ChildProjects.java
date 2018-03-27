@@ -20,13 +20,11 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +36,6 @@ import java.util.Map;
 public class ChildProjects {
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final AllProjectsName allProjects;
   private final ProjectJson json;
 
@@ -46,12 +43,10 @@ public class ChildProjects {
   ChildProjects(
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       AllProjectsName allProjectsName,
       ProjectJson json) {
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.allProjects = allProjectsName;
     this.json = json;
   }
@@ -60,7 +55,7 @@ public class ChildProjects {
   public List<ProjectInfo> list(Project.NameKey parent) throws PermissionBackendException {
     Map<Project.NameKey, Project> projects = readAllProjects();
     Multimap<Project.NameKey, Project.NameKey> children = parentToChildren(projects);
-    PermissionBackend.WithUser perm = permissionBackend.user(user);
+    PermissionBackend.WithUser perm = permissionBackend.currentUser();
 
     List<ProjectInfo> results = new ArrayList<>();
     depthFirstFormat(results, perm, projects, children, parent);

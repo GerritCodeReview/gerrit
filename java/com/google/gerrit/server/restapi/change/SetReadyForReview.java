@@ -70,7 +70,7 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
       throws RestApiException, UpdateException, PermissionBackendException {
     Change change = rsrc.getChange();
     if (!rsrc.isUserOwner()
-        && !permissionBackend.user(self).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        && !permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)) {
       throw new AuthException("not allowed to set ready for review");
     }
 

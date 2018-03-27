@@ -261,7 +261,7 @@ public class GitOverHttpServlet extends GitServlet {
       ProjectState state = (ProjectState) request.getAttribute(ATT_STATE);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
       PermissionBackend.ForProject perm =
-          permissionBackend.user(userProvider).project(state.getNameKey());
+          permissionBackend.currentUser().project(state.getNameKey());
       try {
         perm.check(ProjectPermission.RUN_UPLOAD_PACK);
       } catch (AuthException e) {
@@ -356,7 +356,7 @@ public class GitOverHttpServlet extends GitServlet {
       Capable s;
       try {
         permissionBackend
-            .user(userProvider)
+            .currentUser()
             .project(state.getNameKey())
             .check(ProjectPermission.RUN_RECEIVE_PACK);
         s = arc.canUpload();

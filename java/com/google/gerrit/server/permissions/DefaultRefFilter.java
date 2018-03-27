@@ -105,8 +105,7 @@ class DefaultRefFilter {
         permissionBackend.user(user).database(db).project(projectState.getNameKey());
   }
 
-  Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
-      throws PermissionBackendException {
+  Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts) {
     if (projectState.isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
@@ -283,7 +282,10 @@ class DefaultRefFilter {
             .ref(visibleChanges.get(id).get())
             .check(RefPermission.READ_PRIVATE_CHANGES);
         return true;
-      } catch (PermissionBackendException | AuthException e) {
+      } catch (AuthException e) {
+        return false;
+      } catch (PermissionBackendException e) {
+        log.error("Failed to check permission for " + id + " in " + projectState.getName(), e);
         return false;
       }
     }
@@ -336,7 +338,7 @@ class DefaultRefFilter {
         return r.notes();
       }
     } catch (PermissionBackendException e) {
-      log.warn("Failed to check permission for " + r.id() + " in " + projectState.getName(), e);
+      log.error("Failed to check permission for " + r.id() + " in " + projectState.getName(), e);
     }
     return null;
   }

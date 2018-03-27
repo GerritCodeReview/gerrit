@@ -88,7 +88,6 @@
       text: {
         type: String,
         value: '',
-        observer: '_updateSuggestions',
         notify: true,
       },
 
@@ -168,6 +167,7 @@
 
     observers: [
       '_maybeOpenDropdown(_suggestions, _focused)',
+      '_updateSuggestions(text, threshold, debounceWait)',
     ],
 
     attached() {
@@ -219,7 +219,7 @@
 
     _onInputFocus() {
       this._focused = true;
-      this._updateSuggestions();
+      this._updateSuggestions(this.text, this.threshold, this.debounceWait);
       this.$.input.classList.remove('warnUncommitted');
       // Needed so that --paper-input-container-input updated style is applied.
       this.updateStyles();
@@ -232,14 +232,13 @@
       this.updateStyles();
     },
 
-    _updateSuggestions() {
+    _updateSuggestions(text, threshold, debounceWait) {
       if (this._disableSuggestions) { return; }
-      if (this.text === undefined || this.text.length < this.threshold) {
+      if (text === undefined || text.length < threshold) {
         this._suggestions = [];
         this.value = '';
         return;
       }
-      const text = this.text;
 
       const update = () => {
         this.query(text).then(suggestions => {
@@ -258,8 +257,8 @@
         });
       };
 
-      if (this.debounceWait) {
-        this.debounce('update-suggestions', update, this.debounceWait);
+      if (debounceWait) {
+        this.debounce('update-suggestions', update, debounceWait);
       } else {
         update();
       }

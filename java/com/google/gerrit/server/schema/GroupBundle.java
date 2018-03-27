@@ -195,7 +195,7 @@ abstract class GroupBundle {
         Timestamp createdOn = rs.getTimestamp(3);
         String description = rs.getString(4);
         AccountGroup.UUID ownerGroupUuid = new AccountGroup.UUID(rs.getString(5));
-        boolean visibleToAll = rs.getBoolean(6);
+        boolean visibleToAll = "Y".equals(rs.getString(6));
 
         AccountGroup group = new AccountGroup(groupName, groupId, groupUuid, createdOn);
         group.setDescription(description);

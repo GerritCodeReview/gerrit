@@ -90,12 +90,12 @@ import org.slf4j.LoggerFactory;
 public abstract class PermissionBackend {
   private static final Logger logger = LoggerFactory.getLogger(PermissionBackend.class);
 
-  /** @return lightweight factory scoped to answer for the current user. */
+  /** Returns an instance scoped to the current user. */
   public abstract WithUser currentUser();
 
   /**
-   * @return lightweight factory scoped to answer for the specified user. If an instance scoped to
-   *     the current user is desired, use {@code currentUser()} instead.
+   * Returns an instance scoped to the specified user. If an instance scoped to the current user is
+   * desired, use {@code currentUser()} instead.
    */
   public abstract WithUser user(CurrentUser user);
 
@@ -136,18 +136,18 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a specific user. */
   public abstract static class WithUser extends AcceptsReviewDb<WithUser> {
-    /** @return user this instance is scoped to. */
+    /** Returns the user this instance is scoped to. */
     public abstract CurrentUser user();
 
-    /** @return instance scoped for the specified project. */
+    /** Returns an instance scoped for the specified project. */
     public abstract ForProject project(Project.NameKey project);
 
-    /** @return instance scoped for the {@code ref}, and its parent project. */
+    /** Returns an instance scoped for the {@code ref}, and its parent project. */
     public ForRef ref(Branch.NameKey ref) {
       return project(ref.getParentKey()).ref(ref.get()).database(db);
     }
 
-    /** @return instance scoped for the change, and its destination ref and project. */
+    /** Returns an instance scoped for the change, and its destination ref and project. */
     public ForChange change(ChangeData cd) {
       try {
         return ref(cd.change().getDest()).change(cd);
@@ -156,15 +156,15 @@ public abstract class PermissionBackend {
       }
     }
 
-    /** @return instance scoped for the change, and its destination ref and project. */
+    /** Returns an instance scoped for the change, and its destination ref and project. */
     public ForChange change(ChangeNotes notes) {
       return ref(notes.getChange().getDest()).change(notes);
     }
 
     /**
-     * @return instance scoped for the change loaded from index, and its destination ref and
-     *     project. This method should only be used when database access is harmful and potentially
-     *     stale data from the index is acceptable.
+     * Returns an instance scoped for the change loaded from index, and its destination ref and
+     * project. This method should only be used when database access is harmful and potentially
+     * stale data from the index is acceptable.
      */
     public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
       return ref(notes.getChange().getDest()).indexedChange(cd, notes);
@@ -251,19 +251,19 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a user and project. */
   public abstract static class ForProject extends AcceptsReviewDb<ForProject> {
-    /** @return user this instance is scoped to. */
+    /** Returns the user this instance is scoped to. */
     public abstract CurrentUser user();
 
-    /** @return fully qualified resource path that this instance is scoped to. */
+    /** Returns the fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
-    /** @return new instance rescoped to same project, but different {@code user}. */
+    /** Returns a new instance rescoped to same project, but different {@code user}. */
     public abstract ForProject user(CurrentUser user);
 
-    /** @return instance scoped for {@code ref} in this project. */
+    /** Returns an instance scoped for {@code ref} in this project. */
     public abstract ForRef ref(String ref);
 
-    /** @return instance scoped for the change, and its destination ref and project. */
+    /** Returns an instance scoped for the change, and its destination ref and project. */
     public ForChange change(ChangeData cd) {
       try {
         return ref(cd.change().getDest().get()).change(cd);
@@ -272,15 +272,15 @@ public abstract class PermissionBackend {
       }
     }
 
-    /** @return instance scoped for the change, and its destination ref and project. */
+    /** Returns an instance scoped for the change, and its destination ref and project. */
     public ForChange change(ChangeNotes notes) {
       return ref(notes.getChange().getDest().get()).change(notes);
     }
 
     /**
-     * @return instance scoped for the change loaded from index, and its destination ref and
-     *     project. This method should only be used when database access is harmful and potentially
-     *     stale data from the index is acceptable.
+     * Returns an instance scoped for the change loaded from index, and its destination ref and
+     * project. This method should only be used when database access is harmful and potentially
+     * stale data from the index is acceptable.
      */
     public ForChange indexedChange(ChangeData cd, ChangeNotes notes) {
       return ref(notes.getChange().getDest().get()).indexedChange(cd, notes);
@@ -312,8 +312,8 @@ public abstract class PermissionBackend {
     }
 
     /**
-     * @return a partition of the provided refs that are visible to the user that this instance is
-     *     scoped to.
+     * Returns a partition of the provided refs that are visible to the user that this instance is
+     * scoped to.
      */
     public abstract Map<String, Ref> filter(
         Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
@@ -353,19 +353,19 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a user, project and reference. */
   public abstract static class ForRef extends AcceptsReviewDb<ForRef> {
-    /** @return user this instance is scoped to. */
+    /** Returns the user this instance is scoped to. */
     public abstract CurrentUser user();
 
-    /** @return fully qualified resource path that this instance is scoped to. */
+    /** Returns a fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
-    /** @return new instance rescoped to same reference, but different {@code user}. */
+    /** Returns a new instance rescoped to same reference, but different {@code user}. */
     public abstract ForRef user(CurrentUser user);
 
-    /** @return instance scoped to change. */
+    /** Returns an instance scoped to change. */
     public abstract ForChange change(ChangeData cd);
 
-    /** @return instance scoped to change. */
+    /** Returns an instance scoped to change. */
     public abstract ForChange change(ChangeNotes notes);
 
     /**
@@ -411,13 +411,13 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a user, project, reference and change. */
   public abstract static class ForChange extends AcceptsReviewDb<ForChange> {
-    /** @return user this instance is scoped to. */
+    /** Returns the user this instance is scoped to. */
     public abstract CurrentUser user();
 
-    /** @return fully qualified resource path that this instance is scoped to. */
+    /** Returns the fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
-    /** @return new instance rescoped to same change, but different {@code user}. */
+    /** Returns a new instance rescoped to same change, but different {@code user}. */
     public abstract ForChange user(CurrentUser user);
 
     /** Verify scoped user can {@code perm}, throwing if denied. */

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
+
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -91,8 +94,10 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
         .setLabel("WIP")
         .setTitle("Set Work In Progress")
         .setVisible(
-            rsrc.isUserOwner()
-                && rsrc.getChange().getStatus() == Status.NEW
-                && !rsrc.getChange().isWorkInProgress());
+            and(
+                rsrc.getChange().getStatus() == Status.NEW && !rsrc.getChange().isWorkInProgress(),
+                or(
+                    rsrc.isUserOwner(),
+                    permissionBackend.user(self).testCond(GlobalPermission.ADMINISTRATE_SERVER))));
   }
 }

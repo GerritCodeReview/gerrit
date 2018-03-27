@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f28def7_0ec7602e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-27T23:44:40Z",
+      "side": 1,
+      "message": "I wonder if strong should be part of the shared styles?",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 7
+      },
+      "revId": "6f36491036bf942c170ded147b7b8e8d56aab715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8d1f7b1_382a93b2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-27T23:44:40Z",
+      "side": 1,
+      "message": "It looks like before this was true when it was done in the default block. Just want to verify that this should be false now?",
+      "range": {
+        "startLine": 1040,
+        "startChar": 63,
+        "endLine": 1040,
+        "endChar": 68
+      },
+      "revId": "6f36491036bf942c170ded147b7b8e8d56aab715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

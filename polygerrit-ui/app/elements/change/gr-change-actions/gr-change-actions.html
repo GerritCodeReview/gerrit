@@ -57,6 +57,13 @@ limitations under the License.
         align-items: center;
         color: #777;
       }
+      #confirmSubmitDialog strong {
+        font-family: var(--font-family-bold);
+      }
+      #confirmSubmitDialog .changeSubject {
+        margin: 1em;
+        text-align: center;
+      }
       @media screen and (max-width: 50em) {
         #mainContent,
         section,
@@ -205,6 +212,25 @@ limitations under the License.
         </div>
         <div class="main" slot="main">
           Do you really want to delete the edit?
+        </div>
+      </gr-confirm-dialog>
+      <gr-confirm-dialog
+          id="confirmSubmitDialog"
+          class="confirmDialog"
+          confirm-label="Submit"
+          confirm-on-enter
+          on-cancel="_handleConfirmDialogCancel"
+          on-confirm="_handleSubmitConfirm">
+        <div class="header" slot="header">
+          Submit Change
+        </div>
+        <div class="main" slot="main">
+          <p>
+            Are you sure you want to to <strong>submit</strong> this change?
+          </p>
+          <p class="changeSubject">
+            <strong>[[change.subject]]</strong>
+          </p>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>

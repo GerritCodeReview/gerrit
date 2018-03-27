@@ -254,6 +254,7 @@ limitations under the License.
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchChangeUpdates',
           () => { return Promise.resolve({isLatest: true}); });
+      const showDialogStub = sandbox.stub(element, '_showActionDialog');
       element.change = {
         revisions: {
           rev1: {_number: 1},
@@ -267,11 +268,20 @@ limitations under the License.
         assert.ok(submitButton);
         MockInteractions.tap(submitButton);
 
-        // Upon success it should fire the reload-change event.
-        element.addEventListener('reload-change', () => {
-          done();
-        });
+        assert.isTrue(showDialogStub.calledOnce);
+        assert.equal(showDialogStub.lastCall.args[0],
+            element.$.confirmSubmitDialog);
+        done();
       });
+    });
+
+    test('_handleSubmitConfirm', () => {
+      const fireStub = sandbox.stub(element, '_fireAction');
+      sandbox.stub(element, '_canSubmitChange').returns(true);
+      element._handleSubmitConfirm();
+      assert.isTrue(fireStub.calledOnce);
+      assert.deepEqual(fireStub.lastCall.args,
+          ['/submit', element.revisionActions.submit, false]);
     });
 
     test('submit change with plugin hook', done => {

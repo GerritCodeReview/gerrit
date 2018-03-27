@@ -909,10 +909,9 @@
           this._handleDownloadTap();
           break;
         case RevisionActions.SUBMIT:
-          if (!this._canSubmitChange()) {
-            return;
-          }
-        // eslint-disable-next-line no-fallthrough
+          if (!this._canSubmitChange()) { return; }
+          this._showActionDialog(this.$.confirmSubmitDialog);
+          break;
         default:
           this._fireAction(this._prependSlash(key),
               this.revisionActions[key], true);
@@ -1033,6 +1032,12 @@
       this._hideAllDialogs();
 
       this._fireAction('/edit', this.actions.deleteEdit, false);
+    },
+
+    _handleSubmitConfirm() {
+      if (!this._canSubmitChange()) { return; }
+      this._hideAllDialogs();
+      this._fireAction('/submit', this.revisionActions.submit, false);
     },
 
     _getActionOverflowIndex(type, key) {

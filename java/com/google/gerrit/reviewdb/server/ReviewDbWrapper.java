@@ -115,26 +115,6 @@ public class ReviewDbWrapper implements ReviewDb {
   }
 
   @Override
-  public AccountGroupAccess accountGroups() {
-    return delegate.accountGroups();
-  }
-
-  @Override
-  public AccountGroupNameAccess accountGroupNames() {
-    return delegate.accountGroupNames();
-  }
-
-  @Override
-  public AccountGroupMemberAccess accountGroupMembers() {
-    return delegate.accountGroupMembers();
-  }
-
-  @Override
-  public AccountGroupMemberAuditAccess accountGroupMembersAudit() {
-    return delegate.accountGroupMembersAudit();
-  }
-
-  @Override
   public ChangeAccess changes() {
     return delegate.changes();
   }
@@ -157,16 +137,6 @@ public class ReviewDbWrapper implements ReviewDb {
   @Override
   public PatchLineCommentAccess patchComments() {
     return delegate.patchComments();
-  }
-
-  @Override
-  public AccountGroupByIdAccess accountGroupById() {
-    return delegate.accountGroupById();
-  }
-
-  @Override
-  public AccountGroupByIdAudAccess accountGroupByIdAud() {
-    return delegate.accountGroupByIdAud();
   }
 
   @Override

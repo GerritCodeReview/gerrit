@@ -53,17 +53,13 @@ public interface ReviewDb extends Schema {
 
   // Deleted @Relation(id = 8)
 
-  @Relation(id = 10)
-  AccountGroupAccess accountGroups();
+  // Deleted @Relation(id = 10)
 
-  @Relation(id = 11)
-  AccountGroupNameAccess accountGroupNames();
+  // Deleted @Relation(id = 11)
 
-  @Relation(id = 12)
-  AccountGroupMemberAccess accountGroupMembers();
+  // Deleted @Relation(id = 12)
 
-  @Relation(id = 13)
-  AccountGroupMemberAuditAccess accountGroupMembersAudit();
+  // Deleted @Relation(id = 13)
 
   // Deleted @Relation(id = 17)
 
@@ -92,11 +88,9 @@ public interface ReviewDb extends Schema {
 
   // Deleted @Relation(id = 28)
 
-  @Relation(id = 29)
-  AccountGroupByIdAccess accountGroupById();
+  // Deleted @Relation(id = 29)
 
-  @Relation(id = 30)
-  AccountGroupByIdAudAccess accountGroupByIdAud();
+  // Deleted @Relation(id = 30)
 
   int FIRST_ACCOUNT_ID = 1000000;
 

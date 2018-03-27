@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a5a4d58_750ed0f6",
+        "filename": "polygerrit-ui/app/template_test_srcs/convert_for_template_tests.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-27T16:17:00Z",
+      "side": 1,
+      "message": "How does this work?  It isn\u0027t returning anything.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "b771ac9d322907b23e8dba245583576c23f2e5fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1404,8 +1404,11 @@ a Gerrit internal group, or an external group that is known to Gerrit.
 |Field Name    ||Description
 |`id`          ||The URL encoded UUID of the group.
 |`name`        |
-not set if returned in a map where the group name is used as map key|
-The name of the group.
+optional, not set if returned in a map where the group name is used as map key|
+The name of the group. +
+For external groups the group name is missing if there is no group
+backend that can resolve the group UUID. E.g. this can happen when a
+plugin that provided a group backend was uninstalled.
 |`url`         |optional|
 URL to information about the group. Typically a URL to a web page that
 permits users to apply to join the group, or manage their membership.

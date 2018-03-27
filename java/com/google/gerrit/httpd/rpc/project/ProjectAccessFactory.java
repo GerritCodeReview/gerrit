@@ -35,7 +35,6 @@ import com.google.gerrit.httpd.rpc.Handler;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
@@ -51,7 +50,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,7 +68,6 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   private final GroupBackend groupBackend;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> user;
   private final GroupControl.Factory groupControlFactory;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final AllProjectsName allProjectsName;
@@ -83,7 +80,6 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       GroupBackend groupBackend,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      Provider<CurrentUser> user,
       GroupControl.Factory groupControlFactory,
       MetaDataUpdate.Server metaDataUpdateFactory,
       AllProjectsName allProjectsName,
@@ -92,7 +88,6 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     this.groupBackend = groupBackend;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.groupControlFactory = groupControlFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allProjectsName = allProjectsName;

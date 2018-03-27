@@ -28,7 +28,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
@@ -42,7 +41,6 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
@@ -55,7 +53,6 @@ import org.kohsuke.args4j.Option;
 public class QueryAccounts implements RestReadView<TopLevelResource> {
   private static final int MAX_SUGGEST_RESULTS = 100;
 
-  private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder queryBuilder;
@@ -125,13 +122,11 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
 
   @Inject
   QueryAccounts(
-      Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder queryBuilder,
       AccountQueryProcessor queryProcessor,
       @GerritServerConfig Config cfg) {
-    this.self = self;
     this.permissionBackend = permissionBackend;
     this.accountLoaderFactory = accountLoaderFactory;
     this.queryBuilder = queryBuilder;

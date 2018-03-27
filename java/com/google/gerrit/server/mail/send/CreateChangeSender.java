@@ -83,7 +83,7 @@ public class CreateChangeSender extends NewChangeSender {
 
   private boolean isOwnerOfProjectOrBranch(Account.Id userId) {
     return permissionBackend
-        .user(identifiedUserFactory.create(userId))
+        .absentUser(userId)
         .ref(change.getDest())
         .testOrFalse(RefPermission.WRITE_CONFIG);
   }

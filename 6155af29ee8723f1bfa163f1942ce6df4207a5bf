@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53228715_36e962c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-27T07:01:28Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s a hack, but on the other hand, looking at the follow-up change I really like how you can bind a custom module now.\n\nI am deferring to Edwin for this change as he has more context.",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "6155af29ee8723f1bfa163f1942ce6df4207a5bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

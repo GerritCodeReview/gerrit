@@ -35,6 +35,7 @@
     'text/x-go': 'go',
     'text/x-haskell': 'haskell',
     'text/x-java': 'java',
+    'text/jsx': 'js',
     'text/x-kotlin': 'kotlin',
     'text/x-lua': 'lua',
     'text/x-markdown': 'markdown',

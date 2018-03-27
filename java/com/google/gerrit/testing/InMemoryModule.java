@@ -17,6 +17,7 @@ package com.google.gerrit.testing;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.common.base.Strings;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.client.AuthType;
@@ -46,6 +47,7 @@ import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
@@ -183,7 +185,7 @@ public class InMemoryModule extends FactoryModule {
     bind(String.class)
         .annotatedWith(AnonymousCowardName.class)
         .toProvider(AnonymousCowardNameProvider.class);
-    bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
+
     bind(AllProjectsName.class).toProvider(AllProjectsNameProvider.class);
     bind(AllUsersName.class).toProvider(AllUsersNameProvider.class);
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
@@ -265,6 +267,19 @@ public class InMemoryModule extends FactoryModule {
   @SendEmailExecutor
   public ExecutorService createSendEmailExecutor() {
     return MoreExecutors.newDirectExecutorService();
+  }
+
+  @Provides
+  @Singleton
+  @GerritServerId
+  public String createServerId() {
+    String serverId =
+        cfg.getString(GerritServerIdProvider.SECTION, null, GerritServerIdProvider.KEY);
+    if (!Strings.isNullOrEmpty(serverId)) {
+      return serverId;
+    }
+
+    return "gerrit";
   }
 
   @Provides

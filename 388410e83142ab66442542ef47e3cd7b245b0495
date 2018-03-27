@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8b70886_84eb9aca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-27T08:13:34Z",
+      "side": 1,
+      "message": "The idea is that HIDDEN projects can need to be accessible by project owners so that they can change the state back to either one of {READ_ONLY,ACTIVE}. That requires WRITE_CONFIG as it requires a config change.\n\nI therefore think that WRITE_CONFIG would be the better choice.",
+      "revId": "388410e83142ab66442542ef47e3cd7b245b0495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb82028b_25144e80",
+        "filename": "java/com/google/gerrit/httpd/GitOverHttpServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-27T08:13:34Z",
+      "side": 1,
+      "message": "I think we shouldn\u0027t have this check everywhere.\n\nThe scenario we want to enable is that a project owner can still see a HIDDEN project in the API (as long as they specify the parameter for that) and then use the API to set this back to another state.\n\nThis means that we don\u0027t have to make this switch *everywhere* where we check ACCESS but only in a handful of places which let\u0027s us cut down on boiler plate significantly.\n\nI case we identify more than say three places where this is required for the scenario we have in mind it\u0027d be nice to have this in a Util class.",
+      "range": {
+        "startLine": 192,
+        "startChar": 8,
+        "endLine": 193,
+        "endChar": 96
+      },
+      "revId": "388410e83142ab66442542ef47e3cd7b245b0495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

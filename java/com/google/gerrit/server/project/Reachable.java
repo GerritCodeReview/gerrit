@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -51,27 +52,26 @@ public class Reachable {
 
   /** @return true if a commit is reachable from a given set of refs. */
   public boolean fromRefs(
-      ProjectState state, Repository repo, RevCommit commit, Map<String, Ref> refs) {
+      Project.NameKey project, Repository repo, RevCommit commit, Map<String, Ref> refs) {
     try (RevWalk rw = new RevWalk(repo)) {
-      // TODO(hiesel) Convert interface to Project.NameKey
       Map<String, Ref> filtered =
           permissionBackend
               .currentUser()
-              .project(state.getNameKey())
+              .project(project)
               .filter(refs, repo, RefFilterOptions.builder().setFilterTagsSeparately(true).build());
       return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
     } catch (IOException | PermissionBackendException e) {
       log.error(
           String.format(
               "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), state.getNameKey()),
+              commit.name(), project),
           e);
       return false;
     }
   }
 
   /** @return true if a commit is reachable from a repo's branches and tags. */
-  boolean fromHeadsOrTags(ProjectState state, Repository repo, RevCommit commit) {
+  boolean fromHeadsOrTags(Project.NameKey project, Repository repo, RevCommit commit) {
     try {
       RefDatabase refdb = repo.getRefDatabase();
       Collection<Ref> heads = refdb.getRefs(Constants.R_HEADS).values();
@@ -80,12 +80,12 @@ public class Reachable {
       for (Ref r : Iterables.concat(heads, tags)) {
         refs.put(r.getName(), r);
       }
-      return fromRefs(state, repo, commit, refs);
+      return fromRefs(project, repo, commit, refs);
     } catch (IOException e) {
       log.error(
           String.format(
               "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), state.getProject().getNameKey()),
+              commit.name(), project),
           e);
       return false;
     }

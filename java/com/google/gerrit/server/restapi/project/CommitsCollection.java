@@ -122,6 +122,6 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       }
     }
 
-    return reachable.fromRefs(state, repo, commit, repo.getAllRefs());
+    return reachable.fromRefs(project, repo, commit, repo.getAllRefs());
   }
 }

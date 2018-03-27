@@ -217,9 +217,9 @@ enabled. To permit blocking submits, ensure a negative value is defined.
 
 * `AnyWithBlock`
 +
-The lowest possible negative value, if present, blocks a submit, Any
-other value enables a submit. To permit blocking submits, ensure
-that a negative value is defined.
+The label is not mandatory but the lowest possible negative value,
+if present, blocks a submit. To permit blocking submits, ensure that a
+negative value is defined.
 
 * `MaxNoBlock`
 +

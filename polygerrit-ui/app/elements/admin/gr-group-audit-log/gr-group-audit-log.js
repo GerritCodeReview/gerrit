@@ -63,12 +63,6 @@
       return item.disabled ? 'Disabled' : 'Enabled';
     },
 
-    _computeGroupUrl(id) {
-      if (!id) { return ''; }
-
-      return this.getBaseUrl() + '/admin/groups/' + id;
-    },
-
     itemType(type) {
       let item;
       switch (type) {
@@ -99,6 +93,8 @@
         return account.username;
       } else if (account && account.email) {
         return account.email.split('@')[0];
+      } else if (account && account.id) {
+        return account.id;
       }
     },
   });

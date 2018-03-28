@@ -29,12 +29,11 @@
   <meta name="description" content="Gerrit Code Review">{\n}
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
 
-  {if $canonicalPath != '' or $versionInfo}
-    <script>
-      {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
-      {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
-    </script>{\n}
-  {/if}
+  <script>
+    window.CLOSURE_NO_DEPS=true;
+    {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
+    {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
+  </script>{\n}
 
   {if $faviconPath}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}

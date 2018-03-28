@@ -138,19 +138,6 @@ class ChangeControl {
         && !isPatchSetLocked(db);
   }
 
-  /** Can this user delete this change? */
-  private boolean canDelete(Change.Status status) {
-    switch (status) {
-      case NEW:
-      case ABANDONED:
-        return (isOwner() && refControl.canPerform(Permission.DELETE_OWN_CHANGES))
-            || getProjectControl().isAdmin();
-      case MERGED:
-      default:
-        return false;
-    }
-  }
-
   /** Can this user rebase this change? */
   private boolean canRebase(ReviewDb db) throws OrmException {
     return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
@@ -369,7 +356,8 @@ class ChangeControl {
           case ABANDON:
             return canAbandon(db());
           case DELETE:
-            return canDelete(getChange().getStatus());
+            return (isOwner() && refControl.canPerform(Permission.DELETE_OWN_CHANGES))
+                || getProjectControl().isAdmin();
           case ADD_PATCH_SET:
             return canAddPatchSet(db());
           case EDIT_ASSIGNEE:

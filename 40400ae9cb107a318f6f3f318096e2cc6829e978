@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9396597_da743c3f",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceNameProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-28T13:30:09Z",
+      "side": 1,
+      "message": "I am not sure if this is a fall-back that makes sense, but other people might know. Adding David and Hugo.",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 52
+      },
+      "revId": "40400ae9cb107a318f6f3f318096e2cc6829e978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

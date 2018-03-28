@@ -116,6 +116,8 @@
     },
 
     _computeGroupUrl(url) {
+      if (!url) { return; }
+
       const r = new RegExp(URL_REGEX, 'i');
       if (r.test(url)) {
         return url;

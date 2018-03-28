@@ -166,7 +166,7 @@
         return this.$.restAPI.deleteIncludedGroup(this._groupName,
             this._itemName)
             .then(itemDeleted => {
-              if (itemDeleted.status === 204) {
+              if (itemDeleted.status === 204 || itemDeleted.status === 205) {
                 this.$.restAPI.getIncludedGroup(this._groupName)
                     .then(includedGroup => {
                       this._includedGroups = includedGroup;
@@ -221,9 +221,7 @@
 
     _handleDeleteIncludedGroup(e) {
       const name = e.model.get('item.name');
-      if (!name) {
-        return '';
-      }
+      if (!name) { return ''; }
       this._itemName = name;
       this._itemType = 'includedGroup';
       this.$.overlay.open();

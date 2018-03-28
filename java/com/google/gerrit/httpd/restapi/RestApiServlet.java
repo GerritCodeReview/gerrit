@@ -839,10 +839,10 @@ public class RestApiServlet extends HttpServlet {
     }
 
     Object obj = createInstance(type);
-    Field[] fields = obj.getClass().getDeclaredFields();
-    if (fields.length == 0 && Strings.isNullOrEmpty(value)) {
+    if (Strings.isNullOrEmpty(value)) {
       return obj;
     }
+    Field[] fields = obj.getClass().getDeclaredFields();
     for (Field f : fields) {
       if (f.getAnnotation(DefaultInput.class) != null && f.getType() == String.class) {
         f.setAccessible(true);

@@ -378,6 +378,7 @@ limitations under the License.
        * @return {string}
        */
       getUrlForOwner(owner) {
+        if (!owner) { return ''; }
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           owner,

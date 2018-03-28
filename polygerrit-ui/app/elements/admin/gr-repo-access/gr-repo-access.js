@@ -18,6 +18,8 @@
 
   const NOTHING_TO_SAVE = 'No changes to save.';
 
+  const MAX_AUTOCOMPLETE_RESULTS = 20;
+
   /**
    * Fired when save is a no-op
    *
@@ -82,6 +84,13 @@
         type: Boolean,
         value: false,
       },
+      _inheritFromFilter: String,
+      _query: {
+        type: Function,
+        value() {
+          return this._getInheritFromSuggestions.bind(this);
+        },
+      },
       _ownerOf: Array,
       _capabilities: Object,
       _groups: Object,
@@ -139,7 +148,18 @@
           .then(res => {
             if (!res) { return Promise.resolve(); }
 
-            this._inheritsFrom = res.inherits_from;
+            // Keep a copy of the original inherit from values separate from
+            // the ones data bound to gr-autocomplete, so the original value
+            // can be restored if the user cancels.
+            this._inheritsFrom = res.inherits_from ? Object.assign({},
+                res.inherits_from) : null;
+            this._originalInheritsFrom = res.inherits_from ? Object.assign({},
+                res.inherits_from) : null;
+            // Initialize the filter value so when the user clicks edit, the
+            // current value appears. If there is no parent repo, it is
+            // initialized as an empty string.
+            this._inheritFromFilter = res.inherits_from ?
+                this._inheritsFrom.name : '';
             this._local = res.local;
             this._groups = res.groups;
             this._weblinks = res.config_web_links || [];
@@ -172,6 +192,29 @@
         this._loading = false;
       });
     },
+    _handleUpdateInheritFrom(e) {
+      const projectId = decodeURIComponent(e.detail.value);
+      this._inheritsFrom.id = projectId;
+      this._inheritsFrom.name = this._inheritFromFilter;
+      this._handleAccessModified();
+    },
+
+    _getInheritFromSuggestions() {
+      return this.$.restAPI.getRepos(
+          this._inheritFromFilter,
+          MAX_AUTOCOMPLETE_RESULTS)
+          .then(response => {
+            const projects = [];
+            for (const key in response) {
+              if (!response.hasOwnProperty(key)) { continue; }
+              projects.push({
+                name: key,
+                value: response[key].id,
+              });
+            }
+            return projects;
+          });
+    },
 
     _computeLoadingClass(loading) {
       return loading ? 'loading' : '';
@@ -193,6 +236,10 @@
       // Ignore when editing gets set initially.
       if (!editingOld || editing) { return; }
       // Remove any unsaved but added refs.
+      this._sections = this._sections.filter(p => !p.value.added);
+      // Restore inheritFrom.
+      this._inheritsFrom = Object.assign({}, this._originalInheritsFrom);
+      this._inheritFromFilter = this._inheritsFrom.name;
       this._sections = this._sections.filter(p => !p.value.added);
       for (const key of Object.keys(this._local)) {
         if (this._local[key].added) {
@@ -294,7 +341,14 @@
         remove: {},
       };
 
+      const inheritFromChanged = this._originalInheritsFrom &&
+          this._originalInheritsFrom.id !== this._inheritsFrom.id;
+
       this._recursivelyUpdateAddRemoveObj(this._local, addRemoveObj);
+
+      if (inheritFromChanged) {
+        addRemoveObj.parent = this._inheritsFrom.id;
+      }
       return addRemoveObj;
     },
 
@@ -315,20 +369,25 @@
 
     _handleSaveForReview() {
       const addRemoveObj = this._computeAddAndRemove();
-
       // If there are no changes, don't actually save.
       if (!Object.keys(addRemoveObj.add).length &&
-          !Object.keys(addRemoveObj.remove).length) {
+          !Object.keys(addRemoveObj.remove).length &&
+          !addRemoveObj.parent) {
         this.dispatchEvent(new CustomEvent('show-alert',
             {detail: {message: NOTHING_TO_SAVE}, bubbles: true}));
         return;
       }
-      return this.$.restAPI.setProjectAccessRightsForReview(this.repo, {
+      const obj = {
         add: addRemoveObj.add,
         remove: addRemoveObj.remove,
-      }).then(change => {
-        Gerrit.Nav.navigateToChange(change);
-      });
+      };
+      if (addRemoveObj.parent) {
+        obj.parent = addRemoveObj.parent;
+      }
+      return this.$.restAPI.setProjectAccessRightsForReview(this.repo, obj)
+          .then(change => {
+            Gerrit.Nav.navigateToChange(change);
+          });
     },
 
     _computeShowSaveClass(editing) {
@@ -336,8 +395,19 @@
       return 'visible';
     },
 
-    _computeAdminClass(isAdmin, canUpload) {
-      return isAdmin || canUpload ? 'admin' : '';
+    _computeEditingClass(editing) {
+      return editing ? 'editing': '';
+    },
+
+    _computeMainClass(isAdmin, canUpload, editing) {
+      const classList = [];
+      if (isAdmin || canUpload) {
+        classList.push('admin');
+      }
+      if (editing) {
+        classList.push('editing');
+      }
+      return classList.join(' ');
     },
 
     _computeParentHref(repoName) {

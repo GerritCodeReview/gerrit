@@ -32,8 +32,12 @@ limitations under the License.
     getUserName(config, account, enableEmail) {
       if (account && account.name) {
         return account.name;
+      } else if (account && account.username) {
+        return account.username;
       } else if (enableEmail && account && account.email) {
         return account.email;
+      } else if (account && account.id) {
+        return account.id;
       } else if (config && config.user &&
           config.user.anonymous_coward_name !== 'Anonymous Coward') {
         return config.user.anonymous_coward_name;

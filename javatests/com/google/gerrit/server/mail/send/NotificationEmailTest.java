@@ -31,4 +31,11 @@ public class NotificationEmailTest {
     String instanceAndProjectName = NotificationEmail.getInstanceAndProjectName(null, "/my/api");
     assertThat(instanceAndProjectName).isEqualTo("...api");
   }
+
+  @Test
+  public void getShortProjectName() {
+    assertThat(NotificationEmail.getShortProjectName("/api")).isEqualTo("api");
+    assertThat(NotificationEmail.getShortProjectName("/my/api")).isEqualTo("...api");
+    assertThat(NotificationEmail.getShortProjectName("/my/sub/project")).isEqualTo("...project");
+  }
 }

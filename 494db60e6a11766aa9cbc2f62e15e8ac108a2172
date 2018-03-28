@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97e27161_5d192941",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-28T13:20:34Z",
+      "side": 1,
+      "message": "optional: sorry to miss this in the last comment. I think *current user* here is not specific enough any more. A more accurate one is what said below \"the issuer of the current request\".",
+      "range": {
+        "startLine": 99,
+        "startChar": 19,
+        "endLine": 99,
+        "endChar": 31
+      },
+      "revId": "494db60e6a11766aa9cbc2f62e15e8ac108a2172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

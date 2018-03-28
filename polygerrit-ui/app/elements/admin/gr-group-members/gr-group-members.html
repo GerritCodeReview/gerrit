@@ -156,10 +156,15 @@ limitations under the License.
                 <template is="dom-repeat" items="[[_includedGroups]]">
                   <tr>
                     <td class="nameColumn">
-                      <a href$="[[_computeGroupUrl(item.url)]]"
-                          rel="noopener">
+                      <template is="dom-if" if="[[item.url]]" restamp="true">
+                        <a href$="[[_computeGroupUrl(item.url)]]"
+                            rel="noopener">
+                          [[item.name]]
+                        </a>
+                      </template>
+                      <template is="dom-if" if="[[!item.url]]" restamp="true">
                         [[item.name]]
-                      </a>
+                      </template>
                     </td>
                     <td>[[item.description]]</td>
                     <td class="deleteColumn">

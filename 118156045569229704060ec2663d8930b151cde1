@@ -22,6 +22,30 @@
       "revId": "118156045569229704060ec2663d8930b151cde1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59dd2f59_80a3a650",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-28T16:48:07Z",
+      "side": 1,
+      "message": "I doin\u0027t think so due to utf being different in py2 and py3.",
+      "parentUuid": "1ae1fa45_594258ad",
+      "range": {
+        "startLine": 127,
+        "startChar": 18,
+        "endLine": 127,
+        "endChar": 22
+      },
+      "revId": "118156045569229704060ec2663d8930b151cde1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

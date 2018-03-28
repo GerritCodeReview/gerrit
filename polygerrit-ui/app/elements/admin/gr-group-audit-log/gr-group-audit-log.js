@@ -17,6 +17,8 @@
 (function() {
   'use strict';
 
+  const URL_REGEX = '^(?:[a-z]+:)?//';
+
   Polymer({
     is: 'gr-group-audit-log',
 
@@ -63,12 +65,6 @@
       return item.disabled ? 'Disabled' : 'Enabled';
     },
 
-    _computeGroupUrl(id) {
-      if (!id) { return ''; }
-
-      return this.getBaseUrl() + '/admin/groups/' + id;
-    },
-
     itemType(type) {
       let item;
       switch (type) {
@@ -86,10 +82,24 @@
       return item;
     },
 
+    _computeGroupUrl(url) {
+      if (!url) { return; }
+
+      const r = new RegExp(URL_REGEX, 'i');
+      if (r.test(url)) {
+        return url;
+      }
+
+      // For GWT compatibility
+      if (url.startsWith('#')) {
+        return this.getBaseUrl() + url.slice(1);
+      }
+      return this.getBaseUrl() + url;
+    },
+
     _getNameForUser(account) {
-      const accountId = account._account_id ? ' (' +
+      return account._account_id ? ' (' +
         account._account_id + ')' : '';
-      return this._getNameForMember(account) + accountId;
     },
 
     _getNameForMember(account) {
@@ -99,6 +109,8 @@
         return account.username;
       } else if (account && account.email) {
         return account.email.split('@')[0];
+      } else if (account && account.id) {
+        return account.id;
       }
     },
   });

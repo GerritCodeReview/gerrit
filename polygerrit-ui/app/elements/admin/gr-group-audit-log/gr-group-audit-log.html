@@ -47,11 +47,19 @@ limitations under the License.
           </td>
           <td class="type">[[itemType(item.type)]]</td>
           <td class="member">
-            <a href$="[[_computeGroupUrl(item.member.group_id)]]">
-              [[_getNameForMember(item.member)]]
-            </a>
+            <template is="dom-if" if="[[item.member.url]]" restamp="true">
+              <a href$="[[_computeGroupUrl(item.member.url)]]">
+                [[_getNameForMember(item.member)]]
+              </a>
+            </template>
+            <template is="dom-if" if="[[!item.member.url]]" restamp="true">
+              <gr-account-link account="[[item.member]]"></gr-account-link>
+            </template>
           </td>
-          <td class="by-user">[[_getNameForUser(item.user)]]</td>
+          <td class="by-user">
+            <!--[[_getNameForUser(item.user)]]-->
+            <gr-account-link account="[[item.user]]"></gr-account-link> [[_getNameForUser(item.user)]]
+          </td>
         </tr>
       </template>
     </table>

@@ -121,7 +121,13 @@ def build_bower_json(version_targets, seeds):
 
 def bower_command(args):
   base = subprocess.check_output(["bazel", "info", "output_base"]).strip()
-  exp = os.path.join(base, "external", "bower", "*npm_binary.tgz")
+  """Try to decode utf-8 in python3 and fallback to default python2 behavour if it fails
+  most likly if it fallbacks, your using python2.
+  """
+  try:
+    exp = os.path.join(base.decode('utf-8'), "external", "bower", "*npm_binary.tgz")
+  except TypeError:
+    exp = os.path.join(base, "external", "bower", "*npm_binary.tgz")
   fs = sorted(glob.glob(exp))
   assert len(fs) == 1, "bower tarball not found or have multiple versions %s" % fs
   return ["python", os.getcwd() + "/tools/js/run_npm_binary.py", sorted(fs)[0]] + args
@@ -137,8 +143,15 @@ def main(args):
     "bazel", "query", "kind(bower_component_bundle, //polygerrit-ui/...)"])
   seed_str = subprocess.check_output([
     "bazel", "query", "attr(seed, 1, kind(bower_component, deps(//polygerrit-ui/...)))"])
-  targets = [s for s in target_str.split('\n') if s]
-  seeds = [s for s in seed_str.split('\n') if s]
+  """Try to decode utf-8 in python3 and fallback to default python2 behavour if it fails
+  most likly if it fallbacks, your using python2.
+  """
+  try:
+    targets = [s for s in target_str.decode('utf-8').split('\n') if s]
+    seeds = [s for s in seed_str.decode('utf-8').split('\n') if s]
+  except TypeError:
+    targets = [s for s in target_str.split('\n') if s]
+    seeds = [s for s in seed_str.split('\n') if s]
   prefix = "//lib/js:"
   non_seeds = [s for s in seeds if not s.startswith(prefix)]
   assert not non_seeds, non_seeds
@@ -223,7 +236,14 @@ def interpret_bower_json(seeds, ws_out, build_out):
   out = subprocess.check_output(["find", "bower_components/", "-name", ".bower.json"])
 
   data = []
-  for f in sorted(out.split('\n')):
+  """Try to decode utf-8 in python3 and fallback to default python2 behavour if it fails
+  most likly if it fallbacks, your using python2.
+  """
+  try:
+    _out = out.decode('utf-8').split('\n')
+  except TypeError:
+    _out = out.split('\n')
+  for f in sorted(_out):
     if not f:
       continue
     pkg = json.load(open(f))

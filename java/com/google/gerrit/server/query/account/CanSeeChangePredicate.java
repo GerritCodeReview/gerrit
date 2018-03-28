@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.account;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -31,17 +30,12 @@ import java.util.Objects;
 public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final ChangeNotes changeNotes;
 
   CanSeeChangePredicate(
-      Provider<ReviewDb> db,
-      PermissionBackend permissionBackend,
-      IdentifiedUser.GenericFactory userFactory,
-      ChangeNotes changeNotes) {
+      Provider<ReviewDb> db, PermissionBackend permissionBackend, ChangeNotes changeNotes) {
     this.db = db;
     this.permissionBackend = permissionBackend;
-    this.userFactory = userFactory;
     this.changeNotes = changeNotes;
   }
 
@@ -49,7 +43,7 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   public boolean match(AccountState accountState) throws OrmException {
     try {
       return permissionBackend
-          .user(userFactory.create(accountState.getAccount().getId()))
+          .absentUser(accountState.getAccount().getId())
           .database(db)
           .change(changeNotes)
           .test(ChangePermission.READ);
@@ -65,7 +59,7 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
 
   @Override
   public Predicate<AccountState> copy(Collection<? extends Predicate<AccountState>> children) {
-    return new CanSeeChangePredicate(db, permissionBackend, userFactory, changeNotes);
+    return new CanSeeChangePredicate(db, permissionBackend, changeNotes);
   }
 
   @Override

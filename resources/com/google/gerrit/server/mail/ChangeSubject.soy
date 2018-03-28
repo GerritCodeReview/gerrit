@@ -21,14 +21,12 @@
  * line for ALL emails related to changes.
  * @param branch
  * @param change
- * @param shortProjectName
- * @param instanceAndProjectName
+ * @param projectName
+ * @param instanceName
  * @param addInstanceNameInSubject boolean
  */
 {template .ChangeSubject kind="text"}
-  {if not $addInstanceNameInSubject}
-    Change in {$shortProjectName}[{$branch.shortName}]: {$change.shortSubject}
-  {else}
-    Change in {$instanceAndProjectName}[{$branch.shortName}]: {$change.shortSubject}
-  {/if}
+  {let $instanceNameOrEmpty: $addInstanceNameInSubject ? $instanceName + ':' : '' /}
+  {let $branchOrEmpty: $branch.shortName == 'master' ? '' : '#' + $branch.shortName /}
+  [{$instanceNameOrEmpty}{$projectName}{$branchOrEmpty}]: Change {$change.shortSubject}
 {/template}

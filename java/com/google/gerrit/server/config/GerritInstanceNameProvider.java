@@ -18,7 +18,10 @@ import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.util.SystemReader;
 
 /** Provides {@link GerritInstanceName} from {@code gerrit.name}. */
 @Singleton
@@ -32,17 +35,34 @@ public class GerritInstanceNameProvider implements Provider<String> {
     this.instanceName = getInstanceName(config, canonicalUrlProvider);
   }
 
-  private String getInstanceName(Config config, @Nullable Provider<String> canonicalUrlProvider) {
+  @Override
+  public String get() {
+    return instanceName;
+  }
+
+  private static String getInstanceName(
+      Config config, @Nullable Provider<String> canonicalUrlProvider) {
     String instanceName = config.getString("gerrit", null, "instanceName");
     if (instanceName != null || canonicalUrlProvider == null) {
       return instanceName;
     }
 
-    return canonicalUrlProvider.get();
+    return extractInstanceName(canonicalUrlProvider.get());
   }
 
-  @Override
-  public String get() {
-    return instanceName;
+  private static String extractInstanceName(String canonicalUrl) {
+    if (canonicalUrl != null) {
+      try {
+        return new URL(canonicalUrl).getHost();
+      } catch (MalformedURLException e) {
+        // Try something else.
+      }
+    }
+
+    // Fall back onto whatever the local operating system thinks
+    // this server is called. We hopefully didn't get here as a
+    // good admin would have configured the canonical url.
+    //
+    return SystemReader.getInstance().getHostname();
   }
 }

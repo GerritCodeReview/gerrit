@@ -261,6 +261,21 @@ limitations under the License.
       assert.equal(element._computeLoadingClass(false), '');
     });
 
+    test('_computeGroupUrl', () => {
+      assert.isUndefined(element._computeGroupUrl(undefined));
+
+      assert.isUndefined(element._computeGroupUrl(false));
+
+      let url = '#/admin/groups/uuid-529b3c2605bb1029c8146f9de4a91c776fe64498';
+      assert.equal(element._computeGroupUrl(url),
+          'https://test/site/admin/groups/' +
+          'uuid-529b3c2605bb1029c8146f9de4a91c776fe64498');
+
+      url = 'https://gerrit.local/admin/groups/' +
+          'uuid-529b3c2605bb1029c8146f9de4a91c776fe64498';
+      assert.equal(element._computeGroupUrl(url), url);
+    });
+
     test('fires page-error', done => {
       groupStub.restore();
 

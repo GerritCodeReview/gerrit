@@ -555,7 +555,7 @@ public class ChangeJson {
       out.reviewed = cd.isReviewedBy(user.getAccountId()) ? true : null;
     }
 
-    out.labels = labelsFor(perm, cd, has(LABELS), has(DETAILED_LABELS));
+    out.labels = labelsFor(cd, has(LABELS), has(DETAILED_LABELS));
 
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
@@ -664,8 +664,7 @@ public class ChangeJson {
     return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
-  private Map<String, LabelInfo> labelsFor(
-      PermissionBackend.ForChange perm, ChangeData cd, boolean standard, boolean detailed)
+  private Map<String, LabelInfo> labelsFor(ChangeData cd, boolean standard, boolean detailed)
       throws OrmException, PermissionBackendException {
     if (!standard && !detailed) {
       return null;
@@ -674,21 +673,17 @@ public class ChangeJson {
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelWithStatus> withStatus =
         cd.change().getStatus() == Change.Status.MERGED
-            ? labelsForSubmittedChange(perm, cd, labelTypes, standard, detailed)
-            : labelsForUnsubmittedChange(perm, cd, labelTypes, standard, detailed);
+            ? labelsForSubmittedChange(cd, labelTypes, standard, detailed)
+            : labelsForUnsubmittedChange(cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
   private Map<String, LabelWithStatus> labelsForUnsubmittedChange(
-      PermissionBackend.ForChange perm,
-      ChangeData cd,
-      LabelTypes labelTypes,
-      boolean standard,
-      boolean detailed)
+      ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException, PermissionBackendException {
     Map<String, LabelWithStatus> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
-      setAllApprovals(perm, cd, labels);
+      setAllApprovals(cd, labels);
     }
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       LabelType type = labelTypes.byLabel(e.getKey());
@@ -773,8 +768,7 @@ public class ChangeJson {
     }
   }
 
-  private void setAllApprovals(
-      PermissionBackend.ForChange basePerm, ChangeData cd, Map<String, LabelWithStatus> labels)
+  private void setAllApprovals(ChangeData cd, Map<String, LabelWithStatus> labels)
       throws OrmException, PermissionBackendException {
     Change.Status status = cd.change().getStatus();
     checkState(
@@ -797,7 +791,7 @@ public class ChangeJson {
 
     LabelTypes labelTypes = cd.getLabelTypes();
     for (Account.Id accountId : allUsers) {
-      PermissionBackend.ForChange perm = basePerm.user(userFactory.create(accountId));
+      PermissionBackend.ForChange perm = permissionBackendForChange(accountId, cd);
       Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = labelTypes.byLabel(e.getKey());
@@ -880,11 +874,7 @@ public class ChangeJson {
   }
 
   private Map<String, LabelWithStatus> labelsForSubmittedChange(
-      PermissionBackend.ForChange basePerm,
-      ChangeData cd,
-      LabelTypes labelTypes,
-      boolean standard,
-      boolean detailed)
+      ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException, PermissionBackendException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
@@ -943,7 +933,7 @@ public class ChangeJson {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
       Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
-        PermissionBackend.ForChange perm = basePerm.user(userFactory.create(accountId));
+        PermissionBackend.ForChange perm = permissionBackendForChange(accountId, cd);
         pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
           ApprovalInfo ai = approvalInfo(accountId, 0, null, null, null);
@@ -1457,14 +1447,23 @@ public class ChangeJson {
     label.all.add(approval);
   }
 
+  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
+      throws OrmException {
+    return permissionBackendForChange(permissionBackend.user(user), cd);
+  }
+
+  private PermissionBackend.ForChange permissionBackendForChange(Account.Id user, ChangeData cd)
+      throws OrmException {
+    return permissionBackendForChange(permissionBackend.absentUser(user), cd);
+  }
+
   /**
    * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
    *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
    *     lazyload}.
    */
-  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
-      throws OrmException {
-    PermissionBackend.WithUser withUser = permissionBackend.user(user).database(db);
+  private PermissionBackend.ForChange permissionBackendForChange(
+      PermissionBackend.WithUser withUser, ChangeData cd) throws OrmException {
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));

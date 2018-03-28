@@ -457,15 +457,15 @@
     deleteGroupMembers(groupName, groupMembers) {
       const encodeName = encodeURIComponent(groupName);
       const encodeMember = encodeURIComponent(groupMembers);
-      return this.send('DELETE',
-          `/groups/${encodeName}/members/${encodeMember}`);
+      return this.send('POST',
+          `/groups/${encodeName}/members.delete`, {members: [groupMembers]});
     },
 
     deleteIncludedGroup(groupName, includedGroup) {
       const encodeName = encodeURIComponent(groupName);
       const encodeIncludedGroup = encodeURIComponent(includedGroup);
-      return this.send('DELETE',
-          `/groups/${encodeName}/groups/${encodeIncludedGroup}`);
+      return this.send('POST',
+          `/groups/${encodeName}/groups.delete`, {groups: [includedGroup]});
     },
 
     getVersion() {

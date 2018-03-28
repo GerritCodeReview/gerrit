@@ -96,7 +96,7 @@
     },
 
     _accountName(account) {
-      return this.getUserName(this.config, account, true);
+      return this.getUserName(this.config, account, true, false);
     },
   });
 })();

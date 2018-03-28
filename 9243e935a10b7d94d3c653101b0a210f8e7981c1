@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91531f3f_27925a2c",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-28T12:55:25Z",
+      "side": 1,
+      "message": "Move it to a new line. It\u0027s too much for one line.",
+      "range": {
+        "startLine": 83,
+        "startChar": 28,
+        "endLine": 83,
+        "endChar": 84
+      },
+      "revId": "9243e935a10b7d94d3c653101b0a210f8e7981c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

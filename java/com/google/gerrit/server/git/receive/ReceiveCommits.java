@@ -387,6 +387,7 @@ class ReceiveCommits {
   private boolean newChangeForAllNotInTarget;
   private String setFullNameTo;
   private boolean setChangeAsPrivate;
+  private Optional<NoteDbPushOption> noteDbPushOption;
 
   // Handles for outputting back over the wire to the end user.
   private Task newProgress;
@@ -561,6 +562,7 @@ class ReceiveCommits {
     commandProgress = progress.beginSubTask("refs", UNKNOWN);
 
     try {
+      parsePushOptions();
       parseCommands(commands);
     } catch (PermissionBackendException | NoSuchProjectException | IOException err) {
       for (ReceiveCommand cmd : actualCommands) {
@@ -811,8 +813,7 @@ class ReceiveCommits {
     return sb.append(":\n").append(error.get()).toString();
   }
 
-  private void parseCommands(Collection<ReceiveCommand> commands)
-      throws PermissionBackendException, NoSuchProjectException, IOException {
+  private void parsePushOptions() {
     List<String> optionList = rp.getPushOptions();
     if (optionList != null) {
       for (String option : optionList) {
@@ -825,6 +826,22 @@ class ReceiveCommits {
       }
     }
 
+    List<String> noteDbValues = pushOptions.get("notedb");
+    if (!noteDbValues.isEmpty()) {
+      // These semantics for duplicates/errors are somewhat arbitrary and may not match e.g. the
+      // CommandLineParser behavior used by MagicBranchInput.
+      String value = noteDbValues.get(noteDbValues.size() - 1);
+      noteDbPushOption = NoteDbPushOption.parse(value);
+      if (!noteDbPushOption.isPresent()) {
+        addError("Invalid value in -o " + NoteDbPushOption.OPTION_NAME + "=" + value);
+      }
+    } else {
+      noteDbPushOption = Optional.of(NoteDbPushOption.DISALLOW);
+    }
+  }
+
+  private void parseCommands(Collection<ReceiveCommand> commands)
+      throws PermissionBackendException, NoSuchProjectException, IOException {
     logDebug("Parsing {} commands", commands.size());
     for (ReceiveCommand cmd : commands) {
       if (cmd.getResult() != NOT_ATTEMPTED) {
@@ -873,6 +890,38 @@ class ReceiveCommits {
           reject(cmd, "upload to refs/changes not allowed");
         }
         continue;
+      }
+
+      if (RefNames.isNoteDbMetaRef(cmd.getRefName())) {
+        // Reject pushes to NoteDb refs without a special option and permission. Note that this
+        // prohibition doesn't depend on NoteDb being enabled in any way, since all sites will
+        // migrate to NoteDb eventually, and we don't want garbage data waiting there when the
+        // migration finishes.
+        logDebug(
+            "{} NoteDb ref {} with {}={}",
+            cmd.getType(),
+            cmd.getRefName(),
+            NoteDbPushOption.OPTION_NAME,
+            noteDbPushOption);
+        if (!Optional.of(NoteDbPushOption.ALLOW).equals(noteDbPushOption)) {
+          // Only reject this command, not the whole push. This supports the use case of "git clone
+          // --mirror" followed by "git push --mirror", when the user doesn't really intend to clone
+          // or mirror the NoteDb data; there is no single refspec that describes all refs *except*
+          // NoteDb refs.
+          reject(
+              cmd,
+              "NoteDb update requires -o "
+                  + NoteDbPushOption.OPTION_NAME
+                  + "="
+                  + NoteDbPushOption.ALLOW.value());
+          continue;
+        }
+        try {
+          permissionBackend.user(user).check(GlobalPermission.ACCESS_DATABASE);
+        } catch (AuthException e) {
+          reject(cmd, "NoteDb update requires access database permission");
+          continue;
+        }
       }
 
       switch (cmd.getType()) {

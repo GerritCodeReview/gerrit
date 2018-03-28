@@ -32,12 +32,11 @@
     To use PolyGerrit, please enable JavaScript in your browser settings, and then refresh this page.
   </noscript>
 
-  {if $canonicalPath != '' or $versionInfo}
-    <script>
-      {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
-      {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
-    </script>{\n}
-  {/if}
+  <script>
+    window.CLOSURE_NO_DEPS = true;
+    {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
+    {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
+  </script>{\n}
 
   <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
 

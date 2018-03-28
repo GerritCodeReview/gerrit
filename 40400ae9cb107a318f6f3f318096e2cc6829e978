@@ -46,6 +46,30 @@
       "revId": "40400ae9cb107a318f6f3f318096e2cc6829e978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa3c7ba0_babcff64",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceNameProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-28T14:13:22Z",
+      "side": 1,
+      "message": "Good point :)",
+      "parentUuid": "de160c6a_02d979f8",
+      "range": {
+        "startLine": 66,
+        "startChar": 11,
+        "endLine": 66,
+        "endChar": 52
+      },
+      "revId": "40400ae9cb107a318f6f3f318096e2cc6829e978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

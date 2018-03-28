@@ -30,7 +30,8 @@
       groupId: Number,
       _groupMemberSearchId: String,
       _groupMemberSearchName: String,
-      _includedGroupSearch: String,
+      _includedGroupSearchId: String,
+      _includedGroupSearchName: String,
       _loading: {
         type: Boolean,
         value: true,
@@ -164,9 +165,9 @@
             });
       } else if (this._itemType === 'includedGroup') {
         return this.$.restAPI.deleteIncludedGroup(this._groupName,
-            this._itemName)
+            this._itemId)
             .then(itemDeleted => {
-              if (itemDeleted.status === 204) {
+              if (itemDeleted.status === 204 || itemDeleted.status === 205) {
                 this.$.restAPI.getIncludedGroup(this._groupName)
                     .then(includedGroup => {
                       this._includedGroups = includedGroup;
@@ -197,7 +198,7 @@
 
     _handleSavingIncludedGroups() {
       return this.$.restAPI.saveIncludedGroup(this._groupName,
-          this._includedGroupSearch, err => {
+          this._includedGroupSearchId, err => {
             if (err.status === 404) {
               this.dispatchEvent(new CustomEvent('show-alert', {
                 detail: {message: SAVING_ERROR_TEXT},
@@ -215,16 +216,17 @@
                 .then(includedGroup => {
                   this._includedGroups = includedGroup;
                 });
-            this._includedGroupSearch = '';
+            this._includedGroupSearchId = '';
           });
     },
 
     _handleDeleteIncludedGroup(e) {
+      const id = e.model.get('item.id');
       const name = e.model.get('item.name');
-      if (!name) {
-        return '';
-      }
-      this._itemName = name;
+      const item = name || id;
+      if (!item) { return ''; }
+      this._itemName = item;
+      this._itemId = id;
       this._itemType = 'includedGroup';
       this.$.overlay.open();
     },
@@ -261,7 +263,7 @@
               if (!response.hasOwnProperty(key)) { continue; }
               groups.push({
                 name: key,
-                value: response[key],
+                value: response[key].id,
               });
             }
             return groups;

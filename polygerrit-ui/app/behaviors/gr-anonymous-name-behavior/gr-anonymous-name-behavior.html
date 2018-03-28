@@ -28,12 +28,19 @@ limitations under the License.
     /**
      * enableEmail when true enables to fallback to using email if
      * the account name is not avilable.
+     *
+     * enableId when true, uses id as the last fallback option before
+     * setting the text.
      */
-    getUserName(config, account, enableEmail) {
+    getUserName(config, account, enableEmail, enableId) {
       if (account && account.name) {
         return account.name;
+      } else if (account && account.username) {
+        return account.username;
       } else if (enableEmail && account && account.email) {
         return account.email;
+      } else if (enableId && account && account.id) {
+        return account.id;
       } else if (config && config.user &&
           config.user.anonymous_coward_name !== 'Anonymous Coward') {
         return config.user.anonymous_coward_name;

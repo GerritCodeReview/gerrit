@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c6c275d4_ccc08756",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-28T00:07:49Z",
+      "side": 1,
+      "message": "Good idea. At first, I was sure that would conflict with a \u003cstrong\u003e somewhere else, but there surprisingly aren\u0027t any others!\n\nDone.",
+      "parentUuid": "9f28def7_0ec7602e",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 7
+      },
+      "revId": "6f36491036bf942c170ded147b7b8e8d56aab715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8d1f7b1_382a93b2",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "6f36491036bf942c170ded147b7b8e8d56aab715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4f3ad10_da3e1834",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-28T00:07:49Z",
+      "side": 1,
+      "message": "Good catch! I had copy-pasted this from `_handleDeleteEditConfirm`, but this is definitely a revision action.\n\nDone.",
+      "parentUuid": "f8d1f7b1_382a93b2",
+      "range": {
+        "startLine": 1040,
+        "startChar": 63,
+        "endLine": 1040,
+        "endChar": 68
+      },
+      "revId": "6f36491036bf942c170ded147b7b8e8d56aab715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

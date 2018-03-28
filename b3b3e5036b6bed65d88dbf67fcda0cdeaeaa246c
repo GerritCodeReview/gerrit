@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a980a8e_a3102aba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-28T16:39:21Z",
+      "side": 1,
+      "message": "Not a public one",
+      "parentUuid": "c32603cf_432aa3da",
+      "revId": "b3b3e5036b6bed65d88dbf67fcda0cdeaeaa246c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "433e2323_b422a9bb",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "b3b3e5036b6bed65d88dbf67fcda0cdeaeaa246c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22cbda8c_9a6bd7b1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-28T16:39:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "433e2323_b422a9bb",
+      "range": {
+        "startLine": 151,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 45
+      },
+      "revId": "b3b3e5036b6bed65d88dbf67fcda0cdeaeaa246c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1dbef8ca_7a95865a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-28T16:39:21Z",
+      "side": 1,
+      "message": "This is an incorrect comment anyway (result of copy/paste). Removing.",
+      "parentUuid": "81dd4f8d_6683cf15",
+      "range": {
+        "startLine": 209,
+        "startChar": 15,
+        "endLine": 209,
+        "endChar": 72
+      },
+      "revId": "b3b3e5036b6bed65d88dbf67fcda0cdeaeaa246c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e8cca67_12b44b73",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
         "patchSetId": 2
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "2cc0aa4a_dfeb3bed",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-28T16:39:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e8cca67_12b44b73",
+      "range": {
+        "startLine": 383,
+        "startChar": 10,
+        "endLine": 383,
+        "endChar": 14
+      },
+      "revId": "b3b3e5036b6bed65d88dbf67fcda0cdeaeaa246c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac06c6bc_44172c8b",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
         "patchSetId": 2
@@ -102,6 +192,24 @@
       "revId": "b3b3e5036b6bed65d88dbf67fcda0cdeaeaa246c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adffb1f6_33918e37",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-28T16:39:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac06c6bc_44172c8b",
+      "revId": "b3b3e5036b6bed65d88dbf67fcda0cdeaeaa246c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -445,6 +445,13 @@
     saveIncludedGroup(groupName, includedGroup, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
       const encodeIncludedGroup = encodeURIComponent(includedGroup);
+      /*return this.send('POST',
+          `/groups/${encodeName}/groups.add`, {groups: [includedGroup]},
+          opt_errFn).then(response => {
+            if (response.ok) {
+              return this.getResponseObject(response);
+            }
+          });*/
       return this.send('PUT',
           `/groups/${encodeName}/groups/${encodeIncludedGroup}`, null,
           opt_errFn).then(response => {
@@ -456,16 +463,15 @@
 
     deleteGroupMembers(groupName, groupMembers) {
       const encodeName = encodeURIComponent(groupName);
-      const encodeMember = encodeURIComponent(groupMembers);
-      return this.send('DELETE',
-          `/groups/${encodeName}/members/${encodeMember}`);
+      return this.send('POST',
+          `/groups/${encodeName}/members.delete`, {members: [groupMembers]});
     },
 
     deleteIncludedGroup(groupName, includedGroup) {
       const encodeName = encodeURIComponent(groupName);
-      const encodeIncludedGroup = encodeURIComponent(includedGroup);
-      return this.send('DELETE',
-          `/groups/${encodeName}/groups/${encodeIncludedGroup}`);
+      const decodeName = decodeURIComponent(includedGroup);
+      return this.send('POST',
+          `/groups/${encodeName}/groups.delete`, {groups: [decodeName]});
     },
 
     getVersion() {

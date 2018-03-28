@@ -18,6 +18,7 @@
   'use strict';
 
   const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
+  const DEBOUNCE_WAIT_MS = 200;
 
   Polymer({
     is: 'gr-autocomplete',
@@ -132,12 +133,11 @@
       },
 
       /**
-       * The number of milliseconds to use as the debounce wait time. If null,
-       * no debouncing is used.
+       * When true, querying for suggestions is not debounced w/r/t keypresses
        */
-      debounceWait: {
-        type: Number,
-        value: null,
+      noDebounce: {
+        type: Boolean,
+        value: false,
       },
 
       /** @type {?} */
@@ -167,7 +167,7 @@
 
     observers: [
       '_maybeOpenDropdown(_suggestions, _focused)',
-      '_updateSuggestions(text, threshold, debounceWait)',
+      '_updateSuggestions(text, threshold, noDebounce)',
     ],
 
     attached() {
@@ -176,6 +176,7 @@
 
     detached() {
       this.unlisten(document.body, 'tap', '_handleBodyTap');
+      this.cancelDebouncer('update-suggestions');
     },
 
     get focusStart() {
@@ -219,7 +220,7 @@
 
     _onInputFocus() {
       this._focused = true;
-      this._updateSuggestions(this.text, this.threshold, this.debounceWait);
+      this._updateSuggestions(this.text, this.threshold, this.noDebounce);
       this.$.input.classList.remove('warnUncommitted');
       // Needed so that --paper-input-container-input updated style is applied.
       this.updateStyles();
@@ -232,7 +233,7 @@
       this.updateStyles();
     },
 
-    _updateSuggestions(text, threshold, debounceWait) {
+    _updateSuggestions(text, threshold, noDebounce) {
       if (this._disableSuggestions) { return; }
       if (text === undefined || text.length < threshold) {
         this._suggestions = [];
@@ -257,10 +258,10 @@
         });
       };
 
-      if (debounceWait) {
-        this.debounce('update-suggestions', update, debounceWait);
-      } else {
+      if (noDebounce) {
         update();
+      } else {
+        this.debounce('update-suggestions', update, DEBOUNCE_WAIT_MS);
       }
     },
 

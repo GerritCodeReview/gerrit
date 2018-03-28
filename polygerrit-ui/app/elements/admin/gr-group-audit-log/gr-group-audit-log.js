@@ -99,6 +99,8 @@
         return account.username;
       } else if (account && account.email) {
         return account.email.split('@')[0];
+      } else if (account && account.id) {
+        return account.id;
       }
     },
   });

@@ -66,6 +66,13 @@ limitations under the License.
         assert.equal(element._getNameForMember(account.member), 'test-name');
 
         account = {
+          member: {
+            id: 'test-name',
+          },
+        };
+        assert.equal(element._getNameForMember(account.member), 'test-name');
+
+        account = {
           user: {
             email: 'test-email@gmail.com',
           },

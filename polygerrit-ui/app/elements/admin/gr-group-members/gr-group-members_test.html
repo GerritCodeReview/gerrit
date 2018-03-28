@@ -307,6 +307,7 @@ limitations under the License.
       assert.equal(element._itemName, '1000098');
     });
 
+<<<<<<< HEAD   (dc5e76 Make WebSessionManager.Val#getAccountId public)
     test('delete included groups', () => {
       const deletelBtns = Polymer.dom(element.root)
           .querySelectorAll('.deleteIncludedGroupButton');
@@ -319,6 +320,45 @@ limitations under the License.
       MockInteractions.tap(deletelBtns[2]);
       assert.equal(element._itemId, 'testId3');
       assert.equal(element._itemName, 'testName3');
+=======
+    test('_computeLoadingClass', () => {
+      assert.equal(element._computeLoadingClass(true), 'loading');
+
+      assert.equal(element._computeLoadingClass(false), '');
+    });
+
+    test('_computeGroupUrl', () => {
+      assert.isUndefined(element._computeGroupUrl(undefined));
+
+      assert.isUndefined(element._computeGroupUrl(false));
+
+      let url = '#/admin/groups/uuid-529b3c2605bb1029c8146f9de4a91c776fe64498';
+      assert.equal(element._computeGroupUrl(url),
+          'https://test/site/admin/groups/' +
+          'uuid-529b3c2605bb1029c8146f9de4a91c776fe64498');
+
+      url = 'https://gerrit.local/admin/groups/' +
+          'uuid-529b3c2605bb1029c8146f9de4a91c776fe64498';
+      assert.equal(element._computeGroupUrl(url), url);
+    });
+
+    test('fires page-error', done => {
+      groupStub.restore();
+
+      element.groupId = 1;
+
+      const response = {status: 404};
+      sandbox.stub(
+          element.$.restAPI, 'getGroupConfig', (group, errFn) => {
+            errFn(response);
+          });
+      element.addEventListener('page-error', e => {
+        assert.deepEqual(e.detail.response, response);
+        done();
+      });
+
+      element._loadGroupDetails();
+>>>>>>> CHANGE (dd9b6c Fix groups to prevent javascript errors with url)
     });
   });
 </script>

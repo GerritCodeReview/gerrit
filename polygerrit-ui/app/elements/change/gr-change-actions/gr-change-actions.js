@@ -203,6 +203,7 @@
        *    branch: string,
        *    id: string,
        *    project: string,
+       *    subject: string,
        *  }}
        */
       change: Object,

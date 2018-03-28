@@ -121,7 +121,7 @@ def build_bower_json(version_targets, seeds):
 
 def bower_command(args):
   base = subprocess.check_output(["bazel", "info", "output_base"]).strip()
-  exp = os.path.join(base, "external", "bower", "*npm_binary.tgz")
+  exp = os.path.join(base.decode('utf-8'), "external", "bower", "*npm_binary.tgz")
   fs = sorted(glob.glob(exp))
   assert len(fs) == 1, "bower tarball not found or have multiple versions %s" % fs
   return ["python", os.getcwd() + "/tools/js/run_npm_binary.py", sorted(fs)[0]] + args
@@ -137,8 +137,8 @@ def main(args):
     "bazel", "query", "kind(bower_component_bundle, //polygerrit-ui/...)"])
   seed_str = subprocess.check_output([
     "bazel", "query", "attr(seed, 1, kind(bower_component, deps(//polygerrit-ui/...)))"])
-  targets = [s for s in target_str.split('\n') if s]
-  seeds = [s for s in seed_str.split('\n') if s]
+  targets = [s for s in target_str.decode('utf-8').split('\n') if s]
+  seeds = [s for s in seed_str.decode('utf-8').split('\n') if s]
   prefix = "//lib/js:"
   non_seeds = [s for s in seeds if not s.startswith(prefix)]
   assert not non_seeds, non_seeds

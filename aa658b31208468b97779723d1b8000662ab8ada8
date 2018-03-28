@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c73af31b_adad6dd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-28T18:26:07Z",
+      "side": 1,
+      "message": "I\u0027ve found an odd bug:\n* If I open access for my All-Projects repo (which doesn\u0027t inherit from another repo, naturally) there is no \"Rights inherit from\" line at the top -- as expected.\n* If I open [Edit] mode, no editor for a parent project appears. Should there be? I don\u0027t know. Probably? This isn\u0027t necessarily the bug yet.\n* If I [Cancel] the edit mode, an empty \"Rights inherit from\" line appears. This looks like a bug.\n* If I enter [Edit] mode again, the parent is now editable. If I can only get to this by [Edit]→[Cancle]→[Edit], then I think this is a small bug.",
+      "revId": "aa658b31208468b97779723d1b8000662ab8ada8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2c9624e_bbd01e27",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-28T18:26:07Z",
+      "side": 1,
+      "message": "Not a blocking issue, but this pair of lines is very confusing to read.\n\nIt\u0027s also possible to do this without the use of `:not(..)`, but I don\u0027t foresee an issue.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "aa658b31208468b97779723d1b8000662ab8ada8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

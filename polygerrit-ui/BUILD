@@ -8,10 +8,9 @@ load("//tools/bzl:genrule2.bzl", "genrule2")
 bower_component_bundle(
     name = "polygerrit_components.bower_components",
     deps = [
+        "//lib/js:ba-linkify",
         "//lib/js:es6-promise",
         "//lib/js:fetch",
-        # TODO(hanwen): this is inserted separately in the UI zip. Do we need this here?
-        "//lib/js:highlightjs",
         "//lib/js:iron-a11y-keys-behavior",
         "//lib/js:iron-autogrow-textarea",
         "//lib/js:iron-dropdown",

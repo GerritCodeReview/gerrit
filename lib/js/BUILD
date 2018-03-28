@@ -24,16 +24,16 @@ load("//lib/js:bower_components.bzl", "define_bower_components")
 
 define_bower_components()
 
-js_component(
-    name = "highlightjs",
-    srcs = ["//lib/highlightjs:highlight.min.js"],
-    license = "//lib:LICENSE-highlightjs",
-)
-
 filegroup(
     name = "highlightjs_files",
     srcs = ["//lib/highlightjs:highlight.min.js"],
     data = ["//lib:LICENSE-highlightjs"],
+)
+
+js_component(
+    name = "ba-linkify",
+    srcs = ["//lib/ba-linkify:ba-linkify.js"],
+    license = "//lib:LICENSE-ba-linkify",
 )
 
 bower_component(

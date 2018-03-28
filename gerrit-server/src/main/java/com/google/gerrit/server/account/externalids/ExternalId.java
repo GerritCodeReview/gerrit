@@ -366,11 +366,17 @@ public abstract class ExternalId implements Serializable {
     // c.setString(...) ensures that account IDs are human readable.
     c.setString(
         EXTERNAL_ID_SECTION, externalIdKey, ACCOUNT_ID_KEY, Integer.toString(accountId().get()));
+
     if (email() != null) {
       c.setString(EXTERNAL_ID_SECTION, externalIdKey, EMAIL_KEY, email());
+    } else {
+      c.unset(EXTERNAL_ID_SECTION, externalIdKey, EMAIL_KEY);
     }
+
     if (password() != null) {
       c.setString(EXTERNAL_ID_SECTION, externalIdKey, PASSWORD_KEY, password());
+    } else {
+      c.unset(EXTERNAL_ID_SECTION, externalIdKey, PASSWORD_KEY);
     }
   }
 }

@@ -31,44 +31,61 @@ limitations under the License.
 <dom-module id="gr-repo-access">
   <template>
     <style include="shared-styles">
-      gr-button {
+      gr-button,
+      #inheritsFrom,
+      #editInheritFromInput,
+      .editing #inheritFromName,
+      .weblinks,
+      #loadingText,
+      .loading {
         display: none;
       }
-      .admin gr-button.visible {
-        display: inline-block;
-        margin: 1em 0;
+      .editing #inheritsFrom,
+      #inheritsFrom.show {
+        display: flex;
+        min-height: 2em;
+        align-items: center;
       }
       .weblink {
         margin-right: .2em;
       }
-      .weblinks {
-        display: none;
-      }
-      .weblinks.show {
+      .weblinks.show,
+      #loadingText.loading,
+      .referenceContainer {
         display: block;
       }
-      .loading {
-        display: none;
+      .rightsText {
+        margin-right: .3rem;
       }
-      #loading.loading {
-        display: block;
+
+      .editing gr-button,
+      .admin #editBtn {
+        display: inline-block;
+        margin: 1em 0;
       }
-      #loading:not(.loading) {
-        display: none;
+      .editing #editInheritFromInput {
+        display: inline-block;
       }
     </style>
     <style include="gr-menu-page-styles"></style>
-    <main class$="[[_computeAdminClass(_isAdmin, _canUpload)]]">
-      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
+    <main class$="[[_computeMainClass(_isAdmin, _canUpload, _editing)]]">
+      <div id="loadingText" class$="[[_computeLoadingClass(_loading)]]">
         Loading...
       </div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-        <template is="dom-if" if="[[_inheritsFrom]]">
-          <h3 id="inheritsFrom">Rights Inherit From
-            <a href$="[[_computeParentHref(_inheritsFrom.name)]]" rel="noopener">
-                [[_inheritsFrom.name]]</a>
-          </h3>
-        </template>
+        <h3 id="inheritsFrom" class$="[[_computeShowInherit(_inheritsFrom)]]">
+          <span class="rightsText">Rights Inherit From</span>
+          <a
+              href$="[[_computeParentHref(_inheritsFrom.name)]]"
+              rel="noopener"
+              id="inheritFromName">
+            [[_inheritsFrom.name]]</a>
+          <gr-autocomplete
+              id="editInheritFromInput"
+              text="{{_inheritFromFilter}}"
+              query="[[_query]]"
+              on-commit="_handleUpdateInheritFrom"></gr-autocomplete>
+        </h3>
         <div class$="weblinks [[_computeWebLinkClass(_weblinks)]]">
           History:
           <template is="dom-repeat" items="[[_weblinks]]" as="link">
@@ -78,11 +95,9 @@ limitations under the License.
           </template>
         </div>
         <gr-button id="editBtn"
-            class="visible"
             on-tap="_handleEdit">[[_editOrCancel(_editing)]]</gr-button>
         <gr-button id="saveBtn"
             primary
-            class$="[[_computeShowSaveClass(_editing)]]"
             on-tap="_handleSaveForReview"
             disabled$="[[!_modified]]">
               Save for review</gr-button>
@@ -97,9 +112,10 @@ limitations under the License.
               editing="[[_editing]]"
               groups="[[_groups]]"></gr-access-section>
         </template>
-        <gr-button id="addReferenceBtn"
-            class$="[[_computeShowSaveClass(_editing)]]"
-            on-tap="_handleCreateSection">Add Reference</gr-button>
+        <div class="referenceContainer">
+          <gr-button id="addReferenceBtn"
+              on-tap="_handleCreateSection">Add Reference</gr-button>
+        </div>
       </div>
     </main>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

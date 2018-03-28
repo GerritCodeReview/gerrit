@@ -17,6 +17,7 @@ package com.google.gerrit.server.account.externalids;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -371,9 +372,9 @@ public class ExternalIdNotes extends VersionedMetaData {
 
     Set<ExternalId> newExtIds = new HashSet<>();
     noteMapUpdates.add(
-        (rw, n) -> {
+        (rw, n, f) -> {
           for (ExternalId extId : extIds) {
-            ExternalId insertedExtId = upsert(rw, inserter, noteMap, extId);
+            ExternalId insertedExtId = upsert(rw, inserter, noteMap, f, extId);
             newExtIds.add(insertedExtId);
           }
         });
@@ -399,9 +400,9 @@ public class ExternalIdNotes extends VersionedMetaData {
     Set<ExternalId> removedExtIds = get(ExternalId.Key.from(extIds));
     Set<ExternalId> updatedExtIds = new HashSet<>();
     noteMapUpdates.add(
-        (rw, n) -> {
+        (rw, n, f) -> {
           for (ExternalId extId : extIds) {
-            ExternalId updatedExtId = upsert(rw, inserter, noteMap, extId);
+            ExternalId updatedExtId = upsert(rw, inserter, noteMap, f, extId);
             updatedExtIds.add(updatedExtId);
           }
         });
@@ -429,9 +430,9 @@ public class ExternalIdNotes extends VersionedMetaData {
     checkLoaded();
     Set<ExternalId> removedExtIds = new HashSet<>();
     noteMapUpdates.add(
-        (rw, n) -> {
+        (rw, n, f) -> {
           for (ExternalId extId : extIds) {
-            remove(rw, noteMap, extId);
+            remove(rw, noteMap, f, extId);
             removedExtIds.add(extId);
           }
         });
@@ -458,9 +459,9 @@ public class ExternalIdNotes extends VersionedMetaData {
     checkLoaded();
     Set<ExternalId> removedExtIds = new HashSet<>();
     noteMapUpdates.add(
-        (rw, n) -> {
+        (rw, n, f) -> {
           for (ExternalId.Key extIdKey : extIdKeys) {
-            ExternalId removedExtId = remove(rw, noteMap, extIdKey, accountId);
+            ExternalId removedExtId = remove(rw, noteMap, f, extIdKey, accountId);
             removedExtIds.add(removedExtId);
           }
         });
@@ -476,9 +477,9 @@ public class ExternalIdNotes extends VersionedMetaData {
     checkLoaded();
     Set<ExternalId> removedExtIds = new HashSet<>();
     noteMapUpdates.add(
-        (rw, n) -> {
+        (rw, n, f) -> {
           for (ExternalId.Key extIdKey : extIdKeys) {
-            ExternalId extId = remove(rw, noteMap, extIdKey, null);
+            ExternalId extId = remove(rw, noteMap, f, extIdKey, null);
             removedExtIds.add(extId);
           }
         });
@@ -506,16 +507,16 @@ public class ExternalIdNotes extends VersionedMetaData {
     Set<ExternalId> removedExtIds = new HashSet<>();
     Set<ExternalId> updatedExtIds = new HashSet<>();
     noteMapUpdates.add(
-        (rw, n) -> {
+        (rw, n, f) -> {
           for (ExternalId.Key extIdKey : toDelete) {
-            ExternalId removedExtId = remove(rw, noteMap, extIdKey, accountId);
+            ExternalId removedExtId = remove(rw, noteMap, f, extIdKey, accountId);
             if (removedExtId != null) {
               removedExtIds.add(removedExtId);
             }
           }
 
           for (ExternalId extId : toAdd) {
-            ExternalId insertedExtId = upsert(rw, inserter, noteMap, extId);
+            ExternalId insertedExtId = upsert(rw, inserter, noteMap, f, extId);
             updatedExtIds.add(insertedExtId);
           }
         });
@@ -540,14 +541,14 @@ public class ExternalIdNotes extends VersionedMetaData {
     Set<ExternalId> removedExtIds = new HashSet<>();
     Set<ExternalId> updatedExtIds = new HashSet<>();
     noteMapUpdates.add(
-        (rw, n) -> {
+        (rw, n, f) -> {
           for (ExternalId.Key extIdKey : toDelete) {
-            ExternalId removedExtId = remove(rw, noteMap, extIdKey, null);
+            ExternalId removedExtId = remove(rw, noteMap, f, extIdKey, null);
             removedExtIds.add(removedExtId);
           }
 
           for (ExternalId extId : toAdd) {
-            ExternalId insertedExtId = upsert(rw, inserter, noteMap, extId);
+            ExternalId insertedExtId = upsert(rw, inserter, noteMap, f, extId);
             updatedExtIds.add(insertedExtId);
           }
         });
@@ -660,14 +661,22 @@ public class ExternalIdNotes extends VersionedMetaData {
     }
 
     try (RevWalk rw = new RevWalk(repo)) {
+      Set<String> footers = new HashSet<>();
       for (NoteMapUpdate noteMapUpdate : noteMapUpdates) {
         try {
-          noteMapUpdate.execute(rw, noteMap);
+          noteMapUpdate.execute(rw, noteMap, footers);
         } catch (DuplicateExternalIdKeyException e) {
           throw new IOException(e);
         }
       }
       noteMapUpdates.clear();
+      if (!footers.isEmpty()) {
+        commit.setMessage(
+            footers
+                .stream()
+                .sorted()
+                .collect(joining("\n", commit.getMessage().trim() + "\n\n", "")));
+      }
 
       RevTree oldTree = revision != null ? rw.parseTree(revision) : null;
       ObjectId newTreeId = noteMap.writeTree(inserter);
@@ -718,14 +727,17 @@ public class ExternalIdNotes extends VersionedMetaData {
    * <p>If the external ID already exists it is overwritten.
    */
   private static ExternalId upsert(
-      RevWalk rw, ObjectInserter ins, NoteMap noteMap, ExternalId extId)
+      RevWalk rw, ObjectInserter ins, NoteMap noteMap, Set<String> footers, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
     Config c = new Config();
     if (noteMap.contains(extId.key().sha1())) {
-      byte[] raw = readNoteData(rw, noteMap.get(noteId));
+      ObjectId noteDataId = noteMap.get(noteId);
+      byte[] raw = readNoteData(rw, noteDataId);
       try {
         c = new BlobBasedConfig(null, raw);
+        ExternalId oldExtId = ExternalId.parse(noteId.name(), c, noteDataId);
+        addFooters(footers, oldExtId);
       } catch (ConfigInvalidException e) {
         throw new ConfigInvalidException(
             String.format("Invalid external id config for note %s: %s", noteId, e.getMessage()));
@@ -735,7 +747,9 @@ public class ExternalIdNotes extends VersionedMetaData {
     byte[] raw = c.toText().getBytes(UTF_8);
     ObjectId noteData = ins.insert(OBJ_BLOB, raw);
     noteMap.set(noteId, noteData);
-    return ExternalId.create(extId, noteData);
+    ExternalId newExtId = ExternalId.create(extId, noteData);
+    addFooters(footers, newExtId);
+    return newExtId;
   }
 
   /**
@@ -744,7 +758,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    * @throws IllegalStateException is thrown if there is an existing external ID that has the same
    *     key, but otherwise doesn't match the specified external ID.
    */
-  private static ExternalId remove(RevWalk rw, NoteMap noteMap, ExternalId extId)
+  private static ExternalId remove(
+      RevWalk rw, NoteMap noteMap, Set<String> footers, ExternalId extId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extId.key().sha1();
     if (!noteMap.contains(noteId)) {
@@ -760,6 +775,7 @@ public class ExternalIdNotes extends VersionedMetaData {
         extId.toString(),
         actualExtId.toString());
     noteMap.remove(noteId);
+    addFooters(footers, actualExtId);
     return actualExtId;
   }
 
@@ -772,7 +788,11 @@ public class ExternalIdNotes extends VersionedMetaData {
    *     exists
    */
   private static ExternalId remove(
-      RevWalk rw, NoteMap noteMap, ExternalId.Key extIdKey, Account.Id expectedAccountId)
+      RevWalk rw,
+      NoteMap noteMap,
+      Set<String> footers,
+      ExternalId.Key extIdKey,
+      Account.Id expectedAccountId)
       throws IOException, ConfigInvalidException {
     ObjectId noteId = extIdKey.sha1();
     if (!noteMap.contains(noteId)) {
@@ -792,7 +812,15 @@ public class ExternalIdNotes extends VersionedMetaData {
           extId.accountId().get());
     }
     noteMap.remove(noteId);
+    addFooters(footers, extId);
     return extId;
+  }
+
+  private static void addFooters(Set<String> footers, ExternalId extId) {
+    footers.add("Account: " + extId.accountId().get());
+    if (extId.email() != null) {
+      footers.add("Email: " + extId.email());
+    }
   }
 
   private void checkExternalIdsDontExist(Collection<ExternalId> extIds)
@@ -823,7 +851,7 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   @FunctionalInterface
   private interface NoteMapUpdate {
-    void execute(RevWalk rw, NoteMap noteMap)
+    void execute(RevWalk rw, NoteMap noteMap, Set<String> footers)
         throws IOException, ConfigInvalidException, DuplicateExternalIdKeyException;
   }
 

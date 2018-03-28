@@ -278,14 +278,19 @@ public abstract class ExternalId implements Serializable {
    */
   public static ExternalId parse(String noteId, byte[] raw, ObjectId blobId)
       throws ConfigInvalidException {
-    checkNotNull(blobId);
-
     Config externalIdConfig = new Config();
     try {
       externalIdConfig.fromText(new String(raw, UTF_8));
     } catch (ConfigInvalidException e) {
       throw invalidConfig(noteId, e.getMessage());
     }
+
+    return parse(noteId, externalIdConfig, blobId);
+  }
+
+  public static ExternalId parse(String noteId, Config externalIdConfig, ObjectId blobId)
+      throws ConfigInvalidException {
+    checkNotNull(blobId);
 
     Set<String> externalIdKeys = externalIdConfig.getSubsections(EXTERNAL_ID_SECTION);
     if (externalIdKeys.size() != 1) {
@@ -439,11 +444,17 @@ public abstract class ExternalId implements Serializable {
     // c.setString(...) ensures that account IDs are human readable.
     c.setString(
         EXTERNAL_ID_SECTION, externalIdKey, ACCOUNT_ID_KEY, Integer.toString(accountId().get()));
+
     if (email() != null) {
       c.setString(EXTERNAL_ID_SECTION, externalIdKey, EMAIL_KEY, email());
+    } else {
+      c.unset(EXTERNAL_ID_SECTION, externalIdKey, EMAIL_KEY);
     }
+
     if (password() != null) {
       c.setString(EXTERNAL_ID_SECTION, externalIdKey, PASSWORD_KEY, password());
+    } else {
+      c.unset(EXTERNAL_ID_SECTION, externalIdKey, PASSWORD_KEY);
     }
   }
 }

@@ -674,21 +674,17 @@ public class ChangeJson {
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelWithStatus> withStatus =
         cd.change().getStatus() == Change.Status.MERGED
-            ? labelsForSubmittedChange(perm, cd, labelTypes, standard, detailed)
-            : labelsForUnsubmittedChange(perm, cd, labelTypes, standard, detailed);
+            ? labelsForSubmittedChange(cd, labelTypes, standard, detailed)
+            : labelsForUnsubmittedChange(cd, labelTypes, standard, detailed);
     return ImmutableMap.copyOf(Maps.transformValues(withStatus, LabelWithStatus::label));
   }
 
   private Map<String, LabelWithStatus> labelsForUnsubmittedChange(
-      PermissionBackend.ForChange perm,
-      ChangeData cd,
-      LabelTypes labelTypes,
-      boolean standard,
-      boolean detailed)
+      ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException, PermissionBackendException {
     Map<String, LabelWithStatus> labels = initLabels(cd, labelTypes, standard);
     if (detailed) {
-      setAllApprovals(perm, cd, labels);
+      setAllApprovals(cd, labels);
     }
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
       LabelType type = labelTypes.byLabel(e.getKey());
@@ -773,8 +769,7 @@ public class ChangeJson {
     }
   }
 
-  private void setAllApprovals(
-      PermissionBackend.ForChange basePerm, ChangeData cd, Map<String, LabelWithStatus> labels)
+  private void setAllApprovals(ChangeData cd, Map<String, LabelWithStatus> labels)
       throws OrmException, PermissionBackendException {
     Change.Status status = cd.change().getStatus();
     checkState(
@@ -797,7 +792,7 @@ public class ChangeJson {
 
     LabelTypes labelTypes = cd.getLabelTypes();
     for (Account.Id accountId : allUsers) {
-      PermissionBackend.ForChange perm = basePerm.user(userFactory.create(accountId));
+      PermissionBackend.ForChange perm = permissionBackendForChange(accountId, cd);
       Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = labelTypes.byLabel(e.getKey());
@@ -880,11 +875,7 @@ public class ChangeJson {
   }
 
   private Map<String, LabelWithStatus> labelsForSubmittedChange(
-      PermissionBackend.ForChange basePerm,
-      ChangeData cd,
-      LabelTypes labelTypes,
-      boolean standard,
-      boolean detailed)
+      ChangeData cd, LabelTypes labelTypes, boolean standard, boolean detailed)
       throws OrmException, PermissionBackendException {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
@@ -943,7 +934,7 @@ public class ChangeJson {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
       Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
-        PermissionBackend.ForChange perm = basePerm.user(userFactory.create(accountId));
+        PermissionBackend.ForChange perm = permissionBackendForChange(accountId, cd);
         pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
           ApprovalInfo ai = approvalInfo(accountId, 0, null, null, null);
@@ -1457,14 +1448,23 @@ public class ChangeJson {
     label.all.add(approval);
   }
 
+  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
+      throws OrmException {
+    return permissionBackendForChange(user, cd);
+  }
+
+  private PermissionBackend.ForChange permissionBackendForChange(Account.Id user, ChangeData cd)
+      throws OrmException {
+    return permissionBackendForChange(user, cd);
+  }
+
   /**
    * @return {@link com.google.gerrit.server.permissions.PermissionBackend.ForChange} constructed
    *     from either an index-backed or a database-backed {@link ChangeData} depending on {@code
    *     lazyload}.
    */
-  private PermissionBackend.ForChange permissionBackendForChange(CurrentUser user, ChangeData cd)
-      throws OrmException {
-    PermissionBackend.WithUser withUser = permissionBackend.user(user).database(db);
+  private PermissionBackend.ForChange permissionBackendForChange(
+      PermissionBackend.WithUser withUser, ChangeData cd) throws OrmException {
     return lazyLoad
         ? withUser.change(cd)
         : withUser.indexedChange(cd, notesFactory.createFromIndexedChange(cd.change()));
@@ -1473,7 +1473,8 @@ public class ChangeJson {
   private boolean isWorldReadable(ChangeData cd)
       throws OrmException, PermissionBackendException, IOException {
     try {
-      permissionBackendForChange(anonymous, cd).check(ChangePermission.READ);
+      permissionBackendForChange(permissionBackend.user(anonymous).database(db), cd)
+          .check(ChangePermission.READ);
     } catch (AuthException ae) {
       return false;
     }

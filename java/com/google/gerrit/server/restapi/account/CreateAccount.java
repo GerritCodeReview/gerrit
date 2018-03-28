@@ -36,7 +36,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
@@ -67,7 +66,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     CreateAccount create(String username);
   }
 
-  private final ReviewDb db;
   private final Sequences seq;
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
@@ -81,7 +79,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
   @Inject
   CreateAccount(
-      ReviewDb db,
       Sequences seq,
       GroupsCollection groupsCollection,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
@@ -92,7 +89,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
       OutgoingEmailValidator validator,
       @Assisted String username) {
-    this.db = db;
     this.seq = seq;
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
@@ -202,6 +198,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
         InternalGroupUpdate.builder()
             .setMemberModification(memberIds -> Sets.union(memberIds, ImmutableSet.of(accountId)))
             .build();
-    groupsUpdate.get().updateGroup(db, groupUuid, groupUpdate);
+    groupsUpdate.get().updateGroup(groupUuid, groupUpdate);
   }
 }

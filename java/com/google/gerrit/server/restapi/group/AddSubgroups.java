@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
@@ -75,18 +74,15 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   }
 
   private final GroupsCollection groupsCollection;
-  private final Provider<ReviewDb> db;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupJson json;
 
   @Inject
   public AddSubgroups(
       GroupsCollection groupsCollection,
-      Provider<ReviewDb> db,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       GroupJson json) {
     this.groupsCollection = groupsCollection;
-    this.db = db;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.json = json;
   }
@@ -128,7 +124,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
         InternalGroupUpdate.builder()
             .setSubgroupModification(subgroupUuids -> Sets.union(subgroupUuids, newSubgroupUuids))
             .build();
-    groupsUpdateProvider.get().updateGroup(db.get(), parentGroupUuid, groupUpdate);
+    groupsUpdateProvider.get().updateGroup(parentGroupUuid, groupUpdate);
   }
 
   static class PutSubgroup implements RestModifyView<GroupResource, Input> {

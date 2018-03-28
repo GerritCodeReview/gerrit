@@ -29,7 +29,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountException;
@@ -92,7 +91,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   private final AccountResolver accountResolver;
   private final AccountCache accountCache;
   private final AccountLoader.Factory infoFactory;
-  private final Provider<ReviewDb> db;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
@@ -103,7 +101,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       AccountResolver accountResolver,
       AccountCache accountCache,
       AccountLoader.Factory infoFactory,
-      Provider<ReviewDb> db,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.accountManager = accountManager;
     this.authType = authConfig.getAuthType();
@@ -111,7 +108,6 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     this.accountResolver = accountResolver;
     this.accountCache = accountCache;
     this.infoFactory = infoFactory;
-    this.db = db;
     this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
@@ -186,7 +182,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         InternalGroupUpdate.builder()
             .setMemberModification(memberIds -> Sets.union(memberIds, newMemberIds))
             .build();
-    groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
+    groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
   }
 
   private Optional<Account> createAccountByLdap(String user) throws IOException {

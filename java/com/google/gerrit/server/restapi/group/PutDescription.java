@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -38,13 +37,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PutDescription implements RestModifyView<GroupResource, DescriptionInput> {
-  private final Provider<ReviewDb> db;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject
-  PutDescription(
-      Provider<ReviewDb> db, @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
-    this.db = db;
+  PutDescription(@UserInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     this.groupsUpdateProvider = groupsUpdateProvider;
   }
 
@@ -69,7 +65,7 @@ public class PutDescription implements RestModifyView<GroupResource, Description
       InternalGroupUpdate groupUpdate =
           InternalGroupUpdate.builder().setDescription(newDescription).build();
       try {
-        groupsUpdateProvider.get().updateGroup(db.get(), groupUuid, groupUpdate);
+        groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
       } catch (NoSuchGroupException e) {
         throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
       }

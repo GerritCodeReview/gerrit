@@ -53,9 +53,6 @@ public class ReviewDbUtil {
     if (db instanceof DisallowReadFromChangesReviewDbWrapper) {
       return unwrapDb(((DisallowReadFromChangesReviewDbWrapper) db).unsafeGetDelegate());
     }
-    if (db instanceof DisallowReadFromGroupsReviewDbWrapper) {
-      return unwrapDb(((DisallowReadFromGroupsReviewDbWrapper) db).unsafeGetDelegate());
-    }
     return db;
   }
 

@@ -15,17 +15,11 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.DISABLE_REVIEW_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.READ;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -39,27 +33,14 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class GroupsUpdateIT {
-
-  private static Config createPureNoteDbConfig() {
-    Config config = new Config();
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, true);
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, true);
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, true);
-    return config;
-  }
-
-  @Rule
-  public InMemoryTestEnvironment testEnvironment =
-      new InMemoryTestEnvironment(GroupsUpdateIT::createPureNoteDbConfig);
+  @Rule public InMemoryTestEnvironment testEnvironment = new InMemoryTestEnvironment();
 
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
   @Inject private Groups groups;
-  @Inject private ReviewDb reviewDb;
 
   @Test
   public void groupCreationIsRetriedWhenFailedDueToConcurrentNameModification() throws Exception {
@@ -100,17 +81,16 @@ public class GroupsUpdateIT {
 
   private void createGroup(InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws OrmException, IOException, ConfigInvalidException {
-    groupsUpdateProvider.get().createGroup(reviewDb, groupCreation, groupUpdate);
+    groupsUpdateProvider.get().createGroup(groupCreation, groupUpdate);
   }
 
   private void updateGroup(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws Exception {
-    groupsUpdateProvider.get().updateGroup(reviewDb, groupUuid, groupUpdate);
+    groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
   }
 
-  private Stream<String> getAllGroupNames()
-      throws OrmException, IOException, ConfigInvalidException {
-    return groups.getAllGroupReferences(reviewDb).map(GroupReference::getName);
+  private Stream<String> getAllGroupNames() throws IOException, ConfigInvalidException {
+    return groups.getAllGroupReferences().map(GroupReference::getName);
   }
 
   private static InternalGroupCreation getGroupCreation(String groupName, String groupUuid) {
@@ -145,7 +125,7 @@ public class GroupsUpdateIT {
       InternalGroupCreation groupCreation = getGroupCreation(groupName, groupName + "-UUID");
       InternalGroupUpdate groupUpdate = InternalGroupUpdate.builder().build();
       try {
-        groupsUpdateProvider.get().createGroup(reviewDb, groupCreation, groupUpdate);
+        groupsUpdateProvider.get().createGroup(groupCreation, groupUpdate);
       } catch (OrmException | IOException | ConfigInvalidException e) {
         throw new IllegalStateException(e);
       }

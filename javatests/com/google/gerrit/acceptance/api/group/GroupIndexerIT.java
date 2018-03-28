@@ -15,11 +15,6 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
-import static com.google.gerrit.server.notedb.NotesMigration.DISABLE_REVIEW_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.READ;
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigration.WRITE;
 import static com.google.gerrit.truth.ListSubject.assertThat;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
@@ -29,7 +24,6 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
@@ -48,27 +42,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.Test;
 
 public class GroupIndexerIT {
-  private static Config createPureNoteDbConfig() {
-    Config config = new Config();
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), WRITE, true);
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), READ, true);
-    config.setBoolean(SECTION_NOTE_DB, GROUPS.key(), DISABLE_REVIEW_DB, true);
-    return config;
-  }
-
-  @Rule
-  public InMemoryTestEnvironment testEnvironment =
-      new InMemoryTestEnvironment(GroupIndexerIT::createPureNoteDbConfig);
+  @Rule public InMemoryTestEnvironment testEnvironment = new InMemoryTestEnvironment();
 
   @Inject private GroupIndexer groupIndexer;
   @Inject private GerritApi gApi;
   @Inject private GroupCache groupCache;
-  @Inject private ReviewDb db;
   @Inject @ServerInitiated private GroupsUpdate groupsUpdate;
   @Inject private Provider<InternalGroupQuery> groupQueryProvider;
 
@@ -176,7 +158,7 @@ public class GroupIndexerIT {
   private void updateGroupWithoutCacheOrIndex(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
-    groupsUpdate.updateGroupInDb(db, groupUuid, groupUpdate);
+    groupsUpdate.updateGroupInDb(groupUuid, groupUpdate);
   }
 
   private static OptionalSubject<InternalGroupSubject, InternalGroup> assertThatGroup(

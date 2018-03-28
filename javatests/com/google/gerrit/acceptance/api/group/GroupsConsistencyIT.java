@@ -15,9 +15,7 @@
 package com.google.gerrit.acceptance.api.group;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.notedb.NoteDbTable.GROUPS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -32,11 +30,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.testing.GroupTestUtil;
-import com.google.gerrit.server.notedb.GroupsMigration;
-import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.testing.ConfigSuite;
 import java.util.List;
-import javax.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -53,17 +47,6 @@ import org.junit.Test;
 @Sandboxed
 @NoHttpd
 public class GroupsConsistencyIT extends AbstractDaemonTest {
-
-  @ConfigSuite.Config
-  public static Config noteDbConfig() {
-    Config config = new Config();
-    config.setBoolean(NotesMigration.SECTION_NOTE_DB, GROUPS.key(), NotesMigration.WRITE, true);
-    config.setBoolean(NotesMigration.SECTION_NOTE_DB, GROUPS.key(), NotesMigration.READ, true);
-    return config;
-  }
-
-  @Inject private GroupsMigration groupsMigration;
-
   private GroupInfo gAdmin;
   private GroupInfo g1;
   private GroupInfo g2;
@@ -72,7 +55,6 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   @Before
   public void basicSetup() throws Exception {
-    assume().that(groupsInNoteDb()).isTrue();
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
 
     String name1 = createGroup("g1");
@@ -85,10 +67,6 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     this.g1 = gApi.groups().id(name1).detail();
     this.g2 = gApi.groups().id(name2).detail();
     this.gAdmin = gApi.groups().id("Administrators").detail();
-  }
-
-  private boolean groupsInNoteDb() {
-    return groupsMigration.writeToNoteDb();
   }
 
   @Test

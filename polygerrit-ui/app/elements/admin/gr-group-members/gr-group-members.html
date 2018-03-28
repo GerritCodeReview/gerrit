@@ -92,6 +92,7 @@ limitations under the License.
               <gr-autocomplete
                   id="groupMemberSearchInput"
                   text="{{_groupMemberSearchName}}"
+                  allow-non-suggested-values
                   value="{{_groupMemberSearchId}}"
                   query="[[_queryMembers]]"
                   placeholder="Name Or Email">
@@ -134,6 +135,7 @@ limitations under the License.
               <gr-autocomplete
                   id="includedGroupSearchInput"
                   text="{{_includedGroupSearch}}"
+                  allow-non-suggested-values
                   query="[[_queryIncludedGroup]]"
                   placeholder="Group Name">
               </gr-autocomplete>

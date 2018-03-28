@@ -135,8 +135,53 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
   private JdbcSchema jdbcSchema;
 
   @Before
-  public void unwrapDb() {
+  public void initDb() throws Exception {
     jdbcSchema = ReviewDbWrapper.unwrapJbdcSchema(db);
+
+    try (Statement stmt = jdbcSchema.getConnection().createStatement()) {
+      stmt.execute(
+          "CREATE TABLE account_groups ("
+              + " group_uuid varchar(255) DEFAULT '' NOT NULL,"
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " name varchar(255) DEFAULT '' NOT NULL,"
+              + " created_on TIMESTAMP,"
+              + " description CLOB,"
+              + " owner_group_uuid varchar(255) DEFAULT '' NOT NULL,"
+              + " visible_to_all CHAR(1) DEFAULT 'N' NOT NULL"
+              + ")");
+
+      stmt.execute(
+          "CREATE TABLE account_group_members ("
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " account_id INTEGER DEFAULT 0 NOT NULL"
+              + ")");
+
+      stmt.execute(
+          "CREATE TABLE account_group_members_audit ("
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " account_id INTEGER DEFAULT 0 NOT NULL,"
+              + " added_by INTEGER DEFAULT 0 NOT NULL,"
+              + " added_on TIMESTAMP,"
+              + " removed_by INTEGER,"
+              + " removed_on TIMESTAMP"
+              + ")");
+
+      stmt.execute(
+          "CREATE TABLE account_group_by_id ("
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " include_uuid VARCHAR(255) DEFAULT '' NOT NULL"
+              + ")");
+
+      stmt.execute(
+          "CREATE TABLE account_group_by_id_aud ("
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " include_uuid VARCHAR(255) DEFAULT '' NOT NULL,"
+              + " added_by INTEGER DEFAULT 0 NOT NULL,"
+              + " added_on TIMESTAMP,"
+              + " removed_by INTEGER,"
+              + " removed_on TIMESTAMP"
+              + ")");
+    }
   }
 
   @Before

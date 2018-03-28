@@ -35,6 +35,7 @@ import com.google.inject.Provider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -72,6 +73,36 @@ public class Schema_150_to_151_Test {
     assume().that(db instanceof JdbcSchema).isTrue();
 
     connection = ((JdbcSchema) db).getConnection();
+
+    try (Statement stmt = connection.createStatement()) {
+      stmt.execute(
+          "CREATE TABLE account_groups ("
+              + " group_uuid varchar(255) DEFAULT '' NOT NULL,"
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " name varchar(255) DEFAULT '' NOT NULL,"
+              + " created_on TIMESTAMP,"
+              + " description CLOB,"
+              + " owner_group_uuid varchar(255) DEFAULT '' NOT NULL,"
+              + " visible_to_all CHAR(1) DEFAULT 'N' NOT NULL"
+              + ")");
+
+      stmt.execute(
+          "CREATE TABLE account_group_members ("
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " account_id INTEGER DEFAULT 0 NOT NULL"
+              + ")");
+
+      stmt.execute(
+          "CREATE TABLE account_group_members_audit ("
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " account_id INTEGER DEFAULT 0 NOT NULL,"
+              + " added_by INTEGER DEFAULT 0 NOT NULL,"
+              + " added_on TIMESTAMP,"
+              + " removed_by INTEGER,"
+              + " removed_on TIMESTAMP"
+              + ")");
+    }
+
     createdOnRetrieval =
         connection.prepareStatement("SELECT created_on FROM account_groups WHERE group_id = ?");
     createdOnUpdate =

@@ -43,6 +43,7 @@ import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -77,8 +78,21 @@ public class Schema_166_to_167_WithGroupsInNoteDbTest {
   private JdbcSchema jdbcSchema;
 
   @Before
-  public void unwrapDb() {
+  public void initDb() throws Exception {
     jdbcSchema = ReviewDbWrapper.unwrapJbdcSchema(db);
+
+    try (Statement stmt = jdbcSchema.getConnection().createStatement()) {
+      stmt.execute(
+          "CREATE TABLE account_groups ("
+              + " group_uuid varchar(255) DEFAULT '' NOT NULL,"
+              + " group_id INTEGER DEFAULT 0 NOT NULL,"
+              + " name varchar(255) DEFAULT '' NOT NULL,"
+              + " created_on TIMESTAMP,"
+              + " description CLOB,"
+              + " owner_group_uuid varchar(255) DEFAULT '' NOT NULL,"
+              + " visible_to_all CHAR(1) DEFAULT 'N' NOT NULL"
+              + ")");
+    }
   }
 
   @Test

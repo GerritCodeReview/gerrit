@@ -5,20 +5,6 @@
 --
 
 -- *********************************************************************
--- AccountGroupMemberAccess
---    @PrimaryKey covers: byAccount
-CREATE INDEX account_group_members_byGroup
-ON account_group_members (group_id);
-
-
--- *********************************************************************
--- AccountGroupByIdAccess
---    @PrimaryKey covers: byGroup
-CREATE INDEX account_group_id_byInclude
-ON account_group_by_id (include_uuid);
-
-
--- *********************************************************************
 -- ApprovalCategoryAccess
 --    too small to bother indexing
 

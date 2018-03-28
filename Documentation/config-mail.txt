@@ -225,9 +225,13 @@ $shortProjectName::
 +
 The project name with the path abbreviated.
 
-$instanceAndProjectName::
+$instanceName::
 +
-The Gerrit instance name, followed by the short project name
+The Gerrit instance name, as defined in the configuration.
+
+$addInstanceNameInSubject::
++
+Whether the instance name should be included in the email subject.
 
 $sshHost::
 +

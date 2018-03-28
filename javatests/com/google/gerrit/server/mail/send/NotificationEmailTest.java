@@ -19,19 +19,6 @@ import static com.google.common.truth.Truth.assertThat;
 import org.junit.Test;
 
 public class NotificationEmailTest {
-
-  @Test
-  public void getInstanceAndProjectName_returnsTheRightValue() {
-    String instanceAndProjectName = NotificationEmail.getInstanceAndProjectName("test", "/my/api");
-    assertThat(instanceAndProjectName).isEqualTo("test/api");
-  }
-
-  @Test
-  public void getInstanceAndProjectName_handlesNull() {
-    String instanceAndProjectName = NotificationEmail.getInstanceAndProjectName(null, "/my/api");
-    assertThat(instanceAndProjectName).isEqualTo("...api");
-  }
-
   @Test
   public void getShortProjectName() {
     assertThat(NotificationEmail.getShortProjectName("/api")).isEqualTo("api");

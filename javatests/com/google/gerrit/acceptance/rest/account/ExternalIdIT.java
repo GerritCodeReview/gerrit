@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAILTO;
@@ -777,6 +778,39 @@ public class ExternalIdIT extends AbstractDaemonTest {
     insertExtIdBehindGerritsBack(newExtId);
     expectedExternalIds.add(newExtId);
     assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExternalIds);
+  }
+
+  @Test
+  public void unsetEmail() throws Exception {
+    ExternalId extId = ExternalId.createWithEmail("x", "1", user.id, "x@example.com");
+    insertExtId(extId);
+
+    ExternalId extIdWithoutEmail = ExternalId.create("x", "1", user.id);
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+      extIdNotes.upsert(extIdWithoutEmail);
+      extIdNotes.commit(md);
+
+      assertThat(extIdNotes.get(extId.key())).hasValue(extIdWithoutEmail);
+    }
+  }
+
+  @Test
+  public void unsetHttpPassword() throws Exception {
+    ExternalId extId =
+        ExternalId.createWithPassword(ExternalId.Key.create("y", "1"), user.id, null, "secret");
+    insertExtId(extId);
+
+    ExternalId extIdWithoutPassword = ExternalId.create("y", "1", user.id);
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes = externalIdNotesFactory.load(allUsersRepo);
+      extIdNotes.upsert(extIdWithoutPassword);
+      extIdNotes.commit(md);
+
+      assertThat(extIdNotes.get(extId.key())).hasValue(extIdWithoutPassword);
+    }
   }
 
   private void insertExtId(ExternalId extId) throws Exception {

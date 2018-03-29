@@ -66,7 +66,6 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
   }
 
   static final String GROUPS = "groups";
-  static final String GROUPS_PREFIX = GROUPS + "_";
 
   private static final Logger log = LoggerFactory.getLogger(ElasticGroupIndex.class);
 

@@ -92,7 +92,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   }
 
   static final String CHANGES = "changes";
-  static final String CHANGES_PREFIX = CHANGES + "_";
   static final String OPEN_CHANGES = "open_" + CHANGES;
   static final String CLOSED_CHANGES = "closed_" + CHANGES;
 

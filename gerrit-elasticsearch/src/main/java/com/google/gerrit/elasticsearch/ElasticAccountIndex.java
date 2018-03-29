@@ -69,7 +69,6 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   }
 
   static final String ACCOUNTS = "accounts";
-  static final String ACCOUNTS_PREFIX = ACCOUNTS + "_";
 
   private static final Logger log = LoggerFactory.getLogger(ElasticAccountIndex.class);
 

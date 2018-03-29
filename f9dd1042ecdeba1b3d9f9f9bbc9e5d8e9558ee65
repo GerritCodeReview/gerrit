@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eeb6149f_8383d76e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-29T00:21:43Z",
+      "side": 1,
+      "message": "Forget this comment :)",
+      "parentUuid": "94eef573_0c31e59d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79f7fbfc_bc42768c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bc8e9598_98c34939",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-03-29T18:07:46Z",
+      "side": 1,
+      "message": "Forgotten ;)",
+      "parentUuid": "eeb6149f_8383d76e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a56bd6f_a949dc68",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2018-03-29T01:28:11Z",
       "side": 1,
       "message": "Done in following change: https://gerrit-review.googlesource.com/#/c/gerrit/+/169210/",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 71
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0466bbb_3e6361fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-03-29T18:07:46Z",
+      "side": 1,
+      "message": "Thx! I also wanted this to be reviewed as an understanding, which you did too.",
+      "parentUuid": "2a56bd6f_a949dc68",
       "range": {
         "startLine": 40,
         "startChar": 0,
@@ -119,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "ff6af555_1785a91f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-03-29T18:07:46Z",
+      "side": 1,
+      "message": "Agree. I already went that path you tried above -and beyond or so ;)",
+      "parentUuid": "8a100215_50930382",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38ee5b46_96cfc2ff",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 1
@@ -142,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "162db7df_39fa801b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-03-29T18:07:46Z",
+      "side": 1,
+      "message": "As per below.",
+      "parentUuid": "38ee5b46_96cfc2ff",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 43
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87756e0c_9694188c",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 1
@@ -153,6 +249,30 @@
       "writtenOn": "2018-03-29T00:58:38Z",
       "side": 1,
       "message": "According to the commit message, you need the raw index name(IndexUtils.setReady) to be the name without prefix and version. Here you are just removing the version so if a prefix is configured, you will still have it the indexNameRaw variable.\n\nInstead of trying to extract the raw index name after, move this before line 85 and do:\n\nthis.indexNameRaw \u003d indexName;",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 57
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7eb973d_472198f5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-03-29T18:07:46Z",
+      "side": 1,
+      "message": "Based on my testing of this whole fix so far, indexNameRaw as it currently is (also alongside this whole fix) never gets the prefix in its value. This is because indexName -this constructor\u0027s argument- never does. And we are currently setting rawIndexName to the latter\u0027s value, without its likely trailing underscore that is.\n\nIf I move that line as proposed above, I will then set indexNameRaw as a value that contains more than just the raw index name, i.e., that underscore as well. This local fix is about not doing that anymore, i.e., not using indexName (the argument) as is (with underscore) -for that real/raw index name purpose.\n\nMaybe you confused this.indexName with indexName the argument, above? I checked the commit message again and I think it still fits this current fix. Otherwise please let me know once again; thx.",
+      "parentUuid": "87756e0c_9694188c",
       "range": {
         "startLine": 92,
         "startChar": 4,

@@ -26,13 +26,18 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.data.LabelFunction;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -154,5 +159,33 @@ public class PatchSetUtil {
     ps.setGroups(groups);
     update.setGroups(groups);
     db.patchSets().update(Collections.singleton(ps));
+  }
+
+  /** Is the current patch set locked against state changes? */
+  public static boolean isPatchSetLocked(
+      ApprovalsUtil approvalsUtil,
+      ProjectCache projectCache,
+      ReviewDb db,
+      ChangeNotes notes,
+      CurrentUser user)
+      throws OrmException, IOException {
+    Change change = notes.getChange();
+    if (change.getStatus() == Change.Status.MERGED) {
+      return false;
+    }
+
+    ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
+    checkNotNull(projectState, "Failed to load project %s", notes.getProjectName());
+
+    for (PatchSetApproval ap :
+        approvalsUtil.byPatchSet(db, notes, user, change.currentPatchSetId(), null, null)) {
+      LabelType type = projectState.getLabelTypes(notes, user).byLabel(ap.getLabel());
+      if (type != null
+          && ap.getValue() == 1
+          && type.getFunction() == LabelFunction.PATCH_SET_LOCK) {
+        return true;
+      }
+    }
+    return false;
   }
 }

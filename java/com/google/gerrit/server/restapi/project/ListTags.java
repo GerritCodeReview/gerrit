@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagInfo;
@@ -41,7 +43,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -183,10 +184,16 @@ public class ListTags implements RestReadView<ProjectResource> {
 
   public static TagInfo createTagInfo(
       PermissionBackend.ForRef perm, Ref ref, RevWalk rw, ProjectState projectState, WebLinks links)
-      throws MissingObjectException, IOException {
+      throws IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
-    Boolean canDelete =
-        perm.testOrFalse(RefPermission.DELETE) && projectState.statePermitsWrite() ? true : null;
+
+    Boolean canDelete = null;
+    if (!isConfigRef(ref.getName())) {
+      // Never allow to delete the meta config branch.
+      canDelete =
+          perm.testOrFalse(RefPermission.DELETE) && projectState.statePermitsWrite() ? true : null;
+    }
+
     List<WebLinkInfo> webLinks = links.getTagLinks(projectState.getName(), ref.getName());
     if (object instanceof RevTag) {
       // Annotated or signed tag

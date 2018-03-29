@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
@@ -220,16 +221,21 @@ public class DeleteRef {
     }
     command = new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName());
 
-    try {
-      permissionBackend
-          .currentUser()
-          .project(project.getNameKey())
-          .ref(refName)
-          .check(RefPermission.DELETE);
-    } catch (AuthException denied) {
-      command.setResult(
-          Result.REJECTED_OTHER_REASON,
-          "it doesn't exist or you do not have permission to delete it");
+    if (isConfigRef(refName)) {
+      // Never allow to delete the meta config branch.
+      command.setResult(Result.REJECTED_OTHER_REASON, "not allowed to delete branch " + refName);
+    } else {
+      try {
+        permissionBackend
+            .currentUser()
+            .project(project.getNameKey())
+            .ref(refName)
+            .check(RefPermission.DELETE);
+      } catch (AuthException denied) {
+        command.setResult(
+            Result.REJECTED_OTHER_REASON,
+            "it doesn't exist or you do not have permission to delete it");
+      }
     }
 
     if (!project.getProjectState().statePermitsWrite()) {

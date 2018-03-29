@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.COMMAND_REJECTION_MESSAGE_FOOTER;
@@ -1179,6 +1180,11 @@ class ReceiveCommits {
   }
 
   private boolean canDelete(ReceiveCommand cmd) throws PermissionBackendException {
+    if (isConfigRef(cmd.getRefName())) {
+      // Never allow to delete the meta config branch.
+      return false;
+    }
+
     try {
       permissions.ref(cmd.getRefName()).check(RefPermission.DELETE);
       return projectState.statePermitsWrite();

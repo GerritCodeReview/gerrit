@@ -2441,6 +2441,21 @@ to permit fast restarts.
 +
 By default, true.
 
+[[httpd.gracefulStopTimeout]]httpd.gracefulStopTimeout::
++
+Set a graceful stop time. If set, the daemon ensures that all incoming
+calls are preserved for a maximum period of time, before starting
+the graceful shutdown process. Sites behind a workload balancer such as
+HAProxy would need this to be set for avoiding serving errors during
+rolling restarts.
++
+Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
++
+By default, 0 seconds (immediate shutdown).
+
 [[httpd.inheritChannel]]httpd.inheritChannel::
 +
 If true, permits the daemon to inherit its server socket channel
@@ -2760,7 +2775,7 @@ immediately after indexing it. If false, there is a race condition during two
 simultaneous writes that may cause one of the writes to not be reflected in the
 index. The check to avoid this does consume some resources.
 +
-Defaults to true.
+Defaults to false.
 
 [[index.scheduledIndexer]]
 ==== Subsection index.scheduledIndexer
@@ -4032,7 +4047,7 @@ By default, MIXED.
 Only used when `sendemail.from` is set to `USER`.
 List of allowed domains. If user's email matches one of the domains, emails will
 be sent as USER, otherwise as MIXED mode. Wildcards may be specified by
-including `*` to match any number of characters, for example `*.example.com`
+including `\*` to match any number of characters, for example `*.example.com`
 matches any subdomain of `example.com`.
 +
 By default, `*`.

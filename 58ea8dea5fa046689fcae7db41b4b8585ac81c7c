@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6357af05_7e6b8119",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-03-29T18:01:06Z",
+      "side": 1,
+      "message": "Why? Why can\u0027t I pass a path to my own plugin directory, like I used to be able to do?",
+      "revId": "58ea8dea5fa046689fcae7db41b4b8585ac81c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93891f02_a0daebd2",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-03-29T18:01:06Z",
+      "side": 1,
+      "message": "This is incredibly confusing. You\u0027re in /gerrit/polygerrit-ui (since you\u0027re running ./run-server.sh directly), but the path you\u0027re passing to the -plugins flag (which should only have one -, not two --s) is relative to the /gerrit root directory.\n\nAlso, it\u0027s not necessary to pass specific paths (except that if you don\u0027t, no plugins are served at all...) if you\u0027re working on a plugin which is already enabled in the liver server config. If I have my /gerrit/plugins directory set up correctly (with plugins/pluginname/static/variousfiles.html in it), then I can just pass total nonsense to the -plugins flag and still have that plugin be served just fine, due to the undocumented \"automatically pick up ../plugins/\" behavior.",
+      "revId": "58ea8dea5fa046689fcae7db41b4b8585ac81c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05ed951d_d67964eb",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-03-29T18:01:06Z",
+      "side": 1,
+      "message": "Why does passing the -plugins flag automatically trigger serving plugins from a relative path that has no correspondence to any path passed by the user?\n\nIn addition, is this path relative to the user\u0027s working directory? Relative to server.go? Why isn\u0027t this behavior documented in the -plugin help string, or in README?",
+      "revId": "58ea8dea5fa046689fcae7db41b4b8585ac81c7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

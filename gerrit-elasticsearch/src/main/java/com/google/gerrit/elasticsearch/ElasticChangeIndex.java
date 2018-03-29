@@ -91,9 +91,10 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
   }
 
-  static final String CHANGES_PREFIX = "changes_";
-  static final String OPEN_CHANGES = "open_changes";
-  static final String CLOSED_CHANGES = "closed_changes";
+  static final String CHANGES = "changes";
+  static final String CHANGES_PREFIX = CHANGES + "_";
+  static final String OPEN_CHANGES = "open_" + CHANGES;
+  static final String CLOSED_CHANGES = "closed_" + CHANGES;
 
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
@@ -134,7 +135,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     Bulk bulk =
         new Bulk.Builder()
             .defaultIndex(indexName)
-            .defaultType("changes")
+            .defaultType(CHANGES)
             .addAction(insert(insertIndex, cd))
             .addAction(delete(deleteIndex, cd.getId()))
             .refresh(true)

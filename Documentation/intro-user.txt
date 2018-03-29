@@ -19,7 +19,7 @@ link:#no-code-review[work without code review].
 [[tools]]
 == Tools
 
-Gerrit speaks the git protocol. This means in order to work with Gerrit
+Gerrit uses the git protocol. This means in order to work with Gerrit
 you do *not* need to install any Gerrit client, but having a regular
 git client, such as the link:http://git-scm.com/[git command line] or
 link:http://eclipse.org/egit/[EGit] in Eclipse, is sufficient.

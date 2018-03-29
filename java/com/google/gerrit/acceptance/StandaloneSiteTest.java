@@ -35,9 +35,13 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
+import org.eclipse.jgit.util.SystemReader;
 import org.junit.Rule;
 import org.junit.rules.RuleChain;
 import org.junit.rules.TemporaryFolder;
@@ -109,8 +113,12 @@ public abstract class StandaloneSiteTest {
           return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-              beforeTest(description);
-              base.evaluate();
+              try {
+                beforeTest(description);
+                base.evaluate();
+              } finally {
+                afterTest();
+              }
             }
           };
         }
@@ -122,11 +130,63 @@ public abstract class StandaloneSiteTest {
   protected Account.Id adminId;
 
   private GerritServer.Description serverDesc;
+  private SystemReader oldSystemReader;
 
   private void beforeTest(Description description) throws Exception {
+    // SystemReader must be overridden before creating any repos, since they read the user/system
+    // configs at initialization time, and are then stored in the RepositoryCache forever.
+    oldSystemReader = setFakeSystemReader(tempSiteDir.getRoot());
+
     serverDesc = GerritServer.Description.forTestMethod(description, configName);
     sitePaths = new SitePaths(tempSiteDir.getRoot().toPath());
     GerritServer.init(serverDesc, baseConfig, sitePaths.site_path);
+  }
+
+  private static SystemReader setFakeSystemReader(File tempDir) {
+    SystemReader oldSystemReader = SystemReader.getInstance();
+    SystemReader.setInstance(
+        new SystemReader() {
+          @Override
+          public String getHostname() {
+            return oldSystemReader.getHostname();
+          }
+
+          @Override
+          public String getenv(String variable) {
+            return oldSystemReader.getenv(variable);
+          }
+
+          @Override
+          public String getProperty(String key) {
+            return oldSystemReader.getProperty(key);
+          }
+
+          @Override
+          public FileBasedConfig openUserConfig(Config parent, FS fs) {
+            return new FileBasedConfig(parent, new File(tempDir, "user.config"), FS.detect());
+          }
+
+          @Override
+          public FileBasedConfig openSystemConfig(Config parent, FS fs) {
+            return new FileBasedConfig(parent, new File(tempDir, "system.config"), FS.detect());
+          }
+
+          @Override
+          public long getCurrentTime() {
+            return oldSystemReader.getCurrentTime();
+          }
+
+          @Override
+          public int getTimezone(long when) {
+            return oldSystemReader.getTimezone(when);
+          }
+        });
+    return oldSystemReader;
+  }
+
+  private void afterTest() throws Exception {
+    SystemReader.setInstance(oldSystemReader);
+    oldSystemReader = null;
   }
 
   protected ServerContext startServer() throws Exception {
@@ -153,7 +213,10 @@ public abstract class StandaloneSiteTest {
   }
 
   protected static void runGerrit(String... args) throws Exception {
-    assertThat(GerritLauncher.mainImpl(args))
+    // Use invokeProgram with the current classloader, rather than mainImpl, which would create a
+    // new classloader. This is necessary so that static state, particularly the SystemReader, is
+    // shared with the test method.
+    assertThat(GerritLauncher.invokeProgram(StandaloneSiteTest.class.getClassLoader(), args))
         .named("gerrit.war " + Arrays.stream(args).collect(joining(" ")))
         .isEqualTo(0);
   }

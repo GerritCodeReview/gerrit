@@ -16,7 +16,7 @@ package com.google.gerrit.server.git.validators;
 
 import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -421,7 +421,7 @@ public class CommitValidators {
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (REFS_CONFIG.equals(branch.get())) {
+      if (isConfigRef(branch.get())) {
         List<CommitValidationMessage> messages = new ArrayList<>();
 
         try {

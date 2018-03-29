@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
+
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
@@ -224,17 +226,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
     public int compare(BranchInfo a, BranchInfo b) {
       return ComparisonChain.start()
           .compareTrueFirst(isHead(a), isHead(b))
-          .compareTrueFirst(isConfig(a), isConfig(b))
+          .compareTrueFirst(isConfigRef(a.ref), isConfigRef(b.ref))
           .compare(a.ref, b.ref)
           .result();
     }
 
     private static boolean isHead(BranchInfo i) {
       return Constants.HEAD.equals(i.ref);
-    }
-
-    private static boolean isConfig(BranchInfo i) {
-      return RefNames.REFS_CONFIG.equals(i.ref);
     }
   }
 

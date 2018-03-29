@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
@@ -35,7 +36,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.WebLinks;
@@ -113,9 +113,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       @Override
       boolean matches(Repository git) throws IOException {
         Ref head = git.getRefDatabase().exactRef(Constants.HEAD);
-        return head != null
-            && head.isSymbolic()
-            && RefNames.REFS_CONFIG.equals(head.getLeaf().getName());
+        return head != null && head.isSymbolic() && isConfigRef(head.getLeaf().getName());
       }
 
       @Override

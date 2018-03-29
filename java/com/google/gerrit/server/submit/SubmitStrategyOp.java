@@ -17,6 +17,7 @@ package com.google.gerrit.server.submit;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.base.Function;
@@ -143,7 +144,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private void checkProjectConfig(RepoContext ctx, CodeReviewCommit commit)
       throws IntegrationException {
     String refName = getDest().get();
-    if (RefNames.REFS_CONFIG.equals(refName)) {
+    if (isConfigRef(refName)) {
       logDebug("Loading new configuration from {}", RefNames.REFS_CONFIG);
       try {
         ProjectConfig cfg = new ProjectConfig(getProject());
@@ -525,7 +526,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
           getProject(), command.getRefName(), command.getOldId(), command.getNewId());
       // TODO(dborowitz): Move to BatchUpdate? Would also allow us to run once
       // per project even if multiple changes to refs/meta/config are submitted.
-      if (RefNames.REFS_CONFIG.equals(getDest().get())) {
+      if (isConfigRef(getDest().get())) {
         args.projectCache.evict(getProject());
         ProjectState p = args.projectCache.get(getProject());
         try (Repository git = args.repoManager.openRepository(getProject())) {

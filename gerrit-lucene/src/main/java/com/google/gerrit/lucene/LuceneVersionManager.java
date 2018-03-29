@@ -39,15 +39,6 @@ import org.slf4j.LoggerFactory;
 public class LuceneVersionManager extends AbstractVersionManager implements LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(LuceneVersionManager.class);
 
-  private static class Version<V> extends AbstractVersionManager.Version<V> {
-    private final boolean exists;
-
-    private Version(Schema<V> schema, int version, boolean exists, boolean ready) {
-      super(schema, version, ready);
-      this.exists = exists;
-    }
-  }
-
   static Path getDir(SitePaths sitePaths, String prefix, Schema<?> schema) {
     return sitePaths.index_dir.resolve(String.format("%s%04d", prefix, schema.getVersion()));
   }
@@ -58,13 +49,6 @@ public class LuceneVersionManager extends AbstractVersionManager implements Life
       SitePaths sitePaths,
       Collection<IndexDefinition<?, ?, ?>> defs) {
     super(cfg, sitePaths, defs);
-  }
-
-  @Override
-  protected <V> boolean isDirty(
-      Collection<com.google.gerrit.server.index.AbstractVersionManager.Version<V>> inUse,
-      com.google.gerrit.server.index.AbstractVersionManager.Version<V> v) {
-    return !inUse.contains(v) && ((Version<V>) v).exists;
   }
 
   @Override

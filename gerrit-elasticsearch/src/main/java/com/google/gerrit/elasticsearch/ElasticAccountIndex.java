@@ -84,7 +84,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       JestClientBuilder clientBuilder,
       @Assisted Schema<AccountState> schema) {
     // No parts of FillArgs are currently required, just use null.
-    super(cfg, null, sitePaths, schema, clientBuilder, ACCOUNTS_PREFIX);
+    super(cfg, null, sitePaths, schema, clientBuilder, ACCOUNTS);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
   }

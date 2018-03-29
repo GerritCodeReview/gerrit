@@ -35,12 +35,14 @@ public abstract class AbstractVersionManager implements LifecycleListener {
   public static class Version<V> {
     public final Schema<V> schema;
     public final int version;
+    public final boolean exists;
     public final boolean ready;
 
-    public Version(Schema<V> schema, int version, boolean ready) {
+    public Version(Schema<V> schema, int version, boolean exists, boolean ready) {
       checkArgument(schema == null || schema.getVersion() == version);
       this.schema = schema;
       this.version = version;
+      this.exists = exists;
       this.ready = ready;
     }
   }
@@ -179,10 +181,12 @@ public abstract class AbstractVersionManager implements LifecycleListener {
     }
   }
 
-  protected abstract <V> boolean isDirty(Collection<Version<V>> inUse, Version<V> v);
-
   protected abstract <K, V, I extends Index<K, V>> TreeMap<Integer, Version<V>> scanVersions(
       IndexDefinition<K, V, I> def, GerritIndexStatus cfg);
+
+  private <V> boolean isDirty(Collection<Version<V>> inUse, Version<V> v) {
+    return !inUse.contains(v) && v.exists;
+  }
 
   private boolean isLatestIndexVersion(String name, OnlineReindexer<?, ?, ?> reindexer) {
     int readVersion = defs.get(name).getIndexCollection().getSearchIndex().getSchema().getVersion();

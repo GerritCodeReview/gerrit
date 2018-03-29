@@ -75,7 +75,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
       project().deleteBranches(input);
       fail("Expected AuthException");
     } catch (AuthException e) {
-      assertThat(e).hasMessageThat().isEqualTo("delete not permitted for refs/heads/test-1");
+      assertThat(e).hasMessageThat().isEqualTo("not permitted: delete on refs/heads/test-1");
     }
     setApiUser(admin);
     assertBranches(BRANCHES);

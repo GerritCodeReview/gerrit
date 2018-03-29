@@ -2079,7 +2079,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     allowGlobalCapabilities(REGISTERED_USERS, GlobalCapability.ACCESS_DATABASE);
     pr = pushOne(testRepo, c.name(), ref, false, false, opts);
-    assertPushRejected(pr, ref, "prohibited by Gerrit: create not permitted for " + ref);
+    assertPushRejected(pr, ref, "prohibited by Gerrit: not permitted: create");
 
     grant(project, "refs/changes/*", Permission.CREATE);
     grant(project, "refs/changes/*", Permission.PUSH);

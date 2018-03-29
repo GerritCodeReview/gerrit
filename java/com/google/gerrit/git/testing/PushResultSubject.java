@@ -54,6 +54,13 @@ public class PushResultSubject extends Subject<PushResultSubject, PushResult> {
     Truth.assertThat(trimMessages()).isEqualTo(Arrays.stream(expectedLines).collect(joining("\n")));
   }
 
+  public void containsMessages(String... expectedLines) {
+    checkArgument(expectedLines.length > 0, "use hasNoMessages()");
+    isNotNull();
+    Iterable<String> got = Splitter.on("\n").split(trimMessages());
+    Truth.assertThat(got).containsAllIn(expectedLines).inOrder();
+  }
+
   private String trimMessages() {
     return trimMessages(actual().getMessages());
   }

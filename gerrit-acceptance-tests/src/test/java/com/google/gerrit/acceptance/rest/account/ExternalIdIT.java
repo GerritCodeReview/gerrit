@@ -873,6 +873,29 @@ public class ExternalIdIT extends AbstractDaemonTest {
     assertThat(externalIds.byAccount(admin.id)).containsExactlyElementsIn(expectedExternalIds);
   }
 
+  @Test
+  public void unsetEmail() throws Exception {
+    ExternalId extId = ExternalId.createWithEmail("x", "1", user.id, "x@example.com");
+    extIdsUpdate.create().insert(extId);
+
+    ExternalId extIdWithoutEmail = ExternalId.create("x", "1", user.id);
+    extIdsUpdate.create().upsert(extIdWithoutEmail);
+
+    assertThat(externalIds.get(extId.key())).isEqualTo(extIdWithoutEmail);
+  }
+
+  @Test
+  public void unsetHttpPassword() throws Exception {
+    ExternalId extId =
+        ExternalId.createWithPassword(ExternalId.Key.create("y", "1"), user.id, null, "secret");
+    extIdsUpdate.create().insert(extId);
+
+    ExternalId extIdWithoutPassword = ExternalId.create("y", "1", user.id);
+    extIdsUpdate.create().upsert(extIdWithoutPassword);
+
+    assertThat(externalIds.get(extId.key())).isEqualTo(extIdWithoutPassword);
+  }
+
   private void insertExtIdBehindGerritsBack(ExternalId extId) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo);

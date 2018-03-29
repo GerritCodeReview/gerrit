@@ -33,7 +33,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.edit.UnchangedCommitMessageException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -68,7 +67,7 @@ public class PutMessage
     extends RetryingRestModifyView<ChangeResource, CommitMessageInput, Response<?>> {
 
   private final GitRepositoryManager repositoryManager;
-  private final Provider<CurrentUser> currentUserProvider;
+  private final Provider<CurrentUser> userProvider;
   private final Provider<ReviewDb> db;
   private final TimeZone tz;
   private final PatchSetInserter.Factory psInserterFactory;
@@ -81,7 +80,7 @@ public class PutMessage
   PutMessage(
       RetryHelper retryHelper,
       GitRepositoryManager repositoryManager,
-      Provider<CurrentUser> currentUserProvider,
+      Provider<CurrentUser> userProvider,
       Provider<ReviewDb> db,
       PatchSetInserter.Factory psInserterFactory,
       PermissionBackend permissionBackend,
@@ -91,7 +90,7 @@ public class PutMessage
       ProjectCache projectCache) {
     super(retryHelper);
     this.repositoryManager = repositoryManager;
-    this.currentUserProvider = currentUserProvider;
+    this.userProvider = userProvider;
     this.db = db;
     this.psInserterFactory = psInserterFactory;
     this.tz = gerritIdent.getTimeZone();
@@ -104,8 +103,8 @@ public class PutMessage
   @Override
   protected Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource resource, CommitMessageInput input)
-      throws IOException, UnchangedCommitMessageException, RestApiException, UpdateException,
-          PermissionBackendException, OrmException, ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          OrmException, ConfigInvalidException {
     PatchSet ps = psUtil.current(db.get(), resource.getNotes());
     if (ps == null) {
       throw new ResourceConflictException("current revision is missing");
@@ -140,7 +139,7 @@ public class PutMessage
       Timestamp ts = TimeUtil.nowTs();
       try (BatchUpdate bu =
           updateFactory.create(
-              db.get(), resource.getChange().getProject(), currentUserProvider.get(), ts)) {
+              db.get(), resource.getChange().getProject(), userProvider.get(), ts)) {
         // Ensure that BatchUpdate will update the same repo
         bu.setRepository(repository, new RevWalk(objectInserter.newReader()), objectInserter);
 
@@ -170,8 +169,7 @@ public class PutMessage
     builder.setTreeId(basePatchSetCommit.getTree());
     builder.setParentIds(basePatchSetCommit.getParents());
     builder.setAuthor(basePatchSetCommit.getAuthorIdent());
-    builder.setCommitter(
-        currentUserProvider.get().asIdentifiedUser().newCommitterIdent(timestamp, tz));
+    builder.setCommitter(userProvider.get().asIdentifiedUser().newCommitterIdent(timestamp, tz));
     builder.setMessage(commitMessage);
     ObjectId newCommitId = objectInserter.insert(builder);
     objectInserter.flush();
@@ -179,13 +177,17 @@ public class PutMessage
   }
 
   private void ensureCanEditCommitMessage(ChangeNotes changeNotes)
-      throws AuthException, PermissionBackendException, IOException, ResourceConflictException {
-    if (!currentUserProvider.get().isIdentifiedUser()) {
+      throws AuthException, PermissionBackendException, IOException, ResourceConflictException,
+          OrmException {
+    if (!userProvider.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
+
+    // Not allowed to put message if the current patch set is locked.
+    psUtil.checkPatchSetNotLocked(changeNotes, userProvider.get());
     try {
       permissionBackend
-          .user(currentUserProvider.get())
+          .user(userProvider.get())
           .database(db.get())
           .change(changeNotes)
           .check(ChangePermission.ADD_PATCH_SET);

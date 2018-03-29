@@ -50,7 +50,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
@@ -126,8 +125,11 @@ public class CreateMergePatchSet
   @Override
   protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MergePatchSetInput in)
-      throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
-          UpdateException, PermissionBackendException {
+      throws OrmException, IOException, RestApiException, UpdateException,
+          PermissionBackendException {
+    // Not allowed to create a new patch set if the current patch set is locked.
+    psUtil.checkPatchSetNotLocked(rsrc.getNotes(), rsrc.getUser());
+
     rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
 
     ProjectState projectState = projectCache.checkedGet(rsrc.getProject());

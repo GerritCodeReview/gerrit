@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
-
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.TimeUtil;
@@ -29,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.AbandonOp;
 import com.google.gerrit.server.change.ChangeJson;
@@ -47,14 +46,19 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput, ChangeInfo>
     implements UiAction<ChangeResource> {
+  private static final Logger log = LoggerFactory.getLogger(Abandon.class);
+
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
   private final AbandonOp.Factory abandonOpFactory;
   private final NotifyUtil notifyUtil;
+  private final PatchSetUtil patchSetUtil;
 
   @Inject
   Abandon(
@@ -62,27 +66,32 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       ChangeJson.Factory json,
       RetryHelper retryHelper,
       AbandonOp.Factory abandonOpFactory,
-      NotifyUtil notifyUtil) {
+      NotifyUtil notifyUtil,
+      PatchSetUtil patchSetUtil) {
     super(retryHelper);
     this.dbProvider = dbProvider;
     this.json = json;
     this.abandonOpFactory = abandonOpFactory;
     this.notifyUtil = notifyUtil;
+    this.patchSetUtil = patchSetUtil;
   }
 
   @Override
   protected ChangeInfo applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource req, AbandonInput input)
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, AbandonInput input)
       throws RestApiException, UpdateException, OrmException, PermissionBackendException,
           IOException, ConfigInvalidException {
-    req.permissions().database(dbProvider).check(ChangePermission.ABANDON);
+    // Not allowed to abandon if the current patch set is locked.
+    patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes(), rsrc.getUser());
 
-    NotifyHandling notify = input.notify == null ? defaultNotify(req.getChange()) : input.notify;
+    rsrc.permissions().database(dbProvider).check(ChangePermission.ABANDON);
+
+    NotifyHandling notify = input.notify == null ? defaultNotify(rsrc.getChange()) : input.notify;
     Change change =
         abandon(
             updateFactory,
-            req.getNotes(),
-            req.getUser(),
+            rsrc.getNotes(),
+            rsrc.getUser(),
             input.message,
             notify,
             notifyUtil.resolveAccounts(input.notifyDetails));
@@ -135,13 +144,29 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
+    UiAction.Description description =
+        new UiAction.Description()
+            .setLabel("Abandon")
+            .setTitle("Abandon the change")
+            .setVisible(false);
+
     Change change = rsrc.getChange();
-    return new UiAction.Description()
-        .setLabel("Abandon")
-        .setTitle("Abandon the change")
-        .setVisible(
-            and(
-                change.getStatus().isOpen(),
-                rsrc.permissions().database(dbProvider).testCond(ChangePermission.ABANDON)));
+    if (!change.getStatus().isOpen()) {
+      return description;
+    }
+
+    try {
+      if (patchSetUtil.isPatchSetLocked(rsrc.getNotes(), rsrc.getUser())) {
+        return description;
+      }
+    } catch (OrmException | IOException e) {
+      log.error(
+          String.format(
+              "Failed to check if the current patch set of change %s is locked", change.getId()),
+          e);
+      return description;
+    }
+
+    return description.setVisible(rsrc.permissions().testOrFalse(ChangePermission.ABANDON));
   }
 }

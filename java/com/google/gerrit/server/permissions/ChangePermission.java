@@ -20,15 +20,40 @@ import java.util.Optional;
 
 public enum ChangePermission implements ChangePermissionOrLabel {
   READ(Permission.READ),
+  /**
+   * The change can't be restored if its current patch set is locked.
+   *
+   * <p>Before checking this permission, the caller should first verify the current patch set of the
+   * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
+   */
   RESTORE,
   DELETE,
+
+  /**
+   * The change can't be abandoned if its current patch set is locked.
+   *
+   * <p>Before checking this permission, the caller should first verify the current patch set of the
+   * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
+   */
   ABANDON(Permission.ABANDON),
   EDIT_ASSIGNEE(Permission.EDIT_ASSIGNEE),
   EDIT_DESCRIPTION,
   EDIT_HASHTAGS(Permission.EDIT_HASHTAGS),
   EDIT_TOPIC_NAME(Permission.EDIT_TOPIC_NAME),
   REMOVE_REVIEWER(Permission.REMOVE_REVIEWER),
+  /**
+   * A new patch set can't be added if the patch set is locked for the change.
+   *
+   * <p>Before checking this permission, the caller should first verify the current patch set of the
+   * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
+   */
   ADD_PATCH_SET(Permission.ADD_PATCH_SET),
+  /**
+   * The change can't be rebased if its current patch set is locked.
+   *
+   * <p>Before checking this permission, the caller should first verify the current patch set of the
+   * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
+   */
   REBASE(Permission.REBASE),
   SUBMIT(Permission.SUBMIT),
   SUBMIT_AS(Permission.SUBMIT_AS);

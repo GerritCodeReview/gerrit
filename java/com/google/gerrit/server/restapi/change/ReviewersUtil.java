@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -161,17 +162,25 @@ public class ReviewersUtil {
   }
 
   public List<SuggestedReviewerInfo> suggestReviewers(
-      ChangeNotes changeNotes,
+      @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
       throws IOException, OrmException, ConfigInvalidException, PermissionBackendException {
     CurrentUser currentUser = self.get();
-    log.debug(
-        "Suggesting reviewers for change {} to user {}.",
-        changeNotes.getChangeId().get(),
-        currentUser.getLoggableName());
+    if (changeNotes != null) {
+      log.debug(
+          "Suggesting reviewers for change {} to user {}.",
+          changeNotes.getChangeId().get(),
+          currentUser.getLoggableName());
+    } else {
+      log.debug(
+          "Suggesting default reviewers for project {} to user {}.",
+          projectState.getName(),
+          currentUser.getLoggableName());
+    }
+
     String query = suggestReviewers.getQuery();
     log.debug("Query: {}", query);
     int limit = suggestReviewers.getLimit();
@@ -272,7 +281,7 @@ public class ReviewersUtil {
   }
 
   private List<Account.Id> recommendAccounts(
-      ChangeNotes changeNotes,
+      @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
       List<Account.Id> candidateList)

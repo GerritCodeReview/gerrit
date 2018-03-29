@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.query.Predicate;
@@ -100,7 +101,7 @@ public class ReviewerRecommender {
   }
 
   public List<Account.Id> suggestReviewers(
-      ChangeNotes changeNotes,
+      @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
       List<Account.Id> candidateList)

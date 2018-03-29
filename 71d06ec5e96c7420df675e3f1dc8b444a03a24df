@@ -3,6 +3,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d5d938db_0347ad8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-29T12:37:31Z",
+      "side": 1,
+      "message": "Optional: use log\u003d100 or similar to prevent truncation of the list of commits.",
+      "revId": "71d06ec5e96c7420df675e3f1dc8b444a03a24df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7008d99f_5debd423",
         "filename": "plugins/replication",
         "patchSetId": 1

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94eef573_0c31e59d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-29T00:06:30Z",
+      "side": 1,
+      "message": "You are right, set ready ask for the version as a separate parameter so it should not have been passed in the index name. But, I think we should keep the prefix in the name.\n\nThe reason why is if the prefix is changed after, we want gerrit to flag that reindex must be done.\n\nFYI, I am looking into if we could keep the prefix in gerrit_index.config or if my suggestion make no sense.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79f7fbfc_bc42768c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-29T00:06:30Z",
+      "side": 1,
+      "message": "I think this is wrong, an empty (new) site should not require a reindex, which is the case for Lucene.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 11
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

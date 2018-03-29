@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -39,19 +38,16 @@ public class CreateChangeSender extends NewChangeSender {
     CreateChangeSender create(Project.NameKey project, Change.Id id);
   }
 
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final PermissionBackend permissionBackend;
 
   @Inject
   public CreateChangeSender(
       EmailArguments ea,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
       PermissionBackend permissionBackend,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id)
       throws OrmException {
     super(ea, newChangeData(ea, project, id));
-    this.identifiedUserFactory = identifiedUserFactory;
     this.permissionBackend = permissionBackend;
   }
 

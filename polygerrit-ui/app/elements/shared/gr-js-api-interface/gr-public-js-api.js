@@ -326,7 +326,12 @@
       console.warn(`${name} install failed: ${e.name}: ${e.message}`);
     }
     // Don't double count plugins that may have an html and js install.
-    if (!existingPlugin) {
+    // TODO(beckysiegel) remove name check once name issue is resolved.
+    // If there isn't a name, it's due to an issue with the polyfill for
+    // html imports in Safari/Firefox. In this case, other plugin related
+    // features may still be broken, but still make sure to call.
+    // _pluginInstalled.
+    if (!name || !existingPlugin) {
       Gerrit._pluginInstalled();
     }
   };

@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f3a3572_bb1ac9fc",
+        "filename": "java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T07:20:11Z",
+      "side": 1,
+      "message": "It would be nice if you place a comment here that this is on the critical path of enabling a project owner to set their project from HIDDEN back to READ_ONLY or ACTIVE, hence the extra logic.\n\nThis will (hopefully) prevent people from just copying this part somewhere else where it is not needed.",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db4d29fe_e54df0a1",
+        "filename": "java/com/google/gerrit/server/args4j/ProjectHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T07:20:11Z",
+      "side": 1,
+      "message": "same",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "726bbb8c_dc5c15c7",
+        "filename": "java/com/google/gerrit/server/project/ChildProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T07:20:11Z",
+      "side": 1,
+      "message": "please import this statically",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2545f0fd_65137ca3",
+        "filename": "java/com/google/gerrit/server/project/ChildProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T07:20:11Z",
+      "side": 1,
+      "message": "nit: make this static so that you can reference it in the stream better (this::isReadable)",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b77465a_48d52499",
+        "filename": "java/com/google/gerrit/server/project/SuggestParentCandidates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T07:20:11Z",
+      "side": 1,
+      "message": "Please import statically",
+      "range": {
+        "startLine": 48,
+        "startChar": 73,
+        "endLine": 48,
+        "endChar": 78
+      },
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceed7961_062d8401",
+        "filename": "java/com/google/gerrit/server/project/SuggestParentCandidates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T07:20:11Z",
+      "side": 1,
+      "message": "Side comment: I think this is nicer code, but in the end, it also just throws an NPE - just as if you call projectState.statePermitsReade() directly when projectState is null.\n\nShould we return false in this case? projectState \u003d\u003d null means the project is not accessible anyway. An argument against that is that we want to surface these cases as HTTP 500s so that we can act on them.",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 16
+      },
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf791a32_fb39b404",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T07:20:11Z",
+      "side": 1,
+      "message": "Use checkStatePermitsRead instead so that the user gets a better error message",
+      "range": {
+        "startLine": 89,
+        "startChar": 34,
+        "endLine": 89,
+        "endChar": 50
+      },
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e72cb1d7_83f04253",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T07:20:11Z",
+      "side": 1,
+      "message": "Please add a comment as above",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "2e63a1e6_2393c6e7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-29T22:33:22Z",
+      "side": 1,
+      "message": "It was failing before, i tryed to debug, but console.log would not tell me why it was failing. So i found it easier to do this.\n\nWondering do you have a suggestion on how i could do it with\n\n          assert.isTrue(element.$.restAPI.getRepoBranches.lastCall\n              .calledWithExactly(\u0027test\u0027, \u0027test\u0027, 25, 25));\n\n please?",
+      "parentUuid": "e03625f1_bb96c072",
+      "range": {
+        "startLine": 308,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 18
+      },
+      "revId": "a88aa6235c7b4532790c86eee8ae36c2345d216d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4b62726_1c4a50de",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.html",
         "patchSetId": 7
@@ -59,6 +83,30 @@
       "writtenOn": "2018-03-29T22:18:20Z",
       "side": 1,
       "message": "Same here, shouldn\u0027t need to change.",
+      "range": {
+        "startLine": 491,
+        "startChar": 9,
+        "endLine": 498,
+        "endChar": 18
+      },
+      "revId": "a88aa6235c7b4532790c86eee8ae36c2345d216d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "771b25e5_83981717",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-03-29T22:33:22Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "e4b62726_1c4a50de",
       "range": {
         "startLine": 491,
         "startChar": 9,

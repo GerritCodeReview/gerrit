@@ -31,6 +31,10 @@ public enum RefPermission {
   FORGE_COMMITTER(Permission.FORGE_COMMITTER),
   FORGE_SERVER(Permission.FORGE_SERVER),
   MERGE,
+  /**
+   * Before checking this permission, the caller should verify {@code USE_SIGNED_OFF_BY} is false.
+   * If it's true, the request should be rejected directly without further check this permission.
+   */
   SKIP_VALIDATION,
 
   /** Create a change to code review a commit. */

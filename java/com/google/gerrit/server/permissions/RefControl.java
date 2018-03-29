@@ -21,7 +21,6 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -520,8 +519,7 @@ class RefControl {
           return canForgeAuthor()
               && canForgeCommitter()
               && canForgeGerritServerIdentity()
-              && canUploadMerges()
-              && !projectControl.getProjectState().is(BooleanProjectConfig.USE_SIGNED_OFF_BY);
+              && canUploadMerges();
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

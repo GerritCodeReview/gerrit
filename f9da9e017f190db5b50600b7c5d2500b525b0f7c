@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "592138e1_f6520566",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-29T22:12:42Z",
+      "side": 1,
+      "message": "Nit: this isn\u0027t updating any jsdocs. how about remove unused parameter?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "f9da9e017f190db5b50600b7c5d2500b525b0f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

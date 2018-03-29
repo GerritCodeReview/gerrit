@@ -195,6 +195,7 @@
         this._loading = false;
       });
     },
+
     _handleUpdateInheritFrom(e) {
       const projectId = decodeURIComponent(e.detail.value);
       if (!this._inheritsFrom) {
@@ -238,7 +239,7 @@
       return weblinks.length ? 'show' : '';
     },
 
-    _computeShowInherit(inheritsFrom, editing) {
+    _computeShowInherit(inheritsFrom) {
       return inheritsFrom ? 'show' : '';
     },
 

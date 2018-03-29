@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 
-public enum RefPermission {
+public enum RefPermission implements Describable {
   READ(Permission.READ),
   CREATE(Permission.CREATE),
   DELETE(Permission.DELETE),
@@ -78,6 +78,7 @@ public enum RefPermission {
     return Optional.ofNullable(name);
   }
 
+  @Override
   public String describeForException() {
     return toString().toLowerCase(Locale.US).replace('_', ' ');
   }

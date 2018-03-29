@@ -136,6 +136,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.CreateRefControl;
@@ -1117,14 +1118,13 @@ class ReceiveCommits {
 
   private void parseUpdate(ReceiveCommand cmd) throws PermissionBackendException {
     logDebug("Updating {}", cmd);
-    boolean ok;
+    AuthException err = null;
     try {
       permissions.ref(cmd.getRefName()).check(RefPermission.UPDATE);
-      ok = true;
-    } catch (AuthException err) {
-      ok = false;
+    } catch (AuthException e) {
+      err = e;
     }
-    if (ok) {
+    if (err == null) {
       if (isHead(cmd) && !isCommit(cmd)) {
         return;
       }
@@ -1134,13 +1134,28 @@ class ReceiveCommits {
       validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       actualCommands.add(cmd);
     } else {
-      if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
-        errors.put(ReceiveError.CONFIG_UPDATE, RefNames.REFS_CONFIG);
-      } else {
-        errors.put(ReceiveError.UPDATE, cmd.getRefName());
-      }
-      reject(cmd, "prohibited by Gerrit: ref update access denied");
+      // TODO: are we willing to give up aggregation by error type?
+      // if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
+      //  errors.put(ReceiveError.CONFIG_UPDATE, RefNames.REFS_CONFIG);
+      // } else {
+      //  errors.put(ReceiveError.UPDATE, cmd.getRefName());
+      // }
+      err.getAdvice().ifPresent(messageSender::sendError);
+      reject(cmd, prohibited(err, cmd.getRefName()));
     }
+  }
+
+  private static String prohibited(AuthException e, String alreadyDisplayedResource) {
+    String msg = e.getMessage();
+    if (e instanceof PermissionDeniedException) {
+      PermissionDeniedException pde = (PermissionDeniedException) e;
+      if (pde.getResource().isPresent()
+          && pde.getResource().get().equals(alreadyDisplayedResource)) {
+        // Avoid repeating resource name.
+        msg = pde.describePermission() + " not permitted";
+      }
+    }
+    return "prohibited by Gerrit: " + msg;
   }
 
   private boolean isCommit(ReceiveCommand cmd) {

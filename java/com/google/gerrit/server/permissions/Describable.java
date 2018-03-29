@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,6 @@
 
 package com.google.gerrit.server.permissions;
 
-import java.util.Optional;
-
-/** A {@link ChangePermission} or a {@link LabelPermission}. */
-public interface ChangePermissionOrLabel extends Describable {
-  /** @return name used in {@code project.config} permissions. */
-  public Optional<String> permissionName();
-
-  /** @return readable identifier of this permission for exception message. */
-  @Override
-  public String describeForException();
+public interface Describable {
+  String describeForException();
 }

@@ -18,7 +18,7 @@ import com.google.gerrit.common.data.Permission;
 import java.util.Locale;
 import java.util.Optional;
 
-public enum ProjectPermission {
+public enum ProjectPermission implements Describable {
   /**
    * Can access at least one reference or change within the repository.
    *
@@ -100,6 +100,7 @@ public enum ProjectPermission {
     return Optional.ofNullable(name);
   }
 
+  @Override
   public String describeForException() {
     return toString().toLowerCase(Locale.US).replace('_', ' ');
   }

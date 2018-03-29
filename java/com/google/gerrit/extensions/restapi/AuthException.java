@@ -14,9 +14,13 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import java.util.Optional;
+
 /** Caller cannot perform the request operation (HTTP 403 Forbidden). */
 public class AuthException extends RestApiException {
   private static final long serialVersionUID = 1L;
+
+  private Optional<String> advice = Optional.empty();
 
   /** @param msg message to return to the client. */
   public AuthException(String msg) {
@@ -29,5 +33,13 @@ public class AuthException extends RestApiException {
    */
   public AuthException(String msg, Throwable cause) {
     super(msg, cause);
+  }
+
+  public void setAdvice(String advice) {
+    this.advice = Optional.of(advice);
+  }
+
+  public Optional<String> getAdvice() {
+    return advice;
   }
 }

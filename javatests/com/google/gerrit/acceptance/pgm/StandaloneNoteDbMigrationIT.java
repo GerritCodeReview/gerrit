@@ -28,7 +28,9 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -41,6 +43,11 @@ import com.google.gerrit.testing.NoteDbMode;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -114,10 +121,16 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     migrate();
     assertNotesMigrationState(NotesMigrationState.NOTE_DB);
 
+    File allUsersDir;
     try (ServerContext ctx = startServer()) {
       GitRepositoryManager repoManager = ctx.getInjector().getInstance(GitRepositoryManager.class);
       try (Repository repo = repoManager.openRepository(project)) {
         assertThat(repo.exactRef(RefNames.changeMetaRef(changeId))).isNotNull();
+      }
+      assertThat(repoManager).isInstanceOf(LocalDiskRepositoryManager.class);
+      try (Repository repo =
+          repoManager.openRepository(ctx.getInjector().getInstance(AllUsersName.class))) {
+        allUsersDir = repo.getDirectory();
       }
 
       try (ReviewDb db = openUnderlyingReviewDb(ctx)) {
@@ -137,6 +150,15 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
     }
     assertNoAutoMigrateConfig(gerritConfig);
     assertAutoMigrateConfig(noteDbConfig, false);
+
+    try (FileRepository repo = new FileRepository(allUsersDir)) {
+      try (Stream<Path> paths = Files.walk(repo.getObjectsDirectory().toPath())) {
+        assertThat(paths.filter(p -> !p.toString().contains("pack") && Files.isRegularFile(p)))
+            .named("loose object files in All-Users")
+            .isEmpty();
+      }
+      assertThat(repo.getObjectDatabase().getPacks()).named("packfiles in All-Users").hasSize(1);
+    }
   }
 
   @Test

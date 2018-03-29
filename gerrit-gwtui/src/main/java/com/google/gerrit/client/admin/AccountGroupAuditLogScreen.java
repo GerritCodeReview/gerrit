@@ -113,17 +113,19 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
           GroupInfo member = auditEvent.memberAsGroup();
           if (AccountGroup.isInternalGroup(member.getGroupUUID())) {
             table.setWidget(
-                row, 3, new Hyperlink(member.name(), Dispatcher.toGroup(member.getGroupUUID())));
+                row,
+                3,
+                new Hyperlink(formatGroup(member), Dispatcher.toGroup(member.getGroupUUID())));
             fmt.getElement(row, 3).setTitle(null);
           } else if (member.url() != null) {
             Anchor a = new Anchor();
-            a.setText(member.name());
+            a.setText(formatGroup(member));
             a.setHref(member.url());
             a.setTitle("UUID " + member.getGroupUUID().get());
             table.setWidget(row, 3, a);
             fmt.getElement(row, 3).setTitle(null);
           } else {
-            table.setText(row, 3, member.name());
+            table.setText(row, 3, formatGroup(member));
             fmt.getElement(row, 3).setTitle("UUID " + member.getGroupUUID().get());
           }
           break;
@@ -147,5 +149,11 @@ public class AccountGroupAuditLogScreen extends AccountGroupScreen {
     b.append(account._accountId());
     b.append(")");
     return b.toString();
+  }
+
+  private static String formatGroup(GroupInfo group) {
+    return group.name() != null && !group.name().isEmpty()
+        ? group.name()
+        : group.getGroupUUID().get();
   }
 }

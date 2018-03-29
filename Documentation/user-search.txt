@@ -4,9 +4,7 @@
 
 Most basic searches can be viewed by clicking on a link along the top
 menu bar.  The link will prefill the search box with a common search
-query, execute it, and present the results.  If exactly one change
-matches the search, the change will be presented instead of a list.
-
+query, execute it, and present the results.
 
 [options="header"]
 |=================================================
@@ -14,7 +12,7 @@ matches the search, the change will be presented instead of a list.
 |All > Open           | status:open '(or is:open)'
 |All > Merged         | status:merged
 |All > Abandoned      | status:abandoned
-|My > Watched Changes | status:open is:watched
+|My > Watched Changes | is:watched is:open
 |My > Starred Changes | is:starred
 |My > Draft Comments  | has:draft
 |Open changes in Foo  | status:open project:Foo
@@ -36,6 +34,9 @@ text and let Gerrit figure out the meaning:
 |Approval requirement             | Code-Review>=+2, Verified=1
 |=============================================================
 
+For change searches (i.e. those using a numerical id, Change-Id, or commit
+SHA1), if the search results in a single change that change will be
+presented instead of a list.
 
 [[search-operators]]
 == Search Operators
@@ -601,7 +602,7 @@ label configuration. (For a more general check, use
 link:#submittable[submittable:ok].)
 
 `is:open (label:Verified-1 OR label:Code-Review-2)`::
-`is:open (label:Verified=reject OR label:Code-Review:reject)`::
+`is:open (label:Verified=reject OR label:Code-Review=reject)`::
 +
 Changes that are blocked from submission due to a blocking score.
 

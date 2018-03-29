@@ -258,6 +258,11 @@ public class RefNames {
     return isRefsGroups(ref) || isRefsDeletedGroups(ref) || REFS_GROUPNAMES.equals(ref);
   }
 
+  /** Whether the ref is the configuration branch, i.e. {@code refs/meta/config}, for a project. */
+  public static boolean isConfigRef(String ref) {
+    return REFS_CONFIG.equals(ref);
+  }
+
   static Integer parseShardedRefPart(String name) {
     if (name == null) {
       return null;

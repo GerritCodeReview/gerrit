@@ -135,8 +135,8 @@ public interface Projects {
       return this;
     }
 
-    public ListRequest withAll() {
-      this.all = true;
+    public ListRequest withAll(boolean all) {
+      this.all = all;
       return this;
     }
 

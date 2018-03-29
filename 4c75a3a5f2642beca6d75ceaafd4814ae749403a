@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa7b5921_aa4db12a",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-03-29T07:25:35Z",
+      "side": 1,
+      "message": "Instead of repeating this try..except everywhere, factor it out to a method.  I.e. something like:\n\n  def decode(input):\n    try:\n      return input.decode(\"utf-8\")\n    except TypeError:\n      return input\n\nand then just add it at places that need decoding for py3, i.e.\n\n  exp \u003d os.path.join(decode(base), \"external\", \"bower\", \"*npm_binary.tgz\")",
+      "revId": "4c75a3a5f2642beca6d75ceaafd4814ae749403a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

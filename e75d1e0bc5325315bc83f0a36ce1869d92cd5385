@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "5014e1f6_ee29000e",
+        "filename": "java/com/google/gerrit/server/project/ChildProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-03-29T08:18:21Z",
+      "side": 1,
+      "message": "right, sorry for the oversight",
+      "parentUuid": "bafb2253_846595cb",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b77465a_48d52499",
         "filename": "java/com/google/gerrit/server/project/SuggestParentCandidates.java",
         "patchSetId": 3

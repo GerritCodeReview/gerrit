@@ -15,6 +15,8 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+import static com.google.gerrit.server.PatchSetUtil.checkPatchSetNotLocked;
+import static com.google.gerrit.server.PatchSetUtil.isPatchSetLocked;
 import static com.google.gerrit.server.permissions.ChangePermission.ABANDON;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
@@ -133,6 +135,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     if (change.getDest().equals(newDest)) {
       throw new ResourceConflictException("Change is already destined for the specified branch");
     }
+
+    // Not allowed to move if the current patch set is locked.
+    checkPatchSetNotLocked(
+        approvalsUtil, projectCache, dbProvider.get(), rsrc.getNotes(), rsrc.getUser());
 
     // Move requires abandoning this change, and creating a new change.
     try {
@@ -279,24 +285,42 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
+    UiAction.Description description =
+        new UiAction.Description()
+            .setLabel("Move Change")
+            .setTitle("Move change to a different branch")
+            .setVisible(false);
+
     Change change = rsrc.getChange();
-    boolean projectStatePermitsWrite = false;
+    if (!change.getStatus().isOpen()) {
+      return description;
+    }
+
     try {
-      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
+      if (!projectCache.checkedGet(rsrc.getProject()).statePermitsWrite()) {
+        return description;
+      }
     } catch (IOException e) {
       log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+      return description;
     }
-    return new UiAction.Description()
-        .setLabel("Move Change")
-        .setTitle("Move change to a different branch")
-        .setVisible(
-            and(
-                change.getStatus().isOpen() && projectStatePermitsWrite,
-                and(
-                    permissionBackend
-                        .user(rsrc.getUser())
-                        .ref(change.getDest())
-                        .testCond(CREATE_CHANGE),
-                    rsrc.permissions().database(dbProvider).testCond(ABANDON))));
+
+    try {
+      if (isPatchSetLocked(
+          approvalsUtil, projectCache, dbProvider.get(), rsrc.getNotes(), rsrc.getUser())) {
+        return description;
+      }
+    } catch (OrmException | IOException e) {
+      log.error(
+          String.format(
+              "Failed to check if the current patch set of change %s is locked", change.getId()),
+          e);
+      return description;
+    }
+
+    return description.setVisible(
+        and(
+            permissionBackend.user(rsrc.getUser()).ref(change.getDest()).testCond(CREATE_CHANGE),
+            rsrc.permissions().database(dbProvider).testCond(ABANDON)));
   }
 }

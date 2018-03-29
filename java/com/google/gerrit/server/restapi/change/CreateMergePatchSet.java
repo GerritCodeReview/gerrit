@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.PatchSetUtil.checkPatchSetNotLocked;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -35,6 +37,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -50,7 +53,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
@@ -92,6 +94,7 @@ public class CreateMergePatchSet
   private final ProjectCache projectCache;
   private final ChangeFinder changeFinder;
   private final PermissionBackend permissionBackend;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   CreateMergePatchSet(
@@ -107,7 +110,8 @@ public class CreateMergePatchSet
       PatchSetInserter.Factory patchSetInserterFactory,
       ProjectCache projectCache,
       ChangeFinder changeFinder,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ApprovalsUtil approvalsUtil) {
     super(retryHelper);
     this.db = db;
     this.gitManager = gitManager;
@@ -121,13 +125,17 @@ public class CreateMergePatchSet
     this.projectCache = projectCache;
     this.changeFinder = changeFinder;
     this.permissionBackend = permissionBackend;
+    this.approvalsUtil = approvalsUtil;
   }
 
   @Override
   protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MergePatchSetInput in)
-      throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
-          UpdateException, PermissionBackendException {
+      throws OrmException, IOException, RestApiException, UpdateException,
+          PermissionBackendException {
+    // Not allowed to create a new patch set if the current patch set is locked.
+    checkPatchSetNotLocked(approvalsUtil, projectCache, db.get(), rsrc.getNotes(), rsrc.getUser());
+
     rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
 
     ProjectState projectState = projectCache.checkedGet(rsrc.getProject());

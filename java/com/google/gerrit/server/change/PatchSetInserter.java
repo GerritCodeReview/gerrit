@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.PatchSetUtil.checkPatchSetNotLocked;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
@@ -311,7 +312,11 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   private void validate(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+      throws AuthException, ResourceConflictException, IOException, PermissionBackendException,
+          OrmException {
+    // Not allowed to create a new patch set if the current patch set is locked.
+    checkPatchSetNotLocked(approvalsUtil, projectCache, ctx.getDb(), origNotes, ctx.getUser());
+
     if (checkAddPatchSetPermission) {
       permissionBackend
           .user(ctx.getUser())

@@ -14,19 +14,22 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.gerrit.common.Nullable;
-import com.google.gerrit.extensions.annotations.CapabilityScope;
-import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
-import com.google.gerrit.extensions.api.access.PluginPermission;
 import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.annotations.CapabilityScope;
+import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.access.GerritPermission;
+import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
+import com.google.gerrit.extensions.api.access.PluginPermission;
 
 /** Global server permissions built into Gerrit. */
 public enum GlobalPermission implements GlobalOrPluginPermission {
@@ -145,5 +148,10 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
       }
     }
     return null;
+  }
+
+  @Override
+  public String describeForException() {
+    return GerritPermission.describeEnumValue(this);
   }
 }

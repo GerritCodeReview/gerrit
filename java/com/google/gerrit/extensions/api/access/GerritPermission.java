@@ -18,8 +18,16 @@ import java.util.Locale;
 
 /** Gerrit permission for hosts, projects, refs, changes, labels and plugins. */
 public interface GerritPermission {
-  /** @return readable identifier of this permission for exception message. */
-  default String describeForException() {
-    return toString().toLowerCase(Locale.US).replace('_', ' ');
+  /**
+   * A description in the context of an exception message.
+   *
+   * <p>Should be grammatical when used in the construction "not permitted: [description] on
+   * [resource]", although individual {@code PermissionBackend} implementations may vary the
+   * wording.
+   */
+  String describeForException();
+
+  static String describeEnumValue(Enum<?> value) {
+    return value.name().toLowerCase(Locale.US).replace('_', ' ');
   }
 }

@@ -445,7 +445,50 @@ class RefControl {
     @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
       if (!can(perm)) {
-        throw new AuthException(perm.describeForException() + " not permitted for " + refName);
+        PermissionDeniedException pde = new PermissionDeniedException(perm, refName);
+        switch (perm) {
+          case UPDATE:
+            if (refName.equals(RefNames.REFS_CONFIG)) {
+              pde.setAdvice(
+                  "You are not allowed to perform this operation.\n"
+                      + "Configuration changes can only be pushed by project owners\n"
+                      + "who also have 'Push' rights on "
+                      + RefNames.REFS_CONFIG);
+            } else {
+              pde.setAdvice(
+                  "You are not allowed to perform this operation.\n"
+                      + "To push into this reference you need 'Push' rights.");
+            }
+            break;
+          case DELETE:
+            pde.setAdvice(
+                "You need 'Delete Reference' rights or 'Push' rights with the \n"
+                    + "'Force Push' flag set to delete references.");
+            break;
+          case CREATE_CHANGE:
+            pde.setAdvice(
+        "You need 'Push' rights to upload code review requests.\n"
+            + "Verify that you are pushing to the right branch.");
+            break;
+          case CREATE:
+          case CREATE_SIGNED_TAG:
+          case CREATE_TAG:
+          case FORCE_UPDATE:
+          case FORGE_AUTHOR:
+          case FORGE_COMMITTER:
+          case FORGE_SERVER:
+          case MERGE:
+          case READ:
+          case READ_CONFIG:
+          case READ_PRIVATE_CHANGES:
+          case SET_HEAD:
+          case SKIP_VALIDATION:
+          case UPDATE_BY_SUBMIT:
+          case WRITE_CONFIG:
+            // TODO(dborowitz): fill in advice
+            break;
+        }
+        throw pde;
       }
     }
 

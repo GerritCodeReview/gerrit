@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd4676c6_590fc9a4",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T07:10:30Z",
+      "side": 1,
+      "message": "\"user\" can also be changed in \"WithUser\" and \"ForRef\" etc. Do we also need to add new methods there?",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 3
+      },
+      "revId": "86a05337a95012f8d76244c4d310cf18cb7b00dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

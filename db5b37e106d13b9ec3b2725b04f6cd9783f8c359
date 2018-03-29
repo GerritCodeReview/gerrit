@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57cdccd6_c1e8098d",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-29T20:12:21Z",
+      "side": 1,
+      "message": "It\u0027s now only used in ElasticTestUtils so it does not make much sense to keep it here. We could get rid of it and adjust ElasticTestUtils use ACCOUNTS constant instead?\n\nSame comment applies to GROUPS_PREFIX and CHANGES_PREFIX",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 55
+      },
+      "revId": "db5b37e106d13b9ec3b2725b04f6cd9783f8c359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

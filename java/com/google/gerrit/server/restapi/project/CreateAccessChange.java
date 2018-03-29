@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.errors.InvalidNameException;
-import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -94,19 +93,18 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
 
   @Override
   public Response<ChangeInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
-      throws PermissionBackendException, PermissionDeniedException, IOException,
-          ConfigInvalidException, OrmException, InvalidNameException, UpdateException,
-          RestApiException {
+      throws PermissionBackendException, AuthException, IOException, ConfigInvalidException,
+          OrmException, InvalidNameException, UpdateException, RestApiException {
     PermissionBackend.ForProject forProject =
         permissionBackend.user(rsrc.getUser()).project(rsrc.getNameKey());
     if (!check(forProject, ProjectPermission.READ_CONFIG)) {
-      throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
+      throw new AuthException(RefNames.REFS_CONFIG + " not visible");
     }
     if (!check(forProject, ProjectPermission.WRITE_CONFIG)) {
       try {
         forProject.ref(RefNames.REFS_CONFIG).check(RefPermission.CREATE_CHANGE);
       } catch (AuthException denied) {
-        throw new PermissionDeniedException("cannot create change for " + RefNames.REFS_CONFIG);
+        throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG);
       }
     }
     projectCache.checkedGet(rsrc.getNameKey()).checkStatePermitsWrite();

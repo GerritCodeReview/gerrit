@@ -20,7 +20,6 @@ import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -133,16 +132,16 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   @Override
   protected Change.Id updateProjectConfig(
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
-      throws IOException, OrmException, PermissionDeniedException, PermissionBackendException,
+      throws IOException, OrmException, AuthException, PermissionBackendException,
           ConfigInvalidException, ResourceConflictException {
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(config.getName());
     if (!check(perm, ProjectPermission.READ_CONFIG)) {
-      throw new PermissionDeniedException(RefNames.REFS_CONFIG + " not visible");
+      throw new AuthException(RefNames.REFS_CONFIG + " not visible");
     }
 
     if (!check(perm, ProjectPermission.WRITE_CONFIG)
         && !check(perm.ref(RefNames.REFS_CONFIG), RefPermission.CREATE_CHANGE)) {
-      throw new PermissionDeniedException("cannot create change for " + RefNames.REFS_CONFIG);
+      throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG);
     }
 
     projectCache.checkedGet(config.getName()).checkStatePermitsWrite();

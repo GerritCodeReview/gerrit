@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "6ae12707_0c6df1f7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-29T22:40:18Z",
+      "side": 1,
+      "message": "It looks like it\u0027s failing because there is a fifth argument that is the error function. I guess it\u0027s ok to leave as is.",
+      "parentUuid": "2e63a1e6_2393c6e7",
+      "range": {
+        "startLine": 308,
+        "startChar": 10,
+        "endLine": 315,
+        "endChar": 18
+      },
+      "revId": "a88aa6235c7b4532790c86eee8ae36c2345d216d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4b62726_1c4a50de",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.html",
         "patchSetId": 7
@@ -140,6 +164,30 @@
       "revId": "a88aa6235c7b4532790c86eee8ae36c2345d216d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6eba849_4e99ddff",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-29T22:40:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "771b25e5_83981717",
+      "range": {
+        "startLine": 491,
+        "startChar": 9,
+        "endLine": 498,
+        "endChar": 18
+      },
+      "revId": "a88aa6235c7b4532790c86eee8ae36c2345d216d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

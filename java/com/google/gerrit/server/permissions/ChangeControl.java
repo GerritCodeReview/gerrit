@@ -20,19 +20,14 @@ import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BE
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -51,19 +46,11 @@ class ChangeControl {
   static class Factory {
     private final ChangeData.Factory changeDataFactory;
     private final ChangeNotes.Factory notesFactory;
-    private final ApprovalsUtil approvalsUtil;
-    private final PatchSetUtil patchSetUtil;
 
     @Inject
-    Factory(
-        ChangeData.Factory changeDataFactory,
-        ChangeNotes.Factory notesFactory,
-        ApprovalsUtil approvalsUtil,
-        PatchSetUtil patchSetUtil) {
+    Factory(ChangeData.Factory changeDataFactory, ChangeNotes.Factory notesFactory) {
       this.changeDataFactory = changeDataFactory;
       this.notesFactory = notesFactory;
-      this.approvalsUtil = approvalsUtil;
-      this.patchSetUtil = patchSetUtil;
     }
 
     ChangeControl create(
@@ -73,27 +60,19 @@ class ChangeControl {
     }
 
     ChangeControl create(RefControl refControl, ChangeNotes notes) {
-      return new ChangeControl(changeDataFactory, approvalsUtil, refControl, notes, patchSetUtil);
+      return new ChangeControl(changeDataFactory, refControl, notes);
     }
   }
 
   private final ChangeData.Factory changeDataFactory;
-  private final ApprovalsUtil approvalsUtil;
   private final RefControl refControl;
   private final ChangeNotes notes;
-  private final PatchSetUtil patchSetUtil;
 
   private ChangeControl(
-      ChangeData.Factory changeDataFactory,
-      ApprovalsUtil approvalsUtil,
-      RefControl refControl,
-      ChangeNotes notes,
-      PatchSetUtil patchSetUtil) {
+      ChangeData.Factory changeDataFactory, RefControl refControl, ChangeNotes notes) {
     this.changeDataFactory = changeDataFactory;
-    this.approvalsUtil = approvalsUtil;
     this.refControl = refControl;
     this.notes = notes;
-    this.patchSetUtil = patchSetUtil;
   }
 
   ForChange asForChange(@Nullable ChangeData cd, @Nullable Provider<ReviewDb> db) {
@@ -104,8 +83,7 @@ class ChangeControl {
     if (getUser().equals(who)) {
       return this;
     }
-    return new ChangeControl(
-        changeDataFactory, approvalsUtil, refControl.forUser(who), notes, patchSetUtil);
+    return new ChangeControl(changeDataFactory, refControl.forUser(who), notes);
   }
 
   private CurrentUser getUser() {
@@ -129,26 +107,24 @@ class ChangeControl {
   }
 
   /** Can this user abandon this change? */
-  private boolean canAbandon(ReviewDb db) throws OrmException {
-    return (isOwner() // owner (aka creator) of the change can abandon
-            || refControl.isOwner() // branch owner can abandon
-            || getProjectControl().isOwner() // project owner can abandon
-            || refControl.canPerform(Permission.ABANDON) // user can abandon a specific ref
-            || getProjectControl().isAdmin())
-        && !isPatchSetLocked(db);
+  private boolean canAbandon() {
+    return isOwner() // owner (aka creator) of the change can abandon
+        || refControl.isOwner() // branch owner can abandon
+        || getProjectControl().isOwner() // project owner can abandon
+        || refControl.canPerform(Permission.ABANDON) // user can abandon a specific ref
+        || getProjectControl().isAdmin();
   }
 
   /** Can this user rebase this change? */
-  private boolean canRebase(ReviewDb db) throws OrmException {
+  private boolean canRebase() {
     return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
-        && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
-        && !isPatchSetLocked(db);
+        && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
   }
 
   /** Can this user restore this change? */
-  private boolean canRestore(ReviewDb db) throws OrmException {
+  private boolean canRestore() {
     // Anyone who can abandon the change can restore it, as long as they can create changes.
-    return canAbandon(db) && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
+    return canAbandon() && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
   }
 
   /** The range of permitted values associated with a label permission. */
@@ -157,37 +133,14 @@ class ChangeControl {
   }
 
   /** Can this user add a patch set to this change? */
-  private boolean canAddPatchSet(ReviewDb db) throws OrmException {
-    if (!(refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)) || isPatchSetLocked(db)) {
+  private boolean canAddPatchSet() {
+    if (!refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)) {
       return false;
     }
     if (isOwner()) {
       return true;
     }
     return refControl.canAddPatchSet();
-  }
-
-  /** Is the current patch set locked against state changes? */
-  private boolean isPatchSetLocked(ReviewDb db) throws OrmException {
-    if (getChange().getStatus() == Change.Status.MERGED) {
-      return false;
-    }
-
-    for (PatchSetApproval ap :
-        approvalsUtil.byPatchSet(
-            db, notes, getUser(), getChange().currentPatchSetId(), null, null)) {
-      LabelType type =
-          getProjectControl()
-              .getProjectState()
-              .getLabelTypes(notes, getUser())
-              .byLabel(ap.getLabel());
-      if (type != null
-          && ap.getValue() == 1
-          && type.getFunction() == LabelFunction.PATCH_SET_LOCK) {
-        return true;
-      }
-    }
-    return false;
   }
 
   /** Is this user the owner of the change? */
@@ -354,12 +307,12 @@ class ChangeControl {
           case READ:
             return isVisible(db(), changeData());
           case ABANDON:
-            return canAbandon(db());
+            return canAbandon();
           case DELETE:
             return (isOwner() && refControl.canPerform(Permission.DELETE_OWN_CHANGES))
                 || getProjectControl().isAdmin();
           case ADD_PATCH_SET:
-            return canAddPatchSet(db());
+            return canAddPatchSet();
           case EDIT_ASSIGNEE:
             return canEditAssignee();
           case EDIT_DESCRIPTION:
@@ -369,9 +322,9 @@ class ChangeControl {
           case EDIT_TOPIC_NAME:
             return canEditTopicName();
           case REBASE:
-            return canRebase(db());
+            return canRebase();
           case RESTORE:
-            return canRestore(db());
+            return canRestore();
           case SUBMIT:
             return refControl.canSubmit(isOwner());
 

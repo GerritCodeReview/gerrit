@@ -224,8 +224,9 @@ public class MoveChangeIT extends AbstractDaemonTest {
     grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
-    exception.expect(AuthException.class);
-    exception.expectMessage("move not permitted");
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(
+        String.format("The current patch set of change %s is locked", r.getChange().getId()));
     move(r.getChangeId(), newBranch.get());
   }
 

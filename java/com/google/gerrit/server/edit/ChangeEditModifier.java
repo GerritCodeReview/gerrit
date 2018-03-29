@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.edit;
 
+import static com.google.gerrit.server.PatchSetUtil.isPatchSetLocked;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -25,6 +27,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -86,6 +89,7 @@ public class ChangeEditModifier {
   private final ChangeEditUtil changeEditUtil;
   private final PatchSetUtil patchSetUtil;
   private final ProjectCache projectCache;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   ChangeEditModifier(
@@ -96,7 +100,8 @@ public class ChangeEditModifier {
       PermissionBackend permissionBackend,
       ChangeEditUtil changeEditUtil,
       PatchSetUtil patchSetUtil,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ApprovalsUtil approvalsUtil) {
     this.indexer = indexer;
     this.reviewDb = reviewDb;
     this.currentUser = currentUser;
@@ -105,6 +110,7 @@ public class ChangeEditModifier {
     this.changeEditUtil = changeEditUtil;
     this.patchSetUtil = patchSetUtil;
     this.projectCache = projectCache;
+    this.approvalsUtil = approvalsUtil;
   }
 
   /**
@@ -394,7 +400,8 @@ public class ChangeEditModifier {
   }
 
   private void assertCanEdit(ChangeNotes notes)
-      throws AuthException, PermissionBackendException, IOException, ResourceConflictException {
+      throws AuthException, PermissionBackendException, IOException, ResourceConflictException,
+          OrmException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -404,6 +411,12 @@ public class ChangeEditModifier {
       throw new ResourceConflictException(
           String.format(
               "change %s is %s", c.getChangeId(), c.getStatus().toString().toLowerCase()));
+    }
+
+    // Not allowed to edit if the current patch set is locked.
+    if (isPatchSetLocked(approvalsUtil, projectCache, reviewDb.get(), notes, currentUser.get())) {
+      throw new ResourceConflictException(
+          String.format("The current patch set of change %s is locked", notes.getChangeId()));
     }
 
     try {

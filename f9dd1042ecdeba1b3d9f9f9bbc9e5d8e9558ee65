@@ -69,6 +69,52 @@
       "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "38ee5b46_96cfc2ff",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-29T00:58:38Z",
+      "side": 1,
+      "message": "this is no longer needed if you apply my comment below",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 43
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87756e0c_9694188c",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-03-29T00:58:38Z",
+      "side": 1,
+      "message": "According to the commit message, you need the raw index name(IndexUtils.setReady) to be the name without prefix and version. Here you are just removing the version so if a prefix is configured, you will still have it the indexNameRaw variable.\n\nInstead of trying to extract the raw index name after, move this before line 85 and do:\n\nthis.indexNameRaw \u003d indexName;",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 57
+      },
+      "revId": "f9dd1042ecdeba1b3d9f9f9bbc9e5d8e9558ee65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

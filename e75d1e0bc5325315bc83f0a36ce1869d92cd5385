@@ -19,6 +19,42 @@
     },
     {
       "key": {
+        "uuid": "6dd6092c_40024e2b",
+        "filename": "java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f3a3572_bb1ac9fc",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba82d8c6_764e0d7e",
+        "filename": "java/com/google/gerrit/httpd/rpc/project/ProjectAccessFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f3a3572_bb1ac9fc",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db4d29fe_e54df0a1",
         "filename": "java/com/google/gerrit/server/args4j/ProjectHandler.java",
         "patchSetId": 3
@@ -33,6 +69,24 @@
       "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6abfa293_dd12d8cd",
+        "filename": "java/com/google/gerrit/server/args4j/ProjectHandler.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db4d29fe_e54df0a1",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "7bad7c64_854607c9",
+        "filename": "java/com/google/gerrit/server/project/ChildProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "726bbb8c_dc5c15c7",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2545f0fd_65137ca3",
         "filename": "java/com/google/gerrit/server/project/ChildProjects.java",
         "patchSetId": 3
@@ -67,6 +139,24 @@
       "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bafb2253_846595cb",
+        "filename": "java/com/google/gerrit/server/project/ChildProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "I guess not? It\u0027s using an instance of ProjectCache. Even it\u0027s possible to mark it as static by passing in the project cache instance but in the stream it will be used like \"p -\u003e isReadable(projectCache, p)\" which isn\u0027t better?",
+      "parentUuid": "2545f0fd_65137ca3",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "4feef059_06875598",
+        "filename": "java/com/google/gerrit/server/project/SuggestParentCandidates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b77465a_48d52499",
+      "range": {
+        "startLine": 48,
+        "startChar": 73,
+        "endLine": 48,
+        "endChar": 78
+      },
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ceed7961_062d8401",
         "filename": "java/com/google/gerrit/server/project/SuggestParentCandidates.java",
         "patchSetId": 3
@@ -113,6 +227,30 @@
       "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6940747b_e0bcfe3e",
+        "filename": "java/com/google/gerrit/server/project/SuggestParentCandidates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "\u003e Side comment: I think this is nicer code, but in the end, it also just throws an NPE - just as if you call projectState.statePermitsReade() directly when projectState is null.\n\nYes. Precondition check will still result in NPE but it\u0027s different. I think precondition check has two benefits:\n1- Checking parameters early could prevent unnecessary logic and keep a clean state.\n2- Better error message.\n\nThus we actually have a lot of such precondition checks. \n\n\u003e Should we return false in this case? projectState \u003d\u003d null means the project is not accessible anyway. An argument against that is that we want to surface these cases as HTTP 500s so that we can act on them.\n\nIt depends where the Project.NameKey come from. Cases like here, it\u0027s read from parents(), which is a trustable source. If we fail to read it back, it means some error on the server side, 500 is good. In the other case, we may choose to return 404.\n\nBut I think a better solution here is adding a additional filter check in parents().",
+      "parentUuid": "ceed7961_062d8401",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 16
+      },
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +277,30 @@
     },
     {
       "key": {
+        "uuid": "111a73d4_29704036",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf791a32_fb39b404",
+      "range": {
+        "startLine": 89,
+        "startChar": 34,
+        "endLine": 89,
+        "endChar": 50
+      },
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e72cb1d7_83f04253",
         "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
         "patchSetId": 3
@@ -153,6 +315,24 @@
       "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80fc63d3_a1d65b57",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-03-29T08:15:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e72cb1d7_83f04253",
+      "revId": "e75d1e0bc5325315bc83f0a36ce1869d92cd5385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

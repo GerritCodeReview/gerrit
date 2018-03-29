@@ -22,6 +22,30 @@
       "revId": "db5b37e106d13b9ec3b2725b04f6cd9783f8c359",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c4cba60_36014a87",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-03-29T20:29:55Z",
+      "side": 1,
+      "message": "Good point and idea; I am currently doing so, through a follow-up change.",
+      "parentUuid": "57cdccd6_c1e8098d",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 55
+      },
+      "revId": "db5b37e106d13b9ec3b2725b04f6cd9783f8c359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

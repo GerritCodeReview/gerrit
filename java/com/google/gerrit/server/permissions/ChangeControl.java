@@ -333,6 +333,7 @@ class ChangeControl {
     @Override
     public void check(ChangePermissionOrLabel perm)
         throws AuthException, PermissionBackendException {
+      Util.dumpPermission("ChangePermission." + perm.describeForException(), can(perm));
       if (!can(perm)) {
         throw new AuthException(perm.describeForException() + " not permitted");
       }
@@ -343,6 +344,7 @@ class ChangeControl {
         throws PermissionBackendException {
       Set<T> ok = newSet(permSet);
       for (T perm : permSet) {
+        Util.dumpPermission("ChangePermission." + perm.describeForException(), can(perm));
         if (can(perm)) {
           ok.add(perm);
         }

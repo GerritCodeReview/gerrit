@@ -51,6 +51,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.Util;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.CheckAccess;

@@ -51,6 +51,7 @@ import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RebaseUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.Util;
 import com.google.gerrit.server.restapi.change.ApplyFix;
 import com.google.gerrit.server.restapi.change.CherryPick;
 import com.google.gerrit.server.restapi.change.Comments;
@@ -204,6 +205,8 @@ class RevisionApiImpl implements RevisionApi {
     this.putDescription = putDescription;
     this.getDescription = getDescription;
     this.revision = r;
+
+
   }
 
   @Override

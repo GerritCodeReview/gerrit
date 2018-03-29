@@ -56,6 +56,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.change.WorkInProgressOp;
+import com.google.gerrit.server.permissions.Util;
 import com.google.gerrit.server.restapi.change.Abandon;
 import com.google.gerrit.server.restapi.change.ChangeIncludedIn;
 import com.google.gerrit.server.restapi.change.Check;
@@ -238,6 +239,8 @@ class ChangeApiImpl implements ChangeApi {
     this.pureRevert = pureRevert;
     this.stars = stars;
     this.change = change;
+
+
   }
 
   @Override

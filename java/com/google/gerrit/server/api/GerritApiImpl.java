@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.groups.Groups;
 import com.google.gerrit.extensions.api.plugins.Plugins;
 import com.google.gerrit.extensions.api.projects.Projects;
+import com.google.gerrit.server.permissions.Util;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -51,31 +52,37 @@ class GerritApiImpl implements GerritApi {
 
   @Override
   public Accounts accounts() {
+    Util.newApiCall("AccountApi");
     return accounts;
   }
 
   @Override
   public Changes changes() {
+    Util.newApiCall("ChangeApi");
     return changes;
   }
 
   @Override
   public Config config() {
+    Util.newApiCall("ConfigApi");
     return config;
   }
 
   @Override
   public Groups groups() {
+    Util.newApiCall("GroupApi");
     return groups;
   }
 
   @Override
   public Projects projects() {
+    Util.newApiCall("ProjectApi");
     return projects;
   }
 
   @Override
   public Plugins plugins() {
+    Util.newApiCall("PluginApi");
     return plugins;
   }
 }

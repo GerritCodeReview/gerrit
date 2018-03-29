@@ -46,6 +46,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GpgApiAdapter;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.permissions.Util;
 import com.google.gerrit.server.restapi.account.AddSshKey;
 import com.google.gerrit.server.restapi.account.CreateEmail;
 import com.google.gerrit.server.restapi.account.DeleteActive;

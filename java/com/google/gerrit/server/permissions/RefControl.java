@@ -454,6 +454,7 @@ class RefControl {
 
     @Override
     public void check(RefPermission perm) throws AuthException, PermissionBackendException {
+      Util.dumpPermission("RefPermission." + perm.describeForException(), can(perm));
       if (!can(perm)) {
         throw new AuthException(perm.describeForException() + " not permitted for " + refName);
       }
@@ -464,6 +465,7 @@ class RefControl {
         throws PermissionBackendException {
       EnumSet<RefPermission> ok = EnumSet.noneOf(RefPermission.class);
       for (RefPermission perm : permSet) {
+        Util.dumpPermission("RefPermission." + perm.describeForException(), can(perm));
         if (can(perm)) {
           ok.add(perm);
         }

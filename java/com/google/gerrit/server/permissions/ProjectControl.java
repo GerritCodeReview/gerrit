@@ -371,6 +371,7 @@ class ProjectControl {
 
     @Override
     public void check(ProjectPermission perm) throws AuthException, PermissionBackendException {
+      Util.dumpPermission("ProjectPermission." + perm.describeForException(), can(perm));
       if (!can(perm)) {
         throw new AuthException(perm.describeForException() + " not permitted");
       }
@@ -381,6 +382,7 @@ class ProjectControl {
         throws PermissionBackendException {
       EnumSet<ProjectPermission> ok = EnumSet.noneOf(ProjectPermission.class);
       for (ProjectPermission perm : permSet) {
+        Util.dumpPermission("ProjectPermission." + perm.describeForException(), can(perm));
         if (can(perm)) {
           ok.add(perm);
         }

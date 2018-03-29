@@ -15,6 +15,7 @@
 package com.google.gerrit.client.admin;
 
 import static com.google.gerrit.client.ui.Util.highlight;
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 
 import com.google.gerrit.client.ConfirmationCallback;
 import com.google.gerrit.client.ConfirmationDialog;
@@ -39,7 +40,6 @@ import com.google.gerrit.client.ui.OnEditEnabler;
 import com.google.gerrit.client.ui.PagingHyperlink;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -460,7 +460,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       final FlexCellFormatter fmt = table.getFlexCellFormatter();
       String iconCellStyle = Gerrit.RESOURCES.css().iconCell();
       String dataCellStyle = Gerrit.RESOURCES.css().dataCell();
-      if (RefNames.REFS_CONFIG.equals(k.getShortName()) || "HEAD".equals(k.getShortName())) {
+      if (isConfigRef(k.getShortName()) || "HEAD".equals(k.getShortName())) {
         iconCellStyle = Gerrit.RESOURCES.css().specialBranchIconCell();
         dataCellStyle = Gerrit.RESOURCES.css().specialBranchDataCell();
         fmt.setStyleName(row, 0, iconCellStyle);

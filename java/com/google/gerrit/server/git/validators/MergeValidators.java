@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git.validators;
 
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
+
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
@@ -149,7 +151,7 @@ public class MergeValidators {
         final PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
-      if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
+      if (isConfigRef(destBranch.get())) {
         final Project.NameKey newParent;
         try {
           ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());

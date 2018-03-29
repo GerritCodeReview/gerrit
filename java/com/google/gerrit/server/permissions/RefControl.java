@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
@@ -109,7 +110,7 @@ class RefControl {
 
   /** @return true if this user can submit patch sets to this ref */
   boolean canSubmit(boolean isChangeOwner) {
-    if (RefNames.REFS_CONFIG.equals(refName)) {
+    if (isConfigRef(refName)) {
       // Always allow project owners to submit configuration changes.
       // Submitting configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -158,7 +159,7 @@ class RefControl {
 
   /** @return true if the user can update the reference as a fast-forward. */
   private boolean canUpdate() {
-    if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
+    if (isConfigRef(refName) && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens
@@ -196,7 +197,7 @@ class RefControl {
   }
 
   private boolean canPushWithForce() {
-    if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
+    if (isConfigRef(refName) && !projectControl.isOwner()) {
       // Pushing requires being at least project owner, in addition to push.
       // Pushing configuration changes modifies the access control
       // rules. Allowing this to be done by a non-project-owner opens

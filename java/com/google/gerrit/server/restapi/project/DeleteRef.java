@@ -23,6 +23,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -219,6 +220,11 @@ public class DeleteRef {
       return command;
     }
     command = new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName());
+
+    if (RefNames.isMetaConfigRef(refName)) {
+      // Never allows to delete the meta config branch.
+      command.setResult(Result.REJECTED_OTHER_REASON, "not allowed to delete branch " + refName);
+    }
 
     try {
       permissionBackend

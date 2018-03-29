@@ -1179,6 +1179,11 @@ class ReceiveCommits {
   }
 
   private boolean canDelete(ReceiveCommand cmd) throws PermissionBackendException {
+    if (RefNames.isMetaConfigRef(cmd.getRefName())) {
+      // Never allows to delete the meta config branch.
+      return false;
+    }
+
     try {
       permissions.ref(cmd.getRefName()).check(RefPermission.DELETE);
       return projectState.statePermitsWrite();

@@ -17,10 +17,12 @@ package com.google.gerrit.server.restapi.project;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -52,6 +54,11 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
   @Override
   public Response<?> apply(BranchResource rsrc, Input input)
       throws RestApiException, OrmException, IOException, PermissionBackendException {
+    if (RefNames.isConfigRef(rsrc.getBranchKey().get())) {
+      // Never allows to delete the meta config branch.
+      throw new AuthException("not allowed to delete branch " + rsrc.getBranchKey().get());
+    }
+
     permissionBackend.currentUser().ref(rsrc.getBranchKey()).check(RefPermission.DELETE);
     rsrc.getProjectState().checkStatePermitsWrite();
 

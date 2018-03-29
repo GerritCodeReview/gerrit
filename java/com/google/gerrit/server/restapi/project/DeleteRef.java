@@ -23,6 +23,7 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -220,16 +221,21 @@ public class DeleteRef {
     }
     command = new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName());
 
-    try {
-      permissionBackend
-          .currentUser()
-          .project(project.getNameKey())
-          .ref(refName)
-          .check(RefPermission.DELETE);
-    } catch (AuthException denied) {
-      command.setResult(
-          Result.REJECTED_OTHER_REASON,
-          "it doesn't exist or you do not have permission to delete it");
+    if (RefNames.isConfigRef(refName)) {
+      // Never allows to delete the meta config branch.
+      command.setResult(Result.REJECTED_OTHER_REASON, "not allowed to delete branch " + refName);
+    } else {
+      try {
+        permissionBackend
+            .currentUser()
+            .project(project.getNameKey())
+            .ref(refName)
+            .check(RefPermission.DELETE);
+      } catch (AuthException denied) {
+        command.setResult(
+            Result.REJECTED_OTHER_REASON,
+            "it doesn't exist or you do not have permission to delete it");
+      }
     }
 
     if (!project.getProjectState().statePermitsWrite()) {

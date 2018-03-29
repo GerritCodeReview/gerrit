@@ -15,9 +15,11 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -44,6 +46,12 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
   public Response<?> apply(TagResource resource, Input input)
       throws OrmException, RestApiException, IOException, PermissionBackendException {
     String tag = RefUtil.normalizeTagRef(resource.getTagInfo().ref);
+
+    if (RefNames.isConfigRef(tag)) {
+      // Never allows to delete the meta config branch.
+      throw new AuthException("not allowed to delete " + tag);
+    }
+
     permissionBackend
         .currentUser()
         .project(resource.getNameKey())

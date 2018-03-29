@@ -178,11 +178,17 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         BranchInfo info = new BranchInfo();
         info.ref = ref;
         info.revision = revid.getName();
-        info.canDelete =
-            permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
-                    && rsrc.getProjectState().statePermitsWrite()
-                ? true
-                : null;
+
+        if (RefNames.isConfigRef(name.get())) {
+          // Never allows to delete the meta config branch.
+          info.canDelete = null;
+        } else {
+          info.canDelete =
+              permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
+                      && rsrc.getProjectState().statePermitsWrite()
+                  ? true
+                  : null;
+        }
         return info;
       } catch (IOException err) {
         log.error("Cannot create branch \"" + name + "\"", err);

@@ -22,6 +22,13 @@ import java.util.Optional;
 public enum RefPermission {
   READ(Permission.READ),
   CREATE(Permission.CREATE),
+
+  // Before checking this permission, the caller needs to verify the branch is deletable and reject
+  // early if the branch should never be deleted.
+  //
+  // For example, the refs/meta/config branch should never be deleted because deleting this branch
+  // would destroy all Gerrit specific metadata about the project, including its access rules. If a
+  // project is to be removed from Gerrit, its repository should be removed first.
   DELETE(Permission.DELETE),
   UPDATE(Permission.PUSH),
   FORCE_UPDATE,

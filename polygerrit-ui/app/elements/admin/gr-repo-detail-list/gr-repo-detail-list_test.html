@@ -305,10 +305,39 @@ limitations under the License.
           offset: 25,
         };
         element._paramsChanged(params).then(() => {
-          assert.isTrue(element.$.restAPI.getRepoBranches.lastCall
-              .calledWithExactly('test', 'test', 25, 25));
+          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[0],
+              'test');
+          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[1],
+              'test');
+          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[2],
+              25);
+          assert.equal(element.$.restAPI.getRepoBranches.lastCall.args[3],
+              25);
           done();
         });
+      });
+    });
+
+    suite('404', () => {
+      test('fires page-error', done => {
+        const response = {status: 404};
+        sandbox.stub(element.$.restAPI, 'getRepoBranches',
+            (filter, repo, reposBranchesPerPage, opt_offset, errFn) => {
+              errFn(response);
+            });
+
+        element.addEventListener('page-error', e => {
+          assert.deepEqual(e.detail.response, response);
+          done();
+        });
+
+        const params = {
+          detail: 'branches',
+          repo: 'test',
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(params);
       });
     });
   });
@@ -459,8 +488,14 @@ limitations under the License.
           offset: 25,
         };
         element._paramsChanged(params).then(() => {
-          assert.isTrue(element.$.restAPI.getRepoTags.lastCall
-              .calledWithExactly('test', 'test', 25, 25));
+          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[0],
+              'test');
+          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[1],
+              'test');
+          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[2],
+              25);
+          assert.equal(element.$.restAPI.getRepoTags.lastCall.args[3],
+              25);
           done();
         });
       });
@@ -489,6 +524,29 @@ limitations under the License.
         sandbox.stub(element, '_handleCloseCreate');
         element.$.createDialog.fire('cancel');
         assert.isTrue(element._handleCloseCreate.called);
+      });
+    });
+
+    suite('404', () => {
+      test('fires page-error', done => {
+        const response = {status: 404};
+        sandbox.stub(element.$.restAPI, 'getRepoTags',
+            (filter, repo, reposTagsPerPage, opt_offset, errFn) => {
+              errFn(response);
+            });
+
+        element.addEventListener('page-error', e => {
+          assert.deepEqual(e.detail.response, response);
+          done();
+        });
+
+        const params = {
+          repo: 'test',
+          detail: 'tags',
+          filter: 'test',
+          offset: 25,
+        };
+        element._paramsChanged(params);
       });
     });
   });

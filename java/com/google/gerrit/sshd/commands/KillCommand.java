@@ -20,6 +20,7 @@ import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.TaskResource;
@@ -51,7 +52,10 @@ final class KillCommand extends SshCommand {
       try {
         TaskResource taskRsrc = tasksCollection.parse(cfgRsrc, IdString.fromDecoded(id));
         deleteTask.apply(taskRsrc, null);
-      } catch (AuthException | ResourceNotFoundException | PermissionBackendException e) {
+      } catch (AuthException
+          | ResourceNotFoundException
+          | ResourceConflictException
+          | PermissionBackendException e) {
         stderr.print("kill: " + id + ": No such task\n");
       }
     }

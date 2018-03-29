@@ -44,17 +44,17 @@ public class SuggestParentCandidates {
   public List<Project.NameKey> getNameKeys() throws PermissionBackendException {
     return permissionBackend
         .currentUser()
-        .filter(ProjectPermission.ACCESS, parents())
+        .filter(ProjectPermission.ACCESS, readableParents())
         .stream()
         .sorted()
         .collect(toList());
   }
 
-  private Set<Project.NameKey> parents() {
+  private Set<Project.NameKey> readableParents() {
     Set<Project.NameKey> parents = new HashSet<>();
     for (Project.NameKey p : projectCache.all()) {
       ProjectState ps = projectCache.get(p);
-      if (ps != null) {
+      if (ps != null && ps.statePermitsRead()) {
         Project.NameKey parent = ps.getProject().getParent();
         if (parent != null) {
           parents.add(parent);

@@ -184,7 +184,7 @@ public class GitOverHttpServlet extends GitServlet {
       try {
         Project.NameKey nameKey = new Project.NameKey(projectName);
         ProjectState state = projectCache.checkedGet(nameKey);
-        if (state == null) {
+        if (state == null || !state.statePermitsRead()) {
           throw new RepositoryNotFoundException(nameKey.get());
         }
         req.setAttribute(ATT_STATE, state);

@@ -517,7 +517,6 @@ public class ChangeField {
   /** Number of unresolved comments of the change. */
   public static final FieldDef<ChangeData, Integer> UNRESOLVED_COMMENT_COUNT =
       intRange(ChangeQueryBuilder.FIELD_UNRESOLVED_COMMENT_COUNT)
-          .stored()
           .build(ChangeData::unresolvedCommentCount);
 
   /** Whether the change is mergeable. */
@@ -536,13 +535,11 @@ public class ChangeField {
   /** The number of inserted lines in this change. */
   public static final FieldDef<ChangeData, Integer> ADDED =
       intRange(ChangeQueryBuilder.FIELD_ADDED)
-          .stored()
           .build(cd -> cd.changedLines().isPresent() ? cd.changedLines().get().insertions : null);
 
   /** The number of deleted lines in this change. */
   public static final FieldDef<ChangeData, Integer> DELETED =
       intRange(ChangeQueryBuilder.FIELD_DELETED)
-          .stored()
           .build(cd -> cd.changedLines().isPresent() ? cd.changedLines().get().deletions : null);
 
   /** The total number of modified lines in this change. */

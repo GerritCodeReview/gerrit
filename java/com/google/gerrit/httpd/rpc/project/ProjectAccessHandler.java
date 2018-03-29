@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.common.errors.NoSuchGroupException;
-import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.common.errors.UpdateParentFailedException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -109,13 +108,9 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   @Override
   public final T call()
       throws NoSuchProjectException, IOException, ConfigInvalidException, InvalidNameException,
-          NoSuchGroupException, OrmException, UpdateParentFailedException,
-          PermissionDeniedException, PermissionBackendException, ResourceConflictException {
-    try {
-      contributorAgreements.check(projectName, user);
-    } catch (AuthException e) {
-      throw new PermissionDeniedException(e.getMessage());
-    }
+          NoSuchGroupException, OrmException, UpdateParentFailedException, AuthException,
+          PermissionBackendException, ResourceConflictException {
+    contributorAgreements.check(projectName, user);
 
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
       ProjectConfig config = ProjectConfig.read(md, base);
@@ -195,7 +190,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
   protected abstract T updateProjectConfig(
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, NoSuchProjectException, ConfigInvalidException, OrmException,
-          PermissionDeniedException, PermissionBackendException, ResourceConflictException;
+          AuthException, PermissionBackendException, ResourceConflictException;
 
   private void replace(ProjectConfig config, Set<String> toDelete, AccessSection section)
       throws NoSuchGroupException {

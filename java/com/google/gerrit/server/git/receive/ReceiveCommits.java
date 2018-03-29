@@ -2799,6 +2799,11 @@ class ReceiveCommits {
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
         && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {
       try {
+        if (projectState.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
+          throw new AuthException(
+              "requireSignedOffBy prevents option " + PUSH_OPTION_SKIP_VALIDATION);
+        }
+
         perm.check(RefPermission.SKIP_VALIDATION);
         if (!Iterables.isEmpty(rejectCommits)) {
           throw new AuthException("reject-commits prevents " + PUSH_OPTION_SKIP_VALIDATION);

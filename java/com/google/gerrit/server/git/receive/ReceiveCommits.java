@@ -1135,7 +1135,7 @@ class ReceiveCommits {
       validateNewCommits(new Branch.NameKey(project.getNameKey(), cmd.getRefName()), cmd);
       actualCommands.add(cmd);
     } else {
-      if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
+      if (isConfigRef(cmd.getRefName())) {
         errors.put(ReceiveError.CONFIG_UPDATE, RefNames.REFS_CONFIG);
       } else {
         errors.put(ReceiveError.UPDATE, cmd.getRefName());
@@ -1171,7 +1171,7 @@ class ReceiveCommits {
         return;
       }
       actualCommands.add(cmd);
-    } else if (RefNames.REFS_CONFIG.equals(cmd.getRefName())) {
+    } else if (isConfigRef(cmd.getRefName())) {
       reject(cmd, "cannot delete project configuration");
     } else {
       errors.put(ReceiveError.DELETE, cmd.getRefName());
@@ -2800,7 +2800,7 @@ class ReceiveCommits {
   private void validateNewCommits(Branch.NameKey branch, ReceiveCommand cmd)
       throws PermissionBackendException {
     PermissionBackend.ForRef perm = permissions.ref(branch.get());
-    if (!RefNames.REFS_CONFIG.equals(cmd.getRefName())
+    if (!isConfigRef(cmd.getRefName())
         && !(MagicBranch.isMagicBranch(cmd.getRefName())
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
         && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {

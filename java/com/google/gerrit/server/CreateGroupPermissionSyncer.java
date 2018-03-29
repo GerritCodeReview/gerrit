@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Sets;
@@ -129,7 +130,7 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
   @Override
   public void onChangeMerged(Event event) {
     if (!allProjects.get().equals(event.getChange().project)
-        || !RefNames.REFS_CONFIG.equals(event.getChange().branch)) {
+        || !isConfigRef(event.getChange().branch)) {
       return;
     }
     try {

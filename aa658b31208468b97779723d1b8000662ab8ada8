@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "69c4c778_f1a5e16d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-29T17:51:54Z",
+      "side": 1,
+      "message": "Thanks- definitely a bug. Fixed and added some tests.\n\nIt looks like projects get an inheritance by default (other than all projects). So, in that case, it will be shown both when in and out of \u0027edit mode\u0027.  In the case when there is no inheritance (All-Projects), inheritance will be hidden both in and out of edit mode.",
+      "parentUuid": "c73af31b_adad6dd7",
+      "revId": "aa658b31208468b97779723d1b8000662ab8ada8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2c9624e_bbd01e27",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.html",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2018-03-28T18:26:07Z",
       "side": 1,
       "message": "Not a blocking issue, but this pair of lines is very confusing to read.\n\nIt\u0027s also possible to do this without the use of `:not(..)`, but I don\u0027t foresee an issue.",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 39,
+        "endChar": 14
+      },
+      "revId": "aa658b31208468b97779723d1b8000662ab8ada8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a547968a_7bf18e70",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-03-29T17:51:54Z",
+      "side": 1,
+      "message": "changed #loading to #loadingText to hopefully make this less confusing. Also removed the :not because it\u0027s unneeded due to l.54.",
+      "parentUuid": "e2c9624e_bbd01e27",
       "range": {
         "startLine": 38,
         "startChar": 6,

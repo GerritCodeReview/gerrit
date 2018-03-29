@@ -23,9 +23,11 @@ import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -48,15 +50,18 @@ public class DefaultPermissionBackend extends PermissionBackend {
   private final Provider<CurrentUser> currentUser;
   private final ProjectCache projectCache;
   private final ProjectControl.Factory projectControlFactory;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
   DefaultPermissionBackend(
       Provider<CurrentUser> currentUser,
       ProjectCache projectCache,
-      ProjectControl.Factory projectControlFactory) {
+      ProjectControl.Factory projectControlFactory,
+      IdentifiedUser.GenericFactory identifiedUserFactory) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.projectControlFactory = projectControlFactory;
+    this.identifiedUserFactory = identifiedUserFactory;
   }
 
   private CapabilityCollection capabilities() {
@@ -71,6 +76,12 @@ public class DefaultPermissionBackend extends PermissionBackend {
   @Override
   public WithUser user(CurrentUser user) {
     return new WithUserImpl(checkNotNull(user, "user"));
+  }
+
+  @Override
+  public WithUser absentUser(Account.Id user) {
+    IdentifiedUser identifiedUser = identifiedUserFactory.create(checkNotNull(user, "user"));
+    return new WithUserImpl(identifiedUser);
   }
 
   class WithUserImpl extends WithUser {

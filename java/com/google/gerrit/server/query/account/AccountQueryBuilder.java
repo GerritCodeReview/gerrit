@@ -63,7 +63,6 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public static class Arguments {
     final Provider<ReviewDb> db;
     final ChangeFinder changeFinder;
-    final IdentifiedUser.GenericFactory userFactory;
     final PermissionBackend permissionBackend;
 
     private final Provider<CurrentUser> self;
@@ -75,13 +74,11 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
         AccountIndexCollection indexes,
         Provider<ReviewDb> db,
         ChangeFinder changeFinder,
-        IdentifiedUser.GenericFactory userFactory,
         PermissionBackend permissionBackend) {
       this.self = self;
       this.indexes = indexes;
       this.db = db;
       this.changeFinder = changeFinder;
-      this.userFactory = userFactory;
       this.permissionBackend = permissionBackend;
     }
 

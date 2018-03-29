@@ -39,6 +39,8 @@ import org.slf4j.LoggerFactory;
 public class RefUtil {
   private static final Logger log = LoggerFactory.getLogger(RefUtil.class);
 
+  private RefUtil() {}
+
   public static ObjectId parseBaseRevision(
       Repository repo, Project.NameKey projectName, String baseRevision)
       throws InvalidRevisionException {

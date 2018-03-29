@@ -191,6 +191,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   @Option(
+    name = "--state",
+    aliases = {"-s"},
+    usage = "filter by project state"
+  )
+  public void setState(com.google.gerrit.extensions.client.ProjectState state) {
+    this.state = state;
+  }
+
+  @Option(
     name = "--limit",
     aliases = {"-n"},
     metaVar = "CNT",
@@ -249,6 +258,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private FilterType type = FilterType.ALL;
   private boolean showDescription;
   private boolean all;
+  private com.google.gerrit.extensions.client.ProjectState state;
   private int limit;
   private int start;
   private String matchPrefix;
@@ -318,6 +328,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   public SortedMap<String, ProjectInfo> display(@Nullable OutputStream displayOutputStream)
       throws BadRequestException, PermissionBackendException {
+    if (all && state != null) {
+      throw new BadRequestException("'all' and 'state' may not be used together");
+    }
     if (groupUuid != null) {
       try {
         if (!groupControlFactory.controlFor(groupUuid).isVisible()) {
@@ -349,9 +362,14 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     try {
       for (Project.NameKey projectName : filter(perm)) {
         final ProjectState e = projectCache.get(projectName);
-        if (e == null || (!all && e.getProject().getState() == HIDDEN)) {
-          // If we can't get it from the cache, pretend its not present.
-          // If all wasn't selected, and its HIDDEN, pretend its not present.
+        if (e == null || (e.getProject().getState() == HIDDEN && !all && state != HIDDEN)) {
+          // If we can't get it from the cache, pretend it's not present.
+          // If all wasn't selected, and it's HIDDEN, pretend it's not present.
+          // If state HIDDEN wasn't selected, and it's HIDDEN, pretend it's not present.
+          continue;
+        }
+
+        if (state != null && e.getProject().getState() != state) {
           continue;
         }
 

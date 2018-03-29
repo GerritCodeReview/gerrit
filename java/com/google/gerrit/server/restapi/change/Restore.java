@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+import static com.google.gerrit.server.PatchSetUtil.isPatchSetLocked;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
@@ -67,6 +68,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   private final PatchSetUtil psUtil;
   private final ChangeRestored changeRestored;
   private final ProjectCache projectCache;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   Restore(
@@ -77,7 +79,8 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       PatchSetUtil psUtil,
       RetryHelper retryHelper,
       ChangeRestored changeRestored,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ApprovalsUtil approvalsUtil) {
     super(retryHelper);
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
@@ -86,21 +89,29 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     this.psUtil = psUtil;
     this.changeRestored = changeRestored;
     this.projectCache = projectCache;
+    this.approvalsUtil = approvalsUtil;
   }
 
   @Override
   protected ChangeInfo applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource req, RestoreInput input)
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, RestoreInput input)
       throws RestApiException, UpdateException, OrmException, PermissionBackendException,
           IOException {
-    req.permissions().database(dbProvider).check(ChangePermission.RESTORE);
-    projectCache.checkedGet(req.getProject()).checkStatePermitsWrite();
+    // Not allowed to restore if the current patch set is locked.
+    if (isPatchSetLocked(
+        approvalsUtil, projectCache, dbProvider.get(), rsrc.getNotes(), rsrc.getUser())) {
+      throw new ResourceConflictException(
+          String.format("The current patch set of change %s is locked", rsrc.getId()));
+    }
+
+    rsrc.permissions().database(dbProvider).check(ChangePermission.RESTORE);
+    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     Op op = new Op(input);
     try (BatchUpdate u =
         updateFactory.create(
-            dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {
-      u.addOp(req.getId(), op).execute();
+            dbProvider.get(), rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
+      u.addOp(rsrc.getId(), op).execute();
     }
     return json.noOptions().format(op.change);
   }
@@ -161,18 +172,40 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
 
   @Override
   public UiAction.Description getDescription(ChangeResource rsrc) {
-    boolean projectStatePermitsWrite = false;
+    UiAction.Description description =
+        new UiAction.Description()
+            .setLabel("Restore")
+            .setTitle("Restore the change")
+            .setVisible(false);
+
+    Change change = rsrc.getChange();
+    if (change.getStatus() != Status.ABANDONED) {
+      return description;
+    }
+
     try {
-      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
+      if (!projectCache.checkedGet(rsrc.getProject()).statePermitsWrite()) {
+        return description;
+      }
     } catch (IOException e) {
       log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+      return description;
     }
-    return new UiAction.Description()
-        .setLabel("Restore")
-        .setTitle("Restore the change")
-        .setVisible(
-            and(
-                rsrc.getChange().getStatus() == Status.ABANDONED && projectStatePermitsWrite,
-                rsrc.permissions().database(dbProvider).testCond(ChangePermission.RESTORE)));
+
+    try {
+      if (isPatchSetLocked(
+          approvalsUtil, projectCache, dbProvider.get(), rsrc.getNotes(), rsrc.getUser())) {
+        return description;
+      }
+    } catch (OrmException | IOException e) {
+      log.error(
+          String.format(
+              "Failed to check if the current patch set of change %s is locked", change.getId()),
+          e);
+      return description;
+    }
+
+    boolean visible = rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.RESTORE);
+    return description.setVisible(visible);
   }
 }

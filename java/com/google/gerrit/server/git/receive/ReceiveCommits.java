@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static com.google.gerrit.server.PatchSetUtil.isPatchSetLocked;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.COMMAND_REJECTION_MESSAGE_FOOTER;
@@ -342,6 +343,7 @@ class ReceiveCommits {
   private final SshInfo sshInfo;
   private final SubmoduleOp.Factory subOpFactory;
   private final TagCache tagCache;
+  private final ApprovalsUtil approvalsUtil;
   private final String canonicalWebUrl;
 
   // Assisted injected fields.
@@ -434,6 +436,7 @@ class ReceiveCommits {
       SshInfo sshInfo,
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
+      ApprovalsUtil approvalsUtil,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -477,6 +480,7 @@ class ReceiveCommits {
     this.sshInfo = sshInfo;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
+    this.approvalsUtil = approvalsUtil;
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
@@ -2448,6 +2452,13 @@ class ReceiveCommits {
 
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+
+      // Not allowed to create a new patch set if the current patch set is locked.
+      if (isPatchSetLocked(approvalsUtil, projectCache, db, notes, user)) {
+        reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
+        return false;
+      }
+
       try {
         permissions.change(notes).database(db).check(ChangePermission.ADD_PATCH_SET);
       } catch (AuthException no) {

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8dd3928_064ffaa2",
+        "filename": "Documentation/pg-plugin-admin-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-03-30T22:44:01Z",
+      "side": 1,
+      "message": "to -\u003e of the",
+      "range": {
+        "startLine": 4,
+        "startChar": 27,
+        "endLine": 4,
+        "endChar": 29
+      },
+      "revId": "936f4da2190f62e43e0ced2ade3a3b949030ab44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccddf846_4904345c",
+        "filename": "Documentation/pg-plugin-admin-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-03-30T22:44:01Z",
+      "side": 1,
+      "message": "Would be good to describe the consequences here, like the sort of bug you\u0027ll get if you get it wrong.\n\nHow hard would it be to accurately guess what the value should be if it\u0027s not given?",
+      "revId": "936f4da2190f62e43e0ced2ade3a3b949030ab44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

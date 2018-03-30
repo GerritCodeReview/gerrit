@@ -243,6 +243,17 @@ limitations under the License.
       });
     });
 
+    suite('test url', () => {
+      test('_getUrl', () => {
+        sandbox.stub(Gerrit.Nav, 'getUrlForUserDashboard',
+            () => '/r/dashboard/test');
+
+        assert.equal(element._getUrl('/dashboard/test'), '/r/dashboard/test');
+
+        assert.equal(element._getUrl(undefined), '');
+      });
+    });
+
     suite('404', () => {
       test('fires page-error', done => {
         const response = {status: 404};

@@ -188,6 +188,15 @@ Note: TODO
 Plugin instance provides access to number of more specific APIs and methods
 to be used by plugin authors.
 
+=== admin
+`plugin.admin()`
+
+.Params:
+- none
+
+.Returns:
+- Instance of link:pg-plugin-admin-api.html[GrAdminApi].
+
 === changeReply
 `plugin.changeReply()`
 

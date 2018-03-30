@@ -27,6 +27,7 @@
     REVERT: 'revert',
     POST_REVERT: 'postrevert',
     ANNOTATE_DIFF: 'annotatediff',
+    ADMIN_MENU_LINKS: 'admin-menu-links',
   };
 
   const Element = {
@@ -210,6 +211,15 @@
         }
       }
       return layers;
+    },
+
+    getAdminMenuLinks() {
+      const links = [];
+      for (const adminApi of
+          this._getEventCallbacks(EventType.ADMIN_MENU_LINKS)) {
+        links.push(...adminApi.getMenuLinks());
+      }
+      return links;
     },
 
     getLabelValuesPostRevert(change) {

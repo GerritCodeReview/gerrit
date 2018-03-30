@@ -10,26 +10,32 @@ fnCompiledRegex = re.compile(removeSelfInvokeRegex, re.DOTALL)
 regexBehavior = r"<script>(.+)<\/script>"
 behaviorCompiledRegex = re.compile(regexBehavior, re.DOTALL)
 
+def _open(filename, mode="r"):
+  try:
+    return open(filename, mode, encoding="utf-8")
+  except TypeError:
+    return open(filename, mode)
+
 def replaceBehaviorLikeHTML (fileIn, fileOut):
-  with open(fileIn) as f:
+  with _open(fileIn) as f:
     file_str = f.read()
     match = behaviorCompiledRegex.search(file_str)
     if (match):
-      with open("polygerrit-ui/temp/behaviors/" + fileOut.replace("html", "js") , "w+") as f:
+      with _open("polygerrit-ui/temp/behaviors/" + fileOut.replace("html", "js") , "w+") as f:
         f.write(match.group(1))
 
 def replaceBehaviorLikeJS (fileIn, fileOut):
-  with open(fileIn) as f:
+  with _open(fileIn) as f:
     file_str = f.read()
-    with open("polygerrit-ui/temp/behaviors/" + fileOut , "w+") as f:
+    with _open("polygerrit-ui/temp/behaviors/" + fileOut , "w+") as f:
       f.write(file_str)
 
 def generateStubBehavior(behaviorName):
-  with open("polygerrit-ui/temp/behaviors/" + behaviorName + ".js", "w+") as f:
+  with _open("polygerrit-ui/temp/behaviors/" + behaviorName + ".js", "w+") as f:
     f.write("/** @polymerBehavior **/\n" + behaviorName + "= {};")
 
 def replacePolymerElement (fileIn, fileOut, root):
-  with open(fileIn) as f:
+  with _open(fileIn) as f:
     key = fileOut.split('.')[0]
     # Removed self invoked function
     file_str = f.read()
@@ -38,7 +44,7 @@ def replacePolymerElement (fileIn, fileOut, root):
     if file_str_no_fn:
       package = root.replace("/", ".") + "." + fileOut
 
-      with open("polygerrit-ui/temp/" + fileOut, "w+") as f:
+      with _open("polygerrit-ui/temp/" + fileOut, "w+") as f:
         mainFileContents = re.sub(polymerCompiledRegex, "exports = Polymer({", file_str_no_fn.group(1)).replace("'use strict';", "")
         f.write("/** \n" \
           "* @fileoverview \n" \
@@ -95,7 +101,7 @@ if __name__ == "__main__":
 
   #TODO figure out something to do with iron-overlay-behavior. it is hard-coded reformatted.
 
-  with open("polygerrit-ui/temp/map.json", "w+") as f:
+  with _open("polygerrit-ui/temp/map.json", "w+") as f:
     f.write(json.dumps(elements))
 
   for root, dirs, files in os.walk("polygerrit-ui/app/behaviors"):

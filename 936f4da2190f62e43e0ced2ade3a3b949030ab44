@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb8bbf0b_135b5dce",
+        "filename": "Documentation/pg-plugin-admin-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-30T23:51:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8dd3928_064ffaa2",
+      "range": {
+        "startLine": 4,
+        "startChar": 27,
+        "endLine": 4,
+        "endChar": 29
+      },
+      "revId": "936f4da2190f62e43e0ced2ade3a3b949030ab44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ccddf846_4904345c",
         "filename": "Documentation/pg-plugin-admin-api.txt",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "936f4da2190f62e43e0ced2ade3a3b949030ab44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b552401f_d349a49a",
+        "filename": "Documentation/pg-plugin-admin-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-03-30T23:51:10Z",
+      "side": 1,
+      "message": "\u003e How hard would it be to accurately guess what the value should be if it\u0027s not given?\n\nSince you mention it, it\u0027d all be much simpler to check for whether the first character is a /. Done.",
+      "parentUuid": "ccddf846_4904345c",
+      "revId": "936f4da2190f62e43e0ced2ade3a3b949030ab44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

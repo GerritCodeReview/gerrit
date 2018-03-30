@@ -102,9 +102,13 @@
     },
 
     reload() {
-      return this.$.restAPI.getAccount().then(account => {
-        this._account = account;
-        if (!account) {
+      const promises = [
+        this.$.restAPI.getAccount(),
+        Gerrit.awaitPluginsLoaded(),
+      ];
+      return Promise.all(promises).then(result => {
+        this._account = result[0];
+        if (!this._account) {
           // Return so that  account capabilities don't load with no account.
           return this._filteredLinks = this._filterLinks(link => {
             return link.viewableToAll;
@@ -115,7 +119,20 @@
     },
 
     _filterLinks(filterFn) {
-      const links = ADMIN_LINKS.filter(filterFn);
+      let links = ADMIN_LINKS.slice(0);
+
+      // Append top-level links that are defined by plugins.
+      links.push(...this.$.jsAPI.getAdminMenuLinks().map(link => ({
+        url: link.url,
+        name: link.text,
+        children: [],
+        noBaseUrl: !link.external,
+        view: null,
+        viewableToAll: true,
+      })));
+
+      links = links.filter(filterFn);
+
       const filteredLinks = [];
       for (const link of links) {
         const linkCopy = Object.assign({}, link);
@@ -184,6 +201,7 @@
             );
           }
         }
+
         filteredLinks.push(linkCopy);
       }
       return filteredLinks;

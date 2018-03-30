@@ -378,6 +378,20 @@ limitations under the License.
       assert.notStrictEqual(plugin.install, plugin.deprecated.install);
     });
 
+    test('getAdminMenuLinks', () => {
+      const links = [{text: 'a', url: 'b'}, {text: 'c', url: 'd'}];
+      const getCallbacksStub = sandbox.stub(element, '_getEventCallbacks')
+          .returns([
+            {getMenuLinks: () => [links[0]]},
+            {getMenuLinks: () => [links[1]]},
+          ]);
+      const result = element.getAdminMenuLinks();
+      assert.deepEqual(result, links);
+      assert.isTrue(getCallbacksStub.calledOnce);
+      assert.equal(getCallbacksStub.lastCall.args[0],
+          element.EventType.ADMIN_MENU_LINKS);
+    });
+
     suite('test plugin with base url', () => {
       setup(() => {
         sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');

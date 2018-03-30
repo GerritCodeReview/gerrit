@@ -68,7 +68,6 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   }
 
   static final String GROUPS = "groups";
-  static final String GROUPS_PREFIX = GROUPS + "_";
 
   private static final Logger log = LoggerFactory.getLogger(ElasticGroupIndex.class);
 
@@ -82,7 +81,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
       Provider<GroupCache> groupCache,
       JestClientBuilder clientBuilder,
       @Assisted Schema<InternalGroup> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, GROUPS_PREFIX);
+    super(cfg, sitePaths, schema, clientBuilder, GROUPS);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
   }

@@ -62,7 +62,7 @@ class InitIndex implements InitStep {
 
     if (type == IndexType.ELASTICSEARCH) {
       Section elasticsearch = sections.get("elasticsearch", null);
-      elasticsearch.string("Index Prefix", "prefix", "gerrit");
+      elasticsearch.string("Index Prefix", "prefix", "gerrit_");
       String name = ui.readString("default", "Server Name");
 
       Section defaultServer = sections.get("elasticsearch", name);

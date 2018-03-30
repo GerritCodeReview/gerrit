@@ -69,7 +69,6 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   }
 
   static final String ACCOUNTS = "accounts";
-  static final String ACCOUNTS_PREFIX = ACCOUNTS + "_";
 
   private static final Logger log = LoggerFactory.getLogger(ElasticAccountIndex.class);
 
@@ -83,7 +82,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       Provider<AccountCache> accountCache,
       JestClientBuilder clientBuilder,
       @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, ACCOUNTS_PREFIX);
+    super(cfg, sitePaths, schema, clientBuilder, ACCOUNTS);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
   }

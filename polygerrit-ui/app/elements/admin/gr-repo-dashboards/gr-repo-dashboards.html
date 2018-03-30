@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-repo-dashboards">
@@ -52,7 +53,7 @@ limitations under the License.
           </tr>
           <template is="dom-repeat" items="[[item.dashboards]]">
             <tr class="table">
-              <td class="name"><a href$="[[item.url]]">[[item.path]]</a></td>
+              <td class="name"><a href$="[[_getUrl(item.url)]]">[[item.path]]</a></td>
               <td class="title">[[item.title]]</td>
               <td class="desc">[[item.description]]</td>
               <td class="inherited">[[_computeInheritedFrom(item.project, item.defining_project)]]</td>

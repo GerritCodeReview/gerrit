@@ -68,6 +68,16 @@
       });
     },
 
+    _getUrl(url) {
+      if (!url) { return ''; }
+
+      if (url.startsWith('/dashboard/')) {
+        url = url.slice(11);
+      }
+
+      return Gerrit.Nav.getUrlForUserDashboard(url);
+    },
+
     _computeLoadingClass(loading) {
       return loading ? 'loading' : '';
     },

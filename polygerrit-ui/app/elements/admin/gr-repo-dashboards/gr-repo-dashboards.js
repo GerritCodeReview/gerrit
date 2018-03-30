@@ -68,6 +68,12 @@
       });
     },
 
+    _getUrl(url) {
+      if (!url) { return ''; }
+
+      return Gerrit.Nav.navigateToRelativeUrl(url);
+    },
+
     _computeLoadingClass(loading) {
       return loading ? 'loading' : '';
     },

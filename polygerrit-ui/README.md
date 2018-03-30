@@ -205,19 +205,19 @@ These tests require the `typescript` and `fried-twinkie` npm packages.
 To run on all files, execute the following command:
 
 ```sh
-bazel test //polygerrit-ui/app:all --test_tag_filters=template --test_output errors
+./polygerrit-ui/app/run_template_test.sh
 ```
 
 To run on a specific top level directory (ex: change-list)
 ```sh
-bazel test //polygerrit-ui/app:template_test_change-list --test_output errors
+TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_change-list
 ```
 
 To run on a specific file (ex: gr-change-list-view), execute the following command:
 ```sh
-bazel test //polygerrit-ui/app:template_test_<TOP_LEVEL_DIRECTORY> --test_arg=<VIEW_NAME> --test_output errors
+TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_<TOP_LEVEL_DIRECTORY> --test_arg=<VIEW_NAME>
 ```
 
 ```sh
-bazel test //polygerrit-ui/app:template_test_change-list --test_arg=gr-change-list-view  --test_output errors
+TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_change-list --test_arg=gr-change-list-view
 ```

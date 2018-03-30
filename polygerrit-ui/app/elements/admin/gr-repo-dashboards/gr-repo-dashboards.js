@@ -32,6 +32,10 @@
       _dashboards: Array,
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
+
     _repoChanged(repo) {
       this._loading = true;
       if (!repo) { return Promise.resolve(); }
@@ -66,6 +70,12 @@
         this._loading = false;
         Polymer.dom.flush();
       });
+    },
+
+    _getUrl(url) {
+      if (!url) { return ''; }
+
+      return this.getBaseUrl() + url;
     },
 
     _computeLoadingClass(loading) {

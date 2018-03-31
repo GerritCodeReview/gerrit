@@ -223,6 +223,10 @@
     return new GrRepoApi(this);
   };
 
+  Plugin.prototype.admin = function() {
+    return new GrAdminApi(this);
+  };
+
   Plugin.prototype.settings = function() {
     return new GrSettingsApi(this);
   };

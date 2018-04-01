@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8a07509_05f95e41",
+        "filename": "java/com/google/gerrit/server/PatchSetUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-01T09:32:46Z",
+      "side": 1,
+      "message": "What about abandoned?",
+      "revId": "ae8312d2000a6301fd5a53bb6fc9cb96843ecdfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe8fc791_475f32e0",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-01T09:32:46Z",
+      "side": 1,
+      "message": "\"Not allowed\" or \"Don\u0027t allow\".\n\nSame in other files.",
+      "range": {
+        "startLine": 317,
+        "startChar": 7,
+        "endLine": 317,
+        "endChar": 16
+      },
+      "revId": "ae8312d2000a6301fd5a53bb6fc9cb96843ecdfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "546151f3_4f6acac5",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-01T09:32:46Z",
+      "side": 1,
+      "message": "\"can\u0027t\"\n\nSame below",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 24
+      },
+      "revId": "ae8312d2000a6301fd5a53bb6fc9cb96843ecdfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

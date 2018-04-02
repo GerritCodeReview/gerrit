@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.strategy;
 
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
@@ -40,10 +40,10 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EmailMerge implements Runnable, RequestContext {
+class EmailMerge implements Runnable, RequestContext {
   private static final Logger log = LoggerFactory.getLogger(EmailMerge.class);
 
-  public interface Factory {
+  interface Factory {
     EmailMerge create(
         Project.NameKey project,
         Change.Id changeId,
@@ -90,7 +90,7 @@ public class EmailMerge implements Runnable, RequestContext {
     this.accountsToNotify = accountsToNotify;
   }
 
-  public void sendAsync() {
+  void sendAsync() {
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
   }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.easymock.EasyMock.createNiceMock;
@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.replay;
 
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.ValidationError;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;

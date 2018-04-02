@@ -20,6 +20,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.meta.TabFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;

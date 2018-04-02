@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c8ce1a32_dbfc0df5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-02T23:05:42Z",
+      "side": 1,
+      "message": "After reading the code more closely, I think this can say something like\n\n Leave discarding unconsumed JSON to JSON reader\n\n Some endpoints allow both JSON and raw input. parseRequest selects whether to\n parse to JSON using a reader or to provide the raw input as an InputStream\n based on the request\u0027s content-type.\n\n Since v2.15-rc0~1847^2 (Discard request HTTP bodies before writing response,\n 2017-03-16), on endpoints that permit raw input, we call getInputStream to\n obtain the rest of the response body and discard it before writing the response.\n When the request was JSON, this produces errors from Jetty, since calling\n getInputStream after getReader violates the servlet API:\n\n  [HTTP-66] ERROR com.google.gerrit.httpd.restapi.RestApiServlet : Error in PUT /a/plugins/reviewers.jar\n  java.lang.IllegalStateException: READER\n        at org.eclipse.jetty.server.Request.getInputStream(Request.java:844)\n        at javax.servlet.ServletRequestWrapper.getInputStream(ServletRequestWrapper.java:138)\n        at javax.servlet.ServletRequestWrapper.getInputStream(ServletRequestWrapper.java:138)\n\n To fix it, instead of guessing whether this was a raw request based on whether\n the endpoint supports raw requests, use the parseRequest result to decide whether\n this is a raw request for which we need to discard any unconsumed content.\n\n Bug: Issue 8677",
+      "parentUuid": "8b9cf0b5_a35d9635",
+      "revId": "4f7780a703caa630f3f96638cd527f31d93aa39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b7f0fa4_c824cdf6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

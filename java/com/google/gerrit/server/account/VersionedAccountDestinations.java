@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.git.DestinationList;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
 import com.google.gerrit.server.git.meta.VersionedMetaData;

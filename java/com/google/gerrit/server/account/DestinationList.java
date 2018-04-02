@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.account;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
@@ -20,6 +20,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
 import java.io.IOException;
 import java.util.List;
@@ -34,12 +35,11 @@ public class DestinationList extends TabFile {
     return destinations.get(label);
   }
 
-  public void parseLabel(String label, String text, ValidationError.Sink errors)
-      throws IOException {
+  void parseLabel(String label, String text, ValidationError.Sink errors) throws IOException {
     destinations.replaceValues(label, toSet(parse(text, DIR_NAME + label, TRIM, null, errors)));
   }
 
-  public String asText(String label) {
+  String asText(String label) {
     Set<Branch.NameKey> dests = destinations.get(label);
     if (dests == null) {
       return null;
@@ -51,7 +51,7 @@ public class DestinationList extends TabFile {
     return asText("Ref", "Project", rows);
   }
 
-  protected static Set<Branch.NameKey> toSet(List<Row> destRows) {
+  private static Set<Branch.NameKey> toSet(List<Row> destRows) {
     Set<Branch.NameKey> dests = Sets.newHashSetWithExpectedSize(destRows.size());
     for (Row row : destRows) {
       dests.add(new Branch.NameKey(new Project.NameKey(row.right), row.left));

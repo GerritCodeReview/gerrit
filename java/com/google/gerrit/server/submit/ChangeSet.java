@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.submit;
 
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;

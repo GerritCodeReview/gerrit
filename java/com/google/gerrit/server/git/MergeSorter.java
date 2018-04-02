@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.git.strategy.CommitMergeStatus;
+import com.google.gerrit.server.submit.CommitMergeStatus;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;

@@ -32,7 +32,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.git.strategy.SubmitDryRun;
+import com.google.gerrit.server.submit.SubmitDryRun;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;

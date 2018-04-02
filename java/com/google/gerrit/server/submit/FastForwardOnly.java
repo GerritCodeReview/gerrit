@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.strategy;
+package com.google.gerrit.server.submit;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
+import com.google.gerrit.server.update.RepoContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class MergeIfNecessary extends SubmitStrategy {
-  MergeIfNecessary(SubmitStrategy.Arguments args) {
+public class FastForwardOnly extends SubmitStrategy {
+  FastForwardOnly(SubmitStrategy.Arguments args) {
     super(args);
   }
 
@@ -30,28 +31,31 @@ public class MergeIfNecessary extends SubmitStrategy {
       throws IntegrationException {
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
-
-    if (args.mergeTip.getInitialTip() == null
-        || !args.submoduleOp.hasSubscription(args.destBranch)) {
-      CodeReviewCommit firstFastForward =
-          args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);
-      if (firstFastForward != null && !firstFastForward.equals(args.mergeTip.getInitialTip())) {
-        ops.add(new FastForwardOp(args, firstFastForward));
-      }
+    CodeReviewCommit newTipCommit =
+        args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);
+    if (!newTipCommit.equals(args.mergeTip.getInitialTip())) {
+      ops.add(new FastForwardOp(args, newTipCommit));
     }
-
-    // For every other commit do a pair-wise merge.
     while (!sorted.isEmpty()) {
-      CodeReviewCommit n = sorted.remove(0);
-      ops.add(new MergeOneOp(args, n));
+      ops.add(new NotFastForwardOp(sorted.remove(0)));
     }
     return ops;
+  }
+
+  private class NotFastForwardOp extends SubmitStrategyOp {
+    private NotFastForwardOp(CodeReviewCommit toMerge) {
+      super(FastForwardOnly.this.args, toMerge);
+    }
+
+    @Override
+    public void updateRepoImpl(RepoContext ctx) {
+      toMerge.setStatusCode(CommitMergeStatus.NOT_FAST_FORWARD);
+    }
   }
 
   static boolean dryRun(
       SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
-    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge)
-        || args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
+    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge);
   }
 }

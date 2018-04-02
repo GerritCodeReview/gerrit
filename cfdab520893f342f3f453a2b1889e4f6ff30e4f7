@@ -68,6 +68,30 @@
       "revId": "cfdab520893f342f3f453a2b1889e4f6ff30e4f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d2b7312_708ba870",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1027112
+      },
+      "writtenOn": "2018-04-02T23:16:25Z",
+      "side": 1,
+      "message": "parseRequest() handles multiple content-types, and RawInput is the only return type that uses InputStream. (Also, for other types, it consumes the entire input in parseRequest()).",
+      "parentUuid": "045055f4_5acd9412",
+      "range": {
+        "startLine": 406,
+        "startChar": 12,
+        "endLine": 406,
+        "endChar": 48
+      },
+      "revId": "cfdab520893f342f3f453a2b1889e4f6ff30e4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

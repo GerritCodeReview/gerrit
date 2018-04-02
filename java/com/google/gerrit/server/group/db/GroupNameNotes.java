@@ -30,7 +30,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.git.VersionedMetaData;
+import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import java.io.IOException;
 import java.util.Collection;
@@ -63,8 +63,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  *
  * <p>To claim the name for a new group, create an instance of {@code GroupNameNotes} via {@link
  * #forNewGroup(Repository, AccountGroup.UUID, AccountGroup.NameKey)} and call {@link
- * #commit(com.google.gerrit.server.git.MetaDataUpdate) commit(MetaDataUpdate)} on it. For renaming,
- * call {@link #forRename(Repository, AccountGroup.UUID, AccountGroup.NameKey,
+ * #commit(com.google.gerrit.server.git.meta.MetaDataUpdate) commit(MetaDataUpdate)} on it. For
+ * renaming, call {@link #forRename(Repository, AccountGroup.UUID, AccountGroup.NameKey,
  * AccountGroup.NameKey)} and also commit the returned {@code GroupNameNotes}. Both times, the
  * creation of the {@code GroupNameNotes} will fail if the (new) name is already used. Committing
  * the {@code GroupNameNotes} is necessary to make the adjustments for real.
@@ -98,7 +98,7 @@ public class GroupNameNotes extends VersionedMetaData {
    * Creates an instance of {@code GroupNameNotes} for use when renaming a group.
    *
    * <p><strong>Note: </strong>The returned instance of {@code GroupNameNotes} has to be committed
-   * via {@link #commit(com.google.gerrit.server.git.MetaDataUpdate) commit(MetaDataUpdate)} in
+   * via {@link #commit(com.google.gerrit.server.git.meta.MetaDataUpdate) commit(MetaDataUpdate)} in
    * order to claim the new name and free up the old one.
    *
    * @param repository the repository which holds the commits of the notes
@@ -130,7 +130,7 @@ public class GroupNameNotes extends VersionedMetaData {
    * Creates an instance of {@code GroupNameNotes} for use when creating a new group.
    *
    * <p><strong>Note: </strong>The returned instance of {@code GroupNameNotes} has to be committed
-   * via {@link #commit(com.google.gerrit.server.git.MetaDataUpdate) commit(MetaDataUpdate)} in
+   * via {@link #commit(com.google.gerrit.server.git.meta.MetaDataUpdate) commit(MetaDataUpdate)} in
    * order to claim the new name.
    *
    * @param repository the repository which holds the commits of the notes

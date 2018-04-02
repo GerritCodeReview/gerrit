@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.git.meta;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.git.LockFailureException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;

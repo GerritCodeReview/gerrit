@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b9cf0b5_a35d9635",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-02T22:56:36Z",
+      "side": 1,
+      "message": "nit: seems to be missing punctuation. Can you summarize the change this makes? E.g.\n\n Properly consume json on endpoints that accept raw input\n\n(I\u0027m just guessing with the description above.)",
+      "revId": "4f7780a703caa630f3f96638cd527f31d93aa39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b7f0fa4_c824cdf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-02T22:56:36Z",
+      "side": 1,
+      "message": "nit: s/contains/contain/.",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "4f7780a703caa630f3f96638cd527f31d93aa39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cba2a00_179dd209",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-02T22:56:36Z",
+      "side": 1,
+      "message": "nit: s/that/that,/",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "4f7780a703caa630f3f96638cd527f31d93aa39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61edef5b_623cb327",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-02T22:56:36Z",
+      "side": 1,
+      "message": "nit: \u0027an InputStream or a Reader\u0027? (missing articles, s/of/or/)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "4f7780a703caa630f3f96638cd527f31d93aa39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f01a5a62_f03fcb9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-02T22:56:36Z",
+      "side": 1,
+      "message": "Bug: Issue 8677",
+      "revId": "4f7780a703caa630f3f96638cd527f31d93aa39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

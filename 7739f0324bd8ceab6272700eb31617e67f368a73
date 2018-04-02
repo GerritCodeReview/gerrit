@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af526727_1727961b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-02T17:20:46Z",
+      "side": 1,
+      "message": "When I read the linked bug, it sounds to me like the real problem is that the monospace font we\u0027re using doesn\u0027t render these glyphs correctly. Have we investigated fixing our font? Perhaps by including a version of it that covers this unicode range?\n\nIf we can\u0027t fix the font, since these lines are overflowing and hiding content, have we considered removing the max-width [1] on the content column? Removing that line allows the column to account for the glyphs by widening and doesn\u0027t alter line-wrapping at the given length preference.\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html#124",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d77d792_70c79442",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-02T17:20:46Z",
+      "side": 1,
+      "message": "This variable definition should probably also go after the redefinition guard on l.22.",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06a63632_eab41528",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-02T17:20:46Z",
+      "side": 1,
+      "message": "It seems worth mentioning in a comment somewhere that CJK stands for \"Chinese-Korean-Japanese\".",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 11
+      },
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e1186a5_4fb08bd8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-02T17:20:46Z",
+      "side": 1,
+      "message": "This line needs one additional level of indentation.",
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd5d9a3c_439fedfc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-02T17:20:46Z",
+      "side": 1,
+      "message": "Does, \"space\" here mean the rendered width of the glyph with our current font? Where did this value come from? Is this ratio consistent across other browsers/OSes/fonts?\n\nIn my native text editor, the CJK glyphs in the linked issue render with the same width as Latin or other non-CJK characters, so it doesn\u0027t seem  universal that they take up 1.8x as much width.",
+      "range": {
+        "startLine": 472,
+        "startChar": 9,
+        "endLine": 472,
+        "endChar": 64
+      },
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a52a4942_80a2b7da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-02T17:20:46Z",
+      "side": 1,
+      "message": "Note: this executes an additional regex against every individual character in the diff. I\u0027m curious about the performance impact on larger diffs.",
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e89aba92_4e19d2ac",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-02T17:20:46Z",
+      "side": 1,
+      "message": "If we change the way the line limit works to account for how our font renders these glyphs, doesn\u0027t make it difficult to know when lines containing such glyphs overflow?",
+      "range": {
+        "startLine": 160,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 40
+      },
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

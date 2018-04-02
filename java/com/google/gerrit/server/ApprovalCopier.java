@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeKindCache;
-import com.google.gerrit.server.git.LabelNormalizer;
+import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ProjectCache;

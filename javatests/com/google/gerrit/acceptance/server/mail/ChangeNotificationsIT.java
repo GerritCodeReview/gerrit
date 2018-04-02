@@ -46,7 +46,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.PostReview;
 import org.junit.Before;

@@ -30,7 +30,6 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;

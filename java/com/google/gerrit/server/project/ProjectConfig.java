@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.common.data.Permission.isPermission;
@@ -50,11 +50,12 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.git.BranchOrderSection;
+import com.google.gerrit.server.git.NotifyConfig;
+import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.project.CommentLinkInfoImpl;
-import com.google.gerrit.server.project.RefPattern;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

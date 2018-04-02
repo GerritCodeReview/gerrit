@@ -19,7 +19,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectConfig;
 
 /**
  * Contains functions to modify permissions. For all these functions, any of the groups may be null

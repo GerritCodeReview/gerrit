@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.strategy;
+package com.google.gerrit.server.submit;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.IntegrationException;
-import com.google.gerrit.server.update.RepoContext;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class FastForwardOnly extends SubmitStrategy {
-  FastForwardOnly(SubmitStrategy.Arguments args) {
+public class MergeAlways extends SubmitStrategy {
+  MergeAlways(SubmitStrategy.Arguments args) {
     super(args);
   }
 
@@ -31,31 +30,22 @@ public class FastForwardOnly extends SubmitStrategy {
       throws IntegrationException {
     List<CodeReviewCommit> sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, toMerge);
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
-    CodeReviewCommit newTipCommit =
-        args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);
-    if (!newTipCommit.equals(args.mergeTip.getInitialTip())) {
-      ops.add(new FastForwardOp(args, newTipCommit));
+    if (args.mergeTip.getInitialTip() == null && !sorted.isEmpty()) {
+      // The branch is unborn. Take a fast-forward resolution to
+      // create the branch.
+      CodeReviewCommit first = sorted.remove(0);
+      ops.add(new FastForwardOp(args, first));
     }
     while (!sorted.isEmpty()) {
-      ops.add(new NotFastForwardOp(sorted.remove(0)));
+      CodeReviewCommit n = sorted.remove(0);
+      ops.add(new MergeOneOp(args, n));
     }
     return ops;
-  }
-
-  private class NotFastForwardOp extends SubmitStrategyOp {
-    private NotFastForwardOp(CodeReviewCommit toMerge) {
-      super(FastForwardOnly.this.args, toMerge);
-    }
-
-    @Override
-    public void updateRepoImpl(RepoContext ctx) {
-      toMerge.setStatusCode(CommitMergeStatus.NOT_FAST_FORWARD);
-    }
   }
 
   static boolean dryRun(
       SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge)
       throws IntegrationException {
-    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge);
+    return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
   }
 }

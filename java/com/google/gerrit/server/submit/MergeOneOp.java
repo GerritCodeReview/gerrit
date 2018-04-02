@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.strategy;
+package com.google.gerrit.server.submit;
 
-import static com.google.gerrit.server.git.strategy.CommitMergeStatus.EMPTY_COMMIT;
+import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;

@@ -19,9 +19,9 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
-import com.google.gerrit.server.git.VersionedMetaData;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.util.Arrays;

@@ -111,7 +111,6 @@ import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.ChangeMessageModifier;
-import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitModule;
 import com.google.gerrit.server.git.GitModules;
 import com.google.gerrit.server.git.MergeSuperSetComputation;
@@ -257,7 +256,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ChangeData.AssistedFactory.class);
     factory(ChangeJson.AssistedFactory.class);
     factory(CreateChangeSender.Factory.class);
-    factory(EmailMerge.Factory.class);
     factory(MergedSender.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchScriptFactory.Factory.class);

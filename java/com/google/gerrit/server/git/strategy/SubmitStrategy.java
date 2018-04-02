@@ -37,7 +37,6 @@ import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.git.EmailMerge;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.LabelNormalizer;
@@ -80,6 +79,7 @@ public abstract class SubmitStrategy {
       @Override
       protected void configure() {
         factory(SubmitStrategy.Arguments.Factory.class);
+        factory(EmailMerge.Factory.class);
       }
     };
   }

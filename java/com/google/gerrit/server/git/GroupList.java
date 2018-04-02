@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.meta.TabFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.server.git.meta.TabFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;

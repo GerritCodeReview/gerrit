@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed533c08_4d1efea0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-02T23:00:53Z",
+      "side": 1,
+      "message": "This is because an API can accept both raw and JSON input, based on the request content-type.\n\nSee:\n public class InstallPluginInput {\n    public @DefaultInput String url;\n    public RawInput raw;\n  }\n\nThe acceptRawInput() method uses a \"hacky\" way of guessing if the input is raw or not:\n  private static boolean acceptsRawInput(Type type) {\n    if (type instanceof Class) {\n      for (Field f : ((Class) type).getDeclaredFields()) {\n        if (f.getType() \u003d\u003d RawInput.class) {\n          return true;\n        }\n      }\n    }\n    return false;\n  }\n\nPossibly the real source of the bug *IS* this method and we should fix this instead of working around the problem.\n\nThe acceptRawInput() should get the request content type to understand if the request is a raw input or not, instead of guessing from the declared fields using reflection.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "cfdab520893f342f3f453a2b1889e4f6ff30e4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcb9b78e_44cbc1e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-02T23:00:53Z",
+      "side": 1,
+      "message": "Yes, because the acceptsRawInput() method is quite hacky ;-) and it is sometimes wrong.",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "cfdab520893f342f3f453a2b1889e4f6ff30e4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

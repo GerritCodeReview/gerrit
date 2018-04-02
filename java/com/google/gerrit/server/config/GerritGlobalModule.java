@@ -134,6 +134,7 @@ import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidators;
 import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.group.db.GroupDbModule;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.mail.AutoReplyMailFilter;
 import com.google.gerrit.server.mail.EmailModule;
@@ -239,6 +240,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new EmailModule());
     install(new ExternalIdModule());
     install(new GitModule());
+    install(new GroupDbModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));
     install(new PrologModule());

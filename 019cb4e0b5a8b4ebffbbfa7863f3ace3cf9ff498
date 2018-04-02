@@ -296,6 +296,29 @@
       "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22ee4db5_5ac75686",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-02T21:34:37Z",
+      "side": 1,
+      "message": "This is not enough: we should have checked the request content-type.\nThis change has broken the plugin rest api (PUT /a/plugins/someplugin.jar) because the content type is application/json but the target API has a rawinput field.\n\nWhen trying to drain an input stream that has been already parsed as JSON, Jetty returns a 500 :-(",
+      "range": {
+        "startLine": 727,
+        "startChar": 62,
+        "endLine": 727,
+        "endChar": 83
+      },
+      "revId": "019cb4e0b5a8b4ebffbbfa7863f3ace3cf9ff498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

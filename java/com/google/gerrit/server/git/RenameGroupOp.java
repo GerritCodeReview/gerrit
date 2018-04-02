@@ -19,6 +19,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;

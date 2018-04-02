@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;

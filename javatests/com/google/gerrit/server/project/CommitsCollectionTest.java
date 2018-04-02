@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.project.CommitsCollection;

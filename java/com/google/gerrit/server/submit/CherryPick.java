@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.strategy;
+package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.git.strategy.CommitMergeStatus.EMPTY_COMMIT;
-import static com.google.gerrit.server.git.strategy.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
+import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
+import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.MergeConflictException;

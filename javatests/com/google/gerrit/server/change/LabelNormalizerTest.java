@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.change;
 
 import static com.google.gerrit.common.data.Permission.forLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -38,8 +38,9 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.change.LabelNormalizer.Result;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.git.LabelNormalizer.Result;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;

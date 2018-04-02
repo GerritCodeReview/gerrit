@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dd35d10_15e8543b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-02T16:02:16Z",
+      "side": 1,
+      "message": "I",
+      "range": {
+        "startLine": 13,
+        "startChar": 65,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "f8c41bcd5ab56371023de56bfc7f7895170a3059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83c7426b_b9411384",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-02T16:02:16Z",
+      "side": 1,
+      "message": "\"included in\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "f8c41bcd5ab56371023de56bfc7f7895170a3059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6f40b64_4a402c32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-02T16:02:16Z",
+      "side": 1,
+      "message": "Also add what you do in this change to fix the problem.",
+      "revId": "f8c41bcd5ab56371023de56bfc7f7895170a3059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90df7525_0b8c9563",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-02T16:02:16Z",
+      "side": 1,
+      "message": "I think doing this is still going to make the group appear as a link?  Is that true? If so, you might want to have a second non-link element to display instead when there\u0027s not a url",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 27
+      },
+      "revId": "f8c41bcd5ab56371023de56bfc7f7895170a3059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

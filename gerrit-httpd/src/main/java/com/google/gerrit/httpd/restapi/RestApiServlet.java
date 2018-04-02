@@ -403,7 +403,11 @@ public class RestApiServlet extends HttpServlet {
         Type type = inputType(m);
         inputRequestBody = parseRequest(req, type);
         result = m.apply(rsrc, inputRequestBody);
-        consumeRawInputRequestBody(req, type);
+        if (inputRequestBody instanceof RawInput) {
+          try (InputStream is = req.getInputStream()) {
+            ServletUtils.consumeRequestBody(is);
+          }
+        }
       } else {
         throw new ResourceNotFoundException();
       }
@@ -750,7 +754,8 @@ public class RestApiServlet extends HttpServlet {
           br.skip(Long.MAX_VALUE);
         }
       }
-    } else if (rawInputRequest(req, type)) {
+    } else if (("PUT".equals(req.getMethod()) || "POST".equals(req.getMethod()))
+        && acceptsRawInput(type)) {
       return parseRawInput(req, type);
     } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
       return null;
@@ -771,19 +776,6 @@ public class RestApiServlet extends HttpServlet {
     } else {
       throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
     }
-  }
-
-  private void consumeRawInputRequestBody(HttpServletRequest req, Type type) throws IOException {
-    if (rawInputRequest(req, type)) {
-      try (InputStream is = req.getInputStream()) {
-        ServletUtils.consumeRequestBody(is);
-      }
-    }
-  }
-
-  private static boolean rawInputRequest(HttpServletRequest req, Type type) {
-    String method = req.getMethod();
-    return ("PUT".equals(method) || "POST".equals(method)) && acceptsRawInput(type);
   }
 
   private static boolean hasNoBody(HttpServletRequest req) {

@@ -403,7 +403,9 @@ public class RestApiServlet extends HttpServlet {
         Type type = inputType(m);
         inputRequestBody = parseRequest(req, type);
         result = m.apply(rsrc, inputRequestBody);
-        consumeRawInputRequestBody(req, type);
+        if (inputRequestBody instanceof RawInput) {
+          consumeRawInputRequestBody(req, type);
+        }
       } else {
         throw new ResourceNotFoundException();
       }
@@ -758,7 +760,8 @@ public class RestApiServlet extends HttpServlet {
         }
       }
     }
-    if (rawInputRequest(req, type)) {
+    String method = req.getMethod();
+    if (("PUT".equals(method) || "POST".equals(method)) && acceptsRawInput(type)) {
       return parseRawInput(req, type);
     }
     if (isDelete(req) && hasNoBody(req)) {
@@ -785,16 +788,9 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private void consumeRawInputRequestBody(HttpServletRequest req, Type type) throws IOException {
-    if (rawInputRequest(req, type)) {
-      try (InputStream is = req.getInputStream()) {
-        ServletUtils.consumeRequestBody(is);
-      }
+    try (InputStream is = req.getInputStream()) {
+      ServletUtils.consumeRequestBody(is);
     }
-  }
-
-  private static boolean rawInputRequest(HttpServletRequest req, Type type) {
-    String method = req.getMethod();
-    return ("PUT".equals(method) || "POST".equals(method)) && acceptsRawInput(type);
   }
 
   private static boolean hasNoBody(HttpServletRequest req) {

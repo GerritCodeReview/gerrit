@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.account;
 
+import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +28,7 @@ public class QueryList extends TabFile {
     this.queriesByName = toMap(queriesByName);
   }
 
-  public static QueryList parse(String text, ValidationError.Sink errors) throws IOException {
+  static QueryList parse(String text, ValidationError.Sink errors) throws IOException {
     return new QueryList(parse(text, FILE_NAME, TRIM, TRIM, errors));
   }
 
@@ -35,7 +36,7 @@ public class QueryList extends TabFile {
     return queriesByName.get(name);
   }
 
-  public String asText() {
+  String asText() {
     return asText("Name", "Query", queriesByName);
   }
 }

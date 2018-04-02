@@ -15,7 +15,6 @@
 package com.google.gerrit.server.submit;
 
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.IntegrationException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

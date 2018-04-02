@@ -18,7 +18,6 @@ import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.git.CodeReviewCommit;
-import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.update.RepoContext;
 
 class FastForwardOp extends SubmitStrategyOp {

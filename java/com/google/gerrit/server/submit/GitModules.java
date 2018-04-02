@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.submit;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
 import com.google.gerrit.server.config.CanonicalWebUrl;
-import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.server.util.SubmoduleSectionParser;
 import com.google.inject.Inject;

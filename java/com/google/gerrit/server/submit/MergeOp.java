@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -56,8 +56,9 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyUtil;
-import com.google.gerrit.server.git.MergeOpRepoManager.OpenBranch;
-import com.google.gerrit.server.git.MergeOpRepoManager.OpenRepo;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.LockFailureException;
+import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -66,9 +67,8 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.submit.SubmitStrategy;
-import com.google.gerrit.server.submit.SubmitStrategyFactory;
-import com.google.gerrit.server.submit.SubmitStrategyListener;
+import com.google.gerrit.server.submit.MergeOpRepoManager.OpenBranch;
+import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;

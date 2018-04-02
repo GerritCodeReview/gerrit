@@ -27,17 +27,12 @@ import java.util.Map;
 import org.slf4j.Logger;
 
 public class TabFile {
+  @FunctionalInterface
   public interface Parser {
     String parse(String str);
   }
 
-  public static Parser TRIM =
-      new Parser() {
-        @Override
-        public String parse(String str) {
-          return str.trim();
-        }
-      };
+  public static Parser TRIM = String::trim;
 
   protected static class Row {
     public String left;

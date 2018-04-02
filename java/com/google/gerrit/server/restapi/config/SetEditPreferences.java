@@ -25,7 +25,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Preferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

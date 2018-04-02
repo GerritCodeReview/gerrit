@@ -50,6 +50,8 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.gerrit.server.project.RefPattern;

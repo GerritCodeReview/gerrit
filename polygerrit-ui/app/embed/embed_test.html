@@ -55,6 +55,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="search-bar">
+  <template>
+    <gr-search-bar></gr-search-bar>
+  </template>
+</test-fixture>
+
 <script>
   suite('embed test', () => {
     test('gr-change-view is embedded', () => {
@@ -80,6 +86,11 @@ limitations under the License.
     test('change-list is embedded', () => {
       const element = fixture('change-list');
       assert.equal(element.is, 'gr-change-list');
+    });
+
+    test('search-bar is embedded', () => {
+      const element = fixture('search-bar');
+      assert.equal(element.is, 'gr-search-bar');
     });
   });
 </script>

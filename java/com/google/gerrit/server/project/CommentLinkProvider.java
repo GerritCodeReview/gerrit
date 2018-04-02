@@ -18,7 +18,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;

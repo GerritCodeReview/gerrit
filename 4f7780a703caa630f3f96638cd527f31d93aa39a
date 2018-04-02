@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6a11ae36_2d13a16a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-02T23:08:26Z",
+      "side": 1,
+      "message": "Yes, that looks good to me.",
+      "parentUuid": "c8ce1a32_dbfc0df5",
+      "revId": "4f7780a703caa630f3f96638cd527f31d93aa39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b7f0fa4_c824cdf6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

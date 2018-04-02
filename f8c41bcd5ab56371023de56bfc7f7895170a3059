@@ -85,6 +85,30 @@
       "revId": "f8c41bcd5ab56371023de56bfc7f7895170a3059",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a5ce825_a44608a7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-02T16:06:29Z",
+      "side": 1,
+      "message": "Yes, But not sure what you mean by \"second non-link element to display instead when there\u0027s not a url\"?",
+      "parentUuid": "90df7525_0b8c9563",
+      "range": {
+        "startLine": 125,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 27
+      },
+      "revId": "f8c41bcd5ab56371023de56bfc7f7895170a3059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

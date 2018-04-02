@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.group.db;
 
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.git.DefaultQueueOp;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -33,8 +35,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RenameGroupOp extends DefaultQueueOp {
-  public interface Factory {
+class RenameGroupOp extends DefaultQueueOp {
+  interface Factory {
     RenameGroupOp create(
         @Assisted("author") PersonIdent author,
         @Assisted AccountGroup.UUID uuid,

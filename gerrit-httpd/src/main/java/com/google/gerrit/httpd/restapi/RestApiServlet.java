@@ -127,7 +127,6 @@ import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -155,7 +154,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
@@ -400,10 +398,8 @@ public class RestApiServlet extends HttpServlet {
         RestModifyView<RestResource, Object> m =
             (RestModifyView<RestResource, Object>) viewData.view;
 
-        Type type = inputType(m);
-        inputRequestBody = parseRequest(req, type);
+        inputRequestBody = parseRequest(req, inputType(m));
         result = m.apply(rsrc, inputRequestBody);
-        consumeRawInputRequestBody(req, type);
       } else {
         throw new ResourceNotFoundException();
       }
@@ -727,30 +723,24 @@ public class RestApiServlet extends HttpServlet {
       throws IOException, BadRequestException, SecurityException, IllegalArgumentException,
           NoSuchMethodException, IllegalAccessException, InstantiationException,
           InvocationTargetException, MethodNotAllowedException {
-    // HTTP/1.1 requires consuming the request body before writing non-error response (less than
-    // 400). Consume the request body for all but raw input request types here.
     if (isType(JSON_TYPE, req.getContentType())) {
       try (BufferedReader br = req.getReader();
           JsonReader json = new JsonReader(br)) {
-        try {
-          json.setLenient(true);
+        json.setLenient(true);
 
-          JsonToken first;
-          try {
-            first = json.peek();
-          } catch (EOFException e) {
-            throw new BadRequestException("Expected JSON object");
-          }
-          if (first == JsonToken.STRING) {
-            return parseString(json.nextString(), type);
-          }
-          return OutputFormat.JSON.newGson().fromJson(json, type);
-        } finally {
-          // Reader.close won't consume the rest of the input. Explicitly consume the request body.
-          br.skip(Long.MAX_VALUE);
+        JsonToken first;
+        try {
+          first = json.peek();
+        } catch (EOFException e) {
+          throw new BadRequestException("Expected JSON object");
         }
+        if (first == JsonToken.STRING) {
+          return parseString(json.nextString(), type);
+        }
+        return OutputFormat.JSON.newGson().fromJson(json, type);
       }
-    } else if (rawInputRequest(req, type)) {
+    } else if (("PUT".equals(req.getMethod()) || "POST".equals(req.getMethod()))
+        && acceptsRawInput(type)) {
       return parseRawInput(req, type);
     } else if ("DELETE".equals(req.getMethod()) && hasNoBody(req)) {
       return null;
@@ -771,19 +761,6 @@ public class RestApiServlet extends HttpServlet {
     } else {
       throw new BadRequestException("Expected Content-Type: " + JSON_TYPE);
     }
-  }
-
-  private void consumeRawInputRequestBody(HttpServletRequest req, Type type) throws IOException {
-    if (rawInputRequest(req, type)) {
-      try (InputStream is = req.getInputStream()) {
-        ServletUtils.consumeRequestBody(is);
-      }
-    }
-  }
-
-  private static boolean rawInputRequest(HttpServletRequest req, Type type) {
-    String method = req.getMethod();
-    return ("PUT".equals(method) || "POST".equals(method)) && acceptsRawInput(type);
   }
 
   private static boolean hasNoBody(HttpServletRequest req) {

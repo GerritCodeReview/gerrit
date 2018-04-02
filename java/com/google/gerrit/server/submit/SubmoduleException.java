@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2011 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.submit;
 
-/** Indicates that the change or commit is already in the source tree. */
-public class ChangeAlreadyMergedException extends MergeIdenticalTreeException {
+/**
+ * Indicates the gitlink's update cannot be processed at this time.
+ *
+ * <p>Message should be considered user-visible.
+ */
+public class SubmoduleException extends Exception {
   private static final long serialVersionUID = 1L;
 
-  /** @param msg message to return to the client describing the error. */
-  public ChangeAlreadyMergedException(String msg) {
-    super(msg);
+  SubmoduleException(String msg) {
+    super(msg, null);
+  }
+
+  SubmoduleException(String msg, Throwable why) {
+    super(msg, why);
   }
 }

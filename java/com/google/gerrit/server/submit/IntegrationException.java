@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.submit;
 
 /** Indicates an integration operation (see {@link MergeOp}) failed. */
 public class IntegrationException extends Exception {

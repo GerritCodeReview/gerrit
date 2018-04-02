@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.submit;
+
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 
 /**
- * Indicates the gitlink's update cannot be processed at this time.
- *
- * <p>Message should be considered user-visible.
+ * Indicates that the commit is already contained in destination branch. Either the commit itself is
+ * in the source tree, or the content is merged
  */
-public class SubmoduleException extends Exception {
+public class MergeIdenticalTreeException extends ResourceConflictException {
   private static final long serialVersionUID = 1L;
 
-  SubmoduleException(String msg) {
-    super(msg, null);
-  }
-
-  SubmoduleException(String msg, Throwable why) {
-    super(msg, why);
+  /** @param msg message to return to the client describing the error. */
+  public MergeIdenticalTreeException(String msg) {
+    super(msg);
   }
 }

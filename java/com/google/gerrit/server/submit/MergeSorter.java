@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.submit;
 
+import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
-import com.google.gerrit.server.submit.CommitMergeStatus;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
@@ -42,7 +42,8 @@ public class MergeSorter {
     this.incoming = incoming;
   }
 
-  Collection<CodeReviewCommit> sort(Collection<CodeReviewCommit> toMerge) throws IOException {
+  public Collection<CodeReviewCommit> sort(Collection<CodeReviewCommit> toMerge)
+      throws IOException {
     final Set<CodeReviewCommit> heads = new HashSet<>();
     final Set<CodeReviewCommit> sort = new HashSet<>(toMerge);
     while (!sort.isEmpty()) {

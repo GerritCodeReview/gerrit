@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2016 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,19 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.server.submit;
 
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
-
-/**
- * Indicates that the commit is already contained in destination branch. Either the commit itself is
- * in the source tree, or the content is merged
- */
-public class MergeIdenticalTreeException extends ResourceConflictException {
+/** Indicates that the change or commit is already in the source tree. */
+public class ChangeAlreadyMergedException extends MergeIdenticalTreeException {
   private static final long serialVersionUID = 1L;
 
   /** @param msg message to return to the client describing the error. */
-  public MergeIdenticalTreeException(String msg) {
+  public ChangeAlreadyMergedException(String msg) {
     super(msg);
   }
 }

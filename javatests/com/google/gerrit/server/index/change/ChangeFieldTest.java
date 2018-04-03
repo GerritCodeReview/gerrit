@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -104,7 +105,7 @@ public class ChangeFieldTest extends GerritBaseTests {
         new SubmitRequirement(
             "short reason",
             "Full reason can be a long string with special symbols like < > \\ / ; :",
-            null);
+            ImmutableMap.of("custom_data", "my value"));
     r.requirements = Collections.singletonList(sr);
 
     assertStoredRecordRoundTrip(r);

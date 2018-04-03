@@ -42,6 +42,10 @@
     properties: {
       /** @type {?} */
       change: Object,
+      labels: {
+        type: Object,
+        notify: true,
+      },
       /** @type {?} */
       revision: Object,
       commitInfo: Object,
@@ -98,8 +102,13 @@
 
     observers: [
       '_changeChanged(change)',
+      '_labelsChanged(change.labels)',
       '_assigneeChanged(_assignee.*)',
     ],
+
+    _labelsChanged(labels) {
+      this.labels = Object.assign({}, labels) || null;
+    },
 
     _changeChanged(change) {
       this._assignee = change.assignee ? [change.assignee] : [];
@@ -243,17 +252,22 @@
     },
 
     _computeTopicReadOnly(mutable, change) {
-      return !mutable || !change.actions.topic || !change.actions.topic.enabled;
+      return !mutable ||
+          !change.actions ||
+          !change.actions.topic ||
+          !change.actions.topic.enabled;
     },
 
     _computeHashtagReadOnly(mutable, change) {
       return !mutable ||
+          !change.actions ||
           !change.actions.hashtags ||
           !change.actions.hashtags.enabled;
     },
 
     _computeAssigneeReadOnly(mutable, change) {
       return !mutable ||
+          !change.actions ||
           !change.actions.assignee ||
           !change.actions.assignee.enabled;
     },
@@ -283,7 +297,9 @@
      *     change-metadata section is modifiable by the current user.
      */
     _computeCanDeleteVote(reviewer, mutable) {
-      if (!mutable) { return false; }
+      if (!mutable || !this.change || !this.change.removable_reviewers) {
+        return false;
+      }
       for (let i = 0; i < this.change.removable_reviewers.length; i++) {
         if (this.change.removable_reviewers[i]._account_id ===
             reviewer._account_id) {
@@ -313,6 +329,7 @@
             if (!response.ok) { return response; }
             const label = this.change.labels[labelName];
             const labels = label.all || [];
+            let wasChanged = false;
             for (let i = 0; i < labels.length; i++) {
               if (labels[i]._account_id === accountID) {
                 for (const key in label) {
@@ -320,12 +337,17 @@
                       label[key]._account_id === accountID) {
                     // Remove special label field, keeping change label values
                     // in sync with the backend.
-                    this.set(['change.labels', labelName, key], null);
+                    this.change.labels[labelName][key] = null;
+                    wasChanged = true;
                   }
                 }
-                this.splice(['change.labels', labelName, 'all'], i, 1);
+                this.change.labels[labelName].all.splice(i, 1);
+                wasChanged = true;
                 break;
               }
+            }
+            if (wasChanged) {
+              this.notifyPath('change.labels');
             }
           }).catch(err => {
             target.disabled = false;

@@ -410,7 +410,6 @@ limitations under the License.
               revision="[[_selectedRevision]]"
               commit-info="[[_commitInfo]]"
               server-config="[[_serverConfig]]"
-              missing-labels="[[_missingLabels]]"
               mutable="[[_loggedIn]]"
               parent-is-current="[[_parentIsCurrent]]"
               on-show-reply-dialog="_handleShowReplyDialog">
@@ -544,10 +543,15 @@ limitations under the License.
             on-file-action-tap="_handleFileActionTap"
             on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
       </section>
-      <gr-endpoint-decorator name="change-view-integration">
-        <gr-endpoint-param name="change" value="[[_change]]">
+      <gr-endpoint-decorator
+          name="change-view-integration">
+        <gr-endpoint-param
+            name="change"
+            value="[[_change]]">
         </gr-endpoint-param>
-        <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+        <gr-endpoint-param
+            name="revision"
+            value="[[_selectedRevision]]">
         </gr-endpoint-param>
       </gr-endpoint-decorator>
       <paper-tabs

@@ -92,26 +92,6 @@ limitations under the License.
       assert.isTrue(hasCc());
     });
 
-    test('computes submit status', () => {
-      let showMissingLabels = false;
-      sandbox.stub(element, '_showMissingLabels', () => {
-        return showMissingLabels;
-      });
-      assert.isFalse(element._showMissingRequirements(null, false));
-      assert.isTrue(element._showMissingRequirements(null, true));
-      showMissingLabels = true;
-      assert.isTrue(element._showMissingRequirements(null, false));
-    });
-
-    test('show missing labels', () => {
-      let missingLabels = [];
-      assert.isFalse(element._showMissingLabels(missingLabels));
-      missingLabels = ['test'];
-      assert.isTrue(element._showMissingLabels(missingLabels));
-      missingLabels.push('test2');
-      assert.isTrue(element._showMissingLabels(missingLabels));
-    });
-
     test('weblinks use Gerrit.Nav interface', () => {
       const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
           .returns([{name: 'stubb', url: '#s'}]);
@@ -166,20 +146,6 @@ limitations under the License.
       assert.isFalse(webLinks.hasAttribute('hidden'));
       // Only the non-gitiles weblink is returned.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
-    });
-
-    test('determines whether to show "Ready to Submit" label', () => {
-      const showMissingSpy = sandbox.spy(element, '_showMissingRequirements');
-      element.missingLabels = ['bojack'];
-      element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {
-        test: {
-          all: [{_account_id: 1, name: 'bojack', value: 1}],
-          default_value: 0,
-          values: [],
-        },
-      }};
-      flushAsynchronousOperations();
-      assert.isTrue(showMissingSpy.called);
     });
 
     test('_computeShowUploader test for uploader', () => {

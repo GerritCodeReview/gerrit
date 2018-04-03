@@ -1,0 +1,32 @@
+<dom-module id="some-screen">
+  <script>
+    Gerrit.install(plugin => {
+      plugin.registerCustomComponent('requirement_demo', 'some-ci-module');
+      plugin.registerCustomComponent('requirement_need_label', 'need-label-requirement');
+
+      plugin.hook('requirement_unresolved_comments').onAttached(el => {
+        el.innerHTML = "No <b>unresolved comments</b>";
+      });
+
+      plugin.hook('requirement_is_wip').onAttached(el => {
+        el.innerHTML = "<b>Work In progress</b>";
+      });
+    });
+  </script>
+</dom-module>
+
+<dom-module id="some-ci-module">
+  <template>
+    <style>
+    b {
+      color: darkorange;
+    }
+  </style>
+    CI status: <b>[[ requirement.data.status ]]</b>
+  </template>
+  <script>
+    Polymer({
+      is: 'some-ci-module'
+    });
+  </script>
+</dom-module>

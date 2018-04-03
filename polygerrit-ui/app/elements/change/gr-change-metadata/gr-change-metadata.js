@@ -45,7 +45,6 @@
       /** @type {?} */
       revision: Object,
       commitInfo: Object,
-      missingLabels: Array,
       mutable: Boolean,
       /**
        * @type {{ note_db_enabled: string }}
@@ -337,19 +336,6 @@
       const isNewChange = change.status === this.ChangeStatus.NEW;
       const hasLabels = Object.keys(change.labels).length > 0;
       return isNewChange && hasLabels;
-    },
-
-    _computeMissingLabelsHeader(missingLabels) {
-      return 'Needs label' +
-          (missingLabels.length > 1 ? 's' : '') + ':';
-    },
-
-    _showMissingLabels(missingLabels) {
-      return !!missingLabels.length;
-    },
-
-    _showMissingRequirements(missingLabels, workInProgress) {
-      return workInProgress || this._showMissingLabels(missingLabels);
     },
 
     _computeProjectURL(project) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8338feb2_61036186",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-03T19:57:17Z",
+      "side": 1,
+      "message": "Looks like this is to guard against using the changeComments property before it\u0027s been initialized. Is that right? I think it would be cleaner and more consistent if this can instead be declared as a dependency in a computed expression.\n\nWe currently already use a chain of computation effects to populate the list of files that get rendered ..\n\nreload() sets _files using _getFiles() \n  ↳ updating _files triggers _computeFilesShown()\n    to set _shownFiles\n      ↳ updating _shownFiles causes the rows to render in the DOM.\n\nWe can avoid this wait method by inserting another layer that depends on the comments. Something like ..\n\n_filesWithCommentedPaths: {\n  type: Array,\n  computed: \u0027_computeFilesWithCommentedPaths(files.*, changeComments, patchRange)\u0027,\n},\n\n.. and then we can feed this one into _computeFilesShown so that the new flow would look like ..\n\nreload() sets _files using _getFiles()\n  ↳ updating _files triggers _computeFilesWithCommentedPaths\n    to set _filesWithCommentedPaths\n      ↳ updating _filesWithCommentedPaths triggers _computeFilesShown()\n        to set _shownFiles\n          ↳ updating _shownFiles causes the rows to render in the DOM.",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 473,
+        "endChar": 29
+      },
+      "revId": "01d3f44e816af7fa674644fb21a9e139dfcc24b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

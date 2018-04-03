@@ -101,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d4067cf7_3b77fb80",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-03T13:09:07Z",
+      "side": 1,
+      "message": "\u003e Most permissions are an enum, so they\u0027ll print their name which gives: \"WRITE_CONFIG not permitted\"\n\nI think what I intended was to do super(permission.describeForException() + \" not permitted\"), then it\u0027s the responsibility of WRITE_CONFIG to override it sanely. But, I don\u0027t know that it\u0027s fair to guarantee that describeForException() will be able grammatically to come before \"not permitted\". So maybe this needs some additional rethinking.\n\n\u003e Should we just print \"prohibited by Gerrit: permission denied\" in case we already printed advice?\n\nNot sure. I have two issues:\n\n* I kind of like the general idea of having the per-ref command output be self-contained enough that if you understand all the buzzwords, you don\u0027t need to read the detailed advice. In the missing Change-Id example, you see \"HEAD -\u003e refs/for/master ([12248fa] missing Change-Id in commit message footer)\", which IMO is good as-is and would be nice to keep.\n\n* I don\u0027t think we want \"prohibited by Gerrit\" hard-coded in ReceiveCommits itself, because maybe your PermissionBackend doesn\u0027t want to represent itself as \"by Gerrit\"; maybe it would rather say \"prohibited by FooCorp Policy\". This may be solvable by tweaking the AuthExceptions produced by DefaultPermissionBackend. But then we might not want the \"prohibited by Gerrit\" piece when producing a REST API response body.\n\nRandom idea, just thinking out loud: maybe introduce an enum OutputContext { STACK_TRACE, REF_UPDATE, ADVICE, API_RESPONSE } and have AuthException#getOutputFor(OutputContext).",
+      "parentUuid": "6605978b_ed4f3363",
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1986d6a_bff90464",
         "filename": "java/com/google/gerrit/server/permissions/Describable.java",
         "patchSetId": 1

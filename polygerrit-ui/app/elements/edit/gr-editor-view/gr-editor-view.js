@@ -17,9 +17,12 @@
 (function() {
   'use strict';
 
+  const RESTORED_MESSAGE = 'Content restored from a previous edit.';
   const SAVING_MESSAGE = 'Saving changes...';
   const SAVED_MESSAGE = 'All changes saved';
   const SAVE_FAILED_MSG = 'Failed to save changes';
+
+  const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
   Polymer({
     is: 'gr-editor-view',
@@ -142,10 +145,26 @@
           patch !== this.EDIT_NAME);
     },
 
+    _getStorageKey() {
+      return `c${this._changeNum}_ps${this._patchNum}_${this._path}`;
+    },
+
     _getFileData(changeNum, path, patchNum) {
+      const storedContent =
+            this.$.storage.getEditableContentItem(this._getStorageKey());
+
       return this.$.restAPI.getFileContent(changeNum, path, patchNum)
           .then(res => {
-            this._newContent = res.content || '';
+            if (storedContent && storedContent.message) {
+              this.async(() => {
+                this.dispatchEvent(new CustomEvent('show-alert',
+                    {detail: {message: RESTORED_MESSAGE}, bubbles: true}));
+              }, 1);
+
+              this._newContent = storedContent.message;
+            } else {
+              this._newContent = res.content || '';
+            }
             this._content = res.content || '';
 
             // A non-ok response may result if the file does not yet exist.
@@ -191,7 +210,16 @@
     },
 
     _handleContentChange(e) {
-      if (e.detail.value) { this.set('_newContent', e.detail.value); }
+      this.debounce('store', () => {
+        const key = this._getStorageKey();
+        const content = e.detail.value;
+        if (content) {
+          this.set('_newContent', e.detail.value);
+          this.$.storage.setEditableContentItem(key, content);
+        } else {
+          this.$.storage.eraseEditableContentItem(key);
+        }
+      }, STORAGE_DEBOUNCE_INTERVAL_MS);
     },
 
     _handleSaveShortcut(e) {

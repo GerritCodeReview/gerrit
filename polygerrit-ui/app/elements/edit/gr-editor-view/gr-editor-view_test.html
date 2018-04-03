@@ -123,6 +123,7 @@ suite('gr-editor-view tests', () => {
       bubbles: true,
       detail: {value: 'new content value'},
     }));
+    element.flushDebouncer('store');
     flushAsynchronousOperations();
 
     assert.equal(element._newContent, 'new content value');
@@ -219,6 +220,7 @@ suite('gr-editor-view tests', () => {
       element._newContent = 'initial';
       element._content = 'initial';
       element._type = 'initial';
+      sandbox.stub(element.$.storage, 'getEditableContentItem').returns(null);
     });
 
     test('res.ok', () => {
@@ -341,6 +343,22 @@ suite('gr-editor-view tests', () => {
         assert.equal(handleSpy.callCount, 2);
         assert.isFalse(saveStub.called);
       });
+    });
+  });
+
+  suite('gr-storage caching', () => {
+    test('local edit exists', () => {
+      sandbox.stub(element.$.storage, 'getEditableContentItem')
+          .returns({message: 'edit'});
+      sandbox.stub(element.$.restAPI, 'getFileContent')
+          .returns(Promise.resolve({
+            ok: true,
+            type: 'text/javascript',
+            content: 'new content',
+          }));
+
+
+
     });
   });
 });

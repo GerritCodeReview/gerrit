@@ -261,9 +261,9 @@ public class EventFactory {
       sa.requirements = new ArrayList<>();
       for (SubmitRequirement req : submitRecord.requirements) {
         SubmitRequirementAttribute re = new SubmitRequirementAttribute();
-        re.shortReason = req.shortReason();
-        re.fullReason = req.fullReason();
-        re.label = req.label().orElse(null);
+        re.fallbackText = req.fallbackText();
+        re.type = req.type();
+        re.data = req.data();
         sa.requirements.add(re);
       }
     }

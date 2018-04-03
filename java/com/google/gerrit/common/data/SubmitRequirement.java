@@ -14,67 +14,65 @@
 
 package com.google.gerrit.common.data;
 
-import static java.util.Objects.requireNonNull;
-
-import com.google.gerrit.common.Nullable;
-import java.util.Objects;
-import java.util.Optional;
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 /** Describes a requirement to submit a change. */
-public final class SubmitRequirement {
-  private final String shortReason;
-  private final String fullReason;
-  @Nullable private final String label;
+@GwtIncompatible
+@AutoValue
+@AutoValue.CopyAnnotations
+public abstract class SubmitRequirement {
+  private static final CharMatcher TYPE_MATCHER =
+      CharMatcher.inRange('a', 'z')
+          .or(CharMatcher.inRange('A', 'Z'))
+          .or(CharMatcher.inRange('0', '9'))
+          .or(CharMatcher.anyOf("-_"));
 
-  public SubmitRequirement(String shortReason, String fullReason, @Nullable String label) {
-    this.shortReason = requireNonNull(shortReason);
-    this.fullReason = requireNonNull(fullReason);
-    this.label = label;
-  }
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder setType(String value);
 
-  public String shortReason() {
-    return shortReason;
-  }
+    public abstract Builder setFallbackText(String value);
 
-  public String fullReason() {
-    return fullReason;
-  }
-
-  public Optional<String> label() {
-    return Optional.ofNullable(label);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public Builder setData(Map<String, String> value) {
+      return setData(ImmutableMap.copyOf(value));
     }
-    if (o instanceof SubmitRequirement) {
-      SubmitRequirement that = (SubmitRequirement) o;
-      return Objects.equals(shortReason, that.shortReason)
-          && Objects.equals(fullReason, that.fullReason)
-          && Objects.equals(label, that.label);
+
+    public Builder addCustomValue(String key, String value) {
+      dataBuilder().put(key, value);
+      return this;
     }
-    return false;
+
+    public SubmitRequirement build() {
+      SubmitRequirement requirement = autoBuild();
+      Preconditions.checkState(
+          validateType(requirement.type()),
+          "SubmitRequirement's type contains non alphanumerical symbols.");
+      return requirement;
+    }
+
+    abstract Builder setData(ImmutableMap<String, String> value);
+
+    abstract ImmutableMap.Builder<String, String> dataBuilder();
+
+    abstract SubmitRequirement autoBuild();
   }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(shortReason, fullReason, label);
+  public abstract String fallbackText();
+
+  public abstract String type();
+
+  public abstract ImmutableMap<String, String> data();
+
+  public static Builder builder() {
+    return new AutoValue_SubmitRequirement.Builder();
   }
 
-  @Override
-  public String toString() {
-    return "SubmitRequirement{"
-        + "shortReason='"
-        + shortReason
-        + '\''
-        + ", fullReason='"
-        + fullReason
-        + '\''
-        + ", label='"
-        + label
-        + '\''
-        + '}';
+  private static boolean validateType(String type) {
+    return TYPE_MATCHER.matchesAllOf(type);
   }
 }

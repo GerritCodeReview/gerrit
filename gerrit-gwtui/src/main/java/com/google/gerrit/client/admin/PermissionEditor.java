@@ -273,7 +273,7 @@ public class PermissionEditor extends Composite
                 lt.getMin().getValue(),
                 lt.getMax().getValue());
       }
-    } else if (GlobalCapability.isCapability(value.getName())) {
+    } else if (GlobalCapability.isGlobalCapability(value.getName())) {
       validRange = GlobalCapability.getRange(value.getName());
 
     } else {

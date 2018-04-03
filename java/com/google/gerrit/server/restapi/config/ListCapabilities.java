@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -23,8 +24,8 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,23 +46,14 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   @Override
   public Map<String, CapabilityInfo> apply(ConfigResource resource)
       throws IllegalAccessException, NoSuchFieldException {
-    Map<String, CapabilityInfo> output = new TreeMap<>();
-    collectCoreCapabilities(output);
-    collectPluginCapabilities(output);
-    return output;
+    return ImmutableMap.<String, CapabilityInfo>builder()
+        .putAll(collectCoreCapabilities())
+        .putAll(collectPluginCapabilities())
+        .build();
   }
 
-  private void collectCoreCapabilities(Map<String, CapabilityInfo> output)
-      throws IllegalAccessException, NoSuchFieldException {
-    Class<? extends CapabilityConstants> bundleClass = CapabilityConstants.get().getClass();
-    CapabilityConstants c = CapabilityConstants.get();
-    for (String id : GlobalCapability.getAllNames()) {
-      String name = (String) bundleClass.getField(id).get(c);
-      output.put(id, new CapabilityInfo(id, name));
-    }
-  }
-
-  private void collectPluginCapabilities(Map<String, CapabilityInfo> output) {
+  public Map<String, CapabilityInfo> collectPluginCapabilities() {
+    Map<String, CapabilityInfo> output = new HashMap<>();
     for (String pluginName : pluginCapabilities.plugins()) {
       if (!PLUGIN_NAME_PATTERN.matcher(pluginName).matches()) {
         log.warn(
@@ -76,6 +68,19 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
         output.put(id, new CapabilityInfo(id, entry.getValue().get().getDescription()));
       }
     }
+    return output;
+  }
+
+  private Map<String, CapabilityInfo> collectCoreCapabilities()
+      throws IllegalAccessException, NoSuchFieldException {
+    Map<String, CapabilityInfo> output = new HashMap<>();
+    Class<? extends CapabilityConstants> bundleClass = CapabilityConstants.get().getClass();
+    CapabilityConstants c = CapabilityConstants.get();
+    for (String id : GlobalCapability.getAllNames()) {
+      String name = (String) bundleClass.getField(id).get(c);
+      output.put(id, new CapabilityInfo(id, name));
+    }
+    return output;
   }
 
   public static class CapabilityInfo {

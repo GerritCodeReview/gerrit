@@ -1,4 +1,96 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1522346060 -0400\nnonce AFN+CTKGsffKgG2bXfgfsrlNkPIgdhgagaWL7oRm/GF51W2vv3ZYJCiKYdTGnk8j7fBfJcEPtokQ\n\n0000000000000000000000000000000000000000 da8961f6ff64478f11a6a8fc3aa32d7253ae61fd refs/for/master%r\u003dhiesel@google.com,wip\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlq9KEwVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMMGUQAMgOQfxPloExyllZpSf+kJi0f/3p\n3WMIUecK1M6YbakHIsaowtYKST6swBCwGNqbIrMP+tZJbKOsn3qxvf7cGin6p0qZ\n2LVzn4o0FZwUVvJA3jC3EONhhyI6+2z1FYozLZ8ALsJ0SuFh4eDI9Np2fp+ldvq7\n/WS9MonAaoty3lAXUqG0mhnNeujyM+0PYzvLokfDIixyUaPPFuDd6x5caDtpQbdH\nl7e+cf+0a9zl4eJ0HFjvGVbqFIUcesE/S6yxWbxFOU49X7hd3crQZ3ZPDqngAwUb\nOXCEEv4iXrRuBQQ4NZ2///V8rh0YDva23MQwdBFikWV1t/k49uSsw6613Bk7p0tQ\nw+Ir9FFbrg/Z7tJv6vFXsXOD+tZ49hB0dlhwxrnpkSxcXDuNR/hwUD9sKBrS2vtn\ni/15HNRgLBlPSd7tdE+GBEk4oL1HXEbyL1c6bxVtAQnRSFeNfV5npW5OaCo9BiuE\nGyyETj1U7rPRNv4NsoNXigeGNaRw+B5NU+BXtkVwmztgK2acxdfVZut3q+c3YdpP\ntoLVnmT0KaXJk3ziFJdZffF9wpx0Y2Q62gSv18ojCQqWfO7CUNd2Uo6arx6uODL8\nwSMIpeBJrSodZE8rI/w75+UNrwcFCiUSr+NlSX0vmz+0DOunMrx+0We8yNDqJ9WR\niauIFabc/2bvSADC\n\u003dYcX9\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "13f22f79_84855848",
+        "filename": "java/com/google/gerrit/extensions/restapi/AuthException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-03T08:19:47Z",
+      "side": 1,
+      "message": "I am slightly worried that we\u0027ll have plenty of places in code where we check if this is present - if so print it - if not fall back to getMessage()?\n\nShould we overwrite getMessage() here and have it print the advice instead?",
+      "range": {
+        "startLine": 42,
+        "startChar": 26,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "290fae91_2b317f9e",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-03T08:19:47Z",
+      "side": 1,
+      "message": "I think giving this up is OK given the upside of having correct error messages (again).",
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c2aa6b6_394df4f1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-03T08:19:47Z",
+      "side": 1,
+      "message": "Would be good if this gets some test coverage. It took me quite a while to process what the output would be in the end :)",
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6605978b_ed4f3363",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-03T08:19:47Z",
+      "side": 1,
+      "message": "This will make it so that the final message still contains Gerrit-internal permissions like WRITE_CONFIG (taking this as an example here).\n\nPermDeniedException calls super(permission.toString() + \"not permitted\")\n\nMost permissions are an enum, so they\u0027ll print their name which gives: \"WRITE_CONFIG not permitted\"\n\nSo the overall output would be:\n\nprohibited by Gerrit: WRITE_CONFIG not permitted\nYou are not allowed to perform this operation ....\n\nSo that would still be wired for the user as they don\u0027t know what WRITE_CONFIG is.\n\nShould we just print \"prohibited by Gerrit: permission denied\" in case we already printed advice?",
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b48283c1_4fe4c4f2",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-03T08:19:47Z",
+      "side": 1,
+      "message": "This method is going to get very large, can we factor it out?",
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

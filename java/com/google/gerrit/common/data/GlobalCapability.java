@@ -156,7 +156,7 @@ public class GlobalCapability {
   }
 
   /** @return true if the name is recognized as a capability name. */
-  public static boolean isCapability(String varName) {
+  public static boolean isGlobalCapability(String varName) {
     return NAMES_LC.contains(varName.toLowerCase());
   }
 

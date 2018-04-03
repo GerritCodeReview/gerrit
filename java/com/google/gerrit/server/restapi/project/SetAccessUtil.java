@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.RefPattern;
+import com.google.gerrit.server.restapi.config.ListCapabilities;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -43,21 +44,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class SetAccessUtil {
   private final GroupsCollection groupsCollection;
   private final AllProjectsName allProjects;
   private final Provider<SetParent> setParent;
+  private final ListCapabilities listCapabilities;
 
   @Inject
   private SetAccessUtil(
       GroupsCollection groupsCollection,
       AllProjectsName allProjects,
-      Provider<SetParent> setParent) {
+      Provider<SetParent> setParent,
+      ListCapabilities listCapabilities) {
     this.groupsCollection = groupsCollection;
     this.allProjects = allProjects;
     this.setParent = setParent;
+    this.listCapabilities = listCapabilities;
   }
 
   List<AccessSection> getAccessSections(Map<String, AccessSectionInfo> sectionInfos)
@@ -147,8 +152,10 @@ public class SetAccessUtil {
         RefPattern.validate(name);
       } else {
         // Check all permissions for soundness
+        Set<String> pluginCapabilities = listCapabilities.collectPluginCapabilities().keySet();
         for (Permission p : section.getPermissions()) {
-          if (!GlobalCapability.isCapability(p.getName())) {
+          if (!(GlobalCapability.isGlobalCapability(p.getName())
+              || pluginCapabilities.contains(p.getName()))) {
             throw new BadRequestException(
                 "Cannot add non-global capability " + p.getName() + " to global capabilities");
           }

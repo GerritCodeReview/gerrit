@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4be365d1_b49bcbb5",
+        "filename": "java/com/google/gerrit/extensions/restapi/AuthException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-03T12:50:37Z",
+      "side": 1,
+      "message": "No, that\u0027s not what advice is for.\n\nIn the context of ReceiveCommits, advice is printed to stderr, and message goes in the per-command output. I\u0027m not set on the name \"advice\".\n\n remote: Resolving deltas: 100% (1/1)\n remote: Processing changes: refs: 1, done\n remote: ERROR: [12248fa] missing Change-Id in commit message footer\n remote:\n remote: Hint: To automatically insert Change-Id, install the hook:\n remote: curl -Lo `git rev-parse --git-dir`/hooks/commit-msg https://gerrit-review.googlesource.com/tools/hooks/commit-msg ; chmod +x `git rev-parse --git-dir`/hooks/commit-msg\n remote: And then amend the commit:\n remote:   git commit --amend\n         ^^^ advice\n remote:\n To sso://gerrit/gerrit\n  ! [remote rejected]       HEAD -\u003e refs/for/master%wip ([12248fa] missing Change-Id in commit\nmessage footer)\n                                                         ^^^ message\n\n error: failed to push some refs to \u0027https://gerrit.googlesource.com/gerrit\u0027\n\n(Not technically an AuthException but you get the idea.)\n\nCurrently, the message would only be used in ReceiveCommits, e.g. the response body of an error from the REST API will just contain the message. But we could change that as well.",
+      "parentUuid": "13f22f79_84855848",
+      "range": {
+        "startLine": 42,
+        "startChar": 26,
+        "endLine": 42,
+        "endChar": 35
+      },
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "290fae91_2b317f9e",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

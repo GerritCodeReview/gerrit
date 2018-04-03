@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbe266bb_07ed6d0f",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetAccessUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-03T22:32:50Z",
+      "side": 1,
+      "message": "Optional: If this returns true it\u0027s not necessary to call collectPluginCapabilities, so this could be done separately with an early \"return true\" to avoid the unnecessary call. i.e.:\n\n if (GlobalCapability.isGlobalCapability(name)) {\n   return true;\n }\n return listCapabilities.collectPluginCapabilities().keySet().contains(name);",
+      "range": {
+        "startLine": 245,
+        "startChar": 11,
+        "endLine": 245,
+        "endChar": 52
+      },
+      "revId": "5204c971000c5717b7672496169ade794436ccf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

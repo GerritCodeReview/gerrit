@@ -49,7 +49,6 @@
       /** @type {?} */
       revision: Object,
       commitInfo: Object,
-      missingLabels: Array,
       mutable: Boolean,
       /**
        * @type {{ note_db_enabled: string }}
@@ -73,9 +72,9 @@
         type: Boolean,
         computed: '_computeShowReviewersByState(serverConfig)',
       },
-      _showLabelStatus: {
+      _showRequirements: {
         type: Boolean,
-        computed: '_computeShowLabelStatus(change)',
+        computed: '_computeShowRequirements(change)',
       },
 
       _assignee: Array,
@@ -286,6 +285,16 @@
       return !!serverConfig.note_db_enabled;
     },
 
+    _computeShowRequirements(change) {
+      if (change.status !== this.ChangeStatus.NEW) {
+      // TODO(maximeg) display the stored requirements once implemented server-side
+        return false;
+      }
+      const hasRequirements = !!change.requirements && Object.keys(change.requirements).length > 0;
+      const hasLabels = !!change.labels && Object.keys(change.labels).length > 0;
+      return hasRequirements || hasLabels || !!change.work_in_progress;
+    },
+
     /**
      * A user is able to delete a vote iff the mutable property is true and the
      * reviewer that left the vote exists in the list of removable_reviewers
@@ -353,25 +362,6 @@
             target.disabled = false;
             return;
           });
-    },
-
-    _computeShowLabelStatus(change) {
-      const isNewChange = change.status === this.ChangeStatus.NEW;
-      const hasLabels = Object.keys(change.labels).length > 0;
-      return isNewChange && hasLabels;
-    },
-
-    _computeMissingLabelsHeader(missingLabels) {
-      return 'Needs label' +
-          (missingLabels.length > 1 ? 's' : '') + ':';
-    },
-
-    _showMissingLabels(missingLabels) {
-      return !!missingLabels.length;
-    },
-
-    _showMissingRequirements(missingLabels, workInProgress) {
-      return workInProgress || this._showMissingLabels(missingLabels);
     },
 
     _computeProjectURL(project) {

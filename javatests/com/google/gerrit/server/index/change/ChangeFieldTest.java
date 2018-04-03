@@ -101,10 +101,11 @@ public class ChangeFieldTest extends GerritBaseTests {
             label(SubmitRecord.Label.Status.OK, "Label-2", 1));
 
     SubmitRequirement sr =
-        new SubmitRequirement(
-            "short reason",
-            "Full reason can be a long string with special symbols like < > \\ / ; :",
-            null);
+        SubmitRequirement.builder()
+            .setType("short_type")
+            .setFallbackText("Fallback text may contain special symbols like < > \\ / ; :")
+            .addCustomValue("custom_data", "my value")
+            .build();
     r.requirements = Collections.singletonList(sr);
 
     assertStoredRecordRoundTrip(r);

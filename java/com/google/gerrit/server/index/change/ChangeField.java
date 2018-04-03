@@ -36,7 +36,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.google.common.primitives.Longs;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.index.FieldDef;
@@ -77,6 +76,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -657,9 +657,9 @@ public class ChangeField {
     }
 
     static class StoredRequirement {
-      String shortReason;
-      String fullReason;
-      @Nullable String label;
+      String fallbackText;
+      String type;
+      Map<String, String> data;
     }
 
     SubmitRecord.Status status;
@@ -684,9 +684,9 @@ public class ChangeField {
         this.requirements = new ArrayList<>(rec.requirements.size());
         for (SubmitRequirement requirement : rec.requirements) {
           StoredRequirement sr = new StoredRequirement();
-          sr.shortReason = requirement.shortReason();
-          sr.fullReason = requirement.fullReason();
-          sr.label = requirement.label().orElse(null);
+          sr.type = requirement.type();
+          sr.fallbackText = requirement.fallbackText();
+          sr.data = requirement.data();
           this.requirements.add(sr);
         }
       }
@@ -708,10 +708,13 @@ public class ChangeField {
       }
       if (requirements != null) {
         rec.requirements = new ArrayList<>(requirements.size());
-        for (StoredRequirement requirement : requirements) {
+        for (StoredRequirement req : requirements) {
           SubmitRequirement sr =
-              new SubmitRequirement(
-                  requirement.shortReason, requirement.fullReason, requirement.label);
+              SubmitRequirement.builder()
+                  .setType(req.type)
+                  .setFallbackText(req.fallbackText)
+                  .setData(req.data)
+                  .build();
           rec.requirements.add(sr);
         }
       }

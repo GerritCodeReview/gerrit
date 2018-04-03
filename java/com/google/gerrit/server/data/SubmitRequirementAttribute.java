@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.data;
 
+import java.util.Map;
+
 /**
  * Represents a {@link com.google.gerrit.common.data.SubmitRequirement} that does not depend on
  * Gerrit internal classes, to be serialized
  */
 public class SubmitRequirementAttribute {
-  public String shortReason;
-  public String fullReason;
-  public String label;
+  public Map<String, String> data;
+  public String type;
+  public String fallbackText;
 }

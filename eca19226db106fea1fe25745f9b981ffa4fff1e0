@@ -95,6 +95,30 @@
       "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed135372_321a901b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-03T15:39:48Z",
+      "side": 1,
+      "message": "I see your point with the same location for both classes in medium term.\n\n\u003e Do you have a suggestion for a better package name than c.g.g.server.git.meta for the medium-term home of VersionedMetaData and MetaDataUpdate?\n\nc.g.g.server.git.meta is just fine.",
+      "parentUuid": "bf6f3e98_650a0fc8",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

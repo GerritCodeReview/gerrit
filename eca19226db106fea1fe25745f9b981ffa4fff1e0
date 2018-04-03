@@ -47,6 +47,30 @@
       "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4293a41f_504cd1a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-03T15:16:04Z",
+      "side": 1,
+      "message": "Sure, rename c.g.g.server.git -\u003e c.g.g.git and isolate them from the rest of gerrit.server package makes a lot of sense. The dependency direction should be then gerrit.server -\u003e gerrit.git. Another candidate is change edit related commit and tree mutation classes, that reside in server.edit.git package and could be probably easily isolated.\n\nAs the intermediate step we move not that easy to isolate MetaDataUpdate class out of that candidate package. Correct and thanks for claryfying.\n\nThough, in that light couldn\u0027t we preserve the current location of the VersionedMetaData that can be a part of isolated com.google.gerrit.git package, that is independent from the rest of the server code? Of course we could re-move it later again from c.g.g.server.git.meta -\u003e c.g.g.git, but that would be rather noisy.",
+      "parentUuid": "4aec677a_2c9a6356",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

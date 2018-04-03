@@ -174,11 +174,6 @@
       },
       _loading: Boolean,
       /** @type {?} */
-      _missingLabels: {
-        type: Array,
-        computed: '_computeMissingLabels(_change.labels)',
-      },
-      /** @type {?} */
       _projectConfig: Object,
       _rebaseOnCurrent: Boolean,
       _replyButtonLabel: {
@@ -382,18 +377,6 @@
 
     _handleCommitMessageCancel(e) {
       this._editingCommitMessage = false;
-    },
-
-    _computeMissingLabels(labels) {
-      const missingLabels = [];
-      for (const label in labels) {
-        if (!labels.hasOwnProperty(label)) { continue; }
-        const obj = labels[label];
-        if (!obj.optional && !obj.approved) {
-          missingLabels.push(label);
-        }
-      }
-      return missingLabels;
     },
 
     _computeChangeStatusChips(change, mergeable) {

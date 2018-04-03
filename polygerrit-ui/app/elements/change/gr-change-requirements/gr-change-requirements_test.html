@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-requirements</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-change-requirements.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-requirements></gr-change-requirements>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-metadata tests', () => {
+    let element;
+
+    setup(() => {
+      element = fixture('basic');
+    });
+
+    test('computed fields', () => {
+      assert.isTrue(element._computeShowLabelStatus({status: 'NEW'}));
+      assert.isFalse(element._computeShowLabelStatus({status: 'MERGED'}));
+      assert.isFalse(element._computeShowLabelStatus({status: 'ABANDONED'}));
+
+      assert.isTrue(element._computeShowWip({work_in_progress: true}));
+      assert.isFalse(element._computeShowWip({work_in_progress: false}));
+
+      assert.equal(element._computeRequirementClass(true), 'satisfied');
+      assert.equal(element._computeRequirementClass(false), 'unsatisfied');
+
+      assert.equal(element._computeRequirementStatus(true), '✓');
+      assert.equal(element._computeRequirementStatus(false), '⧗');
+    });
+
+    test('properly converts satisfied labels', () => {
+      element.change = {
+        status: 'NEW',
+        labels: {
+          Verified: {
+            approved: true,
+          },
+        },
+        requirements: [],
+      };
+      flushAsynchronousOperations();
+
+      const labelName = element.$$('.satisfied .labelName');
+      assert.ok(labelName);
+      assert.isFalse(labelName.hasAttribute('hidden'));
+      assert.equal(labelName.innerHTML, 'Verified');
+    });
+
+    test('properly converts unsatisfied labels', () => {
+      element.change = {
+        status: 'NEW',
+        labels: {
+          Verified: {
+            approved: false,
+          },
+        },
+      };
+      flushAsynchronousOperations();
+
+      const labelName = element.$$('.unsatisfied .labelName');
+      assert.ok(labelName);
+      assert.isFalse(labelName.hasAttribute('hidden'));
+      assert.equal(labelName.innerHTML, 'Verified');
+    });
+
+    test('properly displays Work In Progress', () => {
+      element.change = {
+        status: 'NEW',
+        labels: {},
+        requirements: [],
+        work_in_progress: true,
+      };
+      flushAsynchronousOperations();
+
+      const changeIsWip = element.$$('.changeIsWip.unsatisfied');
+      assert.ok(changeIsWip);
+      assert.isFalse(changeIsWip.hasAttribute('hidden'));
+      assert.notEqual(changeIsWip.innerHTML.indexOf('Work in Progress'), -1);
+    });
+
+
+    test('properly displays a satisfied requirement', () => {
+      element.change = {
+        status: 'NEW',
+        labels: {},
+        requirements: [{
+          fallback_text: 'Resolve all comments',
+          status: 'OK',
+        }],
+      };
+      flushAsynchronousOperations();
+
+      const satisfiedRequirement = element.$$('.satisfied');
+      assert.ok(satisfiedRequirement);
+      assert.isFalse(satisfiedRequirement.hasAttribute('hidden'));
+
+      // Extract the content of the text node (second element, after the span)
+      const textNode = satisfiedRequirement.childNodes[1].nodeValue.trim();
+      assert.equal(textNode, 'Resolve all comments');
+    });
+  });
+</script>

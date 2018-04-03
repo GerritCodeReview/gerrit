@@ -65,6 +65,43 @@ limitations under the License.
           'Rebase Always');
     });
 
+    test('computed fields requirements', () => {
+      assert.isFalse(element._computeShowRequirements({status: 'MERGED'}));
+      assert.isFalse(element._computeShowRequirements({status: 'ABANDONED'}));
+
+      // No labels and no requirements: submit status is useless
+      assert.isFalse(element._computeShowRequirements({
+        status: 'NEW',
+        labels: {},
+      }));
+
+      // Work in Progress: submit status should be present
+      assert.isTrue(element._computeShowRequirements({
+        status: 'NEW',
+        labels: {},
+        work_in_progress: true,
+      }));
+
+      // We have at least one reason to display Submit Status
+      assert.isTrue(element._computeShowRequirements({
+        status: 'NEW',
+        labels: {
+          Verified: {
+            approved: false,
+          },
+        },
+        requirements: [],
+      }));
+      assert.isTrue(element._computeShowRequirements({
+        status: 'NEW',
+        labels: {},
+        requirements: [{
+          fallback_text: 'Resolve all comments',
+          status: 'OK',
+        }],
+      }));
+    });
+
     test('show strategy for open change', () => {
       element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
       flushAsynchronousOperations();
@@ -90,26 +127,6 @@ limitations under the License.
 
       element.serverConfig = {note_db_enabled: true};
       assert.isTrue(hasCc());
-    });
-
-    test('computes submit status', () => {
-      let showMissingLabels = false;
-      sandbox.stub(element, '_showMissingLabels', () => {
-        return showMissingLabels;
-      });
-      assert.isFalse(element._showMissingRequirements(null, false));
-      assert.isTrue(element._showMissingRequirements(null, true));
-      showMissingLabels = true;
-      assert.isTrue(element._showMissingRequirements(null, false));
-    });
-
-    test('show missing labels', () => {
-      let missingLabels = [];
-      assert.isFalse(element._showMissingLabels(missingLabels));
-      missingLabels = ['test'];
-      assert.isTrue(element._showMissingLabels(missingLabels));
-      missingLabels.push('test2');
-      assert.isTrue(element._showMissingLabels(missingLabels));
     });
 
     test('weblinks use Gerrit.Nav interface', () => {
@@ -166,20 +183,6 @@ limitations under the License.
       assert.isFalse(webLinks.hasAttribute('hidden'));
       // Only the non-gitiles weblink is returned.
       assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
-    });
-
-    test('determines whether to show "Ready to Submit" label', () => {
-      const showMissingSpy = sandbox.spy(element, '_showMissingRequirements');
-      element.missingLabels = ['bojack'];
-      element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {
-        test: {
-          all: [{_account_id: 1, name: 'bojack', value: 1}],
-          default_value: 0,
-          values: [],
-        },
-      }};
-      flushAsynchronousOperations();
-      assert.isTrue(showMissingSpy.called);
     });
 
     test('_computeShowUploader test for uploader', () => {

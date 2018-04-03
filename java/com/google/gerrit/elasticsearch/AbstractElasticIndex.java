@@ -92,6 +92,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   private final Schema<V> schema;
   private final SitePaths sitePaths;
+  private final String indexNameRaw;
 
   protected final String indexName;
   protected final JestHttpClient client;
@@ -110,10 +111,11 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.queryBuilder = new ElasticQueryBuilder();
     this.indexName =
         String.format(
-            "%s%s%04d",
+            "%s%s_%04d",
             Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix")),
             indexName,
             schema.getVersion());
+    this.indexNameRaw = indexName;
     this.client = clientBuilder.build();
   }
 
@@ -129,7 +131,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   @Override
   public void markReady(boolean ready) throws IOException {
-    IndexUtils.setReady(sitePaths, indexName, schema.getVersion(), ready);
+    IndexUtils.setReady(sitePaths, indexNameRaw, schema.getVersion(), ready);
   }
 
   @Override

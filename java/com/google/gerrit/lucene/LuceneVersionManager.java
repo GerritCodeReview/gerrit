@@ -40,15 +40,6 @@ import org.slf4j.LoggerFactory;
 public class LuceneVersionManager extends VersionManager {
   private static final Logger log = LoggerFactory.getLogger(LuceneVersionManager.class);
 
-  private static class Version<V> extends VersionManager.Version<V> {
-    private final boolean exists;
-
-    private Version(Schema<V> schema, int version, boolean exists, boolean ready) {
-      super(schema, version, ready);
-      this.exists = exists;
-    }
-  }
-
   static Path getDir(SitePaths sitePaths, String name, Schema<?> schema) {
     return sitePaths.index_dir.resolve(String.format("%s_%04d", name, schema.getVersion()));
   }
@@ -60,13 +51,6 @@ public class LuceneVersionManager extends VersionManager {
       DynamicSet<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs) {
     super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg));
-  }
-
-  @Override
-  protected <V> boolean isDirty(
-      Collection<com.google.gerrit.server.index.VersionManager.Version<V>> inUse,
-      com.google.gerrit.server.index.VersionManager.Version<V> v) {
-    return !inUse.contains(v) && ((Version<V>) v).exists;
   }
 
   @Override

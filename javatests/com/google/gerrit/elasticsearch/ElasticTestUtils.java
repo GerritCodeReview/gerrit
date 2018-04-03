@@ -15,11 +15,11 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.elasticsearch.ElasticAccountIndex.ACCOUNTS_PREFIX;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES_PREFIX;
+import static com.google.gerrit.elasticsearch.ElasticAccountIndex.ACCOUNTS;
+import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES;
 import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CLOSED_CHANGES;
 import static com.google.gerrit.elasticsearch.ElasticChangeIndex.OPEN_CHANGES;
-import static com.google.gerrit.elasticsearch.ElasticGroupIndex.GROUPS_PREFIX;
+import static com.google.gerrit.elasticsearch.ElasticGroupIndex.GROUPS;
 import static com.google.gerrit.elasticsearch.ElasticProjectIndex.PROJECTS_PREFIX;
 
 import com.google.common.base.Strings;
@@ -132,7 +132,7 @@ final class ElasticTestUtils {
         .client()
         .admin()
         .indices()
-        .prepareCreate(String.format("%s%04d", CHANGES_PREFIX, changeSchema.getVersion()))
+        .prepareCreate(String.format("%s_%04d", CHANGES, changeSchema.getVersion()))
         .addMapping(OPEN_CHANGES, gson.toJson(openChangesMapping))
         .addMapping(CLOSED_CHANGES, gson.toJson(closedChangesMapping))
         .execute()
@@ -145,7 +145,7 @@ final class ElasticTestUtils {
         .client()
         .admin()
         .indices()
-        .prepareCreate(String.format("%s%04d", ACCOUNTS_PREFIX, accountSchema.getVersion()))
+        .prepareCreate(String.format("%s_%04d", ACCOUNTS, accountSchema.getVersion()))
         .addMapping(ElasticAccountIndex.ACCOUNTS, gson.toJson(accountMapping))
         .execute()
         .actionGet();
@@ -157,7 +157,7 @@ final class ElasticTestUtils {
         .client()
         .admin()
         .indices()
-        .prepareCreate(String.format("%s%04d", GROUPS_PREFIX, groupSchema.getVersion()))
+        .prepareCreate(String.format("%s_%04d", GROUPS, groupSchema.getVersion()))
         .addMapping(ElasticGroupIndex.GROUPS, gson.toJson(groupMapping))
         .execute()
         .actionGet();

@@ -32,6 +32,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-change-requirements/gr-change-requirements.html">
 <link rel="import" href="../gr-commit-info/gr-commit-info.html">
 <link rel="import" href="../gr-reviewer-list/gr-reviewer-list.html">
 
@@ -94,25 +95,12 @@ limitations under the License.
       .negative {
         background-color: var(--vote-color-negative);
       }
-      .labelStatus .value {
-        max-width: 9em;
-      }
-      .labelStatus li {
-        list-style-type: disc;
-      }
       .webLink {
         display: block;
       }
-      #missingLabels {
-        padding-left: 1.5em;
-      }
-
       /* CSS Mixins should be applied last. */
       section.assignee {
         @apply --change-metadata-assignee;
-      }
-      section.labelStatus {
-        @apply --change-metadata-label-status;
       }
       section.strategy {
         @apply --change-metadata-strategy;
@@ -349,29 +337,7 @@ limitations under the License.
           </span>
         </section>
       </template>
-      <template is="dom-if" if="[[_showLabelStatus]]">
-        <section class="labelStatus">
-          <span class="title">Label Status</span>
-          <span class="value">
-            <div hidden$="[[!_isWip]]">
-              Work in progress
-            </div>
-            <div hidden$="[[!_showMissingLabels(missingLabels)]]">
-              [[_computeMissingLabelsHeader(missingLabels)]]
-              <ul id="missingLabels">
-                <template
-                    is="dom-repeat"
-                    items="[[missingLabels]]">
-                  <li>[[item]]</li>
-                </template>
-              </ul>
-            </div>
-            <div hidden$="[[_showMissingRequirements(missingLabels, _isWip)]]">
-              Ready to submit
-            </div>
-          </span>
-        </section>
-      </template>
+      <gr-change-requirements change="[[change]]"></gr-change-requirements>
       <section id="webLinks" hidden$="[[!_computeWebLinks(commitInfo)]]">
         <span class="title">Links</span>
         <span class="value">

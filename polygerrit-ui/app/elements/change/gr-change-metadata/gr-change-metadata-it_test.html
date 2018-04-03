@@ -46,7 +46,6 @@ limitations under the License.
 
     const sectionSelectors = [
       'section.assignee',
-      'section.labelStatus',
       'section.strategy',
       'section.topic',
     ];
@@ -85,7 +84,6 @@ limitations under the License.
         deleteVote() { return Promise.resolve({ok: true}); },
       });
       stub('gr-change-metadata', {
-        _computeShowLabelStatus() { return true; },
         _computeShowReviewersByState() { return true; },
       });
     });

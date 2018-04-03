@@ -129,6 +129,7 @@ import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.jcraft.jsch.JSchException;
 import java.io.ByteArrayOutputStream;
@@ -394,13 +395,14 @@ public abstract class AbstractDaemonTest {
     }
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
+    Module module = createModule();
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
-        commonServer = GerritServer.initAndStart(classDesc, baseConfig);
+        commonServer = GerritServer.initAndStart(classDesc, baseConfig, module);
       }
       server = commonServer;
     } else {
-      server = GerritServer.initAndStart(methodDesc, baseConfig);
+      server = GerritServer.initAndStart(methodDesc, baseConfig, module);
     }
 
     server.getTestInjector().injectMembers(this);
@@ -441,6 +443,11 @@ public abstract class AbstractDaemonTest {
     atrScope.set(ctx);
     project = createProject(projectInput(description));
     testRepo = cloneProject(project, getCloneAsAccount(description));
+  }
+
+  /** Override to bind an additional Guice module */
+  public Module createModule() {
+    return null;
   }
 
   protected void initSsh() throws JSchException {

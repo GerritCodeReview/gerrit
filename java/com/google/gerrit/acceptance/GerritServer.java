@@ -252,10 +252,12 @@ public class GerritServer implements AutoCloseable {
    *
    * @param desc server description.
    * @param baseConfig default config values; merged with config from {@code desc}.
+   * @param testSysModule additional Guice module to use.
    * @return started server.
    * @throws Exception
    */
-  public static GerritServer initAndStart(Description desc, Config baseConfig) throws Exception {
+  public static GerritServer initAndStart(
+      Description desc, Config baseConfig, @Nullable Module testSysModule) throws Exception {
     Path site = TempFileUtil.createTempDirectory().toPath();
     baseConfig = new Config(baseConfig);
     baseConfig.setString("gerrit", null, "basePath", site.resolve("git").toString());
@@ -264,7 +266,7 @@ public class GerritServer implements AutoCloseable {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, null, null, null);
+      return start(desc, baseConfig, site, testSysModule, null, null);
     } catch (Exception e) {
       TempFileUtil.recursivelyDelete(site.toFile());
       throw e;

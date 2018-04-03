@@ -523,36 +523,26 @@ limitations under the License.
         assert.isFalse(button.hasAttribute('hidden'));
       });
 
-      test('deletes votes', done => {
-        const deleteStub = sandbox.stub(element.$.restAPI, 'deleteVote')
-            .returns(Promise.resolve({ok: true}));
+      test('deletes votes', () => {
+        const deleteResponse = Promise.resolve({ok: true});
+        const deleteStub = sandbox.stub(
+            element.$.restAPI, 'deleteVote').returns(deleteResponse);
 
-        element.change.removable_reviewers = [
-          {
-            _account_id: 1,
-            name: 'bojack',
-          },
-        ];
+        element.change.removable_reviewers = [{
+          _account_id: 1,
+          name: 'bojack',
+        }];
         element.change.labels.test.recommended = {_account_id: 1};
         element.mutable = true;
-        flushAsynchronousOperations();
         const chip = element.$$('gr-account-chip');
         const button = chip.$$('gr-button');
-
-        const spliceStub = sandbox.stub(element, 'splice', (path, index,
-            length) => {
-          assert.isFalse(chip.disabled);
-          assert.deepEqual(path, ['change.labels', 'test', 'all']);
-          assert.equal(index, 0);
-          assert.equal(length, 1);
-          assert.notOk(element.change.labels.test.recommended);
-          assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
-          spliceStub.restore();
-          done();
-        });
-
         MockInteractions.tap(button);
         assert.isTrue(chip.disabled);
+        return deleteResponse.then(() => {
+          assert.isFalse(chip.disabled);
+          assert.notOk(element.change.labels.test.recommended);
+          assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
+        });
       });
 
       test('changing topic', () => {

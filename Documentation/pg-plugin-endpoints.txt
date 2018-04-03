@@ -69,6 +69,11 @@ link:rest-api-changes.html#change-info[ChangeInfo]
 current revision displayed, an instance of
 link:rest-api-changes.html#revision-info[RevisionInfo]
 
+* `labels`
++
+labels with scores applied to the change, map of the label names to
+link:rest-api-changes.html#label-info[LabelInfo] entries
+
 === robot-comment-controls
 The `robot-comment-controls` extension point is located inside each comment
 rendered on the diff page, and is only visible when the comment is a robot

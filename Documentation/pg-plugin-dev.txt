@@ -341,6 +341,15 @@ screen.
 
 Deprecated. Use link:#plugin-settings[`plugin.settings()`] instead.
 
+=== changeMetadata
+`plugin.changeMetadata()`
+
+.Params:
+- none
+
+.Returns:
+- Instance of link:pg-plugin-change-metadata-api.html[GrChangeMetadataApi].
+
 === theme
 `plugin.theme()`
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab6226e_a3a454cc",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/projects/Projects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-03T07:22:23Z",
+      "side": 1,
+      "message": "We can\u0027t change message signatures of methods that are part of the extension API, since this breaks existing users of the API. Maybe rather add withAll(boolean) in addition to withAll()?",
+      "revId": "90b4a63e379cd4643078b5f7ae9d2fb88a17af7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

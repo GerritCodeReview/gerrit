@@ -118,14 +118,18 @@ suite('gr-editor-view tests', () => {
   });
 
   test('reacts to content-change event', () => {
+    const storeStub = sandbox.spy(element.$.storage, 'setEditableContentItem');
     element._newContent = 'test';
     element.$.editorEndpoint.dispatchEvent(new CustomEvent('content-change', {
       bubbles: true,
       detail: {value: 'new content value'},
     }));
+    element.flushDebouncer('store');
     flushAsynchronousOperations();
 
     assert.equal(element._newContent, 'new content value');
+    assert.isTrue(storeStub.called);
+    assert.equal(storeStub.lastCall.args[1], 'new content value');
   });
 
   suite('edit file content', () => {
@@ -147,6 +151,8 @@ suite('gr-editor-view tests', () => {
 
     test('file modification and save, !ok response', () => {
       const saveSpy = sandbox.spy(element, '_saveEdit');
+      const eraseStub = sandbox.stub(element.$.storage,
+          'eraseEditableContentItem');
       const alertStub = sandbox.stub(element, '_showAlert');
       saveFileStub.returns(Promise.resolve({ok: false}));
       element._newContent = newText;
@@ -163,6 +169,7 @@ suite('gr-editor-view tests', () => {
 
       return saveSpy.lastCall.returnValue.then(() => {
         assert.isTrue(saveFileStub.called);
+        assert.isTrue(eraseStub.called);
         assert.isFalse(element._saving);
         assert.equal(alertStub.lastCall.args[0], 'Failed to save changes');
         assert.deepEqual(saveFileStub.lastCall.args,
@@ -219,6 +226,7 @@ suite('gr-editor-view tests', () => {
       element._newContent = 'initial';
       element._content = 'initial';
       element._type = 'initial';
+      sandbox.stub(element.$.storage, 'getEditableContentItem').returns(null);
     });
 
     test('res.ok', () => {
@@ -341,6 +349,38 @@ suite('gr-editor-view tests', () => {
         assert.equal(handleSpy.callCount, 2);
         assert.isFalse(saveStub.called);
       });
+    });
+  });
+
+  suite('gr-storage caching', () => {
+    test('local edit exists', () => {
+      sandbox.stub(element.$.storage, 'getEditableContentItem')
+          .returns({message: 'pending edit'});
+      sandbox.stub(element.$.restAPI, 'getFileContent')
+          .returns(Promise.resolve({
+            ok: true,
+            type: 'text/javascript',
+            content: 'old content',
+          }));
+
+      const alertStub = sandbox.stub();
+      element.addEventListener('show-alert', alertStub);
+
+      return element._getFileData(1, 'test', 1).then(() => {
+        flushAsynchronousOperations();
+
+        assert.isTrue(alertStub.called);
+        assert.equal(element._newContent, 'pending edit');
+        assert.equal(element._content, 'old content');
+        assert.equal(element._type, 'text/javascript');
+      });
+    });
+
+    test('storage key computation', () => {
+      element._changeNum = 1;
+      element._patchNum = 1;
+      element._path = 'test';
+      assert.equal(element.storageKey, 'c1_ps1_test');
     });
   });
 });

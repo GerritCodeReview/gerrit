@@ -17,9 +17,12 @@
 (function() {
   'use strict';
 
+  const RESTORED_MESSAGE = 'Content restored from a previous edit.';
   const SAVING_MESSAGE = 'Saving changes...';
   const SAVED_MESSAGE = 'All changes saved';
   const SAVE_FAILED_MSG = 'Failed to save changes';
+
+  const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
   Polymer({
     is: 'gr-editor-view',
@@ -87,6 +90,10 @@
       this._getEditPrefs().then(prefs => { this._prefs = prefs; });
     },
 
+    get storageKey() {
+      return `c${this._changeNum}_ps${this._patchNum}_${this._path}`;
+    },
+
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
     },
@@ -143,9 +150,19 @@
     },
 
     _getFileData(changeNum, path, patchNum) {
+      const storedContent =
+            this.$.storage.getEditableContentItem(this.storageKey);
+
       return this.$.restAPI.getFileContent(changeNum, path, patchNum)
           .then(res => {
-            this._newContent = res.content || '';
+            if (storedContent && storedContent.message) {
+              this.dispatchEvent(new CustomEvent('show-alert',
+                  {detail: {message: RESTORED_MESSAGE}, bubbles: true}));
+
+              this._newContent = storedContent.message;
+            } else {
+              this._newContent = res.content || '';
+            }
             this._content = res.content || '';
 
             // A non-ok response may result if the file does not yet exist.
@@ -162,6 +179,7 @@
     _saveEdit() {
       this._saving = true;
       this._showAlert(SAVING_MESSAGE);
+      this.$.storage.eraseEditableContentItem(this.storageKey);
       return this.$.restAPI.saveChangeEdit(this._changeNum, this._path,
           this._newContent).then(res => {
             this._saving = false;
@@ -191,7 +209,15 @@
     },
 
     _handleContentChange(e) {
-      if (e.detail.value) { this.set('_newContent', e.detail.value); }
+      this.debounce('store', () => {
+        const content = e.detail.value;
+        if (content) {
+          this.set('_newContent', e.detail.value);
+          this.$.storage.setEditableContentItem(this.storageKey, content);
+        } else {
+          this.$.storage.eraseEditableContentItem(this.storageKey);
+        }
+      }, STORAGE_DEBOUNCE_INTERVAL_MS);
     },
 
     _handleSaveShortcut(e) {

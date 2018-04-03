@@ -71,6 +71,30 @@
       "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf6f3e98_650a0fc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-03T15:32:10Z",
+      "side": 1,
+      "message": "\u003e Though, in that light couldn\u0027t we preserve the current location of the VersionedMetaData that can be a part of isolated com.google.gerrit.git package, that is independent from the rest of the server code?\n\nI think VersionedMetaData should stay in the same package as MetaDataUpdate because they are read/write sides of the same coin. So at the very least, we have to either move them or rewrite MDU before we can rename server.git -\u003e git. In the medium term I am in favor of moving them rather than rewriting, because it requires less thinking; I would not count on rewriting MDU in the next few months.\n\nBut, point taken that we should try to avoid more moves than necessary. Do you have a suggestion for a better package name than c.g.g.server.git.meta for the medium-term home of VersionedMetaData and MetaDataUpdate?",
+      "parentUuid": "4293a41f_504cd1a2",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

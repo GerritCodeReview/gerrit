@@ -119,6 +119,30 @@
       "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6225818f_7cbca779",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-03T16:12:57Z",
+      "side": 1,
+      "message": "Thanks for your input. Sounds like the code is fine, and I\u0027ll go ahead and update the commit message.",
+      "parentUuid": "ed135372_321a901b",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

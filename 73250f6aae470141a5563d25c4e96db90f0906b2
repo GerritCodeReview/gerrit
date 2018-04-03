@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5bc954e3_0c7b5548",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-03T23:12:02Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "1acd1263_e05ddfdc",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "73250f6aae470141a5563d25c4e96db90f0906b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c108804_93574bb8",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
         "patchSetId": 5
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I believe that the reason it was originally called _inputText was to delineate it from the base property, which was also text that *usually, but not always* mirrored _inputText. With that gone, we can rename this to a less verbose name.\n\nIn any case, there\u0027s only one place where text occurs in this component in a UI sense -- the input. I felt the name was a bit redundant.",
       "parentUuid": "4c108804_93574bb8",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 11
+      },
+      "revId": "73250f6aae470141a5563d25c4e96db90f0906b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c8770f7_881d3cb4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-03T23:12:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1da54046_b95ca753",
       "range": {
         "startLine": 40,
         "startChar": 6,

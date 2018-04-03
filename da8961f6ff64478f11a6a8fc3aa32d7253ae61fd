@@ -77,6 +77,29 @@
     },
     {
       "key": {
+        "uuid": "b1986d6a_bff90464",
+        "filename": "java/com/google/gerrit/server/permissions/Describable.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-03T08:32:36Z",
+      "side": 1,
+      "message": "Just \"describe\"?",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b48283c1_4fe4c4f2",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 1

@@ -223,6 +223,10 @@
     return new GrRepoApi(this);
   };
 
+  Plugin.prototype.changeMetadata = function() {
+    return new GrChangeMetadataApi(this);
+  };
+
   Plugin.prototype.admin = function() {
     return new GrAdminApi(this);
   };

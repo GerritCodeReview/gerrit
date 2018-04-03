@@ -16,32 +16,38 @@ package com.google.gerrit.common.data;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.gerrit.common.Nullable;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 /** Describes a requirement to submit a change. */
 public final class SubmitRequirement {
-  private final String shortReason;
-  private final String fullReason;
-  @Nullable private final String label;
+  private static final Predicate<String> TYPE_MATCHER =
+      Pattern.compile("^([a-zA-Z0-9\\-_]+)$").asPredicate();
 
-  public SubmitRequirement(String shortReason, String fullReason, @Nullable String label) {
-    this.shortReason = requireNonNull(shortReason);
-    this.fullReason = requireNonNull(fullReason);
-    this.label = label;
+  private final String fallbackText;
+  private final String type;
+  private final Map<String, String> data;
+
+  public SubmitRequirement(String fallbackText, String type, Map<String, String> data) {
+    this.fallbackText = requireNonNull(fallbackText);
+    this.type = requireNonNull(type);
+    this.data = requireNonNull(data);
+
+    checkTypeName(type);
   }
 
-  public String shortReason() {
-    return shortReason;
+  public String fallbackText() {
+    return fallbackText;
   }
 
-  public String fullReason() {
-    return fullReason;
+  public String type() {
+    return type;
   }
 
-  public Optional<String> label() {
-    return Optional.ofNullable(label);
+  public Map<String, String> data() {
+    return data;
   }
 
   @Override
@@ -49,32 +55,37 @@ public final class SubmitRequirement {
     if (this == o) {
       return true;
     }
-    if (o instanceof SubmitRequirement) {
-      SubmitRequirement that = (SubmitRequirement) o;
-      return Objects.equals(shortReason, that.shortReason)
-          && Objects.equals(fullReason, that.fullReason)
-          && Objects.equals(label, that.label);
+    if (!(o instanceof SubmitRequirement)) {
+      return false;
     }
-    return false;
+    SubmitRequirement that = (SubmitRequirement) o;
+    return Objects.equals(fallbackText, that.fallbackText)
+        && Objects.equals(type, that.type)
+        && Objects.equals(data, that.data);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shortReason, fullReason, label);
+    return Objects.hash(fallbackText, type, data);
   }
 
   @Override
   public String toString() {
     return "SubmitRequirement{"
-        + "shortReason='"
-        + shortReason
+        + "fallbackText='"
+        + fallbackText
         + '\''
-        + ", fullReason='"
-        + fullReason
+        + ", type='"
+        + type
         + '\''
-        + ", label='"
-        + label
-        + '\''
+        + ", data="
+        + data
         + '}';
+  }
+
+  private static void checkTypeName(String type) {
+    if (!TYPE_MATCHER.test(type)) {
+      throw new RuntimeException("SubmitRequirement's type contains non alphanumerical symbols.");
+    }
   }
 }

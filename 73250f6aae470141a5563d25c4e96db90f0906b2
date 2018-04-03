@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d295655c_a5510c9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-03T22:36:17Z",
+      "side": 1,
+      "message": "Is this saying it listens to a `confirm` instead of `commit` event?\n\nI wouldn\u0027t mind a little more description on why it wasn\u0027t working and how this fixes it.",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 47
+      },
+      "revId": "73250f6aae470141a5563d25c4e96db90f0906b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c108804_93574bb8",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-03T22:36:17Z",
+      "side": 1,
+      "message": "Curious what\u0027s the reason for renaming this param?",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 11
+      },
+      "revId": "73250f6aae470141a5563d25c4e96db90f0906b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

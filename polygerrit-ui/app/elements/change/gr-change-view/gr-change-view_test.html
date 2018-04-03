@@ -464,22 +464,6 @@ limitations under the License.
       assert.equal(statusChips.length, 2);
     });
 
-    test('_computeMissingLabels', () => {
-      let labels = {};
-      assert.equal(element._computeMissingLabels(labels).length, 0);
-      labels = {test: {}};
-      assert.deepEqual(element._computeMissingLabels(labels), ['test']);
-      labels.test.approved = true;
-      assert.equal(element._computeMissingLabels(labels).length, 0);
-      labels.test.approved = false;
-      labels.test.optional = true;
-      assert.equal(element._computeMissingLabels(labels).length, 0);
-      labels.test.optional = false;
-      labels.test2 = {};
-      assert.deepEqual(element._computeMissingLabels(labels),
-          ['test', 'test2']);
-    });
-
     test('diff preferences open when open-diff-prefs is fired', () => {
       const overlayOpenStub = sandbox.stub(element.$.fileList,
           'openDiffPrefs');
@@ -1611,8 +1595,6 @@ limitations under the License.
         fireEdit = () => {
           element.$.actions.dispatchEvent(new CustomEvent('edit-tap'));
         };
-        sandbox.stub(element.$.metadata, '_computeShowLabelStatus');
-        sandbox.stub(element.$.metadata, '_computeLabelNames');
         navigateToChangeStub.restore();
 
         element._change = {revisions: {rev1: {_number: 1}}};
@@ -1664,7 +1646,6 @@ limitations under the License.
     });
 
     test('_handleStopEditTap', done => {
-      sandbox.stub(element.$.metadata, '_computeShowLabelStatus');
       sandbox.stub(element.$.metadata, '_computeLabelNames');
       navigateToChangeStub.restore();
       sandbox.stub(element, 'computeLatestPatchNum').returns(1);

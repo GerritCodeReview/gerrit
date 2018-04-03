@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1707b7a_a57081e1",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListCapabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-03T14:40:03Z",
+      "side": 1,
+      "message": "nit: ImmutableMap here",
+      "revId": "cd1bcc35625b8accdf21cf5e3cd623f2aae85e37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4702f4c_71b75351",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetAccessUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-03T14:40:03Z",
+      "side": 1,
+      "message": "optional: could it be extracted to a helper method?",
+      "range": {
+        "startLine": 157,
+        "startChar": 10,
+        "endLine": 158,
+        "endChar": 61
+      },
+      "revId": "cd1bcc35625b8accdf21cf5e3cd623f2aae85e37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

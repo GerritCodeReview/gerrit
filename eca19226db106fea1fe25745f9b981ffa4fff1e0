@@ -23,6 +23,30 @@
       "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4aec677a_2c9a6356",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-03T12:33:37Z",
+      "side": 1,
+      "message": "\u003e Given its dependency on IdentifiedUser, it would be hard to break the dependency cycle.\n\nI think I probably phrased this paragraph wrong. Let me try again.\n\nMy goal is to rename com.google.gerrit.server.git -\u003e com.google.gerrit.git and have that package only contain git-related utilities that have no real Gerrit dependencies. This is probably at least a dozen or so class files that we can move out of the server package.\n\nAs you say, without significant refactoring to MetaDataUpdate (which is probably a good idea anyway, but unrelated to this series), we will still have this dep on IdentifiedUser. Therefore, MetaDataUpdate can\u0027t live in the com.google.gerrit.git package. Instead, we should move it somewhere else, for example com.google.gerrit.server.git.meta. The git.meta package will have a dep on both the git package and the server package; it\u0027ll also remain part of the server build target.\n\nWith that in mind, do you agree that this change still makes sense?",
+      "parentUuid": "6e6ae1b2_4c01bd88",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "eca19226db106fea1fe25745f9b981ffa4fff1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -55,8 +55,8 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
 
   @Override
   public Response<?> apply(ConfigResource rsrc, Input input)
-      throws AuthException, UnprocessableEntityException, AccountException, OrmException,
-          IOException, ConfigInvalidException {
+      throws AuthException, UnprocessableEntityException, OrmException, IOException,
+          ConfigInvalidException {
     CurrentUser user = self.get();
     if (!user.isIdentifiedUser()) {
       throw new AuthException("Authentication required");

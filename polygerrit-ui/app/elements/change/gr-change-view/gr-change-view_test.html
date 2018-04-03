@@ -464,22 +464,6 @@ limitations under the License.
       assert.equal(statusChips.length, 2);
     });
 
-    test('_computeMissingLabels', () => {
-      let labels = {};
-      assert.equal(element._computeMissingLabels(labels).length, 0);
-      labels = {test: {}};
-      assert.deepEqual(element._computeMissingLabels(labels), ['test']);
-      labels.test.approved = true;
-      assert.equal(element._computeMissingLabels(labels).length, 0);
-      labels.test.approved = false;
-      labels.test.optional = true;
-      assert.equal(element._computeMissingLabels(labels).length, 0);
-      labels.test.optional = false;
-      labels.test2 = {};
-      assert.deepEqual(element._computeMissingLabels(labels),
-          ['test', 'test2']);
-    });
-
     test('diff preferences open when open-diff-prefs is fired', () => {
       const overlayOpenStub = sandbox.stub(element.$.fileList,
           'openDiffPrefs');

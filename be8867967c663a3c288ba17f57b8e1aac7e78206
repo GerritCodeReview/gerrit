@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4fd193d_bd706634",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-04T14:31:32Z",
+      "side": 1,
+      "message": "the .get() is unneeded, do we want to remove it? (to gain one java object allocated per email sent)",
+      "range": {
+        "startLine": 413,
+        "startChar": 12,
+        "endLine": 413,
+        "endChar": 36
+      },
+      "revId": "be8867967c663a3c288ba17f57b8e1aac7e78206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

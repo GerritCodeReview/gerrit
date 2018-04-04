@@ -2708,6 +2708,13 @@ online schema upgrades.
 If not set or set to a negative value, defaults to the number of logical
 CPUs as returned by the JVM.
 
+[[index.enableCanSeeQueries]]index.enableCanSeeQueries::
++
+Enable the link:user-search-accounts#cansee[cansee] predicate when
+searching for accounts.
++
+Defaults to true.
+
 [[index.onlineUpgrade]]index.onlineUpgrade::
 +
 Whether to upgrade to new index schema versions while the server is

@@ -26,7 +26,9 @@ text with no operator, which will match against a variety of fields.
 [[cansee]]
 cansee:'CHANGE'::
 +
-Matches accounts that can see the change 'CHANGE'.
+Matches accounts that can see the change 'CHANGE'. Can be enabled or
+disabled by
+link:config-gerrit.htmlgerrit#index.enableCanSeeQueries[index.enableCanSeeQueries].
 
 [[email]]
 email:'EMAIL'::

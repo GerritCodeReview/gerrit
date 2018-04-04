@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1522772974 -0400\nnonce AFN+CTI1auPJRSkR/wsNv3Hrl5lvdP4w7vetHgOH34A99Hr+b3L3DhxVPAJe+Cp7osIw9fmmOR0t\n\n0000000000000000000000000000000000000000 a772a044a4087d7c9e729c481783a49f23fb0d5b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlrDq+4VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMpfAP/3+g+GnnPasaSweQD5kx9wuYYSwc\n3m++m2FUW2IA3jb0Td+Yx5RySWUlVQoRS7NOrldsn1SEPBlp6rKT5mrgk0L5HmFJ\nALGCzLsOZR5NbslqtFtbXpmu9ZnQn+ukL/FttteNFu0pgNk9ta2RHmV9HcPDgn8Y\nZOmqnMpjtoHYSYu6OaeWIQ/RyLt3MvyzUSOW42NA0zm6vayhzNtkdOwqwIa+Bh8V\nkdoP+zO821UuTNLPCk710JSzT0ld+Wc8U1rWs/ARwDTMSzVTKje+zqH6vpwIgTG1\nngkNDMxLm3PW669C7icGByf50aiN9yGMdh52YwvzidEiGSoCja3IK4uZ6nhHcXRv\nYlf4uJhFcNOlhcOh4LSp7AEuW9EZqR2xnq27pqXS14DN42Km8mU39QQnUWOdSFcC\nyGIoS0YJyeRYQCTTWD2fTlBjIpRmJPhL+gMmSF0qeTDk6mcm6omVa2YNAKuzE5o7\nia4OomCnLrxbQWX32KznvyqyDACUHkmUCEMhV1JAyWAwBensw96DXoZuZG/s7IYa\nhoUTr6odfqZF/x/HK4IDnqpshja52EIbrJ0cSA804BIM1N50zVmSPQ7WrbcGE5Or\ntlI7zhb78yLqtLLfX/dsuXGbAd+m+ambeFNqIx0G0YiJLZX0d6RhhrlBIZ0HKXnt\nFth8QBUbPPXtLYom\n\u003dHNNE\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4950f5bc_fa0875a0",
+        "filename": "java/com/google/gerrit/server/group/db/GroupDbModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T09:42:04Z",
+      "side": 1,
+      "message": "Should we move the code related to GroupsUpdate, which is currently in com.google.gerrit.server.restapi.group.Module, to this module as well?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 26
+      },
+      "revId": "e1de0aff6369965f163b08cff4e621d0285d6e13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

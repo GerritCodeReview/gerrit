@@ -4159,7 +4159,7 @@ what Gerrit instance the email came from.
 +
 The short name can be customized via the gerrit.instanceName option.
 +
-Defaults to true.
+Defaults to false.
 
 
 [[site]]

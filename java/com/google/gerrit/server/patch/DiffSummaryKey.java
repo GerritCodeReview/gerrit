@@ -19,7 +19,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.write;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
-import com.google.common.base.Preconditions;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -41,7 +40,6 @@ public class DiffSummaryKey implements Serializable {
   private transient Whitespace whitespace;
 
   public static DiffSummaryKey fromPatchListKey(PatchListKey plk) {
-    Preconditions.checkArgument(plk.getAlgorithm() == PatchListKey.Algorithm.OPTIMIZED_DIFF);
     return new DiffSummaryKey(
         plk.getOldId(), plk.getParentNum(), plk.getNewId(), plk.getWhitespace());
   }
@@ -54,8 +52,7 @@ public class DiffSummaryKey implements Serializable {
   }
 
   PatchListKey toPatchListKey() {
-    return new PatchListKey(
-        oldId, parentNum, newId, whitespace, PatchListKey.Algorithm.OPTIMIZED_DIFF);
+    return new PatchListKey(oldId, parentNum, newId, whitespace);
   }
 
   @Override

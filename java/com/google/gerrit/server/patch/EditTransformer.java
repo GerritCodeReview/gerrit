@@ -163,10 +163,10 @@ class EditTransformer {
     while (origIndex < originalEdits.size() && transIndex < transformingEdits.size()) {
       ContextAwareEdit originalEdit = originalEdits.get(origIndex);
       Edit transformingEdit = transformingEdits.get(transIndex);
-      if (transformingEdit.getEndA() < sideStrategy.getBegin(originalEdit)) {
+      if (transformingEdit.getEndA() <= sideStrategy.getBegin(originalEdit)) {
         shiftedAmount = transformingEdit.getEndB() - transformingEdit.getEndA();
         transIndex++;
-      } else if (sideStrategy.getEnd(originalEdit) < transformingEdit.getBeginA()) {
+      } else if (sideStrategy.getEnd(originalEdit) <= transformingEdit.getBeginA()) {
         resultingEdits.add(sideStrategy.create(originalEdit, shiftedAmount, adjustedFilePath));
         origIndex++;
       } else {

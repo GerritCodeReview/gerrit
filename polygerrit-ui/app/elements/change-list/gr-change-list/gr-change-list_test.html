@@ -52,22 +52,11 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
-    function stubRestAPI(preferences) {
-      const loggedInPromise = Promise.resolve(preferences !== null);
-      const preferencesPromise = Promise.resolve(preferences);
-      stub('gr-rest-api-interface', {
-        getLoggedIn: sinon.stub().returns(loggedInPromise),
-        getPreferences: sinon.stub().returns(preferencesPromise),
-      });
-      return Promise.all([loggedInPromise, preferencesPromise]);
-    }
-
     suite('test show change number not logged in', () => {
       setup(() => {
-        return stubRestAPI(null).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
+        element = fixture('basic');
+        element.account = null;
+        element.preferences = null;
       });
 
       test('show number disabled', () => {
@@ -77,13 +66,14 @@ limitations under the License.
 
     suite('test show change number preference enabled', () => {
       setup(() => {
-        return stubRestAPI({legacycid_in_change_table: true,
+        element = fixture('basic');
+        element.preferences = {
+          legacycid_in_change_table: true,
           time_format: 'HHMM_12',
           change_table: [],
-        }).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
+        };
+        element.account = {_account_id: 1001};
+        flushAsynchronousOperations();
       });
 
       test('show number enabled', () => {
@@ -93,12 +83,14 @@ limitations under the License.
 
     suite('test show change number preference disabled', () => {
       setup(() => {
+        element = fixture('basic');
         // legacycid_in_change_table is not set when false.
-        return stubRestAPI({time_format: 'HHMM_12', change_table: []}).then(
-            () => {
-              element = fixture('basic');
-              return element._loadPreferences();
-            });
+        element.preferences = {
+          time_format: 'HHMM_12',
+          change_table: [],
+        };
+        element.account = {_account_id: 1001};
+        flushAsynchronousOperations();
       });
 
       test('show number disabled', () => {
@@ -275,16 +267,16 @@ limitations under the License.
     suite('empty column preference', () => {
       let element;
 
-      setup(() =>
-        stubRestAPI({
+      setup(() => {
+        element = fixture('basic');
+        element.account = {_account_id: 1001};
+        element.preferences = {
           legacycid_in_change_table: true,
           time_format: 'HHMM_12',
           change_table: [],
-        }).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        })
-      );
+        };
+        flushAsynchronousOperations();
+      });
 
       test('show number enabled', () => {
         assert.isTrue(element.showNumber);
@@ -302,7 +294,9 @@ limitations under the License.
       let element;
 
       setup(() => {
-        return stubRestAPI({
+        element = fixture('basic');
+        element.account = {_account_id: 1001};
+        element.preferences = {
           legacycid_in_change_table: true,
           time_format: 'HHMM_12',
           change_table: [
@@ -315,10 +309,8 @@ limitations under the License.
             'Updated',
             'Size',
           ],
-        }).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
+        };
+        flushAsynchronousOperations();
       });
 
       test('all columns visible', () => {
@@ -333,7 +325,9 @@ limitations under the License.
       let element;
 
       setup(() => {
-        return stubRestAPI({
+        element = fixture('basic');
+        element.account = {_account_id: 1001};
+        element.preferences = {
           legacycid_in_change_table: true,
           time_format: 'HHMM_12',
           change_table: [
@@ -345,10 +339,8 @@ limitations under the License.
             'Updated',
             'Size',
           ],
-        }).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
+        };
+        flushAsynchronousOperations();
       });
 
       test('all columns except project visible', () => {
@@ -369,16 +361,16 @@ limitations under the License.
       /* This would only exist if somebody manually updated the config
       file. */
       setup(() => {
-        return stubRestAPI({
+        element = fixture('basic');
+        element.account = {_account_id: 1001};
+        element.preferences = {
           legacycid_in_change_table: true,
           time_format: 'HHMM_12',
           change_table: [
             'Bad',
           ],
-        }).then(() => {
-          element = fixture('basic');
-          return element._loadPreferences();
-        });
+        };
+        flushAsynchronousOperations();
       });
 
       test('bad column does not exist', () => {

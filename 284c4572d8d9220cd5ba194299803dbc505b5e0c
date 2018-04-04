@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ce67880_776bbe6d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-04T09:40:01Z",
+      "side": 1,
+      "message": "TODO: either keep it or the index version change. Any opinion on this?",
+      "range": {
+        "startLine": 715,
+        "startChar": 10,
+        "endLine": 715,
+        "endChar": 61
+      },
+      "revId": "284c4572d8d9220cd5ba194299803dbc505b5e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b8af494_9e30582e",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-04T09:40:01Z",
+      "side": 1,
+      "message": "Am I doing this right? (the StoredRequirement structure changes, but nothing was added/removed)\nIs this required?\nNo requirements _should_ exist at this point, except in my local setup ... *but* 2.15 was released with the old schema.",
+      "revId": "284c4572d8d9220cd5ba194299803dbc505b5e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

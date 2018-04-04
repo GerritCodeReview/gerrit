@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.git.VersionedMetaData;
+import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;

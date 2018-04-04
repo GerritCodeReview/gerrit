@@ -16,8 +16,8 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.IntegrationException;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener.Arguments;
+import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;

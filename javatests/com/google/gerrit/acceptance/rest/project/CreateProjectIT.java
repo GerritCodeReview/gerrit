@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectInfo;
 import static com.google.gerrit.acceptance.rest.project.ProjectAssert.assertProjectOwners;
-import static com.google.gerrit.server.git.ProjectConfig.PROJECT_CONFIG;
+import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;

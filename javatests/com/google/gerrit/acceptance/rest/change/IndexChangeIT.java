@@ -24,7 +24,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.ProjectConfig;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;

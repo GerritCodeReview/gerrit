@@ -17,13 +17,13 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import org.eclipse.jgit.transport.PostUploadHook;
 
 /** Configures the Git support. */
 public class GitModule extends FactoryModule {
   @Override
   protected void configure() {
-    factory(RenameGroupOp.Factory.class);
     factory(MetaDataUpdate.InternalFactory.class);
     bind(MetaDataUpdate.Server.class);
     DynamicSet.bind(binder(), PostUploadHook.class).to(UploadPackMetricsHook.class);

@@ -1264,7 +1264,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
       // Update a group without updating the cache or index,
       // then run the reindexer -> only the updated group is reindexed.
-      groupsUpdate.updateGroupInDb(
+      groupsUpdate.updateGroupInNoteDb(
           groupUuid, InternalGroupUpdate.builder().setDescription("bar").build());
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(groupUuid);

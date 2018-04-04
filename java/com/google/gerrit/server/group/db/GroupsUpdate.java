@@ -204,17 +204,9 @@ public class GroupsUpdate {
       groupUpdate = groupUpdate.toBuilder().setUpdatedOn(updatedOn.get()).build();
     }
 
-    UpdateResult result = updateGroupInDb(groupUuid, groupUpdate);
+    UpdateResult result = updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
     updateCachesOnGroupUpdate(result);
     dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
-  }
-
-  @VisibleForTesting
-  public UpdateResult updateGroupInDb(AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws OrmDuplicateKeyException, NoSuchGroupException, IOException, ConfigInvalidException {
-    Optional<UpdateResult> noteDbUpdateResult =
-        updateGroupInNoteDbWithRetry(groupUuid, groupUpdate);
-    return noteDbUpdateResult.orElse(null);
   }
 
   private InternalGroup createGroupInNoteDbWithRetry(
@@ -255,7 +247,7 @@ public class GroupsUpdate {
     }
   }
 
-  private Optional<UpdateResult> updateGroupInNoteDbWithRetry(
+  private UpdateResult updateGroupInNoteDbWithRetry(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
     try {
@@ -273,14 +265,15 @@ public class GroupsUpdate {
     }
   }
 
-  private Optional<UpdateResult> updateGroupInNoteDb(
+  @VisibleForTesting
+  public UpdateResult updateGroupInNoteDb(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
-      throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
+      throws IOException, ConfigInvalidException, OrmDuplicateKeyException, NoSuchGroupException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersRepo, groupUuid);
       groupConfig.setGroupUpdate(groupUpdate, auditLogFormatter);
       if (!groupConfig.getLoadedGroup().isPresent()) {
-        return Optional.empty();
+        throw new NoSuchGroupException(groupUuid);
       }
 
       InternalGroup originalGroup = groupConfig.getLoadedGroup().get();
@@ -298,7 +291,7 @@ public class GroupsUpdate {
               .getLoadedGroup()
               .orElseThrow(
                   () -> new IllegalStateException("Updated group wasn't automatically loaded"));
-      return Optional.of(getUpdateResult(originalGroup, updatedGroup));
+      return getUpdateResult(originalGroup, updatedGroup);
     }
   }
 

@@ -359,7 +359,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     AccountGroup.UUID groupUuid = new AccountGroup.UUID(group1.id);
     InternalGroupUpdate groupUpdate =
         InternalGroupUpdate.builder().setDescription(newDescription).build();
-    groupsUpdateProvider.get().updateGroupInDb(groupUuid, groupUpdate);
+    groupsUpdateProvider.get().updateGroupInNoteDb(groupUuid, groupUpdate);
 
     assertQuery("description:" + group1.description, group1);
     assertQuery("description:" + newDescription);

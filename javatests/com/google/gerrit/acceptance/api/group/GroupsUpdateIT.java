@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.ServerInitiated;
@@ -35,9 +36,11 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class GroupsUpdateIT {
   @Rule public InMemoryTestEnvironment testEnvironment = new InMemoryTestEnvironment();
+  @Rule public ExpectedException expectedException = ExpectedException.none();
 
   @Inject @ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
   @Inject private Groups groups;
@@ -70,6 +73,15 @@ public class GroupsUpdateIT {
 
     Stream<String> allGroupNames = getAllGroupNames();
     assertThat(allGroupNames).containsAllOf("contributors", "verifiers");
+  }
+
+  @Test
+  public void groupUpdateFailsWithExceptionForNotExistingGroup() throws Exception {
+    InternalGroupUpdate groupUpdate =
+        InternalGroupUpdate.builder().setDescription("A description for the group").build();
+
+    expectedException.expect(NoSuchGroupException.class);
+    updateGroup(new AccountGroup.UUID("nonexistent-group-UUID"), groupUpdate);
   }
 
   private void createGroup(String groupName, String groupUuid) throws Exception {

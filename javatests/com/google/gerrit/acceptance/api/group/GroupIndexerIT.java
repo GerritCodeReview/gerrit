@@ -158,7 +158,7 @@ public class GroupIndexerIT {
   private void updateGroupWithoutCacheOrIndex(
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws OrmException, NoSuchGroupException, IOException, ConfigInvalidException {
-    groupsUpdate.updateGroupInDb(groupUuid, groupUpdate);
+    groupsUpdate.updateGroupInNoteDb(groupUuid, groupUpdate);
   }
 
   private static OptionalSubject<InternalGroupSubject, InternalGroup> assertThatGroup(

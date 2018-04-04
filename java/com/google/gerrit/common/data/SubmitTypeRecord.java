@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.extensions.client.SubmitType;
 
 /** Describes the submit type for a change. */
@@ -62,16 +63,11 @@ public class SubmitTypeRecord {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(status);
-    if (status == Status.RULE_ERROR && errorMessage != null) {
-      sb.append('(').append(errorMessage).append(")");
-    }
-    if (type != null) {
-      sb.append('[');
-      sb.append(type.name());
-      sb.append(']');
-    }
-    return sb.toString();
+    return MoreObjects.toStringHelper(this)
+        .add("status", status)
+        .add("type", type)
+        .add("errorMessage", errorMessage)
+        .omitNullValues()
+        .toString();
   }
 }

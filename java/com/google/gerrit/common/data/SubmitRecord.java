@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.reviewdb.client.Account;
 import java.util.Collection;
 import java.util.List;
@@ -133,29 +134,13 @@ public class SubmitRecord {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append(status);
-    if (status == Status.RULE_ERROR && errorMessage != null) {
-      sb.append('(').append(errorMessage).append(')');
-    }
-    sb.append('[');
-    if (labels != null) {
-      String delimiter = "";
-      for (Label label : labels) {
-        sb.append(delimiter).append(label);
-        delimiter = ", ";
-      }
-    }
-    sb.append("],[");
-    if (requirements != null) {
-      String delimiter = "";
-      for (SubmitRequirement requirement : requirements) {
-        sb.append(delimiter).append(requirement);
-        delimiter = ", ";
-      }
-    }
-    sb.append(']');
-    return sb.toString();
+    return MoreObjects.toStringHelper(this)
+        .add("status", status)
+        .add("labels", labels)
+        .add("requirements", requirements)
+        .add("errorMessage", errorMessage)
+        .omitNullValues()
+        .toString();
   }
 
   @Override

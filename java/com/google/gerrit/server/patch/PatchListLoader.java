@@ -187,12 +187,10 @@ public class PatchListLoader implements Callable<PatchList> {
       List<DiffEntry> diffEntries = df.scan(aTree, bTree);
 
       Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath = ImmutableMultimap.of();
-      if (key.getAlgorithm() == PatchListKey.Algorithm.OPTIMIZED_DIFF) {
-        EditsDueToRebaseResult editsDueToRebaseResult =
-            determineEditsDueToRebase(aCommit, b, diffEntries, df, rw);
-        diffEntries = editsDueToRebaseResult.getRelevantOriginalDiffEntries();
-        editsDueToRebasePerFilePath = editsDueToRebaseResult.getEditsDueToRebasePerFilePath();
-      }
+      EditsDueToRebaseResult editsDueToRebaseResult =
+          determineEditsDueToRebase(aCommit, b, diffEntries, df, rw);
+      diffEntries = editsDueToRebaseResult.getRelevantOriginalDiffEntries();
+      editsDueToRebasePerFilePath = editsDueToRebaseResult.getEditsDueToRebasePerFilePath();
 
       List<PatchListEntry> entries = new ArrayList<>();
       entries.add(
@@ -510,7 +508,7 @@ public class PatchListLoader implements Callable<PatchList> {
     byte[] aContent = aText.getContent();
     byte[] bContent = bText.getContent();
     long size = bContent.length;
-    long sizeDelta = size - aContent.length;
+    long sizeDelta = bContent.length - aContent.length;
     RawText aRawText = new RawText(aContent);
     RawText bRawText = new RawText(bContent);
     EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);

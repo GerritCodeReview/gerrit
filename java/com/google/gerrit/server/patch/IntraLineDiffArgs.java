@@ -16,8 +16,10 @@ package com.google.gerrit.server.patch;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -27,15 +29,20 @@ public abstract class IntraLineDiffArgs {
       Text aText,
       Text bText,
       List<Edit> edits,
+      Set<Edit> editsDueToRebase,
       Project.NameKey project,
       ObjectId commit,
       String path) {
     return new AutoValue_IntraLineDiffArgs(
-        aText, bText, deepCopyEdits(edits), project, commit, path);
+        aText, bText, deepCopyEdits(edits), deepCopyEdits(editsDueToRebase), project, commit, path);
   }
 
   private static ImmutableList<Edit> deepCopyEdits(List<Edit> edits) {
     return edits.stream().map(IntraLineDiffArgs::copy).collect(ImmutableList.toImmutableList());
+  }
+
+  private static ImmutableSet<Edit> deepCopyEdits(Set<Edit> edits) {
+    return edits.stream().map(IntraLineDiffArgs::copy).collect(ImmutableSet.toImmutableSet());
   }
 
   private static Edit copy(Edit edit) {
@@ -47,6 +54,8 @@ public abstract class IntraLineDiffArgs {
   public abstract Text bText();
 
   public abstract ImmutableList<Edit> edits();
+
+  public abstract ImmutableSet<Edit> editsDueToRebase();
 
   public abstract Project.NameKey project();
 

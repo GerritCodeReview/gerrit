@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -39,7 +40,9 @@ import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -186,19 +189,26 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void harmfulMutationsOfEditsAreNotPossibleForIntraLineDiffArgsAndCachedValue()
-      throws Exception {
+  public void harmfulMutationsOfEditsAreNotPossibleForIntraLineDiffArgsAndCachedValue() {
     String a = "First line\nSecond line\n";
     String b = "1st line\n2nd line\n";
     Text aText = new Text(a.getBytes(UTF_8));
     Text bText = new Text(b.getBytes(UTF_8));
     Edit inputEdit = new Edit(0, 2, 0, 2);
     List<Edit> inputEdits = new ArrayList<>(ImmutableList.of(inputEdit));
+    Set<Edit> inputEditsDueToRebase = new HashSet<>(ImmutableSet.of(inputEdit));
 
     IntraLineDiffKey diffKey =
         IntraLineDiffKey.create(ObjectId.zeroId(), ObjectId.zeroId(), Whitespace.IGNORE_NONE);
     IntraLineDiffArgs diffArgs =
-        IntraLineDiffArgs.create(aText, bText, inputEdits, project, ObjectId.zeroId(), "file.txt");
+        IntraLineDiffArgs.create(
+            aText,
+            bText,
+            inputEdits,
+            inputEditsDueToRebase,
+            project,
+            ObjectId.zeroId(),
+            "file.txt");
     IntraLineDiff intraLineDiff = patchListCache.getIntraLineDiff(diffKey, diffArgs);
 
     Edit outputEdit = Iterables.getOnlyElement(intraLineDiff.getEdits());
@@ -206,9 +216,11 @@ public class PatchListCacheIT extends AbstractDaemonTest {
     outputEdit.shift(5);
     inputEdit.shift(7);
     inputEdits.add(new Edit(43, 47, 50, 51));
+    inputEditsDueToRebase.add(new Edit(53, 57, 60, 61));
 
     Edit originalEdit = new Edit(0, 2, 0, 2);
     assertThat(diffArgs.edits()).containsExactly(originalEdit);
+    assertThat(diffArgs.editsDueToRebase()).containsExactly(originalEdit);
     assertThat(intraLineDiff.getEdits()).containsExactly(originalEdit);
   }
 

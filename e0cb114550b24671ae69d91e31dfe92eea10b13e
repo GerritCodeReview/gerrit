@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79e153a5_f378ee60",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-04T14:36:57Z",
+      "side": 1,
+      "message": "not same name as used in the docs (`enableCanSeeQueries`)\n(personal note: I prefer the name \"enableCanSeeQueries\")\n\n-\u003e may a unit test catch it?",
+      "range": {
+        "startLine": 127,
+        "startChar": 42,
+        "endLine": 127,
+        "endChar": 62
+      },
+      "revId": "e0cb114550b24671ae69d91e31dfe92eea10b13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

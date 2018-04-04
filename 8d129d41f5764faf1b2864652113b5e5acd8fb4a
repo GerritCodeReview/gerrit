@@ -46,6 +46,30 @@
       "revId": "8d129d41f5764faf1b2864652113b5e5acd8fb4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c931130c_d005d1ae",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4147,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2018-04-04T22:15:46Z",
+      "side": 1,
+      "message": "+1 +1 +1\n\nThis will be super confusing if you don\u0027t override instanceName and you have a multi-master setup :(",
+      "parentUuid": "f6f13d6d_9352d675",
+      "range": {
+        "startLine": 4147,
+        "startChar": 12,
+        "endLine": 4147,
+        "endChar": 16
+      },
+      "revId": "8d129d41f5764faf1b2864652113b5e5acd8fb4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

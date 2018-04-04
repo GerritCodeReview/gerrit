@@ -76,6 +76,8 @@
         value() { return {}; },
       },
 
+      preferences: Object,
+
       _changesPerPage: Number,
 
       /**
@@ -120,7 +122,7 @@
     },
 
     attached() {
-      this.fire('title-change', {title: this._query});
+      this._loadPreferences();
     },
 
     _paramsChanged(value) {
@@ -155,6 +157,18 @@
         }
         this._changes = changes;
         this._loading = false;
+      });
+    },
+
+    _loadPreferences() {
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this._getPreferences().then(preferences => {
+            this.preferences = preferences;
+          });
+        } else {
+          this.preferences = {};
+        }
       });
     },
 

@@ -94,6 +94,7 @@
       },
       changeTableColumns: Array,
       visibleChangeTableColumns: Array,
+      preferences: Object,
     },
 
     behaviors: [
@@ -120,6 +121,7 @@
 
     observers: [
       '_sectionsChanged(sections.*)',
+      '_computePreferences(account, preferences)',
     ],
 
     /**
@@ -136,38 +138,23 @@
       }
     },
 
-    attached() {
-      this._loadPreferences();
-    },
-
     _lowerCase(column) {
       return column.toLowerCase();
     },
 
-    _loadPreferences() {
-      return this._getLoggedIn().then(loggedIn => {
-        this.changeTableColumns = this.columnNames;
+    _computePreferences(account, preferences) {
+      this.changeTableColumns = this.columnNames;
 
-        if (!loggedIn) {
-          this.showNumber = false;
-          this.visibleChangeTableColumns = this.columnNames;
-          return;
-        }
-        return this._getPreferences().then(preferences => {
-          this.showNumber = !!(preferences &&
-              preferences.legacycid_in_change_table);
-          this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
-              preferences.change_table : this.columnNames;
-        });
-      });
-    },
-
-    _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
-    },
-
-    _getPreferences() {
-      return this.$.restAPI.getPreferences();
+      if (account) {
+        this.showNumber = !!(preferences &&
+            preferences.legacycid_in_change_table);
+        this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
+            preferences.change_table : this.columnNames;
+      } else {
+        // Not logged in.
+        this.showNumber = false;
+        this.visibleChangeTableColumns = this.columnNames;
+      }
     },
 
     _computeColspan(changeTableColumns, labelNames) {

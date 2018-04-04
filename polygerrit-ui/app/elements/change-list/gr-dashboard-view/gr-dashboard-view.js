@@ -73,10 +73,11 @@
      */
 
     properties: {
-      account: {
+      _account: {
         type: Object,
         value: null,
       },
+      preferences: Object,
       /** @type {{ selectedChangeIndex: number }} */
       viewState: Object,
 
@@ -114,6 +115,22 @@
           this.ListChangesOption.DETAILED_ACCOUNTS,
           this.ListChangesOption.REVIEWED
       );
+    },
+
+    attached() {
+      this._loadPreferences();
+    },
+
+    _loadPreferences() {
+      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+        if (loggedIn) {
+          this.$.restAPI.getPreferences().then(preferences => {
+            this.preferences = preferences;
+          });
+        } else {
+          this.preferences = {};
+        }
+      });
     },
 
     _getProjectDashboard(project, dashboard) {

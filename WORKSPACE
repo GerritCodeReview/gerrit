@@ -198,12 +198,18 @@ maven_jar(
     sha1 = "b32aba0cbe737a4ca953f71688725972e3ee927c",
 )
 
-load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1")
+load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1", "GUAVA_GWT_BIN_SHA1")
 
 maven_jar(
     name = "guava",
     artifact = "com.google.guava:guava:" + GUAVA_VERSION,
     sha1 = GUAVA_BIN_SHA1,
+)
+
+maven_jar(
+    name = "guava-gwt",
+    artifact = "com.google.guava:guava-gwt:" + GUAVA_VERSION,
+    sha1 = GUAVA_GWT_BIN_SHA1,
 )
 
 maven_jar(
@@ -1010,6 +1016,18 @@ maven_jar(
     artifact = "org.apache.httpcomponents:httpcore-niossl:4.0-alpha6",
     attach_source = False,
     sha1 = "9c662e7247ca8ceb1de5de629f685c9ef3e4ab58",
+)
+
+maven_jar(
+    name = "error_prone_annotations",
+    artifact = "com.google.errorprone:error_prone_annotations:2.2.0",
+    sha1 = "88e3c593e9b3586e1c6177f89267da6fc6986f0c",
+)
+
+maven_jar(
+    name = "checker-compat-qual",
+    artifact = "org.checkerframework:checker-compat-qual:2.0.0",
+    sha1 = "fc89b03860d11d6213d0154a62bcd1c2f69b9efa",
 )
 
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")

@@ -17,6 +17,7 @@ gwt_module(
     name = "client",
     srcs = glob(["**/*.java"]),
     exported_deps = [
+        "//java/com/google/common/base:gwt-base",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/prettify:client",
         "//lib:guava",

@@ -50,6 +50,121 @@
     },
     {
       "key": {
+        "uuid": "168da81c_0c96c03e",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T16:41:03Z",
+      "side": 1,
+      "message": "This is still a bit dangerous. Not without reason, caches should only store immutable values. Could we maybe introduce separate caches for those lazily loaded values?",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 13
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba6b35bd_485a2f3f",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T16:41:03Z",
+      "side": 1,
+      "message": "Are you absolutely sure that this class is totally threadsafe? Some parts are but I have some doubts about some others (e.g. the \u0027configs\u0027 field and its computation).",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 31
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82772ebd_e0d283ae",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T16:41:03Z",
+      "side": 1,
+      "message": "CapabilityCollection keeps a reference to SystemGroupBackend even though that reference is only necessary during the construction of a CapabilityCollection. Could we refactor CapabilityCollection to not keep this reference and hence truly be a POJO?",
+      "range": {
+        "startLine": 95,
+        "startChar": 16,
+        "endLine": 95,
+        "endChar": 36
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b92dfcfc_23939645",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T16:41:03Z",
+      "side": 1,
+      "message": "I wish there was a way to avoid that class. The issue is that this class inherits from VersionedMetaData and hence might keep a reference to JGit objects like RevWalk and ObjectInserter. Ideally, we would have one class which contains the loaded values and another class which inherits from VersionedMetaData and which creates the first class.",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 19
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1143f2e0_44a31982",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T16:41:03Z",
+      "side": 1,
+      "message": "CapabilityCollection is created via a Guice-Factory in ProjectCacheEntryFactory. Are you sure that this object doesn\u0027t retain any com.google.inject.internal references? (If it doesn\u0027t, it\u0027s still strange that the comment above this constructor explicitly warns about Guice-created objects.)",
+      "range": {
+        "startLine": 107,
+        "startChar": 16,
+        "endLine": 107,
+        "endChar": 36
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ec3bf7f_bbae9076",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -97,6 +212,52 @@
     },
     {
       "key": {
+        "uuid": "5638d9bd_c38dfb81",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T16:41:03Z",
+      "side": 1,
+      "message": "optional: Annotated a CacheLoader with @Singleton is unnecessary as CacheModule#bindCacheLoader explicitly defines the singleton scope. I don\u0027t know what our general policy is in that regard. Sometimes we add @Singleton to such loaders, sometimes we don\u0027t. Any preference?",
+      "range": {
+        "startLine": 255,
+        "startChar": 2,
+        "endLine": 255,
+        "endChar": 12
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e62abd5_4d7cf25d",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T16:41:03Z",
+      "side": 1,
+      "message": "optional: Ideally, those two steps should be one.",
+      "range": {
+        "startLine": 279,
+        "startChar": 34,
+        "endLine": 280,
+        "endChar": 33
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b64961f5_5f1202ae",
         "filename": "java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 1
@@ -132,6 +293,30 @@
       "side": 1,
       "message": "In this case, if you look at the implementaiton of ProjectCacheEntry#getTheme, there are two reasons that we need to pass in the ProjectState:\n\n* To provide the SitePaths.\n* To call parents() when the value is inherited, which implies some mutual recursion.\n\nI agree that passing the SitePaths explicitly would help reduce the coupling, though I\u0027m not sure I would call the result less ugly. I\u0027m not sure what to do about the parents iterable though. Pass a Supplier\u003cIterable\u003cProjectState\u003e\u003e? Move all the inheritance resolution into ProjectState?",
       "parentUuid": "b64961f5_5f1202ae",
+      "range": {
+        "startLine": 379,
+        "startChar": 4,
+        "endLine": 379,
+        "endChar": 37
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd8f76ee_5e643197",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-04T16:41:03Z",
+      "side": 1,
+      "message": "I don\u0027t like the cyclic dependency between ProjectState and ProjectCacheEntry either. It\u0027s not in a way which causes a problem for the cache but nevertheless introduces a too tight coupling of the two classes. In this case, I would pass in the SitePaths and the ThemeInfo of the parent. That result would still not be ideal but at least be a bit better.",
+      "parentUuid": "687864c9_93a76ffc",
       "range": {
         "startLine": 379,
         "startChar": 4,

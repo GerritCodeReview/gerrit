@@ -391,7 +391,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
             false,
             sysInjector.getInstance(DownloadConfig.class),
             sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));
-    if (indexType == IndexType.LUCENE) {
+    if (indexType == IndexType.LUCENE || indexType == IndexType.ELASTICSEARCH) {
       modules.add(new IndexCommandsModule());
     }
     return sysInjector.createChildInjector(modules);

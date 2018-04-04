@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "b9dca70c_b2debde6",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-04T11:11:22Z",
+      "side": 1,
+      "message": "Would using JsonObject here be a bad idea (adds a hard dependency on Gson)? It would allow using primitive types (numbers, boolean, strings) and not just strings\nMight even be impossible because of GWT",
+      "revId": "284c4572d8d9220cd5ba194299803dbc505b5e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ce67880_776bbe6d",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 3

@@ -46,6 +46,30 @@
       "revId": "f7a126510584ace1f9f42dc10aa133fcc4fbb18b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c94cd51e_94a7582c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-04T23:51:38Z",
+      "side": 1,
+      "message": "I agree that a giant mapping here is a bit unnecessary. IMO we should leave the route name completely intact rather than stripping the \u0027_handle\u0027, but I don\u0027t feel strongly either way.",
+      "parentUuid": "4951edc5_9e72ca9b",
+      "range": {
+        "startLine": 638,
+        "startChar": 41,
+        "endLine": 638,
+        "endChar": 52
+      },
+      "revId": "f7a126510584ace1f9f42dc10aa133fcc4fbb18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

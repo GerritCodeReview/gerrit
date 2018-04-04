@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f5049fae_c9b24cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-04T18:21:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3576597d_af531297",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "6c241e93faa5b1b082387cb39f3e158620eeb2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f5850d2_44c986b6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1

@@ -16,7 +16,6 @@ package com.google.gerrit.server.group.db;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Strings;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -57,7 +56,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
@@ -219,27 +217,6 @@ public class GroupsUpdate {
     return noteDbUpdateResult.orElse(null);
   }
 
-  public static AccountGroup createAccountGroup(
-      InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate) {
-    Timestamp createdOn = groupUpdate.getUpdatedOn().orElseGet(TimeUtil::nowTs);
-    AccountGroup group = createAccountGroup(groupCreation, createdOn);
-    applyUpdate(group, groupUpdate);
-    return group;
-  }
-
-  private static AccountGroup createAccountGroup(
-      InternalGroupCreation groupCreation, Timestamp createdOn) {
-    return new AccountGroup(
-        groupCreation.getNameKey(), groupCreation.getId(), groupCreation.getGroupUUID(), createdOn);
-  }
-
-  private static void applyUpdate(AccountGroup group, InternalGroupUpdate groupUpdate) {
-    groupUpdate.getName().ifPresent(group::setNameKey);
-    groupUpdate.getDescription().ifPresent(d -> group.setDescription(Strings.emptyToNull(d)));
-    groupUpdate.getOwnerGroupUUID().ifPresent(group::setOwnerGroupUUID);
-    groupUpdate.getVisibleToAll().ifPresent(group::setVisibleToAll);
-  }
-
   private InternalGroup createGroupInNoteDbWithRetry(
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, OrmDuplicateKeyException {
@@ -344,8 +321,7 @@ public class GroupsUpdate {
             .setAddedMembers(addedMembers)
             .setDeletedMembers(deletedMembers)
             .setAddedSubgroups(addedSubgroups)
-            .setDeletedSubgroups(deletedSubgroups)
-            .setRefState(updatedGroup.getRefState());
+            .setDeletedSubgroups(deletedSubgroups);
     if (!Objects.equals(originalGroup.getNameKey(), updatedGroup.getNameKey())) {
       resultBuilder.setPreviousGroupName(originalGroup.getNameKey());
     }
@@ -482,9 +458,6 @@ public class GroupsUpdate {
 
     abstract ImmutableSet<AccountGroup.UUID> getDeletedSubgroups();
 
-    @Nullable
-    public abstract ObjectId getRefState();
-
     static Builder builder() {
       return new AutoValue_GroupsUpdate_UpdateResult.Builder();
     }
@@ -506,8 +479,6 @@ public class GroupsUpdate {
       abstract Builder setAddedSubgroups(Set<AccountGroup.UUID> addedSubgroups);
 
       abstract Builder setDeletedSubgroups(Set<AccountGroup.UUID> deletedSubgroups);
-
-      public abstract Builder setRefState(ObjectId refState);
 
       abstract UpdateResult build();
     }

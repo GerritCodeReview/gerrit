@@ -341,6 +341,125 @@ public class AccountManagerIT extends AbstractDaemonTest {
     assertThat(accountState.get().getAccount().isActive()).isFalse();
   }
 
+  @Test
+  public void cannotAuthenticateNewAccountWithEmailThatIsAlreadyUsed() throws Exception {
+    String email = "foo@example.com";
+
+    // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
+    String username = "foo";
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+
+    // Try to authenticate with this email to create a new account with a SCHEME_MAILTO external ID.
+    // Expect that this fails because the email is already assigned to the other account.
+    AuthRequest who = AuthRequest.forEmail(email);
+    exception.expect(AccountException.class);
+    exception.expectMessage("Email 'foo@example.com' in use by another account");
+    accountManager.authenticate(who);
+  }
+
+  @Test
+  public void cannotAuthenticateNewAccountWithUsernameAndEmailThatIsAlreadyUsed() throws Exception {
+    String email = "foo@example.com";
+
+    // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
+    String username = "foo";
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+
+    // Try to authenticate with a new username and claim the same email.
+    // Expect that this fails because the email is already assigned to the other account.
+    AuthRequest who = AuthRequest.forUser("bar");
+    who.setEmailAddress(email);
+    exception.expect(AccountException.class);
+    exception.expectMessage("Email 'foo@example.com' in use by another account");
+    accountManager.authenticate(who);
+  }
+
+  @Test
+  public void cannotUpdateToEmailThatIsAlreadyUsed() throws Exception {
+    String email = "foo@example.com";
+    String newEmail = "bar@example.com";
+
+    // Create an account with a SCHEME_GERRIT external ID and an email.
+    String username = "foo";
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u ->
+            u.setPreferredEmail(email)
+                .addExternalId(ExternalId.createWithEmail(gerritExtIdKey, accountId, email)));
+
+    // Create another account with an SCHEME_EXTERNAL external ID that occupies the new email.
+    Account.Id accountId2 = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, "bar");
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId2,
+        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId2, newEmail)));
+
+    // Try to authenticate and update the email for the first account.
+    // Expect that this fails because the new email is already assigned to the other account.
+    AuthRequest who = AuthRequest.forUser(username);
+    who.setEmailAddress(newEmail);
+    try {
+      accountManager.authenticate(who);
+      fail("Expected AccountException");
+    } catch (AccountException e) {
+      assertThat(e).hasMessageThat().isEqualTo("Email 'bar@example.com' in use by another account");
+    }
+
+    // Verify that the email in the external ID was not updated.
+    ExternalId gerritExtId = externalIds.get(gerritExtIdKey);
+    assertThat(gerritExtId).isNotNull();
+    assertThat(gerritExtId.email()).isEqualTo(email);
+
+    // Verify that the preferred email was not updated.
+    Optional<AccountState> accountState = accounts.get(accountId);
+    assertThat(accountState).isPresent();
+    assertThat(accountState.get().getAccount().getPreferredEmail()).isEqualTo(email);
+  }
+
+  @Test
+  public void cannotLinkEmailThatIsAlreadyUsed() throws Exception {
+    String email = "foo@example.com";
+
+    // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
+    String username = "foo";
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+
+    // Create another account with a SCHEME_GERRIT external ID and no email
+    String username2 = "foo";
+    Account.Id accountId2 = new Account.Id(seq.nextAccountId());
+    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username2);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId2,
+        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId2)));
+
+    // Try to link the email to the second account (via a new MAILTO external ID) and expect that
+    // this fails because the email is already assigned to the first account.
+    AuthRequest who = AuthRequest.forEmail(email);
+    exception.expect(AccountException.class);
+    exception.expectMessage("Email 'foo@example.com' in use by another account");
+    accountManager.link(accountId, who);
+  }
+
   private void assertNoSuchExternalIds(ExternalId.Key... extIdKeys) throws Exception {
     for (ExternalId.Key extIdKey : extIdKeys) {
       assertThat(externalIds.get(extIdKey)).named(extIdKey.get()).isNull();

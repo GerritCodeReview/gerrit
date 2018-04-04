@@ -51,6 +51,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -230,7 +231,7 @@ public class AccountManager {
   }
 
   private void update(AuthRequest who, ExternalId extId)
-      throws OrmException, IOException, ConfigInvalidException {
+      throws OrmException, IOException, ConfigInvalidException, AccountException {
     IdentifiedUser user = userFactory.create(extId.accountId());
     List<Consumer<InternalAccountUpdate.Builder>> accountUpdates = new ArrayList<>();
 
@@ -240,15 +241,14 @@ public class AccountManager {
     String newEmail = who.getEmailAddress();
     String oldEmail = extId.email();
     if (newEmail != null && !newEmail.equals(oldEmail)) {
+      ExternalId extIdWithNewEmail =
+          ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password());
+      checkEmailNotUsed(extIdWithNewEmail);
+      accountUpdates.add(u -> u.replaceExternalId(extId, extIdWithNewEmail));
+
       if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
         accountUpdates.add(u -> u.setPreferredEmail(newEmail));
       }
-
-      accountUpdates.add(
-          u ->
-              u.replaceExternalId(
-                  extId,
-                  ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password())));
     }
 
     if (!realm.allowsEdit(AccountFieldName.FULL_NAME)
@@ -288,6 +288,7 @@ public class AccountManager {
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
+    checkEmailNotUsed(extId);
     ExternalId userNameExtId =
         who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
 
@@ -362,6 +363,27 @@ public class AccountManager {
     return ExternalId.create(SCHEME_USERNAME, username, accountId);
   }
 
+  private void checkEmailNotUsed(ExternalId extIdToBeCreated) throws IOException, AccountException {
+    String email = extIdToBeCreated.email();
+    if (email == null) {
+      return;
+    }
+
+    Set<ExternalId> existingExtIdsWithEmail = externalIds.byEmail(email);
+    if (existingExtIdsWithEmail.isEmpty()) {
+      return;
+    }
+
+    log.warn(
+        "Email {} is already assigned to account {};"
+            + " cannot create external ID {} with the same email for account {}.",
+        email,
+        existingExtIdsWithEmail.iterator().next().accountId().get(),
+        extIdToBeCreated.key().get(),
+        extIdToBeCreated.accountId().get());
+    throw new AccountException("Email '" + email + "' in use by another account");
+  }
+
   private void addGroupMember(AccountGroup.UUID groupUuid, IdentifiedUser user)
       throws OrmException, IOException, ConfigInvalidException, AccountException {
     // The user initiated this request by logging in. -> Attribute all modifications to that user.
@@ -399,14 +421,16 @@ public class AccountManager {
       update(who, extId);
     } else {
       log.info("Linking new external ID to the existing account");
+      ExternalId newExtId =
+          ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress());
+      checkEmailNotUsed(newExtId);
       accountsUpdateProvider
           .get()
           .update(
               "Link External ID",
               to,
               (a, u) -> {
-                u.addExternalId(
-                    ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));
+                u.addExternalId(newExtId);
                 if (who.getEmailAddress() != null && a.getAccount().getPreferredEmail() == null) {
                   u.setPreferredEmail(who.getEmailAddress());
                 }

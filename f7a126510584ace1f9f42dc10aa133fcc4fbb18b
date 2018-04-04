@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bed1220_a7359d9c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-04T18:17:11Z",
+      "side": 1,
+      "message": "It wouldn\u0027t be crazy to map these handler names (which are actually the names of private methods) into some other symbolic name, like ..\n\n_getReportingRouteName(handlerName) {\n  if (handlerName \u003d\u003d\u003d \u0027_handleChangeLegacyRoute\u0027 ||\n      handlerName \u003d\u003d\u003d \u0027_handleChangeNumberLegacyRoute\u0027) {\n    return \u0027Dashboard\u0027;\n  } else if (...) ...\n  ...\n  } else {\n    // If not otherwise mapped, just return the handler name.\n    return handlerName;\n  }\n},\n\n.. but there are ambiguous cases, like what to map to in the case of `_handleChangeOrDiffRoute` and similar. It would also turn into a giant if-else-if-else chain that essentially replicates the existing layout of gr-router.js.",
+      "range": {
+        "startLine": 638,
+        "startChar": 41,
+        "endLine": 638,
+        "endChar": 52
+      },
+      "revId": "f7a126510584ace1f9f42dc10aa133fcc4fbb18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

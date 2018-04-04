@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3576597d_af531297",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-04T14:48:46Z",
+      "side": 1,
+      "message": "Ack. I agree with you, but I also think it\u0027s best for now to keep the \"Label Status: Ready to submit\" message, as the submit is blocked by something else than labels.\nThis should (and will) be properly fixed by a follow up change.",
+      "parentUuid": "d086c02b_9fbb2ca6",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 44
+      },
+      "revId": "6c241e93faa5b1b082387cb39f3e158620eeb2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f5850d2_44c986b6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "6c241e93faa5b1b082387cb39f3e158620eeb2e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13979c86_69034dde",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-04T14:48:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f5850d2_44c986b6",
+      "range": {
+        "startLine": 407,
+        "startChar": 18,
+        "endLine": 407,
+        "endChar": 32
+      },
+      "revId": "6c241e93faa5b1b082387cb39f3e158620eeb2e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

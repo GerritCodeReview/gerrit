@@ -151,7 +151,7 @@ limitations under the License.
       if (states.length || !opt_options) { return states; }
 
       // If no missing requirements, either active or ready to submit.
-      if (opt_options.readyToSubmit) {
+      if (change.submittable) {
         states.push('Ready to submit');
       } else {
         // Otherwise it is active.

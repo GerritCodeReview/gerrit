@@ -203,8 +203,7 @@
       },
       _changeStatuses: {
         type: String,
-        computed: '_computeChangeStatusChips(_change, _missingLabels, ' +
-            '_mergeable)',
+        computed: '_computeChangeStatusChips(_change, _mergeable)',
       },
       _commitCollapsed: {
         type: Boolean,
@@ -396,16 +395,11 @@
       return missingLabels;
     },
 
-    _readyToSubmit(missingLabels) {
-      return missingLabels.length === 0;
-    },
-
-    _computeChangeStatusChips(change, missingLabels, mergeable) {
+    _computeChangeStatusChips(change, mergeable) {
       // Show no chips until mergeability is loaded.
       if (mergeable === null || mergeable === undefined) { return []; }
 
       const options = {
-        readyToSubmit: this._readyToSubmit(missingLabels),
         includeDerived: true,
         mergeable: !!mergeable,
       };

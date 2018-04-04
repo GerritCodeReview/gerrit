@@ -93,28 +93,33 @@ limitations under the License.
       assert.deepEqual(statuses, []);
       assert.equal(statusString, '');
 
+      change.submittable = false;
       statuses = element.changeStatuses(change,
-          {readyToSubmit: false, includeDerived: true});
+          {includeDerived: true});
       assert.deepEqual(statuses, ['Active']);
 
       // With no missing labels
+      change.submittable = true;
       statuses = element.changeStatuses(change,
-          {readyToSubmit: true, includeDerived: true});
+          {includeDerived: true});
       statusString = element.changeStatusString(change);
       assert.deepEqual(statuses, ['Ready to submit']);
 
       change.mergeable = false;
+      change.submittable = true;
       statuses = element.changeStatuses(change,
-          {readyToSubmit: true, includeDerived: true});
+          {includeDerived: true});
       assert.deepEqual(statuses, ['Merge Conflict']);
 
       delete change.mergeable;
+      change.submittable = true;
       statuses = element.changeStatuses(change,
-          {readyToSubmit: true, includeDerived: true, mergeable: true});
+          {includeDerived: true, mergeable: true});
       assert.deepEqual(statuses, ['Ready to submit']);
 
+      change.submittable = true;
       statuses = element.changeStatuses(change,
-          {readyToSubmit: true, includeDerived: true, mergeable: false});
+          {includeDerived: true, mergeable: false});
       assert.deepEqual(statuses, ['Merge Conflict']);
     });
 

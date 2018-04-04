@@ -135,43 +135,10 @@ limitations under the License.
       });
     });
 
-    suite('location changed', () => {
-      let pathnameStub;
-      setup(() => {
-        pathnameStub = sinon.stub(element, '_getPathname');
-      });
-
-      teardown(() => {
-        pathnameStub.restore();
-      });
-
-      test('search', () => {
-        pathnameStub.returns('/q/foo');
-        element.locationChanged();
-        assert.isTrue(element.reporter.calledWithExactly(
-            'nav-report', 'Location Changed', 'Page', '/q/'));
-      });
-
-      test('change view', () => {
-        pathnameStub.returns('/c/42/');
-        element.locationChanged();
-        assert.isTrue(element.reporter.calledWithExactly(
-            'nav-report', 'Location Changed', 'Page', '/c/'));
-      });
-
-      test('change view', () => {
-        pathnameStub.returns('/c/41/2');
-        element.locationChanged();
-        assert.isTrue(element.reporter.calledWithExactly(
-            'nav-report', 'Location Changed', 'Page', '/c/'));
-      });
-
-      test('diff view', () => {
-        pathnameStub.returns('/c/41/2/file.txt');
-        element.locationChanged();
-        assert.isTrue(element.reporter.calledWithExactly(
-            'nav-report', 'Location Changed', 'Page', '/c//COMMIT_MSG'));
-      });
+    test('search', () => {
+      element.locationChanged('_handleSomeRoute');
+      assert.isTrue(element.reporter.calledWithExactly(
+          'nav-report', 'Location Changed', 'Page', '_handleSomeRoute'));
     });
 
     suite('exception logging', () => {

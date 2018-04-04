@@ -67,6 +67,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MetaDataUpdate;
@@ -90,6 +91,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
@@ -136,6 +138,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject protected AccountIndexCollection indexes;
 
   @Inject protected ExternalIds externalIds;
+
+  @Inject @GerritServerConfig protected Config gerritConfig;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -610,6 +614,18 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
                 .map(b -> new ByteArrayWrapper(b))
                 .collect(toList()))
         .containsExactlyElementsIn(blobs);
+  }
+
+  @Test
+  public void canSeeDisabled() throws Exception {
+    gerritConfig.setBoolean("index", null, "enableCanSeeQueries", false);
+    try {
+      exception.expect(BadRequestException.class);
+      exception.expectMessage("cansee queries are disabled");
+      assertQuery("cansee:123");
+    } finally {
+      gerritConfig.unset("index", null, "enableCanSeeQueries");
+    }
   }
 
   protected AccountInfo newAccount(String username) throws Exception {

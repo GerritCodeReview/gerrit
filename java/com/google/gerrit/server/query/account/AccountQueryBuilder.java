@@ -30,6 +30,7 @@ import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -41,6 +42,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +69,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
 
     private final Provider<CurrentUser> self;
     private final AccountIndexCollection indexes;
+    private final Config config;
 
     @Inject
     public Arguments(
@@ -74,12 +77,14 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
         AccountIndexCollection indexes,
         Provider<ReviewDb> db,
         ChangeFinder changeFinder,
-        PermissionBackend permissionBackend) {
+        PermissionBackend permissionBackend,
+        @GerritServerConfig Config config) {
       this.self = self;
       this.indexes = indexes;
       this.db = db;
       this.changeFinder = changeFinder;
       this.permissionBackend = permissionBackend;
+      this.config = config;
     }
 
     IdentifiedUser getIdentifiedUser() throws QueryParseException {
@@ -119,6 +124,10 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   @Operator
   public Predicate<AccountState> cansee(String change)
       throws QueryParseException, OrmException, PermissionBackendException {
+    if (!args.config.getBoolean("index", "enableCanSeeQueries", true)) {
+      throw error("cansee queries are disabled");
+    }
+
     ChangeNotes changeNotes = args.changeFinder.findOne(change);
     if (changeNotes == null
         || !args.permissionBackend

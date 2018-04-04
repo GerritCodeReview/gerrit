@@ -802,6 +802,49 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseHunksDirectlyTouchingHunksOfPatchSetsNotModifiedBetweenThemAreIdentified()
+      throws Exception {
+    // Add to hunks in a patch set and remove them in a further patch set to allow rebasing.
+    Function<String, String> contentModification =
+        fileContent ->
+            fileContent.replace("Line 1\n", "Line one\n").replace("Line 3\n", "Line three\n");
+    addModifiedPatchSet(changeId, FILE_NAME, contentModification);
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    Function<String, String> reverseContentModification =
+        fileContent ->
+            fileContent.replace("Line one\n", "Line 1\n").replace("Line three\n", "Line 3\n");
+    addModifiedPatchSet(changeId, FILE_NAME, reverseContentModification);
+
+    String newFileContent = FILE_CONTENT.replace("Line 2\n", "Line two\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newFileContent);
+    rebaseChangeOn(changeId, commit2);
+
+    // Add the hunks again and modify another line so that we get a diff for the file.
+    // (Files with only edits due to rebase are filtered out.)
+    addModifiedPatchSet(
+        changeId,
+        FILE_NAME,
+        contentModification.andThen(fileContent -> fileContent.replace("Line 10\n", "Line ten\n")));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 2");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line two");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(7);
+    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 10");
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line ten");
+    assertThat(diffInfo).content().element(3).isNotDueToRebase();
+    assertThat(diffInfo).content().element(4).commonLines().hasSize(90);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
   public void multipleRebaseEditsMixedWithRegularEditsCanBeIdentified() throws Exception {
     addModifiedPatchSet(
         changeId,
@@ -1206,6 +1249,118 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).revision(initialPatchSetId).files(currentPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void closeNonRebaseHunksAreCombinedForIntralineOptimizations() throws Exception {
+    assume().that(intraline).isTrue();
+
+    String fileContent = FILE_CONTENT.replace("Line 5\n", "{\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, fileContent);
+    rebaseChangeOn(changeId, commit2);
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    addModifiedPatchSet(
+        changeId,
+        FILE_NAME,
+        content -> content.replace("Line 4\n", "Line four\n").replace("Line 6\n", "Line six\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 4", "{", "Line 6");
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line four", "{", "Line six");
+    assertThat(diffInfo).content().element(1).isNotDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(94);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    // Lines which weren't modified but are included in a hunk due to optimization don't count for
+    // the number of inserted/deleted lines.
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(2);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(2);
+  }
+
+  @Test
+  public void closeRebaseHunksAreNotCombinedForIntralineOptimizations() throws Exception {
+    assume().that(intraline).isTrue();
+
+    String fileContent = FILE_CONTENT.replace("Line 5\n", "{\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, fileContent);
+    rebaseChangeOn(changeId, commit2);
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    String newFileContent =
+        fileContent.replace("Line 4\n", "Line four\n").replace("Line 6\n", "Line six\n");
+    ObjectId commit3 = addCommit(commit1, FILE_NAME, newFileContent);
+    rebaseChangeOn(changeId, commit3);
+
+    addModifiedPatchSet(
+        changeId, FILE_NAME, content -> content.replace("Line 20\n", "Line twenty\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 4");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line four");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 6");
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line six");
+    assertThat(diffInfo).content().element(3).isDueToRebase();
+    assertThat(diffInfo).content().element(4).commonLines().hasSize(13);
+    assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 20");
+    assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line twenty");
+    assertThat(diffInfo).content().element(5).isNotDueToRebase();
+    assertThat(diffInfo).content().element(6).commonLines().hasSize(80);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void closeRebaseAndNonRebaseHunksAreNotCombinedForIntralineOptimizations()
+      throws Exception {
+    assume().that(intraline).isTrue();
+
+    String fileContent = FILE_CONTENT.replace("Line 5\n", "{\n").replace("Line 7\n", "{\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, fileContent);
+    rebaseChangeOn(changeId, commit2);
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    String newFileContent =
+        fileContent.replace("Line 4\n", "Line four\n").replace("Line 8\n", "Line eight\n");
+    ObjectId commit3 = addCommit(commit1, FILE_NAME, newFileContent);
+    rebaseChangeOn(changeId, commit3);
+
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 6\n", "Line six\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 4");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line four");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 6");
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line six");
+    assertThat(diffInfo).content().element(3).isNotDueToRebase();
+    assertThat(diffInfo).content().element(4).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 8");
+    assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line eight");
+    assertThat(diffInfo).content().element(5).isDueToRebase();
+    assertThat(diffInfo).content().element(6).commonLines().hasSize(92);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
     assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
     assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
   }

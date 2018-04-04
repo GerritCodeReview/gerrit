@@ -431,6 +431,81 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void linkNewExternalId() throws Exception {
+    // Create an account with a SCHEME_GERRIT external ID and no email
+    String username = "foo";
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+
+    // Check that email is not used yet.
+    String email = "foo@example.com";
+    ExternalId.Key mailtoExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_MAILTO, email);
+    assertNoSuchExternalIds(mailtoExtIdKey);
+
+    // Link the email to the account.
+    // Expect that a MAILTO external ID is created.
+    AuthRequest who = AuthRequest.forEmail(email);
+    AuthResult authResult = accountManager.link(accountId, who);
+    assertAuthResultForExistingAccount(authResult, accountId, mailtoExtIdKey);
+    assertExternalId(mailtoExtIdKey, accountId, email);
+  }
+
+  @Test
+  public void updateExternalIdOnLink() throws Exception {
+    // Create an account with a SCHEME_GERRIT external ID and no email
+    String username = "foo";
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u ->
+            u.addExternalId(
+                ExternalId.createWithEmail(externalExtIdKey, accountId, "old@example.com")));
+
+    // Link the email to the existing SCHEME_EXTERNAL external ID, but with a new email.
+    // Expect that the email of the existing external ID is updated.
+    AuthRequest who = AuthRequest.forExternalUser(username);
+    String newEmail = "new@example.com";
+    who.setEmailAddress(newEmail);
+    AuthResult authResult = accountManager.link(accountId, who);
+    assertAuthResultForExistingAccount(authResult, accountId, externalExtIdKey);
+    assertExternalId(externalExtIdKey, accountId, newEmail);
+  }
+
+  @Test
+  public void cannotLinkExternalIdThatIsAlreadyUsed() throws Exception {
+    // Create an account with a SCHEME_EXTERNAL external ID
+    String username1 = "foo";
+    Account.Id accountId1 = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey1 = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username1);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId1,
+        u -> u.addExternalId(ExternalId.create(externalExtIdKey1, accountId1)));
+
+    // Create another account with a SCHEME_EXTERNAL external ID
+    String username2 = "bar";
+    Account.Id accountId2 = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey2 = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username2);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId2,
+        u -> u.addExternalId(ExternalId.create(externalExtIdKey2, accountId2)));
+
+    // Try to link external ID of the first account to the second account.
+    // Expect that this fails because the external ID is already assigned to the first account.
+    AuthRequest who = AuthRequest.forExternalUser(username1);
+    exception.expect(AccountException.class);
+    exception.expectMessage("Identity 'external:foo' in use by another account");
+    accountManager.link(accountId2, who);
+  }
+
+  @Test
   public void cannotLinkEmailThatIsAlreadyUsed() throws Exception {
     String email = "foo@example.com";
 
@@ -474,8 +549,21 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
   private void assertExternalId(ExternalId.Key extIdKey, @Nullable String expectedEmail)
       throws Exception {
+    assertExternalId(extIdKey, null, expectedEmail);
+  }
+
+  private void assertExternalId(
+      ExternalId.Key extIdKey,
+      @Nullable Account.Id expectedAccountId,
+      @Nullable String expectedEmail)
+      throws Exception {
     ExternalId extId = externalIds.get(extIdKey);
     assertThat(extId).named(extIdKey.get()).isNotNull();
+    if (expectedAccountId != null) {
+      assertThat(extId.accountId())
+          .named("account ID of " + extIdKey.get())
+          .isEqualTo(expectedAccountId);
+    }
     assertThat(extId.email()).named("email of " + extIdKey.get()).isEqualTo(expectedEmail);
   }
 

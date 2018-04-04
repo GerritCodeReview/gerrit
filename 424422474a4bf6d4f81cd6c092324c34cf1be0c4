@@ -22,6 +22,30 @@
       "revId": "424422474a4bf6d4f81cd6c092324c34cf1be0c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1705b9b_3ecd236c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-04T22:43:22Z",
+      "side": 1,
+      "message": "My deduction:\n\nThese guards both exist here in the first place to satisfy the linter requirements (guarding against modifications of the Object prototype), not because they\u0027re really necessary for this function. \n\nThe linter *probably* doesn\u0027t interpret a return inside a prototype guard to be a proper guard -- early termination of the loop would yield incorrect/incomplete behavior, as opposed to continue.",
+      "parentUuid": "fdf1054f_a8543fd8",
+      "range": {
+        "startLine": 137,
+        "startChar": 51,
+        "endLine": 137,
+        "endChar": 60
+      },
+      "revId": "424422474a4bf6d4f81cd6c092324c34cf1be0c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

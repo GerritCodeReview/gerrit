@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "673e6540_84fb22a2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2803,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-04T17:16:29Z",
+      "side": 1,
+      "message": "nit: \"requireSignedOffBy prevents \" + PUSH_OPTION_SKIP_VALIDATION",
+      "range": {
+        "startLine": 2803,
+        "startChar": 35,
+        "endLine": 2803,
+        "endChar": 48
+      },
+      "revId": "1bb32b92df54914cbdad00cf8219ab8e3e751e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

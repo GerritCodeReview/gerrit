@@ -189,6 +189,7 @@
 
       const params = [];
       for (const p in opt_params) {
+        if (!opt_params.hasOwnProperty(p)) { continue; }
         if (opt_params[p] == null) {
           params.push(encodeURIComponent(p));
           continue;

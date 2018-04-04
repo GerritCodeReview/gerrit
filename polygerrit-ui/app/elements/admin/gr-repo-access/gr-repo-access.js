@@ -297,7 +297,8 @@
      */
     _recursivelyRemoveDeleted(obj) {
       for (const k in obj) {
-        if (!obj.hasOwnProperty(k)) { return; }
+        if (!obj.hasOwnProperty(k)) { continue; }
+
         if (typeof obj[k] == 'object') {
           if (obj[k].deleted) {
             delete obj[k];
@@ -310,7 +311,7 @@
 
     _recursivelyUpdateAddRemoveObj(obj, addRemoveObj, path = []) {
       for (const k in obj) {
-        if (!obj.hasOwnProperty(k)) { return; }
+        if (!obj.hasOwnProperty(k)) { continue; }
         if (typeof obj[k] == 'object') {
           const updatedId = obj[k].updatedId;
           const ref = updatedId ? updatedId : k;

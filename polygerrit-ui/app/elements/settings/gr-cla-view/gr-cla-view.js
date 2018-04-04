@@ -132,9 +132,9 @@
     // then hides the text box and submit button.
     _computeHideAgreementClass(name, config) {
       for (const key in config) {
-        if (!config.hasOwnProperty(key)) { return; }
+        if (!config.hasOwnProperty(key)) { continue; }
         for (const prop in config[key]) {
-          if (!config[key].hasOwnProperty(prop)) { return; }
+          if (!config[key].hasOwnProperty(prop)) { continue; }
           if (name === config[key].name &&
               !config[key].auto_verify_group) {
             return 'hideAgreementsTextBox';

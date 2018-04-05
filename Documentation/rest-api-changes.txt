@@ -1581,8 +1581,7 @@ changes to be merged.
 The listed changes use the same format as in
 link:#list-changes[Query Changes] with the
 link:#labels[`LABELS`], link:#detailed-labels[`DETAILED_LABELS`],
-link:#current-revision[`CURRENT_REVISION`],
-link:#current-commit[`CURRENT_COMMIT`], and
+link:#current-revision[`CURRENT_REVISION`],and
 link:#submittable[`SUBMITTABLE`] options set.
 
 Standard link:#query-options[formatting options] can be specified

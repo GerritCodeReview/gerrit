@@ -395,14 +395,15 @@
    */
   ChangeComments.prototype.getCommentThreads = function(comments) {
     const threads = [];
+    const idThreadMap = {};
     for (const comment of comments) {
       // If the comment is in reply to another comment, find that comment's
       // thread and append to it.
       if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-            thread.comments.some(c => c.id === comment.in_reply_to));
+        const thread = idThreadMap[comment.in_reply_to];
         if (thread) {
           thread.comments.push(comment);
+          idThreadMap[comment.id] = thread;
           continue;
         }
       }
@@ -419,6 +420,7 @@
         newThread.commentSide = comment.side;
       }
       threads.push(newThread);
+      idThreadMap[comment.id] = newThread;
     }
     return threads;
   };

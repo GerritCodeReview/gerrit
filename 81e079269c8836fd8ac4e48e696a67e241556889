@@ -218,6 +218,30 @@
       "revId": "81e079269c8836fd8ac4e48e696a67e241556889",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fdf9a6a_8876db93",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-05T13:04:24Z",
+      "side": 1,
+      "message": "It cannot be in ApiUtil because of dependecy issues. So let\u0027s leave this to a follow-up change.",
+      "parentUuid": "2d2ed715_77184719",
+      "range": {
+        "startLine": 264,
+        "startChar": 13,
+        "endLine": 265,
+        "endChar": 21
+      },
+      "revId": "81e079269c8836fd8ac4e48e696a67e241556889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

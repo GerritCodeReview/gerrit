@@ -942,8 +942,6 @@ public class RefControlTest {
   }
 
   private InMemoryRepository add(ProjectConfig pc) {
-    PrologEnvironment.Factory envFactory = null;
-    RulesCache rulesCache = null;
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
 
@@ -963,9 +961,7 @@ public class RefControlTest {
             projectCache,
             allProjectsName,
             allUsersName,
-            envFactory,
             repoManager,
-            rulesCache,
             commentLinks,
             capabilityCollectionFactory,
             pc));

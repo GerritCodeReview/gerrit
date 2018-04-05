@@ -47,14 +47,9 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.rules.PrologEnvironment;
-import com.google.gerrit.server.rules.RulesCache;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.googlecode.prolog_cafe.exceptions.CompileException;
-import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -87,17 +82,12 @@ public class ProjectState {
   private final SitePaths sitePaths;
   private final AllProjectsName allProjectsName;
   private final ProjectCache projectCache;
-  private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
-  private final RulesCache rulesCache;
   private final List<CommentLinkInfo> commentLinks;
 
   private final ProjectConfig config;
   private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
-
-  /** Prolog rule state. */
-  private volatile PrologMachineCopy rulesMachine;
 
   /** Last system time the configuration's revision was examined. */
   private volatile long lastCheckGeneration;
@@ -120,9 +110,7 @@ public class ProjectState {
       final ProjectCache projectCache,
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
-      final PrologEnvironment.Factory envFactory,
       final GitRepositoryManager gitMgr,
-      final RulesCache rulesCache,
       final List<CommentLinkInfo> commentLinks,
       final CapabilityCollection.Factory limitsFactory,
       @Assisted final ProjectConfig config) {
@@ -131,9 +119,7 @@ public class ProjectState {
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
     this.isAllUsers = config.getProject().getNameKey().equals(allUsersName);
     this.allProjectsName = allProjectsName;
-    this.envFactory = envFactory;
     this.gitMgr = gitMgr;
-    this.rulesCache = rulesCache;
     this.commentLinks = commentLinks;
     this.config = config;
     this.configs = new HashMap<>();
@@ -213,29 +199,6 @@ public class ProjectState {
         .map(ProjectState::getConfig)
         .map(ProjectConfig::getRulesId)
         .anyMatch(Objects::nonNull);
-  }
-
-  /** @return Construct a new PrologEnvironment for the calling thread. */
-  public PrologEnvironment newPrologEnvironment() throws CompileException {
-    PrologMachineCopy pmc = rulesMachine;
-    if (pmc == null) {
-      pmc = rulesCache.loadMachine(getNameKey(), config.getRulesId());
-      rulesMachine = pmc;
-    }
-    return envFactory.create(pmc);
-  }
-
-  /**
-   * Like {@link #newPrologEnvironment()} but instead of reading the rules.pl read the provided
-   * input stream.
-   *
-   * @param name a name of the input stream. Could be any name.
-   * @param in stream to read prolog rules from
-   * @throws CompileException
-   */
-  public PrologEnvironment newPrologEnvironment(String name, Reader in) throws CompileException {
-    PrologMachineCopy pmc = rulesCache.loadMachine(name, in);
-    return envFactory.create(pmc);
   }
 
   public Project getProject() {

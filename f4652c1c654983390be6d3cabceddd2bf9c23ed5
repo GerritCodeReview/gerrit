@@ -22,6 +22,30 @@
       "revId": "f4652c1c654983390be6d3cabceddd2bf9c23ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "665285ca_b7d1a6a0",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T16:06:03Z",
+      "side": 0,
+      "message": "This is done to make the search element more flexible/reusable. Discussing offline.",
+      "parentUuid": "932de9fd_1f890872",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 65
+      },
+      "revId": "f4652c1c654983390be6d3cabceddd2bf9c23ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

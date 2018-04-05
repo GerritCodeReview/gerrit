@@ -877,6 +877,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
         .noOneElse();
+    // TODO(logan): Should CCs be included?
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to(other)
+        .cc(sc.reviewer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .noOneElse();
     assertThat(sender).notSent();
   }
 

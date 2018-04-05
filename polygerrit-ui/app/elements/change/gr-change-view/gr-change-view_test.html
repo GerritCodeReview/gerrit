@@ -205,18 +205,24 @@ limitations under the License.
         assert.isTrue(handleCollapse.called);
       });
 
-      test('X should expand all messages', () => {
-        const handleExpand =
-            sandbox.stub(element.$.messageList, 'handleExpandCollapse');
-        MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'x');
-        assert(handleExpand.calledWith(true));
+      test('X should expand all messages', done => {
+        flush(() => {
+          const handleExpand = sandbox.stub(element.messagesList,
+              'handleExpandCollapse');
+          MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'x');
+          assert(handleExpand.calledWith(true));
+          done();
+        });
       });
 
-      test('Z should collapse all messages', () => {
-        const handleExpand =
-            sandbox.stub(element.$.messageList, 'handleExpandCollapse');
-        MockInteractions.pressAndReleaseKeyOn(element, 90, null, 'z');
-        assert(handleExpand.calledWith(false));
+      test('Z should collapse all messages', done => {
+        flush(() => {
+          const handleExpand = sandbox.stub(element.messagesList,
+              'handleExpandCollapse');
+          MockInteractions.pressAndReleaseKeyOn(element, 90, null, 'z');
+          assert(handleExpand.calledWith(false));
+          done();
+        });
       });
 
       test('shift + R should fetch and navigate to the latest patch set',
@@ -295,10 +301,7 @@ limitations under the License.
       };
       setup(() => {
         reloadStub = sandbox.stub(element.$.commentAPI, 'reloadDrafts')
-          .returns(Promise.resolve({
-            drafts,
-          }
-        ));
+            .returns(Promise.resolve({drafts}));
       });
 
       test('drafts are reloaded when reload-drafts fired', done => {
@@ -327,14 +330,13 @@ limitations under the License.
 
     test('thread list modified', () => {
       sandbox.spy(element, '_handleReloadDiffComments');
-      return element._reloadComments().then(() => {
-        element.$.threadList.fire('thread-list-modified');
-        assert.isTrue(element._handleReloadDiffComments.called);
-      });
-    });
+      element._showMessagesView = false;
+      flushAsynchronousOperations();
 
-    test('thread list modified', () => {
       return element._reloadComments().then(() => {
+        element.threadList.fire('thread-list-modified');
+        assert.isTrue(element._handleReloadDiffComments.called);
+
         let draftStub = sinon.stub(element._changeComments, 'computeDraftCount')
             .returns(1);
         assert.equal(element._computeTotalCommentCounts(5,
@@ -395,27 +397,18 @@ limitations under the License.
       // Wait for tab to get selected
       flush(() => {
         assert.equal(element.$.commentTabs.selected, 0);
-        assert.notEqual(getComputedStyle(element.$.messageList).display,
-            'none');
-        assert.equal(getComputedStyle(element.$.threadList).display, 'none');
-
+        assert.isTrue(element._showMessagesView);
         // Switch to comment thread tab
         MockInteractions.tap(element.$$('paper-tab.commentThreads'));
         assert.equal(element.$.commentTabs.selected, 1);
-        assert.equal(getComputedStyle(element.$.messageList).display,
-            'none');
-        assert.notEqual(getComputedStyle(element.$.threadList).display,
-            'none');
+        assert.isFalse(element._showMessagesView);
 
         // When the change is partially reloaded (ex: Shift+R), the content
         // is swapped out before the tab, so messages list will display even
         // though the tab for comment threads is still temporarily selected.
         element._paramsChanged(element.params);
         assert.equal(element.$.commentTabs.selected, 1);
-        assert.notEqual(getComputedStyle(element.$.messageList).display,
-            'none');
-        assert.equal(getComputedStyle(element.$.threadList).display,
-            'none');
+        assert.isTrue(element._showMessagesView);
         done();
       });
     });
@@ -1021,13 +1014,17 @@ limitations under the License.
         });
 
     test('_openReplyDialog called with `BODY` when coming from message reply' +
-        'event', () => {
-      const openStub = sandbox.stub(element, '_openReplyDialog');
-      element.$.messageList.fire('reply', {message: {message: 'text'}});
-      assert(openStub.lastCall.calledWithExactly(
-          element.$.replyDialog.FocusTarget.BODY),
-          '_openReplyDialog should have been passed BODY');
-      assert.equal(openStub.callCount, 1);
+        'event', done => {
+      flush(() => {
+        const openStub = sandbox.stub(element, '_openReplyDialog');
+        element.messagesList.fire('reply',
+            {message: {message: 'text'}});
+        assert(openStub.lastCall.calledWithExactly(
+            element.$.replyDialog.FocusTarget.BODY),
+            '_openReplyDialog should have been passed BODY');
+        assert.equal(openStub.callCount, 1);
+        done();
+      });
     });
 
     test('reply dialog focus can be controlled', () => {
@@ -1437,18 +1434,20 @@ limitations under the License.
       assert.equal(element._computeHeaderClass(true), 'header editMode');
     });
 
-    test('_maybeScrollToMessage', () => {
-      const scrollStub = sandbox.stub(element.$.messageList, 'scrollToMessage');
+    test('_maybeScrollToMessage', done => {
+      flush(() => {
+        const scrollStub = sandbox.stub(element.messagesList,
+            'scrollToMessage');
 
-      element._maybeScrollToMessage('');
-      assert.isFalse(scrollStub.called);
-
-      element._maybeScrollToMessage('message');
-      assert.isFalse(scrollStub.called);
-
-      element._maybeScrollToMessage('#message-TEST');
-      assert.isTrue(scrollStub.called);
-      assert.equal(scrollStub.lastCall.args[0], 'TEST');
+        element._maybeScrollToMessage('');
+        assert.isFalse(scrollStub.called);
+        element._maybeScrollToMessage('message');
+        assert.isFalse(scrollStub.called);
+        element._maybeScrollToMessage('#message-TEST');
+        assert.isTrue(scrollStub.called);
+        assert.equal(scrollStub.lastCall.args[0], 'TEST');
+        done();
+      });
     });
 
     test('topic update reloads related changes', () => {
@@ -1602,8 +1601,7 @@ limitations under the License.
 
       setup(() => {
         fireEdit = () => {
-          element.$.actions
-              .dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
+          element.$.actions.dispatchEvent(new CustomEvent('edit-tap'));
         };
         sandbox.stub(element.$.metadata, '_computeShowLabelStatus');
         sandbox.stub(element.$.metadata, '_computeLabelNames');

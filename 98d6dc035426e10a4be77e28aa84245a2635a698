@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d94a3a6_ecbf4b92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-05T18:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4102d5ac_8de20e2f",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "98d6dc035426e10a4be77e28aa84245a2635a698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29cc1851_e58d42c3",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f87b2d3f_85127686",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-05T18:52:32Z",
+      "side": 1,
+      "message": "There\u0027s always an account -- it\u0027s initialized to null.",
+      "parentUuid": "29cc1851_e58d42c3",
+      "range": {
+        "startLine": 145,
+        "startChar": 24,
+        "endLine": 145,
+        "endChar": 32
+      },
+      "revId": "98d6dc035426e10a4be77e28aa84245a2635a698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9113aaab_cc4ea9c0",
         "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2018-04-05T17:53:13Z",
       "side": 1,
       "message": "Not necessarily a blocker for this change, but adding the same function here and in the change list view makes me think these two should share a top level component.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 6
+      },
+      "revId": "98d6dc035426e10a4be77e28aa84245a2635a698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19a8fd8a_8e9d8c0c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-05T18:52:32Z",
+      "side": 1,
+      "message": "I see your point, but we have code duplication for things like loading accounts, getting logged in info, etc. all over the place. I\u0027d say that, if we add another top-level component for a similar reason, we can start thinking about deduping this logic.",
+      "parentUuid": "9113aaab_cc4ea9c0",
       "range": {
         "startLine": 124,
         "startChar": 4,

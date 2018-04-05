@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf4ab050_c3ce7f40",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-05T13:57:16Z",
+      "side": 1,
+      "message": "nit: remove\n\nOptionally, you could just remove these comments as they don\u0027t add additional information to what the if-clause code is already stating.",
+      "range": {
+        "startLine": 58,
+        "startChar": 20,
+        "endLine": 58,
+        "endChar": 21
+      },
+      "revId": "de41f1f750ad349bd86d19e0d16395f8839d4853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edeb1084_f612a8a1",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-05T13:57:16Z",
+      "side": 1,
+      "message": "MethodNotAllowedException",
+      "range": {
+        "startLine": 59,
+        "startChar": 16,
+        "endLine": 59,
+        "endChar": 29
+      },
+      "revId": "de41f1f750ad349bd86d19e0d16395f8839d4853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60afff51_0b403be1",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-05T13:57:16Z",
+      "side": 1,
+      "message": "I am wondering if we should allow tag deletion on refs/meta/config. But this could go into a future change if we want to adapt the behavior.",
+      "revId": "de41f1f750ad349bd86d19e0d16395f8839d4853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -54,7 +54,6 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   }
 
   static final String PROJECTS = "projects";
-  static final String PROJECTS_PREFIX = PROJECTS + "_";
 
   private final ProjectMapping mapping;
   private final Provider<ProjectCache> projectCache;
@@ -66,7 +65,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       Provider<ProjectCache> projectCache,
       JestClientBuilder clientBuilder,
       @Assisted Schema<ProjectData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, PROJECTS_PREFIX);
+    super(cfg, sitePaths, schema, clientBuilder, PROJECTS);
     this.projectCache = projectCache;
     this.mapping = new ProjectMapping(schema);
   }

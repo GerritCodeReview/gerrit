@@ -20,7 +20,7 @@ import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES;
 import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CLOSED_CHANGES;
 import static com.google.gerrit.elasticsearch.ElasticChangeIndex.OPEN_CHANGES;
 import static com.google.gerrit.elasticsearch.ElasticGroupIndex.GROUPS;
-import static com.google.gerrit.elasticsearch.ElasticProjectIndex.PROJECTS_PREFIX;
+import static com.google.gerrit.elasticsearch.ElasticProjectIndex.PROJECTS;
 
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
@@ -169,7 +169,7 @@ final class ElasticTestUtils {
         .client()
         .admin()
         .indices()
-        .prepareCreate(String.format("%s%04d", PROJECTS_PREFIX, projectSchema.getVersion()))
+        .prepareCreate(String.format("%s_%04d", PROJECTS, projectSchema.getVersion()))
         .addMapping(ElasticProjectIndex.PROJECTS, gson.toJson(projectMapping))
         .execute()
         .actionGet();

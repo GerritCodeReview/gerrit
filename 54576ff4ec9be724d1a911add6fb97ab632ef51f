@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "08d4e25e_cd8798a7",
+        "filename": "java/com/google/gerrit/server/rules/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-05T17:04:50Z",
+      "side": 1,
+      "message": "Yeah, good idea.",
+      "parentUuid": "38b266f1_4b3c6910",
+      "revId": "54576ff4ec9be724d1a911add6fb97ab632ef51f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8cc8dc36_ee30ddfc",
         "filename": "java/com/google/gerrit/server/rules/RulesCache.java",
         "patchSetId": 2
@@ -40,6 +58,30 @@
       "revId": "54576ff4ec9be724d1a911add6fb97ab632ef51f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e3cca42_56379f59",
+        "filename": "java/com/google/gerrit/server/rules/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-05T17:04:50Z",
+      "side": 1,
+      "message": "It creates one lambda, which we don\u0027t care about. createMachine is only called if the entry is not in the cache; see\nhttps://google.github.io/guava/releases/23.0/api/docs/com/google/common/cache/Cache.html#get-K-java.util.concurrent.Callable-",
+      "parentUuid": "8cc8dc36_ee30ddfc",
+      "range": {
+        "startLine": 128,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 44
+      },
+      "revId": "54576ff4ec9be724d1a911add6fb97ab632ef51f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

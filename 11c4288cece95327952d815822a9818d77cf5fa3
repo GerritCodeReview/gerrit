@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7da9195_d295dddb",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-05T19:50:48Z",
+      "side": 1,
+      "message": "This should be a docstring on the decode method.  Although I don\u0027t think it\u0027s necessary to be so verbose, so we can probably just remove it.",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 131,
+        "endChar": 5
+      },
+      "revId": "11c4288cece95327952d815822a9818d77cf5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c8be8c_f3ba5007",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-05T19:50:48Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 150,
+        "endChar": 5
+      },
+      "revId": "11c4288cece95327952d815822a9818d77cf5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "095a0a25_7bf2cdac",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-05T19:50:48Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 237,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 5
+      },
+      "revId": "11c4288cece95327952d815822a9818d77cf5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

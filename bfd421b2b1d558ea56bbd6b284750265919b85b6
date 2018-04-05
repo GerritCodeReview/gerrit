@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f783e3a_318e7cbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-05T22:08:19Z",
+      "side": 1,
+      "message": "Use imperative: \"Restore this feature,\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4e8f867_4eed6515",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-05T22:08:19Z",
+      "side": 1,
+      "message": "Use imperative \"introduce a new configuration option\"",
+      "range": {
+        "startLine": 15,
+        "startChar": 33,
+        "endLine": 15,
+        "endChar": 70
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51a028b0_0cf4a4ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-05T22:08:19Z",
+      "side": 1,
+      "message": "remove this text, will make the sentence more fluid. You are already saying \"for backward compatibility with older gerrit version\" later, thus this fragment is redundant.",
+      "range": {
+        "startLine": 16,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 57
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e8f8553_1f997ea4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-05T22:08:19Z",
+      "side": 1,
+      "message": "Use the imperative: \"Consider flipping\"",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 23
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d868ddd_3aeeb9b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-05T22:08:19Z",
+      "side": 1,
+      "message": "Use the imperative form.",
+      "range": {
+        "startLine": 20,
+        "startChar": 27,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e06be5d4_718ce6f7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1211,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-05T22:08:19Z",
+      "side": 1,
+      "message": "Hold on: we may want to flip the default value and not remove the config, correct?",
+      "range": {
+        "startLine": 1210,
+        "startChar": 61,
+        "endLine": 1211,
+        "endChar": 37
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "011378db_90d5a340",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3013,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-05T22:08:19Z",
+      "side": 1,
+      "message": "This is a separate test: should be in a separate method.",
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

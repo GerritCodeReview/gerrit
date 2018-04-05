@@ -155,7 +155,11 @@
 
     detached() {
       this.cancelDebouncer('fire-update');
-      this.$.editTextarea.closeDropdown();
+      this.textarea.closeDropdown();
+    },
+
+    get textarea() {
+      return Polymer.dom(this.root).querySelector('#editTextarea');
     },
 
     _computeShowHideText(collapsed) {
@@ -272,9 +276,6 @@
 
     _editingChanged(editing, previousValue) {
       this.$.container.classList.toggle('editing', editing);
-      if (editing) {
-        this.$.editTextarea.putCursorAtEnd();
-      }
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;
       }
@@ -284,6 +285,12 @@
       if (editing != !!previousValue) {
         // To prevent event firing on comment creation.
         this._fireUpdate();
+      }
+      if (editing) {
+        this.async(() => {
+          Polymer.dom.flush();
+          this.textarea.putCursorAtEnd();
+        }, 1);
       }
     },
 

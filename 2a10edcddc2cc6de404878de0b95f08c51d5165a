@@ -22,6 +22,30 @@
       "revId": "2a10edcddc2cc6de404878de0b95f08c51d5165a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "689712f7_07b04f55",
+        "filename": "java/com/google/gerrit/server/mail/send/InboundEmailRejectionSender.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T08:52:39Z",
+      "side": 1,
+      "message": "Ack, and thanks",
+      "parentUuid": "d0b6bdf9_7692475b",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "2a10edcddc2cc6de404878de0b95f08c51d5165a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

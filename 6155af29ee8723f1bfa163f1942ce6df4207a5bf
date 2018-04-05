@@ -16,6 +16,24 @@
       "revId": "6155af29ee8723f1bfa163f1942ce6df4207a5bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "936ee91b_05f1d922",
+        "filename": "java/com/google/gerrit/common/Common.gwt.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T10:10:58Z",
+      "side": 0,
+      "message": "Unrelated, but Gwt works without this line.\nShould I put it back?",
+      "parentUuid": "7c182e1b_2d8bfd28",
+      "revId": "6155af29ee8723f1bfa163f1942ce6df4207a5bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

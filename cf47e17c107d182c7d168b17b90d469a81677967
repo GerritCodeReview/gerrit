@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9d169dea_12f268cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T10:10:58Z",
+      "side": 1,
+      "message": "I totally agree that this is not my call.\n\nMy point:\n\nI want to restrict what chars can be used in the \"type\" parameter of SubmitRequirement (cf follow up change).\nI could use Guava\u0027s CharMatcher, but currently this is not possible (as Guava is not added).\nI could use a Pattern, but Gwt prevents me from doing so.\n\nThe only options I have: either use Gwt\u0027s RegExp class or to add Guava.\n\nUsing Gwt\u0027s RegExp class is counter-productive in my opinion: when we remove Gwt, we will have to convert it \"back\" to a Pattern or CharMatcher.\nIf we add Guava, we just have to remove Gwt from the build time and it works.\n\nI would also like to use ImmutableCollections in SubmitRecord, to have prettier constructors.\nNo big deal if I can\u0027t, but this is something I will have to change once Gwt is gone...",
+      "parentUuid": "72d02d11_a3ee177f",
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b4c8aff_638312ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -65,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "18da27cb_706cecdd",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T10:10:58Z",
+      "side": 1,
+      "message": "When sources are attached, GWT tries to compile from the sources... and fails (because of one class).\nI will try things. My first patchset uses a small hack but still attaches sources of Guava, so there has to be a way",
+      "parentUuid": "b514ff0f_02daf633",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 25
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ae7e2cc_b4fa380e",
         "filename": "WORKSPACE",
         "patchSetId": 2
@@ -76,6 +118,30 @@
       "writtenOn": "2018-04-05T09:22:03Z",
       "side": 1,
       "message": "Add a TODO, that the GWT compatible Guava version can be removed and replaced with the regular one, once GWT UI is gone.",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 211,
+        "endChar": 21
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e65e4ebe_f3734769",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T10:10:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ae7e2cc_b4fa380e",
       "range": {
         "startLine": 211,
         "startChar": 12,
@@ -111,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "707e6d67_1a45a02f",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T10:10:58Z",
+      "side": 1,
+      "message": "I think it does, as guava-gwt only contains some bindings.\n\nWhen I remove the lib:guava dependency:\n`java/com/google/gerrit/common/FileUtil.java:28: error: [strict] Using type com.google.common.annotations.GwtIncompatible from an indirect dependency (TOOL_INFO: \"@guava//jar\")`",
+      "parentUuid": "613ea699_33fc979a",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 22
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a9db3f7_5a942eec",
         "filename": "java/com/google/gerrit/common/BUILD",
         "patchSetId": 2
@@ -122,6 +212,30 @@
       "writtenOn": "2018-04-05T09:22:03Z",
       "side": 1,
       "message": "Use //lib:foo labels.",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a271cf91_2061bc47",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T10:10:58Z",
+      "side": 1,
+      "message": "Done, also added the license for checker-compat",
+      "parentUuid": "9a9db3f7_5a942eec",
       "range": {
         "startLine": 27,
         "startChar": 8,

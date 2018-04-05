@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "0d9193a5_b83ac3c9",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-05T11:23:11Z",
+      "side": 1,
+      "message": "On second thought, let\u0027s keep these comments for now.",
+      "parentUuid": "b0827640_f9d3bd81",
+      "revId": "81e079269c8836fd8ac4e48e696a67e241556889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef5f39d7_b29e97d4",
         "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
         "patchSetId": 1

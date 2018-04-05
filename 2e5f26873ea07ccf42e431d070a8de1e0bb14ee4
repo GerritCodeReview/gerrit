@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7188bfaa_ea961ab1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-04-05T15:46:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab50d0d_58cea988",
+      "range": {
+        "startLine": 9,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e72c2e84_1f1bea53",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2018-04-05T15:32:41Z",
       "side": 1,
       "message": "Applying the above comment would then lead you to also properly wrap the following lines (above).",
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f94a196_d0231636",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-04-05T15:46:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e72c2e84_1f1bea53",
       "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -93,6 +135,66 @@
       "writtenOn": "2018-04-05T15:33:53Z",
       "side": 1,
       "message": "Oops, just replied the same in parallel; thx David.",
+      "parentUuid": "3a7034c8_91ac4e45",
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7276f1fc_16790933",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-04-05T15:46:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a864fa63_844bc66b",
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1a4cf39_35f91255",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-04-05T15:46:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6587ca3_04f37360",
+      "range": {
+        "startLine": 489,
+        "startChar": 14,
+        "endLine": 489,
+        "endChar": 89
+      },
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81fcd47b_0758dce0",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-04-05T15:46:22Z",
+      "side": 1,
+      "message": "If we only have two index types then removing this condition would be good. Done",
       "parentUuid": "3a7034c8_91ac4e45",
       "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

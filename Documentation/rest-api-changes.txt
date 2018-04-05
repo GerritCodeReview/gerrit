@@ -1581,8 +1581,7 @@ changes to be merged.
 The listed changes use the same format as in
 link:#list-changes[Query Changes] with the
 link:#labels[`LABELS`], link:#detailed-labels[`DETAILED_LABELS`],
-link:#current-revision[`CURRENT_REVISION`],
-link:#current-commit[`CURRENT_COMMIT`], and
+link:#current-revision[`CURRENT_REVISION`],and
 link:#submittable[`SUBMITTABLE`] options set.
 
 Standard link:#query-options[formatting options] can be specified
@@ -1692,28 +1691,6 @@ option `NON_VISIBLE_CHANGES`.
           },
           "ref": "refs/changes/79/1779/1",
           "fetch": {},
-          "commit": {
-            "parents": [
-              {
-                "commit": "2d3176497a2747faed075f163707e57d9f961a1c",
-                "subject": "Merge changes from topic \u0027submodule-subscription-tests-and-fixes-3\u0027"
-              }
-            ],
-            "author": {
-              "name": "Stefan Beller",
-              "email": "sbeller@google.com",
-              "date": "2015-04-29 21:36:52.000000000",
-              "tz": -420
-            },
-            "committer": {
-              "name": "Stefan Beller",
-              "email": "sbeller@google.com",
-              "date": "2015-05-01 00:11:16.000000000",
-              "tz": -420
-            },
-            "subject": "ChangeMergeQueue: Rewrite such that it works on set of changes",
-            "message": "ChangeMergeQueue: Rewrite such that it works on set of changes\n\nChangeMergeQueue used to work on branches rather than sets of changes.\nThis change is a first step to merge sets of changes (e.g. grouped by a\ntopic and `changes.submitWholeTopic` enabled) in an atomic fashion.\nThis change doesn\u0027t aim to implement these changes, but only as a step\ntowards it.\n\nMergeOp keeps its functionality and behavior as is. A new class\nMergeOpMapper is introduced which will map the set of changes to\nthe set of branches. Additionally the MergeOpMapper is also\nresponsible for the threading done right now, which was part of\nthe ChangeMergeQueue before.\n\nChange-Id: I1ffe09a505e25f15ce1521bcfb222e51e62c2a14\n"
-          }
         }
       }
     },
@@ -1811,28 +1788,6 @@ option `NON_VISIBLE_CHANGES`.
           },
           "ref": "refs/changes/80/1780/1",
           "fetch": {},
-          "commit": {
-            "parents": [
-              {
-                "commit": "9adb9f4c7b40eeee0646e235de818d09164d7379",
-                "subject": "ChangeMergeQueue: Rewrite such that it works on set of changes"
-              }
-            ],
-            "author": {
-              "name": "Stefan Beller",
-              "email": "sbeller@google.com",
-              "date": "2015-04-25 00:11:59.000000000",
-              "tz": -420
-            },
-            "committer": {
-              "name": "Stefan Beller",
-              "email": "sbeller@google.com",
-              "date": "2015-05-01 00:11:16.000000000",
-              "tz": -420
-            },
-            "subject": "AbstractSubmoduleSubscription: Split up createSubscription",
-            "message": "AbstractSubmoduleSubscription: Split up createSubscription\n\nLater we want to have subscriptions to more submodules, so we need to\nfind a way to add more submodule entries into the file. By splitting up\nthe createSubscription() method, that is very easy by using the\naddSubmoduleSubscription method multiple times.\n\nChange-Id: I7fe807e63792b3d26776fd1422e5e790a5697e22\n"
-          }
         }
       }
     }

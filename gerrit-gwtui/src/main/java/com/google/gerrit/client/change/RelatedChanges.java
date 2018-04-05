@@ -226,6 +226,7 @@ public class RelatedChanges extends TabPanel {
     if (info.currentRevision() != null && info.currentRevision().equals(revision)) {
       ChangeApi.change(info.project(), info.legacyId().get())
           .view("submitted_together")
+          .addParameter("o", "CURRENT_COMMIT")
           .get(new TabChangeListCallback(Tab.SUBMITTED_TOGETHER, info.project(), revision));
     }
 

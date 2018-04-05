@@ -92,9 +92,6 @@
   const SEARCH_OPERATORS_WITH_NEGATIONS =
       SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
 
-  const SELF_EXPRESSION = 'self';
-  const ME_EXPRESSION = 'me';
-
   const MAX_AUTOCOMPLETE_RESULTS = 10;
 
   const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
@@ -110,7 +107,6 @@
 
 
     behaviors: [
-      Gerrit.AnonymousNameBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.URLEncodingBehavior,
     ],
@@ -136,18 +132,35 @@
           return this._getSearchSuggestions.bind(this);
         },
       },
+      projectSuggestions: {
+        type: Function,
+        value() {
+          return function() {
+            return Promise.resolve([]);
+          };
+        },
+      },
+      groupSuggestions: {
+        type: Function,
+        value() {
+          return function() {
+            return Promise.resolve([]);
+          };
+        },
+      },
+      accountSuggestions: {
+        type: Function,
+        value() {
+          return function() {
+            return Promise.resolve([]);
+          };
+        },
+      },
       _inputVal: String,
       _threshold: {
         type: Number,
         value: 1,
       },
-      _config: Object,
-    },
-
-    attached() {
-      this.$.restAPI.getConfig().then(cfg => {
-        this._config = cfg;
-      });
     },
 
     _valueChanged(value) {
@@ -183,83 +196,6 @@
       }
     },
 
-    _accountOrAnon(name) {
-      return this.getUserName(this._config, name, false);
-    },
-
-    /**
-     * Fetch from the API the predicted accounts.
-     * @param {string} predicate - The first part of the search term, e.g.
-     *     'owner'
-     * @param {string} expression - The second part of the search term, e.g.
-     *     'kasp'
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _fetchAccounts(predicate, expression) {
-      if (expression.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedAccounts(
-          expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(accounts => {
-            if (!accounts) { return []; }
-            return accounts.map(acct => acct.email ?
-              `${predicate}:${acct.email}` :
-              `${predicate}:"${this._accountOrAnon(acct)}"`);
-          }).then(accounts => {
-            // When the expression supplied is a beginning substring of 'self',
-            // add it as an autocomplete option.
-            if (SELF_EXPRESSION.startsWith(expression)) {
-              return accounts.concat([predicate + ':' + SELF_EXPRESSION]);
-            } else if (ME_EXPRESSION.startsWith(expression)) {
-              return accounts.concat([predicate + ':' + ME_EXPRESSION]);
-            } else {
-              return accounts;
-            }
-          });
-    },
-
-    /**
-     * Fetch from the API the predicted groups.
-     * @param {string} predicate - The first part of the search term, e.g.
-     *     'ownerin'
-     * @param {string} expression - The second part of the search term, e.g.
-     *     'polyger'
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _fetchGroups(predicate, expression) {
-      if (expression.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedGroups(
-          expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(groups => {
-            if (!groups) { return []; }
-            const keys = Object.keys(groups);
-            return keys.map(key => predicate + ':' + key);
-          });
-    },
-
-    /**
-     * Fetch from the API the predicted projects.
-     * @param {string} predicate - The first part of the search term, e.g.
-     *     'project'
-     * @param {string} expression - The second part of the search term, e.g.
-     *     'gerr'
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
-    _fetchProjects(predicate, expression) {
-      return this.$.restAPI.getSuggestedProjects(
-          expression,
-          MAX_AUTOCOMPLETE_RESULTS)
-          .then(projects => {
-            if (!projects) { return []; }
-            const keys = Object.keys(projects);
-            return keys.map(key => predicate + ':' + key);
-          });
-    },
-
     /**
      * Determine what array of possible suggestions should be provided
      *     to _getSearchSuggestions.
@@ -277,12 +213,12 @@
         case 'ownerin':
         case 'reviewerin':
           // Fetch groups.
-          return this._fetchGroups(predicate, expression);
+          return this.groupSuggestions(predicate, expression);
 
         case 'parentproject':
         case 'project':
           // Fetch projects.
-          return this._fetchProjects(predicate, expression);
+          return this.projectSuggestions(predicate, expression);
 
         case 'author':
         case 'cc':
@@ -293,7 +229,7 @@
         case 'reviewedby':
         case 'reviewer':
           // Fetch accounts.
-          return this._fetchAccounts(predicate, expression);
+          return this.accountSuggestions(predicate, expression);
 
         default:
           return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS

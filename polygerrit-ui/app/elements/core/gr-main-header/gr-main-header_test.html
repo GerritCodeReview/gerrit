@@ -74,6 +74,15 @@ limitations under the License.
       ]);
     });
 
+    test('handles searching', () => {
+      sandbox.spy(element, '_handleSearch');
+      sandbox.stub(Gerrit.Nav, 'getUrlForSearchQuery').returns('query');
+      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      element.$.search.fire('handle-search', {inputVal: 'query'});
+      assert.isTrue(element._handleSearch.called);
+      assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.lastCall
+          .calledWithExactly('query'));
+    });
 
     test('user links', () => {
       const defaultLinks = [{

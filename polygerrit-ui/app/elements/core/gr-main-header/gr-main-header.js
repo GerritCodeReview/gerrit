@@ -168,6 +168,14 @@
       return links;
     },
 
+    _handleSearch(e) {
+      const input = e.detail.inputVal;
+      if (input) {
+        const url = Gerrit.Nav.getUrlForSearchQuery(input);
+        Gerrit.Nav.navigateToRelativeUrl(url);
+      }
+    },
+
     _getDocLinks(docBaseUrl, docLinks) {
       if (!docBaseUrl || !docLinks) {
         return [];

@@ -60,9 +60,8 @@ limitations under the License.
           document.activeElement;
     };
 
-    test('enter in search input triggers nav', done => {
-      sandbox.stub(page, 'show', () => {
-        page.show.restore();
+    test('enter in search input fires event', done => {
+      element.addEventListener('handle-search', () => {
         assert.notEqual(getActiveElement(), element.$.searchInput);
         assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
@@ -72,16 +71,7 @@ limitations under the License.
           null, 'enter');
     });
 
-    test('search query should be double-escaped', () => {
-      const showStub = sandbox.stub(page, 'show');
-      element.$.searchInput.text = 'fate/stay';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
-    });
-
     test('input blurred after commit', () => {
-      sandbox.stub(page, 'show');
       const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
       element.$.searchInput.text = 'fate/stay';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
@@ -90,11 +80,12 @@ limitations under the License.
     });
 
     test('empty search query does not trigger nav', () => {
-      const showSpy = sandbox.spy(page, 'show');
+      const searchSpy = sandbox.spy();
+      element.addEventListener('handle-search', searchSpy);
       element.value = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
-      assert.isFalse(showSpy.called);
+      assert.isFalse(searchSpy.called);
     });
 
     test('keyboard shortcuts', () => {

@@ -102,6 +102,13 @@
   Polymer({
     is: 'gr-search-bar',
 
+    /**
+     * Fired when a search is committed
+     *
+     * @event handle-search
+     */
+
+
     behaviors: [
       Gerrit.AnonymousNameBehavior,
       Gerrit.KeyboardShortcutBehavior,
@@ -170,7 +177,9 @@
         target.blur();
       }
       if (this._inputVal) {
-        page.show('/q/' + this.encodeURL(this._inputVal, false));
+        this.dispatchEvent(new CustomEvent('handle-search', {
+          detail: {inputVal: this._inputVal},
+        }));
       }
     },
 

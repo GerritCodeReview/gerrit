@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "9dd17f96_60aadceb",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-05T11:40:22Z",
+      "side": 1,
+      "message": "Sorry for not being clear: I mean this method has to be named is*Ref() where * is bikeshed :)\n\nPlease leave your name if you don\u0027t like my suggestion.",
+      "parentUuid": "7603e027_a4eeced3",
+      "range": {
+        "startLine": 262,
+        "startChar": 24,
+        "endLine": 262,
+        "endChar": 39
+      },
+      "revId": "81e079269c8836fd8ac4e48e696a67e241556889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0827640_f9d3bd81",
         "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
         "patchSetId": 1

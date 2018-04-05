@@ -103,9 +103,11 @@
         type: Array,
         value() { return []; },
       },
+      _serverConfig: Object,
     },
 
     behaviors: [
+      Gerrit.AnonymousNameBehavior,
       Gerrit.BaseUrlBehavior,
       Gerrit.DocsUrlBehavior,
     ],
@@ -195,7 +197,10 @@
 
     _loadConfig() {
       this.$.restAPI.getConfig()
-          .then(config => this.getDocsBaseUrl(config, this.$.restAPI))
+          .then(config => {
+            this._serverConfig = config;
+            return this.getDocsBaseUrl(config, this.$.restAPI);
+          })
           .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
     },
 

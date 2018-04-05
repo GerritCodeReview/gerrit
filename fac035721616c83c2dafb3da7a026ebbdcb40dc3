@@ -1,4 +1,73 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1522938035 +0200\nnonce AFN+CTKEDq8ENgXLmZBz0yJBfTnaWk8BAKAorAI2kZtei3OBlLk9Hnh/2M2CO9wEQtGoGk49ad2L\n\n0000000000000000000000000000000000000000 fac035721616c83c2dafb3da7a026ebbdcb40dc3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlrGMLMACgkQUbX9l6DQ\n71Gi1Qf/bM8Q+6h+ivwCscVaix+FyYZCUhthJ5o9Rb/t6OgvRsYIrRRlDbkI6XSN\n9ueiMX/3swpil4qkhHhal2I4zW13rn9v2DVigdpHHHCw9hLufE9YS7wK7wtJXZtu\nOfJaVdttsjzem4Z7UJQ3yfAaXffQURD9TNpQ4A/6KsvgK7wcFVYMQP1+Y3R70Hnv\n1rPVmBPKV8JNON13Dy3ZSdPqlzta2tfmhylfg1k4YhimvMo0fpOvJJdbB3g2Kqsg\nctbG1GR00fqGEtBAJcTvXAi7i31WvtYR+pflURaQp3dmk85FLmdTIA55/sCJ/VoM\nPLHayzkw7eh3IllJxLdzWjJam0+Vfg\u003d\u003d\n\u003dRMVI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7514105_e8b6a034",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-05T17:45:03Z",
+      "side": 1,
+      "message": "orElseGet(Optional::empty) is redundant, map will already return Optional.empty() if the input was empty.",
+      "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05c9958f_b1057859",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-05T17:45:03Z",
+      "side": 1,
+      "message": "Optional:\n\n externalIds.get(authRequest.getExternalIdKey())\n     .ifPresent(e -\u003e setInactiveFlag.deactivate(e.accountId()));",
+      "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82e7ab29_0864975b",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-05T17:45:03Z",
+      "side": 1,
+      "message": "ExternalId extId \u003d optionalExtId.orElseThrow(() -\u003e new ResourceNotFoundException());",
+      "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76be86f9_a4c1966e",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-05T17:45:03Z",
+      "side": 1,
+      "message": "assertThat(extId).isPresent()",
+      "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

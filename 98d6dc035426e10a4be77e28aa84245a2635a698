@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4102d5ac_8de20e2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T17:53:13Z",
+      "side": 1,
+      "message": "level",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "98d6dc035426e10a4be77e28aa84245a2635a698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29cc1851_e58d42c3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T17:53:13Z",
+      "side": 1,
+      "message": "Since this is now a computed property, this may not get computed when there is no account?",
+      "range": {
+        "startLine": 145,
+        "startChar": 24,
+        "endLine": 145,
+        "endChar": 32
+      },
+      "revId": "98d6dc035426e10a4be77e28aa84245a2635a698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9113aaab_cc4ea9c0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T17:53:13Z",
+      "side": 1,
+      "message": "Not necessarily a blocker for this change, but adding the same function here and in the change list view makes me think these two should share a top level component.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 6
+      },
+      "revId": "98d6dc035426e10a4be77e28aa84245a2635a698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

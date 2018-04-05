@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c840491_b7bfd8b7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T17:53:13Z",
+      "side": 0,
+      "message": "It doesn\u0027t look like this was re-introduced anywhere? Is the event in _paramsChanged sufficient?",
+      "range": {
+        "startLine": 123,
+        "startChar": 6,
+        "endLine": 123,
+        "endChar": 54
+      },
+      "revId": "f4652c1c654983390be6d3cabceddd2bf9c23ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

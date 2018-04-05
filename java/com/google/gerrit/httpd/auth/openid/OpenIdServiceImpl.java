@@ -344,7 +344,7 @@ class OpenIdServiceImpl {
       // of these domains.
       //
       final String email = areq.getEmailAddress();
-      int emailAtIndex = email.lastIndexOf("@");
+      int emailAtIndex = email.lastIndexOf('@');
       if (emailAtIndex >= 0 && emailAtIndex < email.length() - 1) {
         final String emailDomain = email.substring(emailAtIndex);
 

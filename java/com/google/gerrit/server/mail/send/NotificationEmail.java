@@ -129,7 +129,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
 
   @VisibleForTesting
   protected static String getShortProjectName(String projectName) {
-    int lastIndexSlash = projectName.lastIndexOf("/");
+    int lastIndexSlash = projectName.lastIndexOf('/');
     if (lastIndexSlash == 0) {
       return projectName.substring(1); // Remove the first slash
     }
@@ -144,6 +144,6 @@ public abstract class NotificationEmail extends OutgoingEmail {
     }
     // Extract the project name (everything after the last slash) and prepends it with gerrit's
     // instance name
-    return instanceName + "/" + projectName.substring(projectName.lastIndexOf("/") + 1);
+    return instanceName + "/" + projectName.substring(projectName.lastIndexOf('/') + 1);
   }
 }

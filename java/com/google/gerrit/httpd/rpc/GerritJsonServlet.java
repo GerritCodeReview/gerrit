@@ -163,7 +163,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
   private String extractWhat(Audit note, GerritCall call) {
     Class<?> methodClass = call.getMethodClass();
     String methodClassName = methodClass != null ? methodClass.getName() : "<UNKNOWN_CLASS>";
-    methodClassName = methodClassName.substring(methodClassName.lastIndexOf(".") + 1);
+    methodClassName = methodClassName.substring(methodClassName.lastIndexOf('.') + 1);
     String what = note.action();
     if (what.length() == 0) {
       what = call.getMethod().getName();

@@ -235,7 +235,7 @@ public class ChangeEditUtil {
 
   private PatchSet getBasePatchSet(ChangeNotes notes, Ref ref) throws IOException {
     try {
-      int pos = ref.getName().lastIndexOf("/");
+      int pos = ref.getName().lastIndexOf('/');
       checkArgument(pos > 0, "invalid edit ref: %s", ref.getName());
       String psId = ref.getName().substring(pos + 1);
       return psUtil.get(

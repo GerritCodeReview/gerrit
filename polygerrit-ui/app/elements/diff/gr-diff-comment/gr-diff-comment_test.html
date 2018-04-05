@@ -80,8 +80,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
-          'textarea is not visible');
+      assert.isNotOk(element.textarea, 'textarea is not visible');
 
       // The header middle content is only visible when comments are collapsed.
       // It shows the message in a condensed way, and limits to a single line.
@@ -95,8 +94,7 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
-          'textarea is not visible');
+      assert.isNotOk(element.textarea, 'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
     });
@@ -167,8 +165,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
-          'textarea is not visible');
+      assert.isNotOk(element.textarea, 'textarea is not visible');
       assert.isTrue(isVisible(element.$$('.collapsedContent')),
           'header middle content is visible');
 
@@ -178,8 +175,7 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
-          'textarea is not visible');
+      assert.isNotOk(element.textarea, 'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is is not visible');
     });
@@ -201,50 +197,50 @@ limitations under the License.
 
         test('esc closes comment when text is empty', () => {
           MockInteractions.pressAndReleaseKeyOn(
-              element.$.editTextarea, 27); // esc
+              element.textarea, 27); // esc
           assert.isTrue(element._handleCancel.called);
         });
 
         test('ctrl+enter does not save', () => {
           MockInteractions.pressAndReleaseKeyOn(
-              element.$.editTextarea, 13, 'ctrl'); // ctrl + enter
+              element.textarea, 13, 'ctrl'); // ctrl + enter
           assert.isFalse(element._handleSave.called);
         });
 
         test('meta+enter does not save', () => {
           MockInteractions.pressAndReleaseKeyOn(
-              element.$.editTextarea, 13, 'meta'); // meta + enter
+              element.textarea, 13, 'meta'); // meta + enter
           assert.isFalse(element._handleSave.called);
         });
 
         test('ctrl+s does not save', () => {
           MockInteractions.pressAndReleaseKeyOn(
-              element.$.editTextarea, 83, 'ctrl'); // ctrl + s
+              element.textarea, 83, 'ctrl'); // ctrl + s
           assert.isFalse(element._handleSave.called);
         });
       });
 
       test('esc does not close comment that has content', () => {
         MockInteractions.pressAndReleaseKeyOn(
-            element.$.editTextarea, 27); // esc
+            element.textarea, 27); // esc
         assert.isFalse(element._handleCancel.called);
       });
 
       test('ctrl+enter saves', () => {
         MockInteractions.pressAndReleaseKeyOn(
-            element.$.editTextarea, 13, 'ctrl'); // ctrl + enter
+            element.textarea, 13, 'ctrl'); // ctrl + enter
         assert.isTrue(element._handleSave.called);
       });
 
       test('meta+enter saves', () => {
         MockInteractions.pressAndReleaseKeyOn(
-            element.$.editTextarea, 13, 'meta'); // meta + enter
+            element.textarea, 13, 'meta'); // meta + enter
         assert.isTrue(element._handleSave.called);
       });
 
       test('ctrl+s saves', () => {
         MockInteractions.pressAndReleaseKeyOn(
-            element.$.editTextarea, 83, 'ctrl'); // ctrl + s
+            element.textarea, 83, 'ctrl'); // ctrl + s
         assert.isTrue(element._handleSave.called);
       });
     });
@@ -264,7 +260,7 @@ limitations under the License.
     test('delete comment', done => {
       sandbox.stub(
           element.$.restAPI, 'deleteComment').returns(Promise.resolve({}));
-      sandbox.spy(element.$.confirmDeleteOverlay, 'open');
+      sandbox.spy(element.confirmDeleteOverlay, 'open');
       element.changeNum = 42;
       element.patchNum = 0xDEADBEEF;
       element._isAdmin = true;
@@ -272,8 +268,10 @@ limitations under the License.
           .classList.contains('showDeleteButtons'));
       MockInteractions.tap(element.$$('.action.delete'));
       flush(() => {
-        element.$.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
-          element.$.confirmDeleteComment.message = 'removal reason';
+        element.confirmDeleteOverlay.open.lastCall.returnValue.then(() => {
+          const dialog =
+              this.confirmDeleteOverlay.querySelector('#confirmDeleteComment');
+          dialog.message = 'removal reason';
           element._handleConfirmDeleteComment();
           assert.isTrue(element.$.restAPI.deleteComment.calledWith(
               42, 0xDEADBEEF, 'baf0414d_60047215', 'removal reason'));
@@ -351,6 +349,7 @@ limitations under the License.
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
 
       element.editing = true;
+      flushAsynchronousOperations();
       assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
       assert.isFalse(isVisible(element.$$('.discard')), 'discard not visible');
       assert.isTrue(isVisible(element.$$('.save')), 'save is visible');
@@ -361,6 +360,7 @@ limitations under the License.
 
       element.draft = false;
       element.editing = false;
+      flushAsynchronousOperations();
       assert.isFalse(isVisible(element.$$('.edit')), 'edit is not visible');
       assert.isFalse(isVisible(element.$$('.discard')),
           'discard is not visible');
@@ -372,6 +372,7 @@ limitations under the License.
       element.comment.id = 'foo';
       element.draft = true;
       element.editing = true;
+      flushAsynchronousOperations();
       assert.isTrue(isVisible(element.$$('.cancel')), 'cancel is visible');
       assert.isFalse(element.$$('.humanActions').hasAttribute('hidden'));
       assert.isTrue(element.$$('.robotActions').hasAttribute('hidden'));
@@ -411,8 +412,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isFalse(isVisible(element.$$('.actions')),
           'actions are not visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
-          'textarea is not visible');
+      assert.isNotOk(element.textarea, 'textarea is not visible');
       assert.isTrue(isVisible(element.$$('.collapsedContent')),
           'header middle content is visible');
 
@@ -422,21 +422,20 @@ limitations under the License.
           'gr-formatted-text is visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isFalse(isVisible(element.$$('gr-textarea')),
-          'textarea is not visible');
+      assert.isNotOk(element.textarea, 'textarea is not visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is is not visible');
 
       // When the edit button is pressed, should still see the actions
       // and also textarea
       MockInteractions.tap(element.$$('.edit'));
+      flushAsynchronousOperations();
       assert.isFalse(element.collapsed);
       assert.isFalse(isVisible(element.$$('gr-formatted-text')),
           'gr-formatted-text is not visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isTrue(isVisible(element.$$('gr-textarea')),
-          'textarea is visible');
+      assert.isTrue(isVisible(element.textarea), 'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
 
@@ -460,8 +459,7 @@ limitations under the License.
           'gr-formatted-text is not visible');
       assert.isTrue(isVisible(element.$$('.actions')),
           'actions are visible');
-      assert.isTrue(isVisible(element.$$('gr-textarea')),
-          'textarea is visible');
+      assert.isTrue(isVisible(element.textarea), 'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
     });
@@ -496,7 +494,8 @@ limitations under the License.
       MockInteractions.tap(element.$$('.cancel'));
       element.flushDebouncer('fire-update');
       element._messageText = '';
-      MockInteractions.pressAndReleaseKeyOn(element.$.editTextarea, 27); // esc
+      flushAsynchronousOperations();
+      MockInteractions.pressAndReleaseKeyOn(element.textarea, 27); // esc
     });
 
     test('draft discard removes message from storage', done => {
@@ -562,7 +561,7 @@ limitations under the License.
       test('confirms discard of comments with message text', () => {
         element._messageText = 'test';
         element._handleDiscard(mockEvent);
-        assert.isTrue(overlayStub.calledWith(element.$.confirmDiscardOverlay));
+        assert.isTrue(overlayStub.calledWith(element.confirmDiscardOverlay));
         assert.isFalse(discardStub.called);
       });
 
@@ -581,8 +580,10 @@ limitations under the License.
         done();
       });
       element._messageText = 'is that the horse from horsing around??';
+      element.editing = true;
+      flushAsynchronousOperations();
       MockInteractions.pressAndReleaseKeyOn(
-          element.$.editTextarea.$.textarea.textarea,
+          element.textarea.$.textarea.textarea,
           83, 'ctrl'); // 'ctrl + s'
     });
 

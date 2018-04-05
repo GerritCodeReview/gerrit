@@ -16,6 +16,7 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.AbstractVersionManager;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.SingleVersionModule;
@@ -67,6 +68,7 @@ public class ElasticIndexModule extends LifecycleModule {
     } else {
       install(new SingleVersionModule(singleVersions));
     }
+    bind(AbstractVersionManager.class).to(ElasticVersionManager.class);
   }
 
   @Provides

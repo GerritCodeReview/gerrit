@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.lucene.LuceneVersionManager;
+import com.google.gerrit.server.index.AbstractVersionManager;
 import com.google.gerrit.server.index.ReindexerAlreadyRunningException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -34,12 +34,12 @@ public class IndexStartCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "INDEX", usage = "index name to start")
   private String name;
 
-  @Inject private LuceneVersionManager luceneVersionManager;
+  @Inject private AbstractVersionManager versionManager;
 
   @Override
   protected void run() throws UnloggedFailure {
     try {
-      if (luceneVersionManager.startReindexer(name, force)) {
+      if (versionManager.startReindexer(name, force)) {
         stdout.println("Reindexer started");
       } else {
         stdout.println("Nothing to reindex, index is already the latest version");

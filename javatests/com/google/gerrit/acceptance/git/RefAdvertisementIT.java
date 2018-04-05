@@ -254,7 +254,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   public void uploadPackSubsetOfBranchesVisibleWithEdit() throws Exception {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
 
-    Change c = notesFactory.createChecked(db, project, c1.getId()).getChange();
+    Change c = notesFactory.createChecked(db, project, c3.getId()).getChange();
     String changeId = c.getKey().get();
 
     // Admin's edit is not visible.
@@ -273,7 +273,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         r3 + "meta",
         "refs/heads/master",
         "refs/tags/master-tag",
-        "refs/users/01/1000001/edit-" + c1.getId() + "/1");
+        "refs/tags/branch-tag",
+        "refs/users/01/1000001/edit-" + c3.getId() + "/1");
   }
 
   @Test
@@ -281,21 +282,21 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     allow("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
 
-    Change change1 = notesFactory.createChecked(db, project, c1.getId()).getChange();
-    String changeId1 = change1.getKey().get();
-    Change change2 = notesFactory.createChecked(db, project, c2.getId()).getChange();
-    String changeId2 = change2.getKey().get();
+    Change change3 = notesFactory.createChecked(db, project, c3.getId()).getChange();
+    String changeId3 = change3.getKey().get();
+    Change change4 = notesFactory.createChecked(db, project, c4.getId()).getChange();
+    String changeId4 = change4.getKey().get();
 
-    // Admin's edit on change1 is visible.
+    // Admin's edit on change3 is visible.
     setApiUser(admin);
-    gApi.changes().id(changeId1).edit().create();
+    gApi.changes().id(changeId3).edit().create();
 
-    // Admin's edit on change2 is not visible since user cannot see the change.
-    gApi.changes().id(changeId2).edit().create();
+    // Admin's edit on change4 is not visible since user cannot see the change.
+    gApi.changes().id(changeId4).edit().create();
 
     // User's edit is visible.
     setApiUser(user);
-    gApi.changes().id(changeId1).edit().create();
+    gApi.changes().id(changeId3).edit().create();
 
     assertUploadPackRefs(
         "HEAD",
@@ -305,8 +306,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         r3 + "meta",
         "refs/heads/master",
         "refs/tags/master-tag",
-        "refs/users/00/1000000/edit-" + c1.getId() + "/1",
-        "refs/users/01/1000001/edit-" + c1.getId() + "/1");
+        "refs/tags/branch-tag",
+        "refs/users/00/1000000/edit-" + c3.getId() + "/1",
+        "refs/users/01/1000001/edit-" + c3.getId() + "/1");
   }
 
   @Test
@@ -315,7 +317,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     deny("refs/heads/master", Permission.READ, REGISTERED_USERS);
     allow("refs/heads/branch", Permission.READ, REGISTERED_USERS);
 
-    String changeId = c1.change().getKey().get();
+    String changeId = c3.change().getKey().get();
     setApiUser(admin);
     gApi.changes().id(changeId).edit().create();
     setApiUser(user);
@@ -336,7 +338,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         // See comment in subsetOfBranchesVisibleNotIncludingHead.
         "refs/tags/master-tag",
         // All edits are visible due to accessDatabase capability.
-        "refs/users/00/1000000/edit-" + c1.getId() + "/1");
+        "refs/users/00/1000000/edit-" + c3.getId() + "/1");
   }
 
   @Test

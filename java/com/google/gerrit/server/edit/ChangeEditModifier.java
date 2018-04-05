@@ -398,6 +398,14 @@ public class ChangeEditModifier {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
+
+    Change c = notes.getChange();
+    if (!c.getStatus().isOpen()) {
+      throw new ResourceConflictException(
+          String.format(
+              "change %s is %s", c.getChangeId(), c.getStatus().toString().toLowerCase()));
+    }
+
     try {
       permissionBackend
           .currentUser()

@@ -401,6 +401,16 @@ The entries in the map are sorted by cache name.
         "mem": 99
       }
     },
+    "prolog_rules": {
+      "type": "MEM",
+      "entries": {
+        "mem": 35
+      },
+      "average_get": "103.0ms",
+      "hit_ratio": {
+        "mem": 99
+      }
+    },
     "quota-repo_size": {
       "type": "DISK",
       "entries": {
@@ -471,6 +481,7 @@ The cache names are lexicographically sorted.
     "plugin_resources",
     "project_list",
     "projects",
+    "prolog_rules",
     "quota-repo_size",
     "sshkeys",
     "web_sessions"

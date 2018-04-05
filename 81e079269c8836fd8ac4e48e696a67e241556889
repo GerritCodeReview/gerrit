@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7603e027_a4eeced3",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-05T11:38:39Z",
+      "side": 1,
+      "message": "What do you mean? This method is not necessary?",
+      "parentUuid": "1891f919_b4d57a46",
+      "range": {
+        "startLine": 262,
+        "startChar": 24,
+        "endLine": 262,
+        "endChar": 39
+      },
+      "revId": "81e079269c8836fd8ac4e48e696a67e241556889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0827640_f9d3bd81",
         "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
         "patchSetId": 1

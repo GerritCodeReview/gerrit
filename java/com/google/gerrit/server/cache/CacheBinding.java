@@ -37,7 +37,29 @@ public interface CacheBinding<K, V> {
   /** Algorithm to weigh an object with a method other than the unit weight 1. */
   CacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz);
 
+  /**
+   * Set the config name to something other than the cache name.
+   *
+   * @see #configName()
+   */
+  CacheBinding<K, V> configName(String configName);
+
+  /**
+   * Unique name for this cache.
+   *
+   * <p>The name can be used in a binding annotation {@code @Named(name)} to inject the cache
+   * configured with this binding.
+   */
   String name();
+
+  /**
+   * Name to use when looking up configuration for this cache.
+   *
+   * <p>Typically, this will match the result of {@link #name()}, so that configuration is keyed by
+   * the actual cache name. However, it may be changed, for example to reuse the size limits of some
+   * other cache.
+   */
+  String configName();
 
   TypeLiteral<K> keyType();
 

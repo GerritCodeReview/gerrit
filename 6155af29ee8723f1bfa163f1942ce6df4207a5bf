@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c182e1b_2d8bfd28",
+        "filename": "java/com/google/gerrit/common/Common.gwt.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-05T09:22:03Z",
+      "side": 0,
+      "message": "Is this deletion related to this change?",
+      "revId": "6155af29ee8723f1bfa163f1942ce6df4207a5bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

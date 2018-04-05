@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72d02d11_a3ee177f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-05T09:22:03Z",
+      "side": 1,
+      "message": "Expose Guava in GWT UI?\n\nI am not convinced yet, this major build tool change is justified to simplify two small toString() methods.\n\nI would be interested to hear Dave\u0027s opinion here, but personally, I would defer this move for a couple of months until stable-2.16/stable-3.0 is cut off, and this change is merged: [1].\n\n[1] https://gerrit-review.googlesource.com/116790",
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b4c8aff_638312ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-05T09:22:03Z",
+      "side": 1,
+      "message": "convert",
+      "range": {
+        "startLine": 15,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 16
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b514ff0f_02daf633",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-05T09:22:03Z",
+      "side": 1,
+      "message": "Hm, this is counter productive. Now in Eclipse I would not be able to step into Guava sources, after using tools/eclipse/project.py. This is basically a no go.",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 25
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ae7e2cc_b4fa380e",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-05T09:22:03Z",
+      "side": 1,
+      "message": "Add a TODO, that the GWT compatible Guava version can be removed and replaced with the regular one, once GWT UI is gone.",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 211,
+        "endChar": 21
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "613ea699_33fc979a",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-05T09:22:03Z",
+      "side": 1,
+      "message": "Does this need both Guavas now?",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 22
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a9db3f7_5a942eec",
+        "filename": "java/com/google/gerrit/common/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-05T09:22:03Z",
+      "side": 1,
+      "message": "Use //lib:foo labels.",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 22
+      },
+      "revId": "cf47e17c107d182c7d168b17b90d469a81677967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

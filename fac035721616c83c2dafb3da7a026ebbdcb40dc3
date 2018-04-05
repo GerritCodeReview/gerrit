@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "547001c0_9c512c3b",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-05T18:23:38Z",
+      "side": 1,
+      "message": "No, because this is an Optional\u003cOptional\u003cAccountState\u003e\u003e.\n\nThe first level of Optional is due to externalIds.get(...).\nThe second level of Optional is due to get(e.accountId()).",
+      "parentUuid": "a7514105_e8b6a034",
+      "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05c9958f_b1057859",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2018-04-05T17:45:03Z",
       "side": 1,
       "message": "Optional:\n\n externalIds.get(authRequest.getExternalIdKey())\n     .ifPresent(e -\u003e setInactiveFlag.deactivate(e.accountId()));",
+      "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7653d12_70e6f914",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-05T18:23:38Z",
+      "side": 1,
+      "message": "Unfortunately this doesn\u0027t work because setInactiveFlag.deactivate(...) can throw a bunch of exceptions.",
+      "parentUuid": "05c9958f_b1057859",
       "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "8c3f68b2_5296e61f",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutHttpPassword.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-05T18:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82e7ab29_0864975b",
+      "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76be86f9_a4c1966e",
         "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
         "patchSetId": 1
@@ -68,6 +122,24 @@
       "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c5eaff_d001975d",
+        "filename": "javatests/com/google/gerrit/server/query/account/AbstractQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-05T18:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76be86f9_a4c1966e",
+      "revId": "fac035721616c83c2dafb3da7a026ebbdcb40dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

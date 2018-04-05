@@ -273,14 +273,16 @@ limitations under the License.
             [[comment.robot_id]]
           </div>
         </template>
-        <gr-textarea
-            id="editTextarea"
-            class="editMessage"
-            autocomplete="on"
-            monospace
-            disabled="{{disabled}}"
-            rows="4"
-            text="{{_messageText}}"></gr-textarea>
+        <template is="dom-if" if="[[editing]]">
+          <gr-textarea
+              id="editTextarea"
+              class="editMessage"
+              autocomplete="on"
+              monospace
+              disabled="{{disabled}}"
+              rows="4"
+              text="{{_messageText}}"></gr-textarea>
+        </template>
         <!--The message class is needed to ensure selectability from
         gr-diff-selection.-->
         <gr-formatted-text class="message"
@@ -339,27 +341,29 @@ limitations under the License.
         </div>
       </div>
     </div>
-    <gr-overlay id="confirmDeleteOverlay" with-backdrop>
-      <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
-          on-confirm="_handleConfirmDeleteComment"
-          on-cancel="_handleCancelDeleteComment">
-      </gr-confirm-delete-comment-dialog>
-    </gr-overlay>
-    <gr-overlay id="confirmDiscardOverlay" with-backdrop>
-      <gr-confirm-dialog
-          id="confirmDiscardDialog"
-          confirm-label="Discard"
-          confirm-on-enter
-          on-confirm="_handleConfirmDiscard"
-          on-cancel="_closeConfirmDiscardOverlay">
-        <div class="header" slot="header">
-          Discard comment
-        </div>
-        <div class="main" slot="main">
-          Are you sure you want to discard this draft comment?
-        </div>
-      </gr-confirm-dialog>
-    </gr-overlay>
+    <template is="dom-if" if="[[_enableOverlay]]">
+      <gr-overlay id="confirmDeleteOverlay" with-backdrop>
+        <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
+            on-confirm="_handleConfirmDeleteComment"
+            on-cancel="_handleCancelDeleteComment">
+        </gr-confirm-delete-comment-dialog>
+      </gr-overlay>
+      <gr-overlay id="confirmDiscardOverlay" with-backdrop>
+        <gr-confirm-dialog
+            id="confirmDiscardDialog"
+            confirm-label="Discard"
+            confirm-on-enter
+            on-confirm="_handleConfirmDiscard"
+            on-cancel="_closeConfirmDiscardOverlay">
+          <div class="header" slot="header">
+            Discard comment
+          </div>
+          <div class="main" slot="main">
+            Are you sure you want to discard this draft comment?
+          </div>
+        </gr-confirm-dialog>
+      </gr-overlay>
+    </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
   </template>

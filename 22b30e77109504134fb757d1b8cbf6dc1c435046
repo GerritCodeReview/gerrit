@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bc4d51e_03c5f36b",
+        "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1064044
+      },
+      "writtenOn": "2018-04-05T15:55:22Z",
+      "side": 1,
+      "message": "What is this",
+      "revId": "22b30e77109504134fb757d1b8cbf6dc1c435046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

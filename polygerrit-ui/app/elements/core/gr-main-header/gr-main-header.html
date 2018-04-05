@@ -18,6 +18,7 @@ limitations under the License.
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -171,7 +172,8 @@ limitations under the License.
         </li>
       </ul>
       <div class="rightItems">
-        <gr-search-bar value="{{searchQuery}}" role="search"></gr-search-bar>
+        <gr-search-bar id="search" value="{{searchQuery}}" role="search"
+            on-handle-search="_handleSearch"></gr-search-bar>
         <gr-endpoint-decorator
             class="hideOnMobile"
             name="header-browse-source"></gr-endpoint-decorator>

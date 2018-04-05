@@ -20,7 +20,9 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPG
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -32,6 +34,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Optional;
 import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -60,19 +63,20 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
   @Override
   public Response<?> apply(GpgKey rsrc, Input input)
-      throws ResourceConflictException, PGPException, OrmException, IOException,
-          ConfigInvalidException {
+      throws RestApiException, PGPException, OrmException, IOException, ConfigInvalidException {
     PGPPublicKey key = rsrc.getKeyRing().getPublicKey();
-    ExternalId extId =
-        externalIds.get(
-            ExternalId.Key.create(
-                SCHEME_GPGKEY, BaseEncoding.base16().encode(key.getFingerprint())));
+    String fingerprint = BaseEncoding.base16().encode(key.getFingerprint());
+    Optional<ExternalId> extId = externalIds.get(ExternalId.Key.create(SCHEME_GPGKEY, fingerprint));
+    if (!extId.isPresent()) {
+      throw new ResourceNotFoundException(fingerprint);
+    }
+
     accountsUpdateProvider
         .get()
         .update(
             "Delete GPG Key via API",
             rsrc.getUser().getAccountId(),
-            u -> u.deleteExternalId(extId));
+            u -> u.deleteExternalId(extId.get()));
 
     try (PublicKeyStore store = storeProvider.get()) {
       store.remove(rsrc.getKeyRing().getPublicKey().getFingerprint());

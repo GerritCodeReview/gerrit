@@ -61,8 +61,8 @@ limitations under the License.
     };
 
     test('enter in search input triggers nav', done => {
-      sandbox.stub(page, 'show', () => {
-        page.show.restore();
+      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl', () => {
+        Gerrit.Nav.navigateToRelativeUrl.restore();
         assert.notEqual(getActiveElement(), element.$.searchInput);
         assert.notEqual(getActiveElement(), element.$.searchButton);
         done();
@@ -72,16 +72,8 @@ limitations under the License.
           null, 'enter');
     });
 
-    test('search query should be double-escaped', () => {
-      const showStub = sandbox.stub(page, 'show');
-      element.$.searchInput.text = 'fate/stay';
-      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
-          null, 'enter');
-      assert.equal(showStub.lastCall.args[0], '/q/fate%252Fstay');
-    });
-
     test('input blurred after commit', () => {
-      sandbox.stub(page, 'show');
+      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
       const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
       element.$.searchInput.text = 'fate/stay';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
@@ -90,7 +82,7 @@ limitations under the License.
     });
 
     test('empty search query does not trigger nav', () => {
-      const showSpy = sandbox.spy(page, 'show');
+      const showSpy = sandbox.spy(Gerrit.Nav, 'navigateToRelativeUrl');
       element.value = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');

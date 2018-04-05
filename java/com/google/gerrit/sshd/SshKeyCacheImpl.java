@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
@@ -101,13 +102,13 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
     @Override
     public Iterable<SshKeyCacheEntry> load(String username) throws Exception {
-      ExternalId user = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
-      if (user == null) {
+      Optional<ExternalId> user = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, username));
+      if (!user.isPresent()) {
         return NO_SUCH_USER;
       }
 
       List<SshKeyCacheEntry> kl = new ArrayList<>(4);
-      for (AccountSshKey k : authorizedKeys.getKeys(user.accountId())) {
+      for (AccountSshKey k : authorizedKeys.getKeys(user.get().accountId())) {
         if (k.isValid()) {
           add(kl, k);
         }

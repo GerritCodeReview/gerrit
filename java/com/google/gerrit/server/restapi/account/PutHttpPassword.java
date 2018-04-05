@@ -39,6 +39,7 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Optional;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -102,10 +103,12 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
           ConfigInvalidException {
     String userName =
         user.getUserName().orElseThrow(() -> new ResourceConflictException("username must be set"));
-    ExternalId extId = externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, userName));
-    if (extId == null) {
+    Optional<ExternalId> optionalExtId =
+        externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, userName));
+    if (!optionalExtId.isPresent()) {
       throw new ResourceNotFoundException();
     }
+    ExternalId extId = optionalExtId.get();
     accountsUpdateProvider
         .get()
         .update(

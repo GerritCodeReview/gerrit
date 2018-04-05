@@ -351,7 +351,8 @@ class LdapRealm extends AbstractRealm {
 
     @Override
     public Optional<Account.Id> load(String username) throws Exception {
-      return Optional.ofNullable(externalIds.get(ExternalId.Key.create(SCHEME_GERRIT, username)))
+      return externalIds
+          .get(ExternalId.Key.create(SCHEME_GERRIT, username))
           .map(ExternalId::accountId);
     }
   }

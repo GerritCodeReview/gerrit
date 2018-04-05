@@ -16,6 +16,24 @@
       "revId": "41b1fd822e10af5aa49e7b12b3b8fd8c90e160bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4309ff1_262d0595",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T08:37:24Z",
+      "side": 1,
+      "message": "Done. Indeed, thanks!",
+      "parentUuid": "ec9fbb00_57cdbf6c",
+      "revId": "41b1fd822e10af5aa49e7b12b3b8fd8c90e160bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

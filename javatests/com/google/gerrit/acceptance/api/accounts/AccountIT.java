@@ -878,24 +878,28 @@ public class AccountIT extends AbstractDaemonTest {
     String email = "foo.bar@example.com";
     String extId1 = "foo:bar";
     String extId2 = "foo:baz";
-    accountsUpdateProvider
-        .get()
-        .update(
-            "Add External IDs",
-            admin.id,
-            u ->
-                u.addExternalId(
-                        ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email))
-                    .addExternalId(
-                        ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email)));
-    accountIndexedCounter.assertReindexOf(admin);
+
+    // Use ExternalIdNotes to insert two external IDs with the same email.
+    // This allows us to verify that deleting the email removes this email from all external IDs.
+    try (Repository allUsersRepo = repoManager.openRepository(allUsers);
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes =
+          extIdNotesFactory.load(allUsersRepo).setDisableCheckForNewDuplicateEmails(true);
+      extIdNotes.insert(ExternalId.createWithEmail(ExternalId.Key.parse(extId1), admin.id, email));
+      extIdNotes.insert(ExternalId.createWithEmail(ExternalId.Key.parse(extId2), admin.id, email));
+      extIdNotes.commit(md);
+      extIdNotes.updateCaches();
+    }
     assertThat(
             gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
         .containsAllOf(extId1, extId2);
 
+    externalIds.byEmail(email);
+
     resetCurrentApiUser();
     assertThat(getEmails()).contains(email);
 
+    accountIndexedCounter.clear();
     gApi.accounts().self().deleteEmail(email);
     accountIndexedCounter.assertReindexOf(admin);
 

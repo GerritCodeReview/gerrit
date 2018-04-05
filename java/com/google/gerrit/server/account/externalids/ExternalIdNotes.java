@@ -17,13 +17,21 @@ package com.google.gerrit.server.account.externalids;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.MultimapBuilder.SetMultimapBuilder;
+import com.google.common.collect.Multimaps;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
@@ -42,8 +50,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -217,7 +228,8 @@ public class ExternalIdNotes extends VersionedMetaData {
   private List<CacheUpdate> cacheUpdates = new ArrayList<>();
 
   private Runnable afterReadRevision;
-  private boolean readOnly = false;
+  private boolean disableCheckForNewDuplicateEmails;
+  private boolean readOnly;
 
   private ExternalIdNotes(
       ExternalIdCache externalIdCache,
@@ -232,6 +244,12 @@ public class ExternalIdNotes extends VersionedMetaData {
 
   public ExternalIdNotes setAfterReadRevision(Runnable afterReadRevision) {
     this.afterReadRevision = afterReadRevision;
+    return this;
+  }
+
+  public ExternalIdNotes setDisableCheckForNewDuplicateEmails(
+      boolean disableCheckForNewDuplicateEmails) {
+    this.disableCheckForNewDuplicateEmails = disableCheckForNewDuplicateEmails;
     return this;
   }
 
@@ -660,14 +678,20 @@ public class ExternalIdNotes extends VersionedMetaData {
       commit.setMessage("Update external IDs\n");
     }
 
-    try (RevWalk rw = new RevWalk(repo)) {
+    try (RevWalk rw = new RevWalk(reader)) {
       Set<String> footers = new HashSet<>();
+      Multimap<String, ExternalId.Key> extIdsByEmailBefore =
+          !disableCheckForNewDuplicateEmails ? getExternalIdsByEmail(rw, noteMap) : null;
       for (NoteMapUpdate noteMapUpdate : noteMapUpdates) {
         try {
           noteMapUpdate.execute(rw, noteMap, footers);
         } catch (DuplicateExternalIdKeyException e) {
           throw new IOException(e);
         }
+      }
+      if (!disableCheckForNewDuplicateEmails) {
+        Multimap<String, ExternalId.Key> extIdsByEmailAfter = getExternalIdsByEmail(rw, noteMap);
+        checkForNewDuplicateEmails(extIdsByEmailBefore, extIdsByEmailAfter);
       }
       noteMapUpdates.clear();
       if (!footers.isEmpty()) {
@@ -814,6 +838,114 @@ public class ExternalIdNotes extends VersionedMetaData {
     noteMap.remove(noteId);
     addFooters(footers, extId);
     return extId;
+  }
+
+  private static Multimap<String, ExternalId.Key> getExternalIdsByEmail(RevWalk rw, NoteMap noteMap)
+      throws IOException {
+    ListMultimap<String, ExternalId.Key> extIdsByEmail =
+        MultimapBuilder.hashKeys().arrayListValues().build();
+    for (Note note : noteMap) {
+      byte[] raw = readNoteData(rw, note.getData());
+      try {
+        ExternalId extId = ExternalId.parse(note.getName(), raw, note.getData());
+        if (extId.email() != null) {
+          extIdsByEmail.put(extId.email(), extId.key());
+        }
+      } catch (ConfigInvalidException e) {
+        continue;
+      }
+    }
+    return extIdsByEmail;
+  }
+
+  /**
+   * Checks that the external ID updates didn't result in new duplicate emails.
+   *
+   * <p>Duplicate emails that existed before the external IDs updates are ignored.
+   *
+   * @param extIdsByEmailBefore external IDs by email before the external ID updates have been
+   *     performed
+   * @param extIdsByEmailAfter external IDs by email after the external ID updates have been
+   *     performed
+   * @throws ConfigInvalidException if new duplicate emails are found
+   */
+  private static void checkForNewDuplicateEmails(
+      Multimap<String, ExternalId.Key> extIdsByEmailBefore,
+      Multimap<String, ExternalId.Key> extIdsByEmailAfter)
+      throws ConfigInvalidException {
+    List<String> problems = new ArrayList<>();
+
+    // Find all emails that are assigned to multiple external IDs after the external ID updates have
+    // been performed.
+    SetMultimap<String, ExternalId.Key> duplicateEmails =
+        extIdsByEmailAfter
+            .asMap()
+            .entrySet()
+            .stream()
+            .filter(e -> e.getValue().size() > 1)
+            .collect(
+                Multimaps.flatteningToMultimap(
+                    Map.Entry::getKey,
+                    v -> v.getValue().stream(),
+                    SetMultimapBuilder.hashKeys().hashSetValues()::build));
+
+    for (Map.Entry<String, Collection<ExternalId.Key>> e : duplicateEmails.asMap().entrySet()) {
+      String email = e.getKey();
+
+      // External IDs that have this email assigned after the external ID updates have been
+      // performed.
+      SortedSet<ExternalId.Key> extIdsAfter = new TreeSet<>(comparing(a -> a.get()));
+      extIdsAfter.addAll(e.getValue());
+
+      // External IDs that already had this email assigned before the external ID updates had been
+      // performed.
+      SortedSet<ExternalId.Key> extIdsBefore = new TreeSet<>(comparing(a -> a.get()));
+      extIdsBefore.addAll((extIdsByEmailBefore.get(email)));
+
+      if (extIdsBefore.isEmpty()) {
+        // No external ID had this email before. This means the updates try to assign it to multiple
+        // external IDs now.
+        problems.add(
+            String.format(
+                "cannot assign email %s to multiple external IDs: %s", email, extIdsAfter));
+        continue;
+      }
+
+      // External IDs that get this email newly assigned.
+      Set<ExternalId.Key> extIdsNew = Sets.difference(extIdsAfter, extIdsBefore);
+      if (extIdsNew.isEmpty()) {
+        // Ignore, this inconsistency already existed before the external ID updates had been
+        // performed.
+        continue;
+      }
+
+      // External IDs that had this email assigned before the external ID updates had been
+      // performed and that still have this email.
+      Set<ExternalId.Key> extIdsOld = Sets.intersection(extIdsBefore, extIdsAfter);
+      if (extIdsOld.isEmpty()) {
+        // None of the external IDs that had this email before the external ID updates had been
+        // performed still has this email.
+        // This means all external IDs that have this email now have it newly assigned.
+        problems.add(
+            String.format(
+                "cannot assign email %s to multiple external IDs: %s", email, extIdsAfter));
+        continue;
+      }
+
+      // Some external IDs had this email before and the updates try to assign it to additional
+      // external IDs.
+      problems.add(
+          String.format(
+              "cannot assign email %s to external ID(s) %s,"
+                  + " it is already assigned to external ID(s) %s",
+              email, extIdsNew, extIdsOld));
+    }
+
+    if (!problems.isEmpty()) {
+      Collections.sort(problems);
+      throw new ConfigInvalidException(
+          "Ambiguous emails:\n - " + Joiner.on(",\n - ").join(problems));
+    }
   }
 
   private static void addFooters(Set<String> footers, ExternalId extId) {

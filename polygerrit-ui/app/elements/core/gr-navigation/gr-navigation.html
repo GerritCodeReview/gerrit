@@ -238,6 +238,15 @@ limitations under the License.
       },
 
       /**
+       * Navigate to a search query
+       * @param {string} query
+       * @param {number=} opt_offset
+       */
+      navigateToSearchQuery(query, opt_offset) {
+        return this._navigate(this.getUrlForSearchQuery(query, opt_offset));
+      },
+
+      /**
        * @param {!Object} change The change object.
        * @param {number=} opt_patchNum
        * @param {number|string=} opt_basePatchNum The string 'PARENT' can be

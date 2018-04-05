@@ -22,7 +22,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
-<link rel="import" href="../gr-search-bar/gr-search-bar.html">
+<link rel="import" href="../gr-smart-search/gr-smart-search.html">
 
 <dom-module id="gr-main-header">
   <template>
@@ -86,7 +86,7 @@ limitations under the License.
       .rightItems gr-endpoint-decorator:not(:empty) {
         margin-left: 1em;
       }
-      gr-search-bar {
+      gr-smart-search {
         flex-grow: 1;
         margin-left: .5em;
         max-width: 500px;
@@ -129,7 +129,7 @@ limitations under the License.
           font-size: var(--font-size-large);
           font-family: var(--font-family-bold);
         }
-        gr-search-bar,
+        gr-smart-search,
         .browse,
         .rightItems .hideOnMobile,
         .links > li.hideOnMobile {
@@ -171,7 +171,7 @@ limitations under the License.
         </li>
       </ul>
       <div class="rightItems">
-        <gr-search-bar value="{{searchQuery}}" role="search"></gr-search-bar>
+        <gr-smart-search id="search" value="{{searchQuery}}"></gr-smart-search>
         <gr-endpoint-decorator
             class="hideOnMobile"
             name="header-browse-source"></gr-endpoint-decorator>

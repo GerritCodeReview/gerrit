@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d0d08ad4_6cb6ce5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T08:52:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e855bf99_f32944a5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "ab450d83886d72b085ed8cdef0b777cb88cd454a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4e62af8_fe5541ff",
         "filename": "java/com/google/gerrit/common/data/SubmitRecord.java",
         "patchSetId": 16

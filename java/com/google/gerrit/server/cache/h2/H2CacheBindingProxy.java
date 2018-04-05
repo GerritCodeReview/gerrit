@@ -61,6 +61,11 @@ class H2CacheBindingProxy<K, V> implements CacheBinding<K, V> {
   }
 
   @Override
+  public String configKey() {
+    return source.configKey();
+  }
+
+  @Override
   public TypeLiteral<K> keyType() {
     return source.keyType();
   }
@@ -83,6 +88,11 @@ class H2CacheBindingProxy<K, V> implements CacheBinding<K, V> {
   @Override
   public CacheLoader<K, V> loader() {
     return source.loader();
+  }
+
+  @Override
+  public CacheBinding<K, V> configKey(String configKey) {
+    throw new RuntimeException(MSG_NOT_SUPPORTED);
   }
 
   @Override

@@ -155,7 +155,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   @SuppressWarnings({"unchecked"})
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> in) {
-    long limit = config.getLong("cache", in.name(), "diskLimit", in.diskLimit());
+    long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
       return memCacheFactory.build(in);
@@ -176,7 +176,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   @SuppressWarnings("unchecked")
   @Override
   public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> in, CacheLoader<K, V> loader) {
-    long limit = config.getLong("cache", in.name(), "diskLimit", in.diskLimit());
+    long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
       return memCacheFactory.build(in, loader);

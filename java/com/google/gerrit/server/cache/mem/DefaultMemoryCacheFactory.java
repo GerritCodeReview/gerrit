@@ -55,7 +55,8 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   private <K, V> CacheBuilder<K, V> create(CacheBinding<K, V> def) {
     CacheBuilder<K, V> builder = newCacheBuilder();
     builder.recordStats();
-    builder.maximumWeight(cfg.getLong("cache", def.name(), "memoryLimit", def.maximumWeight()));
+    builder.maximumWeight(
+        cfg.getLong("cache", def.configKey(), "memoryLimit", def.maximumWeight()));
 
     builder = builder.removalListener(forwardingRemovalListenerFactory.create(def.name()));
 
@@ -66,10 +67,10 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
     builder.weigher(weigher);
 
     Long age = def.expireAfterWrite(TimeUnit.SECONDS);
-    if (has(def.name(), "maxAge")) {
+    if (has(def.configKey(), "maxAge")) {
       builder.expireAfterWrite(
           ConfigUtil.getTimeUnit(
-              cfg, "cache", def.name(), "maxAge", age != null ? age : 0, TimeUnit.SECONDS),
+              cfg, "cache", def.configKey(), "maxAge", age != null ? age : 0, TimeUnit.SECONDS),
           TimeUnit.SECONDS);
     } else if (age != null) {
       builder.expireAfterWrite(age, TimeUnit.SECONDS);

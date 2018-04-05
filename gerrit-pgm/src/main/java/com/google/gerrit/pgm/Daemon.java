@@ -532,7 +532,7 @@ public class Daemon extends SiteProgram {
             slave,
             sysInjector.getInstance(DownloadConfig.class),
             sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));
-    if (!slave && indexType == IndexType.LUCENE) {
+    if (!slave) {
       modules.add(new IndexCommandsModule());
     }
     return sysInjector.createChildInjector(modules);

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7eb48e5_fbcc6ba6",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-05T16:58:08Z",
+      "side": 1,
+      "message": "Add a call to toLowerCase() here.",
+      "range": {
+        "startLine": 405,
+        "startChar": 72,
+        "endLine": 405,
+        "endChar": 81
+      },
+      "revId": "e892a6f57af3f0d8337446431c58308dded4a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd92117b_0211a95b",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-05T16:58:08Z",
+      "side": 1,
+      "message": "Should be lower case. See other comment.",
+      "range": {
+        "startLine": 716,
+        "startChar": 56,
+        "endLine": 716,
+        "endChar": 62
+      },
+      "revId": "e892a6f57af3f0d8337446431c58308dded4a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

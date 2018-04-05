@@ -139,6 +139,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.strictLabels", value = "true")
   public void voteOnBehalfOfInvalidLabel() throws Exception {
     allowCodeReviewOnBehalfOf();
     PushOneCommit.Result r = createChange();
@@ -151,6 +152,22 @@ public class ImpersonationIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("label \"Not-A-Label\" is not a configured label");
     revision.review(in);
+  }
+
+  @Test
+  public void voteOnBehalfOfInvalidLabelIgnoredWithoutStrictLabels() throws Exception {
+    allowCodeReviewOnBehalfOf();
+    PushOneCommit.Result r = createChange();
+    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+
+    ReviewInput in = new ReviewInput();
+    in.onBehalfOf = user.id.toString();
+    in.label("Code-Review", 1);
+    in.label("Not-A-Label", 5);
+
+    revision.review(in);
+
+    assertThat(gApi.changes().id(r.getChangeId()).get().labels).doesNotContainKey("Not-A-Label");
   }
 
   @Test

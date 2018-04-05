@@ -22,6 +22,30 @@
       "revId": "b8d1a29b0316f4c8456a982439c1e92feb3d0e9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5e5e756_353954e4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T23:58:35Z",
+      "side": 1,
+      "message": "It\u0027s because the overlay may or may not have been created yet (since it\u0027s behind a dom-if now).",
+      "parentUuid": "7ec8e61c_718e0095",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 6
+      },
+      "revId": "b8d1a29b0316f4c8456a982439c1e92feb3d0e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

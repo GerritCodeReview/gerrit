@@ -496,7 +496,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
                 + extIdWithInvalidEmail.email()));
 
     ExternalId extIdWithDuplicateEmail = createExternalIdWithDuplicateEmail(nextId(scheme, i));
-    insertExtId(extIdWithDuplicateEmail);
+    insertExtIdWithDuplicateEmail(extIdWithDuplicateEmail);
     expectedProblems.add(
         consistencyError(
             "Email '"
@@ -923,6 +923,18 @@ public class ExternalIdIT extends AbstractDaemonTest {
     }
   }
 
+  private void insertExtIdWithDuplicateEmail(ExternalId extId) throws Exception {
+    // Cannot use AccountsUpdate to insert an external ID with duplicate email.
+    try (Repository repo = repoManager.openRepository(allUsers);
+        MetaDataUpdate update = metaDataUpdateFactory.create(allUsers)) {
+      ExternalIdNotes extIdNotes =
+          externalIdNotesFactory.load(repo).setDisableCheckForNewDuplicateEmails(true);
+      extIdNotes.insert(extId);
+      extIdNotes.commit(update);
+      extIdNotes.updateCaches();
+    }
+  }
+
   private void insertExtIdBehindGerritsBack(ExternalId extId) throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       // Inserting an external ID "behind Gerrit's back" means that the caches are not updated.
@@ -939,7 +951,10 @@ public class ExternalIdIT extends AbstractDaemonTest {
 
   private void addExtId(TestRepository<?> testRepo, ExternalId... extIds)
       throws IOException, OrmDuplicateKeyException, ConfigInvalidException {
-    ExternalIdNotes extIdNotes = externalIdNotesFactory.load(testRepo.getRepository());
+    ExternalIdNotes extIdNotes =
+        externalIdNotesFactory
+            .load(testRepo.getRepository())
+            .setDisableCheckForNewDuplicateEmails(true);
     extIdNotes.insert(Arrays.asList(extIds));
     try (MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, testRepo.getRepository())) {

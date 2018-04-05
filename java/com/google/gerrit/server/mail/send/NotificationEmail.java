@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -108,7 +109,8 @@ public abstract class NotificationEmail extends OutgoingEmail {
     String projectName = branch.getParentKey().get();
     soyContext.put("projectName", projectName);
     // shortProjectName is the project name with the path abbreviated.
-    soyContext.put("shortProjectName", projectName.replaceAll("/.*/", "..."));
+    soyContext.put("shortProjectName", getShortProjectName(projectName));
+
     // instanceAndProjectName is the instance's name followed by the abbreviated project path
     soyContext.put(
         "instanceAndProjectName",
@@ -125,11 +127,21 @@ public abstract class NotificationEmail extends OutgoingEmail {
     footers.add("Gerrit-Branch: " + branch.getShortName());
   }
 
-  protected static String getInstanceAndProjectName(String instanceName, String projectName) {
-    if (instanceName == null || instanceName.isEmpty()) {
-      return projectName.replaceAll("/.*/", "...");
+  @VisibleForTesting
+  protected static String getShortProjectName(String projectName) {
+    int lastIndexSlash = projectName.lastIndexOf("/");
+    if (lastIndexSlash == 0) {
+      return projectName.substring(1); // Remove the first slash
     }
 
+    return "..." + projectName.substring(lastIndexSlash + 1);
+  }
+
+  @VisibleForTesting
+  protected static String getInstanceAndProjectName(String instanceName, String projectName) {
+    if (instanceName == null || instanceName.isEmpty()) {
+      return getShortProjectName(projectName);
+    }
     // Extract the project name (everything after the last slash) and prepends it with gerrit's
     // instance name
     return instanceName + "/" + projectName.substring(projectName.lastIndexOf("/") + 1);

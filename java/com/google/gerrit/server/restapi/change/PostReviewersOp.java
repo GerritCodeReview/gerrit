@@ -202,7 +202,8 @@ public class PostReviewersOp implements BatchUpdateOp {
         reviewersByEmail,
         addedCCsByEmail,
         notify,
-        accountsToNotify);
+        accountsToNotify,
+        !rsrc.getChange().isWorkInProgress());
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
           addedReviewers
@@ -221,7 +222,8 @@ public class PostReviewersOp implements BatchUpdateOp {
       Collection<Address> addedByEmail,
       Collection<Address> copiedByEmail,
       NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify,
+      boolean readyForReview) {
     if (added.isEmpty() && copied.isEmpty() && addedByEmail.isEmpty() && copiedByEmail.isEmpty()) {
       return;
     }
@@ -250,7 +252,7 @@ public class PostReviewersOp implements BatchUpdateOp {
       AddReviewerSender cm = addReviewerSenderFactory.create(change.getProject(), change.getId());
       // Default to silent operation on WIP changes.
       NotifyHandling defaultNotifyHandling =
-          change.isWorkInProgress() ? NotifyHandling.NONE : NotifyHandling.ALL;
+          readyForReview ? NotifyHandling.ALL : NotifyHandling.NONE;
       cm.setNotify(MoreObjects.firstNonNull(notify, defaultNotifyHandling));
       cm.setAccountsToNotify(accountsToNotify);
       cm.setFrom(userId);

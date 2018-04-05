@@ -562,24 +562,26 @@ limitations under the License.
             <span>Comment Threads</span></gr-tooltip-content>
         </paper-tab>
       </paper-tabs>
-      <gr-messages-list id="messageList"
-          class$="hideOnMobileOverlay [[_computeShowMessages(_showMessagesView)]]"
-          change-num="[[_changeNum]]"
-          labels="[[_change.labels]]"
-          messages="[[_change.messages]]"
-          reviewer-updates="[[_change.reviewer_updates]]"
-          change-comments="[[_changeComments]]"
-          project-name="[[_change.project]]"
-          show-reply-buttons="[[_loggedIn]]"
-          on-reply="_handleMessageReply"></gr-messages-list>
-      <gr-thread-list
-          id="threadList"
-          threads="[[_commentThreads]]"
-          change="[[_change]]"
-          change-num="[[_changeNum]]"
-          class$="[[_computeShowThreads(_showMessagesView)]]"
-          logged-in="[[_loggedIn]]"
-          on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
+      <template is="dom-if" if="[[_showMessagesView]]">
+        <gr-messages-list
+            class="hideOnMobileOverlay"
+            change-num="[[_changeNum]]"
+            labels="[[_change.labels]]"
+            messages="[[_change.messages]]"
+            reviewer-updates="[[_change.reviewer_updates]]"
+            change-comments="[[_changeComments]]"
+            project-name="[[_change.project]]"
+            show-reply-buttons="[[_loggedIn]]"
+            on-reply="_handleMessageReply"></gr-messages-list>
+      </template>
+      <template is="dom-if" if="[[!_showMessagesView]]">
+        <gr-thread-list
+            threads="[[_commentThreads]]"
+            change="[[_change]]"
+            change-num="[[_changeNum]]"
+            logged-in="[[_loggedIn]]"
+            on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
+      </template>
     </div>
     <gr-overlay id="downloadOverlay" with-backdrop>
       <gr-download-dialog

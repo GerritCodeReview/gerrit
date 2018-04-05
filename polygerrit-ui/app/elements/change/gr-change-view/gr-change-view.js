@@ -341,14 +341,6 @@
       this._showMessagesView = this.$.commentTabs.selected === 0;
     },
 
-    _computeShowMessages(showSection) {
-      return showSection ? 'visible' : '';
-    },
-
-    _computeShowThreads(showSection) {
-      return !showSection ? 'visible' : '';
-    },
-
     _handleEditCommitMessage(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();
@@ -706,7 +698,8 @@
     _maybeScrollToMessage(hash) {
       const msgPrefix = '#message-';
       if (hash.startsWith(msgPrefix)) {
-        this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
+        this.$$('gr-messages-list')
+            .scrollToMessage(hash.substr(msgPrefix.length));
       }
     },
 
@@ -937,7 +930,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.messageList.handleExpandCollapse(true);
+      this.$$('gr-messages-list').handleExpandCollapse(true);
     },
 
     _handleZKey(e) {
@@ -945,7 +938,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.messageList.handleExpandCollapse(false);
+      this.$$('gr-messages-list').handleExpandCollapse(false);
     },
 
     _handleCommaKey(e) {

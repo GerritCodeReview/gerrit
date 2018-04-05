@@ -40,6 +40,7 @@ import com.googlecode.prolog_cafe.exceptions.ReductionLimitException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.ListTerm;
 import com.googlecode.prolog_cafe.lang.Prolog;
+import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
@@ -79,6 +80,8 @@ public class PrologRuleEvaluator {
   private final AccountCache accountCache;
   private final Accounts accounts;
   private final Emails emails;
+  private final RulesCache rulesCache;
+  private final PrologEnvironment.Factory envFactory;
   private final ChangeData cd;
   private final ProjectState projectState;
   private final SubmitRuleOptions opts;
@@ -89,12 +92,16 @@ public class PrologRuleEvaluator {
       AccountCache accountCache,
       Accounts accounts,
       Emails emails,
+      RulesCache rulesCache,
+      PrologEnvironment.Factory envFactory,
       ProjectCache projectCache,
       @Assisted ChangeData cd,
       @Assisted SubmitRuleOptions options) {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.emails = emails;
+    this.rulesCache = rulesCache;
+    this.envFactory = envFactory;
     this.cd = cd;
     this.opts = options;
 
@@ -440,11 +447,15 @@ public class PrologRuleEvaluator {
   private PrologEnvironment getPrologEnvironment() throws RuleEvalException {
     PrologEnvironment env;
     try {
+      PrologMachineCopy pmc;
       if (opts.rule() == null) {
-        env = projectState.newPrologEnvironment();
+        pmc =
+            rulesCache.loadMachine(
+                projectState.getNameKey(), projectState.getConfig().getRulesId());
       } else {
-        env = projectState.newPrologEnvironment("stdin", new StringReader(opts.rule()));
+        pmc = rulesCache.loadMachine("stdin", new StringReader(opts.rule()));
       }
+      env = envFactory.create(pmc);
     } catch (CompileException err) {
       String msg;
       if (opts.rule() == null) {
@@ -477,7 +488,10 @@ public class PrologRuleEvaluator {
     for (ProjectState parentState : projectState.parents()) {
       PrologEnvironment parentEnv;
       try {
-        parentEnv = parentState.newPrologEnvironment();
+        parentEnv =
+            envFactory.create(
+                rulesCache.loadMachine(
+                    parentState.getNameKey(), parentState.getConfig().getRulesId()));
       } catch (CompileException err) {
         throw new RuleEvalException("Cannot consult rules.pl for " + parentState.getName(), err);
       }

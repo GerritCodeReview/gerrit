@@ -16,6 +16,24 @@
       "revId": "cdb8a43f76ad8e7d43f7a8a18e3574c82c00bb69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ba98c6a_000e3f26",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-05T17:18:28Z",
+      "side": 1,
+      "message": "Yes. Otherwise it\u0027d start a new thread.",
+      "parentUuid": "db329a84_7eba35e4",
+      "revId": "cdb8a43f76ad8e7d43f7a8a18e3574c82c00bb69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

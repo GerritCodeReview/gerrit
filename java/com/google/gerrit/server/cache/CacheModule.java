@@ -24,6 +24,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.util.Types;
 import java.io.Serializable;
@@ -66,12 +67,18 @@ public abstract class CacheModule extends FactoryModule {
       String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     Type type = Types.newParameterizedType(Cache.class, keyType.getType(), valType.getType());
 
+    Named nameAnnotation = Names.named(name);
     @SuppressWarnings("unchecked")
-    Key<Cache<K, V>> key = (Key<Cache<K, V>>) Key.get(type, Names.named(name));
+    Key<Cache<K, V>> key = (Key<Cache<K, V>>) Key.get(type, nameAnnotation);
 
     CacheProvider<K, V> m = new CacheProvider<>(this, name, keyType, valType);
     bind(key).toProvider(m).asEagerSingleton();
     bind(ANY_CACHE).annotatedWith(Exports.named(name)).to(key);
+
+    // Bind spec to lazy provider, which won't be resolved for the first time until after the fields
+    // are frozen.
+    bind(CacheSpec.class).annotatedWith(nameAnnotation).toProvider(() -> CacheSpec.create(m));
+
     return m.maximumWeight(1024);
   }
 

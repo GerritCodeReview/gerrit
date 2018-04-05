@@ -160,18 +160,22 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V> {
 
   @Override
   public Cache<K, V> get() {
-    frozen = true;
-
-    if (loader != null) {
-      CacheLoader<K, V> ldr = loader.get();
-      if (persist && persistentCacheFactory != null) {
-        return persistentCacheFactory.build(this, ldr);
+    try {
+      if (loader != null) {
+        CacheLoader<K, V> ldr = loader.get();
+        if (persist && persistentCacheFactory != null) {
+          return persistentCacheFactory.build(this, ldr);
+        }
+        return memoryCacheFactory.build(this, ldr);
+      } else if (persist && persistentCacheFactory != null) {
+        return persistentCacheFactory.build(this);
+      } else {
+        return memoryCacheFactory.build(this);
       }
-      return memoryCacheFactory.build(this, ldr);
-    } else if (persist && persistentCacheFactory != null) {
-      return persistentCacheFactory.build(this);
-    } else {
-      return memoryCacheFactory.build(this);
+    } finally {
+      // Freeze at the end of the call so factories can update the spec according to implementation-
+      // specific configuration.
+      frozen = true;
     }
   }
 }

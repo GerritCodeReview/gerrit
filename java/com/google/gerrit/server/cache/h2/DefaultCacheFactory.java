@@ -67,9 +67,13 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
 
   @SuppressWarnings("unchecked")
   <K, V> CacheBuilder<K, V> create(CacheBinding<K, V> def, boolean unwrapValueHolder) {
+    long maximumWeight = cfg.getLong("cache", def.name(), "memoryLimit", def.maximumWeight());
+    // Record limit back in binding so it shows up in the CacheSpec.
+    def.maximumWeight(maximumWeight);
+
     CacheBuilder<K, V> builder = newCacheBuilder();
     builder.recordStats();
-    builder.maximumWeight(cfg.getLong("cache", def.name(), "memoryLimit", def.maximumWeight()));
+    builder.maximumWeight(maximumWeight);
 
     builder = builder.removalListener(forwardingRemovalListenerFactory.create(def.name()));
 

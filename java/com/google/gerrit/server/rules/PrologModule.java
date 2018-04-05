@@ -22,6 +22,7 @@ public class PrologModule extends FactoryModule {
   @Override
   protected void configure() {
     install(new EnvironmentModule());
+    install(new RulesCache.Module());
     bind(PrologEnvironment.Args.class);
     factory(PrologRuleEvaluator.Factory.class);
 

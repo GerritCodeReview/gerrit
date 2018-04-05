@@ -2991,6 +2991,54 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void nonStrictLabelWithInvalidLabelPerDefault() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // Add a review with invalid labels.
+    ReviewInput input = ReviewInput.approve().label("Code-Style", 1);
+    gApi.changes().id(changeId).current().review(input);
+
+    Map<String, Short> votes = gApi.changes().id(changeId).current().reviewer(admin.email).votes();
+    assertThat(votes.keySet()).containsExactly("Code-Review");
+    assertThat(votes.values()).containsExactly((short) 2);
+  }
+
+  @Test
+  public void nonStrictLabelWithInvalidValuePerDefault() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // Add a review with invalid label values.
+    ReviewInput input = new ReviewInput().label("Code-Review", 3);
+    gApi.changes().id(changeId).current().review(input);
+
+    Map<String, Short> votes = gApi.changes().id(changeId).current().reviewer(admin.email).votes();
+    assertThat(votes.keySet()).containsExactly("Code-Review");
+    assertThat(votes.values()).containsExactly((short) 0);
+  }
+
+  @Test
+  @GerritConfig(name = "change.strictLabels", value = "true")
+  public void strictLabelWithInvalidLabel() throws Exception {
+    String changeId = createChange().getChangeId();
+    ReviewInput in = new ReviewInput().label("Code-Style", 1);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("label \"Code-Style\" is not a configured label");
+    gApi.changes().id(changeId).current().review(in);
+  }
+
+  @Test
+  @GerritConfig(name = "change.strictLabels", value = "true")
+  public void strictLabelWithInvalidValue() throws Exception {
+    String changeId = createChange().getChangeId();
+    ReviewInput in = new ReviewInput().label("Code-Review", 3);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("label \"Code-Review\": 3 is not a valid value");
+    gApi.changes().id(changeId).current().review(in);
+  }
+
+  @Test
   public void unresolvedCommentsBlocked() throws Exception {
     modifySubmitRules(
         "submit_rule(submit(R)) :- \n"

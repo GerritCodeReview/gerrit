@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "5e9e63e4_f18a3ef5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 24
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T18:59:08Z",
+      "side": 1,
+      "message": "doesn\u0027t look like this was done.",
+      "parentUuid": "6c6fa07d_4a194b54",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 49
+      },
+      "revId": "d99b76d5dccb3a387d4423ff51c48a5653e360ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd309895_f66ee998",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
         "patchSetId": 24

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3af2b873_b4685ee7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T18:59:08Z",
+      "side": 1,
+      "message": "You can add a second test that tapping the button calls _handleResetMenuButton, since it had to be separated out here.",
+      "range": {
+        "startLine": 434,
+        "startChar": 6,
+        "endLine": 434,
+        "endChar": 38
+      },
+      "revId": "6ada4d2e2f5cd8233d77e2c16509ec37aa8d464e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

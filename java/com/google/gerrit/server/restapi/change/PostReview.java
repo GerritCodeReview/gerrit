@@ -372,7 +372,10 @@ public class PostReview
         reviewerResult.gatherResults();
       }
 
-      emailReviewers(revision.getChange(), reviewerResults, reviewerNotify, accountsToNotify);
+      boolean readyForReview =
+          (output.ready != null && output.ready) || !revision.getChange().isWorkInProgress();
+      emailReviewers(
+          revision.getChange(), reviewerResults, reviewerNotify, accountsToNotify, readyForReview);
     }
 
     return Response.ok(output);
@@ -405,7 +408,8 @@ public class PostReview
       Change change,
       List<PostReviewers.Addition> reviewerAdditions,
       @Nullable NotifyHandling notify,
-      ListMultimap<RecipientType, Account.Id> accountsToNotify) {
+      ListMultimap<RecipientType, Account.Id> accountsToNotify,
+      boolean readyForReview) {
     List<Account.Id> to = new ArrayList<>();
     List<Account.Id> cc = new ArrayList<>();
     List<Address> toByEmail = new ArrayList<>();
@@ -423,7 +427,8 @@ public class PostReview
       reviewerAdditions
           .get(0)
           .op
-          .emailReviewers(change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify);
+          .emailReviewers(
+              change, to, cc, toByEmail, ccByEmail, notify, accountsToNotify, readyForReview);
     }
   }
 

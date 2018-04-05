@@ -70,6 +70,30 @@
       "revId": "8cd3ecb1e094a47dca7471a852390943a6d21d53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a743585b_792bd2ba",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-04-05T14:01:03Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "5af2110b_ad414377",
+      "range": {
+        "startLine": 489,
+        "startChar": 18,
+        "endLine": 489,
+        "endChar": 47
+      },
+      "revId": "8cd3ecb1e094a47dca7471a852390943a6d21d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

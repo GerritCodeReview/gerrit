@@ -49,11 +49,14 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('tap on trigger opens menu', () => {
+    test('tap on trigger opens menu, then closes', () => {
       sandbox.stub(element, '_open', () => { element.$.dropdown.open(); });
+      sandbox.stub(element, '_close', () => { element.$.dropdown.close(); });
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.tap(element.$.trigger);
       assert.isTrue(element.$.dropdown.opened);
+      MockInteractions.tap(element.$.trigger);
+      assert.isFalse(element.$.dropdown.opened);
     });
 
     test('_computeURLHelper', () => {

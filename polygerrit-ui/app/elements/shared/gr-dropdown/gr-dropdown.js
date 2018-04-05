@@ -153,21 +153,21 @@
      * @param {!Event} e
      */
     _handleDropdownTap(e) {
-      // async is needed so that that the click event is fired before the
-      // dropdown closes (This was a bug for touch devices).
-      this.async(() => {
-        this.$.dropdown.close();
-      }, 1);
+      this._close();
     },
 
     /**
      * Hanlde a click on the button to open the dropdown.
      * @param {!Event} e
      */
-    _showDropdownTapHandler(e) {
+    _dropdownTriggerTapHandler(e) {
       e.preventDefault();
       e.stopPropagation();
-      this._open();
+      if (this.$.dropdown.opened) {
+        this._close();
+      } else {
+        this._open();
+      }
     },
 
     /**
@@ -178,6 +178,14 @@
       this.$.cursor.setCursorAtIndex(0);
       Polymer.dom.flush();
       this.$.cursor.target.focus();
+    },
+
+    _close() {
+      // async is needed so that that the click event is fired before the
+      // dropdown closes (This was a bug for touch devices).
+      this.async(() => {
+        this.$.dropdown.close();
+      }, 1);
     },
 
     /**

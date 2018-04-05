@@ -33,6 +33,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V> {
   final String name;
   private final TypeLiteral<K> keyType;
   private final TypeLiteral<V> valType;
+  private String configName;
   private boolean persist;
   private long maximumWeight;
   private long diskLimit;
@@ -110,11 +111,23 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V> {
   }
 
   @Override
+  public CacheBinding<K, V> configName(String name) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    configName = Preconditions.checkNotNull(name);
+    return this;
+  }
+
+  @Override
   public String name() {
     if (!Strings.isNullOrEmpty(plugin)) {
       return plugin + "." + name;
     }
     return name;
+  }
+
+  @Override
+  public String configName() {
+    return configName != null ? configName : name();
   }
 
   @Override

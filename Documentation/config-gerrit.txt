@@ -929,6 +929,11 @@ in the database.  If a project record is updated or deleted, this
 cache should be flushed.  Newly inserted projects do not require
 a cache flush, as they will be read upon first reference.
 
+cache `"prolog_rules"`::
++
+Caches parsed `rules.pl` contents for each project. This cache uses the same
+size as the `projects` cache, and cannot be configured independently.
+
 cache `"sshkeys"`::
 +
 Caches unpacked versions of user SSH keys, so the internal SSH daemon

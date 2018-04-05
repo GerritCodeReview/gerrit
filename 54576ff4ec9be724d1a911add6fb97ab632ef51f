@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1522947187 -0400\nnonce AFN+CTLfC0l8X2Ju4YEDMDLNKNvWBwuFr3eAnbQLF00vW9c14U4dEHXB+8EVq/kCMQZ/Xat52pZi\n\n0000000000000000000000000000000000000000 ed9fbd9f317ba56c79865f634ad2d814966914e1 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlrGVHMVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMshQQANvDdWerUqqE12JH5sC9T/LZM1P/\nv68cZGWNnxeUw4NYUqWXZeboaLoZ4VjuUj6QbKAUnZBnuxoEFfsPVTxBNmc2Hjdu\n7hudGIJ8W2Yvaj9oTTMEs4nXGbVS90Qjc1rdD4Gwij9RPVKQgwc9ML62CzOOnWmA\nwaHLtJXL8tyd1Ob1oSqUe8Gw4tvMbYVM061C87sQ/i1mhWAHxiXuFcWDO55PkJa9\n22ZnVcVF8/qVCiSWfbWV+5SaEMvQ58t+GmWu8DQsnmiJ/dXJ0tjoGf931XZ/zJpY\ngrFmobhImuFuxDH3RbP+VAoopzgSg5S+pLH1AeGr2qA5djbmwk1eZPMBy6HLUiX+\nngFCMiUsiS7iEAM1cwFzKIDkHZJNGiDG1xsQJewlZNJBuA0tbMBVZaWq+dFB/4ET\nV9KEPUpo1o5FS4dnQQPf6S/MX6LDBrpzeQ02bnhZQB8WxxLbzvxvNXQA/H+x8Jkc\nY9HpHFmMqmFeBg5HsAcpkSLqTFOO1icRb+zUMJdrOfwH8xOzUoZ+yHWiU4vqXWr+\ndnBg7vkVza7g+DgUcLVEEbNxmVqTef+H8qSzoEPsVIJ/MYfVaT3FSsdh49hooX/k\ncWDlO2U7IjrnfbZDcAIVvAehMv87iyjRp82Y1r4eQd6jKXjx9dt/evcvU9efXH6f\nGSYFLkoG0upddnkE\n\u003d+HpW\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "38b266f1_4b3c6910",
+        "filename": "java/com/google/gerrit/server/rules/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T16:58:37Z",
+      "side": 1,
+      "message": "Should we use `enableProjectRules` to \"abort\" initialisation of this class?",
+      "revId": "54576ff4ec9be724d1a911add6fb97ab632ef51f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cc8dc36_ee30ddfc",
+        "filename": "java/com/google/gerrit/server/rules/RulesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T16:58:37Z",
+      "side": 1,
+      "message": "This creates one Java object per .get() call. Do we care?",
+      "range": {
+        "startLine": 128,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 44
+      },
+      "revId": "54576ff4ec9be724d1a911add6fb97ab632ef51f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -46,6 +46,30 @@
       "revId": "6ada4d2e2f5cd8233d77e2c16509ec37aa8d464e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a80c204_d076072b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_test.html",
+        "patchSetId": 27
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-05T19:06:00Z",
+      "side": 1,
+      "message": "Yes, I\u0027m asking for a second test that stubs the function it calls and verifies that it was called. I understand why you separated out this one.",
+      "parentUuid": "813f75e5_7247a21c",
+      "range": {
+        "startLine": 434,
+        "startChar": 6,
+        "endLine": 434,
+        "endChar": 38
+      },
+      "revId": "6ada4d2e2f5cd8233d77e2c16509ec37aa8d464e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

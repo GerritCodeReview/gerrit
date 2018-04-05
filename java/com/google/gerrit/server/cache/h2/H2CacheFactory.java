@@ -156,6 +156,8 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
     long limit = config.getLong("cache", def.name(), "diskLimit", def.diskLimit());
+    // Record limit back in binding so it shows up in the CacheSpec.
+    def.diskLimit(limit);
 
     if (cacheDir == null || limit <= 0) {
       return defaultFactory.build(def);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a7034c8_91ac4e45",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-05T15:28:43Z",
+      "side": 1,
+      "message": "Can\u0027t we just remove the index type condition? We only have the two types, so it must be one of them and thus the condition will always evaluate to true.",
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

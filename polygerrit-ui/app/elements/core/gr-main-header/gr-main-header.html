@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../../behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html">
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
@@ -172,8 +173,13 @@ limitations under the License.
         </li>
       </ul>
       <div class="rightItems">
-        <gr-search-bar id="search" value="{{searchQuery}}" role="search"
-            on-handle-search="_handleSearch"></gr-search-bar>
+        <gr-search-bar id="search"
+            value="{{searchQuery}}"
+            role="search"
+            on-handle-search="_handleSearch"
+            project-suggestions="[[_projectSuggestions]]"
+            group-suggestions="[[_groupSuggestions]]"
+            account-suggestions="[[_accountSuggestions]]"></gr-search-bar>
         <gr-endpoint-decorator
             class="hideOnMobile"
             name="header-browse-source"></gr-endpoint-decorator>

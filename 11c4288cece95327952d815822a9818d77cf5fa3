@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "03a8b606_f145a744",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-05T19:58:03Z",
+      "side": 1,
+      "message": "I\u0027ve removed it instead, thanks, done :)",
+      "parentUuid": "e7da9195_d295dddb",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 131,
+        "endChar": 5
+      },
+      "revId": "11c4288cece95327952d815822a9818d77cf5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60c8be8c_f3ba5007",
         "filename": "tools/js/bower2bazel.py",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2f558e84_a009de9b",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-05T19:58:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "60c8be8c_f3ba5007",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 150,
+        "endChar": 5
+      },
+      "revId": "11c4288cece95327952d815822a9818d77cf5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "095a0a25_7bf2cdac",
         "filename": "tools/js/bower2bazel.py",
         "patchSetId": 8
@@ -68,6 +116,30 @@
       "revId": "11c4288cece95327952d815822a9818d77cf5fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2069e8ab_006c5f19",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-05T19:58:03Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "095a0a25_7bf2cdac",
+      "range": {
+        "startLine": 237,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 5
+      },
+      "revId": "11c4288cece95327952d815822a9818d77cf5fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

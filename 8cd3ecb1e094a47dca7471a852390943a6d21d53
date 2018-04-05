@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cb2bf2a_ce45bed6",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-05T13:19:07Z",
+      "side": 0,
+      "message": "Maybe you could do\n\n!slave \u0026\u0026 (indexType \u003d\u003d IndexType.LUCENE || indexType \u003d\u003d IndexType.ELASTICSEARCH)\n\n?",
+      "range": {
+        "startLine": 489,
+        "startChar": 18,
+        "endLine": 489,
+        "endChar": 47
+      },
+      "revId": "8cd3ecb1e094a47dca7471a852390943a6d21d53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -17,15 +17,20 @@ package com.google.gerrit.server.rules;
 import static com.googlecode.prolog_cafe.lang.PrologMachineCopy.save;
 
 import com.google.common.base.Joiner;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.cache.CacheSpec;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.googlecode.prolog_cafe.exceptions.CompileException;
 import com.googlecode.prolog_cafe.exceptions.SyntaxException;
 import com.googlecode.prolog_cafe.exceptions.TermException;
@@ -42,9 +47,6 @@ import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
 import java.io.StringReader;
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -52,9 +54,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -74,15 +75,6 @@ public class RulesCache {
   private static final ImmutableList<String> PACKAGE_LIST =
       ImmutableList.of(Prolog.BUILTIN, "gerrit");
 
-  private static final class MachineRef extends WeakReference<PrologMachineCopy> {
-    final ObjectId key;
-
-    MachineRef(ObjectId key, PrologMachineCopy pcm, ReferenceQueue<PrologMachineCopy> queue) {
-      super(pcm, queue);
-      this.key = key;
-    }
-  }
-
   private final boolean enableProjectRules;
   private final int maxDbSize;
   private final int maxSrcBytes;
@@ -92,15 +84,15 @@ public class RulesCache {
   private final DynamicSet<PredicateProvider> predicateProviders;
   private final ClassLoader systemLoader;
   private final PrologMachineCopy defaultMachine;
-  private final Map<ObjectId, MachineRef> machineCache = new HashMap<>();
-  private final ReferenceQueue<PrologMachineCopy> dead = new ReferenceQueue<>();
+  private final Cache<ObjectId, PrologMachineCopy> machineCache;
 
   @Inject
   protected RulesCache(
       @GerritServerConfig Config config,
       SitePaths site,
       GitRepositoryManager gm,
-      DynamicSet<PredicateProvider> predicateProviders) {
+      DynamicSet<PredicateProvider> predicateProviders,
+      @Named(ProjectCacheImpl.CACHE_NAME) CacheSpec projectCacheSpec) {
     maxDbSize = config.getInt("rules", null, "maxPrologDatabaseSize", 256);
     maxSrcBytes = config.getInt("rules", null, "maxSourceBytes", 128 << 10);
     enableProjectRules = config.getBoolean("rules", null, "enable", true) && maxSrcBytes > 0;
@@ -111,6 +103,14 @@ public class RulesCache {
 
     systemLoader = getClass().getClassLoader();
     defaultMachine = save(newEmptyMachine(systemLoader));
+
+    if (enableProjectRules) {
+      // This cache is auxiliary to the project cache, so size it the same.
+      machineCache =
+          CacheBuilder.newBuilder().maximumSize(projectCacheSpec.maximumWeight()).build();
+    } else {
+      machineCache = null;
+    }
   }
 
   public boolean isProjectRulesEnabled() {
@@ -129,23 +129,14 @@ public class RulesCache {
       return defaultMachine;
     }
 
-    Reference<? extends PrologMachineCopy> ref = machineCache.get(rulesId);
-    if (ref != null) {
-      PrologMachineCopy pmc = ref.get();
-      if (pmc != null) {
-        return pmc;
+    try {
+      return machineCache.get(rulesId, () -> createMachine(project, rulesId));
+    } catch (ExecutionException e) {
+      if (e.getCause() instanceof CompileException) {
+        throw new CompileException(e.getCause().getMessage(), e);
       }
-
-      machineCache.remove(rulesId);
-      ref.enqueue();
+      throw new CompileException("Error while consulting rules from " + project, e);
     }
-
-    gc();
-
-    PrologMachineCopy pcm = createMachine(project, rulesId);
-    MachineRef newRef = new MachineRef(rulesId, pcm, dead);
-    machineCache.put(rulesId, newRef);
-    return pcm;
   }
 
   public PrologMachineCopy loadMachine(String name, Reader in) throws CompileException {
@@ -154,16 +145,6 @@ public class RulesCache {
       throw new CompileException("Cannot consult rules from the stream " + name);
     }
     return pmc;
-  }
-
-  private void gc() {
-    Reference<?> ref;
-    while ((ref = dead.poll()) != null) {
-      ObjectId key = ((MachineRef) ref).key;
-      if (machineCache.get(key) == ref) {
-        machineCache.remove(key);
-      }
-    }
   }
 
   private PrologMachineCopy createMachine(Project.NameKey project, ObjectId rulesId)

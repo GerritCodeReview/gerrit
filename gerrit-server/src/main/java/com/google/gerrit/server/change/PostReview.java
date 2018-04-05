@@ -167,6 +167,7 @@ public class PostReview
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
+  private final boolean strictLabels;
 
   @Inject
   PostReview(
@@ -206,6 +207,7 @@ public class PostReview
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
+    this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
   @Override
@@ -444,8 +446,12 @@ public class PostReview
       Map.Entry<String, Short> ent = itr.next();
       LabelType type = labelTypes.byLabel(ent.getKey());
       if (type == null) {
-        throw new BadRequestException(
-            String.format("label \"%s\" is not a configured label", ent.getKey()));
+        if (strictLabels) {
+          throw new BadRequestException(
+              String.format("label \"%s\" is not a configured label", ent.getKey()));
+        }
+        itr.remove();
+        continue;
       }
 
       if (!caller.isInternalUser()) {
@@ -484,8 +490,12 @@ public class PostReview
       Map.Entry<String, Short> ent = itr.next();
       LabelType lt = labelTypes.byLabel(ent.getKey());
       if (lt == null) {
-        throw new BadRequestException(
-            String.format("label \"%s\" is not a configured label", ent.getKey()));
+        if (strictLabels) {
+          throw new BadRequestException(
+              String.format("label \"%s\" is not a configured label", ent.getKey()));
+        }
+        itr.remove();
+        continue;
       }
 
       if (ent.getValue() == null || ent.getValue() == 0) {
@@ -495,8 +505,12 @@ public class PostReview
       }
 
       if (lt.getValue(ent.getValue()) == null) {
-        throw new BadRequestException(
-            String.format("label \"%s\": %d is not a valid value", ent.getKey(), ent.getValue()));
+        if (strictLabels) {
+          throw new BadRequestException(
+              String.format("label \"%s\": %d is not a valid value", ent.getKey(), ent.getValue()));
+        }
+        itr.remove();
+        continue;
       }
 
       short val = ent.getValue();

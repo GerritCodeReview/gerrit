@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-smart-search</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-smart-search.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-smart-search></gr-smart-search>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-smart-search tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+
+    test('Autocompletes accounts', () => {
+      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+        Promise.resolve([
+          {
+            name: 'fred',
+            email: 'fred@goog.co',
+          },
+        ])
+      );
+      return element._fetchAccounts('owner', 'fr').then(s => {
+        assert.equal(s[0], 'owner:fred@goog.co');
+      });
+    });
+
+    test('Inserts self as option when valid', done => {
+      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+        Promise.resolve([
+          {
+            name: 'fred',
+            email: 'fred@goog.co',
+          },
+        ])
+      );
+      element._fetchAccounts('owner', 's').then(s => {
+        assert.equal(s[0], 'owner:fred@goog.co');
+        assert.equal(s[1], 'owner:self');
+      }).then(() => {
+        element._fetchAccounts('owner', 'selfs').then(s => {
+          assert.notEqual(s[0], 'owner:self');
+          done();
+        });
+      });
+    });
+
+    test('Inserts me as option when valid', done => {
+      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+        Promise.resolve([
+          {
+            name: 'fred',
+            email: 'fred@goog.co',
+          },
+        ])
+      );
+      element._fetchAccounts('owner', 'm').then(s => {
+        assert.equal(s[0], 'owner:fred@goog.co');
+        assert.equal(s[1], 'owner:me');
+      }).then(() => {
+        element._fetchAccounts('owner', 'meme').then(s => {
+          assert.notEqual(s[0], 'owner:me');
+          done();
+        });
+      });
+    });
+
+    test('Autocompletes groups', done => {
+      sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+        Promise.resolve({
+          Polygerrit: 0,
+          gerrit: 0,
+          gerrittest: 0,
+        })
+      );
+      element._fetchGroups('ownerin', 'pol').then(s => {
+        assert.equal(s[0], 'ownerin:Polygerrit');
+        done();
+      });
+    });
+
+    test('Autocompletes projects', done => {
+      sandbox.stub(element.$.restAPI, 'getSuggestedProjects', () =>
+        Promise.resolve({
+          Polygerrit: 0,
+        })
+      );
+      element._fetchProjects('project', 'pol').then(s => {
+        assert.equal(s[0], 'project:Polygerrit');
+        done();
+      });
+    });
+
+    test('Autocomplete doesnt override exact matches to input', done => {
+      sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+        Promise.resolve({
+          Polygerrit: 0,
+          gerrit: 0,
+          gerrittest: 0,
+        })
+      );
+      element._fetchGroups('ownerin', 'gerrit').then(s => {
+        assert.equal(s[0], 'ownerin:Polygerrit');
+        assert.equal(s[1], 'ownerin:gerrit');
+        assert.equal(s[2], 'ownerin:gerrittest');
+        done();
+      });
+    });
+
+    test('Autocompletes accounts with no email', done => {
+      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+        Promise.resolve([
+          {
+            name: 'fred',
+          },
+        ])
+      );
+      element._fetchAccounts('owner', 'fr').then(s => {
+        assert.equal(s[0], 'owner:"fred"');
+        done();
+      });
+    });
+
+    test('Autocompletes accounts with email', done => {
+      sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+        Promise.resolve([
+          {
+            email: 'fred@goog.co',
+          },
+        ])
+      );
+      element._fetchAccounts('owner', 'fr').then(s => {
+        assert.equal(s[0], 'owner:fred@goog.co');
+        done();
+      });
+    });
+  });
+</script>

@@ -106,6 +106,7 @@
     },
 
     behaviors: [
+      Gerrit.AnonymousNameBehavior,
       Gerrit.BaseUrlBehavior,
       Gerrit.DocsUrlBehavior,
     ],

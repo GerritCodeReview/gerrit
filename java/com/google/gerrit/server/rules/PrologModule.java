@@ -17,8 +17,12 @@ package com.google.gerrit.server.rules;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.googlecode.prolog_cafe.lang.PrologMachineCopy;
+import org.eclipse.jgit.lib.ObjectId;
 
-public class PrologModule extends FactoryModule {
+public class PrologModule extends CacheModule {
   @Override
   protected void configure() {
     install(new EnvironmentModule());
@@ -26,6 +30,10 @@ public class PrologModule extends FactoryModule {
     factory(PrologRuleEvaluator.Factory.class);
 
     bind(SubmitRule.class).annotatedWith(Exports.named("PrologRule")).to(PrologRule.class);
+
+    cache(RulesCache.CACHE_NAME, ObjectId.class, PrologMachineCopy.class)
+        // This cache is auxiliary to the project cache, so size it the same.
+        .configKey(ProjectCacheImpl.CACHE_NAME);
   }
 
   static class EnvironmentModule extends FactoryModule {

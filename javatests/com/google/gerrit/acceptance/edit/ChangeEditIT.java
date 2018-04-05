@@ -706,6 +706,27 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(r1.getChangeId());
   }
 
+  @Test
+  public void editCannotBeCreatedOnMergedChange() throws Exception {
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().submit();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(String.format("change %s is merged", change._number));
+    createArbitraryEditFor(changeId);
+  }
+
+  @Test
+  public void editCannotBeCreatedOnAbandonedChange() throws Exception {
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    gApi.changes().id(changeId).abandon();
+
+    exception.expect(ResourceConflictException.class);
+    exception.expectMessage(String.format("change %s is abandoned", change._number));
+    createArbitraryEditFor(changeId);
+  }
+
   private void createArbitraryEditFor(String changeId) throws Exception {
     createEmptyEditFor(changeId);
     arbitrarilyModifyEditOf(changeId);

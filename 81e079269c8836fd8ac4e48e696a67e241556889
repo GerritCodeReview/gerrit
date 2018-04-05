@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7bf18194_d892c8af",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-05T11:32:09Z",
+      "side": 1,
+      "message": "Could \"MetaConfig\" be more specific?",
+      "parentUuid": "e2858099_3a15f98c",
+      "range": {
+        "startLine": 262,
+        "startChar": 24,
+        "endLine": 262,
+        "endChar": 39
+      },
+      "revId": "81e079269c8836fd8ac4e48e696a67e241556889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0827640_f9d3bd81",
         "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
         "patchSetId": 1
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "8cf20d1c_6c99120a",
+        "filename": "java/com/google/gerrit/server/permissions/RefPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-05T11:32:09Z",
+      "side": 1,
+      "message": "This comment was added to remind people that PermissionBackend is different from *Control. Whenever they check some permission, they need also consider whether there is some precondition before permission checks.\n\nThis is the only place to contain this comment as far as I can think of.",
+      "parentUuid": "0d9193a5_b83ac3c9",
+      "revId": "81e079269c8836fd8ac4e48e696a67e241556889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef5f39d7_b29e97d4",
         "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
         "patchSetId": 1
@@ -71,6 +113,30 @@
       "writtenOn": "2018-04-03T07:17:21Z",
       "side": 1,
       "message": "would you mind adding a \u0027falseToNull\u0027 utility method to ApiUtil and statically import it where needed?\n\nWe have this type of conversion in Gerrit quite a lot and having a descriptive method instead seems worthwhile to me.",
+      "range": {
+        "startLine": 264,
+        "startChar": 13,
+        "endLine": 265,
+        "endChar": 21
+      },
+      "revId": "81e079269c8836fd8ac4e48e696a67e241556889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2ed715_77184719",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-05T11:32:09Z",
+      "side": 1,
+      "message": "Of course.",
+      "parentUuid": "ef5f39d7_b29e97d4",
       "range": {
         "startLine": 264,
         "startChar": 13,

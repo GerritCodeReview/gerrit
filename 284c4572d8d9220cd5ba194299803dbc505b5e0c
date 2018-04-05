@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "43e9f677_498250d4",
+        "filename": "java/com/google/gerrit/common/data/SubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T08:45:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d810a10e_b127168c",
+      "revId": "284c4572d8d9220cd5ba194299803dbc505b5e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ce67880_776bbe6d",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 3
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "ce1a1fd3_03f30506",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T08:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da754940_f2173aad",
+      "range": {
+        "startLine": 715,
+        "startChar": 10,
+        "endLine": 715,
+        "endChar": 61
+      },
+      "revId": "284c4572d8d9220cd5ba194299803dbc505b5e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b8af494_9e30582e",
         "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 3
@@ -116,6 +158,24 @@
       "revId": "284c4572d8d9220cd5ba194299803dbc505b5e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e354679_7759b731",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-05T08:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c86c5c81_702665d1",
+      "revId": "284c4572d8d9220cd5ba194299803dbc505b5e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

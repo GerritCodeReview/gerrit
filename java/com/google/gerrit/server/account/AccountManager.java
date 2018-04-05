@@ -112,8 +112,7 @@ public class AccountManager {
   /** @return user identified by this external identity string */
   public Optional<Account.Id> lookup(String externalId) throws AccountException {
     try {
-      ExternalId extId = externalIds.get(ExternalId.Key.parse(externalId));
-      return extId != null ? Optional.of(extId.accountId()) : Optional.empty();
+      return externalIds.get(ExternalId.Key.parse(externalId)).map(ExternalId::accountId);
     } catch (IOException | ConfigInvalidException e) {
       throw new AccountException("Cannot lookup account " + externalId, e);
     }
@@ -136,19 +135,19 @@ public class AccountManager {
       throw e;
     }
     try {
-      ExternalId id = externalIds.get(who.getExternalIdKey());
-      if (id == null) {
+      Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
+      if (!optionalExtId.isPresent()) {
         if (who.getUserName().isPresent()) {
           ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, who.getUserName().get());
-          ExternalId existingId = externalIds.get(key);
-          if (existingId != null) {
+          Optional<ExternalId> existingId = externalIds.get(key);
+          if (existingId.isPresent()) {
             // An inconsistency is detected in the database, having a record for scheme "username:"
             // but no record for scheme "gerrit:". Try to recover by linking
             // "gerrit:" identity to the existing account.
             log.warn(
                 "User {} already has an account; link new identity to the existing account.",
                 who.getUserName());
-            return link(existingId.accountId(), who);
+            return link(existingId.get().accountId(), who);
           }
         }
         // New account, automatically create and return.
@@ -156,12 +155,13 @@ public class AccountManager {
         return create(who);
       }
 
-      Optional<AccountState> accountState = byIdCache.get(id.accountId());
+      ExternalId extId = optionalExtId.get();
+      Optional<AccountState> accountState = byIdCache.get(extId.accountId());
       if (!accountState.isPresent()) {
         log.error(
             String.format(
                 "Authentication with external ID %s failed. Account %s doesn't exist.",
-                id.key().get(), id.accountId().get()));
+                extId.key().get(), extId.accountId().get()));
         throw new AccountException("Authentication error, account not found");
       }
 
@@ -177,8 +177,8 @@ public class AccountManager {
       }
 
       // return the identity to the caller.
-      update(who, id);
-      return new AuthResult(id.accountId(), who.getExternalIdKey(), false);
+      update(who, extId);
+      return new AuthResult(extId.accountId(), who.getExternalIdKey(), false);
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
     }
@@ -189,11 +189,11 @@ public class AccountManager {
       return;
     }
     try {
-      ExternalId id = externalIds.get(authRequest.getExternalIdKey());
-      if (id == null) {
+      Optional<ExternalId> extId = externalIds.get(authRequest.getExternalIdKey());
+      if (!extId.isPresent()) {
         return;
       }
-      setInactiveFlag.deactivate(id.accountId());
+      setInactiveFlag.deactivate(extId.get().accountId());
     } catch (Exception e) {
       log.error(
           "Unable to deactivate account "
@@ -411,9 +411,10 @@ public class AccountManager {
    */
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
-    ExternalId extId = externalIds.get(who.getExternalIdKey());
+    Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
     log.info("Link another authentication identity to an existing account");
-    if (extId != null) {
+    if (optionalExtId.isPresent()) {
+      ExternalId extId = optionalExtId.get();
       if (!extId.accountId().equals(to)) {
         throw new AccountException(
             "Identity '" + extId.key().get() + "' in use by another account");
@@ -506,12 +507,12 @@ public class AccountManager {
 
     List<ExternalId> extIds = new ArrayList<>(extIdKeys.size());
     for (ExternalId.Key extIdKey : extIdKeys) {
-      ExternalId extId = externalIds.get(extIdKey);
-      if (extId != null) {
-        if (!extId.accountId().equals(from)) {
+      Optional<ExternalId> extId = externalIds.get(extIdKey);
+      if (extId.isPresent()) {
+        if (!extId.get().accountId().equals(from)) {
           throw new AccountException("Identity '" + extIdKey.get() + "' in use by another account");
         }
-        extIds.add(extId);
+        extIds.add(extId.get());
       } else {
         throw new AccountException("Identity '" + extIdKey.get() + "' not found");
       }

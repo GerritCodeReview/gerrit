@@ -64,6 +64,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -419,8 +420,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
     assertThat(extIds).containsExactlyElementsIn(parseableExtIds);
 
     for (ExternalId parseableExtId : parseableExtIds) {
-      ExternalId extId = externalIds.get(parseableExtId.key());
-      assertThat(extId).isEqualTo(parseableExtId);
+      Optional<ExternalId> extId = externalIds.get(parseableExtId.key());
+      assertThat(extId).hasValue(parseableExtId);
     }
   }
 
@@ -719,8 +720,8 @@ public class ExternalIdIT extends AbstractDaemonTest {
             "Create Account with Bad External ID",
             accountId,
             u -> u.addExternalId(ExternalId.create(extIdKey, accountId)));
-    ExternalId extId = externalIds.get(extIdKey);
-    assertThat(extId.accountId()).isEqualTo(accountId);
+    Optional<ExternalId> extId = externalIds.get(extIdKey);
+    assertThat(extId.map(ExternalId::accountId)).hasValue(accountId);
   }
 
   @Test

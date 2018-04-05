@@ -601,8 +601,9 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     List<AccountExternalIdInfo> externalIdInfos = gApi.accounts().self().getExternalIds();
     List<ByteArrayWrapper> blobs = new ArrayList<>();
     for (AccountExternalIdInfo info : externalIdInfos) {
-      blobs.add(
-          new ByteArrayWrapper(externalIds.get(ExternalId.Key.parse(info.identity)).toByteArray()));
+      Optional<ExternalId> extId = externalIds.get(ExternalId.Key.parse(info.identity));
+      assertThat(extId).isPresent();
+      blobs.add(new ByteArrayWrapper(extId.get().toByteArray()));
     }
     assertThat(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE)).hasSize(blobs.size());
     assertThat(

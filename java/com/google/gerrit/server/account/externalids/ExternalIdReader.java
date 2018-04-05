@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -122,22 +123,21 @@ public class ExternalIdReader {
   }
 
   /** Reads and returns the specified external ID. */
-  @Nullable
-  ExternalId get(ExternalId.Key key) throws IOException, ConfigInvalidException {
+  Optional<ExternalId> get(ExternalId.Key key) throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return ExternalIdNotes.loadReadOnly(repo).get(key).orElse(null);
+      return ExternalIdNotes.loadReadOnly(repo).get(key);
     }
   }
 
   /** Reads and returns the specified external ID from the given revision. */
-  @Nullable
-  ExternalId get(ExternalId.Key key, ObjectId rev) throws IOException, ConfigInvalidException {
+  Optional<ExternalId> get(ExternalId.Key key, ObjectId rev)
+      throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
     try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return ExternalIdNotes.loadReadOnly(repo, rev).get(key).orElse(null);
+      return ExternalIdNotes.loadReadOnly(repo, rev).get(key);
     }
   }
 

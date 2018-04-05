@@ -183,9 +183,9 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthResult authResult = accountManager.authenticate(who);
     assertAuthResultForExistingAccount(authResult, accountId, gerritExtIdKey);
 
-    ExternalId gerritExtId = externalIds.get(gerritExtIdKey);
-    assertThat(gerritExtId).isNotNull();
-    assertThat(gerritExtId.email()).isEqualTo(newEmail);
+    Optional<ExternalId> gerritExtId = externalIds.get(gerritExtIdKey);
+    assertThat(gerritExtId).isPresent();
+    assertThat(gerritExtId.get().email()).isEqualTo(newEmail);
 
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
@@ -420,9 +420,9 @@ public class AccountManagerIT extends AbstractDaemonTest {
     }
 
     // Verify that the email in the external ID was not updated.
-    ExternalId gerritExtId = externalIds.get(gerritExtIdKey);
-    assertThat(gerritExtId).isNotNull();
-    assertThat(gerritExtId.email()).isEqualTo(email);
+    Optional<ExternalId> gerritExtId = externalIds.get(gerritExtIdKey);
+    assertThat(gerritExtId).isPresent();
+    assertThat(gerritExtId.get().email()).isEqualTo(email);
 
     // Verify that the preferred email was not updated.
     Optional<AccountState> accountState = accounts.get(accountId);
@@ -537,7 +537,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
   private void assertNoSuchExternalIds(ExternalId.Key... extIdKeys) throws Exception {
     for (ExternalId.Key extIdKey : extIdKeys) {
-      assertThat(externalIds.get(extIdKey)).named(extIdKey.get()).isNull();
+      assertThat(externalIds.get(extIdKey)).named(extIdKey.get()).isEmpty();
     }
   }
 
@@ -557,14 +557,14 @@ public class AccountManagerIT extends AbstractDaemonTest {
       @Nullable Account.Id expectedAccountId,
       @Nullable String expectedEmail)
       throws Exception {
-    ExternalId extId = externalIds.get(extIdKey);
-    assertThat(extId).named(extIdKey.get()).isNotNull();
+    Optional<ExternalId> extId = externalIds.get(extIdKey);
+    assertThat(extId).named(extIdKey.get()).isPresent();
     if (expectedAccountId != null) {
-      assertThat(extId.accountId())
+      assertThat(extId.get().accountId())
           .named("account ID of " + extIdKey.get())
           .isEqualTo(expectedAccountId);
     }
-    assertThat(extId.email()).named("email of " + extIdKey.get()).isEqualTo(expectedEmail);
+    assertThat(extId.get().email()).named("email of " + extIdKey.get()).isEqualTo(expectedEmail);
   }
 
   private void assertAuthResultForNewAccount(

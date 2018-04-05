@@ -18,11 +18,11 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.SetMultimap;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -54,14 +54,12 @@ public class ExternalIds {
   }
 
   /** Returns the specified external ID. */
-  @Nullable
-  public ExternalId get(ExternalId.Key key) throws IOException, ConfigInvalidException {
+  public Optional<ExternalId> get(ExternalId.Key key) throws IOException, ConfigInvalidException {
     return externalIdReader.get(key);
   }
 
   /** Returns the specified external ID from the given revision. */
-  @Nullable
-  public ExternalId get(ExternalId.Key key, ObjectId rev)
+  public Optional<ExternalId> get(ExternalId.Key key, ObjectId rev)
       throws IOException, ConfigInvalidException {
     return externalIdReader.get(key, rev);
   }

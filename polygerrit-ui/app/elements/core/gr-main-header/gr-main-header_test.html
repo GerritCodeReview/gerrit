@@ -132,5 +132,131 @@ limitations under the License.
         url: 'base/index.html',
       }]);
     });
+
+    suite('autocomplete suggestions for search', () => {
+      test('Autocompletes accounts', () => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              name: 'fred',
+              email: 'fred@goog.co',
+            },
+          ])
+        );
+        return element._fetchAccounts('owner', 'fr').then(s => {
+          assert.equal(s[0], 'owner:fred@goog.co');
+        });
+      });
+
+      test('Inserts self as option when valid', done => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              name: 'fred',
+              email: 'fred@goog.co',
+            },
+          ])
+        );
+        element._fetchAccounts('owner','s').then(s => {
+          assert.equal(s[0], 'owner:fred@goog.co');
+          assert.equal(s[1], 'owner:self');
+        }).then(() => {
+          element._fetchAccounts('owner', 'selfs').then(s => {
+            assert.notEqual(s[0], 'owner:self');
+            done();
+          });
+        });
+      });
+
+      test('Inserts me as option when valid', done => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              name: 'fred',
+              email: 'fred@goog.co',
+            },
+          ])
+        );
+        element._fetchAccounts('owner', 'm').then(s => {
+          assert.equal(s[0], 'owner:fred@goog.co');
+          assert.equal(s[1], 'owner:me');
+        }).then(() => {
+          element._fetchAccounts('owner', 'meme').then(s => {
+            assert.notEqual(s[0], 'owner:me');
+            done();
+          });
+        });
+      });
+
+      test('Autocompletes groups', done => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+          Promise.resolve({
+            Polygerrit: 0,
+            gerrit: 0,
+            gerrittest: 0,
+          })
+        );
+        element._fetchGroups('ownerin', 'pol').then(s => {
+          assert.equal(s[0], 'ownerin:Polygerrit');
+          done();
+        });
+      });
+
+      test('Autocompletes projects', done => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedProjects', () =>
+          Promise.resolve({
+            Polygerrit: 0,
+          })
+        );
+        element._fetchProjects('project', 'pol').then(s => {
+          assert.equal(s[0], 'project:Polygerrit');
+          done();
+        });
+      });
+
+      test('Autocomplete doesnt override exact matches to input', done => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+          Promise.resolve({
+            Polygerrit: 0,
+            gerrit: 0,
+            gerrittest: 0,
+          })
+        );
+        element._fetchGroups('ownerin', 'gerrit').then(s => {
+          assert.equal(s[0], 'ownerin:Polygerrit');
+          assert.equal(s[1], 'ownerin:gerrit');
+          assert.equal(s[2], 'ownerin:gerrittest');
+          done();
+        });
+      });
+
+      test('Autocompletes accounts with no email', done => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              name: 'fred',
+            },
+          ])
+        );
+        element._fetchAccounts('owner', 'fr').then(s => {
+          assert.equal(s[0], 'owner:"fred"');
+          done();
+        });
+      });
+
+      test('Autocompletes accounts with email', done => {
+        sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+          Promise.resolve([
+            {
+              email: 'fred@goog.co',
+            },
+          ])
+        );
+        element._fetchAccounts('owner', 'fr').then(s => {
+          assert.equal(s[0], 'owner:fred@goog.co');
+          done();
+        });
+      });
+    });
   });
 </script>

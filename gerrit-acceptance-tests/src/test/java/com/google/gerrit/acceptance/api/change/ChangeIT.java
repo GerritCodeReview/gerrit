@@ -2991,6 +2991,48 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void nonStrictLabelVotesPerDefault() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    String changeId = r.getChangeId();
+    ReviewInput in = ReviewInput.approve();
+
+    // Invalid labels
+    in.label("Verified", -1);
+    in.label("Code-Style", 1);
+    in.label("Library-Compliance", -1);
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+        .containsExactly("Code-Review");
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) 2);
+    assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
+
+    // Invalid values
+    in = new ReviewInput();
+    in.label("Code-Review", 42);
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) 2);
+  }
+
+  @Test
+  @GerritConfig(name = "change.strictLabels", value = "true")
+  public void strictLabelVotes() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r.assertOkStatus();
+    ReviewInput in = new ReviewInput();
+    in.label("Verified", -1);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("label \"Verified\" is not a configured label");
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+  }
+
+  @Test
   public void unresolvedCommentsBlocked() throws Exception {
     modifySubmitRules(
         "submit_rule(submit(R)) :- \n"

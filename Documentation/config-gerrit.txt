@@ -1204,6 +1204,14 @@ Zero or negative values allow robot comments of unlimited size.
 +
 The default limit is 1024kB.
 
+[[change.strictLabels]]change.strictLabels::
++
+Reject invalid label votes: invalid labels or invalid values. This
+configuration option is provided for backwards compaitbility and may
+be removed in future gerrit versions.
++
+Default is false.
+
 [[change.disablePrivateChanges]]change.disablePrivateChanges::
 +
 If set to true, users are not allowed to create private changes.

@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "dab50d0d_58cea988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-05T15:32:41Z",
+      "side": 1,
+      "message": "on the (premature line wrap otherwise; as per guideline)",
+      "range": {
+        "startLine": 9,
+        "startChar": 65,
+        "endLine": 10,
+        "endChar": 3
+      },
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e72c2e84_1f1bea53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-05T15:32:41Z",
+      "side": 1,
+      "message": "Applying the above comment would then lead you to also properly wrap the following lines (above).",
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a7034c8_91ac4e45",
         "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
         "patchSetId": 2
@@ -13,6 +53,52 @@
       "writtenOn": "2018-04-05T15:28:43Z",
       "side": 1,
       "message": "Can\u0027t we just remove the index type condition? We only have the two types, so it must be one of them and thus the condition will always evaluate to true.",
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6587ca3_04f37360",
+        "filename": "gerrit-pgm/src/main/java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-05T15:32:41Z",
+      "side": 1,
+      "message": "Currently, the only possible index types in the code are these both. So I think this check is unnecessary. If one is to ever add a new IndexType, then not only this but the whole index-involving code needs reconsideration anyway.",
+      "range": {
+        "startLine": 489,
+        "startChar": 14,
+        "endLine": 489,
+        "endChar": 89
+      },
+      "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3b8af4_81d63fd4",
+        "filename": "gerrit-war/src/main/java/com/google/gerrit/httpd/WebAppInitializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-05T15:32:41Z",
+      "side": 1,
+      "message": "Same comment would then apply here as well.",
+      "range": {
+        "startLine": 394,
+        "startChar": 4,
+        "endLine": 394,
+        "endChar": 80
+      },
       "revId": "2e5f26873ea07ccf42e431d070a8de1e0bb14ee4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -660,7 +660,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       commit.setMessage("Update external IDs\n");
     }
 
-    try (RevWalk rw = new RevWalk(repo)) {
+    try (RevWalk rw = new RevWalk(reader)) {
       Set<String> footers = new HashSet<>();
       for (NoteMapUpdate noteMapUpdate : noteMapUpdates) {
         try {

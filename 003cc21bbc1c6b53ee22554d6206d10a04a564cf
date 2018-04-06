@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a671fa1a_fa2b814c",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-06T14:03:03Z",
+      "side": 1,
+      "message": "Nope, as using template test filters in there prevents wct and embed tests running even if you specified them along side the filter.\n\nSo will have to keep this in a seperate script.",
+      "parentUuid": "b8f20c13_72542f74",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 17
+      },
+      "revId": "003cc21bbc1c6b53ee22554d6206d10a04a564cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f55286c_62e48f73",
         "filename": "polygerrit-ui/app/template_test.sh",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-06T13:45:42Z",
       "side": 1,
       "message": "What\u0027s the reason for moving this around? Is there any value with it?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 2
+      },
+      "revId": "003cc21bbc1c6b53ee22554d6206d10a04a564cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8109662_2f994b40",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-06T14:03:03Z",
+      "side": 1,
+      "message": "For npm to work it requires nodejs which is why you carn\u0027t have npm without nodejs :)\n\nSee https://www.w3schools.com/nodejs/nodejs_npm.asp which refers to npm modules as nodejs ones.",
+      "parentUuid": "6f55286c_62e48f73",
       "range": {
         "startLine": 11,
         "startChar": 0,

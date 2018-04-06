@@ -308,6 +308,14 @@
       }
     },
 
+    get messagesList() {
+      return this.$$('gr-messages-list');
+    },
+
+    get threadList() {
+      return this.$$('gr-thread-list');
+    },
+
     /**
      * @param {boolean=} opt_reset
      */
@@ -339,14 +347,6 @@
 
     _handleTabChange() {
       this._showMessagesView = this.$.commentTabs.selected === 0;
-    },
-
-    _computeShowMessages(showSection) {
-      return showSection ? 'visible' : '';
-    },
-
-    _computeShowThreads(showSection) {
-      return !showSection ? 'visible' : '';
     },
 
     _handleEditCommitMessage(e) {
@@ -706,7 +706,7 @@
     _maybeScrollToMessage(hash) {
       const msgPrefix = '#message-';
       if (hash.startsWith(msgPrefix)) {
-        this.$.messageList.scrollToMessage(hash.substr(msgPrefix.length));
+        this.messagesList.scrollToMessage(hash.substr(msgPrefix.length));
       }
     },
 
@@ -937,7 +937,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.messageList.handleExpandCollapse(true);
+      this.messagesList.handleExpandCollapse(true);
     },
 
     _handleZKey(e) {
@@ -945,7 +945,7 @@
           this.modifierPressed(e)) { return; }
 
       e.preventDefault();
-      this.$.messageList.handleExpandCollapse(false);
+      this.messagesList.handleExpandCollapse(false);
     },
 
     _handleCommaKey(e) {

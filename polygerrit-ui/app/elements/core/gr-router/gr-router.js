@@ -179,11 +179,11 @@
   }
 
   document.onload = function() {
-    getReporting().pageLoaded();
+    this.$.reporting.pageLoaded();
   };
 
   window.addEventListener('WebComponentsReady', () => {
-    getReporting().timeEnd('WebComponentsReady');
+    this.$.reporting.timeEnd('WebComponentsReady');
   });
 
   Polymer({

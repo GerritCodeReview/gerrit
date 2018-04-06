@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b997d916_f702f307",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-06T17:24:20Z",
+      "side": 1,
+      "message": "Nit: can we just defined a new method in gr-navigation for this?\n\nnavigateToSearchQuery(query, opt_offset) {\n  return this._navigate(this.getUrlForSearchQuery(query, opt_offset));\n},",
+      "range": {
+        "startLine": 174,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 46
+      },
+      "revId": "86f963aa973ab05fd0edb7ccda337ac0434881ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

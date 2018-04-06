@@ -46,6 +46,30 @@
       "revId": "319415fb453f1f4bc7949cc5d29148d2fc77deb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63a74ed5_385df991",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-06T16:34:11Z",
+      "side": 1,
+      "message": "and see https://www.polymer-project.org/1.0/docs/devguide/instance-methods",
+      "parentUuid": "c7d46831_b85ff886",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 40
+      },
+      "revId": "319415fb453f1f4bc7949cc5d29148d2fc77deb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

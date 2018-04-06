@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1522953975 -0400\nnonce AFN+CTJUT91z/F6Oxj5U+0J2kNqpz3NjRvvIzDnXhNCPSZhPXicbl7DU1Fr6kc9nIGQVVZVp++IF\n\n0000000000000000000000000000000000000000 98c133fa879309777185f893e4f1dfc564d226e5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlrGbvcVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMyvcQAM9eNxLNfn2+jZT5SurIC7hbffcR\nIAknlcvbPUXEsYBgA0td7zmHzMWOeZVAzvYz8eeEXtNQSxSr8erwLtAxCzTFoepq\nTxdcPmlQ4hcTTkzmQN0iOj+QN/STrBJAH9QKfnqG4e/lWTaBtPIRBSOIxw4UQIC1\ncUlsXnruyLOaclwV1d5xN4nvKczgc/mYxMmRfy86m96oHv+0NsZiC7fBkyCA6Y/6\nXkJhM9Ru9Ah9xm77hMQl9F4O0lFYL7HUHnyJrY3PnGh6wIgWTYkFBvexDqirIDyj\nUtVYFf61/1/9FLk3JOJxQ/xtPPiPxKDLLK92EtduCn0rFIrqoBML/cTxRrddiQXk\nYz0XpxINqFUBRX7ss0XDStB8eiF//pLfRLeFSQIz4CdWoS/Yj6iw9Ze2nft4Ru0+\nvh2kCZpJQpSD7WYKasFe5q3MLHzUwhNKSBiEKONTXQvIL1mg3G/QIU4WUXYm5/Pd\np9PjXVAYI/cl03MMH1C7pl78MaC6P3EV5DcOh0QF+VHh/ySPo/0fLqP3IloTHXd/\nLKEZsujqyUz7Huq7/t4GeXJiZ8rscQ8bXwh6ChYd+B+T6GJ+fIuCpqivts38Vu7/\nmwPR4q/YYXxNTz2Pc73s39W1r2ZqCexyAAZ8oLTySHrXd6D1q5gGfsEIm2AT9WUw\ndKxk+fyqliHP+rA3\n\u003dbHKV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "caeca61d_3d764065",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-06T07:58:50Z",
+      "side": 1,
+      "message": "My first association for \u0027configName\u0027 was something completely different. Would \u0027configKey\u0027 be more descriptive?",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 19
+      },
+      "revId": "4ddad18ed056a4cebdeea9cbd89dde4873cc1cb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

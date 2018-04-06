@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da1c9aa6_27faf7f6",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:11:59Z",
+      "side": 1,
+      "message": "Can you elaborate more in this comment or give an example?",
+      "revId": "2dfa96a26ce25bfb8df5efbd0c46d288e800ec51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70220110_e1f9abef",
+        "filename": "Documentation/json.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:11:59Z",
+      "side": 1,
+      "message": "Add: \"This data is used in templates to render rich status messages.\"",
+      "revId": "2dfa96a26ce25bfb8df5efbd0c46d288e800ec51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25088f9f_886255a9",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:11:59Z",
+      "side": 1,
+      "message": "Will you allow for a submit requirement without customer values and a template later on?\n\nI think we should since the fallback text + a default template could suffice for many use cases that don\u0027t need to present rich info.\n\nI this case it would be nice to add a round-trip test here without any items in the map to see if the AutoValue still builds correctly and if GSON can handle it.",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 27
+      },
+      "revId": "2dfa96a26ce25bfb8df5efbd0c46d288e800ec51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

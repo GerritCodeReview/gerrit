@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e8f33f24_c21835c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2018-04-06T18:43:07Z",
+      "side": 1,
+      "message": "doesn\u0027t this execution order permit bypassing the visibility check? of course, that attack would be improbable and the amount of info that can be obtained that way is miniscule, but still. if the respective checks are already done in advance, you should mention that.",
+      "revId": "22b30e77109504134fb757d1b8cbf6dc1c435046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4bc4d51e_03c5f36b",
         "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
         "patchSetId": 2

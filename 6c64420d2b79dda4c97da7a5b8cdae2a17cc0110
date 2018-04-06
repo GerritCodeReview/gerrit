@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1939fc8e_9b6c49a0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6651,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:30:29Z",
+      "side": 1,
+      "message": "Please elaborate more of what type represents and what it should/will be used for.",
+      "revId": "6c64420d2b79dda4c97da7a5b8cdae2a17cc0110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82f62a13_bdcdffc8",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:30:29Z",
+      "side": 1,
+      "message": "nit: remove empty newlines (the rest of the code in this class is rather compact).",
+      "revId": "6c64420d2b79dda4c97da7a5b8cdae2a17cc0110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c8d7840_5d421998",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:30:29Z",
+      "side": 1,
+      "message": "nit: Always wrap condition bodies in {}",
+      "range": {
+        "startLine": 397,
+        "startChar": 44,
+        "endLine": 397,
+        "endChar": 54
+      },
+      "revId": "6c64420d2b79dda4c97da7a5b8cdae2a17cc0110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4c11a99_1596ac2f",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:30:29Z",
+      "side": 1,
+      "message": "nit/optional: The method interface promises only a Collection, so this copy isn\u0027t needed.",
+      "revId": "6c64420d2b79dda4c97da7a5b8cdae2a17cc0110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55e91775_508176aa",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:30:29Z",
+      "side": 1,
+      "message": "I wonder if it is worth to gate this on in.getStatus().isOpen() as the output for closed changes might not be meaningful for now. (Example: A plugin gets added later on and would now put new restrictions in place for already merged changes).\n\nI\u0027m also sightly worried that we are doing this computation too often. Previously, cd.submitRecord(s) was only invoked when either has(LABELS) or has(DETAILED_LABELS) was true. On the other hand, cd.submitRecords is aware of lazyloading and just returns an empty collection if we can\u0027t do lazyloading. So it seems fine on a second look.",
+      "revId": "6c64420d2b79dda4c97da7a5b8cdae2a17cc0110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a63fd037_67da7cd9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeSubmitRequirementIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T07:30:29Z",
+      "side": 1,
+      "message": "nit: can be private",
+      "revId": "6c64420d2b79dda4c97da7a5b8cdae2a17cc0110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -28,8 +28,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.WalkSorter;
-import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -41,6 +39,7 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import org.kohsuke.args4j.Option;
@@ -56,11 +55,13 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final EnumSet<ListChangesOption> jsonOpt =
       EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.SUBMITTABLE);
 
+  private static final Comparator<ChangeData> COMPARATOR =
+      Comparator.comparing(ChangeData::project).thenComparing(cd -> cd.getId().id);
+
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
-  private final Provider<WalkSorter> sorter;
 
   private boolean lazyLoad = false;
 
@@ -89,13 +90,11 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
       Provider<InternalChangeQuery> queryProvider,
-      Provider<MergeSuperSet> mergeSuperSet,
-      Provider<WalkSorter> sorter) {
+      Provider<MergeSuperSet> mergeSuperSet) {
     this.json = json;
     this.dbProvider = dbProvider;
     this.queryProvider = queryProvider;
     this.mergeSuperSet = mergeSuperSet;
-    this.sorter = sorter;
   }
 
   public SubmittedTogether addListChangesOption(EnumSet<ListChangesOption> o) {
@@ -143,13 +142,8 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         throw new AuthException("change would be submitted with a change that you cannot see");
       }
 
-      if (cds.size() <= 1 && hidden == 0) {
-        cds = Collections.emptyList();
-      } else {
-        // Skip sorting for singleton lists, to avoid WalkSorter opening the
-        // repo just to fill out the commit field in PatchSetData.
-        cds = sort(cds);
-      }
+      cds = new ArrayList<>(cds);
+      Collections.sort(cds, COMPARATOR);
 
       SubmittedTogetherInfo info = new SubmittedTogetherInfo();
       info.changes = json.create(jsonOpt).lazyLoad(lazyLoad).formatChangeDatas(cds);
@@ -159,13 +153,5 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       log.error("Error on getting a ChangeSet", e);
       throw e;
     }
-  }
-
-  private List<ChangeData> sort(List<ChangeData> cds) throws OrmException, IOException {
-    List<ChangeData> sorted = new ArrayList<>(cds.size());
-    for (PatchSetData psd : sorter.get().sort(cds)) {
-      sorted.add(psd.data());
-    }
-    return sorted;
   }
 }

@@ -84,6 +84,47 @@
     },
     {
       "key": {
+        "uuid": "b197c3e7_cdc2ec93",
+        "filename": "polygerrit-ui/app/run_template_test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-06T18:50:50Z",
+      "side": 1,
+      "message": "Can you update the documentation on running template tests?",
+      "parentUuid": "b4184a31_1d9cd282",
+      "revId": "003cc21bbc1c6b53ee22554d6206d10a04a564cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a02e584_bda92bf9",
+        "filename": "polygerrit-ui/app/run_template_test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-06T18:50:50Z",
+      "side": 1,
+      "message": "Looks like this comments should be removed.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 47
+      },
+      "revId": "003cc21bbc1c6b53ee22554d6206d10a04a564cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f55286c_62e48f73",
         "filename": "polygerrit-ui/app/template_test.sh",
         "patchSetId": 10

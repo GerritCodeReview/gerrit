@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b5294b5_1e04a64c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-06T23:04:52Z",
+      "side": 1,
+      "message": "This was added because links to project search from dashboard have status:open as part of the query. Definitely want these to show the project header. Also ok to show the header when the entire search has project only.\n\nQuestion: What about other statuses than open? It means a user searching specifically vs. clicking a link.",
+      "range": {
+        "startLine": 28,
+        "startChar": 37,
+        "endLine": 28,
+        "endChar": 60
+      },
+      "revId": "677d73341d827adbb897c390c1e18eed5838b6dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

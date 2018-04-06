@@ -40,6 +40,9 @@
 
   const INTERACTION_TYPE = 'interaction';
 
+  const CHANGE_VIEW_REGEX = /^\/c\/\d+\/?\d*$/;
+  const DIFF_VIEW_REGEX = /^\/c\/\d+\/\d+\/.+$/;
+
   const pending = [];
 
   const onError = function(oldOnError, msg, url, line, column, error) {
@@ -85,6 +88,10 @@
         value() { return {}; },
       },
     },
+
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+    ],
 
     get performanceTiming() {
       return window.performance.timing;
@@ -157,13 +164,29 @@
       }
     },
 
-    locationChanged(page) {
+    locationChanged() {
+      let page = '';
+      const pathname = this._getPathname();
+      if (pathname.startsWith('/q/')) {
+        page = this.getBaseUrl() + '/q/';
+      } else if (pathname.match(CHANGE_VIEW_REGEX)) { // change view
+        page = this.getBaseUrl() + '/c/';
+      } else if (pathname.match(DIFF_VIEW_REGEX)) { // diff view
+        page = this.getBaseUrl() + '/c//COMMIT_MSG';
+      } else {
+        // Ignore other page changes.
+        return;
+      }
       this.reporter(
           NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
     },
 
     pluginsLoaded() {
       this.timeEnd('PluginsLoaded');
+    },
+
+    _getPathname() {
+      return '/' + window.location.pathname.substring(this.getBaseUrl().length);
     },
 
     /**

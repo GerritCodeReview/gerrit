@@ -22,6 +22,30 @@
       "revId": "86f963aa973ab05fd0edb7ccda337ac0434881ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8add434_5c7cc27c",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-06T17:42:09Z",
+      "side": 1,
+      "message": "Abandoning this change, but done here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/170453/3/polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.js#63",
+      "parentUuid": "b997d916_f702f307",
+      "range": {
+        "startLine": 174,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 46
+      },
+      "revId": "86f963aa973ab05fd0edb7ccda337ac0434881ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

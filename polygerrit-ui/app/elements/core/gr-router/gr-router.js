@@ -178,13 +178,18 @@
     console.log('No gr-app found (running tests)');
   }
 
-  document.onload = function() {
-    getReporting().pageLoaded();
-  };
+  // Setup listeners outside of the router component initialization.
+  (function() {
+    const reporting = document.createElement('gr-reporting');
 
-  window.addEventListener('WebComponentsReady', () => {
-    getReporting().timeEnd('WebComponentsReady');
-  });
+    document.onload = function() {
+      reporting.pageLoaded();
+    };
+
+    window.addEventListener('WebComponentsReady', () => {
+      reporting.timeEnd('WebComponentsReady');
+    });
+  })();
 
   Polymer({
     is: 'gr-router',

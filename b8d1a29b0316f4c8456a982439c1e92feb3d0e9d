@@ -46,6 +46,30 @@
       "revId": "b8d1a29b0316f4c8456a982439c1e92feb3d0e9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d11e6836_6f511e40",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-06T00:14:56Z",
+      "side": 1,
+      "message": "I\u0027ve added some comments, because this one is subtly different from `#editTextarea`.\n\nBecause showing these overlays moves them to the `Gerrit.getRootElement()`, we need to keep a reference to each overlay so they can be removed after closing.\n\nIf this didn\u0027t store a reference to the overlays, then they wouldn\u0027t be queryable after having been moved.\n\nThis is a hidden advantage of the `this.$.foo` pattern, since the the reference to `foo` is preserved even if `foo` is no longer a child of `this`.",
+      "parentUuid": "d5e5e756_353954e4",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 6
+      },
+      "revId": "b8d1a29b0316f4c8456a982439c1e92feb3d0e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

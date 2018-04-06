@@ -22,6 +22,30 @@
       "revId": "f9bf05421884e48becd949a9710fedc9d8a391d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4538118c_a8f71ad8",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-06T09:17:11Z",
+      "side": 1,
+      "message": "You are right, but looking at the rest of the code it seems that we always import the inner Units class.",
+      "parentUuid": "6d091ca7_a8196338",
+      "range": {
+        "startLine": 90,
+        "startChar": 45,
+        "endLine": 91,
+        "endChar": 51
+      },
+      "revId": "f9bf05421884e48becd949a9710fedc9d8a391d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

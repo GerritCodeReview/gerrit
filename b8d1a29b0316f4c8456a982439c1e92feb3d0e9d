@@ -70,6 +70,30 @@
       "revId": "b8d1a29b0316f4c8456a982439c1e92feb3d0e9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3db4ae1_0533ed56",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-06T00:25:05Z",
+      "side": 1,
+      "message": "Sorry for the super nits here... This explanation is awesome, but I feel that the comments added don\u0027t adequately explain the code. Do you think you could perhaps copy your middle two lines inline to the definition of the _overlays object? Or perhaps the getter?",
+      "parentUuid": "d11e6836_6f511e40",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 6
+      },
+      "revId": "b8d1a29b0316f4c8456a982439c1e92feb3d0e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2d86e38_55147f84",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-06T19:36:00Z",
+      "side": 1,
+      "message": "Nit: can be () \u003d\u003e Promise.resolve([]);\n\nSame with the other two.",
+      "range": {
+        "startLine": 153,
+        "startChar": 17,
+        "endLine": 155,
+        "endChar": 12
+      },
+      "revId": "811b517b4cc5fcb833f7a70d535590199781a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

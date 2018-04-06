@@ -49,6 +49,23 @@
     },
     {
       "key": {
+        "uuid": "d49d5b1d_2d76aeb9",
+        "filename": "polygerrit-ui/app/run_template_test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-06T18:41:37Z",
+      "side": 1,
+      "message": "I think it\u0027d be nice if this script also let you pass an optional test to run (ex: https://gerrit.googlesource.com/gerrit/+show/master/polygerrit-ui/README.md#211)",
+      "revId": "003cc21bbc1c6b53ee22554d6206d10a04a564cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f55286c_62e48f73",
         "filename": "polygerrit-ui/app/template_test.sh",
         "patchSetId": 10

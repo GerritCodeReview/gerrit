@@ -47,6 +47,30 @@
       "revId": "7f6a00fdb8d2340d92fc287d29351a0fdd0c8441",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7da73ce_1cdc37ed",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeFieldTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-06T13:30:28Z",
+      "side": 1,
+      "message": "Done (testing something)",
+      "parentUuid": "edd0e3fb_f809a57c",
+      "range": {
+        "startLine": 123,
+        "startChar": 7,
+        "endLine": 123,
+        "endChar": 23
+      },
+      "revId": "7f6a00fdb8d2340d92fc287d29351a0fdd0c8441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

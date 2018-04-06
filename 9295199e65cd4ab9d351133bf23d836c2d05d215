@@ -122,6 +122,30 @@
     },
     {
       "key": {
+        "uuid": "2da39a28_7c70f4a7",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-06T08:42:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4583ef90_da4fee7d",
+      "range": {
+        "startLine": 938,
+        "startChar": 39,
+        "endLine": 938,
+        "endChar": 60
+      },
+      "revId": "9295199e65cd4ab9d351133bf23d836c2d05d215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6769a454_50d756ee",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 4

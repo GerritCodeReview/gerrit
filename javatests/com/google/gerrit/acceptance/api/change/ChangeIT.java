@@ -1588,7 +1588,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String oldETag = rsrc.getETag();
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
-    //create a group named "ab" with one user: testUser
+    // create a group named "ab" with one user: testUser
     TestAccount testUser = accountCreator.create("abcd", "abcd@test.com", "abcd");
     String testGroup = createGroupWithRealName("ab");
     GroupApi groupApi = gApi.groups().id(testGroup);
@@ -1632,7 +1632,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String oldETag = rsrc.getETag();
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
-    //create a group named "kobe" with one user: lee
+    // create a group named "kobe" with one user: lee
     TestAccount testUser = accountCreator.create("kobebryant", "kobebryant@test.com", "kobebryant");
     TestAccount myGroupUser = accountCreator.create("lee", "lee@test.com", "lee");
 
@@ -1641,7 +1641,7 @@ public class ChangeIT extends AbstractDaemonTest {
     groupApi.description("test group");
     groupApi.addMembers(myGroupUser.fullName);
 
-    //ensure that user "user" is not in the group
+    // ensure that user "user" is not in the group
     groupApi.removeMembers(testUser.fullName);
 
     AddReviewerInput in = new AddReviewerInput();

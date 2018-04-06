@@ -121,8 +121,8 @@ public class UploadArchiveIT extends AbstractDaemonTest {
       // Make sure the next one is not on the error channel
       packet = in.readString();
 
-      // 1 = DATA. It would be nicer to parse the OutputStream with SideBandInputStream from JGit, but
-      // that is currently not public.
+      // 1 = DATA. It would be nicer to parse the OutputStream with SideBandInputStream from JGit,
+      // but that is currently not public.
       char channel = packet.charAt(0);
       if (channel != 1) {
         fail("got packet on channel " + (int) channel, packet);

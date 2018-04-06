@@ -810,7 +810,7 @@ changes that are created from the web UI (e.g. by the `Create Change`
 and `Edit Config` buttons on the project screen, and the `Follow-Up`
 button on the change screen).
 
-- [[publish-comments-on-push]]`Publish Draft Comments When a Change Is Updated by Push`:
+- [[publish-comments-on-push]]`Publish comments on push`:
 +
 Whether to publish any outstanding draft comments by default when pushing
 updates to open changes. This preference just sets the default; the behavior can

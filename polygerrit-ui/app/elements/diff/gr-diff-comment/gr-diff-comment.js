@@ -124,6 +124,22 @@
       },
 
       _savingMessage: String,
+
+      _enableOverlay: {
+        type: Boolean,
+        value: false,
+      },
+
+      /**
+       * Property for storing references to overlay elements. When the overlays
+       * are moved to Gerrit.getRootElement() to be shown they are no-longer
+       * children, so they can't be queried along the tree, so they are stored
+       * here.
+       */
+      _overlays: {
+        type: Object,
+        value: () => ({}),
+      },
     },
 
     observers: [
@@ -155,7 +171,31 @@
 
     detached() {
       this.cancelDebouncer('fire-update');
-      this.$.editTextarea.closeDropdown();
+      if (this.textarea) {
+        this.textarea.closeDropdown();
+      }
+    },
+
+    get textarea() {
+      return this.$$('#editTextarea');
+    },
+
+    get confirmDeleteOverlay() {
+      if (!this._overlays.confirmDelete) {
+        this._enableOverlay = true;
+        Polymer.dom.flush();
+        this._overlays.confirmDelete = this.$$('#confirmDeleteOverlay');
+      }
+      return this._overlays.confirmDelete;
+    },
+
+    get confirmDiscardOverlay() {
+      if (!this._overlays.confirmDiscard) {
+        this._enableOverlay = true;
+        Polymer.dom.flush();
+        this._overlays.confirmDiscard = this.$$('#confirmDiscardOverlay');
+      }
+      return this._overlays.confirmDiscard;
     },
 
     _computeShowHideText(collapsed) {
@@ -272,9 +312,6 @@
 
     _editingChanged(editing, previousValue) {
       this.$.container.classList.toggle('editing', editing);
-      if (editing) {
-        this.$.editTextarea.putCursorAtEnd();
-      }
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;
       }
@@ -284,6 +321,12 @@
       if (editing != !!previousValue) {
         // To prevent event firing on comment creation.
         this._fireUpdate();
+      }
+      if (editing) {
+        this.async(() => {
+          Polymer.dom.flush();
+          this.textarea.putCursorAtEnd();
+        }, 1);
       }
     },
 
@@ -437,7 +480,7 @@
         this._discardDraft();
         return;
       }
-      this._openOverlay(this.$.confirmDiscardOverlay);
+      this._openOverlay(this.confirmDiscardOverlay);
     },
 
     _handleConfirmDiscard(e) {
@@ -475,7 +518,7 @@
     },
 
     _closeConfirmDiscardOverlay() {
-      this._closeOverlay(this.$.confirmDiscardOverlay);
+      this._closeOverlay(this.confirmDiscardOverlay);
     },
 
     _getSavingMessage(numPending) {
@@ -593,11 +636,11 @@
     },
 
     _handleCommentDelete() {
-      this._openOverlay(this.$.confirmDeleteOverlay);
+      this._openOverlay(this.confirmDeleteOverlay);
     },
 
     _handleCancelDeleteComment() {
-      this._closeOverlay(this.$.confirmDeleteOverlay);
+      this._closeOverlay(this.confirmDeleteOverlay);
     },
 
     _openOverlay(overlay) {
@@ -613,9 +656,11 @@
     },
 
     _handleConfirmDeleteComment() {
+      const dialog =
+          this.confirmDeleteOverlay.querySelector('#confirmDeleteComment');
       this.$.restAPI.deleteComment(
-          this.changeNum, this.patchNum, this.comment.id,
-          this.$.confirmDeleteComment.message).then(newComment => {
+          this.changeNum, this.patchNum, this.comment.id, dialog.message)
+          .then(newComment => {
             this._handleCancelDeleteComment();
             this.comment = newComment;
           });

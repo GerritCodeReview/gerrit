@@ -55,6 +55,12 @@ objects needing finalization.
 * `http/server/rest_api/server_latency`: REST API call latency by view.
 * `http/server/rest_api/response_bytes`: Size of REST API response on network
 (may be gzip compressed) by view.
+* `http/server/rest_api/change_json/to_change_info_latency`: Latency for
+toChangeInfo invocations in ChangeJson.
+* `http/server/rest_api/change_json/to_change_infos_latency`: Latency for
+toChangeInfos invocations in ChangeJson.
+* `http/server/rest_api/change_json/format_query_results_latency`: Latency for
+formatQueryResults invocations in ChangeJson.
 
 === Query
 

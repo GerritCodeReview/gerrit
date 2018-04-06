@@ -87,6 +87,10 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -202,6 +206,35 @@ public class ChangeJson {
     ChangeJson create(Iterable<ListChangesOption> options);
   }
 
+  @Singleton
+  private static class Metrics {
+    private final Timer0 toChangeInfoLatency;
+    private final Timer0 toChangeInfosLatency;
+    private final Timer0 formatQueryResultsLatency;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      toChangeInfoLatency =
+          metricMaker.newTimer(
+              "http/server/rest_api/change_json/to_change_info_latency",
+              new Description("Latency for toChangeInfo invocations in ChangeJson")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS));
+      toChangeInfosLatency =
+          metricMaker.newTimer(
+              "http/server/rest_api/change_json/to_change_infos_latency",
+              new Description("Latency for toChangeInfos invocations in ChangeJson")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS));
+      formatQueryResultsLatency =
+          metricMaker.newTimer(
+              "http/server/rest_api/change_json/format_query_results_latency",
+              new Description("Latency for formatQueryResults invocations in ChangeJson")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS));
+    }
+  }
+
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> userProvider;
   private final AnonymousUser anonymous;
@@ -228,6 +261,7 @@ public class ChangeJson {
   private final ApprovalsUtil approvalsUtil;
   private final RemoveReviewerControl removeReviewerControl;
   private final TrackingFooters trackingFooters;
+  private final Metrics metrics;
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -260,6 +294,7 @@ public class ChangeJson {
       ApprovalsUtil approvalsUtil,
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
+      Metrics metrics,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -285,8 +320,9 @@ public class ChangeJson {
     this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
     this.removeReviewerControl = removeReviewerControl;
-    this.options = Sets.immutableEnumSet(options);
     this.trackingFooters = trackingFooters;
+    this.metrics = metrics;
+    this.options = Sets.immutableEnumSet(options);
   }
 
   public ChangeJson lazyLoad(boolean load) {
@@ -360,20 +396,22 @@ public class ChangeJson {
 
   public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
       throws OrmException {
-    accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-    ensureLoaded(FluentIterable.from(in).transformAndConcat(QueryResult::entities));
+    try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
+      accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+      ensureLoaded(FluentIterable.from(in).transformAndConcat(QueryResult::entities));
 
-    List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
-    Map<Change.Id, ChangeInfo> out = new HashMap<>();
-    for (QueryResult<ChangeData> r : in) {
-      List<ChangeInfo> infos = toChangeInfo(out, r.entities());
-      if (!infos.isEmpty() && r.more()) {
-        infos.get(infos.size() - 1)._moreChanges = true;
+      List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
+      Map<Change.Id, ChangeInfo> out = new HashMap<>();
+      for (QueryResult<ChangeData> r : in) {
+        List<ChangeInfo> infos = toChangeInfos(out, r.entities());
+        if (!infos.isEmpty() && r.more()) {
+          infos.get(infos.size() - 1)._moreChanges = true;
+        }
+        res.add(infos);
       }
-      res.add(infos);
+      accountLoader.fill();
+      return res;
     }
-    accountLoader.fill();
-    return res;
   }
 
   public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in) throws OrmException {
@@ -410,37 +448,39 @@ public class ChangeJson {
     return options.contains(option);
   }
 
-  private List<ChangeInfo> toChangeInfo(Map<Change.Id, ChangeInfo> out, List<ChangeData> changes) {
-    List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
-    for (ChangeData cd : changes) {
-      ChangeInfo i = out.get(cd.getId());
-      if (i == null) {
-        try {
-          i = toChangeInfo(cd, Optional.empty());
-        } catch (PatchListNotAvailableException
-            | GpgException
-            | OrmException
-            | IOException
-            | PermissionBackendException
-            | RuntimeException e) {
-          if (has(CHECK)) {
-            i = checkOnly(cd);
-          } else if (e instanceof NoSuchChangeException) {
-            log.info(
-                "NoSuchChangeException: Omitting corrupt change "
-                    + cd.getId()
-                    + " from results. Seems to be stale in the index.");
-            continue;
-          } else {
-            log.warn("Omitting corrupt change " + cd.getId() + " from results", e);
-            continue;
+  private List<ChangeInfo> toChangeInfos(Map<Change.Id, ChangeInfo> out, List<ChangeData> changes) {
+    try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
+      List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
+      for (ChangeData cd : changes) {
+        ChangeInfo i = out.get(cd.getId());
+        if (i == null) {
+          try {
+            i = toChangeInfo(cd, Optional.empty());
+          } catch (PatchListNotAvailableException
+              | GpgException
+              | OrmException
+              | IOException
+              | PermissionBackendException
+              | RuntimeException e) {
+            if (has(CHECK)) {
+              i = checkOnly(cd);
+            } else if (e instanceof NoSuchChangeException) {
+              log.info(
+                  "NoSuchChangeException: Omitting corrupt change "
+                      + cd.getId()
+                      + " from results. Seems to be stale in the index.");
+              continue;
+            } else {
+              log.warn("Omitting corrupt change " + cd.getId() + " from results", e);
+              continue;
+            }
           }
+          out.put(cd.getId(), i);
         }
-        out.put(cd.getId(), i);
+        info.add(i);
       }
-      info.add(i);
+      return info;
     }
-    return info;
   }
 
   private ChangeInfo checkOnly(ChangeData cd) {
@@ -487,6 +527,14 @@ public class ChangeJson {
   }
 
   private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+      throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
+          IOException {
+    try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
+      return toChangeInfoImpl(cd, limitToPsId);
+    }
+  }
+
+  private ChangeInfo toChangeInfoImpl(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
       throws PatchListNotAvailableException, GpgException, OrmException, PermissionBackendException,
           IOException {
     ChangeInfo out = new ChangeInfo();

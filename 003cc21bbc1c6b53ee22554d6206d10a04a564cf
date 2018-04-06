@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8f20c13_72542f74",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 10
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-06T13:45:42Z",
+      "side": 1,
+      "message": "Would this include the running of the template tests as well?",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 17
+      },
+      "revId": "003cc21bbc1c6b53ee22554d6206d10a04a564cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f55286c_62e48f73",
+        "filename": "polygerrit-ui/app/template_test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-06T13:45:42Z",
+      "side": 1,
+      "message": "What\u0027s the reason for moving this around? Is there any value with it?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 2
+      },
+      "revId": "003cc21bbc1c6b53ee22554d6206d10a04a564cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

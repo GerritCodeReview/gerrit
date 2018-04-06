@@ -178,14 +178,6 @@
     console.log('No gr-app found (running tests)');
   }
 
-  let _reporting;
-  function getReporting() {
-    if (!_reporting) {
-      _reporting = document.createElement('gr-reporting');
-    }
-    return _reporting;
-  }
-
   document.onload = function() {
     getReporting().pageLoaded();
   };
@@ -643,6 +635,7 @@
         return;
       }
       page(pattern, this._loadUserMiddleware.bind(this), data => {
+        this.$.reporting.locationChanged(handlerName);
         const promise = opt_authRedirect ?
           this._redirectIfNotLoggedIn(data) : Promise.resolve();
         promise.then(() => { this[handlerName](data); });
@@ -654,8 +647,6 @@
       if (base) {
         page.base(base);
       }
-
-      const reporting = getReporting();
 
       Gerrit.Nav.setup(
           url => { page.show(url); },
@@ -682,7 +673,6 @@
             hash: window.location.hash,
             pathname: window.location.pathname,
           });
-          reporting.locationChanged();
         }, 1);
         next();
       });

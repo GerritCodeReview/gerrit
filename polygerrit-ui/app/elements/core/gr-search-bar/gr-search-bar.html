@@ -15,20 +15,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-search-bar">
   <template>
     <style include="shared-styles">
-      :host {
-        display: inline-block;
-      }
       form {
         display: flex;
       }
@@ -55,7 +50,6 @@ limitations under the License.
           threshold="[[_threshold]]"
           tab-complete
           vertical-offset="30"></gr-autocomplete>
-      <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     </form>
   </template>
   <script src="gr-search-bar.js"></script>

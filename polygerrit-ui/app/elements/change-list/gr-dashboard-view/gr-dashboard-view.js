@@ -73,7 +73,7 @@
      */
 
     properties: {
-      _account: {
+      account: {
         type: Object,
         value: null,
       },

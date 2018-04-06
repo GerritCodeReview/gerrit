@@ -22,6 +22,30 @@
       "revId": "319415fb453f1f4bc7949cc5d29148d2fc77deb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d46831_b85ff886",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-06T16:33:31Z",
+      "side": 1,
+      "message": "I searched around on google and found this https://stackoverflow.com/questions/31565522/polymer-v-1-how-to-run-a-function-from-outside-polymer",
+      "parentUuid": "319ccb1c_d7f20013",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 40
+      },
+      "revId": "319415fb453f1f4bc7949cc5d29148d2fc77deb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

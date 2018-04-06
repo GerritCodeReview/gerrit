@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0da479e_620e822b",
+        "filename": "java/com/google/gerrit/acceptance/TestGroupBackend.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-06T09:14:42Z",
+      "side": 1,
+      "message": "nit: What is the \u0027test group system\u0027? Can we just write here \u0027for tests\u0027?",
+      "range": {
+        "startLine": 29,
+        "startChar": 35,
+        "endLine": 29,
+        "endChar": 60
+      },
+      "revId": "1b855bf401fa240bac379855df2f39648f327dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7b000a9_88a9a480",
+        "filename": "javatests/com/google/gerrit/acceptance/TestGroupBackendTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-06T09:14:42Z",
+      "side": 1,
+      "message": "nit: AbstractDaemonTest is actually more than we need. It should be sufficient to use InMemoryTestEnvironment, which doesn\u0027t start a Gerrit daemon. What is still missing for InMemoryTestEnvironment is the possibility to specify further modules for a test. We could add that, though. Alternatively, we could add the binding of the TestGroupBackend to our Guice configuration of our tests and hence have it always available.",
+      "range": {
+        "startLine": 29,
+        "startChar": 34,
+        "endLine": 29,
+        "endChar": 60
+      },
+      "revId": "1b855bf401fa240bac379855df2f39648f327dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf9652c_30f24f08",
+        "filename": "javatests/com/google/gerrit/acceptance/TestGroupBackendTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-06T09:14:42Z",
+      "side": 1,
+      "message": "nit: Could be private.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 49
+      },
+      "revId": "1b855bf401fa240bac379855df2f39648f327dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de7aae4_66e50a8d",
+        "filename": "javatests/com/google/gerrit/acceptance/TestGroupBackendTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-06T09:14:42Z",
+      "side": 1,
+      "message": "nit: Could be omitted here and below as neither of the tests throws a checked exception.",
+      "range": {
+        "startLine": 47,
+        "startChar": 24,
+        "endLine": 47,
+        "endChar": 40
+      },
+      "revId": "1b855bf401fa240bac379855df2f39648f327dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b50d5431_da54951c",
+        "filename": "javatests/com/google/gerrit/acceptance/TestGroupBackendTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-06T09:14:42Z",
+      "side": 1,
+      "message": "nit: Ideally, we would have separate tests (with descriptive names) for each of these assertions.",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 65
+      },
+      "revId": "1b855bf401fa240bac379855df2f39648f327dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc372572_93de6103",
+        "filename": "javatests/com/google/gerrit/acceptance/TestGroupBackendTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-06T09:14:42Z",
+      "side": 1,
+      "message": "nit: Could we use a more descriptive test name here (e.g. \u0027noGroupsAreServed\u0027)? \u0027get()\u0027 rather implies to me that something is returned.",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 17
+      },
+      "revId": "1b855bf401fa240bac379855df2f39648f327dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

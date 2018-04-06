@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cc434b_a7d97b0a",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-06T00:30:24Z",
+      "side": 1,
+      "message": "Alphabetize this import, please!",
+      "revId": "6d441a1a2173a3fa1f538f6dbeadf029722df6af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2907ecb6_91681376",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-06T00:30:24Z",
+      "side": 1,
+      "message": "I think this is vestigial.",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 25
+      },
+      "revId": "6d441a1a2173a3fa1f538f6dbeadf029722df6af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

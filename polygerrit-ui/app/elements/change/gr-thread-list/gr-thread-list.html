@@ -80,7 +80,12 @@ limitations under the License.
       <template is="dom-if" if="[[!threads.length]]">
         There are no inline comment threads on any diff for this change.
       </template>
-      <template is="dom-repeat" items="[[_sortedThreads]]" as="thread">
+      <template
+          is="dom-repeat"
+          items="[[_sortedThreads]]"
+          as="thread"
+          initial-count="5"
+          target-framerate="60">
         <gr-diff-comment-thread
             show-file-path
             change-num="[[changeNum]]"

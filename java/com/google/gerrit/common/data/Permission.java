@@ -24,12 +24,12 @@ public class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";
   public static final String ADD_PATCH_SET = "addPatchSet";
   public static final String CREATE = "create";
-  public static final String DELETE = "delete";
-  public static final String CREATE_TAG = "createTag";
   public static final String CREATE_SIGNED_TAG = "createSignedTag";
+  public static final String CREATE_TAG = "createTag";
+  public static final String DELETE = "delete";
   public static final String DELETE_OWN_CHANGES = "deleteOwnChanges";
-  public static final String EDIT_HASHTAGS = "editHashtags";
   public static final String EDIT_ASSIGNEE = "editAssignee";
+  public static final String EDIT_HASHTAGS = "editHashtags";
   public static final String EDIT_TOPIC_NAME = "editTopicName";
   public static final String FORGE_AUTHOR = "forgeAuthor";
   public static final String FORGE_COMMITTER = "forgeCommitter";
@@ -52,30 +52,30 @@ public class Permission implements Comparable<Permission> {
 
   static {
     NAMES_LC = new ArrayList<>();
-    NAMES_LC.add(OWNER.toLowerCase());
-    NAMES_LC.add(READ.toLowerCase());
     NAMES_LC.add(ABANDON.toLowerCase());
     NAMES_LC.add(ADD_PATCH_SET.toLowerCase());
     NAMES_LC.add(CREATE.toLowerCase());
-    NAMES_LC.add(CREATE_TAG.toLowerCase());
     NAMES_LC.add(CREATE_SIGNED_TAG.toLowerCase());
+    NAMES_LC.add(CREATE_TAG.toLowerCase());
     NAMES_LC.add(DELETE.toLowerCase());
+    NAMES_LC.add(DELETE_OWN_CHANGES.toLowerCase());
+    NAMES_LC.add(EDIT_ASSIGNEE.toLowerCase());
+    NAMES_LC.add(EDIT_HASHTAGS.toLowerCase());
+    NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase());
     NAMES_LC.add(FORGE_AUTHOR.toLowerCase());
     NAMES_LC.add(FORGE_COMMITTER.toLowerCase());
     NAMES_LC.add(FORGE_SERVER.toLowerCase());
-    NAMES_LC.add(PUSH.toLowerCase());
-    NAMES_LC.add(PUSH_MERGE.toLowerCase());
     NAMES_LC.add(LABEL.toLowerCase());
     NAMES_LC.add(LABEL_AS.toLowerCase());
+    NAMES_LC.add(OWNER.toLowerCase());
+    NAMES_LC.add(PUSH.toLowerCase());
+    NAMES_LC.add(PUSH_MERGE.toLowerCase());
+    NAMES_LC.add(READ.toLowerCase());
     NAMES_LC.add(REBASE.toLowerCase());
     NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());
     NAMES_LC.add(SUBMIT.toLowerCase());
     NAMES_LC.add(SUBMIT_AS.toLowerCase());
     NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase());
-    NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase());
-    NAMES_LC.add(EDIT_HASHTAGS.toLowerCase());
-    NAMES_LC.add(EDIT_ASSIGNEE.toLowerCase());
-    NAMES_LC.add(DELETE_OWN_CHANGES.toLowerCase());
 
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
     LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());

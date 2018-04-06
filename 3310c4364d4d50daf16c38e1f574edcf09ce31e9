@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59575307_a48910a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-06T17:30:24Z",
+      "side": 1,
+      "message": "Naive question: wouldn\u0027t the patch number always be `edit`?",
+      "range": {
+        "startLine": 16,
+        "startChar": 46,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "3310c4364d4d50daf16c38e1f574edcf09ce31e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7520b751_8a13ba99",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-06T17:30:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t the content get erased when the edit is published too? Or does this method get called when that happens?",
+      "range": {
+        "startLine": 218,
+        "startChar": 25,
+        "endLine": 218,
+        "endChar": 49
+      },
+      "revId": "3310c4364d4d50daf16c38e1f574edcf09ce31e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

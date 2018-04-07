@@ -154,7 +154,7 @@ public class ProjectCacheImpl implements ProjectCache {
         Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
         throw new IOException(e);
       }
-      log.warn("Cannot find project {}", projectName.get(), e);
+      log.debug("Cannot find project {}", projectName.get(), e);
       return null;
     }
   }

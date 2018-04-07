@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c7427d1_e2d96cb2",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "I think this may break if the owner does not have an email which is possible in gerrit.\n\n(even though not added in this change)",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 46
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cddbbe9f_849e5335",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "Should there be a test for this?",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 6
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "363ee05e_ef236d8a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "lowercase please.",
+      "range": {
+        "startLine": 253,
+        "startChar": 24,
+        "endLine": 253,
+        "endChar": 26
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c8038d4_09c70da8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "same here.",
+      "range": {
+        "startLine": 254,
+        "startChar": 13,
+        "endLine": 254,
+        "endChar": 15
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "097a97e4_431a9ec9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "Add \"@license\" under here please.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 4
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a1e42cb_00b00ba9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 2,
+        "startChar": 14,
+        "endLine": 2,
+        "endChar": 18
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e92ed146_709d6f05",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "Re arrange this so it\u0027s like:\n\n\u003clink rel\u003d\"import\" href\u003d\"../../../bower_components/polymer/polymer.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../styles/dashboard-header-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../../styles/shared-styles.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../core/gr-navigation/gr-navigation.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-date-formatter/gr-date-formatter.html\"\u003e\n\u003clink rel\u003d\"import\" href\u003d\"../../shared/gr-rest-api-interface/gr-rest-api-interface.html\"\u003e\n\nplease.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 61
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa6a6796_824bc8b4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dad5744_b92dafab",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "Make this\n\n/**\n * @license\n * Copyright (C) 2016 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n * http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\nplease.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca914ff3_4cd9f50c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "Will this include username?",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 55
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e1c7c9a_e0a224d7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "Add \"@license\" under here please.",
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5166d456_50935397",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6359fc2_911b1079",
+        "filename": "polygerrit-ui/app/styles/dashboard-header-styles.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-07T14:46:24Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "8415270b3187274dd167f38ec6c198b3d60919a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -74,24 +74,27 @@ limitations under the License.
       };
 
       const emulateScrollY = function(distance) {
-        element._getScrollY.returns(distance);
+        element._getElementTop.returns(element._headerTopInitial - distance);
         element._updateDebounced();
         element.flushDebouncer('scroll');
       };
 
       setup(() => {
         element._headerTopInitial = 10;
-        sandbox.stub(element, '_getScrollY').returns(0);
+        sandbox.stub(element, '_getElementTop')
+            .returns(element._headerTopInitial);
       });
 
       test('scrolls header along with document', () => {
         emulateScrollY(20);
-        assert.equal(getHeaderTop(), '-12px');
+        // No top property is set when !_headerFloating.
+        assert.equal(getHeaderTop(), '');
       });
 
       test('does not stick to the top by default', () => {
         emulateScrollY(150);
-        assert.equal(getHeaderTop(), '-100px');
+        // No top property is set when !_headerFloating.
+        assert.equal(getHeaderTop(), '');
       });
 
       test('sticks to the top if enabled', () => {

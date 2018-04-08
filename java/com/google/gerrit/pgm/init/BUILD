@@ -19,6 +19,7 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/securestore",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",

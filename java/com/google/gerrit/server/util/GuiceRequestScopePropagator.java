@@ -15,8 +15,8 @@
 package com.google.gerrit.server.util;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.config.CanonicalWebUrl;
 import com.google.gerrit.server.RemotePeer;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.RequestScopedReviewDbProvider;
 import com.google.inject.Inject;
 import com.google.inject.Key;

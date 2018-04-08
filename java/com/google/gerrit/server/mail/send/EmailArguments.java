@@ -15,21 +15,21 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.config.AllProjectsName;
+import com.google.gerrit.config.AnonymousCowardName;
+import com.google.gerrit.config.CanonicalWebUrl;
+import com.google.gerrit.config.GerritPersonIdentProvider;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritInstanceName;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.notedb.ChangeNotes;

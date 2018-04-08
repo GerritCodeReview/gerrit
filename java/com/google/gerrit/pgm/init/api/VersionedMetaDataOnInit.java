@@ -14,8 +14,8 @@
 
 package com.google.gerrit.pgm.init.api;
 
-import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.config.GerritPersonIdentProvider;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.File;
 import java.io.IOException;

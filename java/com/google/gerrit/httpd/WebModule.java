@@ -16,6 +16,8 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.registerInParentInjectors;
 
+import com.google.gerrit.config.GerritOptions;
+import com.google.gerrit.config.GitwebCgiConfig;
 import com.google.gerrit.httpd.auth.become.BecomeAnyAccountModule;
 import com.google.gerrit.httpd.auth.container.HttpAuthModule;
 import com.google.gerrit.httpd.auth.container.HttpsClientSslCertModule;
@@ -25,9 +27,7 @@ import com.google.gerrit.httpd.rpc.UiRpcModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRequestModule;
-import com.google.gerrit.server.config.GitwebCgiConfig;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.util.GuiceRequestScopePropagator;
 import com.google.gerrit.server.util.RequestScopePropagator;

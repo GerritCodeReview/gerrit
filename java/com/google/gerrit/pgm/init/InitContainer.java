@@ -18,11 +18,11 @@ import static com.google.gerrit.pgm.init.api.InitUtil.die;
 import static com.google.gerrit.pgm.init.api.InitUtil.username;
 
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.FileNotFoundException;

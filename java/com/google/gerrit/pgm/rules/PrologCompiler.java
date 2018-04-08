@@ -16,9 +16,9 @@ package com.google.gerrit.pgm.rules;
 
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.Version;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.googlecode.prolog_cafe.compiler.Compiler;

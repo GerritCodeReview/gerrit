@@ -15,12 +15,12 @@
 package com.google.gerrit.lucene;
 
 import com.google.common.primitives.Ints;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.Schema;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.OnlineUpgradeListener;
 import com.google.gerrit.server.index.VersionManager;

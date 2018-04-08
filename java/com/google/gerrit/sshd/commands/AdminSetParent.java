@@ -17,11 +17,11 @@ package com.google.gerrit.sshd.commands;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.config.AllProjectsName;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;

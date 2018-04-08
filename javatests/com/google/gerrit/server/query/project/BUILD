@@ -8,6 +8,7 @@ java_library(
     srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
     deps = [
+        "//java/com/google/gerrit/config",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/reviewdb:server",

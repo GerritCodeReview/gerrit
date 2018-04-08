@@ -15,10 +15,10 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.config.GerritPersonIdent;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;

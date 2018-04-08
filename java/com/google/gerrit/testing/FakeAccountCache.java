@@ -16,11 +16,11 @@ package com.google.gerrit.testing;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.config.AllUsersName;
+import com.google.gerrit.config.AllUsersNameProvider;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

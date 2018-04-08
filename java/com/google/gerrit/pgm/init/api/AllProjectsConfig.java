@@ -14,9 +14,9 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;

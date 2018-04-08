@@ -16,9 +16,9 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.config.ConfigUtil.loadSection;
-import static com.google.gerrit.server.config.ConfigUtil.skipField;
-import static com.google.gerrit.server.config.ConfigUtil.storeSection;
+import static com.google.gerrit.config.ConfigUtil.loadSection;
+import static com.google.gerrit.config.ConfigUtil.skipField;
+import static com.google.gerrit.config.ConfigUtil.storeSection;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_ID;

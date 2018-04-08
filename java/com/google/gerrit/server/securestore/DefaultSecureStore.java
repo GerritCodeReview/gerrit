@@ -15,7 +15,8 @@
 package com.google.gerrit.server.securestore;
 
 import com.google.gerrit.common.FileUtil;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.config.SitePaths;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;

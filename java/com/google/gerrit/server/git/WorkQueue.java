@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.ScheduleConfig.Schedule;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

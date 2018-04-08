@@ -16,7 +16,7 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.config.AllProjectsNameProvider;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 

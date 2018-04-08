@@ -27,8 +27,7 @@ public class CanonicalWebUrl {
   private final Provider<String> configured;
 
   @Inject
-  CanonicalWebUrl(
-      @com.google.gerrit.server.config.CanonicalWebUrl @Nullable Provider<String> provider) {
+  CanonicalWebUrl(@com.google.gerrit.config.CanonicalWebUrl @Nullable Provider<String> provider) {
     configured = provider;
   }
 

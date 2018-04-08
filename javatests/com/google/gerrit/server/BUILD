@@ -34,6 +34,7 @@ junit_tests(
         ":custom-truth-subjects",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/config",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/extensions/common/testing:common-test-util",
         "//java/com/google/gerrit/index",

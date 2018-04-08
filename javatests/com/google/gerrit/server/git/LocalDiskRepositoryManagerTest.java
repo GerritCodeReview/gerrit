@@ -17,8 +17,8 @@ package com.google.gerrit.server.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.testing.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;

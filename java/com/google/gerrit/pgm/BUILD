@@ -41,6 +41,7 @@ java_library(
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/securestore",
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gwtexpui/linker:server",
         "//java/com/google/gwtexpui/server",

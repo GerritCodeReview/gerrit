@@ -17,6 +17,7 @@ java_library(
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cache",
         "//java/com/google/gerrit/server/ioutil",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",

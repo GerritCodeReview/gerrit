@@ -18,14 +18,14 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.cache.CacheBinding;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -198,8 +198,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   @Override
   public void onStop(String plugin) {
     synchronized (caches) {
-      for (Map.Entry<String, Provider<Cache<?, ?>>> entry :
-          cacheMap.byPlugin(plugin).entrySet()) {
+      for (Map.Entry<String, Provider<Cache<?, ?>>> entry : cacheMap.byPlugin(plugin).entrySet()) {
         Cache<?, ?> cache = entry.getValue().get();
         if (caches.remove(cache)) {
           ((H2CacheImpl<?, ?>) cache).stop();

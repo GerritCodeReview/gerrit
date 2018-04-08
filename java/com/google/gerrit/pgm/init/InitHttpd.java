@@ -20,11 +20,11 @@ import static com.google.gerrit.pgm.init.api.InitUtil.domainOf;
 import static com.google.gerrit.pgm.init.api.InitUtil.isAnyAddress;
 import static com.google.gerrit.pgm.init.api.InitUtil.toURI;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

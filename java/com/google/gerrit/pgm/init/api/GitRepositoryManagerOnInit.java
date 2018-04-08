@@ -14,8 +14,8 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

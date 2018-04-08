@@ -16,7 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.commons.validator.routines.DomainValidator;

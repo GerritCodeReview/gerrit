@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import org.eclipse.jgit.lib.Config;
 
 /** Plugin configuration in etc/$PLUGIN.config and etc/$PLUGIN.secure.config. */

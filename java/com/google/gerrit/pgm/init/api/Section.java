@@ -15,8 +15,8 @@
 package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.config.SitePaths;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.nio.file.Path;

@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import com.google.common.base.Splitter;
+import com.google.gerrit.config.SitePath;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InstallAllPlugins;
@@ -22,7 +23,6 @@ import com.google.gerrit.pgm.init.api.InstallPlugins;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfigModule;
-import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.inject.Guice;
 import com.google.inject.Injector;

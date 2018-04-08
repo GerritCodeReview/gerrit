@@ -16,8 +16,8 @@ package com.google.gerrit.pgm.init;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Die;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

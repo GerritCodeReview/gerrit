@@ -15,9 +15,9 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;

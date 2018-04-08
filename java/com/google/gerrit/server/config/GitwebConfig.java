@@ -22,6 +22,7 @@ import static com.google.common.base.Strings.nullToEmpty;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GitwebType;
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.Url;

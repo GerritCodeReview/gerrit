@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import static com.google.gerrit.server.config.ConfigUtil.skipField;
+import static com.google.gerrit.config.ConfigUtil.skipField;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;

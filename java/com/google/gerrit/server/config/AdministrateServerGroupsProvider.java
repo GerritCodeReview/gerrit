@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.util.RequestContext;

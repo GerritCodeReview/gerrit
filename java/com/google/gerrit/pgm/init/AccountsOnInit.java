@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.InternalAccountUpdate;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import java.io.File;
 import java.io.IOException;

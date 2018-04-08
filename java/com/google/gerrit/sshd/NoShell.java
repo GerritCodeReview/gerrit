@@ -14,11 +14,11 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.gerrit.config.AnonymousCowardName;
+import com.google.gerrit.config.CanonicalWebUrl;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gwtorm.server.SchemaFactory;

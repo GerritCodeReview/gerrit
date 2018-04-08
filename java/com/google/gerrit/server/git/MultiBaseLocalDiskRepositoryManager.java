@@ -16,11 +16,11 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.RepositoryConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project.NameKey;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.RepositoryConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;

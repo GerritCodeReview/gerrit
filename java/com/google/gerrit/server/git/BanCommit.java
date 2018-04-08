@@ -17,11 +17,11 @@ package com.google.gerrit.server.git;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_REJECT_COMMITS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.config.GerritPersonIdent;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;

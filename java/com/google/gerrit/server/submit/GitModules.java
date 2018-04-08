@@ -15,10 +15,10 @@
 package com.google.gerrit.server.submit;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.config.CanonicalWebUrl;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.util.RequestId;

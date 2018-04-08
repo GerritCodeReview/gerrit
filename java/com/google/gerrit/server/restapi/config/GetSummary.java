@@ -15,10 +15,10 @@
 package com.google.gerrit.server.restapi.config;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.config.SitePath;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.Task;
 import com.google.inject.Inject;

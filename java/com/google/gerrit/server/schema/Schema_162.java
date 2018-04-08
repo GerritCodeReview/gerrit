@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.config.AllProjectsName;
+import com.google.gerrit.config.AllUsersName;
+import com.google.gerrit.config.GerritPersonIdent;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;

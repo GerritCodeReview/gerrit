@@ -14,8 +14,8 @@
 
 package com.google.gerrit.gpg;
 
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

@@ -15,8 +15,8 @@
 package com.google.gerrit.pgm.util;
 
 import com.google.gerrit.common.FileUtil;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import java.io.IOException;
 import java.nio.file.Path;

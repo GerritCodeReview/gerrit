@@ -15,12 +15,12 @@
 package com.google.gerrit.gpg;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.config.AllUsersName;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.EnableSignedPush;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.project.ProjectCache;

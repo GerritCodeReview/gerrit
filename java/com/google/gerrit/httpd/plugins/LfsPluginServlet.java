@@ -18,9 +18,9 @@ import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.CONTENTTYPE_VN
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.resources.Resource;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;

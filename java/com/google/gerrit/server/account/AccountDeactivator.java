@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.ScheduleConfig;
+import com.google.gerrit.config.ScheduleConfig.Schedule;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ScheduleConfig;
-import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.InternalAccountQuery;

@@ -16,10 +16,10 @@ package com.google.gerrit.server.schema;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.config.GerritPersonIdent;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gwtorm.server.OrmException;

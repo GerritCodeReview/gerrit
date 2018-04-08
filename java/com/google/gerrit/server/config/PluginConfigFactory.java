@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.GlobalPluginConfig;
+import com.google.gerrit.config.SitePaths;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
@@ -21,7 +25,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectLevelConfig;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

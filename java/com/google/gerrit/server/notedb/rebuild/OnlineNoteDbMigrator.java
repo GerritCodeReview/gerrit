@@ -15,9 +15,9 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import com.google.common.base.Stopwatch;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.inject.Inject;

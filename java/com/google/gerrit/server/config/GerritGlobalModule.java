@@ -17,6 +17,12 @@ package com.google.gerrit.server.config;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.config.ChangeCleanupConfig;
+import com.google.gerrit.config.DisableReverseDnsLookup;
+import com.google.gerrit.config.DisableReverseDnsLookupProvider;
+import com.google.gerrit.config.GcConfig;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.GitwebConfig;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;

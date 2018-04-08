@@ -14,16 +14,18 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.config.ConfigUtil.storeSection;
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.ANON_GIT;
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.ANON_HTTP;
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.HTTP;
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.REPO_DOWNLOAD;
 import static com.google.gerrit.reviewdb.client.CoreDownloadSchemes.SSH;
-import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.config.AllUsersName;
+import com.google.gerrit.config.GerritPersonIdent;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DateFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
@@ -33,8 +35,6 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.ReviewCategory
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;

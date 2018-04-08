@@ -15,11 +15,11 @@
 package com.google.gerrit.server.index.group;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

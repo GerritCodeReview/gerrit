@@ -16,10 +16,10 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.LFS_URL_WO_AUTH_REGEX;
 
+import com.google.gerrit.config.DownloadConfig;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;
 import com.google.inject.servlet.ServletModule;
 import javax.servlet.Filter;

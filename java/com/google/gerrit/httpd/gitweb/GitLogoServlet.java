@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.gitweb;
 import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.common.io.ByteStreams;
-import com.google.gerrit.server.config.GitwebCgiConfig;
+import com.google.gerrit.config.GitwebCgiConfig;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

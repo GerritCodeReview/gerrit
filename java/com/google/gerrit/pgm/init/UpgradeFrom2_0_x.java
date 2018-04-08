@@ -19,12 +19,12 @@ import static com.google.gerrit.pgm.init.api.InitUtil.savePublic;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Splitter;
+import com.google.gerrit.config.SitePaths;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

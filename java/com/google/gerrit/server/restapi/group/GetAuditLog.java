@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.group;
 import static java.util.Comparator.comparing;
 
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -29,7 +30,6 @@ import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.InternalGroup;

@@ -17,12 +17,12 @@ package com.google.gerrit.server.schema;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.primitives.Ints;
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

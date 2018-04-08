@@ -17,9 +17,9 @@ package com.google.gerrit.httpd.template;
 import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;

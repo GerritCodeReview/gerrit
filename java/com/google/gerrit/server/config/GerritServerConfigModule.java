@@ -16,8 +16,14 @@ package com.google.gerrit.server.config;
 
 import static com.google.inject.Scopes.SINGLETON;
 
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.GerritServerConfigProvider;
+import com.google.gerrit.config.SitePath;
+import com.google.gerrit.config.SitePaths;
+import com.google.gerrit.config.TrackingFooters;
+import com.google.gerrit.config.TrackingFootersProvider;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
-import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.securestore.SecureStoreProvider;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.primitives.Ints;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;

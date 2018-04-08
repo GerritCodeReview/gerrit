@@ -6,6 +6,8 @@ junit_tests(
     srcs = glob(["**/*.java"]),
     deps = [
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/config",
+        "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/pgm",
         "//java/com/google/gerrit/pgm/http",
         "//java/com/google/gerrit/pgm/init",

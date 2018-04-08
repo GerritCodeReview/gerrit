@@ -14,8 +14,8 @@
 
 package com.google.gerrit.pgm.util;
 
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ThreadSettingsConfig;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.ThreadSettingsConfig;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Injector;
 import com.google.inject.Key;

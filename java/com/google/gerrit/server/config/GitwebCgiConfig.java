@@ -17,6 +17,8 @@ package com.google.gerrit.server.config;
 import static java.nio.file.Files.isExecutable;
 import static java.nio.file.Files.isRegularFile;
 
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;

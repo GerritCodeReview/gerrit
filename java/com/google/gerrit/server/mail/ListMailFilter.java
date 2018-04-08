@@ -16,7 +16,7 @@ package com.google.gerrit.server.mail;
 
 import static java.util.stream.Collectors.joining;
 
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.MailMessage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

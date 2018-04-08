@@ -15,9 +15,9 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.config.ConfigUtil;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.concurrent.Executors;

@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.VersionedMetaDataOnInit;
@@ -25,7 +26,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AuthorizedKeys;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;

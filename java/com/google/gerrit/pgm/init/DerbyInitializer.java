@@ -17,8 +17,8 @@ package com.google.gerrit.pgm.init;
 import static com.google.gerrit.pgm.init.api.InitUtil.die;
 
 import com.google.gerrit.common.FileUtil;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import java.nio.file.Path;
 

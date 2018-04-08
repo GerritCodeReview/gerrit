@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.config.ThreadSettingsConfig;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
+import com.google.gerrit.config.ThreadSettingsConfig;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;

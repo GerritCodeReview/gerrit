@@ -3,6 +3,7 @@ java_library(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
+        "//java/com/google/gerrit/config",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",

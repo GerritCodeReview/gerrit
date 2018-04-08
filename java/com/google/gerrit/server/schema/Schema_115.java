@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.gerrit.server.config.ConfigUtil.storeSection;
+import static com.google.gerrit.config.ConfigUtil.storeSection;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;

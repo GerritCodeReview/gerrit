@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.config.SitePaths;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 

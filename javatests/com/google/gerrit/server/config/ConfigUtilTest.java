@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.gerrit.config.ConfigUtil;
 import com.google.gerrit.extensions.client.Theme;
 import java.util.List;
 import java.util.Map;

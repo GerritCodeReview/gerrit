@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.FakeRealm;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.DisableReverseDnsLookup;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeAccountCache;

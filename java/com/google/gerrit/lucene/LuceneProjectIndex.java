@@ -16,6 +16,8 @@ package com.google.gerrit.lucene;
 
 import static com.google.gerrit.index.project.ProjectField.NAME;
 
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.project.ProjectData;
@@ -24,8 +26,6 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;

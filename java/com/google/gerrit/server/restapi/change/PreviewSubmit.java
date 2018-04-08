@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -31,7 +32,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.ioutil.LimitedByteArrayOutputStream;
 import com.google.gerrit.server.ioutil.LimitedByteArrayOutputStream.LimitExceededException;
 import com.google.gerrit.server.permissions.PermissionBackendException;

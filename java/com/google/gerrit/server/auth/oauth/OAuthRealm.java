@@ -17,6 +17,7 @@ package com.google.gerrit.server.auth.oauth;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
 import com.google.gerrit.extensions.client.AccountFieldName;
@@ -27,7 +28,6 @@ import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

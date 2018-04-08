@@ -17,8 +17,8 @@ package com.google.gerrit.server.update;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.gerrit.server.git.RefCache;
-import com.google.gerrit.server.git.RepoRefCache;
+import com.google.gerrit.git.RefCache;
+import com.google.gerrit.git.RepoRefCache;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashMap;

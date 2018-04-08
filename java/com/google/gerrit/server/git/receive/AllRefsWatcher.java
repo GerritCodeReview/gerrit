@@ -16,7 +16,7 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.gerrit.server.git.HookUtil;
+import com.google.gerrit.git.HookUtil;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;

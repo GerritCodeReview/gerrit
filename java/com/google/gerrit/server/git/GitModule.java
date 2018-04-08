@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import org.eclipse.jgit.transport.PostUploadHook;
 

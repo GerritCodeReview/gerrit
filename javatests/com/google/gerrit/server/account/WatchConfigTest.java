@@ -17,12 +17,12 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.git.ValidationError;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.NotifyValue;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
-import com.google.gerrit.server.git.ValidationError;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;

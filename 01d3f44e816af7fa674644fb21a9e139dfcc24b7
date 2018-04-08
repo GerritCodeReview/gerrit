@@ -22,6 +22,30 @@
       "revId": "01d3f44e816af7fa674644fb21a9e139dfcc24b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b966bec_e2b82702",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1057319
+      },
+      "writtenOn": "2018-04-08T12:01:47Z",
+      "side": 1,
+      "message": "I tried to do it exactly as asked.\nBut there are many functions relying directly on |this._files|:\n- _togglePathExpandedByIndex\n- collapseAllDiffs\n- _handleLeftBracketKey\n- ...\n\nTo avoid changing all references to _filesWithCommentedPaths, I turned |_files| into a computed array and added |_filesByPath| object.\n\nI know that tests are currently failing because of this change. They try to modify the now computed |_files|.\nI will fix them once we agree on the way to proceed.",
+      "parentUuid": "8338feb2_61036186",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 473,
+        "endChar": 29
+      },
+      "revId": "01d3f44e816af7fa674644fb21a9e139dfcc24b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

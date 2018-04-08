@@ -7,7 +7,7 @@ java_library(
         "//java/com/google/gerrit/config",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/lifecycle",
-        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cache",
         "//lib:guava",
         "//lib:h2",
         "//lib/guice",

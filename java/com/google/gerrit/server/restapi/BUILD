@@ -19,6 +19,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache",
         "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/util/common",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",
         "//lib:blame-cache",

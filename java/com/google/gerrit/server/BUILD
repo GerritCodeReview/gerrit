@@ -44,6 +44,7 @@ java_library(
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/securestore",
         "//java/com/google/gerrit/util/cli",
+        "//java/com/google/gerrit/util/common",
         "//java/com/google/gerrit/util/ssl",
         "//java/org/apache/commons/net",
         "//java/org/eclipse/jgit:server",

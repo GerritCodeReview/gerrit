@@ -17,6 +17,7 @@ java_library(
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/securestore",
         "//java/com/google/gerrit/util/cli",
         "//lib:args4j",
         "//lib:guava",

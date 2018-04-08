@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;

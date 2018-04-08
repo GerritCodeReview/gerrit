@@ -21,9 +21,9 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.reset;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.RepositoryConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.testing.GerritBaseTests;
 import com.google.gerrit.testing.TempFileUtil;
 import java.io.IOException;

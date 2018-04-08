@@ -1,6 +1,6 @@
 package com.google.gerrit.httpd.auth.openid;
 
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

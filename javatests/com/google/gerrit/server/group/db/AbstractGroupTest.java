@@ -19,12 +19,12 @@ import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.asse
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.config.AllUsersName;
+import com.google.gerrit.config.AllUsersNameProvider;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;

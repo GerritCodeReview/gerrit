@@ -22,7 +22,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GarbageCollectionResult;
-import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;

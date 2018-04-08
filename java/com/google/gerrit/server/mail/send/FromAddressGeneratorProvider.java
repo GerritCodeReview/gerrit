@@ -17,12 +17,12 @@ package com.google.gerrit.server.mail.send;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.config.AnonymousCowardName;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.MailUtil;
 import com.google.inject.Inject;

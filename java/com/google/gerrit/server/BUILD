@@ -31,6 +31,7 @@ java_library(
         ":constants",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/config",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
@@ -99,6 +100,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":server",
+        "//java/com/google/gerrit/config",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/restapi",

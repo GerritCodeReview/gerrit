@@ -27,11 +27,11 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.FileUtil;
+import com.google.gerrit.config.SitePaths;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.securestore.SecureStore;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;

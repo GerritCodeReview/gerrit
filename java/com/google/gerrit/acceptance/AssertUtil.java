@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.server.config.ConfigUtil.skipField;
+import static com.google.gerrit.config.ConfigUtil.skipField;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

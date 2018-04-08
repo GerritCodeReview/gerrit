@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

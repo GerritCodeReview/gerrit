@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.Preferences;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;

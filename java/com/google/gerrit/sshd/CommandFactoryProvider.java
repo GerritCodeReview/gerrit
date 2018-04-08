@@ -16,10 +16,10 @@ package com.google.gerrit.sshd;
 
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.gwtorm.server.SchemaFactory;

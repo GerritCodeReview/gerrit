@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.config.DownloadConfig;
 import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
-import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;

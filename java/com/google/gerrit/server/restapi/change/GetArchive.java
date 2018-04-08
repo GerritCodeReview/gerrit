@@ -15,11 +15,11 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.config.ArchiveFormat;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.change.ArchiveFormat;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;

@@ -19,14 +19,14 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.gerrit.common.Die;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePath;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
-import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.schema.DataSourceModule;

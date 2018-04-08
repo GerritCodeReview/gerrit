@@ -16,7 +16,7 @@ package com.google.gerrit.server;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;

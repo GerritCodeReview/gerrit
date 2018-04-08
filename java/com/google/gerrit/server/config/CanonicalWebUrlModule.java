@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.config.CanonicalWebUrl;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provider;
 

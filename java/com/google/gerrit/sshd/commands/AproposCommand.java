@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.config.CanonicalWebUrl;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocQueryException;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocResult;

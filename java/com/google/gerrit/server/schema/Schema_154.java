@@ -17,11 +17,11 @@ package com.google.gerrit.server.schema;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountConfig;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;

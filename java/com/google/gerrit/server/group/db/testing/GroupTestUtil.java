@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.group.db.testing;
 
-import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;

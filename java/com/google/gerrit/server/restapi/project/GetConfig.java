@@ -14,12 +14,12 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.config.AllProjectsName;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.EnableSignedPush;
-import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;

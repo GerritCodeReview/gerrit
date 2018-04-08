@@ -27,6 +27,7 @@ import static com.google.gerrit.server.schema.VersionedAccountPreferences.PREFER
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
@@ -35,7 +36,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.testing.InMemoryTestEnvironment;

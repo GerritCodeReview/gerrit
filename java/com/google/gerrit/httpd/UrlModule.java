@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
+import com.google.gerrit.config.GerritOptions;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.HostPageServlet;
@@ -33,7 +34,6 @@ import com.google.gerrit.httpd.restapi.ProjectsRestApiServlet;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.GerritOptions;
 import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Key;
 import com.google.inject.Provider;

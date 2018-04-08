@@ -14,17 +14,17 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.gerrit.server.config.ConfigUtil.storeSection;
+import static com.google.gerrit.config.ConfigUtil.storeSection;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.gerrit.config.AllUsersName;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.UserConfigSections;

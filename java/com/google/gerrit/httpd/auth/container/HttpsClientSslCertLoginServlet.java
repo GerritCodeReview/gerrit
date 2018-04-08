@@ -15,8 +15,8 @@
 package com.google.gerrit.httpd.auth.container;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.config.CanonicalWebUrl;
 import com.google.gerrit.httpd.LoginUrlToken;
-import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

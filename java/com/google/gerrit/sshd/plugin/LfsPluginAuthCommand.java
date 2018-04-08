@@ -14,9 +14,9 @@
 
 package com.google.gerrit.sshd.plugin;
 
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;

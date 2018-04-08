@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.config.ConfigUtil;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

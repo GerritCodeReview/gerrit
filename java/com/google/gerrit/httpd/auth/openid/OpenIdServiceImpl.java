@@ -16,6 +16,8 @@ package com.google.gerrit.httpd.auth.openid;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
+import com.google.gerrit.config.ConfigUtil;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
@@ -29,8 +31,6 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.auth.openid.OpenIdProviderPattern;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.ConfigUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

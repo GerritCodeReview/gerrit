@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.gerrit.server.git.InMemoryInserter;
-import com.google.gerrit.server.git.InsertedObject;
+import com.google.gerrit.git.InMemoryInserter;
+import com.google.gerrit.git.InsertedObject;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;

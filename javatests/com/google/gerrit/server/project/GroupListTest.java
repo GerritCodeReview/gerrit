@@ -26,9 +26,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.git.ValidationError;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.ValidationError;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;

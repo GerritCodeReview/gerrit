@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.git.ChangeReportFormatter;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;

@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.git.CommitUtil;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.inject.Singleton;
 import java.io.IOException;

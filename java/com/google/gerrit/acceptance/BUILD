@@ -14,6 +14,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/extensions/common/testing:common-test-util",
         "//java/com/google/gerrit/extensions/restapi/testing:restapi-test-util",
+        "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/gpg/testing:gpg-test-util",
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/index",

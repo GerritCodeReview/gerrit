@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.git.RefCache;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.RefCache;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.validators.ValidationException;
 import java.io.IOException;

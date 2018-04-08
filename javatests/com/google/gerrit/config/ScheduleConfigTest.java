@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.config;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
@@ -21,7 +21,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
-import com.google.gerrit.server.config.ScheduleConfig.Schedule;
+import com.google.gerrit.config.ScheduleConfig.Schedule;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;

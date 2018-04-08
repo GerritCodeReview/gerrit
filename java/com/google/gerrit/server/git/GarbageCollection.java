@@ -16,10 +16,10 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GarbageCollectionResult;
+import com.google.gerrit.config.GcConfig;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.inject.Inject;
 import java.io.PrintWriter;

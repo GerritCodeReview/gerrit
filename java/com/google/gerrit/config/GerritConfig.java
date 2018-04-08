@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.config;
 
-import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import org.eclipse.jgit.lib.Config;
 
 class GerritConfig extends Config {

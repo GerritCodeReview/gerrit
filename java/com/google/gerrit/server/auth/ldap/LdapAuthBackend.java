@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.auth.AuthBackend;
@@ -25,7 +26,6 @@ import com.google.gerrit.server.auth.MissingCredentialsException;
 import com.google.gerrit.server.auth.UnknownUserException;
 import com.google.gerrit.server.auth.UserNotAllowedException;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Locale;

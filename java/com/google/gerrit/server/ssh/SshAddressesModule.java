@@ -15,7 +15,7 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.common.collect.Lists;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;

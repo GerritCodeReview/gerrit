@@ -19,6 +19,7 @@ import static com.google.gerrit.lucene.LuceneChangeIndex.ID_SORT_FIELD;
 import static com.google.gerrit.lucene.LuceneChangeIndex.UPDATED_SORT_FIELD;
 import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -28,7 +29,6 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;

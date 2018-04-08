@@ -17,6 +17,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/config",
         "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/gpg",

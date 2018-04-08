@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.config.ConfigUtil;
 import org.eclipse.jgit.lib.Config;
 
 /** Provides access to one section from {@link Config} */

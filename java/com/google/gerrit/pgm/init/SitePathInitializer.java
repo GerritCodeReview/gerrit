@@ -23,12 +23,12 @@ import static com.google.gerrit.pgm.init.api.InitUtil.version;
 
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.pgm.init.api.Section.Factory;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.inject.Binding;
 import com.google.inject.Inject;

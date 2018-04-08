@@ -14,8 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.util.ServerRequestContext;

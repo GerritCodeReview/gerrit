@@ -20,13 +20,13 @@ import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
+import com.google.gerrit.config.GerritServerConfig;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

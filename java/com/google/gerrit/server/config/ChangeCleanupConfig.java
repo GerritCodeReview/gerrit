@@ -16,7 +16,10 @@ package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.config.ScheduleConfig.Schedule;
+import com.google.gerrit.config.ConfigUtil;
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.ScheduleConfig;
+import com.google.gerrit.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Optional;

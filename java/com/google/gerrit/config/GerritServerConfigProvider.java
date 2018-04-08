@@ -12,13 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.config;
 
 import static java.util.stream.Collectors.joining;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.server.notedb.NotesMigration;
-import com.google.gerrit.server.securestore.SecureStore;
+import com.google.gerrit.extensions.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -38,8 +37,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>Note that this class is not a singleton, so the few callers that need a reloaded-on-demand
  * config can inject a {@code GerritServerConfigProvider}. However, most callers won't need this,
- * and will just inject {@code @GerritServerConfig Config} directly, which is bound as a singleton
- * in {@link GerritServerConfigModule}.
+ * and will just inject {@code @GerritServerConfig Config} directly, which is bound as a singleton.
  */
 public class GerritServerConfigProvider implements Provider<Config> {
   private static final Logger log = LoggerFactory.getLogger(GerritServerConfigProvider.class);
@@ -79,7 +77,8 @@ public class GerritServerConfigProvider implements Provider<Config> {
   private static void checkNoteDbConfig(FileBasedConfig noteDbConfig) {
     List<String> bad = new ArrayList<>();
     for (String section : noteDbConfig.getSections()) {
-      if (section.equals(NotesMigration.SECTION_NOTE_DB)) {
+      // TODO(davido): Resolve dependency on NoteDb NotesMigration.SECTION_NOTE_DB
+      if (section.equals("noteDb")) {
         continue;
       }
       for (String subsection : noteDbConfig.getSubsections(section)) {

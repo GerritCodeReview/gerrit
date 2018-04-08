@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.inject.Inject;
 import java.nio.file.Path;

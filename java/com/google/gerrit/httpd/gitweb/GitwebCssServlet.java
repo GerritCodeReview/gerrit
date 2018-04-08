@@ -17,9 +17,9 @@ package com.google.gerrit.httpd.gitweb;
 import static com.google.gerrit.common.FileUtil.lastModified;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GitwebCgiConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;

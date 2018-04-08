@@ -15,8 +15,8 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.config.GcConfig;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import org.slf4j.Logger;

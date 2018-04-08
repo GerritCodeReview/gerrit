@@ -16,7 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;

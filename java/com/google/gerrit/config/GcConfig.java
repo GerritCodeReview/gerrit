@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.config;
+package com.google.gerrit.config;
 
-import com.google.gerrit.server.config.ScheduleConfig.Schedule;
+import com.google.gerrit.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Optional;

@@ -14,10 +14,10 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.config.SitePaths;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import java.lang.annotation.Annotation;

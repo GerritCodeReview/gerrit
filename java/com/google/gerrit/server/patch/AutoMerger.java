@@ -19,9 +19,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.config.GerritServerConfig;
+import com.google.gerrit.git.InMemoryInserter;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;

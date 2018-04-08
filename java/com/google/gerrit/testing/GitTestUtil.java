@@ -19,7 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.git.CommitUtil;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;

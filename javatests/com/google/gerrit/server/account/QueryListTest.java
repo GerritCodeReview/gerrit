@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.replay;
 
-import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.git.ValidationError;
 import java.io.IOException;
 import junit.framework.TestCase;
 import org.junit.Test;

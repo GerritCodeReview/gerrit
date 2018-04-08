@@ -15,9 +15,9 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.git.ValidationError;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
 import java.io.IOException;
 import java.util.ArrayList;

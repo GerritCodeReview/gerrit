@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.server.CommonConverters;
+import com.google.gerrit.util.common.CommonConverters;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.eclipse.jgit.revwalk.RevCommit;

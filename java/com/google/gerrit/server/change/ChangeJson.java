@@ -37,7 +37,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_MERGEAB
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
-import static com.google.gerrit.server.CommonConverters.toGitPerson;
+import static com.google.gerrit.util.common.CommonConverters.toGitPerson;
 import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;

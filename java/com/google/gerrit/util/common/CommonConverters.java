@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server;
+package com.google.gerrit.util.common;
 
 import com.google.gerrit.extensions.common.GitPerson;
 import java.sql.Timestamp;

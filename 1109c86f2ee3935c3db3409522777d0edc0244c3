@@ -57,6 +57,24 @@
       "revId": "1109c86f2ee3935c3db3409522777d0edc0244c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d35d6ce_ff4f3be5",
+        "filename": "java/com/google/gerrit/git/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T16:52:12Z",
+      "side": 1,
+      "message": "Not sure I follow. Where would that dependency come from in this package?",
+      "parentUuid": "46b9ec21_7e2cf532",
+      "revId": "1109c86f2ee3935c3db3409522777d0edc0244c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

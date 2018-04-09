@@ -27,6 +27,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.InternalAccountUpdate.Builder;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -146,10 +147,17 @@ public class AccountsUpdate {
      * @param accountState the account that is being updated
      * @param update account update builder
      */
-    void update(AccountState accountState, InternalAccountUpdate.Builder update);
+    void update(AccountState accountState, InternalAccountUpdate.Builder update) throws IOException;
 
     static AccountUpdater join(List<AccountUpdater> updaters) {
-      return (a, u) -> updaters.stream().forEach(updater -> updater.update(a, u));
+      return new AccountUpdater() {
+        @Override
+        public void update(AccountState accountState, Builder update) throws IOException {
+          for (AccountUpdater updater : updaters) {
+            updater.update(accountState, update);
+          }
+        }
+      };
     }
 
     static AccountUpdater joinConsumers(List<Consumer<InternalAccountUpdate.Builder>> consumers) {

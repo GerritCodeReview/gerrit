@@ -143,6 +143,30 @@
       "revId": "a847798eb0f446e424b2bc582e814985e61530bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec94d8ca_cb8c34cf",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:23:55Z",
+      "side": 1,
+      "message": "\u003e If we think that there might be a checked exception in the future which we might handle in another way\n\nI am having a hard time imagining #merge ever acquiring a new checked exception. Which means that if it does change, then it will by definition be something so bizarre as to be beyond my imagination. That is a sign that I would definitely want to examine it when I see it ;)",
+      "parentUuid": "4768fce3_de6f0b62",
+      "range": {
+        "startLine": 117,
+        "startChar": 13,
+        "endLine": 117,
+        "endChar": 43
+      },
+      "revId": "a847798eb0f446e424b2bc582e814985e61530bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

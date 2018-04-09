@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ce134d5_628a02fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:04:35Z",
+      "side": 1,
+      "message": "\"Call WalkSorter\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "3a6c2a72ba801295e43472559e384c0a7a738ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "054e49bd_078c5c22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:04:35Z",
+      "side": 1,
+      "message": "reasonably",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 10
+      },
+      "revId": "3a6c2a72ba801295e43472559e384c0a7a738ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af5874f3_3df7d77b",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:04:35Z",
+      "side": 1,
+      "message": "Did we also agree it\u0027s ok to just skip sorting in the merged case? Or do you think that with the current set of optimizations it will be good enough even if we don\u0027t skip sorting?",
+      "revId": "3a6c2a72ba801295e43472559e384c0a7a738ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "595f22d1_4c6c5b75",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:04:35Z",
+      "side": 1,
+      "message": "Optional: cds.stream().sorted(COMPARATOR).collect(toList())",
+      "revId": "3a6c2a72ba801295e43472559e384c0a7a738ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84d4182f_b88c52e3",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:04:35Z",
+      "side": 1,
+      "message": "Extra //",
+      "range": {
+        "startLine": 181,
+        "startChar": 7,
+        "endLine": 181,
+        "endChar": 10
+      },
+      "revId": "3a6c2a72ba801295e43472559e384c0a7a738ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

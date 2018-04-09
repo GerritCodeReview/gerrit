@@ -35,10 +35,14 @@ public class IndexActivateCommand extends SshCommand {
   @Override
   protected void run() throws UnloggedFailure {
     try {
-      if (versionManager.activateLatestIndex(name)) {
-        stdout.println("Activated latest index version");
+      if (versionManager.isKnownIndex(name)) {
+        if (versionManager.activateLatestIndex(name)) {
+          stdout.println("Activated latest index version");
+        } else {
+          stdout.println("Not activating index, already using latest version");
+        }
       } else {
-        stdout.println("Not activating index, already using latest version");
+        stdout.println("Cannot activate index, unknown based on this name");
       }
     } catch (ReindexerAlreadyRunningException e) {
       throw die("Failed to activate latest index: " + e.getMessage());

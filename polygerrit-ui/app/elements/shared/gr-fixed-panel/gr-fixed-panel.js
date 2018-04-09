@@ -93,10 +93,6 @@
       ].join(' ');
     },
 
-    _getScrollY() {
-      return window.scrollY;
-    },
-
     unfloat() {
       if (this.floatingDisabled) {
         return;
@@ -127,26 +123,29 @@
       this._reposition();
     },
 
+    _getElementTop() {
+      return this.getBoundingClientRect().top;
+    },
+
     _reposition() {
       if (!this._headerFloating) {
         return;
       }
       const header = this.$.header;
-      const scrollY = this._topInitial - this._getScrollY();
+      // Since the outer element is relative positioned, can  use its top
+      // to determine how to position the inner header element.
+      const elemTop = this._getElementTop();
       let newTop;
-      if (this.keepOnScroll) {
-        if (scrollY > 0) {
-          // Reposition to imitate natural scrolling.
-          newTop = scrollY;
-        } else {
-          newTop = 0;
-        }
-      } else if (scrollY > -this._headerHeight ||
-          this._topLast < -this._headerHeight) {
-        // Allow to scroll away, but ignore when far behind the edge.
-        newTop = scrollY;
+      if (this.keepOnScroll && elemTop < 0) {
+        // Should stick to the top.
+        newTop = 0;
       } else {
-        newTop = -this._headerHeight;
+        // Keep in line with the outer element.
+        newTop = elemTop;
+      }
+      // Initialize top style if it doesn't exist yet.
+      if (!header.style.top && this._topLast === newTop) {
+        header.style.top = newTop;
       }
       if (this._topLast !== newTop) {
         if (newTop === undefined) {

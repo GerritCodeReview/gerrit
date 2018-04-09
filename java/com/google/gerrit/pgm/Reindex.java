@@ -79,7 +79,7 @@ public class Reindex extends SiteProgram {
 
   @Override
   public int run() throws Exception {
-    mustHaveValidSite();
+  	  mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
     globalConfig = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     threads = ThreadLimiter.limitThreads(dbInjector, threads);

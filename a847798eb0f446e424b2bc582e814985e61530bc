@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1523262593 -0400\nnonce AFN+CTK8KFUwMaRPaa5DF2kmG7mYEiJD6xCMt+H4diE1rfvaHBqqxbe0H9xRR8gt1RM6dGXNn4VG\n\n0000000000000000000000000000000000000000 a847798eb0f446e424b2bc582e814985e61530bc refs/for/master%r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlrLJIEVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMGPcQAN9Zcv6HVsvN/1h1ivhwfikcDZVK\nH16bN/kNqk1MzBepCw/QRRGzPXuV7cCHS7QrhNqAuvpfCa92pSI5+7oy4pPwthDd\n7bQyjJj4ZGRf8uKE4ygRgAEVG/cgY9COPALdHw2AAOJEBfFQpAtVGewv+Ka1YL68\n/F3b3VBN8z6bleJL5xRJnoz2MG/iB+ghzcfRB7FE9j32Zi7fcToBUwCupGU050k3\nbYL8caUn66GLVGLmp0YYQJpuvY+8OhTC4oHBvXyzppYoSFoKRWbenRh4Rn0vg6to\nqsKKrwZfxnZREdputyfT3lbfevNlfU7P5zggG4AztV9cOHH7SD29sdrkp3QVS+fT\nHOUASc1caXPOYnVXGX9iB/iFGLxmFyuSNeuwS+CrNi6lSyZAKrbAzwI3phEeCMa0\nddMnPTuJtatHgcBl8Jiu4UWBDxvCfFrkRguV8OlgXUpKaqrAv/ARXHbGwwV/a9Rh\nr7gbtOFOgjflRS8Gc+pF50oGNuhHC4Ix/3GZAWlwMJXUqnst7v8fFz7YJjrtG6l2\nj7vIYuUrKkyF4mHDQST+Va0gx67JbUe5tHJ1ql9dyP2b2Epu985HSIhPCPLN+gbu\nrGr3mIxfYbAkm35n9VjgrCGUuPM1zEFzKNHo+GqMTlrBzOs/wAhBN3gcIVzYK+BX\nlfgofvUi/uwgcP6p\n\u003dSB8M\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2118deab_59840fe5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-09T09:02:09Z",
+      "side": 1,
+      "message": "I interpreted this sentence to mean that we don\u0027t have a computed PatchList/diff if an exception during the auto-merge occurs. If I look at the code, we do create a PatchList, even though that one only contains the commit message and the merge list.",
+      "range": {
+        "startLine": 33,
+        "startChar": 56,
+        "endLine": 35,
+        "endChar": 29
+      },
+      "revId": "a847798eb0f446e424b2bc582e814985e61530bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fbba5ba_6e0baa80",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-09T09:02:09Z",
+      "side": 1,
+      "message": "Is there a reason that this is better than catching Exception?",
+      "range": {
+        "startLine": 117,
+        "startChar": 13,
+        "endLine": 117,
+        "endChar": 43
+      },
+      "revId": "a847798eb0f446e424b2bc582e814985e61530bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

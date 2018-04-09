@@ -39,6 +39,24 @@
       "revId": "1109c86f2ee3935c3db3409522777d0edc0244c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46b9ec21_7e2cf532",
+        "filename": "java/com/google/gerrit/git/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-09T15:06:51Z",
+      "side": 1,
+      "message": "Sigh... I would also like if we could avoid this (like it worked for index package), but... even if we would try hard to avoid Guice as direct dependency, like the code is currently organised, we would have transitive dependency on Guice anyway, as many classes depend on GerritServerConfig-Annotation and it depends on com.google.inject.BindingAnnotation.",
+      "parentUuid": "67836c5f_6620f4f6",
+      "revId": "1109c86f2ee3935c3db3409522777d0edc0244c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

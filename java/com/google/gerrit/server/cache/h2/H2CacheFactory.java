@@ -26,7 +26,6 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.plugins.Plugin;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -197,10 +196,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   }
 
   @Override
-  public void onStop(Plugin plugin) {
+  public void onStop(String plugin) {
     synchronized (caches) {
-      for (Map.Entry<String, Provider<Cache<?, ?>>> entry :
-          cacheMap.byPlugin(plugin.getName()).entrySet()) {
+      for (Map.Entry<String, Provider<Cache<?, ?>>> entry : cacheMap.byPlugin(plugin).entrySet()) {
         Cache<?, ?> cache = entry.getValue().get();
         if (caches.remove(cache)) {
           ((H2CacheImpl<?, ?>) cache).stop();

@@ -235,6 +235,7 @@ public class MergeOp implements AutoCloseable {
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyUtil notifyUtil;
   private final RetryHelper retryHelper;
+  private final ChangeData.Factory changeDataFactory;
 
   private Timestamp ts;
   private RequestId submissionId;
@@ -262,7 +263,8 @@ public class MergeOp implements AutoCloseable {
       Provider<MergeOpRepoManager> ormProvider,
       NotifyUtil notifyUtil,
       TopicMetrics topicMetrics,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      ChangeData.Factory changeDataFactory) {
     this.cmUtil = cmUtil;
     this.batchUpdateFactory = batchUpdateFactory;
     this.internalUserFactory = internalUserFactory;
@@ -275,6 +277,7 @@ public class MergeOp implements AutoCloseable {
     this.notifyUtil = notifyUtil;
     this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
+    this.changeDataFactory = changeDataFactory;
   }
 
   @Override
@@ -443,14 +446,21 @@ public class MergeOp implements AutoCloseable {
 
     logDebug("Beginning integration of {}", change);
     try {
-      ChangeSet cs = mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(db, change, caller);
+      ChangeSet indexBackedChangeSet =
+          mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(db, change, caller);
       checkState(
-          cs.ids().contains(change.getId()), "change %s missing from %s", change.getId(), cs);
-      if (cs.furtherHiddenChanges()) {
+          indexBackedChangeSet.ids().contains(change.getId()),
+          "change %s missing from %s",
+          change.getId(),
+          indexBackedChangeSet);
+      if (indexBackedChangeSet.furtherHiddenChanges()) {
         throw new AuthException(
             "A change to be submitted with " + change.getId() + " is not visible");
       }
-      logDebug("Calculated to merge {}", cs);
+      logDebug("Calculated to merge {}", indexBackedChangeSet);
+
+      // Reload ChangeSet so that we don't rely on (potentially) stale index data for merging
+      ChangeSet cs = reloadChanges(indexBackedChangeSet);
 
       // Count cross-project submissions outside of the retry loop. The chance of a single project
       // failing increases with the number of projects, so the failure count would be inflated if
@@ -471,7 +481,6 @@ public class MergeOp implements AutoCloseable {
               openRepoManager();
             }
             this.commitStatus = new CommitStatus(cs, isRetry);
-            MergeSuperSet.reloadChanges(cs);
             if (checkSubmitRules) {
               logDebug("Checking submit rules and state");
               checkSubmitRulesAndState(cs, isRetry);
@@ -512,6 +521,18 @@ public class MergeOp implements AutoCloseable {
     }
     orm = ormProvider.get();
     orm.setContext(db, ts, caller, submissionId);
+  }
+
+  private ChangeSet reloadChanges(ChangeSet changeSet) {
+    List<ChangeData> visible = new ArrayList<>(changeSet.changes().size());
+    List<ChangeData> nonVisible = new ArrayList<>(changeSet.nonVisibleChanges().size());
+    changeSet
+        .changes()
+        .forEach(c -> visible.add(changeDataFactory.create(db, c.project(), c.getId())));
+    changeSet
+        .nonVisibleChanges()
+        .forEach(c -> nonVisible.add(changeDataFactory.create(db, c.project(), c.getId())));
+    return new ChangeSet(visible, nonVisible);
   }
 
   private class RetryTracker implements RetryListener {

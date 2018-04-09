@@ -121,6 +121,16 @@ public abstract class AbstractVersionManager implements LifecycleListener {
     return false;
   }
 
+  /**
+   * Tells if an index with this name is currently known or not.
+   *
+   * @param name index name
+   * @return true if index is known and can be used, otherwise false.
+   */
+  public boolean isKnownIndex(String name) {
+    return defs.get(name) != null;
+  }
+
   protected <K, V, I extends Index<K, V>> void initIndex(
       IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
     TreeMap<Integer, Version<V>> versions = scanVersions(def, cfg);

@@ -39,10 +39,14 @@ public class IndexStartCommand extends SshCommand {
   @Override
   protected void run() throws UnloggedFailure {
     try {
-      if (versionManager.startReindexer(name, force)) {
-        stdout.println("Reindexer started");
+      if (versionManager.isKnownIndex(name)) {
+        if (versionManager.startReindexer(name, force)) {
+          stdout.println("Reindexer started");
+        } else {
+          stdout.println("Nothing to reindex, index is already the latest version");
+        }
       } else {
-        stdout.println("Nothing to reindex, index is already the latest version");
+        stderr.println("Cannot reindex, index is unknown based on this name");
       }
     } catch (ReindexerAlreadyRunningException e) {
       throw die("Failed to start reindexer: " + e.getMessage());

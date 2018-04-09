@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6922516_ea83a80b",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-09T14:03:30Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this method be removed? \nIt\u0027s still used by LocalMergeSuperSetComputation, but there we also need all fields, don\u0027t we?",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 3
+      },
+      "revId": "7fa11ce3498098b22a6ae86c3a5b78dc0756fe79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -53,15 +53,6 @@ import org.eclipse.jgit.lib.Config;
  */
 public class MergeSuperSet {
 
-  public static void reloadChanges(ChangeSet changeSet) throws OrmException {
-    // Clear exactly the fields requested by query(InternalChangeQuery) below.
-    for (ChangeData cd : changeSet.changes()) {
-      cd.reloadChange();
-      cd.setPatchSets(null);
-      cd.setMergeable(null);
-    }
-  }
-
   public static InternalChangeQuery query(InternalChangeQuery q) {
     // Request fields required for completing the ChangeSet and converting to
     // ChangeInfo without having to touch the database or opening the repository

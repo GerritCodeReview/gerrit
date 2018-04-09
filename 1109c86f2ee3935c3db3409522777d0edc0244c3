@@ -75,6 +75,24 @@
       "revId": "1109c86f2ee3935c3db3409522777d0edc0244c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5277ec2c_d671ccdc",
+        "filename": "java/com/google/gerrit/git/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-09T20:58:08Z",
+      "side": 1,
+      "message": "Actually, dependency on GerritServerConfig is equals to the dependency on Guice: \n\n  $ cd gerrit/server \u0026\u0026 grep -l GerritServerConfig *\n  GarbageCollectionLogFile.java\n  LocalDiskRepositoryManager.java\n  MergeUtil.java\n  MultiBaseLocalDiskRepositoryManager.java\n  TransferConfig.java\n  WorkQueue.java\n\nWe could start first moving only classes without dependency on Guice, yes. This would raise the question though, how can we decouple gerrit.server package further then?\n\nI did one proposal in this change: [1], to separate between low level and high level packages, with the same names, but in different locations in the source tree, so similar, to mail, we could have c.g.g.lib.git for low level dependency, and actually be candidates for moving at least part of the code to upstream (JGit) or externalize the library as gerrit-git-library or similar. And the high level c.g.g.git with more dependency on old gerrit core stuff, among other Guice.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/141213/6//COMMIT_MSG@7",
+      "parentUuid": "8d35d6ce_ff4f3be5",
+      "revId": "1109c86f2ee3935c3db3409522777d0edc0244c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

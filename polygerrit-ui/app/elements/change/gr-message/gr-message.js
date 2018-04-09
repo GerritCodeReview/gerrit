@@ -35,10 +35,6 @@
      * @event reply
      */
 
-    listeners: {
-      tap: '_handleTap',
-    },
-
     properties: {
       changeNum: Number,
       /** @type {?} */
@@ -49,7 +45,6 @@
       },
       comments: {
         type: Object,
-        observer: '_commentsChanged',
       },
       config: Object,
       hideAutomated: {
@@ -92,20 +87,11 @@
        * @type {{ commentlinks: Array }}
        */
       _projectConfig: Object,
-      // Computed property needed to trigger Polymer value observing.
-      _expanded: {
-        type: Object,
-        computed: '_computeExpanded(message.expanded)',
-      },
       _loggedIn: {
         type: Boolean,
         value: false,
       },
     },
-
-    observers: [
-      '_updateExpandedClass(message.expanded)',
-    ],
 
     ready() {
       this.$.restAPI.getConfig().then(config => {
@@ -114,14 +100,6 @@
       this.$.restAPI.getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
       });
-    },
-
-    _updateExpandedClass(expanded) {
-      if (expanded) {
-        this.classList.add('expanded');
-      } else {
-        this.classList.remove('expanded');
-      }
     },
 
     _computeAuthor(message) {
@@ -141,33 +119,6 @@
     _computeShowReplyButton(message, loggedIn) {
       return !!message.message && loggedIn &&
           !this._computeIsAutomated(message);
-    },
-
-    _computeExpanded(expanded) {
-      return expanded;
-    },
-
-    /**
-     * If there is no value set on the message object as to whether _expanded
-     * should be true or not, then _expanded is set to true if there are
-     * inline comments (otherwise false).
-     */
-    _commentsChanged(value) {
-      if (this.message && this.message.expanded === undefined) {
-        this.set('message.expanded', Object.keys(value || {}).length > 0);
-      }
-    },
-
-    _handleTap(e) {
-      if (this.message.expanded) { return; }
-      e.stopPropagation();
-      this.set('message.expanded', true);
-    },
-
-    _handleAuthorTap(e) {
-      if (!this.message.expanded) { return; }
-      e.stopPropagation();
-      this.set('message.expanded', false);
     },
 
     _computeIsAutomated(message) {
@@ -216,9 +167,8 @@
       return classes.join(' ');
     },
 
-    _computeClass(expanded, showAvatar, message) {
+    _computeClass(showAvatar, message) {
       const classes = [];
-      classes.push(expanded ? 'expanded' : 'collapsed');
       classes.push(showAvatar ? 'showAvatar' : 'hideAvatar');
       return classes.join(' ');
     },

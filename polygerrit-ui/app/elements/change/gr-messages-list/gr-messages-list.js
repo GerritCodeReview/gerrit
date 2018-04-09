@@ -46,11 +46,6 @@
       },
       labels: Object,
 
-      _expanded: {
-        type: Boolean,
-        value: false,
-        observer: '_expandedChanged',
-      },
       _hideAutomated: {
         type: Boolean,
         value: false,
@@ -99,7 +94,6 @@
         el = this.$$('[data-message-id="' + messageID + '"]');
       }
 
-      el.set('message.expanded', true);
       let top = el.offsetTop;
       for (let offsetParent = el.offsetParent;
            offsetParent;
@@ -149,15 +143,6 @@
       return result;
     },
 
-    _expandedChanged(exp) {
-      for (let i = 0; i < this._processedMessages.length; i++) {
-        this._processedMessages[i].expanded = exp;
-        if (i < this._visibleMessages.length) {
-          this.set(['_visibleMessages', i, 'expanded'], exp);
-        }
-      }
-    },
-
     _highlightEl(el) {
       const highlightedEls =
           Polymer.dom(this.root).querySelectorAll('.highlighted');
@@ -172,18 +157,6 @@
       el.classList.add('highlighted');
     },
 
-    /**
-     * @param {boolean} expand
-     */
-    handleExpandCollapse(expand) {
-      this._expanded = expand;
-    },
-
-    _handleExpandCollapseTap(e) {
-      e.preventDefault();
-      this.handleExpandCollapse(!this._expanded);
-    },
-
     _handleScrollTo(e) {
       this.scrollToMessage(e.detail.message.id);
     },
@@ -196,10 +169,6 @@
         }
       }
       return false;
-    },
-
-    _computeExpandCollapseMessage(expanded) {
-      return expanded ? 'Collapse all' : 'Expand all';
     },
 
     /**

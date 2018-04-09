@@ -205,26 +205,6 @@ limitations under the License.
         assert.isTrue(handleCollapse.called);
       });
 
-      test('X should expand all messages', done => {
-        flush(() => {
-          const handleExpand = sandbox.stub(element.messagesList,
-              'handleExpandCollapse');
-          MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'x');
-          assert(handleExpand.calledWith(true));
-          done();
-        });
-      });
-
-      test('Z should collapse all messages', done => {
-        flush(() => {
-          const handleExpand = sandbox.stub(element.messagesList,
-              'handleExpandCollapse');
-          MockInteractions.pressAndReleaseKeyOn(element, 90, null, 'z');
-          assert(handleExpand.calledWith(false));
-          done();
-        });
-      });
-
       test('shift + R should fetch and navigate to the latest patch set',
           done => {
             element._changeNum = '42';

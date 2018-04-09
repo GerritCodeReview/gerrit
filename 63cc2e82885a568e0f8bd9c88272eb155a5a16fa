@@ -16,6 +16,24 @@
       "revId": "63cc2e82885a568e0f8bd9c88272eb155a5a16fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df0d9560_03ca5029",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-04-09T17:42:19Z",
+      "side": 1,
+      "message": "Filed issue 8712 so as not to lose track.",
+      "parentUuid": "99cad4b1_c1cc28a3",
+      "revId": "63cc2e82885a568e0f8bd9c88272eb155a5a16fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

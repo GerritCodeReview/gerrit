@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "01e2bc0c_3418c5b7",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-09T14:28:25Z",
+      "side": 1,
+      "message": "Don\u0027t know, cd.setPatchSets(null) is not needed since it is already done by cd.reloadChange(). Maybe reloadChange should also always invoke cd.setMergeable(null)?\nI actually would expect from reloadChange to clear all ChangeData fields which can be outdated due to the reload (at least if lazyLoad \u003d\u003d true). I don\u0027t think that callers should be responsible for this.\n\nIn any case the calling code of this method in MergeOp didn\u0027t use the query method which restricted the requested fields. So fetching all fields here now doesn\u0027t have any effect on MergeOp.",
+      "parentUuid": "8351bb45_bad2aac8",
+      "range": {
+        "startLine": 58,
+        "startChar": 45,
+        "endLine": 58,
+        "endChar": 71
+      },
+      "revId": "7fa11ce3498098b22a6ae86c3a5b78dc0756fe79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6922516_ea83a80b",
         "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
         "patchSetId": 1

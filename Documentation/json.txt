@@ -185,14 +185,16 @@ in order for the change to be submittable.
 
 [[requirement]]
 == requirement
-Information about a requirement (not met) in order to submit a change.
+Information about a requirement in order to submit a change.
 
-shortReason:: A short description of the requirement (a hint).
+fallbackText:: A human readable description of the requirement.
 
-fullReason:: A longer and descriptive message explaining what needs to
-be changed to meet the requirement.
+type:: Alphanumerical (plus hyphens or underscores) string to identify what the requirement is and
+why it was triggered. Can be seen as a class: requirements sharing the same type were created for a
+similar reason, and the data structure will follow one set of rules.
 
-label:: (Optional) The name of the linked label, if set by a pre-submit rule.
+data:: (Optional) Additional key-value data linked to this requirement. This is used in templates to
+render rich status messages.
 
 [[label]]
 == label

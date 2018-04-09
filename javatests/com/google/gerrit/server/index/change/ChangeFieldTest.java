@@ -93,7 +93,7 @@ public class ChangeFieldTest extends GerritBaseTests {
   }
 
   @Test
-  public void storedSubmitRecordsWithRequirements() {
+  public void storedSubmitRecordsWithRequirement() {
     SubmitRecord r =
         record(
             SubmitRecord.Status.OK,
@@ -101,10 +101,27 @@ public class ChangeFieldTest extends GerritBaseTests {
             label(SubmitRecord.Label.Status.OK, "Label-2", 1));
 
     SubmitRequirement sr =
-        new SubmitRequirement(
-            "short reason",
-            "Full reason can be a long string with special symbols like < > \\ / ; :",
-            null);
+        SubmitRequirement.builder()
+            .setType("short_type")
+            .setFallbackText("Fallback text may contain special symbols like < > \\ / ; :")
+            .addCustomValue("custom_data", "my value")
+            .build();
+    r.requirements = Collections.singletonList(sr);
+
+    assertStoredRecordRoundTrip(r);
+  }
+
+  @Test
+  public void storedSubmitRequirementWithoutCustomData() {
+    SubmitRecord r =
+        record(
+            SubmitRecord.Status.OK,
+            label(SubmitRecord.Label.Status.MAY, "Label-1", null),
+            label(SubmitRecord.Label.Status.OK, "Label-2", 1));
+
+    // Doesn't have any custom data value
+    SubmitRequirement sr =
+        SubmitRequirement.builder().setFallbackText("short_type").setType("ci_status").build();
     r.requirements = Collections.singletonList(sr);
 
     assertStoredRecordRoundTrip(r);

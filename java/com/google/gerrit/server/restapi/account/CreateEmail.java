@@ -20,12 +20,11 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.EmailInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -90,9 +89,8 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
   @Override
   public Response<EmailInfo> apply(AccountResource rsrc, EmailInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-          ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
-          IOException, ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, OrmException, EmailException, MethodNotAllowedException, IOException,
+          ConfigInvalidException, PermissionBackendException {
     if (input == null) {
       input = new EmailInput();
     }
@@ -110,9 +108,8 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
 
   /** To be used from plugins that want to create emails without permission checks. */
   public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
-      throws AuthException, BadRequestException, ResourceConflictException,
-          ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
-          IOException, ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, OrmException, EmailException, MethodNotAllowedException, IOException,
+          ConfigInvalidException, PermissionBackendException {
     if (input == null) {
       input = new EmailInput();
     }

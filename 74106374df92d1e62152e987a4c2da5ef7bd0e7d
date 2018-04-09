@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee4a2b51_6f5c52a7",
+        "filename": "java/com/google/gerrit/server/cache/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:38:06Z",
+      "side": 1,
+      "message": "I\u0027d prefer *.java here. Right now, it excludes h2/*.java due to the fact that h2/BUILD exists. Sure, this is a well-documented feature of Bazel, but it\u0027s easy to forget so I don\u0027t like relying on it.",
+      "revId": "74106374df92d1e62152e987a4c2da5ef7bd0e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

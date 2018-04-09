@@ -215,8 +215,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
 
     List<ChangeData> result = new ArrayList<>();
     Iterable<ChangeData> destChanges =
-        MergeSuperSet.query(queryProvider.get())
-            .byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
+        queryProvider.get().byCommitsOnBranchNotMerged(or.repo, db, branch, hashes);
     for (ChangeData chd : destChanges) {
       result.add(chd);
     }

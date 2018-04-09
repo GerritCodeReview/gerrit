@@ -449,10 +449,12 @@
   };
 
   Gerrit.install = function(callback, opt_version, opt_src) {
-    const src = opt_src || (document.currentScript &&
-         (document.currentScript.src || document.currentScript.baseURI));
+    // HTML import polyfill adds __importElement pointing to the import tag.
+    const script = document.currentScript &&
+          (document.currentScript.__importElement || document.currentScript);
+    const src = opt_src || (script && (script.src || script.baseURI));
     const name = getPluginNameFromUrl(src);
-
+    console.info(`installing: ${name} from ${src}. I? ` + document.currentScript.__importElement);
     if (opt_version && opt_version !== API_VERSION) {
       Gerrit._pluginInstallError(`Plugin ${name} install error: only version ` +
           API_VERSION + ' is supported in PolyGerrit. ' + opt_version +
@@ -555,7 +557,7 @@
         message: 'Plugins loading timeout. Check the console for errors.',
       },
     }));
-    console.error(`Failed to load plugins: ${Object.keys(_pluginsPending)}`);
+    console.warn(`Failed to load plugins: ${Object.keys(_pluginsPending)}`);
     Gerrit._setPluginsPending([]);
   };
 

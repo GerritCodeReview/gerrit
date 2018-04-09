@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aa6d709_dae9e0a7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-dashboards/gr-repo-dashboards.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-09T22:27:36Z",
+      "side": 1,
+      "message": "Can you use Gerrit.Nav.navigateToRelativeUrl(url) instead of all this?",
+      "range": {
+        "startLine": 74,
+        "startChar": 5,
+        "endLine": 78,
+        "endChar": 52
+      },
+      "revId": "96bd42e0c840af791222f75322d31d047275da53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

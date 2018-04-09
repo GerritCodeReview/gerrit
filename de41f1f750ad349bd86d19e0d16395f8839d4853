@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "979f7046_518dcd96",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteBranch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-09T16:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf4ab050_c3ce7f40",
+      "range": {
+        "startLine": 58,
+        "startChar": 20,
+        "endLine": 58,
+        "endChar": 21
+      },
+      "revId": "de41f1f750ad349bd86d19e0d16395f8839d4853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edeb1084_f612a8a1",
         "filename": "java/com/google/gerrit/server/restapi/project/DeleteBranch.java",
         "patchSetId": 2
@@ -62,6 +86,24 @@
       "revId": "de41f1f750ad349bd86d19e0d16395f8839d4853",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f46f7e96_edf5421b",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-09T16:14:53Z",
+      "side": 1,
+      "message": "Yes. It should not be in this commit.",
+      "parentUuid": "60afff51_0b403be1",
+      "revId": "de41f1f750ad349bd86d19e0d16395f8839d4853",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

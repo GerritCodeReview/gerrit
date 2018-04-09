@@ -114,7 +114,7 @@ public class AutoMerger {
     boolean couldMerge;
     try {
       couldMerge = m.merge(merge.getParents());
-    } catch (IOException e) {
+    } catch (IOException | RuntimeException e) {
       // It is not safe to continue further down in this method as throwing
       // an exception most likely means that the merge tree was not created
       // and m.getMergeResults() is empty. This would mean that all paths are

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
+import static java.util.Collections.reverseOrder;
 
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
@@ -41,6 +42,7 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import org.kohsuke.args4j.Option;
@@ -55,6 +57,9 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
 
   private final EnumSet<ListChangesOption> jsonOpt =
       EnumSet.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.SUBMITTABLE);
+
+  private static final Comparator<ChangeData> COMPARATOR =
+      Comparator.comparing(ChangeData::project).thenComparing(cd -> cd.getId().id, reverseOrder());
 
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
@@ -143,14 +148,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         throw new AuthException("change would be submitted with a change that you cannot see");
       }
 
-      if (cds.size() <= 1 && hidden == 0) {
-        cds = Collections.emptyList();
-      } else {
-        // Skip sorting for singleton lists, to avoid WalkSorter opening the
-        // repo just to fill out the commit field in PatchSetData.
-        cds = sort(cds);
-      }
-
+      cds = sort(cds, hidden);
       SubmittedTogetherInfo info = new SubmittedTogetherInfo();
       info.changes = json.create(jsonOpt).lazyLoad(lazyLoad).formatChangeDatas(cds);
       info.nonVisibleChanges = hidden;
@@ -161,7 +159,26 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     }
   }
 
-  private List<ChangeData> sort(List<ChangeData> cds) throws OrmException, IOException {
+  private List<ChangeData> sort(List<ChangeData> cds, int hidden) throws OrmException, IOException {
+    if (cds.size() <= 1 && hidden == 0) {
+      // Skip sorting for singleton lists, to avoid WalkSorter opening the
+      // repo just to fill out the commit field in PatchSetData.
+      cds = Collections.emptyList();
+    }
+
+    long numProjectsDistinct = cds.stream().map(ChangeData::project).distinct().count();
+    long numProjects = cds.stream().map(ChangeData::project).count();
+
+    if (numProjects == numProjectsDistinct || numProjectsDistinct > 5) {
+      // We either have only a single change per project which means that WalkSorter won't make a
+      // difference compared to our index-backed sort, or we are looking at more than 5 projects
+      // which would make WalkSorter too expensive for this call.
+      List<ChangeData> sortedCds = new ArrayList<>(cds);
+      Collections.sort(sortedCds, COMPARATOR);
+      return sortedCds;
+    }
+
+    // // Perform more expensive walk-sort.
     List<ChangeData> sorted = new ArrayList<>(cds.size());
     for (PatchSetData psd : sorter.get().sort(cds)) {
       sorted.add(psd.data());

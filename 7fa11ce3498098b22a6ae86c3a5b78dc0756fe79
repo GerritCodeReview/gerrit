@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "43a130d4_338d85ff",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-09T14:21:47Z",
+      "side": 1,
+      "message": "I think it might be a non-static method in ChangeSet.\nBy the way, the `setPatchSets(null);` call here is useless (done in ChangeData#reloadChange).\nI am not sure exactly how much should be \"reloaded\", but would it be possible to use the caller\u0027s options for this? (Sounds a bit like a bad idea, though)\n\nI am not even sure reloadChange reloads \"*exactly* the fields requested\" ...",
+      "parentUuid": "8351bb45_bad2aac8",
+      "range": {
+        "startLine": 58,
+        "startChar": 45,
+        "endLine": 58,
+        "endChar": 71
+      },
+      "revId": "7fa11ce3498098b22a6ae86c3a5b78dc0756fe79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6922516_ea83a80b",
         "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
         "patchSetId": 1

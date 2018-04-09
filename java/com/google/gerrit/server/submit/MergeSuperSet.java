@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -71,7 +72,6 @@ public class MergeSuperSet {
     return q.setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET, ChangeField.MERGEABLE);
   }
 
-  private final ChangeData.Factory changeDataFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOpRepoManager> repoManagerProvider;
   private final DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation;
@@ -85,14 +85,12 @@ public class MergeSuperSet {
   @Inject
   MergeSuperSet(
       @GerritServerConfig Config cfg,
-      ChangeData.Factory changeDataFactory,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOpRepoManager> repoManagerProvider,
       DynamicItem<MergeSuperSetComputation> mergeSuperSetComputation,
       PermissionBackend permissionBackend,
       ProjectCache projectCache) {
     this.cfg = cfg;
-    this.changeDataFactory = changeDataFactory;
     this.queryProvider = queryProvider;
     this.repoManagerProvider = repoManagerProvider;
     this.mergeSuperSetComputation = mergeSuperSetComputation;
@@ -118,8 +116,9 @@ public class MergeSuperSet {
         orm = repoManagerProvider.get();
         closeOrm = true;
       }
-
-      ChangeData cd = changeDataFactory.create(db, change.getProject(), change.getId());
+      List<ChangeData> cds = queryProvider.get().byLegacyChangeId(change.getId());
+      checkState(cds.size() == 1, "Expected exactly one ChangeData, got " + cds.size());
+      ChangeData cd = Iterables.getFirst(cds, null);
       ProjectState projectState = projectCache.checkedGet(cd.project());
       ChangeSet changeSet =
           new ChangeSet(
@@ -217,7 +216,7 @@ public class MergeSuperSet {
   }
 
   private List<ChangeData> byTopicOpen(String topic) throws OrmException {
-    return query(queryProvider.get()).byTopicOpen(topic);
+    return queryProvider.get().byTopicOpen(topic);
   }
 
   private boolean canRead(ReviewDb db, CurrentUser user, ChangeData cd)

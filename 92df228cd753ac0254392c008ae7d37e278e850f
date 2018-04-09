@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1423337c_1c41f527",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-09T23:46:47Z",
+      "side": 1,
+      "message": "Is this the same as the polyfill that Safari uses?",
+      "range": {
+        "startLine": 452,
+        "startChar": 3,
+        "endLine": 452,
+        "endChar": 79
+      },
+      "revId": "92df228cd753ac0254392c008ae7d37e278e850f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

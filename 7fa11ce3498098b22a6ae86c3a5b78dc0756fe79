@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8351bb45_bad2aac8",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-09T14:17:09Z",
+      "side": 1,
+      "message": "Hm I didn\u0027t figure out yet if this method should now remove more fields. Opinions?",
+      "parentUuid": "03769761_fb642433",
+      "range": {
+        "startLine": 58,
+        "startChar": 45,
+        "endLine": 58,
+        "endChar": 71
+      },
+      "revId": "7fa11ce3498098b22a6ae86c3a5b78dc0756fe79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6922516_ea83a80b",
         "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
         "patchSetId": 1

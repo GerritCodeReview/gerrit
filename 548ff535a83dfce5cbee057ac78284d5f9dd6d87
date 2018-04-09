@@ -1,0 +1,282 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2875cea7_9c2994cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "But there are already *2* other classes named GerritConfig :)",
+      "range": {
+        "startLine": 22,
+        "startChar": 34,
+        "endLine": 22,
+        "endChar": 46
+      },
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "580ed50e_66e6ae2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "I\u0027m not convinced this would really be problem.\n\nI think the long term goal, as much as possible, will be to have a lot of different com.google.gerrit.server.foo packages, each with its own BUILD file. There shouldn\u0027t be a \"rest of the server package\" to worry about.\n\nThere will probably be various dependencies between c.g.g.server.foo and c.g.g.server.bar which are not obvious from the package names themselves, but I think that issue is unavoidable.",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2525c5cd_fd009128",
+        "filename": "java/com/google/gerrit/config/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "I think for these new, thinner packages, I prefer *.java to **/*.java.",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a207bcbd_ae843d0b",
+        "filename": "java/com/google/gerrit/server/GerritPersonIdentProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fedc7f2a_4dd56d15",
+        "filename": "java/com/google/gerrit/server/config/AllProjectsNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e0a7a02_a7344dcf",
+        "filename": "java/com/google/gerrit/server/config/AllUsersNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bb63f10_02715169",
+        "filename": "java/com/google/gerrit/server/config/AnonymousCowardNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b19478e9_e1a7312f",
+        "filename": "java/com/google/gerrit/server/config/CanonicalWebUrlProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10f9bd81_e7ef2e26",
+        "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53d5cb7a_7bfd89b5",
+        "filename": "java/com/google/gerrit/server/config/ConfigSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c778dd81_47534fcd",
+        "filename": "java/com/google/gerrit/server/config/DisableReverseDnsLookupProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97c39361_f53231ba",
+        "filename": "java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?\n\nI guess we would need to move ArchiveFormat out of server.change...",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dfd4cb5_d66a796d",
+        "filename": "java/com/google/gerrit/server/config/GerritServerIdProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c3fcbe4_7e6cec5c",
+        "filename": "java/com/google/gerrit/server/config/GitwebCgiConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config? Or maybe a new gitweb package or something.",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b893f65e_7ac8df41",
+        "filename": "java/com/google/gerrit/server/config/GlobalPluginConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca8d79e8_68e60153",
+        "filename": "java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:35:23Z",
+      "side": 1,
+      "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

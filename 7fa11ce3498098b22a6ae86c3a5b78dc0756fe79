@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2992ee56_dce6950f",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-09T14:12:43Z",
+      "side": 1,
+      "message": "which is no more\nWhat about \"Clears the fields requested by the options CHANGE, PATCH_SET and MERGEABLE\"",
+      "range": {
+        "startLine": 58,
+        "startChar": 45,
+        "endLine": 58,
+        "endChar": 71
+      },
+      "revId": "7fa11ce3498098b22a6ae86c3a5b78dc0756fe79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d6922516_ea83a80b",
         "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
         "patchSetId": 1

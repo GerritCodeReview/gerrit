@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99cad4b1_c1cc28a3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T15:47:00Z",
+      "side": 1,
+      "message": "I think the answer is yes, just as they are included if you create a new change with by pushing to refs/for/master%cc\u003dsomeone. Ok to do in a followup change.",
+      "revId": "63cc2e82885a568e0f8bd9c88272eb155a5a16fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

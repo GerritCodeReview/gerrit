@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fdc55325_8036149d",
+        "filename": "java/com/google/gerrit/util/common/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:39:18Z",
+      "side": 1,
+      "message": "*.java",
+      "revId": "86e740e495011ed676fc66b883655bddccad273b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

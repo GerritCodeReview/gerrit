@@ -119,6 +119,30 @@
       "revId": "a847798eb0f446e424b2bc582e814985e61530bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4768fce3_de6f0b62",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-09T09:18:13Z",
+      "side": 1,
+      "message": "It\u0027s fine as it is. I just liked to hear your opinion.\n\nOverall, I think it depends on how we view exceptions here. If we assume that any exception here means a state which we can\u0027t resolve (which is what I believe and would be in line with the comment below in the code), we could catch Exception here. If we think that there might be a checked exception in the future which we might handle in another way, having the individual exceptions here is better.",
+      "parentUuid": "112beed9_1801cea2",
+      "range": {
+        "startLine": 117,
+        "startChar": 13,
+        "endLine": 117,
+        "endChar": 43
+      },
+      "revId": "a847798eb0f446e424b2bc582e814985e61530bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

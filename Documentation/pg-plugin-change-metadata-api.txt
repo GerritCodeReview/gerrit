@@ -1,0 +1,16 @@
+= Gerrit Code Review - Change metadata plugin API
+
+This API is provided by
+link:pg-plugin-dev.html#change-metadata[plugin.changeMetadata()] and provides
+interface for customization and data updates of change metadata.
+
+== onLabelsChanged
+`changeMetadataApi.onLabelsChanged(callback)`
+
+.Params
+- *callback* function that's executed when labels changed on the server.
+Callback receives labels with scores applied to the change, map of the label
+names to link:rest-api-changes.html#label-info[LabelInfo] entries
+
+.Returns
+- `GrChangeMetadataApi` for chaining.

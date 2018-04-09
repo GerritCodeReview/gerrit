@@ -29,7 +29,7 @@ limitations under the License.
 
 <test-fixture id="element">
   <template>
-    <gr-change-metadata></gr-change-metadata>
+    <gr-change-metadata mutable="true"></gr-change-metadata>
   </template>
 </test-fixture>
 
@@ -51,20 +51,42 @@ limitations under the License.
       'section.topic',
     ];
 
+    const labels = {
+      CI: {
+        all: [
+          {value: 1, name: 'user 2', _account_id: 1},
+          {value: 2, name: 'user '},
+        ],
+        values: {
+          ' 0': 'Don\'t submit as-is',
+          '+1': 'No score',
+          '+2': 'Looks good to me',
+        },
+      },
+    };
+
     const getStyle = function(selector, name) {
       return window.getComputedStyle(
           Polymer.dom(element.root).querySelector(selector))[name];
     };
 
+    function createElement() {
+      const element = fixture('element');
+      element.change = {labels, status: 'NEW'};
+      element.revision = {};
+      return element;
+    }
+
     setup(() => {
       sandbox = sinon.sandbox.create();
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({}); },
+        getLoggedIn() { return Promise.resolve(false); },
+        deleteVote() { return Promise.resolve({ok: true}); },
+      });
       stub('gr-change-metadata', {
         _computeShowLabelStatus() { return true; },
         _computeShowReviewersByState() { return true; },
-        ready() {
-          this.change = {labels: [], status: 'NEW'};
-          this.serverConfig = {};
-        },
       });
     });
 
@@ -76,7 +98,7 @@ limitations under the License.
 
     suite('by default', () => {
       setup(done => {
-        element = fixture('element');
+        element = createElement();
         flush(done);
       });
 
@@ -99,7 +121,7 @@ limitations under the License.
             ],
           },
         };
-        element = fixture('element');
+        element = createElement();
         const importSpy = sandbox.spy(element.$.externalStyle, '_import');
         Gerrit.awaitPluginsLoaded().then(() => {
           Promise.all(importSpy.returnValues).then(() => {
@@ -113,6 +135,39 @@ limitations under the License.
           assert.equal(getStyle(sectionSelector, 'display'), 'none');
         });
       }
+    });
+
+    suite('label updates', () => {
+      let plugin;
+      let labelChangeStub;
+
+      setup(done => {
+        Gerrit.install(p => plugin = p, '0.1',
+            new URL('test/plugin.html?' + Math.random(),
+                    window.location.href).toString());
+        sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+        Gerrit._resolveAllPluginsLoaded();
+        element = createElement();
+        sandbox.stub(element, '_computeCanDeleteVote').returns(true);
+
+        labelChangeStub = sandbox.stub();
+        plugin.changeMetadata().onLabelsChanged(labelChangeStub);
+        flush(done);
+      });
+
+      test('labels changed callback', done => {
+        assert.equal(labelChangeStub.callCount, 1);
+        assert.isTrue(labelChangeStub.calledWithExactly(labels));
+        assert.equal(labelChangeStub.args[0][0]['CI'].all.length, 2);
+        MockInteractions.tap(Polymer.dom(element.root).querySelector(
+            'gr-account-chip').$.remove);
+        // Wait for fake rest API response.
+        flush(() => {
+          assert.equal(labelChangeStub.callCount, 2);
+          assert.equal(labelChangeStub.args[1][0]['CI'].all.length, 1);
+          done();
+        });
+      });
     });
   });
 </script>

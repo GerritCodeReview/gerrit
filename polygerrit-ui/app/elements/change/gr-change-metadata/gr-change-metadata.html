@@ -316,12 +316,12 @@ limitations under the License.
         </section>
       </template>
       <template is="dom-repeat"
-          items="[[_computeLabelNames(change.labels)]]" as="labelName">
+          items="[[_computeLabelNames(labels)]]" as="labelName">
         <section>
           <span class="title">[[labelName]]</span>
           <span class="value">
             <template is="dom-repeat"
-                items="[[_computeLabelValues(labelName, change.labels.*)]]"
+                items="[[_computeLabelValues(labelName, labels.*)]]"
                 as="label">
               <div class="labelValueContainer">
                 <span>
@@ -379,6 +379,7 @@ limitations under the License.
         </span>
       </section>
       <gr-endpoint-decorator name="change-metadata-item">
+        <gr-endpoint-param name="labels" value="[[labels]]"></gr-endpoint-param>
         <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
         <gr-endpoint-param name="revision" value="[[revision]]"></gr-endpoint-param>
       </gr-endpoint-decorator>

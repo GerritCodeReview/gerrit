@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc1f9212_99e8cfb0",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexActivateCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-09T23:40:46Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this go to stderr?",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 14
+      },
+      "revId": "2ea6a0a1df5836577b69a227ff4851a344e11cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -449,8 +449,10 @@
   };
 
   Gerrit.install = function(callback, opt_version, opt_src) {
-    const src = opt_src || (document.currentScript &&
-         (document.currentScript.src || document.currentScript.baseURI));
+    // Firefox import polyfill adds __importElement pointing to the import tag.
+    const script = document.currentScript &&
+          (document.currentScript.__importElement || document.currentScript);
+    const src = opt_src || (script && (script.src || script.baseURI));
     const name = getPluginNameFromUrl(src);
 
     if (opt_version && opt_version !== API_VERSION) {

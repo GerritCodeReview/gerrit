@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1523288468 +0200\nnonce AFN+CTLCM23HltEgIBU1rmmmogdSlnIDgiy7MQmQ2lmluWiluFHn2wxvcb8mkxg6V+qaRUgtjIUH\n\n0000000000000000000000000000000000000000 8fe2d2a9b04989aa2a197f960a25ff398d555fc8 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlrLiZQACgkQUbX9l6DQ\n71FyYAf/TTuUqWFTI7B2EQesgix9sSSUR8S0juM/gpLSnYpkq4c62l+rhX2rQ3rh\nvk4IqnqUBFltSIxzmU3Jdo3uAxgz4VYNG/YZZfBAdHQ3qQbQnrjXOv25gDkePZ5S\nThC5zJW7MER2YDpLsFZEqfFErwVk66I3feVI9vBBaYTUYuoJe9kheotw+GMTU79b\n/TLgMK8MzqZQtjOQcP6ugG1OFYEDENjYtdSMU1apfdU6TDra3pWi6GHgBvTih0vX\nn+BrRVL+pZKNJP8sxip6ZGx7HvyQm73ykuUq1w8Le76bdO4wWYc7gMNlevrb48tp\nFvMgHQU60zXT9wi7ji+/bJKcm0IBSw\u003d\u003d\n\u003dBA7V\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "132c64af_a8e4a86f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T16:41:09Z",
+      "side": 1,
+      "message": "Does this mean we can now get rid of the account query from Emails#getAccountFor? IIRC the reason was that an email could show up only as a preferred email and not as an external ID.\n\nOr, since this is just true for new accounts, can we not make that change without migrating old data?",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "8fe2d2a9b04989aa2a197f960a25ff398d555fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "802175b6_6a098a98",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutPreferred.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T16:41:09Z",
+      "side": 1,
+      "message": "If we hit this case, we (the admins) are going to be asked who this other account is. Will we be able to do that without logging something and/or including the other account in this error message?\n\nIf so, I think it\u0027s probably preferable to keep this message vague, so the caller doesn\u0027t learn about some other account that they shouldn\u0027t necessarily know about.",
+      "revId": "8fe2d2a9b04989aa2a197f960a25ff398d555fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

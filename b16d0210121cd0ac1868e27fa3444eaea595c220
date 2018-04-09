@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50df6017_770c8403",
+        "filename": "java/com/google/gerrit/server/securestore/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-09T09:38:24Z",
+      "side": 1,
+      "message": "I prefer *.java",
+      "revId": "b16d0210121cd0ac1868e27fa3444eaea595c220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

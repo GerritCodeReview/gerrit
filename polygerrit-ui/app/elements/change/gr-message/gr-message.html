@@ -34,49 +34,24 @@ limitations under the License.
         border-bottom: 1px solid #ddd;
         display: block;
         position: relative;
-        cursor: pointer;
-      }
-      :host(.expanded) {
-        cursor: auto;
       }
       :host > div {
         padding: 0 var(--default-horizontal-margin);
       }
       gr-avatar {
-        position: absolute;
+        height: 2.5em;
         left: var(--default-horizontal-margin);
-      }
-      .collapsed .contentContainer {
-        align-items: baseline;
-        color: #777;
-        display: flex;
-        white-space: nowrap;
+        position: absolute;
+        top: 12px;
+        width: 2.5em;
       }
       .contentContainer {
         margin-left: calc(var(--default-horizontal-margin) + 2.5em);
         padding: 10px 0;
       }
-      .showAvatar.collapsed .contentContainer {
-        margin-left: calc(var(--default-horizontal-margin) + 1.75em);
-      }
-      .hideAvatar.collapsed .contentContainer,
-      .hideAvatar.expanded .contentContainer {
+      .hideAvatar .contentContainer {
         margin-left: 0;
-      }
-      .showAvatar.collapsed .contentContainer,
-      .hideAvatar.collapsed .contentContainer,
-      .hideAvatar.expanded .contentContainer {
         padding: .75em 0;
-      }
-      .collapsed gr-avatar {
-        top: .5em;
-        height: 1.75em;
-        width: 1.75em;
-      }
-      .expanded gr-avatar {
-        top: 12px;
-        height: 2.5em;
-        width: 2.5em;
       }
       .name {
         font-family: var(--font-family-bold);
@@ -84,46 +59,10 @@ limitations under the License.
       .message {
         --gr-formatted-text-prose-max-width: 80ch;
       }
-      .collapsed .message {
-        max-width: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .collapsed .author,
-      .collapsed .content,
-      .collapsed .message,
-      .collapsed .updateCategory,
-      gr-account-chip {
-        display: inline;
-      }
       gr-button {
         margin: 0 -4px;
       }
-      .collapsed gr-comment-list,
-      .collapsed .replyContainer,
-      .collapsed .hideOnCollapsed,
-      .hideOnOpen {
-        display: none;
-      }
-      .collapsed .hideOnOpen {
-        display: block;
-      }
-      .collapsed .content {
-        flex: 1;
-        margin-right: .25em;
-        min-width: 0;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      .collapsed .date {
-        position: static;
-      }
-      .collapsed .author {
-        color: var(--default-text-color);
-        margin-right: .4em;
-      }
-      .expanded .author {
-        cursor: pointer;
+      .author {
         margin-bottom: .4em;
       }
       .date {
@@ -161,10 +100,10 @@ limitations under the License.
         };
       }
     </style>
-    <div class$="[[_computeClass(_expanded, showAvatar, message)]]">
+    <div class$="[[_computeClass(showAvatar, message)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
-        <div class="author" on-tap="_handleAuthorTap">
+        <div class="author">
           <span hidden$="[[!showOnBehalfOf]]">
             <span class="name">[[message.real_author.name]]</span>
             on behalf of
@@ -180,10 +119,9 @@ limitations under the License.
         </div>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
-            <div class="message hideOnOpen">[[message.message]]</div>
             <gr-formatted-text
                 no-trailing-margin
-                class="message hideOnCollapsed"
+                class="message"
                 content="[[message.message]]"
                 config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
             <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>

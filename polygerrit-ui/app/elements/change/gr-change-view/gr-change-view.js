@@ -932,22 +932,6 @@
       this._determinePageBack();
     },
 
-    _handleXKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-
-      e.preventDefault();
-      this.messagesList.handleExpandCollapse(true);
-    },
-
-    _handleZKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-
-      e.preventDefault();
-      this.messagesList.handleExpandCollapse(false);
-    },
-
     _handleCommaKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }

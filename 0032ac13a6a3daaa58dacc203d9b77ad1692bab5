@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1b91722_da8faf6f",
+        "filename": "java/com/google/gerrit/server/submit/MergeSuperSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-09T14:06:46Z",
+      "side": 0,
+      "message": "As this method leads to undesirable behaviors, should we add a note/deprecate it to let users know?\nIt is currently used 4 times - excluding the tests and indexes+ChangeJson itself - and this might not be wanted, right?\n- com.google.gerrit.server.index.change.ChangeIndexer\n- com.google.gerrit.server.mail.send.ChangeEmail\n- com.google.gerrit.server.git.validators.MergeValidators.AccountMergeValidator",
+      "range": {
+        "startLine": 122,
+        "startChar": 40,
+        "endLine": 122,
+        "endChar": 46
+      },
+      "revId": "0032ac13a6a3daaa58dacc203d9b77ad1692bab5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

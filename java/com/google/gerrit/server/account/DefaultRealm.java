@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.client.AuthType;
@@ -33,7 +34,8 @@ public class DefaultRealm extends AbstractRealm {
   private final AuthConfig authConfig;
 
   @Inject
-  DefaultRealm(EmailExpander emailExpander, Provider<Emails> emails, AuthConfig authConfig) {
+  @VisibleForTesting
+  public DefaultRealm(EmailExpander emailExpander, Provider<Emails> emails, AuthConfig authConfig) {
     this.emailExpander = emailExpander;
     this.emails = emails;
     this.authConfig = authConfig;

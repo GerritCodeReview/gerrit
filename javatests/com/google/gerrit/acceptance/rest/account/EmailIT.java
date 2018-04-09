@@ -15,27 +15,54 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.accounts.EmailApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.DefaultRealm;
+import com.google.gerrit.server.account.EmailExpander;
+import com.google.gerrit.server.account.Emails;
+import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.DisableReverseDnsLookup;
 import com.google.gson.reflect.TypeToken;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.junit.Test;
 
 public class EmailIT extends AbstractDaemonTest {
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
+  @Inject private ExternalIds externalIds;
+  @Inject private SchemaFactory<ReviewDb> reviewDbProvider;
+  @Inject private AuthConfig authConfig;
+  @Inject private @AnonymousCowardName String anonymousCowardName;
+  @Inject private @CanonicalWebUrl Provider<String> canonicalUrl;
+  @Inject private @DisableReverseDnsLookup Boolean disableReverseDnsLookup;
+  @Inject private EmailExpander emailExpander;
+  @Inject private Provider<Emails> emails;
 
   @Test
   public void addEmail() throws Exception {
@@ -144,7 +171,43 @@ public class EmailIT extends AbstractDaemonTest {
     resetCurrentApiUser();
     String emailOtherCase = email.toUpperCase();
     gApi.accounts().self().email(emailOtherCase).setPreferred();
-    assertThat(gApi.accounts().self().get().email).isEqualTo(emailOtherCase);
+    assertThat(gApi.accounts().self().get().email).isEqualTo(email);
+  }
+
+  @Test
+  public void setPreferredEmailToEmailFromCustomRealmThatDoesntExistAsExternalId()
+      throws Exception {
+    String email = "foo@example.com";
+    ExternalId.Key mailtoExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_MAILTO, email);
+    assertThat(externalIds.get(mailtoExtIdKey)).isEmpty();
+    assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
+
+    Context oldCtx = createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id, email));
+    try {
+      gApi.accounts().self().email(email).setPreferred();
+      Optional<ExternalId> mailtoExtId = externalIds.get(mailtoExtIdKey);
+      assertThat(mailtoExtId).isPresent();
+      assertThat(mailtoExtId.get().accountId()).isEqualTo(admin.id);
+      assertThat(gApi.accounts().self().get().email).isEqualTo(email);
+    } finally {
+      atrScope.set(oldCtx);
+    }
+  }
+
+  @Test
+  public void setPreferredEmailToEmailFromCustomRealmThatBelongsToOtherAccount() throws Exception {
+    ExternalId mailToExtId = ExternalId.createEmail(user.id, user.email);
+    assertThat(externalIds.get(mailToExtId.key())).isPresent();
+
+    Context oldCtx =
+        createContextWithCustomRealm(new RealmWithAdditionalEmails(admin.id, user.email));
+    try {
+      exception.expect(ResourceConflictException.class);
+      exception.expectMessage("email in use by another account");
+      gApi.accounts().self().email(user.email).setPreferred();
+    } finally {
+      atrScope.set(oldCtx);
+    }
   }
 
   @Test
@@ -204,5 +267,39 @@ public class EmailIT extends AbstractDaemonTest {
     input.noConfirmation = true;
     RestResponse r = adminRestSession.put("/accounts/self/emails/" + email, input);
     r.assertCreated();
+  }
+
+  private Context createContextWithCustomRealm(Realm realm) {
+    IdentifiedUser.GenericFactory userFactory =
+        new IdentifiedUser.GenericFactory(
+            authConfig,
+            realm,
+            anonymousCowardName,
+            canonicalUrl,
+            disableReverseDnsLookup,
+            accountCache,
+            groupBackend);
+    return atrScope.set(atrScope.newContext(reviewDbProvider, null, userFactory.create(admin.id)));
+  }
+
+  private class RealmWithAdditionalEmails extends DefaultRealm {
+    private final Multimap<Account.Id, String> additionalEmails;
+
+    public RealmWithAdditionalEmails(Account.Id accountId, String email) {
+      this(ImmutableMultimap.of(accountId, email));
+    }
+
+    public RealmWithAdditionalEmails(Multimap<Account.Id, String> additionalEmails) {
+      super(emailExpander, emails, authConfig);
+      this.additionalEmails = additionalEmails;
+    }
+
+    @Override
+    public boolean hasEmailAddress(IdentifiedUser user, String email) {
+      if (additionalEmails.containsEntry(user.getAccountId(), email)) {
+        return true;
+      }
+      return super.hasEmailAddress(user, email);
+    }
   }
 }

@@ -225,121 +225,18 @@ limitations under the License.
       assert.isFalse(element.$.messageControlsContainer.hasAttribute('hidden'));
     });
 
-    test('show all messages respects expand', () => {
-      element.messages = _.times(10, randomAutomated)
-          .concat(_.times(11, randomMessage));
-      flushAsynchronousOperations();
-
-      MockInteractions.tap(element.$$('#collapse-messages')); // Expand all.
-      flushAsynchronousOperations();
-
-      let messages = getMessages();
-      assert.equal(messages.length, 20);
-      for (const message of messages) {
-        assert.isTrue(message._expanded);
-      }
-
-      MockInteractions.tap(element.$.oldMessagesBtn);
-      flushAsynchronousOperations();
-
-      messages = getMessages();
-      assert.equal(messages.length, 21);
-      for (const message of messages) {
-        assert.isTrue(message._expanded);
-      }
-    });
-
-    test('show all messages respects collapse', () => {
-      element.messages = _.times(10, randomAutomated)
-          .concat(_.times(11, randomMessage));
-      flushAsynchronousOperations();
-
-      MockInteractions.tap(element.$$('#collapse-messages')); // Expand all.
-      MockInteractions.tap(element.$$('#collapse-messages')); // Collapse all.
-      flushAsynchronousOperations();
-
-      let messages = getMessages();
-      assert.equal(messages.length, 20);
-      for (const message of messages) {
-        assert.isFalse(message._expanded);
-      }
-
-      MockInteractions.tap(element.$.oldMessagesBtn);
-      flushAsynchronousOperations();
-
-      messages = getMessages();
-      assert.equal(messages.length, 21);
-      for (const message of messages) {
-        assert.isFalse(message._expanded);
-      }
-    });
-
-    test('expand/collapse all', () => {
-      let allMessageEls = getMessages();
-      for (const message of allMessageEls) {
-        message._expanded = false;
-      }
-      MockInteractions.tap(allMessageEls[1]);
-      assert.isTrue(allMessageEls[1]._expanded);
-
-      MockInteractions.tap(element.$$('#collapse-messages'));
-      allMessageEls = getMessages();
-      for (const message of allMessageEls) {
-        assert.isTrue(message._expanded);
-      }
-
-      MockInteractions.tap(element.$$('#collapse-messages'));
-      allMessageEls = getMessages();
-      for (const message of allMessageEls) {
-        assert.isFalse(message._expanded);
-      }
-    });
-
-    test('expand/collapse from external keypress', () => {
-      MockInteractions.tap(element.$$('#collapse-messages'));
-      let allMessageEls = getMessages();
-      for (const message of allMessageEls) {
-        assert.isTrue(message._expanded);
-      }
-
-      // Expand/collapse all text also changes.
-      assert.equal(element.$$('#collapse-messages').textContent.trim(),
-          'Collapse all');
-
-      MockInteractions.tap(element.$$('#collapse-messages'));
-      allMessageEls = getMessages();
-      for (const message of allMessageEls) {
-        assert.isFalse(message._expanded);
-      }
-      // Expand/collapse all text also changes.
-      assert.equal(element.$$('#collapse-messages').textContent.trim(),
-          'Expand all');
-    });
-
     test('hide messages does not appear when no automated messages', () => {
       assert.isOk(element.$$('#automatedMessageToggleContainer[hidden]'));
     });
 
     test('scroll to message', () => {
-      const allMessageEls = getMessages();
-      for (const message of allMessageEls) {
-        message.set('message.expanded', false);
-      }
-
       const scrollToStub = sandbox.stub(window, 'scrollTo');
       const highlightStub = sandbox.stub(element, '_highlightEl');
 
       element.scrollToMessage('invalid');
 
-      for (const message of allMessageEls) {
-        assert.isFalse(message._expanded,
-            'expected gr-message to not be expanded');
-      }
-
       const messageID = messages[1].id;
       element.scrollToMessage(messageID);
-      assert.isTrue(
-          element.$$('[data-message-id="' + messageID + '"]')._expanded);
 
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);
@@ -358,8 +255,6 @@ limitations under the License.
       assert.isTrue(scrollToStub.calledOnce);
       assert.isTrue(highlightStub.calledOnce);
       assert.equal(element._visibleMessages.length, 24);
-      assert.isTrue(
-          element.$$('[data-message-id="' + messageID + '"]')._expanded);
     });
 
     test('messages', () => {

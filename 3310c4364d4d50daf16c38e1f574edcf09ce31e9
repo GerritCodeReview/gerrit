@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "98729cf2_a9e05605",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-09T16:01:21Z",
+      "side": 1,
+      "message": "No -- It\u0027d be the patch number the edit is based on, until a draft is saved. At that point, it\u0027d become \u0027edit\u0027 and the cached draft would no longer automatically apply.",
+      "parentUuid": "59575307_a48910a8",
+      "range": {
+        "startLine": 16,
+        "startChar": 46,
+        "endLine": 16,
+        "endChar": 58
+      },
+      "revId": "3310c4364d4d50daf16c38e1f574edcf09ce31e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7520b751_8a13ba99",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-06T17:30:24Z",
       "side": 1,
       "message": "Shouldn\u0027t the content get erased when the edit is published too? Or does this method get called when that happens?",
+      "range": {
+        "startLine": 218,
+        "startChar": 25,
+        "endLine": 218,
+        "endChar": 49
+      },
+      "revId": "3310c4364d4d50daf16c38e1f574edcf09ce31e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d655c3eb_8789a2d0",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-09T16:01:21Z",
+      "side": 1,
+      "message": "I can add that! I was depending on the cleanup of gr-storage (_cleanupItems()) to handle that, but we could be more eager here.",
+      "parentUuid": "7520b751_8a13ba99",
       "range": {
         "startLine": 218,
         "startChar": 25,

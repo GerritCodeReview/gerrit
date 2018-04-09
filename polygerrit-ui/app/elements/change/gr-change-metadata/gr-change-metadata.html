@@ -28,6 +28,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
 <link rel="import" href="../../shared/gr-label/gr-label.html">
+<link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -233,13 +234,17 @@ limitations under the License.
       <section>
         <span class="title">Project</span>
         <span class="value">
-          <a href$="[[_computeProjectURL(change.project)]]">[[change.project]]</a>
+          <a href$="[[_computeProjectURL(change.project)]]">
+            <gr-limited-text limit="40" text="[[change.project]]"></gr-limited-text>
+          </a>
         </span>
       </section>
       <section>
         <span class="title">Branch</span>
         <span class="value">
-          <a href$="[[_computeBranchURL(change.project, change.branch)]]">[[change.branch]]</a>
+          <a href$="[[_computeBranchURL(change.project, change.branch)]]">
+            <gr-limited-text limit="40" text="[[change.branch]]"></gr-limited-text>
+          </a>
         </span>
       </section>
       <section>

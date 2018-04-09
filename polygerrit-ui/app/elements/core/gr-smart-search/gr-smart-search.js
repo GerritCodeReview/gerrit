@@ -25,7 +25,10 @@
     is: 'gr-smart-search',
 
     properties: {
-      searchQuery: String,
+      searchQuery: {
+        type: String,
+        notify: true,
+      },
       _config: Object,
       _projectSuggestions: {
         type: Function,

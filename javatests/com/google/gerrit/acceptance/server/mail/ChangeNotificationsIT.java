@@ -866,7 +866,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
-  public void addReviewerOnWipChangeAndStartReview() throws Exception {
+  public void addReviewerOnWipChangeAndStartReviewInNoteDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
     StagedChange sc = stageWipChange();
     ReviewInput in = ReviewInput.noScore().reviewer(other.email).setWorkInProgress(false);
     gApi.changes().id(sc.changeId).revision("current").review(in);
@@ -876,6 +877,35 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .bcc(sc.starrer)
         .bcc(ALL_COMMENTS)
+        .noOneElse();
+    // TODO(logan): Should CCs be included?
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to(other)
+        .cc(sc.reviewer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .noOneElse();
+    assertThat(sender).notSent();
+  }
+
+  @Test
+  public void addReviewerOnWipChangeAndStartReviewInReviewDb() throws Exception {
+    assume().that(notesMigration.readChanges()).isFalse();
+    StagedChange sc = stageWipChange();
+    ReviewInput in = ReviewInput.noScore().reviewer(other.email).setWorkInProgress(false);
+    gApi.changes().id(sc.changeId).revision("current").review(in);
+    assertThat(sender)
+        .sent("comment", sc)
+        .cc(sc.reviewer, sc.ccer, other)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
+        .bcc(sc.starrer)
+        .bcc(ALL_COMMENTS)
+        .noOneElse();
+    assertThat(sender)
+        .sent("newchange", sc)
+        .to(other)
+        .cc(sc.reviewer, sc.ccer)
+        .cc(sc.reviewerByEmail, sc.ccerByEmail)
         .noOneElse();
     assertThat(sender).notSent();
   }

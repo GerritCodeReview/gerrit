@@ -22,6 +22,30 @@
       "revId": "a919cb69c276c0f6dabc3e10bc7eac60962ace7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44f088eb_74bcf4d6",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-10T13:20:55Z",
+      "side": 0,
+      "message": "Good catch. I pushed this into the caller now as they construct the WithUser",
+      "parentUuid": "edc2c57b_00c524cf",
+      "range": {
+        "startLine": 1467,
+        "startChar": 70,
+        "endLine": 1467,
+        "endChar": 83
+      },
+      "revId": "a919cb69c276c0f6dabc3e10bc7eac60962ace7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

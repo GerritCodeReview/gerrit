@@ -91,6 +91,7 @@ public class LuceneIndexModule extends AbstractModule {
       install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule(singleVersions));
+      bind(VersionManager.class).to(LuceneVersionManager.class);
     }
   }
 

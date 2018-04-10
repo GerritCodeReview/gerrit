@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "96455e16_8bffb49a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-10T08:43:22Z",
+      "side": 1,
+      "message": "Discussed in person, agreed.",
+      "parentUuid": "5f429563_47427ee1",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 6
+      },
+      "revId": "8fe2d2a9b04989aa2a197f960a25ff398d555fc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "802175b6_6a098a98",
         "filename": "java/com/google/gerrit/server/restapi/account/PutPreferred.java",
         "patchSetId": 2

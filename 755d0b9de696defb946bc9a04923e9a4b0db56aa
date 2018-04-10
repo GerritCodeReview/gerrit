@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "350908c0_f585f14d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2178,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-10T11:30:27Z",
+      "side": 1,
+      "message": "I\u0027m sorry I haven\u0027t found any other instance of this setting being used except in GerritServerId which was introduced in f367b5d3aee7dc84e9be799646f4076d9db9a0d5 which in turn only is available in versions \u003e\u003d 2.13. I Haven\u0027t found any indication that this setting is used prior to v2.13.\n\n$ git log --oneline -S\"\\\"serverId\\\"\"\n$ git grep \"\\\"serverId\"\\\"\n\nOne could argue that this documentation should be in stable-2.14. My reasoning for adding it to stable-2.15 is that it is only used by NoteDb which was still experimental in 2.14.",
+      "parentUuid": "77fc1b22_97456053",
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67dca02f_e52354b7",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4febeaae_7e9bd8ed",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-10T11:30:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67dca02f_e52354b7",
+      "range": {
+        "startLine": 2180,
+        "startChar": 8,
+        "endLine": 2180,
+        "endChar": 15
+      },
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9c7841e5_91c2bb72",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2183,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-10T11:30:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a63116d2_972c9a0f",
+      "range": {
+        "startLine": 2183,
+        "startChar": 72,
+        "endLine": 2183,
+        "endChar": 76
+      },
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "394ec574_b38567bb",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -79,6 +145,24 @@
       "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24edcaf0_19d7ef46",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2187,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-10T11:30:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "394ec574_b38567bb",
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

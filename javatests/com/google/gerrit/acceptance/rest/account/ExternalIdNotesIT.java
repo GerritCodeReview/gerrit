@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.account;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -25,6 +26,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -271,9 +273,9 @@ public class ExternalIdNotesIT extends AbstractDaemonTest {
 
   private void assertExternalId(ExternalId.Key extIdKey, @Nullable String expectedEmail)
       throws Exception {
-    ExternalId extId = externalIds.get(extIdKey);
-    assertThat(extId).named(extIdKey.get()).isNotNull();
-    assertThat(extId.email()).named("email of " + extIdKey.get()).isEqualTo(expectedEmail);
+    Optional<ExternalId> extId = externalIds.get(extIdKey);
+    assertThat(extId).named(extIdKey.get()).isPresent();
+    assertThat(extId.get().email()).named("email of " + extIdKey.get()).isEqualTo(expectedEmail);
   }
 
   private void expectException(String message) {

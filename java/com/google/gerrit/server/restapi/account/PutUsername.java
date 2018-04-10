@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -109,8 +110,8 @@ public class PutUsername implements RestModifyView<AccountResource, UsernameInpu
               u -> u.addExternalId(ExternalId.create(key, accountId, null, null)));
     } catch (OrmDuplicateKeyException dupeErr) {
       // If we are using this identity, don't report the exception.
-      ExternalId other = externalIds.get(key);
-      if (other != null && other.accountId().equals(accountId)) {
+      Optional<ExternalId> other = externalIds.get(key);
+      if (other.isPresent() && other.get().accountId().equals(accountId)) {
         return input.username;
       }
 

@@ -309,11 +309,16 @@ limitations under the License.
         </fieldset>
         <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
         <fieldset id="menu">
-          <gr-menu-editor menu-items="{{_localMenu}}"></gr-menu-editor>
+          <gr-menu-editor
+              menu-items="{{_localMenu}}"></gr-menu-editor>
           <gr-button
               id="saveMenu"
               on-tap="_handleSaveMenu"
               disabled="[[!_menuChanged]]">Save changes</gr-button>
+          <gr-button
+              id="resetMenu"
+              link
+              on-tap="_handleResetMenuButton">Reset</gr-button>
         </fieldset>
         <h2 id="ChangeTableColumns"
             class$="[[_computeHeaderClass(_changeTableChanged)]]">

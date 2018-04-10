@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37e63737_454ea93c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2189,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-10T14:10:22Z",
+      "side": 1,
+      "message": "Hmm this sounds dangerous.\n\nWhat if you have this set in puppet like we do at the wmf and use it across two servers, one being the master and the other slave?",
+      "range": {
+        "startLine": 2185,
+        "startChar": 0,
+        "endLine": 2189,
+        "endChar": 18
+      },
+      "revId": "327c2e48b57dfeef85379118a25d8b61a3fb7331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

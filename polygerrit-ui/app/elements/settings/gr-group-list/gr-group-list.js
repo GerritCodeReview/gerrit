@@ -21,6 +21,11 @@
       _groups: Array,
     },
 
+    behaviors: [
+      Gerrit.BaseUrlBehavior,
+      Gerrit.URLEncodingBehavior,
+    ],
+
     loadData() {
       return this.$.restAPI.getAccountGroups().then(groups => {
         this._groups = groups.sort((a, b) => {
@@ -31,6 +36,14 @@
 
     _computeVisibleToAll(group) {
       return group.options.visible_to_all ? 'Yes' : 'No';
+    },
+
+    _computeGroupPath(group) {
+      if (!group || !group.id) { return; }
+
+      const encodeGroup = this.encodeURL(group.id, true);
+
+      return `${this.getBaseUrl()}/admin/groups/${encodeGroup}`;
     },
   });
 })();

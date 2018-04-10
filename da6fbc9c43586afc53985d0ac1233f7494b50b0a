@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "454b6c6b_73da0631",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-10T09:11:29Z",
+      "side": 1,
+      "message": "Thanks for the pointers. I commented on [1].",
+      "parentUuid": "0b8a3c62_6f3a88ef",
+      "revId": "da6fbc9c43586afc53985d0ac1233f7494b50b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cbd0ee3_536a4591",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5

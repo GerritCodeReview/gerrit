@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f208953_8c62bd3a",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementInfo.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-10T15:59:43Z",
+      "side": 1,
+      "message": "Does this need to be in the common package?",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "d32aedb347cc18289d64ee84d8ac66677e0bfdad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

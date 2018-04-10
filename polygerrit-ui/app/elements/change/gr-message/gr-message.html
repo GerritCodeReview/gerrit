@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
+<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-voting-styles.html">
@@ -59,8 +60,16 @@ limitations under the License.
         --gr-formatted-text-block-leading: .6em;
         --gr-formatted-text-prose-max-width: 80ch;
       }
-      .reviewerUpdate .message {
+      .reviewerUpdate .message,
+      .showShortMessage .message {
         display: none;
+      }
+      .shortMessage {
+        display: none;
+        vertical-align: bottom;
+      }
+      .showShortMessage .shortMessage {
+        display: inline-block;
       }
       gr-button {
         margin: 0 -4px;
@@ -207,6 +216,10 @@ limitations under the License.
               </span>
             </template>
           </template>
+          <gr-linked-text
+              class="shortMessage"
+              content="[[message.message]]"
+              config="[[_projectConfig.commentlinks]]"></gr-linked-text>
         </div>
         <gr-formatted-text
             no-trailing-margin

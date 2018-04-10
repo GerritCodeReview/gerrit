@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22b65678_a2a35cb2",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-10T11:32:25Z",
+      "side": 1,
+      "message": "Could you instead write this method as:\n\n    ensureLoaded(in);\n    List\u003cChangeInfo\u003e out \u003d new ArrayList\u003c\u003e(in.size());\n    for (ChangeData cd : in) {\n      out.add(format(cd));\n    }\n    return out;\n\n?",
+      "range": {
+        "startLine": 418,
+        "startChar": 4,
+        "endLine": 425,
+        "endChar": 15
+      },
+      "revId": "5b9d06c9bfa4cc72516386eeaf7381fb5a35b828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -119,6 +119,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
     try (MetaDataUpdate md = metaDataUpdateUser.create(rsrc.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       ObjectId oldCommit = config.getRevision();
+      String oldCommitSha1 = oldCommit == null ? null : oldCommit.getName();
 
       setAccess.validateChanges(config, removals, additions);
       setAccess.applyChanges(config, removals, additions);
@@ -141,7 +142,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
           config.commitToNewRef(
               md, new PatchSet.Id(changeId, Change.INITIAL_PATCH_SET_ID).toRefName());
 
-      if (commit.name().equals(oldCommit.getName())) {
+      if (commit.name().equals(oldCommitSha1)) {
         throw new BadRequestException("no change");
       }
 

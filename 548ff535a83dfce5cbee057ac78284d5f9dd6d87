@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "27975de6_c202f2f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-10T06:10:38Z",
+      "side": 1,
+      "message": "Are you proposing to do the opposite isolation: only preserve the common config classes in c.g.g.server.git and move the others with the dependency on the rest of the c.g.g.server package to c.g.g.server.config2 (where config2 is a subject for bikeshedding)?",
+      "parentUuid": "580ed50e_66e6ae2f",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2525c5cd_fd009128",
         "filename": "java/com/google/gerrit/config/BUILD",
         "patchSetId": 3

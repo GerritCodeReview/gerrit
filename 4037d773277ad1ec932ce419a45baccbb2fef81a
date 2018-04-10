@@ -118,6 +118,30 @@
       "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c6c60b1_f910cefc",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-10T09:45:21Z",
+      "side": 1,
+      "message": "Not really, but \u003e\u003d 2.14 is all branches that use gjf, and if it\u0027s not too much trouble I would prefer the same gjf for all of them.",
+      "parentUuid": "fad7dc9e_515cc485",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

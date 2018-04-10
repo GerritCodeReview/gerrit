@@ -104,6 +104,8 @@ limitations under the License.
         <template
             is="dom-repeat"
             items="{{_sections}}"
+            initial-count="5"
+            target-framerate="60"
             as="section">
           <gr-access-section
               capabilities="[[_capabilities]]"

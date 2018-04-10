@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "39464d0d_014daa1f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2178,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-04-10T12:03:35Z",
+      "side": 1,
+      "message": "My bad, false positives for other strings matching ServerId. Looks like 2.13+, indeed.\n\nI guess the other ServerId occurrences are related to the author/committer of the Gerrit server? Not so sure.",
+      "parentUuid": "350908c0_f585f14d",
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67dca02f_e52354b7",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1

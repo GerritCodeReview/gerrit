@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d661f2c_bbdcf487",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-10T23:11:25Z",
+      "side": 1,
+      "message": "Where did 10 come from as an initial count? Should it be higher or lower? Please add this information in the commit message.",
+      "revId": "8957727735f698fa933923494ad5d87779b2ec3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

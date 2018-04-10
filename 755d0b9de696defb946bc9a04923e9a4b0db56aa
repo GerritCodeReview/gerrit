@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "77fc1b22_97456053",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2178,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-04-10T10:42:35Z",
+      "side": 1,
+      "message": "The setting is also used in older versions (e.g. stable-2.11 already). A quick grep shows that it\u0027s used for comments. You may want to adjust the description to include all usages or not mention only account IDs and target for stable-2.14?",
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67dca02f_e52354b7",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1

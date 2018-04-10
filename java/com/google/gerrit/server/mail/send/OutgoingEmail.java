@@ -34,7 +34,6 @@ import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
-import com.google.gwtorm.server.OrmException;
 import com.google.template.soy.data.SanitizedContent;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -470,18 +469,17 @@ public abstract class OutgoingEmail {
         rcptTo.add(to);
         add(rt, toAddress(to), override);
       }
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (PermissionBackendException e) {
       log.error("Error reading database for account: " + to, e);
     }
   }
 
   /**
    * @param to account.
-   * @throws OrmException
    * @throws PermissionBackendException
    * @return whether this email is visible to the given account.
    */
-  protected boolean isVisibleTo(Account.Id to) throws OrmException, PermissionBackendException {
+  protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
     return true;
   }
 

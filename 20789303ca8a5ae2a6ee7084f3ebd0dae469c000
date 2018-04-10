@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "752be14d_014f1c9b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-10T21:10:16Z",
+      "side": 1,
+      "message": "Aside: Would be nice if we had a more robust way to identify these searches without doing any client-side parsing. I can\u0027t think of any, though.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 65
+      },
+      "revId": "20789303ca8a5ae2a6ee7084f3ebd0dae469c000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae1739e4_fa58f830",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
         "patchSetId": 8
@@ -70,6 +93,52 @@
       "revId": "20789303ca8a5ae2a6ee7084f3ebd0dae469c000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad871af3_560119e0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-10T21:10:16Z",
+      "side": 1,
+      "message": "Optional nit: this detail header feels extraneous. Maybe just show the link?",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "20789303ca8a5ae2a6ee7084f3ebd0dae469c000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97f10038_f3468da1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-10T21:10:16Z",
+      "side": 1,
+      "message": "Also very optional: I don\u0027t know how easy it is to load, but this header feels like the perfect place to include the project description field.\n\nMaybe even with paragraph formatting or linkification for repos with richer descriptions, such as \n\n- https://gerrit-review.googlesource.com/admin/repos/plugins/batch\n\nor\n\n- https://gerrit-review.googlesource.com/admin/repos/plugins/evict-cache",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 12
+      },
+      "revId": "20789303ca8a5ae2a6ee7084f3ebd0dae469c000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

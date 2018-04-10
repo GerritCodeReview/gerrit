@@ -22,6 +22,30 @@
       "revId": "5b9d06c9bfa4cc72516386eeaf7381fb5a35b828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51c519e3_d82aa1a9",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-10T11:42:30Z",
+      "side": 1,
+      "message": "Yeah but I thought it is more efficient to call the account loader only once and also to not instantiate it again",
+      "parentUuid": "22b65678_a2a35cb2",
+      "range": {
+        "startLine": 418,
+        "startChar": 4,
+        "endLine": 425,
+        "endChar": 15
+      },
+      "revId": "5b9d06c9bfa4cc72516386eeaf7381fb5a35b828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

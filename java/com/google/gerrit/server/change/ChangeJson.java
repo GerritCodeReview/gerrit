@@ -1213,7 +1213,6 @@ public class ChangeJson {
       throws PatchListNotAvailableException, GpgException, OrmException, IOException,
           PermissionBackendException {
     Map<String, RevisionInfo> res = new LinkedHashMap<>();
-    Boolean isWorldReadable = null;
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
       for (PatchSet in : map.values()) {
@@ -1227,12 +1226,7 @@ public class ChangeJson {
           want = id.equals(cd.change().currentPatchSetId());
         }
         if (want) {
-          if (isWorldReadable == null) {
-            isWorldReadable = isWorldReadable(cd);
-          }
-          res.put(
-              in.getRevision().get(),
-              toRevisionInfo(cd, in, repo, rw, false, changeInfo, isWorldReadable));
+          res.put(in.getRevision().get(), toRevisionInfo(cd, in, repo, rw, false, changeInfo));
         }
       }
       return res;
@@ -1272,7 +1266,7 @@ public class ChangeJson {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     try (Repository repo = openRepoIfNecessary(cd.project());
         RevWalk rw = newRevWalk(repo)) {
-      RevisionInfo rev = toRevisionInfo(cd, in, repo, rw, true, null, isWorldReadable(cd));
+      RevisionInfo rev = toRevisionInfo(cd, in, repo, rw, true, null);
       accountLoader.fill();
       return rev;
     }
@@ -1284,9 +1278,9 @@ public class ChangeJson {
       @Nullable Repository repo,
       @Nullable RevWalk rw,
       boolean fillCommit,
-      @Nullable ChangeInfo changeInfo,
-      boolean isWorldReadable)
-      throws PatchListNotAvailableException, GpgException, OrmException, IOException {
+      @Nullable ChangeInfo changeInfo)
+      throws PatchListNotAvailableException, GpgException, OrmException, IOException,
+          PermissionBackendException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.getId().equals(c.currentPatchSetId());
@@ -1294,7 +1288,7 @@ public class ChangeJson {
     out.ref = in.getRefName();
     out.created = in.getCreatedOn();
     out.uploader = accountLoader.get(in.getUploader());
-    out.fetch = makeFetchMap(cd, in, isWorldReadable);
+    out.fetch = makeFetchMap(cd, in);
     out.kind = changeKindCache.getChangeKind(rw, repo != null ? repo.getConfig() : null, cd, in);
     out.description = in.getDescription();
 
@@ -1384,7 +1378,8 @@ public class ChangeJson {
     return info;
   }
 
-  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in, boolean isWorldReadable) {
+  private Map<String, FetchInfo> makeFetchMap(ChangeData cd, PatchSet in)
+      throws PermissionBackendException, OrmException, IOException {
     Map<String, FetchInfo> r = new LinkedHashMap<>();
     for (DynamicMap.Entry<DownloadScheme> e : downloadSchemes) {
       String schemeName = e.getExportName();
@@ -1393,7 +1388,7 @@ public class ChangeJson {
           || (scheme.isAuthRequired() && !userProvider.get().isIdentifiedUser())) {
         continue;
       }
-      if (!scheme.isAuthSupported() && !isWorldReadable) {
+      if (!scheme.isAuthSupported() && !isWorldReadable(cd)) {
         continue;
       }
 

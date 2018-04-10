@@ -24,12 +24,18 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
 
 public class EmailIT extends AbstractDaemonTest {
+  @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Test
   public void addEmail() throws Exception {
@@ -82,6 +88,63 @@ public class EmailIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.delete("/accounts/self/emails/" + email.replace("@", "%40"));
     r.assertNoContent();
     assertThat(getEmails()).doesNotContain(email);
+  }
+
+  @Test
+  public void setPreferredEmailToEmailOfMailToExternalId() throws Exception {
+    String email = "foo@example.com";
+    createEmail(email);
+    assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
+
+    resetCurrentApiUser();
+    gApi.accounts().self().email(email).setPreferred();
+    assertThat(gApi.accounts().self().get().email).isEqualTo(email);
+  }
+
+  @Test
+  public void setPreferredEmailToEmailOfExternalExternalId() throws Exception {
+    String email = "foo@example.com";
+    accountsUpdateProvider
+        .get()
+        .update(
+            "Add External ID",
+            admin.id,
+            u ->
+                u.addExternalId(
+                    ExternalId.createWithEmail(
+                        ExternalId.SCHEME_EXTERNAL, "foo", admin.id, email)));
+    assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
+
+    resetCurrentApiUser();
+    gApi.accounts().self().email(email).setPreferred();
+    assertThat(gApi.accounts().self().get().email).isEqualTo(email);
+  }
+
+  @Test
+  public void setPreferredEmailToNonExistingEmail() throws Exception {
+    String email = "non-existing@example.com";
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("Not found: " + email);
+    gApi.accounts().self().email(email).setPreferred();
+  }
+
+  @Test
+  public void setPreferredEmailToEmailOfOtherAccount() throws Exception {
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("Not found: " + user.email);
+    gApi.accounts().self().email(user.email).setPreferred();
+  }
+
+  @Test
+  public void setPreferredEmailWithOtherCase() throws Exception {
+    String email = "foo@example.com";
+    createEmail(email);
+    assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
+
+    resetCurrentApiUser();
+    String emailOtherCase = email.toUpperCase();
+    gApi.accounts().self().email(emailOtherCase).setPreferred();
+    assertThat(gApi.accounts().self().get().email).isEqualTo(emailOtherCase);
   }
 
   @Test

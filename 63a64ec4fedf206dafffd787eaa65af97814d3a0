@@ -46,6 +46,30 @@
       "revId": "63a64ec4fedf206dafffd787eaa65af97814d3a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c25da74_0774938e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-10T12:43:36Z",
+      "side": 0,
+      "message": "OK, it looks like this was a mistake.  For the LuceneIndexModule I have not removed it, but only moved it into the else block [1].\n\nI\u0027ll upload a fix soon.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/170910/1/gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexModule.java",
+      "parentUuid": "e09814c6_e9576032",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 71
+      },
+      "revId": "63a64ec4fedf206dafffd787eaa65af97814d3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

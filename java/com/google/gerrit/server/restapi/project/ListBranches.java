@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
+
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
@@ -200,11 +202,16 @@ public class ListBranches implements RestReadView<ProjectResource> {
         branches.add(b);
 
         if (!Constants.HEAD.equals(ref.getName())) {
-          b.canDelete =
-              perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
-                      && rsrc.getProjectState().statePermitsWrite()
-                  ? true
-                  : null;
+          if (isConfigRef(ref.getName())) {
+            // Never allow to delete the meta config branch.
+            b.canDelete = null;
+          } else {
+            b.canDelete =
+                perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
+                        && rsrc.getProjectState().statePermitsWrite()
+                    ? true
+                    : null;
+          }
         }
         continue;
       }
@@ -247,12 +254,18 @@ public class ListBranches implements RestReadView<ProjectResource> {
     BranchInfo info = new BranchInfo();
     info.ref = ref.getName();
     info.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
-    info.canDelete =
-        !targets.contains(ref.getName())
-                && perm.testOrFalse(RefPermission.DELETE)
-                && projectState.statePermitsWrite()
-            ? true
-            : null;
+
+    if (isConfigRef(ref.getName())) {
+      // Never allow to delete the meta config branch.
+      info.canDelete = null;
+    } else {
+      info.canDelete =
+          !targets.contains(ref.getName())
+                  && perm.testOrFalse(RefPermission.DELETE)
+                  && projectState.statePermitsWrite()
+              ? true
+              : null;
+    }
 
     BranchResource rsrc = new BranchResource(projectState, user, ref);
     for (UiAction.Description d : uiActions.from(branchViews, rsrc)) {

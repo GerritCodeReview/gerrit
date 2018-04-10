@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
+
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -178,11 +180,17 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         BranchInfo info = new BranchInfo();
         info.ref = ref;
         info.revision = revid.getName();
-        info.canDelete =
-            permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
-                    && rsrc.getProjectState().statePermitsWrite()
-                ? true
-                : null;
+
+        if (isConfigRef(name.get())) {
+          // Never allow to delete the meta config branch.
+          info.canDelete = null;
+        } else {
+          info.canDelete =
+              permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
+                      && rsrc.getProjectState().statePermitsWrite()
+                  ? true
+                  : null;
+        }
         return info;
       } catch (IOException err) {
         log.error("Cannot create branch \"" + name + "\"", err);

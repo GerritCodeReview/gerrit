@@ -213,15 +213,6 @@ class RefControl {
    * @return {@code true} if the user specified can delete a Git ref.
    */
   private boolean canDelete() {
-    if (RefNames.REFS_CONFIG.equals(refName)) {
-      // Never allow removal of the refs/meta/config branch.
-      // Deleting the branch would destroy all Gerrit specific
-      // metadata about the project, including its access rules.
-      // If a project is to be removed from Gerrit, its repository
-      // should be removed first.
-      return false;
-    }
-
     switch (getUser().getAccessPath()) {
       case GIT:
         return canPushWithForce() || canPerform(Permission.DELETE);

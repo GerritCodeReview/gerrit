@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "0062e3bb_1acdc773",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-10T08:37:09Z",
+      "side": 1,
+      "message": "Sure, if the stable branches continue to use the old gjf version we should mention this here.\nBut don\u0027t we want to keep using the same gjf version for all branches to not make merging and cherry-picking even more painful?",
+      "parentUuid": "c835b954_2808d81b",
+      "revId": "da6fbc9c43586afc53985d0ac1233f7494b50b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cbd0ee3_536a4591",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 5

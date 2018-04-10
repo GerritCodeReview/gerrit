@@ -2175,6 +2175,18 @@ gerrit.ui is an enabled UI.
 Defaults to GWT (if GWT is enabled) or POLYGERRIT (if POLYGERRIT is
 enabled and GWT is disabled)
 
+[[gerrit.serverId]]gerrit.serverId::
++
+Used by Note DB to identify author identities from per-server specific account
+IDs.
++
+If this value is not set on startup it is automatically set to a random uuid.
++
+[NOTE]
+If this value changes, the Note DB created with the previous serverId becomes
+more or less useless. Make sure to set this value or to keep the value set
+automatically by Gerrit.
+
 [[gitweb]]
 === Section gitweb
 

@@ -44,10 +44,6 @@
         value: false,
       },
       _repos: Array,
-      _repoPromise: {
-        type: Promise,
-        observer: '_setRepos',
-      },
 
       /**
        * Because  we request one more than the projectsPerPage, _shownProjects
@@ -67,7 +63,10 @@
         type: Boolean,
         value: true,
       },
-      _filter: String,
+      _filter: {
+        type: String,
+        value: '',
+      },
     },
 
     behaviors: [
@@ -115,28 +114,19 @@
       });
     },
 
-    _setRepos(repoPromise) {
-      repoPromise.then(repos => {
-        // Make sure we are setting the latest promise. Otherwise, don't set
-        // _repos.
-        if (repoPromise === this._repoPromise) {
-          this._repos = repos;
-          this._loading = false;
-        }
-      });
-    },
-
     _getRepos(filter, reposPerPage, offset) {
       this._repos = [];
-      this._repoPromise = this.$.restAPI.getRepos(filter, reposPerPage, offset)
+      return this.$.restAPI.getRepos(filter, reposPerPage, offset)
           .then(repos => {
-            if (!repos) { return; }
-            return Object.keys(repos)
+            // Late response.
+            if (filter !== this._filter || !repos) { return; }
+            this._repos = Object.keys(repos)
              .map(key => {
                const repo = repos[key];
                repo.name = key;
                return repo;
              });
+            this._loading = false;
           });
     },
 

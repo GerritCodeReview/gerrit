@@ -56,6 +56,7 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
+      sandbox.stub(page, 'show');
       element = fixture('basic');
       counter = 0;
     });
@@ -118,6 +119,11 @@ limitations under the License.
     });
 
     suite('filter', () => {
+      setup(() => {
+        repos = _.times(25, repoGenerator);
+        reposFiltered = _.times(1, repoGenerator);
+      });
+
       test('_paramsChanged', done => {
         sandbox.stub(element.$.restAPI, 'getRepos', () => {
           return Promise.resolve(repos);
@@ -129,6 +135,20 @@ limitations under the License.
         element._paramsChanged(value).then(() => {
           assert.isTrue(element.$.restAPI.getRepos.lastCall
               .calledWithExactly('test', 25, 25));
+          done();
+        });
+      });
+
+
+      test('latest repos requested are always set', done => {
+        let repoStub = sandbox.stub(element.$.restAPI, 'getRepos');
+        repoStub.withArgs('test').returns(Promise.resolve(repos));
+        repoStub.withArgs('filter').returns(Promise.resolve(reposFiltered));
+        element._filter = 'test';
+
+        // Repos are not set because the element._filter differs.
+        element._getRepos('filter', 25, 0).then(() => {
+          assert.deepEqual(element._repos, []);
           done();
         });
       });

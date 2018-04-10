@@ -119,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1ee540ac_e0ec518d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-10T21:20:42Z",
+      "side": 1,
+      "message": "I did it for consistency with the user header. I agree, though. I just wasn\u0027t sure how much consistency matters.",
+      "parentUuid": "ad871af3_560119e0",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "20789303ca8a5ae2a6ee7084f3ebd0dae469c000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97f10038_f3468da1",
         "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.html",
         "patchSetId": 8
@@ -139,6 +163,30 @@
       "revId": "20789303ca8a5ae2a6ee7084f3ebd0dae469c000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5328bf9d_0e9fa808",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-repo-header/gr-repo-header.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-10T21:20:42Z",
+      "side": 1,
+      "message": "Yeah, I think this would be a next step, though it does mean new REST calls, and I figured that it could come as a follow-up if it\u0027s something we want to do.",
+      "parentUuid": "97f10038_f3468da1",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 12
+      },
+      "revId": "20789303ca8a5ae2a6ee7084f3ebd0dae469c000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

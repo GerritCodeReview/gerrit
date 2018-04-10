@@ -24,6 +24,9 @@
 
   const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
 
+  const REPO_QUERY_PATTERN =
+      /^project:\s?("[^"]+"|[^ ]+)(\sstatus\s?:(open|"open"))?$/;
+
   const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
   Polymer({
@@ -111,6 +114,12 @@
 
       /** @type {?String} */
       _userId: {
+        type: String,
+        value: null,
+      },
+
+      /** @type {?String} */
+      _repo: {
         type: String,
         value: null,
       },
@@ -227,16 +236,22 @@
     },
 
     _changesChanged(changes) {
-      if (!changes || !changes.length ||
-          !USER_QUERY_PATTERN.test(this._query)) {
-        this._userId = null;
+      this._userId = null;
+      this._repo = null;
+      if (!changes || !changes.length) {
         return;
       }
-      this._userId = changes[0].owner.email;
+      if (USER_QUERY_PATTERN.test(this._query) && changes[0].owner.email) {
+        this._userId = changes[0].owner.email;
+        return;
+      }
+      if (REPO_QUERY_PATTERN.test(this._query)) {
+        this._repo = changes[0].project;
+      }
     },
 
-    _computeUserHeaderClass(userId) {
-      return userId ? '' : 'hide';
+    _computeHeaderClass(id) {
+      return id ? '' : 'hide';
     },
 
     _computePage(offset, changesPerPage) {

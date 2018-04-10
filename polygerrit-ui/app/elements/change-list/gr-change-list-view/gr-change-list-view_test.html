@@ -156,6 +156,42 @@ limitations under the License.
       });
     });
 
+    test('_userId query without email', done => {
+      assert.isNull(element._userId);
+      element._query = 'owner: foo@bar';
+      element._changes = [{owner: {}}];
+      flush(() => {
+        assert.isNull(element._userId);
+        done();
+      });
+    });
+
+    test('_repo query', done => {
+      assert.isNull(element._repo);
+      element._query = 'project: test-repo';
+      element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
+      flush(() => {
+        assert.equal(element._repo, 'test-repo');
+        element._query = 'foo bar baz';
+        element._changes = [{owner: {email: 'foo@bar'}}];
+        assert.isNull(element._repo);
+        done();
+      });
+    });
+
+    test('_repo query with open status', done => {
+      assert.isNull(element._repo);
+      element._query = 'project:test-repo status:open';
+      element._changes = [{owner: {email: 'foo@bar'}, project: 'test-repo'}];
+      flush(() => {
+        assert.equal(element._repo, 'test-repo');
+        element._query = 'foo bar baz';
+        element._changes = [{owner: {email: 'foo@bar'}}];
+        assert.isNull(element._repo);
+        done();
+      });
+    });
+
     suite('query based navigation', () => {
       setup(() => {
         sandbox.stub(Gerrit.Nav, 'getUrlForChange', () => '/r/c/1');

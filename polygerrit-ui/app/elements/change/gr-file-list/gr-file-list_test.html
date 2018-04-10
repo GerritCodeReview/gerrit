@@ -368,6 +368,10 @@ limitations under the License.
         // j with a modifier should not move the cursor.
         MockInteractions.pressAndReleaseKeyOn(element, 74, 'shift', 'j');
         assert.equal(element.$.fileCursor.index, 0);
+        // down should not move the cursor.
+        MockInteractions.pressAndReleaseKeyOn(element, 40, null, 'down');
+        assert.equal(element.$.fileCursor.index, 0);
+
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.$.fileCursor.index, 1);
         assert.equal(element.selectedIndex, 1);
@@ -379,6 +383,10 @@ limitations under the License.
 
         // k with a modifier should not move the cursor.
         MockInteractions.pressAndReleaseKeyOn(element, 75, 'shift', 'k');
+        assert.equal(element.$.fileCursor.index, 2);
+
+        // up should not move the cursor.
+        MockInteractions.pressAndReleaseKeyOn(element, 38, null, 'down');
         assert.equal(element.$.fileCursor.index, 2);
 
         MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');

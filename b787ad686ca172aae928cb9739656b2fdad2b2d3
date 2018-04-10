@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8e16e_b2ee6a03",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-10T16:10:40Z",
+      "side": 1,
+      "message": "should we change this method, or add a second method to provide multiple modules? I am not sure adding to the list by hand is the best way to go here",
+      "range": {
+        "startLine": 399,
+        "startChar": 26,
+        "endLine": 399,
+        "endChar": 40
+      },
+      "revId": "b787ad686ca172aae928cb9739656b2fdad2b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91fc1855_99b4b9a4",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-10T16:10:40Z",
+      "side": 1,
+      "message": "(same as StandaloneSiteTest.java)",
+      "range": {
+        "startLine": 261,
+        "startChar": 43,
+        "endLine": 261,
+        "endChar": 52
+      },
+      "revId": "b787ad686ca172aae928cb9739656b2fdad2b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec1ae39_32b6be3b",
+        "filename": "java/com/google/gerrit/acceptance/StandaloneSiteTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-10T16:10:40Z",
+      "side": 1,
+      "message": "I would prefer having only the startServer(List, ...) method and not having to cast here.\nThe \"few\" usages can be changed to use ImmutableList.of(), which is better imo",
+      "range": {
+        "startLine": 195,
+        "startChar": 23,
+        "endLine": 195,
+        "endChar": 32
+      },
+      "revId": "b787ad686ca172aae928cb9739656b2fdad2b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "167696a6_a5d76b9e",
+        "filename": "java/com/google/gerrit/acceptance/StandaloneSiteTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-10T16:10:40Z",
+      "side": 1,
+      "message": "what about using an empty list and never a null one?",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 20
+      },
+      "revId": "b787ad686ca172aae928cb9739656b2fdad2b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62c73df2_f3105ca7",
+        "filename": "java/com/google/gerrit/acceptance/StandaloneSiteTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-10T16:10:40Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 219,
+        "startChar": 33,
+        "endLine": 219,
+        "endChar": 47
+      },
+      "revId": "b787ad686ca172aae928cb9739656b2fdad2b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "122ab7ee_0594f5c5",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-10T16:10:40Z",
+      "side": 1,
+      "message": "I\u0027m not exactly sure what to think of this, but would there be a better option here?\nie: addSysModuleFortesting + final testSysModules, wrap in an ImmutableList ...",
+      "range": {
+        "startLine": 328,
+        "startChar": 4,
+        "endLine": 328,
+        "endChar": 23
+      },
+      "revId": "b787ad686ca172aae928cb9739656b2fdad2b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d0d45fa_9ff52818",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-10T16:10:40Z",
+      "side": 1,
+      "message": "if we make it so that the list can\u0027t be null, we may remove this",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 485,
+        "endChar": 33
+      },
+      "revId": "b787ad686ca172aae928cb9739656b2fdad2b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcb6ac8c_59ac2299",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-10T16:10:40Z",
+      "side": 1,
+      "message": "Assuming we use immutable collections, this null check can be removed too",
+      "range": {
+        "startLine": 487,
+        "startChar": 8,
+        "endLine": 487,
+        "endChar": 36
+      },
+      "revId": "b787ad686ca172aae928cb9739656b2fdad2b2d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

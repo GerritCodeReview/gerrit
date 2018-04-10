@@ -2689,9 +2689,10 @@ result lists). Set to 0 for no limit.
 +
 When `index.type` is set to `ELASTICSEARCH`, this value should not exceed
 the `index.max_result_window` value configured on the Elasticsearch
-server.
+server. If a value is not configured during site initialization, defaults to
+10000, which is the default value of `index.max_result_window` in Elasticsearch.
 +
-Defaults to no limit.
+When `index.type` is set to `LUCENE`, defaults to no limit.
 
 [[index.maxPages]]index.maxPages::
 +

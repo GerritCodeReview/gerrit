@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.stream.Collectors.joining;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -38,6 +39,7 @@ import com.google.inject.Provider;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -190,12 +192,20 @@ public abstract class StandaloneSiteTest {
   }
 
   protected ServerContext startServer() throws Exception {
-    return startServer(null);
+    return startServer((Module) null);
+  }
+
+  protected ServerContext startServer(
+      @Nullable List<Module> testSysModules, String... additionalArgs) throws Exception {
+    return new ServerContext(startImpl(testSysModules, additionalArgs));
   }
 
   protected ServerContext startServer(@Nullable Module testSysModule, String... additionalArgs)
       throws Exception {
-    return new ServerContext(startImpl(testSysModule, additionalArgs));
+    return new ServerContext(
+        startImpl(
+            testSysModule != null ? ImmutableList.of(testSysModule) : ImmutableList.of(),
+            additionalArgs));
   }
 
   protected void assertServerStartupFails() throws Exception {
@@ -206,10 +216,10 @@ public abstract class StandaloneSiteTest {
     }
   }
 
-  private GerritServer startImpl(@Nullable Module testSysModule, String... additionalArgs)
+  private GerritServer startImpl(@Nullable List<Module> testSysModules, String... additionalArgs)
       throws Exception {
     return GerritServer.start(
-        serverDesc, baseConfig, sitePaths.site_path, testSysModule, null, null, additionalArgs);
+        serverDesc, baseConfig, sitePaths.site_path, testSysModules, null, null, additionalArgs);
   }
 
   protected static void runGerrit(String... args) throws Exception {

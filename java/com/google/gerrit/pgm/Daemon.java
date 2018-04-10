@@ -196,7 +196,7 @@ public class Daemon extends SiteProgram {
   private boolean inMemoryTest;
   private AbstractModule luceneModule;
   private Module emailModule;
-  private Module testSysModule;
+  private List<Module> testSysModules = new ArrayList<>();
 
   private Runnable serverStarted;
   private IndexType indexType;
@@ -324,8 +324,8 @@ public class Daemon extends SiteProgram {
   }
 
   @VisibleForTesting
-  public void setAdditionalSysModuleForTesting(@Nullable Module m) {
-    testSysModule = m;
+  public void setAdditionalSysModulesForTesting(@Nullable List<Module> m) {
+    testSysModules = m;
   }
 
   @VisibleForTesting
@@ -482,8 +482,12 @@ public class Daemon extends SiteProgram {
     if (migrateToNoteDb()) {
       modules.add(new OnlineNoteDbMigrator.Module(trial));
     }
-    if (testSysModule != null) {
-      modules.add(testSysModule);
+    if (testSysModules != null) {
+      for (Module testSysModule : testSysModules) {
+        if (testSysModule != null) {
+          modules.add(testSysModule);
+        }
+      }
     }
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new DefaultProjectNameLockManager.Module());

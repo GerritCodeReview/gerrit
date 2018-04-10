@@ -22,6 +22,30 @@
       "revId": "2ea6a0a1df5836577b69a227ff4851a344e11cfe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9c88f2e_f7aef7cf",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/IndexActivateCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-10T00:41:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1f9212_99e8cfb0",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 14
+      },
+      "revId": "2ea6a0a1df5836577b69a227ff4851a344e11cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

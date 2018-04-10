@@ -78,7 +78,6 @@ public class LuceneIndexModule extends LifecycleModule {
     } else {
       install(new SingleVersionModule(singleVersions));
     }
-    bind(AbstractVersionManager.class).to(LuceneVersionManager.class);
   }
 
   @Provides
@@ -92,6 +91,7 @@ public class LuceneIndexModule extends LifecycleModule {
   private static class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
+      bind(AbstractVersionManager.class).to(LuceneVersionManager.class);
       listener().to(LuceneVersionManager.class);
     }
   }

@@ -64,11 +64,11 @@ public class ElasticIndexModule extends LifecycleModule {
 
     install(new IndexModule(threads));
     if (singleVersions == null) {
+      bind(AbstractVersionManager.class).to(ElasticVersionManager.class);
       listener().to(ElasticVersionManager.class);
     } else {
       install(new SingleVersionModule(singleVersions));
     }
-    bind(AbstractVersionManager.class).to(ElasticVersionManager.class);
   }
 
   @Provides

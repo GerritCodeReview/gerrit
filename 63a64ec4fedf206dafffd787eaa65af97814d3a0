@@ -22,6 +22,30 @@
       "revId": "63a64ec4fedf206dafffd787eaa65af97814d3a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e09814c6_e9576032",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-10T12:38:29Z",
+      "side": 0,
+      "message": "AbstractVersionModule doesn\u0027t exist on this branch; it was renamed to VersionManager. The bind is already done in MultiVersionModule (L102) which gets installed at L86.  I thought it was also done in SingleVersionModule, but looking at it again I can\u0027t see it (although I have master checked out now, not stable-2.15).",
+      "parentUuid": "e906b967_ff712b35",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 71
+      },
+      "revId": "63a64ec4fedf206dafffd787eaa65af97814d3a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

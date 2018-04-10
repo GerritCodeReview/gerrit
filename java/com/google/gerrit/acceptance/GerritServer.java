@@ -53,6 +53,7 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
@@ -252,12 +253,12 @@ public class GerritServer implements AutoCloseable {
    *
    * @param desc server description.
    * @param baseConfig default config values; merged with config from {@code desc}.
-   * @param testSysModule additional Guice module to use.
+   * @param testSysModules additional Guice modules to use.
    * @return started server.
    * @throws Exception
    */
   public static GerritServer initAndStart(
-      Description desc, Config baseConfig, @Nullable Module testSysModule) throws Exception {
+      Description desc, Config baseConfig, @Nullable List<Module> testSysModules) throws Exception {
     Path site = TempFileUtil.createTempDirectory().toPath();
     baseConfig = new Config(baseConfig);
     baseConfig.setString("gerrit", null, "basePath", site.resolve("git").toString());
@@ -266,7 +267,7 @@ public class GerritServer implements AutoCloseable {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, testSysModule, null, null);
+      return start(desc, baseConfig, site, testSysModules, null, null);
     } catch (Exception e) {
       TempFileUtil.recursivelyDelete(site.toFile());
       throw e;
@@ -282,7 +283,7 @@ public class GerritServer implements AutoCloseable {
    *     servers. For on-disk servers, assumes that {@link #init} was previously called to
    *     initialize this directory. Can be retrieved from the returned instance via {@link
    *     #getSitePath()}.
-   * @param testSysModule optional additional module to add to the system injector.
+   * @param testSysModules optional additional modules to add to the system injector.
    * @param inMemoryRepoManager {@link InMemoryRepositoryManager} that should be used if the site is
    *     started in memory
    * @param inMemoryDatabaseInstance {@link com.google.gerrit.testing.InMemoryDatabase.Instance}
@@ -296,7 +297,7 @@ public class GerritServer implements AutoCloseable {
       Description desc,
       Config baseConfig,
       Path site,
-      @Nullable Module testSysModule,
+      @Nullable List<Module> testSysModules,
       @Nullable InMemoryRepositoryManager inMemoryRepoManager,
       @Nullable InMemoryDatabase.Instance inMemoryDatabaseInstance,
       String... additionalArgs)
@@ -316,7 +317,7 @@ public class GerritServer implements AutoCloseable {
             },
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
-    daemon.setAdditionalSysModuleForTesting(testSysModule);
+    daemon.setAdditionalSysModulesForTesting(testSysModules);
     daemon.setEnableSshd(desc.useSsh());
     daemon.setSlave(isSlave(baseConfig));
 

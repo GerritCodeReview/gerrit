@@ -419,7 +419,7 @@ public class ChangeJson {
     ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
     for (ChangeData cd : in) {
-      out.add(format(cd));
+      out.add(format(cd, Optional.empty(), false));
     }
     accountLoader.fill();
     return out;

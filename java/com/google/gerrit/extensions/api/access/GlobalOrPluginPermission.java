@@ -17,10 +17,4 @@ package com.google.gerrit.extensions.api.access;
 /**
  * A {@link com.google.gerrit.server.permissions.GlobalPermission} or a {@link PluginPermission}.
  */
-public interface GlobalOrPluginPermission {
-  /** @return name used in {@code project.config} permissions. */
-  public String permissionName();
-
-  /** @return readable identifier of this permission for exception message. */
-  public String describeForException();
-}
+public interface GlobalOrPluginPermission extends GerritPermission {}

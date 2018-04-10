@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.common.base.CaseFormat;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.access.GerritPermission;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Optional;
 
-public enum RefPermission {
+public enum RefPermission implements GerritPermission {
   READ(Permission.READ),
   CREATE(Permission.CREATE),
 
@@ -78,20 +79,16 @@ public enum RefPermission {
   private final String name;
 
   RefPermission() {
-    name = null;
+    name = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
   }
 
   RefPermission(String name) {
     this.name = name;
   }
 
-  /** @return name used in {@code project.config} permissions. */
-  public Optional<String> permissionName() {
-    return Optional.ofNullable(name);
-  }
-
-  public String describeForException() {
-    return toString().toLowerCase(Locale.US).replace('_', ' ');
+  @Override
+  public String permissionName() {
+    return name;
   }
 
   /** @return the enum constant for a given permission name if present. */

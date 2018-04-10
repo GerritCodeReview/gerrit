@@ -22,7 +22,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.server.util.LabelVote;
-import java.util.Optional;
 
 /** Permission representing a label. */
 public class LabelPermission implements ChangePermissionOrLabel {
@@ -85,14 +84,11 @@ public class LabelPermission implements ChangePermissionOrLabel {
 
   /** @return name used in {@code project.config} permissions. */
   @Override
-  public Optional<String> permissionName() {
-    switch (forUser) {
-      case SELF:
-        return Optional.of(Permission.forLabel(name));
-      case ON_BEHALF_OF:
-        return Optional.of(Permission.forLabelAs(name));
+  public String permissionName() {
+    if (forUser == ON_BEHALF_OF) {
+      return Permission.forLabelAs(name);
     }
-    return Optional.empty();
+    return Permission.forLabel(name);
   }
 
   @Override
@@ -230,14 +226,11 @@ public class LabelPermission implements ChangePermissionOrLabel {
 
     /** @return name used in {@code project.config} permissions. */
     @Override
-    public Optional<String> permissionName() {
-      switch (forUser) {
-        case SELF:
-          return Optional.of(Permission.forLabel(label()));
-        case ON_BEHALF_OF:
-          return Optional.of(Permission.forLabelAs(label()));
+    public String permissionName() {
+      if (forUser == ON_BEHALF_OF) {
+        return Permission.forLabelAs(label());
       }
-      return Optional.empty();
+      return Permission.forLabel(label());
     }
 
     @Override

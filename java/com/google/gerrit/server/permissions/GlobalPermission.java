@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.api.access.PluginPermission;
 import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.LinkedHashSet;
-import java.util.Locale;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,11 +130,6 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   @Override
   public String permissionName() {
     return name;
-  }
-
-  @Override
-  public String describeForException() {
-    return toString().toLowerCase(Locale.US).replace('_', ' ');
   }
 
   private static GlobalOrPluginPermission resolve(

@@ -14,13 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
-import java.util.Optional;
+import com.google.gerrit.extensions.api.access.GerritPermission;
 
 /** A {@link ChangePermission} or a {@link LabelPermission}. */
-public interface ChangePermissionOrLabel {
-  /** @return name used in {@code project.config} permissions. */
-  public Optional<String> permissionName();
-
-  /** @return readable identifier of this permission for exception message. */
-  public String describeForException();
-}
+public interface ChangePermissionOrLabel extends GerritPermission {}

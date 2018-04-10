@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.common.base.CaseFormat;
 import com.google.gerrit.common.data.Permission;
-import java.util.Locale;
-import java.util.Optional;
+import com.google.gerrit.extensions.api.access.GerritPermission;
 
-public enum ProjectPermission {
+public enum ProjectPermission implements GerritPermission {
   /**
    * Can access at least one reference or change within the repository.
    *
@@ -88,19 +88,15 @@ public enum ProjectPermission {
   private final String name;
 
   ProjectPermission() {
-    name = null;
+    name = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
   }
 
   ProjectPermission(String name) {
     this.name = name;
   }
 
-  /** @return name used in {@code project.config} permissions. */
-  public Optional<String> permissionName() {
-    return Optional.ofNullable(name);
-  }
-
-  public String describeForException() {
-    return toString().toLowerCase(Locale.US).replace('_', ' ');
+  @Override
+  public String permissionName() {
+    return name;
   }
 }

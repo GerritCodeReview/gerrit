@@ -42,7 +42,7 @@ public class IndexActivateCommand extends SshCommand {
           stdout.println("Not activating index, already using latest version");
         }
       } else {
-        stderr.println("Cannot activate index, unknown based on this name");
+        stderr.println(String.format("Cannot activate index %s: unknown", name));
       }
     } catch (ReindexerAlreadyRunningException e) {
       throw die("Failed to activate latest index: " + e.getMessage());

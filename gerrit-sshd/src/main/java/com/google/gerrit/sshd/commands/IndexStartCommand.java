@@ -46,7 +46,7 @@ public class IndexStartCommand extends SshCommand {
           stdout.println("Nothing to reindex, index is already the latest version");
         }
       } else {
-        stderr.println("Cannot reindex, index is unknown based on this name");
+        stderr.println(String.format("Cannot reindex %s: unknown", name));
       }
     } catch (ReindexerAlreadyRunningException e) {
       throw die("Failed to start reindexer: " + e.getMessage());

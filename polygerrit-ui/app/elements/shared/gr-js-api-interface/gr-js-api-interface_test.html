@@ -335,6 +335,13 @@ limitations under the License.
       sandbox.stub(Gerrit, '_pluginInstalled');
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
+
+      // testplugin has already been installed once (in setup).
+      assert.isFalse(Gerrit._pluginInstalled.called);
+
+      // testplugin2 plugin has not yet been installed.
+      Gerrit.install(p => { plugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin2/static/test.js');
       assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 

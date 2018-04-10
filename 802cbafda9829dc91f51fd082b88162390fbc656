@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e3e5a97_f4141892",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-10T23:50:43Z",
+      "side": 1,
+      "message": "Nit: extra line.",
+      "revId": "802cbafda9829dc91f51fd082b88162390fbc656",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

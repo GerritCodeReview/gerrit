@@ -140,6 +140,98 @@
     },
     {
       "key": {
+        "uuid": "d2f3711c_8e80cc7e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2996,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "nit: it\u0027s already asserted in \"createChange()\".",
+      "range": {
+        "startLine": 2996,
+        "startChar": 4,
+        "endLine": 2996,
+        "endChar": 23
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "721ef744_149e0de5",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3005,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "nit:\"current()\"",
+      "range": {
+        "startLine": 3005,
+        "startChar": 39,
+        "endLine": 3005,
+        "endChar": 69
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20e959af_982fed84",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3005,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "nit: \"changeId\".",
+      "range": {
+        "startLine": 3005,
+        "startChar": 22,
+        "endLine": 3005,
+        "endChar": 37
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0095b4c1_2e4726cf",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3007,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "optional: it\u0027s better to move this out and reuse here and below.",
+      "range": {
+        "startLine": 3007,
+        "startChar": 15,
+        "endLine": 3007,
+        "endChar": 82
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "011378db_90d5a340",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 2
@@ -151,6 +243,121 @@
       "writtenOn": "2018-04-05T22:08:19Z",
       "side": 1,
       "message": "This is a separate test: should be in a separate method.",
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6356df8_13612656",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3017,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "nit: shorter:\ngApi.changes().id(changeId).current().review(in);",
+      "range": {
+        "startLine": 3017,
+        "startChar": 4,
+        "endLine": 3017,
+        "endChar": 81
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfceee59_8853aa12",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3026,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "nit: not necessary.",
+      "range": {
+        "startLine": 3026,
+        "startChar": 4,
+        "endLine": 3026,
+        "endChar": 23
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54e2114e_7878a1c6",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3032,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "nit: just \"current()\"",
+      "range": {
+        "startLine": 3032,
+        "startChar": 39,
+        "endLine": 3032,
+        "endChar": 69
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfe658dd_7eb5cc68",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account/ImpersonationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "nit: move it to where it\u0027s use.",
+      "range": {
+        "startLine": 161,
+        "startChar": 3,
+        "endLine": 161,
+        "endChar": 72
+      },
+      "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef757173_6b698a0d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-10T08:34:12Z",
+      "side": 1,
+      "message": "optional: would the following be better:\n\n      if (type \u003d\u003d null) {\n        if (strictLabels) {\n          throw new BadRequestException(\n              String.format(\"label \\\"%s\\\" is not a configured label\", ent.getKey()));\n        }\n        itr.remove();\n        continue;\n      }",
+      "range": {
+        "startLine": 448,
+        "startChar": 1,
+        "endLine": 454,
+        "endChar": 7
+      },
       "revId": "bfd421b2b1d558ea56bbd6b284750265919b85b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67dca02f_e52354b7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2180,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-10T10:33:22Z",
+      "side": 1,
+      "message": "Nit: NoteDb",
+      "range": {
+        "startLine": 2180,
+        "startChar": 8,
+        "endLine": 2180,
+        "endChar": 15
+      },
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a63116d2_972c9a0f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2183,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-10T10:33:22Z",
+      "side": 1,
+      "message": "Nit: UUID",
+      "range": {
+        "startLine": 2183,
+        "startChar": 72,
+        "endLine": 2183,
+        "endChar": 76
+      },
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "394ec574_b38567bb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2187,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-10T10:33:22Z",
+      "side": 1,
+      "message": "I think \"useless\" implies that your data is lost. In fact it\u0027s easy to recover: just set the serverId back to the old value (which IIRC shows up in exception messages).",
+      "revId": "755d0b9de696defb946bc9a04923e9a4b0db56aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

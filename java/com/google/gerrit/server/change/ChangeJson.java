@@ -503,7 +503,6 @@ public class ChangeJson {
       }
     }
 
-    PermissionBackend.ForChange perm = permissionBackendForChange(user, cd);
     Change in = cd.change();
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
@@ -562,6 +561,7 @@ public class ChangeJson {
       // list permitted labels, since users can't vote on those patch sets.
       if (user.isIdentifiedUser()
           && (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId()))) {
+        PermissionBackend.ForChange perm = permissionBackendForChange(user, cd);
         out.permittedLabels =
             cd.change().getStatus() != Change.Status.ABANDONED
                 ? permittedLabels(perm, cd)

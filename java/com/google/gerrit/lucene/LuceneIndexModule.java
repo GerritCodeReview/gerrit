@@ -106,6 +106,7 @@ public class LuceneIndexModule extends AbstractModule {
     } else {
       install(new SingleVersionModule(singleVersions));
     }
+    bind(VersionManager.class).to(LuceneVersionManager.class);
   }
 
   @SuppressWarnings("unused")
@@ -124,7 +125,6 @@ public class LuceneIndexModule extends AbstractModule {
   private class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
-      bind(VersionManager.class).to(LuceneVersionManager.class);
       listener().to(LuceneVersionManager.class);
       if (onlineUpgrade) {
         listener().to(OnlineUpgrader.class);

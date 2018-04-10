@@ -22,6 +22,30 @@
       "revId": "327c2e48b57dfeef85379118a25d8b61a3fb7331",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a5a1b89_40e7bca4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2189,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-10T14:15:12Z",
+      "side": 1,
+      "message": "If they both have the same serverId (which they should) then everything is as it should.\nIf you deploy multiple gerrit servers that _should_ have different serverIds puppet should be able to handle that.",
+      "parentUuid": "37e63737_454ea93c",
+      "range": {
+        "startLine": 2185,
+        "startChar": 0,
+        "endLine": 2189,
+        "endChar": 18
+      },
+      "revId": "327c2e48b57dfeef85379118a25d8b61a3fb7331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

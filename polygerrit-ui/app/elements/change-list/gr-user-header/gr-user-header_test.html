@@ -68,5 +68,12 @@ limitations under the License.
         });
       });
     });
+
+    test('_computeDashboardLinkClass', () => {
+      assert.include(element._computeDashboardLinkClass(false, false), 'hide');
+      assert.include(element._computeDashboardLinkClass(true, false), 'hide');
+      assert.include(element._computeDashboardLinkClass(false, true), 'hide');
+      assert.notInclude(element._computeDashboardLinkClass(true, true), 'hide');
+    });
   });
 </script>

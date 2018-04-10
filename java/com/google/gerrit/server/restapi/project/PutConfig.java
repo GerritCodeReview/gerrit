@@ -200,7 +200,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         ProjectConfigEntry projectConfigEntry = pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {
           if (!PARAMETER_NAME_PATTERN.matcher(v.getKey()).matches()) {
-            //TODO check why we have this restriction
+            // TODO check why we have this restriction
             log.warn(
                 "Parameter name '{}' must match '{}'",
                 v.getKey(),

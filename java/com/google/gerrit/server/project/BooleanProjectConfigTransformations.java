@@ -71,7 +71,8 @@ public class BooleanProjectConfigTransformations {
           .build();
 
   static {
-    // Verify that each BooleanProjectConfig has to/from API mappers in BooleanProjectConfigTransformations
+    // Verify that each BooleanProjectConfig has to/from API mappers in
+    // BooleanProjectConfigTransformations
     if (!Sets.symmetricDifference(
             MAPPER.keySet(), new HashSet<>(Arrays.asList(BooleanProjectConfig.values())))
         .isEmpty()) {

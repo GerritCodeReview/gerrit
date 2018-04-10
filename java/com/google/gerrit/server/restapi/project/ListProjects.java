@@ -577,7 +577,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       try {
         // Hidden projects(permitsRead = false) should only be accessible by the project owners.
         // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may also
-        // be allowed for other users). Allowing project owners to access here will help them to view
+        // be allowed for other users). Allowing project owners to access here will help them to
+        // view
         // and update the config of hidden projects easily.
         ProjectPermission permissionToCheck =
             state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;

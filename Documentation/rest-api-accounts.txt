@@ -1765,6 +1765,89 @@ Only external ids belonging to the caller may be deleted.
   HTTP/1.1 204 No Content
 ----
 
+[[list-contributor-agreements]]
+=== List Contributor Agreements
+--
+'GET /accounts/link:#account-id[\{account-id\}]/agreements'
+--
+
+Gets a list of the user's signed contributor agreements.
+
+.Request
+----
+  GET /a/accounts/self/agreements HTTP/1.0
+----
+
+As response the user's signed agreements are returned as a list
+of link:#contributor-agreement-info[ContributorAgreementInfo] entities.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Individual",
+      "description": "If you are going to be contributing code on your own, this is the one you want. You can sign this one online.",
+      "url": "static/cla_individual.html"
+    }
+  ]
+----
+
+[[sign-contributor-agreement]]
+=== Sign Contributor Agreement
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/agreements'
+--
+
+Signs a contributor agreement.
+
+The contributor agreement must be provided in the request body as
+a link:#contributor-agreement-input[ContributorAgreementInput].
+
+.Request
+----
+  PUT /accounts/self/agreements HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "name": "Individual"
+  }
+----
+
+As response the contributor agreement name is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Individual"
+----
+
+[[index-account]]
+=== Index Account
+--
+'POST /accounts/link:#account-id[\{account-id\}]/index'
+--
+
+Adds or updates the account in the secondary index.
+
+.Request
+----
+  POST /accounts/1000096/index HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[default-star-endpoints]]
 == Default Star Endpoints
 
@@ -1979,89 +2062,6 @@ returned. The labels are lexicographically sorted.
     "green",
     "red"
   ]
-----
-
-[[list-contributor-agreements]]
-=== List Contributor Agreements
---
-'GET /accounts/link:#account-id[\{account-id\}]/agreements'
---
-
-Gets a list of the user's signed contributor agreements.
-
-.Request
-----
-  GET /a/accounts/self/agreements HTTP/1.0
-----
-
-As response the user's signed agreements are returned as a list
-of link:#contributor-agreement-info[ContributorAgreementInfo] entities.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  [
-    {
-      "name": "Individual",
-      "description": "If you are going to be contributing code on your own, this is the one you want. You can sign this one online.",
-      "url": "static/cla_individual.html"
-    }
-  ]
-----
-
-[[sign-contributor-agreement]]
-=== Sign Contributor Agreement
---
-'PUT /accounts/link:#account-id[\{account-id\}]/agreements'
---
-
-Signs a contributor agreement.
-
-The contributor agreement must be provided in the request body as
-a link:#contributor-agreement-input[ContributorAgreementInput].
-
-.Request
-----
-  PUT /accounts/self/agreements HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "name": "Individual"
-  }
-----
-
-As response the contributor agreement name is returned.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  "Individual"
-----
-
-[[index-account]]
-=== Index Account
---
-'POST /accounts/link:#account-id[\{account-id\}]/index'
---
-
-Adds or updates the account in the secondary index.
-
-.Request
-----
-  POST /accounts/1000096/index HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 204 No Content
 ----
 
 [[ids]]

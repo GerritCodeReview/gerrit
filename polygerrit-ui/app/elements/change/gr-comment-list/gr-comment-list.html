@@ -36,10 +36,8 @@ limitations under the License.
         word-wrap: break-word;
       }
       .file {
-        border-top: 1px solid var(--border-color);
         font-family: var(--font-family-bold);
-        margin: 10px 0 3px;
-        padding: 10px 0 5px;
+        margin: 1em 0 .5em 0;
       }
       .container {
         display: flex;
@@ -52,6 +50,7 @@ limitations under the License.
       }
       .message {
         flex: 1;
+        --gr-formatted-text-block-leading: .8em;
         --gr-formatted-text-prose-max-width: 80ch;
       }
       @media screen and (max-width: 50em) {

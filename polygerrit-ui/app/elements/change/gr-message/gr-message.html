@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
+<link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../styles/gr-voting-styles.html">
@@ -31,12 +32,11 @@ limitations under the License.
     <style include="gr-voting-styles"></style>
     <style include="shared-styles">
       :host {
-        border-bottom: 1px solid var(--border-color);
         display: block;
         position: relative;
       }
       :host > div {
-        padding: 0 var(--default-horizontal-margin);
+        padding: .2em var(--default-horizontal-margin);
       }
       gr-avatar {
         height: 2.5em;
@@ -57,7 +57,11 @@ limitations under the License.
         font-family: var(--font-family-bold);
       }
       .message {
+        --gr-formatted-text-block-leading: .8em;
         --gr-formatted-text-prose-max-width: 80ch;
+      }
+      .reviewerUpdate .message {
+        display: none;
       }
       gr-button {
         margin: 0 -4px;
@@ -67,9 +71,10 @@ limitations under the License.
       }
       .date {
         color: #666;
+        max-width: 20vw;
         position: absolute;
-        right: var(--default-horizontal-margin);
-        top: 10px;
+        top: .5em;
+        right: 1em;
       }
       .replyContainer {
         padding: .5em 0 0 0;
@@ -99,64 +104,118 @@ limitations under the License.
           font-family: var(--font-family-bold);
         };
       }
+      .header {
+        max-width: calc(70vw - 2.7em);
+      }
+      .content {
+        position: relative;
+      }
+      .graphic {
+        height: 100%;
+        left: 1.5em;
+        position: absolute;
+      }
+      .timeline {
+        height: 100%;
+        left: .4em;
+        position: absolute;
+        top: 0;
+        width: 1px;
+      }
+      :host:last-of-type .timeline {
+        height: 1em;
+      }
+      .blip {
+        color: #555;
+      }
+      .blip:hover {
+        background-color: #f6f6f6;
+      }
+      .blip .marker {
+        position: absolute;
+        top: .4em;
+        width: 1em;
+      }
+      .blip .content {
+        margin-left: 2em;
+        padding: .3em 0;
+      }
+      gr-account-chip {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .box {
+        margin: 0;
+      }
+      .box .content {
+        background-color: #fff;
+        border: 1px solid #aaa;
+        border-radius: .5em;
+        padding: .5em .5em .5em 2em;
+      }
+      .box .marker {
+        display: none;
+      }
     </style>
-    <div class$="[[_computeClass(showAvatar, message)]]">
-      <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
-      <div class="contentContainer">
-        <div class="author">
+    <div class$="[[_computeMessageClass(message, comments)]]">
+      <div class="graphic">
+        <svg class="timeline" preserveAspectRatio="none" viewBox="0 0 1 10">
+          <rect x="0" y="0" width="1" height="10" fill="#ccc"></rect>
+        </svg>
+        <svg class="marker" viewBox="0 0 20 20">
+          <circle cx="9" cy="10" r="5" stroke="#2a66d9" stroke-width="3" fill="#fff" />
+        </svg>
+      </div>
+      <div class="content">
+        <div class="header">
           <span hidden$="[[!showOnBehalfOf]]">
             <span class="name">[[message.real_author.name]]</span>
             on behalf of
           </span>
-          <gr-account-label
-              account="[[author]]"
-              hide-avatar></gr-account-label>
-          <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
-            <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
-              [[score.label]] [[score.value]]
+          <gr-account-chip account="[[author]]"></gr-account-chip>
+          <template is="dom-if" if="[[!message.id]]">
+            <span class="date">
+              <gr-date-formatter
+                  has-tooltip
+                  show-date-and-time
+                  date-str="[[message.date]]"></gr-date-formatter>
             </span>
           </template>
-        </div>
-        <template is="dom-if" if="[[message.message]]">
-          <div class="content">
-            <gr-formatted-text
-                no-trailing-margin
-                class="message"
-                content="[[message.message]]"
-                config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
-            <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
-              <gr-button link small on-tap="_handleReplyTap">Reply</gr-button>
-            </div>
-            <gr-comment-list
-                comments="[[comments]]"
-                change-num="[[changeNum]]"
-                patch-num="[[message._revision_number]]"
-                project-name="[[projectName]]"
-                project-config="[[_projectConfig]]"></gr-comment-list>
-          </div>
-        </template>
-        <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">
-          <div class="content">
+          <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">
             <template is="dom-repeat" items="[[message.updates]]" as="update">
-              <div class="updateCategory">
+              <span class="updateCategory">
                 [[update.message]]
                 <template
                     is="dom-repeat" items="[[update.reviewers]]" as="reviewer">
                   <gr-account-chip account="[[reviewer]]">
                   </gr-account-chip>
                 </template>
-              </div>
+              </span>
             </template>
-          </div>
-        </template>
-        <template is="dom-if" if="[[!message.id]]">
-          <span class="date">
-            <gr-date-formatter
-                has-tooltip
-                show-date-and-time
-                date-str="[[message.date]]"></gr-date-formatter>
-          </span>
-        </template>
+          </template>
+          <template is="dom-if" if="[[_showVotes(message)]]">
+            voted
+            <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
+              <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
+                [[score.label]] [[score.value]]
+              </span>
+            </template>
+          </template>
+        </div>
+        <gr-formatted-text
+            no-trailing-margin
+            class="message"
+            content="[[message.message]]"
+            config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
+        <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
+          <gr-button link small on-tap="_handleLReplyTap">Reply</gr-button>
+        </div>
+        <gr-comment-list
+            comments="[[comments]]"
+            change-num="[[changeNum]]"
+            patch-num="[[message._revision_number]]"
+            project-name="[[projectName]]"
+            project-config="[[_projectConfig]]"></gr-comment-list>
         <template is="dom-if" if="[[message.id]]">
           <a class="date" href$="[[_computeMessageHash(message)]]" on-tap="_handleLinkTap">
             <gr-date-formatter

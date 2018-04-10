@@ -64,6 +64,9 @@ limitations under the License.
         align-items: center;
         display: flex;
       }
+      #list {
+        position: relative;
+      }
     </style>
     <div class="header">
         <span
@@ -92,21 +95,23 @@ limitations under the License.
         </gr-button>
       </span>
     </span>
-    <template
-        is="dom-repeat"
-        items="[[_visibleMessages]]"
-        as="message">
-      <gr-message
-          change-num="[[changeNum]]"
-          message="[[message]]"
-          comments="[[_computeCommentsForMessage(changeComments, message)]]"
-          hide-automated="[[_hideAutomated]]"
-          project-name="[[projectName]]"
-          show-reply-button="[[showReplyButtons]]"
-          on-scroll-to="_handleScrollTo"
-          label-extremes="[[_labelExtremes]]"
-          data-message-id$="[[message.id]]"></gr-message>
-    </template>
+    <div id="list">
+      <template
+          is="dom-repeat"
+          items="[[_visibleMessages]]"
+          as="message">
+        <gr-message
+            change-num="[[changeNum]]"
+            message="[[message]]"
+            comments="[[_computeCommentsForMessage(changeComments, message)]]"
+            hide-automated="[[_hideAutomated]]"
+            project-name="[[projectName]]"
+            show-reply-button="[[showReplyButtons]]"
+            on-scroll-to="_handleScrollTo"
+            label-extremes="[[_labelExtremes]]"
+            data-message-id$="[[message.id]]"></gr-message>
+      </template>
+    </div>
     <gr-reporting id="reporting" category="message-list"></gr-reporting>
   </template>
   <script src="gr-messages-list.js"></script>

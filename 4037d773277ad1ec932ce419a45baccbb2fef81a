@@ -190,6 +190,30 @@
       "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63ced152_20130021",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-10T09:54:08Z",
+      "side": 1,
+      "message": "Yeah that\u0027s my thinking. Investing work into this tooling is probably not yet needed at this point.",
+      "parentUuid": "9bc6697b_1f07ae5b",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

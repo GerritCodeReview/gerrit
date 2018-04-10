@@ -46,6 +46,30 @@
       "revId": "d32aedb347cc18289d64ee84d8ac66677e0bfdad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afac0478_00820339",
+        "filename": "java/com/google/gerrit/extensions/common/SubmitRequirementInfo.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-10T16:43:53Z",
+      "side": 1,
+      "message": "The reason I asked was that earlier I was trying to restructure the *Info classes into more appropriate packages.\n\nThis one is only used in ChangeInfo, so I would have suggested the changes package.\n\nHaving said that, ChangeInfo is also in common, so...",
+      "parentUuid": "4a9ffc24_e514ddcf",
+      "range": {
+        "startLine": 15,
+        "startChar": 37,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "d32aedb347cc18289d64ee84d8ac66677e0bfdad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

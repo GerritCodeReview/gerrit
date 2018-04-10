@@ -20,6 +20,10 @@
   const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
   const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
 
+  const MAX_SHORT_MESSAGE_LENGTH = 100;
+  const NON_SINGLE_PARA_MESSAGE_PATTERN = /(^[\s*->]|\n)/;
+  const TRAILING_NEWLINE_PATTERN = /\n+$/;
+
   Polymer({
     is: 'gr-message',
 
@@ -215,11 +219,26 @@
       return [
         this._showInBox(message, comments) ? 'box' : 'blip',
         this._computeIsReviewerUpdate(message) ? 'reviewerUpdate' : '',
+        this._isShortMessage(message, comments) ? 'showShortMessage' : '',
       ].join(' ');
     },
 
     _showVotes(message) {
       return this._getScores(message).length;
+    },
+
+    /**
+     * Is the message plainly formatted and short enough that it can be shown in
+     * a single line of a blip event.
+     */
+    _isShortMessage(message, comments) {
+      if (this._showInBox(message, comments) || !message.message) {
+        return false;
+      }
+      // Trim trailing newlines.
+      const text = message.message.replace(TRAILING_NEWLINE_PATTERN, '');
+      return !!(text.length <= MAX_SHORT_MESSAGE_LENGTH &&
+          !NON_SINGLE_PARA_MESSAGE_PATTERN.test(text));
     },
   });
 })();

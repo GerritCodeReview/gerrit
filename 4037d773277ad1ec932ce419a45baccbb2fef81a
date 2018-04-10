@@ -70,6 +70,30 @@
       "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9320790c_22c12c00",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-10T09:10:45Z",
+      "side": 1,
+      "message": "I\u0027m in favor of using the same gjf version for all branches \u003e\u003d 2.14.\n\nMerging and cherry-picking is already now a pain due to different directory and package structures, if we start having different formatting rules in addition, this will get even more painful.\n\nAlso then as a developer I need to switch the gjf version depending on which branch I\u0027m working on. I would prefer to not worry about this.\n\nThe number of files that we need to modify to get to gjf 1.5 is kind of moderate [1]. So I think it\u0027s worth keeping the gjf version the same for all branches (I would probably think differently if it was a very invasive change that needs to reformat everything).\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/170870",
+      "parentUuid": "88c156bb_53c67550",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 47
+      },
+      "revId": "4037d773277ad1ec932ce419a45baccbb2fef81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

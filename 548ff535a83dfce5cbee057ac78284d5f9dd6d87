@@ -248,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "0822d26a_855d11c8",
+        "filename": "java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-10T07:46:35Z",
+      "side": 1,
+      "message": "It depends on ArchiveFormat, that depends on JGit and commons-compress and resides currently in c.g.g.server.change. We could probably move it in a better location, may be also c.g.g.config?",
+      "parentUuid": "97c39361_f53231ba",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dfd4cb5_d66a796d",
         "filename": "java/com/google/gerrit/server/config/GerritServerIdProvider.java",
         "patchSetId": 3

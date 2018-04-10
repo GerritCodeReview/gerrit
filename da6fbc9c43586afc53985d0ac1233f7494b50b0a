@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c13d0f6_353a364c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-10T08:30:20Z",
+      "side": 1,
+      "message": "... on master, while still gjf_1.3 on 2.14 and 2.15 stable branches.",
+      "revId": "da6fbc9c43586afc53985d0ac1233f7494b50b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c835b954_2808d81b",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-10T08:30:20Z",
+      "side": 1,
+      "message": "Should we rather mention:\n\n* master: gjf 1.5\n* older branches with gjf support: gjf 1.3",
+      "revId": "da6fbc9c43586afc53985d0ac1233f7494b50b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cbd0ee3_536a4591",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-10T08:30:20Z",
+      "side": 1,
+      "message": "Unrelated to this change. but we may want to add a link to: [1] and mention that the sorting order implementation in \"Eclipse organise imports\" feature deviates form the gjf ordering.\n\n* [1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d512733",
+      "revId": "da6fbc9c43586afc53985d0ac1233f7494b50b0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

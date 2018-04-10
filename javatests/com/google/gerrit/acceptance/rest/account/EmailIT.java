@@ -19,9 +19,11 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.extensions.api.accounts.EmailApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.Set;
@@ -80,6 +82,50 @@ public class EmailIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.delete("/accounts/self/emails/" + email.replace("@", "%40"));
     r.assertNoContent();
     assertThat(getEmails()).doesNotContain(email);
+  }
+
+  @Test
+  public void emailApi() throws Exception {
+    String email = "foo@example.com";
+    assertThat(getEmails()).doesNotContain(email);
+
+    // Create email
+    EmailInput emailInput = new EmailInput();
+    emailInput.email = email;
+    emailInput.noConfirmation = true;
+    gApi.accounts().self().createEmail(emailInput);
+    assertThat(getEmails()).contains(email);
+    assertThat(gApi.accounts().self().get().email).isNotEqualTo(email);
+
+    // Get email
+    resetCurrentApiUser();
+    EmailApi emailApi = gApi.accounts().self().email(email);
+    EmailInfo emailInfo = emailApi.get();
+    assertThat(emailInfo.email).isEqualTo(email);
+    assertThat(emailInfo.preferred).isNull();
+    assertThat(emailInfo.pendingConfirmation).isNull();
+
+    // Set as preferred email
+    emailApi.setPreferred();
+    assertThat(gApi.accounts().self().get().email).isEqualTo(email);
+
+    // Get email again (now it's the preferred email)
+    resetCurrentApiUser();
+    emailApi = gApi.accounts().self().email(email);
+    emailInfo = emailApi.get();
+    assertThat(emailInfo.email).isEqualTo(email);
+    assertThat(emailInfo.preferred).isTrue();
+    assertThat(emailInfo.pendingConfirmation).isNull();
+
+    // Delete email
+    emailApi.delete();
+    assertThat(getEmails()).doesNotContain(email);
+
+    // Now the email is no longer found
+    resetCurrentApiUser();
+    emailApi = gApi.accounts().self().email(email);
+    exception.expect(ResourceNotFoundException.class);
+    emailApi.get();
   }
 
   private Set<String> getEmails() throws Exception {

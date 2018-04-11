@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84a049e4_5122e28a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-11T20:51:34Z",
+      "side": 1,
+      "message": "What are the visual inconsistencies in this approach that you mention in the other change?",
+      "revId": "60cbd2f4c68094ebe96d45179a0e0b8ebecdc065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

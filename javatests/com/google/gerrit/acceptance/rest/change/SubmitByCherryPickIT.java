@@ -90,6 +90,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit, headAfterFirstSubmit, newHead);
     assertChangeMergedEvents(
         change.getChangeId(), headAfterFirstSubmit.name(), change2.getChangeId(), newHead.name());
+    assertPatchSetCreatedEvents(change.getCommit().name(), change2.getCommit().name());
   }
 
   @Test

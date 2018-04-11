@@ -335,6 +335,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void autocloseByChangeId() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+
     // Create a change
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
@@ -350,13 +352,77 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // Attempt to push amended commit to same change
     String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
-    r = amendChange(r.getChangeId(), "refs/for/master");
-    r.assertErrorStatus("change " + url + " closed");
+    amendChange(r.getChangeId(), "refs/for/master").assertErrorStatus("change " + url + " closed");
 
-    // Check that new commit was added as patch set
-    ChangeInfo change = gApi.changes().id(r.getChange().getId().get()).get();
-    assertThat(change.revisions).hasSize(2);
-    assertThat(change.currentRevision).isEqualTo(c.name());
+    assertClosedByPushReviewState(r, c, false);
+
+    assertRefUpdatedEvents(initialHead, c);
+    assertChangeMergedEvents(r.getChangeId(), c.name());
+    // Check that we *only* received a patchset-created event for patchset 1, not patchset 2
+    // FIXME Currently generating two events and triggering CI build(s) after change closed
+    // amendedCommit should not generate an event as the change has been closed.
+    assertPatchSetCreatedEvents(r.getCommit().name(), c.name());
+  }
+
+  /**
+   * Issue 8724: Test to verify a local cherry-pick and push gives the same result as asking Gerrit
+   * to submit reviews with the cherry-pick strategy.
+   *
+   * <p>See SubmitByCherryPickIT submitWithCherryPick for equivalent test.
+   *
+   * <p>Instead of asking Gerrit to cherry-pick the two reviews we do it locally and push.
+   *
+   * <p>FIXME Issues identified: (1) Additional patchset-created event generated compared to submit
+   * with cherry-pick (2) Additional comment added to review (possibly fixed by fixing (1)?) (3)
+   * Votes are wiped (additional assertions need to be added to verify this)
+   */
+  @Test
+  public void autocloseByChangeIdEquivalentToSubmitWithCherryPick() throws Exception {
+    RevCommit initialHead = getRemoteHead();
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
+
+    testRepo.reset(initialHead);
+    RevCommit cherryPick1 = testRepo.cherryPick(change1.getCommit());
+    RevCommit cherryPick2 = testRepo.cherryPick(change2.getCommit());
+
+    // Force push them, closing both
+    String master = "refs/heads/master";
+    assertPushOk(pushHead(testRepo, master, false), master);
+
+    // Check that cherry picks were added as latest patch sets and that both are marked as MERGED
+    assertClosedByPushReviewState(change1, cherryPick1, false);
+    assertClosedByPushReviewState(change2, cherryPick2, true);
+
+    assertRefUpdatedEvents(initialHead, cherryPick2);
+    // NB! change-merged events happen in reverse order, i.e. in HEAD->oldHead order, not oldHead->HEAD
+    assertChangeMergedEvents(
+        change2.getChangeId(), cherryPick2.name(), change1.getChangeId(), cherryPick1.name());
+    // FIXME Currently generating two events per change and triggering CI build(s) after change closed.
+    // cherryPick1 and cherryPick2 (patchsets 2) should not generate events as the changes have been closed.
+    assertPatchSetCreatedEvents(
+        change1.getCommit().name(),
+        change2.getCommit().name(),
+        cherryPick2.name(),
+        cherryPick1.name()); // Reversed as per change-merged but shouldn't be generated
+  }
+
+  private void assertClosedByPushReviewState(
+      PushOneCommit.Result change, RevCommit current, boolean isRebase) throws Exception {
+    ChangeInfo info = gApi.changes().id(change.getChange().getId().get()).get();
+    assertThat(info.revisions).hasSize(2);
+    assertThat(info.currentRevision).isEqualTo(current.name());
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(info.messages.stream().map(cmi -> cmi.message))
+        .containsExactly(
+            "Uploaded patch set 1.",
+            // FIXME This message should not be generated, can then remove isRebase
+            isRebase
+                ? "Uploaded patch set 2: Patch Set 1 was rebased."
+                : "Uploaded patch set 2: New patch set was added with same tree, parent, and commit message as Patch Set 1.",
+            "Change has been successfully pushed.");
   }
 
   @Test

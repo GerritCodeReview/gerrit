@@ -119,9 +119,9 @@ limitations under the License.
       }
       .content {
         overflow: hidden;
-        /* Set max and min width since setting width on table cells still
-           allows them to shrink. */
-        max-width: var(--content-width, 80ch);
+        /* Set min width since setting width on table cells still
+           allows them to shrink. Do not set max width because
+           CJK (Chinese-Japanese-Korean) glyphs have variable width */
         min-width: var(--content-width, 80ch);
         width: var(--content-width, 80ch);
       }

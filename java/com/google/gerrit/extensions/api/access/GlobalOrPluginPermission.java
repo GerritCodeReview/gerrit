@@ -17,4 +17,11 @@ package com.google.gerrit.extensions.api.access;
 /**
  * A {@link com.google.gerrit.server.permissions.GlobalPermission} or a {@link PluginPermission}.
  */
-public interface GlobalOrPluginPermission extends GerritPermission {}
+public interface GlobalOrPluginPermission extends GerritPermission {
+  // TODO(dborowitz): Remove this method from GerritPermission.
+  @Override
+  @Deprecated
+  default String permissionName() {
+    throw new UnsupportedOperationException();
+  }
+}

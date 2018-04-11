@@ -88,6 +88,10 @@ limitations under the License.
       });
       element.diffPrefs = {};
       element.numFilesShown = 200;
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
       saveStub = sandbox.stub(element, '_saveReviewedState',
           () => { return Promise.resolve(); });
     });
@@ -98,9 +102,12 @@ limitations under the License.
 
     test('correct number of files are shown', () => {
       element.fileListIncrement = 300;
-      element._files = _.times(500, i => {
-        return {__path: '/file' + i, lines_inserted: 9};
-      });
+      element._filesByPath = _.range(500)
+          .reduce((_filesByPath, i) => {
+            _filesByPath['/file' + i] = {lines_inserted: 9};
+            return _filesByPath;
+          }, {});
+
       flushAsynchronousOperations();
       assert.equal(
           Polymer.dom(element.root).querySelectorAll('.file-row').length,
@@ -121,23 +128,24 @@ limitations under the License.
     });
 
     test('calculate totals for patch number', () => {
-      element._files = [
-        {__path: '/COMMIT_MSG', lines_inserted: 9},
-        {
-          __path: 'file_added_in_rev2.txt',
+      element._filesByPath = {
+        '/COMMIT_MSG': {
+          lines_inserted: 9,
+        },
+        'file_added_in_rev2.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
           size_delta: 10,
           size: 100,
         },
-        {
-          __path: 'myfile.txt',
+        'myfile.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
           size_delta: 10,
           size: 100,
         },
-      ];
+      };
+
       assert.deepEqual(element._patchChange, {
         inserted: 2,
         deleted: 2,
@@ -149,11 +157,20 @@ limitations under the License.
       assert.isFalse(element._hideChangeTotals);
 
       // Test with a commit message that isn't the first file.
-      element._files = [
-        {__path: 'file_added_in_rev2.txt', lines_inserted: 1, lines_deleted: 1},
-        {__path: '/COMMIT_MSG', lines_inserted: 9},
-        {__path: 'myfile.txt', lines_inserted: 1, lines_deleted: 1},
-      ];
+      element._filesByPath = {
+        'file_added_in_rev2.txt': {
+          lines_inserted: 1,
+          lines_deleted: 1,
+        },
+        '/COMMIT_MSG': {
+          lines_inserted: 9,
+        },
+        'myfile.txt': {
+          lines_inserted: 1,
+          lines_deleted: 1,
+        },
+      };
+
       assert.deepEqual(element._patchChange, {
         inserted: 2,
         deleted: 2,
@@ -165,10 +182,17 @@ limitations under the License.
       assert.isFalse(element._hideChangeTotals);
 
       // Test with no commit message.
-      element._files = [
-        {__path: 'file_added_in_rev2.txt', lines_inserted: 1, lines_deleted: 1},
-        {__path: 'myfile.txt', lines_inserted: 1, lines_deleted: 1},
-      ];
+      element._filesByPath = {
+        'file_added_in_rev2.txt': {
+          lines_inserted: 1,
+          lines_deleted: 1,
+        },
+        'myfile.txt': {
+          lines_inserted: 1,
+          lines_deleted: 1,
+        },
+      };
+
       assert.deepEqual(element._patchChange, {
         inserted: 2,
         deleted: 2,
@@ -180,10 +204,10 @@ limitations under the License.
       assert.isFalse(element._hideChangeTotals);
 
       // Test with files missing either lines_inserted or lines_deleted.
-      element._files = [
-        {__path: 'file_added_in_rev2.txt', lines_inserted: 1},
-        {__path: 'myfile.txt', lines_deleted: 1},
-      ];
+      element._filesByPath = {
+        'file_added_in_rev2.txt': {lines_inserted: 1},
+        'myfile.txt': {lines_deleted: 1},
+      };
       assert.deepEqual(element._patchChange, {
         inserted: 1,
         deleted: 1,
@@ -196,11 +220,11 @@ limitations under the License.
     });
 
     test('binary only files', () => {
-      element._files = [
-        {__path: '/COMMIT_MSG', lines_inserted: 9},
-        {__path: 'file_binary', binary: true, size_delta: 10, size: 100},
-        {__path: 'file_binary', binary: true, size_delta: -5, size: 120},
-      ];
+      element._filesByPath = {
+        '/COMMIT_MSG': {lines_inserted: 9},
+        'file_binary_1': {binary: true, size_delta: 10, size: 100},
+        'file_binary_2': {binary: true, size_delta: -5, size: 120},
+      };
       assert.deepEqual(element._patchChange, {
         inserted: 0,
         deleted: 0,
@@ -213,13 +237,13 @@ limitations under the License.
     });
 
     test('binary and regular files', () => {
-      element._files = [
-        {__path: '/COMMIT_MSG', lines_inserted: 9},
-        {__path: 'file_binary', binary: true, size_delta: 10, size: 100},
-        {__path: 'file_binary', binary: true, size_delta: -5, size: 120},
-        {__path: 'myfile.txt', lines_deleted: 5, size_delta: -10, size: 100},
-        {__path: 'myfile2.txt', lines_inserted: 10},
-      ];
+      element._filesByPath = {
+        '/COMMIT_MSG': {lines_inserted: 9},
+        'file_binary_1': {binary: true, size_delta: 10, size: 100},
+        'file_binary_2': {binary: true, size_delta: -5, size: 120},
+        'myfile.txt': {lines_deleted: 5, size_delta: -10, size: 100},
+        'myfile2.txt': {lines_inserted: 10},
+      };
       assert.deepEqual(element._patchChange, {
         inserted: 10,
         deleted: 5,
@@ -418,11 +442,11 @@ limitations under the License.
 
     suite('keyboard shortcuts', () => {
       setup(() => {
-        element._files = [
-          {__path: '/COMMIT_MSG'},
-          {__path: 'file_added_in_rev2.txt'},
-          {__path: 'myfile.txt'},
-        ];
+        element._filesByPath = {
+          '/COMMIT_MSG': {},
+          'file_added_in_rev2.txt': {},
+          'myfile.txt': {},
+        };
         element.changeNum = '42';
         element.patchRange = {
           basePatchNum: 'PARENT',
@@ -631,11 +655,11 @@ limitations under the License.
     });
 
     test('file review status', () => {
-      element._files = [
-        {__path: '/COMMIT_MSG'},
-        {__path: 'file_added_in_rev2.txt'},
-        {__path: 'myfile.txt'},
-      ];
+      element._filesByPath = {
+        '/COMMIT_MSG': {},
+        'file_added_in_rev2.txt': {},
+        'myfile.txt': {},
+      };
       element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._loggedIn = true;
       element.changeNum = '42';
@@ -677,11 +701,11 @@ limitations under the License.
     });
 
     test('_handleFileListTap', () => {
-      element._files = [
-        {__path: '/COMMIT_MSG'},
-        {__path: 'f1.txt'},
-        {__path: 'f2.txt'},
-      ];
+      element._filesByPath = {
+        '/COMMIT_MSG': {},
+        'f1.txt': {},
+        'f2.txt': {},
+      };
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
@@ -739,9 +763,9 @@ limitations under the License.
     });
 
     test('checkbox shows/hides diff inline', () => {
-      element._files = [
-        {__path: 'myfile.txt'},
-      ];
+      element._filesByPath = {
+        'myfile.txt': {},
+      };
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
@@ -764,9 +788,9 @@ limitations under the License.
     });
 
     test('diff mode correctly toggles the diffs', () => {
-      element._files = [
-        {__path: 'myfile.txt'},
-      ];
+      element._filesByPath = {
+        'myfile.txt': {},
+      };
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
@@ -790,16 +814,16 @@ limitations under the License.
     });
 
     test('expanded attribute not set on path when not expanded', () => {
-      element._files = [
-        {__path: '/COMMIT_MSG'},
-      ];
+      element._filesByPath = {
+        '/COMMIT_MSG': {},
+      };
       assert.isNotOk(element.$$('.expanded'));
     });
 
     test('tapping row ignores links', () => {
-      element._files = [
-        {__path: '/COMMIT_MSG'},
-      ];
+      element._filesByPath = {
+        '/COMMIT_MSG': {},
+      };
       element.changeNum = '42';
       element.patchRange = {
         basePatchNum: 'PARENT',
@@ -824,7 +848,7 @@ limitations under the License.
 
     test('_togglePathExpanded', () => {
       const path = 'path/to/my/file.txt';
-      element._files = [{__path: path}];
+      element._filesByPath = {[path]: {}};
       const renderSpy = sandbox.spy(element, '_renderInOrder');
       const collapseStub = sandbox.stub(element, '_clearCollapsedDiffs');
 
@@ -852,7 +876,7 @@ limitations under the License.
           'handleDiffUpdate');
 
       const path = 'path/to/my/file.txt';
-      element._files = [{__path: path}];
+      element._filesByPath = {[path]: {}};
       element.expandAllDiffs();
       flushAsynchronousOperations();
       assert.isTrue(element._showInlineDiffs);
@@ -894,7 +918,10 @@ limitations under the License.
     });
 
     test('filesExpanded value updates to correct enum', () => {
-      element._files = [{__path: 'foo.bar'}, {__path: 'baz.bar'}];
+      element._filesByPath = {
+        'foo.bar': {},
+        'baz.bar': {},
+      };
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
           GrFileListConstants.FilesExpandedState.NONE);
@@ -1000,7 +1027,7 @@ limitations under the License.
     test('_loadingChanged fired from reload in debouncer', done => {
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
-      element._files = [{__path: 'foo.bar'}];
+      element._filesByPath = {'foo.bar': {}};
 
       element.reload().then(() => {
         assert.isFalse(element._loading);
@@ -1027,7 +1054,7 @@ limitations under the License.
       const urlStub = sandbox.stub(element, '_computeDiffURL');
       element.change = {_number: 123};
       element.patchRange = {patchNum: undefined, basePatchNum: 'PARENT'};
-      element._files = [{__path: 'foo/bar.cpp'}];
+      element._filesByPath = {'foo/bar.cpp': {}};
       element.editMode = false;
       flush(() => {
         assert.isFalse(urlStub.called);
@@ -1278,23 +1305,21 @@ limitations under the License.
       });
       element.numFilesShown = 75;
       element.selectedIndex = 0;
-      element._files = [
-        {__path: '/COMMIT_MSG', lines_inserted: 9},
-        {
-          __path: 'file_added_in_rev2.txt',
+      element._filesByPath = {
+        '/COMMIT_MSG': {lines_inserted: 9},
+        'file_added_in_rev2.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
           size_delta: 10,
           size: 100,
         },
-        {
-          __path: 'myfile.txt',
+        'myfile.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
           size_delta: 10,
           size: 100,
         },
-      ];
+      };
       element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._loggedIn = true;
       element.changeNum = '42';
@@ -1457,14 +1482,14 @@ limitations under the License.
     });
 
     test('_openSelectedFile behavior', () => {
-      const _files = element._files;
-      element.set('_files', []);
+      const _filesByPath = element._filesByPath;
+      element.set('_filesByPath', {});
       const navStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
       // Noop when there are no files.
       element._openSelectedFile();
       assert.isFalse(navStub.called);
 
-      element.set('_files', _files);
+      element.set('_filesByPath', _filesByPath);
       flushAsynchronousOperations();
        // Navigates when a file is selected.
       element._openSelectedFile();

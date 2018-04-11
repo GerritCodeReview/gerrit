@@ -1051,13 +1051,12 @@
      * @param {Defs.patchRange} patchRange
      * @return {!Promise<!Array<!Object>>}
      */
-    getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {
+    getChangeOrEditFiles(changeNum, patchRange) {
       if (this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME)) {
         return this.getChangeEditFiles(changeNum, patchRange).then(res =>
-          this._normalizeChangeFilesResponse(res.files));
+            res.files);
       }
-      return this.getChangeFiles(changeNum, patchRange).then(
-          this._normalizeChangeFilesResponse.bind(this));
+      return this.getChangeFiles(changeNum, patchRange);
     },
 
     /**
@@ -1069,25 +1068,6 @@
       return this.getChangeFiles(changeNum, patchRange).then(files => {
         return Object.keys(files).sort(this.specialFilePathCompare);
       });
-    },
-
-    /**
-     * The closure compiler doesn't realize this.specialFilePathCompare is
-     * valid.
-     * @suppress {checkTypes}
-     */
-    _normalizeChangeFilesResponse(response) {
-      if (!response) { return []; }
-      const paths = Object.keys(response).sort(this.specialFilePathCompare);
-      const files = [];
-      for (let i = 0; i < paths.length; i++) {
-        const info = response[paths[i]];
-        info.__path = paths[i];
-        info.lines_inserted = info.lines_inserted || 0;
-        info.lines_deleted = info.lines_deleted || 0;
-        files.push(info);
-      }
-      return files;
     },
 
     getChangeRevisionActions(changeNum, patchNum) {

@@ -36,16 +36,11 @@ limitations under the License.
       :host {
         display: table-row;
       }
-      :host:focus {
+      :host(:focus) {
         outline: none;
       }
       :host(:hover) {
-        background-color: #eeeeee;
-      }
-      :host([selected]) {
-        /* Double the value used in the file list due to the parent table having
-          `border-collapse: collapse;` */
-        border-left: .7rem solid var(--color-link);
+        background-color: #e8effa;
       }
       :host([needs-review]) {
         font-family: var(--font-family-bold);
@@ -99,12 +94,6 @@ limitations under the License.
       a:hover {
         text-decoration: underline;
       }
-      .positionIndicator {
-        visibility: hidden;
-      }
-      :host([selected]) .positionIndicator {
-        visibility: visible;
-      }
       .u-monospace {
         font-family: var(--monospace-font-family);
       }
@@ -129,13 +118,10 @@ limitations under the License.
         :host {
           display: flex;
         }
-        :host([selected]) {
-          border-left: none;
-        }
       }
     </style>
     <style include="gr-change-list-styles"></style>
-    <td class="cell keyboard"></td>
+    <td class="cell leftPadding"></td>
     <td class="cell star" hidden$="[[!showStar]]" hidden>
       <gr-change-star change="{{change}}"></gr-change-star>
     </td>

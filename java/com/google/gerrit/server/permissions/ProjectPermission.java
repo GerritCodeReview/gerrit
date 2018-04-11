@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.common.base.CaseFormat;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.access.GerritPermission;
 
 public enum ProjectPermission implements GerritPermission {
@@ -32,7 +30,7 @@ public enum ProjectPermission implements GerritPermission {
    *
    * <p>This is a stronger form of {@link #ACCESS} where no filtering is required.
    */
-  READ(Permission.READ),
+  READ,
 
   /**
    * Can create at least one reference in the project.
@@ -85,18 +83,9 @@ public enum ProjectPermission implements GerritPermission {
   /** Can push to at least one reference within the repository. */
   PUSH_AT_LEAST_ONE_REF;
 
-  private final String name;
-
-  ProjectPermission() {
-    name = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
-  }
-
-  ProjectPermission(String name) {
-    this.name = name;
-  }
-
+  @Deprecated
   @Override
   public String permissionName() {
-    return name;
+    throw new UnsupportedOperationException();
   }
 }

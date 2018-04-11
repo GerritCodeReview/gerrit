@@ -16,6 +16,24 @@
       "revId": "8957727735f698fa933923494ad5d87779b2ec3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f82d39_5991c354",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-11T18:21:17Z",
+      "side": 1,
+      "message": "We have to pick some value to start with. 10 seems to me as good as the 5 used in Ia6266ec67d.",
+      "parentUuid": "8d661f2c_bbdcf487",
+      "revId": "8957727735f698fa933923494ad5d87779b2ec3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

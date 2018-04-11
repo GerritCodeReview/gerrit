@@ -89,7 +89,6 @@ limitations under the License.
         cursor: pointer;
       }
       .file-row.expanded {
-        background-color: #eeeeee;
         border-bottom: 1px solid var(--border-color);
         position: -webkit-sticky;
         position: sticky;
@@ -99,14 +98,14 @@ limitations under the License.
         z-index: 1;
       }
       .file-row:hover {
-        background-color: #eeeeee;
+        background-color: var(--hover-background-color);
       }
-      .row {
-        /* Needed to provide a spacer for the selected cursor. */
-        border-left: .35rem solid transparent;
+      .file-row.selected {
+        background-color: var(--selection-background-color);
       }
-      .row.selected {
-        border-left: .35rem solid var(--color-link);
+      .file-row.expanded,
+      .file-row.expanded:hover {
+        background-color: var(--expanded-background-color);
       }
       .path {
         cursor: pointer;

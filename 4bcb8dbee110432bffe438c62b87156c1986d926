@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a8b675c_87073228",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-11T19:43:48Z",
+      "side": 1,
+      "message": "This code seems to be broken to me. Looking into it fro the debugger started from the command line:\n\n  $ java -jar -agentlib:jdwp\u003dtransport\u003ddt_socket,server\u003dy,suspend\u003dy,address\u003d1234 bazel-bin/headless.war daemon -d ../test_site\n\nI see exactly zero matches. In all move() invocations below. it seems that all jar files are starting from \"/\" char, and this char is missing in the prefix. Changing \"guice-\" prefix to \"/guice-\" I get matches.\n\nFor example:\n\n* key: /antlr-runtime-3.5.2.jar\n* value: file:/home/davido/.gerritcodereview/tmp/gerrit_335518617273798390_app/antlr-runtime-3.5.2.jar\n\nIOW, we could probably just remote the entire block, and nobody would notice any difference:\n\n   if (jars.isEmpty()) {\n      return GerritLauncher.class.getClassLoader();\n    }\n    ClassLoader parent \u003d ClassLoader.getSystemClassLoader();\n    return new URLClassLoader(jars.values().toArray(new URL[jars.size()]), parent);",
+      "range": {
+        "startLine": 296,
+        "startChar": 4,
+        "endLine": 297,
+        "endChar": 67
+      },
+      "revId": "4bcb8dbee110432bffe438c62b87156c1986d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aba473d_2b44abe4",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-11T19:43:48Z",
+      "side": 1,
+      "message": "This library was renamed to something completely different.",
+      "range": {
+        "startLine": 299,
+        "startChar": 16,
+        "endLine": 299,
+        "endChar": 37
+      },
+      "revId": "4bcb8dbee110432bffe438c62b87156c1986d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

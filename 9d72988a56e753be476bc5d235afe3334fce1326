@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2a468d3_a113ca50",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-11T19:43:48Z",
+      "side": 0,
+      "message": "This is not how it works. move() only considers one single JAR file even if multiple matches exist. That\u0027s because it handles only the first key:\n\n  String first \u003d matches.firstKey();\n\nSo that in fact, for guice- there are multiple matches (but only if you add \"/\" in front of \"guice-\": like this \"/guice-\"): [1], but only the first guice- is considered, in this case, only:\n\n  /guice-4.2.0.jar\n\nSo that the current code is correct, that it invoked twice move for different prefixes even if the start from the common prefix. Still, that code is a no op, see other comments.\n\n* [1] http://paste.openstack.org/show/718980",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 41
+      },
+      "revId": "9d72988a56e753be476bc5d235afe3334fce1326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

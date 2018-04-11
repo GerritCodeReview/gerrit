@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
+import com.google.gerrit.server.permissions.LabelPermission.ForUser;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
@@ -146,6 +147,21 @@ public class DefaultPermissionMappings {
 
   public static Optional<ChangePermission> changePermission(String permissionName) {
     return Optional.ofNullable(CHANGE_PERMISSIONS.inverse().get(permissionName));
+  }
+
+  public static String labelPermissionName(LabelPermission labelPermission) {
+    if (labelPermission.forUser() == ForUser.ON_BEHALF_OF) {
+      return Permission.forLabelAs(labelPermission.label());
+    }
+    return Permission.forLabel(labelPermission.label());
+  }
+
+  // TODO(dborowitz): Can these share a common superinterface?
+  public static String labelPermissionName(LabelPermission.WithValue labelPermission) {
+    if (labelPermission.forUser() == ForUser.ON_BEHALF_OF) {
+      return Permission.forLabelAs(labelPermission.label());
+    }
+    return Permission.forLabel(labelPermission.label());
   }
 
   private DefaultPermissionMappings() {}

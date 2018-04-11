@@ -34,6 +34,24 @@
       "revId": "8957727735f698fa933923494ad5d87779b2ec3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e00df7c7_221554b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-11T19:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1f82d39_5991c354",
+      "revId": "8957727735f698fa933923494ad5d87779b2ec3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

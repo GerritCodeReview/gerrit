@@ -14,24 +14,14 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.AbstractVersionManager;
-import com.google.gerrit.server.index.IndexConfig;
-import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.SingleVersionModule;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.util.Map;
-import org.eclipse.jgit.lib.Config;
 
-public class ElasticIndexModule extends LifecycleModule {
-  private final int threads;
-  private final Map<String, Integer> singleVersions;
+public class ElasticIndexModule extends AbstractIndexModule {
 
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads) {
@@ -43,44 +33,26 @@ public class ElasticIndexModule extends LifecycleModule {
   }
 
   private ElasticIndexModule(Map<String, Integer> singleVersions, int threads) {
-    this.singleVersions = singleVersions;
-    this.threads = threads;
+    super(singleVersions, threads);
   }
 
   @Override
-  protected void configure() {
-    install(
-        new FactoryModuleBuilder()
-            .implement(AccountIndex.class, ElasticAccountIndex.class)
-            .build(AccountIndex.Factory.class));
-    install(
-        new FactoryModuleBuilder()
-            .implement(ChangeIndex.class, ElasticChangeIndex.class)
-            .build(ChangeIndex.Factory.class));
-    install(
-        new FactoryModuleBuilder()
-            .implement(GroupIndex.class, ElasticGroupIndex.class)
-            .build(GroupIndex.Factory.class));
-
-    install(new IndexModule(threads));
-    if (singleVersions == null) {
-      install(new MultiVersionModule());
-    } else {
-      install(new SingleVersionModule(singleVersions));
-    }
+  protected Class<? extends AccountIndex> getAccountIndex() {
+    return ElasticAccountIndex.class;
   }
 
-  @Provides
-  @Singleton
-  IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
-    return IndexConfig.fromConfig(cfg);
+  @Override
+  protected Class<? extends ChangeIndex> getChangeIndex() {
+    return ElasticChangeIndex.class;
   }
 
-  private static class MultiVersionModule extends LifecycleModule {
-    @Override
-    public void configure() {
-      bind(AbstractVersionManager.class).to(ElasticVersionManager.class);
-      listener().to(ElasticVersionManager.class);
-    }
+  @Override
+  protected Class<? extends GroupIndex> getGroupIndex() {
+    return ElasticGroupIndex.class;
+  }
+
+  @Override
+  protected Class<? extends AbstractVersionManager> getVersionManager() {
+    return ElasticVersionManager.class;
   }
 }

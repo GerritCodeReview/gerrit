@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "48c87707_5ba63799",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-11T15:29:24Z",
+      "side": 1,
+      "message": "can you configure your name in your git client",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 19
+      },
+      "revId": "2a97ac4bb9173004388c205e33e322ea335b245b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3286f92d_94da9d3e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

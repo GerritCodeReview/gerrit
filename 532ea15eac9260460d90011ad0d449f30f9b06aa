@@ -46,6 +46,30 @@
       "revId": "532ea15eac9260460d90011ad0d449f30f9b06aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6536011_5296f5ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-11T02:02:07Z",
+      "side": 1,
+      "message": "My plan was to revert this change and align both modules by having the nested class in both as per stable-2.15",
+      "parentUuid": "0987f524_46b4cce0",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "532ea15eac9260460d90011ad0d449f30f9b06aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

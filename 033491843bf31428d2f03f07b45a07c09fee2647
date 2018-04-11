@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6381eca9_168900ba",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-11T00:39:46Z",
+      "side": 1,
+      "message": "Not related to this change but that is the only difference left between Lucene and Elastic then I will be able to refactor module duplication into a parent class.\n\nTo be honest, I am not sure this belongs here but even If I move it out, we need to check if we need to set this settings for elastic as well. Most likely Elastic have the same 1024 default which will not work if index.maxTerms is configured with a value greater than 1024.",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 75
+      },
+      "revId": "033491843bf31428d2f03f07b45a07c09fee2647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

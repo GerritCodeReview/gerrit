@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae7d5f6_34bcec44",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/LuceneIndexModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-11T14:12:59Z",
+      "side": 1,
+      "message": "this is not working, Guice does not allow to overriding @Provides method",
+      "range": {
+        "startLine": 71,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 3
+      },
+      "revId": "dc2dd564910a0e2015441f9749358f3f1b993b0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

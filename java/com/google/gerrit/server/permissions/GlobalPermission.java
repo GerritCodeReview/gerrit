@@ -18,6 +18,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.CapabilityScope;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.api.access.GerritPermission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import java.lang.annotation.Annotation;
@@ -145,5 +146,10 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
       }
     }
     return null;
+  }
+
+  @Override
+  public String describeForException() {
+    return GerritPermission.describeEnumValue(this);
   }
 }

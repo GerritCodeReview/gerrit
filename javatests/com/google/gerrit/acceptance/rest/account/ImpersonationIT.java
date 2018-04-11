@@ -373,7 +373,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     SubmitInput in = new SubmitInput();
     in.onBehalfOf = admin2.email;
     exception.expect(AuthException.class);
-    exception.expectMessage("submit as not permitted");
+    exception.expectMessage("submit on behalf of other users not permitted");
     gApi.changes().id(project.get() + "~master~" + r.getChangeId()).current().submit(in);
   }
 

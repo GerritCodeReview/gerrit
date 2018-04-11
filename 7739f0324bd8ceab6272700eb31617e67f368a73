@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0f743739_aa833849",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-11T20:37:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure it make sense to serve monospace CJK fonts, given their sizes.\nFor example, Noto (https://www.google.com/get/noto/help/cjk/) claims to have monospace CJK, but Traditional Chinese alone is \u003e1xx Mb.\n\nCSS change solves the problem, although creating some visual inconsistencies - filed as a separate change (https://gerrit-review.googlesource.com/c/gerrit/+/171510)",
+      "parentUuid": "af526727_1727961b",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d77d792_70c79442",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 4

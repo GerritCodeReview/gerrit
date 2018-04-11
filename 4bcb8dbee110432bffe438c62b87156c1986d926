@@ -45,6 +45,30 @@
       "revId": "4bcb8dbee110432bffe438c62b87156c1986d926",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "245768fb_40e8ad6b",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-11T19:45:33Z",
+      "side": 1,
+      "message": "There are even two of them:\n\n  $ unzip -t bazel-bin/headless.war | grep -i extension\n    testing: WEB-INF/lib/com_google_gerrit_extensions_libapi.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_extensions_libclient.jar   OK",
+      "parentUuid": "8aba473d_2b44abe4",
+      "range": {
+        "startLine": 299,
+        "startChar": 16,
+        "endLine": 299,
+        "endChar": 37
+      },
+      "revId": "4bcb8dbee110432bffe438c62b87156c1986d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

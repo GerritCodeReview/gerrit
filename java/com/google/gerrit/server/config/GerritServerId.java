@@ -22,7 +22,8 @@ import java.lang.annotation.Retention;
 /**
  * Marker on a string holding a unique identifier for the server.
  *
- * <p>This value is generated on first use and stored in {@code $site_path/etc/uuid}.
+ * <p>This value is generated on first use and stored in {@code gerrit.serverId} in {@code
+ * gerrit.config}.
  */
 @Retention(RUNTIME)
 @BindingAnnotation

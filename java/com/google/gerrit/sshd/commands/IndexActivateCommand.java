@@ -16,8 +16,8 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.lucene.LuceneVersionManager;
 import com.google.gerrit.server.index.ReindexerAlreadyRunningException;
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -30,15 +30,19 @@ public class IndexActivateCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "INDEX", usage = "index name to activate")
   private String name;
 
-  @Inject private LuceneVersionManager luceneVersionManager;
+  @Inject private VersionManager versionManager;
 
   @Override
   protected void run() throws UnloggedFailure {
     try {
-      if (luceneVersionManager.activateLatestIndex(name)) {
-        stdout.println("Activated latest index version");
+      if (versionManager.isKnownIndex(name)) {
+        if (versionManager.activateLatestIndex(name)) {
+          stdout.println("Activated latest index version");
+        } else {
+          stdout.println("Not activating index, already using latest version");
+        }
       } else {
-        stdout.println("Not activating index, already using latest version");
+        stderr.println(String.format("Cannot activate index %s: unknown", name));
       }
     } catch (ReindexerAlreadyRunningException e) {
       throw die("Failed to activate latest index: " + e.getMessage());

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.permissions.DefaultPermissionMappings;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -102,7 +103,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       if (Strings.isNullOrEmpty(input.ref)) {
         throw new BadRequestException("must set 'ref' when specifying 'permission'");
       }
-      Optional<RefPermission> rp = RefPermission.fromName(input.permission);
+      Optional<RefPermission> rp = DefaultPermissionMappings.refPermission(input.permission);
       if (!rp.isPresent()) {
         throw new BadRequestException(
             String.format("'%s' is not recognized as ref permission", input.permission));

@@ -68,6 +68,20 @@ public class DefaultPermissionMappings {
           .put(ProjectPermission.READ, Permission.READ)
           .build();
 
+  private static final ImmutableBiMap<RefPermission, String> REF_PERMISSIONS =
+      ImmutableBiMap.<RefPermission, String>builder()
+          .put(RefPermission.READ, Permission.READ)
+          .put(RefPermission.CREATE, Permission.CREATE)
+          .put(RefPermission.DELETE, Permission.DELETE)
+          .put(RefPermission.UPDATE, Permission.PUSH)
+          .put(RefPermission.FORGE_AUTHOR, Permission.FORGE_AUTHOR)
+          .put(RefPermission.FORGE_COMMITTER, Permission.FORGE_COMMITTER)
+          .put(RefPermission.FORGE_SERVER, Permission.FORGE_SERVER)
+          .put(RefPermission.CREATE_TAG, Permission.CREATE_TAG)
+          .put(RefPermission.CREATE_SIGNED_TAG, Permission.CREATE_SIGNED_TAG)
+          .put(RefPermission.READ_PRIVATE_CHANGES, Permission.VIEW_PRIVATE_CHANGES)
+          .build();
+
   private static <T extends Enum<T>> void checkMapContainsAllEnumValues(
       ImmutableMap<T, String> actual, Class<T> clazz) {
     Set<T> expected = EnumSet.allOf(clazz);
@@ -102,6 +116,14 @@ public class DefaultPermissionMappings {
 
   public static Optional<ProjectPermission> projectPermission(String permissionName) {
     return Optional.ofNullable(PROJECT_PERMISSIONS.inverse().get(permissionName));
+  }
+
+  public static Optional<String> refPermissionName(RefPermission refPermission) {
+    return Optional.ofNullable(REF_PERMISSIONS.get(refPermission));
+  }
+
+  public static Optional<RefPermission> refPermission(String permissionName) {
+    return Optional.ofNullable(REF_PERMISSIONS.inverse().get(permissionName));
   }
 
   private DefaultPermissionMappings() {}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "639cd3b6_c120267a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-11T07:13:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8f33f24_c21835c9",
+      "revId": "22b30e77109504134fb757d1b8cbf6dc1c435046",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bc4d51e_03c5f36b",
         "filename": "java/com/google/gerrit/server/restapi/change/Move.java",
         "patchSetId": 2

@@ -15,6 +15,9 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalOrPluginPermissionName;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.pluginPermissionName;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -86,7 +89,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
     Map<String, Object> have = new LinkedHashMap<>();
     for (GlobalOrPluginPermission p : perm.test(permissionsToTest())) {
-      have.put(p.permissionName(), true);
+      have.put(globalOrPluginPermissionName(p), true);
     }
 
     AccountLimits limits = limitsFactory.create(rsrc.getUser());
@@ -101,7 +104,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
   private Set<GlobalOrPluginPermission> permissionsToTest() {
     Set<GlobalOrPluginPermission> toTest = new HashSet<>();
     for (GlobalPermission p : GlobalPermission.values()) {
-      if (want(p.permissionName())) {
+      if (want(globalPermissionName(p))) {
         toTest.add(p);
       }
     }
@@ -109,7 +112,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     for (String pluginName : pluginCapabilities.plugins()) {
       for (String capability : pluginCapabilities.byPlugin(pluginName).keySet()) {
         PluginPermission p = new PluginPermission(pluginName, capability);
-        if (want(p.permissionName())) {
+        if (want(pluginPermissionName(p))) {
           toTest.add(p);
         }
       }

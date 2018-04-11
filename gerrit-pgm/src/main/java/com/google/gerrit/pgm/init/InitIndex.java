@@ -70,6 +70,7 @@ class InitIndex implements InitStep {
           "Transport protocol", "protocol", "http", Sets.newHashSet("http", "https"));
       defaultServer.string("Hostname", "hostname", "localhost");
       defaultServer.string("Port", "port", "9200");
+      index.string("Result window size", "maxLimit", "10000");
     }
 
     if ((site.isNew || isEmptySite()) && type == IndexType.LUCENE) {

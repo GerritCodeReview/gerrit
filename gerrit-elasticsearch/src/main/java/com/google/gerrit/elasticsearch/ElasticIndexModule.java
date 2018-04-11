@@ -82,7 +82,6 @@ public class ElasticIndexModule extends AbstractModule {
     } else {
       install(new SingleVersionModule(singleVersions));
     }
-    bind(VersionManager.class).to(ElasticVersionManager.class);
   }
 
   @Provides
@@ -94,6 +93,7 @@ public class ElasticIndexModule extends AbstractModule {
   private class MultiVersionModule extends LifecycleModule {
     @Override
     public void configure() {
+      bind(VersionManager.class).to(ElasticVersionManager.class);
       listener().to(ElasticVersionManager.class);
       if (onlineUpgrade) {
         listener().to(OnlineUpgrader.class);

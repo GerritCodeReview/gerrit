@@ -20,11 +20,15 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.reviewdb.client.Account.Id;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.restapi.config.ListCapabilities;
 import com.google.gerrit.server.restapi.config.ListCapabilities.CapabilityInfo;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +52,7 @@ public class ListCapabilitiesTest {
                         return "Print Hello";
                       }
                     });
+            bind(PermissionBackend.class).to(FakePermissionBackend.class);
           }
         };
     injector = Guice.createInjector(mod);
@@ -67,5 +72,28 @@ public class ListCapabilitiesTest {
     assertThat(m).containsKey(pluginCapability);
     assertThat(m.get(pluginCapability).id).isEqualTo(pluginCapability);
     assertThat(m.get(pluginCapability).name).isEqualTo("Print Hello");
+  }
+
+  @Singleton
+  private static class FakePermissionBackend extends PermissionBackend {
+    @Override
+    public WithUser currentUser() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public WithUser user(CurrentUser user) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public WithUser absentUser(Id user) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean usesDefaultCapabilities() {
+      return true;
+    }
   }
 }

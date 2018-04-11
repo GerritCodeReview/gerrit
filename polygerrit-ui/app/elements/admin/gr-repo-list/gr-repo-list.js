@@ -63,7 +63,10 @@
         type: Boolean,
         value: true,
       },
-      _filter: String,
+      _filter: {
+        type: String,
+        value: '',
+      },
     },
 
     behaviors: [
@@ -115,7 +118,8 @@
       this._repos = [];
       return this.$.restAPI.getRepos(filter, reposPerPage, offset)
           .then(repos => {
-            if (!repos) { return; }
+            // Late response.
+            if (filter !== this._filter || !repos) { return; }
             this._repos = Object.keys(repos)
              .map(key => {
                const repo = repos[key];

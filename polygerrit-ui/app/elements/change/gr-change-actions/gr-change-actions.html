@@ -95,7 +95,9 @@ limitations under the License.
               is="dom-repeat"
               items="[[_topLevelPrimaryActions]]"
               as="action">
-            <gr-button title$="[[action.title]]"
+            <gr-button
+                title$="[[action.title]]"
+                has-tooltip="[[_computeHasTooltip(action.title)]]"
                 primary$="[[action.__primary]]"
                 data-action-key$="[[action.__key]]"
                 data-action-type$="[[action.__type]]"
@@ -110,7 +112,9 @@ limitations under the License.
               is="dom-repeat"
               items="[[_topLevelSecondaryActions]]"
               as="action">
-            <gr-button title$="[[action.title]]"
+            <gr-button
+                title$="[[action.title]]"
+                has-tooltip="[[_computeHasTooltip(action.title)]]"
                 primary$="[[action.__primary]]"
                 data-action-key$="[[action.__key]]"
                 data-action-type$="[[action.__type]]"

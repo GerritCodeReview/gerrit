@@ -134,6 +134,21 @@ limitations under the License.
       assert.isFalse(tapped.called);
     });
 
+    test('properly sets tooltips', () => {
+      element.items = [
+        {name: 'item one', id: 'foo', tooltip: 'hello'},
+        {name: 'item two', id: 'bar'},
+      ];
+      element.disabledIds = [];
+      flushAsynchronousOperations();
+      const tooltipContents = Polymer.dom(element.root)
+          .querySelectorAll('iron-dropdown li gr-tooltip-content');
+      assert.equal(tooltipContents.length, 2);
+      assert.isTrue(tooltipContents[0].hasTooltip);
+      assert.equal(tooltipContents[0].getAttribute('title'), 'hello');
+      assert.isFalse(tooltipContents[1].hasTooltip);
+    });
+
     suite('keyboard navigation', () => {
       setup(() => {
         element.items = [

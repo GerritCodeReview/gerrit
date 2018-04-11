@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1515055730 +0100\nnonce ADEcKBqwkdYuPgxVFVMbq4TLJszyDczqCe8RTDQE1eJaoVTBOACMCJHVuHgEJK5BShgF1rXusqW9\n\n0000000000000000000000000000000000000000 edb636cda1499326b38d3cac718ab41995821cf9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJaTepyAAoJEFG1/Zeg0O9RJkUIAIvFmP2HU+DjHyYGkzpOPsqg\nVHuHQooxNuyNMgM+6WA/l36nZGIISgkvlwybClokk+Ye8ups3dhu4B2weujfpRXq\nlgATN9WCG9Drb1SXQKsHxfKDTO2Ktyqjgj79MzcGOJtCkwVCwr7H36NSnN7kGRRx\nCzA+2ayhF2f89TERMteNzCiK4DSzbX/sMER183VTRUVoLJCP24Z5I0YNWSbNIm4E\nA4jhxlJ42jkAwJnKWpMBsowFERjf12TyRdn6+lkSStE9miCugP+EGbdn/g063QsD\nD5EnvZ0T5JJ7z7kzVu7zxOmx1L1Iqrjb5K/P/1v2NoB4i60D6/JKQeztnMtZfKw\u003d\n\u003d5bJ1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "01b7328e_ad4bddbd",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-04-11T15:20:09Z",
+      "side": 1,
+      "message": "I\u0027ve identified what I think is a bug (Issue 8724) which is that when the new patchset is created on closing the review a patchset-created event is fired. This does not match what happens when Gerrit submits the review internally.\n\nSee https://gerrit-review.googlesource.com/c/gerrit/+/171370",
+      "revId": "edb636cda1499326b38d3cac718ab41995821cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -71,10 +71,4 @@ public enum RefPermission implements GerritPermission {
 
   /** Write access to ref's config section in {@code project.config}. */
   WRITE_CONFIG;
-
-  @Override
-  @Deprecated
-  public String permissionName() {
-    throw new UnsupportedOperationException();
-  }
 }

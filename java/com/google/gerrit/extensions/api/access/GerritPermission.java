@@ -18,12 +18,6 @@ import java.util.Locale;
 
 /** Gerrit permission for hosts, projects, refs, changes, labels and plugins. */
 public interface GerritPermission {
-  /**
-   * @return the permission name used in {@code project.config} permissions if this permission is
-   *     exposed. Or else, return a lower camel case string of the permission enum.
-   */
-  String permissionName();
-
   /** @return readable identifier of this permission for exception message. */
   default String describeForException() {
     return toString().toLowerCase(Locale.US).replace('_', ' ');

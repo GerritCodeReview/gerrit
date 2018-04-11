@@ -282,5 +282,9 @@
       Polymer.dom.flush();
       this._listElements = Polymer.dom(this.root).querySelectorAll('li');
     },
+
+    _computeHasTooltip(tooltip) {
+      return !!tooltip;
+    },
   });
 })();

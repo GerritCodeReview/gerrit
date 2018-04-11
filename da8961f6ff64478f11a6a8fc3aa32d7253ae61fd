@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "d7e779b9_d5f6dff2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-11T20:02:14Z",
+      "side": 1,
+      "message": "The latest patch set has a reasonable riff on what we have here, with more readable permission descriptions.\n\n\u003e Random idea, just thinking out loud: maybe introduce an enum OutputContext { STACK_TRACE, REF_UPDATE, ADVICE, API_RESPONSE } and have AuthException#getOutputFor(OutputContext).\n\nThis turned out to not be necessary, although I\u0027m not ruling it out for the future.",
+      "parentUuid": "d4067cf7_3b77fb80",
+      "revId": "da8961f6ff64478f11a6a8fc3aa32d7253ae61fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1986d6a_bff90464",
         "filename": "java/com/google/gerrit/server/permissions/Describable.java",
         "patchSetId": 1

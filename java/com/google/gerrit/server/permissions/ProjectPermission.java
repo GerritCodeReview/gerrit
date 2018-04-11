@@ -82,10 +82,4 @@ public enum ProjectPermission implements GerritPermission {
 
   /** Can push to at least one reference within the repository. */
   PUSH_AT_LEAST_ONE_REF;
-
-  @Deprecated
-  @Override
-  public String permissionName() {
-    throw new UnsupportedOperationException();
-  }
 }

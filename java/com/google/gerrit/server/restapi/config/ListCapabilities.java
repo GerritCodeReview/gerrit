@@ -18,9 +18,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.CapabilityConstants;
 import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -36,16 +38,20 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   private static final Logger log = LoggerFactory.getLogger(ListCapabilities.class);
   private static final Pattern PLUGIN_NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9-]+$");
 
+  private final PermissionBackend permissionBackend;
   private final DynamicMap<CapabilityDefinition> pluginCapabilities;
 
   @Inject
-  public ListCapabilities(DynamicMap<CapabilityDefinition> pluginCapabilities) {
+  public ListCapabilities(
+      PermissionBackend permissionBackend, DynamicMap<CapabilityDefinition> pluginCapabilities) {
+    this.permissionBackend = permissionBackend;
     this.pluginCapabilities = pluginCapabilities;
   }
 
   @Override
   public Map<String, CapabilityInfo> apply(ConfigResource resource)
-      throws IllegalAccessException, NoSuchFieldException {
+      throws ResourceNotFoundException, IllegalAccessException, NoSuchFieldException {
+    permissionBackend.checkDefault();
     return ImmutableMap.<String, CapabilityInfo>builder()
         .putAll(collectCoreCapabilities())
         .putAll(collectPluginCapabilities())

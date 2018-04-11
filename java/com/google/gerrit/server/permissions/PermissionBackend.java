@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -111,6 +112,25 @@ public abstract class PermissionBackend {
    * <p>Usage should be very limited as this can expose a group-oracle.
    */
   public abstract WithUser absentUser(Account.Id user);
+
+  /**
+   * Check whether this permission backend is the default backend.
+   *
+   * <p>If true, then it makes sense for downstream callers to refer to built-in Gerrit permission
+   * names in user-facing error messages, for example.
+   *
+   * @return whether this is the default permission backend.
+   */
+  public boolean isDefault() {
+    return false;
+  }
+
+  /** Throw {@link ResourceNotFoundException} if this is not the default backend. */
+  public void checkDefault() throws ResourceNotFoundException {
+    if (!isDefault()) {
+      throw new ResourceNotFoundException("Gerrit permissions not used on this server");
+    }
+  }
 
   /**
    * Bulk evaluate a set of {@link PermissionBackendCondition} for view handling.

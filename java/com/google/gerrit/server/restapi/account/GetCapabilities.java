@@ -23,8 +23,9 @@ import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
@@ -75,7 +76,8 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Object apply(AccountResource rsrc) throws AuthException, PermissionBackendException {
+  public Object apply(AccountResource rsrc) throws RestApiException, PermissionBackendException {
+    permissionBackend.checkDefault();
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
     if (self.get() != rsrc.getUser()) {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
@@ -158,8 +160,16 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
   @Singleton
   static class CheckOne implements RestReadView<AccountResource.Capability> {
+    private final PermissionBackend permissionBackend;
+
+    @Inject
+    CheckOne(PermissionBackend permissionBackend) {
+      this.permissionBackend = permissionBackend;
+    }
+
     @Override
-    public BinaryResult apply(Capability resource) {
+    public BinaryResult apply(Capability resource) throws ResourceNotFoundException {
+      permissionBackend.checkDefault();
       return BinaryResult.create("ok\n");
     }
   }

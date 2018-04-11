@@ -84,6 +84,11 @@ public class DefaultPermissionBackend extends PermissionBackend {
     return new WithUserImpl(identifiedUser);
   }
 
+  @Override
+  public boolean isDefault() {
+    return true;
+  }
+
   class WithUserImpl extends WithUser {
     private final CurrentUser user;
     private Boolean admin;

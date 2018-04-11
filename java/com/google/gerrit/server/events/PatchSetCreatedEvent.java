@@ -19,7 +19,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.data.AccountAttribute;
 
 public class PatchSetCreatedEvent extends PatchSetEvent {
-  static final String TYPE = "patchset-created";
+  public static final String TYPE = "patchset-created";
   public Supplier<AccountAttribute> uploader;
 
   public PatchSetCreatedEvent(Change change) {

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "15caa570_1102d460",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-11T13:06:08Z",
+      "side": 1,
+      "message": "Nor did I, until I accidentally found the existing TestGroupBackend class that was part of the schema migration test.\n\nThis way is much easier than all that guice nonsense...",
+      "parentUuid": "cec47631_bab4e0bc",
+      "range": {
+        "startLine": 244,
+        "startChar": 20,
+        "endLine": 244,
+        "endChar": 58
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50c5f22c_7d32fa45",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 9
@@ -82,6 +106,30 @@
       "writtenOn": "2018-04-11T12:48:53Z",
       "side": 1,
       "message": "Should be private.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 8
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c293413_fa0c4f0d",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-11T13:06:08Z",
+      "side": 1,
+      "message": "It\u0027s public because it\u0027s accessed from elsewhere.  This might not be the case after other refactoring, so I\u0027ll fix it then if necessary.",
+      "parentUuid": "446aff94_ece87681",
       "range": {
         "startLine": 32,
         "startChar": 2,
@@ -197,6 +245,30 @@
       "writtenOn": "2018-04-11T12:48:53Z",
       "side": 1,
       "message": "This doesn\u0027t match the logic for creating UUIDs in this class and adding groups. Can\u0027t we simply enforce this part to be not empty (and add corresponding checks for group additions)?",
+      "range": {
+        "startLine": 50,
+        "startChar": 52,
+        "endLine": 50,
+        "endChar": 65
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eed54db_64bfecdb",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-11T13:06:08Z",
+      "side": 1,
+      "message": "Yes, this can be removed.  Initially I wanted to enforce that the ID matches a known pattern, thinking that would make usage easier.",
+      "parentUuid": "3123204c_59f1f7f6",
       "range": {
         "startLine": 50,
         "startChar": 52,

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import java.util.EnumSet;
@@ -62,6 +63,11 @@ public class DefaultPermissionMappings {
     checkMapContainsAllEnumValues(CAPABILITIES, GlobalPermission.class);
   }
 
+  private static final ImmutableBiMap<ProjectPermission, String> PROJECT_PERMISSIONS =
+      ImmutableBiMap.<ProjectPermission, String>builder()
+          .put(ProjectPermission.READ, Permission.READ)
+          .build();
+
   private static <T extends Enum<T>> void checkMapContainsAllEnumValues(
       ImmutableMap<T, String> actual, Class<T> clazz) {
     Set<T> expected = EnumSet.allOf(clazz);
@@ -88,6 +94,14 @@ public class DefaultPermissionMappings {
     return permission instanceof GlobalPermission
         ? globalPermissionName((GlobalPermission) permission)
         : pluginPermissionName((PluginPermission) permission);
+  }
+
+  public static Optional<String> projectPermissionName(ProjectPermission projectPermission) {
+    return Optional.ofNullable(PROJECT_PERMISSIONS.get(projectPermission));
+  }
+
+  public static Optional<ProjectPermission> projectPermission(String permissionName) {
+    return Optional.ofNullable(PROJECT_PERMISSIONS.inverse().get(permissionName));
   }
 
   private DefaultPermissionMappings() {}

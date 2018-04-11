@@ -171,6 +171,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(headAfterSubmit).isEqualTo(initialHead);
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(change.getCommit().getName());
 
     if ((getSubmitType() == SubmitType.CHERRY_PICK)
         || (getSubmitType() == SubmitType.REBASE_ALWAYS)) {
@@ -265,6 +266,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       assertThat(headAfterSubmit).isEqualTo(headAfterFirstSubmit);
       assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
       assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
+      assertPatchSetCreatedEvents(
+          change.getCommit().name(),
+          change2.getCommit().name(),
+          change3.getCommit().name(),
+          change4.getCommit().name());
     }
   }
 
@@ -299,6 +305,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(headAfterSubmit).isEqualTo(initialHead);
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        change2.getCommit().name(), change3.getCommit().name(), change4.getCommit().name());
 
     // now check we actually have the same content:
     approve(change2.getChangeId());
@@ -1197,14 +1205,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     UiAction.Description desc = submitHandler.getDescription(rsrc);
     assertThat(desc.isVisible()).named("visible bit on submit action").isTrue();
     assertThat(desc.isEnabled()).named("enabled bit on submit action").isTrue();
-  }
-
-  protected void assertChangeMergedEvents(String... expected) throws Exception {
-    eventRecorder.assertChangeMergedEvents(project.get(), "refs/heads/master", expected);
-  }
-
-  protected void assertRefUpdatedEvents(RevCommit... expected) throws Exception {
-    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/heads/master", expected);
   }
 
   protected void assertCurrentRevision(String changeId, int expectedNum, ObjectId expectedId)

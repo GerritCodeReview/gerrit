@@ -47,6 +47,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, updatedHead);
     assertChangeMergedEvents(change.getChangeId(), updatedHead.name());
+    assertPatchSetCreatedEvents(change.getCommit().name());
   }
 
   @Test
@@ -79,6 +80,8 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertRefUpdatedEvents(initialHead, updatedHead);
     assertChangeMergedEvents(
         id1, updatedHead.name(), id2, updatedHead.name(), id3, updatedHead.name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(), change2.getCommit().name(), change3.getCommit().name());
   }
 
   @Test
@@ -99,6 +102,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     assertThat(updatedHead.getId()).isEqualTo(initialHead.getId());
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -133,6 +137,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
     assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
+    assertPatchSetCreatedEvents(change.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -160,5 +165,6 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);
     assertChangeMergedEvents(id1, headAfterSubmit.name());
+    assertPatchSetCreatedEvents(c1.name());
   }
 }

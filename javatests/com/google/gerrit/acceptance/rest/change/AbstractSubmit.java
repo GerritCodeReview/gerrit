@@ -1166,14 +1166,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(desc.isEnabled()).named("enabled bit on submit action").isTrue();
   }
 
-  protected void assertChangeMergedEvents(String... expected) throws Exception {
-    eventRecorder.assertChangeMergedEvents(project.get(), "refs/heads/master", expected);
-  }
-
-  protected void assertRefUpdatedEvents(RevCommit... expected) throws Exception {
-    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/heads/master", expected);
-  }
-
   protected void assertCurrentRevision(String changeId, int expectedNum, ObjectId expectedId)
       throws Exception {
     ChangeInfo c = get(changeId, CURRENT_REVISION);

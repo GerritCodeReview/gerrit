@@ -69,6 +69,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents(initialHead, updatedHead);
     assertChangeMergedEvents(change.getChangeId(), updatedHead.name());
+    assertPatchSetCreatedEvents(change.getCommit().name());
   }
 
   @Test
@@ -126,6 +127,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         headAfterSecondSubmit.name(),
         change5.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(),
+        change2.getCommit().name(),
+        change3.getCommit().name(),
+        change4.getCommit().name(),
+        change5.getCommit().name());
   }
 
   @Test
@@ -326,6 +333,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         headAfterFirstSubmit.name(),
         change2.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -399,6 +407,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
     assertChangeMergedEvents(change1.getChangeId(), headAfterFirstSubmit.name());
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -457,6 +466,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         initialHead, headAfterFirstSubmit, headAfterFirstSubmit, headAfterSecondSubmit);
     assertChangeMergedEvents(
         change.getChangeId(), headAfterFirstSubmit.name(), changeId, headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(change.getCommit().name(), merge.name());
   }
 
   @Test
@@ -496,9 +506,59 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(change2result.getCommit().getName());
   }
 
   @Test
+<<<<<<< PATCH SET (634fb5 Add assertPatchSetCreatedEvents to all tests with assertChan)
+  public void dependencyOnOutdatedPatchSetPreventsMerge() throws Throwable {
+    // Create a change
+    PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit.Result changeResult = change.to("refs/for/master");
+    PatchSet.Id patchSetId = changeResult.getPatchSetId();
+
+    // Create a successor change.
+    PushOneCommit change2 =
+        pushFactory.create(user.newIdent(), testRepo, "feature", "b.txt", "bar");
+    PushOneCommit.Result change2Result = change2.to("refs/for/master");
+
+    // Create new patch set for first change.
+    testRepo.reset(changeResult.getCommit().name());
+    PushOneCommit.Result changeResultb = amendChange(changeResult.getChangeId());
+
+    // Approve both changes
+    approve(changeResult.getChangeId());
+    approve(change2Result.getChangeId());
+
+    submitWithConflict(
+        change2Result.getChangeId(),
+        "Failed to submit 2 changes due to the following problems:\n"
+            + "Change "
+            + change2Result.getChange().getId()
+            + ": Depends on change that was not submitted."
+            + " Commit "
+            + change2Result.getCommit().name()
+            + " depends on commit "
+            + changeResult.getCommit().name()
+            + ", which is outdated patch set "
+            + patchSetId.get()
+            + " of change "
+            + changeResult.getChange().getId()
+            + ". The latest patch set is "
+            + changeResult.getPatchSetId().get()
+            + ".");
+
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        changeResult.getCommit().getName(),
+        change2Result.getCommit().getName(),
+        changeResultb.getCommit().getName());
+  }
+
+  @Test
+=======
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
   public void dependencyOnDeletedChangePreventsMerge() throws Throwable {
     // Create a change
     PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
@@ -530,6 +590,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        changeResult.getCommit().getName(), change2Result.getCommit().getName());
   }
 
   @Test
@@ -596,6 +658,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        changeResult.getCommit().getName(), change2Result.getCommit().getName());
   }
 
   @Test
@@ -647,6 +711,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
                 + " is not visible");
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        changeResult.getCommit().getName(), change2Result.getCommit().getName());
   }
 
   @Test
@@ -720,5 +786,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
                 + " is not visible");
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents();
   }
 }

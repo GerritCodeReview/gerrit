@@ -66,6 +66,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, newHead);
     assertChangeMergedEvents(change.getChangeId(), newHead.name());
+    assertPatchSetCreatedEvents(change.getCommit().name());
   }
 
   @Test
@@ -91,6 +92,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit, headAfterFirstSubmit, newHead);
     assertChangeMergedEvents(
         change.getChangeId(), headAfterFirstSubmit.name(), change2.getChangeId(), newHead.name());
+    assertPatchSetCreatedEvents(change.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -154,6 +156,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         headAfterSecondSubmit.name(),
         change3.getChangeId(),
         headAfterThirdSubmit.name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(), change2.getCommit().name(), change3.getCommit().name());
   }
 
   @Test
@@ -181,6 +185,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, newHead);
     assertChangeMergedEvents(change.getChangeId(), newHead.name());
+    assertPatchSetCreatedEvents(change.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -191,7 +196,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     RevCommit headAfterFirstSubmit = projectOperations.project(project).getHead("master");
     testRepo.reset(initialHead);
-    createChange("Change 2", "b.txt", "other content");
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
     PushOneCommit.Result change3 = createChange("Change 3", "c.txt", "different content");
     submit(change3.getChangeId());
     assertCherryPick(testRepo, false);
@@ -209,6 +214,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         headAfterFirstSubmit.name(),
         change3.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(), change2.getCommit().name(), change3.getCommit().name());
   }
 
   @Test
@@ -219,7 +226,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     RevCommit newHead = projectOperations.project(project).getHead("master");
     testRepo.reset(initialHead);
-    createChange("Change 2", "b.txt", "other content");
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
     PushOneCommit.Result change3 = createChange("Change 3", "b.txt", "different content");
     submitWithConflict(
         change3.getChangeId(),
@@ -236,6 +243,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, newHead);
     assertChangeMergedEvents(change.getChangeId(), newHead.name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(), change2.getCommit().name(), change3.getCommit().name());
   }
 
   @Test
@@ -264,6 +273,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, log.get(0));
     assertChangeMergedEvents(change3.getChangeId(), log.get(0).name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(), change2.getCommit().name(), change3.getCommit().name());
   }
 
   @Test
@@ -300,6 +311,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         headAfterFirstSubmit.name(),
         change.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(change.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -332,6 +344,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(change.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -354,6 +367,8 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, newHead);
     assertChangeMergedEvents(change3.getChangeId(), newHead.name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(), change2.getCommit().name(), change3.getCommit().name());
   }
 
   @Test
@@ -386,6 +401,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
         headAfterFirstSubmit.name(),
         change2.getChangeId(),
         headAfterFirstSubmit.name());
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   @Test

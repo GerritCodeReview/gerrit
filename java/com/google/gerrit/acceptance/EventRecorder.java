@@ -25,10 +25,12 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.events.ChangeDeletedEvent;
 import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.PatchSetCreatedEvent;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerDeletedEvent;
@@ -107,6 +109,23 @@ public class EventRecorder {
     ImmutableList<RefUpdatedEvent> events =
         FluentIterable.from(recordedEvents.get(key))
             .transform(RefUpdatedEvent.class::cast)
+            .toList();
+    assertThat(events).hasSize(expectedSize);
+    return events;
+  }
+
+  private ImmutableList<PatchSetCreatedEvent> getPatchSetCreatedEvents(
+      String project, String branch, int expectedSize) {
+    String key = refEventKey(PatchSetCreatedEvent.TYPE, project, branch);
+    if (expectedSize == 0) {
+      assertThat(recordedEvents).doesNotContainKey(key);
+      return ImmutableList.of();
+    }
+
+    assertThat(recordedEvents).containsKey(key);
+    ImmutableList<PatchSetCreatedEvent> events =
+        FluentIterable.from(recordedEvents.get(key))
+            .transform(PatchSetCreatedEvent.class::cast)
             .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
@@ -202,6 +221,18 @@ public class EventRecorder {
       assertThat(actual.oldRev).isEqualTo(oldRev);
       assertThat(actual.newRev).isEqualTo(newRev);
       i += 2;
+    }
+  }
+
+  public void assertPatchSetCreatedEvents(String project, String branch, String... expected)
+      throws Exception {
+    ImmutableList<PatchSetCreatedEvent> events =
+        getPatchSetCreatedEvents(project, branch, expected.length);
+    int i = 0;
+    for (PatchSetCreatedEvent event : events) {
+      PatchSetAttribute actual = event.patchSet.get();
+      assertThat(actual.revision).isEqualTo(expected[i]);
+      i++;
     }
   }
 

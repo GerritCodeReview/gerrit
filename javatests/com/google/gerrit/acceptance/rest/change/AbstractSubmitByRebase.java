@@ -103,6 +103,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
         headAfterFirstSubmit.name(),
         change2.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(change.getCommit().getName(), change2.getCommit().getName());
     return ImmutableList.of(change, change2);
   }
 
@@ -165,6 +166,11 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
         headAfterSecondSubmit.name(),
         change4.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(
+        change1.getCommit().getName(),
+        change2.getCommit().getName(),
+        change3.getCommit().getName(),
+        change4.getCommit().getName());
   }
 
   @Test
@@ -246,6 +252,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
     assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
+    assertPatchSetCreatedEvents(change.getCommit().getName(), change2.getCommit().getName());
   }
 
   protected RevCommit parse(ObjectId id) throws Throwable {
@@ -262,17 +269,17 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     // Create two commits and push.
-    RevCommit c1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
-    RevCommit c2 = commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    RevCommit c1a = commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2a = commitBuilder().add("b.txt", "2").message("subject: 2").create();
     pushHead(testRepo, "refs/for/master", false);
 
-    String id1 = getChangeId(testRepo, c1).get();
-    String id2 = getChangeId(testRepo, c2).get();
+    String id1 = getChangeId(testRepo, c1a).get();
+    String id2 = getChangeId(testRepo, c2a).get();
 
     // Swap the order of commits and push again.
     testRepo.reset("HEAD~2");
-    testRepo.cherryPick(c2);
-    testRepo.cherryPick(c1);
+    RevCommit c2b = testRepo.cherryPick(c2a);
+    RevCommit c1b = testRepo.cherryPick(c1a);
     pushHead(testRepo, "refs/for/master", false);
 
     approve(id1);
@@ -282,6 +289,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);
     assertChangeMergedEvents(id2, headAfterSubmit.name(), id1, headAfterSubmit.name());
+    assertPatchSetCreatedEvents(c1a.name(), c2a.name(), c2b.name(), c1b.name());
   }
 
   @Test
@@ -304,6 +312,7 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     assertRefUpdatedEvents(initialHead, newHead);
     assertChangeMergedEvents(
         change.getChangeId(), newHead.name(), change2.getChangeId(), newHead.name());
+    assertPatchSetCreatedEvents(change.getCommit().getName(), change2.getCommit().getName());
   }
 
   @Test

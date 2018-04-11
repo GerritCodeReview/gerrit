@@ -1810,6 +1810,18 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+<<<<<<< PATCH SET (634fb5 Add assertPatchSetCreatedEvents to all tests with assertChan)
+  protected void assertChangeMergedEvents(String... expected) throws Exception {
+    eventRecorder.assertChangeMergedEvents(project.get(), "refs/heads/master", expected);
+  }
+
+  protected void assertRefUpdatedEvents(RevCommit... expected) throws Exception {
+    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/heads/master", expected);
+  }
+
+  protected void assertPatchSetCreatedEvents(String... expected) throws Exception {
+    eventRecorder.assertPatchSetCreatedEvents(project.get(), "refs/heads/master", expected);
+=======
   /** {@link Ticker} implementation for mocking without restarting GerritServer */
   public static class TestTicker extends Ticker {
     Ticker actualTicker;
@@ -1836,5 +1848,6 @@ public abstract class AbstractDaemonTest {
     public long read() {
       return actualTicker.read();
     }
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
   }
 }

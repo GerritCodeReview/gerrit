@@ -163,6 +163,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(headAfterSubmit).isEqualTo(initialHead);
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(change.getCommit().getName());
 
     submit(change.getChangeId());
     headAfterSubmit = projectOperations.project(project).getHead("master");
@@ -200,6 +201,19 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     in.revision = initialHead.getName();
     gApi.projects().name(project.get()).branch("refs/heads/stable").create(in);
 
+<<<<<<< PATCH SET (634fb5 Add assertPatchSetCreatedEvents to all tests with assertChan)
+      RevCommit headAfterSubmit = projectOperations.project(project).getHead("master");
+      assertThat(headAfterSubmit).isEqualTo(headAfterFirstSubmit);
+      assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
+      assertChangeMergedEvents(change.getChangeId(), headAfterFirstSubmit.name());
+      assertPatchSetCreatedEvents(
+          change.getCommit().name(),
+          change2.getCommit().name(),
+          change3.getCommit().name(),
+          change4.getCommit().name());
+    }
+  }
+=======
     // create one commit in the stable branch, which will become the second parent of the merge
     // commit
     PushOneCommit.Result parent2 =
@@ -210,6 +224,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
                 "parent 1",
                 ImmutableMap.of("foo", "foo-1", "bar", "bar-1"))
             .to("refs/heads/stable");
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
     // create a merge change that merges the stable branch back into master
     testRepo.reset(parent1.getCommit());
@@ -250,6 +265,22 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
               + "requires all submissions to be a fast-forward. Please "
               + "rebase the change locally and upload again for review.");
     }
+<<<<<<< PATCH SET (634fb5 Add assertPatchSetCreatedEvents to all tests with assertChan)
+
+    // check that the submit preview did not actually submit
+    RevCommit headAfterSubmit = projectOperations.project(project).getHead("master");
+    assertThat(headAfterSubmit).isEqualTo(initialHead);
+    assertRefUpdatedEvents();
+    assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        change2.getCommit().name(), change3.getCommit().name(), change4.getCommit().name());
+
+    // now check we actually have the same content:
+    approve(change2.getChangeId());
+    submit(change4.getChangeId());
+    assertTrees(project, actual);
+=======
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
   }
 
   @Test
@@ -1311,6 +1342,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertWithMessage("enabled bit on submit action").that(desc.isEnabled()).isTrue();
   }
 
+<<<<<<< PATCH SET (634fb5 Add assertPatchSetCreatedEvents to all tests with assertChan)
+=======
   protected void assertSubmitDisabled(String changeId) throws Throwable {
     RevisionResource rsrc = parseCurrentRevisionResource(changeId);
     UiAction.Description desc = submitHandler.getDescription(rsrc);
@@ -1325,6 +1358,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     eventRecorder.assertRefUpdatedEvents(project.get(), "refs/heads/master", expected);
   }
 
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
   protected void assertCurrentRevision(String changeId, int expectedNum, ObjectId expectedId)
       throws Throwable {
     ChangeInfo c = get(changeId, CURRENT_REVISION);

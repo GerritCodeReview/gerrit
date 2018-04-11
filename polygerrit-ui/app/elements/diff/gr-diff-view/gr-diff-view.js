@@ -552,6 +552,10 @@
     _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.DIFF) { return; }
 
+      if (value.changeNum && value.project) {
+        this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
+      }
+
       this.$.diff.lineOfInterest = this._getLineOfInterest(this.params);
       this._initCursor(this.params);
 

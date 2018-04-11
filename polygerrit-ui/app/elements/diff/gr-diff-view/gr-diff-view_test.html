@@ -1041,5 +1041,18 @@ limitations under the License.
         assert.isFalse(isVisible(element.$.reviewed));
       });
     });
+
+    test('_paramsChanged sets in projectLookup', () => {
+      sandbox.stub(element, '_getLineOfInterest');
+      sandbox.stub(element, '_initCursor');
+      element._paramsChanged({
+        view: Gerrit.Nav.View.DIFF,
+        changeNum: 101,
+        project: 'test-project',
+        path: '',
+      });
+      const lookup = element.$.restAPI._projectLookup;
+      assert.equal(lookup[101], 'test-project');
+    });
   });
 </script>

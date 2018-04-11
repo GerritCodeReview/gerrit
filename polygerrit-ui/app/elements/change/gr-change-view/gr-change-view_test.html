@@ -1729,5 +1729,17 @@ limitations under the License.
         });
       });
     });
+
+    test('_paramsChanged sets in projectLookup', () => {
+      sandbox.stub(element.$.relatedChanges, 'reload');
+      sandbox.stub(element, '_reload').returns(Promise.resolve());
+      element._paramsChanged({
+        view: Gerrit.Nav.View.CHANGE,
+        changeNum: 101,
+        project: 'test-project',
+      });
+      const lookup = element.$.restAPI._projectLookup;
+      assert.equal(lookup[101], 'test-project');
+    });
   });
 </script>

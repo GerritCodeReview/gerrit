@@ -20,7 +20,6 @@ import static com.google.gerrit.server.permissions.LabelPermission.ForUser.SELF;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.server.util.LabelVote;
 
 /** Permission representing a label. */
@@ -80,15 +79,6 @@ public class LabelPermission implements ChangePermissionOrLabel {
   /** @return name of the label, e.g. {@code "Code-Review"}. */
   public String label() {
     return name;
-  }
-
-  /** @return name used in {@code project.config} permissions. */
-  @Override
-  public String permissionName() {
-    if (forUser == ON_BEHALF_OF) {
-      return Permission.forLabelAs(name);
-    }
-    return Permission.forLabel(name);
   }
 
   @Override
@@ -222,15 +212,6 @@ public class LabelPermission implements ChangePermissionOrLabel {
     /** @return specific value of the label, e.g. 1 or 2. */
     public short value() {
       return label.value();
-    }
-
-    /** @return name used in {@code project.config} permissions. */
-    @Override
-    public String permissionName() {
-      if (forUser == ON_BEHALF_OF) {
-        return Permission.forLabelAs(label());
-      }
-      return Permission.forLabel(label());
     }
 
     @Override

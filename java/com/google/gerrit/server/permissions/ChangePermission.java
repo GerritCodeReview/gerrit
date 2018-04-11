@@ -28,10 +28,4 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   REBASE,
   SUBMIT,
   SUBMIT_AS;
-
-  @Deprecated
-  @Override
-  public String permissionName() {
-    throw new UnsupportedOperationException();
-  }
 }

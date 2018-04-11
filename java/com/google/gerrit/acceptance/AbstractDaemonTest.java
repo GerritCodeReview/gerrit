@@ -1672,4 +1672,16 @@ public abstract class AbstractDaemonTest {
             BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET, InheritableBoolean.TRUE);
     saveProjectConfig(project, config);
   }
+
+  protected void assertChangeMergedEvents(String... expected) throws Exception {
+    eventRecorder.assertChangeMergedEvents(project.get(), "refs/heads/master", expected);
+  }
+
+  protected void assertRefUpdatedEvents(RevCommit... expected) throws Exception {
+    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/heads/master", expected);
+  }
+
+  protected void assertPatchSetCreatedEvents(String... expected) throws Exception {
+    eventRecorder.assertPatchSetCreatedEvents(project.get(), "refs/heads/master", expected);
+  }
 }

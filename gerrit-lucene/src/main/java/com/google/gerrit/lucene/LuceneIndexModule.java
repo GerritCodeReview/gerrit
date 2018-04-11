@@ -74,7 +74,8 @@ public class LuceneIndexModule extends LifecycleModule {
 
     install(new IndexModule(threads));
     if (singleVersions == null) {
-      install(new MultiVersionModule());
+      bind(AbstractVersionManager.class).to(LuceneVersionManager.class);
+      listener().to(LuceneVersionManager.class);
     } else {
       install(new SingleVersionModule(singleVersions));
     }
@@ -86,13 +87,5 @@ public class LuceneIndexModule extends LifecycleModule {
     BooleanQuery.setMaxClauseCount(
         cfg.getInt("index", "maxTerms", BooleanQuery.getMaxClauseCount()));
     return IndexConfig.fromConfig(cfg);
-  }
-
-  private static class MultiVersionModule extends LifecycleModule {
-    @Override
-    public void configure() {
-      bind(AbstractVersionManager.class).to(LuceneVersionManager.class);
-      listener().to(LuceneVersionManager.class);
-    }
   }
 }

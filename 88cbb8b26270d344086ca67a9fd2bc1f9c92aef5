@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b83147b_e840eea6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-11T20:35:31Z",
+      "side": 1,
+      "message": "Would like some tests that confirm that the change and diff views set the lookup with the appropriate values.",
+      "revId": "88cbb8b26270d344086ca67a9fd2bc1f9c92aef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

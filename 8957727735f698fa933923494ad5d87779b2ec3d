@@ -70,6 +70,24 @@
       "revId": "8957727735f698fa933923494ad5d87779b2ec3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5591b6b_7e12a0b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-11T19:55:29Z",
+      "side": 1,
+      "message": "¯\\_(ツ)_/¯ guess it\u0027s too late now.",
+      "parentUuid": "d33fb911_dc7df4b0",
+      "revId": "8957727735f698fa933923494ad5d87779b2ec3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

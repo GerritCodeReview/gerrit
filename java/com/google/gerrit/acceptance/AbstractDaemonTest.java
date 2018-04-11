@@ -1533,4 +1533,16 @@ public abstract class AbstractDaemonTest {
           moduleClass.getName());
     }
   }
+
+  protected void assertChangeMergedEvents(String... expected) throws Exception {
+    eventRecorder.assertChangeMergedEvents(project.get(), "refs/heads/master", expected);
+  }
+
+  protected void assertRefUpdatedEvents(RevCommit... expected) throws Exception {
+    eventRecorder.assertRefUpdatedEvents(project.get(), "refs/heads/master", expected);
+  }
+
+  protected void assertPatchSetCreatedEvents(String... expected) throws Exception {
+    eventRecorder.assertPatchSetCreatedEvents(project.get(), "refs/heads/master", expected);
+  }
 }

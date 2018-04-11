@@ -81,6 +81,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents(initialHead, updatedHead);
     assertChangeMergedEvents(change.getChangeId(), updatedHead.name());
+    assertPatchSetCreatedEvents(change.getCommit().name());
   }
 
   @Test
@@ -138,6 +139,12 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         headAfterSecondSubmit.name(),
         change5.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(),
+        change2.getCommit().name(),
+        change3.getCommit().name(),
+        change4.getCommit().name(),
+        change5.getCommit().name());
   }
 
   @Test
@@ -361,6 +368,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         headAfterFirstSubmit.name(),
         change2.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -434,6 +442,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit);
     assertChangeMergedEvents(change1.getChangeId(), headAfterFirstSubmit.name());
+    assertPatchSetCreatedEvents(change1.getCommit().name(), change2.getCommit().name());
   }
 
   @Test
@@ -492,6 +501,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         initialHead, headAfterFirstSubmit, headAfterFirstSubmit, headAfterSecondSubmit);
     assertChangeMergedEvents(
         change.getChangeId(), headAfterFirstSubmit.name(), changeId, headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(change.getCommit().name(), merge.name());
   }
 
   @Test
@@ -531,6 +541,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(change2result.getCommit().getName());
   }
 
   @Test
@@ -547,7 +558,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     // Create new patch set for first change.
     testRepo.reset(changeResult.getCommit().name());
-    amendChange(changeResult.getChangeId());
+    PushOneCommit.Result changeResultb = amendChange(changeResult.getChangeId());
 
     // Approve both changes
     approve(changeResult.getChangeId());
@@ -573,6 +584,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        changeResult.getCommit().getName(),
+        change2Result.getCommit().getName(),
+        changeResultb.getCommit().getName());
   }
 
   @Test
@@ -607,6 +622,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        changeResult.getCommit().getName(), change2Result.getCommit().getName());
   }
 
   @Test
@@ -669,6 +686,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        changeResult.getCommit().getName(), change2Result.getCommit().getName());
   }
 
   @Test
@@ -716,6 +735,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
                 + " is not visible");
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents(
+        changeResult.getCommit().getName(), change2Result.getCommit().getName());
   }
 
   @Test
@@ -781,6 +802,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
                 + " is not visible");
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+    assertPatchSetCreatedEvents();
   }
 
   @Test

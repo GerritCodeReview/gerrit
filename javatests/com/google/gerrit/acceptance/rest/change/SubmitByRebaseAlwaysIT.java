@@ -59,6 +59,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     assertPersonEquals(admin.getIdent(), head.getCommitterIdent());
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
+    assertPatchSetCreatedEvents(change.getCommit().name());
   }
 
   @Test

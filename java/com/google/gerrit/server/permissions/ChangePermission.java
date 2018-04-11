@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.gerrit.extensions.api.access.GerritPermission;
+
 public enum ChangePermission implements ChangePermissionOrLabel {
   READ,
   RESTORE,
@@ -27,5 +31,20 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   ADD_PATCH_SET,
   REBASE,
   SUBMIT,
-  SUBMIT_AS;
+  SUBMIT_AS("submit on behalf of other users");
+
+  private final String description;
+
+  private ChangePermission() {
+    this.description = null;
+  }
+
+  private ChangePermission(String description) {
+    this.description = checkNotNull(description);
+  }
+
+  @Override
+  public String describeForException() {
+    return description != null ? description : GerritPermission.describeEnumValue(this);
+  }
 }

@@ -19,7 +19,9 @@ import java.util.Locale;
 /** Gerrit permission for hosts, projects, refs, changes, labels and plugins. */
 public interface GerritPermission {
   /** @return readable identifier of this permission for exception message. */
-  default String describeForException() {
-    return toString().toLowerCase(Locale.US).replace('_', ' ');
+  String describeForException();
+
+  static String describeEnumValue(Enum<?> value) {
+    return value.name().toLowerCase(Locale.US).replace('_', ' ');
   }
 }

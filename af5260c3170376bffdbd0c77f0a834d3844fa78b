@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef78b4a2_d08c7885",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-11T08:38:36Z",
+      "side": 1,
+      "message": "cosmetic: {@link PermissionBackend} and {@code DefaultPermissionBackend}",
+      "range": {
+        "startLine": 117,
+        "startChar": 24,
+        "endLine": 117,
+        "endChar": 42
+      },
+      "revId": "af5260c3170376bffdbd0c77f0a834d3844fa78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

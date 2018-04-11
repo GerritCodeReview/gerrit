@@ -467,7 +467,7 @@ class RefControl {
           return isVisible();
         case CREATE:
           // TODO This isn't an accurate test.
-          return canPerform(perm.permissionName());
+          return canPerform(refPermissionName(perm));
         case DELETE:
           return canDelete();
         case UPDATE:
@@ -491,7 +491,7 @@ class RefControl {
 
         case CREATE_TAG:
         case CREATE_SIGNED_TAG:
-          return canPerform(perm.permissionName());
+          return canPerform(refPermissionName(perm));
 
         case UPDATE_BY_SUBMIT:
           return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
@@ -514,5 +514,12 @@ class RefControl {
       }
       throw new PermissionBackendException(perm + " unsupported");
     }
+  }
+
+  private static String refPermissionName(RefPermission refPermission) {
+    // Within this class, it's programmer error to call this method on a
+    // RefPermission that isn't associated with a permission name.
+    return DefaultPermissionMappings.refPermissionName(refPermission)
+        .orElseThrow(() -> new IllegalStateException("no name for " + refPermission));
   }
 }

@@ -15,16 +15,17 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.refPermission;
 
 import com.google.gerrit.common.data.Permission;
 import org.junit.Test;
 
-public class RefPermissionTest {
+public class DefaultPermissionsMappingTest {
   @Test
-  public void fromName() {
-    assertThat(RefPermission.fromName("doesnotexist")).isEmpty();
-    assertThat(RefPermission.fromName("")).isEmpty();
-    assertThat(RefPermission.fromName(Permission.VIEW_PRIVATE_CHANGES))
+  public void stringToRefPermission() {
+    assertThat(refPermission("doesnotexist")).isEmpty();
+    assertThat(refPermission("")).isEmpty();
+    assertThat(refPermission(Permission.VIEW_PRIVATE_CHANGES))
         .hasValue(RefPermission.READ_PRIVATE_CHANGES);
   }
 }

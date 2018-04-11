@@ -14,36 +14,24 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.common.base.CaseFormat;
-import com.google.gerrit.common.data.Permission;
-
 public enum ChangePermission implements ChangePermissionOrLabel {
-  READ(Permission.READ),
+  READ,
   RESTORE,
   DELETE,
-  ABANDON(Permission.ABANDON),
-  EDIT_ASSIGNEE(Permission.EDIT_ASSIGNEE),
+  ABANDON,
+  EDIT_ASSIGNEE,
   EDIT_DESCRIPTION,
-  EDIT_HASHTAGS(Permission.EDIT_HASHTAGS),
-  EDIT_TOPIC_NAME(Permission.EDIT_TOPIC_NAME),
-  REMOVE_REVIEWER(Permission.REMOVE_REVIEWER),
-  ADD_PATCH_SET(Permission.ADD_PATCH_SET),
-  REBASE(Permission.REBASE),
-  SUBMIT(Permission.SUBMIT),
-  SUBMIT_AS(Permission.SUBMIT_AS);
+  EDIT_HASHTAGS,
+  EDIT_TOPIC_NAME,
+  REMOVE_REVIEWER,
+  ADD_PATCH_SET,
+  REBASE,
+  SUBMIT,
+  SUBMIT_AS;
 
-  private final String name;
-
-  ChangePermission() {
-    name = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
-  }
-
-  ChangePermission(String name) {
-    this.name = name;
-  }
-
+  @Deprecated
   @Override
   public String permissionName() {
-    return name;
+    throw new UnsupportedOperationException();
   }
 }

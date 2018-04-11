@@ -377,7 +377,7 @@ class ChangeControl {
 
           case REMOVE_REVIEWER:
           case SUBMIT_AS:
-            return refControl.canPerform(perm.permissionName());
+            return refControl.canPerform(changePermissionName(perm));
         }
       } catch (OrmException e) {
         throw new PermissionBackendException("unavailable", e);
@@ -418,5 +418,12 @@ class ChangeControl {
       return s;
     }
     return Sets.newHashSetWithExpectedSize(permSet.size());
+  }
+
+  private static String changePermissionName(ChangePermission changePermission) {
+    // Within this class, it's programmer error to call this method on a
+    // ChangePermission that isn't associated with a permission name.
+    return DefaultPermissionMappings.changePermissionName(changePermission)
+        .orElseThrow(() -> new IllegalStateException());
   }
 }

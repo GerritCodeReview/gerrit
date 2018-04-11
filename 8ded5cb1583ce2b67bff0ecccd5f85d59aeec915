@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "532599e6_b540f5be",
+        "filename": "java/com/google/gerrit/extensions/api/access/GerritPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-11T07:37:52Z",
+      "side": 1,
+      "message": "Optional: reword this to be more general? If we add another permission type later, we are surely going to forget to update this javadoc.",
+      "range": {
+        "startLine": 19,
+        "startChar": 26,
+        "endLine": 19,
+        "endChar": 76
+      },
+      "revId": "8ded5cb1583ce2b67bff0ecccd5f85d59aeec915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af5ecd6e_71827e65",
+        "filename": "java/com/google/gerrit/extensions/api/access/GerritPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-11T07:37:52Z",
+      "side": 1,
+      "message": "The style guide says not to use bare @return with no summary fragment: https://google.github.io/styleguide/javaguide.html#s7.2-summary-fragment\n\nBut, Patrick and I have discussed removing references to the default permission model from the *Permission classes. I\u0027m planning on doing that shortly, and will build my change on top of yours, so this is fine for now. I\u0027d rather let this slide and get to work on that rather than insist on another round of review here :)",
+      "revId": "8ded5cb1583ce2b67bff0ecccd5f85d59aeec915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

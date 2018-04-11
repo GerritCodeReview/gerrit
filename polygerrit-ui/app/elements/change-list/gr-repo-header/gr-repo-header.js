@@ -25,6 +25,7 @@
         type: String,
         observer: '_repoChanged',
       },
+      /** @type {String|null} */
       _repoUrl: String,
     },
 

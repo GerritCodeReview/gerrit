@@ -471,6 +471,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void autocloseByChangeId() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
     // Create a change
     PushOneCommit.Result r = pushTo("refs/for/master");
     r.assertOkStatus();
@@ -486,13 +488,69 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // Attempt to push amended commit to same change
     String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/" + r.getChange().getId();
-    r = amendChange(r.getChangeId(), "refs/for/master");
-    r.assertErrorStatus("change " + url + " closed");
+    amendChange(r.getChangeId(), "refs/for/master").assertErrorStatus("change " + url + " closed");
 
+<<<<<<< PATCH SET (119a9b Update tests to assert incorrect behaviour ready to fix issu)
+    assertClosedByChangeIdReviewState(r, c);
+
+    assertRefUpdatedEvents(initialHead, c);
+    assertChangeMergedEvents(r.getChangeId(), c.name());
+    // FIXME Issue 8724 incorrect behaviour: c.name() should not generate an event
+    assertPatchSetCreatedEvents(r.getCommit().name(), c.name());
+  }
+
+  /**
+   * Issue 8724: Test to verify a local cherry-pick and push gives the same result as asking Gerrit
+   * to submit reviews with the cherry-pick strategy.
+   *
+   * <p>See SubmitByCherryPickIT submitWithCherryPick for equivalent test.
+   *
+   * <p>Instead of asking Gerrit to cherry-pick the two reviews we do it locally and push.
+   */
+  @Test
+  public void autocloseByChangeIdEquivalentToSubmitWithCherryPick() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content");
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
+    testRepo.reset(initialHead);
+
+    // Cherry-pick and force push them, closing both
+    RevCommit cherryPick1 = testRepo.cherryPick(change1.getCommit());
+    RevCommit cherryPick2 = testRepo.cherryPick(change2.getCommit());
+    String master = "refs/heads/master";
+    assertPushOk(pushHead(testRepo, master, false), master);
+
+    // Check that cherry picks were added as latest patch sets and that both are marked as MERGED
+    assertClosedByChangeIdReviewState(change1, cherryPick1);
+    assertClosedByChangeIdReviewState(change2, cherryPick2);
+
+    assertRefUpdatedEvents(initialHead, cherryPick2);
+    // newRev equal to change2.getCommit().name() for both events (Issue 11083)
+    assertChangeMergedEvents(
+        change1.getChangeId(), cherryPick2.name(), change2.getChangeId(), cherryPick2.name());
+    // FIXME Issue 8724 incorrect behaviour
+    assertPatchSetCreatedEvents(
+        change1.getCommit().name(),
+        change2.getCommit().name(),
+        cherryPick1.name(), // The cherry picks should not generate events
+        cherryPick2.name());
+  }
+
+  private void assertClosedByChangeIdReviewState(PushOneCommit.Result change, RevCommit current)
+      throws Exception {
+    ChangeInfo info = gApi.changes().id(change.getChange().getId().get()).get();
+    assertThat(info.revisions).hasSize(2);
+    assertThat(info.currentRevision).isEqualTo(current.name());
+    assertThat(info.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(info.messages.stream().map(cmi -> cmi.message))
+        .containsExactly("Uploaded patch set 1.", "Change has been successfully pushed.");
+=======
     // Check that new commit was added as patch set
     ChangeInfo change = change(r).get();
     assertThat(change.revisions).hasSize(2);
     assertThat(change.currentRevision).isEqualTo(c.name());
+>>>>>>> BASE      (7f1c8b Add assertPatchSetCreatedEvents to all tests with assertChan)
   }
 
   @Test

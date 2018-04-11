@@ -22,6 +22,30 @@
       "revId": "532ea15eac9260460d90011ad0d449f30f9b06aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0987f524_46b4cce0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-11T02:00:09Z",
+      "side": 1,
+      "message": "Yes, I just ran into this when I did the merge.  Actually I noticed this yesterday, but in my current jetlagged state I forgot about it when I reviewed this change :/\n\nI already did the merge and resolved the conflicts.  It\u0027ll probably need to be done again if you\u0027re doing rework on stable-2.15, but I\u0027ll upload it for review anyway.",
+      "parentUuid": "eea844a5_b3d5b487",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "532ea15eac9260460d90011ad0d449f30f9b06aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eea844a5_b3d5b487",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-11T01:51:56Z",
+      "side": 1,
+      "message": "I should have checked on stable-2.15 branch before doing this change. On stable-2.15 both Module are aligned the other way around, i.e both use a nested MultiVersionModule class.\n\nI will fix this so the merge up is cleaner.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "532ea15eac9260460d90011ad0d449f30f9b06aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

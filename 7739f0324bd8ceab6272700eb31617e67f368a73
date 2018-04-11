@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ecd44fb1_7144bf8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-11T20:49:01Z",
+      "side": 1,
+      "message": "\u003e but Traditional Chinese alone is \u003e1xx Mb.\n\nYikes! Good to know.",
+      "parentUuid": "0f743739_aa833849",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "7739f0324bd8ceab6272700eb31617e67f368a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d77d792_70c79442",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 4

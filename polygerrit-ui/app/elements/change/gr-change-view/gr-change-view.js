@@ -618,6 +618,10 @@
         return;
       }
 
+      if (value.changeNum && value.project) {
+        this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
+      }
+
       const patchChanged = this._patchRange &&
           (value.patchNum !== undefined && value.basePatchNum !== undefined) &&
           (this._patchRange.patchNum !== value.patchNum ||

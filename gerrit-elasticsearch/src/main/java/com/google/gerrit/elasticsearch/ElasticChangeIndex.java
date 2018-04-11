@@ -300,9 +300,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         // Changed lines.
         int added = addedElement.getAsInt();
         int deleted = deletedElement.getAsInt();
-        if (added != 0 && deleted != 0) {
-          cd.setChangedLines(added, deleted);
-        }
+        cd.setChangedLines(added, deleted);
       }
 
       // Mergeable.

@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fd42ebc_6b90af6e",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "Here and below for universalGroupBackend: I think that test classes should inject the objects they need on their own.",
+      "range": {
+        "startLine": 244,
+        "startChar": 10,
+        "endLine": 244,
+        "endChar": 19
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec47631_bab4e0bc",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "I hadn\u0027t known that was possible. Nice solution.",
+      "range": {
+        "startLine": 244,
+        "startChar": 20,
+        "endLine": 244,
+        "endChar": 58
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50c5f22c_7d32fa45",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "I don\u0027t think this works as you might have intended it. As AbstractDaemonTest doesn\u0027t refresh the bindings, groupBackends is the same instance for all tests of a class. This means that we keep adding another instance of TestGroupBackend with every executed test of a class.",
+      "range": {
+        "startLine": 311,
+        "startChar": 2,
+        "endLine": 315,
+        "endChar": 3
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "446aff94_ece87681",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "Should be private.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 8
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0829e7fe_a121bc95",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "Why is \u0027groups\u0027 static?",
+      "range": {
+        "startLine": 34,
+        "startChar": 10,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ef4de0c_c8c24770",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "Could we rather return a GroupDescription.Basic here?",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 26
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e83601de_5f9a10c4",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "Using String as type here in combination with offering the method createUuid() above could be confusing for other developers. I would imagine that if I created a UUID with createUuid() that I could use that UUID for new groups (but passing in uuid.get() yields the wrong result). On the other hand, I see that we need to protect the TestGroupBackend to only serve groups with the correct UUID schema. So, my suggestion is to remove the createUuid() method. The unit tests should rather specify the complete String on their own (including \"testbackend:\"). Other tests which simply use TestGroupBackend should rather add a group and retrieve the UUID from it.",
+      "range": {
+        "startLine": 40,
+        "startChar": 31,
+        "endLine": 40,
+        "endChar": 42
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cff9da4c_4f4475e5",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "Do we care whether the group already exists?",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3123204c_59f1f7f6",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the logic for creating UUIDs in this class and adding groups. Can\u0027t we simply enforce this part to be not empty (and add corresponding checks for group additions)?",
+      "range": {
+        "startLine": 50,
+        "startChar": 52,
+        "endLine": 50,
+        "endChar": 65
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a36ed8d_ff33b0bd",
+        "filename": "javatests/com/google/gerrit/acceptance/TestGroupBackendTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-11T12:48:53Z",
+      "side": 1,
+      "message": "I\u0027m still contemplating whether this should be a unit test or not. Ideally, this would only be a unit test for TestGroupBackend and hence wouldn\u0027t inherit from AbstractDaemonTest. What is currently tested in universalGroupBackendHandlesTestGroup() is something we would move to a dedicated integration test which ensures that AbstractDaemonTest correctly integrates TestGroupBackend as a GroupBackend. To test this properly, I would use the GetGroup REST endpoint in combination with adding groups to TestGroupBackend.\n\nAs I said, that would be the ideal approach. I know that we haven\u0027t gone that path previously in Gerrit and won\u0027t mind if you want to keep it as it is.",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 60
+      },
+      "revId": "7af75c0b6efc38a5044cdc5e032dd3caf8967d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

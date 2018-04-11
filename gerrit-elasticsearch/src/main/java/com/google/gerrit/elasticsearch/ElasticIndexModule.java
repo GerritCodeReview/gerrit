@@ -64,8 +64,7 @@ public class ElasticIndexModule extends LifecycleModule {
 
     install(new IndexModule(threads));
     if (singleVersions == null) {
-      bind(AbstractVersionManager.class).to(ElasticVersionManager.class);
-      listener().to(ElasticVersionManager.class);
+      install(new MultiVersionModule());
     } else {
       install(new SingleVersionModule(singleVersions));
     }
@@ -75,5 +74,13 @@ public class ElasticIndexModule extends LifecycleModule {
   @Singleton
   IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
     return IndexConfig.fromConfig(cfg);
+  }
+
+  private static class MultiVersionModule extends LifecycleModule {
+    @Override
+    public void configure() {
+      bind(AbstractVersionManager.class).to(ElasticVersionManager.class);
+      listener().to(ElasticVersionManager.class);
+    }
   }
 }

@@ -26,7 +26,9 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.reviewdb.client.Account;
@@ -301,6 +303,22 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         int added = addedElement.getAsInt();
         int deleted = deletedElement.getAsInt();
         cd.setChangedLines(added, deleted);
+      }
+
+      // Star.
+      JsonElement starredElement = source.get(ChangeField.STAR.getName());
+      if (starredElement != null) {
+        ListMultimap<Account.Id, String> stars =
+            MultimapBuilder.hashKeys().arrayListValues().build();
+        JsonArray starBy = starredElement.getAsJsonArray();
+        if (starBy.size() > 0) {
+          for (int i = 0; i < starBy.size(); i++) {
+            String[] indexableFields = starBy.get(i).getAsString().split(":");
+            Account.Id id = Account.Id.parse(indexableFields[0]);
+            stars.put(id, indexableFields[1]);
+          }
+        }
+        cd.setStars(stars);
       }
 
       // Mergeable.

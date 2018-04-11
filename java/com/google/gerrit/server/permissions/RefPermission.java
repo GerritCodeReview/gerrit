@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.permissions;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.extensions.api.access.GerritPermission;
 
 public enum RefPermission implements GerritPermission {
@@ -30,7 +32,7 @@ public enum RefPermission implements GerritPermission {
   DELETE,
   UPDATE,
   FORCE_UPDATE,
-  SET_HEAD,
+  SET_HEAD("set HEAD"),
 
   FORGE_AUTHOR,
   FORGE_COMMITTER,
@@ -67,8 +69,23 @@ public enum RefPermission implements GerritPermission {
   READ_PRIVATE_CHANGES,
 
   /** Read access to ref's config section in {@code project.config}. */
-  READ_CONFIG,
+  READ_CONFIG("read ref config"),
 
   /** Write access to ref's config section in {@code project.config}. */
-  WRITE_CONFIG;
+  WRITE_CONFIG("write ref config");
+
+  private final String description;
+
+  private RefPermission() {
+    this.description = null;
+  }
+
+  private RefPermission(String description) {
+    this.description = checkNotNull(description);
+  }
+
+  @Override
+  public String describeForException() {
+    return description != null ? description : GerritPermission.describeEnumValue(this);
+  }
 }

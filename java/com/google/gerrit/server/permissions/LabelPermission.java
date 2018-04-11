@@ -84,7 +84,7 @@ public class LabelPermission implements ChangePermissionOrLabel {
   @Override
   public String describeForException() {
     if (forUser == ON_BEHALF_OF) {
-      return "labelAs " + name;
+      return "label on behalf of " + name;
     }
     return "label " + name;
   }
@@ -217,7 +217,7 @@ public class LabelPermission implements ChangePermissionOrLabel {
     @Override
     public String describeForException() {
       if (forUser == ON_BEHALF_OF) {
-        return "labelAs " + label.formatWithEquals();
+        return "label on behalf of " + label.formatWithEquals();
       }
       return "label " + label.formatWithEquals();
     }

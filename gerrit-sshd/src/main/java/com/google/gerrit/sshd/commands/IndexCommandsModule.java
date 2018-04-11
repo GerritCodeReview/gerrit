@@ -14,20 +14,31 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.CommandName;
 import com.google.gerrit.sshd.Commands;
 import com.google.gerrit.sshd.DispatchCommandProvider;
+import com.google.inject.Injector;
+import com.google.inject.Key;
 
 public class IndexCommandsModule extends CommandModule {
+
+  private final Injector injector;
+
+  public IndexCommandsModule(Injector injector) {
+    this.injector = injector;
+  }
 
   @Override
   protected void configure() {
     CommandName gerrit = Commands.named("gerrit");
     CommandName index = Commands.named(gerrit, "index");
     command(index).toProvider(new DispatchCommandProvider(index));
-    command(index, IndexActivateCommand.class);
-    command(index, IndexStartCommand.class);
+    if (injector.getExistingBinding(Key.get(VersionManager.class)) != null) {
+      command(index, IndexActivateCommand.class);
+      command(index, IndexStartCommand.class);
+    }
     command(index, IndexChangesCommand.class);
     command(index, IndexProjectCommand.class);
   }

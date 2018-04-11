@@ -1316,8 +1316,6 @@
         this._redirect(this._generateUrl(params));
       } else {
         this._setParams(params);
-        this.$.restAPI.setInProjectLookup(params.changeNum,
-            params.project);
       }
     },
 

@@ -377,7 +377,7 @@ class ChangeControl {
 
           case REMOVE_REVIEWER:
           case SUBMIT_AS:
-            return refControl.canPerform(perm.permissionName().get());
+            return refControl.canPerform(perm.permissionName());
         }
       } catch (OrmException e) {
         throw new PermissionBackendException("unavailable", e);
@@ -386,11 +386,11 @@ class ChangeControl {
     }
 
     private boolean can(LabelPermission perm) {
-      return !label(perm.permissionName().get()).isEmpty();
+      return !label(perm.permissionName()).isEmpty();
     }
 
     private boolean can(LabelPermission.WithValue perm) {
-      PermissionRange r = label(perm.permissionName().get());
+      PermissionRange r = label(perm.permissionName());
       if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
         return false;
       }

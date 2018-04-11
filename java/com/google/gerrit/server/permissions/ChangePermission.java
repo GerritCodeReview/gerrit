@@ -14,9 +14,8 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.common.base.CaseFormat;
 import com.google.gerrit.common.data.Permission;
-import java.util.Locale;
-import java.util.Optional;
 
 public enum ChangePermission implements ChangePermissionOrLabel {
   READ(Permission.READ),
@@ -36,21 +35,15 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   private final String name;
 
   ChangePermission() {
-    name = null;
+    name = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
   }
 
   ChangePermission(String name) {
     this.name = name;
   }
 
-  /** @return name used in {@code project.config} permissions. */
   @Override
-  public Optional<String> permissionName() {
-    return Optional.ofNullable(name);
-  }
-
-  @Override
-  public String describeForException() {
-    return toString().toLowerCase(Locale.US).replace('_', ' ');
+  public String permissionName() {
+    return name;
   }
 }

@@ -46,6 +46,7 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
 
     assertRefUpdatedEvents(initialHead, headAfterSubmit);
     assertChangeMergedEvents(change.getChangeId(), headAfterSubmit.name());
+    assertPatchSetCreatedEvents(change.getCommit().name());
   }
 
   @Test
@@ -99,5 +100,10 @@ public class SubmitByMergeAlwaysIT extends AbstractSubmitByMerge {
         headAfterSecondSubmit.name(),
         change4.getChangeId(),
         headAfterSecondSubmit.name());
+    assertPatchSetCreatedEvents(
+        change.getCommit().name(),
+        change2.getCommit().name(),
+        change3.getCommit().name(),
+        change4.getCommit().name());
   }
 }

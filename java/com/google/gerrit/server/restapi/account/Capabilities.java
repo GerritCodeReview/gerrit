@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalOrPluginPermissionName;
+
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -26,12 +28,14 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountResource.Capability;
+import com.google.gerrit.server.permissions.DefaultPermissionMappings;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.Optional;
 
 @Singleton
 class Capabilities implements ChildCollection<AccountResource, AccountResource.Capability> {
@@ -68,16 +72,16 @@ class Capabilities implements ChildCollection<AccountResource, AccountResource.C
 
     GlobalOrPluginPermission perm = parse(id);
     if (permissionBackend.user(target).test(perm)) {
-      return new AccountResource.Capability(target, perm.permissionName());
+      return new AccountResource.Capability(target, globalOrPluginPermissionName(perm));
     }
     throw new ResourceNotFoundException(id);
   }
 
   private GlobalOrPluginPermission parse(IdString id) throws ResourceNotFoundException {
     String name = id.get();
-    GlobalOrPluginPermission perm = GlobalPermission.byName(name);
-    if (perm != null) {
-      return perm;
+    Optional<GlobalPermission> perm = DefaultPermissionMappings.globalPermission(name);
+    if (perm.isPresent()) {
+      return perm.get();
     }
 
     int dash = name.lastIndexOf('-');

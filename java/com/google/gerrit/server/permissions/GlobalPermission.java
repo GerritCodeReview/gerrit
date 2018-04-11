@@ -14,9 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.CapabilityScope;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -25,46 +23,33 @@ import com.google.gerrit.extensions.api.access.PluginPermission;
 import java.lang.annotation.Annotation;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Global server permissions built into Gerrit. */
 public enum GlobalPermission implements GlobalOrPluginPermission {
-  ACCESS_DATABASE(GlobalCapability.ACCESS_DATABASE),
-  ADMINISTRATE_SERVER(GlobalCapability.ADMINISTRATE_SERVER),
-  CREATE_ACCOUNT(GlobalCapability.CREATE_ACCOUNT),
-  CREATE_GROUP(GlobalCapability.CREATE_GROUP),
-  CREATE_PROJECT(GlobalCapability.CREATE_PROJECT),
-  EMAIL_REVIEWERS(GlobalCapability.EMAIL_REVIEWERS),
-  FLUSH_CACHES(GlobalCapability.FLUSH_CACHES),
-  KILL_TASK(GlobalCapability.KILL_TASK),
-  MAINTAIN_SERVER(GlobalCapability.MAINTAIN_SERVER),
-  MODIFY_ACCOUNT(GlobalCapability.MODIFY_ACCOUNT),
-  RUN_AS(GlobalCapability.RUN_AS),
-  RUN_GC(GlobalCapability.RUN_GC),
-  STREAM_EVENTS(GlobalCapability.STREAM_EVENTS),
-  VIEW_ALL_ACCOUNTS(GlobalCapability.VIEW_ALL_ACCOUNTS),
-  VIEW_CACHES(GlobalCapability.VIEW_CACHES),
-  VIEW_CONNECTIONS(GlobalCapability.VIEW_CONNECTIONS),
-  VIEW_PLUGINS(GlobalCapability.VIEW_PLUGINS),
-  VIEW_QUEUE(GlobalCapability.VIEW_QUEUE);
+  ACCESS_DATABASE,
+  ADMINISTRATE_SERVER,
+  CREATE_ACCOUNT,
+  CREATE_GROUP,
+  CREATE_PROJECT,
+  EMAIL_REVIEWERS,
+  FLUSH_CACHES,
+  KILL_TASK,
+  MAINTAIN_SERVER,
+  MODIFY_ACCOUNT,
+  RUN_AS,
+  RUN_GC,
+  STREAM_EVENTS,
+  VIEW_ALL_ACCOUNTS,
+  VIEW_CACHES,
+  VIEW_CONNECTIONS,
+  VIEW_PLUGINS,
+  VIEW_QUEUE;
 
   private static final Logger log = LoggerFactory.getLogger(GlobalPermission.class);
-  private static final ImmutableMap<String, GlobalPermission> BY_NAME;
-
-  static {
-    ImmutableMap.Builder<String, GlobalPermission> m = ImmutableMap.builder();
-    for (GlobalPermission p : values()) {
-      m.put(p.permissionName(), p);
-    }
-    BY_NAME = m.build();
-  }
-
-  @Nullable
-  public static GlobalPermission byName(String name) {
-    return BY_NAME.get(name);
-  }
 
   /**
    * Extracts the {@code @RequiresCapability} or {@code @RequiresAnyCapability} annotation.
@@ -120,18 +105,6 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
     return fromAnnotation(null, clazz);
   }
 
-  private final String name;
-
-  GlobalPermission(String name) {
-    this.name = name;
-  }
-
-  /** @return name used in {@code project.config} permissions. */
-  @Override
-  public String permissionName() {
-    return name;
-  }
-
   private static GlobalOrPluginPermission resolve(
       @Nullable String pluginName,
       String capability,
@@ -154,13 +127,13 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
       throw new PermissionBackendException("cannot extract permission");
     }
 
-    GlobalPermission perm = byName(capability);
-    if (perm == null) {
+    Optional<GlobalPermission> perm = DefaultPermissionMappings.globalPermission(capability);
+    if (!perm.isPresent()) {
       log.error(
           String.format("Class %s requires unknown capability %s", clazz.getName(), capability));
       throw new PermissionBackendException("cannot extract permission");
     }
-    return perm;
+    return perm.get();
   }
 
   @Nullable

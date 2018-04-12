@@ -17,6 +17,9 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.Util.category;
+import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -33,6 +36,8 @@ import com.google.common.collect.Lists;
 import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
@@ -53,6 +58,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -72,7 +78,10 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexConfig;
 import com.google.gerrit.server.index.QueryOptions;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -84,6 +93,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ChangeControl;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.RequestContext;
@@ -152,6 +163,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
+  @Inject protected ProjectCache projectCache;
+  @Inject protected SystemGroupBackend systemGroupBackend;
+  @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
+  @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -670,6 +685,69 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,owner", reviewPlus1Change);
     assertQuery("label:Code-Review=+2,owner", reviewPlus2Change);
     assertQuery("label:Code-Review=-2,owner", reviewMinus2Change);
+  }
+
+  @Test
+  public void byLabelMulti() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Project.NameKey project =
+        new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+
+    LabelType verified =
+        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+    cfg.getLabelSections().put(verified.getName(), verified);
+
+    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+    Util.allow(cfg, Permission.forLabel(Util.verified().getName()), -1, 1, registeredUsers, heads);
+
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      cfg.commit(md);
+    }
+    projectCache.evict(cfg.getProject());
+
+    ReviewInput reviewVerified = new ReviewInput().label("Verified", 1);
+    ChangeInserter ins = newChange(repo, null, null, null, null);
+    ChangeInserter ins2 = newChange(repo, null, null, null, null);
+    ChangeInserter ins3 = newChange(repo, null, null, null, null);
+    ChangeInserter ins4 = newChange(repo, null, null, null, null);
+    ChangeInserter ins5 = newChange(repo, null, null, null, null);
+
+    // CR+1
+    Change reviewCRplus1 = insert(repo, ins);
+    gApi.changes().id(reviewCRplus1.getId().get()).current().review(ReviewInput.recommend());
+
+    // CR+2
+    Change reviewCRplus2 = insert(repo, ins2);
+    gApi.changes().id(reviewCRplus2.getId().get()).current().review(ReviewInput.approve());
+
+    // CR+1 VR+1
+    Change reviewCRplus1VRplus1 = insert(repo, ins3);
+    gApi.changes().id(reviewCRplus1VRplus1.getId().get()).current().review(ReviewInput.recommend());
+    gApi.changes().id(reviewCRplus1VRplus1.getId().get()).current().review(reviewVerified);
+
+    // CR+2 VR+1
+    Change reviewCRplus2VRplus1 = insert(repo, ins4);
+    gApi.changes().id(reviewCRplus2VRplus1.getId().get()).current().review(ReviewInput.approve());
+    gApi.changes().id(reviewCRplus2VRplus1.getId().get()).current().review(reviewVerified);
+
+    // VR+1
+    Change reviewVRplus1 = insert(repo, ins5);
+    gApi.changes().id(reviewVRplus1.getId().get()).current().review(reviewVerified);
+
+    assertQuery("label:Code-Review=+1", reviewCRplus1VRplus1, reviewCRplus1);
+    assertQuery(
+        "label:Code-Review>=+1",
+        reviewCRplus2VRplus1,
+        reviewCRplus1VRplus1,
+        reviewCRplus2,
+        reviewCRplus1);
+    assertQuery("label:Code-Review>=+2", reviewCRplus2VRplus1, reviewCRplus2);
+
+    assertQuery(
+        "label:Code-Review>=+1 label:Verified=+1", reviewCRplus2VRplus1, reviewCRplus1VRplus1);
+    assertQuery("label:Code-Review>=+2 label:Verified=+1", reviewCRplus2VRplus1);
   }
 
   @Test

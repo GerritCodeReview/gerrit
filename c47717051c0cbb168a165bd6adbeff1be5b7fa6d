@@ -70,6 +70,30 @@
       "revId": "c47717051c0cbb168a165bd6adbeff1be5b7fa6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "add75743_043c9cd5",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-12T08:02:51Z",
+      "side": 1,
+      "message": "Actually it looks like it\u0027s like this in several places.  I\u0027ll fix it here in a new patch set and defer the other cleanup to a separate change later.",
+      "parentUuid": "34bc432f_a2a53996",
+      "range": {
+        "startLine": 701,
+        "startChar": 40,
+        "endLine": 701,
+        "endChar": 95
+      },
+      "revId": "c47717051c0cbb168a165bd6adbeff1be5b7fa6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

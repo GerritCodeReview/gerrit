@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "42e35fbd_71c7de08",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-12T09:22:09Z",
+      "side": 1,
+      "message": "is this necessary? AFAICT, this will nevery be null.",
+      "range": {
+        "startLine": 213,
+        "startChar": 48,
+        "endLine": 213,
+        "endChar": 60
+      },
+      "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c41a1088_4826b3a8",
+        "filename": "java/com/google/gerrit/server/permissions/GlobalPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-12T09:22:09Z",
+      "side": 1,
+      "message": "optional: could be imported as static.",
+      "range": {
+        "startLine": 130,
+        "startChar": 38,
+        "endLine": 130,
+        "endChar": 80
+      },
+      "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1836fa56_a789d34a",
         "filename": "java/com/google/gerrit/server/permissions/GlobalPermission.java",
         "patchSetId": 2
@@ -65,6 +111,29 @@
         "startChar": 0,
         "endLine": 131,
         "endChar": 27
+      },
+      "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "faaca0a1_8e79a49f",
+        "filename": "java/com/google/gerrit/server/restapi/account/Capabilities.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-12T09:22:09Z",
+      "side": 1,
+      "message": "optional: could be imported as static.",
+      "range": {
+        "startLine": 82,
+        "startChar": 38,
+        "endLine": 82,
+        "endChar": 80
       },
       "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96bec38d_a0efa4e4",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-12T11:49:38Z",
+      "side": 1,
+      "message": "This call will create the permission (that is add it to destSection#permissions) if it doesn\u0027t exist, which will result in a ConcurrentModificationException since updateRule is called  from within the loop of destSection#permissions L88 and L107",
+      "range": {
+        "startLine": 133,
+        "startChar": 31,
+        "endLine": 133,
+        "endChar": 89
+      },
+      "revId": "0c95e71d934911e2f92300da59445b62d2f869aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fcafabd_cc5b5ab3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-12T16:34:38Z",
+      "side": 1,
+      "message": "This is a little confusing to me. Does this mean \"Allow all pushes except force push\"?",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

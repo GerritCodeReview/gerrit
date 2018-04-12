@@ -69,6 +69,7 @@ import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
@@ -221,9 +222,24 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       // Changed lines.
       int added = addedElement.getAsInt();
       int deleted = deletedElement.getAsInt();
-      if (added != 0 && deleted != 0) {
-        cd.setChangedLines(added, deleted);
+      cd.setChangedLines(added, deleted);
+    }
+
+    // Star.
+    JsonElement starredElement = source.get(ChangeField.STAR.getName());
+    if (starredElement != null) {
+      ListMultimap<Account.Id, String> stars = MultimapBuilder.hashKeys().arrayListValues().build();
+      JsonArray starBy = starredElement.getAsJsonArray();
+      if (starBy.size() > 0) {
+        for (int i = 0; i < starBy.size(); i++) {
+          String[] indexableFields = starBy.get(i).getAsString().split(":");
+          Optional<Account.Id> id = Account.Id.tryParse(indexableFields[0]);
+          if (id.isPresent()) {
+            stars.put(id.get(), indexableFields[1]);
+          }
+        }
       }
+      cd.setStars(stars);
     }
 
     // Mergeable.

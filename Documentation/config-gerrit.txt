@@ -1245,6 +1245,14 @@ Zero or negative values allow robot comments of unlimited size.
 +
 The default limit is 1024kB.
 
+[[change.strictLabels]]change.strictLabels::
++
+Reject invalid label votes: invalid labels or invalid values. This
+configuration option is provided for backwards compaitbility and may
+be removed in future gerrit versions.
++
+Default is false.
+
 [[change.disablePrivateChanges]]change.disablePrivateChanges::
 +
 If set to true, users are not allowed to create private changes.
@@ -2741,9 +2749,10 @@ result lists). Set to 0 for no limit.
 +
 When `index.type` is set to `ELASTICSEARCH`, this value should not exceed
 the `index.max_result_window` value configured on the Elasticsearch
-server.
+server. If a value is not configured during site initialization, defaults to
+10000, which is the default value of `index.max_result_window` in Elasticsearch.
 +
-Defaults to no limit.
+When `index.type` is set to `LUCENE`, defaults to no limit.
 
 [[index.maxPages]]index.maxPages::
 +

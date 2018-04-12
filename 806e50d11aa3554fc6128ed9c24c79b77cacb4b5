@@ -22,6 +22,30 @@
       "revId": "806e50d11aa3554fc6128ed9c24c79b77cacb4b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c11f6f2_fea19823",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-12T08:14:03Z",
+      "side": 1,
+      "message": "Yes, I was also surprised by this and also couldn\u0027t find why it\u0027s like that.  There are others that behave in the same way.  \"reviewerin:\" is one of them, and is tested in the following change.\n\nAs far as I can see \"destination:\" too, but that\u0027s not as easy to test because it needs additional config before it works.  I\u0027m working on that.",
+      "parentUuid": "d989230a_f204a0b1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "806e50d11aa3554fc6128ed9c24c79b77cacb4b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

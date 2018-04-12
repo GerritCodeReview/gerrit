@@ -35,6 +35,24 @@
       "revId": "e522ebd40ef80eab3b35409921419d56fc55187a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0e4666c_323648ed",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/EmailIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-12T11:25:39Z",
+      "side": 1,
+      "message": "It turns out that for some of the tests this is more complicated as expected, so I would rather not do this for now.\n\nLong story:\n- one would think that the following is the same:\n  a) gApi.accounts().id(admin.id.get())\n  b) gApi.accounts().self() (if setApiUser(admin) was called before)\n- but with a) \"self.get() !\u003d rsrc.getUser()\" in EmailsCollections is true,\n  while with b) it\u0027s false (with a) it\u0027s 2 different instances of IdentifiedUser,\n  but both are for the admin user)\n- this leads to an addition isAdmin check in case of a)\n- now for some tests this isAdmin check returns false for the admin user,\n  this is because IdentifiedUser.getEffectiveGroups() falls back to only the\n  registered groups (Registered Users + Anonymous Users) if there is any\n  non-trusted external ID\n- for auth.type \u003d OPENID which we use for tests MAILTO, UUID and USERNAME\n  external IDs are trusted, but for some tests we create other external IDs\n  and hence the admin user \"loses\" the membership in the Administrators group\n\nI think it\u0027s not worth to spent time on trying to fix this now.\nUsing gApi.accounts().self() seems good because a user is always able to set the own preferred email.",
+      "parentUuid": "b8d2f9f6_8d9cb677",
+      "revId": "e522ebd40ef80eab3b35409921419d56fc55187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

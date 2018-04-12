@@ -1332,6 +1332,7 @@
           name: action.label,
           id: `${key}-${action.__type}`,
           action,
+          tooltip: action.title,
         };
       });
     },
@@ -1376,6 +1377,10 @@
 
     _handleStopEditTap() {
       this.dispatchEvent(new CustomEvent('stop-edit-tap', {bubbles: false}));
+    },
+
+    _computeHasTooltip(title) {
+      return !!title;
     },
   });
 })();

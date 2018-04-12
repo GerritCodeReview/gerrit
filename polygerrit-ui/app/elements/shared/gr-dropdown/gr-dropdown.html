@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-dropdown">
@@ -125,19 +126,23 @@ limitations under the License.
               as="link"
               initial-count="75">
             <li tabindex="-1">
-              <span
-                  class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
-                  data-id$="[[link.id]]"
-                  on-tap="_handleItemTap"
-                  hidden$="[[link.url]]"
-                  tabindex="-1">[[link.name]]</span>
-              <a
-                  class="itemAction"
-                  href$="[[_computeLinkURL(link)]]"
-                  rel$="[[_computeLinkRel(link)]]"
-                  target$="[[link.target]]"
-                  hidden$="[[!link.url]]"
-                  tabindex="-1">[[link.name]]</a>
+              <gr-tooltip-content
+                  has-tooltip="[[_computeHasTooltip(link.tooltip)]]"
+                  title$="[[link.tooltip]]">
+                <span
+                    class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
+                    data-id$="[[link.id]]"
+                    on-tap="_handleItemTap"
+                    hidden$="[[link.url]]"
+                    tabindex="-1">[[link.name]]</span>
+                <a
+                    class="itemAction"
+                    href$="[[_computeLinkURL(link)]]"
+                    rel$="[[_computeLinkRel(link)]]"
+                    target$="[[link.target]]"
+                    hidden$="[[!link.url]]"
+                    tabindex="-1">[[link.name]]</a>
+              </gr-tooltip-content>
             </li>
           </template>
         </ul>

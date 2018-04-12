@@ -22,6 +22,30 @@
       "revId": "b7b1aa96d00f2eef6100fc5881ce7c0aa6060eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e113d54_9a715b85",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-12T08:11:57Z",
+      "side": 1,
+      "message": "Ah no, sorry, this overlaps with the current method.",
+      "parentUuid": "5d353508_d53f75ef",
+      "range": {
+        "startLine": 522,
+        "startChar": 11,
+        "endLine": 522,
+        "endChar": 36
+      },
+      "revId": "b7b1aa96d00f2eef6100fc5881ce7c0aa6060eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

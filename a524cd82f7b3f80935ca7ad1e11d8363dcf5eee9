@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08afd5d2_0e14fcd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-12T08:24:59Z",
+      "side": 1,
+      "message": "Up to you o.c. but I don\u0027t think the lack of tests in this space needs to block an improvement :)",
+      "revId": "a524cd82f7b3f80935ca7ad1e11d8363dcf5eee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

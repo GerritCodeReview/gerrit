@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cede8567_fdfdc156",
+        "filename": "contrib/populate-fixture-data.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-12T15:52:41Z",
+      "side": 1,
+      "message": "Can you rebase this? I merged this separately.",
+      "range": {
+        "startLine": 271,
+        "startChar": 29,
+        "endLine": 271,
+        "endChar": 0
+      },
+      "revId": "f1b3c23dd9539d852830cab33ea0250c583c7435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -180,9 +180,15 @@ public class AccountManager {
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
         && who.getUserName() != null
         && !eq(user.getUserName(), who.getUserName())) {
-      log.warn(
-          String.format(
-              "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));
+      if (user.getUserName() == null) {
+        toUpdate = load(toUpdate, user.getAccountId(), db);
+        toUpdate.setUserName(who.getUserName());
+      } else {
+        log.warn(
+            String.format(
+                "Not changing already set username %s to %s",
+                user.getUserName(), who.getUserName()));
+      }
     }
 
     if (toUpdate != null) {

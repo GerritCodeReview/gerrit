@@ -71,11 +71,13 @@ public class AccessIT extends AbstractDaemonTest {
   private static final String LABEL_CODE_REVIEW = "Code-Review";
 
   private Project.NameKey newProjectName;
+  private Project.NameKey parentProjectName;
 
   @Inject private DynamicSet<FileHistoryWebLink> fileHistoryWebLinkDynamicSet;
 
   @Before
   public void setUp() throws Exception {
+    parentProjectName = createProject("parentProject");
     newProjectName = createProject(PROJECT_NAME);
   }
 
@@ -153,6 +155,24 @@ public class AccessIT extends AbstractDaemonTest {
     ProjectAccessInput accessInput = newProjectAccessInput();
     exception.expect(BadRequestException.class);
     pApi().accessChange(accessInput);
+  }
+
+  @Test
+  public void createAccessChangeEmptyConfig() throws Exception {
+    RefUpdate ru = repoManager.openRepository(newProjectName).updateRef("refs/meta/config");
+    ru.setForceUpdate(true);
+    assertThat(ru.delete()).isEqualTo(Result.FORCED);
+
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSection = newAccessSectionInfo();
+    PermissionInfo read = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.BLOCK, false);
+    read.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSection.permissions.put(Permission.READ, read);
+    accessInput.add.put(REFS_HEADS, accessSection);
+
+    ChangeInfo out = pApi().accessChange(accessInput);
+    assertThat(out.status).isEqualTo(ChangeStatus.NEW);
   }
 
   @Test

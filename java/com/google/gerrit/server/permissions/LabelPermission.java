@@ -20,7 +20,6 @@ import static com.google.gerrit.server.permissions.LabelPermission.ForUser.SELF;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.server.util.LabelVote;
 
 /** Permission representing a label. */
@@ -82,19 +81,10 @@ public class LabelPermission implements ChangePermissionOrLabel {
     return name;
   }
 
-  /** @return name used in {@code project.config} permissions. */
-  @Override
-  public String permissionName() {
-    if (forUser == ON_BEHALF_OF) {
-      return Permission.forLabelAs(name);
-    }
-    return Permission.forLabel(name);
-  }
-
   @Override
   public String describeForException() {
     if (forUser == ON_BEHALF_OF) {
-      return "labelAs " + name;
+      return "label on behalf of " + name;
     }
     return "label " + name;
   }
@@ -224,19 +214,10 @@ public class LabelPermission implements ChangePermissionOrLabel {
       return label.value();
     }
 
-    /** @return name used in {@code project.config} permissions. */
-    @Override
-    public String permissionName() {
-      if (forUser == ON_BEHALF_OF) {
-        return Permission.forLabelAs(label());
-      }
-      return Permission.forLabel(label());
-    }
-
     @Override
     public String describeForException() {
       if (forUser == ON_BEHALF_OF) {
-        return "labelAs " + label.formatWithEquals();
+        return "label on behalf of " + label.formatWithEquals();
       }
       return "label " + label.formatWithEquals();
     }

@@ -14,15 +14,13 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.common.base.CaseFormat;
-import com.google.gerrit.common.data.Permission;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.extensions.api.access.GerritPermission;
-import java.util.Arrays;
-import java.util.Optional;
 
 public enum RefPermission implements GerritPermission {
-  READ(Permission.READ),
-  CREATE(Permission.CREATE),
+  READ,
+  CREATE,
 
   /**
    * Before checking this permission, the caller needs to verify the branch is deletable and reject
@@ -31,14 +29,14 @@ public enum RefPermission implements GerritPermission {
    * the project, including its access rules. If a project is to be removed from Gerrit, its
    * repository should be removed first.
    */
-  DELETE(Permission.DELETE),
-  UPDATE(Permission.PUSH),
+  DELETE,
+  UPDATE,
   FORCE_UPDATE,
-  SET_HEAD,
+  SET_HEAD("set HEAD"),
 
-  FORGE_AUTHOR(Permission.FORGE_AUTHOR),
-  FORGE_COMMITTER(Permission.FORGE_COMMITTER),
-  FORGE_SERVER(Permission.FORGE_SERVER),
+  FORGE_AUTHOR,
+  FORGE_COMMITTER,
+  FORGE_SERVER,
   MERGE,
   /**
    * Before checking this permission, the caller should verify {@code USE_SIGNED_OFF_BY} is false.
@@ -50,10 +48,10 @@ public enum RefPermission implements GerritPermission {
   CREATE_CHANGE,
 
   /** Create a tag. */
-  CREATE_TAG(Permission.CREATE_TAG),
+  CREATE_TAG,
 
   /** Create a signed tag. */
-  CREATE_SIGNED_TAG(Permission.CREATE_SIGNED_TAG),
+  CREATE_SIGNED_TAG,
 
   /**
    * Creates changes, then also immediately submits them during {@code push}.
@@ -68,31 +66,26 @@ public enum RefPermission implements GerritPermission {
    * Can read all private changes on the ref. Typically granted to CI systems if they should run on
    * private changes.
    */
-  READ_PRIVATE_CHANGES(Permission.VIEW_PRIVATE_CHANGES),
+  READ_PRIVATE_CHANGES,
 
   /** Read access to ref's config section in {@code project.config}. */
-  READ_CONFIG,
+  READ_CONFIG("read ref config"),
 
   /** Write access to ref's config section in {@code project.config}. */
-  WRITE_CONFIG;
+  WRITE_CONFIG("write ref config");
 
-  private final String name;
+  private final String description;
 
-  RefPermission() {
-    name = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
+  private RefPermission() {
+    this.description = null;
   }
 
-  RefPermission(String name) {
-    this.name = name;
+  private RefPermission(String description) {
+    this.description = checkNotNull(description);
   }
 
   @Override
-  public String permissionName() {
-    return name;
-  }
-
-  /** @return the enum constant for a given permission name if present. */
-  public static Optional<RefPermission> fromName(String name) {
-    return Arrays.stream(RefPermission.values()).filter(p -> name.equals(p.name)).findFirst();
+  public String describeForException() {
+    return description != null ? description : GerritPermission.describeEnumValue(this);
   }
 }

@@ -47,11 +47,6 @@ public class PluginPermission implements GlobalOrPluginPermission {
   }
 
   @Override
-  public String permissionName() {
-    return pluginName + '-' + capability;
-  }
-
-  @Override
   public String describeForException() {
     return capability + " for plugin " + pluginName;
   }

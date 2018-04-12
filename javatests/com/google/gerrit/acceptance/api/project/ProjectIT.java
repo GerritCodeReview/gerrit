@@ -324,7 +324,7 @@ public class ProjectIT extends AbstractDaemonTest {
     ConfigInput input = createTestConfigInput();
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("write config not permitted");
+    exception.expectMessage("write refs/meta/config not permitted");
     gApi.projects().name(project.get()).config(input);
   }
 
@@ -359,7 +359,7 @@ public class ProjectIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).branch("test").create(new BranchInput());
     setApiUser(user);
     exception.expect(AuthException.class);
-    exception.expectMessage("set head not permitted");
+    exception.expectMessage("set HEAD not permitted for refs/heads/test");
     gApi.projects().name(project.get()).head("test");
   }
 

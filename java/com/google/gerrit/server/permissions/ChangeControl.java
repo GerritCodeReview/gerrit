@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelPermissionName;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 
 import com.google.common.collect.Maps;
@@ -377,7 +378,7 @@ class ChangeControl {
 
           case REMOVE_REVIEWER:
           case SUBMIT_AS:
-            return refControl.canPerform(perm.permissionName());
+            return refControl.canPerform(changePermissionName(perm));
         }
       } catch (OrmException e) {
         throw new PermissionBackendException("unavailable", e);
@@ -386,11 +387,11 @@ class ChangeControl {
     }
 
     private boolean can(LabelPermission perm) {
-      return !label(perm.permissionName()).isEmpty();
+      return !label(labelPermissionName(perm)).isEmpty();
     }
 
     private boolean can(LabelPermission.WithValue perm) {
-      PermissionRange r = label(perm.permissionName());
+      PermissionRange r = label(labelPermissionName(perm));
       if (perm.forUser() == ON_BEHALF_OF && r.isEmpty()) {
         return false;
       }
@@ -418,5 +419,12 @@ class ChangeControl {
       return s;
     }
     return Sets.newHashSetWithExpectedSize(permSet.size());
+  }
+
+  private static String changePermissionName(ChangePermission changePermission) {
+    // Within this class, it's programmer error to call this method on a
+    // ChangePermission that isn't associated with a permission name.
+    return DefaultPermissionMappings.changePermissionName(changePermission)
+        .orElseThrow(() -> new IllegalStateException("no name for " + changePermission));
   }
 }

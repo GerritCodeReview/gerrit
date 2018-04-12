@@ -14,36 +14,37 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.common.base.CaseFormat;
-import com.google.gerrit.common.data.Permission;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.gerrit.extensions.api.access.GerritPermission;
 
 public enum ChangePermission implements ChangePermissionOrLabel {
-  READ(Permission.READ),
+  READ,
   RESTORE,
   DELETE,
-  ABANDON(Permission.ABANDON),
-  EDIT_ASSIGNEE(Permission.EDIT_ASSIGNEE),
+  ABANDON,
+  EDIT_ASSIGNEE,
   EDIT_DESCRIPTION,
-  EDIT_HASHTAGS(Permission.EDIT_HASHTAGS),
-  EDIT_TOPIC_NAME(Permission.EDIT_TOPIC_NAME),
-  REMOVE_REVIEWER(Permission.REMOVE_REVIEWER),
-  ADD_PATCH_SET(Permission.ADD_PATCH_SET),
-  REBASE(Permission.REBASE),
-  SUBMIT(Permission.SUBMIT),
-  SUBMIT_AS(Permission.SUBMIT_AS);
+  EDIT_HASHTAGS,
+  EDIT_TOPIC_NAME,
+  REMOVE_REVIEWER,
+  ADD_PATCH_SET,
+  REBASE,
+  SUBMIT,
+  SUBMIT_AS("submit on behalf of other users");
 
-  private final String name;
+  private final String description;
 
-  ChangePermission() {
-    name = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
+  private ChangePermission() {
+    this.description = null;
   }
 
-  ChangePermission(String name) {
-    this.name = name;
+  private ChangePermission(String description) {
+    this.description = checkNotNull(description);
   }
 
   @Override
-  public String permissionName() {
-    return name;
+  public String describeForException() {
+    return description != null ? description : GerritPermission.describeEnumValue(this);
   }
 }

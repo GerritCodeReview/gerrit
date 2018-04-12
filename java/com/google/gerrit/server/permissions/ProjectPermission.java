@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.permissions;
 
-import com.google.common.base.CaseFormat;
-import com.google.gerrit.common.data.Permission;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.extensions.api.access.GerritPermission;
+import com.google.gerrit.reviewdb.client.RefNames;
 
 public enum ProjectPermission implements GerritPermission {
   /**
@@ -25,14 +26,14 @@ public enum ProjectPermission implements GerritPermission {
    * <p>Checking this permission instead of {@link #READ} may require filtering to hide specific
    * references or changes, which can be expensive.
    */
-  ACCESS,
+  ACCESS("access at least one ref"),
 
   /**
    * Can read all references in the repository.
    *
    * <p>This is a stronger form of {@link #ACCESS} where no filtering is required.
    */
-  READ(Permission.READ),
+  READ,
 
   /**
    * Can create at least one reference in the project.
@@ -65,16 +66,16 @@ public enum ProjectPermission implements GerritPermission {
   CREATE_CHANGE,
 
   /** Can run receive pack. */
-  RUN_RECEIVE_PACK,
+  RUN_RECEIVE_PACK("run receive-pack"),
 
   /** Can run upload pack. */
-  RUN_UPLOAD_PACK,
+  RUN_UPLOAD_PACK("run upload-pack"),
 
   /** Allow read access to refs/meta/config. */
-  READ_CONFIG,
+  READ_CONFIG("read " + RefNames.REFS_CONFIG),
 
   /** Allow write access to refs/meta/config. */
-  WRITE_CONFIG,
+  WRITE_CONFIG("write " + RefNames.REFS_CONFIG),
 
   /** Allow banning commits from Gerrit preventing pushes of these commits. */
   BAN_COMMIT,
@@ -83,20 +84,20 @@ public enum ProjectPermission implements GerritPermission {
   READ_REFLOG,
 
   /** Can push to at least one reference within the repository. */
-  PUSH_AT_LEAST_ONE_REF;
+  PUSH_AT_LEAST_ONE_REF("push to at least one ref");
 
-  private final String name;
+  private final String description;
 
-  ProjectPermission() {
-    name = CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name());
+  private ProjectPermission() {
+    this.description = null;
   }
 
-  ProjectPermission(String name) {
-    this.name = name;
+  private ProjectPermission(String description) {
+    this.description = checkNotNull(description);
   }
 
   @Override
-  public String permissionName() {
-    return name;
+  public String describeForException() {
+    return description != null ? description : GerritPermission.describeEnumValue(this);
   }
 }

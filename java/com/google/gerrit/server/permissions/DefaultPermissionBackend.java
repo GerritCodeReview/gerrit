@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
@@ -84,6 +85,11 @@ public class DefaultPermissionBackend extends PermissionBackend {
     return new WithUserImpl(identifiedUser);
   }
 
+  @Override
+  public boolean usesDefaultCapabilities() {
+    return true;
+  }
+
   class WithUserImpl extends WithUser {
     private final CurrentUser user;
     private Boolean admin;
@@ -135,7 +141,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         return can((GlobalPermission) perm);
       } else if (perm instanceof PluginPermission) {
         PluginPermission pluginPermission = (PluginPermission) perm;
-        return has(pluginPermission.permissionName())
+        return has(DefaultPermissionMappings.pluginPermissionName(pluginPermission))
             || (pluginPermission.fallBackToAdmin() && isAdmin());
       }
       throw new PermissionBackendException(perm + " unsupported");
@@ -153,7 +159,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case RUN_GC:
         case VIEW_CACHES:
         case VIEW_QUEUE:
-          return has(perm.permissionName()) || can(GlobalPermission.MAINTAIN_SERVER);
+          return has(globalPermissionName(perm)) || can(GlobalPermission.MAINTAIN_SERVER);
 
         case CREATE_ACCOUNT:
         case CREATE_GROUP:
@@ -164,11 +170,11 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case VIEW_ALL_ACCOUNTS:
         case VIEW_CONNECTIONS:
         case VIEW_PLUGINS:
-          return has(perm.permissionName()) || isAdmin();
+          return has(globalPermissionName(perm)) || isAdmin();
 
         case ACCESS_DATABASE:
         case RUN_AS:
-          return has(perm.permissionName());
+          return has(globalPermissionName(perm));
       }
       throw new PermissionBackendException(perm + " unsupported");
     }
@@ -204,7 +210,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private boolean has(String permissionName) {
-      return allow(capabilities().getPermission(permissionName));
+      return allow(capabilities().getPermission(checkNotNull(permissionName)));
     }
 
     private boolean allow(Collection<PermissionRule> rules) {

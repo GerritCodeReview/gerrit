@@ -15,6 +15,9 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.common.data.GlobalCapability.PRIORITY;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalOrPluginPermissionName;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
+import static com.google.gerrit.server.permissions.DefaultPermissionMappings.pluginPermissionName;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -23,8 +26,9 @@ import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
@@ -75,7 +79,8 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Object apply(AccountResource rsrc) throws AuthException, PermissionBackendException {
+  public Object apply(AccountResource rsrc) throws RestApiException, PermissionBackendException {
+    permissionBackend.checkUsesDefaultCapabilities();
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
     if (self.get() != rsrc.getUser()) {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
@@ -84,7 +89,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
     Map<String, Object> have = new LinkedHashMap<>();
     for (GlobalOrPluginPermission p : perm.test(permissionsToTest())) {
-      have.put(p.permissionName(), true);
+      have.put(globalOrPluginPermissionName(p), true);
     }
 
     AccountLimits limits = limitsFactory.create(rsrc.getUser());
@@ -99,7 +104,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
   private Set<GlobalOrPluginPermission> permissionsToTest() {
     Set<GlobalOrPluginPermission> toTest = new HashSet<>();
     for (GlobalPermission p : GlobalPermission.values()) {
-      if (want(p.permissionName())) {
+      if (want(globalPermissionName(p))) {
         toTest.add(p);
       }
     }
@@ -107,7 +112,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
     for (String pluginName : pluginCapabilities.plugins()) {
       for (String capability : pluginCapabilities.byPlugin(pluginName).keySet()) {
         PluginPermission p = new PluginPermission(pluginName, capability);
-        if (want(p.permissionName())) {
+        if (want(pluginPermissionName(p))) {
           toTest.add(p);
         }
       }
@@ -158,8 +163,16 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
   @Singleton
   static class CheckOne implements RestReadView<AccountResource.Capability> {
+    private final PermissionBackend permissionBackend;
+
+    @Inject
+    CheckOne(PermissionBackend permissionBackend) {
+      this.permissionBackend = permissionBackend;
+    }
+
     @Override
-    public BinaryResult apply(Capability resource) {
+    public BinaryResult apply(Capability resource) throws ResourceNotFoundException {
+      permissionBackend.checkUsesDefaultCapabilities();
       return BinaryResult.create("ok\n");
     }
   }

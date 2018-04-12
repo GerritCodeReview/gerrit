@@ -498,9 +498,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     Change change2 = insert(repo, newChange(repo), user2);
+    Change change3 = insert(repo, newChange(repo), user2);
+    gApi.changes().id(change3.getId().get()).current().review(ReviewInput.approve());
+    gApi.changes().id(change3.getId().get()).current().submit();
 
     assertQuery("ownerin:Administrators", change1);
-    assertQuery("ownerin:\"Registered Users\"", change2, change1);
+    assertQuery("ownerin:\"Registered Users\"", change3, change2, change1);
   }
 
   @Test

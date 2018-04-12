@@ -34,6 +34,24 @@
       "revId": "a524cd82f7b3f80935ca7ad1e11d8363dcf5eee9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fce50f9_ae9cfad0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-12T10:12:43Z",
+      "side": 1,
+      "message": "I\u0027m pretty happy with the way the tests are turning out: https://gerrit-review.googlesource.com/c/gerrit/+/171751\n\nI think it\u0027s worth fleshing these out before proceeding.",
+      "parentUuid": "5c045d5a_333d42a4",
+      "revId": "a524cd82f7b3f80935ca7ad1e11d8363dcf5eee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2da82d0_8a707b05",
+        "filename": "gerrit-server/src/main/resources/com/google/gerrit/server/mail/RevertedHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-12T21:17:41Z",
+      "side": 0,
+      "message": "This shouldn\u0027t have been removed; it makes the email formatting inconsistent with the others.\n\nAdded it back in https://gerrit-review.googlesource.com/#/c/gerrit/+/171931",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "d552864bb65abf1174020c10309adb9978c4d550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

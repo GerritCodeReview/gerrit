@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f8e9352_53a101a1",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-12T14:43:30Z",
+      "side": 1,
+      "message": "Looks broken to me too, hence why I started modifying things here.\nI realized the Extensions ClassLoader was not used by extensions, and started investigating.\n\nI think it might be worth fixing it, as it helps enforcing the contract Extensions should follow.",
+      "parentUuid": "4a8b675c_87073228",
+      "range": {
+        "startLine": 296,
+        "startChar": 4,
+        "endLine": 297,
+        "endChar": 67
+      },
+      "revId": "4bcb8dbee110432bffe438c62b87156c1986d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8aba473d_2b44abe4",
         "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "There are even two of them:\n\n  $ unzip -t bazel-bin/headless.war | grep -i extension\n    testing: WEB-INF/lib/com_google_gerrit_extensions_libapi.jar   OK\n    testing: WEB-INF/lib/com_google_gerrit_extensions_libclient.jar   OK",
       "parentUuid": "8aba473d_2b44abe4",
+      "range": {
+        "startLine": 299,
+        "startChar": 16,
+        "endLine": 299,
+        "endChar": 37
+      },
+      "revId": "4bcb8dbee110432bffe438c62b87156c1986d926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c85743c1_6bf742e8",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-12T14:43:30Z",
+      "side": 1,
+      "message": "Done... might help loading extensions! :-)",
+      "parentUuid": "245768fb_40e8ad6b",
       "range": {
         "startLine": 299,
         "startChar": 16,

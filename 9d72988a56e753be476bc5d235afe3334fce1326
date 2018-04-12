@@ -22,6 +22,30 @@
       "revId": "9d72988a56e753be476bc5d235afe3334fce1326",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c538c404_7467119d",
+        "filename": "java/com/google/gerrit/launcher/GerritLauncher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-12T14:43:30Z",
+      "side": 0,
+      "message": "Done. In my locally edited move() method, I consider all the results instead of just one ... and I forgot this detail when making this change.\n\nI am not 100% sure if loading all the classes matching the prefix is the best move here, so I didn\u0027t include it (and still won\u0027t include it for now).",
+      "parentUuid": "a2a468d3_a113ca50",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 41
+      },
+      "revId": "9d72988a56e753be476bc5d235afe3334fce1326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -136,7 +136,8 @@ public class JarPluginProvider implements ServerPluginProvider {
       urls.add(tmp.toUri().toURL());
 
       ClassLoader pluginLoader =
-          new URLClassLoader(urls.toArray(new URL[urls.size()]), PluginUtil.parentFor(type));
+          URLClassLoader.newInstance(
+              urls.toArray(new URL[urls.size()]), PluginUtil.parentFor(type));
 
       JarScanner jarScanner = createJarScanner(tmp);
       PluginConfig pluginConfig = configFactory.getFromGerritConfig(name);

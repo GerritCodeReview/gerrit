@@ -305,9 +305,9 @@ public final class GerritLauncher {
 
     ClassLoader parent = ClassLoader.getSystemClassLoader();
     if (!extapi.isEmpty()) {
-      parent = new URLClassLoader(extapi.toArray(new URL[extapi.size()]), parent);
+      parent = URLClassLoader.newInstance(extapi.toArray(new URL[extapi.size()]), parent);
     }
-    return new URLClassLoader(jars.values().toArray(new URL[jars.size()]), parent);
+    return URLClassLoader.newInstance(jars.values().toArray(new URL[jars.size()]), parent);
   }
 
   private static void extractJar(ZipFile zf, ZipEntry ze, SortedMap<String, URL> jars)
@@ -718,7 +718,7 @@ public final class GerritLauncher {
         dirs.add(u);
       }
     }
-    return new URLClassLoader(
+    return URLClassLoader.newInstance(
         dirs.toArray(new URL[dirs.size()]), ClassLoader.getSystemClassLoader().getParent());
   }
 

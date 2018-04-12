@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.accounts.EmailApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
@@ -124,6 +125,7 @@ public class AccountApiImpl implements AccountApi {
   private final DeleteExternalIds deleteExternalIds;
   private final PutStatus putStatus;
   private final GetGroups getGroups;
+  private final EmailApiImpl.Factory emailApi;
 
   @Inject
   AccountApiImpl(
@@ -162,6 +164,7 @@ public class AccountApiImpl implements AccountApi {
       DeleteExternalIds deleteExternalIds,
       PutStatus putStatus,
       GetGroups getGroups,
+      EmailApiImpl.Factory emailApi,
       @Assisted AccountResource account) {
     this.account = account;
     this.accountLoaderFactory = ailf;
@@ -199,6 +202,7 @@ public class AccountApiImpl implements AccountApi {
     this.deleteExternalIds = deleteExternalIds;
     this.putStatus = putStatus;
     this.getGroups = getGroups;
+    this.emailApi = emailApi;
   }
 
   @Override
@@ -407,6 +411,26 @@ public class AccountApiImpl implements AccountApi {
       deleteEmail.apply(rsrc, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete email", e);
+    }
+  }
+
+  @Override
+  public EmailApi createEmail(EmailInput input) throws RestApiException {
+    AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
+    try {
+      createEmailFactory.create(input.email).apply(rsrc, input);
+      return email(rsrc.getEmail());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create email", e);
+    }
+  }
+
+  @Override
+  public EmailApi email(String email) throws RestApiException {
+    try {
+      return emailApi.create(account, email);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse email", e);
     }
   }
 

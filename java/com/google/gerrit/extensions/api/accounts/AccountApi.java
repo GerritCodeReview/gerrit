@@ -78,6 +78,10 @@ public interface AccountApi {
 
   void deleteEmail(String email) throws RestApiException;
 
+  EmailApi createEmail(EmailInput emailInput) throws RestApiException;
+
+  EmailApi email(String email) throws RestApiException;
+
   void setStatus(String status) throws RestApiException;
 
   List<SshKeyInfo> listSshKeys() throws RestApiException;
@@ -216,6 +220,16 @@ public interface AccountApi {
 
     @Override
     public void deleteEmail(String email) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EmailApi createEmail(EmailInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public EmailApi email(String email) throws RestApiException {
       throw new NotImplementedException();
     }
 

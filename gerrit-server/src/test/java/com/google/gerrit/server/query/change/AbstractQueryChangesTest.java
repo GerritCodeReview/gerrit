@@ -18,6 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.Util.category;
+import static com.google.gerrit.server.project.Util.value;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -36,6 +39,8 @@ import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
@@ -89,6 +94,7 @@ import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.MetaDataUpdate;
+import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -98,6 +104,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.Util;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -181,6 +188,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected ExternalIdsUpdate.Server externalIdsUpdate;
+  @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
 
   // Only for use in setting up/tearing down injector; other users should use schemaFactory.
   @Inject private InMemoryDatabase inMemoryDatabase;
@@ -722,9 +730,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     Change change2 = insert(repo, newChange(repo), user2);
+    Change change3 = insert(repo, newChange(repo), user2);
+    gApi.changes().id(change3.getId().get()).current().review(ReviewInput.approve());
+    gApi.changes().id(change3.getId().get()).current().submit();
 
     assertQuery("ownerin:Administrators", change1);
     assertQuery("ownerin:\"Registered Users\"", change2, change1);
+    assertQuery("ownerin:\"Registered Users\" status:merged", change3);
   }
 
   @Test
@@ -924,6 +936,68 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("label:Code-Review=+1,owner", reviewPlus1Change);
     assertQuery("label:Code-Review=+2,owner", reviewPlus2Change);
     assertQuery("label:Code-Review=-2,owner", reviewMinus2Change);
+  }
+
+  @Test
+  public void byLabelMulti() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Project.NameKey project =
+        new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+
+    LabelType verified =
+        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+    cfg.getLabelSections().put(verified.getName(), verified);
+
+    String heads = RefNames.REFS_HEADS + "*";
+    Util.allow(cfg, Permission.forLabel(Util.verified().getName()), -1, 1, REGISTERED_USERS, heads);
+
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      cfg.commit(md);
+    }
+    projectCache.evict(cfg.getProject());
+
+    ReviewInput reviewVerified = new ReviewInput().label("Verified", 1);
+    ChangeInserter ins = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins2 = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins3 = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins4 = newChange(repo, null, null, null, null, false);
+    ChangeInserter ins5 = newChange(repo, null, null, null, null, false);
+
+    // CR+1
+    Change reviewCRplus1 = insert(repo, ins);
+    gApi.changes().id(reviewCRplus1.getId().get()).current().review(ReviewInput.recommend());
+
+    // CR+2
+    Change reviewCRplus2 = insert(repo, ins2);
+    gApi.changes().id(reviewCRplus2.getId().get()).current().review(ReviewInput.approve());
+
+    // CR+1 VR+1
+    Change reviewCRplus1VRplus1 = insert(repo, ins3);
+    gApi.changes().id(reviewCRplus1VRplus1.getId().get()).current().review(ReviewInput.recommend());
+    gApi.changes().id(reviewCRplus1VRplus1.getId().get()).current().review(reviewVerified);
+
+    // CR+2 VR+1
+    Change reviewCRplus2VRplus1 = insert(repo, ins4);
+    gApi.changes().id(reviewCRplus2VRplus1.getId().get()).current().review(ReviewInput.approve());
+    gApi.changes().id(reviewCRplus2VRplus1.getId().get()).current().review(reviewVerified);
+
+    // VR+1
+    Change reviewVRplus1 = insert(repo, ins5);
+    gApi.changes().id(reviewVRplus1.getId().get()).current().review(reviewVerified);
+
+    assertQuery("label:Code-Review=+1", reviewCRplus1VRplus1, reviewCRplus1);
+    assertQuery(
+        "label:Code-Review>=+1",
+        reviewCRplus2VRplus1,
+        reviewCRplus1VRplus1,
+        reviewCRplus2,
+        reviewCRplus1);
+    assertQuery("label:Code-Review>=+2", reviewCRplus2VRplus1, reviewCRplus2);
+
+    assertQuery(
+        "label:Code-Review>=+1 label:Verified=+1", reviewCRplus2VRplus1, reviewCRplus1VRplus1);
+    assertQuery("label:Code-Review>=+2 label:Verified=+1", reviewCRplus2VRplus1);
   }
 
   @Test
@@ -1771,6 +1845,48 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery("reviewer:" + user1, change2, change1);
       assertQuery("cc:" + user1);
     }
+  }
+
+  @Test
+  public void reviewerin() throws Exception {
+    Account.Id user1 = accountManager.authenticate(AuthRequest.forUser("user1")).getAccountId();
+    Account.Id user2 = accountManager.authenticate(AuthRequest.forUser("user2")).getAccountId();
+    TestRepository<Repo> repo = createProject("repo");
+
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    insert(repo, newChange(repo));
+
+    AddReviewerInput rin = new AddReviewerInput();
+    rin.reviewer = user1.toString();
+    rin.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+
+    rin = new AddReviewerInput();
+    rin.reviewer = user2.toString();
+    rin.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change2.getId().get()).addReviewer(rin);
+
+    String group = gApi.groups().create("foo").get().name;
+    gApi.groups().id(group).addMembers(user2.toString());
+
+    List<String> members =
+        gApi.groups()
+            .id(group)
+            .members()
+            .stream()
+            .map(a -> a._accountId.toString())
+            .collect(toList());
+    assertThat(members).contains(user2.toString());
+
+    assertQuery("reviewerin:\"Registered Users\"", change2, change1);
+    assertQuery("reviewerin:" + group, change2);
+
+    gApi.changes().id(change2.getId().get()).current().review(ReviewInput.approve());
+    gApi.changes().id(change2.getId().get()).current().submit();
+
+    assertQuery("reviewerin:" + group);
+    assertQuery("status:merged reviewerin:" + group, change2);
   }
 
   @Test

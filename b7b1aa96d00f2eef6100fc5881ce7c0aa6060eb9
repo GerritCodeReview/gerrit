@@ -46,6 +46,29 @@
       "revId": "b7b1aa96d00f2eef6100fc5881ce7c0aa6060eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5fbd4b4_cc297635",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-12T09:36:53Z",
+      "side": 1,
+      "message": "Should we throw out a meanful message here? For example, \nString.format(\"RefPermission %s doesn\u0027t have a name\", refPermission.toString())",
+      "range": {
+        "startLine": 523,
+        "startChar": 31,
+        "endLine": 523,
+        "endChar": 54
+      },
+      "revId": "b7b1aa96d00f2eef6100fc5881ce7c0aa6060eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

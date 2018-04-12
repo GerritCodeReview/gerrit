@@ -16,6 +16,52 @@
       "revId": "34e6590e964f4b7da8afbfdf0484f3c88d95e855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7cb5231_4dcbf79e",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-12T10:09:30Z",
+      "side": 1,
+      "message": "So which permission has a description depends on whether the enum itself is good enough? Should we consider add description for more permissions?\n\nFor example, \"READ\" is defined for Project, Ref and change. All of the them will be\n\"read unsupported\", which is not that helpful for users because they will not know which READ permission they need to acquire.",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "34e6590e964f4b7da8afbfdf0484f3c88d95e855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a4f7ac0_6d76012a",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-12T10:09:30Z",
+      "side": 1,
+      "message": "By default, this is already \u0027null\u0027?",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 28
+      },
+      "revId": "34e6590e964f4b7da8afbfdf0484f3c88d95e855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af6cda79_416b973d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-12T13:41:26Z",
+      "side": 1,
+      "message": "This doesn\u0027t adequately describe the change.\n\nSomething like:\n\n  AccessIT: Test creation of config on empty meta ref\n\nwould be better.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "a1e95fe1a5b4bcb1a1a4cab0066affefe6ee7567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c7f7e72_ab009ff0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-12T13:41:26Z",
+      "side": 1,
+      "message": "There should be a constant for this.",
+      "range": {
+        "startLine": 162,
+        "startChar": 72,
+        "endLine": 162,
+        "endChar": 90
+      },
+      "revId": "a1e95fe1a5b4bcb1a1a4cab0066affefe6ee7567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4bcf892_5772cc70",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-12T13:41:26Z",
+      "side": 1,
+      "message": "This should be called in try-with-resource so that the repository is properly closed.",
+      "range": {
+        "startLine": 162,
+        "startChar": 31,
+        "endLine": 162,
+        "endChar": 45
+      },
+      "revId": "a1e95fe1a5b4bcb1a1a4cab0066affefe6ee7567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

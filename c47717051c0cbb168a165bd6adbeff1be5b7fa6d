@@ -22,6 +22,30 @@
       "revId": "c47717051c0cbb168a165bd6adbeff1be5b7fa6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8469919_bb8da4d3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-12T07:56:38Z",
+      "side": 1,
+      "message": "OK.  Then it will also need to be fixed at the place where I copy/pasted this from, so I\u0027ll do that in a follow-up change if it\u0027s OK for you.",
+      "parentUuid": "a100b0d7_59e5bb27",
+      "range": {
+        "startLine": 701,
+        "startChar": 40,
+        "endLine": 701,
+        "endChar": 95
+      },
+      "revId": "c47717051c0cbb168a165bd6adbeff1be5b7fa6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

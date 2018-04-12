@@ -37,6 +37,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
@@ -976,7 +977,8 @@ public class RefControlTest {
     return user(local, null, memberOf);
   }
 
-  private ProjectControl user(ProjectConfig local, String name, AccountGroup.UUID... memberOf) {
+  private ProjectControl user(
+      ProjectConfig local, @Nullable String name, AccountGroup.UUID... memberOf) {
     return new ProjectControl(
         Collections.<AccountGroup.UUID>emptySet(),
         Collections.<AccountGroup.UUID>emptySet(),
@@ -994,10 +996,10 @@ public class RefControlTest {
   }
 
   private class MockUser extends CurrentUser {
-    private final String username;
+    @Nullable private final String username;
     private final GroupMembership groups;
 
-    MockUser(String name, AccountGroup.UUID[] groupId) {
+    MockUser(@Nullable String name, AccountGroup.UUID[] groupId) {
       username = name;
       ArrayList<AccountGroup.UUID> groupIds = Lists.newArrayList(groupId);
       groupIds.add(REGISTERED_USERS);
@@ -1012,7 +1014,7 @@ public class RefControlTest {
 
     @Override
     public Optional<String> getUserName() {
-      return Optional.of(username);
+      return Optional.ofNullable(username);
     }
   }
 }

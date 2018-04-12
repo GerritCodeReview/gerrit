@@ -156,6 +156,26 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createAccessChangeEmptyConfig() throws Exception {
+    try (Repository repo = repoManager.openRepository(newProjectName)) {
+      RefUpdate ru = repo.updateRef(RefNames.REFS_CONFIG);
+      ru.setForceUpdate(true);
+      assertThat(ru.delete()).isEqualTo(Result.FORCED);
+
+      ProjectAccessInput accessInput = newProjectAccessInput();
+      AccessSectionInfo accessSection = newAccessSectionInfo();
+      PermissionInfo read = newPermissionInfo();
+      PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.BLOCK, false);
+      read.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+      accessSection.permissions.put(Permission.READ, read);
+      accessInput.add.put(REFS_HEADS, accessSection);
+
+      ChangeInfo out = pApi().accessChange(accessInput);
+      assertThat(out.status).isEqualTo(ChangeStatus.NEW);
+    }
+  }
+
+  @Test
   public void createAccessChange() throws Exception {
     allow(newProjectName, RefNames.REFS_CONFIG, Permission.READ, REGISTERED_USERS);
     // User can see the branch

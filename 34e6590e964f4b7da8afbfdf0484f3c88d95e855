@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "10b007a0_870019dc",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-12T12:08:07Z",
+      "side": 1,
+      "message": "\u003e So which permission has a description depends on whether the enum itself is good enough?\n\nBasically, yeah.\n\n\u003e Should we consider add description for more permissions?\n\nSure, and we can always add more later as we come up with them.\n \n\u003e For example, \"READ\" is defined for Project, Ref and change. All of the them will be\n\u003e \"read unsupported\", which is not that helpful for users because they will not know which READ permission they need to acquire.\n\nI think this specific point is largely addressed by adding the resource name to the default PermissionDeniedException later in this series:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/169232/5/java/com/google/gerrit/server/permissions/PermissionDeniedException.java#37\n\nSo this would show up as \"not permitted: read on refs/heads/foo\" (or maybe \"on refs/heads/foo in project bar\").",
+      "parentUuid": "a7cb5231_4dcbf79e",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "34e6590e964f4b7da8afbfdf0484f3c88d95e855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a4f7ac0_6d76012a",
         "filename": "java/com/google/gerrit/server/permissions/ProjectPermission.java",
         "patchSetId": 2
@@ -62,6 +86,30 @@
       "revId": "34e6590e964f4b7da8afbfdf0484f3c88d95e855",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64d5f864_ae653f6f",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-12T12:08:07Z",
+      "side": 1,
+      "message": "Not for final fields, they must be explicitly assigned in all constructors.",
+      "parentUuid": "8a4f7ac0_6d76012a",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 28
+      },
+      "revId": "34e6590e964f4b7da8afbfdf0484f3c88d95e855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -498,7 +498,7 @@ class ReceiveCommits {
 
     // Collections populated during processing.
     actualCommands = new ArrayList<>();
-    errors = LinkedListMultimap.create();
+    errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
     messages = new ArrayList<>();
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();

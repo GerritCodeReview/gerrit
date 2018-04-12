@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6c8362d_bc24d1a5",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-12T08:07:49Z",
+      "side": 1,
+      "message": "nit: statically import this as well",
+      "range": {
+        "startLine": 144,
+        "startChar": 19,
+        "endLine": 144,
+        "endChar": 44
+      },
+      "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1836fa56_a789d34a",
+        "filename": "java/com/google/gerrit/server/permissions/GlobalPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-12T08:07:49Z",
+      "side": 1,
+      "message": "How about we change the annotations to work with GlobalPermissions instead?\n\nAnnotations are the only caller of this method as far as I can see and as you say GlobalCapability seems like an implementation detail of DefaultPermissionBackend.\n\n(We\u0027d still need the Mappings in GetCapability and the other capability endpoints o.c.)",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 27
+      },
+      "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

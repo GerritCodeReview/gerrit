@@ -23,6 +23,30 @@
       "revId": "549291b98c7a52d8dc74f1c8b6edeacf7c9d8b9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e1d0392_2883ec6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-12T09:29:14Z",
+      "side": 1,
+      "message": "We don\u0027t have any process to deprecate methods in the extension API yet, so removing them would break existing clients and implementations. I think it\u0027s fine to keep them as convenience methods.",
+      "parentUuid": "01493035_ef18967d",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "549291b98c7a52d8dc74f1c8b6edeacf7c9d8b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

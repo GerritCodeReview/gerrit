@@ -17,6 +17,24 @@
       "revId": "e522ebd40ef80eab3b35409921419d56fc55187a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8d2f9f6_8d9cb677",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/EmailIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-12T09:32:35Z",
+      "side": 1,
+      "message": "OK, I will do this as a follow-up for all tests in this class.",
+      "parentUuid": "1e29a125_79d1dd51",
+      "revId": "e522ebd40ef80eab3b35409921419d56fc55187a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

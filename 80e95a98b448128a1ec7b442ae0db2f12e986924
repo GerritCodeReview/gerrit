@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "895d094f_5f0ae52f",
+        "filename": "java/com/google/gerrit/server/account/AccountSshKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-12T16:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76920f63_09578522",
+      "revId": "80e95a98b448128a1ec7b442ae0db2f12e986924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2341155_08c3cf85",
         "filename": "java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
         "patchSetId": 3
@@ -40,6 +58,30 @@
       "revId": "80e95a98b448128a1ec7b442ae0db2f12e986924",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76a2cc68_5f0ff051",
+        "filename": "java/com/google/gerrit/server/account/VersionedAuthorizedKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-12T16:02:06Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s a bug and we don\u0027t have a test for this code\n\nFixed and added a test in the predecessor change.",
+      "parentUuid": "a2341155_08c3cf85",
+      "range": {
+        "startLine": 255,
+        "startChar": 11,
+        "endLine": 255,
+        "endChar": 14
+      },
+      "revId": "80e95a98b448128a1ec7b442ae0db2f12e986924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

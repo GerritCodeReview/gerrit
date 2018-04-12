@@ -214,7 +214,7 @@ public class SetAccessUtil {
    * @param identifiedUser the user
    * @param config the config to modify
    * @param projectName the project for which to change access.
-   * @param newParentProjectName the new parent to set.
+   * @param newParentProjectName the new parent to set; passing null will make this a nop
    * @param checkAdmin if set, verify that user has administrateServer permission
    */
   public void setParentName(

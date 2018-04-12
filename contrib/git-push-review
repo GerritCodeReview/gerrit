@@ -50,6 +50,10 @@ def main(argv):
                  help='reviewer names or aliases, or #hashtags')
   p.add_argument('-t', '--topic', default='', metavar='TOPIC',
                  help='topic for new changes')
+  p.add_argument('-e', '--edit', action='store_true',
+                 help='upload as change edit')
+  p.add_argument('-w', '--wip', action='store_true', help='upload as WIP')
+  p.add_argument('-y', '--ready', action='store_true', help='set ready')
   p.add_argument('--dry-run', action='store_true',
                  help='dry run, print git command and exit')
   args = p.parse_args()
@@ -77,7 +81,22 @@ def main(argv):
   opts['t'].extend(t[1:] for t in args.args if is_hashtag(t))
   if args.topic:
     opts['topic'].append(args.topic)
-  opts_str = ','.join('%s=%s' % (k, v) for k in opts for v in opts[k])
+  if args.edit:
+    opts['edit'].append(True)
+  if args.wip:
+    opts['wip'].append(True)
+  if args.ready:
+    opts['ready'].append(True)
+
+  opts_strs = []
+  for k in opts:
+    for v in opts[k]:
+      if v == True:
+        opts_strs.append(k)
+      elif v != False:
+        opts_strs.append('%s=%s' % (k, v))
+
+  opts_str = ','.join(opts_strs)
   if opts_str:
     opts_str = '%' + opts_str
 

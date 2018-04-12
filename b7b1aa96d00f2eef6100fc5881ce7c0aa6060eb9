@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d353508_d53f75ef",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-12T08:10:56Z",
+      "side": 1,
+      "message": "redundant as you already imported this statically",
+      "range": {
+        "startLine": 522,
+        "startChar": 11,
+        "endLine": 522,
+        "endChar": 36
+      },
+      "revId": "b7b1aa96d00f2eef6100fc5881ce7c0aa6060eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

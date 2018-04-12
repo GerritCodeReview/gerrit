@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "1594ee25_6b9da512",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-12T15:08:13Z",
+      "side": 1,
+      "message": "\u003e \u003e So which permission has a description depends on whether the enum itself is good enough?\n\u003e \n\u003e Basically, yeah.\n\nI mean, I would not object if we come to the consensus that we should just explicitly specify strings for all of these. It would be slightly tedious, but then there wouldn\u0027t be this confusion.",
+      "parentUuid": "10b007a0_870019dc",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "34e6590e964f4b7da8afbfdf0484f3c88d95e855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a4f7ac0_6d76012a",
         "filename": "java/com/google/gerrit/server/permissions/ProjectPermission.java",
         "patchSetId": 2

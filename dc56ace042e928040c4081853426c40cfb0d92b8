@@ -45,6 +45,30 @@
       "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22cb8f08_557e72f7",
+        "filename": "java/com/google/gerrit/server/permissions/GlobalPermission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-12T08:18:26Z",
+      "side": 1,
+      "message": "Good idea. I was thinking the annotations would only continue to work if you use DefaultPermissionBackend, but switching it to GlobalPermission will make it work with any backend. I\u0027ll do this in a followup change.",
+      "parentUuid": "1836fa56_a789d34a",
+      "range": {
+        "startLine": 130,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 27
+      },
+      "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

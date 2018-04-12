@@ -648,50 +648,52 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     changes.put(-1, reviewMinus1Change);
     changes.put(-2, reviewMinus2Change);
 
-    assertQuery("label:Code-Review=-2", reviewMinus2Change);
-    assertQuery("label:Code-Review-2", reviewMinus2Change);
-    assertQuery("label:Code-Review=-1", reviewMinus1Change);
-    assertQuery("label:Code-Review-1", reviewMinus1Change);
-    assertQuery("label:Code-Review=0", noLabelChange);
-    assertQuery("label:Code-Review=+1", reviewPlus1Change);
-    assertQuery("label:Code-Review=1", reviewPlus1Change);
-    assertQuery("label:Code-Review+1", reviewPlus1Change);
-    assertQuery("label:Code-Review=+2", reviewPlus2Change);
-    assertQuery("label:Code-Review=2", reviewPlus2Change);
-    assertQuery("label:Code-Review+2", reviewPlus2Change);
+    for (String prefix : new String[] {"label:", ""}) {
+      assertQuery(prefix + "Code-Review=-2", reviewMinus2Change);
+      assertQuery(prefix + "Code-Review-2", reviewMinus2Change);
+      assertQuery(prefix + "Code-Review=-1", reviewMinus1Change);
+      assertQuery(prefix + "Code-Review-1", reviewMinus1Change);
+      assertQuery(prefix + "Code-Review=0", noLabelChange);
+      assertQuery(prefix + "Code-Review=+1", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review=1", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review+1", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review=+2", reviewPlus2Change);
+      assertQuery(prefix + "Code-Review=2", reviewPlus2Change);
+      assertQuery(prefix + "Code-Review+2", reviewPlus2Change);
 
-    assertQuery("label:Code-Review>-3", codeReviewInRange(changes, -2, 2));
-    assertQuery("label:Code-Review>=-2", codeReviewInRange(changes, -2, 2));
-    assertQuery("label:Code-Review>-2", codeReviewInRange(changes, -1, 2));
-    assertQuery("label:Code-Review>=-1", codeReviewInRange(changes, -1, 2));
-    assertQuery("label:Code-Review>-1", codeReviewInRange(changes, 0, 2));
-    assertQuery("label:Code-Review>=0", codeReviewInRange(changes, 0, 2));
-    assertQuery("label:Code-Review>0", codeReviewInRange(changes, 1, 2));
-    assertQuery("label:Code-Review>=1", codeReviewInRange(changes, 1, 2));
-    assertQuery("label:Code-Review>1", reviewPlus2Change);
-    assertQuery("label:Code-Review>=2", reviewPlus2Change);
-    assertQuery("label:Code-Review>2");
+      assertQuery(prefix + "Code-Review>-3", codeReviewInRange(changes, -2, 2));
+      assertQuery(prefix + "Code-Review>=-2", codeReviewInRange(changes, -2, 2));
+      assertQuery(prefix + "Code-Review>-2", codeReviewInRange(changes, -1, 2));
+      assertQuery(prefix + "Code-Review>=-1", codeReviewInRange(changes, -1, 2));
+      assertQuery(prefix + "Code-Review>-1", codeReviewInRange(changes, 0, 2));
+      assertQuery(prefix + "Code-Review>=0", codeReviewInRange(changes, 0, 2));
+      assertQuery(prefix + "Code-Review>0", codeReviewInRange(changes, 1, 2));
+      assertQuery(prefix + "Code-Review>=1", codeReviewInRange(changes, 1, 2));
+      assertQuery(prefix + "Code-Review>1", reviewPlus2Change);
+      assertQuery(prefix + "Code-Review>=2", reviewPlus2Change);
+      assertQuery(prefix + "Code-Review>2");
 
-    assertQuery("label:Code-Review<=2", codeReviewInRange(changes, -2, 2));
-    assertQuery("label:Code-Review<2", codeReviewInRange(changes, -2, 1));
-    assertQuery("label:Code-Review<=1", codeReviewInRange(changes, -2, 1));
-    assertQuery("label:Code-Review<1", codeReviewInRange(changes, -2, 0));
-    assertQuery("label:Code-Review<=0", codeReviewInRange(changes, -2, 0));
-    assertQuery("label:Code-Review<0", codeReviewInRange(changes, -2, -1));
-    assertQuery("label:Code-Review<=-1", codeReviewInRange(changes, -2, -1));
-    assertQuery("label:Code-Review<-1", reviewMinus2Change);
-    assertQuery("label:Code-Review<=-2", reviewMinus2Change);
-    assertQuery("label:Code-Review<-2");
+      assertQuery(prefix + "Code-Review<=2", codeReviewInRange(changes, -2, 2));
+      assertQuery(prefix + "Code-Review<2", codeReviewInRange(changes, -2, 1));
+      assertQuery(prefix + "Code-Review<=1", codeReviewInRange(changes, -2, 1));
+      assertQuery(prefix + "Code-Review<1", codeReviewInRange(changes, -2, 0));
+      assertQuery(prefix + "Code-Review<=0", codeReviewInRange(changes, -2, 0));
+      assertQuery(prefix + "Code-Review<0", codeReviewInRange(changes, -2, -1));
+      assertQuery(prefix + "Code-Review<=-1", codeReviewInRange(changes, -2, -1));
+      assertQuery(prefix + "Code-Review<-1", reviewMinus2Change);
+      assertQuery(prefix + "Code-Review<=-2", reviewMinus2Change);
+      assertQuery(prefix + "Code-Review<-2");
 
-    assertQuery("label:Code-Review=+1,anotheruser");
-    assertQuery("label:Code-Review=+1,user", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,user=user", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,Administrators", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,group=Administrators", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,user=owner", reviewPlus1Change);
-    assertQuery("label:Code-Review=+1,owner", reviewPlus1Change);
-    assertQuery("label:Code-Review=+2,owner", reviewPlus2Change);
-    assertQuery("label:Code-Review=-2,owner", reviewMinus2Change);
+      assertQuery(prefix + "Code-Review=+1,anotheruser");
+      assertQuery(prefix + "Code-Review=+1,user", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review=+1,user=user", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review=+1,Administrators", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review=+1,group=Administrators", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review=+1,user=owner", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review=+1,owner", reviewPlus1Change);
+      assertQuery(prefix + "Code-Review=+2,owner", reviewPlus2Change);
+      assertQuery(prefix + "Code-Review=-2,owner", reviewMinus2Change);
+    }
   }
 
   @Test

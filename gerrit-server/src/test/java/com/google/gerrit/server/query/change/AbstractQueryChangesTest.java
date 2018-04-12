@@ -756,6 +756,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(
         "label:Code-Review>=+1 label:Verified=+1", reviewCRplus2VRplus1, reviewCRplus1VRplus1);
     assertQuery("label:Code-Review>=+2 label:Verified=+1", reviewCRplus2VRplus1);
+
+    assertQuery("Code-Review>=+1,Verified=+1", reviewCRplus2VRplus1, reviewCRplus1VRplus1);
+    assertQuery("Code-Review>=+2,Verified=+1", reviewCRplus2VRplus1);
   }
 
   @Test

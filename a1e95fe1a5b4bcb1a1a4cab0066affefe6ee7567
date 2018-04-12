@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4c3f572d_a30676ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-12T14:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af6cda79_416b973d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "a1e95fe1a5b4bcb1a1a4cab0066affefe6ee7567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c7f7e72_ab009ff0",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 2
@@ -68,6 +92,54 @@
       "revId": "a1e95fe1a5b4bcb1a1a4cab0066affefe6ee7567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff47ab89_675c6405",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-12T14:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4bcf892_5772cc70",
+      "range": {
+        "startLine": 162,
+        "startChar": 31,
+        "endLine": 162,
+        "endChar": 45
+      },
+      "revId": "a1e95fe1a5b4bcb1a1a4cab0066affefe6ee7567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba590db5_53cd5afc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-12T14:06:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c7f7e72_ab009ff0",
+      "range": {
+        "startLine": 162,
+        "startChar": 72,
+        "endLine": 162,
+        "endChar": 90
+      },
+      "revId": "a1e95fe1a5b4bcb1a1a4cab0066affefe6ee7567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

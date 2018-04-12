@@ -237,12 +237,12 @@ public class PostReviewers
       boolean allowGroup,
       boolean allowByEmail)
       throws OrmException, PermissionBackendException, IOException, ConfigInvalidException {
-    IdentifiedUser user = null;
+    IdentifiedUser reviewerUser = null;
     boolean exactMatchFound = false;
     try {
-      user = accounts.parse(reviewer);
-      if (reviewer.equalsIgnoreCase(user.getName())
-          || reviewer.equals(String.valueOf(user.getAccountId()))) {
+      reviewerUser = accounts.parse(reviewer);
+      if (reviewer.equalsIgnoreCase(reviewerUser.getName())
+          || reviewer.equals(String.valueOf(reviewerUser.getAccountId()))) {
         exactMatchFound = true;
       }
     } catch (UnprocessableEntityException | AuthException e) {
@@ -255,22 +255,20 @@ public class PostReviewers
       return null;
     }
 
-    ReviewerResource rrsrc = reviewerFactory.create(rsrc, user.getAccountId());
-    Account member = rrsrc.getReviewerUser().getAccount();
     PermissionBackend.ForRef perm =
-        permissionBackend.user(rrsrc.getReviewerUser()).ref(rrsrc.getChange().getDest());
-    if (isValidReviewer(member, perm)) {
+        permissionBackend.absentUser(reviewerUser.getAccountId()).ref(rsrc.getChange().getDest());
+    if (isValidReviewer(reviewerUser.getAccount(), perm)) {
       return new Addition(
           reviewer,
           rsrc,
-          ImmutableSet.of(member.getId()),
+          ImmutableSet.of(reviewerUser.getAccountId()),
           null,
           state,
           notify,
           accountsToNotify,
           exactMatchFound);
     }
-    if (!member.isActive()) {
+    if (!reviewerUser.getAccount().isActive()) {
       if (allowByEmail && state == CC) {
         return null;
       }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f3052c6_75758f34",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-12T09:58:57Z",
+      "side": 1,
+      "message": "optional: could have a meaningful message here.",
+      "range": {
+        "startLine": 427,
+        "startChar": 27,
+        "endLine": 427,
+        "endChar": 54
+      },
+      "revId": "aa93e76384166a68c32fca5eab8bd0eca87093fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

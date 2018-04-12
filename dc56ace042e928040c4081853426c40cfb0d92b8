@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "26e1e72c_e28fb5b8",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-12T15:09:19Z",
+      "side": 1,
+      "message": "Seems this didn\u0027t change. But I think it\u0027s not worth rebasing the whole series once more just for this.",
+      "parentUuid": "571344f6_2f73cb37",
+      "range": {
+        "startLine": 144,
+        "startChar": 19,
+        "endLine": 144,
+        "endChar": 44
+      },
+      "revId": "dc56ace042e928040c4081853426c40cfb0d92b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42e35fbd_71c7de08",
         "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
         "patchSetId": 2

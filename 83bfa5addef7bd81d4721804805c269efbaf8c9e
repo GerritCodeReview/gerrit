@@ -22,6 +22,30 @@
       "revId": "83bfa5addef7bd81d4721804805c269efbaf8c9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4068393f_df42fb7a",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-12T21:51:11Z",
+      "side": 1,
+      "message": "Actually I think the hover should override selected on desktop as well.",
+      "parentUuid": "f3077c66_c4cfb461",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 159,
+        "endChar": 35
+      },
+      "revId": "83bfa5addef7bd81d4721804805c269efbaf8c9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

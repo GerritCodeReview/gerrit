@@ -1627,6 +1627,48 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void reviewerin() throws Exception {
+    Account.Id user1 = accountManager.authenticate(AuthRequest.forUser("user1")).getAccountId();
+    Account.Id user2 = accountManager.authenticate(AuthRequest.forUser("user2")).getAccountId();
+    TestRepository<Repo> repo = createProject("repo");
+
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+    insert(repo, newChange(repo));
+
+    AddReviewerInput rin = new AddReviewerInput();
+    rin.reviewer = user1.toString();
+    rin.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change1.getId().get()).addReviewer(rin);
+
+    rin = new AddReviewerInput();
+    rin.reviewer = user2.toString();
+    rin.state = ReviewerState.REVIEWER;
+    gApi.changes().id(change2.getId().get()).addReviewer(rin);
+
+    String group = gApi.groups().create("foo").get().name;
+    gApi.groups().id(group).addMembers(user2.toString());
+
+    List<String> members =
+        gApi.groups()
+            .id(group)
+            .members()
+            .stream()
+            .map(a -> a._accountId.toString())
+            .collect(toList());
+    assertThat(members).contains(user2.toString());
+
+    assertQuery("reviewerin:\"Registered Users\"", change2, change1);
+    assertQuery("reviewerin:" + group, change2);
+
+    gApi.changes().id(change2.getId().get()).current().review(ReviewInput.approve());
+    gApi.changes().id(change2.getId().get()).current().submit();
+
+    assertQuery("reviewerin:" + group);
+    assertQuery("status:merged reviewerin:" + group, change2);
+  }
+
+  @Test
   public void submitRecords() throws Exception {
     Account.Id user1 = createAccount("user1");
     TestRepository<Repo> repo = createProject("repo");

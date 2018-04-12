@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aad26a04_eced55a9",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetAccessUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-12T14:08:09Z",
+      "side": 1,
+      "message": "Also annotate this with @Nullable?",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 43
+      },
+      "revId": "711a4edaab910bea6410bf0f444f02d4e9776b15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

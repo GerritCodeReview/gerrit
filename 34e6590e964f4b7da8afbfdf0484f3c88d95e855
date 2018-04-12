@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f8bf424_6bf6a3f5",
+        "filename": "java/com/google/gerrit/extensions/restapi/AuthException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-12T08:04:55Z",
+      "side": 1,
+      "message": "Split up my commits improperly, this belongs in the next one.",
+      "revId": "34e6590e964f4b7da8afbfdf0484f3c88d95e855",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "a524cd82f7b3f80935ca7ad1e11d8363dcf5eee9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c045d5a_333d42a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-12T08:29:34Z",
+      "side": 1,
+      "message": "I\u0027m not confident enough in my implementation to be sure about what the messages are going to look like after this refactoring.\n\nI hope that the tests I write are also pretty easy to adapt to use for other PermissionBackend implementations.",
+      "parentUuid": "08afd5d2_0e14fcd1",
+      "revId": "a524cd82f7b3f80935ca7ad1e11d8363dcf5eee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

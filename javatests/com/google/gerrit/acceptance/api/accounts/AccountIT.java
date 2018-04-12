@@ -97,6 +97,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.account.ProjectWatches;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -200,6 +201,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
 
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
+
+  @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
 
   @Inject
   @Named("accounts")
@@ -1825,7 +1828,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @UseSsh
   public void sshKeys() throws Exception {
-    //
     // The test account should initially have exactly one ssh key
     List<SshKeyInfo> info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(1);
@@ -1863,6 +1865,16 @@ public class AccountIT extends AbstractDaemonTest {
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
     assertThat(info.get(0).seq).isEqualTo(1);
+    assertThat(info.get(1).seq).isEqualTo(3);
+    accountIndexedCounter.assertReindexOf(admin);
+
+    // Mark first key as invalid
+    assertThat(info.get(0).valid).isTrue();
+    authorizedKeys.markKeyInvalid(admin.id, 1);
+    info = gApi.accounts().self().listSshKeys();
+    assertThat(info).hasSize(2);
+    assertThat(info.get(0).seq).isEqualTo(1);
+    assertThat(info.get(0).valid).isFalse();
     assertThat(info.get(1).seq).isEqualTo(3);
     accountIndexedCounter.assertReindexOf(admin);
   }

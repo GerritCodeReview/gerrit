@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1523355230 +0200\nnonce AFN+CTLKRMes/ldMcqO1MXaVc5w4f3YtU93CFfBdCas3MuidQp7WMXLOTb+d5UxGBci3IJBvdP68\n\n0000000000000000000000000000000000000000 549291b98c7a52d8dc74f1c8b6edeacf7c9d8b9b refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlrMjl4ACgkQUbX9l6DQ\n71FVxwgAgTVDuV30FdWQFXxpfP1hNXnwyI2BEFK3A2qyUQp8EsXXM7NfqFPWYGY3\nGJDhOfzaVnQSlV5Gd07gmSX3pzuOL4FxydfwhK/UiblcZ3sYHoD3LibH/CIDqp41\nWacLu2aav22dfINOgXK8ZcJSAn6tclqEjlZ0BYDItIUpqKJ1Y/roNxUnaZ4M3GMw\nE5isQIL0FPj7s+jKt/YOsUU57OE55lq2XwvtsB+P67bloul7rtrDxttLinWITJKO\ncKbQYruHFhL0nmVoU+n7X3gFkvNNbJId0DRbwdM9Qmtsj2iDMc7wqGH5pCFA+wpe\n2kWwyCwWr25fIZhN+7vS1XkToFODcw\u003d\u003d\n\u003djd4X\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "01493035_ef18967d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-12T09:25:54Z",
+      "side": 1,
+      "message": "Do we plan to deprecate these?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "549291b98c7a52d8dc74f1c8b6edeacf7c9d8b9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a100b0d7_59e5bb27",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-12T07:53:38Z",
+      "side": 1,
+      "message": "Just use REGISTERED_USERS directly, it\u0027s already the UUID.",
+      "range": {
+        "startLine": 701,
+        "startChar": 40,
+        "endLine": 701,
+        "endChar": 95
+      },
+      "revId": "c47717051c0cbb168a165bd6adbeff1be5b7fa6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

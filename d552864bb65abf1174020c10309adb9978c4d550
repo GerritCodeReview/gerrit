@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66967626_324efe90",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1644,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-12T08:17:56Z",
+      "side": 1,
+      "message": "The test could be expanded to include cases where a reviewer is added as CC.  I\u0027ll look into that as a separate change though.",
+      "range": {
+        "startLine": 1644,
+        "startChar": 30,
+        "endLine": 1644,
+        "endChar": 38
+      },
+      "revId": "d552864bb65abf1174020c10309adb9978c4d550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

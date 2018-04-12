@@ -21,6 +21,7 @@ java_binary(
 java_library(
     name = "lib",
     visibility = ["//visibility:public"],
+    # Changes here should be reflected in com.google.gerrit.launcher.GerritLauncher#libClassLoader
     exports = [
         ":api",
         "//lib:guava",

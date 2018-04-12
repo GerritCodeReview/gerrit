@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.permissions;
 
+import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -21,6 +23,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
+import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Provider;
 import java.util.Collection;
@@ -36,6 +39,14 @@ import org.eclipse.jgit.lib.Repository;
  * method to the throwing {@code check} or {@code test} methods.
  */
 public class FailedPermissionBackend {
+  public static WithUser user(String message) {
+    return new FailedWithUser(message, null);
+  }
+
+  public static WithUser user(String message, Throwable cause) {
+    return new FailedWithUser(message, cause);
+  }
+
   public static ForProject project(String message) {
     return project(message, null);
   }
@@ -61,6 +72,37 @@ public class FailedPermissionBackend {
   }
 
   private FailedPermissionBackend() {}
+
+  private static class FailedWithUser extends WithUser {
+    private final String message;
+    private final Throwable cause;
+
+    FailedWithUser(String message, Throwable cause) {
+      this.message = message;
+      this.cause = cause;
+    }
+
+    @Override
+    public CurrentUser user() {
+      throw new UnsupportedOperationException("FailedPermissionBackend is not scoped to user");
+    }
+
+    @Override
+    public ForProject project(Project.NameKey project) {
+      return new FailedProject(message, cause);
+    }
+
+    @Override
+    public void check(GlobalOrPluginPermission perm) throws PermissionBackendException {
+      throw new PermissionBackendException(message, cause);
+    }
+
+    @Override
+    public <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)
+        throws PermissionBackendException {
+      throw new PermissionBackendException(message, cause);
+    }
+  }
 
   private static class FailedProject extends ForProject {
     private final String message;

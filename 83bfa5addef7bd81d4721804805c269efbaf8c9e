@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3077c66_c4cfb461",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-12T21:47:44Z",
+      "side": 1,
+      "message": "Might want to add hover too, in the event someone is viewing a narrow screen on desktop. Right now, the hover color shows up but not for the selected item, so it feels a little strange. Other option is to make sure selected hover still shows the blue color.",
+      "range": {
+        "startLine": 158,
+        "startChar": 8,
+        "endLine": 159,
+        "endChar": 35
+      },
+      "revId": "83bfa5addef7bd81d4721804805c269efbaf8c9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

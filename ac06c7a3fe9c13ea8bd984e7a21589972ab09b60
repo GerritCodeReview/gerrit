@@ -22,6 +22,30 @@
       "revId": "ac06c7a3fe9c13ea8bd984e7a21589972ab09b60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b4aa681_8095d8cb",
+        "filename": "javatests/com/google/gerrit/server/query/IndexConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-13T10:50:02Z",
+      "side": 1,
+      "message": "In stable-2.15 it\u0027s in AbstractQueryChanges but on master it has been refactored to here.",
+      "parentUuid": "cca43768_6d4e2bb0",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 73
+      },
+      "revId": "ac06c7a3fe9c13ea8bd984e7a21589972ab09b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

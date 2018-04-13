@@ -46,6 +46,17 @@
        *  }}
        */
       action: Object,
+      _submittedTogether: Array,
+      _loading: Boolean,
+    },
+
+    load() {
+      this._loading = true;
+      return this.$.restAPI.getChangesSubmittedTogether(this.change._number)
+          .then(submittedTogether => {
+            this._loading = false;
+            this._submittedTogether = submittedTogether;
+          });
     },
 
     resetFocus(e) {
@@ -60,6 +71,47 @@
     _handleCancelTap(e) {
       e.preventDefault();
       this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));
+    },
+
+    _computeShowSubmittedTogether(submittedTogether, loading) {
+      return !loading && !!submittedTogether.length;
+    },
+
+    _isThisChnage(thisChange, otherChange) {
+      return thisChange._number === otherChange._number;
+    },
+
+    _getChangeUrl(change) {
+      return Gerrit.Nav.getUrlForChange(change);
+    },
+
+    _computeSubmittedTogetherGroups(submittedTogether) {
+      const projects = {};
+      for (const change of submittedTogether) {
+        let branches;
+        if (projects.hasOwnProperty(change.project)) {
+          branches = projects[change.project];
+        } else {
+          branches = {};
+          projects[change.project] = branches;
+        }
+        let branch;
+        if (branches.hasOwnProperty(change.branch)) {
+          branch = branches[change.branch];
+        } else {
+          branch = [];
+          branches[change.branch] = branch;
+        }
+        branch.push(change);
+      }
+
+      const result = [];
+      for (const project of Object.keys(projects)) {
+        for (const branch of Object.keys(projects[project])) {
+          result.push({project, branch, changes: projects[project][branch]});
+        }
+      }
+      return result;
     },
   });
 })();

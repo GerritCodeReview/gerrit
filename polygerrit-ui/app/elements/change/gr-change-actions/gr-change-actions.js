@@ -382,6 +382,7 @@
         type: Boolean,
         value: true,
       },
+      submittedTogether: Array,
     },
 
     ActionType,
@@ -931,13 +932,21 @@
           this._handleDownloadTap();
           break;
         case RevisionActions.SUBMIT:
-          if (!this._canSubmitChange()) { return; }
-          this._showActionDialog(this.$.confirmSubmitDialog);
+          this._showSubmitDialog();
           break;
         default:
           this._fireAction(this._prependSlash(key),
               this.revisionActions[key], true);
       }
+    },
+
+    _showSubmitDialog() {
+      if (!this._canSubmitChange()) { return; }
+      this.$.confirmSubmitDialog.load().then(() => {
+        Polymer.dom.flush();
+        this.$.overlay.refit();
+      });
+      this._showActionDialog(this.$.confirmSubmitDialog);
     },
 
     _prependSlash(key) {
@@ -1411,6 +1420,14 @@
 
     _computeHasIcon(action) {
       return action.icon ? '' : 'hidden';
+    },
+
+    _computeShowSubmittedTogether(list) {
+      return !!list.length;
+    },
+
+    _getChangeUrl(change) {
+      return Gerrit.Nav.getUrlForChange(change);
     },
   });
 })();

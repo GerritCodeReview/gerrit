@@ -47,6 +47,11 @@
         notify: true,
       },
       mergeable: Boolean,
+      _submittedTogether: {
+        type: Array,
+        value() { return []; },
+        notify: true,
+      },
       _connectedRevisions: {
         type: Array,
         computed: '_computeConnectedRevisions(change, patchNum, ' +
@@ -56,10 +61,6 @@
       _relatedResponse: {
         type: Object,
         value() { return {changes: []}; },
-      },
-      _submittedTogether: {
-        type: Array,
-        value() { return []; },
       },
       _conflicts: {
         type: Array,

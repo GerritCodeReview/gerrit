@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf57b18b_fbc79b7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "2875cea7_9c2994cc",
+      "range": {
+        "startLine": 22,
+        "startChar": 34,
+        "endLine": 22,
+        "endChar": 46
+      },
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "580ed50e_66e6ae2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -78,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "8cbb177e_6ddc13f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "992c238d_c380b6d8",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2525c5cd_fd009128",
         "filename": "java/com/google/gerrit/config/BUILD",
         "patchSetId": 3
@@ -89,6 +131,24 @@
       "writtenOn": "2018-04-09T09:35:23Z",
       "side": 1,
       "message": "I think for these new, thinner packages, I prefer *.java to **/*.java.",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e821bddd_ed1fae25",
+        "filename": "java/com/google/gerrit/config/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2525c5cd_fd009128",
       "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -112,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "c4a2e43e_b6f3509d",
+        "filename": "java/com/google/gerrit/server/GerritPersonIdentProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a207bcbd_ae843d0b",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fedc7f2a_4dd56d15",
         "filename": "java/com/google/gerrit/server/config/AllProjectsNameProvider.java",
         "patchSetId": 3
@@ -123,6 +201,24 @@
       "writtenOn": "2018-04-09T09:35:23Z",
       "side": 1,
       "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf02558d_fe1d2376",
+        "filename": "java/com/google/gerrit/server/config/AllProjectsNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fedc7f2a_4dd56d15",
       "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -146,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "10aac15a_55fdb265",
+        "filename": "java/com/google/gerrit/server/config/AllUsersNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e0a7a02_a7344dcf",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8bb63f10_02715169",
         "filename": "java/com/google/gerrit/server/config/AnonymousCowardNameProvider.java",
         "patchSetId": 3
@@ -157,6 +271,24 @@
       "writtenOn": "2018-04-09T09:35:23Z",
       "side": 1,
       "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35279ecf_57d298c6",
+        "filename": "java/com/google/gerrit/server/config/AnonymousCowardNameProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bb63f10_02715169",
       "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -180,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "2661b936_80c968f5",
+        "filename": "java/com/google/gerrit/server/config/CanonicalWebUrlProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b19478e9_e1a7312f",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10f9bd81_e7ef2e26",
         "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
         "patchSetId": 3
@@ -191,6 +341,24 @@
       "writtenOn": "2018-04-09T09:35:23Z",
       "side": 1,
       "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41dac75c_64018a3b",
+        "filename": "java/com/google/gerrit/server/config/ChangeCleanupConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10f9bd81_e7ef2e26",
       "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -214,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "964e98fd_318e9b7d",
+        "filename": "java/com/google/gerrit/server/config/ConfigSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53d5cb7a_7bfd89b5",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c778dd81_47534fcd",
         "filename": "java/com/google/gerrit/server/config/DisableReverseDnsLookupProvider.java",
         "patchSetId": 3
@@ -225,6 +411,24 @@
       "writtenOn": "2018-04-09T09:35:23Z",
       "side": 1,
       "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cf421a8_46f9366e",
+        "filename": "java/com/google/gerrit/server/config/DisableReverseDnsLookupProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c778dd81_47534fcd",
       "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -266,6 +470,24 @@
     },
     {
       "key": {
+        "uuid": "2977d968_817c145c",
+        "filename": "java/com/google/gerrit/server/config/DownloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done. ArchiveFormat was moved too.",
+      "parentUuid": "97c39361_f53231ba",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dfd4cb5_d66a796d",
         "filename": "java/com/google/gerrit/server/config/GerritServerIdProvider.java",
         "patchSetId": 3
@@ -277,6 +499,24 @@
       "writtenOn": "2018-04-09T09:35:23Z",
       "side": 1,
       "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "649471c7_8d31c03c",
+        "filename": "java/com/google/gerrit/server/config/GerritServerIdProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dfd4cb5_d66a796d",
       "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -300,6 +540,24 @@
     },
     {
       "key": {
+        "uuid": "159efd30_552a8529",
+        "filename": "java/com/google/gerrit/server/config/GitwebCgiConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c3fcbe4_7e6cec5c",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b893f65e_7ac8df41",
         "filename": "java/com/google/gerrit/server/config/GlobalPluginConfig.java",
         "patchSetId": 3
@@ -317,6 +575,24 @@
     },
     {
       "key": {
+        "uuid": "e57c74cf_5d1b7e6f",
+        "filename": "java/com/google/gerrit/server/config/GlobalPluginConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b893f65e_7ac8df41",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca8d79e8_68e60153",
         "filename": "java/com/google/gerrit/server/config/RepositoryConfig.java",
         "patchSetId": 3
@@ -328,6 +604,24 @@
       "writtenOn": "2018-04-09T09:35:23Z",
       "side": 1,
       "message": "Could this class go in g.c.g.config?",
+      "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69ae36be_48bbe736",
+        "filename": "java/com/google/gerrit/server/config/RepositoryConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T23:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca8d79e8_68e60153",
       "revId": "548ff535a83dfce5cbee057ac78284d5f9dd6d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

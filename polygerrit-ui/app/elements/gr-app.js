@@ -98,6 +98,7 @@
 
     observers: [
       '_viewChanged(params.view)',
+      '_paramsChanged(params.*)',
     ],
 
     behaviors: [
@@ -227,15 +228,12 @@
         pathname += '@' + hash;
       }
       this.set('_path', pathname);
-      this._handleSearchPageChange();
     },
 
-    _handleSearchPageChange() {
-      if (!this.params) {
-        return;
-      }
+    _paramsChanged(paramsRecord) {
+      const params = paramsRecord.base;
       const viewsToCheck = [Gerrit.Nav.View.SEARCH, Gerrit.Nav.View.DASHBOARD];
-      if (viewsToCheck.includes(this.params.view)) {
+      if (viewsToCheck.includes(params.view)) {
         this.set('_lastSearchPage', location.pathname);
       }
     },

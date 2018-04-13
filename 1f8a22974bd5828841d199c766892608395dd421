@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8184af2c_1b13c7aa",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-04-13T07:58:51Z",
+      "side": 1,
+      "message": "These tests pass for NoteDB but fail for ReviewDB. Is it possible to detect when ReviewDB is used and disable the assertions below? It would be good to have them in place for NoteDB. I understand ReviewDB will be removed later this year anyway?",
+      "revId": "1f8a22974bd5828841d199c766892608395dd421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "851b6f89_9ee217c3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-04-13T07:58:51Z",
+      "side": 1,
+      "message": "Fails for ReviewDB",
+      "range": {
+        "startLine": 361,
+        "startChar": 4,
+        "endLine": 361,
+        "endChar": 54
+      },
+      "revId": "1f8a22974bd5828841d199c766892608395dd421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cea9b01_b92d0daa",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-04-13T07:58:51Z",
+      "side": 1,
+      "message": "Fails for ReviewDB",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 398,
+        "endChar": 36
+      },
+      "revId": "1f8a22974bd5828841d199c766892608395dd421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a811e53d_b4599915",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-04-13T07:58:51Z",
+      "side": 1,
+      "message": "Fails for ReviewDB",
+      "range": {
+        "startLine": 407,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 52
+      },
+      "revId": "1f8a22974bd5828841d199c766892608395dd421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

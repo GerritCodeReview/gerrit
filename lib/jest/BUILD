@@ -5,6 +5,9 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = ["@jest_common//jar"],
+    runtime_deps = [
+        "//lib/commons:lang3",
+    ],
 )
 
 java_library(
@@ -13,11 +16,8 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@jest//jar"],
     runtime_deps = [
-        ":jest-common",
-        "//lib/commons:lang3",
         "//lib/httpcomponents:httpasyncclient",
         "//lib/httpcomponents:httpclient",
         "//lib/httpcomponents:httpcore-nio",
-        "//lib/httpcomponents:httpcore-niossl",
     ],
 )

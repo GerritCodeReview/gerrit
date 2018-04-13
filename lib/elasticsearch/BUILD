@@ -27,27 +27,6 @@ java_library(
 )
 
 java_library(
-    name = "jest-common",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@jest_common//jar"],
-)
-
-java_library(
-    name = "jest",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@jest//jar"],
-    runtime_deps = [
-        ":elasticsearch",
-        ":jest-common",
-        "//lib/commons:lang3",
-        "//lib/httpcomponents:httpasyncclient",
-        "//lib/httpcomponents:httpclient",
-        "//lib/httpcomponents:httpcore-nio",
-        "//lib/httpcomponents:httpcore-niossl",
-    ],
-)
-
-java_library(
     name = "joda-time",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@joda_time//jar"],

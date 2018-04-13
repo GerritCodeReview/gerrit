@@ -32,7 +32,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class PatchListKey implements Serializable {
-  public static final long serialVersionUID = 30L;
+  public static final long serialVersionUID = 31L;
 
   public static final ImmutableBiMap<Whitespace, Character> WHITESPACE_TYPES =
       ImmutableBiMap.of(

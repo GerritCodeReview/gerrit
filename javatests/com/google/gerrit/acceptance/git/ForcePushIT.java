@@ -51,7 +51,7 @@ public class ForcePushIT extends AbstractDaemonTest {
         pushFactory.create(db, admin.getIdent(), testRepo, "change2", "b.txt", "content");
     push2.setForce(true);
     PushOneCommit.Result r2 = push2.to("refs/heads/master");
-    r2.assertErrorStatus("non-fast forward");
+    r2.assertErrorStatus("prohibited by Gerrit: not permitted: force update");
   }
 
   @Test

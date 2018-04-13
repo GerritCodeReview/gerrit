@@ -271,6 +271,7 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
       if (editsDueToRebase.contains(c) || editsDueToRebase.contains(n)) {
         // Don't combine any edits which were identified as being introduced by a rebase as we would
         // lose that information because of the combination.
+        j++;
         continue;
       }
 

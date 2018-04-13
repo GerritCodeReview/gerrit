@@ -21,7 +21,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @AutoValue
 public abstract class IntraLineDiffKey implements Serializable {
-  public static final long serialVersionUID = 11L;
+  public static final long serialVersionUID = 12L;
 
   public static IntraLineDiffKey create(ObjectId aId, ObjectId bId, Whitespace whitespace) {
     return new AutoValue_IntraLineDiffKey(aId, bId, whitespace);

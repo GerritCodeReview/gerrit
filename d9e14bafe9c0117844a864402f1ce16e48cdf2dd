@@ -74,6 +74,29 @@
     },
     {
       "key": {
+        "uuid": "de5b09a3_d4ce100f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1444,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-13T10:03:24Z",
+      "side": 1,
+      "message": "By the way, I had to deliberately use \u0027!\u0027 here to make this test work when the test closeRebaseAndNonRebaseHunksAreNotCombinedForIntralineOptimizations() was run before this test. If that other test runs before this one, we surprisingly get a cache hit for this test (at least on my local machine) and then get a wrong result. It\u0027s expected that we share state among the tests of this class and I know we sneak in additional parameters to the intraline diff computation (which we actually shouldn\u0027t do) but that\u0027s still a bit alarming. I will look into that on another day.",
+      "range": {
+        "startLine": 1444,
+        "startChar": 71,
+        "endLine": 1444,
+        "endChar": 72
+      },
+      "revId": "d9e14bafe9c0117844a864402f1ce16e48cdf2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "259fd3dd_919dda74",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
         "patchSetId": 1

@@ -34,19 +34,29 @@ public class RevisionResource implements RestResource, HasETag {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
       new TypeLiteral<RestView<RevisionResource>>() {};
 
+  public static RevisionResource createNonCachable(ChangeResource change, PatchSet ps) {
+    return new RevisionResource(change, ps, Optional.empty(), false);
+  }
+
   private final ChangeResource change;
   private final PatchSet ps;
   private final Optional<ChangeEdit> edit;
-  private boolean cacheable = true;
+  private final boolean cacheable;
 
   public RevisionResource(ChangeResource change, PatchSet ps) {
     this(change, ps, Optional.empty());
   }
 
   public RevisionResource(ChangeResource change, PatchSet ps, Optional<ChangeEdit> edit) {
+    this(change, ps, edit, true);
+  }
+
+  private RevisionResource(
+      ChangeResource change, PatchSet ps, Optional<ChangeEdit> edit, boolean cachable) {
     this.change = change;
     this.ps = ps;
     this.edit = edit;
+    this.cacheable = cachable;
   }
 
   public boolean isCacheable() {
@@ -96,12 +106,6 @@ public class RevisionResource implements RestResource, HasETag {
 
   public CurrentUser getUser() {
     return getChangeResource().getUser();
-  }
-
-  public RevisionResource doNotCache() {
-    // TODO(hanwen): return a copy so cacheable can be final.
-    cacheable = false;
-    return this;
   }
 
   public Optional<ChangeEdit> getEdit() {

@@ -1002,13 +1002,6 @@ maven_jar(
     sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
 )
 
-maven_jar(
-    name = "httpcore_niossl",
-    artifact = "org.apache.httpcomponents:httpcore-niossl:4.0-alpha6",
-    attach_source = False,
-    sha1 = "9c662e7247ca8ceb1de5de629f685c9ef3e4ab58",
-)
-
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
 
 npm_binary(

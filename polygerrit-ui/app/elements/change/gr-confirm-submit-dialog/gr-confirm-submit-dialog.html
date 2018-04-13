@@ -23,6 +23,7 @@ limitations under the License.
 
 <dom-module id="gr-confirm-submit-dialog">
   <template>
+    <style include="gr-table-styles"></style>
     <style include="shared-styles">
       #dialog {
         min-width: 40em;
@@ -30,8 +31,28 @@ limitations under the License.
       p {
         margin-bottom: 1em;
       }
+      .tableContainer {
+        max-width: calc(100vw - 3em);
+        overflow-x: scroll;
+      }
       .note {
         color: #777;
+      }
+      .submittedTogetherList > li {
+        margin-bottom: 1em;
+      }
+      .submittedTogetherList > li > ul > li {
+        margin-left: 1em;
+      }
+      .submittedTogetherList h1 {
+        font-size: var(--font-size-normal);
+      }
+      .submittedTogetherList h1 .headerKey {
+        color: #777;
+      }
+      .submittedTogetherList a {
+        color: var(--color-link);
+        cursor: pointer;
       }
     </style>
     <gr-confirm-dialog
@@ -51,6 +72,45 @@ limitations under the License.
           <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
           <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>
         </gr-endpoint-decorator>
+        <template is="dom-if" if="[[_loading]]">
+          <p class="note">
+            Checking submitted together...
+          </p>
+        </template>
+        <template
+            is="dom-if"
+            if="[[_computeShowSubmittedTogether(_submittedTogether, _loading)]]">
+          <p>Submitting this change will also submit the following:</p>
+          <ul class="submittedTogetherList">
+            <template
+                is="dom-repeat"
+                items="[[_computeSubmittedTogetherGroups(_submittedTogether)]]">
+              <li>
+                <h1>
+                  <span class="headerKey">Project:</span> [[item.project]]
+                  -
+                  <span class="headerKey">Branch:</span> [[item.branch]]
+                </h1>
+                <ul>
+                  <template is="dom-repeat" items="[[item.changes]]">
+                    <li>
+                      <template is="dom-if" if="[[_isThisChnage(change, item)]]">
+                        [[item.subject]]
+                        <span class="note">(this change)</span>
+                      </template>
+                      <template is="dom-if" if="[[!_isThisChnage(change, item)]]">
+                        <a
+                            href$="[[_getChangeUrl(item)]]"
+                            target="_blank"
+                            rel="noopener">[[item.subject]]</a>
+                      </template>
+                    </li>
+                  </template>
+                </ul>
+              </template>
+            </li>
+          </template>
+        </ul>
       </div>
     </gr-confirm-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -225,6 +225,7 @@
         observer: '_updateToggleContainerClass',
       },
       _parentIsCurrent: Boolean,
+      _submitEnabled: Boolean,
 
       /** @type {?} */
       _mergeable: {
@@ -402,6 +403,7 @@
       const options = {
         includeDerived: true,
         mergeable: !!mergeable,
+        submitEnabled: this._submitEnabled,
       };
       return this.changeStatuses(change, options);
     },
@@ -1102,6 +1104,10 @@
             } else {
               this._latestCommitMessage = null;
             }
+
+            // Update the submit enabled based on current revision.
+            this._submitEnabled = this._isSubmitEnabled(currentRevision);
+
             const lineHeight = getComputedStyle(this).lineHeight;
 
             // Slice returns a number as a string, convert to an int.
@@ -1128,6 +1134,11 @@
                       parseInt(this._patchRange.patchNum, 10));
             }
           });
+    },
+
+    _isSubmitEnabled(currentRevision) {
+      return !!(currentRevision.actions && currentRevision.actions.submit &&
+          currentRevision.actions.submit.enabled);
     },
 
     _getEdit() {

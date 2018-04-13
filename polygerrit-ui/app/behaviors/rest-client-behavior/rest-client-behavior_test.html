@@ -89,7 +89,7 @@ limitations under the License.
         mergeable: true,
       };
       let statuses = element.changeStatuses(change);
-      let statusString = element.changeStatusString(change);
+      const statusString = element.changeStatusString(change);
       assert.deepEqual(statuses, []);
       assert.equal(statusString, '');
 
@@ -98,11 +98,15 @@ limitations under the License.
           {includeDerived: true});
       assert.deepEqual(statuses, ['Active']);
 
-      // With no missing labels
+      // With no missing labels but no submitEnabled option.
       change.submittable = true;
       statuses = element.changeStatuses(change,
           {includeDerived: true});
-      statusString = element.changeStatusString(change);
+      assert.deepEqual(statuses, ['Active']);
+
+      // Without missing labels and enabled submit
+      statuses = element.changeStatuses(change,
+          {includeDerived: true, submitEnabled: true});
       assert.deepEqual(statuses, ['Ready to submit']);
 
       change.mergeable = false;
@@ -114,7 +118,7 @@ limitations under the License.
       delete change.mergeable;
       change.submittable = true;
       statuses = element.changeStatuses(change,
-          {includeDerived: true, mergeable: true});
+          {includeDerived: true, mergeable: true, submitEnabled: true});
       assert.deepEqual(statuses, ['Ready to submit']);
 
       change.submittable = true;

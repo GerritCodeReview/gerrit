@@ -540,6 +540,14 @@ limitations under the License.
       assert.isTrue(element._parentIsCurrent);
     });
 
+    test('_isSubmitEnabled', () => {
+      assert.isFalse(element._isSubmitEnabled({}));
+      assert.isFalse(element._isSubmitEnabled({actions: {}}));
+      assert.isFalse(element._isSubmitEnabled({actions: {submit: {}}}));
+      assert.isTrue(element._isSubmitEnabled(
+          {actions: {submit: {enabled: true}}}));
+    });
+
     test('_updateRebaseAction sets _parentIsCurrent on no rebase', () => {
       const currentRevisionActions = {
         cherrypick: {

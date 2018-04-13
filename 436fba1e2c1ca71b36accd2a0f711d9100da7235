@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0368fbe4_a689cf3b",
+        "filename": "lib/jest/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T18:16:16Z",
+      "side": 0,
+      "message": "According to: [1] it is needed:\n\n  \u003cdependency\u003e\n    \u003cgroupId\u003eio.searchbox\u003c/groupId\u003e\n    \u003cartifactId\u003ejest-common\u003c/artifactId\u003e\n  \u003c/dependency\u003e\n\n* [1] http://central.maven.org/maven2/io/searchbox/jest/2.4.0/jest-2.4.0.pom",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 22
+      },
+      "revId": "436fba1e2c1ca71b36accd2a0f711d9100da7235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a127a5f2_9f5690bd",
+        "filename": "lib/jest/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-13T18:16:16Z",
+      "side": 0,
+      "message": "This was the only occurrence of this dependency in gerrit code base. If it is not needed, as indicated in: [1], it should be entirely removed from the code base and not only here:\n\n  $ git grep -l httpcore-niossl\n  WORKSPACE\n  lib/httpcomponents/BUILD\n  lib/jest/BUILD\n\n* [1] http://central.maven.org/maven2/io/searchbox/jest/2.4.0/jest-2.4.0.pom",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "436fba1e2c1ca71b36accd2a0f711d9100da7235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

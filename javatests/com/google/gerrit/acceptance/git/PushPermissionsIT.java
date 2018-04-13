@@ -100,11 +100,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   public void nonFastForwardUpdateDenied() throws Exception {
     ObjectId commit = testRepo.commit().create();
     PushResult r = push("+" + commit.name() + ":refs/heads/master");
-    assertThat(r)
-        .onlyRef("refs/heads/master")
-        // TODO(dborowitz): ReceivePack#sendStatusReport ignores the message unless the result is
-        // REJECTED_OTHER_REASON, which this is not.
-        .isRejected("non-fast forward");
+    assertThat(r).onlyRef("refs/heads/master").isRejected("need 'Force Push' privilege.");
     assertThat(r).hasNoMessages();
     // TODO(dborowitz): Why does this not mention refs?
     assertThat(r).hasProcessed(ImmutableMap.of());

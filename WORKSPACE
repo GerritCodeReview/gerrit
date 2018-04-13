@@ -459,12 +459,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "lucene_codecs",
-    artifact = "org.apache.lucene:lucene-codecs:" + LUCENE_VERS,
-    sha1 = "e01fe463d9490bb1b4a6a168e771f7b7255a50b1",
-)
-
-maven_jar(
     name = "backward_codecs",
     artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
     sha1 = "c5cfcd7a8cf48a0144b61fb991c8e50a0bf868d5",
@@ -498,12 +492,6 @@ maven_jar(
     name = "lucene_memory",
     artifact = "org.apache.lucene:lucene-memory:" + LUCENE_VERS,
     sha1 = "7409db9863d8fbc265c27793c6cc7511304182c2",
-)
-
-maven_jar(
-    name = "lucene_sandbox",
-    artifact = "org.apache.lucene:lucene-sandbox:" + LUCENE_VERS,
-    sha1 = "30a91f120706ba66732d5a974b56c6971b3c8a16",
 )
 
 maven_jar(
@@ -964,24 +952,12 @@ maven_jar(
     sha1 = "84ccf145ac2215e6bfa63baa3101c0af41017cfc",
 )
 
-maven_jar(
-    name = "jna",
-    artifact = "net.java.dev.jna:jna:4.1.0",
-    sha1 = "1c12d070e602efd8021891cdd7fd18bc129372d4",
-)
-
 JACKSON_VERSION = "2.6.6"
 
 maven_jar(
     name = "jackson_core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "02eb801df67aacaf5b1deb4ac626e1964508e47b",
-)
-
-maven_jar(
-    name = "jackson_dataformat_smile",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:" + JACKSON_VERSION,
-    sha1 = "ccbfc948748ed2754a58c1af9e0a02b5cc1aed69",
 )
 
 maven_jar(

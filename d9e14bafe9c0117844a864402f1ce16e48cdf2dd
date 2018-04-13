@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "c68e5b6b_a2cc7793",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-13T09:50:30Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "76078c56_38d03669",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "d9e14bafe9c0117844a864402f1ce16e48cdf2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "259fd3dd_919dda74",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
         "patchSetId": 1
@@ -61,6 +85,24 @@
       "writtenOn": "2018-04-13T09:40:55Z",
       "side": 1,
       "message": "Optional: Do you think this bug would have been less likely to be introduced if j++ went in the for loop header, and there was j-- in the combined case at line 297?",
+      "revId": "d9e14bafe9c0117844a864402f1ce16e48cdf2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc0ce114_90ff286c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-13T09:50:30Z",
+      "side": 1,
+      "message": "I would rather say: If this whole computation was different and less \u0027hacky\u0027 (e.g. generating a new list instead of modifying the existing one), this issue would have been less likely to be introduced.",
+      "parentUuid": "259fd3dd_919dda74",
       "revId": "d9e14bafe9c0117844a864402f1ce16e48cdf2dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

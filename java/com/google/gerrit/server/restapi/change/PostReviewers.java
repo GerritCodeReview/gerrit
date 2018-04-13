@@ -51,7 +51,6 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyUtil;
-import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -92,7 +91,6 @@ public class PostReviewers
   public static final int DEFAULT_MAX_REVIEWERS = 20;
 
   private final AccountsCollection accounts;
-  private final ReviewerResource.Factory reviewerFactory;
   private final PermissionBackend permissionBackend;
 
   private final GroupsCollection groupsCollection;
@@ -113,7 +111,6 @@ public class PostReviewers
   @Inject
   PostReviewers(
       AccountsCollection accounts,
-      ReviewerResource.Factory reviewerFactory,
       PermissionBackend permissionBackend,
       GroupsCollection groupsCollection,
       GroupMembers groupMembers,
@@ -132,7 +129,6 @@ public class PostReviewers
       OutgoingEmailValidator validator) {
     super(retryHelper);
     this.accounts = accounts;
-    this.reviewerFactory = reviewerFactory;
     this.permissionBackend = permissionBackend;
     this.groupsCollection = groupsCollection;
     this.groupMembers = groupMembers;

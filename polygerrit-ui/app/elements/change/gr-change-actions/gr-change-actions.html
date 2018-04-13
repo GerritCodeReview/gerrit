@@ -20,10 +20,12 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../../styles/gr-table-styles.html">
 <link rel="import" href="../../admin/gr-create-change-dialog/gr-create-change-dialog.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
@@ -33,10 +35,12 @@ limitations under the License.
 <link rel="import" href="../gr-confirm-move-dialog/gr-confirm-move-dialog.html">
 <link rel="import" href="../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html">
 <link rel="import" href="../gr-confirm-revert-dialog/gr-confirm-revert-dialog.html">
+<link rel="import" href="../gr-confirm-submit-dialog/gr-confirm-submit-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-actions">
   <template>
+    <style include="gr-table-styles"></style>
     <style include="shared-styles">
       :host {
         display: flex;
@@ -60,6 +64,10 @@ limitations under the License.
       #confirmSubmitDialog .changeSubject {
         margin: 1em;
         text-align: center;
+        width: 40em;
+      }
+      #confirmSubmitDialog a {
+        color: var(--color-link);
       }
       @media screen and (max-width: 50em) {
         #mainContent,
@@ -170,6 +178,12 @@ limitations under the License.
           on-confirm="_handleAbandonDialogConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-abandon-dialog>
+      <gr-confirm-submit-dialog
+          id="confirmSubmitDialog"
+          change="[[change]]"
+          action="[[revisionActions.submit]]"
+          on-cancel="_handleConfirmDialogCancel"
+          on-confirm="_handleSubmitConfirm"></gr-confirm-submit-dialog>
       <gr-confirm-dialog id="createFollowUpDialog"
           class="confirmDialog"
           confirm-label="Create"
@@ -213,25 +227,6 @@ limitations under the License.
         </div>
         <div class="main" slot="main">
           Do you really want to delete the edit?
-        </div>
-      </gr-confirm-dialog>
-      <gr-confirm-dialog
-          id="confirmSubmitDialog"
-          class="confirmDialog"
-          confirm-label="Submit"
-          confirm-on-enter
-          on-cancel="_handleConfirmDialogCancel"
-          on-confirm="_handleSubmitConfirm">
-        <div class="header" slot="header">
-          Submit Change
-        </div>
-        <div class="main" slot="main">
-          <p>
-            Are you sure you want to to <strong>submit</strong> this change?
-          </p>
-          <p class="changeSubject">
-            <strong>[[change.subject]]</strong>
-          </p>
         </div>
       </gr-confirm-dialog>
     </gr-overlay>

@@ -1,0 +1,102 @@
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../styles/gr-table-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-confirm-submit-dialog">
+  <template>
+    <style include="gr-table-styles"></style>
+    <style include="shared-styles">
+      p {
+        margin-bottom: 1em;
+      }
+      .tableContainer {
+        max-width: calc(100vw - 3em);
+        overflow-x: scroll;
+      }
+      .genericList a {
+        color: var(--color-link);
+        cursor: pointer;
+      }
+      .note {
+        color: #777;
+      }
+    </style>
+    <gr-confirm-dialog
+        id="dialog"
+        confirm-label="Continue"
+        confirm-on-enter
+        on-cancel="_handleCancelTap"
+        on-confirm="_handleConfirmTap">
+      <div class="header" slot="header">
+        Submit Change
+      </div>
+      <div class="main" slot="main">
+        <p>
+          Ready to submit &ldquo;<strong>[[change.subject]]</strong>&rdquo;?
+        </p>
+        <p>
+          <strong>Action Description:</strong> [[action.title]]
+        </p>
+        <template is="dom-if" if="[[_loading]]">
+          <p class="note">
+            Checking submitted together...
+          </p>
+        </template>
+        <template
+            is="dom-if"
+            if="[[_computeShowSubmittedTogether(_submittedTogether, _loading)]]">
+          <p>Submitting this change will also submit the following:</p>
+          <div class="tableContainer">
+            <table class="genericList">
+              <tr>
+                <th>Subject</th>
+                <th>Project</th>
+                <th>Branch</th>
+              </tr>
+              <template is="dom-repeat" items="[[_submittedTogether]]">
+                <tr>
+                  <td>
+                    <template is="dom-if" if="[[_isThisChnage(change, item)]]">
+                      [[item.subject]]
+                      <span class="note">(this change)</span>
+                    </template>
+                    <template is="dom-if" if="[[!_isThisChnage(change, item)]]">
+                      <a
+                          href$="[[_getChangeUrl(item)]]"
+                          target="_blank"
+                          rel="noopener">[[item.subject]]</a>
+                    </template>
+                  </td>
+                  <td>[[item.project]]</td>
+                  <td>[[item.branch]]</td>
+                </tr>
+              </template>
+            </table>
+          </div>
+        </template>
+      </div>
+    </gr-confirm-dialog>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-confirm-submit-dialog.js"></script>
+</dom-module>

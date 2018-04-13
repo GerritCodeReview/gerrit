@@ -38,7 +38,7 @@ limitations under the License.
     </style>
     <table id="changeList">
       <tr class="topHeader">
-        <th class="keyboard"></th>
+        <th class="leftPadding"></th>
         <th class="star" hidden$="[[!showStar]]" hidden></th>
         <th class="number" hidden$="[[!showNumber]]" hidden>#</th>
         <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
@@ -57,7 +57,7 @@ limitations under the License.
           index-as="sectionIndex">
         <template is="dom-if" if="[[changeSection.sectionName]]">
           <tr class="groupHeader">
-            <td class="keyboard"></td>
+            <td class="leftPadding"></td>
             <td class="star" hidden$="[[!showStar]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
@@ -69,7 +69,7 @@ limitations under the License.
         </template>
         <template is="dom-if" if="[[!changeSection.results.length]]">
           <tr class="noChanges">
-            <td class="keyboard"></td>
+            <td class="leftPadding"></td>
             <td class="star" hidden$="[[!showStar]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">

@@ -22,7 +22,19 @@ limitations under the License.
       }
       gr-change-list-item,
       tr {
-        border-bottom: 1px solid #ddd;
+        border-top: 1px solid var(--border-color);
+      }
+      gr-change-list-item[selected],
+      gr-change-list-item:focus {
+        background-color: var(--selection-background-color);
+        border: 1px solid var(--selection-border-color);
+      }
+      .topHeader ~ gr-change-list-item:first-of-type,
+      .topHeader + .groupHeader {
+        border-top: none;
+      }
+      tbody {
+        border-bottom: 1px solid var(--border-color);
       }
       tr.topHeader {
         border: none;
@@ -57,7 +69,7 @@ limitations under the License.
       /* :after pseudoelements are used here because borders on sticky table
         headers with a background color are broken. */
       th:after {
-        border-bottom: 1px solid #ddd;
+        border-bottom: 1px solid var(--border-color);
         bottom: 0;
         content: '';
         left: 0;
@@ -65,7 +77,7 @@ limitations under the License.
         width: 100%;
       }
       th.label:after {
-        border-left: 1px solid #ddd;
+        border-left: 1px solid var(--border-color);
         top: 0;
       }
       .groupHeader {
@@ -81,14 +93,12 @@ limitations under the License.
       .cell {
         height: 2.25rem;
       }
-      .keyboard,
       .star {
         padding: 0;
       }
       gr-change-star {
         vertical-align: middle;
       }
-      .keyboard,
       .branch,
       .star,
       .label,
@@ -101,18 +111,17 @@ limitations under the License.
       .project {
         white-space: nowrap;
       }
-      .keyboard,
       .star {
         vertical-align: middle;
       }
-      .keyboard {
+      .leftPadding {
         width: 20px;
       }
       .star {
         width: 30px;
       }
       .label {
-        border-left: 1px solid #ddd;
+        border-left: 1px solid var(--border-color);
         text-align: center;
         width: 3rem;
       }
@@ -146,12 +155,21 @@ limitations under the License.
           justify-content: space-between;
           padding: .25em .5em;
         }
+        gr-change-list-item[selected],
+        gr-change-list-item:focus {
+          background-color: var(--view-background-color);
+          border: none;
+          border-top: 1px solid var(--border-color);
+        }
+        gr-change-list-item:hover {
+          background-color: var(--view-background-color);
+        }
         .cell {
           align-items: center;
           display: flex;
         }
         .topHeader,
-        .keyboard,
+        .leftPadding,
         .status,
         .project,
         .branch,

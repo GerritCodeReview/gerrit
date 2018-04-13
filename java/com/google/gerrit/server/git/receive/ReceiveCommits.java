@@ -36,7 +36,6 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.NOT_ATTEMPTED;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.OK;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_MISSING_OBJECT;
-import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_NONFASTFORWARD;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import com.google.common.base.Function;
@@ -1229,7 +1228,7 @@ class ReceiveCommits {
       actualCommands.add(cmd);
     } else {
       cmd.setResult(
-          REJECTED_NONFASTFORWARD, " need '" + PermissionRule.FORCE_PUSH + "' privilege.");
+          REJECTED_OTHER_REASON, "need '" + PermissionRule.FORCE_PUSH + "' privilege.");
     }
   }
 

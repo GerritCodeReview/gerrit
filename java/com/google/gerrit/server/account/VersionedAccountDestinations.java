@@ -26,7 +26,7 @@ import org.eclipse.jgit.lib.FileMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Preferences for user accounts. */
+/** User configured named destinations. */
 public class VersionedAccountDestinations extends VersionedMetaData {
   private static final Logger log = LoggerFactory.getLogger(VersionedAccountDestinations.class);
 

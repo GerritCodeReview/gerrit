@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e282d18_e24dca31",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1742,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-13T19:30:23Z",
+      "side": 1,
+      "message": "I don\u0027t think we should access `_projectLookup` since it\u0027s private to the REST API interface.\n\nSince we\u0027re not testing the REST interface here, it\u0027s we can assume that `setInProjectLookup` works properly when/if called. What about something like ..\n\n const setStub \u003d sandbox.stub(element.$.restAPI, \u0027setInProjectLookup\u0027);\n // ...\n assert.isTrue(setStub.calledOnce);\n assert.isTrue(setStub.calledWith(101, \u0027test-project\u0027);\n\n..?\n\nSame, naturally, for gr-diff-view_test.html.",
+      "range": {
+        "startLine": 1741,
+        "startChar": 6,
+        "endLine": 1742,
+        "endChar": 48
+      },
+      "revId": "f19b3eb74af6dda75254b1cb7e168817ce1449cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

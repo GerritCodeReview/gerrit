@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa8551d4_551a102b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-13T09:40:55Z",
+      "side": 1,
+      "message": "\"were\" or \"would have been\"",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "d9e14bafe9c0117844a864402f1ce16e48cdf2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "259fd3dd_919dda74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-13T09:40:55Z",
+      "side": 1,
+      "message": "Optional: Do you think this bug would have been less likely to be introduced if j++ went in the for loop header, and there was j-- in the combined case at line 297?",
+      "revId": "d9e14bafe9c0117844a864402f1ce16e48cdf2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

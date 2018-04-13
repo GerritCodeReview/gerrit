@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -82,6 +83,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
+    // Reduce flakiness of tests. (If tests aren't fast enough, we would use a fall-back
+    // computation, which might yield different results.)
+    baseConfig.setString("cache", "diff", "timeout", "1 minute");
+    baseConfig.setString("cache", "diff_intraline", "timeout", "1 minute");
+
     intraline = baseConfig.getBoolean(TEST_PARAMETER_MARKER, "intraline", false);
 
     ObjectId headCommit = testRepo.getRepository().resolve("HEAD");
@@ -1254,6 +1260,66 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void intralineEditsInNonRebaseHunksAreIdentified() throws Exception {
+    assume().that(intraline).isTrue();
+
+    Function<String, String> contentModification =
+        fileContent -> fileContent.replace("Line 1\n", "Line one\n");
+    addModifiedPatchSet(changeId, FILE_NAME, contentModification);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
+    assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .intralineEditsOfA()
+        .containsExactly(ImmutableList.of(5, 1));
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .intralineEditsOfB()
+        .containsExactly(ImmutableList.of(5, 3));
+    assertThat(diffInfo).content().element(0).isNotDueToRebase();
+    assertThat(diffInfo).content().element(1).commonLines().hasSize(99);
+  }
+
+  @Test
+  public void intralineEditsInRebaseHunksAreIdentified() throws Exception {
+    assume().that(intraline).isTrue();
+
+    String newFileContent = FILE_CONTENT.replace("Line 1\n", "Line one\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newFileContent);
+
+    rebaseChangeOn(changeId, commit2);
+    Function<String, String> contentModification =
+        fileContent -> fileContent.replace("Line 50\n", "Line fifty\n");
+    addModifiedPatchSet(changeId, FILE_NAME, contentModification);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
+    assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .intralineEditsOfA()
+        .containsExactly(ImmutableList.of(5, 1));
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .intralineEditsOfB()
+        .containsExactly(ImmutableList.of(5, 3));
+    assertThat(diffInfo).content().element(0).isDueToRebase();
+    assertThat(diffInfo).content().element(1).commonLines().hasSize(48);
+    assertThat(diffInfo).content().element(2).linesOfA().containsExactly("Line 50");
+    assertThat(diffInfo).content().element(2).linesOfB().containsExactly("Line fifty");
+    assertThat(diffInfo).content().element(2).isNotDueToRebase();
+    assertThat(diffInfo).content().element(3).commonLines().hasSize(50);
+  }
+
+  @Test
   public void closeNonRebaseHunksAreCombinedForIntralineOptimizations() throws Exception {
     assume().that(intraline).isTrue();
 
@@ -1363,6 +1429,47 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         gApi.changes().id(changeId).current().files(previousPatchSetId);
     assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
     assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void closeNonRebaseHunksNextToRebaseHunksAreCombinedForIntralineOptimizations()
+      throws Exception {
+    assume().that(intraline).isTrue();
+
+    String fileContent = FILE_CONTENT.replace("Line 5\n", "{\n").replace("Line 7\n", "{\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, fileContent);
+    rebaseChangeOn(changeId, commit2);
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    String newFileContent = fileContent.replace("Line 8\n", "Line eight!\n");
+    ObjectId commit3 = addCommit(commit1, FILE_NAME, newFileContent);
+    rebaseChangeOn(changeId, commit3);
+
+    addModifiedPatchSet(
+        changeId,
+        FILE_NAME,
+        content -> content.replace("Line 4\n", "Line four\n").replace("Line 6\n", "Line six\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 4", "{", "Line 6");
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line four", "{", "Line six");
+    assertThat(diffInfo).content().element(1).isNotDueToRebase();
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 8");
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line eight!");
+    assertThat(diffInfo).content().element(3).isDueToRebase();
+    assertThat(diffInfo).content().element(4).commonLines().hasSize(92);
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(2);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(2);
   }
 
   private void assertDiffForNewFile(

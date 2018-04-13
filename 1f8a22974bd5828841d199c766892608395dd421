@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "f3221a69_37c1aa08",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-04-13T12:39:40Z",
+      "side": 1,
+      "message": "Actually, this fails for NoteDB as well.",
+      "parentUuid": "851b6f89_9ee217c3",
+      "range": {
+        "startLine": 361,
+        "startChar": 4,
+        "endLine": 361,
+        "endChar": 54
+      },
+      "revId": "1f8a22974bd5828841d199c766892608395dd421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5cea9b01_b92d0daa",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 8
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "47d2d923_d2ef6f39",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-04-13T12:39:40Z",
+      "side": 1,
+      "message": "Actually, this fails for NoteDB as well.",
+      "parentUuid": "5cea9b01_b92d0daa",
+      "range": {
+        "startLine": 396,
+        "startChar": 0,
+        "endLine": 398,
+        "endChar": 36
+      },
+      "revId": "1f8a22974bd5828841d199c766892608395dd421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a811e53d_b4599915",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 8
@@ -76,6 +124,30 @@
       "writtenOn": "2018-04-13T07:58:51Z",
       "side": 1,
       "message": "Fails for ReviewDB",
+      "range": {
+        "startLine": 407,
+        "startChar": 0,
+        "endLine": 410,
+        "endChar": 52
+      },
+      "revId": "1f8a22974bd5828841d199c766892608395dd421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fc214e0_ffe812e1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1064613
+      },
+      "writtenOn": "2018-04-13T12:39:40Z",
+      "side": 1,
+      "message": "NoteDB passes here - it does not add the additional comment. The patchset-created event is the more pressing issue which fails for both ReviewDB and NoteDB.",
+      "parentUuid": "a811e53d_b4599915",
       "range": {
         "startLine": 407,
         "startChar": 0,

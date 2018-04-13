@@ -21,6 +21,7 @@ import static com.google.gerrit.git.testing.PushResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.AccessSection;
@@ -37,7 +38,11 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import java.util.Arrays;
+import java.util.function.Consumer;
+import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.BlobBasedConfig;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushResult;
@@ -266,9 +271,59 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
   }
 
-  // TODO(dborowitz): SKIP_VALIDATION.
-  // TODO(dborowitz): ACCESS_DATABASE for NoteDb.
-  // TODO(dborowitz): ADMINISTRATE_SERVER for parent updates.
+  @Test
+  public void skipValidationDenied() throws Exception {
+    grant(project, "refs/heads/*", Permission.PUSH, false, REGISTERED_USERS);
+
+    testRepo.branch("HEAD").commit().create();
+    PushResult r =
+        push(c -> c.setPushOptions(ImmutableList.of("skip-validation")), "HEAD:refs/heads/master");
+    assertThat(r)
+        .onlyRef("refs/heads/master")
+        .isRejected("skip validation not permitted for refs/heads/master");
+    assertThat(r).hasNoMessages();
+    assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
+  }
+
+  @Test
+  public void accessDatabaseForNoteDbDenied() throws Exception {
+    grant(project, "refs/heads/*", Permission.PUSH, false, REGISTERED_USERS);
+
+    testRepo.branch("HEAD").commit().create();
+    PushResult r =
+        push(
+            c -> c.setPushOptions(ImmutableList.of("notedb=allow")),
+            "HEAD:refs/changes/34/1234/meta");
+    // Same rejection message regardless of whether NoteDb is actually enabled.
+    assertThat(r)
+        .onlyRef("refs/changes/34/1234/meta")
+        .isRejected("NoteDb update requires access database permission");
+    assertThat(r).hasNoMessages();
+    assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
+  }
+
+  @Test
+  public void administrateServerForUpdateParentDenied() throws Exception {
+    grant(project, "refs/meta/config", Permission.PUSH, false, REGISTERED_USERS);
+    grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
+
+    String project2 = name("project2");
+    gApi.projects().create(project2);
+
+    ObjectId oldId = forceFetch("refs/meta/config");
+
+    Config cfg = new BlobBasedConfig(null, testRepo.getRepository(), oldId, "project.config");
+    cfg.setString("access", null, "inheritFrom", project2);
+    ObjectId newId =
+        testRepo.branch("refs/meta/config").commit().add("project.config", cfg.toText()).create();
+
+    PushResult r = push(newId.name() + ":refs/meta/config");
+    assertThat(r)
+        .onlyRef("refs/meta/config")
+        .isRejected("invalid project configuration: only Gerrit admin can set parent");
+    assertThat(r).hasNoMessages();
+    assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
+  }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
     cfg.getAccessSections()
@@ -292,13 +347,18 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   }
 
   private PushResult push(String... refSpecs) throws Exception {
-    Iterable<PushResult> results =
+    return push(c -> {}, refSpecs);
+  }
+
+  private PushResult push(Consumer<PushCommand> setUp, String... refSpecs) throws Exception {
+    PushCommand cmd =
         testRepo
             .git()
             .push()
             .setRemote("origin")
-            .setRefSpecs(Arrays.stream(refSpecs).map(RefSpec::new).collect(toList()))
-            .call();
+            .setRefSpecs(Arrays.stream(refSpecs).map(RefSpec::new).collect(toList()));
+    setUp.accept(cmd);
+    Iterable<PushResult> results = cmd.call();
     assertWithMessage("expected 1 PushResult").that(results).hasSize(1);
     return results.iterator().next();
   }

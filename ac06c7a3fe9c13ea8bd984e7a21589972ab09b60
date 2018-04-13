@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cca43768_6d4e2bb0",
+        "filename": "javatests/com/google/gerrit/server/query/IndexConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-13T10:45:10Z",
+      "side": 1,
+      "message": "Was this manually included in the merge? Don\u0027t we need it on stable-2.15?",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 73
+      },
+      "revId": "ac06c7a3fe9c13ea8bd984e7a21589972ab09b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

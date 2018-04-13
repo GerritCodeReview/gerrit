@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.common.testing;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.common.truth.Truth;
@@ -67,5 +68,17 @@ public class ContentEntrySubject extends Subject<ContentEntrySubject, ContentEnt
     isNotNull();
     ContentEntry contentEntry = actual();
     return ListSubject.assertThat(contentEntry.b, Truth::assertThat).named("lines of 'b'");
+  }
+
+  public IterableSubject intralineEditsOfA() {
+    isNotNull();
+    ContentEntry contentEntry = actual();
+    return Truth.assertThat(contentEntry.editA).named("intraline edits of 'a'");
+  }
+
+  public IterableSubject intralineEditsOfB() {
+    isNotNull();
+    ContentEntry contentEntry = actual();
+    return Truth.assertThat(contentEntry.editB).named("intraline edits of 'b'");
   }
 }

@@ -111,7 +111,6 @@ public class AccountState {
 
     // Don't leak references to AccountConfig into the AccountState, since it holds a reference to
     // an open Repository instance.
-    // TODO(ekempin): Find a way to lazily compute these that doesn't hold the repo open.
     ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
         accountConfig.getProjectWatches();
     GeneralPreferencesInfo generalPreferences = accountConfig.getGeneralPreferences();

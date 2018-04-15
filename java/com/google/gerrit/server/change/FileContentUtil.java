@@ -34,7 +34,7 @@ import com.google.inject.Singleton;
 import eu.medsea.mimeutil.MimeType;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Random;
+import java.security.SecureRandom;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.eclipse.jgit.errors.LargeObjectException;
@@ -57,7 +57,7 @@ public class FileContentUtil {
   private static final String X_GIT_GITLINK = "x-git/gitlink";
   private static final int MAX_SIZE = 5 << 20;
   private static final String ZIP_TYPE = "application/zip";
-  private static final Random rng = new Random();
+  private static final SecureRandom rng = new SecureRandom();
 
   private final GitRepositoryManager repoManager;
   private final FileTypeRegistry registry;

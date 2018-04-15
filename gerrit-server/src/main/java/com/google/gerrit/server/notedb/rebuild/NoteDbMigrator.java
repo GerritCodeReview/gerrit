@@ -724,6 +724,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
       // Only set in-memory state once it's been persisted to storage.
       globalNotesMigration.setFrom(newState);
+      log.info("Migration state: {} => {}", expectedOldState, newState);
 
       return newState;
     }

@@ -16,11 +16,13 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelPermissionName;
+import static com.google.gerrit.server.permissions.Denial.denial;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -44,6 +46,7 @@ import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /** Access control management for a user accessing a single change. */
@@ -121,35 +124,84 @@ class ChangeControl {
     return notes.getChange();
   }
 
+  private String getRefName() {
+    return getChange().getDest().get();
+  }
+
   /** Can this user see this change? */
-  private boolean isVisible(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
+  private Optional<Denial> isVisible(ReviewDb db, @Nullable ChangeData cd) throws OrmException {
     if (getChange().isPrivate() && !isPrivateVisible(db, cd)) {
       return false;
     }
     return refControl.isVisible();
   }
 
+  private Optional<Denial> locked(ChangePermission perm) {
+    return denial(perm, shortResource(), "Current patch set is locked");
+  }
+
   /** Can this user abandon this change? */
-  private boolean canAbandon(ReviewDb db) throws OrmException {
-    return (isOwner() // owner (aka creator) of the change can abandon
-            || refControl.isOwner() // branch owner can abandon
-            || getProjectControl().isOwner() // project owner can abandon
-            || refControl.canPerform(Permission.ABANDON) // user can abandon a specific ref
-            || getProjectControl().isAdmin())
-        && !isPatchSetLocked(db);
+  private Optional<Denial> canAbandon(ReviewDb db) throws OrmException {
+    if (isPatchSetLocked(db)) {
+      return locked(ChangePermission.ABANDON);
+    }
+    if (isOwner() // owner (aka creator) of the change can abandon
+        || refControl.isOwner() // branch owner can abandon
+        || getProjectControl().isOwner() // project owner can abandon
+        || refControl.canPerform(Permission.ABANDON) // user can abandon a specific ref
+        || getProjectControl().isAdmin()) {
+      return Optional.empty();
+    }
+    return denial(
+        ChangePermission.ABANDON,
+        shortResource(),
+        "Abandoning the change requires one of '"
+            + Permission.ABANDON
+            + "' on the destination "
+            + getRefName()
+            + ", '"
+            + Permission.OWNER
+            + "' on the ref or project, or the '"
+            + GlobalCapability.ADMINISTRATE_SERVER
+            + "' capability");
   }
 
   /** Can this user rebase this change? */
-  private boolean canRebase(ReviewDb db) throws OrmException {
-    return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
-        && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
-        && !isPatchSetLocked(db);
+  private Optional<Denial> canRebase(ReviewDb db) throws OrmException {
+    if (isPatchSetLocked(db)) {
+      return locked(ChangePermission.ABANDON);
+    }
+    // TODO(dborowitz): Expose a method on ForRefImpl returning an Optional<Denial>.
+    Optional<Denial> createDenial =
+        refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
+            ? Optional.empty()
+            : denial(RefPermission.CREATE_CHANGE, getRefName());
+    if ((isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
+        && createDenial.isPresent()) {
+      return Optional.empty();
+        }
+    return Denial.combineCauses(
+        denial(ChangePermission.ABANDON,
+          shortResource(),
+          "Rebasing a change requires both: one of '"+Permission.SUBMIT"'
   }
 
   /** Can this user restore this change? */
-  private boolean canRestore(ReviewDb db) throws OrmException {
+  private Optional<Denial> canRestore(ReviewDb db) throws OrmException {
     // Anyone who can abandon the change can restore it, as long as they can create changes.
-    return canAbandon(db) && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
+    // TODO(dborowitz): Expose a method on ForRefImpl returning an Optional<Denial>.
+    Optional<Denial> createDenial =
+        refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)
+            ? Optional.empty()
+            : denial(RefPermission.CREATE_CHANGE, getRefName());
+    return Denial.combineCauses(
+        denial(
+            ChangePermission.ABANDON,
+            shortResource(),
+            "Restoring a change requires permission to both abandon the change and create a new"
+                + " change"),
+        canAbandon(db),
+        createDenial);
   }
 
   /** The range of permitted values associated with a label permission. */
@@ -158,14 +210,32 @@ class ChangeControl {
   }
 
   /** Can this user add a patch set to this change? */
-  private boolean canAddPatchSet(ReviewDb db) throws OrmException {
-    if (!(refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)) || isPatchSetLocked(db)) {
-      return false;
+  private Optional<Denial> canAddPatchSet(ReviewDb db) throws OrmException {
+    String dest = getChange().getDest().get();
+    if (!refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)) {
+      return Denial.denial(RefPermission.CREATE_CHANGE, dest);
     }
-    if (isOwner()) {
-      return true;
+    if (isPatchSetLocked(db)) {
+      return Denial.denial(
+          ChangePermission.ADD_PATCH_SET, shortResource(), "Current patch set is locked");
     }
-    return refControl.canAddPatchSet();
+    if (isOwner() || refControl.canAddPatchSet()) {
+      return Optional.empty();
+    }
+    return Denial.denial(
+        ChangePermission.ADD_PATCH_SET,
+        shortResource(),
+        "You are not allowed to perform this operation.\n"
+            + "Adding a new patch set requires either '"
+            + Permission.ADD_PATCH_SET
+            + "' or '"
+            + Permission.OWNER
+            + "' permission on the destination "
+            + dest);
+  }
+
+  private String shortResource() {
+    return "change " + getChange().getId().get();
   }
 
   /** Is the current patch set locked against state changes? */
@@ -234,7 +304,7 @@ class ChangeControl {
   }
 
   /** Can this user edit the description? */
-  private boolean canEditDescription() {
+  private Optional<Denial> canEditDescription() {
     if (getChange().getStatus().isOpen()) {
       return isOwner() // owner (aka creator) of the change can edit desc
           || refControl.isOwner() // branch owner can edit desc
@@ -244,7 +314,7 @@ class ChangeControl {
     return false;
   }
 
-  private boolean canEditAssignee() {
+  private Optional<Denial> canEditAssignee() {
     return isOwner()
         || getProjectControl().isOwner()
         || refControl.canPerform(Permission.EDIT_ASSIGNEE)
@@ -252,7 +322,7 @@ class ChangeControl {
   }
 
   /** Can this user edit the hashtag name? */
-  private boolean canEditHashtags() {
+  private Optional<Denial> canEditHashtags() {
     return isOwner() // owner (aka creator) of the change can edit hashtags
         || refControl.isOwner() // branch owner can edit hashtags
         || getProjectControl().isOwner() // project owner can edit hashtags
@@ -261,7 +331,7 @@ class ChangeControl {
         || getProjectControl().isAdmin();
   }
 
-  private boolean isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
+  private Optional<Denial> isPrivateVisible(ReviewDb db, ChangeData cd) throws OrmException {
     return isOwner()
         || isReviewer(db, cd)
         || refControl.canPerform(Permission.VIEW_PRIVATE_CHANGES)
@@ -338,7 +408,7 @@ class ChangeControl {
       return ok;
     }
 
-    private boolean can(ChangePermissionOrLabel perm) throws PermissionBackendException {
+    private Optional<Denial> can(ChangePermissionOrLabel perm) throws PermissionBackendException {
       if (perm instanceof ChangePermission) {
         return can((ChangePermission) perm);
       } else if (perm instanceof LabelPermission) {
@@ -349,7 +419,7 @@ class ChangeControl {
       throw new PermissionBackendException(perm + " unsupported");
     }
 
-    private boolean can(ChangePermission perm) throws PermissionBackendException {
+    private Optional<Denial> can(ChangePermission perm) throws PermissionBackendException {
       try {
         switch (perm) {
           case READ:

@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.extensions.api.access.GerritPermission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,9 +33,11 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.util.Providers;
+
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /** Manages access control for Git references (aka branches, tags). */
@@ -103,8 +106,11 @@ class RefControl {
   }
 
   /** @return true if this user can rebase changes on this ref */
-  boolean canRebase() {
-    return canPerform(Permission.REBASE);
+  Optional<Denial> canRebase() {
+    if( canPerform(Permission.REBASE)) {
+      return Optional.empty();
+    }
+    return Denial.denial(RefPermission.REB
   }
 
   /** @return true if this user can submit patch sets to this ref */

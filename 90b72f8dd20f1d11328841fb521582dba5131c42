@@ -22,6 +22,30 @@
       "revId": "90b72f8dd20f1d11328841fb521582dba5131c42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41785eb0_4ca855bb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-16T14:48:16Z",
+      "side": 1,
+      "message": "TLDR is shady DOM CSS barriers, I believe. I\u0027ll add that to the commit message.",
+      "parentUuid": "7d7bdc5c_50071474",
+      "range": {
+        "startLine": 44,
+        "startChar": 5,
+        "endLine": 46,
+        "endChar": 7
+      },
+      "revId": "90b72f8dd20f1d11328841fb521582dba5131c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

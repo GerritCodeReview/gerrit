@@ -15,6 +15,7 @@
 package com.google.gerrit.sshd;
 
 import com.google.gerrit.common.errors.InvalidSshKeyException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.ssh.SshKeyCreator;
 import java.security.NoSuchAlgorithmException;
@@ -27,9 +28,10 @@ public class SshKeyCreatorImpl implements SshKeyCreator {
   private static final Logger log = LoggerFactory.getLogger(SshKeyCreatorImpl.class);
 
   @Override
-  public AccountSshKey create(AccountSshKey.Id id, String encoded) throws InvalidSshKeyException {
+  public AccountSshKey create(Account.Id accountId, int seq, String encoded)
+      throws InvalidSshKeyException {
     try {
-      AccountSshKey key = new AccountSshKey(id, SshUtil.toOpenSshPublicKey(encoded));
+      AccountSshKey key = AccountSshKey.create(accountId, seq, SshUtil.toOpenSshPublicKey(encoded));
       SshUtil.parse(key);
       return key;
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {

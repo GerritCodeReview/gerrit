@@ -41,8 +41,7 @@ public class AuthorizedKeys {
         continue;
       } else if (line.startsWith(INVALID_KEY_COMMENT_PREFIX)) {
         String pub = line.substring(INVALID_KEY_COMMENT_PREFIX.length());
-        AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, seq++), pub);
-        key.setInvalid();
+        AccountSshKey key = AccountSshKey.createInvalid(accountId, seq++, pub);
         keys.add(Optional.of(key));
       } else if (line.startsWith(DELETED_KEY_COMMENT)) {
         keys.add(Optional.empty());
@@ -50,7 +49,7 @@ public class AuthorizedKeys {
       } else if (line.startsWith("#")) {
         continue;
       } else {
-        AccountSshKey key = new AccountSshKey(new AccountSshKey.Id(accountId, seq++), line);
+        AccountSshKey key = AccountSshKey.create(accountId, seq++, line);
         keys.add(Optional.of(key));
       }
     }
@@ -61,10 +60,10 @@ public class AuthorizedKeys {
     StringBuilder b = new StringBuilder();
     for (Optional<AccountSshKey> key : keys) {
       if (key.isPresent()) {
-        if (!key.get().isValid()) {
+        if (!key.get().valid()) {
           b.append(INVALID_KEY_COMMENT_PREFIX);
         }
-        b.append(key.get().getSshPublicKey().trim());
+        b.append(key.get().sshPublicKey().trim());
       } else {
         b.append(DELETED_KEY_COMMENT);
       }

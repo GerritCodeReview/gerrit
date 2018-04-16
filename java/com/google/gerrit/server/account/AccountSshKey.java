@@ -14,76 +14,50 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.gerrit.reviewdb.client.Account;
-import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 /** An SSH key approved for use by an {@link Account}. */
-public final class AccountSshKey {
-  public static class Id implements Serializable {
-    private static final long serialVersionUID = 2L;
-
-    private Account.Id accountId;
-    private int seq;
-
-    public Id(Account.Id a, int s) {
-      accountId = a;
-      seq = s;
-    }
-
-    public Account.Id getParentKey() {
-      return accountId;
-    }
-
-    public int get() {
-      return seq;
-    }
-
-    public boolean isValid() {
-      return seq > 0;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(accountId, seq);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (!(obj instanceof Id)) {
-        return false;
-      }
-      Id otherId = (Id) obj;
-      return Objects.equals(accountId, otherId.accountId) && Objects.equals(seq, otherId.seq);
-    }
+@AutoValue
+public abstract class AccountSshKey {
+  public static AccountSshKey create(Account.Id accountId, int seq, String sshPublicKey) {
+    return create(accountId, seq, sshPublicKey, true);
   }
 
-  private AccountSshKey.Id id;
-  private String sshPublicKey;
-  private boolean valid;
-
-  public AccountSshKey(AccountSshKey.Id i, String pub) {
-    id = i;
-    sshPublicKey = pub.replace("\n", "").replace("\r", "");
-    valid = id.isValid();
+  public static AccountSshKey createInvalid(Account.Id accountId, int seq, String sshPublicKey) {
+    return create(accountId, seq, sshPublicKey, false);
   }
 
-  public Account.Id getAccount() {
-    return id.accountId;
+  public static AccountSshKey createInvalid(AccountSshKey key) {
+    return create(key.accountId(), key.seq(), key.sshPublicKey(), false);
   }
 
-  public AccountSshKey.Id getKey() {
-    return id;
+  public static AccountSshKey create(
+      Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
+    return new AutoValue_AccountSshKey.Builder()
+        .setAccountId(accountId)
+        .setSeq(seq)
+        .setSshPublicKey(stripOffNewLines(sshPublicKey))
+        .setValid(valid && seq > 0)
+        .build();
   }
 
-  public String getSshPublicKey() {
-    return sshPublicKey;
+  private static String stripOffNewLines(String s) {
+    return s.replace("\n", "").replace("\r", "");
   }
 
-  private String getPublicKeyPart(int index, String defaultValue) {
-    String s = getSshPublicKey();
+  public abstract Account.Id accountId();
+
+  public abstract int seq();
+
+  public abstract String sshPublicKey();
+
+  public abstract boolean valid();
+
+  private String publicKeyPart(int index, String defaultValue) {
+    String s = sshPublicKey();
     if (s != null && s.length() > 0) {
       List<String> parts = Splitter.on(' ').splitToList(s);
       if (parts.size() > index) {
@@ -93,39 +67,28 @@ public final class AccountSshKey {
     return defaultValue;
   }
 
-  public String getAlgorithm() {
-    return getPublicKeyPart(0, "none");
+  public String algorithm() {
+    return publicKeyPart(0, "none");
   }
 
-  public String getEncodedKey() {
-    return getPublicKeyPart(1, null);
+  public String encodedKey() {
+    return publicKeyPart(1, null);
   }
 
-  public String getComment() {
-    return getPublicKeyPart(2, "");
+  public String comment() {
+    return publicKeyPart(2, "");
   }
 
-  public boolean isValid() {
-    return valid && id.isValid();
-  }
+  @AutoValue.Builder
+  abstract static class Builder {
+    public abstract Builder setAccountId(Account.Id accountId);
 
-  public void setInvalid() {
-    valid = false;
-  }
+    public abstract Builder setSeq(int seq);
 
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof AccountSshKey) {
-      AccountSshKey other = (AccountSshKey) o;
-      return Objects.equals(id, other.id)
-          && Objects.equals(sshPublicKey, other.sshPublicKey)
-          && Objects.equals(valid, other.valid);
-    }
-    return false;
-  }
+    public abstract Builder setSshPublicKey(String sshPublicKey);
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, sshPublicKey, valid);
+    public abstract Builder setValid(boolean valid);
+
+    public abstract AccountSshKey build();
   }
 }

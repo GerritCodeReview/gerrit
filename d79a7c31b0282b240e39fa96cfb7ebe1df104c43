@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73c9787d_5d561cd5",
+        "filename": "java/com/google/gerrit/server/config/ConfigKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-16T09:55:22Z",
+      "side": 1,
+      "message": "Declare one variable per line",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "d79a7c31b0282b240e39fa96cfb7ebe1df104c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6eaeeec6_721b5ee1",
+        "filename": "java/com/google/gerrit/server/config/ConfigKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-16T09:55:22Z",
+      "side": 1,
+      "message": "Use Objects.hash method?\n\nreturn Objects.hash(name, section, subsection)",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 18
+      },
+      "revId": "d79a7c31b0282b240e39fa96cfb7ebe1df104c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -143,6 +143,11 @@
           !this._computeIsAutomated(message);
     },
 
+    _computeDeleteButtonClass(isAdmin) {
+      return isAdmin ? 'showDeleteButtons' : '';
+    },
+
+
     _computeExpanded(expanded) {
       return expanded;
     },
@@ -250,6 +255,10 @@
       this.$.restAPI.getProjectConfig(name).then(config => {
         this._projectConfig = config;
       });
+    },
+
+    _handleDeleteChangeMessageTap(e) {
+      this.fire('delete-change-message', {uuid:this.message.id});
     },
   });
 })();

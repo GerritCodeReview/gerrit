@@ -1334,6 +1334,11 @@ supplying the argument record number '42' for display.  The third
 configuration 'tracker' uses raw HTML to more precisely control
 how the replacement is displayed to the user.
 
+commentlinks supports configuration reloads:
+link:cmd-reload-config.html[reload-config]. Though a
+link:cmd-flush-caches.html[flush-caches] of "projects" is needed for the
+commentlinks to be immediately available in the UI.
+
 ----
 [commentlink "changeid"]
   match = (I[0-9a-f]{8,40})

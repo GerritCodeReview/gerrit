@@ -1627,6 +1627,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
     insert(repo, newChange(repo));
 
     AddReviewerInput rin = new AddReviewerInput();
@@ -1638,6 +1639,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.reviewer = user1.toString();
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
+
+    assertQuery("is:reviewer");
+    assertQuery("reviewer:self");
+    gApi.changes().id(change3.getChangeId()).revision("current").review(ReviewInput.recommend());
+    assertQuery("is:reviewer", change3);
+    assertQuery("reviewer:self", change3);
 
     if (notesMigration.readChanges()) {
       assertQuery("reviewer:" + user1, change1);

@@ -36,7 +36,7 @@ limitations under the License.
         width: 100%;
       }
       .dropdown-content {
-        background-color: var(--view-background-color);
+        background-color: var(--dropdown-background-color);
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
       }
       gr-button {
@@ -53,10 +53,13 @@ limitations under the License.
       ul {
         list-style: none;
       }
-      ul .accountName {
-        font-family: var(--font-family-bold);
+      .topContent,
+      li {
+        border-bottom: 1px solid var(--border-color);
       }
-      li .accountInfo,
+      li:last-of-type {
+        border: none;
+      }
       li .itemAction {
         cursor: pointer;
         display: block;
@@ -74,17 +77,21 @@ limitations under the License.
         text-decoration: none;
       }
       li .itemAction:not(.disabled):hover {
-        background-color: #6B82D6;
-        color: var(--view-background-color);
+        background-color: var(--hover-background-color);
       }
       li:focus,
       li.selected {
-        background-color: #EBF5FB;
+        background-color: var(--selection-background-color);
         outline: none;
+      }
+      li:focus .itemAction,
+      li.selected .itemAction {
+        background-color: transparent;
       }
       .topContent {
         display: block;
         padding: .85em 1em;
+        @apply --gr-dropdown-item;
       }
       .bold-text {
         font-family: var(--font-family-bold);

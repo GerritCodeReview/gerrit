@@ -427,9 +427,8 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(AccountManager.class);
 
-    bind(new TypeLiteral<List<CommentLinkInfo>>() {})
-        .toProvider(CommentLinkProvider.class)
-        .in(SINGLETON);
+    bind(new TypeLiteral<List<CommentLinkInfo>>() {}).toProvider(CommentLinkProvider.class);
+    DynamicSet.bind(binder(), GerritConfigListener.class).to(CommentLinkProvider.class);
 
     bind(ReloadPluginListener.class)
         .annotatedWith(UniqueAnnotations.create())

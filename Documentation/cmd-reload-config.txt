@@ -1,0 +1,38 @@
+= plugin reload
+
+== NAME
+reload-config - Reloads the gerrit.config.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit reload-config_
+  <NAME> ...
+--
+
+== DESCRIPTION
+Reloads the gerrit.config configuration.
+
+Not all configuration value can be picked up by this command. Which config
+sections and values that are supported is documented here:
+link:config-gerrit.html[Configuration]
+
+== ACCESS
+* Caller must be a member of the privileged 'Administrators' group.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+== EXAMPLES
+Reload the gerrit configuration:
+
+----
+	ssh -p 29418 localhost gerrit reload-config
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

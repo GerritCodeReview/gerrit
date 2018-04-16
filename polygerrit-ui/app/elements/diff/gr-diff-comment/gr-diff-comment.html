@@ -30,7 +30,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
-<link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
+<link rel="import" href="../../shared/gr-confirm-delete-dialog/gr-confirm-delete-dialog.html">
 
 <script src="../../../scripts/rootElement.js"></script>
 
@@ -357,10 +357,10 @@ limitations under the License.
     </div>
     <template is="dom-if" if="[[_enableOverlay]]">
       <gr-overlay id="confirmDeleteOverlay" with-backdrop>
-        <gr-confirm-delete-comment-dialog id="confirmDeleteComment"
+        <gr-confirm-delete-dialog id="confirmDeleteComment"
             on-confirm="_handleConfirmDeleteComment"
             on-cancel="_handleCancelDeleteComment">
-        </gr-confirm-delete-comment-dialog>
+        </gr-confirm-delete-dialog>
       </gr-overlay>
       <gr-overlay id="confirmDiscardOverlay" with-backdrop>
         <gr-confirm-dialog

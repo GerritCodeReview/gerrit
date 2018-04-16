@@ -19,6 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -282,6 +283,9 @@ public interface ChangeApi {
 
   /** Check if this change is a pure revert of claimedOriginal (SHA1 in 40 digit hex). */
   PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException;
+
+  /** Deletes a change message by rewriting the commit history. */
+  ChangeMessageInfo deleteChangeMessage(DeleteChangeMessageInput input) throws RestApiException;
 
   abstract class SuggestedReviewersRequest {
     private String query;
@@ -588,6 +592,12 @@ public interface ChangeApi {
 
     @Override
     public PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeMessageInfo deleteChangeMessage(DeleteChangeMessageInput input)
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -1192,19 +1192,7 @@ public class ChangeJson {
 
     List<ChangeMessageInfo> result = Lists.newArrayListWithCapacity(messages.size());
     for (ChangeMessage message : messages) {
-      PatchSet.Id patchNum = message.getPatchSetId();
-      ChangeMessageInfo cmi = new ChangeMessageInfo();
-      cmi.id = message.getKey().get();
-      cmi.author = accountLoader.get(message.getAuthor());
-      cmi.date = message.getWrittenOn();
-      cmi.message = message.getMessage();
-      cmi.tag = message.getTag();
-      cmi._revisionNumber = patchNum != null ? patchNum.get() : null;
-      Account.Id realAuthor = message.getRealAuthor();
-      if (realAuthor != null) {
-        cmi.realAuthor = accountLoader.get(realAuthor);
-      }
-      result.add(cmi);
+      result.add(ChangeMessagesUtil.createChangeMessageInfo(message, accountLoader));
     }
     return result;
   }

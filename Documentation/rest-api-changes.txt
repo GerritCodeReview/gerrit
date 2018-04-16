@@ -2403,6 +2403,79 @@ As response the change's hashtags are returned as a list of strings.
   ]
 ----
 
+[[delete-change-message]]
+=== Delete Change Message
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/change_message' +
+'POST /changes/link:#change-id[\{change-id\}]//change_message.delete'
+--
+
+Deletes a change message from the commit history by replacing the change
+message with a new message, which contains the name of the user who
+deletes the change message and the reason why it's deleted. The reason
+can be provided in the request body as a
+link:#delete-change-message-input[DeleteChangeMessageInput] entity.
+
+Note that only users with the
+link:access-control.html#capability_administrateServer[Administrate Server]
+global capability are permitted to delete a change message.
+
+To delete a change message, send a DELETE request:
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/change_message HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "uuid": "aaee04dcb46bafc8be24d8aa70b3b1beb7df5780"
+    "reason": "spam"
+  }
+----
+
+Please note that some proxies prohibit request bodies for DELETE
+requests. In this case, if you want to specify options, use a
+POST request:
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/change_message.delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "uuid": "aaee04dcb46bafc8be24d8aa70b3b1beb7df5780"
+    "reason": "spam"
+  }
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the updated change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "NEW",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "mergeable": true,
+    "insertions": 34,
+    "deletions": 101,
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    }
+  }
+----
 
 [[edit-endpoints]]
 == Change Edit Endpoints
@@ -5366,6 +5439,10 @@ If you need more time to migrate off of old change IDs, please see
 link:config-gerrit.html#change.api.allowedIdentifier[change.api.allowedIdentifier]
 for more information on how to enable the use of deprecated identifiers.
 
+[[change-message-id]]
+=== \{change-message-id\}
+UUID of a change message, which is the id contained in link:#change-message-info[ChangeMessageInfo].
+
 [[comment-id]]
 === \{comment-id\}
 UUID of a published comment.
@@ -5956,6 +6033,21 @@ If not set, the default is `OWNER` for WIP changes and `ALL` otherwise.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
+|=============================
+
+[[delete-change-message-input]]
+=== DeleteChangeMessageInput
+The `DeleteChangeMessageInput` entity contains the option for deleting a change message.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name               ||Description
+|`uuid`                   | UUID of the change message.
+|`reason`                 |optional|
+The reason why the change message should be deleted. +
+If set, the change message will be replaced with
+"Change message removed by: `name`; Reason: `reason`",
+or just "Change message removed by: `name`." if not set.
 |=============================
 
 [[delete-comment-input]]

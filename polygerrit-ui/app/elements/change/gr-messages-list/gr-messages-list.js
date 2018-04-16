@@ -359,5 +359,44 @@
       }
       return extremes;
     },
+
+    _handleDeleteChangeMessage(e) {
+      this.$.confirmDeleteChangeMessage.uuid = e.detail.uuid;
+      this._openOverlay(this.$.confirmDeleteChangeMessageOverlay);
+    },
+
+    _handleCancelDeleteChangeMessage() {
+      this._closeOverlay(this.$.confirmDeleteChangeMessageOverlay);
+    },
+
+    _handleConfirmDeleteChangeMessage(e) {
+      this.$.restAPI.deleteChangeMessage(
+          this.changeNum, e.detail.uuid, e.detail.reason).then(info => {
+            this._closeOverlay(this.$.confirmDeleteChangeMessageOverlay);
+            this.$$('[data-message-id="' + e.detail.uuid + '"]').message = info;
+            this.scrollToMessage(e.detail.uuid);
+      });
+    },
+
+    _openOverlay(overlay) {
+      Polymer.dom(Gerrit.getRootElement()).appendChild(overlay);
+      this.async(() => {
+        overlay.open();
+      }, 1);
+    },
+
+    _closeOverlay(overlay) {
+      Polymer.dom(Gerrit.getRootElement()).removeChild(overlay);
+      overlay.close();
+    },
+
+    get confirmDeleteChangeMessageOverlay() {
+      if (!this._overlays.confirmDelete) {
+        this._enableOverlay = true;
+        Polymer.dom.flush();
+        this._overlays.confirmDelete = this.$$('#confirmDeleteChangeMessageOverlay');
+      }
+      return this._overlays.confirmDelete;
+    },
   });
 })();

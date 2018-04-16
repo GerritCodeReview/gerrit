@@ -40,6 +40,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -2002,6 +2003,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("bug:QUERY12");
     assertQuery("tr:QUERY789");
     assertQuery("bug:QUERY789");
+  }
+
+  @Test
+  public void assignee() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    AssigneeInput input = new AssigneeInput();
+    input.assignee = user.getUserName();
+    gApi.changes().id(change1.getChangeId()).setAssignee(input);
+
+    assertQuery("is:assigned", change1);
+    assertQuery("-is:assigned", change2);
+    assertQuery("is:unassigned", change2);
+    assertQuery("-is:unassigned", change1);
+    assertQuery("assignee:" + user.getUserName(), change1);
+    assertQuery("-assignee:" + user.getUserName(), change2);
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

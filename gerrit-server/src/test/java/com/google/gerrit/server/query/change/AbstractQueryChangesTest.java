@@ -438,6 +438,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     Change change2 = insert(repo, newChange(repo), user2);
 
+    assertQuery("is:owner", change1);
     assertQuery("owner:" + userId.get(), change1);
     assertQuery("owner:" + user2, change2);
 

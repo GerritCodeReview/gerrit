@@ -73,7 +73,7 @@ limitations under the License.
        precedence when disabled. */
       :host([disabled]) {
         --background-color: var(--table-subheader-background-color);
-        --button-color: #a8a8a8;
+        --button-color: var(--deemphasized-text-color);
         cursor: default;
       }
 
@@ -101,7 +101,7 @@ limitations under the License.
         transition: border-top-color 200ms;
       }
       :host([down-arrow]) paper-button:hover .downArrow {
-        border-top-color: #666;
+        border-top-color: var(--deemphasized-text-color);
       }
     </style>
     <paper-button

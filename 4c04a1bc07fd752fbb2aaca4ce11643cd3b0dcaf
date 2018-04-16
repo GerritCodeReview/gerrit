@@ -22,6 +22,30 @@
       "revId": "4c04a1bc07fd752fbb2aaca4ce11643cd3b0dcaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92aaad2c_798a8643",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-16T09:11:31Z",
+      "side": 1,
+      "message": "AFAICT, it\u0027s always a table or a table-like display of information.\n\nI don\u0027t think any of these names are going to be *perfect*, but I also think that their correctness is much less important than their uniqueness.\n\nI guess what I mean is, I\u0027m totally happy to reconsider the names! I just really want to start using variables instead of magic numbers. If we come up with some better schema, it\u0027s a fairly simple refactor.",
+      "parentUuid": "4b60f950_5d7c4566",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "4c04a1bc07fd752fbb2aaca4ce11643cd3b0dcaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

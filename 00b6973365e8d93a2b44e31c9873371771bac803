@@ -22,6 +22,30 @@
       "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26380396_d3cadb07",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-16T13:24:26Z",
+      "side": 1,
+      "message": "it really means \"block a push when it is a force push.\" To allow a normal push, you have to have an ALLOW option somewhere else.",
+      "parentUuid": "2fcafabd_cc5b5ab3",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

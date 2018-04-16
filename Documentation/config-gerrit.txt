@@ -1138,6 +1138,13 @@ explicitly.
 +
 Default is `ALL`.
 
+[[change.api.formattingThreadPoolSize]]change.api.formattingThreadPoolSize::
++
+Maximum size of thread pool in which the the API formats ChangeInfo
+objects in JSON.
++
+By default, 0 which means that formatting happens in the caller thread.
+
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
 When reviewing diff commits, the left-hand side shows the output of the

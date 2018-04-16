@@ -135,16 +135,8 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @Override
   public ProjectState checkedGet(Project.NameKey projectName) throws IOException {
-    if (projectName == null) {
-      return null;
-    }
     try {
-      ProjectState state = byName.get(projectName.get());
-      if (state != null && state.needsRefresh(clock.read())) {
-        byName.invalidate(projectName.get());
-        state = byName.get(projectName.get());
-      }
-      return state;
+      return getWithCause(projectName);
     } catch (ExecutionException e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
         log.warn(String.format("Cannot read project %s", projectName.get()), e);
@@ -154,6 +146,19 @@ public class ProjectCacheImpl implements ProjectCache {
       log.debug("Cannot find project {}", projectName.get(), e);
       return null;
     }
+  }
+
+  @Override
+  public ProjectState getWithCause(Project.NameKey projectName) throws ExecutionException {
+    if (projectName == null) {
+      return null;
+    }
+    ProjectState state = byName.get(projectName.get());
+    if (state != null && state.needsRefresh(clock.read())) {
+      byName.invalidate(projectName.get());
+      state = byName.get(projectName.get());
+    }
+    return state;
   }
 
   @Override

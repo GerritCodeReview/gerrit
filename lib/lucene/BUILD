@@ -23,13 +23,6 @@ java_library(
 )
 
 java_library(
-    name = "lucene-codecs",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@lucene_codecs//jar"],
-)
-
-java_library(
     name = "lucene-core",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
@@ -68,12 +61,6 @@ java_library(
     name = "lucene-memory",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@lucene_memory//jar"],
-)
-
-java_library(
-    name = "lucene-sandbox",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@lucene_sandbox//jar"],
 )
 
 java_library(

@@ -615,6 +615,7 @@ public class NoteDbMigrator implements AutoCloseable {
                                   log.warn(
                                       "Change {} previously failed to rebuild;"
                                           + " skipping primary storage migration",
+                                      id,
                                       e);
                                 } else {
                                   throw e;

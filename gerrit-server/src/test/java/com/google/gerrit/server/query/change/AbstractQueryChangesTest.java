@@ -50,6 +50,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -523,6 +524,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("project:repo");
     assertQuery("project:repo1", change1);
     assertQuery("project:repo2", change2);
+  }
+
+  @Test
+  public void byParentProject() throws Exception {
+    TestRepository<Repo> repo1 = createProject("repo1");
+    TestRepository<Repo> repo2 = createProject("repo2", "repo1");
+    Change change1 = insert(repo1, newChange(repo1));
+    Change change2 = insert(repo2, newChange(repo2));
+
+    assertQuery("parentproject:repo1", change2, change1);
+    assertQuery("parentproject:repo2", change2);
   }
 
   @Test
@@ -2165,6 +2177,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected TestRepository<Repo> createProject(String name) throws Exception {
     gApi.projects().create(name).get();
+    return new TestRepository<>(repoManager.openRepository(new Project.NameKey(name)));
+  }
+
+  protected TestRepository<Repo> createProject(String name, String parent) throws Exception {
+    ProjectInput input = new ProjectInput();
+    input.name = name;
+    input.parent = parent;
+    gApi.projects().create(input).get();
     return new TestRepository<>(repoManager.openRepository(new Project.NameKey(name)));
   }
 

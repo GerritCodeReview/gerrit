@@ -284,6 +284,8 @@ public class GerritGlobalModule extends FactoryModule {
     bind(TransferConfig.class);
 
     bind(GcConfig.class);
+    DynamicSet.setOf(binder(), GerritConfigListener.class);
+
     bind(ChangeCleanupConfig.class);
     bind(AccountDeactivator.class);
 

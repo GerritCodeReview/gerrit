@@ -34,6 +34,7 @@ import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.change.ChangeJsonExecutor;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
@@ -266,6 +267,13 @@ public class InMemoryModule extends FactoryModule {
   @Singleton
   @SendEmailExecutor
   public ExecutorService createSendEmailExecutor() {
+    return MoreExecutors.newDirectExecutorService();
+  }
+
+  @Provides
+  @Singleton
+  @ChangeJsonExecutor
+  public ExecutorService createChangeJsonExecutor() {
     return MoreExecutors.newDirectExecutorService();
   }
 

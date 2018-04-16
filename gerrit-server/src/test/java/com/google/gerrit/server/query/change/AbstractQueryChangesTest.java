@@ -43,6 +43,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -54,6 +55,7 @@ import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -368,6 +370,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:pe", expected);
     assertQuery("status:pen", expected);
     assertQuery("is:open", expected);
+    assertQuery("is:pending", expected);
   }
 
   @Test
@@ -623,13 +626,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byCommit() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);
-    insert(repo, ins);
+    Change change = insert(repo, ins);
     String sha = ins.getCommitId().name();
 
     assertQuery("0000000000000000000000000000000000000000");
+    assertQuery("commit:0000000000000000000000000000000000000000");
     for (int i = 0; i <= 36; i++) {
       String q = sha.substring(0, 40 - i);
-      assertQuery(q, ins.getChange());
+      assertQuery(q, change);
+      assertQuery("commit:" + q, change);
     }
   }
 
@@ -756,6 +761,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("project:repo");
     assertQuery("project:repo1", change1);
     assertQuery("project:repo2", change2);
+  }
+
+  @Test
+  public void byParentProject() throws Exception {
+    TestRepository<Repo> repo1 = createProject("repo1");
+    TestRepository<Repo> repo2 = createProject("repo2", "repo1");
+    Change change1 = insert(repo1, newChange(repo1));
+    Change change2 = insert(repo2, newChange(repo2));
+
+    assertQuery("parentproject:repo1", change2, change1);
+    assertQuery("parentproject:repo2", change2);
   }
 
   @Test
@@ -1356,7 +1372,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byBefore() throws Exception {
+  public void byBeforeUntil() throws Exception {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
@@ -1365,20 +1381,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
-    assertQuery("before:2009-09-29");
-    assertQuery("before:2009-09-30");
-    assertQuery("before:\"2009-09-30 16:59:00 -0400\"");
-    assertQuery("before:\"2009-09-30 20:59:00 -0000\"");
-    assertQuery("before:\"2009-09-30 20:59:00\"");
-    assertQuery("before:\"2009-09-30 17:02:00 -0400\"", change1);
-    assertQuery("before:\"2009-10-01 21:02:00 -0000\"", change1);
-    assertQuery("before:\"2009-10-01 21:02:00\"", change1);
-    assertQuery("before:2009-10-01", change1);
-    assertQuery("before:2009-10-03", change2, change1);
+    for (String predicate : Lists.newArrayList("before:", "until:")) {
+      assertQuery(predicate + "2009-09-29");
+      assertQuery(predicate + "2009-09-30");
+      assertQuery(predicate + "\"2009-09-30 16:59:00 -0400\"");
+      assertQuery(predicate + "\"2009-09-30 20:59:00 -0000\"");
+      assertQuery(predicate + "\"2009-09-30 20:59:00\"");
+      assertQuery(predicate + "\"2009-09-30 17:02:00 -0400\"", change1);
+      assertQuery(predicate + "\"2009-10-01 21:02:00 -0000\"", change1);
+      assertQuery(predicate + "\"2009-10-01 21:02:00\"", change1);
+      assertQuery(predicate + "2009-10-01", change1);
+      assertQuery(predicate + "2009-10-03", change2, change1);
+    }
   }
 
   @Test
-  public void byAfter() throws Exception {
+  public void byAfterSince() throws Exception {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
@@ -1387,11 +1405,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
-    assertQuery("after:2009-10-03");
-    assertQuery("after:\"2009-10-01 20:59:59 -0400\"", change2);
-    assertQuery("after:\"2009-10-01 20:59:59 -0000\"", change2);
-    assertQuery("after:2009-10-01", change2);
-    assertQuery("after:2009-09-30", change2, change1);
+    for (String predicate : Lists.newArrayList("after:", "since:")) {
+      assertQuery(predicate + "2009-10-03");
+      assertQuery(predicate + "\"2009-10-01 20:59:59 -0400\"", change2);
+      assertQuery(predicate + "\"2009-10-01 20:59:59 -0000\"", change2);
+      assertQuery(predicate + "2009-10-01", change2);
+      assertQuery(predicate + "2009-09-30", change2, change1);
+    }
   }
 
   @Test
@@ -1441,13 +1461,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("deleted:<=0", change1);
 
-    for (String str : Lists.newArrayList("delta", "size")) {
-      assertQuery(str + ":<2");
-      assertQuery(str + ":3", change1);
-      assertQuery(str + ":>2", change1);
-      assertQuery(str + ":>=3", change1);
-      assertQuery(str + ":<3", change2);
-      assertQuery(str + ":<=2", change2);
+    for (String str : Lists.newArrayList("delta:", "size:")) {
+      assertQuery(str + "<2");
+      assertQuery(str + "3", change1);
+      assertQuery(str + ">2", change1);
+      assertQuery(str + ">=3", change1);
+      assertQuery(str + "<3", change2);
+      assertQuery(str + "<=2", change2);
     }
   }
 
@@ -1571,6 +1591,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     assertQuery(q + " visibleto:" + user2.get(), change1);
+
+    requestContext.setContext(
+        newRequestContext(
+            accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));
+    assertQuery("is:visible", change1);
   }
 
   @Test
@@ -1803,6 +1828,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void mergeable() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().add("file1", "contents1").create());
+    RevCommit commit2 = repo.parseBody(repo.commit().add("file1", "contents2").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+
+    assertQuery("conflicts:" + change1.getId().get(), change2);
+    assertQuery("conflicts:" + change2.getId().get(), change1);
+    assertQuery("is:mergeable", change2, change1);
+
+    gApi.changes().id(change1.getChangeId()).revision("current").review(ReviewInput.approve());
+    gApi.changes().id(change1.getChangeId()).revision("current").submit();
+
+    assertQuery("conflicts:" + change2.getId().get());
+    assertQuery("status:open is:mergeable");
+    assertQuery("status:open -is:mergeable", change2);
+  }
+
+  @Test
   public void reviewedBy() throws Exception {
     resetTimeWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");
@@ -1849,6 +1894,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
     insert(repo, newChange(repo));
 
     AddReviewerInput rin = new AddReviewerInput();
@@ -1861,13 +1907,46 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.CC;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
+    assertQuery("is:reviewer");
+    assertQuery("reviewer:self");
+    gApi.changes().id(change3.getChangeId()).revision("current").review(ReviewInput.recommend());
+    assertQuery("is:reviewer", change3);
+    assertQuery("reviewer:self", change3);
+
+    requestContext.setContext(newRequestContext(user1));
     if (notesMigration.readChanges()) {
       assertQuery("reviewer:" + user1, change1);
       assertQuery("cc:" + user1, change2);
+      assertQuery("is:cc", change2);
+      assertQuery("cc:self", change2);
     } else {
       assertQuery("reviewer:" + user1, change2, change1);
       assertQuery("cc:" + user1);
+      assertQuery("is:cc");
+      assertQuery("cc:self");
     }
+  }
+
+  @Test
+  public void byReviewed() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Account.Id otherUser =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    assertQuery("is:reviewed");
+    assertQuery("status:reviewed");
+    assertQuery("-is:reviewed", change2, change1);
+    assertQuery("-status:reviewed", change2, change1);
+
+    requestContext.setContext(newRequestContext(otherUser));
+    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.recommend());
+
+    assertQuery("is:reviewed", change1);
+    assertQuery("status:reviewed", change1);
+    assertQuery("-is:reviewed", change2);
+    assertQuery("-status:reviewed", change2);
   }
 
   @Test
@@ -2026,6 +2105,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // NEED records don't have associated users.
     assertQuery("label:CodE-RevieW=need,user1");
     assertQuery("label:CodE-RevieW=need,user");
+
+    gApi.changes().id(change1.getId().get()).current().submit();
+    assertQuery("submittable:ok");
+    assertQuery("submittable:closed", change1);
   }
 
   @Test
@@ -2400,6 +2483,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         "revertof:" + changeToRevert._number, new Change.Id(changeThatReverts._number));
   }
 
+  @Test
+  public void assignee() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    AssigneeInput input = new AssigneeInput();
+    input.assignee = user.getUserName();
+    gApi.changes().id(change1.getChangeId()).setAssignee(input);
+
+    assertQuery("is:assigned", change1);
+    assertQuery("-is:assigned", change2);
+    assertQuery("is:unassigned", change2);
+    assertQuery("-is:unassigned", change1);
+    assertQuery("assignee:" + user.getUserName(), change1);
+    assertQuery("-assignee:" + user.getUserName(), change2);
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, false);
   }
@@ -2522,6 +2623,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected TestRepository<Repo> createProject(String name) throws Exception {
     gApi.projects().create(name).get();
+    return new TestRepository<>(repoManager.openRepository(new Project.NameKey(name)));
+  }
+
+  protected TestRepository<Repo> createProject(String name, String parent) throws Exception {
+    ProjectInput input = new ProjectInput();
+    input.name = name;
+    input.parent = parent;
+    gApi.projects().create(input).get();
     return new TestRepository<>(repoManager.openRepository(new Project.NameKey(name)));
   }
 

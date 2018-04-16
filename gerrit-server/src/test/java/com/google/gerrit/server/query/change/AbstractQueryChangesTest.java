@@ -339,6 +339,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:pe", expected);
     assertQuery("status:pen", expected);
     assertQuery("is:open", expected);
+    assertQuery("is:pending", expected);
   }
 
   @Test

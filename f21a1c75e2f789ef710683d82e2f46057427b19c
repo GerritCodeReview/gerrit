@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17fd52bf_9dc652d8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:13:43Z",
+      "side": 1,
+      "message": "How would this exception object help a caller to better understand what is going on?\nCan you provide an example?\n\nBtw, this needs to be formatted with gjf.",
+      "revId": "f21a1c75e2f789ef710683d82e2f46057427b19c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

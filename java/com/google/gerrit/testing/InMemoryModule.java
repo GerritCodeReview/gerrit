@@ -29,6 +29,7 @@ import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.api.GerritApiModule;
@@ -266,6 +267,13 @@ public class InMemoryModule extends FactoryModule {
   @Singleton
   @SendEmailExecutor
   public ExecutorService createSendEmailExecutor() {
+    return MoreExecutors.newDirectExecutorService();
+  }
+
+  @Provides
+  @Singleton
+  @FanOutExecutor
+  public ExecutorService createChangeJsonExecutor() {
     return MoreExecutors.newDirectExecutorService();
   }
 

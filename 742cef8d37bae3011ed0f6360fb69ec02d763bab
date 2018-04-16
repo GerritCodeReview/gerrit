@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5b52bdc_9f71858b",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1606,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-16T12:11:35Z",
+      "side": 1,
+      "message": "Add assert for the negation?\n\n assertQuery(\"status:open -is:mergeable\", change2);",
+      "range": {
+        "startLine": 1606,
+        "startChar": 4,
+        "endLine": 1606,
+        "endChar": 44
+      },
+      "revId": "742cef8d37bae3011ed0f6360fb69ec02d763bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

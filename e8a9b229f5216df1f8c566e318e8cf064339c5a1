@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c1311e66_17a0de7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-16T13:55:10Z",
+      "side": 1,
+      "message": "give context; this is about googlesource.com ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "874cdc59_2ef61b69",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -13,6 +36,30 @@
       "writtenOn": "2018-04-16T13:48:35Z",
       "side": 1,
       "message": "Do we really want that, by default this performance fix would not be applied?\n\nShould we come up with a default which enables parallelizing? If not, at least we should explain in the config why admins should configure this option.",
+      "range": {
+        "startLine": 1146,
+        "startChar": 0,
+        "endLine": 1146,
+        "endChar": 71
+      },
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf22d036_5c2ccb7e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-16T13:55:10Z",
+      "side": 1,
+      "message": "we could do this in a follow up, and guide the choice by data from deployments.\n\ncome to think of it, will we have stats to determine a good choice for this value?",
+      "parentUuid": "874cdc59_2ef61b69",
       "range": {
         "startLine": 1146,
         "startChar": 0,

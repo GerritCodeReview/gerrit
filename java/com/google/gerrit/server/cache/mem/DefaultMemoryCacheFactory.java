@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache.mem;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -95,7 +96,35 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
       builder.expireAfterAccess(expireAfterAccess.toNanos(), NANOSECONDS);
     }
 
+    setRefreshAfterWrite(def, builder);
+
     return builder;
+  }
+
+  private <K, V> void setRefreshAfterWrite(CacheDef<K, V> def, CacheBuilder<K, V> builder) {
+    Duration refreshAfterWrite = def.checkFrequency();
+    if (refreshAfterWrite == null) {
+      return;
+    }
+    checkState(def.name().equals("projects"), "checkFrequency only supported for project cache");
+
+    // Config key uses checkFrequency for backwards compatibility with existing ProjectCache usage,
+    // and that's the only cache supported currently (see CacheProvider#checkFrequency). If other
+    // caches use this feature in the future, we can explore using a different key name like
+    // "refreshAfterWrite", but that will involve more work to maintain backwards compatibility.
+    String refreshStr = cfg.getString("cache", def.configKey(), "checkFrequency");
+    if ("disabled".equalsIgnoreCase(refreshStr) || "off".equalsIgnoreCase(refreshStr)) {
+      return;
+    }
+    long defaultSecs = toSeconds(refreshAfterWrite);
+    long refreshSecs =
+        refreshStr != null ? ConfigUtil.getTimeUnit(refreshStr, defaultSecs, SECONDS) : defaultSecs;
+    if (refreshSecs != 0) {
+      builder.refreshAfterWrite(refreshSecs, SECONDS);
+    } else {
+      // Guava doesn't support refreshAfterWrite=0, so hackily use 1ns.
+      builder.refreshAfterWrite(1, NANOSECONDS);
+    }
   }
 
   private static long toSeconds(@Nullable Duration duration) {

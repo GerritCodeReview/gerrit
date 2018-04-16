@@ -2223,5 +2223,15 @@
           '/revisions/current/mergeable')
           .then(this.getResponseObject.bind(this));
     },
+
+    /**
+     * Deletes one change message.
+     */
+    deleteChangeMessage(changeNum, uuid, reason) {
+      const endpoint = `/change_message.delete`;
+      const payload = {uuid, reason};
+      return this.getChangeURLAndSend(changeNum, 'POST', null, endpoint,
+          payload).then(this.getResponseObject.bind(this));
+    },
   });
 })();

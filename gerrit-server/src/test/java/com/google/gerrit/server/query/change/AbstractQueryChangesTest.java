@@ -1748,6 +1748,10 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // NEED records don't have associated users.
     assertQuery("label:CodE-RevieW=need,user1");
     assertQuery("label:CodE-RevieW=need,user");
+
+    gApi.changes().id(change1.getId().get()).current().submit();
+    assertQuery("submittable:ok");
+    assertQuery("submittable:closed", change1);
   }
 
   @Test

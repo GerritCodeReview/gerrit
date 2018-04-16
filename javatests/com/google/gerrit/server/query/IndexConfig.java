@@ -17,6 +17,20 @@ package com.google.gerrit.server.query;
 import org.eclipse.jgit.lib.Config;
 
 public class IndexConfig {
+  public static Config create() {
+    return createFromExistingConfig(new Config());
+  }
+
+  public static Config createFromExistingConfig(Config cfg) {
+    cfg.setInt("index", null, "maxPages", 10);
+    cfg.setString("trackingid", "query-bug", "footer", "Bug:");
+    cfg.setString("trackingid", "query-bug", "match", "QUERY\\d{2,8}");
+    cfg.setString("trackingid", "query-bug", "system", "querytests");
+    cfg.setString("trackingid", "query-feature", "footer", "Feature");
+    cfg.setString("trackingid", "query-feature", "match", "QUERY\\d{2,8}");
+    cfg.setString("trackingid", "query-feature", "system", "querytests");
+    return cfg;
+  }
 
   public static Config createForLucene() {
     return create();
@@ -29,18 +43,6 @@ public class IndexConfig {
     // tests. Hence disable the staleness checker.
     cfg.setBoolean("index", null, "autoReindexIfStale", false);
 
-    return cfg;
-  }
-
-  public static Config create() {
-    Config cfg = new Config();
-    cfg.setInt("index", null, "maxPages", 10);
-    cfg.setString("trackingid", "query-bug", "footer", "Bug:");
-    cfg.setString("trackingid", "query-bug", "match", "QUERY\\d{2,8}");
-    cfg.setString("trackingid", "query-bug", "system", "querytests");
-    cfg.setString("trackingid", "query-feature", "footer", "Feature");
-    cfg.setString("trackingid", "query-feature", "match", "QUERY\\d{2,8}");
-    cfg.setString("trackingid", "query-feature", "system", "querytests");
     return cfg;
   }
 }

@@ -2,6 +2,184 @@
   "comments": [
     {
       "key": {
+        "uuid": "19008ccf_0a66624e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "to",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e55acea_dc9035fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "were?",
+      "range": {
+        "startLine": 47,
+        "startChar": 53,
+        "endLine": 47,
+        "endChar": 57
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4fb3445_e238553d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "were",
+      "range": {
+        "startLine": 51,
+        "startChar": 28,
+        "endLine": 51,
+        "endChar": 31
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6877a31_68056c2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "Provide also an example when a config change was rejected",
+      "range": {
+        "startLine": 51,
+        "startChar": 16,
+        "endLine": 51,
+        "endChar": 40
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "088bf8db_a0b6430d",
+        "filename": "java/com/google/gerrit/server/config/ConfigKey.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "Looks like this class could be an @AutoValue and all of this code can\nbe removed.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 0
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a95a40_5ec947c2",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "inline these two variables?",
+      "range": {
+        "startLine": 110,
+        "startChar": 64,
+        "endLine": 110,
+        "endChar": 82
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecd77539_6092500e",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "Move this to the \"default\" case of the switch statement:\n\n  default:\n    return \"\";\n\nUse something more explicit than empty string to tell that the update type is unknown?",
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73c97474_ef19eb6b",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "return String.format(\"+ %s \u003d %s\", key, newVal);",
+      "range": {
+        "startLine": 202,
+        "startChar": 0,
+        "endLine": 203,
+        "endChar": 16
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb1f74d5_d21e3dc4",
         "filename": "java/com/google/gerrit/server/config/GerritConfigListener.java",
         "patchSetId": 3
@@ -18,6 +196,52 @@
         "startChar": 2,
         "endLine": 26,
         "endChar": 6
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f2ae69b_8a9c85a6",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "What\u0027s the purpose of this variable? Doesn\u0027t this method to the same thing as the get() method above?",
+      "range": {
+        "startLine": 73,
+        "startChar": 17,
+        "endLine": 73,
+        "endChar": 30
+      },
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58f51101_fcca2aa6",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:35:15Z",
+      "side": 1,
+      "message": "inline?",
+      "range": {
+        "startLine": 53,
+        "startChar": 60,
+        "endLine": 53,
+        "endChar": 80
       },
       "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

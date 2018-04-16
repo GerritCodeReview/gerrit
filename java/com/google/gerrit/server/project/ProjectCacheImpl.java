@@ -23,10 +23,15 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -38,12 +43,16 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /** Cache of project information, including access rights. */
@@ -59,7 +68,9 @@ public class ProjectCacheImpl implements ProjectCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME, String.class, ProjectState.class).loader(Loader.class);
+        cache(CACHE_NAME, String.class, ProjectState.class)
+            .checkFrequency(Duration.ofMinutes(5))
+            .loader(Loader.class);
 
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
             .maximumWeight(1)
@@ -73,7 +84,6 @@ public class ProjectCacheImpl implements ProjectCache {
               @Override
               protected void configure() {
                 listener().to(ProjectCacheWarmer.class);
-                listener().to(ProjectCacheClock.class);
               }
             });
       }
@@ -85,7 +95,6 @@ public class ProjectCacheImpl implements ProjectCache {
   private final LoadingCache<String, ProjectState> byName;
   private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
   private final Lock listLock;
-  private final ProjectCacheClock clock;
   private final Provider<ProjectIndexer> indexer;
 
   @Inject
@@ -94,14 +103,12 @@ public class ProjectCacheImpl implements ProjectCache {
       final AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
-      ProjectCacheClock clock,
       Provider<ProjectIndexer> indexer) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
-    this.clock = clock;
     this.indexer = indexer;
   }
 
@@ -160,12 +167,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   private ProjectState strictCheckedGet(Project.NameKey projectName) throws Exception {
-    ProjectState state = byName.get(projectName.get());
-    if (state != null && state.needsRefresh(clock.read())) {
-      byName.invalidate(projectName.get());
-      state = byName.get(projectName.get());
-    }
-    return state;
+    return byName.get(projectName.get());
   }
 
   @Override
@@ -177,6 +179,9 @@ public class ProjectCacheImpl implements ProjectCache {
   public void evict(Project.NameKey p) throws IOException {
     if (p != null) {
       byName.invalidate(p.get());
+      // Cache is only manually evicted when we know the value changed, so go ahead and kick off
+      // background work to refresh it.
+      byName.refresh(p.get());
     }
     indexer.get().index(p);
   }
@@ -256,27 +261,42 @@ public class ProjectCacheImpl implements ProjectCache {
   static class Loader extends CacheLoader<String, ProjectState> {
     private final ProjectState.Factory projectStateFactory;
     private final GitRepositoryManager mgr;
-    private final ProjectCacheClock clock;
+    private final ListeningExecutorService executor;
 
     @Inject
-    Loader(ProjectState.Factory psf, GitRepositoryManager g, ProjectCacheClock clock) {
+    Loader(ProjectState.Factory psf, GitRepositoryManager g, @FanOutExecutor ExecutorService e) {
       projectStateFactory = psf;
       mgr = g;
-      this.clock = clock;
+      executor = MoreExecutors.listeningDecorator(e);
     }
 
     @Override
     public ProjectState load(String projectName) throws Exception {
-      long now = clock.read();
       Project.NameKey key = new Project.NameKey(projectName);
       try (Repository git = mgr.openRepository(key)) {
         ProjectConfig cfg = new ProjectConfig(key);
         cfg.load(git);
-
-        ProjectState state = projectStateFactory.create(cfg);
-        state.initLastCheck(now);
-        return state;
+        return projectStateFactory.create(cfg);
       }
+    }
+
+    @Override
+    public ListenableFuture<ProjectState> reload(String projectName, ProjectState oldState) {
+      return executor.submit(
+          () -> {
+            ObjectId oldId = oldState.getConfigRevision();
+            Project.NameKey key = new Project.NameKey(projectName);
+            try (Repository git = mgr.openRepository(key)) {
+              Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
+              ObjectId newId = ref != null ? ref.getObjectId() : null;
+              if (Objects.equals(oldId, newId)) {
+                return oldState;
+              }
+              ProjectConfig cfg = new ProjectConfig(key);
+              cfg.load(git, newId);
+              return projectStateFactory.create(cfg);
+            }
+          });
     }
   }
 

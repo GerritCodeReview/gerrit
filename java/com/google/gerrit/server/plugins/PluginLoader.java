@@ -79,11 +79,11 @@ public class PluginLoader implements LifecycleListener {
   private final PluginGuiceEnvironment env;
   private final ServerInformationImpl srvInfoImpl;
   private final PluginUser.Factory pluginUserFactory;
-  private final ConcurrentMap<String, Plugin> running;
-  private final ConcurrentMap<String, Plugin> disabled;
-  private final Map<String, FileSnapshot> broken;
-  private final Map<Plugin, CleanupHandle> cleanupHandles;
-  private final Queue<Plugin> toCleanup;
+  private final ConcurrentMap<String, Plugin> running = Maps.newConcurrentMap();
+  private final ConcurrentMap<String, Plugin> disabled = Maps.newConcurrentMap();
+  private final Map<String, FileSnapshot> broken = Maps.newHashMap();
+  private final Map<Plugin, CleanupHandle> cleanupHandles = Maps.newConcurrentMap();
+  private final Queue<Plugin> toCleanup = new ArrayDeque<>();
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
   private final Provider<String> urlProvider;
@@ -108,11 +108,6 @@ public class PluginLoader implements LifecycleListener {
     env = pe;
     srvInfoImpl = sii;
     pluginUserFactory = puf;
-    running = Maps.newConcurrentMap();
-    disabled = Maps.newConcurrentMap();
-    broken = new HashMap<>();
-    toCleanup = new ArrayDeque<>();
-    cleanupHandles = Maps.newConcurrentMap();
     cleaner = pct;
     urlProvider = provider;
     persistentCacheFactory = cacheFactory;
@@ -495,7 +490,12 @@ public class PluginLoader implements LifecycleListener {
         unloadPlugin(oldPlugin);
       }
       if (!newPlugin.isDisabled()) {
-        newPlugin.start(env);
+        try {
+          newPlugin.start(env);
+        } catch (Throwable e) {
+          newPlugin.stop(env);
+          throw e;
+        }
       }
       if (reload) {
         env.onReloadPlugin(oldPlugin, newPlugin);

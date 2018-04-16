@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0601599b_975f1bea",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-16T08:10:07Z",
+      "side": 0,
+      "message": "Removing this results in warnings during the tests:\n\nhttp://paste.openstack.org/show/719277/",
+      "revId": "878009189f68ab5f7640c4bb6c908e277254e3cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

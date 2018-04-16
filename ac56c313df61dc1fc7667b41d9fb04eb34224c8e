@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "badbc441_ae111874",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-16T10:13:41Z",
+      "side": 1,
+      "message": "Unrelated to this change, but I added that feature to Bazel and it should be in the next release. Theoretically, we could commit this local action cache setting to tools/bazel.rc (something the Buck supported 5 year ago). But, unfortunately, there is still no support for upper limit in cache seize, It would grow indefinitely. OTOH, it is already today the case.",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 32
+      },
+      "revId": "ac56c313df61dc1fc7667b41d9fb04eb34224c8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

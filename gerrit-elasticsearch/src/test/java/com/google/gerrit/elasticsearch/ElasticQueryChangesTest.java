@@ -68,6 +68,12 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
   }
 
   @Test
+  @Override
+  public void reviewerAndCc() throws Exception {
+    super.reviewerAndCc();
+  }
+
+  @Test
   public void byOwnerInvalidQuery() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     insert(repo, newChange(repo), userId);

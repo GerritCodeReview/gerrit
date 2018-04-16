@@ -34,7 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -71,13 +70,11 @@ public class DefaultPermissionBackend extends PermissionBackend {
     @Override
     public ForProject project(Project.NameKey project) {
       try {
-        ProjectState state = projectCache.checkedGet(project);
-        if (state != null) {
-          return state.controlFor(user).asForProject().database(db);
-        }
-        return FailedPermissionBackend.project("project '" + project.get() + "' not found");
-      } catch (IOException e) {
-        return FailedPermissionBackend.project("unavailable", e);
+        return projectCache.checkedGet(project, true).controlFor(user).asForProject().database(db);
+      } catch (Exception e) {
+        Throwable cause = e.getCause() != null ? e.getCause() : e;
+        return FailedPermissionBackend.project(
+            "project '" + project.get() + "' is unavailable", cause);
       }
     }
 

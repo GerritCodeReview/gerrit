@@ -1588,6 +1588,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void mergeable() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().add("file1", "contents1").create());
+    RevCommit commit2 = repo.parseBody(repo.commit().add("file1", "contents2").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+
+    assertQuery("conflicts:" + change1.getId().get(), change2);
+    assertQuery("conflicts:" + change2.getId().get(), change1);
+    assertQuery("is:mergeable", change2, change1);
+
+    gApi.changes().id(change1.getChangeId()).revision("current").review(ReviewInput.approve());
+    gApi.changes().id(change1.getChangeId()).revision("current").submit();
+
+    assertQuery("conflicts:" + change2.getId().get());
+    assertQuery("status:open is:mergeable");
+  }
+
+  @Test
   public void reviewedBy() throws Exception {
     resetTimeWithClockStep(2, MINUTES);
     TestRepository<Repo> repo = createProject("repo");

@@ -1653,12 +1653,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("is:reviewer", change3);
     assertQuery("reviewer:self", change3);
 
+    requestContext.setContext(newRequestContext(user1));
     if (notesMigration.readChanges()) {
       assertQuery("reviewer:" + user1, change1);
       assertQuery("cc:" + user1, change2);
+      assertQuery("is:cc", change2);
+      assertQuery("cc:self", change2);
     } else {
       assertQuery("reviewer:" + user1, change2, change1);
       assertQuery("cc:" + user1);
+      assertQuery("is:cc");
+      assertQuery("cc:self");
     }
   }
 

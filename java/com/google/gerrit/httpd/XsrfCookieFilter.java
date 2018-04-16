@@ -62,6 +62,7 @@ public class XsrfCookieFilter implements Filter {
     Cookie c = new Cookie(HostPageData.XSRF_COOKIE_NAME, nullToEmpty(v));
     c.setPath("/");
     c.setSecure(authConfig.getCookieSecure() && isSecure(req));
+    c.setHttpOnly(true);
     c.setMaxAge(
         v != null
             ? -1 // Set the cookie for this browser session.

@@ -160,6 +160,12 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Produces {@link ChangeInfo} (which is serialized to JSON afterwards) from {@link ChangeData}.
+ *
+ * <p>This is intended to be used on request scope, but may be used for converting multiple {@link
+ * ChangeData} objects from different sources.
+ */
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
 

@@ -819,6 +819,11 @@ public abstract class AbstractDaemonTest {
     revision(r).submit();
   }
 
+  protected void merge(String changeId) throws Exception {
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().submit();
+  }
+
   protected ChangeInfo info(String id) throws RestApiException {
     return gApi.changes().id(id).info();
   }

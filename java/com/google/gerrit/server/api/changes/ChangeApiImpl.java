@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.Changes;
+import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.restapi.change.Check;
 import com.google.gerrit.server.restapi.change.CreateMergePatchSet;
 import com.google.gerrit.server.restapi.change.DeleteAssignee;
 import com.google.gerrit.server.restapi.change.DeleteChange;
+import com.google.gerrit.server.restapi.change.DeleteChangeMessage;
 import com.google.gerrit.server.restapi.change.DeletePrivate;
 import com.google.gerrit.server.restapi.change.GetAssignee;
 import com.google.gerrit.server.restapi.change.GetHashtags;
@@ -149,6 +151,7 @@ class ChangeApiImpl implements ChangeApi {
   private final PutMessage putMessage;
   private final PureRevert pureRevert;
   private final StarredChangesUtil stars;
+  private final DeleteChangeMessage deleteChangeMessage;
 
   @Inject
   ChangeApiImpl(
@@ -194,6 +197,7 @@ class ChangeApiImpl implements ChangeApi {
       PutMessage putMessage,
       PureRevert pureRevert,
       StarredChangesUtil stars,
+      DeleteChangeMessage deleteChangeMessage,
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
@@ -237,6 +241,7 @@ class ChangeApiImpl implements ChangeApi {
     this.putMessage = putMessage;
     this.pureRevert = pureRevert;
     this.stars = stars;
+    this.deleteChangeMessage = deleteChangeMessage;
     this.change = change;
   }
 
@@ -705,6 +710,15 @@ class ChangeApiImpl implements ChangeApi {
   public PureRevertInfo pureRevert(@Nullable String claimedOriginal) throws RestApiException {
     try {
       return pureRevert.get(change.getNotes(), claimedOriginal);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot compute pure revert", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo deleteChangeMessage(DeleteChangeMessageInput input) throws RestApiException {
+    try {
+      return deleteChangeMessage.apply(change, input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot compute pure revert", e);
     }

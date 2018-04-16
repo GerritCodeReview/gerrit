@@ -283,6 +283,9 @@ public interface ChangeApi {
   /** Check if this change is a pure revert of claimedOriginal (SHA1 in 40 digit hex). */
   PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException;
 
+  /** Deletes a change message by rewriting the commit history. */
+  ChangeInfo deleteChangeMessage(DeleteChangeMessageInput input) throws RestApiException;
+
   abstract class SuggestedReviewersRequest {
     private String query;
     private int limit;
@@ -588,6 +591,11 @@ public interface ChangeApi {
 
     @Override
     public PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo deleteChangeMessage(DeleteChangeMessageInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -1235,13 +1235,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("deleted:<=0", change1);
 
-    for (String str : Lists.newArrayList("delta", "size")) {
-      assertQuery(str + ":<2");
-      assertQuery(str + ":3", change1);
-      assertQuery(str + ":>2", change1);
-      assertQuery(str + ":>=3", change1);
-      assertQuery(str + ":<3", change2);
-      assertQuery(str + ":<=2", change2);
+    for (String str : Lists.newArrayList("delta:", "size:")) {
+      assertQuery(str + "<2");
+      assertQuery(str + "3", change1);
+      assertQuery(str + ">2", change1);
+      assertQuery(str + ">=3", change1);
+      assertQuery(str + "<3", change2);
+      assertQuery(str + "<=2", change2);
     }
   }
 

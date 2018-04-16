@@ -14,28 +14,35 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.ConfigKey;
+import com.google.gerrit.server.config.ConfigUpdatedEvent;
+import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
-public class SuggestReviewers {
+public class SuggestReviewers implements GerritConfigListener {
   private static final int DEFAULT_MAX_SUGGESTED = 10;
 
   protected final Provider<ReviewDb> dbProvider;
   protected final IdentifiedUser.GenericFactory identifiedUserFactory;
   protected final ReviewersUtil reviewersUtil;
+  protected final AccountVisibility accountVisibility;
 
-  private final boolean suggestAccounts;
-  private final int maxAllowed;
-  private final int maxAllowedWithoutConfirmation;
+  private boolean suggestAccounts;
+  private int maxAllowed;
+  private int maxAllowedWithoutConfirmation;
   protected int limit;
   protected String query;
-  protected final int maxSuggestedReviewers;
+  protected int maxSuggestedReviewers;
 
   @Option(
     name = "--limit",
@@ -79,7 +86,7 @@ public class SuggestReviewers {
 
   @Inject
   public SuggestReviewers(
-      AccountVisibility av,
+      AccountVisibility accountVisibility,
       IdentifiedUser.GenericFactory identifiedUserFactory,
       Provider<ReviewDb> dbProvider,
       @GerritServerConfig Config cfg,
@@ -87,6 +94,11 @@ public class SuggestReviewers {
     this.dbProvider = dbProvider;
     this.identifiedUserFactory = identifiedUserFactory;
     this.reviewersUtil = reviewersUtil;
+    this.accountVisibility = accountVisibility;
+    parseConfig(cfg);
+  }
+
+  private void parseConfig(Config cfg) {
     this.maxSuggestedReviewers =
         cfg.getInt("suggest", "maxSuggestedReviewers", DEFAULT_MAX_SUGGESTED);
     this.limit = this.maxSuggestedReviewers;
@@ -94,7 +106,7 @@ public class SuggestReviewers {
     if ("OFF".equalsIgnoreCase(suggest) || "false".equalsIgnoreCase(suggest)) {
       this.suggestAccounts = false;
     } else {
-      this.suggestAccounts = (av != AccountVisibility.NONE);
+      this.suggestAccounts = (accountVisibility != AccountVisibility.NONE);
     }
 
     this.maxAllowed = cfg.getInt("addreviewer", "maxAllowed", PostReviewers.DEFAULT_MAX_REVIEWERS);
@@ -103,5 +115,19 @@ public class SuggestReviewers {
             "addreviewer",
             "maxWithoutConfirmation",
             PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+  }
+
+  @Override
+  public void configUpdated(ConfigUpdatedEvent event) {
+    Set<ConfigKey> entriesOfInterest =
+        ImmutableSet.of(
+            new ConfigKey("suggest", "maxSuggestedReviewers"),
+            new ConfigKey("suggest", "accounts"),
+            new ConfigKey("addreviewer", "maxAllowed"),
+            new ConfigKey("addreviewer", "maxWithoutConfirmation"));
+    if (event.isEntriesUpdated(entriesOfInterest)) {
+      parseConfig(event.getNewConfig());
+      event.accept(entriesOfInterest);
+    }
   }
 }

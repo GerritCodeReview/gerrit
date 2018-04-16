@@ -78,6 +78,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -262,6 +263,11 @@ public class RefControlTest {
 
           @Override
           public void evict(Project.NameKey p) {}
+
+          @Override
+          public ProjectState getWithCause(Project.NameKey projectName) throws ExecutionException {
+            return all.get(projectName);
+          }
         };
 
     Injector injector = Guice.createInjector(new InMemoryModule());

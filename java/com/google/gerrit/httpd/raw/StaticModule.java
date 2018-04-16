@@ -99,6 +99,7 @@ public class StaticModule extends ServletModule {
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
+  private static final String OPEN_SEARCH_SERVLET = "OpenSearchServlet";
 
   private static final int GERRIT_UI_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
@@ -168,6 +169,7 @@ public class StaticModule extends ServletModule {
   private class CoreStaticModule extends ServletModule {
     @Override
     public void configureServlets() {
+      serve("/opensearch.xml").with(named(OPEN_SEARCH_SERVLET));
       serve("/robots.txt").with(named(ROBOTS_TXT_SERVLET));
       serve("/favicon.ico").with(named(FAVICON_SERVLET));
     }
@@ -191,6 +193,17 @@ public class StaticModule extends ServletModule {
         return new SingleFileServlet(cache, p.warFs.getPath("/robots.txt"), false);
       }
       return new SingleFileServlet(cache, webappSourcePath("robots.txt"), true);
+    }
+
+    @Provides
+    @Singleton
+    @Named(OPEN_SEARCH_SERVLET)
+    HttpServlet OpenSearchServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+      Paths p = getPaths();
+      if (p.warFs != null) {
+        return new SingleFileServlet(cache, webappSourcePath("/opensearch.xml"), false);
+      }
+      return new SingleFileServlet(cache, webappSourcePath("opensearch.xml"), true);
     }
 
     @Provides

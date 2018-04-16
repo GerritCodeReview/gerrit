@@ -77,6 +77,11 @@
         type: Boolean,
         computed: '_computeShowReplyButton(message, _loggedIn)',
       },
+      _isAdmin: {
+        type: Boolean,
+        value: false,
+      },
+
       projectName: {
         type: String,
         observer: '_projectNameChanged',
@@ -142,6 +147,15 @@
       return !!message.message && loggedIn &&
           !this._computeIsAutomated(message);
     },
+
+    _getIsAdmin() {
+      return this.$.restAPI.getIsAdmin();
+    },
+
+    _computeDeleteButtonClass() {
+      return this._getIsAdmin() ? 'showDeleteButtons' : '';
+    },
+
 
     _computeExpanded(expanded) {
       return expanded;
@@ -250,6 +264,10 @@
       this.$.restAPI.getProjectConfig(name).then(config => {
         this._projectConfig = config;
       });
+    },
+
+    _handleDeleteChangeMessageTap(e) {
+      this.fire('delete-change-message', {id:this.message.id});
     },
   });
 })();

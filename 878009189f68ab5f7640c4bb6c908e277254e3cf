@@ -34,6 +34,24 @@
       "revId": "878009189f68ab5f7640c4bb6c908e277254e3cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "effb74c4_c204f2ab",
+        "filename": "lib/jackson/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-16T14:28:30Z",
+      "side": 0,
+      "message": "\u003d\u003e New [1] https://gerrit-review.googlesource.com/c/gerrit/+/172491",
+      "parentUuid": "54d57c1d_d0169a51",
+      "revId": "878009189f68ab5f7640c4bb6c908e277254e3cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

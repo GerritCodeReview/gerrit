@@ -2115,6 +2115,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .isEqualTo("Unknown named destination: foo");
   }
 
+  @Test
+  public void userQuery() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    insert(repo, newChange(repo));
+
+    assertThatQueryException("query:foo").hasMessageThat().isEqualTo("Unknown named query: foo");
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null);
   }

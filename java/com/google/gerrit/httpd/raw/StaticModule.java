@@ -27,12 +27,14 @@ import com.google.gerrit.httpd.raw.ResourceServlet.Resource;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritInstanceName;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.inject.Inject;
 import com.google.inject.Key;
+import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
@@ -102,6 +104,7 @@ public class StaticModule extends ServletModule {
   private static final String SERVICE_WORKER_SERVLET = "ServiceWorkerServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
+  private static final String OPEN_SEARCH_SERVLET = "OpenSearchServlet";
 
   private final GerritOptions options;
   private Paths paths;
@@ -167,6 +170,7 @@ public class StaticModule extends ServletModule {
   private class CoreStaticModule extends ServletModule {
     @Override
     public void configureServlets() {
+      serve("/opensearch.xml").with(named(OPEN_SEARCH_SERVLET));
       serve("/robots.txt").with(named(ROBOTS_TXT_SERVLET));
       serve("/favicon.ico").with(named(FAVICON_SERVLET));
       serve("/service-worker.js").with(named(SERVICE_WORKER_SERVLET));
@@ -233,6 +237,15 @@ public class StaticModule extends ServletModule {
         filter(p).through(XsrfCookieFilter.class);
       }
       filter("/*").through(PolyGerritFilter.class);
+    }
+
+    @Provides
+    @Singleton
+    @Named(OPEN_SEARCH_SERVLET)
+    HttpServlet getOpenSearchServlet(
+        @CanonicalWebUrl @Nullable String canonicalUrl,
+        @GerritInstanceName Provider<String> instanceNameProvider) {
+      return new OpenSearchServlet(canonicalUrl, instanceNameProvider.get());
     }
 
     @Provides

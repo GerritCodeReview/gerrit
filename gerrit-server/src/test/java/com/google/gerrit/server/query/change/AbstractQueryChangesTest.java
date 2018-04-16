@@ -1155,7 +1155,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
-    for (String predicate : new String[] {"before:", "until:"}) {
+    for (String predicate : Lists.newArrayList("before:", "until:")) {
       assertQuery(predicate + "2009-09-29");
       assertQuery(predicate + "2009-09-30");
       assertQuery(predicate + "\"2009-09-30 16:59:00 -0400\"");
@@ -1179,7 +1179,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
-    for (String predicate : new String[] {"after:", "since:"}) {
+    for (String predicate : Lists.newArrayList("after:", "since:")) {
       assertQuery(predicate + "2009-10-03");
       assertQuery(predicate + "\"2009-10-01 20:59:59 -0400\"", change2);
       assertQuery(predicate + "\"2009-10-01 20:59:59 -0000\"", change2);

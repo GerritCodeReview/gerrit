@@ -64,7 +64,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
               .database(db)
               .test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
-      throw new OrmException("unable to check permissions", e);
+      throw new OrmException("unable to check permissions on change " + cd.getId(), e);
     }
     if (visible) {
       cd.cacheVisibleTo(user);

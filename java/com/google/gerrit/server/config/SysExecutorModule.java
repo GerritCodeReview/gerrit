@@ -65,8 +65,7 @@ public class SysExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @FanOutExecutor
-  public ExecutorService createFanOutExecutor(
-      @GerritServerConfig Config config, WorkQueue queues) {
+  public ExecutorService createFanOutExecutor(@GerritServerConfig Config config, WorkQueue queues) {
     int poolSize = config.getInt("execution", null, "fanOutThreadPoolSize", 25);
     if (poolSize == 0) {
       return MoreExecutors.newDirectExecutorService();

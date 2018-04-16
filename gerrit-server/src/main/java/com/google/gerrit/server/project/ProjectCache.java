@@ -46,6 +46,15 @@ public interface ProjectCache {
    */
   ProjectState checkedGet(Project.NameKey projectName) throws IOException;
 
+  /**
+   * Get the cached data for a project by its unique name.
+   *
+   * @param projectName name of the project.
+   * @throws Exception in case of any error.
+   * @return the cached data.
+   */
+  public ProjectState uncheckedGet(Project.NameKey projectName) throws Exception;
+
   /** Invalidate the cached information about the given project. */
   void evict(Project p);
 

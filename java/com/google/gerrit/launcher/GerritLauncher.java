@@ -296,12 +296,15 @@ public final class GerritLauncher {
     // The extension API needs to be its own ClassLoader, along
     // with a few of its dependencies. Try to construct this first.
     List<URL> extapi = new ArrayList<>();
-    move(jars, "gerrit-extension-api-", extapi);
-    move(jars, "guice-", extapi);
-    move(jars, "javax.inject-1.jar", extapi);
-    move(jars, "aopalliance-1.0.jar", extapi);
-    move(jars, "guice-servlet-", extapi);
-    move(jars, "tomcat-servlet-api-", extapi);
+    move(jars, "/com_google_gerrit_extensions_libapi.jar", extapi);
+    move(jars, "/com_google_gerrit_extensions_libclient.jar", extapi);
+    move(jars, "/guava-", extapi);
+    move(jars, "/guice-", extapi);
+    move(jars, "/guice-assistedinject-", extapi);
+    move(jars, "/guice-servlet-", extapi);
+    move(jars, "/javax.inject-1.jar", extapi);
+    move(jars, "/aopalliance-1.0.jar", extapi);
+    move(jars, "/tomcat-servlet-api-", extapi);
 
     ClassLoader parent = ClassLoader.getSystemClassLoader();
     if (!extapi.isEmpty()) {

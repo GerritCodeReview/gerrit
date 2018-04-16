@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.server.change.ChangeJsonExecutor;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -59,6 +60,18 @@ public class SysExecutorModule extends AbstractModule {
       return MoreExecutors.newDirectExecutorService();
     }
     return queues.createQueue(poolSize, "SendEmail");
+  }
+
+  @Provides
+  @Singleton
+  @ChangeJsonExecutor
+  public ExecutorService createChangeJsonExecutor(
+      @GerritServerConfig Config config, WorkQueue queues) {
+    int poolSize = config.getInt("change", "api", "formattingThreadPoolSize", 0);
+    if (poolSize == 0) {
+      return MoreExecutors.newDirectExecutorService();
+    }
+    return queues.createQueue(poolSize, "ChangeJson");
   }
 
   @Provides

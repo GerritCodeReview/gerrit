@@ -467,14 +467,29 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (rcu != null) {
       robotCommentUpdates.put(rcu.getRefName(), rcu);
     }
-    DeleteCommentRewriter rwt = update.getDeleteCommentRewriter();
-    if (rwt != null) {
+    DeleteCommentRewriter deleteCommentRewriter = update.getDeleteCommentRewriter();
+    if (deleteCommentRewriter != null) {
       // Checks whether there is any ChangeUpdate added earlier trying to update the same ref.
       checkArgument(
-          !changeUpdates.containsKey(rwt.getRefName()),
+          !changeUpdates.containsKey(deleteCommentRewriter.getRefName()),
           "cannot update & rewrite ref %s in one BatchUpdate",
-          rwt.getRefName());
-      rewriters.put(rwt.getRefName(), rwt);
+          deleteCommentRewriter.getRefName());
+      rewriters.put(deleteCommentRewriter.getRefName(), deleteCommentRewriter);
+    }
+
+    DeleteChangeMessageRewriter deleteChangeMessageRewriter =
+        update.getDeleteChangeMessageRewriter();
+    if (deleteChangeMessageRewriter != null) {
+      // Checks whether there is any ChangeUpdate added earlier trying to update the same ref.
+      checkArgument(
+          !changeUpdates.containsKey(deleteChangeMessageRewriter.getRefName()),
+          "cannot update & rewrite ref %s in one BatchUpdate",
+          deleteChangeMessageRewriter.getRefName());
+      checkArgument(
+          !rewriters.containsKey(deleteChangeMessageRewriter.getRefName()),
+          "cannot rewrite the same ref %s in one BatchUpdate",
+          deleteChangeMessageRewriter.getRefName());
+      rewriters.put(deleteChangeMessageRewriter.getRefName(), deleteChangeMessageRewriter);
     }
 
     changeUpdates.put(update.getRefName(), update);

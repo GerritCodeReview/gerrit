@@ -23,9 +23,12 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -132,6 +135,25 @@ public class ChangeMessagesUtil {
     update.setChangeMessage(changeMessage.getMessage());
     update.setTag(changeMessage.getTag());
     db.changeMessages().insert(Collections.singleton(changeMessage));
+  }
+
+  public void deleteChangeMessageByRewritingHistory(
+      ReviewDb db, ChangeUpdate update, String uuid, String newMessage) throws OrmException {
+    if (NoteDbChangeState.PrimaryStorage.of(update.getChange())
+        .equals(NoteDbChangeState.PrimaryStorage.REVIEW_DB)) {
+      ChangeMessage.Key key = new ChangeMessage.Key(update.getId(), uuid);
+
+      if (db instanceof BatchUpdateReviewDb) {
+        db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
+      }
+      db = ReviewDbUtil.unwrapDb(db);
+
+      ChangeMessage changeMessage = db.changeMessages().get(key);
+      changeMessage.setMessage(newMessage);
+      db.changeMessages().upsert(Collections.singleton(changeMessage));
+    }
+
+    update.deleteChangeMessageByRewritingHistory(uuid, newMessage);
   }
 
   /**

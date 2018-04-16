@@ -1,0 +1,141 @@
+// Copyright (C) 2018 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.restapi.change;
+
+import static java.util.stream.Collectors.toSet;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
+import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.reviewdb.client.ChangeMessage;
+import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gwtorm.server.OrmException;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
+import java.util.List;
+import java.util.Set;
+
+/** Deletes a change message by rewriting commit history. */
+@Singleton
+public class DeleteChangeMessage
+    extends RetryingRestModifyView<ChangeResource, DeleteChangeMessageInput, Response<ChangeInfo>> {
+
+  private final Provider<CurrentUser> userProvider;
+  private final Provider<ReviewDb> dbProvider;
+  private final PermissionBackend permissionBackend;
+  private final ChangeMessagesUtil changeMessagesUtil;
+  private final ChangeJson.Factory jsonFactory;
+
+  @Inject
+  public DeleteChangeMessage(
+      Provider<CurrentUser> userProvider,
+      Provider<ReviewDb> dbProvider,
+      PermissionBackend permissionBackend,
+      ChangeMessagesUtil changeMessagesUtil,
+      ChangeJson.Factory jsonFactory,
+      RetryHelper retryHelper) {
+    super(retryHelper);
+    this.userProvider = userProvider;
+    this.dbProvider = dbProvider;
+    this.permissionBackend = permissionBackend;
+    this.changeMessagesUtil = changeMessagesUtil;
+    this.jsonFactory = jsonFactory;
+  }
+
+  @Override
+  public Response<ChangeInfo> applyImpl(
+      BatchUpdate.Factory updateFactory, ChangeResource resource, DeleteChangeMessageInput input)
+      throws Exception {
+    CurrentUser user = userProvider.get();
+    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+
+    if (input == null || input.uuid == null || input.uuid.isEmpty()) {
+      throw new BadRequestException("change message uuid is required");
+    }
+
+    checkChangeMessageExists(input.uuid, resource.getNotes());
+
+    String newChangeMessage =
+        createNewChangeMessage(user.asIdentifiedUser().getName(), input.reason);
+    DeleteChangeMessageOp deleteChangeMessageOp =
+        new DeleteChangeMessageOp(input.uuid, newChangeMessage);
+    try (BatchUpdate batchUpdate =
+        updateFactory.create(dbProvider.get(), resource.getProject(), user, TimeUtil.nowTs())) {
+      batchUpdate.addOp(resource.getId(), deleteChangeMessageOp).execute();
+    }
+
+    ChangeJson json = jsonFactory.noOptions();
+    return Response.created(json.format(resource.getChange()));
+  }
+
+  private void checkChangeMessageExists(String uuid, ChangeNotes notes)
+      throws OrmException, ResourceNotFoundException {
+    List<ChangeMessage> messages = changeMessagesUtil.byChange(dbProvider.get(), notes);
+    Set<String> uuids = messages.stream().map(m -> m.getKey().get()).collect(toSet());
+    if (!uuids.contains(uuid)) {
+      throw new ResourceNotFoundException(String.format("change message %s not found", uuid));
+    }
+  }
+
+  @VisibleForTesting
+  public static String createNewChangeMessage(String deletedBy, String deletedReason) {
+    if (Strings.isNullOrEmpty(deletedReason)) {
+      return createNewChangeMessage(deletedBy);
+    }
+    return String.format("Change message removed by: %s; Reason: %s", deletedBy, deletedReason);
+  }
+
+  @VisibleForTesting
+  public static String createNewChangeMessage(String deletedBy) {
+    return "Change message removed by: " + deletedBy;
+  }
+
+  private class DeleteChangeMessageOp implements BatchUpdateOp {
+    private final String uuid;
+    private final String newMessage;
+
+    DeleteChangeMessageOp(String uuid, String newMessage) {
+      this.uuid = uuid;
+      this.newMessage = newMessage;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws OrmException {
+      PatchSet.Id psId = ctx.getChange().currentPatchSetId();
+      changeMessagesUtil.deleteChangeMessageByRewritingHistory(
+          ctx.getDb(), ctx.getUpdate(psId), uuid, newMessage);
+      return true;
+    }
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7edddb8d_e15d6a8a",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-16T10:25:27Z",
+      "side": 1,
+      "message": "produced by the GerritServerConfigReloader",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 45
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "454597ee_5f5c065a",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-16T10:25:27Z",
+      "side": 1,
+      "message": "Should the event really be responsible for collecting the result?\n\nYou could return the result in GerritConfigListener::configUpdated instead. See the comment in that class.",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 20
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "434e3277_d17a9694",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-16T10:25:27Z",
+      "side": 1,
+      "message": "can be replaced by a method reference\n   this::isValueUpdated",
+      "range": {
+        "startLine": 105,
+        "startChar": 16,
+        "endLine": 105,
+        "endChar": 42
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d37b27cb_2d968a17",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-16T10:25:27Z",
+      "side": 1,
+      "message": "For readability you could separate the object transformation to a separate map, and just let forEach collect the elements.\n\n         .map(\n            key -\u003e {\n              String oldValue \u003d oldConfig.getString(key.section, key.subsection, key.name);\n              String newValue \u003d newConfig.getString(key.section, key.subsection, key.name);\n              return new ConfigUpdateEntry(key, oldValue, newValue);\n            })\n        .forEach(update::addConfigUpdate);",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 15
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2777b4af_e5abc74f",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-16T10:25:27Z",
+      "side": 1,
+      "message": "isEntriesUpdated sounds weird in my head. is is singular entries are plural.",
+      "range": {
+        "startLine": 135,
+        "startChar": 17,
+        "endLine": 135,
+        "endChar": 33
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cde7cb3a_bb46d2a0",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-16T10:25:27Z",
+      "side": 1,
+      "message": "What is the purpose of this? The names are already in capital letters.",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 57
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8faa9557_468f7c56",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-16T10:25:27Z",
+      "side": 1,
+      "message": "It is usually not a good idea to synchronize on this since it means that there is a risk that some one else synchronizes on this object as well.\n\nI suggest to create a private lock object and synchronize on that instead (or use a lock from java.util.concurrent, but that is probably overkill in this case).",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 21
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

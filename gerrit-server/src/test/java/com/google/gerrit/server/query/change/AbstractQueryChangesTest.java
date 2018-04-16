@@ -1131,7 +1131,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byBefore() throws Exception {
+  public void byBeforeUntil() throws Exception {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
@@ -1140,20 +1140,22 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
-    assertQuery("before:2009-09-29");
-    assertQuery("before:2009-09-30");
-    assertQuery("before:\"2009-09-30 16:59:00 -0400\"");
-    assertQuery("before:\"2009-09-30 20:59:00 -0000\"");
-    assertQuery("before:\"2009-09-30 20:59:00\"");
-    assertQuery("before:\"2009-09-30 17:02:00 -0400\"", change1);
-    assertQuery("before:\"2009-10-01 21:02:00 -0000\"", change1);
-    assertQuery("before:\"2009-10-01 21:02:00\"", change1);
-    assertQuery("before:2009-10-01", change1);
-    assertQuery("before:2009-10-03", change2, change1);
+    for (String predicate : new String[] {"before:", "until:"}) {
+      assertQuery(predicate + "2009-09-29");
+      assertQuery(predicate + "2009-09-30");
+      assertQuery(predicate + "\"2009-09-30 16:59:00 -0400\"");
+      assertQuery(predicate + "\"2009-09-30 20:59:00 -0000\"");
+      assertQuery(predicate + "\"2009-09-30 20:59:00\"");
+      assertQuery(predicate + "\"2009-09-30 17:02:00 -0400\"", change1);
+      assertQuery(predicate + "\"2009-10-01 21:02:00 -0000\"", change1);
+      assertQuery(predicate + "\"2009-10-01 21:02:00\"", change1);
+      assertQuery(predicate + "2009-10-01", change1);
+      assertQuery(predicate + "2009-10-03", change2, change1);
+    }
   }
 
   @Test
-  public void byAfter() throws Exception {
+  public void byAfterSince() throws Exception {
     long thirtyHoursInMs = MILLISECONDS.convert(30, HOURS);
     resetTimeWithClockStep(thirtyHoursInMs, MILLISECONDS);
     TestRepository<Repo> repo = createProject("repo");
@@ -1162,11 +1164,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change2 = insert(repo, newChange(repo), null, new Timestamp(startMs + thirtyHoursInMs));
     TestTimeUtil.setClockStep(0, MILLISECONDS);
 
-    assertQuery("after:2009-10-03");
-    assertQuery("after:\"2009-10-01 20:59:59 -0400\"", change2);
-    assertQuery("after:\"2009-10-01 20:59:59 -0000\"", change2);
-    assertQuery("after:2009-10-01", change2);
-    assertQuery("after:2009-09-30", change2, change1);
+    for (String predicate : new String[] {"after:", "since:"}) {
+      assertQuery(predicate + "2009-10-03");
+      assertQuery(predicate + "\"2009-10-01 20:59:59 -0400\"", change2);
+      assertQuery(predicate + "\"2009-10-01 20:59:59 -0000\"", change2);
+      assertQuery(predicate + "2009-10-01", change2);
+      assertQuery(predicate + "2009-09-30", change2, change1);
+    }
   }
 
   @Test

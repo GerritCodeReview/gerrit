@@ -451,6 +451,13 @@ public class ChangeData {
     this.notes = notes;
   }
 
+  /**
+   * If false, omit fields that require database/repo IO.
+   *
+   * <p>this is used to enforce that the dashboard is rendered from the index only. If lazy load is
+   * on, the ChangeData object will load from the database ("lazily") when a field accessor is
+   * called.
+   */
   public ChangeData setLazyLoad(boolean load) {
     lazyLoad = load;
     return this;

@@ -13,3 +13,9 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@jackson_dataformat_cbor//jar"],
 )
+
+java_library(
+    name = "jackson-dataformat-smile",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@jackson_dataformat_smile//jar"],
+)

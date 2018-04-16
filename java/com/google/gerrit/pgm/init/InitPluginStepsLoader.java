@@ -66,7 +66,7 @@ public class InitPluginStepsLoader {
   private InitStep loadInitStep(Path jar) {
     try {
       URLClassLoader pluginLoader =
-          new URLClassLoader(
+          URLClassLoader.newInstance(
               new URL[] {jar.toUri().toURL()}, InitPluginStepsLoader.class.getClassLoader());
       try (JarFile jarFile = new JarFile(jar.toFile())) {
         Attributes jarFileAttributes = jarFile.getManifest().getMainAttributes();

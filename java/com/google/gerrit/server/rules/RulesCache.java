@@ -175,7 +175,7 @@ public class RulesCache {
       Path jarPath = rulesDir.resolve("rules-" + rulesId.getName() + ".jar");
       if (Files.isRegularFile(jarPath)) {
         URL[] cp = new URL[] {toURL(jarPath)};
-        return save(newEmptyMachine(new URLClassLoader(cp, systemLoader)));
+        return save(newEmptyMachine(URLClassLoader.newInstance(cp, systemLoader)));
       }
     }
 

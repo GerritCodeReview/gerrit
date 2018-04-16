@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e03d339_5cc23e67",
+        "filename": "java/com/google/gerrit/server/restapi/change/SuggestReviewers.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-16T13:44:24Z",
+      "side": 1,
+      "message": "What does it mean for a non-@Singleton to be a listener? I don\u0027t even know what will get put in the DynamicSet in that case.\n\nAnd even if the listener works, I don\u0027t see the utility of doing this, since it only affects instances during the short timeframe (perhaps milliseconds) between when they are created and destroyed. I feel like in that case it would be fine to just use the old config for that one request.",
+      "revId": "7df5f19b4ef63ccb2c40c28864908da6d8b89410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

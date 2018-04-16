@@ -37,7 +37,6 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
     @Override
     protected void configure() {
       factory(ForwardingRemovalListener.Factory.class);
-      bind(DefaultCacheFactory.class);
       bind(MemoryCacheFactory.class).to(DefaultCacheFactory.class);
       bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
       listener().to(H2CacheFactory.class);

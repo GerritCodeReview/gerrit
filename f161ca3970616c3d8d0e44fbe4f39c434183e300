@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3c94b03_940b23d6",
+        "filename": "java/com/google/gerrit/server/restapi/change/SuggestReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-16T11:12:49Z",
+      "side": 1,
+      "message": "As discussed, we cannot implement GerritConfigListener in non-singleton classes otherwise we will end up keeping a reference on all the instances from the DynamicSet causing a leak.",
+      "revId": "f161ca3970616c3d8d0e44fbe4f39c434183e300",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

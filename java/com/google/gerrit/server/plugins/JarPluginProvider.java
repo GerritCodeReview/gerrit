@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
@@ -141,6 +142,13 @@ public class JarPluginProvider implements ServerPluginProvider {
 
       JarScanner jarScanner = createJarScanner(tmp);
       PluginConfig pluginConfig = configFactory.getFromGerritConfig(name);
+      Attributes dependencies = jarScanner.getManifest().getAttributes("Gerrit-Depends-On");
+      Attributes softDependencies =
+          jarScanner.getManifest().getAttributes("Gerrit-Soft-Depends-On");
+
+      if (dependencies.isEmpty()) {
+        return null;
+      }
 
       ServerPlugin plugin =
           new ServerPlugin(

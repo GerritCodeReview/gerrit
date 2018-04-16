@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -27,6 +31,8 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
+  private static final Logger log = LoggerFactory.getLogger(ChangeIsVisibleToPredicate.class);
+
   protected final Provider<ReviewDb> db;
   protected final ChangeNotes.Factory notesFactory;
   protected final CurrentUser user;
@@ -64,6 +70,11 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
               .database(db)
               .test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
+      Throwable cause = e.getCause();
+      if(cause instanceof RepositoryNotFoundException) {
+        log.warn("Skipping change {} because the corresponding repository was not found", cd.getId(), e);
+        return false;
+      }
       throw new OrmException("unable to check permissions on change " + cd.getId(), e);
     }
     if (visible) {

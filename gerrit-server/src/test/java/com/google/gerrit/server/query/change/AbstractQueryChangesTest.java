@@ -418,13 +418,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byCommit() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     ChangeInserter ins = newChange(repo);
-    insert(repo, ins);
+    Change change = insert(repo, ins);
     String sha = ins.getCommit().name();
 
     assertQuery("0000000000000000000000000000000000000000");
+    assertQuery("commit:0000000000000000000000000000000000000000");
     for (int i = 0; i <= 36; i++) {
       String q = sha.substring(0, 40 - i);
-      assertQuery(q, ins.getChange());
+      assertQuery(q, change);
+      assertQuery("commit:" + q, change);
     }
   }
 

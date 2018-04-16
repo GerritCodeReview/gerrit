@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "780c6e17_b8676b0e",
+        "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-16T13:51:06Z",
+      "side": 1,
+      "message": "So, before this change, this was *not* a singleton, right? IIUC that means it was already re-reading the config on each invocation.",
+      "revId": "7b049b7de266f3324b482c97d7c4c09c580bab10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb71e227_9ebba9ef",
+        "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-16T13:51:06Z",
+      "side": 1,
+      "message": "This needs to be threadsafe. A volatile pointer to an ImmutableList would be nicer.",
+      "revId": "7b049b7de266f3324b482c97d7c4c09c580bab10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

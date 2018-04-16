@@ -27,7 +27,7 @@ limitations under the License.
     <style include="shared-styles">
       /* general styles for all buttons */
       :host {
-        --background-color: var(--gr-button-background, #fff);
+        --background-color: var(--gr-button-background, var(--view-background-color));
         --button-color: var(--gr-button-color, var(--color-link));
         display: inline-block;
         font-family: var(--font-family-bold);
@@ -66,7 +66,7 @@ limitations under the License.
       :host([primary][raised]),
       :host([secondary][raised]) {
         --background-color: var(--color-link);
-        --button-color: #fff;
+        --button-color: var(--view-background-color);
       }
 
       /* Keep below color definition for primary/secondary so that this takes

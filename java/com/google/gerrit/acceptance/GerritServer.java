@@ -22,6 +22,8 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperationsImpl;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -430,6 +432,7 @@ public class GerritServer implements AutoCloseable {
           protected void configure() {
             bindConstant().annotatedWith(SshEnabled.class).to(daemon.getEnableSshd());
             bind(AccountCreator.class);
+            bind(AccountOperations.class).to(AccountOperationsImpl.class);
             factory(PushOneCommit.Factory.class);
             install(InProcessProtocol.module());
             install(new NoSshModule());

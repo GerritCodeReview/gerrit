@@ -53,6 +53,9 @@ public class VersionedAccountDestinations extends VersionedMetaData {
 
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
+    if (revision == null) {
+      return;
+    }
     String prefix = DestinationList.DIR_NAME + "/";
     for (PathInfo p : getPathInfos(true)) {
       if (p.fileMode == FileMode.REGULAR_FILE) {

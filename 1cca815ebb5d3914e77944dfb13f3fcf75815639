@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "af1feff1_bc6f10e4",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T13:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7edddb8d_e15d6a8a",
+      "range": {
+        "startLine": 29,
+        "startChar": 9,
+        "endLine": 29,
+        "endChar": 45
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "454597ee_5f5c065a",
         "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4114d12d_0b3af010",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T13:21:03Z",
+      "side": 1,
+      "message": "Yeah. Your suggestion is usually how it should be done. But by doing it this way, we can hide a lot of boiler-plate from the end-user. I don\u0027t see a perfect way to do this, but please feel free to add a follow-up change implementing a return pattern.",
+      "parentUuid": "454597ee_5f5c065a",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 20
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "caddf99a_c85239ce",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T13:21:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "434e3277_d17a9694",
+      "range": {
+        "startLine": 105,
+        "startChar": 16,
+        "endLine": 105,
+        "endChar": 42
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d37b27cb_2d968a17",
         "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc9fea9c_8f5a8451",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T13:21:03Z",
+      "side": 1,
+      "message": "I think this is by preference. I prefer my approach which has one line less.",
+      "parentUuid": "d37b27cb_2d968a17",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 15
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "c3ddaee8_233c4090",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T13:21:03Z",
+      "side": 1,
+      "message": "I agree. Though the \"is\"-prefix is pretty much the standard for boolean getters.\n\nCompare with other boolean getters in Gerrit. Like LabelTypes.java: isCopyAllScoresIfNoCodeChange().",
+      "parentUuid": "2777b4af_e5abc74f",
+      "range": {
+        "startLine": 135,
+        "startChar": 17,
+        "endLine": 135,
+        "endChar": 33
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cde7cb3a_bb46d2a0",
         "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
         "patchSetId": 2
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "dc43973a_30edbab0",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T13:21:03Z",
+      "side": 1,
+      "message": "Make only the first letter uppercase.",
+      "parentUuid": "cde7cb3a_bb46d2a0",
+      "range": {
+        "startLine": 150,
+        "startChar": 13,
+        "endLine": 150,
+        "endChar": 57
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8faa9557_468f7c56",
         "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
         "patchSetId": 2
@@ -160,6 +304,30 @@
       "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9af30c8_74f9e78c",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T13:21:03Z",
+      "side": 1,
+      "message": "Sure. I can do that to ensure it is a bit more future proof.",
+      "parentUuid": "8faa9557_468f7c56",
+      "range": {
+        "startLine": 49,
+        "startChar": 9,
+        "endLine": 49,
+        "endChar": 21
+      },
+      "revId": "1cca815ebb5d3914e77944dfb13f3fcf75815639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

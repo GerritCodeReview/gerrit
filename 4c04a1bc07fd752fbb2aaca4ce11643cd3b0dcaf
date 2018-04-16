@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b60f950_5d7c4566",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-16T09:06:20Z",
+      "side": 1,
+      "message": "Is it always a table?",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 9
+      },
+      "revId": "4c04a1bc07fd752fbb2aaca4ce11643cd3b0dcaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

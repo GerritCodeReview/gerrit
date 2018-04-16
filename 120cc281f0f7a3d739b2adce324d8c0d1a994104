@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f8ca68b_697e3188",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1751,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-16T11:29:10Z",
+      "side": 1,
+      "message": "Should we add this before submitting the change:\n\nassertQuery(\"submittable:ok\", change1);",
+      "revId": "120cc281f0f7a3d739b2adce324d8c0d1a994104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -314,6 +314,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("status:new", change1);
     assertQuery("status:NEW", change1);
     assertQuery("is:new", change1);
+    assertQuery("is:pending", change1);
     assertQuery("status:merged", change2);
     assertQuery("is:merged", change2);
   }

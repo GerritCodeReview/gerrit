@@ -237,9 +237,11 @@ public class RestApiServlet extends HttpServlet {
     }
 
     private static Pattern makeAllowOrigin(Config cfg) {
+      // To avoid the possiblity of HTTP response splitting, we disallow newlines in the origin
+      String crossPlatformNewLinePattern = "(\r\n\t|\n|\r\t)";
       String[] allow = cfg.getStringList("site", null, "allowOriginRegex");
       if (allow.length > 0) {
-        return Pattern.compile(Joiner.on('|').join(allow));
+        return Pattern.compile(Joiner.on('|').join(allow) + "|" + crossPlatformNewLinePattern);
       }
       return null;
     }

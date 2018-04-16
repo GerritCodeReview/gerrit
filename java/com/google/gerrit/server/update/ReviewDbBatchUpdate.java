@@ -43,6 +43,7 @@ import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.ChangeUpdateExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;

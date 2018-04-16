@@ -51,13 +51,13 @@ import com.google.gerrit.server.config.DisableReverseDnsLookupProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
-import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
@@ -105,7 +105,7 @@ public class BatchProgramModule extends FactoryModule {
   protected void configure() {
     install(reviewDbModule);
     install(new DiffExecutorModule());
-    install(new ReceiveCommitsExecutorModule());
+    install(new SysExecutorModule());
     install(BatchUpdate.module());
     install(PatchListCacheImpl.module());
 

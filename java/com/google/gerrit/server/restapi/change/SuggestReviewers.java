@@ -14,9 +14,13 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.ConfigKey;
+import com.google.gerrit.server.config.ConfigUpdatedEvent;
+import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -103,5 +107,17 @@ public class SuggestReviewers {
             "addreviewer",
             "maxWithoutConfirmation",
             PostReviewers.DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK);
+  }
+
+  public static class ConfigListener implements GerritConfigListener {
+    @Override
+    public void configUpdated(ConfigUpdatedEvent event) {
+      event.accept(
+          ImmutableSet.of(
+              ConfigKey.create("suggest", "maxSuggestedReviewers"),
+              ConfigKey.create("suggest", "accounts"),
+              ConfigKey.create("addreviewer", "maxAllowed"),
+              ConfigKey.create("addreviewer", "maxWithoutConfirmation")));
+    }
   }
 }

@@ -169,6 +169,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
+import com.google.gerrit.server.restapi.change.SuggestReviewers;
 import com.google.gerrit.server.restapi.config.ConfigRestModule;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
@@ -372,6 +373,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), DownloadCommand.class);
     DynamicMap.mapOf(binder(), CloneCommand.class);
     DynamicMap.mapOf(binder(), ReviewerSuggestion.class);
+    DynamicSet.bind(binder(), GerritConfigListener.class).to(SuggestReviewers.class);
     DynamicSet.setOf(binder(), ExternalIncludedIn.class);
     DynamicMap.mapOf(binder(), ProjectConfigEntry.class);
     DynamicSet.setOf(binder(), PatchSetWebLink.class);

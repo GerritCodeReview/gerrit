@@ -390,6 +390,7 @@ and add these lines to your `~/.bazelrc` file:
 build --experimental_local_disk_cache_path=/home/<user>/.gerritcodereview/bazel-cache/cas
 build --experimental_local_disk_cache
 build --experimental_strict_action_env
+build --action_env=PATH
 ----
 
 [NOTE] `experimental_local_disk_cache_path` must be absolute path. Expansion of `~` is

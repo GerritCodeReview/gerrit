@@ -22,6 +22,7 @@ import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -36,16 +37,21 @@ import org.slf4j.LoggerFactory;
 /**
  * Provides {@link Config} annotated with {@link GerritServerConfig}.
  *
- * <p>Note that this class is not a singleton, so the few callers that need a reloaded-on-demand
- * config can inject a {@code GerritServerConfigProvider}. However, most callers won't need this,
- * and will just inject {@code @GerritServerConfig Config} directly, which is bound as a singleton
- * in {@link GerritServerConfigModule}.
+ * <p>To react on config updates, the caller should implement @see GerritConfigListener.
+ *
+ * <p>The few callers that need a reloaded-on-demand config can inject a {@code
+ * GerritServerConfigProvider} and request the lastest config with fetchLatestConfig().
  */
+@Singleton
 public class GerritServerConfigProvider implements Provider<Config> {
   private static final Logger log = LoggerFactory.getLogger(GerritServerConfigProvider.class);
 
   private final SitePaths site;
   private final SecureStore secureStore;
+
+  private final Object lock = new Object();
+
+  @Nullable private GerritConfig gerritConfig;
 
   @Inject
   GerritServerConfigProvider(SitePaths site, SecureStore secureStore) {
@@ -55,6 +61,22 @@ public class GerritServerConfigProvider implements Provider<Config> {
 
   @Override
   public Config get() {
+    synchronized (lock) {
+      if (gerritConfig == null) {
+        gerritConfig = loadConfig();
+      }
+    }
+    return gerritConfig;
+  }
+
+  protected Config updateConfig() {
+    synchronized (lock) {
+      gerritConfig = loadConfig();
+      return gerritConfig;
+    }
+  }
+
+  public GerritConfig loadConfig() {
     FileBasedConfig baseConfig = loadConfig(null, site.gerrit_config);
     if (!baseConfig.getFile().exists()) {
       log.info("No " + site.gerrit_config.toAbsolutePath() + "; assuming defaults");

@@ -44,7 +44,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -126,7 +125,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
@@ -152,6 +150,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -268,6 +270,8 @@ public class ChangeJson {
   private final RemoveReviewerControl removeReviewerControl;
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
+  private final ExecutorService executor;
+
   private boolean lazyLoad = true;
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -301,6 +305,7 @@ public class ChangeJson {
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
       Metrics metrics,
+      @ChangeJsonExecutor ExecutorService executor,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
     this.userProvider = user;
@@ -328,6 +333,7 @@ public class ChangeJson {
     this.removeReviewerControl = removeReviewerControl;
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;
+    this.executor = executor;
     this.options = Sets.immutableEnumSet(options);
   }
 
@@ -404,12 +410,11 @@ public class ChangeJson {
       throws OrmException {
     try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-      ensureLoaded(FluentIterable.from(in).transformAndConcat(QueryResult::entities));
-
-      List<List<ChangeInfo>> res = Lists.newArrayListWithCapacity(in.size());
-      Map<Change.Id, ChangeInfo> out = new HashMap<>();
+      List<List<ChangeInfo>> res = new ArrayList<>(in.size());
+      Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
       for (QueryResult<ChangeData> r : in) {
-        List<ChangeInfo> infos = toChangeInfos(out, r.entities());
+        List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
+        infos.forEach(c -> cache.put(new Change.Id(c._number), c));
         if (!infos.isEmpty() && r.more()) {
           infos.get(infos.size() - 1)._moreChanges = true;
         }
@@ -454,38 +459,52 @@ public class ChangeJson {
     return options.contains(option);
   }
 
-  private List<ChangeInfo> toChangeInfos(Map<Change.Id, ChangeInfo> out, List<ChangeData> changes) {
+  private List<ChangeInfo> toChangeInfos(
+      List<ChangeData> changes, Map<Change.Id, ChangeInfo> cache) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
-      List<ChangeInfo> info = Lists.newArrayListWithCapacity(changes.size());
+      // Create a list of formatting calls that can be called sequentially or in parallel
+      List<Callable<Optional<ChangeInfo>>> formattingCalls = new ArrayList<>(changes.size());
       for (ChangeData cd : changes) {
-        ChangeInfo i = out.get(cd.getId());
-        if (i == null) {
-          try {
-            i = toChangeInfo(cd, Optional.empty());
-          } catch (PatchListNotAvailableException
-              | GpgException
-              | OrmException
-              | IOException
-              | PermissionBackendException
-              | RuntimeException e) {
-            if (has(CHECK)) {
-              i = checkOnly(cd);
-            } else if (e instanceof NoSuchChangeException) {
-              log.info(
-                  "NoSuchChangeException: Omitting corrupt change "
-                      + cd.getId()
-                      + " from results. Seems to be stale in the index.");
-              continue;
-            } else {
-              log.warn("Omitting corrupt change " + cd.getId() + " from results", e);
-              continue;
-            }
-          }
-          out.put(cd.getId(), i);
-        }
-        info.add(i);
+        formattingCalls.add(
+            () -> {
+              ChangeInfo i = cache.get(cd.getId());
+              if (i != null) {
+                return Optional.of(i);
+              }
+              try {
+                ensureLoaded(Collections.singleton(cd));
+                return Optional.of(format(cd, Optional.empty(), false));
+              } catch (OrmException | RuntimeException e) {
+                log.warn("Omitting corrupt change " + cd.getId() + " from results", e);
+                return Optional.empty();
+              }
+            });
       }
-      return info;
+
+      long numProjects = changes.stream().map(c -> c.project()).distinct().count();
+      if (!lazyLoad || changes.size() < 3 || numProjects < 2) {
+        // Format these changes in the request thread as the multithreading overhead would be too high.
+        List<ChangeInfo> result = new ArrayList<>(changes.size());
+        for (Callable<Optional<ChangeInfo>> c : formattingCalls) {
+          try {
+            c.call().ifPresent(result::add);
+          } catch (Exception e) {
+            log.warn("Omitting change due to exception", e);
+          }
+        }
+        return result;
+      }
+
+      // Format the changes in parallel on the executor
+      List<ChangeInfo> result = new ArrayList<>(changes.size());
+      try {
+        for (Future<Optional<ChangeInfo>> f : executor.invokeAll(formattingCalls)) {
+          f.get().ifPresent(result::add);
+        }
+      } catch (InterruptedException | ExecutionException e) {
+        throw new IllegalStateException(e);
+      }
+      return result;
     }
   }
 

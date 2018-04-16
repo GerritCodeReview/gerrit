@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "52e5ac96_005a5428",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1146,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-16T14:01:01Z",
+      "side": 1,
+      "message": "\u003e come to think of it, will we have stats to determine a good choice for this value?\n\nI think this should affect the tail latency of pretty much all types of search queries. That should give us enough to do one-day experiments to tune this value.",
+      "parentUuid": "cf22d036_5c2ccb7e",
+      "range": {
+        "startLine": 1146,
+        "startChar": 0,
+        "endLine": 1146,
+        "endChar": 71
+      },
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6098d4b6_ba94b2c4",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

@@ -48,6 +48,23 @@
     },
     {
       "key": {
+        "uuid": "fc8f4d74_3ecf3c05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-16T12:37:26Z",
+      "side": 1,
+      "message": "What about a second admin who doesn\u0027t know that a configuration reload was done?\nOr what about two weeks later when the first admin lost track of how many times\nshe reload the configuration and which changes where accepted/rejected?\n\nWe need a way (SSH command?) to fetch effective configuration.",
+      "revId": "b2eb4f9a39952a2fe83c87886aaef84df2e1557f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4fb3445_e238553d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

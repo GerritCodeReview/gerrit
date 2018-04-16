@@ -36,17 +36,24 @@ limitations under the License.
         list-style: none;
       }
       li {
+        border-bottom: 1px solid var(--border-color);
         cursor: pointer;
         padding: .5em .75em;
+      }
+      li:last-of-type {
+        border: none;
       }
       li:focus {
         outline: none;
       }
+      li:hover {
+        background-color: var(--hover-background-color);
+      }
       li.selected {
-        background-color: #eee;
+        background-color: var(--selection-background-color);
       }
       .dropdown-content {
-        background: var(--view-background-color);
+        background: var(--dropdown-background-color);
         box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
       }
     </style>

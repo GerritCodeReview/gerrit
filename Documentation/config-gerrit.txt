@@ -127,6 +127,9 @@ Default is 10.
 This setting only applies for adding reviewers in the Gerrit Web UI,
 but is ignored when adding reviewers with the
 link:cmd-set-reviewers.html[set-reviewers] command.
++
+This value supports configuration reloads:
+link:cmd-reload-config.html[reload-config]
 
 [[addreviewer.maxAllowed]]addreviewer.maxAllowed::
 +
@@ -137,6 +140,9 @@ If set to 0, there is no limit for the number of reviewers that can
 be added at once by adding a group as reviewer.
 +
 Default is 20.
++
+This value supports configuration reloads:
+link:cmd-reload-config.html[reload-config]
 
 [[addReviewer.baseWeight]]addReviewer.baseWeight::
 +
@@ -4558,6 +4564,9 @@ Set to 0 to disable this check.
 The maximum numbers of reviewers suggested.
 +
 By default 10.
++
+This value supports configuration reloads:
+link:cmd-reload-config.html[reload-config]
 
 [[suggest.from]]suggest.from::
 +

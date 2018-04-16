@@ -262,6 +262,11 @@ public class RefControlTest {
 
           @Override
           public void evict(Project.NameKey p) {}
+
+          @Override
+          public ProjectState uncheckedGet(Project.NameKey projectName) throws Exception {
+            return all.get(projectName);
+          }
         };
 
     Injector injector = Guice.createInjector(new InMemoryModule());

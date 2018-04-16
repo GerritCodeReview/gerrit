@@ -113,6 +113,29 @@
     },
     {
       "key": {
+        "uuid": "c0c01321_ce10ba90",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-16T14:48:05Z",
+      "side": 1,
+      "message": "nit: i often is integer. maybe c for change?",
+      "range": {
+        "startLine": 411,
+        "startChar": 22,
+        "endLine": 411,
+        "endChar": 24
+      },
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d06ea82_a6e0f47d",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

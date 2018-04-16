@@ -21,7 +21,6 @@ import com.google.gerrit.server.config.ProjectLoadExecutor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,25 +43,25 @@ public class ProjectCacheWarmer implements LifecycleListener {
     if (executor == null) {
       return;
     }
-    ExecutorService scheduler = Executors.newFixedThreadPool(1);
+    Thread scheduler =
+        new Thread(
+            () -> {
+              for (Project.NameKey name : cache.all()) {
+                executor.execute(() -> cache.get(name));
+              }
+              executor.shutdown();
+              try {
+                executor.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+                log.info("Finished loading project cache");
+              } catch (InterruptedException e) {
+                log.warn("Interrupted while waiting for project cache to load");
+              }
+            });
+    scheduler.setName("ProjectCacheWarmer");
+    scheduler.setDaemon(true);
 
     log.info("Loading project cache");
-    scheduler.execute(
-        () -> {
-          for (Project.NameKey name : cache.all()) {
-            executor.execute(
-                () -> {
-                  cache.get(name);
-                });
-          }
-          executor.shutdown();
-          try {
-            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-            log.info("Finished loading project cache");
-          } catch (InterruptedException e) {
-            log.warn("Interrupted while waiting for project cache to load");
-          }
-        });
+    scheduler.start();
   }
 
   @Override

@@ -4542,6 +4542,9 @@ If enabled, a request log file is written out by the SSH daemon.
 programmatic configuration.
 +
 By default, `true`.
++
+This value supports configuration reloads:
+link:cmd-reload-config.html[reload-config]
 
 [[sshd.rekeyBytesLimit]]sshd.rekeyBytesLimit::
 +

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -97,6 +99,19 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
           TimeUnit.SECONDS);
     } else if (age != null) {
       builder.expireAfterWrite(age, TimeUnit.SECONDS);
+    }
+
+    Long refresh = def.refreshAfterWrite(TimeUnit.SECONDS);
+    if (refresh != null) {
+      builder.refreshAfterWrite(
+          ConfigUtil.getTimeUnit(
+              cfg,
+              "cache",
+              def.name(),
+              firstNonNull(def.refreshAfterWriteConfigName(), "refreshAfterWrite"),
+              refresh,
+              TimeUnit.SECONDS),
+          TimeUnit.SECONDS);
     }
 
     return builder;

@@ -31,6 +31,19 @@ public interface CacheBinding<K, V> {
   /** Set the time an element lives before being expired. */
   CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits);
 
+  // If this is not called, cache.name.refreshAfterWrite is not respected in the config
+  CacheBinding<K, V> refreshAfterWrite(long duration, TimeUnit durationUnits);
+
+  /**
+   * Use something other than {@code refreshAfterWrite} for the key name in the config for
+   * configuring {@link #refreshAfterWrite(long, TimeUnit)}.
+   *
+   * @deprecated only for backwards compatibility, specifically for the project cache to use {@code
+   *     cache.projects.checkFrequency}.
+   */
+  @Deprecated
+  CacheBinding<K, V> refreshAfterWriteConfigName(String config);
+
   /** Populate the cache with items from the CacheLoader. */
   CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
 
@@ -49,6 +62,12 @@ public interface CacheBinding<K, V> {
 
   @Nullable
   Long expireAfterWrite(TimeUnit unit);
+
+  @Nullable
+  Long refreshAfterWrite(TimeUnit unit);
+
+  @Nullable
+  String refreshAfterWriteConfigName();
 
   @Nullable
   Weigher<K, V> weigher();

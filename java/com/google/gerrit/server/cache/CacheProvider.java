@@ -37,6 +37,8 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V> {
   private long maximumWeight;
   private long diskLimit;
   private Long expireAfterWrite;
+  private Long refreshAfterWrite;
+  private String refreshAfterWriteConfigName;
   private Provider<CacheLoader<K, V>> loader;
   private Provider<Weigher<K, V>> weigher;
 
@@ -96,6 +98,20 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V> {
   }
 
   @Override
+  public CacheBinding<K, V> refreshAfterWrite(long duration, TimeUnit unit) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    refreshAfterWrite = SECONDS.convert(duration, unit);
+    return this;
+  }
+
+  @Override
+  public CacheBinding<K, V> refreshAfterWriteConfigName(String config) {
+    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    refreshAfterWriteConfigName = config;
+    return this;
+  }
+
+  @Override
   public CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> impl) {
     Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
     loader = module.bindCacheLoader(this, impl);
@@ -144,6 +160,17 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V> {
   @Nullable
   public Long expireAfterWrite(TimeUnit unit) {
     return expireAfterWrite != null ? unit.convert(expireAfterWrite, SECONDS) : null;
+  }
+
+  @Override
+  @Nullable
+  public Long refreshAfterWrite(TimeUnit unit) {
+    return refreshAfterWrite != null ? unit.convert(refreshAfterWrite, SECONDS) : null;
+  }
+
+  @Override
+  public String refreshAfterWriteConfigName() {
+    return refreshAfterWriteConfigName;
   }
 
   @Override

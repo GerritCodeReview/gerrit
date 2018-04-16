@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -69,7 +68,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,9 +97,6 @@ public class ProjectState {
 
   /** Prolog rule state. */
   private volatile PrologMachineCopy rulesMachine;
-
-  /** Last system time the configuration's revision was examined. */
-  private volatile long lastCheckGeneration;
 
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
@@ -162,31 +158,8 @@ public class ProjectState {
     }
   }
 
-  void initLastCheck(long generation) {
-    lastCheckGeneration = generation;
-  }
-
-  boolean needsRefresh(long generation) {
-    if (generation <= 0) {
-      return isRevisionOutOfDate();
-    }
-    if (lastCheckGeneration != generation) {
-      lastCheckGeneration = generation;
-      return isRevisionOutOfDate();
-    }
-    return false;
-  }
-
-  private boolean isRevisionOutOfDate() {
-    try (Repository git = gitMgr.openRepository(getNameKey())) {
-      Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
-      if (ref == null || ref.getObjectId() == null) {
-        return true;
-      }
-      return !ref.getObjectId().equals(config.getRevision());
-    } catch (IOException gone) {
-      return true;
-    }
+  ObjectId getConfigRevision() {
+    return config.getRevision();
   }
 
   /**

@@ -83,12 +83,22 @@ public class SysExecutorModule extends AbstractModule {
                 new ThreadPoolExecutor.CallerRunsPolicy())));
   }
 
+  public static boolean enableProjectCacheRefresh(Config config) {
+    return !(isCheckFrequencyDisabled(config.getString("cache", "projects", "refreshAfterWrite"))
+        || isCheckFrequencyDisabled(config.getString("cache", "projects", "checkFrequency")));
+  }
+
+  private static boolean isCheckFrequencyDisabled(String value) {
+    return "disabled".equalsIgnoreCase(value) || "off".equalsIgnoreCase(value);
+  }
+
   @Provides
   @Singleton
   @ProjectLoadExecutor
   @Nullable
   public ExecutorService createProjectLoadExecutor(@GerritServerConfig Config config) {
-    if (!config.getBoolean("cache", "projects", "loadOnStartup", false)) {
+    if (!config.getBoolean("cache", "projects", "loadOnStartup", false)
+        && !enableProjectCacheRefresh(config)) {
       return null;
     }
     int cpus = Runtime.getRuntime().availableProcessors();

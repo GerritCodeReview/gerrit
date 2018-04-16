@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d7bdc5c_50071474",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-16T14:36:34Z",
+      "side": 1,
+      "message": "Can you include why some elements need this, even though the the body is set to have this color as well? I\u0027m surprised that an outer element would need to include it.",
+      "range": {
+        "startLine": 44,
+        "startChar": 5,
+        "endLine": 46,
+        "endChar": 7
+      },
+      "revId": "90b72f8dd20f1d11328841fb521582dba5131c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

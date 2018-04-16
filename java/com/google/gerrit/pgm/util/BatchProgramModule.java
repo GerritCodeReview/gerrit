@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ExecutorModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
@@ -57,7 +58,6 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
-import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
@@ -105,7 +105,7 @@ public class BatchProgramModule extends FactoryModule {
   protected void configure() {
     install(reviewDbModule);
     install(new DiffExecutorModule());
-    install(new ReceiveCommitsExecutorModule());
+    install(new ExecutorModule());
     install(BatchUpdate.module());
     install(PatchListCacheImpl.module());
 

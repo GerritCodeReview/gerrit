@@ -48,6 +48,7 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
+import com.google.gerrit.server.ExecutorModule;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
@@ -70,7 +71,6 @@ import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.receive.ReceiveCommitsExecutorModule;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
@@ -412,7 +412,7 @@ public class Daemon extends SiteProgram {
         inMemoryTest
             ? new InMemoryAccountPatchReviewStore.Module()
             : new JdbcAccountPatchReviewStore.Module(config));
-    modules.add(new ReceiveCommitsExecutorModule());
+    modules.add(new ExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));

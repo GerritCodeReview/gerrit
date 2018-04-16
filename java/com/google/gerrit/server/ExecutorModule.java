@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.receive;
+package com.google.gerrit.server;
 
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -20,6 +20,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.change.ChangeJsonExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.receive.ReceiveCommitsExecutor;
 import com.google.gerrit.server.mail.SendEmailExecutor;
 import com.google.gerrit.server.update.ChangeUpdateExecutor;
 import com.google.inject.AbstractModule;
@@ -32,12 +33,12 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * Module providing the {@link ReceiveCommitsExecutor}.
+ * Module providing {@code ExecutorService}s.
  *
- * <p>Unlike {@link ReceiveCommitsModule}, this module is intended to be installed only in top-level
- * injectors like in {@code Daemon}, not in the {@code sysInjector}.
+ * <p>Yhis module is intended to be installed only in top-level injectors like in {@code Daemon},
+ * not in the {@code sysInjector}.
  */
-public class ReceiveCommitsExecutorModule extends AbstractModule {
+public class ExecutorModule extends AbstractModule {
   @Override
   protected void configure() {}
 

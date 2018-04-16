@@ -1379,6 +1379,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Account.Id user2 =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     assertQuery(q + " visibleto:" + user2.get(), change1);
+
+    requestContext.setContext(
+        newRequestContext(
+            accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));
+    assertQuery("is:visible", change1);
   }
 
   @Test

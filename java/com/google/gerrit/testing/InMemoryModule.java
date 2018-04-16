@@ -31,6 +31,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.account.AccountCacheExecutor;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
@@ -266,6 +267,13 @@ public class InMemoryModule extends FactoryModule {
   @Singleton
   @SendEmailExecutor
   public ExecutorService createSendEmailExecutor() {
+    return MoreExecutors.newDirectExecutorService();
+  }
+
+  @Provides
+  @Singleton
+  @AccountCacheExecutor
+  public ExecutorService createAccountCacheExecutor() {
     return MoreExecutors.newDirectExecutorService();
   }
 

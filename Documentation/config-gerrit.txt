@@ -1015,6 +1015,13 @@ configuration.
 +
 Default is true, enabled.
 
+[[cache.accounts.threadPoolSize]]cache.accounts.threadPoolSize::
++
+Maximum size of thread pool in which the the AccountCache loads accounts
+that it currently does not have in memory.
++
+By default, 0 which means that formatting happens in the caller thread.
+
 [[cache.projects.checkFrequency]]cache.projects.checkFrequency::
 +
 How often project configuration should be checked for update from Git.

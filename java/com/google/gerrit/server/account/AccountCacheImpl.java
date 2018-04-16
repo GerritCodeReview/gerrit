@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -31,8 +32,16 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,15 +69,18 @@ public class AccountCacheImpl implements AccountCache {
   private final AllUsersName allUsersName;
   private final ExternalIds externalIds;
   private final LoadingCache<Account.Id, Optional<AccountState>> byId;
+  private final ExecutorService executor;
 
   @Inject
   AccountCacheImpl(
       AllUsersName allUsersName,
       ExternalIds externalIds,
-      @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId) {
+      @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId,
+      @AccountCacheExecutor ExecutorService executor) {
     this.allUsersName = allUsersName;
     this.externalIds = externalIds;
     this.byId = byId;
+    this.executor = executor;
   }
 
   @Override
@@ -89,6 +101,36 @@ public class AccountCacheImpl implements AccountCache {
       log.warn("Cannot load AccountState for ID " + accountId, e);
       return null;
     }
+  }
+
+  @Override
+  public Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
+    Map<Account.Id, AccountState> accountStates = new HashMap<>(accountIds.size());
+    List<Callable<Optional<AccountState>>> callables = new ArrayList<>();
+    for (Account.Id accountId : accountIds) {
+      if (byId.asMap().containsKey(accountId)) {
+        // The value is in-memory, so we just get the state
+        Optional<AccountState> state = get(accountId);
+        state.ifPresent(s -> accountStates.put(accountId, s));
+      } else {
+        // Queue up a callable so that we can load accounts in parallel
+        callables.add(() -> get(accountId));
+      }
+    }
+    if (callables.isEmpty()) {
+      return accountStates;
+    }
+
+    try {
+      List<Future<Optional<AccountState>>> futures = executor.invokeAll(callables);
+      for (Future<Optional<AccountState>> f : futures) {
+        f.get().ifPresent(s -> accountStates.put(s.getAccount().getId(), s));
+      }
+    } catch (InterruptedException | ExecutionException e) {
+      log.warn("Cannot load AccountStates", e);
+      return ImmutableMap.of();
+    }
+    return accountStates;
   }
 
   @Override

@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.receive;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.server.account.AccountCacheExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.SendEmailExecutor;
@@ -61,6 +62,18 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
       return MoreExecutors.newDirectExecutorService();
     }
     return queues.createQueue(poolSize, "SendEmail");
+  }
+
+  @Provides
+  @Singleton
+  @AccountCacheExecutor
+  public ExecutorService createAccountCacheExecutor(
+      @GerritServerConfig Config config, WorkQueue queues) {
+    int poolSize = config.getInt("accounts", null, "threadPoolSize", 0);
+    if (poolSize == 0) {
+      return MoreExecutors.newDirectExecutorService();
+    }
+    return queues.createQueue(poolSize, "AccountCacheLoader");
   }
 
   @Provides

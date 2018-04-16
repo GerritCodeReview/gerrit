@@ -46,6 +46,30 @@
       "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf16a781_67b246a7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-16T14:36:50Z",
+      "side": 1,
+      "message": "Does ..\n\n Block force push\n\n.. work, then? If I understand you right, this option has different meanings depending on whether other rules are set:\n\n Block all pushes unless normal pushes are enabled elsewhere, in which case only block force pushes\n\nIf so, I don\u0027t see a concise way to put it.\n\nI don\u0027t have a problem with this wording, it just doesn\u0027t seem any clearer to me than before.",
+      "parentUuid": "26380396_d3cadb07",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -34,11 +34,12 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class DefaultPermissionBackend extends PermissionBackend {
@@ -71,12 +72,14 @@ public class DefaultPermissionBackend extends PermissionBackend {
     @Override
     public ForProject project(Project.NameKey project) {
       try {
-        ProjectState state = projectCache.checkedGet(project);
-        if (state != null) {
-          return state.controlFor(user).asForProject().database(db);
+        ProjectState state = projectCache.getWithCause(project);
+        return state.controlFor(user).asForProject().database(db);
+      } catch (ExecutionException e) {
+        Throwable cause = e.getCause();
+        if (cause instanceof RepositoryNotFoundException) {
+          return FailedPermissionBackend.project(
+              "project '" + project.get() + "' not found", cause);
         }
-        return FailedPermissionBackend.project("project '" + project.get() + "' not found");
-      } catch (IOException e) {
         return FailedPermissionBackend.project("unavailable", e);
       }
     }

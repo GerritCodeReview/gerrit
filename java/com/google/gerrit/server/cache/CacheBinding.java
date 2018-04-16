@@ -29,6 +29,19 @@ public interface CacheBinding<K, V> {
   /** Set the time an element lives after last access before being expired. */
   CacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration);
 
+  /** Set the time after last write after which an element will be refreshed in the background. */
+  CacheBinding<K, V> refreshAfterWrite(Duration duration);
+
+  /**
+   * Use something other than {@code refreshAfterWrite} for the key name in the config for
+   * configuring {@link #refreshAfterWrite(Duration)}.
+   *
+   * @deprecated only for backwards compatibility, specifically for the project cache to use {@code
+   *     cache.projects.checkFrequency}.
+   */
+  @Deprecated
+  CacheBinding<K, V> refreshAfterWriteConfigName(String config);
+
   /** Populate the cache with items from the CacheLoader. */
   CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
 

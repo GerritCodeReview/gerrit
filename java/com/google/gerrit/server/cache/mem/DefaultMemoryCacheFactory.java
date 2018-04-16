@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache.mem;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -93,6 +94,24 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
           SECONDS);
     } else if (expireAfterAccess != null) {
       builder.expireAfterAccess(expireAfterAccess.toNanos(), NANOSECONDS);
+    }
+
+    Duration refreshAfterWrite = def.refreshAfterWrite();
+    if (refreshAfterWrite != null) {
+      long refreshSecs =
+          ConfigUtil.getTimeUnit(
+              cfg,
+              "cache",
+              def.name(),
+              firstNonNull(def.refreshAfterWriteConfigName(), "refreshAfterWrite"),
+              toSeconds(refreshAfterWrite),
+              SECONDS);
+      if (refreshSecs != 0) {
+        builder.refreshAfterWrite(refreshSecs, SECONDS);
+      } else {
+        // Guava doesn't support expireAfterWrite=0, so hackily use 1ns.
+        builder.refreshAfterWrite(1, NANOSECONDS);
+      }
     }
 
     return builder;

@@ -42,6 +42,17 @@ class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
     return source.expireFromMemoryAfterAccess();
   }
 
+  @Override
+  @Nullable
+  public Duration refreshAfterWrite() {
+    return source.refreshAfterWrite();
+  }
+
+  @Override
+  public String refreshAfterWriteConfigName() {
+    return source.refreshAfterWriteConfigName();
+  }
+
   @SuppressWarnings("unchecked")
   @Override
   public Weigher<K, V> weigher() {

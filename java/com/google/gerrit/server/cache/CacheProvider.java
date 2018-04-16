@@ -37,6 +37,8 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   private long maximumWeight;
   private Duration expireAfterWrite;
   private Duration expireFromMemoryAfterAccess;
+  private Duration refreshAfterWrite;
+  private String refreshAfterWriteConfigName;
   private Provider<CacheLoader<K, V>> loader;
   private Provider<Weigher<K, V>> weigher;
 
@@ -79,6 +81,20 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   public CacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration) {
     checkNotFrozen();
     expireFromMemoryAfterAccess = duration;
+    return this;
+  }
+
+  @Override
+  public CacheBinding<K, V> refreshAfterWrite(Duration duration) {
+    checkNotFrozen();
+    refreshAfterWrite = duration;
+    return this;
+  }
+
+  @Override
+  public CacheBinding<K, V> refreshAfterWriteConfigName(String config) {
+    checkNotFrozen();
+    refreshAfterWriteConfigName = config;
     return this;
   }
 
@@ -141,6 +157,17 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   @Nullable
   public Duration expireFromMemoryAfterAccess() {
     return expireFromMemoryAfterAccess;
+  }
+
+  @Override
+  @Nullable
+  public Duration refreshAfterWrite() {
+    return refreshAfterWrite;
+  }
+
+  @Override
+  public String refreshAfterWriteConfigName() {
+    return refreshAfterWriteConfigName;
   }
 
   @Override

@@ -51,6 +51,9 @@ public interface CacheDef<K, V> {
   Duration expireFromMemoryAfterAccess();
 
   @Nullable
+  Duration checkFrequency();
+
+  @Nullable
   Weigher<K, V> weigher();
 
   @Nullable

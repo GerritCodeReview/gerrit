@@ -37,6 +37,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   private long maximumWeight;
   private Duration expireAfterWrite;
   private Duration expireFromMemoryAfterAccess;
+  private Duration checkFrequency;
   private Provider<CacheLoader<K, V>> loader;
   private Provider<Weigher<K, V>> weigher;
 
@@ -79,6 +80,17 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   public CacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration) {
     checkNotFrozen();
     expireFromMemoryAfterAccess = duration;
+    return this;
+  }
+
+  @Override
+  public CacheBinding<K, V> checkFrequency(Duration duration) {
+    checkNotFrozen();
+    // Guava's CacheBuilder#refreshAfterWrite requires support in the corresponding CacheLoader
+    // implementation for async reloading, so restrict this feature to CacheLoaders that actually
+    // support it.
+    checkState(name.equals("projects"), "checkFrequency only supported for project cache");
+    checkFrequency = duration;
     return this;
   }
 
@@ -141,6 +153,12 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   @Nullable
   public Duration expireFromMemoryAfterAccess() {
     return expireFromMemoryAfterAccess;
+  }
+
+  @Override
+  @Nullable
+  public Duration checkFrequency() {
+    return checkFrequency;
   }
 
   @Override

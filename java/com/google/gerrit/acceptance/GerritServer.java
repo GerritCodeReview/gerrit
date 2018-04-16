@@ -338,11 +338,14 @@ public class GerritServer implements AutoCloseable {
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
     mergeTestConfig(cfg);
-    // Set the log4j configuration to an invalid one to prevent system logs
-    // from getting configured and creating log files.
-    System.setProperty(SystemLog.LOG4J_CONFIGURATION, "invalidConfiguration");
-    cfg.setBoolean("httpd", null, "requestLog", false);
-    cfg.setBoolean("sshd", null, "requestLog", false);
+    boolean sshLogEnabled = cfg.getBoolean("sshd", null, "requestLog", false);
+    if (!sshLogEnabled) {
+      // Set the log4j configuration to an invalid one to prevent system logs
+      // from getting configured and creating log files.
+      System.setProperty(SystemLog.LOG4J_CONFIGURATION, "invalidConfiguration");
+      cfg.setBoolean("httpd", null, "requestLog", false);
+      cfg.setBoolean("sshd", null, "requestLog", false);
+    }
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setString("gitweb", null, "cgi", "");
     daemon.setEnableHttpd(desc.httpd());
@@ -352,7 +355,8 @@ public class GerritServer implements AutoCloseable {
             new InMemoryTestingDatabaseModule(
                 cfg, site, inMemoryRepoManager, inMemoryDatabaseInstance)));
     daemon.start();
-    return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
+    return new GerritServer(
+        desc, sshLogEnabled ? site : null, createTestInjector(daemon), daemon, null);
   }
 
   private static boolean isSlave(Config baseConfig) {

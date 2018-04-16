@@ -17,12 +17,14 @@ package com.google.gerrit.server.config;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
@@ -79,5 +81,19 @@ public class SysExecutorModule extends AbstractModule {
                 new ArrayBlockingQueue<Runnable>(poolSize),
                 new ThreadFactoryBuilder().setNameFormat("ChangeUpdate-%d").setDaemon(true).build(),
                 new ThreadPoolExecutor.CallerRunsPolicy())));
+  }
+
+  @Provides
+  @Singleton
+  @ProjectLoadExecutor
+  @Nullable
+  public ExecutorService createProjectLoadExecutor(@GerritServerConfig Config config) {
+    if (!config.getBoolean("cache", "projects", "loadOnStartup", false)) {
+      return null;
+    }
+    int cpus = Runtime.getRuntime().availableProcessors();
+    return new ScheduledThreadPoolExecutor(
+        config.getInt("cache", "projects", "loadThreads", cpus),
+        new ThreadFactoryBuilder().setNameFormat("ProjectCacheLoader-%d").build());
   }
 }

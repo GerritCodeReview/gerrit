@@ -24,6 +24,8 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /** Fake implementation of {@link AccountCache} for testing. */
 public class FakeAccountCache implements AccountCache {
@@ -45,6 +47,14 @@ public class FakeAccountCache implements AccountCache {
   @Override
   public synchronized Optional<AccountState> get(Account.Id accountId) {
     return Optional.ofNullable(byId.get(accountId));
+  }
+
+  @Override
+  public synchronized Map<Account.Id, AccountState> get(Set<Account.Id> accountId) {
+    return byId.entrySet()
+        .stream()
+        .filter(e -> e.getKey().equals(accountId))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   @Override

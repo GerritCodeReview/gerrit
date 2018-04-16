@@ -65,8 +65,9 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelFunction;
@@ -135,6 +136,7 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
@@ -178,6 +180,8 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+
+  @Inject private AccountOperations accountOperations;
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;
@@ -477,20 +481,24 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().pendingReviewers).isEmpty();
 
     // Add some pending reviewers.
-    TestAccount user1 =
-        accountCreator.create(name("user1"), name("user1") + "@example.com", "User 1");
-    TestAccount user2 =
-        accountCreator.create(name("user2"), name("user2") + "@example.com", "User 2");
-    TestAccount user3 =
-        accountCreator.create(name("user3"), name("user3") + "@example.com", "User 3");
-    TestAccount user4 =
-        accountCreator.create(name("user4"), name("user4") + "@example.com", "User 4");
+    String email1 = name("user1") + "@example.com";
+    String email2 = name("user2") + "@example.com";
+    String email3 = name("user3") + "@example.com";
+    String email4 = name("user4") + "@example.com";
+    accountOperations.create(
+        creation -> creation.username(name("user1")).preferredEmail(email1).fullname("User 1"));
+    accountOperations.create(
+        creation -> creation.username(name("user2")).preferredEmail(email2).fullname("User 2"));
+    accountOperations.create(
+        creation -> creation.username(name("user3")).preferredEmail(email3).fullname("User 3"));
+    accountOperations.create(
+        creation -> creation.username(name("user4")).preferredEmail(email4).fullname("User 4"));
     ReviewInput in =
         ReviewInput.noScore()
-            .reviewer(user1.email)
-            .reviewer(user2.email)
-            .reviewer(user3.email, CC, false)
-            .reviewer(user4.email, CC, false)
+            .reviewer(email1)
+            .reviewer(email2)
+            .reviewer(email3, CC, false)
+            .reviewer(email4, CC, false)
             .reviewer("byemail1@example.com")
             .reviewer("byemail2@example.com")
             .reviewer("byemail3@example.com", CC, false)
@@ -502,43 +510,43 @@ public class ChangeIT extends AbstractDaemonTest {
         ais -> ais.stream().map(ai -> ai.email).collect(toSet());
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
         .containsExactly(
-            admin.email, user1.email, user2.email, "byemail1@example.com", "byemail2@example.com");
+            admin.email, email1, email2, "byemail1@example.com", "byemail2@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
-        .containsExactly(user3.email, user4.email, "byemail3@example.com", "byemail4@example.com");
+        .containsExactly(email3, email4, "byemail3@example.com", "byemail4@example.com");
     assertThat(info.pendingReviewers.get(REMOVED)).isNull();
 
     // Stage some pending reviewer removals.
-    gApi.changes().id(changeId).reviewer(user1.email).remove();
-    gApi.changes().id(changeId).reviewer(user3.email).remove();
+    gApi.changes().id(changeId).reviewer(email1).remove();
+    gApi.changes().id(changeId).reviewer(email3).remove();
     gApi.changes().id(changeId).reviewer("byemail1@example.com").remove();
     gApi.changes().id(changeId).reviewer("byemail3@example.com").remove();
     info = gApi.changes().id(changeId).get();
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
-        .containsExactly(admin.email, user2.email, "byemail2@example.com");
+        .containsExactly(admin.email, email2, "byemail2@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
-        .containsExactly(user4.email, "byemail4@example.com");
+        .containsExactly(email4, "byemail4@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(REMOVED)))
-        .containsExactly(user1.email, user3.email, "byemail1@example.com", "byemail3@example.com");
+        .containsExactly(email1, email3, "byemail1@example.com", "byemail3@example.com");
 
     // "Undo" a removal.
-    in = ReviewInput.noScore().reviewer(user1.email);
+    in = ReviewInput.noScore().reviewer(email1);
     gApi.changes().id(changeId).revision("current").review(in);
     info = gApi.changes().id(changeId).get();
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
-        .containsExactly(admin.email, user1.email, user2.email, "byemail2@example.com");
+        .containsExactly(admin.email, email1, email2, "byemail2@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
-        .containsExactly(user4.email, "byemail4@example.com");
+        .containsExactly(email4, "byemail4@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(REMOVED)))
-        .containsExactly(user3.email, "byemail1@example.com", "byemail3@example.com");
+        .containsExactly(email3, "byemail1@example.com", "byemail3@example.com");
 
     // "Commit" by moving out of WIP.
     gApi.changes().id(changeId).setReadyForReview();
     info = gApi.changes().id(changeId).get();
     assertThat(info.pendingReviewers).isEmpty();
     assertThat(toEmails.apply(info.reviewers.get(REVIEWER)))
-        .containsExactly(admin.email, user1.email, user2.email, "byemail2@example.com");
+        .containsExactly(admin.email, email1, email2, "byemail2@example.com");
     assertThat(toEmails.apply(info.reviewers.get(CC)))
-        .containsExactly(user4.email, "byemail4@example.com");
+        .containsExactly(email4, "byemail4@example.com");
     assertThat(info.reviewers.get(REMOVED)).isNull();
   }
 
@@ -1589,7 +1597,11 @@ public class ChangeIT extends AbstractDaemonTest {
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
     //create a group named "ab" with one user: testUser
-    TestAccount testUser = accountCreator.create("abcd", "abcd@test.com", "abcd");
+    String email = "abcd@test.com";
+    String fullname = "abcd";
+    TestAccount testUser =
+        accountOperations.create(
+            creation -> creation.username("abcd").preferredEmail(email).fullname(fullname));
     String testGroup = createGroupWithRealName("ab");
     GroupApi groupApi = gApi.groups().id(testGroup);
     groupApi.description("test group");
@@ -1602,11 +1614,11 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(testUser.emailAddress);
-    assertThat(m.body()).contains("Hello " + testUser.fullName + ",\n");
+    assertThat(m.rcpt()).containsExactly(new Address(fullname, email));
+    assertThat(m.body()).contains("Hello " + fullname + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailReplyTo(m, testUser.email);
+    assertMailReplyTo(m, email);
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 
     // When NoteDb is enabled adding a reviewer records that user as reviewer
@@ -1616,7 +1628,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId).isEqualTo(testUser.getId().get());
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(testUser.accountId().get());
 
     // Ensure ETag and lastUpdatedOn are updated.
     rsrc = parseResource(r);
@@ -1633,16 +1645,31 @@ public class ChangeIT extends AbstractDaemonTest {
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
     //create a group named "kobe" with one user: lee
-    TestAccount testUser = accountCreator.create("kobebryant", "kobebryant@test.com", "kobebryant");
-    TestAccount myGroupUser = accountCreator.create("lee", "lee@test.com", "lee");
+    String testUserFullname = "kobebryant";
+    accountOperations.create(
+        creation ->
+            creation
+                .username("kobebryant")
+                .preferredEmail("kobebryant@test.com")
+                .fullname(testUserFullname));
+
+    String myGroupUserEmail = "lee@test.com";
+    String myGroupUserFullname = "lee";
+    TestAccount myGroupUser =
+        accountOperations.create(
+            creation ->
+                creation
+                    .username("lee")
+                    .preferredEmail(myGroupUserEmail)
+                    .fullname(myGroupUserFullname));
 
     String testGroup = createGroupWithRealName("kobe");
     GroupApi groupApi = gApi.groups().id(testGroup);
     groupApi.description("test group");
-    groupApi.addMembers(myGroupUser.fullName);
+    groupApi.addMembers(myGroupUserFullname);
 
     //ensure that user "user" is not in the group
-    groupApi.removeMembers(testUser.fullName);
+    groupApi.removeMembers(testUserFullname);
 
     AddReviewerInput in = new AddReviewerInput();
     in.reviewer = testGroup;
@@ -1651,11 +1678,11 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(myGroupUser.emailAddress);
-    assertThat(m.body()).contains("Hello " + myGroupUser.fullName + ",\n");
+    assertThat(m.rcpt()).containsExactly(new Address(myGroupUserFullname, myGroupUserEmail));
+    assertThat(m.body()).contains("Hello " + myGroupUserFullname + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
-    assertMailReplyTo(m, myGroupUser.email);
+    assertMailReplyTo(m, myGroupUserEmail);
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 
     // When NoteDb is enabled adding a reviewer records that user as reviewer
@@ -1665,7 +1692,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
-    assertThat(reviewers.iterator().next()._accountId).isEqualTo(myGroupUser.getId().get());
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(myGroupUser.accountId().get());
 
     // Ensure ETag and lastUpdatedOn are updated.
     rsrc = parseResource(r);
@@ -1732,12 +1759,13 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void implicitlyCcOnNonVotingReviewForUserWithoutUserNamePgStyle() throws Exception {
-    TestAccount accountWithoutUsername = accountCreator.create();
+    com.google.gerrit.acceptance.TestAccount accountWithoutUsername = accountCreator.create();
     assertThat(accountWithoutUsername.username).isNull();
     testImplicitlyCcOnNonVotingReviewPgStyle(accountWithoutUsername);
   }
 
-  private void testImplicitlyCcOnNonVotingReviewPgStyle(TestAccount testAccount) throws Exception {
+  private void testImplicitlyCcOnNonVotingReviewPgStyle(
+      com.google.gerrit.acceptance.TestAccount testAccount) throws Exception {
     PushOneCommit.Result r = createChange();
     setApiUser(testAccount);
     assertThat(getReviewerState(r.getChangeId(), testAccount.id)).isEmpty();
@@ -1762,12 +1790,13 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void implicitlyCcOnNonVotingReviewForUserWithoutUserNameGwtStyle() throws Exception {
-    TestAccount accountWithoutUsername = accountCreator.create();
+    com.google.gerrit.acceptance.TestAccount accountWithoutUsername = accountCreator.create();
     assertThat(accountWithoutUsername.username).isNull();
     testImplicitlyCcOnNonVotingReviewGwtStyle(accountWithoutUsername);
   }
 
-  private void testImplicitlyCcOnNonVotingReviewGwtStyle(TestAccount testAccount) throws Exception {
+  private void testImplicitlyCcOnNonVotingReviewGwtStyle(
+      com.google.gerrit.acceptance.TestAccount testAccount) throws Exception {
     PushOneCommit.Result r = createChange();
     setApiUser(testAccount);
     assertThat(getReviewerState(r.getChangeId(), testAccount.id)).isEmpty();
@@ -2087,13 +2116,16 @@ public class ChangeIT extends AbstractDaemonTest {
     in.notify = NotifyHandling.NONE;
 
     // notify unrelated account as TO
-    TestAccount user2 = accountCreator.user2();
+    String email = "user2@example.com";
+    TestAccount user2 =
+        accountOperations.create(
+            creation -> creation.username("user2").preferredEmail(email).fullname("User2"));
     setApiUser(user);
     recommend(r.getChangeId());
     setApiUser(admin);
     sender.clear();
     in.notifyDetails = new HashMap<>();
-    in.notifyDetails.put(RecipientType.TO, new NotifyInfo(ImmutableList.of(user2.email)));
+    in.notifyDetails.put(RecipientType.TO, new NotifyInfo(ImmutableList.of(email)));
     gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).deleteVote(in);
     assertNotifyTo(user2);
 
@@ -2103,7 +2135,7 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(admin);
     sender.clear();
     in.notifyDetails = new HashMap<>();
-    in.notifyDetails.put(RecipientType.CC, new NotifyInfo(ImmutableList.of(user2.email)));
+    in.notifyDetails.put(RecipientType.CC, new NotifyInfo(ImmutableList.of(email)));
     gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).deleteVote(in);
     assertNotifyCc(user2);
 
@@ -2113,7 +2145,7 @@ public class ChangeIT extends AbstractDaemonTest {
     setApiUser(admin);
     sender.clear();
     in.notifyDetails = new HashMap<>();
-    in.notifyDetails.put(RecipientType.BCC, new NotifyInfo(ImmutableList.of(user2.email)));
+    in.notifyDetails.put(RecipientType.BCC, new NotifyInfo(ImmutableList.of(email)));
     gApi.changes().id(r.getChangeId()).reviewer(user.getId().toString()).deleteVote(in);
     assertNotifyBcc(user2);
   }
@@ -3246,7 +3278,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(getCommitMessage(r.getChangeId()))
         .isEqualTo("test commit\n\nChange-Id: " + r.getChangeId() + "\n");
 
-    for (TestAccount acc : ImmutableList.of(admin, user)) {
+    for (com.google.gerrit.acceptance.TestAccount acc : ImmutableList.of(admin, user)) {
       setApiUser(acc);
       String newMessage =
           "modified commit by " + acc.username + "\n\nChange-Id: " + r.getChangeId() + "\n";
@@ -3703,7 +3735,10 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void ignore() throws Exception {
-    TestAccount user2 = accountCreator.user2();
+    String email = "user2@example.com";
+    String fullname = "User2";
+    accountOperations.create(
+        creation -> creation.username("user2").preferredEmail(email).fullname(fullname));
 
     PushOneCommit.Result r = createChange();
 
@@ -3712,7 +3747,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     in = new AddReviewerInput();
-    in.reviewer = user2.email;
+    in.reviewer = email;
     gApi.changes().id(r.getChangeId()).addReviewer(in);
 
     setApiUser(user);
@@ -3724,7 +3759,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).abandon();
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
-    assertThat(messages.get(0).rcpt()).containsExactly(user2.emailAddress);
+    assertThat(messages.get(0).rcpt()).containsExactly(new Address(fullname, email));
 
     setApiUser(user);
     gApi.changes().id(r.getChangeId()).ignore(false);
@@ -3778,7 +3813,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void markAsReviewed() throws Exception {
-    TestAccount user2 = accountCreator.user2();
+    com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
 
     PushOneCommit.Result r = createChange();
 

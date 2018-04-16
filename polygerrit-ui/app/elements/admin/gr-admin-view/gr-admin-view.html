@@ -40,7 +40,11 @@ limitations under the License.
 
 <dom-module id="gr-admin-view">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      :host {
+        color: var(--primary-text-color);
+      }
+    </style>
     <style include="gr-menu-page-styles"></style>
     <style include="gr-page-nav-styles"></style>
     <gr-page-nav class="navStyles">

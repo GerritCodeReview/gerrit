@@ -35,7 +35,7 @@ limitations under the License.
         display: flex;
       }
       .bigTitle {
-        color: var(--primary-text-color);
+        color: var(--header-text-color);
         font-size: 1.75rem;
         text-decoration: none;
       }
@@ -68,7 +68,7 @@ limitations under the License.
         position: relative;
       }
       .linksTitle {
-        color: var(--primary-text-color);
+        color: var(--header-text-color);
         display: inline-block;
         font-family: var(--font-family-bold);
         position: relative;
@@ -95,7 +95,13 @@ limitations under the License.
       .browse {
         padding: .6em .5em;
       }
+      gr-dropdown {
+        --gr-dropdown-item: {
+          color: var(--header-text-color);
+        }
+      }
       .browse {
+        color: var(--header-text-color);
         /* Same as gr-button */
         margin: 5px 4px;
         text-decoration: none;
@@ -115,6 +121,7 @@ limitations under the License.
         text-overflow: ellipsis;
       }
       .loginButton {
+        color: var(--header-text-color);
         padding: 1em;
       }
       .dropdown-trigger {

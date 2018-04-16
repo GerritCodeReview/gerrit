@@ -40,6 +40,8 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
+
 @Singleton
 public class DefaultPermissionBackend extends PermissionBackend {
   private static final CurrentUser.PropertyKey<Boolean> IS_ADMIN = CurrentUser.PropertyKey.create();
@@ -75,7 +77,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         if (state != null) {
           return state.controlFor(user).asForProject().database(db);
         }
-        return FailedPermissionBackend.project("project '" + project.get() + "' not found");
+        return FailedPermissionBackend.project("project '" + project.get() + "' not found", new RepositoryNotFoundException(project.get()));
       } catch (IOException e) {
         return FailedPermissionBackend.project("unavailable", e);
       }

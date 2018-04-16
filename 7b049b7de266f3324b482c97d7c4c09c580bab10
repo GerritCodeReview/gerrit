@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a53c78e_35ea6f85",
+        "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T14:33:16Z",
+      "side": 1,
+      "message": "Before this change, the binding in GerritGlobalModule.java looked like this:\n \n    bind(new TypeLiteral\u003cList\u003cCommentLinkInfo\u003e\u003e() {})\n        .toProvider(CommentLinkProvider.class)\n        .in(SINGLETON);\n\nSo while the provider was not a @Singleton, the commentlinks would only be generated once from gerrit.config and returned from get().\n\nMaking the provider a Singleton and not the provider, we can chose to cache the provided value and update it upon request.",
+      "parentUuid": "780c6e17_b8676b0e",
+      "revId": "7b049b7de266f3324b482c97d7c4c09c580bab10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eb71e227_9ebba9ef",
         "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-16T13:51:06Z",
       "side": 1,
       "message": "This needs to be threadsafe. A volatile pointer to an ImmutableList would be nicer.",
+      "revId": "7b049b7de266f3324b482c97d7c4c09c580bab10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4700975e_450f83ed",
+        "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T14:33:16Z",
+      "side": 1,
+      "message": "How so? The only place we update it is in configUpdated, which has the necessary logic synchronized.",
+      "parentUuid": "eb71e227_9ebba9ef",
       "revId": "7b049b7de266f3324b482c97d7c4c09c580bab10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

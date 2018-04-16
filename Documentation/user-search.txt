@@ -329,6 +329,11 @@ is:reviewer::
 True on any change where the current user is a reviewer.
 Same as `reviewer:self`.
 
+is:cc::
++
+True on any change where the current user is in CC.
+Same as `cc:self`.
+
 is:open, is:pending::
 +
 True if the change is open.

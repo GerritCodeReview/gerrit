@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6098d4b6_ba94b2c4",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-16T13:34:43Z",
+      "side": 1,
+      "message": "ITYM Maps.newHashMapWithExpectedSize",
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d06ea82_a6e0f47d",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-16T13:34:43Z",
+      "side": 1,
+      "message": "Is ensureLoaded called anywhere else? If not, change the signature, or inline it?",
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97477a05_9d28e04c",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-16T13:34:43Z",
+      "side": 1,
+      "message": "There is at least one other hypothesis I would like to test: maybe we can skip parallelization if the number of projects is low enough, e.g. 1. On the one hand, I cringe a little at the idea of adding 2 config options here. On the other hand, I can actually see us wanting to tune this in practice.",
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0986ce95_fa857e47",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-16T13:34:43Z",
+      "side": 1,
+      "message": "Since your Callable body doesn\u0027t catch any RuntimeExceptions, they would bubble up as UncheckedExecutionExceptions. Worth adding a second catch block for that case which lots and omits the result?",
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -21,10 +21,12 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.RemotePeer;
+import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritRequestModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider;
@@ -71,6 +73,8 @@ public class SshModule extends LifecycleModule {
     configureAliases();
 
     bind(SshLog.class);
+    DynamicSet.bind(binder(), GerritConfigListener.class).to(SshLog.class);
+
     bind(SshInfo.class).to(SshDaemon.class).in(SINGLETON);
     factory(DispatchCommand.Factory.class);
     factory(QueryShell.Factory.class);

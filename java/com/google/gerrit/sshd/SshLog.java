@@ -23,6 +23,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.SshAuditEvent;
+import com.google.gerrit.server.config.ConfigKey;
+import com.google.gerrit.server.config.ConfigUpdatedEvent;
+import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.SystemLog;
@@ -30,6 +33,7 @@ import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -37,7 +41,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-class SshLog implements LifecycleListener {
+class SshLog implements LifecycleListener, GerritConfigListener {
   private static final Logger log = Logger.getLogger(SshLog.class);
   private static final String LOG_NAME = "sshd_log";
   private static final String P_SESSION = "session";
@@ -50,8 +54,11 @@ class SshLog implements LifecycleListener {
 
   private final Provider<SshSession> session;
   private final Provider<Context> context;
-  private final AsyncAppender async;
+  private volatile AsyncAppender async;
   private final AuditService auditService;
+  private final SystemLog systemLog;
+
+  private final Object lock = new Object();
 
   @Inject
   SshLog(
@@ -63,12 +70,28 @@ class SshLog implements LifecycleListener {
     this.session = session;
     this.context = context;
     this.auditService = auditService;
+    this.systemLog = systemLog;
 
-    if (!config.getBoolean("sshd", "requestLog", true)) {
-      async = null;
-      return;
+    if (config.getBoolean("sshd", "requestLog", true)) {
+      enableLogging();
     }
-    async = systemLog.createAsyncAppender(LOG_NAME, new SshLogLayout());
+  }
+
+  public void enableLogging() {
+    synchronized (lock) {
+      if (async == null) {
+        async = systemLog.createAsyncAppender(LOG_NAME, new SshLogLayout());
+      }
+    }
+  }
+
+  public void disableLogging() {
+    synchronized (lock) {
+      if (async != null) {
+        async.close();
+        async = null;
+      }
+    }
   }
 
   @Override
@@ -76,9 +99,7 @@ class SshLog implements LifecycleListener {
 
   @Override
   public void stop() {
-    if (async != null) {
-      async.close();
-    }
+    disableLogging();
   }
 
   void onLogin() {
@@ -287,5 +308,23 @@ class SshLog implements LifecycleListener {
       commandName.append(".").append(args[i]);
     }
     return commandName.toString();
+  }
+
+  @Override
+  public void configUpdated(ConfigUpdatedEvent event) {
+    ConfigKey entryOfInterest = ConfigKey.create("sshd", "requestLog");
+    if (!event.isValueUpdated(entryOfInterest)) {
+      return;
+    }
+
+    boolean enabled = event.getNewConfig().getBoolean("sshd", "requestLog", true);
+    synchronized (lock) {
+      if (enabled && async == null) {
+        enableLogging();
+      } else if (!enabled && async != null) {
+        disableLogging();
+      }
+    }
+    event.accept(entryOfInterest);
   }
 }

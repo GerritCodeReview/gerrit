@@ -76,8 +76,8 @@ public class StaticModule extends ServletModule {
           "/", "/c/*", "/p/*", "/q/*", "/x/*", "/admin/*", "/dashboard/*", "/settings/*");
   // TODO(dborowitz): These fragments conflict with the REST API
   // namespace, so they will need to use a different path.
-  //"/groups/*",
-  //"/projects/*");
+  // "/groups/*",
+  // "/projects/*");
   //
 
   /**
@@ -99,6 +99,7 @@ public class StaticModule extends ServletModule {
   private static final String GWT_UI_SERVLET = "GwtUiServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
+  private static final String OPEN_SEARCH_SERVLET = "OpenSearchServlet";
 
   private static final int GERRIT_UI_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
@@ -168,6 +169,7 @@ public class StaticModule extends ServletModule {
   private class CoreStaticModule extends ServletModule {
     @Override
     public void configureServlets() {
+      serve("/opensearch.xml").with(named(OPEN_SEARCH_SERVLET));
       serve("/robots.txt").with(named(ROBOTS_TXT_SERVLET));
       serve("/favicon.ico").with(named(FAVICON_SERVLET));
     }
@@ -247,6 +249,16 @@ public class StaticModule extends ServletModule {
         }
       }
       filter("/*").through(PolyGerritFilter.class);
+    }
+
+    @Provides
+    @Singleton
+    @Named(OPEN_SEARCH_SERVLET)
+    HttpServlet getOpenSearchServlet(
+        @CanonicalWebUrl @Nullable String canonicalUrl, @GerritServerConfig Config cfg)
+        throws URISyntaxException {
+      String instanceName = cfg.getString("gerrit", null, "instanceName");
+      return new OpenSearchServlet(canonicalUrl, instanceName);
     }
 
     @Provides

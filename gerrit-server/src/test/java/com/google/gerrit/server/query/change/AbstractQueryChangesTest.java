@@ -1637,6 +1637,28 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byReviewed() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Account.Id otherUser =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChange(repo));
+
+    assertQuery("is:reviewed");
+    assertQuery("status:reviewed");
+    assertQuery("-is:reviewed", change2, change1);
+    assertQuery("-status:reviewed", change2, change1);
+
+    requestContext.setContext(newRequestContext(otherUser));
+    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.recommend());
+
+    assertQuery("is:reviewed", change1);
+    assertQuery("status:reviewed", change1);
+    assertQuery("-is:reviewed", change2);
+    assertQuery("-status:reviewed", change2);
+  }
+
+  @Test
   public void reviewerin() throws Exception {
     Account.Id user1 = accountManager.authenticate(AuthRequest.forUser("user1")).getAccountId();
     Account.Id user2 = accountManager.authenticate(AuthRequest.forUser("user2")).getAccountId();

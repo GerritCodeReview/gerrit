@@ -15,8 +15,10 @@
 package com.google.gerrit.server.account;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -32,7 +34,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Set;
 
 @Singleton
@@ -66,11 +68,13 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.equals(ID_ONLY)) {
       return;
     }
+    Set<Account.Id> ids =
+        Streams.stream(in).map(a -> new Account.Id(a._accountId)).collect(toSet());
+    Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
     for (AccountInfo info : in) {
       Account.Id id = new Account.Id(info._accountId);
-      Optional<AccountState> state = accountCache.get(id);
-      if (state.isPresent()) {
-        fill(info, state.get(), options);
+      if (accountStates.containsKey(id)) {
+        fill(info, accountStates.get(id), options);
       } else {
         info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
       }

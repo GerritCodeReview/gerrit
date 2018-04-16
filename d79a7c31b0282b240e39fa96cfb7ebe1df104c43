@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1f82f3c5_6941c9a7",
+        "filename": "java/com/google/gerrit/server/config/ConfigKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T10:10:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c9787d_5d561cd5",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "d79a7c31b0282b240e39fa96cfb7ebe1df104c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6eaeeec6_721b5ee1",
         "filename": "java/com/google/gerrit/server/config/ConfigKey.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-16T09:55:22Z",
       "side": 1,
       "message": "Use Objects.hash method?\n\nreturn Objects.hash(name, section, subsection)",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 18
+      },
+      "revId": "d79a7c31b0282b240e39fa96cfb7ebe1df104c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6c99d53_802e7dd2",
+        "filename": "java/com/google/gerrit/server/config/ConfigKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-16T10:10:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6eaeeec6_721b5ee1",
       "range": {
         "startLine": 36,
         "startChar": 4,

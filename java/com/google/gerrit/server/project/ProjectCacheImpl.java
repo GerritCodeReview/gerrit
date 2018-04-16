@@ -22,10 +22,13 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -40,9 +43,13 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +66,7 @@ public class ProjectCacheImpl implements ProjectCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME, String.class, ProjectState.class).loader(Loader.class);
+        configureProjectStateCache();
 
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
             .maximumWeight(1)
@@ -73,9 +80,16 @@ public class ProjectCacheImpl implements ProjectCache {
               @Override
               protected void configure() {
                 listener().to(ProjectCacheWarmer.class);
-                listener().to(ProjectCacheClock.class);
               }
             });
+      }
+
+      @SuppressWarnings("deprecation")
+      private void configureProjectStateCache() {
+        cache(CACHE_NAME, String.class, ProjectState.class)
+            .refreshAfterWrite(5, TimeUnit.MINUTES)
+            .refreshAfterWriteConfigName("checkFrequency")
+            .loader(Loader.class);
       }
     };
   }
@@ -85,7 +99,6 @@ public class ProjectCacheImpl implements ProjectCache {
   private final LoadingCache<String, ProjectState> byName;
   private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
   private final Lock listLock;
-  private final ProjectCacheClock clock;
   private final Provider<ProjectIndexer> indexer;
 
   @Inject
@@ -94,14 +107,12 @@ public class ProjectCacheImpl implements ProjectCache {
       final AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
-      ProjectCacheClock clock,
       Provider<ProjectIndexer> indexer) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
-    this.clock = clock;
     this.indexer = indexer;
   }
 
@@ -142,12 +153,7 @@ public class ProjectCacheImpl implements ProjectCache {
       return null;
     }
     try {
-      ProjectState state = byName.get(projectName.get());
-      if (state != null && state.needsRefresh(clock.read())) {
-        byName.invalidate(projectName.get());
-        state = byName.get(projectName.get());
-      }
-      return state;
+      return byName.get(projectName.get());
     } catch (ExecutionException e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
         log.warn(String.format("Cannot read project %s", projectName.get()), e);
@@ -168,6 +174,8 @@ public class ProjectCacheImpl implements ProjectCache {
   public void evict(Project.NameKey p) throws IOException {
     if (p != null) {
       byName.invalidate(p.get());
+      // We could call byName.refresh here to start reloading the element in the background, but
+      // there's no point, since we immediately reload the value in this thread.
     }
     indexer.get().index(p);
   }
@@ -247,26 +255,41 @@ public class ProjectCacheImpl implements ProjectCache {
   static class Loader extends CacheLoader<String, ProjectState> {
     private final ProjectState.Factory projectStateFactory;
     private final GitRepositoryManager mgr;
-    private final ProjectCacheClock clock;
 
     @Inject
-    Loader(ProjectState.Factory psf, GitRepositoryManager g, ProjectCacheClock clock) {
+    Loader(ProjectState.Factory psf, GitRepositoryManager g) {
       projectStateFactory = psf;
       mgr = g;
-      this.clock = clock;
     }
 
     @Override
     public ProjectState load(String projectName) throws Exception {
-      long now = clock.read();
       Project.NameKey key = new Project.NameKey(projectName);
       try (Repository git = mgr.openRepository(key)) {
         ProjectConfig cfg = new ProjectConfig(key);
         cfg.load(git);
+        return projectStateFactory.create(cfg);
+      }
+    }
 
-        ProjectState state = projectStateFactory.create(cfg);
-        state.initLastCheck(now);
-        return state;
+    @Override
+    public ListenableFuture<ProjectState> reload(String projectName, ProjectState oldState) {
+      ObjectId oldId = oldState.getConfigRevision();
+      Project.NameKey key = new Project.NameKey(projectName);
+      // Check the ref synchronously in this thread, even though CacheBuilder recommends using an
+      // async implementation. In the common case, the ref check is fast and we don't have to
+      // re-parse the state.
+      try (Repository git = mgr.openRepository(key)) {
+        Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
+        ObjectId newId = ref != null ? ref.getObjectId() : null;
+        if (Objects.equals(oldId, newId)) {
+          return Futures.immediateFuture(oldState);
+        }
+        ProjectConfig cfg = new ProjectConfig(key);
+        cfg.load(git, newId);
+        return Futures.immediateFuture(projectStateFactory.create(cfg));
+      } catch (ConfigInvalidException | IOException e) {
+        return Futures.immediateFailedFuture(e);
       }
     }
   }

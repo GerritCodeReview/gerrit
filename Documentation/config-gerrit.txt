@@ -1015,11 +1015,11 @@ configuration.
 +
 Default is true, enabled.
 
-[[cache.projects.checkFrequency]]cache.projects.checkFrequency::
+[[cache.projects.refreshAfterWrite]]cache.projects.refreshAfterWrite::
 +
-How often project configuration should be checked for update from Git.
+How often project configuration should be refreshed for update from Git.
 Gerrit Code Review caches project access rules and configuration in
-memory, checking the refs/meta/config branch every checkFrequency
+memory, checking the refs/meta/config branch every refreshAfterWrite
 minutes to see if a new revision should be loaded and used for future
 access. Values can be specified using standard time unit abbreviations
 ('ms', 'sec', 'min', etc.).
@@ -1030,6 +1030,11 @@ Administrators may force the cache to flush with
 link:cmd-flush-caches.html[gerrit flush-caches].
 +
 Default is 5 minutes.
+
+[[cache.projects.checkFrequency]]cache.projects.checkFrequency::
++
+Deprecated; alternative name for specifying
+link:#cache.projects.refreshAfterWrite[refreshAfterWrite].
 
 [[cache.projects.loadOnStartup]]cache.projects.loadOnStartup::
 +

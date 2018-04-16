@@ -162,6 +162,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/** Produces ChangeInfo (which is serialized to JSON afterwards) from ChangeData.
+ *
+ * <p>This is intended to be used on request scope, but may be used for converting multiple ChangeData objects from
+ * different sources.</p>
+ */
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
 

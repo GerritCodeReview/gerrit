@@ -1311,7 +1311,7 @@ a link:#change-info[ChangeInfo] entity describing the resulting change.
 --
 
 Runs access checks for other users. This requires the
-link:access-control.html#capability_administrateServer[Administrate Server]
+link:access-control.html#capability_viewAccess[View Access]
 global capability.
 
 Input for the access checks that should be run must be provided in

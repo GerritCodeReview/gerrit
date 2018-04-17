@@ -58,6 +58,7 @@ public class DefaultPermissionMappings {
           .put(GlobalPermission.VIEW_CONNECTIONS, GlobalCapability.VIEW_CONNECTIONS)
           .put(GlobalPermission.VIEW_PLUGINS, GlobalCapability.VIEW_PLUGINS)
           .put(GlobalPermission.VIEW_QUEUE, GlobalCapability.VIEW_QUEUE)
+          .put(GlobalPermission.VIEW_ACCESS, GlobalCapability.VIEW_ACCESS)
           .build();
 
   static {

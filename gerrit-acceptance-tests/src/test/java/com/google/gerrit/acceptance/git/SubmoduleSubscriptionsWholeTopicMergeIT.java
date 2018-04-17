@@ -786,4 +786,41 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     expectToHaveSubmoduleState(repoA, "master", "project-b", repoB, "master");
     expectToHaveSubmoduleState(repoA, "dev", "project-b", repoB, "dev");
   }
+
+  @Test
+  public void submodulesWithoutSubscription() throws Exception {
+    TestRepository<?> repoA = createProjectWithPush("project-a");
+    TestRepository<?> repoB = createProjectWithPush("project-b");
+
+    // Create submodules, but don't add the configuration to allow subscription
+    createSubmoduleSubscription(repoA, "master", "project-b", ".");
+
+    // bootstrap the dev branch on project-b
+    ObjectId b0 = pushChangeTo(repoB, "dev");
+
+    // create a change for master branch in repo b
+    ObjectId bHead =
+        pushChangeTo(
+            repoB,
+            "refs/for/master",
+            "master.txt",
+            "content master B",
+            "some message in b master.txt",
+            "same-topic");
+
+    // create a change for dev branch in repo b
+    repoB.reset(b0);
+    ObjectId bDevHead =
+        pushChangeTo(
+            repoB,
+            "refs/for/dev",
+            "dev.txt",
+            "content dev B",
+            "some message in b dev.txt",
+            "same-topic");
+
+    approve(getChangeId(repoB, bHead).get());
+    approve(getChangeId(repoB, bDevHead).get());
+    gApi.changes().id(getChangeId(repoB, bHead).get()).current().submit();
+  }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ddc748da_d2d6d686",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-17T11:38:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d07e4a6d_3815cca9",
+      "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97523ce1_bf6bcae0",
         "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
         "patchSetId": 6
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "\u003e When we create the event we don\u0027t want to risk another thread updating the config.\n\nUpdating in the GerritServerConfigProvider? How would this lock prevent GerritServerConfigProvider.updateConfig from updating the config? This \"lock\"\nand the \"lock\" in the GerritServerConfigProvider are two different objects.\n\nWould it make sense to squash this class into the GerritServerConfigProvider i.e. make\nthe GerritServerConfigProvider?",
       "parentUuid": "d9f90216_be54af95",
+      "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f8e0470_ce102cf9",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-17T11:38:29Z",
+      "side": 1,
+      "message": "\u003e Would it make sense to squash this class into the GerritServerConfigProvider i.e. make\n\u003e the GerritServerConfigProvider?\n\nI tried that initially, but could not inject the DynamicSet\u003cGerritConfigListener\u003e into the provider. Probably due to how and when it is bind():ed and injected into the dependency chain.",
+      "parentUuid": "ef0b0654_996cae43",
       "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

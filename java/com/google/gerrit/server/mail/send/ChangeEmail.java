@@ -41,6 +41,8 @@ import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
@@ -83,7 +85,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   protected String changeMessage;
   protected Timestamp timestamp;
 
-  protected ProjectState projectState;
+  protected ProjectAccessor projectAccessor;
   protected Set<Account.Id> authors;
   protected boolean emailOnlyAuthors;
 
@@ -145,10 +147,15 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Setup the message headers and envelope (TO, CC, BCC). */
   @Override
   protected void init() throws EmailException {
-    if (args.projectCache != null) {
-      projectState = args.projectCache.get(change.getProject());
+    if (args.projectAccessorFactory != null) {
+      try {
+        projectAccessor = args.projectAccessorFactory.create(change.getProject());
+      } catch (NoSuchProjectException | IOException e) {
+        // TODO(dborowitz): Ignoring exception to avoid behavior change only.
+        projectAccessor = null;
+      }
     } else {
-      projectState = null;
+      projectAccessor = null;
     }
 
     if (patchSet == null) {
@@ -317,15 +324,17 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Get the project entity the change is in; null if its been deleted. */
   protected ProjectState getProjectState() {
-    return projectState;
+    return projectAccessor.getProjectState();
   }
 
   /** Get the groups which own the project. */
   protected Set<AccountGroup.UUID> getProjectOwners() {
-    final ProjectState r;
-
-    r = args.projectCache.get(change.getProject());
-    return r != null ? r.getOwners() : Collections.<AccountGroup.UUID>emptySet();
+    try {
+      return args.projectAccessorFactory.create(change.getProject()).getOwners();
+    } catch (NoSuchProjectException | IOException e) {
+      // TODO(dborowitz): Ignoring exception for now to avoid behavior change, but not a good idea.
+      return Collections.emptySet();
+    }
   }
 
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
@@ -363,7 +372,8 @@ public abstract class ChangeEmail extends NotificationEmail {
       return new Watchers();
     }
 
-    ProjectWatch watch = new ProjectWatch(args, branch.getParentKey(), projectState, changeData);
+    ProjectWatch watch =
+        new ProjectWatch(args, branch.getParentKey(), getProjectState(), changeData);
     return watch.getWatchers(type, includeWatchersFromNotifyConfig);
   }
 
@@ -406,7 +416,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
-    return projectState.statePermitsRead()
+    return getProjectState().statePermitsRead()
         && args.permissionBackend
             .absentUser(to)
             .change(changeData)

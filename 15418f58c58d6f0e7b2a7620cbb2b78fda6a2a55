@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd904918_38246e7a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-17T14:38:41Z",
+      "side": 1,
+      "message": "Can this merely be the group ID?\n\n  \"id\": \"d85c649dec96146d4ac83efe175ba4fcf93dfe4b\",\n\nThis would allow us to construct a URL in the frontend (PG\u0027s group URL style is slightly different) as well as make any API calls directly.",
+      "range": {
+        "startLine": 851,
+        "startChar": 8,
+        "endLine": 851,
+        "endChar": 78
+      },
+      "revId": "15418f58c58d6f0e7b2a7620cbb2b78fda6a2a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

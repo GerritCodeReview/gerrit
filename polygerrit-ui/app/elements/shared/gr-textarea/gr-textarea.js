@@ -72,7 +72,7 @@
       },
       backgroundColor: {
         type: String,
-        value: '#fff',
+        value: 'var(--view-background-color)',
       },
       hideBorder: {
         type: Boolean,

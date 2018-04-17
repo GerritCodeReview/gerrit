@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "46fded37_a79c337a",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-17T15:14:37Z",
+      "side": 1,
+      "message": "Sorry, didn\u0027t see that it was called from the ctor.\nStatic then?",
+      "parentUuid": "c6fa2967_923a4f6c",
+      "range": {
+        "startLine": 131,
+        "startChar": 30,
+        "endLine": 131,
+        "endChar": 55
+      },
+      "revId": "283f8c989adad7bc6e998178d99a426103c4df01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0414739e_4e928d5c",
         "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
         "patchSetId": 1

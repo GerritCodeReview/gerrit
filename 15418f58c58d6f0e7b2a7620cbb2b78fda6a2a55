@@ -22,6 +22,53 @@
       "revId": "15418f58c58d6f0e7b2a7620cbb2b78fda6a2a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eaa8645_844f5275",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-17T15:14:37Z",
+      "side": 1,
+      "message": "Since this comes from an implementation of GroupBackend, which could be LDAP, a plugin etc. , couldn\u0027t the url be any url to any description of the group. And the id\nWhat you could do is set GroupInfo.groupId if it\u0027s an internal group since it is only set for internal groups, I don\u0027t know how awful that check would look in the UI but...",
+      "parentUuid": "bd904918_38246e7a",
+      "range": {
+        "startLine": 851,
+        "startChar": 8,
+        "endLine": 851,
+        "endChar": 78
+      },
+      "revId": "15418f58c58d6f0e7b2a7620cbb2b78fda6a2a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "979ea01e_805f1e56",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-17T15:14:37Z",
+      "side": 1,
+      "message": "AccountGroup.UUID?",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 12
+      },
+      "revId": "15418f58c58d6f0e7b2a7620cbb2b78fda6a2a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

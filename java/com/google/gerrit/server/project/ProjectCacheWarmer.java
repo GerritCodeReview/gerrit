@@ -20,8 +20,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -50,25 +48,25 @@ public class ProjectCacheWarmer implements LifecycleListener {
           new ScheduledThreadPoolExecutor(
               config.getInt("cache", "projects", "loadThreads", cpus),
               new ThreadFactoryBuilder().setNameFormat("ProjectCacheLoader-%d").build());
-      ExecutorService scheduler = Executors.newFixedThreadPool(1);
+      Thread scheduler =
+          new Thread(
+              () -> {
+                for (Project.NameKey name : cache.all()) {
+                  pool.execute(() -> cache.get(name));
+                }
+                pool.shutdown();
+                try {
+                  pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+                  log.info("Finished loading project cache");
+                } catch (InterruptedException e) {
+                  log.warn("Interrupted while waiting for project cache to load");
+                }
+              });
+      scheduler.setName("ProjectCacheWarmer");
+      scheduler.setDaemon(true);
 
       log.info("Loading project cache");
-      scheduler.execute(
-          () -> {
-            for (Project.NameKey name : cache.all()) {
-              pool.execute(
-                  () -> {
-                    cache.get(name);
-                  });
-            }
-            pool.shutdown();
-            try {
-              pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-              log.info("Finished loading project cache");
-            } catch (InterruptedException e) {
-              log.warn("Interrupted while waiting for project cache to load");
-            }
-          });
+      scheduler.start();
     }
   }
 

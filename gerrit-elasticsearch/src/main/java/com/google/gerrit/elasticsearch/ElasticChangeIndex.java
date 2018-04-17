@@ -78,24 +78,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Secondary index implementation using Elasticsearch. */
-class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
+public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
   private static final Logger log = LoggerFactory.getLogger(ElasticChangeIndex.class);
 
-  static class ChangeMapping {
-    MappingProperties openChanges;
-    MappingProperties closedChanges;
+  public static class ChangeMapping {
+    public MappingProperties openChanges;
+    public MappingProperties closedChanges;
 
-    ChangeMapping(Schema<ChangeData> schema) {
+    public ChangeMapping(Schema<ChangeData> schema) {
       MappingProperties mapping = ElasticMapping.createMapping(schema);
       this.openChanges = mapping;
       this.closedChanges = mapping;
     }
   }
 
-  static final String CHANGES = "changes";
-  static final String OPEN_CHANGES = "open_" + CHANGES;
-  static final String CLOSED_CHANGES = "closed_" + CHANGES;
+  public static final String CHANGES = "changes";
+  public static final String OPEN_CHANGES = "open_" + CHANGES;
+  public static final String CLOSED_CHANGES = "closed_" + CHANGES;
 
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;

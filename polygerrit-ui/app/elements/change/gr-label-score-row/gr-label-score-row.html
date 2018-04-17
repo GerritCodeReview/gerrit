@@ -58,25 +58,25 @@ limitations under the License.
       gr-button {
         min-width: 40px;
         --gr-button: {
+          background-color: var(--button-background-color, #f5f5f5);
+          color: var(--primary-text-color);
           padding: .2em .85em;
           @apply(--vote-chip-styles);
         }
-        --gr-button-background: var(--button-background-color, #f5f5f5);
-        --gr-button-color: var(--primary-text-color);
       }
-      iron-selector > gr-button.iron-selected.max {
+      gr-button.iron-selected.max {
         --button-background-color: var(--vote-color-max);
       }
-      iron-selector > gr-button.iron-selected.positive {
+      gr-button.iron-selected.positive {
         --button-background-color: var(--vote-color-positive);
       }
-      iron-selector > gr-button.iron-selected.min {
+      gr-button.iron-selected.min {
         --button-background-color: var(--vote-color-min);
       }
-      iron-selector > gr-button.iron-selected.negative {
+      gr-button.iron-selected.negative {
         --button-background-color: var(--vote-color-negative);
       }
-      iron-selector > gr-button.iron-selected.neutral {
+      gr-button.iron-selected.neutral {
         --button-background-color: var(--vote-color-neutral);
       }
       .placeholder {

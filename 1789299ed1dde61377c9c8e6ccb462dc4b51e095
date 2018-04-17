@@ -51,6 +51,24 @@
       "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef0b0654_996cae43",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-17T09:32:26Z",
+      "side": 1,
+      "message": "\u003e When we create the event we don\u0027t want to risk another thread updating the config.\n\nUpdating in the GerritServerConfigProvider? How would this lock prevent GerritServerConfigProvider.updateConfig from updating the config? This \"lock\"\nand the \"lock\" in the GerritServerConfigProvider are two different objects.\n\nWould it make sense to squash this class into the GerritServerConfigProvider i.e. make\nthe GerritServerConfigProvider?",
+      "parentUuid": "d9f90216_be54af95",
+      "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

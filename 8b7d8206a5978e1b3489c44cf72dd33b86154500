@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "616b24ad_b9525f9e",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-17T08:50:31Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure I would want to make multiple separate caches for label types, themes, etc. In most cases, I think it would be better to eagerly populate them and store them in immutable fields. It seems like the reason we weren\u0027t doing that was to avoid having to walk the parent tree at initialization time. But I\u0027m not actually sure that is a good argument; for most of these, some caller is practically guaranteed to want to call the method at some point in the cache entry\u0027s lifetime.\n\nI think there is another, stronger argument for re-walking the tree on every invocation: the parent hierarchy may have changed.\n\nSay we have All-Projects \u003e parent \u003e child, and we cache the result of the tree walk at initialization time for \"child\". Later, we change \"parent\"\u0027s parent from All-Projects to \"grantparent\". When we call projectCache.get(\"child\").getAllSections(), we want to walk child -\u003e parent -\u003e grandparent -\u003e All-Projects. If we precompute and cache the results of getAllSections() in child\u0027s constructor, we won\u0027t pick up the new parent hierarchy.\n\nThis wouldn\u0027t be a problem if we could invalidate the cache for \"child\" when \"parent\" is updated. But we don\u0027t currently record descendant projects anywhere, except in the project index, which I don\u0027t think we should treat as reliable for the purposes of cache invalidation.",
+      "parentUuid": "16e205f8_14c5832e",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 13
+      },
+      "revId": "8b7d8206a5978e1b3489c44cf72dd33b86154500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ba6b35bd_485a2f3f",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheEntry.java",
         "patchSetId": 1

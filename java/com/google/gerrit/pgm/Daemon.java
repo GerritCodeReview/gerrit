@@ -54,6 +54,7 @@ import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
+import com.google.gerrit.server.cache.CacheOverrides;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
@@ -479,7 +480,6 @@ public class Daemon extends SiteProgram {
       modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
     }
-    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
     if (migrateToNoteDb()) {
       modules.add(new OnlineNoteDbMigrator.Module(trial));
     }
@@ -488,7 +488,8 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
-    return cfgInjector.createChildInjector(modules);
+    return cfgInjector.createChildInjector(
+        CacheOverrides.override(modules, LibModuleLoader.loadModules(cfgInjector)));
   }
 
   private boolean migrateToNoteDb() {

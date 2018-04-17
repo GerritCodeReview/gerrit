@@ -16,6 +16,24 @@
       "revId": "5d019c24bf899e779762fbf5661c4062477d984b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c74c999b_ee8de04b",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-17T13:35:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bece202_669ebe1d",
+      "revId": "5d019c24bf899e779762fbf5661c4062477d984b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

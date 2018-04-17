@@ -23,6 +23,7 @@ import com.google.common.cache.Weigher;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheBinding;
+import com.google.gerrit.server.cache.CacheImpl;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
@@ -33,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 public class DefaultCacheFactory implements MemoryCacheFactory {
+  @CacheImpl(type = CacheImpl.Type.Memory)
   public static class MemoryCacheModule extends FactoryModule {
     @Override
     protected void configure() {
@@ -41,6 +43,7 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
     }
   }
 
+  @CacheImpl(type = CacheImpl.Type.Persistent)
   public static class PersistentCacheModule extends LifecycleModule {
     @Override
     protected void configure() {

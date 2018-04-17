@@ -52,6 +52,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectJson;
@@ -91,6 +93,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final PermissionBackend permissionBackend;
   private final AllProjectsName allProjectsName;
   private final ProjectJson projectJson;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
   private final GroupBackend groupBackend;
@@ -101,6 +104,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       AllProjectsName allProjectsName,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       MetaDataUpdate.Server metaDataUpdateFactory,
       ProjectJson projectJson,
@@ -110,6 +114,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     this.permissionBackend = permissionBackend;
     this.allProjectsName = allProjectsName;
     this.projectJson = projectJson;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.groupBackend = groupBackend;
@@ -119,11 +124,11 @@ public class GetAccess implements RestReadView<ProjectResource> {
   public ProjectAccessInfo apply(Project.NameKey nameKey)
       throws ResourceNotFoundException, ResourceConflictException, IOException,
           PermissionBackendException {
-    ProjectState state = projectCache.checkedGet(nameKey);
-    if (state == null) {
+    try {
+      return apply(new ProjectResource(projectAccessorFactory.create(nameKey), user.get()));
+    } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(nameKey.get());
     }
-    return apply(new ProjectResource(state, user.get()));
   }
 
   @Override

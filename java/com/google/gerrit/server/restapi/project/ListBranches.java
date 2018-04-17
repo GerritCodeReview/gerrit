@@ -38,8 +38,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.BranchResource;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefFilter;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -219,7 +219,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       if (perm.ref(ref.getName()).test(RefPermission.READ)) {
         branches.add(
             createBranchInfo(
-                perm.ref(ref.getName()), ref, rsrc.getProjectState(), rsrc.getUser(), targets));
+                perm.ref(ref.getName()), ref, rsrc.getProjectAccessor(), rsrc.getUser(), targets));
       }
     }
     Collections.sort(branches, new BranchComparator());
@@ -248,7 +248,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private BranchInfo createBranchInfo(
       PermissionBackend.ForRef perm,
       Ref ref,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       CurrentUser user,
       Set<String> targets) {
     BranchInfo info = new BranchInfo();
@@ -262,12 +262,12 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.canDelete =
           !targets.contains(ref.getName())
                   && perm.testOrFalse(RefPermission.DELETE)
-                  && projectState.statePermitsWrite()
+                  && projectAccessor.getProjectState().statePermitsWrite()
               ? true
               : null;
     }
 
-    BranchResource rsrc = new BranchResource(projectState, user, ref);
+    BranchResource rsrc = new BranchResource(projectAccessor, user, ref);
     for (UiAction.Description d : uiActions.from(branchViews, rsrc)) {
       if (info.actions == null) {
         info.actions = new TreeMap<>();
@@ -275,7 +275,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.actions.put(d.getId(), new ActionInfo(d));
     }
 
-    List<WebLinkInfo> links = webLinks.getBranchLinks(projectState.getName(), ref.getName());
+    List<WebLinkInfo> links =
+        webLinks.getBranchLinks(projectAccessor.getProjectState().getName(), ref.getName());
     info.webLinks = links.isEmpty() ? null : links;
     return info;
   }

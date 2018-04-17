@@ -44,8 +44,9 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.MergeOp.CommitStatus;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -54,6 +55,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -109,6 +111,7 @@ public abstract class SubmitStrategy {
     final LabelNormalizer labelNormalizer;
     final PatchSetInfoFactory patchSetInfoFactory;
     final PatchSetUtil psUtil;
+    final ProjectAccessor.Factory projectAccessorFactory;
     final ProjectCache projectCache;
     final PersonIdent serverIdent;
     final RebaseChangeOp.Factory rebaseFactory;
@@ -130,7 +133,7 @@ public abstract class SubmitStrategy {
     final ListMultimap<RecipientType, Account.Id> accountsToNotify;
     final SubmoduleOp submoduleOp;
 
-    final ProjectState project;
+    final ProjectAccessor project;
     final MergeSorter mergeSorter;
     final RebaseSorter rebaseSorter;
     final MergeUtil mergeUtil;
@@ -149,6 +152,7 @@ public abstract class SubmitStrategy {
         PatchSetInfoFactory patchSetInfoFactory,
         PatchSetUtil psUtil,
         @GerritPersonIdent PersonIdent serverIdent,
+        ProjectAccessor.Factory projectAccessorFactory,
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
@@ -168,7 +172,8 @@ public abstract class SubmitStrategy {
         @Assisted SubmitInput submitInput,
         @Assisted ListMultimap<RecipientType, Account.Id> accountsToNotify,
         @Assisted SubmoduleOp submoduleOp,
-        @Assisted boolean dryrun) {
+        @Assisted boolean dryrun)
+        throws NoSuchProjectException, IOException {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
       this.changeMerged = changeMerged;
@@ -178,6 +183,7 @@ public abstract class SubmitStrategy {
       this.labelNormalizer = labelNormalizer;
       this.patchSetInfoFactory = patchSetInfoFactory;
       this.psUtil = psUtil;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.projectCache = projectCache;
       this.rebaseFactory = rebaseFactory;
       this.tagCache = tagCache;
@@ -199,16 +205,12 @@ public abstract class SubmitStrategy {
       this.submoduleOp = submoduleOp;
       this.dryrun = dryrun;
 
-      this.project =
-          checkNotNull(
-              projectCache.get(destBranch.getParentKey()),
-              "project not found: %s",
-              destBranch.getParentKey());
+      this.project = projectAccessorFactory.create(destBranch.getParentKey());
       this.mergeSorter = new MergeSorter(rw, alreadyAccepted, canMergeFlag, incoming);
       this.rebaseSorter =
           new RebaseSorter(
               rw, mergeTip.getInitialTip(), alreadyAccepted, canMergeFlag, queryProvider, incoming);
-      this.mergeUtil = mergeUtilFactory.create(project);
+      this.mergeUtil = mergeUtilFactory.create(project.getProjectState());
       this.onSubmitValidatorsFactory = onSubmitValidatorsFactory;
     }
   }

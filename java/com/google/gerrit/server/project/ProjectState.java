@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -406,21 +405,6 @@ public class ProjectState {
 
   public boolean isAllUsers() {
     return isAllUsers;
-  }
-
-  public boolean is(BooleanProjectConfig config) {
-    for (ProjectState s : tree()) {
-      switch (s.getProject().getBooleanConfig(config)) {
-        case TRUE:
-          return true;
-        case FALSE:
-          return false;
-        case INHERIT:
-        default:
-          continue;
-      }
-    }
-    return false;
   }
 
   /** All available label types. */

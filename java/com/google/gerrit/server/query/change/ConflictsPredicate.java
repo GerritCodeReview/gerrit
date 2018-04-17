@@ -23,8 +23,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.SubmitDryRun;
@@ -76,7 +75,7 @@ public class ConflictsPredicate {
     and.add(Predicate.not(new LegacyChangeIdPredicate(c.getId())));
     and.add(Predicate.or(filePredicates));
 
-    ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);
+    ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectAccessorFactory);
     and.add(new CheckConflict(ChangeQueryBuilder.FIELD_CONFLICTS, value, args, c, changeDataCache));
     return Predicate.and(and);
   }
@@ -106,10 +105,10 @@ public class ConflictsPredicate {
         return false;
       }
 
-      ProjectState projectState;
+      ProjectAccessor projectAccessor;
       try {
-        projectState = changeDataCache.getProjectState();
-      } catch (NoSuchProjectException e) {
+        projectAccessor = changeDataCache.getProjectAccessor();
+      } catch (NoSuchProjectException | IOException e) {
         return false;
       }
 
@@ -119,7 +118,7 @@ public class ConflictsPredicate {
               changeDataCache.getTestAgainst(),
               other,
               str.type,
-              projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
+              projectAccessor.is(BooleanProjectConfig.USE_CONTENT_MERGE));
       Boolean conflicts = args.conflictsCache.getIfPresent(conflictsKey);
       if (conflicts != null) {
         return conflicts;
@@ -166,15 +165,15 @@ public class ConflictsPredicate {
 
   private static class ChangeDataCache {
     private final ChangeData cd;
-    private final ProjectCache projectCache;
+    private final ProjectAccessor.Factory projectAccessorFactory;
 
     private ObjectId testAgainst;
-    private ProjectState projectState;
+    private ProjectAccessor projectAccessor;
     private Set<ObjectId> alreadyAccepted;
 
-    ChangeDataCache(ChangeData cd, ProjectCache projectCache) {
+    ChangeDataCache(ChangeData cd, ProjectAccessor.Factory projectAccessorFactory) {
       this.cd = cd;
-      this.projectCache = projectCache;
+      this.projectAccessorFactory = projectAccessorFactory;
     }
 
     ObjectId getTestAgainst() throws OrmException {
@@ -184,14 +183,11 @@ public class ConflictsPredicate {
       return testAgainst;
     }
 
-    ProjectState getProjectState() throws NoSuchProjectException {
-      if (projectState == null) {
-        projectState = projectCache.get(cd.project());
-        if (projectState == null) {
-          throw new NoSuchProjectException(cd.project());
-        }
+    ProjectAccessor getProjectAccessor() throws NoSuchProjectException, IOException {
+      if (projectAccessor == null) {
+        projectAccessor = projectAccessorFactory.create(cd.project());
       }
-      return projectState;
+      return projectAccessor;
     }
 
     Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {

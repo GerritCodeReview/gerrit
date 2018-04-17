@@ -41,6 +41,7 @@ import java.util.List;
 public class ContributorAgreementsChecker {
 
   private final String canonicalWebUrl;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final Metrics metrics;
 
@@ -60,9 +61,11 @@ public class ContributorAgreementsChecker {
   @Inject
   ContributorAgreementsChecker(
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       Metrics metrics) {
     this.canonicalWebUrl = canonicalWebUrl;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.metrics = metrics;
   }
@@ -73,15 +76,13 @@ public class ContributorAgreementsChecker {
    * @throws AuthException if the user has not signed a contributor agreement for the project
    * @throws IOException if project states could not be loaded
    */
-  public void check(Project.NameKey project, CurrentUser user) throws IOException, AuthException {
+  public void check(Project.NameKey project, CurrentUser user)
+      throws NoSuchProjectException, IOException, AuthException {
     metrics.claCheckCount.increment();
 
-    ProjectState projectState = projectCache.checkedGet(project);
-    if (projectState == null) {
-      throw new IOException("Can't load All-Projects");
-    }
-
-    if (!projectState.is(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS)) {
+    if (!projectAccessorFactory
+        .create(project)
+        .is(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS)) {
       return;
     }
 

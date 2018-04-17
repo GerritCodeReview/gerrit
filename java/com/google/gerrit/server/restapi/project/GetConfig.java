@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.EnableSignedPush;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
@@ -37,6 +38,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final AllProjectsName allProjects;
   private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
+  private final GroupBackend groupBackend;
 
   @Inject
   public GetConfig(
@@ -46,7 +48,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
       UiActions uiActions,
-      DynamicMap<RestView<ProjectResource>> views) {
+      DynamicMap<RestView<ProjectResource>> views,
+      GroupBackend groupBackend) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
@@ -54,6 +57,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
     this.cfgFactory = cfgFactory;
     this.uiActions = uiActions;
     this.views = views;
+    this.groupBackend = groupBackend;
   }
 
   @Override
@@ -67,6 +71,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
         cfgFactory,
         allProjects,
         uiActions,
-        views);
+        views,
+        groupBackend);
   }
 }

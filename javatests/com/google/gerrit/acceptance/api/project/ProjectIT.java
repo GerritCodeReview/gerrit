@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
@@ -32,6 +33,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -39,8 +41,13 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Inject;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
@@ -378,6 +385,27 @@ public class ProjectIT extends AbstractDaemonTest {
       gApi.projects().name(project.get()).config(ci2);
       // ACTIVE is represented as null in the API
       assertThat(gApi.projects().name(project.get()).config().state).isNull();
+    }
+  }
+
+  @Test
+  public void getConfigContainsOwners() throws Exception {
+    Set<UUID> ownerUUIDs = projectCache.get(project).getOwners();
+    List<GroupInfo> owners = gApi.projects().name(project.get()).config().owners;
+
+    assertThat(ownerUUIDs.size()).isEqualTo(owners.size());
+
+    HashMap<String, GroupInfo> groupInfos = new HashMap<>();
+    for (GroupInfo gi : owners) {
+      groupInfos.put(groupUuid(gi.name).get(), gi);
+    }
+
+    for (AccountGroup.UUID uuid : ownerUUIDs) {
+      GroupDescription.Basic group = groupBackend.get(uuid);
+      GroupInfo gi = groupInfos.get(group.getGroupUUID().get());
+      assertThat(gi).isNotNull();
+      assertThat(gi.name).isEqualTo(group.getName());
+      assertThat(gi.url).isEqualTo(group.getUrl());
     }
   }
 

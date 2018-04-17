@@ -161,20 +161,23 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   private String toDoc(V v) throws IOException {
-    XContentBuilder builder = jsonBuilder().startObject();
-    for (Values<V> values : schema.buildFields(v, fillArgs)) {
-      String name = values.getField().getName();
-      if (values.getField().isRepeatable()) {
-        builder.field(
-            name,
-            Streams.stream(values.getValues()).filter(e -> shouldAddElement(e)).collect(toList()));
-      } else {
-        Object element = Iterables.getOnlyElement(values.getValues(), "");
-        if (shouldAddElement(element)) {
-          builder.field(name, element);
+    try (XContentBuilder builder = jsonBuilder().startObject()) {
+      for (Values<V> values : schema.buildFields(v, fillArgs)) {
+        String name = values.getField().getName();
+        if (values.getField().isRepeatable()) {
+          builder.field(
+              name,
+              Streams.stream(values.getValues())
+                  .filter(e -> shouldAddElement(e))
+                  .collect(toList()));
+        } else {
+          Object element = Iterables.getOnlyElement(values.getValues(), "");
+          if (shouldAddElement(element)) {
+            builder.field(name, element);
+          }
         }
       }
+      return builder.endObject().string();
     }
-    return builder.endObject().string();
   }
 }

@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "c37f5b75_34e5f524",
+        "filename": "java/com/google/gerrit/server/project/ProjectAccessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-17T13:24:00Z",
+      "side": 1,
+      "message": "It\u0027s a bit unfortunate that we need this additional Factory class. Ideally, we would use the AssistedFactory directly. Can\u0027t we add a second method to AssistedFactory and hence also a second constructor which takes the name?",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 29
+      },
+      "revId": "e977c7356a0f223df5cfadddeba798b89dfb82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0641a54f_9e9cde68",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-17T13:24:00Z",
+      "side": 1,
+      "message": "Here and in other classes: As you pointed out, Projects as name for ProjectAccessor.Factory would be misleading. Isn\u0027t the name \u0027projects\u0027 confusing here either?",
+      "range": {
+        "startLine": 50,
+        "startChar": 30,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "e977c7356a0f223df5cfadddeba798b89dfb82f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1928967c_6021be32",
         "filename": "java/com/google/gerrit/server/restapi/project/GetConfig.java",
         "patchSetId": 1

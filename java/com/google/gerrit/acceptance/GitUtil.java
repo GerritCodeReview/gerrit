@@ -19,10 +19,12 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.reviewdb.client.Project;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
 import java.io.IOException;
 import java.util.List;
@@ -56,7 +58,7 @@ public class GitUtil {
   private static final AtomicInteger testRepoCount = new AtomicInteger();
   private static final int TEST_REPO_WINDOW_DAYS = 2;
 
-  public static void initSsh(TestAccount a) {
+  public static void initSsh(KeyPair keyPair) {
     final Properties config = new Properties();
     config.put("StrictHostKeyChecking", "no");
     JSch.setConfig(config);
@@ -70,7 +72,8 @@ public class GitUtil {
           protected void configure(Host hc, Session session) {
             try {
               final JSch jsch = getJSch(hc, FS.DETECTED);
-              jsch.addIdentity("KeyPair", a.privateKey(), a.sshKey.getPublicKeyBlob(), null);
+              jsch.addIdentity(
+                  "KeyPair", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);
             } catch (JSchException e) {
               throw new RuntimeException(e);
             }

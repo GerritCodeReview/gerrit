@@ -37,6 +37,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
+import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -130,7 +131,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -252,6 +253,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected MutableNotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
+  @Inject protected TestSshKeys sshKeys;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -449,12 +451,13 @@ public abstract class AbstractDaemonTest {
     return null;
   }
 
-  protected void initSsh() throws JSchException {
+  protected void initSsh() throws Exception {
     if (testRequiresSsh
         && SshMode.useSsh()
         && (adminSshSession == null || userSshSession == null)) {
       // Create Ssh sessions
-      GitUtil.initSsh(admin);
+      KeyPair adminKeyPair = sshKeys.getKeyPair(admin);
+      GitUtil.initSsh(adminKeyPair);
       Context ctx = newRequestContext(user);
       atrScope.set(ctx);
       userSshSession = ctx.getSession();
@@ -837,7 +840,7 @@ public abstract class AbstractDaemonTest {
   private Context newRequestContext(TestAccount account) {
     return atrScope.newContext(
         reviewDbProvider,
-        new SshSession(server, account),
+        new SshSession(sshKeys, server, account),
         identifiedUserFactory.create(account.getId()));
   }
 

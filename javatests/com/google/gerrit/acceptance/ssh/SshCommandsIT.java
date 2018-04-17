@@ -26,8 +26,6 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.sshd.Commands;
-import com.jcraft.jsch.JSchException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -122,8 +120,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
     testCommandExecution(SLAVE_COMMANDS);
   }
 
-  private void testCommandExecution(Map<String, List<String>> commands)
-      throws JSchException, IOException {
+  private void testCommandExecution(Map<String, List<String>> commands) throws Exception {
     for (String root : commands.keySet()) {
       for (String command : commands.get(root)) {
         // We can't assert that adminSshSession.hasError() is false, because using the --help

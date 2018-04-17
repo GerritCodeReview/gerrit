@@ -411,7 +411,7 @@ public abstract class ChangeEmail extends NotificationEmail {
             authors.add(patchSetInfo.getCommitter().getAccount());
           }
         }
-        //$FALL-THROUGH$
+        // $FALL-THROUGH$
       case OWNER_REVIEWERS:
       case OWNER:
         authors.add(change.getOwner());

@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 public class SshCommandsIT extends AbstractDaemonTest {
   private static final Logger log = LoggerFactory.getLogger(SshCommandsIT.class);
 
-  //TODO: It would be better to dynamically generate this list
+  // TODO: It would be better to dynamically generate this list
   private static final Map<String, List<String>> COMMANDS =
       ImmutableMap.of(
           Commands.ROOT,

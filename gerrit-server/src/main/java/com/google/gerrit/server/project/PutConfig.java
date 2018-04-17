@@ -244,7 +244,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                               value,
                               v.getKey()));
                     }
-                    //$FALL-THROUGH$
+                    // $FALL-THROUGH$
                   case STRING:
                     cfg.setString(v.getKey(), value);
                     break;

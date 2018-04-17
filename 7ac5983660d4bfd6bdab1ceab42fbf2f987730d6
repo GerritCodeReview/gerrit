@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ceb8c82_e85b62a0",
+        "filename": "java/com/google/gerrit/server/restapi/change/SuggestReviewers.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-17T13:23:20Z",
+      "side": 1,
+      "message": "I like that. Done.",
+      "parentUuid": "c6e0a7d9_a8b49842",
+      "revId": "7ac5983660d4bfd6bdab1ceab42fbf2f987730d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0ed672d_88c1a9b5",
         "filename": "java/com/google/gerrit/server/restapi/change/SuggestReviewers.java",
         "patchSetId": 7

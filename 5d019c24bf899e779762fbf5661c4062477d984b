@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5bece202_669ebe1d",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T13:17:12Z",
+      "side": 1,
+      "message": "The documentation of this REST endpoint in rest-api-projects.txt still says that it requires the Administrate Server capability. Please update it there too.",
+      "revId": "5d019c24bf899e779762fbf5661c4062477d984b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

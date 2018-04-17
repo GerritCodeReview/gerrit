@@ -19,14 +19,37 @@ import static com.google.common.truth.Truth8.assertThat;
 import com.google.common.io.MoreFiles;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
+import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
+import com.google.gerrit.elasticsearch.testing.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.testutil.ConfigSuite;
 import java.nio.file.Files;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.Config;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 @NoHttpd
 public class ReindexIT extends StandaloneSiteTest {
+
+  @ConfigSuite.Config
+  public static Config elasticsearch() throws InterruptedException, ExecutionException {
+    if (elasticNodeInfo == null) {
+      elasticNodeInfo = ElasticTestUtils.startElasticsearchNode();
+    }
+    String indicesPrefix = UUID.randomUUID().toString();
+    ElasticTestUtils.createAllIndexes(elasticNodeInfo, indicesPrefix);
+
+    Config cfg = new Config();
+    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);
+    return cfg;
+  }
+
+  private static ElasticNodeInfo elasticNodeInfo;
+
   @Test
   public void reindexFromScratch() throws Exception {
     Project.NameKey project = new Project.NameKey("project");
@@ -53,6 +76,15 @@ public class ReindexIT extends StandaloneSiteTest {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       assertThat(gApi.changes().query("message:Test").get().stream().map(c -> c.changeId))
           .containsExactly(changeId);
+    }
+  }
+
+  @AfterClass
+  public static void stopElasticServer() {
+    if (elasticNodeInfo != null) {
+      elasticNodeInfo.node.close();
+      elasticNodeInfo.elasticDir.delete();
+      elasticNodeInfo = null;
     }
   }
 }

@@ -7,6 +7,8 @@ java_library(
         "//gerrit-acceptance-framework:lib",
         "//gerrit-common:annotations",
         "//gerrit-common:server",
+        "//gerrit-elasticsearch:elasticsearch",
+        "//gerrit-elasticsearch:elasticsearch_test_utils",
         "//gerrit-extension-api:api",
         "//gerrit-gpg:testutil",
         "//gerrit-httpd:httpd",

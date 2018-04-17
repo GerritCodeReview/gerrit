@@ -120,7 +120,7 @@ limitations under the License.
         display: block;
       }
       .previewContainer gr-formatted-text {
-        background: #f6f6f6;
+        background: var(--header-background-color);
         padding: 1em;
       }
       .draftsContainer h3 {
@@ -131,12 +131,12 @@ limitations under the License.
         margin-left: 1em;
       }
       #checkingStatusLabel {
-        color: #444;
+        color: var(--deemphasized-text-color);
         font-style: italic;
       }
       #notLatestLabel,
       #savingLabel {
-        color: red;
+        color: var(--error-text-color);
       }
       #savingLabel {
         display: none;
@@ -145,7 +145,7 @@ limitations under the License.
         display: inline;
       }
       #pluginMessage {
-        color: #444;
+        color: var(--deemphasized-text-color);
         margin-left: 1em;
         margin-bottom: .5em;
       }

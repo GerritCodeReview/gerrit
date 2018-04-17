@@ -36,6 +36,7 @@ class CapabilityInfo {
   public boolean viewConnections;
   public boolean viewPlugins;
   public boolean viewQueue;
+  public boolean viewAccess;
 
   static class QueryLimit {
     short min;

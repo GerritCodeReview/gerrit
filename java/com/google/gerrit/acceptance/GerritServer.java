@@ -339,10 +339,12 @@ public class GerritServer implements AutoCloseable {
     Config cfg = desc.buildConfig(baseConfig);
     mergeTestConfig(cfg);
     boolean sshLogEnabled = cfg.getBoolean("sshd", null, "requestLog", false);
+    Logger.getLogger("com.google.gerrit").info("value : " + sshLogEnabled);
     if (!sshLogEnabled) {
       // Set the log4j configuration to an invalid one to prevent system logs
       // from getting configured and creating log files.
       System.setProperty(SystemLog.LOG4J_CONFIGURATION, "invalidConfiguration");
+      Logger.getLogger("com.google.gerrit").info("debug shouldn't be here");
       cfg.setBoolean("httpd", null, "requestLog", false);
       cfg.setBoolean("sshd", null, "requestLog", false);
     }

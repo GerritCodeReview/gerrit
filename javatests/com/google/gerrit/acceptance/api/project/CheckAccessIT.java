@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
@@ -179,6 +180,19 @@ public class CheckAccessIT extends AbstractDaemonTest {
       t.want = want;
       return t;
     }
+  }
+
+  @Test
+  public void httpGet() throws Exception {
+    RestResponse rep =
+        adminRestSession.get(
+            "/projects/"
+                + normalProject.get()
+                + "/check.access"
+                + "?ref=refs/heads/master&perm=viewPrivateChanges&account="
+                + user.email);
+    rep.assertOK();
+    assertThat(rep.getEntityContent()).contains("403");
   }
 
   @Test

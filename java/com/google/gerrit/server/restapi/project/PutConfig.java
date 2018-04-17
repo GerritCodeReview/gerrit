@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.EnableSignedPush;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -79,6 +80,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
+  private GroupBackend groupBackend;
 
   @Inject
   PutConfig(
@@ -93,7 +95,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> user,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      GroupBackend groupBackend) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
@@ -106,6 +109,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.views = views;
     this.user = user;
     this.permissionBackend = permissionBackend;
+    this.groupBackend = groupBackend;
   }
 
   @Override
@@ -178,7 +182,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           cfgFactory,
           allProjects,
           uiActions,
-          views);
+          views,
+          groupBackend);
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(projectName.get());
     } catch (ConfigInvalidException err) {

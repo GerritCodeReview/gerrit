@@ -112,7 +112,8 @@ public class AccountManager {
             ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, who.getUserName());
             ExternalId existingId = findExternalId(db, key);
             if (existingId != null) {
-              // An inconsistency is detected in the database, having a record for scheme "username:"
+              // An inconsistency is detected in the database, having a record for scheme
+              // "username:"
               // but no record for scheme "gerrit:". Try to recover by linking
               // "gerrit:" identity to the existing account.
               log.warn(

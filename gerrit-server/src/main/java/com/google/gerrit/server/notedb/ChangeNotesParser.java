@@ -670,9 +670,9 @@ class ChangeNotesParser {
     int changeMessageStart;
 
     if (raw[subjectEnd] == '\n') {
-      changeMessageStart = subjectEnd + 2; //\n\n ends paragraph
+      changeMessageStart = subjectEnd + 2; // \n\n ends paragraph
     } else if (raw[subjectEnd] == '\r') {
-      changeMessageStart = subjectEnd + 4; //\r\n\r\n ends paragraph
+      changeMessageStart = subjectEnd + 4; // \r\n\r\n ends paragraph
     } else {
       return;
     }

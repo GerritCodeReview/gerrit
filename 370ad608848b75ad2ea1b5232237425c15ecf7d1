@@ -57,6 +57,24 @@
       "revId": "370ad608848b75ad2ea1b5232237425c15ecf7d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aa9f91e_1414cc47",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-17T13:49:47Z",
+      "side": 1,
+      "message": "I personally agree, but we should probably ask admins who actually have to do them :)",
+      "parentUuid": "28344c72_f237c466",
+      "revId": "370ad608848b75ad2ea1b5232237425c15ecf7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

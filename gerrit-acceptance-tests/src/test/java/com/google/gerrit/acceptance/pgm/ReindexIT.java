@@ -19,14 +19,33 @@ import static com.google.common.truth.Truth8.assertThat;
 import com.google.common.io.MoreFiles;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
+import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
+import com.google.gerrit.elasticsearch.testing.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.testutil.ConfigSuite;
 import java.nio.file.Files;
+import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.Config;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 @NoHttpd
 public class ReindexIT extends StandaloneSiteTest {
+
+  private static ElasticNodeInfo nodeInfo;
+
+  @ConfigSuite.Config
+  public static Config elasticsearch() throws InterruptedException, ExecutionException {
+    nodeInfo = ElasticTestUtils.startElasticsearchNode();
+    ElasticTestUtils.createAllIndexes(nodeInfo);
+    Config cfg = new Config();
+    ElasticTestUtils.configure(cfg, nodeInfo.port);
+    return cfg;
+  }
+
   @Test
   public void reindexFromScratch() throws Exception {
     Project.NameKey project = new Project.NameKey("project");
@@ -53,6 +72,23 @@ public class ReindexIT extends StandaloneSiteTest {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       assertThat(gApi.changes().query("message:Test").get().stream().map(c -> c.changeId))
           .containsExactly(changeId);
+    }
+  }
+
+  @After
+  public void cleanupElasticIndex() {
+    if (nodeInfo != null) {
+      ElasticTestUtils.deleteAllIndexes(nodeInfo);
+      ElasticTestUtils.createAllIndexes(nodeInfo);
+    }
+  }
+
+  @AfterClass
+  public static void stopElasticServer() {
+    if (nodeInfo != null) {
+      nodeInfo.node.close();
+      nodeInfo.elasticDir.delete();
+      nodeInfo = null;
     }
   }
 }

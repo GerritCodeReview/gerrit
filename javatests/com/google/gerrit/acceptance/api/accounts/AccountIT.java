@@ -41,7 +41,6 @@ import com.github.rholder.retry.StopStrategies;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
@@ -49,11 +48,11 @@ import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -120,6 +119,7 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -272,22 +272,6 @@ public class AccountIT extends AbstractDaemonTest {
         RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
         RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
         RefUpdateCounter.projectRef(allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS));
-  }
-
-  @Test
-  @UseSsh
-  public void createWithSshKeysByAccountCreator() throws Exception {
-    Account.Id accountId =
-        createByAccountCreator(3); // account creation + external ID creation + adding SSH keys
-    refUpdateCounter.assertRefUpdateFor(
-        ImmutableMap.of(
-            RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
-            2,
-            RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
-            1,
-            RefUpdateCounter.projectRef(
-                allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS),
-            1));
   }
 
   private Account.Id createByAccountCreator(int expectedAccountReindexCalls) throws Exception {
@@ -1833,12 +1817,13 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(info).hasSize(1);
     assertSequenceNumbers(info);
     SshKeyInfo key = info.get(0);
-    String inital = AccountCreator.publicKey(admin.sshKey, admin.email);
+    KeyPair keyPair = sshKeys.getKeyPair(admin);
+    String inital = TestSshKeys.publicKey(keyPair, admin.email);
     assertThat(key.sshPublicKey).isEqualTo(inital);
     accountIndexedCounter.assertNoReindex();
 
     // Add a new key
-    String newKey = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
+    String newKey = TestSshKeys.publicKey(TestSshKeys.genSshKey(), admin.email);
     gApi.accounts().self().addSshKey(newKey);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(2);
@@ -1853,7 +1838,7 @@ public class AccountIT extends AbstractDaemonTest {
     accountIndexedCounter.assertNoReindex();
 
     // Add another new key
-    String newKey2 = AccountCreator.publicKey(AccountCreator.genSshKey(), admin.email);
+    String newKey2 = TestSshKeys.publicKey(TestSshKeys.genSshKey(), admin.email);
     gApi.accounts().self().addSshKey(newKey2);
     info = gApi.accounts().self().listSshKeys();
     assertThat(info).hasSize(3);

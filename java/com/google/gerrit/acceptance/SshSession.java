@@ -16,32 +16,34 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.Scanner;
 
 public class SshSession {
+  private final TestSshKeys sshKeys;
   private final InetSocketAddress addr;
   private final TestAccount account;
   private Session session;
   private String error;
 
-  public SshSession(GerritServer server, TestAccount account) {
+  public SshSession(TestSshKeys sshKeys, GerritServer server, TestAccount account) {
+    this.sshKeys = sshKeys;
     this.addr = server.getSshdAddress();
     this.account = account;
   }
 
-  public void open() throws JSchException {
+  public void open() throws Exception {
     getSession();
   }
 
   @SuppressWarnings("resource")
-  public String exec(String command, InputStream opt) throws JSchException, IOException {
+  public String exec(String command, InputStream opt) throws Exception {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     try {
       channel.setCommand(command);
@@ -60,7 +62,7 @@ public class SshSession {
     }
   }
 
-  public InputStream exec2(String command, InputStream opt) throws JSchException, IOException {
+  public InputStream exec2(String command, InputStream opt) throws Exception {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     channel.setCommand(command);
     channel.setInputStream(opt);
@@ -69,7 +71,7 @@ public class SshSession {
     return in;
   }
 
-  public String exec(String command) throws JSchException, IOException {
+  public String exec(String command) throws Exception {
     return exec(command, null);
   }
 
@@ -88,10 +90,12 @@ public class SshSession {
     }
   }
 
-  private Session getSession() throws JSchException {
+  private Session getSession() throws Exception {
     if (session == null) {
+      KeyPair keyPair = sshKeys.getKeyPair(account);
       JSch jsch = new JSch();
-      jsch.addIdentity("KeyPair", account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
+      jsch.addIdentity(
+          "KeyPair", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);
       session =
           jsch.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");

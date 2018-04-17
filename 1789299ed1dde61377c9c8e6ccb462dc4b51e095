@@ -33,6 +33,24 @@
       "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9f90216_be54af95",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-17T08:57:28Z",
+      "side": 1,
+      "message": "When we create the event we don\u0027t want to risk another thread updating the config. synchronizing this block ensures that we will never loose a \"config diff\".",
+      "parentUuid": "97523ce1_bf6bcae0",
+      "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -109,7 +109,9 @@ Changes originally submitted by 'USER'. The special case of
 [[ownerin]]
 ownerin:'GROUP'::
 +
-Changes originally submitted by a user in 'GROUP'.
+Changes originally submitted by a user in 'GROUP'. When no other index
+predicate is explicitly added in the query, defaults to only include
+changes in status 'OPEN'.
 
 [[query]]
 query:'NAME'::
@@ -133,7 +135,9 @@ will find changes where the caller has been CC'ed.
 [[reviewerin]]
 reviewerin:'GROUP'::
 +
-Changes that have been, or need to be, reviewed by a user in 'GROUP'.
+Changes that have been, or need to be, reviewed by a user in 'GROUP'. When
+no other index predicate is explicitly added in the query, defaults to only
+include changes in status 'OPEN'.
 
 [[commit]]
 commit:'SHA1'::

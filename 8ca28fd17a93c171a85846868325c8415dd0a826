@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5c520a9_8a321775",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T13:26:36Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 1314,
+        "startChar": 58,
+        "endLine": 1314,
+        "endChar": 65
+      },
+      "revId": "8ca28fd17a93c171a85846868325c8415dd0a826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

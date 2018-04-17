@@ -33,7 +33,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -46,6 +45,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.io.BaseEncoding;
+import com.google.common.truth.Correspondence;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -54,6 +54,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -71,6 +72,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
@@ -131,6 +133,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -207,6 +210,8 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject
   @Named("accounts")
   private LoadingCache<Account.Id, Optional<AccountState>> accountsCache;
+
+  @Inject private AccountOperations accountOperations;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -1994,15 +1999,24 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void groups() throws Exception {
-    assertGroups(
-        admin.username, ImmutableList.of("Anonymous Users", "Registered Users", "Administrators"));
+  public void allGroupsForAnAdminAccountCanBeRetrieved() throws Exception {
+    List<GroupInfo> groups = gApi.accounts().id(admin.username).getGroups();
+    assertThat(groups)
+        .comparingElementsUsing(getGroupToNameCorrespondence())
+        .containsExactly("Anonymous Users", "Registered Users", "Administrators");
+  }
 
-    assertGroups(user.username, ImmutableList.of("Anonymous Users", "Registered Users"));
-
+  @Test
+  public void allGroupsForAUserAccountCanBeRetrieved() throws Exception {
+    String username = name("user1");
+    accountOperations.newAccount().username(username).create();
     String group = createGroup("group");
-    String newUser = createAccount("user1", group);
-    assertGroups(newUser, ImmutableList.of("Anonymous Users", "Registered Users", group));
+    gApi.groups().id(group).addMembers(username);
+
+    List<GroupInfo> allGroups = gApi.accounts().id(username).getGroups();
+    assertThat(allGroups)
+        .comparingElementsUsing(getGroupToNameCorrespondence())
+        .containsExactly("Anonymous Users", "Registered Users", group);
   }
 
   @Test
@@ -2380,13 +2394,19 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(stalenessChecker.isStale(accountId)).isFalse();
   }
 
-  private void assertGroups(String user, List<String> expected) throws Exception {
-    List<String> actual = getNamesOfGroupsOfUser(user);
-    assertThat(actual).containsExactlyElementsIn(expected);
-  }
+  private static Correspondence<GroupInfo, String> getGroupToNameCorrespondence() {
+    return new Correspondence<GroupInfo, String>() {
+      @Override
+      public boolean compare(GroupInfo actualGroup, String expectedName) {
+        String groupName = actualGroup == null ? null : actualGroup.name;
+        return Objects.equals(groupName, expectedName);
+      }
 
-  private List<String> getNamesOfGroupsOfUser(String user) throws RestApiException {
-    return gApi.accounts().id(user).getGroups().stream().map(g -> g.name).collect(toList());
+      @Override
+      public String toString() {
+        return "has name";
+      }
+    };
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

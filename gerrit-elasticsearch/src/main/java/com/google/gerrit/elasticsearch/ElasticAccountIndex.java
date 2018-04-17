@@ -60,15 +60,15 @@ import org.slf4j.LoggerFactory;
 
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
     implements AccountIndex {
-  static class AccountMapping {
+  public static class AccountMapping {
     MappingProperties accounts;
 
-    AccountMapping(Schema<AccountState> schema) {
+    public AccountMapping(Schema<AccountState> schema) {
       this.accounts = ElasticMapping.createMapping(schema);
     }
   }
 
-  static final String ACCOUNTS = "accounts";
+  public static final String ACCOUNTS = "accounts";
 
   private static final Logger log = LoggerFactory.getLogger(ElasticAccountIndex.class);
 

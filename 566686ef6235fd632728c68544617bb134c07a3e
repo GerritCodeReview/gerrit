@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e6441c9_3ddeb96a",
+        "filename": "java/com/google/gerrit/server/project/ProjectAccessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-17T14:52:27Z",
+      "side": 1,
+      "message": "I think NoSuchProjectException is what I meant here. It\u0027s gross because it affects a lot of method signatures, but given that it\u0027s defined in this class I feel kind of obligated to use it.",
+      "revId": "566686ef6235fd632728c68544617bb134c07a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

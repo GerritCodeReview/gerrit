@@ -105,6 +105,24 @@
       "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90a90dcb_1e6f2f8a",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-17T13:23:29Z",
+      "side": 1,
+      "message": "synchronization now handled properly.",
+      "parentUuid": "7f8e0470_ce102cf9",
+      "revId": "1789299ed1dde61377c9c8e6ccb462dc4b51e095",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

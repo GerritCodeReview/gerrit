@@ -32,6 +32,11 @@ limitations under the License.
       .topHeader + .groupHeader {
         border-top: none;
       }
+      /* Needed to show a border on top of the first gr-change-list-item when a
+        groupHeader exists. Cannot use + selector because of dom-repeats. */
+      .topHeader ~ .groupHeader ~ gr-change-list-item {
+        border-top: 1px solid var(--border-color);
+      }
       tbody {
         border-bottom: 1px solid var(--border-color);
       }

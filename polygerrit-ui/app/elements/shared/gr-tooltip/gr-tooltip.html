@@ -25,9 +25,9 @@ limitations under the License.
         --gr-tooltip-arrow-size: .5em;
         --gr-tooltip-arrow-center-offset: 0;
 
-        background-color: var(--tooltip-background-color, #333);
+        background-color: var(--tooltip-background-color);
         box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
-        color: #fff;
+        color: var(--tooltip-text-color);
         font-size: var(--font-size-small);
         position: absolute;
         z-index: 1000;
@@ -53,11 +53,11 @@ limitations under the License.
         width: 0;
       }
       .arrowPositionAbove {
-        border-top: var(--gr-tooltip-arrow-size) solid var(--tooltip-background-color, #333);
+        border-top: var(--gr-tooltip-arrow-size) solid var(--tooltip-background-color);
         bottom: -var(--gr-tooltip-arrow-size);
       }
       .arrowPositionBelow {
-        border-bottom: var(--gr-tooltip-arrow-size) solid var(--tooltip-background-color, #333);
+        border-bottom: var(--gr-tooltip-arrow-size) solid var(--tooltip-background-color);
         top: -var(--gr-tooltip-arrow-size);
       }
     </style>

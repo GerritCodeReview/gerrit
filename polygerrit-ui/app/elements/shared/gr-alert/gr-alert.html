@@ -29,7 +29,7 @@ limitations under the License.
        * HOW THEY ARE USED IN THE CODE.
        */
       :host([toast]) {
-        background-color: #333;
+        background-color: var(--tooltip-background-color);
         bottom: 1.25rem;
         border-radius: 3px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
@@ -45,6 +45,7 @@ limitations under the License.
         transform: translateY(0);
       }
       .text {
+        color: var(--tooltip-text-color);
         display: inline-block;
         max-height: 10rem;
         max-width: 80vw;
@@ -52,7 +53,7 @@ limitations under the License.
         word-break: break-all;
       }
       .action {
-        color: #a1c2fa;
+        color: var(--link-color);
         font-family: var(--font-family-bold);
         margin-left: 1em;
         text-decoration: none;

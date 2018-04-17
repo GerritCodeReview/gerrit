@@ -301,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "de26b631_bef69f03",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-17T13:18:09Z",
+      "side": 1,
+      "message": "Ack, config options can be a followup.",
+      "parentUuid": "a0260c5a_4bc197c8",
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0986ce95_fa857e47",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

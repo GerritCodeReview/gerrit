@@ -48,16 +48,16 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 
-final class ElasticTestUtils {
+public final class ElasticTestUtils {
   static final Gson gson =
       new GsonBuilder()
           .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
           .create();
 
-  static class ElasticNodeInfo {
-    final Node node;
-    final String port;
-    final File elasticDir;
+  public static class ElasticNodeInfo {
+    public final Node node;
+    public final String port;
+    public final File elasticDir;
 
     private ElasticNodeInfo(Node node, File rootDir, String port) {
       this.node = node;
@@ -66,14 +66,15 @@ final class ElasticTestUtils {
     }
   }
 
-  static void configure(Config config, String port) {
+  public static void configure(Config config, String port) {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", "test", "protocol", "http");
     config.setString("elasticsearch", "test", "hostname", "localhost");
     config.setString("elasticsearch", "test", "port", port);
   }
 
-  static ElasticNodeInfo startElasticsearchNode() throws InterruptedException, ExecutionException {
+  public static ElasticNodeInfo startElasticsearchNode()
+      throws InterruptedException, ExecutionException {
     File elasticDir = Files.createTempDir();
     Path elasticDirPath = elasticDir.toPath();
     Settings settings =
@@ -105,19 +106,19 @@ final class ElasticTestUtils {
     return new ElasticNodeInfo(node, elasticDir, getHttpPort(node));
   }
 
-  static void deleteAllIndexes(ElasticNodeInfo nodeInfo) {
+  public static void deleteAllIndexes(ElasticNodeInfo nodeInfo) {
     nodeInfo.node.client().admin().indices().prepareDelete("_all").execute();
   }
 
-  static class NodeInfo {
+  public static class NodeInfo {
     String httpAddress;
   }
 
-  static class Info {
+  public static class Info {
     Map<String, NodeInfo> nodes;
   }
 
-  static void createAllIndexes(ElasticNodeInfo nodeInfo) {
+  public static void createAllIndexes(ElasticNodeInfo nodeInfo) {
     Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
     ChangeMapping openChangesMapping = new ChangeMapping(changeSchema);
     ChangeMapping closedChangesMapping = new ChangeMapping(changeSchema);

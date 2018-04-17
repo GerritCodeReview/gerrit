@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4c457a4_15d91859",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-17T14:05:08Z",
+      "side": 1,
+      "message": "Lists.newArrayList",
+      "range": {
+        "startLine": 651,
+        "startChar": 25,
+        "endLine": 651,
+        "endChar": 38
+      },
+      "revId": "3b122c8acb720a27b98d01502be0372cd17220c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

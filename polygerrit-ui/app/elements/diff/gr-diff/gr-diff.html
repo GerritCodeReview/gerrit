@@ -33,13 +33,13 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
-        --light-remove-highlight-color: #fee;
+        --light-remove-highlight-color: var(--diff-remove-highlight-color);
         --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);
-        --light-add-highlight-color: #efe;
+        --light-add-highlight-color: var(--diff-add-highlight-color);
         --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
-        --light-rebased-remove-highlight-color: #fff6ea;
+        --light-rebased-remove-highlight-color: var(--diff-remove-add-highlight-color);
         --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
-        --light-rebased-add-highlight-color: #edfffa;
+        --light-rebased-add-highlight-color: var(--diff-rebased-add-highlight-color);
         --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
       }
       :host(.no-left) .sideBySide ::content .left,
@@ -54,7 +54,7 @@ limitations under the License.
         @apply --diff-container-styles;
       }
       .diffContainer.hiddenscroll {
-        padding-bottom: .8em;
+        margin-bottom: .8em;
       }
       table {
         border-collapse: collapse;
@@ -62,14 +62,14 @@ limitations under the License.
         table-layout: fixed;
       }
       .lineNum {
-        background-color: var(--header-background-color);
+        background-color: var(--table-header-background-color);
       }
       .image-diff .gr-diff {
         text-align: center;
       }
       .image-diff img {
         max-width: 50em;
-        outline: 1px solid #ccc;
+        outline: 1px solid var(--border-color);
       }
       .image-diff label,
       .binary-diff label {
@@ -82,7 +82,7 @@ limitations under the License.
       .diff-row.target-row.target-side-left .lineNum.left,
       .diff-row.target-row.target-side-right .lineNum.right,
       .diff-row.target-row.unified .lineNum {
-        background-color: #BBDEFB;
+        background-color: var(--diff-selection-background-color);
         color: var(--primary-text-color);
       }
       .blank,
@@ -130,36 +130,36 @@ limitations under the License.
         background-color: var(--dark-add-highlight-color);
       }
       .content.add {
-        background-color: var(--light-add-highlight-color);
+        background-color: var(--diff-add-highlight-color);
       }
       .content.remove .intraline,
       .delta.total .content.remove {
         background-color: var(--dark-remove-highlight-color);
       }
       .content.remove {
-        background-color: var(--light-remove-highlight-color);
+        background-color: var(--diff-remove-highlight-color);
       }
       .dueToRebase .content.add .intraline,
       .delta.total.dueToRebase .content.add {
         background-color: var(--dark-rebased-add-highlight-color);
       }
       .dueToRebase .content.add {
-        background-color: var(--light-rebased-add-highlight-color);
+        background-color: var(--diff-rebased-add-highlight-color);
       }
       .dueToRebase .content.remove .intraline,
       .delta.total.dueToRebase .content.remove {
         background-color: var(--dark-rebased-remove-highlight-color);
       }
       .dueToRebase .content.remove {
-        background-color: var(--light-rebased-remove-highlight-color);
+        background-color: var(--diff-remove-add-highlight-color);
       }
       .content .contentText:empty:after {
         /* Newline, to ensure empty lines are one line-height tall. */
         content: '\A';
       }
       .contextControl {
-        background-color: #fff7d4;
-        border: 1px solid #f6e6a5;
+        background-color: var(--diff-context-control-color);
+        border: 1px solid var(--diff-context-control-border-color);
       }
       .contextControl gr-button {
         display: inline-block;
@@ -174,7 +174,7 @@ limitations under the License.
         text-align: center;
       }
       .displayLine .diff-row.target-row td {
-        box-shadow: inset 0 -1px #bbb;
+        box-shadow: inset 0 -1px var(--border-color);
       }
       .br:after {
         /* Line feed */
@@ -184,17 +184,18 @@ limitations under the License.
         display: inline-block;
       }
       .tab-indicator:before {
-        color: #C62828;
+        color: var(--diff-tab-indicator-color);
         /* >> character */
         content: '\00BB';
       }
       .trailing-whitespace {
         border-radius: .4em;
-        background-color: #FF9AD2;
+        background-color: var(--diff-trailing-whitespace-indicator);
       }
       #diffHeader {
-        background-color: #F9F9F9;
-        color: #2A00FF;
+        background-color: var(--table-header-background-color);
+        border-bottom: 1px solid var(--border-color);
+        color: var(--link-color);
         font-family: var(--monospace-font-family);
         font-size: var(--font-size, var(--font-size-small));
         padding: 0.5em 0 0.5em 4em;

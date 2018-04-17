@@ -176,7 +176,7 @@ public class AccountCreator {
 
   public static KeyPair genSshKey() throws JSchException {
     JSch jsch = new JSch();
-    return KeyPair.genKeyPair(jsch, KeyPair.RSA);
+    return KeyPair.genKeyPair(jsch, KeyPair.ECDSA, 256);
   }
 
   public static String publicKey(KeyPair sshKey, String comment)

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c6c4c5c_91d95707",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-17T07:54:54Z",
+      "side": 1,
+      "message": "how does this get tested then?",
+      "range": {
+        "startLine": 1023,
+        "startChar": 3,
+        "endLine": 1023,
+        "endChar": 10
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

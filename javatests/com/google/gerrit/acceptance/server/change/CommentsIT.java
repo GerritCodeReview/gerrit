@@ -95,7 +95,7 @@ public class CommentsIT extends AbstractDaemonTest {
   private final Integer[] lines = {0, 1};
 
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     setApiUser(user);
   }
 

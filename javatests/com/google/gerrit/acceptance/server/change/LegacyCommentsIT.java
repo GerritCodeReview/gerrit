@@ -46,7 +46,7 @@ public class LegacyCommentsIT extends AbstractDaemonTest {
   }
 
   @Before
-  public void setUp() {
+  public void setUp() throws Exception {
     setApiUser(user);
   }
 

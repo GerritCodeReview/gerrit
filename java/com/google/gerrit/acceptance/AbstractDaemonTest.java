@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.Truth8.assertThat;
@@ -37,6 +38,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
+import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -131,7 +133,7 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
-import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -253,6 +255,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected MutableNotesMigration notesMigration;
   @Inject protected ChangeNotes.Factory notesFactory;
   @Inject protected BatchAbandon batchAbandon;
+  @Inject protected TestSshKeys sshKeys;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -450,12 +453,14 @@ public abstract class AbstractDaemonTest {
     return null;
   }
 
-  protected void initSsh() throws JSchException {
+  protected void initSsh() throws Exception {
     if (testRequiresSsh
         && SshMode.useSsh()
         && (adminSshSession == null || userSshSession == null)) {
       // Create Ssh sessions
-      GitUtil.initSsh(admin);
+      Optional<KeyPair> adminKeyPair = sshKeys.getKeyPair(admin);
+      checkState(adminKeyPair.isPresent(), "Expected SSH key pair to be available");
+      GitUtil.initSsh(adminKeyPair.get());
       Context ctx = newRequestContext(user);
       atrScope.set(ctx);
       userSshSession = ctx.getSession();
@@ -835,10 +840,10 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().query(q).get();
   }
 
-  private Context newRequestContext(TestAccount account) {
+  private Context newRequestContext(TestAccount account) throws Exception {
     return atrScope.newContext(
         reviewDbProvider,
-        new SshSession(server, account),
+        new SshSession(server, account, sshKeys.getKeyPair(account)),
         identifiedUserFactory.create(account.getId()));
   }
 
@@ -848,11 +853,11 @@ public abstract class AbstractDaemonTest {
    * <p>This recreates the IdentifiedUser, hence everything which is cached in the IdentifiedUser is
    * reloaded (e.g. the email addresses of the user).
    */
-  protected Context resetCurrentApiUser() {
+  protected Context resetCurrentApiUser() throws Exception {
     return atrScope.set(newRequestContext(atrScope.get().getSession().getAccount()));
   }
 
-  protected Context setApiUser(TestAccount account) {
+  protected Context setApiUser(TestAccount account) throws Exception {
     return atrScope.set(newRequestContext(account));
   }
 

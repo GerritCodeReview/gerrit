@@ -16,24 +16,29 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class SshSession {
   private final InetSocketAddress addr;
   private final TestAccount account;
+  private final Optional<KeyPair> keyPair;
   private Session session;
   private String error;
 
-  public SshSession(GerritServer server, TestAccount account) {
+  public SshSession(GerritServer server, TestAccount account, Optional<KeyPair> keyPair) {
     this.addr = server.getSshdAddress();
     this.account = account;
+    this.keyPair = keyPair;
   }
 
   public void open() throws JSchException {
@@ -90,8 +95,10 @@ public class SshSession {
 
   private Session getSession() throws JSchException {
     if (session == null) {
+      checkState(keyPair.isPresent(), "Expected SSH key pair to be available");
       JSch jsch = new JSch();
-      jsch.addIdentity("KeyPair", account.privateKey(), account.sshKey.getPublicKeyBlob(), null);
+      jsch.addIdentity(
+          "KeyPair", TestSshKeys.privateKey(keyPair.get()), keyPair.get().getPublicKeyBlob(), null);
       session =
           jsch.getSession(account.username, addr.getAddress().getHostAddress(), addr.getPort());
       session.setConfig("StrictHostKeyChecking", "no");

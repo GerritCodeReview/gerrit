@@ -28,7 +28,6 @@ limitations under the License.
     <style include="shared-styles">
       gr-button {
         margin-left: .5em;
-        --gr-button-color: #212121;
       }
       #actions {
         margin-left: auto;
@@ -94,21 +93,25 @@ limitations under the License.
           <gr-button
               id="replyBtn"
               link
+              secondary
               class="action reply"
               on-tap="_handleCommentReply">Reply</gr-button>
           <gr-button
               id="quoteBtn"
               link
+              secondary
               class="action quote"
               on-tap="_handleCommentQuote">Quote</gr-button>
           <gr-button
               id="ackBtn"
               link
+              secondary
               class="action ack"
               on-tap="_handleCommentAck">Ack</gr-button>
           <gr-button
               id="doneBtn"
               link
+              secondary
               class="action done"
               on-tap="_handleCommentDone">Done</gr-button>
         </div>

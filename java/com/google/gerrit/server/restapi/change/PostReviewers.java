@@ -63,7 +63,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
@@ -103,7 +103,7 @@ public class PostReviewers
   private final ReviewerJson json;
   private final NotesMigration migration;
   private final NotifyUtil notifyUtil;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final Provider<AnonymousUser> anonymousProvider;
   private final PostReviewersOp.Factory postReviewersOpFactory;
   private final OutgoingEmailValidator validator;
@@ -123,7 +123,7 @@ public class PostReviewers
       ReviewerJson json,
       NotesMigration migration,
       NotifyUtil notifyUtil,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       Provider<AnonymousUser> anonymousProvider,
       PostReviewersOp.Factory postReviewersOpFactory,
       OutgoingEmailValidator validator) {
@@ -140,7 +140,7 @@ public class PostReviewers
     this.json = json;
     this.migration = migration;
     this.notifyUtil = notifyUtil;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.anonymousProvider = anonymousProvider;
     this.postReviewersOpFactory = postReviewersOpFactory;
     this.validator = validator;
@@ -150,7 +150,7 @@ public class PostReviewers
   protected AddReviewerResult applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
       throws IOException, OrmException, RestApiException, UpdateException,
-          PermissionBackendException, ConfigInvalidException {
+          PermissionBackendException, ConfigInvalidException, NoSuchProjectException {
     if (input.reviewer == null) {
       throw new BadRequestException("missing reviewer field");
     }
@@ -172,7 +172,8 @@ public class PostReviewers
 
   public Addition prepareApplication(
       ChangeResource rsrc, AddReviewerInput input, boolean allowGroup)
-      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException,
+          NoSuchProjectException {
     String reviewer = input.reviewer;
     ReviewerState state = input.state();
     NotifyHandling notify = input.notify;
@@ -184,8 +185,8 @@ public class PostReviewers
     }
     boolean confirmed = input.confirmed();
     boolean allowByEmail =
-        projectCache
-            .checkedGet(rsrc.getProject())
+        projectAccessorFactory
+            .create(rsrc.getProject())
             .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
     Addition byAccountId =

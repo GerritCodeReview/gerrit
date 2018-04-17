@@ -106,6 +106,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -219,14 +220,16 @@ public class PostReview
   protected Response<ReviewResult> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
+          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException,
+          NoSuchProjectException {
     return apply(updateFactory, revision, input, TimeUtil.nowTs());
   }
 
   public Response<ReviewResult> apply(
       BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException {
+          PermissionBackendException, ConfigInvalidException, PatchListNotAvailableException,
+          NoSuchProjectException {
     // Respect timestamp, but truncate at change created-on time.
     ts = Ordering.natural().max(ts, revision.getChange().getCreatedOn());
     if (revision.getEdit().isPresent()) {

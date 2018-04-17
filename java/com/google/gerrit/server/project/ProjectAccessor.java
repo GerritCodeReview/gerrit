@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.assistedinject.Assisted;
@@ -68,6 +69,12 @@ public class ProjectAccessor {
     }
   }
 
+  // TODO(dborowitz): This is a convenience while migrating to ProjectAccessor, so that consumers
+  // don't need to hold separate references to ProjectState/ProjectAccessor. Remove this method.
+  public ProjectState getProjectState() {
+    return projectState;
+  }
+
   public SubmitType getSubmitType() {
     for (ProjectState s : tree()) {
       SubmitType t = s.getProject().getConfiguredSubmitType();
@@ -76,6 +83,21 @@ public class ProjectAccessor {
       }
     }
     return Project.DEFAULT_ALL_PROJECTS_SUBMIT_TYPE;
+  }
+
+  public boolean is(BooleanProjectConfig config) {
+    for (ProjectState s : tree()) {
+      switch (s.getProject().getBooleanConfig(config)) {
+        case TRUE:
+          return true;
+        case FALSE:
+          return false;
+        case INHERIT:
+        default:
+          continue;
+      }
+    }
+    return false;
   }
 
   private Iterable<ProjectState> tree() {

@@ -25,8 +25,8 @@ public class TagResource extends RefResource {
 
   private final TagInfo tagInfo;
 
-  public TagResource(ProjectState projectState, CurrentUser user, TagInfo tagInfo) {
-    super(projectState, user);
+  public TagResource(ProjectAccessor projectAccessor, CurrentUser user, TagInfo tagInfo) {
+    super(projectAccessor, user);
     this.tagInfo = tagInfo;
   }
 

@@ -43,6 +43,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.DashboardResource;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -65,6 +66,7 @@ public class DashboardsCollection
   public static final String DEFAULT_DASHBOARD_NAME = "default";
 
   private final GitRepositoryManager gitManager;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
   private final Provider<SetDefaultDashboard.CreateDefault> createDefault;
@@ -73,11 +75,13 @@ public class DashboardsCollection
   @Inject
   DashboardsCollection(
       GitRepositoryManager gitManager,
+      ProjectAccessor.Factory projectAccessorFactory,
       DynamicMap<RestView<DashboardResource>> views,
       Provider<ListDashboards> list,
       Provider<SetDefaultDashboard.CreateDefault> createDefault,
       PermissionBackend permissionBackend) {
     this.gitManager = gitManager;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.views = views;
     this.list = list;
     this.createDefault = createDefault;
@@ -112,7 +116,7 @@ public class DashboardsCollection
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     parent.getProjectState().checkStatePermitsRead();
     if (isDefaultDashboard(id)) {
-      return DashboardResource.projectDefault(parent.getProjectState(), parent.getUser());
+      return DashboardResource.projectDefault(parent.getProjectAccessor(), parent.getUser());
     }
 
     DashboardInfo info;
@@ -124,7 +128,8 @@ public class DashboardsCollection
 
     for (ProjectState ps : parent.getProjectState().tree()) {
       try {
-        return parse(ps, parent.getProjectState(), parent.getUser(), info);
+        return parse(
+            projectAccessorFactory.create(ps), parent.getProjectAccessor(), parent.getUser(), info);
       } catch (AmbiguousObjectException | ConfigInvalidException | IncorrectObjectTypeException e) {
         throw new ResourceNotFoundException(id);
       } catch (ResourceNotFoundException e) {
@@ -142,13 +147,17 @@ public class DashboardsCollection
   }
 
   private DashboardResource parse(
-      ProjectState parent, ProjectState current, CurrentUser user, DashboardInfo info)
+      ProjectAccessor parent, ProjectAccessor current, CurrentUser user, DashboardInfo info)
       throws ResourceNotFoundException, IOException, AmbiguousObjectException,
           IncorrectObjectTypeException, ConfigInvalidException, PermissionBackendException,
           ResourceConflictException {
     String ref = normalizeDashboardRef(info.ref);
     try {
-      permissionBackend.user(user).project(parent.getNameKey()).ref(ref).check(RefPermission.READ);
+      permissionBackend
+          .user(user)
+          .project(parent.getProjectState().getNameKey())
+          .ref(ref)
+          .check(RefPermission.READ);
     } catch (AuthException e) {
       // Don't leak the project's existence
       throw new ResourceNotFoundException(info.id);
@@ -157,9 +166,9 @@ public class DashboardsCollection
       throw new ResourceNotFoundException(info.id);
     }
 
-    current.checkStatePermitsRead();
+    parent.getProjectState().checkStatePermitsRead();
 
-    try (Repository git = gitManager.openRepository(parent.getNameKey())) {
+    try (Repository git = gitManager.openRepository(parent.getProjectState().getNameKey())) {
       ObjectId objId = git.resolve(ref + ":" + info.path);
       if (objId == null) {
         throw new ResourceNotFoundException(info.id);

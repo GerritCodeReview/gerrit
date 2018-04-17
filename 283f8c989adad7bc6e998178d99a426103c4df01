@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c6fa2967_923a4f6c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-17T13:59:38Z",
+      "side": 1,
+      "message": "No, groupBackend is not a member of this.",
+      "parentUuid": "82ade655_519bb7cd",
+      "range": {
+        "startLine": 131,
+        "startChar": 30,
+        "endLine": 131,
+        "endChar": 55
+      },
+      "revId": "283f8c989adad7bc6e998178d99a426103c4df01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0414739e_4e928d5c",
         "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "283f8c989adad7bc6e998178d99a426103c4df01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "134e3c71_bb1d32b9",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-17T13:59:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0414739e_4e928d5c",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 17
+      },
+      "revId": "283f8c989adad7bc6e998178d99a426103c4df01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -41,6 +41,7 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.account.GetGroups;
 import com.google.gwtorm.server.OrmException;
@@ -71,12 +72,13 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   protected final GroupCache groupCache;
 
-  private final List<ProjectState> projects = new ArrayList<>();
+  private final List<ProjectAccessor> projects = new ArrayList<>();
   private final Set<AccountGroup.UUID> groupsToInspect = new HashSet<>();
   private final GroupControl.Factory groupControlFactory;
   private final GroupControl.GenericFactory genericGroupControlFactory;
   private final Provider<IdentifiedUser> identifiedUser;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final GetGroups accountGetGroups;
   private final GroupJson json;
   private final GroupBackend groupBackend;
@@ -100,7 +102,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     usage = "projects for which the groups should be listed"
   )
   public void addProject(ProjectState project) {
-    projects.add(project);
+    projects.add(projectAccessorFactory.create(project));
   }
 
   @Option(
@@ -221,13 +223,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
 
   @Inject
   protected ListGroups(
-      final GroupCache groupCache,
-      final GroupControl.Factory groupControlFactory,
-      final GroupControl.GenericFactory genericGroupControlFactory,
-      final Provider<IdentifiedUser> identifiedUser,
-      final IdentifiedUser.GenericFactory userFactory,
-      final GetGroups accountGetGroups,
-      final GroupsCollection groupsCollection,
+      GroupCache groupCache,
+      GroupControl.Factory groupControlFactory,
+      GroupControl.GenericFactory genericGroupControlFactory,
+      Provider<IdentifiedUser> identifiedUser,
+      IdentifiedUser.GenericFactory userFactory,
+      ProjectAccessor.Factory projectAccessorFactory,
+      GetGroups accountGetGroups,
+      GroupsCollection groupsCollection,
       GroupJson json,
       GroupBackend groupBackend,
       Groups groups) {
@@ -236,6 +239,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.genericGroupControlFactory = genericGroupControlFactory;
     this.identifiedUser = identifiedUser;
     this.userFactory = userFactory;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.accountGetGroups = accountGetGroups;
     this.json = json;
     this.groupBackend = groupBackend;
@@ -251,7 +255,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return user;
   }
 
-  public List<ProjectState> getProjects() {
+  public List<ProjectAccessor> getProjects() {
     return projects;
   }
 
@@ -316,7 +320,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     if (!projects.isEmpty()) {
       return projects
           .stream()
-          .map(ProjectState::getAllGroups)
+          .map(ProjectAccessor::getAllGroups)
           .flatMap(Collection::stream)
           .distinct();
     }
@@ -331,7 +335,13 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     List<GroupReference> groupRefs =
         Lists.newArrayList(
             Iterables.limit(
-                groupBackend.suggest(suggest, projects.stream().findFirst().orElse(null)),
+                groupBackend.suggest(
+                    suggest,
+                    projects
+                        .stream()
+                        .findFirst()
+                        .map(ProjectAccessor::getProjectState)
+                        .orElse(null)),
                 limit <= 0 ? 10 : Math.min(limit, 10)));
 
     List<GroupInfo> groupInfos = Lists.newArrayListWithCapacity(groupRefs.size());

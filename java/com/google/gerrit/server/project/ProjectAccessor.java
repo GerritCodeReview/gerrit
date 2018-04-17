@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
@@ -21,6 +26,10 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Accessor for read calls related to projects.
@@ -43,8 +52,9 @@ public class ProjectAccessor {
   private final ProjectCache projectCache;
   private final ProjectState projectState;
 
+  @VisibleForTesting // Please only use from RefControlTest.
   @AssistedInject
-  ProjectAccessor(
+  public ProjectAccessor(
       ProjectCache projectCache,
       AllProjectsName allProjectsName,
       @Assisted ProjectState projectState) {
@@ -98,6 +108,39 @@ public class ProjectAccessor {
       }
     }
     return false;
+  }
+
+  /**
+   * Obtain all local and inherited sections. This collection is looked up dynamically and is not
+   * cached. Callers should try to cache this result per-request as much as possible.
+   */
+  public List<SectionMatcher> getAllSections() {
+    List<SectionMatcher> all = new ArrayList<>();
+    for (ProjectState s : tree()) {
+      all.addAll(s.getLocalAccessSections());
+    }
+    return all;
+  }
+
+  public Set<GroupReference> getAllGroups() {
+    return getGroups(getAllSections());
+  }
+
+  public Set<GroupReference> getLocalGroups() {
+    return getGroups(projectState.getLocalAccessSections());
+  }
+
+  private static Set<GroupReference> getGroups(List<SectionMatcher> sectionMatcherList) {
+    Set<GroupReference> all = new HashSet<>();
+    for (SectionMatcher matcher : sectionMatcherList) {
+      AccessSection section = matcher.getSection();
+      for (Permission permission : section.getPermissions()) {
+        for (PermissionRule rule : permission.getRules()) {
+          all.add(rule.getGroup());
+        }
+      }
+    }
+    return all;
   }
 
   private Iterable<ProjectState> tree() {

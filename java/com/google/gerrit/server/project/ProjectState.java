@@ -323,22 +323,6 @@ public class ProjectState {
   }
 
   /**
-   * Obtain all local and inherited sections. This collection is looked up dynamically and is not
-   * cached. Callers should try to cache this result per-request as much as possible.
-   */
-  public List<SectionMatcher> getAllSections() {
-    if (isAllProjects) {
-      return getLocalAccessSections();
-    }
-
-    List<SectionMatcher> all = new ArrayList<>();
-    for (ProjectState s : tree()) {
-      all.addAll(s.getLocalAccessSections());
-    }
-    return all;
-  }
-
-  /**
    * @return all {@link AccountGroup}'s to which the owner privilege for 'refs/*' is assigned for
    *     this project (the local owners), if there are no local owners the local owners of the
    *     nearest parent project that has local owners are returned
@@ -498,27 +482,6 @@ public class ProjectState {
       return parent != null ? parent.getTheme() : null;
     }
     return theme;
-  }
-
-  public Set<GroupReference> getAllGroups() {
-    return getGroups(getAllSections());
-  }
-
-  public Set<GroupReference> getLocalGroups() {
-    return getGroups(getLocalAccessSections());
-  }
-
-  private static Set<GroupReference> getGroups(List<SectionMatcher> sectionMatcherList) {
-    final Set<GroupReference> all = new HashSet<>();
-    for (SectionMatcher matcher : sectionMatcherList) {
-      final AccessSection section = matcher.getSection();
-      for (Permission permission : section.getPermissions()) {
-        for (PermissionRule rule : permission.getRules()) {
-          all.add(rule.getGroup());
-        }
-      }
-    }
-    return all;
   }
 
   private ThemeInfo loadTheme() {

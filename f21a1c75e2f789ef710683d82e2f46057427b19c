@@ -34,6 +34,24 @@
       "revId": "f21a1c75e2f789ef710683d82e2f46057427b19c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c313afa_36180e0f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-17T12:03:39Z",
+      "side": 1,
+      "message": "@Saša now the original exception is kept and propagate downstream.",
+      "parentUuid": "cc580650_8d7c6732",
+      "revId": "f21a1c75e2f789ef710683d82e2f46057427b19c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

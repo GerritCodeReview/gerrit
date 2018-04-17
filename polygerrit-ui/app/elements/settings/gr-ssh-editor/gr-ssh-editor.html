@@ -74,12 +74,14 @@ limitations under the License.
                 <td>[[_getStatusLabel(key.valid)]]</td>
                 <td>
                   <gr-button
+                      link
                       on-tap="_showKey"
                       data-index$="[[index]]"
                       link>Click to View</gr-button>
                 </td>
                 <td>
                   <gr-button
+                      link
                       data-index$="[[index]]"
                       on-tap="_handleDeleteKey">Delete</gr-button>
                 </td>
@@ -123,6 +125,7 @@ limitations under the License.
         </section>
         <gr-button
             id="addButton"
+            link
             disabled$="[[_computeAddButtonDisabled(_newKey)]]"
             on-tap="_handleAddKey">Add new SSH key</gr-button>
       </fieldset>

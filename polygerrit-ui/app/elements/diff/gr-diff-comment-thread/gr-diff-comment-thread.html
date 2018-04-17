@@ -34,17 +34,18 @@ limitations under the License.
         padding: .5em .7em;
       }
       #container {
-        background-color: #fcfad6;
-        border: 1px solid #bbb;
+        background-color: var(--comment-background-color);
+        border: 1px solid var(--border-color);
+        color: var(--comment-text-color);
         display: block;
         margin-bottom: 1px;
         white-space: normal;
       }
       #container.unresolved {
-        background-color: #fcfaa6;
+        background-color: var(--unresolved-comment-background-color);
       }
       #commentInfoContainer {
-        border-top: 1px dotted #bbb;
+        border-top: 1px dotted var(--border-color);
         display: flex;
       }
       #unresolvedLabel {

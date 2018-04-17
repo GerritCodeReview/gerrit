@@ -48,7 +48,8 @@ public class TagsCollection implements ChildCollection<ProjectResource, TagResou
   public TagResource parse(ProjectResource parent, IdString id)
       throws RestApiException, IOException, PermissionBackendException {
     parent.getProjectState().checkStatePermitsRead();
-    return new TagResource(parent.getProjectState(), parent.getUser(), list.get().get(parent, id));
+    return new TagResource(
+        parent.getProjectAccessor(), parent.getUser(), list.get().get(parent, id));
   }
 
   @Override

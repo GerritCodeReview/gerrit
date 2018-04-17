@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DashboardResource;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -41,13 +42,15 @@ import org.kohsuke.args4j.Option;
 
 public class GetDashboard implements RestReadView<DashboardResource> {
   private final DashboardsCollection dashboards;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Option(name = "--inherited", usage = "include inherited dashboards")
   private boolean inherited;
 
   @Inject
-  GetDashboard(DashboardsCollection dashboards) {
+  GetDashboard(DashboardsCollection dashboards, ProjectAccessor.Factory projectAccessorFactory) {
     this.dashboards = dashboards;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   public GetDashboard setInherited(boolean inherited) {
@@ -111,6 +114,7 @@ public class GetDashboard implements RestReadView<DashboardResource> {
     String ref = Url.encode(p.get(0));
     String path = Url.encode(p.get(1));
     return dashboards.parse(
-        new ProjectResource(projectState, user), IdString.fromUrl(ref + ':' + path));
+        new ProjectResource(projectAccessorFactory.create(projectState), user),
+        IdString.fromUrl(ref + ':' + path));
   }
 }

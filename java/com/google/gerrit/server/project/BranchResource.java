@@ -27,8 +27,8 @@ public class BranchResource extends RefResource {
   private final String refName;
   private final String revision;
 
-  public BranchResource(ProjectState projectState, CurrentUser user, Ref ref) {
-    super(projectState, user);
+  public BranchResource(ProjectAccessor projectAccessor, CurrentUser user, Ref ref) {
+    super(projectAccessor, user);
     this.refName = ref.getName();
     this.revision = ref.getObjectId() != null ? ref.getObjectId().name() : null;
   }

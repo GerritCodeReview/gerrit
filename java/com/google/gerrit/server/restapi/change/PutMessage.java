@@ -38,7 +38,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -74,7 +75,7 @@ public class PutMessage
   private final PermissionBackend permissionBackend;
   private final PatchSetUtil psUtil;
   private final NotifyUtil notifyUtil;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   PutMessage(
@@ -87,7 +88,7 @@ public class PutMessage
       @GerritPersonIdent PersonIdent gerritIdent,
       PatchSetUtil psUtil,
       NotifyUtil notifyUtil,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     super(retryHelper);
     this.repositoryManager = repositoryManager;
     this.userProvider = userProvider;
@@ -97,14 +98,14 @@ public class PutMessage
     this.permissionBackend = permissionBackend;
     this.psUtil = psUtil;
     this.notifyUtil = notifyUtil;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
   protected Response<String> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource resource, CommitMessageInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
-          OrmException, ConfigInvalidException {
+          OrmException, ConfigInvalidException, NoSuchProjectException {
     PatchSet ps = psUtil.current(db.get(), resource.getNotes());
     if (ps == null) {
       throw new ResourceConflictException("current revision is missing");
@@ -115,9 +116,10 @@ public class PutMessage
     }
     String sanitizedCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(input.message);
 
-    ensureCanEditCommitMessage(resource.getNotes());
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(resource.getProject());
+    ensureCanEditCommitMessage(projectAccessor, resource.getNotes());
     ensureChangeIdIsCorrect(
-        projectCache.checkedGet(resource.getProject()).is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
+        projectAccessor.is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
         resource.getChange().getKey().get(),
         sanitizedCommitMessage);
 
@@ -176,7 +178,7 @@ public class PutMessage
     return newCommitId;
   }
 
-  private void ensureCanEditCommitMessage(ChangeNotes changeNotes)
+  private void ensureCanEditCommitMessage(ProjectAccessor projectAccessor, ChangeNotes changeNotes)
       throws AuthException, PermissionBackendException, IOException, ResourceConflictException,
           OrmException {
     if (!userProvider.get().isIdentifiedUser()) {
@@ -191,7 +193,7 @@ public class PutMessage
           .database(db.get())
           .change(changeNotes)
           .check(ChangePermission.ADD_PATCH_SET);
-      projectCache.checkedGet(changeNotes.getProjectName()).checkStatePermitsWrite();
+      projectAccessor.getProjectState().checkStatePermitsWrite();
     } catch (AuthException denied) {
       throw new AuthException("modifying commit message not permitted", denied);
     }

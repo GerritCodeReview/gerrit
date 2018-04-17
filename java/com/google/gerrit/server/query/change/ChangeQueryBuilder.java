@@ -72,6 +72,7 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ChildProjects;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.SubmitDryRun;
 import com.google.gwtorm.server.OrmException;
@@ -209,6 +210,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final IndexConfig indexConfig;
     final NotesMigration notesMigration;
     final PatchListCache patchListCache;
+    final ProjectAccessor.Factory projectAccessorFactory;
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
     final ChildProjects childProjects;
@@ -240,6 +242,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AllUsersName allUsersName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
+        ProjectAccessor.Factory projectAccessorFactory,
         ProjectCache projectCache,
         ChildProjects childProjects,
         ChangeIndexCollection indexes,
@@ -269,6 +272,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allUsersName,
           patchListCache,
           repoManager,
+          projectAccessorFactory,
           projectCache,
           childProjects,
           submitDryRun,
@@ -300,6 +304,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         AllUsersName allUsersName,
         PatchListCache patchListCache,
         GitRepositoryManager repoManager,
+        ProjectAccessor.Factory projectAccessorFactory,
         ProjectCache projectCache,
         ChildProjects childProjects,
         SubmitDryRun submitDryRun,
@@ -327,6 +332,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.allUsersName = allUsersName;
       this.patchListCache = patchListCache;
       this.repoManager = repoManager;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.projectCache = projectCache;
       this.childProjects = childProjects;
       this.submitDryRun = submitDryRun;
@@ -360,6 +366,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           allUsersName,
           patchListCache,
           repoManager,
+          projectAccessorFactory,
           projectCache,
           childProjects,
           submitDryRun,

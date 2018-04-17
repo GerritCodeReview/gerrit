@@ -83,7 +83,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       try {
         target =
             dashboards.parse(
-                new ProjectResource(rsrc.getProjectState(), rsrc.getUser()),
+                new ProjectResource(rsrc.getProjectAccessor(), rsrc.getUser()),
                 IdString.fromUrl(input.id));
       } catch (ResourceNotFoundException e) {
         throw new BadRequestException("dashboard " + input.id + " not found");

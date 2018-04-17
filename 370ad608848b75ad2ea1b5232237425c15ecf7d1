@@ -39,6 +39,24 @@
       "revId": "370ad608848b75ad2ea1b5232237425c15ecf7d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28344c72_f237c466",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-17T10:05:08Z",
+      "side": 1,
+      "message": "IMHO it is acceptable to mention in the release notes that this config name and function changed and remove it right away.\n\nThere are many things that Gerrit admins might need to do on an upgrade and changing a single config seems to be one of the more low hanging fruits.",
+      "parentUuid": "2a862dff_78f88c57",
+      "revId": "370ad608848b75ad2ea1b5232237425c15ecf7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

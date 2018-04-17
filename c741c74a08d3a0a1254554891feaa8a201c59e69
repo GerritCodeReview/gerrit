@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07509713_3176a185",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:31:25Z",
+      "side": 1,
+      "message": "the swap of labelOptions affects the order. in order to stay consistent with GWT, labels should be first.\n\nallPermissions \u003d labelOptions.concat(\n    this.toSortedArray(this.permissionValues),\n    roleOptions);",
+      "range": {
+        "startLine": 124,
+        "startChar": 7,
+        "endLine": 127,
+        "endChar": 9
+      },
+      "revId": "c741c74a08d3a0a1254554891feaa8a201c59e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8aba311_a3f0a85b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:31:25Z",
+      "side": 1,
+      "message": "This should get switched back to the way they were before, unless we explicitly are wanting to change the order in the dropdown (Which would be different from GWT)",
+      "revId": "c741c74a08d3a0a1254554891feaa8a201c59e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcff58a7_a2c00370",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:31:25Z",
+      "side": 1,
+      "message": "same here.",
+      "revId": "c741c74a08d3a0a1254554891feaa8a201c59e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32197248_ba20d548",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 28
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:31:25Z",
+      "side": 1,
+      "message": "in setup here, also add:\nelement.roles \u003d {};",
+      "range": {
+        "startLine": 307,
+        "startChar": 8,
+        "endLine": 307,
+        "endChar": 26
+      },
+      "revId": "c741c74a08d3a0a1254554891feaa8a201c59e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07614388_4ed14c9b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:31:25Z",
+      "side": 1,
+      "message": "should be roles",
+      "range": {
+        "startLine": 53,
+        "startChar": 44,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "c741c74a08d3a0a1254554891feaa8a201c59e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae9e3203_7ceb02b4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:31:25Z",
+      "side": 1,
+      "message": "return res",
+      "range": {
+        "startLine": 184,
+        "startChar": 12,
+        "endLine": 185,
+        "endChar": 30
+      },
+      "revId": "c741c74a08d3a0a1254554891feaa8a201c59e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e350c015_1ba687ac",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:31:25Z",
+      "side": 1,
+      "message": "repo",
+      "range": {
+        "startLine": 192,
+        "startChar": 66,
+        "endLine": 192,
+        "endChar": 72
+      },
+      "revId": "c741c74a08d3a0a1254554891feaa8a201c59e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c1c4bd_821b7fcc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:31:25Z",
+      "side": 1,
+      "message": "this._labels \u003d repo.labels;\nthis._roles \u003d repo.roles;\n\nif roles can be undefined, then the second line should probably be:\nthis._roles \u003d repo.roles || {}, that way the computed functions work.",
+      "range": {
+        "startLine": 194,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 30
+      },
+      "revId": "c741c74a08d3a0a1254554891feaa8a201c59e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

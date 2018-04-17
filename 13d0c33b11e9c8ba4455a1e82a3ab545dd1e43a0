@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7edadef_ebb5969f",
+        "filename": "java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-17T12:27:39Z",
+      "side": 1,
+      "message": "Unnecessary ternary.",
+      "range": {
+        "startLine": 71,
+        "startChar": 20,
+        "endLine": 71,
+        "endChar": 76
+      },
+      "revId": "13d0c33b11e9c8ba4455a1e82a3ab545dd1e43a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

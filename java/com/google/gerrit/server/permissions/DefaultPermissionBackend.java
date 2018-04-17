@@ -32,8 +32,8 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -49,6 +49,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
   private static final CurrentUser.PropertyKey<Boolean> IS_ADMIN = CurrentUser.PropertyKey.create();
 
   private final Provider<CurrentUser> currentUser;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final ProjectControl.Factory projectControlFactory;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -56,10 +57,12 @@ public class DefaultPermissionBackend extends PermissionBackend {
   @Inject
   DefaultPermissionBackend(
       Provider<CurrentUser> currentUser,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       ProjectControl.Factory projectControlFactory,
       IdentifiedUser.GenericFactory identifiedUserFactory) {
     this.currentUser = currentUser;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.projectControlFactory = projectControlFactory;
     this.identifiedUserFactory = identifiedUserFactory;
@@ -106,11 +109,12 @@ public class DefaultPermissionBackend extends PermissionBackend {
     @Override
     public ForProject project(Project.NameKey project) {
       try {
-        ProjectState state = projectCache.checkedGet(project);
-        if (state != null) {
-          return projectControlFactory.create(user, state).asForProject().database(db);
-        }
-        return FailedPermissionBackend.project("not found", new NoSuchProjectException(project));
+        return projectControlFactory
+            .create(user, projectAccessorFactory.create(project))
+            .asForProject()
+            .database(db);
+      } catch (NoSuchProjectException e) {
+        return FailedPermissionBackend.project("not found", e);
       } catch (IOException e) {
         return FailedPermissionBackend.project("unavailable", e);
       }

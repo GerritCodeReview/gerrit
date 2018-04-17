@@ -440,7 +440,7 @@ public class SubmoduleOp {
     commit.setTreeId(newTreeId);
     commit.setParentIds(currentCommit.getParents());
     if (verboseSuperProject != VerboseSuperprojectUpdate.FALSE) {
-      //TODO:czhen handle cherrypick footer
+      // TODO:czhen handle cherrypick footer
       commit.setMessage(currentCommit.getFullMessage() + "\n\n* submodules:\n" + msgbuf.toString());
     } else {
       commit.setMessage(currentCommit.getFullMessage());

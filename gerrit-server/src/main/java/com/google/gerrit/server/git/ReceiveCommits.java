@@ -1367,7 +1367,7 @@ public class ReceiveCommits {
       if (!hashtag.isEmpty()) {
         hashtags.add(hashtag);
       }
-      //TODO(dpursehouse): validate hashtags
+      // TODO(dpursehouse): validate hashtags
     }
 
     MagicBranchInput(ReceiveCommand cmd, LabelTypes labelTypes, NotesMigration notesMigration) {
@@ -2885,7 +2885,7 @@ public class ReceiveCommits {
       try {
         r.put(cd.change().getKey(), cd.notes());
       } catch (NoSuchChangeException e) {
-        //Ignore deleted change
+        // Ignore deleted change
       }
     }
     return r;

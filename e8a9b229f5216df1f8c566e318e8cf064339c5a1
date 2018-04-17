@@ -283,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "a0260c5a_4bc197c8",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-17T08:18:59Z",
+      "side": 1,
+      "message": "I added a condition so that we don\u0027t parallelize on single projects.\n\nI\u0027ll follow up with config options (I\u0027ll also make it so that we can turn parallelization off completely).",
+      "parentUuid": "97477a05_9d28e04c",
+      "revId": "e8a9b229f5216df1f8c566e318e8cf064339c5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0986ce95_fa857e47",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1

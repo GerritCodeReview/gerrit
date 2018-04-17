@@ -11,6 +11,9 @@ bower_component_bundle(
         "//lib/js:ba-linkify",
         "//lib/js:es6-promise",
         "//lib/js:fetch",
+        # Although highlightjs is inserted separately in the UI zip, it's used
+        # by local development servers (e.g. --polygerrit-dev or run-server.sh).
+        "//lib/js:highlightjs",
         "//lib/js:iron-a11y-keys-behavior",
         "//lib/js:iron-autogrow-textarea",
         "//lib/js:iron-dropdown",

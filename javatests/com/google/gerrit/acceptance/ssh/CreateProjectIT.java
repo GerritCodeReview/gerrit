@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.SshLogTestUtil;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.project.ProjectState;
@@ -49,5 +51,18 @@ public class CreateProjectIT extends AbstractDaemonTest {
     assertWithMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isTrue();
     ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
     assertThat(projectState).isNull();
+  }
+
+  @Test
+  @UseLocalDisk
+  public void validateLog() throws Exception {
+    String newGroupName = "newGroup";
+    adminRestSession.put("/groups/" + newGroupName);
+    String newProjectName = "newProject";
+    String command =
+        "gerrit create-project --branch master --owner " + newGroupName + " " + newProjectName;
+    adminSshSession.exec(command);
+    assertThat(SshLogTestUtil.validateLogWithRetry(server.getSitePath().toString(), command))
+        .isTrue();
   }
 }

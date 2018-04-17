@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "63cdc0f0_d77976ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T08:13:03Z",
+      "side": 1,
+      "message": "to AccountCache",
+      "range": {
+        "startLine": 13,
+        "startChar": 26,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd7b490_d5d606dd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T08:13:03Z",
+      "side": 1,
+      "message": "s/the the/the",
+      "range": {
+        "startLine": 1020,
+        "startChar": 37,
+        "endLine": 1020,
+        "endChar": 44
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c6c4c5c_91d95707",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -42,6 +88,121 @@
         "startChar": 3,
         "endLine": 1023,
         "endChar": 10
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "478fb3f2_d74f9d62",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T08:13:03Z",
+      "side": 1,
+      "message": "loading?",
+      "range": {
+        "startLine": 1023,
+        "startChar": 31,
+        "endLine": 1023,
+        "endChar": 41
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f0afe58_6febe92b",
+        "filename": "java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T08:13:03Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 37,
+        "startChar": 49,
+        "endLine": 37,
+        "endChar": 52
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49e70716_55a4b4ed",
+        "filename": "java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T08:13:03Z",
+      "side": 1,
+      "message": "accounts are",
+      "range": {
+        "startLine": 37,
+        "startChar": 27,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df26c13d_9d79fc00",
+        "filename": "java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T08:13:03Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 44,
+        "startChar": 25,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f71e3829_26559d4a",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T08:13:03Z",
+      "side": 1,
+      "message": "[optional] Would it be better to make it impossible that the value is evicted by a racing thread after byId.asMap().containsKey(accountId) has been invoked but before get(accountId) is called?\n\n  Optional\u003cAccountState\u003e state \u003d byId.asMap().get(accountId);\n  if (state !\u003d null) {\n    // The value is in-memory, so we just get the state\n    state.ifPresent(s -\u003e accountStates.put(accountId, s));\n  } else {",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 115,
+        "endChar": 14
       },
       "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

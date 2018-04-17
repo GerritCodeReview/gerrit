@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -27,6 +28,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -141,6 +143,36 @@ public class ProjectAccessor {
       }
     }
     return all;
+  }
+
+  /**
+   * @return all {@link AccountGroup}'s to which the owner privilege for 'refs/*' is assigned for
+   *     this project (the local owners), if there are no local owners the local owners of the
+   *     nearest parent project that has local owners are returned
+   */
+  public Set<AccountGroup.UUID> getOwners() {
+    for (ProjectState p : tree()) {
+      if (!p.getLocalOwners().isEmpty()) {
+        return p.getLocalOwners();
+      }
+    }
+    return Collections.emptySet();
+  }
+
+  /**
+   * @return all {@link AccountGroup}'s that are allowed to administrate the complete project. This
+   *     includes all groups to which the owner privilege for 'refs/*' is assigned for this project
+   *     (the local owners) and all groups to which the owner privilege for 'refs/*' is assigned for
+   *     one of the parent projects (the inherited owners).
+   */
+  public Set<AccountGroup.UUID> getAllOwners() {
+    Set<AccountGroup.UUID> result = new HashSet<>();
+
+    for (ProjectState p : tree()) {
+      result.addAll(p.getLocalOwners());
+    }
+
+    return result;
   }
 
   private Iterable<ProjectState> tree() {

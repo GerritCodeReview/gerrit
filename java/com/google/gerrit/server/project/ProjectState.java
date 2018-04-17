@@ -322,34 +322,8 @@ public class ProjectState {
     return sm;
   }
 
-  /**
-   * @return all {@link AccountGroup}'s to which the owner privilege for 'refs/*' is assigned for
-   *     this project (the local owners), if there are no local owners the local owners of the
-   *     nearest parent project that has local owners are returned
-   */
-  public Set<AccountGroup.UUID> getOwners() {
-    for (ProjectState p : tree()) {
-      if (!p.localOwners.isEmpty()) {
-        return p.localOwners;
-      }
-    }
-    return Collections.emptySet();
-  }
-
-  /**
-   * @return all {@link AccountGroup}'s that are allowed to administrate the complete project. This
-   *     includes all groups to which the owner privilege for 'refs/*' is assigned for this project
-   *     (the local owners) and all groups to which the owner privilege for 'refs/*' is assigned for
-   *     one of the parent projects (the inherited owners).
-   */
-  public Set<AccountGroup.UUID> getAllOwners() {
-    Set<AccountGroup.UUID> result = new HashSet<>();
-
-    for (ProjectState p : tree()) {
-      result.addAll(p.localOwners);
-    }
-
-    return result;
+  Set<AccountGroup.UUID> getLocalOwners() {
+    return localOwners;
   }
 
   /**

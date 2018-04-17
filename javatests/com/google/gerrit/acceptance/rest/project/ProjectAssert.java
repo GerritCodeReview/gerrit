@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import java.util.List;
 import java.util.Set;
 
@@ -57,8 +57,8 @@ public class ProjectAssert {
   }
 
   public static void assertProjectOwners(
-      Set<AccountGroup.UUID> expectedOwners, ProjectState state) {
-    for (AccountGroup.UUID g : state.getOwners()) {
+      Set<AccountGroup.UUID> expectedOwners, ProjectAccessor accessor) {
+    for (AccountGroup.UUID g : accessor.getOwners()) {
       assertThat(expectedOwners.remove(g)).isTrue();
     }
     assertThat(expectedOwners).isEmpty();

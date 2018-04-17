@@ -36,7 +36,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -51,7 +51,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 
 public class EmailArguments {
   final GitRepositoryManager server;
-  final ProjectCache projectCache;
+  final ProjectAccessor.Factory projectAccessorFactory;
   final PermissionBackend permissionBackend;
   final GroupBackend groupBackend;
   final AccountCache accountCache;
@@ -84,7 +84,7 @@ public class EmailArguments {
   @Inject
   EmailArguments(
       GitRepositoryManager server,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       PermissionBackend permissionBackend,
       GroupBackend groupBackend,
       AccountCache accountCache,
@@ -113,7 +113,7 @@ public class EmailArguments {
       @GerritInstanceName Provider<String> instanceNameProvider,
       @GerritServerConfig Config cfg) {
     this.server = server;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.permissionBackend = permissionBackend;
     this.groupBackend = groupBackend;
     this.accountCache = accountCache;

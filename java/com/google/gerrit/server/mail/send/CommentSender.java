@@ -230,7 +230,7 @@ public class CommentSender extends ReplyToChangeSender {
             log.warn(
                 String.format(
                     "Cannot load %s from %s in %s",
-                    c.key.filename, patchList.getNewId().name(), projectState.getName()),
+                    c.key.filename, patchList.getNewId().name(), getProjectState().getName()),
                 e);
             currentGroup.fileData = null;
           }
@@ -501,7 +501,7 @@ public class CommentSender extends ReplyToChangeSender {
 
   private Repository getRepository() {
     try {
-      return args.server.openRepository(projectState.getNameKey());
+      return args.server.openRepository(getProjectState().getNameKey());
     } catch (IOException e) {
       return null;
     }

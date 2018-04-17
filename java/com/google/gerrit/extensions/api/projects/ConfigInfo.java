@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,8 @@ public class ConfigInfo {
   public ThemeInfo theme;
 
   public Map<String, List<String>> extensionPanelNames;
+
+  public List<GroupInfo> owners;
 
   public static class InheritedBooleanInfo {
     public Boolean value;

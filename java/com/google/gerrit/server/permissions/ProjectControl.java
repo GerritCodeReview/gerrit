@@ -36,6 +36,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SectionMatcher;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -63,7 +64,7 @@ class ProjectControl {
   private final Set<AccountGroup.UUID> receiveGroups;
   private final PermissionBackend permissionBackend;
   private final CurrentUser user;
-  private final ProjectState state;
+  private final ProjectAccessor accessor;
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final DefaultRefFilter.Factory refFilterFactory;
@@ -81,7 +82,7 @@ class ProjectControl {
       PermissionBackend permissionBackend,
       DefaultRefFilter.Factory refFilterFactory,
       @Assisted CurrentUser who,
-      @Assisted ProjectState ps) {
+      @Assisted ProjectAccessor accessor) {
     this.changeControlFactory = changeControlFactory;
     this.uploadGroups = uploadGroups;
     this.receiveGroups = receiveGroups;
@@ -89,7 +90,7 @@ class ProjectControl {
     this.permissionBackend = permissionBackend;
     this.refFilterFactory = refFilterFactory;
     user = who;
-    state = ps;
+    this.accessor = accessor;
   }
 
   ProjectControl forUser(CurrentUser who) {
@@ -102,7 +103,7 @@ class ProjectControl {
             permissionBackend,
             refFilterFactory,
             who,
-            state);
+            accessor);
     // Not per-user, and reusing saves lookup time.
     r.allSections = allSections;
     return r;
@@ -142,12 +143,17 @@ class ProjectControl {
     return user;
   }
 
+  ProjectAccessor getProjectAccessor() {
+    return accessor;
+  }
+
+  // TODO(dborowitz): Remove this method.
   ProjectState getProjectState() {
-    return state;
+    return accessor.getProjectState();
   }
 
   Project getProject() {
-    return state.getProject();
+    return getProjectState().getProject();
   }
 
   /** Is this user a project owner? */
@@ -222,7 +228,7 @@ class ProjectControl {
   private boolean isDeclaredOwner() {
     if (declaredOwner == null) {
       GroupMembership effectiveGroups = user.getEffectiveGroups();
-      declaredOwner = effectiveGroups.containsAnyOf(state.getAllOwners());
+      declaredOwner = effectiveGroups.containsAnyOf(getProjectState().getAllOwners());
     }
     return declaredOwner;
   }
@@ -289,7 +295,7 @@ class ProjectControl {
 
   private List<SectionMatcher> access() {
     if (allSections == null) {
-      allSections = state.getAllSections();
+      allSections = getProjectAccessor().getAllSections();
     }
     return allSections;
   }

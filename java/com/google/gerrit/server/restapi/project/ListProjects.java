@@ -46,6 +46,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
@@ -141,6 +143,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private final CurrentUser currentUser;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final GroupsCollection groupsCollection;
   private final GroupControl.Factory groupControlFactory;
@@ -271,6 +274,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   @Inject
   protected ListProjects(
       CurrentUser currentUser,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       GroupsCollection groupsCollection,
       GroupControl.Factory groupControlFactory,
@@ -279,6 +283,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
       ProjectNode.Factory projectNodeFactory,
       WebLinks webLinks) {
     this.currentUser = currentUser;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.groupsCollection = groupsCollection;
     this.groupControlFactory = groupControlFactory;
@@ -363,8 +368,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
       for (Project.NameKey projectName : filter(perm)) {
-        final ProjectState e = projectCache.get(projectName);
-        if (e == null || (e.getProject().getState() == HIDDEN && !all && state != HIDDEN)) {
+        ProjectAccessor a;
+        try {
+          a = projectAccessorFactory.create(projectName);
+        } catch (NoSuchProjectException | IOException e) {
+          // If we can't get it from the cache, pretend it's not present.
+          continue;
+        }
+        ProjectState e = a.getProjectState();
+        if (e.getProject().getState() == HIDDEN && !all && state != HIDDEN) {
           // If we can't get it from the cache, pretend it's not present.
           // If all wasn't selected, and it's HIDDEN, pretend it's not present.
           // If state HIDDEN wasn't selected, and it's HIDDEN, pretend it's not present.
@@ -376,7 +388,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         }
 
         if (groupUuid != null
-            && !e.getLocalGroups()
+            && !a.getLocalGroups()
                 .contains(GroupReference.forGroup(groupsCollection.parseId(groupUuid.get())))) {
           continue;
         }

@@ -974,6 +974,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "jackson_dataformat_smile",
+    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:" + JACKSON_VERSION,
+    sha1 = "d36cbae6b06ac12fca16fda403759e479316141b",
+)
+
+maven_jar(
     name = "httpasyncclient",
     artifact = "org.apache.httpcomponents:httpasyncclient:4.1.2",
     sha1 = "95aa3e6fb520191a0970a73cf09f62948ee614be",

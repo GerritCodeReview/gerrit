@@ -97,7 +97,6 @@ limitations under the License.
       }
       .action {
         margin-left: 1em;
-        --gr-button-color: #212121;
       }
       .robotActions {
         display: flex;
@@ -249,6 +248,7 @@ limitations under the License.
         <gr-button
             id="deleteBtn"
             link
+            secondary
             class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
             on-tap="_handleCommentDelete">
           (Delete)
@@ -314,21 +314,35 @@ limitations under the License.
             </label>
           </div>
           <div class="rightActions">
-            <gr-button link class="action cancel hideOnPublished"
+            <gr-button
+                link
+                secondary
+                class="action cancel hideOnPublished"
                 on-tap="_handleCancel">Cancel</gr-button>
-            <gr-button link class="action discard hideOnPublished"
+            <gr-button
+                link
+                secondary
+                class="action discard hideOnPublished"
                 on-tap="_handleDiscard">Discard</gr-button>
-            <gr-button link class="action edit hideOnPublished"
+            <gr-button
+                link
+                secondary
+                class="action edit hideOnPublished"
                 on-tap="_handleEdit">Edit</gr-button>
-            <gr-button link class="action save hideOnPublished"
-                on-tap="_handleSave"
-                disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]">Save
-            </gr-button>
+            <gr-button
+                link
+                secondary
+                disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]"
+                class="action save hideOnPublished"
+                on-tap="_handleSave">Save</gr-button>
           </div>
         </div>
         <div class="robotActions" hidden$="[[!_showRobotActions]]">
           <template is="dom-if" if="[[isRobotComment]]">
-            <gr-button link class="action fix"
+            <gr-button
+                link
+                secondary
+                class="action fix"
                 on-tap="_handleFix"
                 disabled="[[robotButtonDisabled]]">
               Please Fix

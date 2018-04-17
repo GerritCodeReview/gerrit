@@ -31,17 +31,7 @@
         value: false,
         reflectToAttribute: true,
       },
-      raised: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: '_isRaised(link)',
-      },
       loading: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      tertiary: {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
@@ -79,10 +69,6 @@
     hostAttributes: {
       role: 'button',
       tabindex: '0',
-    },
-
-    _isRaised(isLink) {
-      return !isLink;
     },
 
     _handleAction(e) {

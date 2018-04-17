@@ -247,11 +247,11 @@ limitations under the License.
         background-color: var(--table-header-background-color);
         border-top: 1px solid var(--border-color);
         height: 3rem;
-        --paper-tabs-selection-bar-color: var(--color-link);
+        --paper-tabs-selection-bar-color: var(--link-color);
       }
       paper-tab {
         max-width: 15rem;
-        --paper-tab-ink: var(--color-link);
+        --paper-tab-ink: var(--link-color);
       }
       gr-thread-list,
       gr-messages-list {
@@ -428,7 +428,7 @@ limitations under the License.
                       id="replyBtn"
                       class="reply"
                       hidden$="[[!_loggedIn]]"
-                      secondary
+                      primary
                       disabled="[[_replyDisabled]]"
                       on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
               </div>

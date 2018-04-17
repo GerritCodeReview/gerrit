@@ -27,8 +27,8 @@ limitations under the License.
     <style include="shared-styles">
       /* general styles for all buttons */
       :host {
-        --background-color: var(--gr-button-background, var(--view-background-color));
-        --button-color: var(--gr-button-color, var(--color-link));
+        --background-color: var(--default-button-background-color);
+        --button-background-color: var(--default-button-text-color);
         display: inline-block;
         font-family: var(--font-family-bold);
         font-size: var(--font-size-small);
@@ -46,7 +46,7 @@ limitations under the License.
         -webkit-font-smoothing: initial;
         align-items: center;
         background-color: var(--background-color);
-        color: var(--button-color);
+        color: var(--button-background-color);
         display: flex;
         font-family: inherit;
         justify-content: center;
@@ -62,18 +62,26 @@ limitations under the License.
         ), var(--background-color);
       }
 
-      /* Styles for raised buttons specifically */
-      :host([primary][raised]),
-      :host([secondary][raised]) {
-        --background-color: var(--color-link);
-        --button-color: var(--view-background-color);
+      :host([primary]) {
+        --background-color: var(--primary-button-background-color);
+        --button-background-color: var(--primary-button-text-color);
+      }
+      :host([link][primary]) {
+        --button-background-color: var(--primary-button-background-color);
+      }
+      :host([secondary]) {
+        --background-color: var(--secondary-button-text-color);
+        --button-background-color: var(--secondary-button-background-color);
+      }
+      :host([link][secondary]) {
+        --button-background-color: var(--secondary-button-text-color);
       }
 
-      /* Keep below color definition for primary/secondary so that this takes
-       precedence when disabled. */
+      /* Keep below color definition for primary so that this takes precedence
+        when disabled. */
       :host([disabled]) {
         --background-color: var(--table-subheader-background-color);
-        --button-color: var(--deemphasized-text-color);
+        --button-background-color: var(--deemphasized-text-color);
         cursor: default;
       }
 
@@ -85,9 +93,6 @@ limitations under the License.
       }
       :host([disabled][link]) {
         --background-color: transparent;
-      }
-      :host([link][tertiary]) {
-        --button-color: var(--color-link-tertiary);
       }
 
       /* Styles for the optional down arrow */

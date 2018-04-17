@@ -1380,6 +1380,13 @@ allows the granted group to
 link:cmd-stream-events.html[stream Gerrit events via ssh].
 
 
+[[capability_viewAccess]]
+=== View Access
+
+Allow checking access rights for arbitrary (user, project) pairs,
+using the link:rest-api-projects.html#check-access[check.access]
+endpoint
+
 [[capability_viewAllAccounts]]
 === View All Accounts
 

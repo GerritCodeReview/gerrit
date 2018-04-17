@@ -170,6 +170,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case VIEW_ALL_ACCOUNTS:
         case VIEW_CONNECTIONS:
         case VIEW_PLUGINS:
+        case VIEW_ACCESS:
           return has(globalPermissionName(perm)) || isAdmin();
 
         case ACCESS_DATABASE:

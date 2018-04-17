@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ece07d13_0c115836",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog-it_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-17T21:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c97dbe_da5fe734",
+      "revId": "f4b6078ef814b55e1ce82aa5c133e97ba0f28018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ab3daf6_130b0648",
         "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
         "patchSetId": 6
@@ -39,6 +57,30 @@
       "revId": "f4b6078ef814b55e1ce82aa5c133e97ba0f28018",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97e844f7_42d097da",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-17T21:58:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ab3daf6_130b0648",
+      "range": {
+        "startLine": 41,
+        "startChar": 10,
+        "endLine": 41,
+        "endChar": 12
+      },
+      "revId": "f4b6078ef814b55e1ce82aa5c133e97ba0f28018",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

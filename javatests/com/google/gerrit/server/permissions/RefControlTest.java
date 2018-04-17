@@ -57,6 +57,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.SingleVersionModule.SingleVersionListener;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -185,7 +186,7 @@ public class RefControlTest {
       new AllProjectsName(AllProjectsNameProvider.DEFAULT);
   private final AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
   private final AccountGroup.UUID fixers = new AccountGroup.UUID("test.fixers");
-  private final Map<Project.NameKey, ProjectState> all = new HashMap<>();
+  private final Map<Project.NameKey, ProjectAccessor> all = new HashMap<>();
   private Project.NameKey localKey = new Project.NameKey("local");
   private ProjectConfig local;
   private Project.NameKey parentKey = new Project.NameKey("parent");
@@ -222,7 +223,7 @@ public class RefControlTest {
 
           @Override
           public ProjectState get(Project.NameKey projectName) {
-            return all.get(projectName);
+            return all.get(projectName).getProjectState();
           }
 
           @Override
@@ -254,7 +255,7 @@ public class RefControlTest {
 
           @Override
           public ProjectState checkedGet(Project.NameKey projectName) throws IOException {
-            return all.get(projectName);
+            return all.get(projectName).getProjectState();
           }
 
           @Override
@@ -263,7 +264,8 @@ public class RefControlTest {
           @Override
           public ProjectState checkedGet(Project.NameKey projectName, boolean strict)
               throws Exception {
-            return all.get(projectName);
+            ProjectAccessor accessor = all.get(projectName);
+            return accessor != null ? accessor.getProjectState() : null;
           }
         };
 
@@ -963,15 +965,18 @@ public class RefControlTest {
     }
     all.put(
         pc.getName(),
-        new ProjectState(
-            sitePaths,
+        new ProjectAccessor(
             projectCache,
             allProjectsName,
-            allUsersName,
-            repoManager,
-            commentLinks,
-            capabilityCollectionFactory,
-            pc));
+            new ProjectState(
+                sitePaths,
+                projectCache,
+                allProjectsName,
+                allUsersName,
+                repoManager,
+                commentLinks,
+                capabilityCollectionFactory,
+                pc)));
     return repo;
   }
 
@@ -990,10 +995,10 @@ public class RefControlTest {
         refFilterFactory,
         identifiedUserFactory,
         new MockUser(name, memberOf),
-        newProjectState(local));
+        newProjectAccesor(local));
   }
 
-  private ProjectState newProjectState(ProjectConfig local) {
+  private ProjectAccessor newProjectAccesor(ProjectConfig local) {
     add(local);
     return all.get(local.getProject().getNameKey());
   }

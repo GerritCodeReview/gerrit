@@ -646,6 +646,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     Change change2 = insert(repo, newChange(repo), user2);
 
+    assertQuery("is:owner", change1);
     assertQuery("owner:" + userId.get(), change1);
     assertQuery("owner:" + user2, change2);
 
@@ -2499,6 +2500,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("-is:unassigned", change1);
     assertQuery("assignee:" + user.getUserName(), change1);
     assertQuery("-assignee:" + user.getUserName(), change2);
+  }
+
+  @Test
+  public void userDestination() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    insert(repo, newChange(repo));
+
+    assertThatQueryException("destination:foo")
+        .hasMessageThat()
+        .isEqualTo("Unknown named destination: foo");
+  }
+
+  @Test
+  public void userQuery() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    insert(repo, newChange(repo));
+
+    assertThatQueryException("query:foo").hasMessageThat().isEqualTo("Unknown named query: foo");
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

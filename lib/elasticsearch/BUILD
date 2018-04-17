@@ -12,6 +12,7 @@ java_library(
         ":t-digest",
         "//lib/jackson:jackson-core",
         "//lib/jackson:jackson-dataformat-cbor",
+        "//lib/jackson:jackson-dataformat-smile",
         "//lib/lucene:lucene-highlighter",
         "//lib/lucene:lucene-join",
         "//lib/lucene:lucene-memory",

@@ -22,6 +22,30 @@
       "revId": "7ee6a09d5a914054a90debb5c2bab40db690f4ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c7fdbe0_4c0aaec2",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperations.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-17T14:20:05Z",
+      "side": 1,
+      "message": "\u003e Nice; This API looks clean \u0026 minimal.\n\n:-)\n\n\u003e However, I don\u0027t understand why there is a separate interface and implementation. Will there be a second implementation for this interface?\n\nWe used an interface so that developers who use this class for tests aren\u0027t confused by the possibly complex implementation. When you look at AccountOperationsImpl, it\u0027s kind of difficult to figure out which operations are supported. This will get even more difficult in the future when further supported operations are added. This interface has the benefit that it lists all of them in a clear way.\n\nAnother aspect is that developers shouldn\u0027t depend on any implementation details of AccountOperationsImpl. By hiding them behind an interface, we at least increase the probability that developers only depend on any contracts which are mentioned within this interface.\n\nI originally thought that we might have several implementations (e.g. one which uses the REST API) but I realized that using the Java or REST API for that case isn\u0027t a good idea. An explanation is in the commit message.\n\nWe currently don\u0027t have any plans for a second implementation but having the implementation/interface separation will also help if we ever decide to e.g. change the implementation of a yet to be implemented GroupOperations from internal groups to a dedicated test GroupBackend.",
+      "parentUuid": "3a8c55bb_0d993e35",
+      "range": {
+        "startLine": 29,
+        "startChar": 17,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "7ee6a09d5a914054a90debb5c2bab40db690f4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

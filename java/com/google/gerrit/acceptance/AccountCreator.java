@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -27,22 +26,15 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.KeyPair;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -57,29 +49,20 @@ public class AccountCreator {
 
   private final Sequences sequences;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
-  private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final GroupCache groupCache;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
-  private final SshKeyCache sshKeyCache;
-  private final boolean sshEnabled;
 
   @Inject
   AccountCreator(
       Sequences sequences,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      VersionedAuthorizedKeys.Accessor authorizedKeys,
       GroupCache groupCache,
-      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider,
-      SshKeyCache sshKeyCache,
-      @SshEnabled boolean sshEnabled) {
+      @ServerInitiated Provider<GroupsUpdate> groupsUpdateProvider) {
     accounts = new HashMap<>();
     this.sequences = sequences;
     this.accountsUpdateProvider = accountsUpdateProvider;
-    this.authorizedKeys = authorizedKeys;
     this.groupCache = groupCache;
     this.groupsUpdateProvider = groupsUpdateProvider;
-    this.sshKeyCache = sshKeyCache;
-    this.sshEnabled = sshEnabled;
   }
 
   public synchronized TestAccount create(
@@ -124,14 +107,7 @@ public class AccountCreator {
       }
     }
 
-    KeyPair sshKey = null;
-    if (sshEnabled && username != null) {
-      sshKey = genSshKey();
-      authorizedKeys.addKey(id, publicKey(sshKey, email));
-      sshKeyCache.evict(username);
-    }
-
-    account = new TestAccount(id, username, email, fullName, sshKey, httpPass);
+    account = new TestAccount(id, username, email, fullName, httpPass);
     if (username != null) {
       accounts.put(username, account);
     }
@@ -172,18 +148,6 @@ public class AccountCreator {
 
   public void evict(Collection<Account.Id> ids) {
     accounts.values().removeIf(a -> ids.contains(a.id));
-  }
-
-  public static KeyPair genSshKey() throws JSchException {
-    JSch jsch = new JSch();
-    return KeyPair.genKeyPair(jsch, KeyPair.ECDSA, 256);
-  }
-
-  public static String publicKey(KeyPair sshKey, String comment)
-      throws UnsupportedEncodingException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    sshKey.writePublicKey(out, comment);
-    return out.toString(US_ASCII.name()).trim();
   }
 
   private void addGroupMember(AccountGroup.UUID groupUuid, Account.Id accountId)

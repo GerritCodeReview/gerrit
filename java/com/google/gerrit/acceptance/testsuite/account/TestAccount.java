@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.testsuite.account;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.reviewdb.client.Account;
-import com.jcraft.jsch.KeyPair;
 import java.util.Optional;
 
 @AutoValue
@@ -28,9 +27,6 @@ public abstract class TestAccount {
   public abstract Optional<String> preferredEmail();
 
   public abstract Optional<String> username();
-
-  // TODO(ekempin,aliceks): Factor out SSH key handling from the class.
-  public abstract Optional<KeyPair> sshKeyPair();
 
   static Builder builder() {
     return new AutoValue_TestAccount.Builder();
@@ -45,8 +41,6 @@ public abstract class TestAccount {
     abstract Builder preferredEmail(Optional<String> fullname);
 
     abstract Builder username(Optional<String> username);
-
-    abstract Builder sshKeyPair(KeyPair keyPair);
 
     abstract TestAccount build();
   }

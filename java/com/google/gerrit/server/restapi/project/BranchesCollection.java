@@ -81,7 +81,7 @@ public class BranchesCollection implements ChildCollection<ProjectResource, Bran
           .project(project)
           .ref(ref.isSymbolic() ? ref.getTarget().getName() : ref.getName())
           .check(RefPermission.READ);
-      return new BranchResource(parent.getProjectState(), parent.getUser(), ref);
+      return new BranchResource(parent.getProjectAccessor(), parent.getUser(), ref);
     } catch (AuthException notAllowed) {
       throw new ResourceNotFoundException(id);
     } catch (RepositoryNotFoundException noRepo) {

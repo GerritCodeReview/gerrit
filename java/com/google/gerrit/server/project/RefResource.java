@@ -18,8 +18,8 @@ import com.google.gerrit.server.CurrentUser;
 
 public abstract class RefResource extends ProjectResource {
 
-  public RefResource(ProjectState projectState, CurrentUser user) {
-    super(projectState, user);
+  public RefResource(ProjectAccessor projectAccessor, CurrentUser user) {
+    super(projectAccessor, user);
   }
 
   /** @return the ref's name */

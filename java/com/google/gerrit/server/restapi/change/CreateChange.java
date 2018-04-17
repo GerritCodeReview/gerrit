@@ -63,6 +63,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
@@ -164,7 +165,8 @@ public class CreateChange
   protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
       throws OrmException, IOException, InvalidChangeOperationException, RestApiException,
-          UpdateException, PermissionBackendException, ConfigInvalidException {
+          UpdateException, PermissionBackendException, ConfigInvalidException,
+          NoSuchProjectException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
@@ -189,7 +191,8 @@ public class CreateChange
     }
 
     ProjectResource rsrc = projectsCollection.parse(input.project);
-    boolean privateByDefault = rsrc.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
+    boolean privateByDefault =
+        rsrc.getProjectAccessor().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
     boolean isPrivate = input.isPrivate == null ? privateByDefault : input.isPrivate;
 
     if (isPrivate && disablePrivateChanges) {
@@ -268,7 +271,7 @@ public class CreateChange
 
       boolean isWorkInProgress =
           input.workInProgress == null
-              ? rsrc.getProjectState().is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
+              ? rsrc.getProjectAccessor().is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
                   || MoreObjects.firstNonNull(info.workInProgressByDefault, false)
               : input.workInProgress;
 

@@ -53,6 +53,6 @@ public class CreateDashboard
     SetDefaultDashboard set = setDefault.get();
     set.inherited = inherited;
     return set.apply(
-        DashboardResource.projectDefault(parent.getProjectState(), parent.getUser()), input);
+        DashboardResource.projectDefault(parent.getProjectAccessor(), parent.getUser()), input);
   }
 }

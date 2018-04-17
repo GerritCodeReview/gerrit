@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.IndexChanges;
@@ -30,6 +31,8 @@ import org.kohsuke.args4j.Argument;
 @RequiresAnyCapability({MAINTAIN_SERVER})
 @CommandMetaData(name = "changes-in-project", description = "Index changes of a project")
 final class IndexChangesInProjectCommand extends SshCommand {
+
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject private IndexChanges index;
 
@@ -51,7 +54,7 @@ final class IndexChangesInProjectCommand extends SshCommand {
 
   private void index(ProjectState projectState) {
     try {
-      index.apply(new ProjectResource(projectState, user), null);
+      index.apply(new ProjectResource(projectAccessorFactory.create(projectState), user), null);
     } catch (Exception e) {
       writeError(
           "error", String.format("Unable to index %s: %s", projectState.getName(), e.getMessage()));

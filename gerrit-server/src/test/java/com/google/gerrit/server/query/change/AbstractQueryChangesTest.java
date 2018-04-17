@@ -2504,20 +2504,67 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void userDestination() throws Exception {
-    TestRepository<Repo> repo = createProject("repo");
-    insert(repo, newChange(repo));
+    TestRepository<Repo> repo1 = createProject("repo1");
+    Change change1 = insert(repo1, newChange(repo1));
+    TestRepository<Repo> repo2 = createProject("repo2");
+    Change change2 = insert(repo2, newChange(repo2));
 
     assertThatQueryException("destination:foo")
         .hasMessageThat()
         .isEqualTo("Unknown named destination: foo");
+
+    String destination1 = "refs/heads/master\trepo1";
+    String destination2 = "refs/heads/master\trepo2";
+    String destination3 = "refs/heads/master\trepo1\nrefs/heads/master\trepo2";
+    String destination4 = "refs/heads/master\trepo3";
+    String destination5 = "refs/heads/other\trepo1";
+
+    TestRepository<Repo> allUsers = new TestRepository<>(repoManager.openRepository(allUsersName));
+    String refsUsers = RefNames.refsUsers(userId);
+    allUsers.branch(refsUsers).commit().add("destinations/destination1", destination1).create();
+    allUsers.branch(refsUsers).commit().add("destinations/destination2", destination2).create();
+    allUsers.branch(refsUsers).commit().add("destinations/destination3", destination3).create();
+    allUsers.branch(refsUsers).commit().add("destinations/destination4", destination4).create();
+    allUsers.branch(refsUsers).commit().add("destinations/destination5", destination5).create();
+
+    Ref userRef = allUsers.getRepository().exactRef(refsUsers);
+    assertThat(userRef).isNotNull();
+
+    assertQuery("destination:destination1", change1);
+    assertQuery("destination:destination2", change2);
+    assertQuery("destination:destination3", change2, change1);
+    assertQuery("destination:destination4");
+    assertQuery("destination:destination5");
   }
 
   @Test
   public void userQuery() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
-    insert(repo, newChange(repo));
+    Change change1 = insert(repo, newChange(repo));
+    Change change2 = insert(repo, newChangeForBranch(repo, "stable"));
+
+    String queries =
+        "query1\tproject:repo\n"
+            + "query2\tproject:repo status:open\n"
+            + "query3\tproject:repo branch:stable\n"
+            + "query4\tproject:repo branch:other";
+
+    TestRepository<Repo> allUsers = new TestRepository<>(repoManager.openRepository(allUsersName));
+    String refsUsers = RefNames.refsUsers(userId);
+    allUsers.branch(refsUsers).commit().add("queries", queries).create();
+
+    Ref userRef = allUsers.getRepository().exactRef(refsUsers);
+    assertThat(userRef).isNotNull();
 
     assertThatQueryException("query:foo").hasMessageThat().isEqualTo("Unknown named query: foo");
+
+    assertQuery("query:query1", change2, change1);
+    assertQuery("query:query2", change2, change1);
+    gApi.changes().id(change1.getChangeId()).revision("current").review(ReviewInput.approve());
+    gApi.changes().id(change1.getChangeId()).revision("current").submit();
+    assertQuery("query:query2", change2);
+    assertQuery("query:query3", change2);
+    assertQuery("query:query4");
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

@@ -20,7 +20,7 @@ limitations under the License.
 
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-plugin-gwt-archetype</artifactId>
-  <version>2.13.11</version>
+  <version>2.13.12-SNAPSHOT</version>
   <name>Gerrit Code Review - Web UI GWT Plugin Archetype</name>
   <description>Maven Archetype for Gerrit Web UI GWT Plugins</description>
   <url>https://www.gerritcodereview.com/</url>

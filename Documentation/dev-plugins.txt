@@ -36,7 +36,7 @@ plugin project.
 ----
 mvn archetype:generate -DarchetypeGroupId=com.google.gerrit \
     -DarchetypeArtifactId=gerrit-plugin-archetype \
-    -DarchetypeVersion=2.13.11 \
+    -DarchetypeVersion=2.13.12-SNAPSHOT \
     -DgroupId=com.googlesource.gerrit.plugins.testplugin \
     -DartifactId=testplugin
 ----

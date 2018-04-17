@@ -16,6 +16,24 @@
       "revId": "9d13f536e46f43c81a3bea2e3c6d4279abe6ebed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05cfbb8e_38055f7c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-17T14:57:58Z",
+      "side": 1,
+      "message": "In general, I think that it is a good idea to have a common pool for fan-outs from the request thread, regardless of what they do. I case we use such a common pool, we should definitely add thread names so that when looking at how busy threads are we can still see what exactly the system is busy with. Otherwise we\u0027d make it harder for us to debug.\n\nWe\u0027d need to resize the common pool if we wanted to use that, but I don\u0027t think I\u0027d use a ForkJoin pool when all the tasks we are submitting to the pool don\u0027t support forks and joins (\u003d no work stealing then).\n\nAre you OK with having this convergence of thread pools sit in a follow-up change?",
+      "parentUuid": "9c322ee9_6aa7448f",
+      "revId": "9d13f536e46f43c81a3bea2e3c6d4279abe6ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

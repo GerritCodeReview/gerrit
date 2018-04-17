@@ -12,17 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.update;
+package com.google.gerrit.server.config;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
+import java.util.concurrent.ExecutorService;
 
-/**
- * Marker on the global {@link ListeningExecutorService} used by asynchronous {@link BatchUpdate}s.
- */
+/** Marker on the global {@link ExecutorService} used by {@code ReceiveCommits}. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface ChangeUpdateExecutor {}
+public @interface ReceiveCommitsExecutor {}

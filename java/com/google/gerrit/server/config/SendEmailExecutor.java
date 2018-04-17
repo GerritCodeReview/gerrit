@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2014 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git.receive;
+package com.google.gerrit.server.config;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.Retention;
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-/** Marker on the global {@link ExecutorService} used by {@link ReceiveCommits}. */
+/** Marker on the global {@link ScheduledThreadPoolExecutor} used to send email. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface ReceiveCommitsExecutor {}
+public @interface SendEmailExecutor {}

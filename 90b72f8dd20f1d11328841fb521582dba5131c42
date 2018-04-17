@@ -69,6 +69,30 @@
       "revId": "90b72f8dd20f1d11328841fb521582dba5131c42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc20bd4_d80dc2cc",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-17T08:41:55Z",
+      "side": 1,
+      "message": "No, that\u0027d do too much. It would override every instance of us putting spans inside of \u003ca\u003e tags and the like.\n\nI actually did something similar in patchset 1 of this change, if you\u0027d like to download that and see what it does to the app.",
+      "parentUuid": "173383c0_434b9ae8",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "90b72f8dd20f1d11328841fb521582dba5131c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -73,18 +73,10 @@ limitations under the License.
         z-index: 99;  /* Less than gr-overlay's backdrop */
       }
       .header.editMode {
-        background-color: #ebf5fb;
+        background-color: var(--edit-mode-background-color);
       }
       .header .download {
         margin-right: 1em;
-      }
-      .header.pinned {
-        border-bottom-color: transparent;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-        position: fixed;
-        top: 0;
-        transition: box-shadow 250ms linear;
-        width: 100%;
       }
       gr-change-status {
         display: initial;

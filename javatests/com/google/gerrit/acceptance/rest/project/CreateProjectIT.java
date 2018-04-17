@@ -47,7 +47,9 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
@@ -70,6 +72,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 public class CreateProjectIT extends AbstractDaemonTest {
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
+
   @Test
   public void createProjectHttp() throws Exception {
     String newProjectName = name("newProject");
@@ -244,12 +248,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
                 .getId()
                 .get())); // by ID
     gApi.projects().create(in);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
+    ProjectAccessor projectAccessor =
+        projectAccessorFactory.create(new Project.NameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);
     expectedOwnerIds.add(SystemGroupBackend.ANONYMOUS_USERS);
     expectedOwnerIds.add(SystemGroupBackend.REGISTERED_USERS);
     expectedOwnerIds.add(groupUuid("Administrators"));
-    assertProjectOwners(expectedOwnerIds, projectState);
+    assertProjectOwners(expectedOwnerIds, projectAccessor);
   }
 
   @Test

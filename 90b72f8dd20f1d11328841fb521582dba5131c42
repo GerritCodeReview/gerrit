@@ -46,6 +46,29 @@
       "revId": "90b72f8dd20f1d11328841fb521582dba5131c42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "173383c0_434b9ae8",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-17T07:48:57Z",
+      "side": 1,
+      "message": "could the color get set here instead? Would that make it so that :host color wouldn\u0027t have to be set as frequently?",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 33
+      },
+      "revId": "90b72f8dd20f1d11328841fb521582dba5131c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

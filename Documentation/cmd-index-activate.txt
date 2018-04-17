@@ -37,7 +37,7 @@ This command is intended to be used in scripts.
 Activate the latest change index:
 
 ----
-  $ ssh -p 29418 review.example.com gerrit activate changes
+  $ ssh -p 29418 review.example.com gerrit index activate changes
 ----
 
 GERRIT

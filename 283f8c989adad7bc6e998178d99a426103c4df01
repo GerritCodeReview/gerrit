@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82ade655_519bb7cd",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-17T12:39:17Z",
+      "side": 1,
+      "message": "Accessible from this",
+      "range": {
+        "startLine": 131,
+        "startChar": 30,
+        "endLine": 131,
+        "endChar": 55
+      },
+      "revId": "283f8c989adad7bc6e998178d99a426103c4df01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0414739e_4e928d5c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-17T12:39:17Z",
+      "side": 1,
+      "message": "Suggestion:\n\n    if (basic \u003d\u003d null) return null;\n    GroupInfo group \u003d ...\n    ...\n    return group",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 17
+      },
+      "revId": "283f8c989adad7bc6e998178d99a426103c4df01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

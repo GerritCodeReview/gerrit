@@ -17,17 +17,22 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
@@ -37,9 +42,11 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.project.BooleanProjectConfigTransformations;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 public class ConfigInfoImpl extends ConfigInfo {
@@ -53,7 +60,8 @@ public class ConfigInfoImpl extends ConfigInfo {
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
       UiActions uiActions,
-      DynamicMap<RestView<ProjectResource>> views) {
+      DynamicMap<RestView<ProjectResource>> views,
+      GroupBackend groupBackend) {
     Project p = projectState.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
@@ -112,6 +120,29 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.theme = projectState.getTheme();
 
     this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
+
+    owners = new ArrayList<>();
+    Set<UUID> owners = projectState.getOwners();
+    for (AccountGroup.UUID owner : owners) {
+      GroupInfo group = loadGroup(groupBackend, owner);
+      if (group != null) {
+        this.owners.add(group);
+      }
+    }
+  }
+
+  private GroupInfo loadGroup(GroupBackend groupBackend, AccountGroup.UUID id) {
+    GroupDescription.Basic basic = groupBackend.get(id);
+    if (basic == null) {
+      return null;
+    }
+
+    GroupInfo group = new GroupInfo();
+    // The UI only needs name + URL, so don't populate other fields to avoid leaking data
+    // about groups invisible to the user.
+    group.name = basic.getName();
+    group.url = basic.getUrl();
+    return group;
   }
 
   private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(

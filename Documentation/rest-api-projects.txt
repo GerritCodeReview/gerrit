@@ -845,7 +845,13 @@ read access to `refs/meta/config`.
         "title": "Say hello in different languages",
         "enabled": true
       }
-    }
+    },
+    "owners": [
+      {
+        "url": "#/admin/groups/uuid-d85c649dec96146d4ac83efe175ba4fcf93dfe4b",
+        "name": "Demo-Owners-Group"
+      }
+    ]
   }
 ----
 
@@ -2895,6 +2901,9 @@ information is a map of view names to
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
+|`owners`                                  |optional|
+A list of link:rest-api-groups.html#group-info[GroupInfo] objects, with names
+and URL, that represents the owners of the project.
 |=======================================================
 
 [[config-input]]

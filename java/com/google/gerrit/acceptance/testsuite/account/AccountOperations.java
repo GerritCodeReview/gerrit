@@ -49,7 +49,21 @@ public interface AccountOperations {
   TestAccount get(Account.Id accountId) throws Exception;
 
   /**
+   * Creates a new account with arbitrary attributes.
+   *
+   * <p>This method is a more readable variant for {@code create(creation -> {})}. See {@link
+   * #create(Consumer)} for more details.
+   *
+   * @return the created {@code TestAccount}
+   */
+  default TestAccount createArbitrary() throws Exception {
+    return create(creation -> {});
+  }
+
+  /**
    * Creates a new account.
+   *
+   * <p>Any parameters not set on the {@code TestAccountUpdate.Builder} will have arbitrary values.
    *
    * <p><strong>Note:</strong> If another account with the provided user name or preferred email
    * address already exists, this call will fail.

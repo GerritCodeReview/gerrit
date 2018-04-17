@@ -830,9 +830,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   private static <T> T readContentFromJson(RestResponse r, int expectedStatus, Class<T> clazz)
       throws Exception {
     r.assertStatus(expectedStatus);
-    JsonReader jsonReader = new JsonReader(r.getReader());
-    jsonReader.setLenient(true);
-    return newGson().fromJson(jsonReader, clazz);
+    try (JsonReader jsonReader = new JsonReader(r.getReader())) {
+      jsonReader.setLenient(true);
+      return newGson().fromJson(jsonReader, clazz);
+    }
   }
 
   private static void assertReviewers(

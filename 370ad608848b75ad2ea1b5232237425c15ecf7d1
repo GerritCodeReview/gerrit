@@ -22,6 +22,23 @@
       "revId": "370ad608848b75ad2ea1b5232237425c15ecf7d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a862dff_78f88c57",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-17T09:20:04Z",
+      "side": 1,
+      "message": "This is obviously pretty ugly. Any thoughts about just using the checkFrequency name indefinitely?",
+      "revId": "370ad608848b75ad2ea1b5232237425c15ecf7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

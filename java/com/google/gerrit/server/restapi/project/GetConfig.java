@@ -24,6 +24,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -35,6 +36,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsName allProjects;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
 
@@ -45,12 +47,14 @@ public class GetConfig implements RestReadView<ProjectResource> {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
+      ProjectAccessor.Factory projectAccessorFactory,
       UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.cfgFactory = cfgFactory;
     this.uiActions = uiActions;
     this.views = views;
@@ -60,6 +64,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
   public ConfigInfo apply(ProjectResource resource) {
     return new ConfigInfoImpl(
         serverEnableSignedPush,
+        projectAccessorFactory,
         resource.getProjectState(),
         resource.getUser(),
         config,

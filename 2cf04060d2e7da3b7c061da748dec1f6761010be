@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab90ab46_3cfe3bef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T12:05:23Z",
+      "side": 1,
+      "message": "Is this accurate?\nI thought ownerin: and reviewerin: predicates would only default to status:open if the query doesn\u0027t contain any index predicate. If there is at least one index predicate (not necessarily a status predicate) it would query open and closed changes, doesn\u0027t it? E.g. \"reviewerin:gerrit-verifiers message:test\" finds open and merged changes.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 23
+      },
+      "revId": "2cf04060d2e7da3b7c061da748dec1f6761010be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1345,6 +1345,14 @@ project-ref, or project-permission-ref combination.
   }
 ----
 
+This endpoint can also be accessed as a GET request, using the query
+parameters `perm`, `account` and `ref`, for example:
+
+----
+  GET /projects/MyProject/check.access?account=10024&ref=refs/heads/secret/bla
+----
+
+
 [[index]]
 === Index all changes in a project
 

@@ -67,6 +67,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
         bind(ProjectCacheImpl.class);
         bind(ProjectCache.class).to(ProjectCacheImpl.class);
+        factory(ProjectAccessor.AssistedFactory.class);
 
         install(
             new LifecycleModule() {

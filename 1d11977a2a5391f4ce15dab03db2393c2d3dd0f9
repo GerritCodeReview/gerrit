@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4729f5a0_e713bd52",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T15:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc0abab5_2c8b9f38",
+      "range": {
+        "startLine": 54,
+        "startChar": 9,
+        "endLine": 54,
+        "endChar": 17
+      },
+      "revId": "1d11977a2a5391f4ce15dab03db2393c2d3dd0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "226053f3_e524222f",
         "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "98a3809d_1b5941c2",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T15:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "226053f3_e524222f",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 34
+      },
+      "revId": "1d11977a2a5391f4ce15dab03db2393c2d3dd0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0788d90c_da2b9634",
         "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
         "patchSetId": 1
@@ -69,6 +117,30 @@
       "revId": "1d11977a2a5391f4ce15dab03db2393c2d3dd0f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6566dd0e_4abeb9de",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-17T15:52:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0788d90c_da2b9634",
+      "range": {
+        "startLine": 90,
+        "startChar": 36,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "1d11977a2a5391f4ce15dab03db2393c2d3dd0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

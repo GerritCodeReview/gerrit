@@ -90,11 +90,25 @@ limitations under the License.
           on-iron-overlay-canceled="_cancel">
         <div class="dropdown-content" slot="dropdown-content">
           <div class="inputContainer">
-            <paper-input
-                id="input"
-                label="[[labelText]]"
-                maxlength="[[maxLength]]"
-                value="{{_inputText}}"></paper-input>
+              <template is="dom-if" if="[[autocomplete]]" restamp="true">
+                <gr-autocomplete
+                    id="input"
+                    borderless
+                    underlined
+                    maxlength="[[maxLength]]"
+                    text="{{_inputText}}"
+                    query="[[autocompleteQuery]]"
+                    placeholder="[[placeholder]]">
+                </gr-autocomplete>
+              </template>
+              <template is="dom-if" if="[[!autocomplete]]" restamp="true">
+                <paper-input
+                  id="input"
+                  label="[[labelText]]"
+                  maxlength="[[maxLength]]"
+                  value="{{_inputText}}">
+                </paper-input>
+              </template>
             <div class="buttons">
               <gr-button link id="cancelBtn" on-tap="_cancel">cancel</gr-button>
               <gr-button link id="saveBtn" on-tap="_save">save</gr-button>

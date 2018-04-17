@@ -49,6 +49,10 @@
         type: Boolean,
         value: false,
       },
+      autocomplete: {
+        type: Boolean,
+        value: false,
+      },
       uppercase: {
         type: Boolean,
         reflectToAttribute: true,
@@ -63,6 +67,24 @@
         type: Number,
         readOnly: true,
         value: -30,
+      },
+      /**
+       * Query for requesting autocomplete suggestions. The function should
+       * accept the input as a string parameter and return a promise. The
+       * promise should yield an array of suggestion objects with "name" and
+       * "value" properties. The "name" property will be displayed in the
+       * suggestion entry. The "value" property will be emitted if that
+       * suggestion is selected.
+       *
+       * @type {function(string): Promise<?>}
+       */
+      autocompleteQuery: {
+        type: Function,
+        value() {
+          return function() {
+            return Promise.resolve([]);
+          };
+        },
       },
     },
 
@@ -93,9 +115,10 @@
     _showDropdown() {
       if (this.readOnly || this.editing) { return; }
       this._open().then(() => {
-        this.$.input.$.input.focus();
-        if (!this.$.input.value) { return; }
-        this.$.input.$.input.setSelectionRange(0, this.$.input.value.length);
+        const input = this.$$('#input')
+        input.$.input.focus();
+        if (!input.value) { return; }
+        input.$.input.setSelectionRange(0, input.value.length);
       });
     },
 

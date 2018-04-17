@@ -37,6 +37,17 @@ limitations under the License.
       paper-input:not(.borderless) {
         border: 1px solid var(--border-color);
       }
+      paper-input:not(.underlined) {
+        --paper-input-container-underline: {
+          display: none;
+        };
+        --paper-input-container-underline-focus: {
+          display: none;
+        };
+        --paper-input-container-underline-disabled: {
+          display: none;
+        };
+      }
       paper-input {
         height: 100%;
         width: 100%;
@@ -48,15 +59,6 @@ limitations under the License.
         --paper-input-container-input: {
           font-size: var(--font-size-normal);
         }
-        --paper-input-container-underline: {
-          display: none;
-        };
-        --paper-input-container-underline-focus: {
-          display: none;
-        };
-        --paper-input-container-underline-disabled: {
-          display: none;
-        };
       }
       paper-input.warnUncommitted {
         --paper-input-container-input: {
@@ -68,7 +70,7 @@ limitations under the License.
     <paper-input
         no-label-float
         id="input"
-        class$="[[_computeClass(borderless)]]"
+        class$="[[_computeClass(borderless, underlined)]]"
         is="iron-input"
         disabled$="[[disabled]]"
         value="{{text}}"

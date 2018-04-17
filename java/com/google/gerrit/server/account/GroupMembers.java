@@ -26,8 +26,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;
@@ -40,18 +39,18 @@ public class GroupMembers {
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
   private final AccountCache accountCache;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   GroupMembers(
       GroupCache groupCache,
       GroupControl.Factory groupControlFactory,
       AccountCache accountCache,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.accountCache = accountCache;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   /**
@@ -104,13 +103,10 @@ public class GroupMembers {
       return Collections.emptySet();
     }
 
-    ProjectState projectState = projectCache.checkedGet(project);
-    if (projectState == null) {
-      throw new NoSuchProjectException(project);
-    }
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(project);
 
     final HashSet<Account> projectOwners = new HashSet<>();
-    for (AccountGroup.UUID ownerGroup : projectState.getAllOwners()) {
+    for (AccountGroup.UUID ownerGroup : projectAccessor.getAllOwners()) {
       if (!seen.contains(ownerGroup)) {
         projectOwners.addAll(listAccounts(ownerGroup, project, seen));
       }

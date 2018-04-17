@@ -228,7 +228,7 @@ class ProjectControl {
   private boolean isDeclaredOwner() {
     if (declaredOwner == null) {
       GroupMembership effectiveGroups = user.getEffectiveGroups();
-      declaredOwner = effectiveGroups.containsAnyOf(getProjectState().getAllOwners());
+      declaredOwner = effectiveGroups.containsAnyOf(accessor.getAllOwners());
     }
     return declaredOwner;
   }

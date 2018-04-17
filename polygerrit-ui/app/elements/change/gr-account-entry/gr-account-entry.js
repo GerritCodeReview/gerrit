@@ -36,6 +36,7 @@
     properties: {
       allowAnyInput: Boolean,
       borderless: Boolean,
+      underline: Boolean,
       change: Object,
       filter: Function,
       placeholder: String,

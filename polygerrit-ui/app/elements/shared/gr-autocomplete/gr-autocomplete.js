@@ -74,6 +74,10 @@
 
       allowNonSuggestedValues: Boolean,
       borderless: Boolean,
+      underlined: {
+        type: Boolean,
+        value: false,
+      },
       disabled: Boolean,
       showSearchIcon: {
         type: Boolean,
@@ -272,8 +276,15 @@
       return this.$.suggestions.close();
     },
 
-    _computeClass(borderless) {
-      return borderless ? 'borderless' : '';
+    _computeClass(borderless, underlined) {
+      const classes = [];
+      if (borderless) {
+        classes.push('borderless')
+      }
+      if (underlined) {
+        classes.push('underlined')
+      }
+      return classes.join(' ');
     },
 
     /**

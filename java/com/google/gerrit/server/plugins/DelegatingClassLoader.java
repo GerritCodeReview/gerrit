@@ -31,13 +31,17 @@ public class DelegatingClassLoader extends ClassLoader {
   @Override
   public Class<?> findClass(String name) throws ClassNotFoundException {
     String path = name.replace('.', '/') + ".class";
-    InputStream resource = target.getResourceAsStream(path);
-    if (resource != null) {
-      try {
-        byte[] bytes = ByteStreams.toByteArray(resource);
-        return defineClass(name, bytes, 0, bytes.length);
-      } catch (IOException e) {
+    try (InputStream resource = target.getResourceAsStream(path)) {
+      if (resource != null) {
+        try {
+          byte[] bytes = ByteStreams.toByteArray(resource);
+          return defineClass(name, bytes, 0, bytes.length);
+        } catch (IOException e) {
+          // throws ClassNotFoundException later
+        }
       }
+    } catch (IOException e) {
+      // throws ClassNotFoundException later
     }
     throw new ClassNotFoundException(name);
   }

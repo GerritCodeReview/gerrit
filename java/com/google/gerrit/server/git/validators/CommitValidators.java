@@ -52,6 +52,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -97,6 +98,7 @@ public class CommitValidators {
     private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
     private final AccountValidator accountValidator;
     private final String installCommitMsgHookCommand;
+    private final ProjectAccessor.Factory projectAccessorFactory;
     private final ProjectCache projectCache;
 
     @Inject
@@ -110,6 +112,7 @@ public class CommitValidators {
         AllProjectsName allProjects,
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
         AccountValidator accountValidator,
+        ProjectAccessor.Factory projectAccessorFactory,
         ProjectCache projectCache) {
       this.gerritIdent = gerritIdent;
       this.canonicalWebUrl = canonicalWebUrl;
@@ -121,6 +124,7 @@ public class CommitValidators {
       this.accountValidator = accountValidator;
       this.installCommitMsgHookCommand =
           cfg != null ? cfg.getString("gerrit", null, "installCommitMsgHookCommand") : null;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.projectCache = projectCache;
     }
 
@@ -135,6 +139,7 @@ public class CommitValidators {
         throws IOException {
       NoteMap rejectCommits = BanCommit.loadRejectCommitsMap(repo, rw);
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
+      ProjectAccessor projectAccessor = projectAccessorFactory.create(projectState);
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
@@ -142,9 +147,9 @@ public class CommitValidators {
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl),
-              new SignedOffByValidator(user, perm, projectState),
+              new SignedOffByValidator(user, perm, projectAccessor),
               new ChangeIdValidator(
-                  projectState,
+                  projectAccessor,
                   user,
                   canonicalWebUrl,
                   installCommitMsgHookCommand,
@@ -167,15 +172,16 @@ public class CommitValidators {
         @Nullable Change change)
         throws IOException {
       ProjectState projectState = projectCache.checkedGet(branch.getParentKey());
+      ProjectAccessor projectAccessor = projectAccessorFactory.create(projectState);
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
-              new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
+              new SignedOffByValidator(user, perm, projectAccessor),
               new ChangeIdValidator(
-                  projectState,
+                  projectAccessor,
                   user,
                   canonicalWebUrl,
                   installCommitMsgHookCommand,
@@ -260,7 +266,7 @@ public class CommitValidators {
 
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
-    private final ProjectState projectState;
+    private final ProjectAccessor projectAccessor;
     private final String canonicalWebUrl;
     private final String installCommitMsgHookCommand;
     private final SshInfo sshInfo;
@@ -268,13 +274,13 @@ public class CommitValidators {
     private final Change change;
 
     public ChangeIdValidator(
-        ProjectState projectState,
+        ProjectAccessor projectAccessor,
         IdentifiedUser user,
         String canonicalWebUrl,
         String installCommitMsgHookCommand,
         SshInfo sshInfo,
         Change change) {
-      this.projectState = projectState;
+      this.projectAccessor = projectAccessor;
       this.canonicalWebUrl = canonicalWebUrl;
       this.installCommitMsgHookCommand = installCommitMsgHookCommand;
       this.sshInfo = sshInfo;
@@ -300,7 +306,7 @@ public class CommitValidators {
           String errMsg = String.format(MISSING_SUBJECT_MSG, sha1);
           throw new CommitValidationException(errMsg);
         }
-        if (projectState.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
+        if (projectAccessor.is(BooleanProjectConfig.REQUIRE_CHANGE_ID)) {
           String errMsg = String.format(MISSING_CHANGE_ID_MSG, sha1);
           messages.add(getMissingChangeIdErrorMsg(errMsg, commit));
           throw new CommitValidationException(errMsg, messages);
@@ -514,19 +520,19 @@ public class CommitValidators {
   public static class SignedOffByValidator implements CommitValidationListener {
     private final IdentifiedUser user;
     private final PermissionBackend.ForRef perm;
-    private final ProjectState state;
+    private final ProjectAccessor accessor;
 
     public SignedOffByValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, ProjectState state) {
+        IdentifiedUser user, PermissionBackend.ForRef perm, ProjectAccessor accessor) {
       this.user = user;
       this.perm = perm;
-      this.state = state;
+      this.accessor = accessor;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (!state.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
+      if (!accessor.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
         return Collections.emptyList();
       }
 

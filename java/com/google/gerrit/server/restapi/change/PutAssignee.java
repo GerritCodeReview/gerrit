@@ -33,6 +33,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.change.PostReviewers.Addition;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -76,7 +77,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   protected AccountInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, OrmException, IOException,
-          PermissionBackendException, ConfigInvalidException {
+          PermissionBackendException, ConfigInvalidException, NoSuchProjectException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 
     input.assignee = Strings.nullToEmpty(input.assignee).trim();
@@ -109,7 +110,8 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   }
 
   private Addition addAssigneeAsCC(ChangeResource rsrc, String assignee)
-      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException {
+      throws OrmException, IOException, PermissionBackendException, ConfigInvalidException,
+          NoSuchProjectException {
     AddReviewerInput reviewerInput = new AddReviewerInput();
     reviewerInput.reviewer = assignee;
     reviewerInput.state = ReviewerState.CC;

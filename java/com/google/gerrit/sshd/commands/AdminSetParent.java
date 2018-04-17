@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
@@ -83,6 +84,8 @@ final class AdminSetParent extends SshCommand {
     usage = "projects to modify"
   )
   private List<ProjectState> children = new ArrayList<>();
+
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject private ProjectCache projectCache;
 
@@ -209,7 +212,8 @@ final class AdminSetParent extends SshCommand {
     if (newParentKey != null) {
       automaticallyExcluded.addAll(getAllParents(newParentKey));
     }
-    for (ProjectInfo child : listChildProjects.apply(new ProjectResource(parent, user))) {
+    for (ProjectInfo child :
+        listChildProjects.apply(new ProjectResource(projectAccessorFactory.create(parent), user))) {
       final Project.NameKey childName = new Project.NameKey(child.name);
       if (!excluded.contains(childName)) {
         if (!automaticallyExcluded.contains(childName)) {

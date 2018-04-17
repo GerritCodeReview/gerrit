@@ -137,6 +137,7 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -354,6 +355,7 @@ class ReceiveCommits {
 
   // Immutable fields derived from constructor arguments.
   private final boolean allowPushToRefsChanges;
+  private final ProjectAccessor projectAccessor;
   private final LabelTypes labelTypes;
   private final NoteMap rejectCommits;
   private final PermissionBackend.ForProject permissions;
@@ -420,6 +422,7 @@ class ReceiveCommits {
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       PermissionBackend permissionBackend,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOp> mergeOpProvider,
@@ -489,6 +492,7 @@ class ReceiveCommits {
     // Immutable fields derived from constructor arguments.
     allowPushToRefsChanges = cfg.getBoolean("receive", "allowPushToRefsChanges", false);
     repo = rp.getRepository();
+    projectAccessor = projectAccessorFactory.create(projectState);
     project = projectState.getProject();
     labelTypes = projectState.getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
@@ -510,7 +514,7 @@ class ReceiveCommits {
 
     // Other settings populated during processing.
     newChangeForAllNotInTarget =
-        projectState.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET);
+        projectAccessor.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET);
 
     // Handles for outputting back over the wire to the end user.
     messageSender = new ReceivePackMessageSender();
@@ -1591,8 +1595,7 @@ class ReceiveCommits {
       return;
     }
 
-    boolean privateByDefault =
-        projectCache.get(project.getNameKey()).is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
+    boolean privateByDefault = projectAccessor.is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
     setChangeAsPrivate =
         magicBranch.draft
             || magicBranch.isPrivate
@@ -1824,9 +1827,7 @@ class ReceiveCommits {
       int alreadyTracked = 0;
       boolean rejectImplicitMerges =
           start.getParentCount() == 1
-              && projectCache
-                  .get(project.getNameKey())
-                  .is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES)
+              && projectAccessor.is(BooleanProjectConfig.REJECT_IMPLICIT_MERGES)
               // Don't worry about implicit merges when creating changes for
               // already-merged commits; they're already in history, so it's too
               // late.
@@ -2805,7 +2806,7 @@ class ReceiveCommits {
             || NEW_PATCHSET_PATTERN.matcher(cmd.getRefName()).matches())
         && pushOptions.containsKey(PUSH_OPTION_SKIP_VALIDATION)) {
       try {
-        if (projectState.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
+        if (projectAccessor.is(BooleanProjectConfig.USE_SIGNED_OFF_BY)) {
           throw new AuthException(
               "requireSignedOffBy prevents option " + PUSH_OPTION_SKIP_VALIDATION);
         }

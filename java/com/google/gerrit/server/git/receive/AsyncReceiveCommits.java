@@ -35,6 +35,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
@@ -255,7 +256,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     try {
       contributorAgreements.check(projectState.getNameKey(), user);
-    } catch (AuthException e) {
+    } catch (NoSuchProjectException | AuthException e) {
       return new Capable(e.getMessage());
     }
 

@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.PutConfig;
@@ -138,6 +139,8 @@ final class SetProjectCommand extends SshCommand {
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")
   private String maxObjectSizeLimit;
 
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
+
   @Inject private PutConfig putConfig;
 
   @Override
@@ -159,7 +162,8 @@ final class SetProjectCommand extends SshCommand {
     }
 
     try {
-      putConfig.apply(new ProjectResource(projectState, user), configInput);
+      putConfig.apply(
+          new ProjectResource(projectAccessorFactory.create(projectState), user), configInput);
     } catch (RestApiException | PermissionBackendException e) {
       throw die(e);
     }

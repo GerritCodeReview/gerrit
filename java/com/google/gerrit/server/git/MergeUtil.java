@@ -46,6 +46,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.server.submit.CommitMergeStatus;
@@ -151,6 +152,7 @@ public class MergeUtil {
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Provider<String> urlProvider;
   private final ApprovalsUtil approvalsUtil;
+  private final ProjectAccessor projectAccessor;
   private final ProjectState project;
   private final boolean useContentMerge;
   private final boolean useRecursiveMerge;
@@ -164,6 +166,7 @@ public class MergeUtil {
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       ApprovalsUtil approvalsUtil,
       PluggableCommitMessageGenerator commitMessageGenerator,
+      ProjectAccessor.Factory projectAccessorFactory,
       @Assisted ProjectState project) {
     this(
         serverConfig,
@@ -171,9 +174,11 @@ public class MergeUtil {
         identifiedUserFactory,
         urlProvider,
         approvalsUtil,
+        projectAccessorFactory.create(project),
         project,
         commitMessageGenerator,
-        project.is(BooleanProjectConfig.USE_CONTENT_MERGE));
+        // TODO(dborowitz): Can we avoid recreating the ProjectAccessor?
+        projectAccessorFactory.create(project).is(BooleanProjectConfig.USE_CONTENT_MERGE));
   }
 
   @AssistedInject
@@ -183,6 +188,7 @@ public class MergeUtil {
       IdentifiedUser.GenericFactory identifiedUserFactory,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       ApprovalsUtil approvalsUtil,
+      ProjectAccessor projectAccessor,
       @Assisted ProjectState project,
       PluggableCommitMessageGenerator commitMessageGenerator,
       @Assisted boolean useContentMerge) {
@@ -190,6 +196,7 @@ public class MergeUtil {
     this.identifiedUserFactory = identifiedUserFactory;
     this.urlProvider = urlProvider;
     this.approvalsUtil = approvalsUtil;
+    this.projectAccessor = projectAccessor;
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
@@ -253,7 +260,7 @@ public class MergeUtil {
       mergeCommit.setAuthor(originalCommit.getAuthorIdent());
       mergeCommit.setCommitter(cherryPickCommitterIdent);
       mergeCommit.setMessage(commitMsg);
-      matchAuthorToCommitterDate(project, mergeCommit);
+      matchAuthorToCommitterDate(projectAccessor, mergeCommit);
       return rw.parseCommit(inserter.insert(mergeCommit));
     }
     throw new MergeConflictException("merge conflict");
@@ -873,7 +880,7 @@ public class MergeUtil {
     }
   }
 
-  private static void matchAuthorToCommitterDate(ProjectState project, CommitBuilder commit) {
+  private static void matchAuthorToCommitterDate(ProjectAccessor project, CommitBuilder commit) {
     if (project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE)) {
       commit.setAuthor(
           new PersonIdent(

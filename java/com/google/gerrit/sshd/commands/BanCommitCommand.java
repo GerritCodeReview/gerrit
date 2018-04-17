@@ -19,6 +19,7 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.api.projects.BanCommitInput;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.BanCommit;
@@ -63,6 +64,8 @@ public class BanCommitCommand extends SshCommand {
   )
   private List<ObjectId> commitsToBan = new ArrayList<>();
 
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
+
   @Inject private BanCommit banCommit;
 
   @Override
@@ -72,7 +75,9 @@ public class BanCommitCommand extends SshCommand {
           BanCommitInput.fromCommits(Lists.transform(commitsToBan, ObjectId::getName));
       input.reason = reason;
 
-      BanResultInfo r = banCommit.apply(new ProjectResource(projectState, user), input);
+      BanResultInfo r =
+          banCommit.apply(
+              new ProjectResource(projectAccessorFactory.create(projectState), user), input);
       printCommits(r.newlyBanned, "The following commits were banned");
       printCommits(r.alreadyBanned, "The following commits were already banned");
       printCommits(r.ignored, "The following ids do not represent commits and were ignored");

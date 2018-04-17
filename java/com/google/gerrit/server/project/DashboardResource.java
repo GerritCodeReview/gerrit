@@ -24,11 +24,12 @@ public class DashboardResource implements RestResource {
   public static final TypeLiteral<RestView<DashboardResource>> DASHBOARD_KIND =
       new TypeLiteral<RestView<DashboardResource>>() {};
 
-  public static DashboardResource projectDefault(ProjectState projectState, CurrentUser user) {
-    return new DashboardResource(projectState, user, null, null, null, true);
+  public static DashboardResource projectDefault(
+      ProjectAccessor projectAccessor, CurrentUser user) {
+    return new DashboardResource(projectAccessor, user, null, null, null, true);
   }
 
-  private final ProjectState projectState;
+  private final ProjectAccessor projectAccessor;
   private final CurrentUser user;
   private final String refName;
   private final String pathName;
@@ -36,13 +37,13 @@ public class DashboardResource implements RestResource {
   private final boolean projectDefault;
 
   public DashboardResource(
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       CurrentUser user,
       String refName,
       String pathName,
       Config config,
       boolean projectDefault) {
-    this.projectState = projectState;
+    this.projectAccessor = projectAccessor;
     this.user = user;
     this.refName = refName;
     this.pathName = pathName;
@@ -50,8 +51,13 @@ public class DashboardResource implements RestResource {
     this.projectDefault = projectDefault;
   }
 
+  public ProjectAccessor getProjectAccessor() {
+    return projectAccessor;
+  }
+
+  // TODO(dborowitz): Remove this method.
   public ProjectState getProjectState() {
-    return projectState;
+    return projectAccessor.getProjectState();
   }
 
   public CurrentUser getUser() {

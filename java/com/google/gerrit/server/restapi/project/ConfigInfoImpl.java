@@ -66,7 +66,8 @@ public class ConfigInfoImpl extends ConfigInfo {
       InheritedBooleanInfo info = new InheritedBooleanInfo();
       info.configuredValue = p.getBooleanConfig(cfg);
       if (parentState != null) {
-        info.inheritedValue = parentState.is(cfg);
+        ProjectAccessor parentAccessor = projectAccessorFactory.create(parentState);
+        info.inheritedValue = parentAccessor.is(cfg);
       }
       BooleanProjectConfigTransformations.set(cfg, this, info);
     }
@@ -113,7 +114,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     pluginConfig = getPluginConfig(projectState, pluginConfigEntries, cfgFactory, allProjects);
 
     actions = new TreeMap<>();
-    for (UiAction.Description d : uiActions.from(views, new ProjectResource(projectState, user))) {
+    for (UiAction.Description d : uiActions.from(views, new ProjectResource(accessor, user))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
     this.theme = projectState.getTheme();

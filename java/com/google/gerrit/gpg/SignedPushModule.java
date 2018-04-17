@@ -23,8 +23,8 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -61,16 +61,16 @@ class SignedPushModule extends AbstractModule {
   private static class Initializer implements ReceivePackInitializer {
     private final SignedPushConfig signedPushConfig;
     private final SignedPushPreReceiveHook hook;
-    private final ProjectCache projectCache;
+    private final ProjectAccessor.Factory projectAccessorFactory;
 
     @Inject
     Initializer(
         @GerritServerConfig Config cfg,
         @EnableSignedPush boolean enableSignedPush,
         SignedPushPreReceiveHook hook,
-        ProjectCache projectCache) {
+        ProjectAccessor.Factory projectAccessorFactory) {
       this.hook = hook;
-      this.projectCache = projectCache;
+      this.projectAccessorFactory = projectAccessorFactory;
 
       if (enableSignedPush) {
         String seed = cfg.getString("receive", null, "certNonceSeed");
@@ -88,8 +88,14 @@ class SignedPushModule extends AbstractModule {
 
     @Override
     public void init(Project.NameKey project, ReceivePack rp) {
-      ProjectState ps = projectCache.get(project);
-      if (!ps.is(BooleanProjectConfig.ENABLE_SIGNED_PUSH)) {
+      ProjectAccessor pa;
+      try {
+        pa = projectAccessorFactory.create(project);
+      } catch (NoSuchProjectException | IOException e) {
+        log.error("project {} not found, cannot enable signed push", project, e);
+        return;
+      }
+      if (!pa.is(BooleanProjectConfig.ENABLE_SIGNED_PUSH)) {
         rp.setSignedPushConfig(null);
         return;
       } else if (signedPushConfig == null) {
@@ -104,7 +110,7 @@ class SignedPushModule extends AbstractModule {
       rp.setSignedPushConfig(signedPushConfig);
 
       List<PreReceiveHook> hooks = new ArrayList<>(3);
-      if (ps.is(BooleanProjectConfig.REQUIRE_SIGNED_PUSH)) {
+      if (pa.is(BooleanProjectConfig.REQUIRE_SIGNED_PUSH)) {
         hooks.add(SignedPushPreReceiveHook.Required.INSTANCE);
       }
       hooks.add(hook);

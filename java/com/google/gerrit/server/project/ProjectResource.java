@@ -24,29 +24,34 @@ public class ProjectResource implements RestResource {
   public static final TypeLiteral<RestView<ProjectResource>> PROJECT_KIND =
       new TypeLiteral<RestView<ProjectResource>>() {};
 
-  private final ProjectState projectState;
+  private final ProjectAccessor projectAccessor;
   private final CurrentUser user;
 
-  public ProjectResource(ProjectState projectState, CurrentUser user) {
-    this.projectState = projectState;
+  public ProjectResource(ProjectAccessor projectAccessor, CurrentUser user) {
+    this.projectAccessor = projectAccessor;
     this.user = user;
   }
 
   ProjectResource(ProjectResource rsrc) {
-    this.projectState = rsrc.getProjectState();
+    this.projectAccessor = rsrc.getProjectAccessor();
     this.user = rsrc.getUser();
   }
 
   public String getName() {
-    return projectState.getName();
+    return getProjectState().getName();
   }
 
   public Project.NameKey getNameKey() {
-    return projectState.getNameKey();
+    return getProjectState().getNameKey();
   }
 
+  public ProjectAccessor getProjectAccessor() {
+    return projectAccessor;
+  }
+
+  // TODO(dborowitz): Remove this method.
   public ProjectState getProjectState() {
-    return projectState;
+    return projectAccessor.getProjectState();
   }
 
   public CurrentUser getUser() {

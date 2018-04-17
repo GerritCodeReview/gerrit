@@ -35,7 +35,8 @@ import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -52,7 +53,7 @@ public class ProjectsCollection
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<ListProjects> list;
   private final Provider<QueryProjects> queryProjects;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final CreateProject.Factory createProjectFactory;
@@ -64,14 +65,14 @@ public class ProjectsCollection
       DynamicMap<RestView<ProjectResource>> views,
       Provider<ListProjects> list,
       Provider<QueryProjects> queryProjects,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       PermissionBackend permissionBackend,
       CreateProject.Factory factory,
       Provider<CurrentUser> user) {
     this.views = views;
     this.list = list;
     this.queryProjects = queryProjects;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.createProjectFactory = factory;
@@ -94,11 +95,11 @@ public class ProjectsCollection
   @Override
   public ProjectResource parse(TopLevelResource parent, IdString id)
       throws RestApiException, IOException, PermissionBackendException {
-    ProjectResource rsrc = _parse(id.get(), true);
-    if (rsrc == null) {
+    try {
+      return _parse(id.get(), true);
+    } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(id);
     }
-    return rsrc;
   }
 
   /**
@@ -129,25 +130,24 @@ public class ProjectsCollection
    */
   public ProjectResource parse(String id, boolean checkAccess)
       throws RestApiException, IOException, PermissionBackendException {
-    ProjectResource rsrc = _parse(id, checkAccess);
-    if (rsrc == null) {
+    try {
+      return _parse(id, checkAccess);
+    } catch (NoSuchProjectException e) {
       throw new UnprocessableEntityException(String.format("Project Not Found: %s", id));
     }
-    return rsrc;
   }
 
   @Nullable
   private ProjectResource _parse(String id, boolean checkAccess)
-      throws IOException, PermissionBackendException, ResourceConflictException {
+      throws IOException, PermissionBackendException, ResourceConflictException,
+          NoSuchProjectException {
     if (id.endsWith(Constants.DOT_GIT_EXT)) {
       id = id.substring(0, id.length() - Constants.DOT_GIT_EXT.length());
     }
 
     Project.NameKey nameKey = new Project.NameKey(id);
-    ProjectState state = projectCache.checkedGet(nameKey);
-    if (state == null) {
-      return null;
-    }
+    ProjectAccessor accessor = projectAccessorFactory.create(nameKey);
+    ProjectState state = accessor.getProjectState();
 
     if (checkAccess) {
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.
@@ -172,7 +172,7 @@ public class ProjectsCollection
         state.checkStatePermitsRead();
       }
     }
-    return new ProjectResource(state, user.get());
+    return new ProjectResource(accessor, user.get());
   }
 
   @Override

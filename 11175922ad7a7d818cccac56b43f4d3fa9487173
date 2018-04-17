@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b19df88_62529473",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-17T15:49:41Z",
+      "side": 1,
+      "message": "nit: no space",
+      "range": {
+        "startLine": 457,
+        "startChar": 91,
+        "endLine": 457,
+        "endChar": 92
+      },
+      "revId": "11175922ad7a7d818cccac56b43f4d3fa9487173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.project.BooleanProjectConfigTransformations;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Arrays;
@@ -46,6 +47,9 @@ public class ConfigInfoImpl extends ConfigInfo {
   @SuppressWarnings("deprecation")
   public ConfigInfoImpl(
       boolean serverEnableSignedPush,
+      ProjectAccessor.Factory projectAccessorFactory,
+      // TODO(dborowitz): Replace with Project.NameKey once ProjectAccessor has enough methods to
+      // satisfy all uses of ProjectState in this method.
       ProjectState projectState,
       CurrentUser user,
       TransferConfig config,
@@ -81,14 +85,17 @@ public class ConfigInfoImpl extends ConfigInfo {
     maxObjectSizeLimit.inheritedValue = config.getFormattedMaxObjectSizeLimit();
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
+    ProjectAccessor accessor = projectAccessorFactory.create(projectState);
     this.defaultSubmitType = new SubmitTypeInfo();
-    this.defaultSubmitType.value = projectState.getSubmitType();
+    this.defaultSubmitType.value = accessor.getSubmitType();
     this.defaultSubmitType.configuredValue =
         MoreObjects.firstNonNull(
             projectState.getConfig().getProject().getConfiguredSubmitType(),
             Project.DEFAULT_SUBMIT_TYPE);
-    ProjectState parent =
-        projectState.isAllProjects() ? projectState : projectState.parents().get(0);
+    ProjectAccessor parent =
+        projectState.isAllProjects()
+            ? accessor
+            : projectAccessorFactory.create(projectState.parents().get(0));
     this.defaultSubmitType.inheritedValue = parent.getSubmitType();
 
     this.submitType = this.defaultSubmitType.value;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c322ee9_6aa7448f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-17T13:16:14Z",
+      "side": 1,
+      "message": "Do we really want to have separate threadpools for parallel loading of accounts, ChangeJson, maybe projects, etc., as we find new things to parallelize? Would it make sense to use a single threadpool for \"parallel reads that may happen to serve a single request\"? Possibly even the ForkJoinPool.commonPool()?",
+      "revId": "9d13f536e46f43c81a3bea2e3c6d4279abe6ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

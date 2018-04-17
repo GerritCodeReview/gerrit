@@ -22,6 +22,30 @@
       "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c8cea27_b43fb39f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-17T07:57:38Z",
+      "side": 1,
+      "message": "The cache itself is thread-safe. When this works on a direct executor I think it it reasonable to assume that it works on an executor with multiple threads, too.",
+      "parentUuid": "0c6c4c5c_91d95707",
+      "range": {
+        "startLine": 1023,
+        "startChar": 3,
+        "endLine": 1023,
+        "endChar": 10
+      },
+      "revId": "6f80c533ed0badbbfe6679e54431ae64b3f84c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

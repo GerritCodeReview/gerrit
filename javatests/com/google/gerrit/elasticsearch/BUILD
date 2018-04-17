@@ -41,7 +41,6 @@ ELASTICSEARCH_TESTS = {i: "ElasticQuery" + i.capitalize() + "sTest.java" for i i
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//javatests/com/google/gerrit/server/query:index-config",
         "//javatests/com/google/gerrit/server/query/%s:abstract_query_tests" % name,
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",

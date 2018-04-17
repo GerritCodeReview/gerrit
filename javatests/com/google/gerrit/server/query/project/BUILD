@@ -33,7 +33,6 @@ junit_tests(
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
-        "//javatests/com/google/gerrit/server/query:index-config",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],

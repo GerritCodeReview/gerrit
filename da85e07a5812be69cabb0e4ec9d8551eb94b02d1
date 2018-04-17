@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ab4c832_3217e9d7",
+        "filename": "java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-17T08:26:36Z",
+      "side": 1,
+      "message": "1. Read access to async needs to be thread safe too.\n\n2. null check for async is already part of the enableLogging method",
+      "range": {
+        "startLine": 314,
+        "startChar": 19,
+        "endLine": 314,
+        "endChar": 32
+      },
+      "revId": "da85e07a5812be69cabb0e4ec9d8551eb94b02d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a9b0e65_bedfee96",
+        "filename": "java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-17T08:26:36Z",
+      "side": 1,
+      "message": "same as the previous comment",
+      "range": {
+        "startLine": 316,
+        "startChar": 27,
+        "endLine": 316,
+        "endChar": 40
+      },
+      "revId": "da85e07a5812be69cabb0e4ec9d8551eb94b02d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

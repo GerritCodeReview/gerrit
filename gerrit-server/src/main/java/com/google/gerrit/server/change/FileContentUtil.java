@@ -42,7 +42,6 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -104,35 +103,35 @@ public class FileContentUtil {
       throws IOException, ResourceNotFoundException {
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revstr);
-      ObjectReader reader = rw.getObjectReader();
-      TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
-      if (tw == null) {
-        throw new ResourceNotFoundException();
-      }
+      try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), path, commit.getTree())) {
+        if (tw == null) {
+          throw new ResourceNotFoundException();
+        }
 
-      org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
-      ObjectId id = tw.getObjectId(0);
-      if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
-        return BinaryResult.create(id.name()).setContentType(X_GIT_GITLINK).base64();
-      }
+        org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
+        ObjectId id = tw.getObjectId(0);
+        if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
+          return BinaryResult.create(id.name()).setContentType(X_GIT_GITLINK).base64();
+        }
 
-      ObjectLoader obj = repo.open(id, OBJ_BLOB);
-      byte[] raw;
-      try {
-        raw = obj.getCachedBytes(MAX_SIZE);
-      } catch (LargeObjectException e) {
-        raw = null;
-      }
+        ObjectLoader obj = repo.open(id, OBJ_BLOB);
+        byte[] raw;
+        try {
+          raw = obj.getCachedBytes(MAX_SIZE);
+        } catch (LargeObjectException e) {
+          raw = null;
+        }
 
-      String type;
-      if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
-        type = X_GIT_SYMLINK;
-      } else {
-        type = registry.getMimeType(path, raw).toString();
-        type = resolveContentType(project, path, FileMode.FILE, type);
-      }
+        String type;
+        if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
+          type = X_GIT_SYMLINK;
+        } else {
+          type = registry.getMimeType(path, raw).toString();
+          type = resolveContentType(project, path, FileMode.FILE, type);
+        }
 
-      return asBinaryResult(raw, obj).setContentType(type).base64();
+        return asBinaryResult(raw, obj).setContentType(type).base64();
+      }
     }
   }
 
@@ -166,30 +165,30 @@ public class FileContentUtil {
         }
         commit = rw.parseCommit(commit.getParent(parent - 1));
       }
-      ObjectReader reader = rw.getObjectReader();
-      TreeWalk tw = TreeWalk.forPath(reader, path, commit.getTree());
-      if (tw == null) {
-        throw new ResourceNotFoundException();
-      }
+      try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), path, commit.getTree())) {
+        if (tw == null) {
+          throw new ResourceNotFoundException();
+        }
 
-      int mode = tw.getFileMode(0).getObjectType();
-      if (mode != Constants.OBJ_BLOB) {
-        throw new ResourceNotFoundException();
-      }
+        int mode = tw.getFileMode(0).getObjectType();
+        if (mode != Constants.OBJ_BLOB) {
+          throw new ResourceNotFoundException();
+        }
 
-      ObjectId id = tw.getObjectId(0);
-      ObjectLoader obj = repo.open(id, OBJ_BLOB);
-      byte[] raw;
-      try {
-        raw = obj.getCachedBytes(MAX_SIZE);
-      } catch (LargeObjectException e) {
-        raw = null;
-      }
+        ObjectId id = tw.getObjectId(0);
+        ObjectLoader obj = repo.open(id, OBJ_BLOB);
+        byte[] raw;
+        try {
+          raw = obj.getCachedBytes(MAX_SIZE);
+        } catch (LargeObjectException e) {
+          raw = null;
+        }
 
-      MimeType contentType = registry.getMimeType(path, raw);
-      return registry.isSafeInline(contentType)
-          ? wrapBlob(path, obj, raw, contentType, suffix)
-          : zipBlob(path, obj, commit, suffix);
+        MimeType contentType = registry.getMimeType(path, raw);
+        return registry.isSafeInline(contentType)
+            ? wrapBlob(path, obj, raw, contentType, suffix)
+            : zipBlob(path, obj, commit, suffix);
+      }
     }
   }
 

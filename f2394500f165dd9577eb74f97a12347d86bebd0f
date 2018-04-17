@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "154dfcdd_d0b0fe5b",
+        "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-17T08:02:52Z",
+      "side": 1,
+      "message": "Reading also needs to be synchronized, otherwise this code is not thread safe.\n\nMaybe a more elegant solution is to use AtomicReference (for commentLinks) instead of explicit\nsynchronized blocks.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "f2394500f165dd9577eb74f97a12347d86bebd0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

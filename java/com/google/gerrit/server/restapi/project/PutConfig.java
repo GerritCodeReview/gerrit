@@ -43,6 +43,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.BooleanProjectConfigTransformations;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
@@ -69,6 +70,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
   private final boolean serverEnableSignedPush;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
@@ -85,6 +87,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       @EnableSignedPush boolean serverEnableSignedPush,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -96,6 +99,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       PermissionBackend permissionBackend) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.projectStateFactory = projectStateFactory;
     this.config = config;
@@ -171,6 +175,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       ProjectState state = projectStateFactory.create(projectConfig);
       return new ConfigInfoImpl(
           serverEnableSignedPush,
+          projectAccessorFactory,
           state,
           user.get(),
           config,

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d112d37b_529572dd",
+        "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-17T13:21:32Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "9a53c78e_35ea6f85",
+      "revId": "7b049b7de266f3324b482c97d7c4c09c580bab10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb71e227_9ebba9ef",
         "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
         "patchSetId": 5

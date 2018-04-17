@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RuleEvalException;
@@ -79,6 +80,7 @@ public class PrologRuleEvaluator {
   private final AccountCache accountCache;
   private final Accounts accounts;
   private final Emails emails;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ChangeData cd;
   private final ProjectState projectState;
   private final SubmitRuleOptions opts;
@@ -89,12 +91,14 @@ public class PrologRuleEvaluator {
       AccountCache accountCache,
       Accounts accounts,
       Emails emails,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       @Assisted ChangeData cd,
       @Assisted SubmitRuleOptions options) {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.emails = emails;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.cd = cd;
     this.opts = options;
 
@@ -461,6 +465,7 @@ public class PrologRuleEvaluator {
     env.set(StoredValues.EMAILS, emails);
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
+    env.set(StoredValues.PROJECT_ACCESSOR, projectAccessorFactory.create(projectState));
     env.set(StoredValues.PROJECT_STATE, projectState);
     return env;
   }

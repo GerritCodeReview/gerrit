@@ -1277,21 +1277,21 @@
       return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
     },
 
-    addChangeReviewer(changeNum, reviewerID) {
-      return this._sendChangeReviewerRequest('POST', changeNum, reviewerID);
+    addChangeReviewer(changeNum, reviewerID, state = 'REVIEWER') {
+      return this._sendChangeReviewerRequest('POST', changeNum, reviewerID, state);
     },
 
     removeChangeReviewer(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
     },
 
-    _sendChangeReviewerRequest(method, changeNum, reviewerID) {
+    _sendChangeReviewerRequest(method, changeNum, reviewerID, reviewerState = 'REVIEWER') {
       return this.getChangeActionURL(changeNum, null, '/reviewers')
           .then(url => {
             let body;
             switch (method) {
               case 'POST':
-                body = {reviewer: reviewerID};
+                body = {reviewer: reviewerID, state: reviewerState};
                 break;
               case 'DELETE':
                 url += '/' + encodeURIComponent(reviewerID);

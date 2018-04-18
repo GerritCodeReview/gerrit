@@ -126,10 +126,16 @@
       if (!change.labels[label].all) { return NaN; }
       const detailed = change.labels[label].all.filter(
           ({_account_id}) => reviewer._account_id === _account_id).pop();
-      if (!detailed || !detailed.hasOwnProperty('permitted_voting_range')) {
+      if (!detailed) {
         return NaN;
       }
-      return detailed.permitted_voting_range.max;
+      if (detailed.hasOwnProperty('permitted_voting_range')) {
+        return detailed.permitted_voting_range.max;
+      } else if (detailed.hasOwnProperty('value')) {
+        // If preset, user can vote on the label.
+        return 0;
+      }
+      return NaN;
     },
 
     _computeReviewerTooltip(reviewer, change) {

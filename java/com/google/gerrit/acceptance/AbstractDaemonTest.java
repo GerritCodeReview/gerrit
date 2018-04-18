@@ -162,7 +162,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.FetchResult;
 import org.eclipse.jgit.transport.RefSpec;
@@ -1311,30 +1310,6 @@ public abstract class AbstractDaemonTest {
     return ret;
   }
 
-  /** Assert that the given branches have the given tree ids. */
-  protected void assertTrees(Project.NameKey proj, Map<Branch.NameKey, ObjectId> trees)
-      throws Exception {
-    TestRepository<?> localRepo = cloneProject(proj);
-    GitUtil.fetch(localRepo, "refs/*:refs/*");
-    Map<String, Ref> refs = localRepo.getRepository().getAllRefs();
-    Map<Branch.NameKey, RevTree> refValues = new HashMap<>();
-
-    for (Branch.NameKey b : trees.keySet()) {
-      if (!b.getParentKey().equals(proj)) {
-        continue;
-      }
-
-      Ref r = refs.get(b.get());
-      assertThat(r).isNotNull();
-      RevWalk rw = localRepo.getRevWalk();
-      RevCommit c = rw.parseCommit(r.getObjectId());
-      refValues.put(b, c.getTree());
-
-      assertThat(trees.get(b)).isEqualTo(refValues.get(b));
-    }
-    assertThat(refValues.keySet()).containsAnyIn(trees.keySet());
-  }
-
   protected void assertDiffForNewFile(
       DiffInfo diff, RevCommit commit, String path, String expectedContentSideB) throws Exception {
     List<String> expectedLines = new ArrayList<>();
@@ -1375,14 +1350,6 @@ public abstract class AbstractDaemonTest {
     assertThat(contentEntry.skip).isNull();
   }
 
-  protected TestRepository<?> createProjectWithPush(
-      String name, @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
-    Project.NameKey project = createProject(name, parent, true, submitType);
-    grant(project, "refs/heads/*", Permission.PUSH);
-    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
-    return cloneProject(project);
-  }
-
   protected void assertPermitted(ChangeInfo info, String label, Integer... expected) {
     assertThat(info.permittedLabels).isNotNull();
     Collection<String> strs = info.permittedLabels.get(label);
@@ -1412,27 +1379,7 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void assertLabelPermission(
-      Project.NameKey project,
-      GroupReference groupReference,
-      String ref,
-      boolean exclusive,
-      String labelName,
-      int min,
-      int max)
-      throws IOException {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    AccessSection accessSection = cfg.getAccessSection(ref);
-    assertThat(accessSection).isNotNull();
-
-    String permissionName = Permission.LABEL + labelName;
-    Permission permission = accessSection.getPermission(permissionName);
-    assertPermission(permission, permissionName, exclusive, labelName);
-    assertPermissionRule(
-        permission.getRule(groupReference), groupReference, Action.ALLOW, false, min, max);
-  }
-
-  private void assertPermission(
+  protected void assertPermission(
       Permission permission,
       String expectedName,
       boolean expectedExclusive,
@@ -1443,7 +1390,7 @@ public abstract class AbstractDaemonTest {
     assertThat(permission.getLabel()).isEqualTo(expectedLabelName);
   }
 
-  private void assertPermissionRule(
+  protected void assertPermissionRule(
       PermissionRule rule,
       GroupReference expectedGroupReference,
       Action expectedAction,
@@ -1599,10 +1546,6 @@ public abstract class AbstractDaemonTest {
       assertThat(GitUtil.getChangeId(testSrcRepo, revCommit)).isEmpty();
       return revCommit;
     }
-  }
-
-  protected RevCommit parseCurrentRevision(RevWalk rw, PushOneCommit.Result r) throws Exception {
-    return parseCurrentRevision(rw, r.getChangeId());
   }
 
   protected RevCommit parseCurrentRevision(RevWalk rw, String changeId) throws Exception {

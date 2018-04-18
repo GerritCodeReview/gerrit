@@ -24,6 +24,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.submit.ChangeSet;
@@ -36,8 +37,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -305,8 +304,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
   }
 
   private void assertChangeSetMergeable(ChangeData change, boolean expected)
-      throws MissingObjectException, IncorrectObjectTypeException, IOException, OrmException,
-          PermissionBackendException {
+      throws IOException, OrmException, PermissionBackendException, NoSuchProjectException {
     ChangeSet cs = mergeSuperSet.get().completeChangeSet(db, change.change(), user(admin));
     assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);
   }

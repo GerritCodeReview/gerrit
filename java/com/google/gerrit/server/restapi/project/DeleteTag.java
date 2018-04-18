@@ -49,7 +49,7 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
       throw new MethodNotAllowedException("not allowed to delete " + tag);
     }
 
-    deleteRef.deleteSingleRef(resource.getProjectState(), tag);
+    deleteRef.deleteSingleRef(resource.getProjectAccessor(), tag);
     return Response.none();
   }
 }

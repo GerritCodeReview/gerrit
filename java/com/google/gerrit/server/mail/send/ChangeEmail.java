@@ -324,6 +324,10 @@ public abstract class ChangeEmail extends NotificationEmail {
     return projectAccessor.getProjectState();
   }
 
+  protected ProjectAccessor getProjectAccessor() {
+    return projectAccessor;
+  }
+
   /** Get the groups which own the project. */
   protected Set<AccountGroup.UUID> getProjectOwners() {
     try {
@@ -370,7 +374,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
 
     ProjectWatch watch =
-        new ProjectWatch(args, branch.getParentKey(), getProjectState(), changeData);
+        new ProjectWatch(args, branch.getParentKey(), getProjectAccessor(), changeData);
     return watch.getWatchers(type, includeWatchersFromNotifyConfig);
   }
 
@@ -413,7 +417,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
-    if (!getProjectState().statePermitsRead()) {
+    if (!getProjectAccessor().statePermitsRead()) {
       return false;
     }
     try {

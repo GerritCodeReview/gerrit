@@ -29,11 +29,13 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.restapi.config.AgreementJson;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,25 +46,25 @@ public class GetAgreements implements RestReadView<AccountResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<CurrentUser> self;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final AgreementJson agreementJson;
   private final boolean agreementsEnabled;
 
   @Inject
   GetAgreements(
       Provider<CurrentUser> self,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       AgreementJson agreementJson,
       @GerritServerConfig Config config) {
     this.self = self;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.agreementJson = agreementJson;
     this.agreementsEnabled = config.getBoolean("auth", "contributorAgreements", false);
   }
 
   @Override
   public List<AgreementInfo> apply(AccountResource resource)
-      throws RestApiException, PermissionBackendException {
+      throws RestApiException, PermissionBackendException, NoSuchProjectException, IOException {
     if (!agreementsEnabled) {
       throw new MethodNotAllowedException("contributor agreements disabled");
     }
@@ -78,7 +80,7 @@ public class GetAgreements implements RestReadView<AccountResource> {
 
     List<AgreementInfo> results = new ArrayList<>();
     Collection<ContributorAgreement> cas =
-        projectCache.getAllProjects().getConfig().getContributorAgreements();
+        projectAccessorFactory.createForAllProjects().getConfig().getContributorAgreements();
     for (ContributorAgreement ca : cas) {
       List<AccountGroup.UUID> groupIds = new ArrayList<>();
       for (PermissionRule rule : ca.getAccepted()) {

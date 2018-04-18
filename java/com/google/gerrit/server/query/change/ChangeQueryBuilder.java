@@ -661,7 +661,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> parentproject(String name) {
-    return new ParentProjectPredicate(args.projectCache, args.childProjects, name);
+    return new ParentProjectPredicate(args.projectAccessorFactory, args.childProjects, name);
   }
 
   @Operator
@@ -918,7 +918,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         args.notesFactory,
         user,
         args.permissionBackend,
-        args.projectCache,
+        args.projectAccessorFactory,
         args.anonymousUserProvider);
   }
 

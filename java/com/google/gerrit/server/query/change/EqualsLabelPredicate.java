@@ -27,14 +27,14 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;
 
 public class EqualsLabelPredicate extends ChangeIndexPredicate {
-  protected final ProjectCache projectCache;
+  protected final ProjectAccessor.Factory projectAccessorFactory;
   protected final PermissionBackend permissionBackend;
   protected final IdentifiedUser.GenericFactory userFactory;
   protected final Provider<ReviewDb> dbProvider;
@@ -46,8 +46,8 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
   public EqualsLabelPredicate(
       LabelPredicate.Args args, String label, int expVal, Account.Id account) {
     super(ChangeField.LABEL, ChangeField.formatLabel(label, expVal, account));
+    this.projectAccessorFactory = args.projectAccessorFactory;
     this.permissionBackend = args.permissionBackend;
-    this.projectCache = args.projectCache;
     this.userFactory = args.userFactory;
     this.dbProvider = args.dbProvider;
     this.group = args.group;
@@ -65,14 +65,21 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       return false;
     }
 
-    ProjectState project = projectCache.get(c.getDest().getParentKey());
-    if (project == null) {
+    LabelType labelType;
+    try {
+      labelType =
+          type(
+              projectAccessorFactory
+                  .create(c.getDest().getParentKey())
+                  .getProjectState()
+                  .getLabelTypes(),
+              label);
+    } catch (NoSuchProjectException | IOException e) {
       // The project has disappeared.
       //
       return false;
     }
 
-    LabelType labelType = type(project.getLabelTypes(), label);
     if (labelType == null) {
       return false; // Label is not defined by this project.
     }
@@ -125,14 +132,13 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     try {
       PermissionBackend.ForChange perm =
           permissionBackend.absentUser(approver).database(dbProvider).change(cd);
-      ProjectState projectState = projectCache.checkedGet(cd.project());
-      if (projectState == null || !projectState.statePermitsRead()) {
+      if (!projectAccessorFactory.create(cd.project()).statePermitsRead()) {
         return false;
       }
 
       perm.check(ChangePermission.READ);
       return true;
-    } catch (PermissionBackendException | IOException | AuthException e) {
+    } catch (NoSuchProjectException | PermissionBackendException | IOException | AuthException e) {
       return false;
     }
   }

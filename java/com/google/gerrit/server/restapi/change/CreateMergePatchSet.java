@@ -50,7 +50,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
@@ -88,7 +89,7 @@ public class CreateMergePatchSet
   private final PatchSetUtil psUtil;
   private final MergeUtil.Factory mergeUtilFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ChangeFinder changeFinder;
   private final PermissionBackend permissionBackend;
 
@@ -104,7 +105,7 @@ public class CreateMergePatchSet
       MergeUtil.Factory mergeUtilFactory,
       RetryHelper retryHelper,
       PatchSetInserter.Factory patchSetInserterFactory,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       ChangeFinder changeFinder,
       PermissionBackend permissionBackend) {
     super(retryHelper);
@@ -117,7 +118,7 @@ public class CreateMergePatchSet
     this.psUtil = psUtil;
     this.mergeUtilFactory = mergeUtilFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.changeFinder = changeFinder;
     this.permissionBackend = permissionBackend;
   }
@@ -126,14 +127,14 @@ public class CreateMergePatchSet
   protected Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MergePatchSetInput in)
       throws OrmException, IOException, RestApiException, UpdateException,
-          PermissionBackendException {
+          PermissionBackendException, NoSuchProjectException {
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
 
-    ProjectState projectState = projectCache.checkedGet(rsrc.getProject());
-    projectState.checkStatePermitsWrite();
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(rsrc.getProject());
+    projectAccessor.checkStatePermitsWrite();
 
     MergeInput merge = in.merge;
     if (merge == null || Strings.isNullOrEmpty(merge.source)) {
@@ -151,7 +152,7 @@ public class CreateMergePatchSet
         RevWalk rw = new RevWalk(reader)) {
 
       RevCommit sourceCommit = MergeUtil.resolveCommit(git, rw, merge.source);
-      if (!commits.canRead(projectState, git, sourceCommit)) {
+      if (!commits.canRead(projectAccessor, git, sourceCommit)) {
         throw new ResourceNotFoundException(
             "cannot find source commit: " + merge.source + " to merge.");
       }
@@ -172,7 +173,7 @@ public class CreateMergePatchSet
       RevCommit newCommit =
           createMergeCommit(
               in,
-              projectState,
+              projectAccessor.getProjectState(),
               dest,
               git,
               oi,

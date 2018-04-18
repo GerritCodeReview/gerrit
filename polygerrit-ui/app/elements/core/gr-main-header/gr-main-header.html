@@ -17,9 +17,11 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html">
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
 <link rel="import" href="../gr-smart-search/gr-smart-search.html">
@@ -163,12 +165,12 @@ limitations under the License.
           </gr-dropdown>
           </li>
         </template>
-        <li>
+        <!-- <li>
           <a
               class="browse linksTitle"
               href$="[[_computeRelativeURL('/admin/repos')]]">
             Browse</a>
-        </li>
+        </li> -->
       </ul>
       <div class="rightItems">
         <gr-smart-search
@@ -183,6 +185,7 @@ limitations under the License.
         </div>
       </div>
     </nav>
+    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-main-header.js"></script>

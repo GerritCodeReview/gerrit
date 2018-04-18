@@ -110,6 +110,7 @@
       if (!selectedObj) { return; }
       this.text = selectedObj.triggerText? selectedObj.triggerText :
           selectedObj.text;
+      console.log('change');
       this.dispatchEvent(new CustomEvent('value-change', {
         detail: {value},
         bubbles: false,

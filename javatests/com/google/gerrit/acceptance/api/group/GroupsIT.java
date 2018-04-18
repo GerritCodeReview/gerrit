@@ -916,7 +916,7 @@ public class GroupsIT extends AbstractDaemonTest {
     // Verify "sub-group" has been deleted.
     try {
       gApi.groups().id(uuid.get()).get();
-      fail();
+      fail("did not get ResourceNotFoundException");
     } catch (ResourceNotFoundException e) {
     }
   }

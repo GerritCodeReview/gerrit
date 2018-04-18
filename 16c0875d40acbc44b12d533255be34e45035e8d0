@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "158abb77_e8160225",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-18T15:18:32Z",
+      "side": 1,
+      "message": "It could, but then we would need to add a dependency on Netty, which I would like to avoid. Especially because this detail is not visible to callers.",
+      "parentUuid": "37fd4829_b5db3654",
+      "range": {
+        "startLine": 107,
+        "startChar": 25,
+        "endLine": 107,
+        "endChar": 31
+      },
+      "revId": "16c0875d40acbc44b12d533255be34e45035e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f86e351_5bb3e3d5",
         "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
         "patchSetId": 3
@@ -114,6 +138,30 @@
       "revId": "16c0875d40acbc44b12d533255be34e45035e8d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b78a8a3_6c59e674",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-18T15:18:32Z",
+      "side": 1,
+      "message": "See previous comment.",
+      "parentUuid": "4f86e351_5bb3e3d5",
+      "range": {
+        "startLine": 116,
+        "startChar": 14,
+        "endLine": 116,
+        "endChar": 18
+      },
+      "revId": "16c0875d40acbc44b12d533255be34e45035e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

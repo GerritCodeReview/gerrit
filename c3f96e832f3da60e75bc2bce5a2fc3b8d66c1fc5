@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c6e8f9e0_edc07f1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T14:27:36Z",
+      "side": 1,
+      "message": "var(--color-link) (soon to be var(--link-color)) when rebased on master.",
+      "range": {
+        "startLine": 128,
+        "startChar": 15,
+        "endLine": 128,
+        "endChar": 19
+      },
+      "revId": "c3f96e832f3da60e75bc2bce5a2fc3b8d66c1fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd4034a6_a2a533cd",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
         "patchSetId": 3
@@ -13,6 +36,75 @@
       "writtenOn": "2018-04-18T14:23:22Z",
       "side": 1,
       "message": "What\u0027s the point of this hover state?",
+      "revId": "c3f96e832f3da60e75bc2bce5a2fc3b8d66c1fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41c0f586_85be34c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T14:27:36Z",
+      "side": 1,
+      "message": "var(--view-background-color)",
+      "range": {
+        "startLine": 150,
+        "startChar": 27,
+        "endLine": 150,
+        "endChar": 30
+      },
+      "revId": "c3f96e832f3da60e75bc2bce5a2fc3b8d66c1fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7b32e0e_1b9b3815",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T14:27:36Z",
+      "side": 1,
+      "message": "var(--border-color)",
+      "range": {
+        "startLine": 151,
+        "startChar": 27,
+        "endLine": 151,
+        "endChar": 30
+      },
+      "revId": "c3f96e832f3da60e75bc2bce5a2fc3b8d66c1fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "572469be_d3d2758a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T14:27:36Z",
+      "side": 1,
+      "message": "Can you use CSS vars in these attributes?",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 14
+      },
       "revId": "c3f96e832f3da60e75bc2bce5a2fc3b8d66c1fc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

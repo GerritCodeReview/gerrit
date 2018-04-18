@@ -481,10 +481,11 @@ public abstract class VersionedMetaData {
       return new byte[] {};
     }
 
-    TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree());
-    if (tw != null) {
-      ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
-      return obj.getCachedBytes(Integer.MAX_VALUE);
+    try (TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
+      if (tw != null) {
+        ObjectLoader obj = reader.open(tw.getObjectId(0), Constants.OBJ_BLOB);
+        return obj.getCachedBytes(Integer.MAX_VALUE);
+      }
     }
     return new byte[] {};
   }
@@ -495,9 +496,10 @@ public abstract class VersionedMetaData {
       return null;
     }
 
-    TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree());
-    if (tw != null) {
-      return tw.getObjectId(0);
+    try (TreeWalk tw = TreeWalk.forPath(reader, fileName, revision.getTree())) {
+      if (tw != null) {
+        return tw.getObjectId(0);
+      }
     }
 
     return null;

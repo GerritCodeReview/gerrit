@@ -22,6 +22,30 @@
       "revId": "7551b31d59d576908708749d2f8cfca0996dc79e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a92e99d_8a876bbb",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T13:20:49Z",
+      "side": 1,
+      "message": "Done\n\nhttps://i.imgur.com/vZJev8T.png",
+      "parentUuid": "01fe2cf3_cd3a7cc3",
+      "range": {
+        "startLine": 35,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 73
+      },
+      "revId": "7551b31d59d576908708749d2f8cfca0996dc79e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

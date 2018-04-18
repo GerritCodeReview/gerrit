@@ -62,7 +62,6 @@ public class InitPluginStepsLoader {
     return pluginsInitSteps;
   }
 
-  @SuppressWarnings("resource")
   private InitStep loadInitStep(Path jar) {
     try {
       URLClassLoader pluginLoader =

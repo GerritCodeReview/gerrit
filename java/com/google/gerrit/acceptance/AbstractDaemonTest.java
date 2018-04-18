@@ -439,7 +439,9 @@ public abstract class AbstractDaemonTest {
 
     Context ctx = newRequestContext(admin);
     atrScope.set(ctx);
-    project = createProject(projectInput(description));
+    ProjectInput in = projectInput(description);
+    gApi.projects().create(in);
+    project = new Project.NameKey(in.name);
     testRepo = cloneProject(project, getCloneAsAccount(description));
   }
 
@@ -545,10 +547,6 @@ public abstract class AbstractDaemonTest {
     in.parent = parent != null ? parent.get() : null;
     in.submitType = submitType;
     in.createEmptyCommit = createEmptyCommit;
-    return createProject(in);
-  }
-
-  private Project.NameKey createProject(ProjectInput in) throws RestApiException {
     gApi.projects().create(in);
     return new Project.NameKey(in.name);
   }

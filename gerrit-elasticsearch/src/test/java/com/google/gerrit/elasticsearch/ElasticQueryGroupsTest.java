@@ -21,7 +21,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -35,7 +34,6 @@ public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
       return;
     }
     nodeInfo = ElasticTestUtils.startElasticsearchNode();
-    ElasticTestUtils.createAllIndexes(nodeInfo);
   }
 
   @AfterClass
@@ -47,19 +45,13 @@ public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
     }
   }
 
-  @After
-  public void cleanupIndex() {
-    if (nodeInfo != null) {
-      ElasticTestUtils.deleteAllIndexes(nodeInfo);
-      ElasticTestUtils.createAllIndexes(nodeInfo);
-    }
-  }
-
   @Override
   protected Injector createInjector() {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
-    ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port);
+    String indicesPrefix = testName.getMethodName().toLowerCase() + "_";
+    ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port, indicesPrefix);
+    ElasticTestUtils.createAllIndexes(nodeInfo, indicesPrefix);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }
 }

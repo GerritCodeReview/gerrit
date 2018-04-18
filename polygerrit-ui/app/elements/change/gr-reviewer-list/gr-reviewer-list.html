@@ -39,12 +39,9 @@ limitations under the License.
         margin-top: .3em;
       }
       .inputContainer {
-        display: flex;
-        margin-top: .25em;
-      }
-      .inputContainer input {
-        flex: 1;
-        font: inherit;
+        background-color: #fff;
+        padding: .8em;
+        @apply --input-style;
       }
       gr-account-chip {
         margin-top: .3em;
@@ -61,10 +58,33 @@ limitations under the License.
           padding-right: 0;
         }
       }
+      .buttons {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 1.2em;
+        width: 100%;
+      }
+      .buttons gr-button {
+        margin-left: .5em;
+      }
       @media screen and (max-width: 50em), screen and (min-width: 75em) {
         gr-account-chip:first-of-type {
           margin-top: 0;
         }
+      }
+      label {
+        color: #777;
+        color: var(--color-link);
+        cursor: pointer;
+        font-family: var(--font-family-bold);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+        @apply --label-style;
+      }
+      #dropdown {
+        box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
       }
     </style>
     <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
@@ -80,11 +100,34 @@ limitations under the License.
         hidden$="[[!_hiddenReviewerCount]]"
         on-tap="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>
     <div class="controlsContainer" hidden$="[[!mutable]]">
-      <gr-button
-          link
-          id="addReviewer"
-          class="addReviewer"
-          on-tap="_handleAddTap">[[_addLabel]]</gr-button>
+        <label
+          class$="editable"
+          title$="[[_addLabel]]"
+          on-tap="_showDropdown">[[_addLabel]]</label>
+        <iron-dropdown id="dropdown"
+            vertical-align="auto"
+            horizontal-align="auto"
+            vertical-offset="[[_verticalOffset]]"
+            allow-outside-scroll="true"
+            on-iron-overlay-canceled="_cancel">
+          <div class="dropdown-content" slot="dropdown-content">
+            <div class="inputContainer">
+              <!-- TODO: Add CC/Reviewer filtering -->
+              <gr-account-list
+                id="input"
+                max-count="1"
+                accounts="{{_newReviewers}}"
+                change="[[change]]"
+                placeholder="[[_addLabel]]"
+                >
+              </gr-account-list>
+              <div class="buttons">
+                <gr-button link id="cancelBtn" on-tap="_cancel">cancel</gr-button>
+                <gr-button link id="saveBtn" on-tap="_save">save</gr-button>
+              </div>
+            </div>
+          </div>
+      </iron-dropdown>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

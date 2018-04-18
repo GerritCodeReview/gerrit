@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -100,6 +101,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.RefSpec;
@@ -150,6 +152,40 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   protected abstract SubmitType getSubmitType();
+  /** Assert that the given branches have the given tree ids. */
+  protected void assertTrees(Project.NameKey proj, Map<Branch.NameKey, ObjectId> trees)
+      throws Exception {
+    TestRepository<?> localRepo = cloneProject(proj);
+    GitUtil.fetch(localRepo, "refs/*:refs/*");
+    Map<String, Ref> refs = localRepo.getRepository().getAllRefs();
+    Map<Branch.NameKey, RevTree> refValues = new HashMap<>();
+
+    for (Branch.NameKey b : trees.keySet()) {
+      if (!b.getParentKey().equals(proj)) {
+        continue;
+      }
+
+      Ref r = refs.get(b.get());
+      assertThat(r).isNotNull();
+      RevWalk rw = localRepo.getRevWalk();
+      RevCommit c = rw.parseCommit(r.getObjectId());
+      refValues.put(b, c.getTree());
+
+      assertThat(trees.get(b)).isEqualTo(refValues.get(b));
+    }
+    assertThat(refValues.keySet()).containsAnyIn(trees.keySet());
+  }
+
+  protected TestRepository<?> createProjectWithPush(
+      String name, @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
+    Project.NameKey project = createProject(name, parent, true, submitType);
+    grant(project, "refs/heads/*", Permission.PUSH);
+    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
+    return cloneProject(project);
+  }
+  protected RevCommit parseCurrentRevision(RevWalk rw, PushOneCommit.Result r) throws Exception {
+    return parseCurrentRevision(rw, r.getChangeId());
+  }
 
   @Test
   @TestProjectInput(createEmptyCommit = false)

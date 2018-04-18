@@ -7,6 +7,7 @@ acceptance_tests(
         "pgm",
         "no_windows",
     ],
+    shard_count = 2,
     vm_args = ["-Xmx512m"],
     deps = [
         ":util",

@@ -13,6 +13,7 @@ acceptance_tests(
     srcs = OTHER_TESTS,
     group = "rest_change_other",
     labels = ["rest"],
+    shard_count = 2,
     deps = [
         ":submit_util",
     ],

@@ -4,6 +4,7 @@ acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "api_group",
     labels = ["api"],
+    shard_count = 2,
     deps = [
         ":util",
         "//java/com/google/gerrit/server/group/db/testing",

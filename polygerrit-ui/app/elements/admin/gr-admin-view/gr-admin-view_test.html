@@ -95,6 +95,9 @@ limitations under the License.
     });
 
     test('_filteredLinks admin', done => {
+      sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
+        name: 'test-user',
+      }));
       sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
         return Promise.resolve({
           createGroup: true,
@@ -102,35 +105,36 @@ limitations under the License.
           viewPlugins: true,
         });
       });
-      element._loadAccountCapabilities().then(() => {
+      element.reload().then(() => {
         assert.equal(element._filteredLinks.length, 3);
 
         // Repos
-        assert.equal(element._filteredLinks[0].children.length, 0);
         assert.isNotOk(element._filteredLinks[0].subsection);
 
         // Groups
-        assert.equal(element._filteredLinks[1].children.length, 0);
+        assert.isNotOk(element._filteredLinks[0].subsection);
 
         // Plugins
-        assert.equal(element._filteredLinks[2].children.length, 0);
+        assert.isNotOk(element._filteredLinks[0].subsection);
         done();
       });
     });
 
     test('_filteredLinks non admin authenticated', done => {
+      sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
+        name: 'test-user',
+      }));
       sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
         return Promise.resolve({});
       });
-      element._loadAccountCapabilities().then(() => {
+      element.reload().then(() => {
         assert.equal(element._filteredLinks.length, 2);
 
         // Repos
-        assert.equal(element._filteredLinks[0].children.length, 0);
         assert.isNotOk(element._filteredLinks[0].subsection);
 
         // Groups
-        assert.equal(element._filteredLinks[1].children.length, 0);
+        assert.isNotOk(element._filteredLinks[0].subsection);
         done();
       });
     });
@@ -140,7 +144,6 @@ limitations under the License.
         assert.equal(element._filteredLinks.length, 1);
 
         // Repos
-        assert.equal(element._filteredLinks[0].children.length, 0);
         assert.isNotOk(element._filteredLinks[0].subsection);
         done();
       });
@@ -156,7 +159,6 @@ limitations under the License.
         assert.deepEqual(element._filteredLinks[1], {
           url: '/internal/link/url',
           name: 'internal link text',
-          children: [],
           noBaseUrl: true,
           view: null,
           viewableToAll: true,
@@ -164,7 +166,6 @@ limitations under the License.
         assert.deepEqual(element._filteredLinks[2], {
           url: 'http://external/link/url',
           name: 'external link text',
-          children: [],
           noBaseUrl: false,
           view: null,
           viewableToAll: true,
@@ -174,6 +175,9 @@ limitations under the License.
 
     test('Repo shows up in nav', done => {
       element._repoName = 'Test Repo';
+      sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
+        name: 'test-user',
+      }));
       sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
         return Promise.resolve({
           createGroup: true,
@@ -181,18 +185,52 @@ limitations under the License.
           viewPlugins: true,
         });
       });
-      element._loadAccountCapabilities().then(() => {
+      element.reload().then(() => {
+        flushAsynchronousOperations();
         assert.equal(element._filteredLinks.length, 3);
 
         // Repos
-        assert.equal(element._filteredLinks[0].children.length, 0);
+        assert.equal(element._filteredLinks[0].subsection.children.length, 5);
         assert.equal(element._filteredLinks[0].subsection.name, 'Test Repo');
 
         // Groups
-        assert.equal(element._filteredLinks[1].children.length, 0);
+        assert.isNotOk(element._filteredLinks[1].subsection);
 
         // Plugins
-        assert.equal(element._filteredLinks[2].children.length, 0);
+        assert.isNotOk(element._filteredLinks[2].subsection);
+        done();
+      });
+    });
+
+    test('Group shows up in nav', done => {
+      element._groupId = 'a15262';
+      element._groupName = 'my-group';
+      element._groupIsInternal = true;
+      element._isAdmin = true;
+      element._groupOwner = false;
+      sandbox.stub(element.$.restAPI, 'getAccount').returns(Promise.resolve({
+        name: 'test-user',
+      }));
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      element.reload().then(() => {
+        flushAsynchronousOperations();
+        assert.equal(element._filteredLinks.length, 3);
+
+        // Repos
+        assert.isNotOk(element._filteredLinks[0].subsection);
+
+        // Groups
+        assert.equal(element._filteredLinks[1].subsection.children.length, 2);
+        assert.equal(element._filteredLinks[1].subsection.name, 'my-group');
+
+        // Plugins
+        assert.isNotOk(element._filteredLinks[2].subsection);
         done();
       });
     });

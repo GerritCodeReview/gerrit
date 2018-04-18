@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb9b0e29_794b0f4b",
+        "filename": "java/com/google/gerrit/server/config/SysExecutorModule.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-18T11:03:53Z",
+      "side": 1,
+      "message": "Optional: if you\u0027re planning on re-rolling anyway, change this name.",
+      "range": {
+        "startLine": 68,
+        "startChar": 25,
+        "endLine": 68,
+        "endChar": 49
+      },
+      "revId": "415a9d3148e25281d335382bd5be22f7f0be84c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

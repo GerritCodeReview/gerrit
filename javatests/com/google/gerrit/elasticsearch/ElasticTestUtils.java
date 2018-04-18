@@ -70,11 +70,12 @@ final class ElasticTestUtils {
     }
   }
 
-  static void configure(Config config, String port) {
+  static void configure(Config config, String port, String prefix) {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", "test", "protocol", "http");
     config.setString("elasticsearch", "test", "hostname", "localhost");
     config.setString("elasticsearch", "test", "port", port);
+    config.setString("elasticsearch", null, "prefix", prefix);
   }
 
   static ElasticNodeInfo startElasticsearchNode() throws InterruptedException, ExecutionException {
@@ -121,7 +122,7 @@ final class ElasticTestUtils {
     Map<String, NodeInfo> nodes;
   }
 
-  static void createAllIndexes(ElasticNodeInfo nodeInfo) {
+  static void createAllIndexes(ElasticNodeInfo nodeInfo, String prefix) {
     Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
     ChangeMapping openChangesMapping = new ChangeMapping(changeSchema);
     ChangeMapping closedChangesMapping = new ChangeMapping(changeSchema);
@@ -132,7 +133,7 @@ final class ElasticTestUtils {
         .client()
         .admin()
         .indices()
-        .prepareCreate(String.format("%s_%04d", CHANGES, changeSchema.getVersion()))
+        .prepareCreate(String.format("%s%s_%04d", prefix, CHANGES, changeSchema.getVersion()))
         .addMapping(OPEN_CHANGES, gson.toJson(openChangesMapping))
         .addMapping(CLOSED_CHANGES, gson.toJson(closedChangesMapping))
         .execute()
@@ -145,7 +146,7 @@ final class ElasticTestUtils {
         .client()
         .admin()
         .indices()
-        .prepareCreate(String.format("%s_%04d", ACCOUNTS, accountSchema.getVersion()))
+        .prepareCreate(String.format("%s%s_%04d", prefix, ACCOUNTS, accountSchema.getVersion()))
         .addMapping(ElasticAccountIndex.ACCOUNTS, gson.toJson(accountMapping))
         .execute()
         .actionGet();
@@ -157,7 +158,7 @@ final class ElasticTestUtils {
         .client()
         .admin()
         .indices()
-        .prepareCreate(String.format("%s_%04d", GROUPS, groupSchema.getVersion()))
+        .prepareCreate(String.format("%s%s_%04d", prefix, GROUPS, groupSchema.getVersion()))
         .addMapping(ElasticGroupIndex.GROUPS, gson.toJson(groupMapping))
         .execute()
         .actionGet();
@@ -169,7 +170,7 @@ final class ElasticTestUtils {
         .client()
         .admin()
         .indices()
-        .prepareCreate(String.format("%s_%04d", PROJECTS, projectSchema.getVersion()))
+        .prepareCreate(String.format("%s%s_%04d", prefix, PROJECTS, projectSchema.getVersion()))
         .addMapping(ElasticProjectIndex.PROJECTS, gson.toJson(projectMapping))
         .execute()
         .actionGet();

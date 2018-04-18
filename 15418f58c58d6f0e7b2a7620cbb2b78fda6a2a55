@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1d5847f7_7ff15f29",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-18T07:34:01Z",
+      "side": 1,
+      "message": "I can absolutely expose the id.\n\nThe problem with linking to external groups already exist on the access page.\nSee the access groups for the gerrit project which are Google groups, the links are not working.\nhttps://gerrit-review.googlesource.com/admin/repos/gerrit,access\n\nFor external groups that means that the best we can do is to display the group name. Since this was meant as a way to find project contact persons, it is probably not worth it.",
+      "parentUuid": "1eaa8645_844f5275",
+      "range": {
+        "startLine": 851,
+        "startChar": 8,
+        "endLine": 851,
+        "endChar": 78
+      },
+      "revId": "15418f58c58d6f0e7b2a7620cbb2b78fda6a2a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "979ea01e_805f1e56",
         "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
         "patchSetId": 4

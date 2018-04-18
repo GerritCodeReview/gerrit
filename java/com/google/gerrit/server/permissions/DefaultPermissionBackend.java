@@ -31,6 +31,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -108,7 +109,15 @@ public class DefaultPermissionBackend extends PermissionBackend {
       try {
         ProjectState state = projectCache.checkedGet(project);
         if (state != null) {
-          return projectControlFactory.create(user, state).asForProject().database(db);
+          PerThreadCache perThreadCache = PerThreadCache.get();
+          if (perThreadCache == null) {
+            return projectControlFactory.create(user, state).asForProject().database(db);
+          }
+          PerThreadCache.Key<ProjectControl> cacheKey =
+              PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey());
+          ProjectControl control =
+              perThreadCache.get(cacheKey, () -> projectControlFactory.create(user, state));
+          return control.asForProject().database(db);
         }
         return FailedPermissionBackend.project("not found", new NoSuchProjectException(project));
       } catch (IOException e) {

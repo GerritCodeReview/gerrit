@@ -105,6 +105,11 @@ public class PerThreadCache implements AutoCloseable {
     return CACHE.get();
   }
 
+  public static <T> T getOrCompute(Key<T> key, Supplier<T> loader) {
+    PerThreadCache cache = get();
+    return cache != null ? cache.get(key, loader) : loader.get();
+  }
+
   private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(10);
 
   private PerThreadCache() {}

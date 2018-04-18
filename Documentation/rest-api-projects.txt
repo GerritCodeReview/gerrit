@@ -1311,7 +1311,7 @@ a link:#change-info[ChangeInfo] entity describing the resulting change.
 --
 
 Runs access checks for other users. This requires the
-link:access-control.html#capability_administrateServer[Administrate Server]
+link:access-control.html#capability_viewAccess[View Access]
 global capability.
 
 Input for the access checks that should be run must be provided in
@@ -1344,6 +1344,14 @@ project-ref, or project-permission-ref combination.
     "status": 403
   }
 ----
+
+This endpoint can also be accessed as a GET request, using the query
+parameters `perm`, `account` and `ref`, for example:
+
+----
+  GET /projects/MyProject/check.access?account=10024&ref=refs/heads/secret/bla
+----
+
 
 [[index]]
 === Index all changes in a project

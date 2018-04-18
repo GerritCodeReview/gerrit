@@ -24,7 +24,7 @@ import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
@@ -57,15 +57,15 @@ public class PatchSetParser {
     this.changeFinder = changeFinder;
   }
 
-  public PatchSet parsePatchSet(String token, ProjectState projectState, String branch)
+  public PatchSet parsePatchSet(String token, ProjectAccessor projectAccessor, String branch)
       throws UnloggedFailure, OrmException {
     // By commit?
     //
     if (token.matches("^([0-9a-fA-F]{4," + RevId.LEN + "})$")) {
       InternalChangeQuery query = queryProvider.get();
       List<ChangeData> cds;
-      if (projectState != null) {
-        Project.NameKey p = projectState.getNameKey();
+      if (projectAccessor != null) {
+        Project.NameKey p = projectAccessor.getNameKey();
         if (branch != null) {
           cds = query.byBranchCommit(p.get(), branch, token);
         } else {
@@ -77,7 +77,7 @@ public class PatchSetParser {
       List<PatchSet> matches = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
         Change c = cd.change();
-        if (!(inProject(c, projectState) && inBranch(c, branch))) {
+        if (!(inProject(c, projectAccessor) && inBranch(c, branch))) {
           continue;
         }
         for (PatchSet ps : cd.patchSets()) {
@@ -106,15 +106,15 @@ public class PatchSetParser {
       } catch (IllegalArgumentException e) {
         throw error("\"" + token + "\" is not a valid patch set");
       }
-      ChangeNotes notes = getNotes(projectState, patchSetId.getParentKey());
+      ChangeNotes notes = getNotes(projectAccessor, patchSetId.getParentKey());
       PatchSet patchSet = psUtil.get(db.get(), notes, patchSetId);
       if (patchSet == null) {
         throw error("\"" + token + "\" no such patch set");
       }
-      if (projectState != null || branch != null) {
+      if (projectAccessor != null || branch != null) {
         Change change = notes.getChange();
-        if (!inProject(change, projectState)) {
-          throw error("change " + change.getId() + " not in project " + projectState.getName());
+        if (!inProject(change, projectAccessor)) {
+          throw error("change " + change.getId() + " not in project " + projectAccessor.getName());
         }
         if (!inBranch(change, branch)) {
           throw error("change " + change.getId() + " not in branch " + branch);
@@ -126,10 +126,10 @@ public class PatchSetParser {
     throw error("\"" + token + "\" is not a valid patch set");
   }
 
-  private ChangeNotes getNotes(@Nullable ProjectState projectState, Change.Id changeId)
+  private ChangeNotes getNotes(@Nullable ProjectAccessor projectAccessor, Change.Id changeId)
       throws OrmException, UnloggedFailure {
-    if (projectState != null) {
-      return notesFactory.create(db.get(), projectState.getNameKey(), changeId);
+    if (projectAccessor != null) {
+      return notesFactory.create(db.get(), projectAccessor.getNameKey(), changeId);
     }
     try {
       ChangeNotes notes = changeFinder.findOne(changeId);
@@ -139,12 +139,12 @@ public class PatchSetParser {
     }
   }
 
-  private static boolean inProject(Change change, ProjectState projectState) {
-    if (projectState == null) {
+  private static boolean inProject(Change change, ProjectAccessor projectAccessor) {
+    if (projectAccessor == null) {
       // No --project option, so they want every project.
       return true;
     }
-    return projectState.getNameKey().equals(change.getProject());
+    return projectAccessor.getNameKey().equals(change.getProject());
   }
 
   private static boolean inBranch(Change change, String branch) {

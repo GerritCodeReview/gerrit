@@ -25,11 +25,13 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ChildProjects;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +42,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   @Option(name = "--recursive", usage = "to list child projects recursively")
   private boolean recursive;
 
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final AllProjectsName allProjects;
@@ -48,11 +51,13 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
 
   @Inject
   ListChildProjects(
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       AllProjectsName allProjectsName,
       ProjectJson json,
       ChildProjects childProjects) {
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.allProjects = allProjectsName;
@@ -67,7 +72,7 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
   @Override
   public List<ProjectInfo> apply(ProjectResource rsrc)
       throws PermissionBackendException, ResourceConflictException {
-    rsrc.getProjectState().checkStatePermitsRead();
+    rsrc.getProjectAccessor().checkStatePermitsRead();
     if (recursive) {
       return childProjects.list(rsrc.getNameKey());
     }
@@ -79,11 +84,13 @@ public class ListChildProjects implements RestReadView<ProjectResource> {
       throws PermissionBackendException {
     Map<Project.NameKey, Project> children = new HashMap<>();
     for (Project.NameKey name : projectCache.all()) {
-      ProjectState c = projectCache.get(name);
-      if (c != null
-          && parent.equals(c.getProject().getParent(allProjects))
-          && c.statePermitsRead()) {
-        children.put(c.getNameKey(), c.getProject());
+      try {
+        ProjectAccessor c = projectAccessorFactory.create(name);
+        if (parent.equals(c.getProject().getParent(allProjects)) && c.statePermitsRead()) {
+          children.put(c.getNameKey(), c.getProject());
+        }
+      } catch (NoSuchProjectException | IOException e) {
+        // Already logged by ProjectCacheImpl.
       }
     }
     return permissionBackend

@@ -35,7 +35,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -87,45 +87,45 @@ public class DeleteRef {
   /**
    * Deletes a single ref from the repository.
    *
-   * @param projectState the {@code ProjectState} of the project containing the target ref.
+   * @param projectAccessor the {@code ProjectAccessor} of the project containing the target ref.
    * @param ref the ref to be deleted.
    * @throws IOException
    * @throws ResourceConflictException
    */
-  public void deleteSingleRef(ProjectState projectState, String ref)
+  public void deleteSingleRef(ProjectAccessor projectAccessor, String ref)
       throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
-    deleteSingleRef(projectState, ref, null);
+    deleteSingleRef(projectAccessor, ref, null);
   }
 
   /**
    * Deletes a single ref from the repository.
    *
-   * @param projectState the {@code ProjectState} of the project containing the target ref.
+   * @param projectAccessor the {@code ProjectAccessor} of the project containing the target ref.
    * @param ref the ref to be deleted.
    * @param prefix the prefix of the ref.
    * @throws IOException
    * @throws ResourceConflictException
    */
-  public void deleteSingleRef(ProjectState projectState, String ref, @Nullable String prefix)
+  public void deleteSingleRef(ProjectAccessor projectAccessor, String ref, @Nullable String prefix)
       throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
     if (prefix != null && !ref.startsWith(R_REFS)) {
       ref = prefix + ref;
     }
 
-    projectState.checkStatePermitsWrite();
+    projectAccessor.checkStatePermitsWrite();
     permissionBackend
         .currentUser()
-        .project(projectState.getNameKey())
+        .project(projectAccessor.getNameKey())
         .ref(ref)
         .check(RefPermission.DELETE);
 
-    try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
+    try (Repository repository = repoManager.openRepository(projectAccessor.getNameKey())) {
       RefUpdate.Result result;
       RefUpdate u = repository.updateRef(ref);
       u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
-      refDeletionValidator.validateRefOperation(projectState.getName(), identifiedUser.get(), u);
+      refDeletionValidator.validateRefOperation(projectAccessor.getName(), identifiedUser.get(), u);
       int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
       for (; ; ) {
         try {
@@ -150,7 +150,7 @@ public class DeleteRef {
         case FAST_FORWARD:
         case FORCED:
           referenceUpdated.fire(
-              projectState.getNameKey(),
+              projectAccessor.getNameKey(),
               u,
               ReceiveCommand.Type.DELETE,
               identifiedUser.get().state());
@@ -177,7 +177,7 @@ public class DeleteRef {
   /**
    * Deletes a set of refs from the repository.
    *
-   * @param projectState the {@code ProjectState} of the project whose refs are to be deleted.
+   * @param projectAccessor the {@code ProjectAccessor} of the project whose refs are to be deleted.
    * @param refsToDelete the refs to be deleted.
    * @param prefix the prefix of the refs.
    * @throws OrmException
@@ -186,7 +186,7 @@ public class DeleteRef {
    * @throws PermissionBackendException
    */
   public void deleteMultipleRefs(
-      ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)
+      ProjectAccessor projectAccessor, ImmutableSet<String> refsToDelete, String prefix)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException,
           AuthException {
     if (refsToDelete.isEmpty()) {
@@ -194,11 +194,11 @@ public class DeleteRef {
     }
 
     if (refsToDelete.size() == 1) {
-      deleteSingleRef(projectState, Iterables.getOnlyElement(refsToDelete), prefix);
+      deleteSingleRef(projectAccessor, Iterables.getOnlyElement(refsToDelete), prefix);
       return;
     }
 
-    try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
+    try (Repository repository = repoManager.openRepository(projectAccessor.getNameKey())) {
       BatchRefUpdate batchUpdate = repository.getRefDatabase().newBatchUpdate();
       batchUpdate.setAtomic(false);
       ImmutableSet<String> refs =
@@ -209,7 +209,7 @@ public class DeleteRef {
                   .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
                   .collect(toImmutableSet());
       for (String ref : refs) {
-        batchUpdate.addCommand(createDeleteCommand(projectState, repository, ref));
+        batchUpdate.addCommand(createDeleteCommand(projectAccessor, repository, ref));
       }
       try (RevWalk rw = new RevWalk(repository)) {
         batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
@@ -217,7 +217,7 @@ public class DeleteRef {
       StringBuilder errorMessages = new StringBuilder();
       for (ReceiveCommand command : batchUpdate.getCommands()) {
         if (command.getResult() == Result.OK) {
-          postDeletion(projectState.getNameKey(), command);
+          postDeletion(projectAccessor.getNameKey(), command);
         } else {
           appendAndLogErrorMessage(errorMessages, command);
         }
@@ -229,7 +229,7 @@ public class DeleteRef {
   }
 
   private ReceiveCommand createDeleteCommand(
-      ProjectState projectState, Repository r, String refName)
+      ProjectAccessor projectAccessor, Repository r, String refName)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
     Ref ref = r.getRefDatabase().getRef(refName);
     ReceiveCommand command;
@@ -249,7 +249,7 @@ public class DeleteRef {
       try {
         permissionBackend
             .currentUser()
-            .project(projectState.getNameKey())
+            .project(projectAccessor.getNameKey())
             .ref(refName)
             .check(RefPermission.DELETE);
       } catch (AuthException denied) {
@@ -259,12 +259,12 @@ public class DeleteRef {
       }
     }
 
-    if (!projectState.statePermitsWrite()) {
+    if (!projectAccessor.statePermitsWrite()) {
       command.setResult(Result.REJECTED_OTHER_REASON, "project state does not permit write");
     }
 
     if (!refName.startsWith(R_TAGS)) {
-      Branch.NameKey branchKey = new Branch.NameKey(projectState.getNameKey(), ref.getName());
+      Branch.NameKey branchKey = new Branch.NameKey(projectAccessor.getNameKey(), ref.getName());
       if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
         command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
       }
@@ -274,7 +274,7 @@ public class DeleteRef {
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(r.exactRef(refName).getObjectId());
     u.setNewObjectId(ObjectId.zeroId());
-    refDeletionValidator.validateRefOperation(projectState.getName(), identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(projectAccessor.getName(), identifiedUser.get(), u);
     return command;
   }
 

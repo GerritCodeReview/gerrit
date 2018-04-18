@@ -30,6 +30,7 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestCollectionView;
@@ -87,7 +88,7 @@ public class RebaseChangeEdit
     protected Response<?> applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input in)
         throws AuthException, ResourceConflictException, IOException, OrmException,
-            PermissionBackendException {
+            PermissionBackendException, NoSuchProjectException {
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
         editModifier.rebaseEdit(repository, rsrc.getNotes());

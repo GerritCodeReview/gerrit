@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.LabelVote;
@@ -78,7 +79,8 @@ public class ReviewCommand extends SshCommand {
       usage = "list of commits or patch sets to review")
   void addPatchSetId(String token) {
     try {
-      PatchSet ps = psParser.parsePatchSet(token, projectState, branch);
+      PatchSet ps =
+          psParser.parsePatchSet(token, projectAccessorFactory.create(projectState), branch);
       patchSets.add(ps);
     } catch (UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
@@ -153,6 +155,8 @@ public class ReviewCommand extends SshCommand {
   @Inject private GerritApi gApi;
 
   @Inject private PatchSetParser psParser;
+
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
 
   private List<ApproveOption> optionList;
   private Map<String, Short> customLabels;

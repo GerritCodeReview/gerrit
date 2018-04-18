@@ -205,6 +205,7 @@ public class RefControlTest {
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private DefaultRefFilter.Factory refFilterFactory;
   @Inject private IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -953,7 +954,6 @@ public class RefControlTest {
   private InMemoryRepository add(ProjectConfig pc) {
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
-
     InMemoryRepository repo;
     try {
       repo = repoManager.createRepository(pc.getName());
@@ -966,10 +966,12 @@ public class RefControlTest {
     all.put(
         pc.getName(),
         new ProjectAccessor(
+            projectAccessorFactory,
             projectCache,
             allProjectsName,
             new ProjectState(
                 sitePaths,
+                projectAccessorFactory,
                 projectCache,
                 allProjectsName,
                 allUsersName,

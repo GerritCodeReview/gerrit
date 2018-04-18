@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Sets;
@@ -27,9 +26,10 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -55,6 +55,7 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
 
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final Provider<MetaDataUpdate.Server> metaDataUpdateFactory;
 
@@ -62,10 +63,12 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
   CreateGroupPermissionSyncer(
       AllProjectsName allProjects,
       AllUsersName allUsers,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       Provider<MetaDataUpdate.Server> metaDataUpdateFactory) {
     this.allProjects = allProjects;
     this.allUsers = allUsers;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
   }
@@ -76,17 +79,21 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
    * refs/groups/*}.
    */
   public void syncIfNeeded() throws IOException, ConfigInvalidException {
-    ProjectState allProjectsState = projectCache.checkedGet(allProjects);
-    checkNotNull(allProjectsState, "Can't obtain project state for " + allProjects);
-    ProjectState allUsersState = projectCache.checkedGet(allUsers);
-    checkNotNull(allUsersState, "Can't obtain project state for " + allUsers);
+    ProjectAccessor allProjectsAccessor;
+    ProjectAccessor allUsersAccessor;
+    try {
+      allProjectsAccessor = projectAccessorFactory.create(allProjects);
+      allUsersAccessor = projectAccessorFactory.create(allUsers);
+    } catch (NoSuchProjectException e) {
+      throw new RuntimeException(e);
+    }
 
     Set<PermissionRule> createGroupsGlobal =
-        new HashSet<>(allProjectsState.getCapabilityCollection().createGroup);
+        new HashSet<>(allProjectsAccessor.getProjectState().getCapabilityCollection().createGroup);
     Set<PermissionRule> createGroupsRef = new HashSet<>();
 
     AccessSection allUsersCreateGroupAccessSection =
-        allUsersState.getConfig().getAccessSection(RefNames.REFS_GROUPS + "*");
+        allUsersAccessor.getConfig().getAccessSection(RefNames.REFS_GROUPS + "*");
     if (allUsersCreateGroupAccessSection != null) {
       Permission create = allUsersCreateGroupAccessSection.getPermission(Permission.CREATE);
       if (create != null && create.getRules() != null) {

@@ -43,7 +43,7 @@ import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -77,7 +77,7 @@ class DefaultRefFilter {
   private final PermissionBackend permissionBackend;
   private final ProjectControl projectControl;
   private final CurrentUser user;
-  private final ProjectState projectState;
+  private final ProjectAccessor projectAccessor;
   private final PermissionBackend.ForProject permissionBackendForProject;
 
   private Map<Change.Id, Branch.NameKey> visibleChanges;
@@ -100,20 +100,20 @@ class DefaultRefFilter {
     this.projectControl = projectControl;
 
     this.user = projectControl.getUser();
-    this.projectState = projectControl.getProjectState();
+    this.projectAccessor = projectControl.getProjectAccessor();
     this.permissionBackendForProject =
-        permissionBackend.user(user).database(db).project(projectState.getNameKey());
+        permissionBackend.user(user).database(db).project(projectAccessor.getNameKey());
   }
 
   Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts) {
-    if (projectState.isAllUsers()) {
+    if (projectAccessor.getProjectState().isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
 
     PermissionBackend.WithUser withUser = permissionBackend.user(user);
-    PermissionBackend.ForProject forProject = withUser.project(projectState.getNameKey());
-    if (!projectState.isAllUsers()) {
-      if (projectState.statePermitsRead()
+    PermissionBackend.ForProject forProject = withUser.project(projectAccessor.getNameKey());
+    if (!projectAccessor.getProjectState().isAllUsers()) {
+      if (projectAccessor.statePermitsRead()
           && checkProjectPermission(forProject, ProjectPermission.READ)) {
         return refs;
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
@@ -181,7 +181,7 @@ class DefaultRefFilter {
         if (viewMetadata) {
           result.put(name, ref);
         }
-      } else if (projectState.isAllUsers()
+      } else if (projectAccessor.getProjectState().isAllUsers()
           && (name.equals(RefNames.REFS_EXTERNAL_IDS) || name.equals(RefNames.REFS_GROUPNAMES))) {
         // The notes branches with the external IDs / group names must not be exposed to normal
         // users.
@@ -208,7 +208,7 @@ class DefaultRefFilter {
     if (!deferredTags.isEmpty() && (!result.isEmpty() || opts.filterTagsSeparately())) {
       TagMatcher tags =
           tagCache
-              .get(projectState.getNameKey())
+              .get(projectAccessor.getNameKey())
               .matcher(
                   tagCache,
                   repo,
@@ -286,7 +286,7 @@ class DefaultRefFilter {
         return false;
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log(
-            "Failed to check permission for %s in %s", id, projectState.getName());
+            "Failed to check permission for %s in %s", id, projectAccessor.getName());
         return false;
       }
     }
@@ -294,12 +294,12 @@ class DefaultRefFilter {
   }
 
   private Map<Change.Id, Branch.NameKey> visibleChangesBySearch() {
-    Project.NameKey project = projectState.getNameKey();
+    Project.NameKey project = projectAccessor.getNameKey();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(db.get(), project)) {
         ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
-        if (!projectState.statePermitsRead()) {
+        if (!projectAccessor.statePermitsRead()) {
           continue;
         }
         try {
@@ -318,7 +318,7 @@ class DefaultRefFilter {
   }
 
   private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo) {
-    Project.NameKey p = projectState.getNameKey();
+    Project.NameKey p = projectAccessor.getNameKey();
     Stream<ChangeNotesResult> s;
     try {
       s = changeNotesFactory.scan(repo, db.get(), p);
@@ -336,11 +336,11 @@ class DefaultRefFilter {
   private ChangeNotes toNotes(ChangeNotesResult r) {
     if (r.error().isPresent()) {
       logger.atWarning().withCause(r.error().get()).log(
-          "Failed to load change %s in %s", r.id(), projectState.getName());
+          "Failed to load change %s in %s", r.id(), projectAccessor.getName());
       return null;
     }
 
-    if (!projectState.statePermitsRead()) {
+    if (!projectAccessor.statePermitsRead()) {
       return null;
     }
 
@@ -351,7 +351,7 @@ class DefaultRefFilter {
       // Skip.
     } catch (PermissionBackendException e) {
       logger.atSevere().withCause(e).log(
-          "Failed to check permission for %s in %s", r.id(), projectState.getName());
+          "Failed to check permission for %s in %s", r.id(), projectAccessor.getName());
     }
     return null;
   }
@@ -377,7 +377,7 @@ class DefaultRefFilter {
       logger.atSevere().withCause(e).log("unable to check permissions");
       return false;
     }
-    return projectState.statePermitsRead();
+    return projectAccessor.statePermitsRead();
   }
 
   private boolean checkProjectPermission(
@@ -388,7 +388,7 @@ class DefaultRefFilter {
       return false;
     } catch (PermissionBackendException e) {
       logger.atSevere().withCause(e).log(
-          "Can't check permission for user %s on project %s", user, projectState.getName());
+          "Can't check permission for user %s on project %s", user, projectAccessor.getName());
       return false;
     }
     return true;

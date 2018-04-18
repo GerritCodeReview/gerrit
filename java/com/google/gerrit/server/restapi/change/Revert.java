@@ -58,7 +58,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -105,7 +105,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final ApprovalsUtil approvalsUtil;
   private final ChangeReverted changeReverted;
   private final ContributorAgreementsChecker contributorAgreements;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final NotifyUtil notifyUtil;
 
   @Inject
@@ -124,7 +124,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ApprovalsUtil approvalsUtil,
       ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       NotifyUtil notifyUtil) {
     super(retryHelper);
     this.db = db;
@@ -140,7 +140,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.approvalsUtil = approvalsUtil;
     this.changeReverted = changeReverted;
     this.contributorAgreements = contributorAgreements;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.notifyUtil = notifyUtil;
   }
 
@@ -156,7 +156,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
-    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
+    projectAccessorFactory.create(rsrc.getProject()).checkStatePermitsWrite();
 
     Change.Id revertId = revert(updateFactory, rsrc.getNotes(), rsrc.getUser(), input);
     return json.noOptions().format(rsrc.getProject(), revertId);
@@ -262,8 +262,9 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     Change change = rsrc.getChange();
     boolean projectStatePermitsWrite = false;
     try {
-      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
-    } catch (IOException e) {
+      projectStatePermitsWrite =
+          projectAccessorFactory.create(rsrc.getProject()).statePermitsWrite();
+    } catch (NoSuchProjectException | IOException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if project state permits write: %s", rsrc.getProject());
     }

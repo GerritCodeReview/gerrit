@@ -40,7 +40,8 @@ import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -70,7 +71,7 @@ public class AccountManager {
   private final Realm realm;
   private final IdentifiedUser.GenericFactory userFactory;
   private final SshKeyCache sshKeyCache;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final AtomicBoolean awaitsFirstAccountCheck;
   private final ExternalIds externalIds;
   private final GroupsUpdate.Factory groupsUpdateFactory;
@@ -87,7 +88,7 @@ public class AccountManager {
       Realm accountMapper,
       IdentifiedUser.GenericFactory userFactory,
       SshKeyCache sshKeyCache,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       ExternalIds externalIds,
       GroupsUpdate.Factory groupsUpdateFactory,
       SetInactiveFlag setInactiveFlag) {
@@ -98,7 +99,7 @@ public class AccountManager {
     this.realm = accountMapper;
     this.userFactory = userFactory;
     this.sshKeyCache = sshKeyCache;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.awaitsFirstAccountCheck =
         new AtomicBoolean(cfg.getBoolean("capability", "makeFirstUserAdmin", true));
     this.externalIds = externalIds;
@@ -177,7 +178,7 @@ public class AccountManager {
       // return the identity to the caller.
       update(who, extId);
       return new AuthResult(extId.accountId(), who.getExternalIdKey(), false);
-    } catch (OrmException | ConfigInvalidException e) {
+    } catch (NoSuchProjectException | OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
     }
   }
@@ -279,7 +280,8 @@ public class AccountManager {
   }
 
   private AuthResult create(AuthRequest who)
-      throws OrmException, AccountException, IOException, ConfigInvalidException {
+      throws OrmException, AccountException, IOException, ConfigInvalidException,
+          NoSuchProjectException {
     Account.Id newId = new Account.Id(sequences.nextAccountId());
     logger.atFine().log("Assigning new Id %s to account", newId);
 
@@ -334,8 +336,8 @@ public class AccountManager {
       // to bootstrap the authentication database.
       //
       Permission admin =
-          projectCache
-              .getAllProjects()
+          projectAccessorFactory
+              .createForAllProjects()
               .getConfig()
               .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
               .getPermission(GlobalCapability.ADMINISTRATE_SERVER);

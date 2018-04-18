@@ -44,7 +44,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -76,8 +77,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   private final ChangeJson.Factory json;
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
   private final PatchSetUtil patchSetUtil;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   public Rebase(
@@ -88,8 +89,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
-      PatchSetUtil patchSetUtil) {
+      PatchSetUtil patchSetUtil,
+      ProjectAccessor.Factory projectAccessorFactory) {
     super(retryHelper);
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
@@ -97,20 +98,21 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     this.json = json;
     this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
     this.patchSetUtil = patchSetUtil;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, RebaseInput input)
       throws OrmException, UpdateException, RestApiException, IOException,
-          PermissionBackendException {
+          PermissionBackendException, NoSuchProjectException {
     // Not allowed to rebase if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().database(dbProvider).check(ChangePermission.REBASE);
-    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(rsrc.getProject());
+    projectAccessor.checkStatePermitsWrite();
 
     Change change = rsrc.getChange();
     try (Repository repo = repoManager.openRepository(change.getProject());
@@ -218,10 +220,10 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     }
 
     try {
-      if (!projectCache.checkedGet(rsrc.getProject()).statePermitsWrite()) {
+      if (!projectAccessorFactory.create(rsrc.getProject()).statePermitsWrite()) {
         return description;
       }
-    } catch (IOException e) {
+    } catch (NoSuchProjectException | IOException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if project state permits write: %s", rsrc.getProject());
       return description;
@@ -271,7 +273,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     protected ChangeInfo applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
         throws OrmException, UpdateException, RestApiException, IOException,
-            PermissionBackendException {
+            PermissionBackendException, NoSuchProjectException {
       PatchSet ps = psUtil.current(rebase.dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

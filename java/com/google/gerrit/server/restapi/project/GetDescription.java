@@ -23,6 +23,6 @@ import com.google.inject.Singleton;
 public class GetDescription implements RestReadView<ProjectResource> {
   @Override
   public String apply(ProjectResource rsrc) {
-    return Strings.nullToEmpty(rsrc.getProjectState().getProject().getDescription());
+    return Strings.nullToEmpty(rsrc.getProjectAccessor().getProject().getDescription());
   }
 }

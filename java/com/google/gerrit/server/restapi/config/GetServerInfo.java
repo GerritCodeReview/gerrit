@@ -60,11 +60,12 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.restapi.change.AllowedFormats;
 import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.inject.Inject;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -96,7 +97,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final boolean enableSignedPush;
   private final QueryDocumentationExecutor docSearcher;
   private final NotesMigration migration;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final AgreementJson agreementJson;
   private final GerritOptions gerritOptions;
   private final ChangeIndexCollection indexes;
@@ -120,7 +121,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       @EnableSignedPush boolean enableSignedPush,
       QueryDocumentationExecutor docSearcher,
       NotesMigration migration,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       AgreementJson agreementJson,
       GerritOptions gerritOptions,
       ChangeIndexCollection indexes,
@@ -141,7 +142,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.enableSignedPush = enableSignedPush;
     this.docSearcher = docSearcher;
     this.migration = migration;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.agreementJson = agreementJson;
     this.gerritOptions = gerritOptions;
     this.indexes = indexes;
@@ -150,7 +151,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
   @Override
   public ServerInfo apply(ConfigResource rsrc)
-      throws MalformedURLException, PermissionBackendException {
+      throws IOException, PermissionBackendException, NoSuchProjectException {
     ServerInfo info = new ServerInfo();
     info.accounts = getAccountsInfo(accountVisibilityProvider);
     info.auth = getAuthInfo(authConfig, realm);
@@ -180,7 +181,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private AuthInfo getAuthInfo(AuthConfig cfg, Realm realm) throws PermissionBackendException {
+  private AuthInfo getAuthInfo(AuthConfig cfg, Realm realm)
+      throws PermissionBackendException, NoSuchProjectException, IOException {
     AuthInfo info = new AuthInfo();
     info.authType = cfg.getAuthType();
     info.useContributorAgreements = toBoolean(cfg.isUseContributorAgreements());
@@ -190,7 +192,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
     if (info.useContributorAgreements != null) {
       Collection<ContributorAgreement> agreements =
-          projectCache.getAllProjects().getConfig().getContributorAgreements();
+          projectAccessorFactory.createForAllProjects().getConfig().getContributorAgreements();
       if (!agreements.isEmpty()) {
         info.contributorAgreements = Lists.newArrayListWithCapacity(agreements.size());
         for (ContributorAgreement agreement : agreements) {

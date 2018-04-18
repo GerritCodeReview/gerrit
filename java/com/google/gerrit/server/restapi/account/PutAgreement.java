@@ -33,7 +33,8 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.AgreementSignup;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.restapi.group.AddMembers;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -45,7 +46,7 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PutAgreement implements RestModifyView<AccountResource, AgreementInput> {
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final Provider<IdentifiedUser> self;
   private final AgreementSignup agreementSignup;
   private final AddMembers addMembers;
@@ -53,12 +54,12 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
   @Inject
   PutAgreement(
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       Provider<IdentifiedUser> self,
       AgreementSignup agreementSignup,
       AddMembers addMembers,
       @GerritServerConfig Config config) {
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.self = self;
     this.agreementSignup = agreementSignup;
     this.addMembers = addMembers;
@@ -67,7 +68,8 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
   @Override
   public Response<String> apply(AccountResource resource, AgreementInput input)
-      throws IOException, OrmException, RestApiException, ConfigInvalidException {
+      throws IOException, OrmException, RestApiException, ConfigInvalidException,
+          NoSuchProjectException {
     if (!agreementsEnabled) {
       throw new MethodNotAllowedException("contributor agreements disabled");
     }
@@ -78,7 +80,10 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
     String agreementName = Strings.nullToEmpty(input.name);
     ContributorAgreement ca =
-        projectCache.getAllProjects().getConfig().getContributorAgreement(agreementName);
+        projectAccessorFactory
+            .createForAllProjects()
+            .getConfig()
+            .getContributorAgreement(agreementName);
     if (ca == null) {
       throw new UnprocessableEntityException("contributor agreement not found");
     }

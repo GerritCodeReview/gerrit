@@ -40,8 +40,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -213,7 +213,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     private final DynamicSet<PreUploadHook> preUploadHooks;
     private final UploadValidators.Factory uploadValidatorsFactory;
     private final ThreadLocalRequestContext threadContext;
-    private final ProjectCache projectCache;
+    private final ProjectAccessor.Factory projectAccessorFactory;
     private final PermissionBackend permissionBackend;
 
     @Inject
@@ -223,14 +223,14 @@ class InProcessProtocol extends TestProtocol<Context> {
         DynamicSet<PreUploadHook> preUploadHooks,
         UploadValidators.Factory uploadValidatorsFactory,
         ThreadLocalRequestContext threadContext,
-        ProjectCache projectCache,
+        ProjectAccessor.Factory projectAccessorFactory,
         PermissionBackend permissionBackend) {
       this.transferConfig = transferConfig;
       this.uploadPackInitializers = uploadPackInitializers;
       this.preUploadHooks = preUploadHooks;
       this.uploadValidatorsFactory = uploadValidatorsFactory;
       this.threadContext = threadContext;
-      this.projectCache = projectCache;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.permissionBackend = permissionBackend;
     }
 
@@ -252,21 +252,19 @@ class InProcessProtocol extends TestProtocol<Context> {
         throw new RuntimeException(e);
       }
 
-      ProjectState projectState;
+      ProjectAccessor projectAccessor;
       try {
-        projectState = projectCache.checkedGet(req.project);
-      } catch (IOException e) {
+        projectAccessor = projectAccessorFactory.create(req.project);
+      } catch (NoSuchProjectException | IOException e) {
         throw new RuntimeException(e);
-      }
-      if (projectState == null) {
-        throw new RuntimeException("can't load project state for " + req.project.get());
       }
       UploadPack up = new UploadPack(repo);
       up.setPackConfig(transferConfig.getPackConfig());
       up.setTimeout(transferConfig.getTimeout());
       up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
       List<PreUploadHook> hooks = Lists.newArrayList(preUploadHooks);
-      hooks.add(uploadValidatorsFactory.create(projectState.getProject(), repo, "localhost-test"));
+      hooks.add(
+          uploadValidatorsFactory.create(projectAccessor.getProject(), repo, "localhost-test"));
       up.setPreUploadHook(PreUploadHookChain.newChain(hooks));
       for (UploadPackInitializer initializer : uploadPackInitializers) {
         initializer.init(req.project, up);
@@ -277,7 +275,7 @@ class InProcessProtocol extends TestProtocol<Context> {
 
   private static class Receive implements ReceivePackFactory<Context> {
     private final Provider<CurrentUser> userProvider;
-    private final ProjectCache projectCache;
+    private final ProjectAccessor.Factory projectAccessorFactory;
     private final AsyncReceiveCommits.Factory factory;
     private final TransferConfig config;
     private final DynamicSet<ReceivePackInitializer> receivePackInitializers;
@@ -288,7 +286,7 @@ class InProcessProtocol extends TestProtocol<Context> {
     @Inject
     Receive(
         Provider<CurrentUser> userProvider,
-        ProjectCache projectCache,
+        ProjectAccessor.Factory projectAccessorFactory,
         AsyncReceiveCommits.Factory factory,
         TransferConfig config,
         DynamicSet<ReceivePackInitializer> receivePackInitializers,
@@ -296,7 +294,7 @@ class InProcessProtocol extends TestProtocol<Context> {
         ThreadLocalRequestContext threadContext,
         PermissionBackend permissionBackend) {
       this.userProvider = userProvider;
-      this.projectCache = projectCache;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.factory = factory;
       this.config = config;
       this.receivePackInitializers = receivePackInitializers;
@@ -325,13 +323,10 @@ class InProcessProtocol extends TestProtocol<Context> {
       }
       try {
         IdentifiedUser identifiedUser = userProvider.get().asIdentifiedUser();
-        ProjectState projectState = projectCache.checkedGet(req.project);
-        if (projectState == null) {
-          throw new RuntimeException(String.format("project %s not found", req.project));
-        }
+        ProjectAccessor projectAccessor = projectAccessorFactory.create(req.project);
 
         AsyncReceiveCommits arc =
-            factory.create(projectState, identifiedUser, db, null, ImmutableSetMultimap.of());
+            factory.create(projectAccessor, identifiedUser, db, null, ImmutableSetMultimap.of());
         ReceivePack rp = arc.getReceivePack();
 
         Capable r = arc.canUpload();
@@ -344,12 +339,12 @@ class InProcessProtocol extends TestProtocol<Context> {
         rp.setMaxObjectSizeLimit(config.getMaxObjectSizeLimit());
 
         for (ReceivePackInitializer initializer : receivePackInitializers) {
-          initializer.init(projectState.getNameKey(), rp);
+          initializer.init(projectAccessor.getNameKey(), rp);
         }
 
         rp.setPostReceiveHook(PostReceiveHookChain.newChain(Lists.newArrayList(postReceiveHooks)));
         return rp;
-      } catch (IOException | PermissionBackendException e) {
+      } catch (NoSuchProjectException | IOException | PermissionBackendException e) {
         throw new RuntimeException(e);
       }
     }

@@ -25,8 +25,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.project.CommitResource;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.Reachable;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -75,7 +75,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   @Override
   public CommitResource parse(ProjectResource parent, IdString id)
       throws RestApiException, IOException {
-    parent.getProjectState().checkStatePermitsRead();
+    parent.getProjectAccessor().checkStatePermitsRead();
     ObjectId objectId;
     try {
       objectId = ObjectId.fromString(id.get());
@@ -87,7 +87,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(objectId);
       rw.parseBody(commit);
-      if (!canRead(parent.getProjectState(), repo, commit)) {
+      if (!canRead(parent.getProjectAccessor(), repo, commit)) {
         throw new ResourceNotFoundException(id);
       }
       for (int i = 0; i < commit.getParentCount(); i++) {
@@ -105,8 +105,8 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   }
 
   /** @return true if {@code commit} is visible to the caller. */
-  public boolean canRead(ProjectState state, Repository repo, RevCommit commit) {
-    Project.NameKey project = state.getNameKey();
+  public boolean canRead(ProjectAccessor accessor, Repository repo, RevCommit commit) {
+    Project.NameKey project = accessor.getNameKey();
 
     // Look for changes associated with the commit.
     if (indexes.getSearchIndex() != null) {

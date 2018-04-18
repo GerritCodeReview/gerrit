@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e10c501d_3b10f58f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T13:52:49Z",
+      "side": 1,
+      "message": "Remove the optional parameter here and call _sendChangeReviewerRequest with \u0027REVIEWER\u0027 inline as a parameter. Then, create another function that does the same for CCs.\n\n    addChangeCC(changeNum, reviewerID) {\n      return this._sendChangeReviewerRequest(\u0027POST\u0027, changeNum, reviewerID, \u0027CC\u0027);\n    },\n\nAlso, remember to wrap at 80ch.",
+      "range": {
+        "startLine": 1280,
+        "startChar": 4,
+        "endLine": 1282,
+        "endChar": 6
+      },
+      "revId": "59f5a0ec61a635f3edb22f10ec0a54e73c02d5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e80ca33_741e6f98",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T13:52:49Z",
+      "side": 1,
+      "message": "Param can just be \u0027state\u0027.",
+      "range": {
+        "startLine": 1288,
+        "startChar": 62,
+        "endLine": 1288,
+        "endChar": 75
+      },
+      "revId": "59f5a0ec61a635f3edb22f10ec0a54e73c02d5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36744879_c0ba4804",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T13:52:49Z",
+      "side": 1,
+      "message": "We actually don\u0027t do default variables like this in PolyGerrit. You can remove this default variable and write the addChangeReviewer function a bit differently.",
+      "range": {
+        "startLine": 1288,
+        "startChar": 62,
+        "endLine": 1288,
+        "endChar": 88
+      },
+      "revId": "59f5a0ec61a635f3edb22f10ec0a54e73c02d5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

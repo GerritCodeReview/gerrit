@@ -62,6 +62,52 @@
       "revId": "51b5d500f26699eff2f253435724c0228f17a533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83957e50_7f9e9ece",
+        "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T12:20:12Z",
+      "side": 1,
+      "message": "Omit \"reloadable\" from the message? \"No config entries updated\" is shorter and clearer.",
+      "range": {
+        "startLine": 45,
+        "startChar": 22,
+        "endLine": 45,
+        "endChar": 58
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24182690_c0bb6c33",
+        "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T12:20:12Z",
+      "side": 1,
+      "message": "IMHO, ConfigUpdateEntry.toString should only be used for logging/debugging.\nIf ConfigUpdateEntry knows how to format itself for SSH output, then by the same\nargument it should also know how to format itself for a REST response (where we\nwill likely want a json representation). I believe that SSH command(s) should\nbe responsible for formatting their output.",
+      "range": {
+        "startLine": 59,
+        "startChar": 55,
+        "endLine": 59,
+        "endChar": 65
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

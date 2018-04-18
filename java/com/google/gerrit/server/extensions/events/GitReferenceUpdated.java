@@ -159,7 +159,7 @@ public class GitReferenceUpdated {
     }
   }
 
-  private static class Event implements GitReferenceUpdatedListener.Event {
+  public static class Event implements GitReferenceUpdatedListener.Event {
     private final String projectName;
     private final String ref;
     private final String oldObjectId;

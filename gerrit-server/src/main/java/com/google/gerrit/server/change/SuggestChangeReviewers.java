@@ -86,7 +86,8 @@ public class SuggestChangeReviewers extends SuggestReviewers
   private VisibilityControl getVisibility(ChangeResource rsrc) {
     // Use the destination reference, not the change, as drafts may deny
     // anyone who is not already a reviewer.
-    // TODO(hiesel) Replace this with a check on the change resource once support for drafts was removed
+    // TODO(hiesel) Replace this with a check on the change resource once support for drafts was
+    // removed
     PermissionBackend.ForRef perm = permissionBackend.user(self).ref(rsrc.getChange().getDest());
     return new VisibilityControl() {
       @Override

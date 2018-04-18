@@ -202,7 +202,7 @@ public class InMemoryModule extends FactoryModule {
             return CanonicalWebUrlProvider.class;
           }
         });
-    //Replacement of DiffExecutorModule to not use thread pool in the tests
+    // Replacement of DiffExecutorModule to not use thread pool in the tests
     install(
         new AbstractModule() {
           @Override

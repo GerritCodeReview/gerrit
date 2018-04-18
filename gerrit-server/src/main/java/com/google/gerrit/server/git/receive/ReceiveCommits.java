@@ -2938,7 +2938,7 @@ class ReceiveCommits {
       try {
         r.put(cd.change().getKey(), cd.notes());
       } catch (NoSuchChangeException e) {
-        //Ignore deleted change
+        // Ignore deleted change
       }
     }
     return r;

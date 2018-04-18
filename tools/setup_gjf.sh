@@ -17,7 +17,7 @@
 set -eu
 
 # Keep this version in sync with dev-contributing.txt.
-VERSION=${1:-1.3}
+VERSION=${1:-1.5}
 
 case "$VERSION" in
 1.3)

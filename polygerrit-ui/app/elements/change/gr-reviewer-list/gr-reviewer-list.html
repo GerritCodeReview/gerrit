@@ -32,19 +32,8 @@ limitations under the License.
         opacity: .8;
         pointer-events: none;
       }
-      .autocompleteContainer {
-        position: relative;
-      }
       .hiddenReviewers {
         margin-top: .3em;
-      }
-      .inputContainer {
-        display: flex;
-        margin-top: .25em;
-      }
-      .inputContainer input {
-        flex: 1;
-        font: inherit;
       }
       gr-account-chip {
         margin-top: .3em;
@@ -67,25 +56,21 @@ limitations under the License.
         }
       }
     </style>
-    <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
-      <gr-account-chip class="reviewer" account="[[reviewer]]"
-          on-remove="_handleRemove"
-          additional-text="[[_computeReviewerTooltip(reviewer, change)]]"
-          removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
-      </gr-account-chip>
-    </template>
+    <gr-account-list
+        id="accounts"
+        placeholder="[[_addLabel]]"
+        accounts="{{_reviewers}}"
+        change="[[change]]"
+        readonly="[[!mutable]]"
+        on-add="_handleAdd"
+        on-remove="_handleRemove">
+    </gr-account-list>
     <gr-button
         class="hiddenReviewers"
         link
         hidden$="[[!_hiddenReviewerCount]]"
         on-tap="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>
     <div class="controlsContainer" hidden$="[[!mutable]]">
-      <gr-button
-          link
-          id="addReviewer"
-          class="addReviewer"
-          on-tap="_handleAddTap">[[_addLabel]]</gr-button>
-    </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-reviewer-list.js"></script>

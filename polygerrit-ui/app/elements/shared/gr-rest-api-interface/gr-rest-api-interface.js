@@ -1306,7 +1306,7 @@
                 throw Error('Unsupported HTTP method: ' + method);
             }
 
-            return this.send(method, url, body);
+            return this.send(method, url, body).then(response => this.getResponseObject(response));
           });
     },
 

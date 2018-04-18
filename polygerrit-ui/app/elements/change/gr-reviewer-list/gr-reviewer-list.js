@@ -200,6 +200,31 @@
       return false;
     },
 
+    _handleAdd(e) {
+      const value = e.detail.value;
+      if (!(value.account || value.group)) { return; }
+      const accountID = value.account ? value.account._account_id ||
+      value.account.email : value.group.id;
+      this.disabled = true;
+      const api = this.$.restAPI;
+      const xhr = this.ccsOnly ?
+      api.addChangeCC(this.change._number, accountID):
+      api.addChangeReviewer(this.change._number, accountID);
+      xhr.then(response => {
+        this.disabled = false;
+        if (!response.ok) { return response; }
+        //WIP
+        console.log('response ' + JSON.stringify(response));
+        // FOR EACH REVIEWER DO:
+        //const type = this.ccsOnly ? 'CC' : 'REVIEWER';
+        //this.push(['change', 'reviewers', type], account);
+        //const reviewers = this.change.reviewers;
+      }).catch(err => {
+        this.disabled = false;
+        throw err;
+      });
+    },
+
     _handleRemove(e) {
       e.preventDefault();
       const target = Polymer.dom(e).rootTarget;
@@ -226,18 +251,6 @@
         this.disabled = false;
         throw err;
       });
-    },
-
-    _handleAddTap(e) {
-      e.preventDefault();
-      const value = {};
-      if (this.reviewersOnly) {
-        value.reviewersOnly = true;
-      }
-      if (this.ccsOnly) {
-        value.ccsOnly = true;
-      }
-      this.fire('show-reply-dialog', {value});
     },
 
     _handleViewAll(e) {

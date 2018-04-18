@@ -71,6 +71,14 @@ public class ActionsIT extends AbstractDaemonTest {
     }
   }
 
+  protected Map<String, ActionInfo> getActions(String id) throws Exception {
+    return gApi.changes().id(id).revision(1).actions();
+  }
+
+  protected String getETag(String id) throws Exception {
+    return gApi.changes().id(id).current().etag();
+  }
+
   @Test
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();

@@ -122,7 +122,9 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
     PushOneCommit.Result change2 = createChange("Change 2", "b.txt", "other content");
 
     approve(change2.getChangeId());
-    Map<String, ActionInfo> actions = getActions(change2.getChangeId());
+
+    Map<String, ActionInfo> actions =
+        gApi.changes().id(change2.getChangeId()).revision(1).actions();
 
     assertThat(actions).containsKey("submit");
     ActionInfo info = actions.get("submit");

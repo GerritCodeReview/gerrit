@@ -61,7 +61,6 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
@@ -1119,14 +1118,6 @@ public abstract class AbstractDaemonTest {
 
   protected void recommend(String id) throws Exception {
     gApi.changes().id(id).revision("current").review(ReviewInput.recommend());
-  }
-
-  protected Map<String, ActionInfo> getActions(String id) throws Exception {
-    return gApi.changes().id(id).revision(1).actions();
-  }
-
-  protected String getETag(String id) throws Exception {
-    return gApi.changes().id(id).current().etag();
   }
 
   private static Iterable<String> changeIds(Iterable<ChangeInfo> changes) {

@@ -17,34 +17,8 @@
 (function() {
   'use strict';
 
-  // Note: noBaseUrl: true is set on entries where the URL is not yet supported
-  // by router abstraction.
-  const ADMIN_LINKS = [{
-    name: 'Repositories',
-    noBaseUrl: true,
-    url: '/admin/repos',
-    view: 'gr-repo-list',
-    viewableToAll: true,
-    children: [],
-  }, {
-    name: 'Groups',
-    section: 'Groups',
-    noBaseUrl: true,
-    url: '/admin/groups',
-    view: 'gr-admin-group-list',
-    children: [],
-  }, {
-    name: 'Plugins',
-    capability: 'viewPlugins',
-    section: 'Plugins',
-    noBaseUrl: true,
-    url: '/admin/plugins',
-    view: 'gr-plugin-list',
-  }];
 
   const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
-
-  const ACCOUNT_CAPABILITIES = ['createProject', 'createGroup', 'viewPlugins'];
 
   Polymer({
     is: 'gr-admin-view',
@@ -66,6 +40,7 @@
         type: Boolean,
         value: false,
       },
+      _subsectionLinks: Array,
       _filteredLinks: Array,
       _showDownload: {
         type: Boolean,
@@ -89,6 +64,7 @@
     },
 
     behaviors: [
+      Gerrit.AdminNavBehavior,
       Gerrit.BaseUrlBehavior,
       Gerrit.URLEncodingBehavior,
     ],
@@ -108,113 +84,66 @@
       ];
       return Promise.all(promises).then(result => {
         this._account = result[0];
-        if (!this._account) {
-          // Return so that  account capabilities don't load with no account.
-          return this._filteredLinks = this._filterLinks(link => {
-            return link.viewableToAll;
-          });
+        let options;
+        if (this._repoName) {
+          options = {repoName: this._repoName};
+        } else if (this._groupId) {
+          options = {
+            groupId: this._groupId,
+            groupName: this._groupName,
+            groupIsInternal: this._groupIsInternal,
+            isAdmin: this._isAdmin,
+            groupOwner: this._groupOwner,
+          };
         }
-        this._loadAccountCapabilities();
+
+        this.getAdminLinks(this._account,
+            this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
+            this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI),
+            options)
+            .then(res => {
+              this._filteredLinks = res.links;
+              this._breadcrumbParentName = res.expandedSection ?
+                  res.expandedSection.name: '';
+
+              if (!res.expandedSection) {
+                this._subsectionLinks = [];
+                return;
+              }
+              this._subsectionLinks = [res.expandedSection]
+              .concat(res.expandedSection.children).map(section => {
+                return {
+                  text: !section.detailType ? 'Home' : section.name,
+                  value: section.view + section.detailType,
+                  view: section.view,
+                  url: section.url,
+                  detailType: section.detailType,
+                  parent: this._groupId || this._repoName || '',
+                };
+              });
+            });
       });
     },
 
-    _filterLinks(filterFn) {
-      let links = ADMIN_LINKS.slice(0);
-
-      // Append top-level links that are defined by plugins.
-      links.push(...this.$.jsAPI.getAdminMenuLinks().map(link => ({
-        url: link.url,
-        name: link.text,
-        children: [],
-        noBaseUrl: link.url[0] === '/',
-        view: null,
-        viewableToAll: true,
-      })));
-
-      links = links.filter(filterFn);
-
-      const filteredLinks = [];
-      for (const link of links) {
-        const linkCopy = Object.assign({}, link);
-        linkCopy.children = linkCopy.children ?
-            linkCopy.children.filter(filterFn) : [];
-        if (linkCopy.name === 'Repositories' && this._repoName) {
-          linkCopy.subsection = {
-            name: this._repoName,
-            view: Gerrit.Nav.View.REPO,
-            url: Gerrit.Nav.getUrlForRepo(this._repoName),
-            children: [{
-              name: 'Access',
-              view: Gerrit.Nav.View.REPO,
-              detailType: Gerrit.Nav.RepoDetailView.ACCESS,
-              url: Gerrit.Nav.getUrlForRepoAccess(this._repoName),
-            },
-            {
-              name: 'Commands',
-              view: Gerrit.Nav.View.REPO,
-              detailType: Gerrit.Nav.RepoDetailView.COMMANDS,
-              url: Gerrit.Nav.getUrlForRepoCommands(this._repoName),
-            },
-            {
-              name: 'Branches',
-              view: Gerrit.Nav.View.REPO,
-              detailType: Gerrit.Nav.RepoDetailView.BRANCHES,
-              url: Gerrit.Nav.getUrlForRepoBranches(this._repoName),
-            },
-            {
-              name: 'Tags',
-              view: Gerrit.Nav.View.REPO,
-              detailType: Gerrit.Nav.RepoDetailView.TAGS,
-              url: Gerrit.Nav.getUrlForRepoTags(this._repoName),
-            },
-            {
-              name: 'Dashboards',
-              view: Gerrit.Nav.View.REPO,
-              detailType: Gerrit.Nav.RepoDetailView.DASHBOARDS,
-              url: Gerrit.Nav.getUrlForRepoDashboards(this._repoName),
-            }],
-          };
-        }
-        if (linkCopy.name === 'Groups' && this._groupId && this._groupName) {
-          linkCopy.subsection = {
-            name: this._groupName,
-            view: Gerrit.Nav.View.GROUP,
-            url: Gerrit.Nav.getUrlForGroup(this._groupId),
-            children: [],
-          };
-          if (this._groupIsInternal) {
-            linkCopy.subsection.children.push({
-              name: 'Members',
-              detailType: Gerrit.Nav.GroupDetailView.MEMBERS,
-              view: Gerrit.Nav.View.GROUP,
-              url: Gerrit.Nav.getUrlForGroupMembers(this._groupId),
-            });
-          }
-          if (this._groupIsInternal && (this._isAdmin || this._groupOwner)) {
-            linkCopy.subsection.children.push(
-                {
-                  name: 'Audit Log',
-                  detailType: Gerrit.Nav.GroupDetailView.LOG,
-                  view: Gerrit.Nav.View.GROUP,
-                  url: Gerrit.Nav.getUrlForGroupLog(this._groupId),
-                }
-            );
-          }
-        }
-
-        filteredLinks.push(linkCopy);
-      }
-      return filteredLinks;
+    _computeSelectValue(params) {
+      return params.view + params.detail;
     },
 
-    _loadAccountCapabilities() {
-      return this.$.restAPI.getAccountCapabilities(ACCOUNT_CAPABILITIES)
-          .then(capabilities => {
-            this._filteredLinks = this._filterLinks(link => {
-              return !link.capability ||
-                  capabilities.hasOwnProperty(link.capability);
-            });
-          });
+    _selectedIsCurrentPage(selected) {
+      return (selected.parent === (this._repoName || this._groupId) &&
+          selected.view == this.params.view &&
+          selected.detailType === this.params.detail);
+    },
+
+    _handleSubsectionChange(e) {
+      const selected = this._subsectionLinks
+          .find(section => section.value === e.detail.value);
+
+      // This is when it gets set initially.
+      if (this._selectedIsCurrentPage(selected)) {
+        return;
+      }
+      Gerrit.Nav.navigateToRelativeUrl(selected.url);
     },
 
     _paramsChanged(params) {
@@ -258,6 +187,14 @@
         // Reloads the admin menu.
         this.reload();
       }
+      if (this._breadcrumbParentName && !params.groupId && !params.repo) {
+        this.reload();
+      }
+      // this._dropdownType = this._repoName ? 'repo' : this._groupId ? 'group' : '';
+    },
+
+    _computeSelectedTitle(params) {
+      return this.getSelectedTitle(params.view);
     },
 
     // TODO (beckysiegel): Update these functions after router abstraction is

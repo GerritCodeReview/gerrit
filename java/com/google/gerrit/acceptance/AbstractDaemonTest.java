@@ -1120,18 +1120,18 @@ public abstract class AbstractDaemonTest {
     gApi.changes().id(id).revision("current").review(ReviewInput.recommend());
   }
 
-  private static Iterable<String> changeIds(Iterable<ChangeInfo> changes) {
-    return Iterables.transform(changes, i -> i.changeId);
-  }
-
   protected void assertSubmittedTogether(String chId, String... expected) throws Exception {
     List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether();
     SubmittedTogetherInfo info =
         gApi.changes().id(chId).submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
 
     assertThat(info.nonVisibleChanges).isEqualTo(0);
-    assertThat(changeIds(actual)).containsExactly((Object[]) expected).inOrder();
-    assertThat(changeIds(info.changes)).containsExactly((Object[]) expected).inOrder();
+    assertThat(Iterables.transform(actual, i1 -> i1.changeId))
+        .containsExactly((Object[]) expected)
+        .inOrder();
+    assertThat(Iterables.transform(info.changes, i -> i.changeId))
+        .containsExactly((Object[]) expected)
+        .inOrder();
   }
 
   protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {

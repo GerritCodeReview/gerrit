@@ -37,6 +37,7 @@ public class ConfigRestModule extends RestApiModule {
     get(CONFIG_KIND, "version").to(GetVersion.class);
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
+    post(CONFIG_KIND, "reload").to(ReloadConfig.class);
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);

@@ -14,17 +14,18 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gwtorm.server.OrmException;
 
-public class ReviewerinPredicate extends ChangeOperatorPredicate {
+public class ReviewerinPredicate extends PostFilterPredicate<ChangeData> {
   protected final IdentifiedUser.GenericFactory userFactory;
   protected final AccountGroup.UUID uuid;
 
   public ReviewerinPredicate(IdentifiedUser.GenericFactory userFactory, AccountGroup.UUID uuid) {
-    super(ChangeQueryBuilder.FIELD_REVIEWERIN, uuid.toString());
+    super(ChangeQueryBuilder.FIELD_REVIEWERIN, uuid.get());
     this.userFactory = userFactory;
     this.uuid = uuid;
   }

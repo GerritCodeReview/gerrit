@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -77,18 +78,17 @@ public class ConflictsPredicate {
     and.add(Predicate.or(filePredicates));
 
     ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);
-    and.add(new CheckConflict(ChangeQueryBuilder.FIELD_CONFLICTS, value, args, c, changeDataCache));
+    and.add(new CheckConflict(value, args, c, changeDataCache));
     return Predicate.and(and);
   }
 
-  private static final class CheckConflict extends ChangeOperatorPredicate {
+  private static final class CheckConflict extends PostFilterPredicate<ChangeData> {
     private final Arguments args;
     private final Branch.NameKey dest;
     private final ChangeDataCache changeDataCache;
 
-    CheckConflict(
-        String field, String value, Arguments args, Change c, ChangeDataCache changeDataCache) {
-      super(field, value);
+    CheckConflict(String value, Arguments args, Change c, ChangeDataCache changeDataCache) {
+      super(ChangeQueryBuilder.FIELD_CONFLICTS, value);
       this.args = args;
       this.dest = c.getDest();
       this.changeDataCache = changeDataCache;

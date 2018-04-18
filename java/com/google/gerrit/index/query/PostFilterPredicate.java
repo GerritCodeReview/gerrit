@@ -18,4 +18,8 @@ package com.google.gerrit.index.query;
  * Matches all documents in the index, with additional filtering done in the subclass's {@code
  * match} method.
  */
-public abstract class PostFilterPredicate<T> extends Predicate<T> implements Matchable<T> {}
+public abstract class PostFilterPredicate<T> extends OperatorPredicate<T> implements Matchable<T> {
+  public PostFilterPredicate(String operator, String value) {
+    super(operator, value);
+  }
+}

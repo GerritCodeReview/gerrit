@@ -34,6 +34,24 @@
       "revId": "9d13f536e46f43c81a3bea2e3c6d4279abe6ebed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1beab5f6_9af6dd19",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-18T07:29:53Z",
+      "side": 1,
+      "message": "\u003e Are you OK with having this convergence of thread pools sit in a follow-up change?\n\nI think I would prefer it sooner rather than later. I want to avoid importing the changes separately and consequently having to set up 3+ different thread pools internally (accounts, ChangeJson, mixed). But if you want to put all your current changes which require new threadpools in a series, and top it off with a change that merges them, that\u0027s fine, as long as we can submit them together.",
+      "parentUuid": "05cfbb8e_38055f7c",
+      "revId": "9d13f536e46f43c81a3bea2e3c6d4279abe6ebed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

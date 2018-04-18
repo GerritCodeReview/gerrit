@@ -18,6 +18,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectLevelConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -45,8 +46,9 @@ public class PluginConfigFactory implements ReloadPluginListener {
 
   private final SitePaths site;
   private final Provider<Config> cfgProvider;
+  // TODO(dborowitz): Change methods to take ProjectAccessor, then remove this field.
   private final ProjectCache projectCache;
-  private final ProjectState.Factory projectStateFactory;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final SecureStore secureStore;
   private final Map<String, Config> pluginConfigs;
 
@@ -58,12 +60,12 @@ public class PluginConfigFactory implements ReloadPluginListener {
       SitePaths site,
       @GerritServerConfig Provider<Config> cfgProvider,
       ProjectCache projectCache,
-      ProjectState.Factory projectStateFactory,
+      ProjectAccessor.Factory projectAccessorFactory,
       SecureStore secureStore) {
     this.site = site;
     this.cfgProvider = cfgProvider;
     this.projectCache = projectCache;
-    this.projectStateFactory = projectStateFactory;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.secureStore = secureStore;
 
     this.pluginConfigs = new HashMap<>();
@@ -150,7 +152,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'project.config' file of the specified project
    */
   public PluginConfig getFromProjectConfig(ProjectState projectState, String pluginName) {
-    return projectState.getConfig().getPluginConfig(pluginName);
+    return projectAccessorFactory.create(projectState).getConfig().getPluginConfig(pluginName);
   }
 
   /**
@@ -176,7 +178,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public PluginConfig getFromProjectConfigWithInheritance(
       Project.NameKey projectName, String pluginName) throws NoSuchProjectException {
-    return getFromProjectConfig(projectName, pluginName).withInheritance(projectStateFactory);
+    return getFromProjectConfig(projectName, pluginName).withInheritance(projectAccessorFactory);
   }
 
   /**
@@ -200,7 +202,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    */
   public PluginConfig getFromProjectConfigWithInheritance(
       ProjectState projectState, String pluginName) {
-    return getFromProjectConfig(projectState, pluginName).withInheritance(projectStateFactory);
+    return getFromProjectConfig(projectState, pluginName).withInheritance(projectAccessorFactory);
   }
 
   /**

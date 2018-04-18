@@ -21,7 +21,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -38,18 +38,18 @@ import org.slf4j.LoggerFactory;
 public class ProjectHandler extends OptionHandler<ProjectState> {
   private static final Logger log = LoggerFactory.getLogger(ProjectHandler.class);
 
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final PermissionBackend permissionBackend;
 
   @Inject
   public ProjectHandler(
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       PermissionBackend permissionBackend,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
       @Assisted final Setter<ProjectState> setter) {
     super(parser, option, setter);
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.permissionBackend = permissionBackend;
   }
 
@@ -73,19 +73,18 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
     String nameWithoutSuffix = ProjectUtil.stripGitSuffix(projectName);
     Project.NameKey nameKey = new Project.NameKey(nameWithoutSuffix);
 
-    ProjectState state;
+    ProjectAccessor accessor;
     try {
-      state = projectCache.checkedGet(nameKey);
-      if (state == null) {
-        throw new CmdLineException(owner, String.format("project %s not found", nameWithoutSuffix));
-      }
+      accessor = projectAccessorFactory.create(nameKey);
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.
       // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may also
       // be allowed for other users). Allowing project owners to access here will help them to view
       // and update the config of hidden projects easily.
       ProjectPermission permissionToCheck =
-          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+          accessor.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
       permissionBackend.currentUser().project(nameKey).check(permissionToCheck);
+    } catch (NoSuchProjectException e) {
+      throw new CmdLineException(owner, String.format("project %s not found", nameWithoutSuffix));
     } catch (AuthException e) {
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     } catch (PermissionBackendException | IOException e) {
@@ -93,7 +92,7 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     }
 
-    setter.addValue(state);
+    setter.addValue(accessor.getProjectState());
     return 1;
   }
 

@@ -375,15 +375,14 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           // If we can't get it from the cache, pretend it's not present.
           continue;
         }
-        ProjectState e = a.getProjectState();
-        if (e.getProject().getState() == HIDDEN && !all && state != HIDDEN) {
+        if (a.getProject().getState() == HIDDEN && !all && state != HIDDEN) {
           // If we can't get it from the cache, pretend it's not present.
           // If all wasn't selected, and it's HIDDEN, pretend it's not present.
           // If state HIDDEN wasn't selected, and it's HIDDEN, pretend it's not present.
           continue;
         }
 
-        if (state != null && e.getProject().getState() != state) {
+        if (state != null && a.getProject().getState() != state) {
           continue;
         }
 
@@ -395,30 +394,31 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
         ProjectInfo info = new ProjectInfo();
         if (showTree && !format.isJson()) {
-          treeMap.put(projectName, projectNodeFactory.create(e.getProject(), true));
+          treeMap.put(projectName, projectNodeFactory.create(a.getProject(), true));
           continue;
         }
 
         info.name = projectName.get();
         if (showTree && format.isJson()) {
-          ProjectState parent = Iterables.getFirst(e.parents(), null);
+          ProjectState parent = Iterables.getFirst(a.getProjectState().parents(), null);
+          ProjectAccessor parentAccessor = projectAccessorFactory.create(parent);
           if (parent != null) {
-            if (isParentAccessible(accessibleParents, perm, parent)) {
-              info.parent = parent.getName();
+            if (isParentAccessible(accessibleParents, perm, parentAccessor)) {
+              info.parent = parentAccessor.getName();
             } else {
-              info.parent = hiddenNames.get(parent.getName());
+              info.parent = hiddenNames.get(parentAccessor.getName());
               if (info.parent == null) {
                 info.parent = "?-" + (hiddenNames.size() + 1);
-                hiddenNames.put(parent.getName(), info.parent);
+                hiddenNames.put(parentAccessor.getName(), info.parent);
               }
             }
           }
         }
 
         if (showDescription) {
-          info.description = Strings.emptyToNull(e.getProject().getDescription());
+          info.description = Strings.emptyToNull(a.getProject().getDescription());
         }
-        info.state = e.getProject().getState();
+        info.state = a.getProject().getState();
 
         try {
           if (!showBranch.isEmpty()) {
@@ -427,12 +427,12 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                 continue;
               }
 
-              boolean canReadAllRefs = e.statePermitsRead();
+              boolean canReadAllRefs = a.statePermitsRead();
               if (canReadAllRefs) {
                 try {
                   permissionBackend
                       .user(currentUser)
-                      .project(e.getNameKey())
+                      .project(a.getNameKey())
                       .check(ProjectPermission.READ);
                 } catch (AuthException exp) {
                   canReadAllRefs = false;
@@ -540,13 +540,14 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     for (Project.NameKey nameKey : projectNameKeys) {
       ProjectState state = projectCache.get(nameKey);
       checkNotNull(state, "Failed to load project %s", nameKey);
+      ProjectAccessor accessor = projectAccessorFactory.create(state);
 
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.
       // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may also
       // be allowed for other users). Allowing project owners to access here will help them to view
       // and update the config of hidden projects easily.
       ProjectPermission permissionToCheck =
-          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+          accessor.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
       try {
         perm.project(nameKey).check(permissionToCheck);
         results.add(nameKey);
@@ -564,14 +565,15 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             p -> {
               ProjectState ps = projectCache.get(p);
               if (ps != null) {
-                Project.NameKey parent = ps.getProject().getParent();
+                ProjectAccessor pa = projectAccessorFactory.create(ps);
+                Project.NameKey parent = pa.getProject().getParent();
                 if (parent != null) {
                   if (projectCache.get(parent) != null) {
                     return parent;
                   }
                   log.warn(
                       String.format(
-                          "parent project %s of project %s not found", parent.get(), ps.getName()));
+                          "parent project %s of project %s not found", parent.get(), pa.getName()));
                 }
               }
               return null;
@@ -581,9 +583,11 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private boolean isParentAccessible(
-      Map<Project.NameKey, Boolean> checked, PermissionBackend.WithUser perm, ProjectState state)
+      Map<Project.NameKey, Boolean> checked,
+      PermissionBackend.WithUser perm,
+      ProjectAccessor accessor)
       throws PermissionBackendException {
-    Project.NameKey name = state.getNameKey();
+    Project.NameKey name = accessor.getNameKey();
     Boolean b = checked.get(name);
     if (b == null) {
       try {
@@ -593,7 +597,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
         // view
         // and update the config of hidden projects easily.
         ProjectPermission permissionToCheck =
-            state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+            accessor.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
         perm.project(name).check(permissionToCheck);
         b = true;
       } catch (AuthException denied) {

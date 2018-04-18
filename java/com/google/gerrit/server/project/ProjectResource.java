@@ -38,7 +38,7 @@ public class ProjectResource implements RestResource {
   }
 
   public String getName() {
-    return getProjectState().getName();
+    return getProjectAccessor().getName();
   }
 
   public Project.NameKey getNameKey() {

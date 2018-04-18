@@ -505,7 +505,11 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public List<AgreementInfo> listAgreements() throws RestApiException {
-    return getAgreements.apply(account);
+    try {
+      return getAgreements.apply(account);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list agreements", e);
+    }
   }
 
   @Override

@@ -23,19 +23,25 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Singleton
 public class SuggestParentCandidates {
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final AllProjectsName allProjects;
 
   @Inject
   SuggestParentCandidates(
-      ProjectCache projectCache, PermissionBackend permissionBackend, AllProjectsName allProjects) {
+      ProjectAccessor.Factory projectAccessorFactory,
+      ProjectCache projectCache,
+      PermissionBackend permissionBackend,
+      AllProjectsName allProjects) {
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.allProjects = allProjects;
@@ -53,12 +59,16 @@ public class SuggestParentCandidates {
   private Set<Project.NameKey> readableParents() {
     Set<Project.NameKey> parents = new HashSet<>();
     for (Project.NameKey p : projectCache.all()) {
-      ProjectState ps = projectCache.get(p);
-      if (ps != null && ps.statePermitsRead()) {
-        Project.NameKey parent = ps.getProject().getParent();
-        if (parent != null) {
-          parents.add(parent);
+      try {
+        ProjectAccessor pa = projectAccessorFactory.create(p);
+        if (pa.statePermitsRead()) {
+          Project.NameKey parent = pa.getProject().getParent();
+          if (parent != null) {
+            parents.add(parent);
+          }
         }
+      } catch (NoSuchProjectException | IOException e) {
+        // Already logged by ProjectCacheImpl.
       }
     }
     parents.add(allProjects);

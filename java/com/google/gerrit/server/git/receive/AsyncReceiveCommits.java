@@ -36,7 +36,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -75,7 +75,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   public interface Factory {
     AsyncReceiveCommits create(
-        ProjectState projectState,
+        ProjectAccessor projectAccessor,
         IdentifiedUser user,
         Repository repository,
         @Nullable MessageSender messageSender,
@@ -109,7 +109,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
-      rc = factory.create(projectState, user, rp, allRefsWatcher, extraReviewers);
+      rc = factory.create(projectAccessor, user, rp, allRefsWatcher, extraReviewers);
       rc.init();
       rc.setMessageSender(messageSender);
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
@@ -175,7 +175,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final ReceiveConfig receiveConfig;
   private final ContributorAgreementsChecker contributorAgreements;
   private final long timeoutMillis;
-  private final ProjectState projectState;
+  private final ProjectAccessor projectAccessor;
   private final IdentifiedUser user;
   private final Repository repo;
   private final MessageSender messageSender;
@@ -194,7 +194,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       Provider<LazyPostReceiveHookChain> lazyPostReceive,
       ContributorAgreementsChecker contributorAgreements,
       @Named(TIMEOUT_NAME) long timeoutMillis,
-      @Assisted ProjectState projectState,
+      @Assisted ProjectAccessor projectAccessor,
       @Assisted IdentifiedUser user,
       @Assisted Repository repo,
       @Assisted @Nullable MessageSender messageSender,
@@ -206,21 +206,21 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.receiveConfig = receiveConfig;
     this.contributorAgreements = contributorAgreements;
     this.timeoutMillis = timeoutMillis;
-    this.projectState = projectState;
+    this.projectAccessor = projectAccessor;
     this.user = user;
     this.repo = repo;
     this.messageSender = messageSender;
     this.extraReviewers = extraReviewers;
 
-    Project.NameKey projectName = projectState.getNameKey();
+    Project.NameKey projectName = projectAccessor.getNameKey();
     rp = new ReceivePack(repo);
     rp.setAllowCreates(true);
     rp.setAllowDeletes(true);
     rp.setAllowNonFastForwards(true);
     rp.setRefLogIdent(user.newRefLogIdent());
     rp.setTimeout(transferConfig.getTimeout());
-    rp.setMaxObjectSizeLimit(transferConfig.getEffectiveMaxObjectSizeLimit(projectState));
-    rp.setCheckReceivedObjects(projectState.getConfig().getCheckReceivedObjects());
+    rp.setMaxObjectSizeLimit(transferConfig.getEffectiveMaxObjectSizeLimit(projectAccessor));
+    rp.setCheckReceivedObjects(projectAccessor.getConfig().getCheckReceivedObjects());
     rp.setRefFilter(new ReceiveRefFilter());
     rp.setAllowPushOptions(true);
     rp.setPreReceiveHook(this);
@@ -230,7 +230,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
     this.perm = permissionBackend.user(user).project(projectName);
     try {
-      projectState.checkStatePermitsRead();
+      projectAccessor.checkStatePermitsRead();
       this.perm.check(ProjectPermission.READ);
     } catch (AuthException | ResourceConflictException e) {
       rp.setCheckReferencedObjectsAreReachable(receiveConfig.checkReferencedObjectsAreReachable);
@@ -251,17 +251,17 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     try {
       perm.check(ProjectPermission.PUSH_AT_LEAST_ONE_REF);
     } catch (AuthException e) {
-      return new Capable("Upload denied for project '" + projectState.getName() + "'");
+      return new Capable("Upload denied for project '" + projectAccessor.getName() + "'");
     }
 
     try {
-      contributorAgreements.check(projectState.getNameKey(), user);
+      contributorAgreements.check(projectAccessor.getNameKey(), user);
     } catch (NoSuchProjectException | AuthException e) {
       return new Capable(e.getMessage());
     }
 
     if (receiveConfig.checkMagicRefs) {
-      return MagicBranch.checkMagicBranchRefs(repo, projectState.getProject());
+      return MagicBranch.checkMagicBranchRefs(repo, projectAccessor.getProject());
     }
     return Capable.OK;
   }
@@ -276,7 +276,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       log.warn(
           String.format(
               "Error in ReceiveCommits while processing changes for project %s",
-              projectState.getName()),
+              projectAccessor.getName()),
           e);
       rp.sendError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this

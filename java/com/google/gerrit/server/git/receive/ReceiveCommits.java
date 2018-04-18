@@ -140,7 +140,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -248,7 +247,7 @@ class ReceiveCommits {
 
   interface Factory {
     ReceiveCommits create(
-        ProjectState projectState,
+        ProjectAccessor projectAccessor,
         IdentifiedUser user,
         ReceivePack receivePack,
         AllRefsWatcher allRefsWatcher,
@@ -329,6 +328,7 @@ class ReceiveCommits {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final PermissionBackend permissionBackend;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOp> mergeOpProvider;
@@ -349,13 +349,12 @@ class ReceiveCommits {
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
   private final ImmutableSetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
-  private final ProjectState projectState;
+  private final ProjectAccessor projectAccessor;
   private final IdentifiedUser user;
   private final ReceivePack rp;
 
   // Immutable fields derived from constructor arguments.
   private final boolean allowPushToRefsChanges;
-  private final ProjectAccessor projectAccessor;
   private final LabelTypes labelTypes;
   private final NoteMap rejectCommits;
   private final PermissionBackend.ForProject permissions;
@@ -439,7 +438,7 @@ class ReceiveCommits {
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       @CanonicalWebUrl @Nullable String canonicalWebUrl,
-      @Assisted ProjectState projectState,
+      @Assisted ProjectAccessor projectAccessor,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
       @Assisted AllRefsWatcher allRefsWatcher,
@@ -469,6 +468,7 @@ class ReceiveCommits {
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.permissionBackend = permissionBackend;
     this.pluginConfigEntries = pluginConfigEntries;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.psUtil = psUtil;
     this.queryProvider = queryProvider;
@@ -485,16 +485,15 @@ class ReceiveCommits {
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
     this.extraReviewers = ImmutableSetMultimap.copyOf(extraReviewers);
-    this.projectState = projectState;
+    this.projectAccessor = projectAccessor;
     this.user = user;
     this.rp = rp;
 
     // Immutable fields derived from constructor arguments.
     allowPushToRefsChanges = cfg.getBoolean("receive", "allowPushToRefsChanges", false);
     repo = rp.getRepository();
-    projectAccessor = projectAccessorFactory.create(projectState);
-    project = projectState.getProject();
-    labelTypes = projectState.getLabelTypes();
+    project = projectAccessor.getProject();
+    labelTypes = projectAccessor.getProjectState().getLabelTypes();
     permissions = permissionBackend.user(user).project(project.getNameKey());
     receiveId = RequestId.forProject(project.getNameKey());
     rejectCommits = BanCommit.loadRejectCommitsMap(rp.getRepository(), rp.getRevWalk());
@@ -522,7 +521,7 @@ class ReceiveCommits {
 
   void init() {
     for (ReceivePackInitializer i : initializers) {
-      i.init(projectState.getNameKey(), rp);
+      i.init(projectAccessor.getNameKey(), rp);
     }
   }
 
@@ -860,7 +859,7 @@ class ReceiveCommits {
         continue;
       }
 
-      if (!projectState.getProject().getState().permitsWrite()) {
+      if (!projectAccessor.getProject().getState().permitsWrite()) {
         reject(cmd, "prohibited by Gerrit: project state does not permit write");
         return;
       }
@@ -870,7 +869,8 @@ class ReceiveCommits {
         continue;
       }
 
-      if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
+      if (projectAccessor.getProjectState().isAllUsers()
+          && RefNames.REFS_USERS_SELF.equals(cmd.getRefName())) {
         String newName = RefNames.refsUsers(user.getAccountId());
         logDebug("Swapping out command for {} to {}", RefNames.REFS_USERS_SELF, newName);
         final ReceiveCommand orgCmd = cmd;
@@ -1019,14 +1019,14 @@ class ReceiveCommits {
                 ProjectConfigEntry configEntry = e.getProvider().get();
                 String value = pluginCfg.getString(e.getExportName());
                 String oldValue =
-                    projectState
+                    projectAccessor
                         .getConfig()
                         .getPluginConfig(e.getPluginName())
                         .getString(e.getExportName());
                 if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
                   oldValue =
                       Arrays.stream(
-                              projectState
+                              projectAccessor
                                   .getConfig()
                                   .getPluginConfig(e.getPluginName())
                                   .getStringList(e.getExportName()))
@@ -1034,7 +1034,7 @@ class ReceiveCommits {
                 }
 
                 if ((value == null ? oldValue != null : !value.equals(oldValue))
-                    && !configEntry.isEditable(projectState)) {
+                    && !configEntry.isEditable(projectAccessor.getProjectState())) {
                   reject(
                       cmd,
                       String.format(
@@ -1191,7 +1191,7 @@ class ReceiveCommits {
 
     try {
       permissions.ref(cmd.getRefName()).check(RefPermission.DELETE);
-      return projectState.statePermitsWrite();
+      return projectAccessor.statePermitsWrite();
     } catch (AuthException e) {
       return false;
     }
@@ -1558,7 +1558,7 @@ class ReceiveCommits {
       reject(cmd, "see help");
       return;
     }
-    if (projectState.isAllUsers() && RefNames.REFS_USERS_SELF.equals(ref)) {
+    if (projectAccessor.getProjectState().isAllUsers() && RefNames.REFS_USERS_SELF.equals(ref)) {
       logDebug("Handling {}", RefNames.REFS_USERS_SELF);
       ref = RefNames.refsUsers(user.getAccountId());
     }
@@ -1585,7 +1585,7 @@ class ReceiveCommits {
       reject(cmd, denied.getMessage());
       return;
     }
-    if (!projectState.statePermitsWrite()) {
+    if (!projectAccessor.statePermitsWrite()) {
       reject(cmd, "project state does not permit write");
       return;
     }
@@ -2462,7 +2462,7 @@ class ReceiveCommits {
         return false;
       }
 
-      if (!projectState.statePermitsWrite()) {
+      if (!projectAccessor.statePermitsWrite()) {
         reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
         return false;
       }
@@ -2612,7 +2612,7 @@ class ReceiveCommits {
       replaceOp =
           replaceOpFactory
               .create(
-                  projectState,
+                  projectAccessor,
                   notes.getChange().getDest(),
                   checkMergedInto,
                   priorPatchSet,
@@ -2697,11 +2697,11 @@ class ReceiveCommits {
         } catch (IOException e) {
           log.warn("Cannot evict from project cache, name key: " + project.getName(), e);
         }
-        ProjectState ps = projectCache.get(project.getNameKey());
         try {
+          ProjectAccessor pa = projectAccessorFactory.create(project.getNameKey());
           logDebug("Updating project description");
-          repo.setGitwebDescription(ps.getProject().getDescription());
-        } catch (IOException e) {
+          repo.setGitwebDescription(pa.getProject().getDescription());
+        } catch (NoSuchProjectException | IOException e) {
           log.warn("cannot update description of " + project.getName(), e);
         }
         if (allProjectsName.equals(project.getNameKey())) {
@@ -2918,7 +2918,7 @@ class ReceiveCommits {
       retryHelper.execute(
           updateFactory -> {
             try (BatchUpdate bu =
-                    updateFactory.create(db, projectState.getNameKey(), user, TimeUtil.nowTs());
+                    updateFactory.create(db, projectAccessor.getNameKey(), user, TimeUtil.nowTs());
                 ObjectInserter ins = repo.newObjectInserter();
                 ObjectReader reader = ins.newReader();
                 RevWalk rw = new RevWalk(reader)) {

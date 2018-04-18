@@ -973,19 +973,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     Project.NameKey project =
         new Project.NameKey(repo.getRepository().getDescription().getRepositoryName());
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-
-    LabelType verified =
-        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
-    cfg.getLabelSections().put(verified.getName(), verified);
-
-    String heads = RefNames.REFS_HEADS + "*";
-    allow(cfg, Permission.forLabel(verified().getName()), -1, 1, REGISTERED_USERS, heads);
-
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig cfg = ProjectConfig.read(md);
+
+      LabelType verified =
+          category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+      cfg.getLabelSections().put(verified.getName(), verified);
+
+      String heads = RefNames.REFS_HEADS + "*";
+      allow(cfg, Permission.forLabel(verified().getName()), -1, 1, REGISTERED_USERS, heads);
+
       cfg.commit(md);
+      projectCache.evict(cfg.getProject());
     }
-    projectCache.evict(cfg.getProject());
 
     ReviewInput reviewVerified = new ReviewInput().label("Verified", 1);
     ChangeInserter ins = newChange(repo, null, null, null, null, false);

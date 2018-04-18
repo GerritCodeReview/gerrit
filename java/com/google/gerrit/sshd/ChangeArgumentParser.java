@@ -27,7 +27,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.sshd.BaseCommand.UnloggedFailure;
 import com.google.gwtorm.server.OrmException;
@@ -68,15 +68,15 @@ public class ChangeArgumentParser {
   }
 
   public void addChange(
-      String id, Map<Change.Id, ChangeResource> changes, ProjectState projectState)
+      String id, Map<Change.Id, ChangeResource> changes, ProjectAccessor projectAccessor)
       throws UnloggedFailure, OrmException, PermissionBackendException, IOException {
-    addChange(id, changes, projectState, true);
+    addChange(id, changes, projectAccessor, true);
   }
 
   public void addChange(
       String id,
       Map<Change.Id, ChangeResource> changes,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       boolean useIndex)
       throws UnloggedFailure, OrmException, PermissionBackendException, IOException {
     List<ChangeNotes> matched = useIndex ? changeFinder.find(id) : changeFromNotesFactory(id);
@@ -90,14 +90,14 @@ public class ChangeArgumentParser {
     }
     for (ChangeNotes notes : matched) {
       if (!changes.containsKey(notes.getChangeId())
-          && inProject(projectState, notes.getProjectName())
+          && inProject(projectAccessor, notes.getProjectName())
           && (canMaintainServer
               || (permissionBackend
                       .user(currentUser)
                       .change(notes)
                       .database(db)
                       .test(ChangePermission.READ)
-                  && projectState.statePermitsRead()))) {
+                  && projectAccessor.statePermitsRead()))) {
         toAdd.add(notes);
       }
     }
@@ -129,9 +129,9 @@ public class ChangeArgumentParser {
     }
   }
 
-  private boolean inProject(ProjectState projectState, Project.NameKey project) {
-    if (projectState != null) {
-      return projectState.getNameKey().equals(project);
+  private boolean inProject(ProjectAccessor projectAccessor, Project.NameKey project) {
+    if (projectAccessor != null) {
+      return projectAccessor.getNameKey().equals(project);
     }
 
     // No --project option, so they want every project.

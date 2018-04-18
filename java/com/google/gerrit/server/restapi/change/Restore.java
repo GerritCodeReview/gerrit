@@ -39,7 +39,8 @@ import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -66,7 +67,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final ChangeRestored changeRestored;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   Restore(
@@ -77,7 +78,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       PatchSetUtil psUtil,
       RetryHelper retryHelper,
       ChangeRestored changeRestored,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     super(retryHelper);
     this.restoredSenderFactory = restoredSenderFactory;
     this.dbProvider = dbProvider;
@@ -85,16 +86,16 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.changeRestored = changeRestored;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource req, RestoreInput input)
       throws RestApiException, UpdateException, OrmException, PermissionBackendException,
-          IOException {
+          IOException, NoSuchProjectException {
     req.permissions().database(dbProvider).check(ChangePermission.RESTORE);
-    projectCache.checkedGet(req.getProject()).checkStatePermitsWrite();
+    projectAccessorFactory.create(req.getProject()).checkStatePermitsWrite();
 
     Op op = new Op(input);
     try (BatchUpdate u =
@@ -163,8 +164,10 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   public UiAction.Description getDescription(ChangeResource rsrc) {
     boolean projectStatePermitsWrite = false;
     try {
-      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
-    } catch (IOException e) {
+      // TODO(dborowitz): Pretty sure this should be checkStatePermitsWrite
+      projectStatePermitsWrite =
+          projectAccessorFactory.create(rsrc.getProject()).statePermitsWrite();
+    } catch (NoSuchProjectException | IOException e) {
       log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
     }
     return new UiAction.Description()

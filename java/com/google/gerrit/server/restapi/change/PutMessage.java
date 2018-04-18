@@ -191,7 +191,7 @@ public class PutMessage
           .database(db.get())
           .change(changeNotes)
           .check(ChangePermission.ADD_PATCH_SET);
-      projectAccessor.getProjectState().checkStatePermitsWrite();
+      projectAccessor.checkStatePermitsWrite();
     } catch (AuthException denied) {
       throw new AuthException("modifying commit message not permitted", denied);
     }

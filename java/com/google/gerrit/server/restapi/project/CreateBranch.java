@@ -187,7 +187,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         } else {
           info.canDelete =
               permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
-                      && rsrc.getProjectState().statePermitsWrite()
+                      && rsrc.getProjectAccessor().statePermitsWrite()
                   ? true
                   : null;
         }

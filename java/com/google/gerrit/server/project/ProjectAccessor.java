@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
@@ -47,19 +48,26 @@ public class ProjectAccessor {
   public interface Factory {
     ProjectAccessor create(ProjectState projectState);
 
+    ProjectAccessor create(ProjectConfig projectConfig);
+
     ProjectAccessor create(Project.NameKey projectName) throws NoSuchProjectException, IOException;
+
+    ProjectAccessor createForAllProjects() throws NoSuchProjectException, IOException;
   }
 
   private final AllProjectsName allProjectsName;
+  private final Factory factory;
   private final ProjectCache projectCache;
   private final ProjectState projectState;
 
   @VisibleForTesting // Please only use from RefControlTest.
   @AssistedInject
   public ProjectAccessor(
+      Factory factory,
       ProjectCache projectCache,
       AllProjectsName allProjectsName,
       @Assisted ProjectState projectState) {
+    this.factory = factory;
     this.projectCache = projectCache;
     this.allProjectsName = allProjectsName;
     this.projectState = projectState;
@@ -67,10 +75,22 @@ public class ProjectAccessor {
 
   @AssistedInject
   ProjectAccessor(
+      Factory factory,
+      ProjectCache projectCache,
+      AllProjectsName allProjectsName,
+      ProjectState.Factory projectStateFactory,
+      @Assisted ProjectConfig projectConfig) {
+    this(factory, projectCache, allProjectsName, projectStateFactory.create(projectConfig));
+  }
+
+  @AssistedInject
+  ProjectAccessor(
+      Factory factory,
       ProjectCache projectCache,
       AllProjectsName allProjectsName,
       @Assisted Project.NameKey projectName)
       throws NoSuchProjectException, IOException {
+    this.factory = factory;
     this.projectCache = projectCache;
     this.allProjectsName = allProjectsName;
     this.projectState = projectCache.checkedGet(projectName);
@@ -78,6 +98,54 @@ public class ProjectAccessor {
       // TODO(dborowitz): This doesn't include the stack trace from checkedGet, which was logged and
       // then discarded.
       throw new NoSuchProjectException(projectName);
+    }
+  }
+
+  @AssistedInject
+  ProjectAccessor(Factory factory, ProjectCache projectCache, AllProjectsName allProjectsName)
+      throws NoSuchProjectException, IOException {
+    this(factory, projectCache, allProjectsName, allProjectsName);
+  }
+
+  public Project getProject() {
+    return getConfig().getProject();
+  }
+
+  public Project.NameKey getNameKey() {
+    return getProject().getNameKey();
+  }
+
+  public String getName() {
+    return getNameKey().get();
+  }
+
+  public ProjectConfig getConfig() {
+    return projectState.getConfig();
+  }
+
+  public long getMaxObjectSizeLimit() {
+    return getConfig().getMaxObjectSizeLimit();
+  }
+
+  public boolean statePermitsRead() {
+    return getProject().getState().permitsRead();
+  }
+
+  public void checkStatePermitsRead() throws ResourceConflictException {
+    if (!statePermitsRead()) {
+      throw new ResourceConflictException(
+          "project state " + getProject().getState().name() + " does not permit read");
+    }
+  }
+
+  public boolean statePermitsWrite() {
+    return getProject().getState().permitsWrite();
+  }
+
+  public void checkStatePermitsWrite() throws ResourceConflictException {
+    if (!statePermitsWrite()) {
+      throw new ResourceConflictException(
+          "project state " + getProject().getState().name() + " does not permit write");
     }
   }
 
@@ -89,7 +157,7 @@ public class ProjectAccessor {
 
   public SubmitType getSubmitType() {
     for (ProjectState s : tree()) {
-      SubmitType t = s.getProject().getConfiguredSubmitType();
+      SubmitType t = s.getConfig().getProject().getConfiguredSubmitType();
       if (t != SubmitType.INHERIT) {
         return t;
       }
@@ -99,7 +167,7 @@ public class ProjectAccessor {
 
   public boolean is(BooleanProjectConfig config) {
     for (ProjectState s : tree()) {
-      switch (s.getProject().getBooleanConfig(config)) {
+      switch (s.getConfig().getProject().getBooleanConfig(config)) {
         case TRUE:
           return true;
         case FALSE:
@@ -176,6 +244,6 @@ public class ProjectAccessor {
   }
 
   private Iterable<ProjectState> tree() {
-    return () -> new ProjectHierarchyIterator(projectCache, allProjectsName, projectState);
+    return () -> new ProjectHierarchyIterator(factory, projectCache, allProjectsName, projectState);
   }
 }

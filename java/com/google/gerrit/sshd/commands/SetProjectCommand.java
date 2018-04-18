@@ -145,25 +145,25 @@ final class SetProjectCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(projectState);
     ConfigInput configInput = new ConfigInput();
     configInput.requireChangeId = requireChangeID;
     configInput.submitType = submitType;
     configInput.useContentMerge = contentMerge;
     configInput.useContributorAgreements = contributorAgreements;
     configInput.useSignedOffBy = signedOffBy;
-    configInput.state = state.getProject().getState();
+    configInput.state = projectAccessor.getProject().getState();
     configInput.maxObjectSizeLimit = maxObjectSizeLimit;
     // Description is different to other parameters, null won't result in
     // keeping the existing description, it would delete it.
     if (Strings.emptyToNull(projectDescription) != null) {
       configInput.description = projectDescription;
     } else {
-      configInput.description = projectState.getProject().getDescription();
+      configInput.description = projectAccessor.getProject().getDescription();
     }
 
     try {
-      putConfig.apply(
-          new ProjectResource(projectAccessorFactory.create(projectState), user), configInput);
+      putConfig.apply(new ProjectResource(projectAccessor, user), configInput);
     } catch (RestApiException | PermissionBackendException e) {
       throw die(e);
     }

@@ -24,8 +24,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -39,20 +38,20 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   protected final ChangeNotes.Factory notesFactory;
   protected final CurrentUser user;
   protected final PermissionBackend permissionBackend;
-  protected final ProjectCache projectCache;
+  protected final ProjectAccessor.Factory projectAccessorFactory;
 
   public ChangeIsVisibleToPredicate(
       Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
       CurrentUser user,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
     this.db = db;
     this.notesFactory = notesFactory;
     this.user = user;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
@@ -68,15 +67,10 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     ChangeNotes notes = notesFactory.createFromIndexedChange(change);
 
     try {
-      ProjectState projectState = projectCache.checkedGet(cd.project());
-      if (projectState == null) {
-        logger.info("No such project: {}", cd.project());
+      if (!projectAccessorFactory.create(cd.project()).statePermitsRead()) {
         return false;
       }
-      if (!projectState.statePermitsRead()) {
-        return false;
-      }
-    } catch (IOException e) {
+    } catch (NoSuchProjectException | IOException e) {
       throw new OrmException("unable to read project state", e);
     }
 

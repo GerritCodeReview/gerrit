@@ -35,6 +35,10 @@ public class CommitResource implements RestResource {
     return project.getProjectState();
   }
 
+  public ProjectAccessor getProjectAccessor() {
+    return project.getProjectAccessor();
+  }
+
   public RevCommit getCommit() {
     return commit;
   }

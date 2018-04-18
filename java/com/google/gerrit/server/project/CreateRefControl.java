@@ -41,14 +41,16 @@ public class CreateRefControl {
   private static final Logger log = LoggerFactory.getLogger(CreateRefControl.class);
 
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final Reachable reachable;
 
   @Inject
   CreateRefControl(
-      PermissionBackend permissionBackend, ProjectCache projectCache, Reachable reachable) {
+      PermissionBackend permissionBackend,
+      ProjectAccessor.Factory projectAccessorFactory,
+      Reachable reachable) {
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.reachable = reachable;
   }
 
@@ -70,16 +72,13 @@ public class CreateRefControl {
       RevObject object)
       throws AuthException, PermissionBackendException, NoSuchProjectException, IOException,
           ResourceConflictException {
-    ProjectState ps = projectCache.checkedGet(branch.getParentKey());
-    if (ps == null) {
-      throw new NoSuchProjectException(branch.getParentKey());
-    }
-    ps.checkStatePermitsWrite();
+    ProjectAccessor pa = projectAccessorFactory.create(branch.getParentKey());
+    pa.checkStatePermitsWrite();
 
     PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(branch);
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
-      checkCreateCommit(repo, (RevCommit) object, ps.getNameKey(), perm);
+      checkCreateCommit(repo, (RevCommit) object, pa.getNameKey(), perm);
     } else if (object instanceof RevTag) {
       RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -99,7 +98,7 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit) {
-        checkCreateCommit(repo, (RevCommit) target, ps.getNameKey(), perm);
+        checkCreateCommit(repo, (RevCommit) target, pa.getNameKey(), perm);
       } else {
         checkCreateRef(user, repo, branch, target);
       }

@@ -32,8 +32,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefFilter;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -123,7 +123,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   @Override
   public List<TagInfo> apply(ProjectResource resource)
       throws IOException, ResourceNotFoundException, RestApiException, PermissionBackendException {
-    resource.getProjectState().checkStatePermitsRead();
+    resource.getProjectAccessor().checkStatePermitsRead();
 
     List<TagInfo> tags = new ArrayList<>();
 
@@ -135,7 +135,7 @@ public class ListTags implements RestReadView<ProjectResource> {
           visibleTags(resource.getNameKey(), repo, repo.getRefDatabase().getRefs(Constants.R_TAGS));
       for (Ref ref : all.values()) {
         tags.add(
-            createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getProjectState(), links));
+            createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getProjectAccessor(), links));
       }
     }
 
@@ -175,7 +175,7 @@ public class ListTags implements RestReadView<ProjectResource> {
                 .ref(ref.getName()),
             ref,
             rw,
-            resource.getProjectState(),
+            resource.getProjectAccessor(),
             links);
       }
     }
@@ -183,7 +183,11 @@ public class ListTags implements RestReadView<ProjectResource> {
   }
 
   public static TagInfo createTagInfo(
-      PermissionBackend.ForRef perm, Ref ref, RevWalk rw, ProjectState projectState, WebLinks links)
+      PermissionBackend.ForRef perm,
+      Ref ref,
+      RevWalk rw,
+      ProjectAccessor projectAccessor,
+      WebLinks links)
       throws IOException {
     RevObject object = rw.parseAny(ref.getObjectId());
 
@@ -191,10 +195,12 @@ public class ListTags implements RestReadView<ProjectResource> {
     if (!isConfigRef(ref.getName())) {
       // Never allow to delete the meta config branch.
       canDelete =
-          perm.testOrFalse(RefPermission.DELETE) && projectState.statePermitsWrite() ? true : null;
+          perm.testOrFalse(RefPermission.DELETE) && projectAccessor.statePermitsWrite()
+              ? true
+              : null;
     }
 
-    List<WebLinkInfo> webLinks = links.getTagLinks(projectState.getName(), ref.getName());
+    List<WebLinkInfo> webLinks = links.getTagLinks(projectAccessor.getName(), ref.getName());
     if (object instanceof RevTag) {
       // Annotated or signed tag
       RevTag tag = (RevTag) object;

@@ -50,7 +50,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.account.AccountPredicates;
 import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gwtorm.server.OrmException;
@@ -164,7 +164,7 @@ public class ReviewersUtil {
   public List<SuggestedReviewerInfo> suggestReviewers(
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
       throws IOException, OrmException, ConfigInvalidException, PermissionBackendException {
@@ -177,7 +177,7 @@ public class ReviewersUtil {
     } else {
       log.debug(
           "Suggesting default reviewers for project {} to user {}.",
-          projectState.getName(),
+          projectAccessor.getName(),
           currentUser.getLoggableName());
     }
 
@@ -197,7 +197,7 @@ public class ReviewersUtil {
     }
 
     List<Account.Id> sortedRecommendations =
-        recommendAccounts(changeNotes, suggestReviewers, projectState, candidateList);
+        recommendAccounts(changeNotes, suggestReviewers, projectAccessor, candidateList);
     log.debug("Sorted recommendations: {}", sortedRecommendations);
 
     // Filter accounts by visibility and enforce limit
@@ -223,7 +223,7 @@ public class ReviewersUtil {
       suggestedReviewers.addAll(
           suggestAccountGroups(
               suggestReviewers,
-              projectState,
+              projectAccessor,
               visibilityControl,
               limit - suggestedReviewers.size()));
     }
@@ -283,12 +283,12 @@ public class ReviewersUtil {
   private List<Account.Id> recommendAccounts(
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       List<Account.Id> candidateList)
       throws OrmException, IOException, ConfigInvalidException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
-          changeNotes, suggestReviewers, projectState, candidateList);
+          changeNotes, suggestReviewers, projectAccessor, candidateList);
     }
   }
 
@@ -322,16 +322,16 @@ public class ReviewersUtil {
 
   private List<SuggestedReviewerInfo> suggestAccountGroups(
       SuggestReviewers suggestReviewers,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       VisibilityControl visibilityControl,
       int limit)
       throws OrmException, IOException {
     try (Timer0.Context ctx = metrics.queryGroupsLatency.start()) {
       List<SuggestedReviewerInfo> groups = new ArrayList<>();
-      for (GroupReference g : suggestAccountGroups(suggestReviewers, projectState)) {
+      for (GroupReference g : suggestAccountGroups(suggestReviewers, projectAccessor)) {
         GroupAsReviewer result =
             suggestGroupAsReviewer(
-                suggestReviewers, projectState.getProject(), g, visibilityControl);
+                suggestReviewers, projectAccessor.getProject(), g, visibilityControl);
         if (result.allowed || result.allowedWithConfirmation) {
           GroupBaseInfo info = new GroupBaseInfo();
           info.id = Url.encode(g.getUUID().get());
@@ -353,10 +353,10 @@ public class ReviewersUtil {
   }
 
   private List<GroupReference> suggestAccountGroups(
-      SuggestReviewers suggestReviewers, ProjectState projectState) {
+      SuggestReviewers suggestReviewers, ProjectAccessor projectAccessor) {
     return Lists.newArrayList(
         Iterables.limit(
-            groupBackend.suggest(suggestReviewers.getQuery(), projectState),
+            groupBackend.suggest(suggestReviewers.getQuery(), projectAccessor.getProjectState()),
             suggestReviewers.getLimit()));
   }
 

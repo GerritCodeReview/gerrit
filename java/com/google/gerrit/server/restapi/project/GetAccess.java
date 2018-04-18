@@ -141,11 +141,13 @@ public class GetAccess implements RestReadView<ProjectResource> {
 
     Project.NameKey projectName = rsrc.getNameKey();
     ProjectAccessInfo info = new ProjectAccessInfo();
-    ProjectState projectState = projectCache.checkedGet(projectName);
-    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(projectName);
 
     ProjectConfig config;
+    PermissionBackend.ForProject perm;
+    ProjectAccessor projectAccessor;
     try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
+      projectAccessor = projectAccessorFactory.create(projectName);
+      perm = permissionBackend.currentUser().project(projectName);
       config = ProjectConfig.read(md);
       info.configWebLinks = new ArrayList<>();
 
@@ -164,17 +166,17 @@ public class GetAccess implements RestReadView<ProjectResource> {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        projectState = projectCache.checkedGet(projectName);
+        projectAccessor = projectAccessorFactory.create(projectName);
         perm = permissionBackend.currentUser().project(projectName);
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(projectState.getConfig().getRevision())) {
+          && !config.getRevision().equals(projectAccessor.getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        projectState = projectCache.checkedGet(projectName);
+        projectAccessor = projectAccessorFactory.create(projectName);
         perm = permissionBackend.currentUser().project(projectName);
       }
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(e.getMessage());
-    } catch (RepositoryNotFoundException e) {
+    } catch (RepositoryNotFoundException | NoSuchProjectException e) {
       throw new ResourceNotFoundException(rsrc.getName());
     }
 
@@ -190,7 +192,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     // (=owner). This is so that the owner can still read (and in the next step write) the project's
     // config to set the project state to any state that is not HIDDEN.
     if (!canWriteConfig) {
-      projectState.checkStatePermitsRead();
+      projectAccessor.checkStatePermitsRead();
     }
 
     for (AccessSection section : config.getAccessSections()) {
@@ -254,9 +256,9 @@ public class GetAccess implements RestReadView<ProjectResource> {
       info.revision = config.getRevision().name();
     }
 
-    ProjectState parent = Iterables.getFirst(projectState.parents(), null);
+    ProjectState parent = Iterables.getFirst(projectAccessor.getProjectState().parents(), null);
     if (parent != null) {
-      info.inheritsFrom = projectJson.format(parent.getProject());
+      info.inheritsFrom = projectJson.format(projectAccessorFactory.create(parent).getProject());
     }
 
     if (projectName.equals(allProjectsName)
@@ -267,7 +269,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     info.isOwner = toBoolean(canWriteConfig);
     info.canUpload =
         toBoolean(
-            projectState.statePermitsWrite()
+            projectAccessor.statePermitsWrite()
                 && (canWriteConfig
                     || (canReadConfig
                         && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE))));

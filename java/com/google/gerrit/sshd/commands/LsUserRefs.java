@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -53,6 +54,7 @@ public class LsUserRefs extends SshCommand {
   @Inject private OneOffRequestContext requestContext;
   @Inject private PermissionBackend permissionBackend;
   @Inject private GitRepositoryManager repoManager;
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
 
   @Option(
     name = "--project",
@@ -89,7 +91,7 @@ public class LsUserRefs extends SshCommand {
       return;
     }
 
-    Project.NameKey projectName = projectState.getNameKey();
+    Project.NameKey projectName = projectAccessorFactory.create(projectState).getNameKey();
     try (Repository repo = repoManager.openRepository(projectName);
         ManualRequestContext ctx = requestContext.openAs(userAccount.getId())) {
       try {

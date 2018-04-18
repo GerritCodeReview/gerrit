@@ -49,7 +49,8 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -78,7 +79,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final RevisionCreated revisionCreated;
   private final ApprovalsUtil approvalsUtil;
   private final ApprovalCopier approvalCopier;
@@ -123,7 +124,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       PatchSetUtil psUtil,
       RevisionCreated revisionCreated,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -136,7 +137,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.psUtil = psUtil;
     this.revisionCreated = revisionCreated;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -212,7 +213,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   @Override
   public void updateRepo(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException, OrmException,
-          PermissionBackendException {
+          PermissionBackendException, NoSuchProjectException {
     validate(ctx);
     ctx.addRefUpdate(ObjectId.zeroId(), commitId, getPatchSetId().toRefName());
   }
@@ -311,7 +312,8 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   private void validate(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+      throws AuthException, ResourceConflictException, IOException, PermissionBackendException,
+          NoSuchProjectException {
     if (checkAddPatchSetPermission) {
       permissionBackend
           .user(ctx.getUser())
@@ -319,7 +321,8 @@ public class PatchSetInserter implements BatchUpdateOp {
           .change(origNotes)
           .check(ChangePermission.ADD_PATCH_SET);
     }
-    projectCache.checkedGet(ctx.getProject()).checkStatePermitsWrite();
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(ctx.getProject());
+    projectAccessor.checkStatePermitsWrite();
     if (!validate) {
       return;
     }
@@ -334,7 +337,7 @@ public class PatchSetInserter implements BatchUpdateOp {
                 ObjectId.zeroId(),
                 commitId,
                 refName.substring(0, refName.lastIndexOf('/') + 1) + "new"),
-            projectCache.checkedGet(origNotes.getProjectName()).getProject(),
+            projectAccessor.getProject(),
             origNotes.getChange().getDest().get(),
             ctx.getRevWalk().getObjectReader(),
             commitId,

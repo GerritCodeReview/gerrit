@@ -38,7 +38,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -155,7 +154,6 @@ public class ProjectsCollection
 
     Project.NameKey nameKey = new Project.NameKey(id);
     ProjectAccessor accessor = projectAccessorFactory.create(nameKey);
-    ProjectState state = accessor.getProjectState();
 
     if (checkAccess) {
       // Hidden projects(permitsRead = false) should only be accessible by the project owners.
@@ -163,7 +161,7 @@ public class ProjectsCollection
       // be allowed for other users). Allowing project owners to access here will help them to view
       // and update the config of hidden projects easily.
       ProjectPermission permissionToCheck =
-          state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+          accessor.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
       try {
         permissionBackend.currentUser().project(nameKey).check(permissionToCheck);
       } catch (AuthException e) {
@@ -177,7 +175,7 @@ public class ProjectsCollection
       try {
         permissionBackend.currentUser().project(nameKey).check(ProjectPermission.WRITE_CONFIG);
       } catch (AuthException e) {
-        state.checkStatePermitsRead();
+        accessor.checkStatePermitsRead();
       }
     }
     return new ProjectResource(accessor, user.get());

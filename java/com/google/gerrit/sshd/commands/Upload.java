@@ -50,7 +50,7 @@ final class Upload extends AbstractGitCommand {
   @Override
   protected void runImpl() throws IOException, Failure {
     PermissionBackend.ForProject perm =
-        permissionBackend.user(user).project(projectState.getNameKey());
+        permissionBackend.user(user).project(projectAccessor.getNameKey());
     try {
 
       perm.check(ProjectPermission.RUN_UPLOAD_PACK);
@@ -71,7 +71,7 @@ final class Upload extends AbstractGitCommand {
         uploadValidatorsFactory.create(project, repo, session.getRemoteAddressAsString()));
     up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
     for (UploadPackInitializer initializer : uploadPackInitializers) {
-      initializer.init(projectState.getNameKey(), up);
+      initializer.init(projectAccessor.getNameKey(), up);
     }
     try {
       up.upload(in, out, err);

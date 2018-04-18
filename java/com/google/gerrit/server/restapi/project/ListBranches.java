@@ -133,7 +133,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
   @Override
   public List<BranchInfo> apply(ProjectResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
-    rsrc.getProjectState().checkStatePermitsRead();
+    rsrc.getProjectAccessor().checkStatePermitsRead();
     return new RefFilter<BranchInfo>(Constants.R_HEADS)
         .subString(matchSubstring)
         .regex(matchRegex)
@@ -208,7 +208,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
           } else {
             b.canDelete =
                 perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
-                        && rsrc.getProjectState().statePermitsWrite()
+                        && rsrc.getProjectAccessor().statePermitsWrite()
                     ? true
                     : null;
           }
@@ -262,7 +262,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.canDelete =
           !targets.contains(ref.getName())
                   && perm.testOrFalse(RefPermission.DELETE)
-                  && projectAccessor.getProjectState().statePermitsWrite()
+                  && projectAccessor.statePermitsWrite()
               ? true
               : null;
     }
@@ -275,8 +275,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.actions.put(d.getId(), new ActionInfo(d));
     }
 
-    List<WebLinkInfo> links =
-        webLinks.getBranchLinks(projectAccessor.getProjectState().getName(), ref.getName());
+    List<WebLinkInfo> links = webLinks.getBranchLinks(projectAccessor.getName(), ref.getName());
     info.webLinks = links.isEmpty() ? null : links;
     return info;
   }

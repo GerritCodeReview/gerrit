@@ -20,8 +20,9 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChildProjects;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,22 +35,25 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
   protected final String value;
 
   public ParentProjectPredicate(
-      ProjectCache projectCache, ChildProjects childProjects, String value) {
-    super(predicates(projectCache, childProjects, value));
+      ProjectAccessor.Factory projectAccessorFactory, ChildProjects childProjects, String value) {
+    super(predicates(projectAccessorFactory, childProjects, value));
     this.value = value;
   }
 
   protected static List<Predicate<ChangeData>> predicates(
-      ProjectCache projectCache, ChildProjects childProjects, String value) {
-    ProjectState projectState = projectCache.get(new Project.NameKey(value));
-    if (projectState == null) {
+      ProjectAccessor.Factory projectAccessorFactory, ChildProjects childProjects, String value) {
+    ProjectAccessor projectAccessor;
+    try {
+      projectAccessor = projectAccessorFactory.create(new Project.NameKey(value));
+    } catch (IOException | NoSuchProjectException e) {
+      // Already logged by ProjectCacheImpl.
       return Collections.emptyList();
     }
 
     List<Predicate<ChangeData>> r = new ArrayList<>();
-    r.add(new ProjectPredicate(projectState.getName()));
+    r.add(new ProjectPredicate(projectAccessor.getName()));
     try {
-      for (ProjectInfo p : childProjects.list(projectState.getNameKey())) {
+      for (ProjectInfo p : childProjects.list(projectAccessor.getNameKey())) {
         r.add(new ProjectPredicate(p.name));
       }
     } catch (PermissionBackendException e) {

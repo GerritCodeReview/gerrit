@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "991a9092_ba644db6",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-18T12:35:40Z",
+      "side": 1,
+      "message": "In reindexIT test, I could not use the test name as prefix because setup is done in a static method. I used a uuid instead so maybe I should have used a uuid here for consistency.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 72
+      },
+      "revId": "48e7d8b9a8daf247a7c7a7b2230fa581cd889cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

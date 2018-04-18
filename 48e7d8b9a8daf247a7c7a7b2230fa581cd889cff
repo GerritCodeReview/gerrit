@@ -22,6 +22,30 @@
       "revId": "48e7d8b9a8daf247a7c7a7b2230fa581cd889cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5dfe7200_db475668",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-18T12:56:46Z",
+      "side": 1,
+      "message": "Never mind, I prefer to keep test name as prefix, it helps to track which test mehod is creating the index when looking at the logs.",
+      "parentUuid": "991a9092_ba644db6",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 72
+      },
+      "revId": "48e7d8b9a8daf247a7c7a7b2230fa581cd889cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

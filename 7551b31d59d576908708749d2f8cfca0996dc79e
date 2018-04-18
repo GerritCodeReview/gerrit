@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01fe2cf3_cd3a7cc3",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-18T13:14:35Z",
+      "side": 1,
+      "message": "I can\u0027t find what this is fixing, and I also don\u0027t understand this comment. Can you maybe describe this differently and/or include a screenshot?",
+      "range": {
+        "startLine": 35,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 73
+      },
+      "revId": "7551b31d59d576908708749d2f8cfca0996dc79e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1572,10 +1572,6 @@ public abstract class AbstractDaemonTest {
     assert_().fail(format, args);
   }
 
-  protected void fail() {
-    assert_().fail();
-  }
-
   protected void enableCreateNewChangeForAllNotInTarget() throws Exception {
     ProjectConfig config = projectCache.checkedGet(project).getConfig();
     config

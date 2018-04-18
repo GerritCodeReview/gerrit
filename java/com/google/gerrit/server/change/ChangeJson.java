@@ -335,8 +335,8 @@ public class ChangeJson {
   }
 
   /**
-   * See {@link ChangeData#lazyLoad}. If lazyLoad is set, converting data from index-backed {@link
-   * ChangeData} will fail with an exception.
+   * See {@link ChangeData#setLazyLoad(boolean)}. If lazyLoad is set, converting data from
+   * index-backed {@link ChangeData} will fail with an exception.
    */
   public ChangeJson lazyLoad(boolean load) {
     lazyLoad = load;

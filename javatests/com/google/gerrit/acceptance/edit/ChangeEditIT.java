@@ -56,7 +56,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Post;
@@ -601,11 +600,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void editCommitMessageCopiesLabelScores() throws Exception {
     String cr = "Code-Review";
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    LabelType codeReview = Util.codeReview();
-    codeReview.setCopyAllScoresIfNoCodeChange(true);
-    cfg.getLabelSections().put(cr, codeReview);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType codeReview = Util.codeReview();
+      codeReview.setCopyAllScoresIfNoCodeChange(true);
+      u.getConfig().getLabelSections().put(cr, codeReview);
+      u.save();
+    }
 
     ReviewInput r = new ReviewInput();
     r.labels = ImmutableMap.of(cr, (short) 1);

@@ -23,7 +23,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
-import com.google.gerrit.server.project.ProjectConfig;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -116,9 +115,10 @@ public class GetCommitIT extends AbstractDaemonTest {
   }
 
   private void unblockRead() throws Exception {
-    ProjectConfig pc = projectCache.checkedGet(project).getConfig();
-    pc.getAccessSection("refs/*").remove(new Permission(Permission.READ));
-    saveProjectConfig(project, pc);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getAccessSection("refs/*").remove(new Permission(Permission.READ));
+      u.save();
+    }
   }
 
   private void assertNotFound(ObjectId id) throws Exception {

@@ -32,6 +32,7 @@ ELASTICSEARCH_TESTS = {i: "ElasticQuery" + i.capitalize() + "sTest.java" for i i
     name = "elasticsearch_%ss_test" % name,
     size = "large",
     srcs = [src],
+    shard_count = 2,
     tags = [
         "elastic",
     ],

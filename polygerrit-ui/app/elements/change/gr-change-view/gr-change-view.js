@@ -246,6 +246,7 @@
 
     listeners: {
       'topic-changed': '_handleTopicChanged',
+      'reviewers-changed': '_handleReviewersChanged',
       // When an overlay is opened in a mobile viewport, the overlay has a full
       // screen view. When it has a full screen view, we do not want the
       // background to be scrollable. This will eliminate background scroll by
@@ -1484,6 +1485,10 @@
 
     _handleTopicChanged() {
       this.$.relatedChanges.reload();
+    },
+
+    _handleReviewersChanged() {
+      this._reloadWindow();
     },
 
     _computeHeaderClass(editMode) {

@@ -17,6 +17,9 @@
 (function() {
   'use strict';
 
+  const AWAIT_MAX_ITERS = 10;
+  const AWAIT_STEP = 5;
+
   Polymer({
     is: 'gr-reviewer-list',
 
@@ -55,6 +58,10 @@
         type: Array,
         value() { return []; },
       },
+      _newReviewers: {
+        type: Array,
+        value() { return []; },
+      },
       _showInput: {
         type: Boolean,
         value: false,
@@ -67,7 +74,11 @@
         type: Number,
         computed: '_computeHiddenCount(_reviewers, _displayedReviewers)',
       },
-
+      _verticalOffset: {
+        type: Number,
+        readOnly: true,
+        value: -30,
+      },
 
       // Used for testing.
       _lastAutocompleteRequest: Object,
@@ -228,18 +239,6 @@
       });
     },
 
-    _handleAddTap(e) {
-      e.preventDefault();
-      const value = {};
-      if (this.reviewersOnly) {
-        value.reviewersOnly = true;
-      }
-      if (this.ccsOnly) {
-        value.ccsOnly = true;
-      }
-      this.fire('show-reply-dialog', {value});
-    },
-
     _handleViewAll(e) {
       this._displayedReviewers = this._reviewers;
     },
@@ -249,7 +248,70 @@
     },
 
     _computeAddLabel(ccsOnly) {
-      return ccsOnly ? 'Add CC' : 'Add reviewer';
+      return ccsOnly ? 'ADD CC' : 'ADD REVIEWER';
+    },
+
+    _showDropdown() {
+      if (this.readOnly || this.editing) { return; }
+      this._open().then(() => {
+        this.$.input.$.entry.focus();
+      });
+    },
+
+    _open(...args) {
+      this.$.dropdown.open();
+      this.editing = true;
+      this._newReviewers = [];
+
+      return new Promise(resolve => {
+        Polymer.IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
+        this._awaitOpen(resolve);
+      });
+    },
+
+    _awaitOpen(fn) {
+      let iters = 0;
+      const step = () => {
+        this.async(() => {
+          if (this.style.display !== 'none') {
+            fn.call(this);
+          } else if (iters++ < AWAIT_MAX_ITERS) {
+            step.call(this);
+          }
+        }, AWAIT_STEP);
+      };
+      step.call(this);
+    },
+
+    _id() {
+      return this.getAttribute('id') || 'global';
+    },
+
+    _save() {
+      if (!this.editing) { return; }
+      this.$.dropdown.close();
+      this.editing = false;
+      const value = {};
+
+      if (this._newReviewers.length == 0) { return; }
+
+      this._newReviewers.forEach(reviewer => {
+        const accountID = reviewer._account_id || reviewer.id || reviewer.email;
+        const state = this.ccsOnly ? 'CC' : 'REVIEWER';
+        this.$.restAPI.addChangeReviewer(this.change._number, accountID, state)
+          .then(response => {
+            if (!response.ok) { return response; }
+
+            this.dispatchEvent(
+              new CustomEvent('reviewers-changed', { bubbles: true }));
+          });
+      });
+    },
+
+    _cancel() {
+      if (!this.editing) { return; }
+      this.$.dropdown.close();
+      this.editing = false;
     },
   });
 })();

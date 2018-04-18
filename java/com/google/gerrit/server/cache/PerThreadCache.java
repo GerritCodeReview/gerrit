@@ -20,6 +20,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -87,7 +88,7 @@ public class PerThreadCache implements AutoCloseable {
       if (!(o instanceof Key)) {
         return false;
       }
-      Key other = (Key) o;
+      Key<?> other = (Key<?>) o;
       return this.clazz == other.clazz && this.identifiers.equals(other.identifiers);
     }
   }
@@ -104,7 +105,7 @@ public class PerThreadCache implements AutoCloseable {
     return CACHE.get();
   }
 
-  private final Map<Key, Object> cache = Maps.newHashMapWithExpectedSize(10);
+  private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(10);
 
   private PerThreadCache() {}
 
@@ -113,6 +114,7 @@ public class PerThreadCache implements AutoCloseable {
    * provided {@link Supplier}.
    */
   public <T> T get(Key<T> key, Supplier<T> loader) {
+    @SuppressWarnings("unchecked")
     T value = (T) cache.get(key);
     if (value == null) {
       value = loader.get();

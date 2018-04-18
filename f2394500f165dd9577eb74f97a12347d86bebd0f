@@ -46,6 +46,30 @@
       "revId": "f2394500f165dd9577eb74f97a12347d86bebd0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6ce4066_bcfcde42",
+        "filename": "java/com/google/gerrit/server/project/CommentLinkProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T07:33:28Z",
+      "side": 1,
+      "message": "I went with volatile. It should solve the issue of reading threads not receiving the updated commentlinks by the provider.",
+      "parentUuid": "9b95e1ff_05bdcda4",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "f2394500f165dd9577eb74f97a12347d86bebd0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

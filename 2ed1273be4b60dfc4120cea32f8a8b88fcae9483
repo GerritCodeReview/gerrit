@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c5be373_46cf33e3",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T15:11:19Z",
+      "side": 1,
+      "message": "\"server\" cannot depend on \"sshd\".\nThis import breaks the build.\nBut it is actually not needed.",
+      "range": {
+        "startLine": 17,
+        "startChar": 25,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "2ed1273be4b60dfc4120cea32f8a8b88fcae9483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

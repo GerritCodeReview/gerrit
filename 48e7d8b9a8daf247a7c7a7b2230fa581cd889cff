@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "eeb1ed7a_60286c87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-18T13:11:27Z",
+      "side": 1,
+      "message": "\u003e This could still fail sometimes if index already exists for some\n \u003e reason. (Similar reasons to the ones causing the original problem\n \u003e to be fixed by this change.) -Unless such reasons become unlikely\n \u003e enough through this method name prefix usage?\n\nIf they fail, it\u0027s not because of the same reason. When the test class is loaded, we create an elasticsearch server in a temp folder using a random port. Each test method creates its indices (testMethod_Accounts_0004, ...). After all the tests are done, we shutdown the Elasticserach server and delete the temporary folder. So it is impossible that an 2 indices with the same name are created.",
+      "parentUuid": "264988da_706aafa5",
+      "range": {
+        "startLine": 11,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "48e7d8b9a8daf247a7c7a7b2230fa581cd889cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "991a9092_ba644db6",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
         "patchSetId": 1

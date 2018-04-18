@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+
+import com.google.inject.internal.InternalInjectorCreator;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -309,5 +311,9 @@ public class ServerPlugin extends Plugin {
   @Override
   public PluginContentScanner getContentScanner() {
     return scanner;
+  }
+
+  public ClassLoader getClassLoader() {
+    return classLoader;
   }
 }

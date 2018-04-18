@@ -39,6 +39,13 @@ def gerrit_plugin(
     **kwargs
   )
 
+  native.java_library(
+      name = name + '__test',
+      neverlink = 1,
+      visibility = ["//visibility:public"],
+      exports = [name + '__plugin'],
+  )
+
   static_jars = []
   if gwt_module:
     static_jars = [':%s-static' % name]

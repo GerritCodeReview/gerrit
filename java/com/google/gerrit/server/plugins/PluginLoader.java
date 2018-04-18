@@ -18,14 +18,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.LinkedHashMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
+import com.google.common.collect.*;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -260,6 +253,7 @@ public class PluginLoader implements LifecycleListener {
 
     synchronized (this) {
       for (String name : names) {
+        System.out.println("enable plugins names=" + names);
         Plugin off = disabled.get(name);
         if (off == null) {
           continue;
@@ -286,12 +280,7 @@ public class PluginLoader implements LifecycleListener {
 
   private void removeStalePluginFiles() {
     DirectoryStream.Filter<Path> filter =
-        new DirectoryStream.Filter<Path>() {
-          @Override
-          public boolean accept(Path entry) throws IOException {
-            return entry.getFileName().toString().startsWith("plugin_");
-          }
-        };
+        entry -> entry.getFileName().toString().startsWith("plugin_");
     try (DirectoryStream<Path> files = Files.newDirectoryStream(tempDir, filter)) {
       for (Path file : files) {
         log.info("Removing stale plugin file: " + file.toFile().getName());
@@ -395,6 +384,7 @@ public class PluginLoader implements LifecycleListener {
 
     Map<String, Path> activePlugins = filterDisabled(pluginsFiles);
     for (Map.Entry<String, Path> entry : jarsFirstSortedPluginsSet(activePlugins)) {
+      System.out.println("Next to load: " + entry);
       String name = entry.getKey();
       Path path = entry.getValue();
       String fileName = path.getFileName().toString();
@@ -435,35 +425,25 @@ public class PluginLoader implements LifecycleListener {
     cleanInBackground();
   }
 
-  private void addAllEntries(Map<String, Path> from, TreeSet<Entry<String, Path>> to) {
-    Iterator<Entry<String, Path>> it = from.entrySet().iterator();
-    while (it.hasNext()) {
-      Entry<String, Path> entry = it.next();
-      to.add(new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), entry.getValue()));
+  private Collection<Entry<String, Path>> jarsFirstSortedPluginsSet(Map<String, Path> activePlugins) {
+    Collection<Entry<String, Path>> orderedEntries = new ArrayList<>();
+    DependencyGraph<String> graph = new DependencyGraph<>();
+
+    for (Map.Entry<String, Path> entry : activePlugins.entrySet()) {
+      graph.addNode(entry.getKey());
+      for (PluginDependency dependency : serverPluginFactory.getPluginDependencies(entry.getValue())) {
+        graph.addDependency(entry.getKey(), dependency.name());
+      }
     }
-  }
 
-  private TreeSet<Entry<String, Path>> jarsFirstSortedPluginsSet(Map<String, Path> activePlugins) {
-    TreeSet<Entry<String, Path>> sortedPlugins =
-        Sets.newTreeSet(
-            new Comparator<Entry<String, Path>>() {
-              @Override
-              public int compare(Entry<String, Path> e1, Entry<String, Path> e2) {
-                Path n1 = e1.getValue().getFileName();
-                Path n2 = e2.getValue().getFileName();
-                return ComparisonChain.start()
-                    .compareTrueFirst(isJar(n1), isJar(n2))
-                    .compare(n1, n2)
-                    .result();
-              }
+    for (String plugin : graph.computeLoadOrder()) {
+      if (!activePlugins.containsKey(plugin)) {
+        continue;
+      }
+      orderedEntries.add(new AbstractMap.SimpleImmutableEntry<>(plugin, activePlugins.get(plugin)));
+    }
 
-              private boolean isJar(Path n1) {
-                return n1.toString().endsWith(".jar");
-              }
-            });
-
-    addAllEntries(activePlugins, sortedPlugins);
-    return sortedPlugins;
+    return orderedEntries;
   }
 
   private void syncDisabledPlugins(SetMultimap<String, Path> jars) {

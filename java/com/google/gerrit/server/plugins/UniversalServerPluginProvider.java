@@ -19,6 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.slf4j.Logger;
@@ -44,6 +45,11 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
   @Override
   public String getPluginName(Path srcPath) {
     return providerOf(srcPath).getPluginName(srcPath);
+  }
+
+  @Override
+  public Collection<PluginDependency> getPluginDependencies(Path srcPath) {
+    return providerOf(srcPath).getPluginDependencies(srcPath);
   }
 
   @Override

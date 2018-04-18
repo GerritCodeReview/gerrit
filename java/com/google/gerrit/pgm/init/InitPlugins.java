@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.common.collect.FluentIterable;
 import com.google.gerrit.common.PluginData;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -24,6 +23,7 @@ import com.google.gerrit.server.plugins.JarPluginProvider;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+import java.util.stream.Collectors;
 
 @Singleton
 public class InitPlugins implements InitStep {
@@ -69,14 +70,7 @@ public class InitPlugins implements InitStep {
             result.add(new PluginData(pluginName, pluginVersion, tmpPlugin));
           }
         });
-    return FluentIterable.from(result)
-        .toSortedList(
-            new Comparator<PluginData>() {
-              @Override
-              public int compare(PluginData a, PluginData b) {
-                return a.name.compareTo(b.name);
-              }
-            });
+    return result.stream().sorted(Comparator.comparing(a -> a.name)).collect(Collectors.toList());
   }
 
   private final ConsoleUI ui;

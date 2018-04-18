@@ -108,7 +108,7 @@ class AutoRegisterModules {
           bind(type).annotatedWith(n).to(impl);
         }
         if (initJs != null) {
-          DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(new JavaScriptPlugin(initJs));
+          DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(WebUiPlugin.js(initJs));
         }
       }
     };

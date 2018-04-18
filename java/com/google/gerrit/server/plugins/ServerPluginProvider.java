@@ -17,6 +17,8 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.PluginUser;
 import java.nio.file.Path;
+import java.util.Collection;
+
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
 /**
@@ -70,6 +72,18 @@ public interface ServerPluginProvider {
    * @return plugin name
    */
   String getPluginName(Path srcPath);
+
+  /**
+   * Returns the plugin dependencies of an external file or directory
+   *
+   * <p>Should be called only if {@link #handles(Path) handles(srcFile)} returns true and thus
+   * srcFile is a supported plugin format. An IllegalArgumentException is thrown otherwise as
+   * srcFile is not a valid file format for extracting its dependencies.
+   *
+   * @param srcPath external file or directory
+   * @return dependencies, identified by the plugin names
+   */
+  Collection<PluginDependency> getPluginDependencies(Path srcPath);
 
   /**
    * Loads an external file or directory into a Server plugin.

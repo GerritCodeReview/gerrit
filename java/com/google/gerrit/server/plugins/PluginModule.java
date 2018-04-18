@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.plugins.classloader.JarPluginClassLoader;
 
 public class PluginModule extends LifecycleModule {
   @Override
@@ -24,6 +25,7 @@ public class PluginModule extends LifecycleModule {
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
 
+    factory(JarPluginClassLoader.Factory.class);
     bind(PluginCleanerTask.class);
     bind(PluginGuiceEnvironment.class);
     bind(PluginLoader.class);

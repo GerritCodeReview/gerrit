@@ -17,7 +17,6 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
@@ -99,7 +98,7 @@ class JsPlugin extends Plugin {
     @Override
     protected void configure() {
       bind(String.class).annotatedWith(PluginName.class).toInstance(pluginName);
-      DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(new JavaScriptPlugin(fileName));
+      DynamicSet.bind(binder(), WebUiPlugin.class).toInstance(WebUiPlugin.js(fileName));
     }
   }
 

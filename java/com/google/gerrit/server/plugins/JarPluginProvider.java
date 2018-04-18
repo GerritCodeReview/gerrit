@@ -14,21 +14,25 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.plugins.classloader.JarPluginClassLoader;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.jar.Attributes;
@@ -42,14 +46,20 @@ public class JarPluginProvider implements ServerPluginProvider {
   static final String PLUGIN_TMP_PREFIX = "plugin_";
   static final String JAR_EXTENSION = ".jar";
   static final Logger log = LoggerFactory.getLogger(JarPluginProvider.class);
+  static final Splitter DEPENDENCIES_SPLITTER = Splitter.on(',').trimResults().omitEmptyStrings();
 
   private final Path tmpDir;
   private final PluginConfigFactory configFactory;
+  private final JarPluginClassLoader.Factory pluginClassLoaderFactory;
 
   @Inject
-  JarPluginProvider(SitePaths sitePaths, PluginConfigFactory configFactory) {
+  JarPluginProvider(
+      SitePaths sitePaths,
+      PluginConfigFactory configFactory,
+      JarPluginClassLoader.Factory pluginClassLoaderFactory) {
     this.tmpDir = sitePaths.tmp_dir;
     this.configFactory = configFactory;
+    this.pluginClassLoaderFactory = pluginClassLoaderFactory;
   }
 
   @Override
@@ -66,6 +76,41 @@ public class JarPluginProvider implements ServerPluginProvider {
       throw new IllegalArgumentException(
           "Invalid plugin file " + srcPath + ": cannot get plugin name", e);
     }
+  }
+
+  @Override
+  public Collection<PluginDependency> getPluginDependencies(Path srcPath) {
+    try {
+      return getJarPluginDependencies(srcPath);
+    } catch (IOException e) {
+      throw new IllegalArgumentException(
+          "Invalid plugin file " + srcPath + ": cannot get plugin dependencies", e);
+    }
+  }
+
+  public static Collection<PluginDependency> getJarPluginDependencies(Path srcPath)
+      throws IOException {
+    Collection<PluginDependency> dependencies = new ArrayList<>();
+    try (JarFile jarFile = new JarFile(srcPath.toFile())) {
+      String dependsOn = jarFile.getManifest().getMainAttributes().getValue("Depends-On");
+      if (dependsOn != null) {
+        DEPENDENCIES_SPLITTER
+            .splitToList(dependsOn)
+            .stream()
+            .map(PluginDependency::createHardDependency)
+            .forEach(dependencies::add);
+      }
+
+      String softDependsOn = jarFile.getManifest().getMainAttributes().getValue("Soft-Depends-On");
+      if (softDependsOn != null) {
+        DEPENDENCIES_SPLITTER
+            .splitToList(softDependsOn)
+            .stream()
+            .map(PluginDependency::createSoftDependency)
+            .forEach(dependencies::add);
+      }
+    }
+    return dependencies;
   }
 
   public static String getJarPluginName(Path srcPath) throws IOException {
@@ -118,7 +163,7 @@ public class JarPluginProvider implements ServerPluginProvider {
 
   private ServerPlugin loadJarPlugin(
       String name, Path srcJar, FileSnapshot snapshot, Path tmp, PluginDescription description)
-      throws IOException, InvalidPluginException, MalformedURLException {
+      throws IOException, InvalidPluginException {
     JarFile jarFile = new JarFile(tmp.toFile());
     boolean keep = false;
     try {
@@ -136,19 +181,14 @@ public class JarPluginProvider implements ServerPluginProvider {
       }
       urls.add(tmp.toUri().toURL());
 
-      ClassLoader pluginLoader =
-          URLClassLoader.newInstance(
-              urls.toArray(new URL[urls.size()]), PluginUtil.parentFor(type));
-
       JarScanner jarScanner = createJarScanner(tmp);
       PluginConfig pluginConfig = configFactory.getFromGerritConfig(name);
-      Attributes dependencies = jarScanner.getManifest().getAttributes("Gerrit-Depends-On");
-      Attributes softDependencies =
-          jarScanner.getManifest().getAttributes("Gerrit-Soft-Depends-On");
+      String dependencies = manifest.getMainAttributes().getValue("Depends-On");
 
-      if (dependencies.isEmpty()) {
-        return null;
-      }
+      ClassLoader parentClassLoader = PluginUtil.parentFor(type);
+      URL[] jars = urls.toArray(new URL[urls.size()]);
+      ClassLoader pluginLoader =
+          pluginClassLoaderFactory.create(jars, parentClassLoader, dependencies);
 
       ServerPlugin plugin =
           new ServerPlugin(

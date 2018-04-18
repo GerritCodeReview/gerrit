@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab4fe431_ab04ae42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-18T13:35:34Z",
+      "side": 1,
+      "message": "I\u0027m having trouble reproducing the problem this describes. If I run current master, I see many gr-date-formatters in ..\n\n rgb(33, 33, 33);\n\n.. not ..\n\n rgb(0, 0, 0);",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "e0fb70cdc3efa3cd18811ad3efe43cc4cf3ea2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

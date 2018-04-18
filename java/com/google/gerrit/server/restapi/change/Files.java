@@ -48,6 +48,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchListObjectTooLargeException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -152,7 +153,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
     public Response<?> apply(RevisionResource resource)
         throws AuthException, BadRequestException, ResourceNotFoundException, OrmException,
             RepositoryNotFoundException, IOException, PatchListNotAvailableException,
-            PermissionBackendException {
+            PermissionBackendException, NoSuchProjectException {
       checkOptions();
       if (reviewed) {
         return Response.ok(reviewed(resource));

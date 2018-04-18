@@ -61,7 +61,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
     }
 
     permissionBackend.currentUser().ref(rsrc.getBranchKey()).check(RefPermission.DELETE);
-    rsrc.getProjectState().checkStatePermitsWrite();
+    rsrc.getProjectAccessor().checkStatePermitsWrite();
 
     if (!queryProvider.get().setLimit(1).byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");

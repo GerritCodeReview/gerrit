@@ -57,6 +57,7 @@ public class CommitsCollectionTest {
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected AllProjectsName allProjects;
   @Inject private CommitsCollection commits;
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
 
   private TestRepository<InMemoryRepository> repo;
   private ProjectConfig project;
@@ -79,11 +80,11 @@ public class CommitsCollectionTest {
   public void canReadCommitWhenAllRefsVisible() throws Exception {
     allow(project, READ, REGISTERED_USERS, "refs/*");
     ObjectId id = repo.branch("master").commit().create();
-    ProjectState state = readProjectState();
+    ProjectAccessor accessor = readProjectAccessor();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(commits.canRead(state, r, rw.parseCommit(id)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(id)));
   }
 
   @Test
@@ -94,12 +95,12 @@ public class CommitsCollectionTest {
     ObjectId id1 = repo.branch("branch1").commit().create();
     ObjectId id2 = repo.branch("branch2").commit().create();
 
-    ProjectState state = readProjectState();
+    ProjectAccessor accessor = readProjectAccessor();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
-    assertTrue(commits.canRead(state, r, rw.parseCommit(id2)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(id2)));
   }
 
   @Test
@@ -110,12 +111,12 @@ public class CommitsCollectionTest {
     ObjectId id1 = repo.branch("branch1").commit().create();
     ObjectId id2 = repo.branch("branch2").commit().create();
 
-    ProjectState state = readProjectState();
+    ProjectAccessor accessor = readProjectAccessor();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
-    assertFalse(commits.canRead(state, r, rw.parseCommit(id2)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(id1)));
+    assertFalse(commits.canRead(accessor, r, rw.parseCommit(id2)));
   }
 
   @Test
@@ -129,11 +130,11 @@ public class CommitsCollectionTest {
     RevCommit parent2 = repo.commit().create();
     repo.branch("branch2").commit().parent(parent2).create();
 
-    ProjectState state = readProjectState();
+    ProjectAccessor accessor = readProjectAccessor();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
-    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
-    assertFalse(commits.canRead(state, r, rw.parseCommit(parent2)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(parent1)));
+    assertFalse(commits.canRead(accessor, r, rw.parseCommit(parent2)));
   }
 
   @Test
@@ -143,16 +144,16 @@ public class CommitsCollectionTest {
     RevCommit parent1 = repo.commit().create();
     ObjectId id1 = repo.branch("branch1").commit().parent(parent1).create();
 
-    ProjectState state = readProjectState();
+    ProjectAccessor accessor = readProjectAccessor();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
-    assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(parent1)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(id1)));
 
     repo.branch("branch1").update(parent1);
-    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
-    assertFalse(commits.canRead(state, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(parent1)));
+    assertFalse(commits.canRead(accessor, r, rw.parseCommit(id1)));
   }
 
   @Test
@@ -162,20 +163,20 @@ public class CommitsCollectionTest {
     RevCommit parent1 = repo.commit().create();
     ObjectId id1 = repo.branch("branch1").commit().parent(parent1).create();
 
-    ProjectState state = readProjectState();
+    ProjectAccessor accessor = readProjectAccessor();
     RevWalk rw = repo.getRevWalk();
     Repository r = repo.getRepository();
 
-    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
-    assertTrue(commits.canRead(state, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(parent1)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(id1)));
 
     repo.branch("branch1").update(parent1);
-    assertTrue(commits.canRead(state, r, rw.parseCommit(parent1)));
-    assertFalse(commits.canRead(state, r, rw.parseCommit(id1)));
+    assertTrue(commits.canRead(accessor, r, rw.parseCommit(parent1)));
+    assertFalse(commits.canRead(accessor, r, rw.parseCommit(id1)));
   }
 
-  private ProjectState readProjectState() throws Exception {
-    return projectCache.get(project.getName());
+  private ProjectAccessor readProjectAccessor() throws Exception {
+    return projectAccessorFactory.create(project.getName());
   }
 
   protected void allow(ProjectConfig project, String permission, AccountGroup.UUID id, String ref)

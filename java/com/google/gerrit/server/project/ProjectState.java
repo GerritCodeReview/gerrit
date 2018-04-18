@@ -31,7 +31,6 @@ import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -84,6 +83,7 @@ public class ProjectState {
   private final boolean isAllUsers;
   private final SitePaths sitePaths;
   private final AllProjectsName allProjectsName;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final PrologEnvironment.Factory envFactory;
   private final GitRepositoryManager gitMgr;
@@ -115,6 +115,7 @@ public class ProjectState {
   @Inject
   public ProjectState(
       final SitePaths sitePaths,
+      final ProjectAccessor.Factory projectAccessorFactory,
       final ProjectCache projectCache,
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
@@ -125,6 +126,7 @@ public class ProjectState {
       final CapabilityCollection.Factory limitsFactory,
       @Assisted final ProjectConfig config) {
     this.sitePaths = sitePaths;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
     this.isAllUsers = config.getProject().getNameKey().equals(allUsersName);
@@ -236,19 +238,11 @@ public class ProjectState {
     return envFactory.create(pmc);
   }
 
-  public Project getProject() {
-    return config.getProject();
+  Project.NameKey getNameKey() {
+    return getConfig().getProject().getNameKey();
   }
 
-  public Project.NameKey getNameKey() {
-    return getProject().getNameKey();
-  }
-
-  public String getName() {
-    return getNameKey().get();
-  }
-
-  public ProjectConfig getConfig() {
+  ProjectConfig getConfig() {
     return config;
   }
 
@@ -261,37 +255,11 @@ public class ProjectState {
     try (Repository git = gitMgr.openRepository(getNameKey())) {
       cfg.load(git, config.getRevision());
     } catch (IOException | ConfigInvalidException e) {
-      log.warn("Failed to load " + fileName + " for " + getName(), e);
+      log.warn("Failed to load " + fileName + " for " + getNameKey(), e);
     }
 
     configs.put(fileName, cfg);
     return cfg;
-  }
-
-  public long getMaxObjectSizeLimit() {
-    return config.getMaxObjectSizeLimit();
-  }
-
-  public boolean statePermitsRead() {
-    return getProject().getState().permitsRead();
-  }
-
-  public void checkStatePermitsRead() throws ResourceConflictException {
-    if (!statePermitsRead()) {
-      throw new ResourceConflictException(
-          "project state " + getProject().getState().name() + " does not permit read");
-    }
-  }
-
-  public boolean statePermitsWrite() {
-    return getProject().getState().permitsWrite();
-  }
-
-  public void checkStatePermitsWrite() throws ResourceConflictException {
-    if (!statePermitsWrite()) {
-      throw new ResourceConflictException(
-          "project state " + getProject().getState().name() + " does not permit write");
-    }
   }
 
   /** Get the sections that pertain only to this project. */
@@ -334,7 +302,8 @@ public class ProjectState {
     return new Iterable<ProjectState>() {
       @Override
       public Iterator<ProjectState> iterator() {
-        return new ProjectHierarchyIterator(projectCache, allProjectsName, ProjectState.this);
+        return new ProjectHierarchyIterator(
+            projectAccessorFactory, projectCache, allProjectsName, ProjectState.this);
       }
     };
   }
@@ -479,7 +448,8 @@ public class ProjectState {
   }
 
   public ProjectData toProjectData() {
-    return new ProjectData(getProject(), parents().transform(s -> s.getProject().getNameKey()));
+    return new ProjectData(
+        config.getProject(), parents().transform(s -> s.config.getProject().getNameKey()));
   }
 
   private String readFile(Path p) throws IOException {

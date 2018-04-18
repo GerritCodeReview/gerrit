@@ -32,8 +32,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
@@ -89,14 +88,14 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private final Provider<InternalChangeQuery> queryProvider;
   private final Map<QueryKey, List<ChangeData>> queryCache;
   private final Map<Branch.NameKey, Optional<RevCommit>> heads;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   LocalMergeSuperSetComputation(
       PermissionBackend permissionBackend,
       Provider<InternalChangeQuery> queryProvider,
-      ProjectCache projectCache) {
-    this.projectCache = projectCache;
+      ProjectAccessor.Factory projectAccessorFactory) {
+    this.projectAccessorFactory = projectAccessorFactory;
     this.permissionBackend = permissionBackend;
     this.queryProvider = queryProvider;
     this.queryCache = new HashMap<>();
@@ -119,7 +118,12 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
       List<RevCommit> visibleCommits = new ArrayList<>();
       List<RevCommit> nonVisibleCommits = new ArrayList<>();
       for (ChangeData cd : bc.get(b)) {
-        boolean visible = isVisible(db, changeSet, cd, user);
+        boolean visible;
+        try {
+          visible = isVisible(db, changeSet, cd, user);
+        } catch (NoSuchProjectException e) {
+          throw new IOException(e);
+        }
 
         if (submitType(cd) == SubmitType.CHERRY_PICK) {
           if (visible) {
@@ -177,12 +181,9 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private boolean isVisible(ReviewDb db, ChangeSet changeSet, ChangeData cd, CurrentUser user)
-      throws PermissionBackendException, IOException {
-    ProjectState projectState = projectCache.checkedGet(cd.project());
-    boolean visible =
-        changeSet.ids().contains(cd.getId())
-            && (projectState != null)
-            && projectState.statePermitsRead();
+      throws PermissionBackendException, IOException, NoSuchProjectException {
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(cd.project());
+    boolean visible = changeSet.ids().contains(cd.getId()) && projectAccessor.statePermitsRead();
     if (visible
         && !permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ)) {
       // We thought the change was visible, but it isn't.

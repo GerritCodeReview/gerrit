@@ -153,7 +153,7 @@ class ProjectControl {
   }
 
   Project getProject() {
-    return getProjectState().getProject();
+    return getProjectAccessor().getProject();
   }
 
   /** Is this user a project owner? */
@@ -335,7 +335,7 @@ class ProjectControl {
     @Override
     public String resourcePath() {
       if (resourcePath == null) {
-        resourcePath = "/projects/" + getProjectState().getName();
+        resourcePath = "/projects/" + getProjectAccessor().getName();
       }
       return resourcePath;
     }

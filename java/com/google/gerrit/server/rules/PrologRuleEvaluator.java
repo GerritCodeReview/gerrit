@@ -28,7 +28,6 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectAccessor;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RuleEvalException;
 import com.google.gerrit.server.project.SubmitRuleOptions;
@@ -45,6 +44,7 @@ import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,7 +82,7 @@ public class PrologRuleEvaluator {
   private final Emails emails;
   private final ProjectAccessor.Factory projectAccessorFactory;
   private final ChangeData cd;
-  private final ProjectState projectState;
+  private final ProjectAccessor projectAccessor;
   private final SubmitRuleOptions opts;
   private Term submitRule;
 
@@ -92,7 +92,6 @@ public class PrologRuleEvaluator {
       Accounts accounts,
       Emails emails,
       ProjectAccessor.Factory projectAccessorFactory,
-      ProjectCache projectCache,
       @Assisted ChangeData cd,
       @Assisted SubmitRuleOptions options) {
     this.accountCache = accountCache;
@@ -102,7 +101,14 @@ public class PrologRuleEvaluator {
     this.cd = cd;
     this.opts = options;
 
-    this.projectState = projectCache.get(cd.project());
+    ProjectAccessor projectAccessor;
+    try {
+      projectAccessor = projectAccessorFactory.create(cd.project());
+    } catch (NoSuchProjectException | IOException e) {
+      // Already logged from ProjectCacheImpl.
+      projectAccessor = null;
+    }
+    this.projectAccessor = projectAccessor;
   }
 
   private static Term toListTerm(List<Term> terms) {
@@ -138,7 +144,7 @@ public class PrologRuleEvaluator {
         throw new OrmException("No change found");
       }
 
-      if (projectState == null) {
+      if (projectAccessor == null) {
         throw new NoSuchProjectException(cd.project());
       }
     } catch (OrmException | NoSuchProjectException e) {
@@ -168,7 +174,7 @@ public class PrologRuleEvaluator {
       return ruleError(
           String.format(
               "Submit rule '%s' for change %s of %s has no solution.",
-              getSubmitRuleName(), cd.getId(), projectState.getName()));
+              getSubmitRuleName(), cd.getId(), projectAccessor.getName()));
     }
 
     return resultsToSubmitRecord(getSubmitRule(), results);
@@ -316,7 +322,7 @@ public class PrologRuleEvaluator {
    */
   public SubmitTypeRecord getSubmitType() {
     try {
-      if (projectState == null) {
+      if (projectAccessor == null) {
         throw new NoSuchProjectException(cd.project());
       }
     } catch (NoSuchProjectException e) {
@@ -343,7 +349,7 @@ public class PrologRuleEvaluator {
               + "' for change "
               + cd.getId()
               + " of "
-              + projectState.getName()
+              + projectAccessor.getName()
               + " has no solution.");
     }
 
@@ -355,7 +361,7 @@ public class PrologRuleEvaluator {
               + "' for change "
               + cd.getId()
               + " of "
-              + projectState.getName()
+              + projectAccessor.getName()
               + " did not return a symbol.");
     }
 
@@ -369,7 +375,7 @@ public class PrologRuleEvaluator {
               + " for change "
               + cd.getId()
               + " of "
-              + projectState.getName()
+              + projectAccessor.getName()
               + " output invalid result: "
               + typeName);
     }
@@ -409,12 +415,12 @@ public class PrologRuleEvaluator {
         throw new RuleEvalException(
             String.format(
                 "%s on change %d of %s",
-                err.getMessage(), cd.getId().get(), projectState.getName()));
+                err.getMessage(), cd.getId().get(), projectAccessor.getName()));
       } catch (RuntimeException err) {
         throw new RuleEvalException(
             String.format(
                 "Exception calling %s on change %d of %s",
-                sr, cd.getId().get(), projectState.getName()),
+                sr, cd.getId().get(), projectAccessor.getName()),
             err);
       }
 
@@ -445,16 +451,19 @@ public class PrologRuleEvaluator {
     PrologEnvironment env;
     try {
       if (opts.rule() == null) {
-        env = projectState.newPrologEnvironment();
+        env = projectAccessor.getProjectState().newPrologEnvironment();
       } else {
-        env = projectState.newPrologEnvironment("stdin", new StringReader(opts.rule()));
+        env =
+            projectAccessor
+                .getProjectState()
+                .newPrologEnvironment("stdin", new StringReader(opts.rule()));
       }
     } catch (CompileException err) {
       String msg;
       if (opts.rule() == null) {
         msg =
             String.format(
-                "Cannot load rules.pl for %s: %s", projectState.getName(), err.getMessage());
+                "Cannot load rules.pl for %s: %s", projectAccessor.getName(), err.getMessage());
       } else {
         msg = err.getMessage();
       }
@@ -465,8 +474,8 @@ public class PrologRuleEvaluator {
     env.set(StoredValues.EMAILS, emails);
     env.set(StoredValues.REVIEW_DB, cd.db());
     env.set(StoredValues.CHANGE_DATA, cd);
-    env.set(StoredValues.PROJECT_ACCESSOR, projectAccessorFactory.create(projectState));
-    env.set(StoredValues.PROJECT_STATE, projectState);
+    env.set(StoredValues.PROJECT_ACCESSOR, projectAccessor);
+    env.set(StoredValues.PROJECT_STATE, projectAccessor.getProjectState());
     return env;
   }
 
@@ -480,11 +489,12 @@ public class PrologRuleEvaluator {
     ChangeData cd = env.get(StoredValues.CHANGE_DATA);
     ProjectState projectState = env.get(StoredValues.PROJECT_STATE);
     for (ProjectState parentState : projectState.parents()) {
+      ProjectAccessor parentAccessor = projectAccessorFactory.create(parentState);
       PrologEnvironment parentEnv;
       try {
         parentEnv = parentState.newPrologEnvironment();
       } catch (CompileException err) {
-        throw new RuleEvalException("Cannot consult rules.pl for " + parentState.getName(), err);
+        throw new RuleEvalException("Cannot consult rules.pl for " + parentAccessor.getName(), err);
       }
 
       parentEnv.copyStoredValues(childEnv);
@@ -498,12 +508,12 @@ public class PrologRuleEvaluator {
         throw new RuleEvalException(
             String.format(
                 "%s on change %d of %s",
-                err.getMessage(), cd.getId().get(), parentState.getName()));
+                err.getMessage(), cd.getId().get(), parentAccessor.getName()));
       } catch (RuntimeException err) {
         throw new RuleEvalException(
             String.format(
                 "Exception calling %s on change %d of %s",
-                filterRule, cd.getId().get(), parentState.getName()),
+                filterRule, cd.getId().get(), parentAccessor.getName()),
             err);
       }
       childEnv = parentEnv;

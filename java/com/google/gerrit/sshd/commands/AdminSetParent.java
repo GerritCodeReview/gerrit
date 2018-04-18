@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -114,24 +115,25 @@ final class AdminSetParent extends SshCommand {
     grandParents.add(allProjectsName);
 
     if (newParent != null) {
-      newParentKey = newParent.getProject().getNameKey();
+      ProjectAccessor newParentAccessor = projectAccessorFactory.create(newParent);
+      newParentKey = newParentAccessor.getProject().getNameKey();
 
       // Catalog all grandparents of the "parent", we want to
       // catch a cycle in the parent pointers before it occurs.
       //
-      Project.NameKey gp = newParent.getProject().getParent();
+      Project.NameKey gp = newParentAccessor.getProject().getParent();
       while (gp != null && grandParents.add(gp)) {
-        final ProjectState s = projectCache.get(gp);
-        if (s != null) {
-          gp = s.getProject().getParent();
-        } else {
+        try {
+          gp = projectAccessorFactory.create(gp).getProject().getParent();
+        } catch (IOException | NoSuchProjectException e) {
+          // Already logged by ProjectCacheImpl.
           break;
         }
       }
     }
 
     final List<Project.NameKey> childProjects =
-        children.stream().map(ProjectState::getNameKey).collect(toList());
+        children.stream().map(s -> projectAccessorFactory.create(s).getNameKey()).collect(toList());
     if (oldParent != null) {
       try {
         childProjects.addAll(getChildrenForReparenting(oldParent));
@@ -206,7 +208,7 @@ final class AdminSetParent extends SshCommand {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
     for (ProjectState excludedChild : excludedChildren) {
-      excluded.add(excludedChild.getProject().getNameKey());
+      excluded.add(projectAccessorFactory.create(excludedChild).getProject().getNameKey());
     }
     final List<Project.NameKey> automaticallyExcluded = new ArrayList<>(excludedChildren.size());
     if (newParentKey != null) {
@@ -238,6 +240,6 @@ final class AdminSetParent extends SshCommand {
     if (ps == null) {
       return Collections.emptySet();
     }
-    return ps.parents().transform(s -> s.getNameKey()).toSet();
+    return ps.parents().transform(s -> projectAccessorFactory.create(ps).getNameKey()).toSet();
   }
 }

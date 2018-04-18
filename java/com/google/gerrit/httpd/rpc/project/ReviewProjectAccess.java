@@ -42,7 +42,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.PostReviewers;
@@ -76,7 +77,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   private final PermissionBackend permissionBackend;
   private final Sequences seq;
   private final Provider<PostReviewers> reviewersProvider;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ChangesCollection changes;
   private final ChangeInserter.Factory changeInserterFactory;
   private final BatchUpdate.Factory updateFactory;
@@ -88,7 +89,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       MetaDataUpdate.User metaDataUpdateFactory,
       ReviewDb db,
       Provider<PostReviewers> reviewersProvider,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       AllProjectsName allProjects,
       ChangesCollection changes,
       ChangeInserter.Factory changeInserterFactory,
@@ -120,7 +121,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     this.permissionBackend = permissionBackend;
     this.seq = seq;
     this.reviewersProvider = reviewersProvider;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.changes = changes;
     this.changeInserterFactory = changeInserterFactory;
     this.updateFactory = updateFactory;
@@ -133,7 +134,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
   protected Change.Id updateProjectConfig(
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException, AuthException, PermissionBackendException,
-          ConfigInvalidException, ResourceConflictException {
+          ConfigInvalidException, ResourceConflictException, NoSuchProjectException {
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(config.getName());
     if (!check(perm, ProjectPermission.READ_CONFIG)) {
       throw new AuthException(RefNames.REFS_CONFIG + " not visible");
@@ -144,7 +145,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG);
     }
 
-    projectCache.checkedGet(config.getName()).checkStatePermitsWrite();
+    projectAccessorFactory.create(config.getName()).checkStatePermitsWrite();
 
     md.setInsertChangeId(true);
     Change.Id changeId = new Change.Id(seq.nextChangeId());
@@ -197,10 +198,11 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
     }
   }
 
-  private void addAdministratorsAsReviewers(ChangeResource rsrc) {
+  private void addAdministratorsAsReviewers(ChangeResource rsrc)
+      throws NoSuchProjectException, IOException {
     List<PermissionRule> adminRules =
-        projectCache
-            .getAllProjects()
+        projectAccessorFactory
+            .createForAllProjects()
             .getConfig()
             .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
             .getPermission(GlobalCapability.ADMINISTRATE_SERVER)

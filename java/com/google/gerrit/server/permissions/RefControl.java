@@ -408,7 +408,8 @@ class RefControl {
       if (resourcePath == null) {
         resourcePath =
             String.format(
-                "/projects/%s/+refs/%s", getProjectControl().getProjectState().getName(), refName);
+                "/projects/%s/+refs/%s",
+                getProjectControl().getProjectAccessor().getName(), refName);
       }
       return resourcePath;
     }

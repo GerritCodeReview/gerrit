@@ -28,12 +28,13 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,18 +49,18 @@ public class ListTasks implements RestReadView<ConfigResource> {
   private final PermissionBackend permissionBackend;
   private final WorkQueue workQueue;
   private final Provider<CurrentUser> self;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   public ListTasks(
       PermissionBackend permissionBackend,
       WorkQueue workQueue,
       Provider<CurrentUser> self,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.permissionBackend = permissionBackend;
     this.workQueue = workQueue;
     this.self = self;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
@@ -85,16 +86,19 @@ public class ListTasks implements RestReadView<ConfigResource> {
         Boolean visible = visibilityCache.get(task.projectName);
         if (visible == null) {
           Project.NameKey nameKey = new Project.NameKey(task.projectName);
-          ProjectState state = projectCache.get(nameKey);
-          if (state == null || !state.statePermitsRead()) {
-            visible = false;
-          } else {
-            try {
-              permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
-              visible = true;
-            } catch (AuthException e) {
+          try {
+            if (!projectAccessorFactory.create(nameKey).statePermitsRead()) {
               visible = false;
+            } else {
+              try {
+                permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+                visible = true;
+              } catch (AuthException e) {
+                visible = false;
+              }
             }
+          } catch (NoSuchProjectException | IOException e) {
+            // Already logged by ProjectCacheImpl.
           }
           visibilityCache.put(task.projectName, visible);
         }

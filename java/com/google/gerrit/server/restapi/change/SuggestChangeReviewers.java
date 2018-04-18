@@ -29,7 +29,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.restapi.change.ReviewersUtil.VisibilityControl;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -52,7 +53,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
 
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   SuggestChangeReviewers(
@@ -63,24 +64,24 @@ public class SuggestChangeReviewers extends SuggestReviewers
       Provider<CurrentUser> self,
       @GerritServerConfig Config cfg,
       ReviewersUtil reviewersUtil,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     super(av, identifiedUserFactory, dbProvider, cfg, reviewersUtil);
     this.permissionBackend = permissionBackend;
     this.self = self;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
   public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
       throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+          PermissionBackendException, NoSuchProjectException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
     return reviewersUtil.suggestReviewers(
         rsrc.getNotes(),
         this,
-        projectCache.checkedGet(rsrc.getProject()),
+        projectAccessorFactory.create(rsrc.getProject()),
         getVisibility(rsrc),
         excludeGroups);
   }

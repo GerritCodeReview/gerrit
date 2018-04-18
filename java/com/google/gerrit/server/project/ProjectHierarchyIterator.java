@@ -31,15 +31,19 @@ import org.slf4j.LoggerFactory;
  *
  * <p>If a cycle is detected the cycle is broken and All-Projects is visited.
  */
+// TODO(dborowitz): Convert to Iterator<ProjectAccessor> (?)
 class ProjectHierarchyIterator implements Iterator<ProjectState> {
   private static final Logger log = LoggerFactory.getLogger(ProjectHierarchyIterator.class);
 
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache cache;
   private final AllProjectsName allProjectsName;
   private final Set<Project.NameKey> seen;
   private ProjectState next;
 
-  ProjectHierarchyIterator(ProjectCache c, AllProjectsName all, ProjectState firstResult) {
+  ProjectHierarchyIterator(
+      ProjectAccessor.Factory f, ProjectCache c, AllProjectsName all, ProjectState firstResult) {
+    projectAccessorFactory = f;
     cache = c;
     allProjectsName = all;
 
@@ -64,7 +68,7 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
   }
 
   private ProjectState computeNext(ProjectState n) {
-    Project.NameKey parentName = n.getProject().getParent();
+    Project.NameKey parentName = projectAccessorFactory.create(n).getProject().getParent();
     if (parentName != null && visit(parentName)) {
       ProjectState p = cache.get(parentName);
       if (p != null) {

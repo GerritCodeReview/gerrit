@@ -130,8 +130,9 @@ import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -249,6 +250,7 @@ public class ChangeJson {
   private final AnonymousUser anonymous;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final MergeUtil.Factory mergeUtilFactory;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -283,6 +285,7 @@ public class ChangeJson {
       AnonymousUser au,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       MergeUtil.Factory mergeUtilFactory,
       IdentifiedUser.GenericFactory uf,
@@ -312,6 +315,7 @@ public class ChangeJson {
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.userFactory = uf;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.fileInfoJson = fileInfoJson;
@@ -1550,12 +1554,12 @@ public class ChangeJson {
     } catch (AuthException ae) {
       return false;
     }
-    ProjectState projectState = projectCache.checkedGet(cd.project());
-    if (projectState == null) {
-      log.error("project state for project " + cd.project() + " is null");
+    try {
+      return projectAccessorFactory.create(cd.project()).statePermitsRead();
+    } catch (NoSuchProjectException e) {
+      // Already logged by ProjectCacheImpl.
       return false;
     }
-    return projectState.statePermitsRead();
   }
 
   @AutoValue

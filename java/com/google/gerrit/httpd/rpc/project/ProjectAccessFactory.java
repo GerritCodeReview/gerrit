@@ -46,9 +46,9 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -66,6 +66,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   }
 
   private final GroupBackend groupBackend;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final GroupControl.Factory groupControlFactory;
@@ -78,6 +79,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   @Inject
   ProjectAccessFactory(
       GroupBackend groupBackend,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       GroupControl.Factory groupControlFactory,
@@ -86,6 +88,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
       WebLinks webLinks,
       @Assisted final Project.NameKey name) {
     this.groupBackend = groupBackend;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.groupControlFactory = groupControlFactory;
@@ -100,7 +103,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
   public ProjectAccess call()
       throws NoSuchProjectException, IOException, ConfigInvalidException,
           PermissionBackendException, ResourceConflictException {
-    ProjectState projectState = checkProjectState();
+    ProjectAccessor projectAccessor = checkProjectState();
 
     // Load the current configuration from the repository, ensuring its the most
     // recent version available. If it differs from what was in the project
@@ -113,11 +116,11 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         md.setMessage("Update group names\n");
         config.commit(md);
         projectCache.evict(config.getProject());
-        projectState = checkProjectState();
+        projectAccessor = checkProjectState();
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(projectState.getConfig().getRevision())) {
+          && !config.getRevision().equals(projectAccessor.getConfig().getRevision())) {
         projectCache.evict(config.getProject());
-        projectState = checkProjectState();
+        projectAccessor = checkProjectState();
       }
     }
 
@@ -222,10 +225,10 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
         canWriteProjectConfig
             || (checkReadConfig
                 && perm.ref(RefNames.REFS_CONFIG).testOrFalse(CREATE_CHANGE)
-                && projectState.statePermitsWrite()));
+                && projectAccessor.statePermitsWrite()));
     detail.setConfigVisible(canWriteProjectConfig || checkReadConfig);
     detail.setGroupInfo(buildGroupInfo(local));
-    detail.setLabelTypes(projectState.getLabelTypes());
+    detail.setLabelTypes(projectAccessor.getProjectState().getLabelTypes());
     detail.setFileHistoryLinks(getConfigFileLogLinks(projectName.get()));
     return detail;
   }
@@ -255,23 +258,23 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     return Maps.filterEntries(infos, in -> in.getValue() != null);
   }
 
-  private ProjectState checkProjectState()
+  private ProjectAccessor checkProjectState()
       throws NoSuchProjectException, IOException, PermissionBackendException,
           ResourceConflictException {
-    ProjectState state = projectCache.checkedGet(projectName);
+    ProjectAccessor accessor = projectAccessorFactory.create(projectName);
     // Hidden projects(permitsRead = false) should only be accessible by the project owners.
     // READ_CONFIG is checked here because it's only allowed to project owners(ACCESS may also
     // be allowed for other users). Allowing project owners to access here will help them to view
     // and update the config of hidden projects easily.
     ProjectPermission permissionToCheck =
-        state.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
+        accessor.statePermitsRead() ? ProjectPermission.ACCESS : ProjectPermission.READ_CONFIG;
     try {
       permissionBackend.currentUser().project(projectName).check(permissionToCheck);
     } catch (AuthException e) {
       throw new NoSuchProjectException(projectName);
     }
-    state.checkStatePermitsRead();
-    return state;
+    accessor.checkStatePermitsRead();
+    return accessor;
   }
 
   private static boolean check(PermissionBackend.ForProject ctx, String ref, RefPermission perm)

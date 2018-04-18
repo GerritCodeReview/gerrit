@@ -51,8 +51,8 @@ import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -101,7 +101,7 @@ class GitwebServlet extends HttpServlet {
   private final Path gitwebCgi;
   private final URI gitwebUrl;
   private final LocalDiskRepositoryManager repoManager;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final PermissionBackend permissionBackend;
   private final Provider<AnonymousUser> anonymousUserProvider;
   private final Provider<CurrentUser> userProvider;
@@ -110,7 +110,7 @@ class GitwebServlet extends HttpServlet {
   @Inject
   GitwebServlet(
       GitRepositoryManager repoManager,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> userProvider,
       SitePaths site,
@@ -124,7 +124,7 @@ class GitwebServlet extends HttpServlet {
       throw new ProvisionException("Gitweb can only be used with LocalDiskRepositoryManager");
     }
     this.repoManager = (LocalDiskRepositoryManager) repoManager;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.permissionBackend = permissionBackend;
     this.anonymousUserProvider = anonymousUserProvider;
     this.userProvider = userProvider;
@@ -414,20 +414,15 @@ class GitwebServlet extends HttpServlet {
     }
 
     Project.NameKey nameKey = new Project.NameKey(name);
-    ProjectState projectState;
+    ProjectAccessor projectAccessor;
     try {
-      projectState = projectCache.checkedGet(nameKey);
-      if (projectState == null) {
-        sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
-        return;
-      }
-
-      projectState.checkStatePermitsRead();
+      projectAccessor = projectAccessorFactory.create(nameKey);
+      projectAccessor.checkStatePermitsRead();
       permissionBackend
           .user(anonymousUserProvider.get())
           .project(nameKey)
           .check(ProjectPermission.READ);
-    } catch (AuthException e) {
+    } catch (NoSuchProjectException | AuthException e) {
       sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
       return;
     } catch (IOException | PermissionBackendException err) {
@@ -441,7 +436,7 @@ class GitwebServlet extends HttpServlet {
 
     try (Repository repo = repoManager.openRepository(nameKey)) {
       CacheHeaders.setNotCacheable(rsp);
-      exec(req, rsp, projectState);
+      exec(req, rsp, projectAccessor);
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -492,13 +487,14 @@ class GitwebServlet extends HttpServlet {
     return params;
   }
 
-  private void exec(HttpServletRequest req, HttpServletResponse rsp, ProjectState projectState)
+  private void exec(
+      HttpServletRequest req, HttpServletResponse rsp, ProjectAccessor projectAccessor)
       throws IOException {
     final Process proc =
         Runtime.getRuntime()
             .exec(
                 new String[] {gitwebCgi.toAbsolutePath().toString()},
-                makeEnv(req, projectState),
+                makeEnv(req, projectAccessor),
                 gitwebCgi.toAbsolutePath().getParent().toFile());
 
     copyStderrToLog(proc.getErrorStream());
@@ -541,7 +537,7 @@ class GitwebServlet extends HttpServlet {
     }
   }
 
-  private String[] makeEnv(HttpServletRequest req, ProjectState projectState) {
+  private String[] makeEnv(HttpServletRequest req, ProjectAccessor projectAccessor) {
     final EnvList env = new EnvList(_env);
     final int contentLength = Math.max(0, req.getContentLength());
 
@@ -579,13 +575,13 @@ class GitwebServlet extends HttpServlet {
       env.set("HTTP_" + name.toUpperCase().replace('-', '_'), value);
     }
 
-    Project.NameKey nameKey = projectState.getNameKey();
+    Project.NameKey nameKey = projectAccessor.getNameKey();
     env.set("GERRIT_CONTEXT_PATH", req.getContextPath() + "/");
     env.set("GERRIT_PROJECT_NAME", nameKey.get());
 
     env.set("GITWEB_PROJECTROOT", repoManager.getBasePath(nameKey).toAbsolutePath().toString());
 
-    if (projectState.statePermitsRead()
+    if (projectAccessor.statePermitsRead()
         && permissionBackend
             .user(anonymousUserProvider.get())
             .project(nameKey)

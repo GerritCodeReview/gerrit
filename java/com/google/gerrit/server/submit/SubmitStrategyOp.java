@@ -43,8 +43,8 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -527,7 +527,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // per project even if multiple changes to refs/meta/config are submitted.
       if (RefNames.REFS_CONFIG.equals(getDest().get())) {
         args.projectCache.evict(getProject());
-        ProjectState p = args.projectCache.get(getProject());
+
+        ProjectAccessor p = args.projectAccessorFactory.create(getProject());
         try (Repository git = args.repoManager.openRepository(getProject())) {
           git.setGitwebDescription(p.getProject().getDescription());
         } catch (IOException e) {

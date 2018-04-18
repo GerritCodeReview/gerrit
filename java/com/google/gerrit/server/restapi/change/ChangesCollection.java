@@ -33,8 +33,8 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -53,7 +53,7 @@ public class ChangesCollection
   private final CreateChange createChange;
   private final ChangeResource.Factory changeResourceFactory;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   ChangesCollection(
@@ -65,7 +65,7 @@ public class ChangesCollection
       CreateChange createChange,
       ChangeResource.Factory changeResourceFactory,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.db = db;
     this.user = user;
     this.queryFactory = queryFactory;
@@ -74,7 +74,7 @@ public class ChangesCollection
     this.createChange = createChange;
     this.changeResourceFactory = changeResourceFactory;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
@@ -141,19 +141,19 @@ public class ChangesCollection
     } catch (AuthException e) {
       return false;
     }
-    ProjectState projectState = projectCache.checkedGet(notes.getProjectName());
-    if (projectState == null) {
+    try {
+      return projectAccessorFactory.create(notes.getProjectName()).statePermitsRead();
+    } catch (NoSuchProjectException e) {
       return false;
     }
-    return projectState.statePermitsRead();
   }
 
   private void checkProjectStatePermitsRead(Project.NameKey project)
       throws IOException, RestApiException {
-    ProjectState projectState = projectCache.checkedGet(project);
-    if (projectState == null) {
-      throw new ResourceNotFoundException("project not found: " + project.get());
+    try {
+      projectAccessorFactory.create(project).checkStatePermitsRead();
+    } catch (NoSuchProjectException e) {
+      // Already logged by ProjectCacheImpl.
     }
-    projectState.checkStatePermitsRead();
   }
 }

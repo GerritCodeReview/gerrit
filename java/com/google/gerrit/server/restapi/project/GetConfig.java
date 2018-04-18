@@ -65,7 +65,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
     return new ConfigInfoImpl(
         serverEnableSignedPush,
         projectAccessorFactory,
-        resource.getProjectState(),
+        resource.getProjectAccessor(),
         resource.getUser(),
         config,
         pluginConfigEntries,

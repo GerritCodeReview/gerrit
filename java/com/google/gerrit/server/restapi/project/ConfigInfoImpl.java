@@ -48,9 +48,7 @@ public class ConfigInfoImpl extends ConfigInfo {
   public ConfigInfoImpl(
       boolean serverEnableSignedPush,
       ProjectAccessor.Factory projectAccessorFactory,
-      // TODO(dborowitz): Replace with Project.NameKey once ProjectAccessor has enough methods to
-      // satisfy all uses of ProjectState in this method.
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       CurrentUser user,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
@@ -58,10 +56,11 @@ public class ConfigInfoImpl extends ConfigInfo {
       AllProjectsName allProjects,
       UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views) {
-    Project p = projectState.getProject();
+    Project p = projectAccessor.getProject();
     this.description = Strings.emptyToNull(p.getDescription());
 
-    ProjectState parentState = Iterables.getFirst(projectState.parents(), null);
+    ProjectState parentState =
+        Iterables.getFirst(projectAccessor.getProjectState().parents(), null);
     for (BooleanProjectConfig cfg : BooleanProjectConfig.values()) {
       InheritedBooleanInfo info = new InheritedBooleanInfo();
       info.configuredValue = p.getBooleanConfig(cfg);
@@ -79,24 +78,24 @@ public class ConfigInfoImpl extends ConfigInfo {
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =
-        config.getEffectiveMaxObjectSizeLimit(projectState) == config.getMaxObjectSizeLimit()
+        config.getEffectiveMaxObjectSizeLimit(projectAccessor) == config.getMaxObjectSizeLimit()
             ? config.getFormattedMaxObjectSizeLimit()
             : p.getMaxObjectSizeLimit();
     maxObjectSizeLimit.configuredValue = p.getMaxObjectSizeLimit();
     maxObjectSizeLimit.inheritedValue = config.getFormattedMaxObjectSizeLimit();
     this.maxObjectSizeLimit = maxObjectSizeLimit;
 
-    ProjectAccessor accessor = projectAccessorFactory.create(projectState);
+    ProjectAccessor accessor = projectAccessorFactory.create(projectAccessor.getProjectState());
     this.defaultSubmitType = new SubmitTypeInfo();
     this.defaultSubmitType.value = accessor.getSubmitType();
     this.defaultSubmitType.configuredValue =
         MoreObjects.firstNonNull(
-            projectState.getConfig().getProject().getConfiguredSubmitType(),
+            projectAccessor.getConfig().getProject().getConfiguredSubmitType(),
             Project.DEFAULT_SUBMIT_TYPE);
     ProjectAccessor parent =
-        projectState.isAllProjects()
+        projectAccessor.getProjectState().isAllProjects()
             ? accessor
-            : projectAccessorFactory.create(projectState.parents().get(0));
+            : projectAccessorFactory.create(projectAccessor.getProjectState().parents().get(0));
     this.defaultSubmitType.inheritedValue = parent.getSubmitType();
 
     this.submitType = this.defaultSubmitType.value;
@@ -107,56 +106,59 @@ public class ConfigInfoImpl extends ConfigInfo {
             : null;
 
     this.commentlinks = new LinkedHashMap<>();
-    for (CommentLinkInfo cl : projectState.getCommentLinks()) {
+    for (CommentLinkInfo cl : projectAccessor.getProjectState().getCommentLinks()) {
       this.commentlinks.put(cl.name, cl);
     }
 
-    pluginConfig = getPluginConfig(projectState, pluginConfigEntries, cfgFactory, allProjects);
+    pluginConfig = getPluginConfig(projectAccessor, pluginConfigEntries, cfgFactory, allProjects);
 
     actions = new TreeMap<>();
     for (UiAction.Description d : uiActions.from(views, new ProjectResource(accessor, user))) {
       actions.put(d.getId(), new ActionInfo(d));
     }
-    this.theme = projectState.getTheme();
+    this.theme = projectAccessor.getProjectState().getTheme();
 
-    this.extensionPanelNames = projectState.getConfig().getExtensionPanelSections();
+    this.extensionPanelNames = projectAccessor.getConfig().getExtensionPanelSections();
   }
 
   private Map<String, Map<String, ConfigParameterInfo>> getPluginConfig(
-      ProjectState project,
+      ProjectAccessor project,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects) {
     TreeMap<String, Map<String, ConfigParameterInfo>> pluginConfig = new TreeMap<>();
     for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
       ProjectConfigEntry configEntry = e.getProvider().get();
-      PluginConfig cfg = cfgFactory.getFromProjectConfig(project, e.getPluginName());
+      PluginConfig cfg =
+          cfgFactory.getFromProjectConfig(project.getProjectState(), e.getPluginName());
       String configuredValue = cfg.getString(e.getExportName());
       ConfigParameterInfo p = new ConfigParameterInfo();
       p.displayName = configEntry.getDisplayName();
       p.description = configEntry.getDescription();
-      p.warning = configEntry.getWarning(project);
+      p.warning = configEntry.getWarning(project.getProjectState());
       p.type = configEntry.getType();
       p.permittedValues = configEntry.getPermittedValues();
-      p.editable = configEntry.isEditable(project) ? true : null;
+      p.editable = configEntry.isEditable(project.getProjectState()) ? true : null;
       if (configEntry.isInheritable() && !allProjects.equals(project.getNameKey())) {
         PluginConfig cfgWithInheritance =
-            cfgFactory.getFromProjectConfigWithInheritance(project, e.getPluginName());
+            cfgFactory.getFromProjectConfigWithInheritance(
+                project.getProjectState(), e.getPluginName());
         p.inheritable = true;
         p.value =
             configEntry.onRead(
-                project,
+                project.getProjectState(),
                 cfgWithInheritance.getString(e.getExportName(), configEntry.getDefaultValue()));
         p.configuredValue = configuredValue;
         p.inheritedValue = getInheritedValue(project, cfgFactory, e);
       } else {
         if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
           p.values =
-              configEntry.onRead(project, Arrays.asList(cfg.getStringList(e.getExportName())));
+              configEntry.onRead(
+                  project.getProjectState(), Arrays.asList(cfg.getStringList(e.getExportName())));
         } else {
           p.value =
               configEntry.onRead(
-                  project,
+                  project.getProjectState(),
                   configuredValue != null ? configuredValue : configEntry.getDefaultValue());
         }
       }
@@ -171,9 +173,9 @@ public class ConfigInfoImpl extends ConfigInfo {
   }
 
   private String getInheritedValue(
-      ProjectState project, PluginConfigFactory cfgFactory, Entry<ProjectConfigEntry> e) {
+      ProjectAccessor project, PluginConfigFactory cfgFactory, Entry<ProjectConfigEntry> e) {
     ProjectConfigEntry configEntry = e.getProvider().get();
-    ProjectState parent = Iterables.getFirst(project.parents(), null);
+    ProjectState parent = Iterables.getFirst(project.getProjectState().parents(), null);
     String inheritedValue = configEntry.getDefaultValue();
     if (parent != null) {
       PluginConfig parentCfgWithInheritance =

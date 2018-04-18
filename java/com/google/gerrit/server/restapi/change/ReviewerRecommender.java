@@ -35,7 +35,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -103,7 +103,7 @@ public class ReviewerRecommender {
   public List<Account.Id> suggestReviewers(
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       List<Account.Id> candidateList)
       throws OrmException, IOException, ConfigInvalidException {
     String query = suggestReviewers.getQuery();
@@ -113,7 +113,7 @@ public class ReviewerRecommender {
     if (Strings.isNullOrEmpty(query)) {
       reviewerScores = baseRankingForEmptyQuery(baseWeight);
     } else {
-      reviewerScores = baseRankingForCandidateList(candidateList, projectState, baseWeight);
+      reviewerScores = baseRankingForCandidateList(candidateList, projectAccessor, baseWeight);
     }
 
     // Send the query along with a candidate list to all plugins and merge the
@@ -130,7 +130,7 @@ public class ReviewerRecommender {
                   .getProvider()
                   .get()
                   .suggestReviewers(
-                      projectState.getNameKey(),
+                      projectAccessor.getNameKey(),
                       changeNotes != null ? changeNotes.getChangeId() : null,
                       query,
                       reviewerScores.keySet()));
@@ -217,7 +217,7 @@ public class ReviewerRecommender {
   }
 
   private Map<Account.Id, MutableDouble> baseRankingForCandidateList(
-      List<Account.Id> candidates, ProjectState projectState, double baseWeight)
+      List<Account.Id> candidates, ProjectAccessor projectAccessor, double baseWeight)
       throws OrmException, IOException, ConfigInvalidException {
     // Get each reviewer's activity based on number of applied labels
     // (weighted 10d), number of comments (weighted 0.5d) and number of owned
@@ -229,11 +229,12 @@ public class ReviewerRecommender {
     List<Predicate<ChangeData>> predicates = new ArrayList<>();
     for (Account.Id id : candidates) {
       try {
-        Predicate<ChangeData> projectQuery = changeQueryBuilder.project(projectState.getName());
+        Predicate<ChangeData> projectQuery = changeQueryBuilder.project(projectAccessor.getName());
 
         // Get all labels for this project and create a compound OR query to
         // fetch all changes where users have applied one of these labels
-        List<LabelType> labelTypes = projectState.getLabelTypes().getLabelTypes();
+        List<LabelType> labelTypes =
+            projectAccessor.getProjectState().getLabelTypes().getLabelTypes();
         List<Predicate<ChangeData>> labelPredicates = new ArrayList<>(labelTypes.size());
         for (LabelType type : labelTypes) {
           labelPredicates.add(changeQueryBuilder.label(type.getName() + ",user=" + id));

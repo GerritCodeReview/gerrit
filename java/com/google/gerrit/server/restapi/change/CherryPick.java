@@ -35,7 +35,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
@@ -58,7 +58,7 @@ public class CherryPick
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
   private final ContributorAgreementsChecker contributorAgreements;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   CherryPick(
@@ -67,13 +67,13 @@ public class CherryPick
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
       ContributorAgreementsChecker contributorAgreements,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
     this.contributorAgreements = contributorAgreements;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
@@ -96,7 +96,7 @@ public class CherryPick
         .project(rsrc.getChange().getProject())
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
-    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
+    projectAccessorFactory.create(rsrc.getProject()).checkStatePermitsWrite();
 
     try {
       Change.Id cherryPickedChangeId =
@@ -118,8 +118,9 @@ public class CherryPick
   public UiAction.Description getDescription(RevisionResource rsrc) {
     boolean projectStatePermitsWrite = false;
     try {
-      projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
-    } catch (IOException e) {
+      // TODO(dborowitz): Pretty sure this should be checkStatePermitsWrite().
+      projectAccessorFactory.create(rsrc.getProject()).statePermitsWrite();
+    } catch (IOException | NoSuchProjectException e) {
       log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
     }
     return new UiAction.Description()

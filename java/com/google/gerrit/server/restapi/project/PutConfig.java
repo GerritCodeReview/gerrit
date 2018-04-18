@@ -47,7 +47,6 @@ import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -72,7 +71,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
-  private final ProjectState.Factory projectStateFactory;
   private final TransferConfig config;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
@@ -88,7 +86,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       ProjectCache projectCache,
       ProjectAccessor.Factory projectAccessorFactory,
-      ProjectState.Factory projectStateFactory,
       TransferConfig config,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
@@ -101,7 +98,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
-    this.projectStateFactory = projectStateFactory;
     this.config = config;
     this.pluginConfigEntries = pluginConfigEntries;
     this.cfgFactory = cfgFactory;
@@ -119,12 +115,12 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         .currentUser()
         .project(rsrc.getNameKey())
         .check(ProjectPermission.WRITE_CONFIG);
-    return apply(rsrc.getProjectState(), input);
+    return apply(rsrc.getProjectAccessor(), input);
   }
 
-  public ConfigInfo apply(ProjectState projectState, ConfigInput input)
+  public ConfigInfo apply(ProjectAccessor projectAccessor, ConfigInput input)
       throws ResourceNotFoundException, BadRequestException, ResourceConflictException {
-    Project.NameKey projectName = projectState.getNameKey();
+    Project.NameKey projectName = projectAccessor.getNameKey();
     if (input == null) {
       throw new BadRequestException("config is required");
     }
@@ -155,7 +151,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       }
 
       if (input.pluginConfigValues != null) {
-        setPluginConfigValues(projectState, projectConfig, input.pluginConfigValues);
+        setPluginConfigValues(projectAccessor, projectConfig, input.pluginConfigValues);
       }
 
       md.setMessage("Modified project settings\n");
@@ -172,11 +168,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
-      ProjectState state = projectStateFactory.create(projectConfig);
       return new ConfigInfoImpl(
           serverEnableSignedPush,
           projectAccessorFactory,
-          state,
+          projectAccessorFactory.create(projectConfig),
           user.get(),
           config,
           pluginConfigEntries,
@@ -194,7 +189,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   }
 
   private void setPluginConfigValues(
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       ProjectConfig projectConfig,
       Map<String, Map<String, ConfigValue>> pluginConfigValues)
       throws BadRequestException {
@@ -222,7 +217,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           if (Strings.emptyToNull(value) != null) {
             if (!value.equals(oldValue)) {
               validateProjectConfigEntryIsEditable(
-                  projectConfigEntry, projectState, v.getKey(), pluginName);
+                  projectConfigEntry, projectAccessor, v.getKey(), pluginName);
               v.setValue(projectConfigEntry.preUpdate(v.getValue()));
               value = v.getValue().value;
               try {
@@ -272,7 +267,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           } else {
             if (oldValue != null) {
               validateProjectConfigEntryIsEditable(
-                  projectConfigEntry, projectState, v.getKey(), pluginName);
+                  projectConfigEntry, projectAccessor, v.getKey(), pluginName);
               cfg.unset(v.getKey());
             }
           }
@@ -288,15 +283,15 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
   private static void validateProjectConfigEntryIsEditable(
       ProjectConfigEntry projectConfigEntry,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       String parameterName,
       String pluginName)
       throws BadRequestException {
-    if (!projectConfigEntry.isEditable(projectState)) {
+    if (!projectConfigEntry.isEditable(projectAccessor.getProjectState())) {
       throw new BadRequestException(
           String.format(
               "Not allowed to set parameter '%s' of plugin '%s' on project '%s'.",
-              parameterName, pluginName, projectState.getName()));
+              parameterName, pluginName, projectAccessor.getName()));
     }
   }
 }

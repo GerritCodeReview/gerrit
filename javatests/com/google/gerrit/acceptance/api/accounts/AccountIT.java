@@ -108,7 +108,6 @@ import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.update.RetryHelper;
@@ -1021,10 +1020,12 @@ public class AccountIT extends AbstractDaemonTest {
     String userRefName = RefNames.refsUsers(user.id);
 
     // remove default READ permissions
-    ProjectConfig cfg = projectCache.checkedGet(allUsers).getConfig();
-    cfg.getAccessSection(RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true)
-        .remove(new Permission(Permission.READ));
-    saveProjectConfig(allUsers, cfg);
+    try (ProjectConfigUpdate u = updateProject(allUsers)) {
+      u.getConfig()
+          .getAccessSection(RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true)
+          .remove(new Permission(Permission.READ));
+      u.save();
+    }
 
     // deny READ permission that is inherited from All-Projects
     deny(allUsers, RefNames.REFS + "*", Permission.READ, ANONYMOUS_USERS);

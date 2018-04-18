@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25e71a60_345d7ea5",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T15:06:27Z",
+      "side": 1,
+      "message": "Do we need to create a (defensive) copy of the result list?\nSince the result is not stored into an instance member variable of this class\nI don\u0027t think this class should care about creating an immutable copy.",
+      "range": {
+        "startLine": 60,
+        "startChar": 11,
+        "endLine": 60,
+        "endChar": 31
+      },
+      "revId": "050811a9f3f522dbf302f826665d7955059d4126",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

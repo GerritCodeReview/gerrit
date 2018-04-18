@@ -18,7 +18,6 @@ import static com.google.gerrit.common.data.PermissionRule.Action.ALLOW;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
@@ -29,7 +28,6 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -79,7 +77,6 @@ public class ProjectState {
   private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final GitRepositoryManager gitMgr;
-  private final List<CommentLinkInfo> commentLinks;
 
   private final ProjectConfig config;
   private final Map<String, ProjectLevelConfig> configs;
@@ -108,7 +105,6 @@ public class ProjectState {
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
       final GitRepositoryManager gitMgr,
-      final List<CommentLinkInfo> commentLinks,
       final CapabilityCollection.Factory limitsFactory,
       @Assisted final ProjectConfig config) {
     this.sitePaths = sitePaths;
@@ -118,7 +114,6 @@ public class ProjectState {
     this.isAllUsers = config.getProject().getNameKey().equals(allUsersName);
     this.allProjectsName = allProjectsName;
     this.gitMgr = gitMgr;
-    this.commentLinks = commentLinks;
     this.config = config;
     this.configs = new HashMap<>();
     this.capabilities =
@@ -336,28 +331,6 @@ public class ProjectState {
     }
 
     return new LabelTypes(r);
-  }
-
-  public List<CommentLinkInfo> getCommentLinks() {
-    Map<String, CommentLinkInfo> cls = new LinkedHashMap<>();
-    for (CommentLinkInfo cl : commentLinks) {
-      cls.put(cl.name.toLowerCase(), cl);
-    }
-    for (ProjectState s : treeInOrder()) {
-      for (CommentLinkInfoImpl cl : s.getConfig().getCommentLinkSections()) {
-        String name = cl.name.toLowerCase();
-        if (cl.isOverrideOnly()) {
-          CommentLinkInfo parent = cls.get(name);
-          if (parent == null) {
-            continue; // Ignore invalid overrides.
-          }
-          cls.put(name, cl.inherit(parent));
-        } else {
-          cls.put(name, cl);
-        }
-      }
-    }
-    return ImmutableList.copyOf(cls.values());
   }
 
   public BranchOrderSection getBranchOrderSection() {

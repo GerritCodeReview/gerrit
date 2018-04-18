@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08e7320f_d5bc1b83",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T11:58:31Z",
+      "side": 1,
+      "message": "{@link GerritServerConfigReloader}",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 59
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdfdd4f9_5abf8259",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T11:58:31Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d29aed74_454e96b0",
+        "filename": "java/com/google/gerrit/server/config/GerritConfigListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T11:58:31Z",
+      "side": 1,
+      "message": "Implementations of this method are supposed to update the event itself with\naccept/reject callbacks. This means that the ConfigUpdatedEvent is mutable i.e.\nits getUpdates() method is only supposed to be called after all the listeners\nwere called. This is not really obvious from the API of the ConfigUpdatedEvent.\n\nI would propose that this method returns a List\u003cConfigUpdatedEvent.Update\u003e:\n\n  List\u003cConfigUpdatedEvent.Update\u003e configUpdated(ConfigUpdatedEvent);\n\nand to remove the \"updates\" list from the ConfigUpdatedEvent.\nGerritServerConfigReloader.fireUpdatedConfigEvent method then has to simply\njoin all the returned lists from all listeners.",
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

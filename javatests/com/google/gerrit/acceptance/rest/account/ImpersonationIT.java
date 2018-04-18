@@ -60,7 +60,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.account.AccountControl;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -166,10 +165,11 @@ public class ImpersonationIT extends AbstractDaemonTest {
 
   @Test
   public void voteOnBehalfOfLabelNotPermitted() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    LabelType verified = Util.verified();
-    cfg.getLabelSections().put(verified.getName(), verified);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType verified = Util.verified();
+      u.getConfig().getLabelSections().put(verified.getName(), verified);
+      u.save();
+    }
 
     PushOneCommit.Result r = createChange();
     RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
@@ -550,44 +550,54 @@ public class ImpersonationIT extends AbstractDaemonTest {
   }
 
   private void allowCodeReviewOnBehalfOf() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    LabelType codeReviewType = Util.codeReview();
-    String forCodeReviewAs = Permission.forLabelAs(codeReviewType.getName());
-    String heads = "refs/heads/*";
-    AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    Util.allow(cfg, forCodeReviewAs, -1, 1, uuid, heads);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType codeReviewType = Util.codeReview();
+      String forCodeReviewAs = Permission.forLabelAs(codeReviewType.getName());
+      String heads = "refs/heads/*";
+      AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+      Util.allow(u.getConfig(), forCodeReviewAs, -1, 1, uuid, heads);
+      u.save();
+    }
   }
 
   private void allowSubmitOnBehalfOf() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    String heads = "refs/heads/*";
-    AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    Util.allow(cfg, Permission.SUBMIT_AS, uuid, heads);
-    Util.allow(cfg, Permission.SUBMIT, uuid, heads);
-    LabelType codeReviewType = Util.codeReview();
-    Util.allow(cfg, Permission.forLabel(codeReviewType.getName()), -2, 2, uuid, heads);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      String heads = "refs/heads/*";
+      AccountGroup.UUID uuid = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+      Util.allow(u.getConfig(), Permission.SUBMIT_AS, uuid, heads);
+      Util.allow(u.getConfig(), Permission.SUBMIT, uuid, heads);
+      LabelType codeReviewType = Util.codeReview();
+      Util.allow(u.getConfig(), Permission.forLabel(codeReviewType.getName()), -2, 2, uuid, heads);
+      u.save();
+    }
   }
 
   private void blockRead(GroupInfo group) throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.block(cfg, Permission.READ, new AccountGroup.UUID(group.id), "refs/heads/master");
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.block(
+          u.getConfig(), Permission.READ, new AccountGroup.UUID(group.id), "refs/heads/master");
+      u.save();
+    }
   }
 
   private void allowRunAs() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.allow(
-        cfg, GlobalCapability.RUN_AS, systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
-    saveProjectConfig(allProjects, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(
+          u.getConfig(),
+          GlobalCapability.RUN_AS,
+          systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+      u.save();
+    }
   }
 
   private void removeRunAs() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.remove(
-        cfg, GlobalCapability.RUN_AS, systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
-    saveProjectConfig(allProjects, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.remove(
+          u.getConfig(),
+          GlobalCapability.RUN_AS,
+          systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID());
+      u.save();
+    }
   }
 
   private static Header runAsHeader(Object user) {

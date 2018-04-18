@@ -71,7 +71,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -327,11 +326,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void noSelfSubmit() throws Exception {
     // create project where submit is blocked for the change owner
     Project.NameKey p = createProject("p");
-    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.block(cfg, Permission.SUBMIT, CHANGE_OWNER, "refs/*");
-    Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
-    saveProjectConfig(p, cfg);
+    try (ProjectConfigUpdate u = updateProject(p)) {
+      Util.block(u.getConfig(), Permission.SUBMIT, CHANGE_OWNER, "refs/*");
+      Util.allow(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
+      Util.allow(
+          u.getConfig(), Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
+      u.save();
+    }
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
@@ -351,11 +352,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   public void onlySelfSubmit() throws Exception {
     // create project where only the change owner can submit
     Project.NameKey p = createProject("p");
-    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.block(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/*");
-    Util.allow(cfg, Permission.SUBMIT, CHANGE_OWNER, "refs/*");
-    Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
-    saveProjectConfig(p, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.block(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/*");
+      Util.allow(u.getConfig(), Permission.SUBMIT, CHANGE_OWNER, "refs/*");
+      Util.allow(
+          u.getConfig(), Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
+      u.save();
+    }
 
     TestRepository<InMemoryRepository> repo = cloneProject(p, admin);
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo);
@@ -567,12 +570,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     //  |
     // C0 -- Master
     //
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config
-        .getProject()
-        .setBooleanConfig(
-            BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET, InheritableBoolean.TRUE);
-    saveProjectConfig(project, config);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .getProject()
+          .setBooleanConfig(
+              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+              InheritableBoolean.TRUE);
+      u.save();
+    }
 
     PushOneCommit push1 =
         pushFactory.create(

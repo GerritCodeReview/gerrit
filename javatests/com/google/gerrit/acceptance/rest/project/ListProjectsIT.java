@@ -32,7 +32,6 @@ import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import java.util.List;
 import java.util.Map;
@@ -55,9 +54,10 @@ public class ListProjectsIT extends AbstractDaemonTest {
     setApiUser(user);
     assertThatNameList(gApi.projects().list().get()).contains(project);
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
+      u.save();
+    }
 
     assertThatNameList(filter(gApi.projects().list().get())).doesNotContain(project);
   }

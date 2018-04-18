@@ -24,7 +24,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -54,14 +53,15 @@ public class IndexChangeIT extends AbstractDaemonTest {
 
     // Create a project and restrict its visibility to the group
     Project.NameKey p = createProject("p");
-    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.allow(
-        cfg,
-        Permission.READ,
-        groupCache.get(new AccountGroup.NameKey(group)).get().getGroupUUID(),
-        "refs/*");
-    Util.block(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
-    saveProjectConfig(p, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(
+          u.getConfig(),
+          Permission.READ,
+          groupCache.get(new AccountGroup.NameKey(group)).get().getGroupUUID(),
+          "refs/*");
+      Util.block(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
+      u.save();
+    }
 
     // Clone it and push a change as a regular user
     TestRepository<InMemoryRepository> repo = cloneProject(p, user);

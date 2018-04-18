@@ -34,7 +34,6 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -214,13 +213,19 @@ public class MoveChangeIT extends AbstractDaemonTest {
     Branch.NameKey newBranch = new Branch.NameKey(r.getChange().change().getProject(), "moveTest");
     createBranch(newBranch);
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    LabelType patchSetLock = Util.patchSetLock();
-    cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
-    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    Util.allow(
-        cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, registeredUsers, "refs/heads/*");
-    saveProjectConfig(cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType patchSetLock = Util.patchSetLock();
+      u.getConfig().getLabelSections().put(patchSetLock.getName(), patchSetLock);
+      AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+      Util.allow(
+          u.getConfig(),
+          Permission.forLabel(patchSetLock.getName()),
+          0,
+          1,
+          registeredUsers,
+          "refs/heads/*");
+      u.save();
+    }
     grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
 
@@ -244,11 +249,15 @@ public class MoveChangeIT extends AbstractDaemonTest {
     configLabel(testLabelC, LabelFunction.NO_BLOCK);
 
     AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.allow(cfg, Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel(testLabelB), -1, +1, registered, "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel(testLabelC), -1, +1, registered, "refs/heads/*");
-    saveProjectConfig(cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(
+          u.getConfig(), Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/*");
+      Util.allow(
+          u.getConfig(), Permission.forLabel(testLabelB), -1, +1, registered, "refs/heads/*");
+      Util.allow(
+          u.getConfig(), Permission.forLabel(testLabelC), -1, +1, registered, "refs/heads/*");
+      u.save();
+    }
 
     String changeId = createChange().getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.reject());

@@ -85,7 +85,6 @@ import com.google.gerrit.server.git.receive.ReceiveConstants;
 import com.google.gerrit.server.git.validators.CommitValidators.ChangeIdValidator;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -139,13 +138,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    patchSetLock = Util.patchSetLock();
-    cfg.getLabelSections().put(patchSetLock.getName(), patchSetLock);
-    AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-    Util.allow(
-        cfg, Permission.forLabel(patchSetLock.getName()), 0, 1, anonymousUsers, "refs/heads/*");
-    saveProjectConfig(cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      patchSetLock = Util.patchSetLock();
+      u.getConfig().getLabelSections().put(patchSetLock.getName(), patchSetLock);
+      AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+      Util.allow(
+          u.getConfig(),
+          Permission.forLabel(patchSetLock.getName()),
+          0,
+          1,
+          anonymousUsers,
+          "refs/heads/*");
+      u.save();
+    }
     grant(project, "refs/heads/*", Permission.LABEL + "Patch-Set-Lock");
   }
 
@@ -932,12 +937,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushWithMultipleApprovals() throws Exception {
     LabelType Q =
         category("Custom-Label", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
     AccountGroup.UUID anon = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
     String heads = "refs/heads/*";
-    Util.allow(config, Permission.forLabel("Custom-Label"), -1, 1, anon, heads);
-    config.getLabelSections().put(Q.getName(), Q);
-    saveProjectConfig(project, config);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(u.getConfig(), Permission.forLabel("Custom-Label"), -1, 1, anon, heads);
+      u.getConfig().getLabelSections().put(Q.getName(), Q);
+      u.save();
+    }
 
     RevCommit c =
         commitBuilder()
@@ -1213,12 +1219,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushSameCommitTwice() throws Exception {
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config
-        .getProject()
-        .setBooleanConfig(
-            BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET, InheritableBoolean.TRUE);
-    saveProjectConfig(project, config);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .getProject()
+          .setBooleanConfig(
+              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+              InheritableBoolean.TRUE);
+      u.save();
+    }
 
     PushOneCommit push =
         pushFactory.create(
@@ -1240,12 +1248,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushSameCommitTwiceWhenIndexFailed() throws Exception {
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config
-        .getProject()
-        .setBooleanConfig(
-            BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET, InheritableBoolean.TRUE);
-    saveProjectConfig(project, config);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .getProject()
+          .setBooleanConfig(
+              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+              InheritableBoolean.TRUE);
+      u.save();
+    }
 
     PushOneCommit push =
         pushFactory.create(
@@ -1456,11 +1466,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
             + " commit");
 
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config
-        .getProject()
-        .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
-    saveProjectConfig(project, config);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .getProject()
+          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
+      u.save();
+    }
 
     pushForReviewRejected(
         testRepo,
@@ -1481,11 +1492,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "Squash the commits with the same Change-Id or ensure Change-Ids are unique for each"
             + " commit");
 
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config
-        .getProject()
-        .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
-    saveProjectConfig(project, config);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .getProject()
+          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
+      u.save();
+    }
 
     pushForReviewRejected(
         testRepo,
@@ -1646,11 +1658,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushNewPatchsetOverridingStickyLabel() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    LabelType codeReview = Util.codeReview();
-    codeReview.setCopyMaxScore(true);
-    cfg.getLabelSections().put(codeReview.getName(), codeReview);
-    saveProjectConfig(cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType codeReview = Util.codeReview();
+      codeReview.setCopyMaxScore(true);
+      u.getConfig().getLabelSections().put(codeReview.getName(), codeReview);
+      u.save();
+    }
 
     PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review+2");
     r.assertOkStatus();
@@ -2239,11 +2252,12 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private void grantSkipValidation(Project.NameKey project, String ref, AccountGroup.UUID groupUuid)
       throws Exception {
     // See SKIP_VALIDATION implementation in default permission backend.
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    Util.allow(config, Permission.FORGE_AUTHOR, groupUuid, ref);
-    Util.allow(config, Permission.FORGE_COMMITTER, groupUuid, ref);
-    Util.allow(config, Permission.FORGE_SERVER, groupUuid, ref);
-    Util.allow(config, Permission.PUSH_MERGE, groupUuid, "refs/for/" + ref);
-    saveProjectConfig(project, config);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(u.getConfig(), Permission.FORGE_AUTHOR, groupUuid, ref);
+      Util.allow(u.getConfig(), Permission.FORGE_COMMITTER, groupUuid, ref);
+      Util.allow(u.getConfig(), Permission.FORGE_SERVER, groupUuid, ref);
+      Util.allow(u.getConfig(), Permission.PUSH_MERGE, groupUuid, "refs/for/" + ref);
+      u.save();
+    }
   }
 }

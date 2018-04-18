@@ -75,7 +75,6 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.PostReview;
@@ -1574,17 +1573,23 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   private void allowRunAs() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.allow(
-        cfg, GlobalCapability.RUN_AS, systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
-    saveProjectConfig(allProjects, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(
+          u.getConfig(),
+          GlobalCapability.RUN_AS,
+          systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+      u.save();
+    }
   }
 
   private void removeRunAs() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    Util.remove(
-        cfg, GlobalCapability.RUN_AS, systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
-    saveProjectConfig(allProjects, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.remove(
+          u.getConfig(),
+          GlobalCapability.RUN_AS,
+          systemGroupBackend.getGroup(REGISTERED_USERS).getUUID());
+      u.save();
+    }
   }
 
   private Map<String, List<CommentInfo>> getPublishedComments(Change.Id id) throws Exception {

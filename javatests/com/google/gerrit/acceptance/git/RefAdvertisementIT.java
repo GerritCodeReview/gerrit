@@ -52,7 +52,6 @@ import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.NoteDbMode;
@@ -106,20 +105,22 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private void setUpPermissions() throws Exception {
     // Remove read permissions for all users besides admin. This method is idempotent, so is safe
     // to call on every test setup.
-    ProjectConfig pc = projectCache.checkedGet(allProjects).getConfig();
-    for (AccessSection sec : pc.getAccessSections()) {
-      sec.removePermission(Permission.READ);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      for (AccessSection sec : u.getConfig().getAccessSections()) {
+        sec.removePermission(Permission.READ);
+      }
+      Util.allow(u.getConfig(), Permission.READ, admins, "refs/*");
+      u.save();
     }
-    Util.allow(pc, Permission.READ, admins, "refs/*");
-    saveProjectConfig(allProjects, pc);
 
     // Remove all read permissions on All-Users. This method is idempotent, so is safe to call on
     // every test setup.
-    pc = projectCache.checkedGet(allUsers).getConfig();
-    for (AccessSection sec : pc.getAccessSections()) {
-      sec.removePermission(Permission.READ);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      for (AccessSection sec : u.getConfig().getAccessSections()) {
+        sec.removePermission(Permission.READ);
+      }
+      u.save();
     }
-    saveProjectConfig(allUsers, pc);
   }
 
   private static String changeRefPrefix(Change.Id id) {
@@ -171,11 +172,12 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void uploadPackAllRefsVisibleNoRefsMetaConfig() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.allow(cfg, Permission.READ, REGISTERED_USERS, "refs/*");
-    Util.allow(cfg, Permission.READ, admins, RefNames.REFS_CONFIG);
-    Util.doNotInherit(cfg, Permission.READ, RefNames.REFS_CONFIG);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(u.getConfig(), Permission.READ, REGISTERED_USERS, "refs/*");
+      Util.allow(u.getConfig(), Permission.READ, admins, RefNames.REFS_CONFIG);
+      Util.doNotInherit(u.getConfig(), Permission.READ, RefNames.REFS_CONFIG);
+      u.save();
+    }
 
     setApiUser(user);
     assertUploadPackRefs(

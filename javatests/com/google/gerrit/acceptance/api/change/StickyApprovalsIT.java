@@ -45,7 +45,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import java.util.EnumSet;
 import java.util.List;
@@ -59,34 +58,46 @@ import org.junit.Test;
 
 @NoHttpd
 public class StickyApprovalsIT extends AbstractDaemonTest {
+
   @Before
   public void setup() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      // Overwrite "Code-Review" label that is inherited from All-Projects.
+      // This way changes to the "Code Review" label don't affect other tests.
+      LabelType codeReview =
+          category(
+              "Code-Review",
+              value(2, "Looks good to me, approved"),
+              value(1, "Looks good to me, but someone else must approve"),
+              value(0, "No score"),
+              value(-1, "I would prefer that you didn't submit this"),
+              value(-2, "Do not submit"));
+      codeReview.setCopyAllScoresIfNoChange(false);
+      u.getConfig().getLabelSections().put(codeReview.getName(), codeReview);
 
-    // Overwrite "Code-Review" label that is inherited from All-Projects.
-    // This way changes to the "Code Review" label don't affect other tests.
-    LabelType codeReview =
-        category(
-            "Code-Review",
-            value(2, "Looks good to me, approved"),
-            value(1, "Looks good to me, but someone else must approve"),
-            value(0, "No score"),
-            value(-1, "I would prefer that you didn't submit this"),
-            value(-2, "Do not submit"));
-    codeReview.setCopyAllScoresIfNoChange(false);
-    cfg.getLabelSections().put(codeReview.getName(), codeReview);
+      LabelType verified =
+          category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+      verified.setCopyAllScoresIfNoChange(false);
+      u.getConfig().getLabelSections().put(verified.getName(), verified);
 
-    LabelType verified =
-        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
-    verified.setCopyAllScoresIfNoChange(false);
-    cfg.getLabelSections().put(verified.getName(), verified);
-
-    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
-    String heads = RefNames.REFS_HEADS + "*";
-    Util.allow(
-        cfg, Permission.forLabel(Util.codeReview().getName()), -2, 2, registeredUsers, heads);
-    Util.allow(cfg, Permission.forLabel(Util.verified().getName()), -1, 1, registeredUsers, heads);
-    saveProjectConfig(project, cfg);
+      AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+      String heads = RefNames.REFS_HEADS + "*";
+      Util.allow(
+          u.getConfig(),
+          Permission.forLabel(Util.codeReview().getName()),
+          -2,
+          2,
+          registeredUsers,
+          heads);
+      Util.allow(
+          u.getConfig(),
+          Permission.forLabel(Util.verified().getName()),
+          -1,
+          1,
+          registeredUsers,
+          heads);
+      u.save();
+    }
   }
 
   @Test
@@ -97,9 +108,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void stickyOnMinScore() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review").setCopyMinScore(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyMinScore(true);
+      u.save();
+    }
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
@@ -118,9 +130,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void stickyOnMaxScore() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review").setCopyMaxScore(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);
+      u.save();
+    }
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
@@ -139,9 +152,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void stickyOnTrivialRebase() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review").setCopyAllScoresOnTrivialRebase(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyAllScoresOnTrivialRebase(true);
+      u.save();
+    }
 
     String changeId = createChange(TRIVIAL_REBASE);
     vote(admin, changeId, 2, 1);
@@ -184,9 +198,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void stickyOnNoCodeChange() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
+      u.save();
+    }
 
     String changeId = createChange(NO_CODE_CHANGE);
     vote(admin, changeId, 2, 1);
@@ -207,9 +222,13 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void stickyOnMergeFirstParentUpdate() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review").setCopyAllScoresOnMergeFirstParentUpdate(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .getLabelSections()
+          .get("Code-Review")
+          .setCopyAllScoresOnMergeFirstParentUpdate(true);
+      u.save();
+    }
 
     String changeId = createChange(MERGE_FIRST_PARENT_UPDATE);
     vote(admin, changeId, 2, 1);
@@ -230,10 +249,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void removedVotesNotSticky() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review").setCopyAllScoresOnTrivialRebase(true);
-    cfg.getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyAllScoresOnTrivialRebase(true);
+      u.getConfig().getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
+      u.save();
+    }
 
     for (ChangeKind changeKind :
         EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
@@ -259,10 +279,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void stickyAcrossMultiplePatchSets() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review").setCopyMaxScore(true);
-    cfg.getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);
+      u.getConfig().getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
+      u.save();
+    }
 
     String changeId = createChange(REWORK);
     vote(admin, changeId, 2, 1);
@@ -280,10 +301,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
   @Test
   public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get("Code-Review").setCopyMaxScore(true);
-    cfg.getLabelSections().get("Code-Review").setCopyMinScore(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);
+      u.getConfig().getLabelSections().get("Code-Review").setCopyMinScore(true);
+      u.save();
+    }
 
     // Vote max score on PS1
     String changeId = createChange(REWORK);
@@ -320,9 +342,10 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void deleteStickyVote() throws Exception {
     String label = "Code-Review";
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().get(label).setCopyMaxScore(true);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get(label).setCopyMaxScore(true);
+      u.save();
+    }
 
     // Vote max score on PS1
     String changeId = createChange(REWORK);

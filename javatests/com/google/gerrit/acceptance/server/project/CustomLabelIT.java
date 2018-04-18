@@ -43,7 +43,6 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import org.junit.After;
@@ -65,11 +64,19 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-    Util.allow(cfg, Permission.forLabel(label.getName()), -1, 1, anonymousUsers, "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel(P.getName()), 0, 1, anonymousUsers, "refs/heads/*");
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+      Util.allow(
+          u.getConfig(),
+          Permission.forLabel(label.getName()),
+          -1,
+          1,
+          anonymousUsers,
+          "refs/heads/*");
+      Util.allow(
+          u.getConfig(), Permission.forLabel(P.getName()), 0, 1, anonymousUsers, "refs/heads/*");
+      u.save();
+    }
 
     eventListenerRegistration =
         source.add(
@@ -288,10 +295,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
         value(-1, "I would prefer this is not merged as is"),
         value(-2, "This shall not be merged"));
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
-    Util.allow(cfg, Permission.forLabel(testLabel), -2, +2, registered, "refs/heads/*");
-    saveProjectConfig(cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(u.getConfig(), Permission.forLabel(testLabel), -2, +2, registered, "refs/heads/*");
+      u.save();
+    }
 
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
@@ -309,9 +317,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
 
     // Update admin's permitted range for 'Test-Label' to be -1...+1.
-    Util.remove(cfg, Permission.forLabel(testLabel), registered, "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel(testLabel), -1, +1, registered, "refs/heads/*");
-    saveProjectConfig(cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.remove(u.getConfig(), Permission.forLabel(testLabel), registered, "refs/heads/*");
+      Util.allow(u.getConfig(), Permission.forLabel(testLabel), -1, +1, registered, "refs/heads/*");
+      u.save();
+    }
 
     // Verify admin doesn't have +2 permission any more.
     assertPermitted(gApi.changes().id(changeId).get(), testLabel, -1, 0, 1);
@@ -336,10 +346,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
   }
 
   private void saveLabelConfig() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().put(label.getName(), label);
-    cfg.getLabelSections().put(P.getName(), P);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().put(label.getName(), label);
+      u.getConfig().getLabelSections().put(P.getName(), P);
+      u.save();
+    }
   }
 
   private ChangeInfo getWithLabels(PushOneCommit.Result r) throws Exception {

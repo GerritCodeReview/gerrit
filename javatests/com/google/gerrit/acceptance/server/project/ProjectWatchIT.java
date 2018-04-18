@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import java.util.EnumSet;
 import java.util.List;
@@ -51,9 +50,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
     nc.setFilter("message:sekret");
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("watch", nc);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().putNotifyConfig("watch", nc);
+      u.save();
+    }
 
     PushOneCommit.Result r =
         pushFactory
@@ -91,9 +91,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     nc.setHeader(NotifyConfig.Header.TO);
     nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("team", nc);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().putNotifyConfig("team", nc);
+      u.save();
+    }
 
     sender.clear();
     PushOneCommit.Result r =
@@ -122,9 +123,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     nc.setHeader(NotifyConfig.Header.TO);
     nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("team", nc);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().putNotifyConfig("team", nc);
+      u.save();
+    }
 
     PushOneCommit.Result r =
         pushFactory
@@ -152,9 +154,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     nc.setHeader(NotifyConfig.Header.TO);
     nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("team", nc);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().putNotifyConfig("team", nc);
+      u.save();
+    }
 
     sender.clear();
     PushOneCommit.Result r =
@@ -182,9 +185,10 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     nc.setHeader(NotifyConfig.Header.TO);
     nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
 
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.putNotifyConfig("team", nc);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().putNotifyConfig("team", nc);
+      u.save();
+    }
 
     PushOneCommit.Result r =
         pushFactory

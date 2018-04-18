@@ -929,9 +929,10 @@ public abstract class AbstractDaemonTest {
 
   protected void allow(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.allow(cfg, permission, id, ref);
-    saveProjectConfig(p, cfg);
+    try (ProjectConfigUpdate u = updateProject(p)) {
+      Util.allow(u.getConfig(), permission, id, ref);
+      u.save();
+    }
   }
 
   protected void allowGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
@@ -941,11 +942,12 @@ public abstract class AbstractDaemonTest {
 
   protected void allowGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    for (String capabilityName : capabilityNames) {
-      Util.allow(cfg, capabilityName, id);
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      for (String capabilityName : capabilityNames) {
+        Util.allow(u.getConfig(), capabilityName, id);
+      }
+      u.save();
     }
-    saveProjectConfig(allProjects, cfg);
   }
 
   protected void removeGlobalCapabilities(AccountGroup.UUID id, String... capabilityNames)
@@ -955,11 +957,12 @@ public abstract class AbstractDaemonTest {
 
   protected void removeGlobalCapabilities(AccountGroup.UUID id, Iterable<String> capabilityNames)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    for (String capabilityName : capabilityNames) {
-      Util.remove(cfg, capabilityName, id);
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      for (String capabilityName : capabilityNames) {
+        Util.remove(u.getConfig(), capabilityName, id);
+      }
+      u.save();
     }
-    saveProjectConfig(allProjects, cfg);
   }
 
   protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
@@ -995,9 +998,10 @@ public abstract class AbstractDaemonTest {
 
   protected void deny(Project.NameKey p, String ref, String permission, AccountGroup.UUID id)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(p).getConfig();
-    Util.deny(cfg, permission, id, ref);
-    saveProjectConfig(p, cfg);
+    try (ProjectConfigUpdate u = updateProject(p)) {
+      Util.deny(u.getConfig(), permission, id, ref);
+      u.save();
+    }
   }
 
   protected PermissionRule block(String ref, String permission, AccountGroup.UUID id)
@@ -1008,30 +1012,20 @@ public abstract class AbstractDaemonTest {
   protected PermissionRule block(
       Project.NameKey project, String ref, String permission, AccountGroup.UUID id)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    PermissionRule rule = Util.block(cfg, permission, id, ref);
-    saveProjectConfig(project, cfg);
-    return rule;
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      PermissionRule rule = Util.block(u.getConfig(), permission, id, ref);
+      u.save();
+      return rule;
+    }
   }
 
   protected void blockLabel(
       String label, int min, int max, AccountGroup.UUID id, String ref, Project.NameKey project)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.block(cfg, Permission.LABEL + label, min, max, id, ref);
-    saveProjectConfig(project, cfg);
-  }
-
-  protected void saveProjectConfig(Project.NameKey p, ProjectConfig cfg) throws Exception {
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(p)) {
-      md.setAuthor(identifiedUserFactory.create(admin.getId()));
-      cfg.commit(md);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.block(u.getConfig(), Permission.LABEL + label, min, max, id, ref);
+      u.save();
     }
-    projectCache.evict(cfg.getProject());
-  }
-
-  protected void saveProjectConfig(ProjectConfig cfg) throws Exception {
-    saveProjectConfig(project, cfg);
   }
 
   protected void grant(Project.NameKey project, String ref, String permission)
@@ -1109,9 +1103,10 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void blockForgeCommitter(Project.NameKey project, String ref) throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.block(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, ref);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.block(u.getConfig(), Permission.FORGE_COMMITTER, REGISTERED_USERS, ref);
+      u.save();
+    }
   }
 
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
@@ -1270,10 +1265,11 @@ public abstract class AbstractDaemonTest {
     ca.setDescription("description");
     ca.setAgreementUrl("agreement-url");
 
-    ProjectConfig cfg = projectCache.checkedGet(allProjects).getConfig();
-    cfg.replace(ca);
-    saveProjectConfig(allProjects, cfg);
-    return ca;
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig().replace(ca);
+      u.save();
+      return ca;
+    }
   }
 
   protected BinaryResult submitPreview(String changeId) throws Exception {
@@ -1649,11 +1645,12 @@ public abstract class AbstractDaemonTest {
   protected void configLabel(
       Project.NameKey project, String label, LabelFunction func, LabelValue... value)
       throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    LabelType labelType = category(label, value);
-    labelType.setFunction(func);
-    cfg.getLabelSections().put(labelType.getName(), labelType);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType labelType = category(label, value);
+      labelType.setFunction(func);
+      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.save();
+    }
   }
 
   protected void fail(@Nullable String format, Object... args) {
@@ -1665,11 +1662,46 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void enableCreateNewChangeForAllNotInTarget() throws Exception {
-    ProjectConfig config = projectCache.checkedGet(project).getConfig();
-    config
-        .getProject()
-        .setBooleanConfig(
-            BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET, InheritableBoolean.TRUE);
-    saveProjectConfig(project, config);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .getProject()
+          .setBooleanConfig(
+              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+              InheritableBoolean.TRUE);
+      u.save();
+    }
+  }
+
+  protected ProjectConfigUpdate updateProject(Project.NameKey projectName) throws Exception {
+    return new ProjectConfigUpdate(projectName);
+  }
+
+  protected class ProjectConfigUpdate implements AutoCloseable {
+    private final ProjectConfig projectConfig;
+    private MetaDataUpdate metaDataUpdate;
+
+    private ProjectConfigUpdate(Project.NameKey projectName) throws Exception {
+      metaDataUpdate = metaDataUpdateFactory.create(projectName);
+      projectConfig = ProjectConfig.read(metaDataUpdate);
+    }
+
+    public ProjectConfig getConfig() {
+      return projectConfig;
+    }
+
+    public void save() throws Exception {
+      metaDataUpdate.setAuthor(identifiedUserFactory.create(admin.getId()));
+      projectConfig.commit(metaDataUpdate);
+      metaDataUpdate.close();
+      metaDataUpdate = null;
+      projectCache.evict(projectConfig.getProject());
+    }
+
+    @Override
+    public void close() {
+      if (metaDataUpdate != null) {
+        metaDataUpdate.close();
+      }
+    }
   }
 }

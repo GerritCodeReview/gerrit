@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -46,11 +45,12 @@ import org.junit.Test;
 public class ConfigChangeIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.allow(cfg, Permission.OWNER, REGISTERED_USERS, "refs/*");
-    Util.allow(cfg, Permission.PUSH, REGISTERED_USERS, "refs/for/refs/meta/config");
-    Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, RefNames.REFS_CONFIG);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(u.getConfig(), Permission.OWNER, REGISTERED_USERS, "refs/*");
+      Util.allow(u.getConfig(), Permission.PUSH, REGISTERED_USERS, "refs/for/refs/meta/config");
+      Util.allow(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, RefNames.REFS_CONFIG);
+      u.save();
+    }
 
     setApiUser(user);
     fetchRefsMetaConfig();

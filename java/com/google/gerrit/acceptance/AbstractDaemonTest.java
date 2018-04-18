@@ -1375,14 +1375,6 @@ public abstract class AbstractDaemonTest {
     assertThat(contentEntry.skip).isNull();
   }
 
-  protected TestRepository<?> createProjectWithPush(
-      String name, @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
-    Project.NameKey project = createProject(name, parent, true, submitType);
-    grant(project, "refs/heads/*", Permission.PUSH);
-    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
-    return cloneProject(project);
-  }
-
   protected void assertPermitted(ChangeInfo info, String label, Integer... expected) {
     assertThat(info.permittedLabels).isNotNull();
     Collection<String> strs = info.permittedLabels.get(label);
@@ -1412,27 +1404,7 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  protected void assertLabelPermission(
-      Project.NameKey project,
-      GroupReference groupReference,
-      String ref,
-      boolean exclusive,
-      String labelName,
-      int min,
-      int max)
-      throws IOException {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    AccessSection accessSection = cfg.getAccessSection(ref);
-    assertThat(accessSection).isNotNull();
-
-    String permissionName = Permission.LABEL + labelName;
-    Permission permission = accessSection.getPermission(permissionName);
-    assertPermission(permission, permissionName, exclusive, labelName);
-    assertPermissionRule(
-        permission.getRule(groupReference), groupReference, Action.ALLOW, false, min, max);
-  }
-
-  private void assertPermission(
+  protected void assertPermission(
       Permission permission,
       String expectedName,
       boolean expectedExclusive,
@@ -1443,7 +1415,7 @@ public abstract class AbstractDaemonTest {
     assertThat(permission.getLabel()).isEqualTo(expectedLabelName);
   }
 
-  private void assertPermissionRule(
+  protected void assertPermissionRule(
       PermissionRule rule,
       GroupReference expectedGroupReference,
       Action expectedAction,
@@ -1599,10 +1571,6 @@ public abstract class AbstractDaemonTest {
       assertThat(GitUtil.getChangeId(testSrcRepo, revCommit)).isEmpty();
       return revCommit;
     }
-  }
-
-  protected RevCommit parseCurrentRevision(RevWalk rw, PushOneCommit.Result r) throws Exception {
-    return parseCurrentRevision(rw, r.getChangeId());
   }
 
   protected RevCommit parseCurrentRevision(RevWalk rw, String changeId) throws Exception {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9681f696_ac3acf4c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-18T13:45:44Z",
+      "side": 1,
+      "message": "In most of the other tests we say \"expected ...\"",
+      "range": {
+        "startLine": 919,
+        "startChar": 12,
+        "endLine": 919,
+        "endChar": 24
+      },
+      "revId": "5fbb6e0999df97f732ac56d38083e85c89075ce4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

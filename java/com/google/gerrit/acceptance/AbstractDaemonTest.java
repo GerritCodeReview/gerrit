@@ -27,7 +27,6 @@ import static com.google.gerrit.server.project.testing.Util.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
-import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.github.rholder.retry.BlockStrategy;
 import com.google.common.base.Strings;
@@ -1235,13 +1234,6 @@ public abstract class AbstractDaemonTest {
 
   protected RevCommit getRemoteHead() throws Exception {
     return getRemoteHead(project, "master");
-  }
-
-  protected void grantTagPermissions() throws Exception {
-    grant(project, R_TAGS + "*", Permission.CREATE);
-    grant(project, R_TAGS + "", Permission.DELETE);
-    grant(project, R_TAGS + "*", Permission.CREATE_TAG);
-    grant(project, R_TAGS + "*", Permission.CREATE_SIGNED_TAG);
   }
 
   protected void assertMailReplyTo(Message message, String email) throws Exception {

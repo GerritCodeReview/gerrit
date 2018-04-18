@@ -15,10 +15,12 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -47,7 +49,7 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
         .containsExactly("master");
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags).isEmpty();
 
-    grantTagPermissions();
+    grant(project, R_TAGS + "*", Permission.CREATE_TAG);
     gApi.projects().name(project.get()).tag("test-tag").create(new TagInput());
 
     assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags)

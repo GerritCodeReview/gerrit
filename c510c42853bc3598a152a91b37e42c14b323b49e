@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1326fd62_4a743c4d",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-18T19:02:03Z",
+      "side": 1,
+      "message": "Is his indentation canonical?",
+      "revId": "c510c42853bc3598a152a91b37e42c14b323b49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

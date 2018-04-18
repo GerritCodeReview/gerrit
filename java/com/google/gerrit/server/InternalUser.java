@@ -36,6 +36,11 @@ public class InternalUser extends CurrentUser {
   }
 
   @Override
+  public String getCacheKey() {
+    return "internal";
+  }
+
+  @Override
   public boolean isInternalUser() {
     return true;
   }

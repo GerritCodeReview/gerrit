@@ -90,6 +90,10 @@ public abstract class CurrentUser {
    */
   public abstract GroupMembership getEffectiveGroups();
 
+  /** Returns a unique identifier for this user that is intended to be used as a cache key. Returned object should to
+   * implement {@code equals()} and {@code hasCode()} for effective caching.*/
+  public abstract Object getCacheKey();
+
   /** Unique name of the user on this server, if one has been assigned. */
   public Optional<String> getUserName() {
     return Optional.empty();

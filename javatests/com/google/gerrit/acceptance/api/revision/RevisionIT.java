@@ -518,7 +518,7 @@ public class RevisionIT extends AbstractDaemonTest {
     in.message = r1.getCommit().getFullMessage();
     try {
       gApi.changes().id(t1).current().cherryPick(in);
-      fail();
+      fail("expected ResourceConflictException");
     } catch (ResourceConflictException e) {
       assertThat(e.getMessage())
           .isEqualTo(

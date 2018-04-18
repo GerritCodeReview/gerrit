@@ -1103,7 +1103,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       VersionedAccountDestinations d = VersionedAccountDestinations.forUser(self());
       d.load(git);
       Set<Branch.NameKey> destinations = d.getDestinationList().getDestinations(name);
-      if (destinations != null) {
+      if (destinations != null && !destinations.isEmpty()) {
         return new DestinationPredicate(destinations, name);
       }
     } catch (RepositoryNotFoundException e) {

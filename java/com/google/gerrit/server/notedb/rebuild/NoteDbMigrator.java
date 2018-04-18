@@ -615,6 +615,7 @@ public class NoteDbMigrator implements AutoCloseable {
                                   log.warn(
                                       "Change {} previously failed to rebuild;"
                                           + " skipping primary storage migration",
+                                      id,
                                       e);
                                 } else {
                                   throw e;
@@ -724,6 +725,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
       // Only set in-memory state once it's been persisted to storage.
       globalNotesMigration.setFrom(newState);
+      log.info("Migration state: {} => {}", expectedOldState, newState);
 
       return newState;
     }

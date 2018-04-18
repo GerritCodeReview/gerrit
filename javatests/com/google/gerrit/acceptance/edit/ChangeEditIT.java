@@ -846,16 +846,18 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private <T> T readContentFromJson(RestResponse r, Class<T> clazz) throws Exception {
     r.assertOK();
-    JsonReader jsonReader = new JsonReader(r.getReader());
-    jsonReader.setLenient(true);
-    return newGson().fromJson(jsonReader, clazz);
+    try (JsonReader jsonReader = new JsonReader(r.getReader())) {
+      jsonReader.setLenient(true);
+      return newGson().fromJson(jsonReader, clazz);
+    }
   }
 
   private <T> T readContentFromJson(RestResponse r, TypeToken<T> typeToken) throws Exception {
     r.assertOK();
-    JsonReader jsonReader = new JsonReader(r.getReader());
-    jsonReader.setLenient(true);
-    return newGson().fromJson(jsonReader, typeToken.getType());
+    try (JsonReader jsonReader = new JsonReader(r.getReader())) {
+      jsonReader.setLenient(true);
+      return newGson().fromJson(jsonReader, typeToken.getType());
+    }
   }
 
   private String readContentFromJson(RestResponse r) throws Exception {

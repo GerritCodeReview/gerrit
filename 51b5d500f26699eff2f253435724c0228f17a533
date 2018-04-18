@@ -374,6 +374,30 @@
       "revId": "51b5d500f26699eff2f253435724c0228f17a533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93a84c_f45efbf5",
+        "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:48:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44a71fab_82e59cdb",
+      "range": {
+        "startLine": 59,
+        "startChar": 55,
+        "endLine": 59,
+        "endChar": 65
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

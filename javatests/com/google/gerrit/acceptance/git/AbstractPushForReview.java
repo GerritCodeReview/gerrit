@@ -1116,7 +1116,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
 
     setUseSignedOffBy(InheritableBoolean.TRUE);
-    blockForgeCommitter(project, "refs/heads/master");
+    block(project, "refs/heads/master", Permission.FORGE_COMMITTER, REGISTERED_USERS);
 
     push =
         pushFactory.create(

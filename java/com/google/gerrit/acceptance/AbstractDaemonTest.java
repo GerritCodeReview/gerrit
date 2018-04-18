@@ -1108,12 +1108,6 @@ public abstract class AbstractDaemonTest {
     block(ref, Permission.READ, REGISTERED_USERS);
   }
 
-  protected void blockForgeCommitter(Project.NameKey project, String ref) throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.block(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, ref);
-    saveProjectConfig(project, cfg);
-  }
-
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     return push.to(ref);

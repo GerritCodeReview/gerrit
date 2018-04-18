@@ -93,7 +93,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
         logger.info("No such project: {}", cd.project());
         return false;
       }
-      throw new OrmException("unable to check permissions", e);
+      throw new OrmException("unable to check permissions on change " + cd.getId(), e);
     }
     if (visible) {
       cd.cacheVisibleTo(user);

@@ -55,6 +55,7 @@ junit_tests(
         "//lib:gwtorm",
         "//lib:truth-java8-extension",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/commons:codec",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",

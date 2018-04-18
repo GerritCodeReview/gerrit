@@ -13,6 +13,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",

@@ -32,6 +32,7 @@ java_library(
         "//lib:h2",
         "//lib:truth",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/guice",
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",

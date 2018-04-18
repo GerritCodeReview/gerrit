@@ -45,9 +45,3 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@httpcore_nio//jar"],
 )
-
-java_library(
-    name = "httpcore-niossl",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@httpcore_niossl//jar"],
-)

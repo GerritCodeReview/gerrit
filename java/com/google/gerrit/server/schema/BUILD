@@ -16,6 +16,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/commons:dbcp",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",

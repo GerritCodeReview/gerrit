@@ -30,6 +30,7 @@ java_library(
         "//lib:servlet-api-3_1",
         "//lib:soy",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/commons:codec",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

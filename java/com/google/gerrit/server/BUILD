@@ -62,6 +62,7 @@ java_library(
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcpkix-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
         "//lib/commons:codec",

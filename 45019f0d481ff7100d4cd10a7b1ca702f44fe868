@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "049147c8_6276e617",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-18T14:51:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d58b10e2_6b64e997",
+      "revId": "45019f0d481ff7100d4cd10a7b1ca702f44fe868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b5a057b_7cb43c1c",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 7
@@ -39,6 +57,30 @@
       "revId": "45019f0d481ff7100d4cd10a7b1ca702f44fe868",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81b9ddad_403fe1fb",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-18T14:51:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0b5a057b_7cb43c1c",
+      "range": {
+        "startLine": 269,
+        "startChar": 43,
+        "endLine": 269,
+        "endChar": 50
+      },
+      "revId": "45019f0d481ff7100d4cd10a7b1ca702f44fe868",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

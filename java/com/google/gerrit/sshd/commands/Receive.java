@@ -93,7 +93,7 @@ final class Receive extends AbstractGitCommand {
       throw new Failure(1, "fatal: unable to check permissions " + e);
     }
 
-    AsyncReceiveCommits arc = factory.create(projectState, currentUser, repo, null, reviewers);
+    AsyncReceiveCommits arc = factory.create(projectAccessor, currentUser, repo, null, reviewers);
 
     try {
       Capable r = arc.canUpload();
@@ -114,7 +114,7 @@ final class Receive extends AbstractGitCommand {
       // we want to present this error to the user
       if (badStream.getCause() instanceof TooLargeObjectInPackException) {
         StringBuilder msg = new StringBuilder();
-        msg.append("Receive error on project \"").append(projectState.getName()).append("\"");
+        msg.append("Receive error on project \"").append(projectAccessor.getName()).append("\"");
         msg.append(" (user ");
         msg.append(currentUser.getUserName().orElse(null));
         msg.append(" account ");
@@ -129,7 +129,7 @@ final class Receive extends AbstractGitCommand {
       // Log what the heck is going on, as detailed as we can.
       //
       StringBuilder msg = new StringBuilder();
-      msg.append("Unpack error on project \"").append(projectState.getName()).append("\":\n");
+      msg.append("Unpack error on project \"").append(projectAccessor.getName()).append("\":\n");
 
       msg.append("  AdvertiseRefsHook: ").append(rp.getAdvertiseRefsHook());
       if (rp.getAdvertiseRefsHook() == AdvertiseRefsHook.DEFAULT) {

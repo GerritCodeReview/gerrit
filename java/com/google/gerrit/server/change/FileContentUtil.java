@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mime.FileTypeRegistry;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -59,11 +60,17 @@ public class FileContentUtil {
   private static final SecureRandom rng = new SecureRandom();
 
   private final GitRepositoryManager repoManager;
+  // TODO(dborowitz): Change callers to use ProjectAccessor, then remove this field.
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final FileTypeRegistry registry;
 
   @Inject
-  FileContentUtil(GitRepositoryManager repoManager, FileTypeRegistry ftr) {
+  FileContentUtil(
+      GitRepositoryManager repoManager,
+      ProjectAccessor.Factory projectAccessorFactory,
+      FileTypeRegistry ftr) {
     this.repoManager = repoManager;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.registry = ftr;
   }
 
@@ -284,7 +291,7 @@ public class FileContentUtil {
     return h.hash().toString();
   }
 
-  public static String resolveContentType(
+  public String resolveContentType(
       ProjectState project, String path, FileMode fileMode, String mimeType) {
     switch (fileMode) {
       case FILE:
@@ -296,7 +303,8 @@ public class FileContentUtil {
         }
         if (project != null) {
           for (ProjectState p : project.tree()) {
-            String t = p.getConfig().getMimeTypes().getMimeType(path);
+            String t =
+                projectAccessorFactory.create(p).getConfig().getMimeTypes().getMimeType(path);
             if (t != null) {
               return t;
             }
@@ -314,6 +322,6 @@ public class FileContentUtil {
 
   private Repository openRepository(ProjectState project)
       throws RepositoryNotFoundException, IOException {
-    return repoManager.openRepository(project.getNameKey());
+    return repoManager.openRepository(projectAccessorFactory.create(project).getNameKey());
   }
 }

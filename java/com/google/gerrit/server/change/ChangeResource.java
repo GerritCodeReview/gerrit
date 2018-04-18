@@ -36,6 +36,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -76,6 +77,7 @@ public class ChangeResource implements RestResource, HasETag {
   private final ApprovalsUtil approvalUtil;
   private final PatchSetUtil patchSetUtil;
   private final PermissionBackend permissionBackend;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final StarredChangesUtil starredChangesUtil;
   private final ProjectCache projectCache;
   private final ChangeNotes notes;
@@ -88,6 +90,7 @@ public class ChangeResource implements RestResource, HasETag {
       ApprovalsUtil approvalUtil,
       PatchSetUtil patchSetUtil,
       PermissionBackend permissionBackend,
+      ProjectAccessor.Factory projectAccessorFactory,
       StarredChangesUtil starredChangesUtil,
       ProjectCache projectCache,
       @Assisted ChangeNotes notes,
@@ -97,6 +100,7 @@ public class ChangeResource implements RestResource, HasETag {
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
     this.permissionBackend = permissionBackend;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.starredChangesUtil = starredChangesUtil;
     this.projectCache = projectCache;
     this.notes = notes;
@@ -200,7 +204,7 @@ public class ChangeResource implements RestResource, HasETag {
     }
 
     for (ProjectState p : projectStateTree) {
-      hashObjectId(h, p.getConfig().getRevision(), buf);
+      hashObjectId(h, projectAccessorFactory.create(p).getConfig().getRevision(), buf);
     }
   }
 

@@ -33,6 +33,7 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -85,7 +86,7 @@ public class RebaseChangeEdit
     @Override
     public Response<?> apply(ChangeResource rsrc, Input in)
         throws AuthException, ResourceConflictException, IOException, OrmException,
-            PermissionBackendException {
+            PermissionBackendException, NoSuchProjectException {
       Project.NameKey project = rsrc.getProject();
       try (Repository repository = repositoryManager.openRepository(project)) {
         editModifier.rebaseEdit(repository, rsrc.getNotes());

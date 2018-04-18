@@ -29,16 +29,18 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.AccountsSection;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.util.Set;
 
 /** Access control management for one account's access to other accounts. */
 public class AccountControl {
   public static class Factory {
     private final PermissionBackend permissionBackend;
-    private final ProjectCache projectCache;
+    private final ProjectAccessor.Factory projectAccessorFactory;
     private final GroupControl.Factory groupControlFactory;
     private final Provider<CurrentUser> user;
     private final IdentifiedUser.GenericFactory userFactory;
@@ -47,13 +49,13 @@ public class AccountControl {
     @Inject
     Factory(
         PermissionBackend permissionBackend,
-        ProjectCache projectCache,
+        ProjectAccessor.Factory projectAccessorFactory,
         GroupControl.Factory groupControlFactory,
         Provider<CurrentUser> user,
         IdentifiedUser.GenericFactory userFactory,
         AccountVisibility accountVisibility) {
       this.permissionBackend = permissionBackend;
-      this.projectCache = projectCache;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.groupControlFactory = groupControlFactory;
       this.user = user;
       this.userFactory = userFactory;
@@ -63,7 +65,7 @@ public class AccountControl {
     public AccountControl get() {
       return new AccountControl(
           permissionBackend,
-          projectCache,
+          projectAccessorFactory,
           groupControlFactory,
           user.get(),
           userFactory,
@@ -82,12 +84,20 @@ public class AccountControl {
 
   AccountControl(
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       GroupControl.Factory groupControlFactory,
       CurrentUser user,
       IdentifiedUser.GenericFactory userFactory,
       AccountVisibility accountVisibility) {
-    this.accountsSection = projectCache.getAllProjects().getConfig().getAccountsSection();
+    try {
+      this.accountsSection =
+          projectAccessorFactory.createForAllProjects().getConfig().getAccountsSection();
+    } catch (NoSuchProjectException | IOException e) {
+      // TODO(dborowitz): Consider propagating. There are a lot of call sites, and in some cases it
+      // may not make sense to blanket convert NSPE to not found, since many callers are actually
+      // getting resources other than All-Projects.
+      throw new RuntimeException("couldn't read All-Projects", e);
+    }
     this.groupControlFactory = groupControlFactory;
     this.perm = permissionBackend.user(user);
     this.user = user;

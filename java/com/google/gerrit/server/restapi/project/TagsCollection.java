@@ -54,7 +54,7 @@ public class TagsCollection
   @Override
   public TagResource parse(ProjectResource parent, IdString id)
       throws RestApiException, IOException, PermissionBackendException {
-    parent.getProjectState().checkStatePermitsRead();
+    parent.getProjectAccessor().checkStatePermitsRead();
     return new TagResource(
         parent.getProjectAccessor(), parent.getUser(), list.get().get(parent, id));
   }

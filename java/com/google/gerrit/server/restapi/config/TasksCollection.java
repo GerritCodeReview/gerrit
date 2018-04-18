@@ -32,11 +32,12 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 
 @Singleton
 public class TasksCollection implements ChildCollection<ConfigResource, TaskResource> {
@@ -45,7 +46,7 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
   private final WorkQueue workQueue;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   TasksCollection(
@@ -54,13 +55,13 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
       WorkQueue workQueue,
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.views = views;
     this.list = list;
     this.workQueue = workQueue;
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
@@ -87,12 +88,14 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
     Task<?> task = workQueue.getTask(taskId);
     if (task instanceof ProjectTask) {
       Project.NameKey nameKey = ((ProjectTask<?>) task).getProjectNameKey();
-      ProjectState state = projectCache.get(nameKey);
-      if (state == null) {
+
+      ProjectAccessor accessor;
+      try {
+        accessor = projectAccessorFactory.create(nameKey);
+      } catch (NoSuchProjectException | IOException e) {
         throw new ResourceNotFoundException(String.format("project %s not found", nameKey));
       }
-
-      state.checkStatePermitsRead();
+      accessor.checkStatePermitsRead();
 
       try {
         permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);

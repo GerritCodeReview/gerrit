@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.Provider;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   protected static final int MAX_LABEL_VALUE = 4;
 
   protected static class Args {
-    protected final ProjectCache projectCache;
+    protected final ProjectAccessor.Factory projectAccessorFactory;
     protected final PermissionBackend permissionBackend;
     protected final IdentifiedUser.GenericFactory userFactory;
     protected final Provider<ReviewDb> dbProvider;
@@ -44,14 +44,14 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     protected final AccountGroup.UUID group;
 
     protected Args(
-        ProjectCache projectCache,
+        ProjectAccessor.Factory projectAccessorFactory,
         PermissionBackend permissionBackend,
         IdentifiedUser.GenericFactory userFactory,
         Provider<ReviewDb> dbProvider,
         String value,
         Set<Account.Id> accounts,
         AccountGroup.UUID group) {
-      this.projectCache = projectCache;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.permissionBackend = permissionBackend;
       this.userFactory = userFactory;
       this.dbProvider = dbProvider;
@@ -83,7 +83,13 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     super(
         predicates(
             new Args(
-                a.projectCache, a.permissionBackend, a.userFactory, a.db, value, accounts, group)));
+                a.projectAccessorFactory,
+                a.permissionBackend,
+                a.userFactory,
+                a.db,
+                value,
+                accounts,
+                group)));
     this.value = value;
   }
 

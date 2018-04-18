@@ -20,6 +20,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.DefaultQueueOp;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
@@ -47,6 +49,7 @@ class RenameGroupOp extends DefaultQueueOp {
   private static final int MAX_TRIES = 10;
   private static final Logger log = LoggerFactory.getLogger(RenameGroupOp.class);
 
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
 
@@ -61,6 +64,7 @@ class RenameGroupOp extends DefaultQueueOp {
   @Inject
   public RenameGroupOp(
       WorkQueue workQueue,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       MetaDataUpdate.Server metaDataUpdateFactory,
       @Assisted("author") PersonIdent author,
@@ -68,6 +72,7 @@ class RenameGroupOp extends DefaultQueueOp {
       @Assisted("oldName") String oldName,
       @Assisted("newName") String newName) {
     super(workQueue);
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
 
@@ -82,15 +87,15 @@ class RenameGroupOp extends DefaultQueueOp {
   public void run() {
     Iterable<Project.NameKey> names = tryingAgain ? retryOn : projectCache.all();
     for (Project.NameKey projectName : names) {
-      ProjectConfig config = projectCache.get(projectName).getConfig();
-      GroupReference ref = config.getGroup(uuid);
-      if (ref == null || newName.equals(ref.getName())) {
-        continue;
-      }
-
       try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
+        ProjectConfig config = projectAccessorFactory.create(projectName).getConfig();
+        GroupReference ref = config.getGroup(uuid);
+        if (ref == null || newName.equals(ref.getName())) {
+          continue;
+        }
+
         rename(md);
-      } catch (RepositoryNotFoundException noProject) {
+      } catch (NoSuchProjectException | RepositoryNotFoundException noProject) {
         continue;
       } catch (ConfigInvalidException | IOException err) {
         log.error("Cannot rename group " + oldName + " in " + projectName, err);

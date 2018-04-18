@@ -29,7 +29,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -57,7 +58,7 @@ public class CatServlet extends HttpServlet {
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   CatServlet(
@@ -66,13 +67,13 @@ public class CatServlet extends HttpServlet {
       PatchSetUtil psu,
       ChangeNotes.Factory cnf,
       PermissionBackend pb,
-      ProjectCache pc) {
+      ProjectAccessor.Factory paf) {
     requestDb = sf;
     changeEditUtil = ceu;
     psUtil = psu;
     changeNotesFactory = cnf;
     permissionBackend = pb;
-    projectCache = pc;
+    projectAccessorFactory = paf;
   }
 
   @Override
@@ -132,7 +133,7 @@ public class CatServlet extends HttpServlet {
           .change(notes)
           .database(requestDb)
           .check(ChangePermission.READ);
-      projectCache.checkedGet(notes.getProjectName()).checkStatePermitsRead();
+      projectAccessorFactory.create(notes.getProjectName()).checkStatePermitsRead();
       if (patchKey.getParentKey().get() == 0) {
         // change edit
         Optional<ChangeEdit> edit = changeEditUtil.byChange(notes);
@@ -150,7 +151,10 @@ public class CatServlet extends HttpServlet {
         }
         revision = patchSet.getRevision().get();
       }
-    } catch (ResourceConflictException | NoSuchChangeException | AuthException e) {
+    } catch (ResourceConflictException
+        | NoSuchChangeException
+        | NoSuchProjectException
+        | AuthException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     } catch (OrmException | PermissionBackendException | IOException e) {

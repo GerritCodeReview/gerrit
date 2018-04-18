@@ -18,8 +18,8 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectState;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -43,16 +43,18 @@ public class PluginConfig {
     this.projectConfig = projectConfig;
   }
 
-  PluginConfig withInheritance(ProjectState.Factory projectStateFactory) {
+  PluginConfig withInheritance(ProjectAccessor.Factory projectAccessorFactory) {
     if (projectConfig == null) {
       return this;
     }
 
-    ProjectState state = projectStateFactory.create(projectConfig);
-    ProjectState parent = Iterables.getFirst(state.parents(), null);
+    ProjectAccessor accessor = projectAccessorFactory.create(projectConfig);
+    ProjectAccessor parent =
+        projectAccessorFactory.create(
+            Iterables.getFirst(accessor.getProjectState().parents(), null));
     if (parent != null) {
       PluginConfig parentPluginConfig =
-          parent.getConfig().getPluginConfig(pluginName).withInheritance(projectStateFactory);
+          parent.getConfig().getPluginConfig(pluginName).withInheritance(projectAccessorFactory);
       Set<String> allNames = cfg.getNames(PLUGIN, pluginName);
       cfg = copyConfig(cfg);
       for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {

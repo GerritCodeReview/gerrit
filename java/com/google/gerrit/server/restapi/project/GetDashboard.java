@@ -68,53 +68,53 @@ public class GetDashboard implements RestReadView<DashboardResource> {
     if (rsrc.isProjectDefault()) {
       // The default is not resolved to a definition yet.
       try {
-        rsrc = defaultOf(rsrc.getProjectState(), rsrc.getUser());
+        rsrc = defaultOf(rsrc.getProjectAccessor(), rsrc.getUser());
       } catch (ConfigInvalidException e) {
         throw new ResourceConflictException(e.getMessage());
       }
     }
 
     return DashboardsCollection.parse(
-        rsrc.getProjectState().getProject(),
+        rsrc.getProjectAccessor().getProject(),
         rsrc.getRefName().substring(REFS_DASHBOARDS.length()),
         rsrc.getPathName(),
         rsrc.getConfig(),
-        rsrc.getProjectState().getName(),
+        rsrc.getProjectAccessor().getName(),
         true);
   }
 
-  private DashboardResource defaultOf(ProjectState projectState, CurrentUser user)
+  private DashboardResource defaultOf(ProjectAccessor projectAccessor, CurrentUser user)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
-    String id = projectState.getProject().getLocalDefaultDashboard();
+    String id = projectAccessor.getProject().getLocalDefaultDashboard();
     if (Strings.isNullOrEmpty(id)) {
-      id = projectState.getProject().getDefaultDashboard();
+      id = projectAccessor.getProject().getDefaultDashboard();
     }
     if (isDefaultDashboard(id)) {
       throw new ResourceNotFoundException();
     } else if (!Strings.isNullOrEmpty(id)) {
-      return parse(projectState, user, id);
+      return parse(projectAccessor, user, id);
     } else if (!inherited) {
       throw new ResourceNotFoundException();
     }
 
-    for (ProjectState ps : projectState.tree()) {
-      id = ps.getProject().getDefaultDashboard();
+    for (ProjectState ps : projectAccessor.getProjectState().tree()) {
+      ProjectAccessor pa = projectAccessorFactory.create(ps);
+      id = pa.getProject().getDefaultDashboard();
       if (isDefaultDashboard(id)) {
         throw new ResourceNotFoundException();
       } else if (!Strings.isNullOrEmpty(id)) {
-        return parse(projectState, user, id);
+        return parse(projectAccessor, user, id);
       }
     }
     throw new ResourceNotFoundException();
   }
 
-  private DashboardResource parse(ProjectState projectState, CurrentUser user, String id)
+  private DashboardResource parse(ProjectAccessor projectAccessor, CurrentUser user, String id)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     List<String> p = Lists.newArrayList(Splitter.on(':').limit(2).split(id));
     String ref = Url.encode(p.get(0));
     String path = Url.encode(p.get(1));
     return dashboards.parse(
-        new ProjectResource(projectAccessorFactory.create(projectState), user),
-        IdString.fromUrl(ref + ':' + path));
+        new ProjectResource(projectAccessor, user), IdString.fromUrl(ref + ':' + path));
   }
 }

@@ -238,7 +238,7 @@ public class DeleteRef {
       }
     }
 
-    if (!project.getProjectState().statePermitsWrite()) {
+    if (!project.getProjectAccessor().statePermitsWrite()) {
       command.setResult(Result.REJECTED_OTHER_REASON, "project state does not permit write");
     }
 

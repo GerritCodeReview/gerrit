@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -43,12 +44,17 @@ public final class CreateBranchCommand extends SshCommand {
 
   @Inject GerritApi gApi;
 
+  @Inject ProjectAccessor.Factory projectAccessorFactory;
+
+  private ProjectAccessor projectAccessor;
+
   @Override
   protected void run() throws UnloggedFailure {
+    projectAccessor = projectAccessorFactory.create(project);
     try {
       BranchInput in = new BranchInput();
       in.revision = revision;
-      gApi.projects().name(project.getName()).branch(name).create(in);
+      gApi.projects().name(projectAccessor.getName()).branch(name).create(in);
     } catch (RestApiException e) {
       throw die(e);
     }

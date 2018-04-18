@@ -53,8 +53,8 @@ import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -84,7 +84,7 @@ import org.slf4j.LoggerFactory;
 public class ReplaceOp implements BatchUpdateOp {
   public interface Factory {
     ReplaceOp create(
-        ProjectState projectState,
+        ProjectAccessor projectAccessor,
         Branch.NameKey dest,
         boolean checkMergedInto,
         @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
@@ -117,7 +117,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ProjectCache projectCache;
 
-  private final ProjectState projectState;
+  private final ProjectAccessor projectAccessor;
   private final Branch.NameKey dest;
   private final boolean checkMergedInto;
   private final PatchSet.Id priorPatchSetId;
@@ -159,7 +159,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       ProjectCache projectCache,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
-      @Assisted ProjectState projectState,
+      @Assisted ProjectAccessor projectAccessor,
       @Assisted Branch.NameKey dest,
       @Assisted boolean checkMergedInto,
       @Assisted("priorPatchSetId") PatchSet.Id priorPatchSetId,
@@ -186,7 +186,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.projectCache = projectCache;
     this.sendEmailExecutor = sendEmailExecutor;
 
-    this.projectState = projectState;
+    this.projectAccessor = projectAccessor;
     this.dest = dest;
     this.checkMergedInto = checkMergedInto;
     this.priorPatchSetId = priorPatchSetId;
@@ -205,7 +205,7 @@ public class ReplaceOp implements BatchUpdateOp {
     ctx.getRevWalk().parseBody(commit);
     changeKind =
         changeKindCache.getChangeKind(
-            projectState.getNameKey(),
+            projectAccessor.getNameKey(),
             ctx.getRevWalk(),
             ctx.getRepoView().getConfig(),
             priorCommitId,
@@ -299,7 +299,7 @@ public class ReplaceOp implements BatchUpdateOp {
         approvalsUtil.addApprovalsForNewPatchSet(
             ctx.getDb(),
             update,
-            projectState.getLabelTypes(),
+            projectAccessor.getProjectState().getLabelTypes(),
             newPatchSet,
             ctx.getUser(),
             approvals);
@@ -314,7 +314,7 @@ public class ReplaceOp implements BatchUpdateOp {
     approvalsUtil.addReviewers(
         ctx.getDb(),
         update,
-        projectState.getLabelTypes(),
+        projectAccessor.getProjectState().getLabelTypes(),
         change,
         newPatchSet,
         info,
@@ -414,7 +414,7 @@ public class ReplaceOp implements BatchUpdateOp {
           continue;
         }
 
-        LabelType lt = projectState.getLabelTypes().byLabel(a.getLabelId());
+        LabelType lt = projectAccessor.getProjectState().getLabelTypes().byLabel(a.getLabelId());
         if (lt != null) {
           current.put(lt.getName(), a);
         }
@@ -504,7 +504,7 @@ public class ReplaceOp implements BatchUpdateOp {
     public void run() {
       try {
         ReplacePatchSetSender cm =
-            replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());
+            replacePatchSetFactory.create(projectAccessor.getNameKey(), notes.getChangeId());
         cm.setFrom(ctx.getAccount().getAccount().getId());
         cm.setPatchSet(newPatchSet, info);
         cm.setChangeMessage(msg.getMessage(), ctx.getWhen());

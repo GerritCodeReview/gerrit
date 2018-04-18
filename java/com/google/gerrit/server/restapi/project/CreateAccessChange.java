@@ -39,7 +39,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -67,7 +66,6 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
   private final Provider<ReviewDb> db;
   private final SetAccessUtil setAccess;
   private final ChangeJson.Factory jsonFactory;
-  private final ProjectCache projectCache;
 
   @Inject
   CreateAccessChange(
@@ -78,8 +76,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       Provider<ReviewDb> db,
       SetAccessUtil accessUtil,
-      ChangeJson.Factory jsonFactory,
-      ProjectCache projectCache) {
+      ChangeJson.Factory jsonFactory) {
     this.permissionBackend = permissionBackend;
     this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
@@ -88,7 +85,6 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
     this.db = db;
     this.setAccess = accessUtil;
     this.jsonFactory = jsonFactory;
-    this.projectCache = projectCache;
   }
 
   @Override
@@ -107,7 +103,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG);
       }
     }
-    projectCache.checkedGet(rsrc.getNameKey()).checkStatePermitsWrite();
+    rsrc.getProjectAccessor().checkStatePermitsWrite();
 
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
     List<AccessSection> removals = setAccess.getAccessSections(input.remove);

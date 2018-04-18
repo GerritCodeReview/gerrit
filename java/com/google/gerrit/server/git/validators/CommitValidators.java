@@ -143,7 +143,7 @@ public class CommitValidators {
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectState),
+              new ProjectStateValidationListener(projectAccessor),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl),
@@ -176,7 +176,7 @@ public class CommitValidators {
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectState),
+              new ProjectStateValidationListener(projectAccessor),
               new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new SignedOffByValidator(user, perm, projectAccessor),
@@ -210,10 +210,12 @@ public class CommitValidators {
       //    discuss what to do about it.
       //  - Plugin validators may do things like require certain commit message
       //    formats, so we play it safe and exclude them.
+      ProjectState projectState = projectCache.checkedGet(project);
+      ProjectAccessor projectAccessor = projectAccessorFactory.create(projectState);
       return new CommitValidators(
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectCache.checkedGet(project)),
+              new ProjectStateValidationListener(projectAccessor),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl)));
     }
@@ -831,16 +833,16 @@ public class CommitValidators {
 
   /** Rejects updates to projects that don't allow writes. */
   public static class ProjectStateValidationListener implements CommitValidationListener {
-    private final ProjectState projectState;
+    private final ProjectAccessor projectAccessor;
 
-    public ProjectStateValidationListener(ProjectState projectState) {
-      this.projectState = projectState;
+    public ProjectStateValidationListener(ProjectAccessor projectAccessor) {
+      this.projectAccessor = projectAccessor;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (projectState.statePermitsWrite()) {
+      if (projectAccessor.statePermitsWrite()) {
         return Collections.emptyList();
       }
       throw new CommitValidationException("project state does not permit write");

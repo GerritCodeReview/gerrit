@@ -69,9 +69,9 @@ public class BranchesCollection
   @Override
   public BranchResource parse(ProjectResource parent, IdString id)
       throws RestApiException, IOException, PermissionBackendException {
-    parent.getProjectState().checkStatePermitsRead();
+    parent.getProjectAccessor().checkStatePermitsRead();
     Project.NameKey project = parent.getNameKey();
-    parent.getProjectState().checkStatePermitsRead();
+    parent.getProjectAccessor().checkStatePermitsRead();
     try (Repository repo = repoManager.openRepository(project)) {
       Ref ref = repo.exactRef(RefNames.fullName(id.get()));
       if (ref == null) {

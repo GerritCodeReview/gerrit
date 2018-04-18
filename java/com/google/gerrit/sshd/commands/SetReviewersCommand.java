@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.DeleteReviewer;
 import com.google.gerrit.server.restapi.change.PostReviewers;
@@ -76,7 +77,7 @@ public class SetReviewersCommand extends SshCommand {
   )
   void addChange(String token) {
     try {
-      changeArgumentParser.addChange(token, changes, projectState);
+      changeArgumentParser.addChange(token, changes, projectAccessorFactory.create(projectState));
     } catch (IOException | UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {
@@ -93,6 +94,8 @@ public class SetReviewersCommand extends SshCommand {
   @Inject private DeleteReviewer deleteReviewer;
 
   @Inject private ChangeArgumentParser changeArgumentParser;
+
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
 
   private Set<Account.Id> toRemove = new HashSet<>();
 

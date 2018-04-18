@@ -73,7 +73,9 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     grant(project, "refs/*", Permission.FORGE_COMMITTER, false, REGISTERED_USERS);
     grant(project, "refs/*", Permission.SUBMIT, false, REGISTERED_USERS);
     grant(project, "refs/heads/master", Permission.ABANDON, false, REGISTERED_USERS);
-    ProjectConfig cfg = projectCache.get(project).getConfig();
+    // TODO(dborowitz): This seems broken, the config is never saved, and it shouldn't read from the
+    // cache like this.
+    ProjectConfig cfg = projectAccessorFactory.create(project).getConfig();
     Util.allow(cfg, Permission.forLabel("Code-Review"), -2, +2, REGISTERED_USERS, "refs/*");
   }
 

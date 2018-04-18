@@ -31,12 +31,13 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +61,7 @@ public class EventBroker implements EventDispatcher {
   protected final DynamicSet<EventListener> unrestrictedListeners;
 
   private final PermissionBackend permissionBackend;
-  protected final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   protected final ChangeNotes.Factory notesFactory;
 
@@ -71,13 +72,13 @@ public class EventBroker implements EventDispatcher {
       DynamicSet<UserScopedEventListener> listeners,
       DynamicSet<EventListener> unrestrictedListeners,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       ChangeNotes.Factory notesFactory,
       Provider<ReviewDb> dbProvider) {
     this.listeners = listeners;
     this.unrestrictedListeners = unrestrictedListeners;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.notesFactory = notesFactory;
     this.dbProvider = dbProvider;
   }
@@ -150,14 +151,13 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {
     try {
-      ProjectState state = projectCache.get(project);
-      if (state == null || !state.statePermitsRead()) {
+      if (!projectAccessorFactory.create(project).statePermitsRead()) {
         return false;
       }
 
       permissionBackend.user(user).project(project).check(ProjectPermission.ACCESS);
       return true;
-    } catch (AuthException | PermissionBackendException e) {
+    } catch (AuthException | PermissionBackendException | NoSuchProjectException | IOException e) {
       return false;
     }
   }
@@ -167,8 +167,11 @@ public class EventBroker implements EventDispatcher {
     if (change == null) {
       return false;
     }
-    ProjectState pe = projectCache.get(change.getProject());
-    if (pe == null || !pe.statePermitsRead()) {
+    try {
+      if (!projectAccessorFactory.create(change.getProject()).statePermitsRead()) {
+        return false;
+      }
+    } catch (NoSuchProjectException | IOException e) {
       return false;
     }
     ReviewDb db = dbProvider.get();
@@ -181,12 +184,12 @@ public class EventBroker implements EventDispatcher {
 
   protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user)
       throws PermissionBackendException {
-    ProjectState pe = projectCache.get(branchName.getParentKey());
-    if (pe == null) {
+    try {
+      return projectAccessorFactory.create(branchName.getParentKey()).statePermitsRead()
+          && permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
+    } catch (NoSuchProjectException | IOException e) {
       return false;
     }
-    return pe.statePermitsRead()
-        && permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
   }
 
   protected boolean isVisibleTo(Event event, CurrentUser user)

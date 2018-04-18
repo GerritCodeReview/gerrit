@@ -24,6 +24,7 @@ import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GarbageCollection;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -59,6 +60,8 @@ public class GarbageCollectionCommand extends SshCommand {
 
   @Inject private ProjectCache projectCache;
 
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
+
   @Inject private GarbageCollection.Factory garbageCollectionFactory;
 
   @Override
@@ -81,7 +84,11 @@ public class GarbageCollectionCommand extends SshCommand {
     if (all) {
       projectNames = Lists.newArrayList(projectCache.all());
     } else {
-      projectNames = projects.stream().map(ProjectState::getNameKey).collect(toList());
+      projectNames =
+          projects
+              .stream()
+              .map(s -> projectAccessorFactory.create(s).getNameKey())
+              .collect(toList());
     }
 
     GarbageCollectionResult result =

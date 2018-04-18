@@ -31,8 +31,8 @@ import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -54,7 +54,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class ApprovalCopier {
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
   private final ChangeData.Factory changeDataFactory;
@@ -62,12 +62,12 @@ public class ApprovalCopier {
 
   @Inject
   ApprovalCopier(
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
       ChangeData.Factory changeDataFactory,
       PatchSetUtil psUtil) {
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
     this.changeDataFactory = changeDataFactory;
@@ -162,7 +162,7 @@ public class ApprovalCopier {
     checkNotNull(ps, "ps should not be null");
     ChangeData cd = changeDataFactory.create(db, notes);
     try {
-      ProjectState project = projectCache.checkedGet(cd.change().getDest().getParentKey());
+      ProjectAccessor project = projectAccessorFactory.create(cd.change().getDest().getParentKey());
       ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
       checkNotNull(all, "all should not be null");
 
@@ -212,7 +212,7 @@ public class ApprovalCopier {
         }
       }
       return labelNormalizer.normalize(notes, user, byUser.values()).getNormalized();
-    } catch (IOException e) {
+    } catch (NoSuchProjectException | IOException e) {
       throw new OrmException(e);
     }
   }
@@ -227,10 +227,10 @@ public class ApprovalCopier {
   }
 
   private static boolean canCopy(
-      ProjectState project, PatchSetApproval psa, PatchSet.Id psId, ChangeKind kind) {
+      ProjectAccessor project, PatchSetApproval psa, PatchSet.Id psId, ChangeKind kind) {
     int n = psa.getKey().getParentKey().get();
     checkArgument(n != psId.get());
-    LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
+    LabelType type = project.getProjectState().getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
       return false;
     } else if ((type.isCopyMinScore() && type.isMaxNegative(psa))

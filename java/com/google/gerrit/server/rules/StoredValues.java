@@ -55,6 +55,7 @@ public final class StoredValues {
   public static final StoredValue<ReviewDb> REVIEW_DB = create(ReviewDb.class);
   public static final StoredValue<ChangeData> CHANGE_DATA = create(ChangeData.class);
   public static final StoredValue<ProjectAccessor> PROJECT_ACCESSOR = create(ProjectAccessor.class);
+  // TODO(dborowitz): Migrate callers to use PROJECT_ACCESSOR, then delete this field.
   public static final StoredValue<ProjectState> PROJECT_STATE = create(ProjectState.class);
 
   public static Change getChange(Prolog engine) throws SystemException {

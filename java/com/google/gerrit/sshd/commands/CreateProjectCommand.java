@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.SuggestParentCandidates;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -177,6 +178,8 @@ final class CreateProjectCommand extends SshCommand {
 
   @Inject private SuggestParentCandidates suggestParentCandidates;
 
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
+
   @Override
   protected void run() throws Failure {
     try {
@@ -191,7 +194,7 @@ final class CreateProjectCommand extends SshCommand {
           input.owners = Lists.transform(ownerIds, AccountGroup.UUID::get);
         }
         if (newParent != null) {
-          input.parent = newParent.getName();
+          input.parent = projectAccessorFactory.create(newParent).getName();
         }
         input.permissionsOnly = permissionsOnly;
         input.description = projectDescription;

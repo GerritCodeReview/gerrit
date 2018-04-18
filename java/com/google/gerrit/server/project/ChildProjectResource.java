@@ -24,9 +24,9 @@ public class ChildProjectResource implements RestResource {
       new TypeLiteral<RestView<ChildProjectResource>>() {};
 
   private final ProjectResource parent;
-  private final ProjectState child;
+  private final ProjectAccessor child;
 
-  public ChildProjectResource(ProjectResource parent, ProjectState child) {
+  public ChildProjectResource(ProjectResource parent, ProjectAccessor child) {
     this.parent = parent;
     this.child = child;
   }
@@ -35,12 +35,12 @@ public class ChildProjectResource implements RestResource {
     return parent;
   }
 
-  public ProjectState getChild() {
+  public ProjectAccessor getChild() {
     return child;
   }
 
   public boolean isDirectChild() {
-    ProjectState firstParent = Iterables.getFirst(child.parents(), null);
+    ProjectState firstParent = Iterables.getFirst(child.getProjectState().parents(), null);
     return firstParent != null && parent.getNameKey().equals(firstParent.getNameKey());
   }
 }

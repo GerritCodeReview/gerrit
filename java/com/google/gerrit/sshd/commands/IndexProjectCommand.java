@@ -54,11 +54,13 @@ final class IndexProjectCommand extends SshCommand {
   }
 
   private void index(ProjectState projectState) {
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(projectState);
     try {
-      index.apply(new ProjectResource(projectAccessorFactory.create(projectState), user), null);
+      index.apply(new ProjectResource(projectAccessor, user), null);
     } catch (Exception e) {
       writeError(
-          "error", String.format("Unable to index %s: %s", projectState.getName(), e.getMessage()));
+          "error",
+          String.format("Unable to index %s: %s", projectAccessor.getName(), e.getMessage()));
     }
   }
 }

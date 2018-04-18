@@ -37,6 +37,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -118,6 +119,7 @@ public class MergeValidators {
 
     private final AllProjectsName allProjectsName;
     private final AllUsersName allUsersName;
+    private final ProjectAccessor.Factory projectAccessorFactory;
     private final ProjectCache projectCache;
     private final PermissionBackend permissionBackend;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -130,11 +132,13 @@ public class MergeValidators {
     public ProjectConfigValidator(
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
+        ProjectAccessor.Factory projectAccessorFactory,
         ProjectCache projectCache,
         PermissionBackend permissionBackend,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
       this.allProjectsName = allProjectsName;
       this.allUsersName = allUsersName;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
       this.pluginConfigEntries = pluginConfigEntries;
@@ -144,6 +148,7 @@ public class MergeValidators {
     public void onPreMerge(
         final Repository repo,
         final CodeReviewCommit commit,
+        // TODO(dborowitz): Change interface to take ProjectAccessor
         final ProjectState destProject,
         final Branch.NameKey destBranch,
         final PatchSet.Id patchSetId,
@@ -152,10 +157,11 @@ public class MergeValidators {
       if (RefNames.REFS_CONFIG.equals(destBranch.get())) {
         final Project.NameKey newParent;
         try {
-          ProjectConfig cfg = new ProjectConfig(destProject.getNameKey());
-          cfg.load(repo, commit);
-          newParent = cfg.getProject().getParent(allProjectsName);
-          final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
+          ProjectAccessor oldAccessor = projectAccessorFactory.create(destProject);
+          ProjectConfig newCfg = new ProjectConfig(oldAccessor.getNameKey());
+          newCfg.load(repo, commit);
+          newParent = newCfg.getProject().getParent(allProjectsName);
+          Project.NameKey oldParent = oldAccessor.getProject().getParent(allProjectsName);
           if (oldParent == null) {
             // update of the 'All-Projects' project
             if (newParent != null) {
@@ -171,7 +177,7 @@ public class MergeValidators {
                 log.warn("Cannot check ADMINISTRATE_SERVER", e);
                 throw new MergeValidationException("validation unavailable");
               }
-              if (allUsersName.equals(destProject.getNameKey())
+              if (allUsersName.equals(oldAccessor.getNameKey())
                   && !allProjectsName.equals(newParent)) {
                 throw new MergeValidationException(
                     String.format(
@@ -184,12 +190,12 @@ public class MergeValidators {
           }
 
           for (Entry<ProjectConfigEntry> e : pluginConfigEntries) {
-            PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
+            PluginConfig pluginCfg = newCfg.getPluginConfig(e.getPluginName());
             ProjectConfigEntry configEntry = e.getProvider().get();
 
             String value = pluginCfg.getString(e.getExportName());
             String oldValue =
-                destProject
+                oldAccessor
                     .getConfig()
                     .getPluginConfig(e.getPluginName())
                     .getString(e.getExportName());
@@ -245,17 +251,20 @@ public class MergeValidators {
     private final AllUsersName allUsersName;
     private final ChangeData.Factory changeDataFactory;
     private final AccountValidator accountValidator;
+    private final ProjectAccessor.Factory projectAccessorFactory;
 
     @Inject
     public AccountMergeValidator(
         Provider<ReviewDb> dbProvider,
         AllUsersName allUsersName,
         ChangeData.Factory changeDataFactory,
-        AccountValidator accountValidator) {
+        AccountValidator accountValidator,
+        ProjectAccessor.Factory projectAccessorFactory) {
       this.dbProvider = dbProvider;
       this.allUsersName = allUsersName;
       this.changeDataFactory = changeDataFactory;
       this.accountValidator = accountValidator;
+      this.projectAccessorFactory = projectAccessorFactory;
     }
 
     @Override
@@ -267,14 +276,15 @@ public class MergeValidators {
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
+      ProjectAccessor oldAccessor = projectAccessorFactory.create(destProject);
       Account.Id accountId = Account.Id.fromRef(destBranch.get());
-      if (!allUsersName.equals(destProject.getNameKey()) || accountId == null) {
+      if (!allUsersName.equals(oldAccessor.getNameKey()) || accountId == null) {
         return;
       }
 
       ChangeData cd =
           changeDataFactory.create(
-              dbProvider.get(), destProject.getProject().getNameKey(), patchSetId.getParentKey());
+              dbProvider.get(), oldAccessor.getProject().getNameKey(), patchSetId.getParentKey());
       try {
         if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
           return;
@@ -319,7 +329,7 @@ public class MergeValidators {
         IdentifiedUser caller)
         throws MergeValidationException {
       // Groups are stored inside the 'All-Users' repository.
-      if (!allUsersName.equals(destProject.getNameKey())
+      if (!allUsersName.equals(destBranch.getParentKey())
           || !RefNames.isGroupRef(destBranch.get())) {
         return;
       }

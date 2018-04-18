@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ChildProjectResource;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -37,15 +38,18 @@ public class ChildProjectsCollection
   private final Provider<ListChildProjects> list;
   private final ProjectsCollection projectsCollection;
   private final DynamicMap<RestView<ChildProjectResource>> views;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   ChildProjectsCollection(
       Provider<ListChildProjects> list,
       ProjectsCollection projectsCollection,
-      DynamicMap<RestView<ChildProjectResource>> views) {
+      DynamicMap<RestView<ChildProjectResource>> views,
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.list = list;
     this.projectsCollection = projectsCollection;
     this.views = views;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
@@ -56,11 +60,11 @@ public class ChildProjectsCollection
   @Override
   public ChildProjectResource parse(ProjectResource parent, IdString id)
       throws RestApiException, IOException, PermissionBackendException {
-    parent.getProjectState().checkStatePermitsRead();
+    parent.getProjectAccessor().checkStatePermitsRead();
     ProjectResource p = projectsCollection.parse(TopLevelResource.INSTANCE, id);
     for (ProjectState pp : p.getProjectState().parents()) {
-      if (parent.getNameKey().equals(pp.getProject().getNameKey())) {
-        return new ChildProjectResource(parent, p.getProjectState());
+      if (parent.getNameKey().equals(projectAccessorFactory.create(pp).getProject().getNameKey())) {
+        return new ChildProjectResource(parent, p.getProjectAccessor());
       }
     }
     throw new ResourceNotFoundException(id);

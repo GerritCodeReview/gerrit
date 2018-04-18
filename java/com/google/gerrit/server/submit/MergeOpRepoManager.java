@@ -28,8 +28,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.RequestId;
 import com.google.inject.Inject;
@@ -63,13 +62,13 @@ public class MergeOpRepoManager implements AutoCloseable {
     final RevFlag canMergeFlag;
     final ObjectInserter ins;
 
-    final ProjectState project;
+    final ProjectAccessor project;
     BatchUpdate update;
 
     private final ObjectReader reader;
     private final Map<Branch.NameKey, OpenBranch> branches;
 
-    private OpenRepo(Repository repo, ProjectState project) {
+    private OpenRepo(Repository repo, ProjectAccessor project) {
       this.repo = repo;
       this.project = project;
       ins = repo.newObjectInserter();
@@ -157,7 +156,7 @@ public class MergeOpRepoManager implements AutoCloseable {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final OnSubmitValidators.Factory onSubmitValidatorsFactory;
   private final GitRepositoryManager repoManager;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   private ReviewDb db;
   private Timestamp ts;
@@ -167,11 +166,11 @@ public class MergeOpRepoManager implements AutoCloseable {
   @Inject
   MergeOpRepoManager(
       GitRepositoryManager repoManager,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       BatchUpdate.Factory batchUpdateFactory,
       OnSubmitValidators.Factory onSubmitValidatorsFactory) {
     this.repoManager = repoManager;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.onSubmitValidatorsFactory = onSubmitValidatorsFactory;
 
@@ -194,12 +193,9 @@ public class MergeOpRepoManager implements AutoCloseable {
       return openRepos.get(project);
     }
 
-    ProjectState projectState = projectCache.get(project);
-    if (projectState == null) {
-      throw new NoSuchProjectException(project);
-    }
+    ProjectAccessor projectAccessor = projectAccessorFactory.create(project);
     try {
-      OpenRepo or = new OpenRepo(repoManager.openRepository(project), projectState);
+      OpenRepo or = new OpenRepo(repoManager.openRepository(project), projectAccessor);
       openRepos.put(project, or);
       return or;
     } catch (RepositoryNotFoundException e) {

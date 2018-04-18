@@ -104,7 +104,7 @@ public class DashboardsCollection
   @Override
   public RestModifyView<ProjectResource, ?> create(ProjectResource parent, IdString id)
       throws RestApiException {
-    parent.getProjectState().checkStatePermitsWrite();
+    parent.getProjectAccessor().checkStatePermitsWrite();
     if (isDefaultDashboard(id)) {
       return createDefault.get();
     }
@@ -114,7 +114,7 @@ public class DashboardsCollection
   @Override
   public DashboardResource parse(ProjectResource parent, IdString id)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
-    parent.getProjectState().checkStatePermitsRead();
+    parent.getProjectAccessor().checkStatePermitsRead();
     if (isDefaultDashboard(id)) {
       return DashboardResource.projectDefault(parent.getProjectAccessor(), parent.getUser());
     }
@@ -153,11 +153,7 @@ public class DashboardsCollection
           ResourceConflictException {
     String ref = normalizeDashboardRef(info.ref);
     try {
-      permissionBackend
-          .user(user)
-          .project(parent.getProjectState().getNameKey())
-          .ref(ref)
-          .check(RefPermission.READ);
+      permissionBackend.user(user).project(parent.getNameKey()).ref(ref).check(RefPermission.READ);
     } catch (AuthException e) {
       // Don't leak the project's existence
       throw new ResourceNotFoundException(info.id);
@@ -166,9 +162,9 @@ public class DashboardsCollection
       throw new ResourceNotFoundException(info.id);
     }
 
-    parent.getProjectState().checkStatePermitsRead();
+    parent.checkStatePermitsRead();
 
-    try (Repository git = gitManager.openRepository(parent.getProjectState().getNameKey())) {
+    try (Repository git = gitManager.openRepository(parent.getNameKey())) {
       ObjectId objId = git.resolve(ref + ":" + info.path);
       if (objId == null) {
         throw new ResourceNotFoundException(info.id);

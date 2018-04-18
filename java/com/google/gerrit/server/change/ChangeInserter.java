@@ -56,8 +56,8 @@ import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.ssh.NoSshInfo;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -92,7 +92,7 @@ public class ChangeInserter implements InsertChangeOp {
   private static final Logger log = LoggerFactory.getLogger(ChangeInserter.class);
 
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
@@ -137,12 +137,12 @@ public class ChangeInserter implements InsertChangeOp {
   private PatchSetInfo patchSetInfo;
   private PatchSet patchSet;
   private String pushCert;
-  private ProjectState projectState;
+  private ProjectAccessor projectAccessor;
 
   @Inject
   ChangeInserter(
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       IdentifiedUser.GenericFactory userFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
@@ -158,7 +158,7 @@ public class ChangeInserter implements InsertChangeOp {
       @Assisted ObjectId commitId,
       @Assisted String refName) {
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.userFactory = userFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
@@ -363,9 +363,10 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   @Override
-  public void updateRepo(RepoContext ctx) throws ResourceConflictException, IOException {
+  public void updateRepo(RepoContext ctx)
+      throws NoSuchProjectException, ResourceConflictException, IOException {
     cmd = new ReceiveCommand(ObjectId.zeroId(), commitId, psId.toRefName());
-    projectState = projectCache.checkedGet(ctx.getProject());
+    projectAccessor = projectAccessorFactory.create(ctx.getProject());
     validate(ctx);
     if (!updateRef) {
       return;
@@ -427,7 +428,7 @@ public class ChangeInserter implements InsertChangeOp {
       reviewersToAdd.addAll(extraCC);
     }
 
-    LabelTypes labelTypes = projectState.getLabelTypes();
+    LabelTypes labelTypes = projectAccessor.getProjectState().getLabelTypes();
     approvalsUtil.addReviewers(
         db,
         update,
@@ -471,7 +472,7 @@ public class ChangeInserter implements InsertChangeOp {
                         .change(notes)
                         .database(db)
                         .test(ChangePermission.READ)
-                    && projectState.statePermitsRead();
+                    && projectAccessor.statePermitsRead();
               } catch (PermissionBackendException e) {
                 log.warn(
                     String.format(
@@ -529,7 +530,10 @@ public class ChangeInserter implements InsertChangeOp {
       revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
         List<LabelType> labels =
-            projectState.getLabelTypes(change.getDest(), ctx.getUser()).getLabelTypes();
+            projectAccessor
+                .getProjectState()
+                .getLabelTypes(change.getDest(), ctx.getUser())
+                .getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
         for (LabelType lt : labels) {
@@ -559,7 +563,7 @@ public class ChangeInserter implements InsertChangeOp {
       try (CommitReceivedEvent event =
           new CommitReceivedEvent(
               cmd,
-              projectState.getProject(),
+              projectAccessor.getProject(),
               change.getDest().get(),
               ctx.getRevWalk().getObjectReader(),
               commitId,

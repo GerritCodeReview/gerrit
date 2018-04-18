@@ -948,6 +948,8 @@ public class RefControlTest {
     RulesCache rulesCache = null;
     SitePaths sitePaths = null;
     List<CommentLinkInfo> commentLinks = null;
+    // TODO(dborowitz): Not sure if this will work (delete this TODO if it does).
+    ProjectAccessor.Factory projectAccessorFactory = null;
 
     InMemoryRepository repo;
     try {
@@ -961,10 +963,12 @@ public class RefControlTest {
     all.put(
         pc.getName(),
         new ProjectAccessor(
+            projectAccessorFactory,
             projectCache,
             allProjectsName,
             new ProjectState(
                 sitePaths,
+                projectAccessorFactory,
                 projectCache,
                 allProjectsName,
                 allUsersName,

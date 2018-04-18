@@ -653,7 +653,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   @Operator
   public Predicate<ChangeData> parentproject(String name) {
-    return new ParentProjectPredicate(args.projectCache, args.childProjects, name);
+    return new ParentProjectPredicate(args.projectAccessorFactory, args.childProjects, name);
   }
 
   @Operator
@@ -916,7 +916,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
     return new ChangeIsVisibleToPredicate(
-        args.db, args.notesFactory, user, args.permissionBackend, args.projectCache);
+        args.db, args.notesFactory, user, args.permissionBackend, args.projectAccessorFactory);
   }
 
   public Predicate<ChangeData> is_visible() throws QueryParseException {

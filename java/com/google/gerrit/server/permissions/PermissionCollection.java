@@ -132,7 +132,8 @@ public class PermissionCollection {
       // project closer to the current one come first.
       sorter.sort(ref, sections);
 
-      // For block permissions, we want a different order: first, we want to go from parent to child.
+      // For block permissions, we want a different order: first, we want to go from parent to
+      // child.
       List<Map.Entry<AccessSection, Project.NameKey>> accessDescending =
           Lists.reverse(Lists.newArrayList(sectionToProject.entrySet()));
 

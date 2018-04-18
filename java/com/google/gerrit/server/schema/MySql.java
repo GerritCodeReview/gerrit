@@ -41,7 +41,8 @@ class MySql extends BaseDataSourceType {
     b.append(port(dbs.optional("port")));
     b.append("/");
     b.append(dbs.required("database"));
-    // See https://stackoverflow.com/questions/42084633/table-name-pattern-can-not-be-null-or-empty-in-java
+    // See
+    // https://stackoverflow.com/questions/42084633/table-name-pattern-can-not-be-null-or-empty-in-java
     b.append("?nullNamePatternMatchesAll=true");
     return b.toString();
   }

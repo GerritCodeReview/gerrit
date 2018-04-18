@@ -10,6 +10,9 @@ To build Gerrit from source, you need:
 * Python 2 or 3
 * Node.js
 * link:https://www.bazel.io/versions/master/docs/install.html[Bazel]
+* Maven
+* zip, unzip
+* gcc
 
 [[build]]
 == Building on the Command Line

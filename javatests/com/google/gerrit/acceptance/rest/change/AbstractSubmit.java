@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -913,7 +914,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     testRepo.git().fetch().call();
     RevWalk rw = testRepo.getRevWalk();
     RevCommit master = rw.parseCommit(getRemoteHead(project, "master"));
-    RevCommit patchSet = parseCurrentRevision(rw, change);
+    RevCommit patchSet = parseCurrentRevision(rw, change.getChangeId());
     assertThat(rw.isMergedInto(patchSet, master)).isTrue();
 
     assertThat(input.generateLockFailures).containsExactly(false);
@@ -955,13 +956,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     repoA.git().fetch().call();
     RevWalk rwA = repoA.getRevWalk();
     RevCommit masterA = rwA.parseCommit(getRemoteHead(name("project-a"), "master"));
-    RevCommit change1Ps = parseCurrentRevision(rwA, change1);
+    RevCommit change1Ps = parseCurrentRevision(rwA, change1.getChangeId());
     assertThat(rwA.isMergedInto(change1Ps, masterA)).isTrue();
 
     repoB.git().fetch().call();
     RevWalk rwB = repoB.getRevWalk();
     RevCommit masterB = rwB.parseCommit(getRemoteHead(name("project-b"), "master"));
-    RevCommit change2Ps = parseCurrentRevision(rwB, change2);
+    RevCommit change2Ps = parseCurrentRevision(rwB, change2.getChangeId());
     assertThat(rwB.isMergedInto(change2Ps, masterB)).isTrue();
 
     assertThat(input.generateLockFailures).containsExactly(false);
@@ -1304,5 +1305,13 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       fmt.flush();
       return out.toString();
     }
+  }
+
+  private TestRepository<?> createProjectWithPush(
+      String name, @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
+    Project.NameKey project = createProject(name, parent, true, submitType);
+    grant(project, "refs/heads/*", Permission.PUSH);
+    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
+    return cloneProject(project);
   }
 }

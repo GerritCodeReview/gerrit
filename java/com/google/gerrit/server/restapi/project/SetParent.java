@@ -34,10 +34,11 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -46,6 +47,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 @Singleton
 public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache cache;
   private final PermissionBackend permissionBackend;
   private final MetaDataUpdate.Server updateFactory;
@@ -54,11 +56,13 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
 
   @Inject
   SetParent(
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache cache,
       PermissionBackend permissionBackend,
       MetaDataUpdate.Server updateFactory,
       AllProjectsName allProjects,
       AllUsersName allUsers) {
+    this.projectAccessorFactory = projectAccessorFactory;
     this.cache = cache;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
@@ -81,7 +85,7 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
     IdentifiedUser user = rsrc.getUser().asIdentifiedUser();
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
-    validateParentUpdate(rsrc.getProjectState().getNameKey(), user, parentName, checkIfAdmin);
+    validateParentUpdate(rsrc.getProjectAccessor().getNameKey(), user, parentName, checkIfAdmin);
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
@@ -96,7 +100,7 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
       md.setAuthor(user);
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(rsrc.getProjectState().getProject());
+      cache.evict(rsrc.getProjectAccessor().getProject());
 
       Project.NameKey parent = project.getParent(allProjects);
       checkNotNull(parent);
@@ -133,8 +137,10 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
 
     newParent = Strings.emptyToNull(newParent);
     if (newParent != null) {
-      ProjectState parent = cache.get(new Project.NameKey(newParent));
-      if (parent == null) {
+      ProjectAccessor parent;
+      try {
+        parent = projectAccessorFactory.create(new Project.NameKey(newParent));
+      } catch (NoSuchProjectException | IOException e) {
         throw new UnprocessableEntityException("parent project " + newParent + " not found");
       }
 
@@ -143,9 +149,9 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
       }
 
       if (Iterables.tryFind(
-              parent.tree(),
+              parent.getProjectState().tree(),
               p -> {
-                return p.getNameKey().equals(project);
+                return projectAccessorFactory.create(p).getNameKey().equals(project);
               })
           .isPresent()) {
         throw new ResourceConflictException(

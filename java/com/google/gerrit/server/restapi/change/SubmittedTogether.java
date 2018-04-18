@@ -34,6 +34,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.WalkSorter;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.ChangeSet;
@@ -116,7 +117,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   @Override
   public Object apply(ChangeResource resource)
       throws AuthException, BadRequestException, ResourceConflictException, IOException,
-          OrmException, PermissionBackendException {
+          OrmException, PermissionBackendException, NoSuchProjectException {
     SubmittedTogetherInfo info = applyInfo(resource);
     if (options.isEmpty()) {
       return info.changes;
@@ -125,7 +126,8 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   }
 
   public SubmittedTogetherInfo applyInfo(ChangeResource resource)
-      throws AuthException, IOException, OrmException, PermissionBackendException {
+      throws AuthException, IOException, OrmException, PermissionBackendException,
+          NoSuchProjectException {
     Change c = resource.getChange();
     try {
       List<ChangeData> cds;
@@ -153,7 +155,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       info.changes = json.create(jsonOpt).lazyLoad(lazyLoad).formatChangeDatas(cds);
       info.nonVisibleChanges = hidden;
       return info;
-    } catch (OrmException | IOException e) {
+    } catch (NoSuchProjectException | OrmException | IOException e) {
       logger.atSevere().withCause(e).log("Error on getting a ChangeSet");
       throw e;
     }

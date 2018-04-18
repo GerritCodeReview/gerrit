@@ -182,7 +182,7 @@ public class CreateBranch
         } else {
           info.canDelete =
               permissionBackend.currentUser().ref(name).testOrFalse(RefPermission.DELETE)
-                      && rsrc.getProjectState().statePermitsWrite()
+                      && rsrc.getProjectAccessor().statePermitsWrite()
                   ? true
                   : null;
         }

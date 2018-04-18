@@ -32,7 +32,6 @@ import com.google.gerrit.common.data.RefConfigSection;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -78,6 +77,7 @@ public class ProjectState {
   private final boolean isAllUsers;
   private final SitePaths sitePaths;
   private final AllProjectsName allProjectsName;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final GitRepositoryManager gitMgr;
   private final List<CommentLinkInfo> commentLinks;
@@ -106,6 +106,7 @@ public class ProjectState {
   @Inject
   public ProjectState(
       final SitePaths sitePaths,
+      final ProjectAccessor.Factory projectAccessorFactory,
       final ProjectCache projectCache,
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
@@ -114,6 +115,7 @@ public class ProjectState {
       final CapabilityCollection.Factory limitsFactory,
       @Assisted final ProjectConfig config) {
     this.sitePaths = sitePaths;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
     this.isAllUsers = config.getProject().getNameKey().equals(allUsersName);
@@ -200,19 +202,11 @@ public class ProjectState {
         .anyMatch(Objects::nonNull);
   }
 
-  public Project getProject() {
-    return config.getProject();
+  Project.NameKey getNameKey() {
+    return getConfig().getProject().getNameKey();
   }
 
-  public Project.NameKey getNameKey() {
-    return getProject().getNameKey();
-  }
-
-  public String getName() {
-    return getNameKey().get();
-  }
-
-  public ProjectConfig getConfig() {
+  ProjectConfig getConfig() {
     return config;
   }
 
@@ -225,37 +219,11 @@ public class ProjectState {
     try (Repository git = gitMgr.openRepository(getNameKey())) {
       cfg.load(git, config.getRevision());
     } catch (IOException | ConfigInvalidException e) {
-      logger.atWarning().withCause(e).log("Failed to load %s for %s", fileName, getName());
+      logger.atWarning().withCause(e).log("Failed to load %s for %s", fileName, getNameKey());
     }
 
     configs.put(fileName, cfg);
     return cfg;
-  }
-
-  public long getMaxObjectSizeLimit() {
-    return config.getMaxObjectSizeLimit();
-  }
-
-  public boolean statePermitsRead() {
-    return getProject().getState().permitsRead();
-  }
-
-  public void checkStatePermitsRead() throws ResourceConflictException {
-    if (!statePermitsRead()) {
-      throw new ResourceConflictException(
-          "project state " + getProject().getState().name() + " does not permit read");
-    }
-  }
-
-  public boolean statePermitsWrite() {
-    return getProject().getState().permitsWrite();
-  }
-
-  public void checkStatePermitsWrite() throws ResourceConflictException {
-    if (!statePermitsWrite()) {
-      throw new ResourceConflictException(
-          "project state " + getProject().getState().name() + " does not permit write");
-    }
   }
 
   /** Get the sections that pertain only to this project. */
@@ -298,7 +266,8 @@ public class ProjectState {
     return new Iterable<ProjectState>() {
       @Override
       public Iterator<ProjectState> iterator() {
-        return new ProjectHierarchyIterator(projectCache, allProjectsName, ProjectState.this);
+        return new ProjectHierarchyIterator(
+            projectAccessorFactory, projectCache, allProjectsName, ProjectState.this);
       }
     };
   }
@@ -357,7 +326,7 @@ public class ProjectState {
             logger.atWarning().log(
                 "Ref pattern for label %s in project %s contains illegal expanded parameters: %s."
                     + " Ref pattern will be ignored.",
-                l, getName(), refPattern);
+                l, config.getName(), refPattern);
             continue;
           }
 
@@ -453,7 +422,7 @@ public class ProjectState {
   public ProjectData toProjectData() {
     ProjectData project = null;
     for (ProjectState state : treeInOrder()) {
-      project = new ProjectData(state.getProject(), Optional.ofNullable(project));
+      project = new ProjectData(state.getConfig().getProject(), Optional.ofNullable(project));
     }
     return project;
   }

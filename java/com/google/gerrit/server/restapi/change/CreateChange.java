@@ -64,8 +64,8 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -208,7 +208,7 @@ public class CreateChange
         .project(project)
         .ref(refName)
         .check(RefPermission.CREATE_CHANGE);
-    rsrc.getProjectState().checkStatePermitsWrite();
+    rsrc.getProjectAccessor().checkStatePermitsWrite();
 
     try (Repository git = gitManager.openRepository(project);
         ObjectInserter oi = git.newObjectInserter();
@@ -303,7 +303,14 @@ public class CreateChange
         }
         c =
             newMergeCommit(
-                git, oi, rw, rsrc.getProjectState(), mergeTip, input.merge, author, commitMessage);
+                git,
+                oi,
+                rw,
+                rsrc.getProjectAccessor(),
+                mergeTip,
+                input.merge,
+                author,
+                commitMessage);
       } else {
         // create an empty commit
         c = newCommit(oi, rw, author, mergeTip, commitMessage);
@@ -358,7 +365,7 @@ public class CreateChange
       Repository repo,
       ObjectInserter oi,
       RevWalk rw,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       RevCommit mergeTip,
       MergeInput merge,
       PersonIdent authorIdent,
@@ -369,11 +376,11 @@ public class CreateChange
     }
 
     RevCommit sourceCommit = MergeUtil.resolveCommit(repo, rw, merge.source);
-    if (!commits.canRead(projectState, repo, sourceCommit)) {
+    if (!commits.canRead(projectAccessor, repo, sourceCommit)) {
       throw new BadRequestException("do not have read permission for: " + merge.source);
     }
 
-    MergeUtil mergeUtil = mergeUtilFactory.create(projectState);
+    MergeUtil mergeUtil = mergeUtilFactory.create(projectAccessor.getProjectState());
     // default merge strategy from project settings
     String mergeStrategy =
         MoreObjects.firstNonNull(

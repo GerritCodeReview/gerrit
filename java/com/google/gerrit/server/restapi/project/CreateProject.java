@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -61,12 +59,13 @@ import com.google.gerrit.server.git.RepositoryCaseMismatchException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.CreateProjectArgs;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectNameLockManager;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -100,6 +99,7 @@ public class CreateProject
   private final ProjectJson json;
   private final GitRepositoryManager repoManager;
   private final DynamicSet<NewProjectCreatedListener> createdListeners;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final GroupBackend groupBackend;
   private final ProjectOwnerGroupsProvider.Factory projectOwnerGroups;
@@ -121,6 +121,7 @@ public class CreateProject
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       GitRepositoryManager repoManager,
       DynamicSet<NewProjectCreatedListener> createdListeners,
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       GroupBackend groupBackend,
       ProjectOwnerGroupsProvider.Factory projectOwnerGroups,
@@ -140,6 +141,7 @@ public class CreateProject
     this.repoManager = repoManager;
     this.createdListeners = createdListeners;
     this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.groupBackend = groupBackend;
     this.projectOwnerGroups = projectOwnerGroups;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -155,7 +157,8 @@ public class CreateProject
 
   @Override
   public Response<ProjectInfo> apply(TopLevelResource resource, IdString id, ProjectInput input)
-      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
+          NoSuchProjectException {
     String name = id.get();
     if (input == null) {
       input = new ProjectInput();
@@ -218,22 +221,22 @@ public class CreateProject
         }
       }
 
-      ProjectState projectState = createProject(args);
-      checkNotNull(projectState, "failed to create project " + args.getProject().get());
+      ProjectAccessor projectAccessor = createProject(args);
 
       if (input.pluginConfigValues != null) {
         ConfigInput in = new ConfigInput();
         in.pluginConfigValues = input.pluginConfigValues;
-        putConfig.get().apply(projectState, in);
+        putConfig.get().apply(projectAccessor, in);
       }
-      return Response.created(json.format(projectState));
+      return Response.created(json.format(projectAccessor.getProjectState()));
     } finally {
       nameLock.unlock();
     }
   }
 
-  private ProjectState createProject(CreateProjectArgs args)
-      throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
+  private ProjectAccessor createProject(CreateProjectArgs args)
+      throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException,
+          NoSuchProjectException {
     final Project.NameKey nameKey = args.getProject();
     try {
       final String head = args.permissionsOnly ? RefNames.REFS_CONFIG : args.branch.get(0);
@@ -257,7 +260,7 @@ public class CreateProject
 
         fire(nameKey, head);
 
-        return projectCache.get(nameKey);
+        return projectAccessorFactory.create(nameKey);
       }
     } catch (RepositoryCaseMismatchException e) {
       throw new ResourceConflictException(

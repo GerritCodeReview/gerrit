@@ -16,7 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.concurrent.TimeUnit;
@@ -67,7 +67,7 @@ public class TransferConfig {
     return maxObjectSizeLimitFormatted;
   }
 
-  public long getEffectiveMaxObjectSizeLimit(ProjectState p) {
+  public long getEffectiveMaxObjectSizeLimit(ProjectAccessor p) {
     long global = getMaxObjectSizeLimit();
     long local = p.getMaxObjectSizeLimit();
     if (global > 0 && local > 0) {

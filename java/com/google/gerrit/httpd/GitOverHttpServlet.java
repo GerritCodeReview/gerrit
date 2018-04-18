@@ -189,7 +189,7 @@ public class GitOverHttpServlet extends GitServlet {
         } catch (NoSuchProjectException e) {
           throw new RepositoryNotFoundException(nameKey.get(), e);
         }
-        if (!accessor.getProjectState().statePermitsRead()) {
+        if (!accessor.statePermitsRead()) {
           throw new RepositoryNotFoundException(nameKey.get());
         }
         req.setAttribute(ATT_ACCESSOR, accessor);
@@ -237,7 +237,7 @@ public class GitOverHttpServlet extends GitServlet {
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
       ProjectAccessor accessor = (ProjectAccessor) req.getAttribute(ATT_ACCESSOR);
       for (UploadPackInitializer initializer : uploadPackInitializers) {
-        initializer.init(accessor.getProjectState().getNameKey(), up);
+        initializer.init(accessor.getNameKey(), up);
       }
       return up;
     }
@@ -262,7 +262,7 @@ public class GitOverHttpServlet extends GitServlet {
       ProjectAccessor accessor = (ProjectAccessor) request.getAttribute(ATT_ACCESSOR);
       UploadPack up = (UploadPack) request.getAttribute(ServletUtils.ATTRIBUTE_HANDLER);
       PermissionBackend.ForProject perm =
-          permissionBackend.currentUser().project(accessor.getProjectState().getNameKey());
+          permissionBackend.currentUser().project(accessor.getNameKey());
       try {
         perm.check(ProjectPermission.RUN_UPLOAD_PACK);
       } catch (AuthException e) {
@@ -278,8 +278,7 @@ public class GitOverHttpServlet extends GitServlet {
       // We use getRemoteHost() here instead of getRemoteAddr() because REMOTE_ADDR
       // may have been overridden by a proxy server -- we'll try to avoid this.
       UploadValidators uploadValidators =
-          uploadValidatorsFactory.create(
-              accessor.getProjectState().getProject(), repo, request.getRemoteHost());
+          uploadValidatorsFactory.create(accessor.getProject(), repo, request.getRemoteHost());
       up.setPreUploadHook(
           PreUploadHookChain.newChain(Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
       up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
@@ -315,11 +314,7 @@ public class GitOverHttpServlet extends GitServlet {
 
       AsyncReceiveCommits arc =
           factory.create(
-              accessor.getProjectState(),
-              userProvider.get().asIdentifiedUser(),
-              db,
-              null,
-              ImmutableSetMultimap.of());
+              accessor, userProvider.get().asIdentifiedUser(), db, null, ImmutableSetMultimap.of());
       ReceivePack rp = arc.getReceivePack();
       req.setAttribute(ATT_ARC, arc);
       return rp;
@@ -363,7 +358,7 @@ public class GitOverHttpServlet extends GitServlet {
       try {
         permissionBackend
             .currentUser()
-            .project(accessor.getProjectState().getNameKey())
+            .project(accessor.getNameKey())
             .check(ProjectPermission.RUN_RECEIVE_PACK);
         s = arc.canUpload();
       } catch (AuthException e) {
@@ -398,7 +393,7 @@ public class GitOverHttpServlet extends GitServlet {
 
       AdvertisedObjectsCacheKey cacheKey =
           AdvertisedObjectsCacheKey.create(
-              userProvider.get().getAccountId(), accessor.getProjectState().getNameKey());
+              userProvider.get().getAccountId(), accessor.getNameKey());
 
       if (isGet) {
         cache.invalidate(cacheKey);

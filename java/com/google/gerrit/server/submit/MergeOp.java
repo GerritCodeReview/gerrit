@@ -508,7 +508,7 @@ public class MergeOp implements AutoCloseable {
       if (projects > 1) {
         topicMetrics.topicSubmissionsCompleted.increment();
       }
-    } catch (IOException e) {
+    } catch (NoSuchProjectException | IOException e) {
       // Anything before the merge attempt is an error
       throw new OrmException(e);
     }
@@ -832,7 +832,7 @@ public class MergeOp implements AutoCloseable {
       MergeValidators mergeValidators = mergeValidatorsFactory.create();
       try {
         mergeValidators.validatePreMerge(
-            or.repo, commit, or.project, destBranch, ps.getId(), caller);
+            or.repo, commit, or.project.getProjectState(), destBranch, ps.getId(), caller);
       } catch (MergeValidationException mve) {
         commitStatus.problem(changeId, mve.getMessage());
         continue;

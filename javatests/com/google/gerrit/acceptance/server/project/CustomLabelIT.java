@@ -340,7 +340,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
   public void customLabel_withBranch() throws Exception {
     label.setRefPatterns(Arrays.asList("master"));
     saveLabelConfig();
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    ProjectConfig cfg = projectAccessorFactory.create(project).getConfig();
     assertThat(cfg.getLabelSections().get(label.getName()).getRefPatterns()).contains("master");
   }
 

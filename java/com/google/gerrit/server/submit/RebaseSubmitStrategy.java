@@ -31,6 +31,7 @@ import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
@@ -119,7 +120,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     @Override
     public void updateRepoImpl(RepoContext ctx)
         throws IntegrationException, InvalidChangeOperationException, RestApiException, IOException,
-            OrmException, PermissionBackendException {
+            OrmException, PermissionBackendException, NoSuchProjectException {
       if (args.mergeUtil.canFastForward(
           args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
         if (!rebaseAlways) {

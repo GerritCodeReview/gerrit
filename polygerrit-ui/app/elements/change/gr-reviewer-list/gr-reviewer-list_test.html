@@ -206,7 +206,6 @@ limitations under the License.
           CC: reviewers,
         },
       };
-      flushAsynchronousOperations();
       assert.equal(element._hiddenReviewerCount, 0);
       assert.equal(element._displayedReviewers.length, 6);
       assert.equal(element._reviewers.length, 6);
@@ -230,7 +229,6 @@ limitations under the License.
           CC: reviewers,
         },
       };
-      flushAsynchronousOperations();
       assert.equal(element._hiddenReviewerCount, 2);
       assert.equal(element._displayedReviewers.length, 5);
       assert.equal(element._reviewers.length, 7);
@@ -254,7 +252,6 @@ limitations under the License.
           CC: reviewers,
         },
       };
-      flushAsynchronousOperations();
       assert.equal(element._hiddenReviewerCount, 0);
       assert.equal(element._displayedReviewers.length, 7);
       assert.equal(element._reviewers.length, 7);
@@ -278,14 +275,13 @@ limitations under the License.
           CC: reviewers,
         },
       };
-      flushAsynchronousOperations();
       assert.equal(element._hiddenReviewerCount, 95);
       assert.equal(element._displayedReviewers.length, 5);
       assert.equal(element._reviewers.length, 100);
       assert.isFalse(element.$$('.hiddenReviewers').hidden);
 
       MockInteractions.tap(element.$$('.hiddenReviewers'));
-      flushAsynchronousOperations();
+
       assert.equal(element._hiddenReviewerCount, 0);
       assert.equal(element._displayedReviewers.length, 100);
       assert.equal(element._reviewers.length, 100);
@@ -303,7 +299,7 @@ limitations under the License.
                   {_account_id: 7, permitted_voting_range: {max: 1}}],
           },
           FooBar: {
-            all: [{_account_id: 7, permitted_voting_range: {max: 0}}],
+            all: [{_account_id: 7, value:0}],
           },
         },
         permitted_labels: {
@@ -324,23 +320,13 @@ limitations under the License.
 
     test('fails gracefully when all is not included', () => {
       const change = {
-        labels: {
-          Foo: {},
-          Bar: {},
-          FooBar: {},
-        },
+        labels: { Foo: {} },
         permitted_labels: {
           Foo: ['-1', ' 0', '+1', '+2'],
-          Bar: ['-1', ' 0', '+1', '+2'],
-          FooBar: ['-1', ' 0'],
         },
       };
       assert.strictEqual(
           element._computeReviewerTooltip({_account_id: 1}, change), '');
-      assert.strictEqual(
-          element._computeReviewerTooltip({_account_id: 7}, change), '');
-      assert.strictEqual(
-          element._computeReviewerTooltip({_account_id: 2}, change), '');
     });
   });
 </script>

@@ -350,6 +350,30 @@
       "revId": "51b5d500f26699eff2f253435724c0228f17a533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44a71fab_82e59cdb",
+        "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T14:39:28Z",
+      "side": 1,
+      "message": "\u003e I hope it is OK to keep it.\n\nIn that case we can at least add a comment/warning in the javadoc of the toString method\nthat changing the format will affect (SSH) clients relying on that format.",
+      "parentUuid": "2dd360c0_503d1ff9",
+      "range": {
+        "startLine": 59,
+        "startChar": 55,
+        "endLine": 59,
+        "endChar": 65
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

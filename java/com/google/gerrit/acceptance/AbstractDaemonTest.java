@@ -472,6 +472,7 @@ public abstract class AbstractDaemonTest {
     return accountCreator.get(ann != null ? ann.cloneAs() : "admin");
   }
 
+  /** Generate default project properties based on test description */
   private ProjectInput projectInput(Description description) {
     ProjectInput in = new ProjectInput();
     TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
@@ -491,6 +492,15 @@ public abstract class AbstractDaemonTest {
     }
     updateProjectInput(in);
     return in;
+  }
+
+  /**
+   * Modify a project input before creating the initial test project.
+   *
+   * @param in input; may be modified in place.
+   */
+  protected void updateProjectInput(ProjectInput in) {
+    // Default implementation does nothing.
   }
 
   private static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
@@ -543,15 +553,6 @@ public abstract class AbstractDaemonTest {
     in.createEmptyCommit = createEmptyCommit;
     gApi.projects().create(in);
     return new Project.NameKey(in.name);
-  }
-
-  /**
-   * Modify a project input before creating the initial test project.
-   *
-   * @param in input; may be modified in place.
-   */
-  protected void updateProjectInput(ProjectInput in) {
-    // Default implementation does nothing.
   }
 
   protected TestRepository<InMemoryRepository> cloneProject(Project.NameKey p) throws Exception {

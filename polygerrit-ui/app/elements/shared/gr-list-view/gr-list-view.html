@@ -28,10 +28,15 @@ limitations under the License.
         font-size: var(--font-size-normal);
         max-width: 25em;
       }
+      #filter:focus {
+        outline: none;
+      }
       #topContainer {
+        align-items: center;
         display: flex;
+        height: 3rem;
         justify-content: space-between;
-        margin: 1em;
+        margin: 0 1em;
       }
       #createNewContainer:not(.show) {
         display: none;
@@ -44,18 +49,24 @@ limitations under the License.
         text-decoration: underline;
       }
       nav {
-        padding: .5em 0;
-        text-align: center;
+        align-items: center;
+        display: flex;
+        height: 3rem;
+        justify-content: flex-end;
+        margin-right: 20px;
       }
-      nav a {
-        display: inline-block;
+      nav,
+      iron-icon {
+        color: var(--deemphasized-text-color);
       }
-      nav a:first-of-type {
-        margin-right: .5em;
+      iron-icon {
+        height: 1.85rem;
+        margin-left: 16px;
+        width: 1.85rem;
       }
     </style>
     <div id="topContainer">
-      <div>
+      <div class="filterContainer">
         <label>Filter:</label>
         <input is="iron-input"
             type="text"
@@ -64,7 +75,7 @@ limitations under the License.
       </div>
       <div id="createNewContainer"
           class$="[[_computeCreateClass(createNew)]]">
-        <gr-button id="createNew" on-tap="_createNewItem">
+        <gr-button primary link id="createNew" on-tap="_createNewItem">
           Create New
         </gr-button>
       </div>
@@ -73,11 +84,14 @@ limitations under the License.
     <nav>
       <a id="prevArrow"
           href$="[[_computeNavLink(offset, -1, itemsPerPage, filter, path)]]"
-          hidden$="[[_hidePrevArrow(offset)]]" hidden>&larr; Prev</a>
+          hidden$="[[_hidePrevArrow(loading, offset)]]" hidden>
+        <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+      </a>
       <a id="nextArrow"
           href$="[[_computeNavLink(offset, 1, itemsPerPage, filter, path)]]"
           hidden$="[[_hideNextArrow(loading, items)]]" hidden>
-        Next &rarr;</a>
+        <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+      </a>
     </nav>
   </template>
   <script src="gr-list-view.js"></script>

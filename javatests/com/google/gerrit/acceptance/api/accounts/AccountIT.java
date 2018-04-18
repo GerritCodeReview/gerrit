@@ -56,8 +56,11 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -264,6 +267,27 @@ public class AccountIT extends AbstractDaemonTest {
       }
     }
   }
+
+  protected void assertLabelPermission(
+      Project.NameKey project,
+      GroupReference groupReference,
+      String ref,
+      boolean exclusive,
+      String labelName,
+      int min,
+      int max)
+      throws IOException {
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    AccessSection accessSection = cfg.getAccessSection(ref);
+    assertThat(accessSection).isNotNull();
+
+    String permissionName = Permission.LABEL + labelName;
+    Permission permission = accessSection.getPermission(permissionName);
+    assertPermission(permission, permissionName, exclusive, labelName);
+    assertPermissionRule(
+        permission.getRule(groupReference), groupReference, Action.ALLOW, false, min, max);
+  }
+
 
   @Test
   public void createByAccountCreator() throws Exception {

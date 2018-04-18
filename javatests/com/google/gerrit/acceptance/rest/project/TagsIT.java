@@ -56,6 +56,13 @@ public class TagsIT extends AbstractDaemonTest {
           + "=XFeC\n"
           + "-----END PGP SIGNATURE-----";
 
+  protected void grantTagPermissions() throws Exception {
+    grant(project, R_TAGS + "*", Permission.CREATE);
+    grant(project, R_TAGS + "", Permission.DELETE);
+    grant(project, R_TAGS + "*", Permission.CREATE_TAG);
+    grant(project, R_TAGS + "*", Permission.CREATE_SIGNED_TAG);
+  }
+
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
     exception.expect(ResourceNotFoundException.class);

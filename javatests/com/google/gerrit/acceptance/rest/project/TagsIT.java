@@ -370,4 +370,11 @@ public class TagsIT extends AbstractDaemonTest {
       // Expected
     }
   }
+
+  private void grantTagPermissions() throws Exception {
+    grant(project, R_TAGS + "*", Permission.CREATE);
+    grant(project, R_TAGS + "", Permission.DELETE);
+    grant(project, R_TAGS + "*", Permission.CREATE_TAG);
+    grant(project, R_TAGS + "*", Permission.CREATE_SIGNED_TAG);
+  }
 }

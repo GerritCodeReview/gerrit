@@ -4,6 +4,7 @@ acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "git",
     labels = ["git"],
+    shard_count = 2,
     deps = [
         ":push_for_review",
         ":submodule_util",

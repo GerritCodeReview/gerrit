@@ -15,6 +15,7 @@ acceptance_tests(
         "no_windows",
         "server",
     ],
+    shard_count = 2,
     deps = DEPS + [":util"],
 )
 

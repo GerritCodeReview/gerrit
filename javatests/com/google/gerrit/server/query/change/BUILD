@@ -34,6 +34,7 @@ junit_tests(
         ["*.java"],
         exclude = ABSTRACT_QUERY_TEST,
     ),
+    shard_count = 2,
     visibility = ["//visibility:public"],
     deps = [
         ":abstract_query_tests",

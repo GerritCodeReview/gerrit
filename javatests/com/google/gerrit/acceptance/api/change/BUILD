@@ -7,4 +7,5 @@ acceptance_tests(
         "api",
         "noci",
     ],
+    shard_count = 2,
 )

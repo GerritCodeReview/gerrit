@@ -1268,16 +1268,8 @@ public abstract class AbstractDaemonTest {
     return ca;
   }
 
-  protected BinaryResult submitPreview(String changeId) throws Exception {
-    return gApi.changes().id(changeId).current().submitPreview();
-  }
-
-  protected BinaryResult submitPreview(String changeId, String format) throws Exception {
-    return gApi.changes().id(changeId).current().submitPreview(format);
-  }
-
   protected Map<Branch.NameKey, ObjectId> fetchFromSubmitPreview(String changeId) throws Exception {
-    try (BinaryResult result = submitPreview(changeId)) {
+    try (BinaryResult result = gApi.changes().id(changeId).current().submitPreview()) {
       return fetchFromBundles(result);
     }
   }

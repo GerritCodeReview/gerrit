@@ -203,7 +203,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // change 2 is not approved, but we ignore labels
     approve(change3.getChangeId());
 
-    try (BinaryResult request = submitPreview(change4.getChangeId())) {
+    try (BinaryResult request =
+        gApi.changes().id(change4.getChangeId()).current().submitPreview()) {
       assertThat(getSubmitType()).isEqualTo(SubmitType.CHERRY_PICK);
       submit(change4.getChangeId());
     } catch (RestApiException e) {

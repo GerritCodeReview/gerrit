@@ -265,7 +265,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
               + "and upload the rebased commit for review.";
 
       // Get a preview before submitting:
-      try (BinaryResult r = submitPreview(change1b.getChangeId())) {
+      try (BinaryResult r = gApi.changes().id(change1b.getChangeId()).current().submitPreview()) {
         // We cannot just use the ExpectedException infrastructure as provided
         // by AbstractDaemonTest, as then we'd stop early and not test the
         // actual submit.
@@ -517,7 +517,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
 
     // get a preview before submitting:
     File tempfile;
-    try (BinaryResult request = submitPreview(change1.getChangeId(), "tgz")) {
+    try (BinaryResult request =
+        gApi.changes().id(change1.getChangeId()).current().submitPreview("tgz")) {
       assertThat(request.getContentType()).isEqualTo("application/x-gzip");
       tempfile = File.createTempFile("test", null);
       request.writeTo(Files.newOutputStream(tempfile.toPath()));

@@ -36,7 +36,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.TestSubmitInput;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -58,17 +57,18 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitWithRebaseWithoutAddPatchSetPermission() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.block(cfg, Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/*");
-    Util.allow(cfg, Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
-    Util.allow(
-        cfg,
-        Permission.forLabel(Util.codeReview().getName()),
-        -2,
-        2,
-        REGISTERED_USERS,
-        "refs/heads/*");
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.block(u.getConfig(), Permission.ADD_PATCH_SET, REGISTERED_USERS, "refs/*");
+      Util.allow(u.getConfig(), Permission.SUBMIT, REGISTERED_USERS, "refs/heads/*");
+      Util.allow(
+          u.getConfig(),
+          Permission.forLabel(Util.codeReview().getName()),
+          -2,
+          2,
+          REGISTERED_USERS,
+          "refs/heads/*");
+      u.save();
+    }
 
     submitWithRebase(user);
   }

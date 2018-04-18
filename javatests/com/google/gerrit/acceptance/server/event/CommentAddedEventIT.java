@@ -33,7 +33,6 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
 import org.junit.After;
@@ -56,11 +55,24 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
-    Util.allow(cfg, Permission.forLabel(label.getName()), -1, 1, anonymousUsers, "refs/heads/*");
-    Util.allow(cfg, Permission.forLabel(pLabel.getName()), 0, 1, anonymousUsers, "refs/heads/*");
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      AccountGroup.UUID anonymousUsers = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+      Util.allow(
+          u.getConfig(),
+          Permission.forLabel(label.getName()),
+          -1,
+          1,
+          anonymousUsers,
+          "refs/heads/*");
+      Util.allow(
+          u.getConfig(),
+          Permission.forLabel(pLabel.getName()),
+          0,
+          1,
+          anonymousUsers,
+          "refs/heads/*");
+      u.save();
+    }
 
     eventListenerRegistration =
         source.add(
@@ -78,10 +90,11 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
   }
 
   private void saveLabelConfig() throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    cfg.getLabelSections().put(label.getName(), label);
-    cfg.getLabelSections().put(pLabel.getName(), pLabel);
-    saveProjectConfig(project, cfg);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().put(label.getName(), label);
+      u.getConfig().getLabelSections().put(pLabel.getName(), pLabel);
+      u.save();
+    }
   }
 
   /* Need to lookup info for the label under test since there can be multiple

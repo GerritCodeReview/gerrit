@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62ced667_ec39477b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ReindexIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-18T13:44:56Z",
+      "side": 1,
+      "message": "This need to move above variable at line 38",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "a4c0a66911fee4f0e0c2772a4a4dfa725af0a5f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

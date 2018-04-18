@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d2e048d2_fc33f2ff",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08e7320f_d5bc1b83",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 59
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdfdd4f9_5abf8259",
         "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a153b6b6_ca2afa53",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdfdd4f9_5abf8259",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d29aed74_454e96b0",
         "filename": "java/com/google/gerrit/server/config/GerritConfigListener.java",
         "patchSetId": 8
@@ -62,6 +110,70 @@
       "revId": "51b5d500f26699eff2f253435724c0228f17a533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e9baec1_d0071cfd",
+        "filename": "java/com/google/gerrit/server/config/GerritConfigListener.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d29aed74_454e96b0",
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "050cf34d_a035ae58",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 54,
+        "startChar": 3,
+        "endLine": 54,
+        "endChar": 11
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f74736b_510afc6e",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Load in constructor to avoid NPEs in updateConfig()",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +200,30 @@
     },
     {
       "key": {
+        "uuid": "8d3208df_2b0d3952",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4af07b28_b7c0c911",
+      "range": {
+        "startLine": 74,
+        "startChar": 24,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cffb2800_da00040e",
         "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
         "patchSetId": 8
@@ -102,6 +238,24 @@
       "revId": "51b5d500f26699eff2f253435724c0228f17a533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f26b7f1a_c4a6273e",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cffb2800_da00040e",
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +282,30 @@
     },
     {
       "key": {
+        "uuid": "9907d333_c57ccd53",
+        "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83957e50_7f9e9ece",
+      "range": {
+        "startLine": 45,
+        "startChar": 22,
+        "endLine": 45,
+        "endChar": 58
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24182690_c0bb6c33",
         "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
         "patchSetId": 8
@@ -148,6 +326,30 @@
       "revId": "51b5d500f26699eff2f253435724c0228f17a533",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dd360c0_503d1ff9",
+        "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-18T14:29:12Z",
+      "side": 1,
+      "message": "Yeah. This is the toString() i want to for the ConfigUpdateEntry. It is informative and explains the state regardless of the caller.\n\nWhile I agree the sshd command should implement its output formatter, it feels redundant to just reimplement the output from the ConfigUpdateEntry.toString() in this place. \n\nI hope it is OK to keep it.",
+      "parentUuid": "24182690_c0bb6c33",
+      "range": {
+        "startLine": 59,
+        "startChar": 55,
+        "endLine": 59,
+        "endChar": 65
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

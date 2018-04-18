@@ -15,7 +15,6 @@
 package com.google.gerrit.server.query.account;
 
 import com.google.gerrit.index.query.PostFilterPredicate;
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -24,8 +23,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
-import java.util.Collection;
-import java.util.Objects;
 
 public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   private final Provider<ReviewDb> db;
@@ -34,6 +31,7 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
 
   CanSeeChangePredicate(
       Provider<ReviewDb> db, PermissionBackend permissionBackend, ChangeNotes changeNotes) {
+    super(AccountQueryBuilder.FIELD_CAN_SEE, changeNotes.getChangeId().toString());
     this.db = db;
     this.permissionBackend = permissionBackend;
     this.changeNotes = changeNotes;
@@ -55,25 +53,5 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   @Override
   public int getCost() {
     return 1;
-  }
-
-  @Override
-  public Predicate<AccountState> copy(Collection<? extends Predicate<AccountState>> children) {
-    return new CanSeeChangePredicate(db, permissionBackend, changeNotes);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(changeNotes.getChange().getChangeId());
-  }
-
-  @Override
-  public boolean equals(Object other) {
-    if (other == null) {
-      return false;
-    }
-    return getClass() == other.getClass()
-        && changeNotes.getChange().getChangeId()
-            == ((CanSeeChangePredicate) other).changeNotes.getChange().getChangeId();
   }
 }

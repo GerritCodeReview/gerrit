@@ -16,7 +16,9 @@ package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth8.assertThat;
 
+import com.google.common.io.InsecureRecursiveDeleteException;
 import com.google.common.io.MoreFiles;
+import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
@@ -31,9 +33,12 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @NoHttpd
 public class ReindexIT extends StandaloneSiteTest {
+  private static final Logger log = LoggerFactory.getLogger(ReindexIT.class);
 
   private static ElasticNodeInfo nodeInfo;
 
@@ -62,7 +67,12 @@ public class ReindexIT extends StandaloneSiteTest {
       changeId = gApi.changes().create(in).info().changeId;
     }
 
-    MoreFiles.deleteRecursively(sitePaths.index_dir);
+    try {
+      MoreFiles.deleteRecursively(sitePaths.index_dir);
+    } catch (InsecureRecursiveDeleteException ignore) {
+      log.warn("Secure delete not supported. Deleting '{}' insecurely.", sitePaths.index_dir);
+      MoreFiles.deleteRecursively(sitePaths.index_dir, RecursiveDeleteOption.ALLOW_INSECURE);
+    }
     Files.createDirectory(sitePaths.index_dir);
     assertServerStartupFails();
 

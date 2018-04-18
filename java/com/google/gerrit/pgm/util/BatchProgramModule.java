@@ -154,7 +154,8 @@ public class BatchProgramModule extends FactoryModule {
 
     install(new BatchGitModule());
     install(new DefaultPermissionBackendModule());
-    install(new DefaultCacheFactory.Module());
+    install(new DefaultCacheFactory.MemoryCacheModule());
+    install(new DefaultCacheFactory.PersistentCacheModule());
     install(new ExternalIdModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));

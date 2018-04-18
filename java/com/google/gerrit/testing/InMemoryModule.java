@@ -227,7 +227,8 @@ public class InMemoryModule extends FactoryModule {
             return MoreExecutors.newDirectExecutorService();
           }
         });
-    install(new DefaultCacheFactory.Module());
+    install(new DefaultCacheFactory.MemoryCacheModule());
+    install(new DefaultCacheFactory.PersistentCacheModule());
     install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
     install(new GpgModule(cfg));

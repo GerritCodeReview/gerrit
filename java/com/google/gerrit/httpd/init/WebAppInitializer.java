@@ -336,7 +336,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new SearchingChangeCacheImpl.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());
-    modules.add(new DefaultCacheFactory.Module());
+    modules.add(new DefaultCacheFactory.MemoryCacheModule());
+    modules.add(new DefaultCacheFactory.PersistentCacheModule());
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());

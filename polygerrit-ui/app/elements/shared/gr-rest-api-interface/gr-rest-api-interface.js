@@ -1278,20 +1278,26 @@
     },
 
     addChangeReviewer(changeNum, reviewerID) {
-      return this._sendChangeReviewerRequest('POST', changeNum, reviewerID);
+      return this._sendChangeReviewerRequest(
+          'POST', changeNum, reviewerID, 'REVIEWER');
+    },
+
+    addChangeCC(changeNum, reviewerID) {
+      return this._sendChangeReviewerRequest(
+          'POST', changeNum, reviewerID, 'CC');
     },
 
     removeChangeReviewer(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
     },
 
-    _sendChangeReviewerRequest(method, changeNum, reviewerID) {
+    _sendChangeReviewerRequest(method, changeNum, reviewerID, state) {
       return this.getChangeActionURL(changeNum, null, '/reviewers')
           .then(url => {
             let body;
             switch (method) {
               case 'POST':
-                body = {reviewer: reviewerID};
+                body = {reviewer: reviewerID, state: state};
                 break;
               case 'DELETE':
                 url += '/' + encodeURIComponent(reviewerID);

@@ -102,6 +102,7 @@ import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -278,7 +279,7 @@ public class RestApiServlet extends HttpServlet {
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
 
-    try {
+    try (PerThreadCache ignored = PerThreadCache.create()) {
       if (isCorsPreflight(req)) {
         doCorsPreflight(req, res);
         return;

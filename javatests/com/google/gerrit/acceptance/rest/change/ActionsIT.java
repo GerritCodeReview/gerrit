@@ -22,6 +22,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -459,5 +460,9 @@ public class ActionsIT extends AbstractDaemonTest {
     assertThat(actions).containsKey("submit");
     assertThat(actions).containsKey("description");
     assertThat(actions).containsKey("rebase");
+  }
+
+  private PushOneCommit.Result createChangeWithTopic() throws Exception {
+    return createChangeWithTopic(testRepo, "topic", "message", "a.txt", "content\n");
   }
 }

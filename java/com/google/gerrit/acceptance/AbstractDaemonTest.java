@@ -697,10 +697,6 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
-  protected PushOneCommit.Result createChangeWithTopic() throws Exception {
-    return createChangeWithTopic(testRepo, "topic", "message", "a.txt", "content\n");
-  }
-
   protected PushOneCommit.Result createChangeWithTopic(
       TestRepository<InMemoryRepository> repo,
       String topic,
@@ -713,22 +709,11 @@ public abstract class AbstractDaemonTest {
         repo, "refs/for/master/" + name(topic), commitMsg, fileName, content);
   }
 
-  protected PushOneCommit.Result createWorkInProgressChange() throws Exception {
-    return pushTo("refs/for/master%wip");
-  }
-
   protected PushOneCommit.Result createChange(String subject, String fileName, String content)
       throws Exception {
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master");
-  }
-
-  protected PushOneCommit.Result createChange(
-      String subject, String fileName, String content, String topic) throws Exception {
-    PushOneCommit push =
-        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
-    return push.to("refs/for/master/" + name(topic));
   }
 
   protected PushOneCommit.Result createChange(
@@ -741,10 +726,6 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), repo, subject, fileName, content);
     return push.to("refs/for/" + branch + "/" + name(topic));
-  }
-
-  protected BranchApi createBranch(String branch) throws Exception {
-    return createBranch(new Branch.NameKey(project, branch));
   }
 
   protected BranchApi createBranch(Branch.NameKey branch) throws Exception {
@@ -765,11 +746,7 @@ public abstract class AbstractDaemonTest {
       Chars.asList(new char[] {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'});
 
   protected PushOneCommit.Result amendChange(String changeId) throws Exception {
-    return amendChange(changeId, "refs/for/master");
-  }
-
-  protected PushOneCommit.Result amendChange(String changeId, String ref) throws Exception {
-    return amendChange(changeId, ref, admin, testRepo);
+    return amendChange(changeId, "refs/for/master", admin, testRepo);
   }
 
   protected PushOneCommit.Result amendChange(

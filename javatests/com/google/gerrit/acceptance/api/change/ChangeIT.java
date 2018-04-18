@@ -87,6 +87,7 @@ import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
+import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -3959,5 +3960,13 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(countsByChange).hasSize(1);
       clear();
     }
+  }
+
+  private PushOneCommit.Result createWorkInProgressChange() throws Exception {
+    return pushTo("refs/for/master%wip");
+  }
+
+  private BranchApi createBranch(String branch) throws Exception {
+    return createBranch(new Branch.NameKey(project, branch));
   }
 }

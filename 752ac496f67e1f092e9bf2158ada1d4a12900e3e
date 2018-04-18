@@ -74,6 +74,24 @@
     },
     {
       "key": {
+        "uuid": "728e2e0d_5e5401f3",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-18T11:50:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "55f2d606_0df4f1fa",
+      "revId": "752ac496f67e1f092e9bf2158ada1d4a12900e3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7caa6b3_ffbb4df1",
         "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
         "patchSetId": 1

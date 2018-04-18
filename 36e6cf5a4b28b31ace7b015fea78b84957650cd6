@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18a3bd68_0fdb66ce",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-18T11:10:26Z",
+      "side": 1,
+      "message": "Is this preferable to returning a partially-populated map and only skipping the ones that failed? If so, consider leaving a comment as to why.",
+      "revId": "36e6cf5a4b28b31ace7b015fea78b84957650cd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "405ce3c9_523d2a3c",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-18T11:10:26Z",
+      "side": 1,
+      "message": "Optional nit: I generally do get(id) followed by !\u003d null to avoid a second map lookup.",
+      "revId": "36e6cf5a4b28b31ace7b015fea78b84957650cd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "122da194_72452220",
+        "filename": "java/com/google/gerrit/testing/FakeAccountCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-18T11:10:26Z",
+      "side": 1,
+      "message": "e.getKey() is an Account.Id and accountId (despite its name) is a Set.\n\nHow about:\n\n return ImmutableMap.copyOf(Maps.filterKeys(byId, accountId::contains));",
+      "revId": "36e6cf5a4b28b31ace7b015fea78b84957650cd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

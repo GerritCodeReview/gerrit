@@ -29,10 +29,10 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.SuggestedReviewer;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectState;
@@ -54,6 +54,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -78,7 +79,7 @@ public class ReviewerRecommender {
   private final Config config;
   private final DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final WorkQueue workQueue;
+  private final ExecutorService executor;
   private final Provider<ReviewDb> dbProvider;
   private final ApprovalsUtil approvalsUtil;
 
@@ -87,7 +88,7 @@ public class ReviewerRecommender {
       ChangeQueryBuilder changeQueryBuilder,
       DynamicMap<ReviewerSuggestion> reviewerSuggestionPluginMap,
       Provider<InternalChangeQuery> queryProvider,
-      WorkQueue workQueue,
+      @FanOutExecutor ExecutorService executor,
       Provider<ReviewDb> dbProvider,
       ApprovalsUtil approvalsUtil,
       @GerritServerConfig Config config) {
@@ -95,7 +96,7 @@ public class ReviewerRecommender {
     this.config = config;
     this.queryProvider = queryProvider;
     this.reviewerSuggestionPluginMap = reviewerSuggestionPluginMap;
-    this.workQueue = workQueue;
+    this.executor = executor;
     this.dbProvider = dbProvider;
     this.approvalsUtil = approvalsUtil;
   }
@@ -150,7 +151,7 @@ public class ReviewerRecommender {
 
     try {
       List<Future<Set<SuggestedReviewer>>> futures =
-          workQueue.getDefaultQueue().invokeAll(tasks, PLUGIN_QUERY_TIMEOUT, TimeUnit.MILLISECONDS);
+          executor.invokeAll(tasks, PLUGIN_QUERY_TIMEOUT, TimeUnit.MILLISECONDS);
       Iterator<Double> weightIterator = weights.iterator();
       for (Future<Set<SuggestedReviewer>> f : futures) {
         double weight = weightIterator.next();

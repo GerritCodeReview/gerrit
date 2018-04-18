@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c66639d_7d03588c",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-18T15:10:03Z",
+      "side": 1,
+      "message": "twice",
+      "range": {
+        "startLine": 35,
+        "startChar": 90,
+        "endLine": 35,
+        "endChar": 97
+      },
+      "revId": "16c0875d40acbc44b12d533255be34e45035e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e651b245_7cc6057c",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-18T15:10:03Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 7
+      },
+      "revId": "16c0875d40acbc44b12d533255be34e45035e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b756418_1852ff87",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-18T15:10:03Z",
+      "side": 1,
+      "message": "nit: why public? aren\u0027t the create methods enough?",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 10
+      },
+      "revId": "16c0875d40acbc44b12d533255be34e45035e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37fd4829_b5db3654",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-18T15:10:03Z",
+      "side": 1,
+      "message": "Would it be possible to use a typed map here? (cc Netty\u0027s AttributeMap and AttributeKey)",
+      "range": {
+        "startLine": 107,
+        "startChar": 25,
+        "endLine": 107,
+        "endChar": 31
+      },
+      "revId": "16c0875d40acbc44b12d533255be34e45035e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f86e351_5bb3e3d5",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-18T15:10:03Z",
+      "side": 1,
+      "message": "I wonder if this could be prevented (what I have in mind: Netty\u0027s AttributeMap \u0026 AttributeKey, but did not check how it works internally)",
+      "range": {
+        "startLine": 116,
+        "startChar": 14,
+        "endLine": 116,
+        "endChar": 18
+      },
+      "revId": "16c0875d40acbc44b12d533255be34e45035e8d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

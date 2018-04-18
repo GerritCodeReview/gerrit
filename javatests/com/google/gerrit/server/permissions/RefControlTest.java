@@ -960,25 +960,25 @@ public class RefControlTest {
       if (pc.getProject() == null) {
         pc.load(repo);
       }
+      all.put(
+          pc.getName(),
+          new ProjectAccessor(
+              projectAccessorFactory,
+              projectCache,
+              allProjectsName,
+              commentLinks,
+              new ProjectState(
+                  sitePaths,
+                  projectAccessorFactory,
+                  projectCache,
+                  allProjectsName,
+                  allUsersName,
+                  repoManager,
+                  capabilityCollectionFactory,
+                  pc)));
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException(e);
     }
-    all.put(
-        pc.getName(),
-        new ProjectAccessor(
-            projectAccessorFactory,
-            projectCache,
-            allProjectsName,
-            new ProjectState(
-                sitePaths,
-                projectAccessorFactory,
-                projectCache,
-                allProjectsName,
-                allUsersName,
-                repoManager,
-                commentLinks,
-                capabilityCollectionFactory,
-                pc)));
     return repo;
   }
 

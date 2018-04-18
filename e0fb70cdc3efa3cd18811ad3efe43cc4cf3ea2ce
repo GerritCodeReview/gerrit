@@ -22,6 +22,30 @@
       "revId": "e0fb70cdc3efa3cd18811ad3efe43cc4cf3ea2ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f187304c_92402429",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-18T13:41:05Z",
+      "side": 1,
+      "message": "Are you sure?\n\nhttps://i.imgur.com/ptXzLJ2.png\n\nThis also exhibits itself in the message list -- the timestamps are supposed to be --deemphasized-text-color, not black.",
+      "parentUuid": "ab4fe431_ab04ae42",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "e0fb70cdc3efa3cd18811ad3efe43cc4cf3ea2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

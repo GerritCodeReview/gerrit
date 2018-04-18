@@ -18,29 +18,60 @@ limitations under the License.
 <dom-module id="gr-table-styles">
   <template>
     <style>
-      .genericList .loading {
-        display: none;
-      }
       .genericList {
         border-collapse: collapse;
         width: 100%;
       }
-      .genericList tr.table {
+      .genericList td {
+        height: 2.25rem;
+        vertical-align: middle;
+      }
+      .genericList tr {
         border-bottom: 1px solid var(--border-color);
+      }
+      .genericList th,
+      .genericList td {
+        padding-right: 1rem;
+        white-space: nowrap;
+      }
+      .genericList tr th:first-of-type,
+      .genericList tr td:first-of-type {
+        padding-left: 1rem;
+      }
+      .genericList tr:first-of-type {
+        border-top: 1px solid var(--border-color);
+      }
+      .genericList tr th:last-of-type,
+      .genericList tr td:last-of-type {
+        border-left: 1px solid var(--border-color);
+        text-align: center;
+        padding: 0 1em;
+      }
+      .genericList tr th.delete,
+      .genericList tr td.delete {
+        border-left: none;
+      }
+      .genericList .loading {
+        border: none;
+        display: none;
       }
       .genericList td {
         flex-shrink: 0;
-        padding: .3em .5em;
       }
-      .genericList th {
-        background-color: var(--border-color);
-        border-bottom: 1px solid var(--border-color);
+      .genericList .topHeader,
+      .genericList .groupHeader {
+        color: var(--primary-text-color);
         font-family: var(--font-family-bold);
-        padding: .3em .5em;
         text-align: left;
+        vertical-align: middle
+      }
+      .genericList .topHeader {
+        background-color: var(--table-header-background-color);
+        font-size: var(--font-size-large);
+        height: 3rem;
       }
       .genericList .groupHeader {
-        background-color: #eee;
+        background-color: var(--table-subheader-background-color);
       }
       .genericList a {
         color: var(--primary-text-color);
@@ -50,12 +81,12 @@ limitations under the License.
         text-decoration: underline;
       }
       .genericList .description {
-        width: 70%;
+        width: 99%;
       }
       .genericList .loadingMsg {
         color: var(--deemphasized-text-color);
         display: block;
-        padding: 1em var(--default-horizontal-margin);
+        padding: .3em var(--default-horizontal-margin);
       }
       .genericList .loadingMsg:not(.loading) {
         display: none;

@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 
 <dom-module id="gr-list-view">
@@ -28,10 +29,15 @@ limitations under the License.
         font-size: var(--font-size-normal);
         max-width: 25em;
       }
+      #filter:focus {
+        outline: none;
+      }
       #topContainer {
+        align-items: center;
         display: flex;
+        height: 3rem;
         justify-content: space-between;
-        margin: 1em;
+        margin: 0 1em;
       }
       #createNewContainer:not(.show) {
         display: none;
@@ -55,7 +61,7 @@ limitations under the License.
       }
     </style>
     <div id="topContainer">
-      <div>
+      <div class="filterContainer">
         <label>Filter:</label>
         <input is="iron-input"
             type="text"
@@ -64,7 +70,7 @@ limitations under the License.
       </div>
       <div id="createNewContainer"
           class$="[[_computeCreateClass(createNew)]]">
-        <gr-button id="createNew" on-tap="_createNewItem">
+        <gr-button primary link id="createNew" on-tap="_createNewItem">
           Create New
         </gr-button>
       </div>

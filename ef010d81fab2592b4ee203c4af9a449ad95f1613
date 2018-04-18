@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc5b946_de903e72",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-18T13:05:27Z",
+      "side": 1,
+      "message": "ResourceConflictException",
+      "range": {
+        "startLine": 521,
+        "startChar": 24,
+        "endLine": 521,
+        "endChar": 49
+      },
+      "revId": "ef010d81fab2592b4ee203c4af9a449ad95f1613",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

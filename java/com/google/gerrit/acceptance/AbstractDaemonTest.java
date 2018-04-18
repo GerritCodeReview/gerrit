@@ -61,7 +61,6 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
@@ -1108,12 +1107,6 @@ public abstract class AbstractDaemonTest {
     block(ref, Permission.READ, REGISTERED_USERS);
   }
 
-  protected void blockForgeCommitter(Project.NameKey project, String ref) throws Exception {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
-    Util.block(cfg, Permission.FORGE_COMMITTER, REGISTERED_USERS, ref);
-    saveProjectConfig(project, cfg);
-  }
-
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
     PushOneCommit push = pushFactory.create(db, admin.getIdent(), testRepo);
     return push.to(ref);
@@ -1127,26 +1120,18 @@ public abstract class AbstractDaemonTest {
     gApi.changes().id(id).revision("current").review(ReviewInput.recommend());
   }
 
-  protected Map<String, ActionInfo> getActions(String id) throws Exception {
-    return gApi.changes().id(id).revision(1).actions();
-  }
-
-  protected String getETag(String id) throws Exception {
-    return gApi.changes().id(id).current().etag();
-  }
-
-  private static Iterable<String> changeIds(Iterable<ChangeInfo> changes) {
-    return Iterables.transform(changes, i -> i.changeId);
-  }
-
   protected void assertSubmittedTogether(String chId, String... expected) throws Exception {
     List<ChangeInfo> actual = gApi.changes().id(chId).submittedTogether();
     SubmittedTogetherInfo info =
         gApi.changes().id(chId).submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
 
     assertThat(info.nonVisibleChanges).isEqualTo(0);
-    assertThat(changeIds(actual)).containsExactly((Object[]) expected).inOrder();
-    assertThat(changeIds(info.changes)).containsExactly((Object[]) expected).inOrder();
+    assertThat(Iterables.transform(actual, i1 -> i1.changeId))
+        .containsExactly((Object[]) expected)
+        .inOrder();
+    assertThat(Iterables.transform(info.changes, i -> i.changeId))
+        .containsExactly((Object[]) expected)
+        .inOrder();
   }
 
   protected PatchSet getPatchSet(PatchSet.Id psId) throws OrmException {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16fed15a_4f2b5da6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-18T14:45:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e10c501d_3b10f58f",
+      "range": {
+        "startLine": 1280,
+        "startChar": 4,
+        "endLine": 1282,
+        "endChar": 6
+      },
+      "revId": "59f5a0ec61a635f3edb22f10ec0a54e73c02d5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e80ca33_741e6f98",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -68,6 +92,54 @@
       "revId": "59f5a0ec61a635f3edb22f10ec0a54e73c02d5b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb21bd72_c03f3b6e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-18T14:45:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e80ca33_741e6f98",
+      "range": {
+        "startLine": 1288,
+        "startChar": 62,
+        "endLine": 1288,
+        "endChar": 75
+      },
+      "revId": "59f5a0ec61a635f3edb22f10ec0a54e73c02d5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac3da1be_c9544ac8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 1059595
+      },
+      "writtenOn": "2018-04-18T14:45:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "36744879_c0ba4804",
+      "range": {
+        "startLine": 1288,
+        "startChar": 62,
+        "endLine": 1288,
+        "endChar": 88
+      },
+      "revId": "59f5a0ec61a635f3edb22f10ec0a54e73c02d5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

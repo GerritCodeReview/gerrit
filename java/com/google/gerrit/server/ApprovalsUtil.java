@@ -50,7 +50,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -109,7 +110,7 @@ public class ApprovalsUtil {
   private final NotesMigration migration;
   private final ApprovalCopier copier;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @VisibleForTesting
   @Inject
@@ -117,11 +118,11 @@ public class ApprovalsUtil {
       NotesMigration migration,
       ApprovalCopier copier,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.migration = migration;
     this.copier = copier;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   /**
@@ -263,7 +264,7 @@ public class ApprovalsUtil {
 
   private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
     try {
-      if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {
+      if (!projectAccessorFactory.create(notes.getProjectName()).statePermitsRead()) {
         return false;
       }
       permissionBackend
@@ -274,7 +275,7 @@ public class ApprovalsUtil {
       return true;
     } catch (AuthException e) {
       return false;
-    } catch (IOException | PermissionBackendException e) {
+    } catch (NoSuchProjectException | IOException | PermissionBackendException e) {
       logger.atWarning().withCause(e).log(
           "Failed to check if account %d can see change %d",
           accountId.get(), notes.getChangeId().get());

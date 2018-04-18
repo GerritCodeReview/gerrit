@@ -48,8 +48,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectAccessor;
-import com.google.gerrit.server.project.ProjectState;
-import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
@@ -72,8 +70,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 public class CreateProjectIT extends AbstractDaemonTest {
-  @Inject private ProjectAccessor.Factory projectAccessorFactory;
-
   @Test
   public void createProjectHttp() throws Exception {
     String newProjectName = name("newProject");
@@ -86,9 +82,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     // for more extensive coverage of the LabelTypeInfo.
     assertThat(p.labels).hasSize(1);
 
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
+    assertProjectInfo(
+        projectAccessorFactory.create(new Project.NameKey(newProjectName)).getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
   }
 
@@ -162,9 +157,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
+    assertProjectInfo(
+        projectAccessorFactory.create(new Project.NameKey(newProjectName)).getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
     assertThat(readProjectConfig(newProjectName))
         .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
@@ -175,9 +169,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     String newProjectName = name("newProject");
     ProjectInfo p = gApi.projects().create(newProjectName + ".git").get();
     assertThat(p.name).isEqualTo(newProjectName);
-    ProjectState projectState = projectCache.get(new Project.NameKey(newProjectName));
-    assertThat(projectState).isNotNull();
-    assertProjectInfo(projectState.getProject(), p);
+    assertProjectInfo(
+        projectAccessorFactory.create(new Project.NameKey(newProjectName)).getProject(), p);
     assertHead(newProjectName, "refs/heads/master");
   }
 
@@ -194,7 +187,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.requireChangeId = InheritableBoolean.TRUE;
     ProjectInfo p = gApi.projects().create(in).get();
     assertThat(p.name).isEqualTo(newProjectName);
-    Project project = projectCache.get(new Project.NameKey(newProjectName)).getProject();
+    Project project =
+        projectAccessorFactory.create(new Project.NameKey(newProjectName)).getProject();
     assertProjectInfo(project, p);
     assertThat(project.getDescription()).isEqualTo(in.description);
     assertThat(project.getConfiguredSubmitType()).isEqualTo(in.submitType);
@@ -220,7 +214,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.name = childName;
     in.parent = parentName;
     gApi.projects().create(in);
-    Project project = projectCache.get(new Project.NameKey(childName)).getProject();
+    Project project = projectAccessorFactory.create(new Project.NameKey(childName)).getProject();
     assertThat(project.getParentName()).isEqualTo(in.parent);
   }
 
@@ -332,7 +326,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createProjectWithCreateProjectCapabilityAndParentNotVisible() throws Exception {
-    Project parent = projectCache.get(allProjects).getProject();
+    Project parent = projectAccessorFactory.createForAllProjects().getProject();
     parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
     allowGlobalCapabilities(SystemGroupBackend.REGISTERED_USERS, GlobalCapability.CREATE_PROJECT);
     try {

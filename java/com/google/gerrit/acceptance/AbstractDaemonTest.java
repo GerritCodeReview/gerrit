@@ -115,6 +115,7 @@ import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
@@ -246,6 +247,7 @@ public abstract class AbstractDaemonTest {
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected PatchSetUtil psUtil;
+  @Inject protected ProjectAccessor.Factory projectAccessorFactory;
   @Inject protected ProjectCache projectCache;
   @Inject protected ProjectResetter.Builder.Factory projectResetter;
   @Inject protected Provider<InternalChangeQuery> queryProvider;
@@ -1397,8 +1399,8 @@ public abstract class AbstractDaemonTest {
       String ref,
       boolean exclusive,
       String... permissionNames)
-      throws IOException {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+      throws Exception {
+    ProjectConfig cfg = projectAccessorFactory.create(project).getConfig();
     AccessSection accessSection = cfg.getAccessSection(ref);
     assertThat(accessSection).isNotNull();
     for (String permissionName : permissionNames) {

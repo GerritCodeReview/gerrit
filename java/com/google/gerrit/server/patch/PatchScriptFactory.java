@@ -43,7 +43,8 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -93,7 +94,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final ChangeEditUtil editReader;
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private Optional<ChangeEdit> edit;
 
   private final Change.Id changeId;
@@ -117,7 +118,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       ChangeEditUtil editReader,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
@@ -133,7 +134,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.editReader = editReader;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -155,7 +156,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       ChangeEditUtil editReader,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
@@ -171,7 +172,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.editReader = editReader;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
 
     this.fileName = fileName;
     this.psa = null;
@@ -210,8 +211,13 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       }
     }
 
-    if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {
-      throw new NoSuchChangeException(changeId);
+    try {
+      if (!projectAccessorFactory.create(notes.getProjectName()).statePermitsRead()) {
+        throw new NoSuchChangeException(changeId);
+      }
+    } catch (NoSuchProjectException e) {
+      // Already logged by ProjectCacheImpl.
+      throw new NoSuchChangeException(changeId, e);
     }
 
     try (Repository git = repoManager.openRepository(notes.getProjectName())) {

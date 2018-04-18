@@ -70,7 +70,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
           ConfigInvalidException {
     permissionBackend.user(rsrc.getUser()).check(GlobalPermission.VIEW_ACCESS);
 
-    rsrc.getProjectState().checkStatePermitsRead();
+    rsrc.getProjectAccessor().checkStatePermitsRead();
 
     if (input == null) {
       throw new BadRequestException("input is required");

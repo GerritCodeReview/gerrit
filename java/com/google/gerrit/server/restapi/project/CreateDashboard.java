@@ -46,7 +46,7 @@ public class CreateDashboard
   @Override
   public Response<DashboardInfo> apply(ProjectResource parent, IdString id, SetDashboardInput input)
       throws RestApiException, IOException, PermissionBackendException {
-    parent.getProjectState().checkStatePermitsWrite();
+    parent.getProjectAccessor().checkStatePermitsWrite();
     if (!DashboardsCollection.isDefaultDashboard(id)) {
       throw new ResourceNotFoundException(id);
     }

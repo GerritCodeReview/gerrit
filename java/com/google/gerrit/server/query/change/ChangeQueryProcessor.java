@@ -35,7 +35,7 @@ import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
@@ -65,7 +65,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final ChangeNotes.Factory notesFactory;
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
   private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final Provider<AnonymousUser> anonymousUserProvider;
 
   static {
@@ -87,7 +87,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       ChangeNotes.Factory notesFactory,
       DynamicMap<ChangeAttributeFactory> attributeFactories,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       Provider<AnonymousUser> anonymousUserProvider) {
     super(
         metricMaker,
@@ -102,7 +102,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.notesFactory = notesFactory;
     this.attributeFactories = attributeFactories;
     this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.anonymousUserProvider = anonymousUserProvider;
   }
 
@@ -151,7 +151,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
             notesFactory,
             userProvider.get(),
             permissionBackend,
-            projectCache,
+            projectAccessorFactory,
             anonymousUserProvider),
         start);
   }

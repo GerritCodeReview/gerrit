@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.DeleteReviewer;
 import com.google.gerrit.server.restapi.change.PostReviewers;
@@ -46,7 +47,9 @@ public class SetReviewersCommand extends SshCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(name = "--project", aliases = "-p", usage = "project containing the change")
-  private ProjectState projectState;
+  private void setProjectState(ProjectState projectState) {
+    projectAccessor = projectAccessorFactory.create(projectState);
+  }
 
   @Option(
       name = "--add",
@@ -72,7 +75,7 @@ public class SetReviewersCommand extends SshCommand {
       usage = "changes to modify")
   void addChange(String token) {
     try {
-      changeArgumentParser.addChange(token, changes, projectState);
+      changeArgumentParser.addChange(token, changes, projectAccessor);
     } catch (IOException | UnloggedFailure e) {
       throw new IllegalArgumentException(e.getMessage(), e);
     } catch (OrmException e) {
@@ -89,6 +92,10 @@ public class SetReviewersCommand extends SshCommand {
   @Inject private DeleteReviewer deleteReviewer;
 
   @Inject private ChangeArgumentParser changeArgumentParser;
+
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
+
+  private ProjectAccessor projectAccessor;
 
   private Set<Account.Id> toRemove = new HashSet<>();
 

@@ -33,8 +33,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -62,22 +62,22 @@ class RelatedChangesSorter {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   RelatedChangesSorter(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       Provider<ReviewDb> dbProvider,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
-      throws OrmException, IOException, PermissionBackendException {
+      throws OrmException, IOException, PermissionBackendException, NoSuchProjectException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
     // Map of all patch sets, keyed by commit SHA-1.
     Map<String, PatchSetData> byId = collectById(in);
@@ -145,7 +145,7 @@ class RelatedChangesSorter {
 
   private Collection<PatchSetData> walkAncestors(
       ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
-      throws PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException, NoSuchProjectException {
     LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
     Deque<PatchSetData> pending = new ArrayDeque<>();
     pending.add(start);
@@ -165,7 +165,7 @@ class RelatedChangesSorter {
       PatchSetData start,
       List<PatchSetData> otherPatchSetsOfStart,
       Iterable<PatchSetData> ancestors)
-      throws PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException, NoSuchProjectException {
     Set<Change.Id> alreadyEmittedChanges = new HashSet<>();
     addAllChangeIds(alreadyEmittedChanges, ancestors);
 
@@ -192,7 +192,7 @@ class RelatedChangesSorter {
       Set<Change.Id> alreadyEmittedChanges,
       ListMultimap<PatchSetData, PatchSetData> children,
       List<PatchSetData> start)
-      throws PermissionBackendException, IOException {
+      throws PermissionBackendException, IOException, NoSuchProjectException {
     if (start.isEmpty()) {
       return ImmutableList.of();
     }
@@ -234,15 +234,15 @@ class RelatedChangesSorter {
     return result;
   }
 
-  private boolean isVisible(PatchSetData psd) throws PermissionBackendException, IOException {
+  private boolean isVisible(PatchSetData psd)
+      throws PermissionBackendException, IOException, NoSuchProjectException {
     PermissionBackend.WithUser perm = permissionBackend.currentUser().database(dbProvider);
     try {
       perm.change(psd.data()).check(ChangePermission.READ);
     } catch (AuthException e) {
       return false;
     }
-    ProjectState state = projectCache.checkedGet(psd.data().project());
-    return state != null && state.statePermitsRead();
+    return projectAccessorFactory.create(psd.data().project()).statePermitsRead();
   }
 
   @AutoValue

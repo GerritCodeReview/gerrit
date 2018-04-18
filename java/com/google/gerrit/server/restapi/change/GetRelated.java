@@ -79,7 +79,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   }
 
   private List<ChangeAndCommit> getRelated(RevisionResource rsrc)
-      throws OrmException, IOException, PermissionBackendException {
+      throws OrmException, IOException, PermissionBackendException, NoSuchProjectException {
     Set<String> groups = getAllGroups(rsrc.getNotes(), db.get(), psUtil);
     if (groups.isEmpty()) {
       return Collections.emptyList();

@@ -35,16 +35,21 @@ import java.util.List;
 public class ProjectJson {
 
   private final AllProjectsName allProjects;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final WebLinks webLinks;
 
   @Inject
-  ProjectJson(AllProjectsName allProjectsName, WebLinks webLinks) {
+  ProjectJson(
+      AllProjectsName allProjectsName,
+      ProjectAccessor.Factory projectAccessorFactory,
+      WebLinks webLinks) {
     this.allProjects = allProjectsName;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.webLinks = webLinks;
   }
 
   public ProjectInfo format(ProjectState projectState) {
-    ProjectInfo info = format(projectState.getProject());
+    ProjectInfo info = format(projectAccessorFactory.create(projectState).getProject());
     info.labels = new HashMap<>();
     for (LabelType t : projectState.getLabelTypes().getLabelTypes()) {
       LabelTypeInfo labelInfo = new LabelTypeInfo();

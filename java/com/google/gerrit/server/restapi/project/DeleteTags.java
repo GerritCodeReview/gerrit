@@ -45,7 +45,7 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
       throw new BadRequestException("tags must be specified");
     }
     deleteRef.deleteMultipleRefs(
-        project.getProjectState(), ImmutableSet.copyOf(input.tags), R_TAGS);
+        project.getProjectAccessor(), ImmutableSet.copyOf(input.tags), R_TAGS);
     return Response.none();
   }
 }

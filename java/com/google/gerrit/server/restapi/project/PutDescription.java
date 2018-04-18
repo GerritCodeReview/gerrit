@@ -81,7 +81,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       md.setAuthor(user);
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(resource.getProjectState().getProject());
+      cache.evict(resource.getProjectAccessor().getProject());
       md.getRepository().setGitwebDescription(project.getDescription());
 
       return Strings.isNullOrEmpty(project.getDescription())

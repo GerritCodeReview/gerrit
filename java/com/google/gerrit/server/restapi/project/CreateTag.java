@@ -138,7 +138,7 @@ public class CreateTag implements RestCreateView<ProjectResource, TagResource, T
             result.getObjectId(),
             resource.getUser().asIdentifiedUser().state());
         try (RevWalk w = new RevWalk(repo)) {
-          return ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links);
+          return ListTags.createTagInfo(perm, result, w, resource.getProjectAccessor(), links);
         }
       }
     } catch (InvalidRevisionException e) {

@@ -65,6 +65,46 @@
     },
     {
       "key": {
+        "uuid": "4af07b28_b7c0c911",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T12:34:57Z",
+      "side": 1,
+      "message": "gerritConfig could also be null here. Is this possibility expected and handled\nproperly by the rest of the code in this change? Looking at the code, there seem\nto be some potential NPEs.",
+      "range": {
+        "startLine": 74,
+        "startChar": 24,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cffb2800_da00040e",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-18T12:34:57Z",
+      "side": 1,
+      "message": "1. final?",
+      "revId": "51b5d500f26699eff2f253435724c0228f17a533",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83957e50_7f9e9ece",
         "filename": "java/com/google/gerrit/sshd/commands/ReloadConfig.java",
         "patchSetId": 8

@@ -26,6 +26,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,7 @@ import java.util.Map;
 /** Retrieve child projects (ie. projects whose access inherits from a given parent.) */
 @Singleton
 public class ChildProjects {
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final AllProjectsName allProjects;
@@ -41,10 +43,12 @@ public class ChildProjects {
 
   @Inject
   ChildProjects(
+      ProjectAccessor.Factory projectAccessorFactory,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       AllProjectsName allProjectsName,
       ProjectJson json) {
+    this.projectAccessorFactory = projectAccessorFactory;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.allProjects = allProjectsName;
@@ -65,9 +69,13 @@ public class ChildProjects {
   private Map<Project.NameKey, Project> readAllReadableProjects() {
     Map<Project.NameKey, Project> projects = new HashMap<>();
     for (Project.NameKey name : projectCache.all()) {
-      ProjectState c = projectCache.get(name);
-      if (c != null && c.statePermitsRead()) {
-        projects.put(c.getNameKey(), c.getProject());
+      try {
+        ProjectAccessor a = projectAccessorFactory.create(name);
+        if (a.statePermitsRead()) {
+          projects.put(a.getNameKey(), a.getProject());
+        }
+      } catch (NoSuchProjectException | IOException e) {
+        // Ignore; already logged by ProjectCacheImpl.
       }
     }
     return projects;

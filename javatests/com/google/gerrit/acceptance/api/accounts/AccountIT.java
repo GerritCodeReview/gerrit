@@ -113,6 +113,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilderImpl;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -287,8 +288,8 @@ public class AccountIT extends AbstractDaemonTest {
       String labelName,
       int min,
       int max)
-      throws IOException {
-    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+      throws NoSuchProjectException, IOException {
+    ProjectConfig cfg = projectAccessorFactory.create(project).getConfig();
     AccessSection accessSection = cfg.getAccessSection(ref);
     assertThat(accessSection).isNotNull();
 

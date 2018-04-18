@@ -31,6 +31,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.git.NotifyConfig;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -46,18 +47,18 @@ public class ProjectWatch {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected final EmailArguments args;
-  protected final ProjectState projectState;
+  protected final ProjectAccessor projectAccessor;
   protected final Project.NameKey project;
   protected final ChangeData changeData;
 
   public ProjectWatch(
       EmailArguments args,
       Project.NameKey project,
-      ProjectState projectState,
+      ProjectAccessor projectAccessor,
       ChangeData changeData) {
     this.args = args;
     this.project = project;
-    this.projectState = projectState;
+    this.projectAccessor = projectAccessor;
     this.changeData = changeData;
   }
 
@@ -95,15 +96,16 @@ public class ProjectWatch {
       return matching;
     }
 
-    for (ProjectState state : projectState.tree()) {
-      for (NotifyConfig nc : state.getConfig().getNotifyConfigs()) {
+    for (ProjectState state : projectAccessor.getProjectState().tree()) {
+      ProjectAccessor currAccessor = args.projectAccessorFactory.create(state);
+      for (NotifyConfig nc : currAccessor.getConfig().getNotifyConfigs()) {
         if (nc.isNotify(type)) {
           try {
             add(matching, nc);
           } catch (QueryParseException e) {
             logger.atWarning().log(
                 "Project %s has invalid notify %s filter \"%s\": %s",
-                state.getName(), nc.getName(), nc.getFilter(), e.getMessage());
+                currAccessor.getName(), nc.getName(), nc.getFilter(), e.getMessage());
           }
         }
       }

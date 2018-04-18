@@ -52,7 +52,8 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
@@ -124,7 +125,7 @@ public class Submit
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   Submit(
@@ -139,7 +140,7 @@ public class Submit
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
       PatchSetUtil psUtil,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.dbProvider = dbProvider;
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
@@ -175,13 +176,14 @@ public class Submit
                 cfg.getString("change", null, "submitTopicTooltip"), DEFAULT_TOPIC_TOOLTIP));
     this.queryProvider = queryProvider;
     this.psUtil = psUtil;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
   public Output apply(RevisionResource rsrc, SubmitInput input)
       throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-          PermissionBackendException, UpdateException, ConfigInvalidException {
+          PermissionBackendException, UpdateException, ConfigInvalidException,
+          NoSuchProjectException {
     input.onBehalfOf = Strings.emptyToNull(input.onBehalfOf);
     IdentifiedUser submitter;
     if (input.onBehalfOf != null) {
@@ -190,7 +192,7 @@ public class Submit
       rsrc.permissions().check(ChangePermission.SUBMIT);
       submitter = rsrc.getUser().asIdentifiedUser();
     }
-    projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
+    projectAccessorFactory.create(rsrc.getProject()).checkStatePermitsWrite();
 
     return new Output(mergeChange(rsrc, submitter, input));
   }
@@ -309,10 +311,10 @@ public class Submit
     }
 
     try {
-      if (!projectCache.checkedGet(resource.getProject()).statePermitsWrite()) {
+      if (!projectAccessorFactory.create(resource.getProject()).statePermitsWrite()) {
         return null; // submit not visible
       }
-    } catch (IOException e) {
+    } catch (NoSuchProjectException | IOException e) {
       logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
@@ -331,7 +333,7 @@ public class Submit
     ChangeSet cs;
     try {
       cs = mergeSuperSet.get().completeChangeSet(db, cd.change(), resource.getUser());
-    } catch (OrmException | IOException | PermissionBackendException e) {
+    } catch (NoSuchProjectException | OrmException | IOException | PermissionBackendException e) {
       throw new OrmRuntimeException(
           "Could not determine complete set of changes to be submitted", e);
     }
@@ -509,7 +511,8 @@ public class Submit
     @Override
     public ChangeInfo apply(ChangeResource rsrc, SubmitInput input)
         throws RestApiException, RepositoryNotFoundException, IOException, OrmException,
-            PermissionBackendException, UpdateException, ConfigInvalidException {
+            PermissionBackendException, UpdateException, ConfigInvalidException,
+            NoSuchProjectException {
       PatchSet ps = psUtil.current(dbProvider.get(), rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

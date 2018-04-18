@@ -53,8 +53,8 @@ import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -84,10 +84,11 @@ public class GetDiff implements RestReadView<FileResource> {
               .put(Patch.ChangeType.REWRITE, ChangeType.REWRITE)
               .build());
 
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
   private final Revisions revisions;
   private final WebLinks webLinks;
+  private final FileContentUtil fileContentUtil;
 
   @Option(name = "--base", metaVar = "REVISION")
   String base;
@@ -113,20 +114,23 @@ public class GetDiff implements RestReadView<FileResource> {
 
   @Inject
   GetDiff(
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       PatchScriptFactory.Factory patchScriptFactoryFactory,
       Revisions revisions,
-      WebLinks webLinks) {
-    this.projectCache = projectCache;
+      WebLinks webLinks,
+      FileContentUtil fileContentUtil) {
+    this.projectAccessorFactory = projectAccessorFactory;
     this.patchScriptFactoryFactory = patchScriptFactoryFactory;
     this.revisions = revisions;
     this.webLinks = webLinks;
+    this.fileContentUtil = fileContentUtil;
   }
 
   @Override
   public Response<DiffInfo> apply(FileResource resource)
       throws ResourceConflictException, ResourceNotFoundException, OrmException, AuthException,
-          InvalidChangeOperationException, IOException, PermissionBackendException {
+          InvalidChangeOperationException, IOException, PermissionBackendException,
+          NoSuchProjectException {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;
@@ -192,7 +196,8 @@ public class GetDiff implements RestReadView<FileResource> {
       }
       content.addCommon(ps.getA().size());
 
-      ProjectState state = projectCache.get(resource.getRevision().getChange().getProject());
+      ProjectAccessor accessor =
+          projectAccessorFactory.create(resource.getRevision().getChange().getProject());
 
       DiffInfo result = new DiffInfo();
       String revA = basePatchSet != null ? basePatchSet.getRefName() : content.commitIdA;
@@ -203,7 +208,7 @@ public class GetDiff implements RestReadView<FileResource> {
 
       List<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(
-              state.getName(),
+              accessor.getName(),
               resource.getPatchKey().getParentKey().getParentKey().get(),
               basePatchSet != null ? basePatchSet.getId().get() : null,
               revA,
@@ -221,10 +226,13 @@ public class GetDiff implements RestReadView<FileResource> {
           result.metaA = new FileMeta();
           result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
           result.metaA.contentType =
-              FileContentUtil.resolveContentType(
-                  state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
+              fileContentUtil.resolveContentType(
+                  accessor.getProjectState(),
+                  result.metaA.name,
+                  ps.getFileModeA(),
+                  ps.getMimeTypeA());
           result.metaA.lines = ps.getA().size();
-          result.metaA.webLinks = getFileWebLinks(state.getProject(), revA, result.metaA.name);
+          result.metaA.webLinks = getFileWebLinks(accessor.getProject(), revA, result.metaA.name);
           result.metaA.commitId = content.commitIdA;
         }
 
@@ -232,10 +240,13 @@ public class GetDiff implements RestReadView<FileResource> {
           result.metaB = new FileMeta();
           result.metaB.name = ps.getNewName();
           result.metaB.contentType =
-              FileContentUtil.resolveContentType(
-                  state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
+              fileContentUtil.resolveContentType(
+                  accessor.getProjectState(),
+                  result.metaB.name,
+                  ps.getFileModeB(),
+                  ps.getMimeTypeB());
           result.metaB.lines = ps.getB().size();
-          result.metaB.webLinks = getFileWebLinks(state.getProject(), revB, result.metaB.name);
+          result.metaB.webLinks = getFileWebLinks(accessor.getProject(), revB, result.metaB.name);
           result.metaB.commitId = content.commitIdB;
         }
 

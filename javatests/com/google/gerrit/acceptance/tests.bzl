@@ -16,6 +16,6 @@ def acceptance_tests(
             "slow",
         ],
         size = "large",
-        jvm_flags = vm_args,
+        jvm_flags = vm_args + ["-agentpath:/usr/local/google/home/dborowitz/.local/yjp/bin/linux-x86-64/libyjpagent.so"],
         **kwargs
     )

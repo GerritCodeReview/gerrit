@@ -19,6 +19,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
@@ -30,7 +31,9 @@ import org.kohsuke.args4j.Argument;
 
 public abstract class AbstractGitCommand extends BaseCommand {
   @Argument(index = 0, metaVar = "PROJECT.git", required = true, usage = "project name")
-  protected ProjectState projectState;
+  protected void setProjectState(ProjectState projectState) {
+    projectAccessor = projectAccessorFactory.create(projectState);
+  }
 
   @Inject private SshScope sshScope;
 
@@ -42,9 +45,12 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   @Inject private IdentifiedUser.GenericFactory userFactory;
 
+  @Inject private ProjectAccessor.Factory projectAccessorFactory;
+
   protected Repository repo;
   protected Project.NameKey projectName;
   protected Project project;
+  protected ProjectAccessor projectAccessor;
 
   @Override
   public void start(Environment env) {
@@ -65,7 +71,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
             @Override
             public Project.NameKey getProjectName() {
-              return projectState.getNameKey();
+              return projectAccessor.getNameKey();
             }
           });
     } finally {
@@ -84,7 +90,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
   }
 
   private void service() throws IOException, PermissionBackendException, Failure {
-    project = projectState.getProject();
+    project = projectAccessor.getProject();
     projectName = project.getNameKey();
 
     try {

@@ -250,7 +250,7 @@ class ChangeControl {
         resourcePath =
             String.format(
                 "/projects/%s/+changes/%s",
-                getProjectControl().getProjectState().getName(), changeData().getId().get());
+                getProjectControl().getProjectAccessor().getName(), changeData().getId().get());
       }
       return resourcePath;
     }

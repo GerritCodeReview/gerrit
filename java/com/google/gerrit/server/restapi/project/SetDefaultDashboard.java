@@ -75,7 +75,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
 
     permissionBackend
         .user(rsrc.getUser())
-        .project(rsrc.getProjectState().getNameKey())
+        .project(rsrc.getProjectAccessor().getNameKey())
         .check(ProjectPermission.WRITE_CONFIG);
 
     DashboardResource target = null;
@@ -92,7 +92,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       }
     }
 
-    try (MetaDataUpdate md = updateFactory.create(rsrc.getProjectState().getNameKey())) {
+    try (MetaDataUpdate md = updateFactory.create(rsrc.getProjectAccessor().getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
       if (inherited) {
@@ -113,7 +113,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       md.setAuthor(rsrc.getUser().asIdentifiedUser());
       md.setMessage(msg);
       config.commit(md);
-      cache.evict(rsrc.getProjectState().getProject());
+      cache.evict(rsrc.getProjectAccessor().getProject());
 
       if (target != null) {
         DashboardInfo info = get.get().apply(target);
@@ -122,7 +122,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
       }
       return Response.none();
     } catch (RepositoryNotFoundException notFound) {
-      throw new ResourceNotFoundException(rsrc.getProjectState().getProject().getName());
+      throw new ResourceNotFoundException(rsrc.getProjectAccessor().getProject().getName());
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(
           String.format("invalid project.config: %s", e.getMessage()));

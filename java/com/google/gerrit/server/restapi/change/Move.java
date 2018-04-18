@@ -52,8 +52,8 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -86,7 +86,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final ApprovalsUtil approvalsUtil;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Inject
   Move(
@@ -99,7 +99,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       RetryHelper retryHelper,
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
-      ProjectCache projectCache) {
+      ProjectAccessor.Factory projectAccessorFactory) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
@@ -109,14 +109,14 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.approvalsUtil = approvalsUtil;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, MoveInput input)
       throws RestApiException, OrmException, UpdateException, PermissionBackendException,
-          IOException {
+          IOException, NoSuchProjectException {
     Change change = rsrc.getChange();
     Project.NameKey project = rsrc.getProject();
     IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
@@ -144,7 +144,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     } catch (AuthException denied) {
       throw new AuthException("move not permitted", denied);
     }
-    projectCache.checkedGet(project).checkStatePermitsWrite();
+    projectAccessorFactory.create(project).checkStatePermitsWrite();
 
     Op op = new Op(input);
     try (BatchUpdate u =
@@ -172,7 +172,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws OrmException, ResourceConflictException, IOException {
+        throws OrmException, ResourceConflictException, IOException, NoSuchProjectException {
       change = ctx.getChange();
       if (change.getStatus() != Status.NEW) {
         throw new ResourceConflictException("Change is " + ChangeUtil.status(change));
@@ -253,13 +253,17 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
      */
     private void updateApprovals(
         ChangeContext ctx, ChangeUpdate update, PatchSet.Id psId, Project.NameKey project)
-        throws IOException, OrmException {
+        throws IOException, OrmException, NoSuchProjectException {
       List<PatchSetApproval> approvals = new ArrayList<>();
       for (PatchSetApproval psa :
           approvalsUtil.byPatchSet(
               ctx.getDb(), ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
-        ProjectState projectState = projectCache.checkedGet(project);
-        LabelType type = projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.getLabelId());
+        ProjectAccessor projectAccessor = projectAccessorFactory.create(project);
+        LabelType type =
+            projectAccessor
+                .getProjectState()
+                .getLabelTypes(ctx.getNotes())
+                .byLabel(psa.getLabelId());
         // Only keep veto votes, defined as votes where:
         // 1- the label function allows minimum values to block submission.
         // 2- the vote holds the minimum value.
@@ -294,10 +298,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     }
 
     try {
-      if (!projectCache.checkedGet(rsrc.getProject()).statePermitsWrite()) {
+      if (!projectAccessorFactory.create(rsrc.getProject()).statePermitsWrite()) {
         return description;
       }
-    } catch (IOException e) {
+    } catch (NoSuchProjectException | IOException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check if project state permits write: %s", rsrc.getProject());
       return description;

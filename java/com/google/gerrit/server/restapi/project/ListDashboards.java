@@ -28,6 +28,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -52,14 +53,19 @@ public class ListDashboards implements RestReadView<ProjectResource> {
 
   private final GitRepositoryManager gitManager;
   private final PermissionBackend permissionBackend;
+  private final ProjectAccessor.Factory projectAccessorFactory;
 
   @Option(name = "--inherited", usage = "include inherited dashboards")
   private boolean inherited;
 
   @Inject
-  ListDashboards(GitRepositoryManager gitManager, PermissionBackend permissionBackend) {
+  ListDashboards(
+      GitRepositoryManager gitManager,
+      PermissionBackend permissionBackend,
+      ProjectAccessor.Factory projectAccessorFactory) {
     this.gitManager = gitManager;
     this.permissionBackend = permissionBackend;
+    this.projectAccessorFactory = projectAccessorFactory;
   }
 
   @Override
@@ -67,13 +73,13 @@ public class ListDashboards implements RestReadView<ProjectResource> {
       throws ResourceNotFoundException, IOException, PermissionBackendException {
     String project = rsrc.getName();
     if (!inherited) {
-      return scan(rsrc.getProjectState(), project, true);
+      return scan(rsrc.getProjectAccessor(), project, true);
     }
 
     List<List<DashboardInfo>> all = new ArrayList<>();
     boolean setDefault = true;
     for (ProjectState ps : tree(rsrc)) {
-      List<DashboardInfo> list = scan(ps, project, setDefault);
+      List<DashboardInfo> list = scan(projectAccessorFactory.create(ps), project, setDefault);
       for (DashboardInfo d : list) {
         if (d.isDefault != null && Boolean.TRUE.equals(d.isDefault)) {
           setDefault = false;
@@ -89,8 +95,9 @@ public class ListDashboards implements RestReadView<ProjectResource> {
   private Collection<ProjectState> tree(ProjectResource rsrc) throws PermissionBackendException {
     Map<Project.NameKey, ProjectState> tree = new LinkedHashMap<>();
     for (ProjectState ps : rsrc.getProjectState().tree()) {
-      if (ps.statePermitsRead()) {
-        tree.put(ps.getNameKey(), ps);
+      ProjectAccessor pa = projectAccessorFactory.create(ps);
+      if (pa.statePermitsRead()) {
+        tree.put(pa.getNameKey(), ps);
       }
     }
 
@@ -99,20 +106,21 @@ public class ListDashboards implements RestReadView<ProjectResource> {
     return tree.values();
   }
 
-  private List<DashboardInfo> scan(ProjectState state, String project, boolean setDefault)
+  private List<DashboardInfo> scan(ProjectAccessor accessor, String project, boolean setDefault)
       throws ResourceNotFoundException, IOException, PermissionBackendException {
-    if (!state.statePermitsRead()) {
+    if (!accessor.statePermitsRead()) {
       return ImmutableList.of();
     }
 
-    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(state.getNameKey());
-    try (Repository git = gitManager.openRepository(state.getNameKey());
+    PermissionBackend.ForProject perm =
+        permissionBackend.currentUser().project(accessor.getNameKey());
+    try (Repository git = gitManager.openRepository(accessor.getNameKey());
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();
       for (Ref ref : git.getRefDatabase().getRefsByPrefix(REFS_DASHBOARDS)) {
         try {
           perm.ref(ref.getName()).check(RefPermission.READ);
-          all.addAll(scanDashboards(state.getProject(), git, rw, ref, project, setDefault));
+          all.addAll(scanDashboards(accessor.getProject(), git, rw, ref, project, setDefault));
         } catch (AuthException e) {
           // Do nothing.
         }

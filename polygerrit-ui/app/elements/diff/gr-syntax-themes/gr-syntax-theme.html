@@ -14,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-<dom-module id="gr-theme-default">
+<dom-module id="gr-syntax-theme">
   <template>
     <style>
       /**
@@ -26,55 +26,72 @@ limitations under the License.
        * @see {@link http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html}
        */
 
+      .contentText {
+        color: var(--syntax-default-color);
+      }
       .gr-syntax-meta {
-         color: #FF1717;
+        color: var(--syntax-meta-color);
       }
       .gr-syntax-keyword {
-        color: #9E0069;
+        color: var(--syntax-keyword-color);
         line-height: 1;
       }
-      .gr-syntax-number,
+      .gr-syntax-number {
+        color: var(--syntax-number-color);
+      }
       .gr-syntax-selector-class {
-        color: #164;
+        color: var(--syntax-selector-class-color);
       }
       .gr-syntax-variable {
-        color: black;
+        color: var(--syntax-variable-color);
       }
       .gr-syntax-template-variable {
-        color: #0000C0;
+        color: var(--syntax-template-variable-color);
       }
       .gr-syntax-comment {
-        color: #3F7F5F;
+        color: var(--syntax-comment-color);
       }
-      .gr-syntax-string,
+      .gr-syntax-string {
+        color: var(--syntax-string-color);
+      }
       .gr-syntax-selector-id {
-        color: #2A00FF;
+        color: var(--syntax-selector-id-color);
       }
       .gr-syntax-built_in {
-        color: #30a;
+        color: var(--syntax-built_in-color);
       }
       .gr-syntax-tag {
-        color: #170;
+        color: var(--syntax-tag-color);
       }
-      .gr-syntax-link,
+      .gr-syntax-link {
+        color: var(--syntax-link-color);
+      }
       .gr-syntax-meta-keyword {
-        color: #219;
+        color: var(--syntax-meta-keyword-color);
       }
       .gr-syntax-type {
-        color: var(--color-link);
+        color: var(--syntax-type-color);
       }
       .gr-syntax-title {
-        color: #0000C0;
+        color: var(--syntax-title-color);
       }
-      .gr-syntax-attr,
+      .gr-syntax-attr {
+        color: var(--syntax-attr-color);
+      }
       .gr-syntax-literal { /* XML/HTML Attribute */
-        color: #219;
+        color: var(--syntax-literal-color);
       }
-      .gr-syntax-selector-pseudo,
-      .gr-syntax-regexp,
-      .gr-syntax-selector-attr,
+      .gr-syntax-selector-pseudo {
+        color: var(--syntax-selector-pseudo-color);
+      }
+      .gr-syntax-regexp {
+        color: var(--syntax-regexp-color);
+      }
+      .gr-syntax-selector-attr {
+        color: var(--syntax-selector-attr-color);
+      }
       .gr-syntax-template-tag {
-        color: #FA8602;
+        color: var(--syntax-template-tag-color);
       }
       .gr-syntax-emphasis {
         font-style: italic;

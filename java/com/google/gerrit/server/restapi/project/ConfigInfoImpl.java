@@ -106,7 +106,7 @@ public class ConfigInfoImpl extends ConfigInfo {
             : null;
 
     this.commentlinks = new LinkedHashMap<>();
-    for (CommentLinkInfo cl : projectAccessor.getProjectState().getCommentLinks()) {
+    for (CommentLinkInfo cl : projectAccessor.getCommentLinks()) {
       this.commentlinks.put(cl.name, cl);
     }
 

@@ -15,11 +15,13 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -34,7 +36,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -62,6 +66,7 @@ public class ProjectAccessor {
   private final Factory factory;
   private final ProjectCache projectCache;
   private final ProjectState projectState;
+  private final List<CommentLinkInfo> commentLinks;
 
   @VisibleForTesting // Please only use from RefControlTest.
   @AssistedInject
@@ -69,10 +74,12 @@ public class ProjectAccessor {
       Factory factory,
       ProjectCache projectCache,
       AllProjectsName allProjectsName,
+      List<CommentLinkInfo> commentLinks,
       @Assisted ProjectState projectState) {
     this.factory = factory;
     this.projectCache = projectCache;
     this.allProjectsName = allProjectsName;
+    this.commentLinks = commentLinks;
     this.projectState = projectState;
   }
 
@@ -82,8 +89,14 @@ public class ProjectAccessor {
       ProjectCache projectCache,
       AllProjectsName allProjectsName,
       ProjectState.Factory projectStateFactory,
+      List<CommentLinkInfo> commentLinks,
       @Assisted ProjectConfig projectConfig) {
-    this(factory, projectCache, allProjectsName, projectStateFactory.create(projectConfig));
+    this(
+        factory,
+        projectCache,
+        allProjectsName,
+        commentLinks,
+        projectStateFactory.create(projectConfig));
   }
 
   @AssistedInject
@@ -91,11 +104,13 @@ public class ProjectAccessor {
       Factory factory,
       ProjectCache projectCache,
       AllProjectsName allProjectsName,
+      List<CommentLinkInfo> commentLinks,
       @Assisted Project.NameKey projectName)
       throws NoSuchProjectException, IOException {
     this.factory = factory;
     this.projectCache = projectCache;
     this.allProjectsName = allProjectsName;
+    this.commentLinks = commentLinks;
     this.projectState = projectCache.checkedGet(projectName);
     if (projectState == null) {
       // TODO(dborowitz): This doesn't include the stack trace from checkedGet, which was logged and
@@ -105,9 +120,13 @@ public class ProjectAccessor {
   }
 
   @AssistedInject
-  ProjectAccessor(Factory factory, ProjectCache projectCache, AllProjectsName allProjectsName)
+  ProjectAccessor(
+      Factory factory,
+      List<CommentLinkInfo> commentLinks,
+      ProjectCache projectCache,
+      AllProjectsName allProjectsName)
       throws NoSuchProjectException, IOException {
-    this(factory, projectCache, allProjectsName, allProjectsName);
+    this(factory, projectCache, allProjectsName, commentLinks, allProjectsName);
   }
 
   public Project getProject() {
@@ -252,6 +271,28 @@ public class ProjectAccessor {
       ret.addAll(s.getConfig().getSubscribeSections(branch));
     }
     return ret;
+  }
+
+  public List<CommentLinkInfo> getCommentLinks() {
+    Map<String, CommentLinkInfo> cls = new LinkedHashMap<>();
+    for (CommentLinkInfo cl : commentLinks) {
+      cls.put(cl.name.toLowerCase(), cl);
+    }
+    for (ProjectState s : projectState.treeInOrder()) {
+      for (CommentLinkInfoImpl cl : s.getConfig().getCommentLinkSections()) {
+        String name = cl.name.toLowerCase();
+        if (cl.isOverrideOnly()) {
+          CommentLinkInfo parent = cls.get(name);
+          if (parent == null) {
+            continue; // Ignore invalid overrides.
+          }
+          cls.put(name, cl.inherit(parent));
+        } else {
+          cls.put(name, cl);
+        }
+      }
+    }
+    return ImmutableList.copyOf(cls.values());
   }
 
   private Iterable<ProjectState> tree() {

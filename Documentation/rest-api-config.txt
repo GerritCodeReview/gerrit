@@ -194,6 +194,41 @@ is returned that contains detected consistency problems.
 ----
 
 
+[[reload-config]]
+=== Reload Config
+--
+'POST /config/server/reload'
+--
+
+Notify that the config has changed and config values can be reloaded.
+
+.Request
+----
+  POST /config/server/reload HTTP/1.0
+----
+
+As result a link:#config-update-info[ConfigUpdateInfo] entity is returned that
+contains information about how the updated config entries were handled.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "rejected": [],
+    "accepted": [
+      {
+        "config_key": "addreviewer.maxAllowed",
+        "old_value": "20",
+        "new_value": "15"
+      }
+    ]
+  }
+----
+
+
 [[confirm-email]]
 === Confirm Email
 --
@@ -1607,6 +1642,39 @@ consistency problem.
 |`status`  |The status of the consistency problem. +
 Possible values are `ERROR` and `WARNING`.
 |`message` |Message describing the consistency problem.
+|======================
+
+[[config-update-info]]
+=== ConfigUpdateInfo
+The entity describes the result of a reload of gerrit.config.
+
+If a changed config value is missing from the `accepted` and the `rejected`
+lists there are no guarantees to whether they have or have not taken effect.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`accepted` |A list of link:#config-update-entry-info[ConfigUpdateEntryInfos]
+describing the accepted configuration changes. +
+Every config value change representation present in this list is guaranteed to
+have taken effect.
+|`rejected` |A list of link:#config-update-entry-info[ConfigUpdateEntryInfos]
+describing the rejected configuration changes.  +
+Every config value change representation present in this list is guaranteed not
+to have taken effect.
+|======================
+
+[[config-update-entry-info]]
+=== ConfigUpdateEntryInfo
+The entity describes an updated config value.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`config_key` |The config key that contains the value.
+|`old_value`  |The old config value. +
+Missing if value was not previously configured.
+|`new_value`  |The new config value, picked up after reload.
 |======================
 
 [[download-info]]

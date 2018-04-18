@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c66c941_3b67817f",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-18T13:01:50Z",
+      "side": 0,
+      "message": "Do we need to amend the accessibility of these constants, now that they are no longer used by this very class? -Did not check myself.",
+      "range": {
+        "startLine": 131,
+        "startChar": 48,
+        "endLine": 131,
+        "endChar": 55
+      },
+      "revId": "817862d73772fbbb05bdb45869b16971b0be8e1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

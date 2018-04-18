@@ -22,6 +22,30 @@
       "revId": "e471fa90123d93004e8dbc578b3cbcba132d56f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be9f2f9_eeb43c67",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ReindexIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-18T09:22:33Z",
+      "side": 1,
+      "message": "We already did this on master in Iac98e34fecc107c2971ea772bde6b24ba0217867, I recommend just cherry-picking that",
+      "parentUuid": "f997811a_17355337",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 93
+      },
+      "revId": "e471fa90123d93004e8dbc578b3cbcba132d56f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

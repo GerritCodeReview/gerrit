@@ -70,7 +70,8 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameAs(out.getClass());
     assertThat(out.getChildren())
-        .containsExactly(query(ChangeStatusPredicate.open()), in)
+        .containsExactly(
+            query(Predicate.or(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())), in)
         .inOrder();
   }
 
@@ -86,7 +87,8 @@ public class ChangeIndexRewriterTest extends GerritBaseTests {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(AndChangeSource.class).isSameAs(out.getClass());
     assertThat(out.getChildren())
-        .containsExactly(query(ChangeStatusPredicate.open()), in)
+        .containsExactly(
+            query(Predicate.or(ChangeStatusPredicate.open(), ChangeStatusPredicate.closed())), in)
         .inOrder();
   }
 

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.gerrit.server.query.change.ChangeStatusPredicate.closed;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.collect.Lists;
@@ -139,7 +140,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       throws QueryParseException {
     Predicate<ChangeData> s = rewriteImpl(in, opts);
     if (!(s instanceof ChangeDataSource)) {
-      in = Predicate.and(open(), in);
+      in = Predicate.and(Predicate.or(open(), closed()), in);
       s = rewriteImpl(in, opts);
     }
     if (!(s instanceof ChangeDataSource)) {

@@ -748,7 +748,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change3.getId().get()).current().submit();
 
     assertQuery("ownerin:Administrators", change1);
-    assertQuery("ownerin:\"Registered Users\"", change2, change1);
+    assertQuery("ownerin:\"Registered Users\"", change3, change2, change1);
     assertQuery("ownerin:\"Registered Users\" status:merged", change3);
   }
 
@@ -1898,7 +1898,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change2.getId().get()).current().review(ReviewInput.approve());
     gApi.changes().id(change2.getId().get()).current().submit();
 
-    assertQuery("reviewerin:" + group);
+    assertQuery("reviewerin:" + group, change2);
     assertQuery("status:merged reviewerin:" + group, change2);
   }
 

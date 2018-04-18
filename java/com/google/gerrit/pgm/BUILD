@@ -49,6 +49,7 @@ java_library(
         "//lib:protobuf",
         "//lib:servlet-api-3_1-without-neverlink",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",

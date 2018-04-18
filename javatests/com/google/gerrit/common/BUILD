@@ -30,5 +30,6 @@ junit_tests(
         "//lib:guava",
         "//lib:truth",
         "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
     ],
 )

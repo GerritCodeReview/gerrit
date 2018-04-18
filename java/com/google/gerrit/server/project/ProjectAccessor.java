@@ -19,16 +19,19 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -241,6 +244,14 @@ public class ProjectAccessor {
     }
 
     return result;
+  }
+
+  public Collection<SubscribeSection> getSubscribeSections(Branch.NameKey branch) {
+    Collection<SubscribeSection> ret = new ArrayList<>();
+    for (ProjectState s : tree()) {
+      ret.addAll(s.getConfig().getSubscribeSections(branch));
+    }
+    return ret;
   }
 
   private Iterable<ProjectState> tree() {

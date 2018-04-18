@@ -28,7 +28,6 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.RefConfigSection;
-import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.index.project.ProjectData;
@@ -399,14 +398,6 @@ public class ProjectState {
       }
     }
     return null;
-  }
-
-  public Collection<SubscribeSection> getSubscribeSections(Branch.NameKey branch) {
-    Collection<SubscribeSection> ret = new ArrayList<>();
-    for (ProjectState s : tree()) {
-      ret.addAll(s.getConfig().getSubscribeSections(branch));
-    }
-    return ret;
   }
 
   public ThemeInfo getTheme() {

@@ -30,7 +30,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectAccessor;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateListener;
@@ -97,7 +97,7 @@ public class SubmoduleOp {
     private final GitModules.Factory gitmodulesFactory;
     private final PersonIdent myIdent;
     private final Config cfg;
-    private final ProjectCache projectCache;
+    private final ProjectAccessor.Factory projectAccessorFactory;
     private final BatchUpdate.Factory batchUpdateFactory;
 
     @Inject
@@ -105,19 +105,25 @@ public class SubmoduleOp {
         GitModules.Factory gitmodulesFactory,
         @GerritPersonIdent PersonIdent myIdent,
         @GerritServerConfig Config cfg,
-        ProjectCache projectCache,
+        ProjectAccessor.Factory projectAccessorFactory,
         BatchUpdate.Factory batchUpdateFactory) {
       this.gitmodulesFactory = gitmodulesFactory;
       this.myIdent = myIdent;
       this.cfg = cfg;
-      this.projectCache = projectCache;
+      this.projectAccessorFactory = projectAccessorFactory;
       this.batchUpdateFactory = batchUpdateFactory;
     }
 
     public SubmoduleOp create(Set<Branch.NameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleException {
       return new SubmoduleOp(
-          gitmodulesFactory, myIdent, cfg, projectCache, batchUpdateFactory, updatedBranches, orm);
+          gitmodulesFactory,
+          myIdent,
+          cfg,
+          projectAccessorFactory,
+          batchUpdateFactory,
+          updatedBranches,
+          orm);
     }
   }
 
@@ -125,7 +131,7 @@ public class SubmoduleOp {
 
   private final GitModules.Factory gitmodulesFactory;
   private final PersonIdent myIdent;
-  private final ProjectCache projectCache;
+  private final ProjectAccessor.Factory projectAccessorFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final VerboseSuperprojectUpdate verboseSuperProject;
   private final boolean enableSuperProjectSubscriptions;
@@ -151,14 +157,14 @@ public class SubmoduleOp {
       GitModules.Factory gitmodulesFactory,
       PersonIdent myIdent,
       Config cfg,
-      ProjectCache projectCache,
+      ProjectAccessor.Factory projectAccessorFactory,
       BatchUpdate.Factory batchUpdateFactory,
       Set<Branch.NameKey> updatedBranches,
       MergeOpRepoManager orm)
       throws SubmoduleException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.myIdent = myIdent;
-    this.projectCache = projectCache;
+    this.projectAccessorFactory = projectAccessorFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.verboseSuperProject =
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
@@ -231,7 +237,7 @@ public class SubmoduleOp {
         affectedBranches.add(superBranch);
         affectedBranches.add(sub.getSubmodule());
       }
-    } catch (IOException e) {
+    } catch (NoSuchProjectException | IOException e) {
       throw new SubmoduleException("Cannot find superprojects for " + current, e);
     }
     currentVisited.remove(current);
@@ -318,11 +324,12 @@ public class SubmoduleOp {
   }
 
   public Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
-      Branch.NameKey srcBranch) throws IOException {
+      Branch.NameKey srcBranch) throws IOException, NoSuchProjectException {
     logDebug("Calculating possible superprojects for " + srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey srcProject = srcBranch.getParentKey();
-    for (SubscribeSection s : projectCache.get(srcProject).getSubscribeSections(srcBranch)) {
+    for (SubscribeSection s :
+        projectAccessorFactory.create(srcProject).getSubscribeSections(srcBranch)) {
       logDebug("Checking subscribe section " + s);
       Collection<Branch.NameKey> branches = getDestinationBranches(srcBranch, s);
       for (Branch.NameKey targetBranch : branches) {

@@ -25,6 +25,46 @@
     },
     {
       "key": {
+        "uuid": "385c1950_3e4496c4",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T09:09:54Z",
+      "side": 1,
+      "message": "This isn\u0027t a blocking issue, but I think it\u0027s a little weird to export private methods in behaviors because it\u0027s ambiguous which party it\u0027s private to:\n* Should it only be accessed by the element that includes the behavior? If so, we typically make those non private.\n* Alternatively, should it only be accessed by the methods of the behavior and not by the host element? If so, takes up a method name in the host.\n\nAnalogous, I guess, to `private` vs `protected` in Java.\n\nIt could be refactored outside the behavior and into its own function in the closure, but it\u0027d have to be bound to `this` so that it can still access the methods. Maybe keeping it private like this is the simplest way.",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 16
+      },
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33647da_3cd86481",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T09:09:54Z",
+      "side": 1,
+      "message": "Add this file to test/index.html",
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7c883ffd_59b81368",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 5

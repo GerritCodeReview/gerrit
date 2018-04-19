@@ -276,7 +276,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/master",
         "refs/tags/master-tag",
         "refs/tags/branch-tag",
-        "refs/users/01/1000001/edit-" + c3.getId() + "/1");
+        RefNames.refsUsers(user.id) + "/edit-" + c3.getId() + "/1");
   }
 
   @Test
@@ -309,8 +309,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         "refs/heads/master",
         "refs/tags/master-tag",
         "refs/tags/branch-tag",
-        "refs/users/00/1000000/edit-" + c3.getId() + "/1",
-        "refs/users/01/1000001/edit-" + c3.getId() + "/1");
+        RefNames.refsUsers(admin.id) + "/edit-" + c3.getId() + "/1",
+        RefNames.refsUsers(user.id) + "/edit-" + c3.getId() + "/1");
   }
 
   @Test
@@ -340,7 +340,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         // See comment in subsetOfBranchesVisibleNotIncludingHead.
         "refs/tags/master-tag",
         // All edits are visible due to accessDatabase capability.
-        "refs/users/00/1000000/edit-" + c3.getId() + "/1");
+        RefNames.refsUsers(admin.id) + "/edit-" + c3.getId() + "/1");
   }
 
   @Test

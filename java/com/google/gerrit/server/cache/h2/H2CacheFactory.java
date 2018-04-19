@@ -191,7 +191,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
                 .create(def, true)
                 .build((CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
     H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
-    caches.add(cache);
+    synchronized (caches) {
+      caches.add(cache);
+    }
     return cache;
   }
 

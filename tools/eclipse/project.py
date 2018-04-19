@@ -170,6 +170,10 @@ def gen_classpath(ext):
       # JGit dependency from external repository
       if 'gerrit-' not in p and 'jgit' in p:
         lib.add(p)
+      # Special case generated proto jars.
+      # TODO(dborowitz): Attach source as well.
+      if '/proto/' in p:
+        lib.add(p)
     else:
       # Don't mess up with Bazel internal test runner dependencies.
       # When we use Eclipse we rely on it for running the tests

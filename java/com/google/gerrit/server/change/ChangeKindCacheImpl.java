@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.FluentIterable;
@@ -169,6 +170,15 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     @Override
     public int hashCode() {
       return Objects.hash(prior, next, strategyName);
+    }
+
+    @Override
+    public String toString() {
+      return MoreObjects.toStringHelper(this)
+          .add("prior", prior)
+          .add("next", next)
+          .add("strategyName", strategyName)
+          .toString();
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

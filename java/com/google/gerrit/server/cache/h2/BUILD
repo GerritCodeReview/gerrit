@@ -9,6 +9,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:h2",
+        "//lib:protobuf",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",

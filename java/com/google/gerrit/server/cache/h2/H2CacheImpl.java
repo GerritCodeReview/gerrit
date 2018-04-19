@@ -260,9 +260,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private volatile BloomFilter<K> bloomFilter;
     private int estimatedSize;
 
-    SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize, long expireAfterWrite) {
+    SqlStore(
+        String jdbcUrl,
+        TypeLiteral<K> keyType,
+        TypeLiteral<V> valueType,
+        long maxSize,
+        long expireAfterWrite) {
       this.url = jdbcUrl;
-      this.entryType = EntryType.createObjectValueType(keyType);
+      this.entryType = EntryType.create(keyType, valueType);
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
 

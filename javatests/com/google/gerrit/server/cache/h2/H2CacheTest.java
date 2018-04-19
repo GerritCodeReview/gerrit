@@ -40,8 +40,9 @@ public class H2CacheTest {
     mem = CacheBuilder.newBuilder().build();
 
     TypeLiteral<String> keyType = new TypeLiteral<String>() {};
+    TypeLiteral<Boolean> valueType = new TypeLiteral<Boolean>() {};
     SqlStore<String, Boolean> store =
-        new SqlStore<>("jdbc:h2:mem:Test_" + (++dbCnt), keyType, 1 << 20, 0);
+        new SqlStore<>("jdbc:h2:mem:Test_" + (++dbCnt), keyType, valueType, 1 << 20, 0);
     impl = new H2CacheImpl<>(MoreExecutors.directExecutor(), store, keyType, mem);
   }
 

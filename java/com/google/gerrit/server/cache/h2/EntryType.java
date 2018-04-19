@@ -14,7 +14,13 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.hash.Funnel;
+import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.server.cache.ChangeKindKeyProtoConverter;
+import com.google.gerrit.server.cache.ChangeKindProtoConverter;
+import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.inject.TypeLiteral;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +28,13 @@ import java.sql.SQLException;
 
 interface EntryType<K, V> {
   @SuppressWarnings("unchecked")
-  static <K, V> EntryType<K, V> createObjectValueType(TypeLiteral<K> keyType) {
+  static <K, V> EntryType<K, V> create(TypeLiteral<K> keyType, TypeLiteral<V> valueType) {
+    if (keyType.getRawType() == ChangeKindCacheImpl.Key.class) {
+      checkArgument(valueType.getRawType() == ChangeKind.class);
+      return (EntryType<K, V>)
+          new ProtoEntryTypeImpl<>(
+              new ChangeKindKeyProtoConverter(), new ChangeKindProtoConverter());
+    }
     if (keyType.getRawType() == String.class) {
       return (EntryType<K, V>) StringKeyTypeImpl.INSTANCE;
     }

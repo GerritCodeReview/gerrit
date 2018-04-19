@@ -22,6 +22,30 @@
       "revId": "89d2bf2b9553d4ea3d6bc9d117e4abf56dcaaf9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbfa6b01_7e097cfe",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-19T13:16:35Z",
+      "side": 1,
+      "message": "Have you tried out your suggestion?\n\nIt results in a double border. The table\u0027s floating header works by setting sticky styles on the \u003cth\u003e elements, as you can\u0027t apply position: sticky on a \u003ctr\u003e.\n\nAs a result, the \u003cth\u003e elements must also be styled with the border individually, or else the header will appear to have no border when it\u0027s in its \"stuck\" state. \n\nThe border-collapse attribute only works on sibling elements, not cousin elements. So, if we want the table to have a sticky header _and_ have borders between each row, we must disable the border-top on the elements directly below a .topHeader.",
+      "parentUuid": "3f8baeef_b14b5458",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "89d2bf2b9553d4ea3d6bc9d117e4abf56dcaaf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

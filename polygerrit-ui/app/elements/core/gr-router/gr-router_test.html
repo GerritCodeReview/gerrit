@@ -1320,6 +1320,12 @@ limitations under the License.
             assert.isTrue(normalizeRangeStub.called);
           });
 
+          test('gr-reporting recognizes change page', () => {
+            const ctx = makeParams(null, '');
+            assert.equal(element._getPageName('_handleChangeOrDiffRoute', ctx),
+                Gerrit.Nav.View.CHANGE);
+          });
+
           test('diff view', () => {
             normalizeRangeStub.returns(false);
             sandbox.stub(element, '_generateUrl').returns('foo');
@@ -1336,6 +1342,12 @@ limitations under the License.
             });
             assert.isFalse(redirectStub.called);
             assert.isTrue(normalizeRangeStub.called);
+          });
+
+          test('gr-reporting recognizes diff page', () => {
+            const ctx = makeParams('foo/bar/baz', 'b44');
+            assert.equal(element._getPageName('_handleChangeOrDiffRoute', ctx),
+                Gerrit.Nav.View.DIFF);
           });
         });
 

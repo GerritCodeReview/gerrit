@@ -182,9 +182,9 @@
   (function() {
     const reporting = document.createElement('gr-reporting');
 
-    document.onload = function() {
+    window.addEventListener('load', () => {
       reporting.pageLoaded();
-    };
+    });
 
     window.addEventListener('WebComponentsReady', () => {
       reporting.timeEnd('WebComponentsReady');

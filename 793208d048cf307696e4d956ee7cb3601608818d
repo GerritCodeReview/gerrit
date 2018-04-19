@@ -73,6 +73,23 @@
       "revId": "793208d048cf307696e4d956ee7cb3601608818d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18a7ce20_e6f571cd",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T15:09:52Z",
+      "side": 1,
+      "message": "In the case of this Key class, I don\u0027t see the advantage of having a separate type rather than just storing the ChangeKindKeyProto in the Cache.",
+      "revId": "793208d048cf307696e4d956ee7cb3601608818d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

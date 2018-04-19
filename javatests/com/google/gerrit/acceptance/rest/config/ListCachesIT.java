@@ -55,7 +55,11 @@ public class ListCachesIT extends AbstractDaemonTest {
     r.assertOK();
     result =
         newGson().fromJson(r.getReader(), new TypeToken<Map<String, CacheInfo>>() {}.getType());
-    assertThat(result.get("accounts").entries.mem).isEqualTo(2);
+
+    // this is powered by Cache.size, which is specified to be approximate.
+    // In addition, this yield 6 today, which is a side effect
+    // from the test framework tearing down and creating new accounts for each method.
+    assertThat(result.get("accounts").entries.mem).isAtLeast((long) 2);
   }
 
   @Test

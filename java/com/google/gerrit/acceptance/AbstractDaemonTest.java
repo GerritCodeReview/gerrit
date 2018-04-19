@@ -198,16 +198,16 @@ public abstract class AbstractDaemonTest {
           return new Statement() {
             @Override
             public void evaluate() throws Throwable {
+              beforeTest(description);
               if (firstTest == null) {
                 firstTest = description;
               }
-              beforeTest(description);
               ProjectResetter.Config input = resetProjects();
               if (input == null) {
                 input = defaultResetProjects();
               }
-
               try (ProjectResetter resetter = projectResetter.builder().build(input)) {
+                setupTestData();
                 AbstractDaemonTest.this.resetter = resetter;
                 base.evaluate();
               } finally {
@@ -405,12 +405,16 @@ public abstract class AbstractDaemonTest {
       server = GerritServer.initAndStart(methodDesc, baseConfig, module);
     }
 
+    resourcePrefix =
+        UNSAFE_PROJECT_NAME
+            .matcher(description.getClassName() + "_" + description.getMethodName() + "_")
+            .replaceAll("");
+
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<Repository>());
 
     db = reviewDbProvider.open();
-
     // All groups which were added during the server start (e.g. in SchemaCreator) aren't contained
     // in the instance of the group index which is available here and in tests. There are two
     // reasons:
@@ -421,23 +425,16 @@ public abstract class AbstractDaemonTest {
     // removes all indexed data.
     // As a workaround, we simply reindex all available groups here.
     reindexAllGroups();
+  }
 
+  private void setupTestData() throws Exception {
     admin = accountCreator.admin();
     user = accountCreator.user();
-
-    // Evict and reindex accounts in case tests modify them.
-    evictAndReindexAccount(admin.getId());
-    evictAndReindexAccount(user.getId());
 
     adminRestSession = new RestSession(server, admin);
     userRestSession = new RestSession(server, user);
 
     initSsh();
-
-    resourcePrefix =
-        UNSAFE_PROJECT_NAME
-            .matcher(description.getClassName() + "_" + description.getMethodName() + "_")
-            .replaceAll("");
 
     Context ctx = newRequestContext(admin);
     atrScope.set(ctx);

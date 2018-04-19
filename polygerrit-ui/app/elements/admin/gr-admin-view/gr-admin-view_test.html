@@ -162,6 +162,7 @@ limitations under the License.
           noBaseUrl: true,
           view: null,
           viewableToAll: true,
+          target: null,
         });
         assert.deepEqual(element._filteredLinks[2], {
           url: 'http://external/link/url',
@@ -169,6 +170,7 @@ limitations under the License.
           noBaseUrl: false,
           view: null,
           viewableToAll: true,
+          target: '_blank',
         });
       });
     });

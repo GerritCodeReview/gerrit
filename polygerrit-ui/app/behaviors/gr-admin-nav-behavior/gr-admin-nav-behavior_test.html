@@ -93,9 +93,17 @@ limitations under the License.
 
             if (expected.pluginGeneratedLinks) {
               for (const link of expected.pluginGeneratedLinks) {
-                assert.isTrue(!!res.links.find(l => {
+                const linkMatch = res.links.find(l => {
                   return (l.url === link.url && l.name === link.text);
-                }));
+                });
+                assert.isTrue(!!linkMatch);
+
+                // External links should open in new tab.
+                if (link.url[0] !== '/') {
+                  assert.equal(linkMatch.target, '_blank');
+                } else {
+                  assert.isNotOk(linkMatch.target);
+                }
               }
             }
 

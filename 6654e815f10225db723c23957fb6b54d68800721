@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e16f0575_48c2754b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-19T09:21:44Z",
+      "side": 1,
+      "message": "True, let me amend this.",
+      "parentUuid": "dd8e8aa3_b71bd60d",
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "448439f3_aa854f0d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -42,6 +60,53 @@
     },
     {
       "key": {
+        "uuid": "48bef31e_c9e23697",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-19T09:21:44Z",
+      "side": 1,
+      "message": "For instance, filtering out the project if the exception isn\u0027t a critical one.\nFor the admin, knowing *exactly* why the project wasn\u0027t found, can help with the resolution.",
+      "parentUuid": "448439f3_aa854f0d",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53b5ff23_0abd8d6f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-19T09:21:44Z",
+      "side": 1,
+      "message": "+ or the project name is null.",
+      "range": {
+        "startLine": 45,
+        "startChar": 38,
+        "endLine": 45,
+        "endChar": 60
+      },
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c96c3c7d_640a6e09",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
         "patchSetId": 8
@@ -53,6 +118,24 @@
       "writtenOn": "2018-04-19T08:59:10Z",
       "side": 1,
       "message": "it also can returns when projectName is null (see the implementation)",
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a54b8f9c_e36e88e1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-19T09:21:44Z",
+      "side": 1,
+      "message": "True, it was missing on the others as well.\nLet me fix the descriptions in a separate change, because  the javadocs of the other methods is incomplete as well.",
+      "parentUuid": "c96c3c7d_640a6e09",
       "revId": "6654e815f10225db723c23957fb6b54d68800721",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -93,6 +176,54 @@
       "writtenOn": "2018-04-19T08:59:10Z",
       "side": 1,
       "message": "Why java.util.concurrent.ExecutionException? The ProjectCache interface shouldn\u0027t\nleak implementation details unnecessarily.",
+      "range": {
+        "startLine": 56,
+        "startChar": 71,
+        "endLine": 56,
+        "endChar": 89
+      },
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32dc6695_67496e04",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-19T09:21:44Z",
+      "side": 1,
+      "message": "I know *BUT* that would be a much bigger refactoring and more risky because the checkedGet is used everywhere.\n\nuncheckedGet()?",
+      "parentUuid": "adfd0260_0ec935a8",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 34
+      },
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "970cb26c_be9137ac",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-19T09:21:44Z",
+      "side": 1,
+      "message": "It can be potentially any exception: what about Exception then?",
+      "parentUuid": "571857f6_57ed5a85",
       "range": {
         "startLine": 56,
         "startChar": 71,

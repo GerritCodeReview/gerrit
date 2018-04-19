@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "77d2a9ff_a3924642",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T11:14:12Z",
+      "side": 1,
+      "message": "If someone saves the migrated config from the UI, it will be of course be migrated. But not when submitting or pushing the old format to refs/meta/config. I don\u0027t like the thought of something else being submitted than what you reviewed. So yes. Read only in that sense.",
+      "parentUuid": "6106d546_2532f7b5",
+      "revId": "69d039a34bbefcb1cee0eabb7ef5a103c60f3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f55443c8_95e9aceb",
         "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
         "patchSetId": 9
@@ -53,6 +71,24 @@
         "endLine": 737,
         "endChar": 64
       },
+      "revId": "69d039a34bbefcb1cee0eabb7ef5a103c60f3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55692a7e_9d1f41a7",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T11:14:12Z",
+      "side": 1,
+      "message": "Yes. Certainly.",
+      "parentUuid": "f55443c8_95e9aceb",
       "revId": "69d039a34bbefcb1cee0eabb7ef5a103c60f3e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

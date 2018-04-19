@@ -178,20 +178,34 @@ limitations under the License.
           <gr-account-label
               account="[[author]]"
               hide-avatar></gr-account-label>
-          <template is="dom-repeat" items="[[_getScores(message)]]" as="score">
-            <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
-              [[score.label]] [[score.value]]
-            </span>
+          <template is="dom-if" if="[[_successfulParse]]">
+            <template is="dom-if" if="[[_parsedVotes.length]]">voted</template>
+            <template is="dom-repeat" items="[[_parsedVotes]]" as="score">
+              <span class$="score [[_computeScoreClass(score, labelExtremes)]]">
+                [[score.label]] [[score.value]]
+              </span>
+            </template>
+            [[_computeConversationalString(_parsedVotes, _parsedPatchNum, _parsedCommentCount)]]
           </template>
         </div>
         <template is="dom-if" if="[[message.message]]">
           <div class="content">
-            <div class="message hideOnOpen">[[message.message]]</div>
-            <gr-formatted-text
-                no-trailing-margin
-                class="message hideOnCollapsed"
-                content="[[message.message]]"
-                config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
+            <template is="dom-if" if="[[_successfulParse]]">
+              <div class="message hideOnOpen">[[_parsedChangeMessage]]</div>
+              <gr-formatted-text
+                  no-trailing-margin
+                  class="message hideOnCollapsed"
+                  content="[[_parsedChangeMessage]]"
+                  config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
+            </template>
+            <template is="dom-if" if="[[!_successfulParse]]">
+              <div class="message hideOnOpen">[[message.message]]</div>
+                <gr-formatted-text
+                    no-trailing-margin
+                    class="message hideOnCollapsed"
+                    content="[[message.message]]"
+                    config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
+            </template>
             <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
               <gr-button link small on-tap="_handleReplyTap">Reply</gr-button>
             </div>

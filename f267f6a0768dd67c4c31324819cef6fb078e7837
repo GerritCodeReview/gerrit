@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "51448321_ba4587c6",
+        "filename": "Documentation/cmd-reload-config.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-19T09:34:47Z",
+      "side": 1,
+      "message": "As discussed in person: it would help to describe the output of this command\nincluding also some corner cases like when an option is set to its default value.",
+      "revId": "f267f6a0768dd67c4c31324819cef6fb078e7837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43192118_0b0605ff",
         "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
         "patchSetId": 11

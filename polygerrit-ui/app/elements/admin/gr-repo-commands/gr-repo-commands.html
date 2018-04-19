@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
+<link rel="import" href="../../../styles/gr-subpage-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
@@ -30,20 +31,8 @@ limitations under the License.
 
 <dom-module id="gr-repo-commands">
   <template>
-    <style include="shared-styles">
-      main {
-        margin: 2em 1em;
-      }
-      .loading {
-        display: none;
-      }
-      #loading.loading {
-        display: block;
-      }
-      #loading:not(.loading) {
-        display: none;
-      }
-    </style>
+    <style include="shared-styles"></style>
+    <style include="gr-subpage-styles"></style>
     <style include="gr-form-styles"></style>
     <main class="gr-form-styles read-only">
       <h1 id="Title">Repository Commands</h1>

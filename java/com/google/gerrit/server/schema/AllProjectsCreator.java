@@ -162,13 +162,12 @@ public class AllProjectsCreator {
       AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
       AccessSection tags = config.getAccessSection("refs/tags/*", true);
       AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
-      AccessSection refsFor = config.getAccessSection("refs/for/*", true);
       AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
       grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
       grant(config, all, Permission.READ, admin, anonymous);
       grant(config, all, Permission.CREATE_REVIEW, registered);
-      grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
+      grant(config, all, Permission.ADD_PATCH_SET, registered);
 
       if (batch != null) {
         Permission priority = cap.getPermission(GlobalCapability.PRIORITY, true);

@@ -46,6 +46,30 @@
       "revId": "89d2bf2b9553d4ea3d6bc9d117e4abf56dcaaf9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "632872df_1da820be",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T13:37:04Z",
+      "side": 1,
+      "message": "Naturally I tried it before suggesting it, and it does add the border back, even if it\u0027s doubled.\n\nMaybe the commit message or the comment can explain how (hitherto unmentioned) `sticky` is involved? IMO the description here doesn\u0027t really help clarify why it\u0027s needed.",
+      "parentUuid": "fbfa6b01_7e097cfe",
+      "range": {
+        "startLine": 31,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "89d2bf2b9553d4ea3d6bc9d117e4abf56dcaaf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

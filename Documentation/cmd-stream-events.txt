@@ -264,7 +264,7 @@ created.
 
 === Work In Progress State Changed
 
-Sent when the the link:intro-user.html#wip[WIP] state of the change has changed.
+Sent when the link:intro-user.html#wip[WIP] state of the change has changed.
 
 type:: wip-state-changed
 
@@ -277,7 +277,7 @@ created.
 
 === Private State Changed
 
-Sent when the the link:intro-user.html#private-changes[private] state of the
+Sent when the link:intro-user.html#private-changes[private] state of the
 change has changed.
 
 type:: private-state-changed

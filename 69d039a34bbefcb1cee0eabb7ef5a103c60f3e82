@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6106d546_2532f7b5",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T10:24:12Z",
+      "side": 1,
+      "message": "So IIUC, this will always migrate the old permissions in-memory when reading an old config. But it will only *write* the new config back to project.config the next time it is updated. This is good for Google, so our read-only jobs don\u0027t inadvertently write. But it does mean that projects that are stable and don\u0027t get their permissions changed will contain the old permissions for a potentially long time. I think that\u0027s ok.",
+      "revId": "69d039a34bbefcb1cee0eabb7ef5a103c60f3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f55443c8_95e9aceb",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T10:24:12Z",
+      "side": 1,
+      "message": "This presumably means if someone does something crazy like \"^ref[s]/.*\", they won\u0027t get migrated. I\u0027m ok with that if you are :)",
+      "revId": "69d039a34bbefcb1cee0eabb7ef5a103c60f3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19e73366_2674e0e9",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T10:24:12Z",
+      "side": 1,
+      "message": "equals?",
+      "range": {
+        "startLine": 737,
+        "startChar": 54,
+        "endLine": 737,
+        "endChar": 64
+      },
+      "revId": "69d039a34bbefcb1cee0eabb7ef5a103c60f3e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

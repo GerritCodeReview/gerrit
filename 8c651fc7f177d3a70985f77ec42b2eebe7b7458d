@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c4481b1_b8b80660",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T12:22:53Z",
+      "side": 1,
+      "message": "I think it may be worth also adding the description from the reload documentation:\n\nNot all configuration value can be picked up by this command. Which config\nsections and values that are supported is documented here:\nlink:config-gerrit.html[Configuration]\n\n_The output shows only modified config values that are picked up by Gerrit\nand applied._\n\nIf a config entry is added or removed from gerrit.config, but still brings\nno effect due to a matching default value, no output for this entry is shown.",
+      "revId": "8c651fc7f177d3a70985f77ec42b2eebe7b7458d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e1f291c_20f5f032",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T12:22:53Z",
+      "side": 1,
+      "message": "\"Gerrit generally follows the Google Java Style Guide.\"\n\nhttps://google.github.io/styleguide/javaguide.html#s4.1-braces\n\n\"Braces are used with if, else, for, do and while statements, even when the body is empty or contains only a single statement.\"",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "8c651fc7f177d3a70985f77ec42b2eebe7b7458d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

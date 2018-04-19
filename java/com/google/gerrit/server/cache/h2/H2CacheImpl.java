@@ -261,13 +261,21 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize, long expireAfterWrite) {
       this.url = jdbcUrl;
-      this.keyType = KeyTypeImpl.create(keyType);
+      this.keyType = createKeyType(keyType);
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
       this.handles = new ArrayBlockingQueue<>(keep);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> KeyType<T> createKeyType(TypeLiteral<T> type) {
+      if (type.getRawType() == String.class) {
+        return (KeyType<T>) StringKeyTypeImpl.INSTANCE;
+      }
+      return (KeyType<T>) ObjectKeyTypeImpl.INSTANCE;
     }
 
     synchronized void open() {

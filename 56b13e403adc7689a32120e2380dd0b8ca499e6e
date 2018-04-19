@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ed6ba4de_2e96e0e9",
+        "filename": "java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T14:03:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5f6741f_0400946c",
+      "range": {
+        "startLine": 322,
+        "startChar": 14,
+        "endLine": 322,
+        "endChar": 29
+      },
+      "revId": "56b13e403adc7689a32120e2380dd0b8ca499e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67ea60de_f370b9d5",
         "filename": "java/com/google/gerrit/sshd/SshLog.java",
         "patchSetId": 18
@@ -36,6 +60,24 @@
       "writtenOn": "2018-04-19T13:54:12Z",
       "side": 1,
       "message": "enable/disableLogging methods already synchronize on the lock.\nDo we need to synchronize here too?",
+      "revId": "56b13e403adc7689a32120e2380dd0b8ca499e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2449ecbf_f767e07b",
+        "filename": "java/com/google/gerrit/sshd/SshLog.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T14:03:15Z",
+      "side": 1,
+      "message": "No. I was overly cautious with stateUpdated.",
+      "parentUuid": "67ea60de_f370b9d5",
       "revId": "56b13e403adc7689a32120e2380dd0b8ca499e6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

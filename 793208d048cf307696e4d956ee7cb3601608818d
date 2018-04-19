@@ -50,6 +50,29 @@
       "revId": "793208d048cf307696e4d956ee7cb3601608818d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aba3e2f_4799b224",
+        "filename": "java/com/google/gerrit/server/cache/h2/ProtoEntryTypeImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T14:45:26Z",
+      "side": 1,
+      "message": "There was also some discussion of using the text representation here.",
+      "range": {
+        "startLine": 58,
+        "startChar": 34,
+        "endLine": 58,
+        "endChar": 46
+      },
+      "revId": "793208d048cf307696e4d956ee7cb3601608818d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

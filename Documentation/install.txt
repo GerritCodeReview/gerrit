@@ -172,6 +172,18 @@ To install Gerrit into an existing servlet container instead of using
 the embedded Jetty server, see
 link:install-j2ee.html[J2EE installation].
 
+[[troubleshooting]]
+== Troubleshooting java in verbose mode
+
+In some situations Gerrit does not start and the only message you see is:
+---
+  Starting Gerrit Code Review:FAILED
+---
+To see what is happening there is a switch `--verbose` available.
+
+While using this switch Gerrit will output stdout and stderr to the console
+which should help with problem diagnosis.
+
 [[installation_on_windows]]
 == Installation on Windows
 

@@ -28,8 +28,11 @@ import com.google.common.hash.PrimitiveSink;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.TypeLiteral;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InvalidClassException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
@@ -429,7 +432,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
 
           @SuppressWarnings("unchecked")
-          V val = (V) r.getObject(1);
+          V val = (V) deserialize(r.getBytes(1));
           ValueHolder<V> h = new ValueHolder<>(val);
           h.clean = true;
           hitCount.incrementAndGet();
@@ -438,7 +441,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         } finally {
           c.get.clearParameters();
         }
-      } catch (SQLException e) {
+      } catch (SQLException | IOException | ClassNotFoundException e) {
         if (!isOldClassNameError(e)) {
           log.warn("Cannot read cache " + url + " for " + key, e);
         }
@@ -446,6 +449,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         return null;
       } finally {
         release(c);
+      }
+    }
+
+    private static Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
+      try (ByteArrayInputStream bin = new ByteArrayInputStream(bytes);
+          ObjectInputStream oin = new ObjectInputStream(bin)) {
+        return oin.readObject();
       }
     }
 
@@ -499,7 +509,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
         try {
           keyType.set(c.put, 1, key);
-          c.put.setObject(2, holder.value, Types.JAVA_OBJECT);
+          c.put.setBytes(2, serialize(holder.value));
           c.put.setTimestamp(3, new Timestamp(holder.created));
           c.put.setTimestamp(4, TimeUtil.nowTs());
           c.put.executeUpdate();
@@ -507,11 +517,20 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         } finally {
           c.put.clearParameters();
         }
-      } catch (SQLException e) {
+      } catch (SQLException | IOException e) {
         log.warn("Cannot put into cache " + url, e);
         c = close(c);
       } finally {
         release(c);
+      }
+    }
+
+    private static byte[] serialize(Object value) throws IOException {
+      try (ByteArrayOutputStream bout = new ByteArrayOutputStream();
+          ObjectOutputStream oout = new ObjectOutputStream(bout)) {
+        oout.writeObject(value);
+        oout.flush();
+        return bout.toByteArray();
       }
     }
 

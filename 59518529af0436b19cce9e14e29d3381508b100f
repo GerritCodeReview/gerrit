@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00ddaec3_623dbe63",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2422,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-19T20:50:55Z",
+      "side": 1,
+      "message": "Maybe provide an example DELETE request here.",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "563a02e0_1eb82b66",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6075,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-19T20:50:55Z",
+      "side": 1,
+      "message": "This should be moved up a bit to keep the entity sections sorted alphabetically.",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f935906b_6e1f4def",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6080,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-19T20:50:55Z",
+      "side": 1,
+      "message": "The description of the uuid field seems to be missing.",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "045f3d4b_85bcf2fb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6088,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-19T20:50:55Z",
+      "side": 1,
+      "message": "nit: one blank line too much",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59af8bba_9c6363a5",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-19T20:50:55Z",
+      "side": 1,
+      "message": "maybe: getChangeMetaCommits\n\nsame for the method below",
+      "range": {
+        "startLine": 1681,
+        "startChar": 28,
+        "endLine": 1681,
+        "endChar": 38
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fca4ada_dbd067c4",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-19T20:50:55Z",
+      "side": 1,
+      "message": "Should the change message in ReviewDb also be updated if NoteDb is the primary storage? I guess this code should only be skipped if ReviewDb is disabled?",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 5
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6704f808_703ce99c",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-19T20:50:55Z",
+      "side": 1,
+      "message": "Is not thrown by the method.",
+      "range": {
+        "startLine": 129,
+        "startChar": 13,
+        "endLine": 129,
+        "endChar": 35
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

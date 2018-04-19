@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d8d9876a_64a306d9",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigProvider.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T11:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fa4ffb2_2911492d",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 34
+      },
+      "revId": "c3ea5e6dcb2133b78142aef47a85747702cc3759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55e8c0af_0f69fbf4",
         "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
         "patchSetId": 12
@@ -39,6 +63,24 @@
       "revId": "c3ea5e6dcb2133b78142aef47a85747702cc3759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf1c7be7_d051f4e8",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T11:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55e8c0af_0f69fbf4",
+      "revId": "c3ea5e6dcb2133b78142aef47a85747702cc3759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "c3ea5e6dcb2133b78142aef47a85747702cc3759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d347a837_d53ae31d",
+        "filename": "java/com/google/gerrit/server/config/GerritServerConfigReloader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T11:22:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38a5ea07_a36dd2c4",
+      "range": {
+        "startLine": 49,
+        "startChar": 69,
+        "endLine": 49,
+        "endChar": 80
+      },
+      "revId": "c3ea5e6dcb2133b78142aef47a85747702cc3759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

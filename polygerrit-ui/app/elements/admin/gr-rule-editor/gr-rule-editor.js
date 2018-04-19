@@ -36,11 +36,11 @@
 
   const FORCE_PUSH_OPTIONS = [
     {
-      name: 'No Force Push',
+      name: 'Block all pushes, block force push only',
       value: false,
     },
     {
-      name: 'Force Push',
+      name: 'Allow fast-forward only push, allow all pushes',
       value: true,
     },
   ];

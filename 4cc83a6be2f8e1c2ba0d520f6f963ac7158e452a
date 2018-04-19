@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06798f89_c447d4c7",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-19T09:01:41Z",
+      "side": 1,
+      "message": "Can be a one-liner. link \u003d\u003e link.viewableToAll",
+      "range": {
+        "startLine": 65,
+        "startChar": 49,
+        "endLine": 67,
+        "endChar": 9
+      },
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c883ffd_59b81368",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-19T09:01:41Z",
+      "side": 1,
+      "message": "Remove?",
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

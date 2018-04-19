@@ -16,6 +16,24 @@
       "revId": "c510c42853bc3598a152a91b37e42c14b323b49e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "128bafdd_a94df883",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T07:10:55Z",
+      "side": 1,
+      "message": "Do you mean is this indentation canonical go code style? If so, then yes, this is what the `go fmt` tool outputs.",
+      "parentUuid": "1326fd62_4a743c4d",
+      "revId": "c510c42853bc3598a152a91b37e42c14b323b49e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

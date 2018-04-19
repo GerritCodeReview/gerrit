@@ -95,6 +95,7 @@ limitations under the License.
               for (const link of expected.pluginGeneratedLinks) {
                 assert.isTrue(!!res.links.find(l => {
                   return (l.url === link.url && l.name === link.text);
+                  assert.equal(l.target, '_blank');
                 }));
               }
             }

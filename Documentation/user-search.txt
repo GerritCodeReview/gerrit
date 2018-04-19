@@ -108,9 +108,7 @@ Changes originally submitted by 'USER'. The special case of
 [[ownerin]]
 ownerin:'GROUP'::
 +
-Changes originally submitted by a user in 'GROUP'. When no other index
-predicate is explicitly added in the query, defaults to only include
-changes in status 'OPEN'.
+Changes originally submitted by a user in 'GROUP'.
 
 [[query]]
 query:'NAME'::
@@ -139,9 +137,7 @@ Changes that revert the change specified by the numeric 'ID'.
 [[reviewerin]]
 reviewerin:'GROUP'::
 +
-Changes that have been, or need to be, reviewed by a user in 'GROUP'. When
-no other index predicate is explicitly added in the query, defaults to only
-include changes in status 'OPEN'.
+Changes that have been, or need to be, reviewed by a user in 'GROUP'.
 
 [[commit]]
 commit:'SHA1'::

@@ -49,6 +49,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   private static final Logger log = LoggerFactory.getLogger(AccountQueryBuilder.class);
 
   public static final String FIELD_ACCOUNT = "account";
+  public static final String FIELD_CAN_SEE = "cansee";
   public static final String FIELD_EMAIL = "email";
   public static final String FIELD_LIMIT = "limit";
   public static final String FIELD_NAME = "name";

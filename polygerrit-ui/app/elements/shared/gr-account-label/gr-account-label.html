@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../gr-avatar/gr-avatar.html">
+<link rel="import" href="../gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-account-label">
@@ -63,7 +64,7 @@ limitations under the License.
           [[_computeEmailStr(account)]]
         </span>
         <template is="dom-if" if="[[account.status]]">
-          <span>([[account.status]])</span>
+          (<gr-limited-text limit="20" text="[[account.status]]"></gr-limited-text>)
         </template>
       </span>
     </span>

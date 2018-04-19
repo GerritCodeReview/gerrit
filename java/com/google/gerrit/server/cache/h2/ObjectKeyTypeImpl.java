@@ -24,8 +24,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-class ObjectKeyTypeImpl<K> implements EntryType<K> {
-  static final EntryType<?> INSTANCE = new ObjectKeyTypeImpl<>();
+class ObjectKeyTypeImpl<K> implements EntryType<K, Object> {
+  static final EntryType<?, ?> INSTANCE = new ObjectKeyTypeImpl<>();
 
   @Override
   public String keyColumnType() {
@@ -58,5 +58,15 @@ class ObjectKeyTypeImpl<K> implements EntryType<K> {
         }
       }
     };
+  }
+
+  @Override
+  public Object getValue(ResultSet rs, int col) throws SQLException {
+    return rs.getObject(col);
+  }
+
+  @Override
+  public void setValue(PreparedStatement ps, int col, Object value) throws SQLException {
+    ps.setObject(col, value, Types.JAVA_OBJECT);
   }
 }

@@ -19,9 +19,10 @@ import com.google.common.hash.Funnels;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
-class StringKeyTypeImpl implements EntryType<String> {
-  static final EntryType<String> INSTANCE = new StringKeyTypeImpl();
+class StringKeyTypeImpl implements EntryType<String, Object> {
+  static final EntryType<String, ?> INSTANCE = new StringKeyTypeImpl();
 
   private StringKeyTypeImpl() {}
 
@@ -45,5 +46,15 @@ class StringKeyTypeImpl implements EntryType<String> {
   public Funnel<String> keyFunnel() {
     Funnel<?> s = Funnels.unencodedCharsFunnel();
     return (Funnel<String>) s;
+  }
+
+  @Override
+  public Object getValue(ResultSet rs, int col) throws SQLException {
+    return rs.getObject(col);
+  }
+
+  @Override
+  public void setValue(PreparedStatement ps, int col, Object value) throws SQLException {
+    ps.setObject(col, value, Types.JAVA_OBJECT);
   }
 }

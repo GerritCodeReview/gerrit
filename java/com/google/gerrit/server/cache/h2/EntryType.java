@@ -20,13 +20,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-interface EntryType<K> {
+interface EntryType<K, V> {
   @SuppressWarnings("unchecked")
-  static <K> EntryType<K> create(TypeLiteral<K> type) {
-    if (type.getRawType() == String.class) {
-      return (EntryType<K>) StringKeyTypeImpl.INSTANCE;
+  static <K, V> EntryType<K, V> createObjectValueType(TypeLiteral<K> keyType) {
+    if (keyType.getRawType() == String.class) {
+      return (EntryType<K, V>) StringKeyTypeImpl.INSTANCE;
     }
-    return (EntryType<K>) ObjectKeyTypeImpl.INSTANCE;
+    return (EntryType<K, V>) ObjectKeyTypeImpl.INSTANCE;
   }
 
   String keyColumnType();
@@ -36,4 +36,8 @@ interface EntryType<K> {
   void setKey(PreparedStatement ps, int col, K key) throws SQLException;
 
   Funnel<K> keyFunnel();
+
+  V getValue(ResultSet rs, int col) throws SQLException;
+
+  void setValue(PreparedStatement ps, int col, V value) throws SQLException;
 }

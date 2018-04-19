@@ -22,12 +22,10 @@ import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.BloomFilter;
-import com.google.common.hash.PrimitiveSink;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.TypeLiteral;
 import java.io.InvalidClassException;
-import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -263,13 +261,21 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize, long expireAfterWrite) {
       this.url = jdbcUrl;
-      this.keyType = KeyTypeImpl.create(keyType);
+      this.keyType = createKeyType(keyType);
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
       this.handles = new ArrayBlockingQueue<>(keep);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> KeyType<T> createKeyType(TypeLiteral<T> type) {
+      if (type.getRawType() == String.class) {
+        return (KeyType<T>) StringKeyTypeImpl.INSTANCE;
+      }
+      return (KeyType<T>) ObjectKeyTypeImpl.INSTANCE;
     }
 
     synchronized void open() {
@@ -623,24 +629,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
       }
       return null;
-    }
-  }
-
-  static class SinkOutputStream extends OutputStream {
-    private final PrimitiveSink sink;
-
-    SinkOutputStream(PrimitiveSink sink) {
-      this.sink = sink;
-    }
-
-    @Override
-    public void write(int b) {
-      sink.putByte((byte) b);
-    }
-
-    @Override
-    public void write(byte[] b, int p, int n) {
-      sink.putBytes(b, p, n);
     }
   }
 }

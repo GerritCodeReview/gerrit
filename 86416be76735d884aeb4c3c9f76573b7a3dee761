@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "683bef38_52ee5489",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-19T11:49:01Z",
+      "side": 1,
+      "message": "Needs a space next to : please\n\nBut also this should probaly be\nres.expandedSection \u0026\u0026 res.expandedSection.name ? res.expandedSection.name : ‘’\n\nOtherwise res.expandedSection.name may return undefined.",
+      "revId": "86416be76735d884aeb4c3c9f76573b7a3dee761",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d7f6f510_cd7271a4",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 9

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_GROUPS;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS;
 import static java.util.stream.Collectors.toSet;
 
@@ -24,13 +25,16 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.RefState;
 import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RefPatternMatcher;
 import com.google.inject.Inject;
@@ -88,6 +92,8 @@ public class ProjectResetter implements AutoCloseable {
     @Nullable private final AccountCreator accountCreator;
     @Nullable private final AccountCache accountCache;
     @Nullable private final AccountIndexer accountIndexer;
+    @Nullable private final GroupCache groupCache;
+    @Nullable private final GroupIndexer groupIndexer;
     @Nullable private final ProjectCache projectCache;
 
     @Inject
@@ -97,12 +103,16 @@ public class ProjectResetter implements AutoCloseable {
         @Nullable AccountCreator accountCreator,
         @Nullable AccountCache accountCache,
         @Nullable AccountIndexer accountIndexer,
+        @Nullable GroupCache groupCache,
+        @Nullable GroupIndexer groupIndexer,
         @Nullable ProjectCache projectCache) {
       this.repoManager = repoManager;
       this.allUsersName = allUsersName;
       this.accountCreator = accountCreator;
       this.accountCache = accountCache;
       this.accountIndexer = accountIndexer;
+      this.groupCache = groupCache;
+      this.groupIndexer = groupIndexer;
       this.projectCache = projectCache;
     }
 
@@ -113,6 +123,8 @@ public class ProjectResetter implements AutoCloseable {
           accountCreator,
           accountCache,
           accountIndexer,
+          groupCache,
+          groupIndexer,
           projectCache,
           input.refsByProject);
     }
@@ -139,6 +151,8 @@ public class ProjectResetter implements AutoCloseable {
   @Inject private AllUsersName allUsersName;
   @Inject @Nullable private AccountCreator accountCreator;
   @Inject @Nullable private AccountCache accountCache;
+  @Inject @Nullable private GroupCache groupCache;
+  @Inject @Nullable private GroupIndexer groupIndexer;
   @Inject @Nullable private AccountIndexer accountIndexer;
   @Inject @Nullable private ProjectCache projectCache;
 
@@ -155,6 +169,8 @@ public class ProjectResetter implements AutoCloseable {
       @Nullable AccountCreator accountCreator,
       @Nullable AccountCache accountCache,
       @Nullable AccountIndexer accountIndexer,
+      @Nullable GroupCache groupCache,
+      @Nullable GroupIndexer groupIndexer,
       @Nullable ProjectCache projectCache,
       Multimap<Project.NameKey, String> refPatternByProject)
       throws IOException {
@@ -163,6 +179,8 @@ public class ProjectResetter implements AutoCloseable {
     this.accountCreator = accountCreator;
     this.accountCache = accountCache;
     this.accountIndexer = accountIndexer;
+    this.groupCache = groupCache;
+    this.groupIndexer = groupIndexer;
     this.projectCache = projectCache;
     this.refsPatternByProject = refPatternByProject;
     this.savedRefStatesByProject = readRefStates();
@@ -265,8 +283,8 @@ public class ProjectResetter implements AutoCloseable {
   private void evictCachesAndReindex() throws IOException {
     evictAndReindexProjects();
     evictAndReindexAccounts();
+    evictAndReindexGroups();
 
-    // TODO(ekempin): Evict groups from cache if group refs were modified.
     // TODO(ekempin): Reindex changes if starred-changes refs in All-Users were modified.
   }
 
@@ -329,6 +347,19 @@ public class ProjectResetter implements AutoCloseable {
     }
   }
 
+  /** Evict accounts that were modified. */
+  private void evictAndReindexGroups() throws IOException {
+    if (groupCache != null || groupIndexer != null) {
+      Set<AccountGroup.UUID> modifiedGroups =
+          new HashSet<>(groupUUIDs(restoredRefsByProject.get(allUsersName)));
+
+      // Evict and reindex all modified and deleted accounts.
+      for (AccountGroup.UUID uuid : modifiedGroups) {
+        evictAndReindexGroup(uuid);
+      }
+    }
+  }
+
   private void evictAndReindexAccount(Account.Id accountId) throws IOException {
     if (accountCache != null) {
       accountCache.evict(accountId);
@@ -339,10 +370,28 @@ public class ProjectResetter implements AutoCloseable {
     }
   }
 
+  private void evictAndReindexGroup(AccountGroup.UUID uuid) throws IOException {
+    if (groupCache != null) {
+      groupCache.evict(uuid);
+    }
+
+    if (groupIndexer != null) {
+      groupIndexer.index(uuid);
+    }
+  }
+
   private Set<Account.Id> accountIds(Collection<String> refs) {
     return refs.stream()
         .filter(r -> r.startsWith(REFS_USERS))
         .map(r -> Account.Id.fromRef(r))
+        .filter(Objects::nonNull)
+        .collect(toSet());
+  }
+
+  private Set<AccountGroup.UUID> groupUUIDs(Collection<String> refs) {
+    return refs.stream()
+        .filter(r -> r.startsWith(REFS_GROUPS))
+        .map(r -> AccountGroup.UUID.fromRef(r))
         .filter(Objects::nonNull)
         .collect(toSet());
   }

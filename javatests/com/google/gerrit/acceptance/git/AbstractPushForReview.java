@@ -2246,4 +2246,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Util.allow(config, Permission.PUSH_MERGE, groupUuid, "refs/for/" + ref);
     saveProjectConfig(project, config);
   }
+
+  private PushOneCommit.Result amendChange(String changeId, String ref) throws Exception {
+    return amendChange(changeId, ref, admin, testRepo);
+  }
 }

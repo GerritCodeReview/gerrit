@@ -36,6 +36,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -525,7 +526,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void submitWorkInProgressChange() throws Exception {
-    PushOneCommit.Result change = createWorkInProgressChange();
+    PushOneCommit.Result change = pushTo("refs/for/master%wip");
     Change.Id num = change.getChange().getId();
     submitWithConflict(
         change.getChangeId(),
@@ -1303,5 +1304,20 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       fmt.flush();
       return out.toString();
     }
+  }
+
+  protected TestRepository<?> createProjectWithPush(
+      String name, @Nullable Project.NameKey parent, SubmitType submitType) throws Exception {
+    Project.NameKey project = createProject(name, parent, true, submitType);
+    grant(project, "refs/heads/*", Permission.PUSH);
+    grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
+    return cloneProject(project);
+  }
+
+  protected PushOneCommit.Result createChange(
+      String subject, String fileName, String content, String topic) throws Exception {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
+    return push.to("refs/for/master/" + name(topic));
   }
 }

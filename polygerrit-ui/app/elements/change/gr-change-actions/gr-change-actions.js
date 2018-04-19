@@ -1090,6 +1090,9 @@
       this.$.overlay.open().then(() => {
         if (dialog.resetFocus) {
           dialog.resetFocus();
+        } else {
+          // Focus on the confirm button, if it exists.
+          if (dialog.$.confirm) { dialog.$.confirm.focus(); }
         }
       });
     },

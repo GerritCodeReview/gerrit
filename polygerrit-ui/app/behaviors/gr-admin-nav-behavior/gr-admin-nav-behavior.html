@@ -91,13 +91,16 @@ limitations under the License.
       let links = ADMIN_LINKS.slice(0);
       let expandedSection;
 
+      const isExernalLink = link => link.url[0] !== '/';
+
       // Append top-level links that are defined by plugins.
       links.push(...getAdminMenuLinks().map(link => ({
         url: link.url,
         name: link.text,
-        noBaseUrl: link.url[0] === '/',
+        noBaseUrl: !isExernalLink(link),
         view: null,
         viewableToAll: true,
+        target: isExernalLink(link) ? '_blank' : null,
       })));
 
       links = links.filter(filterFn);

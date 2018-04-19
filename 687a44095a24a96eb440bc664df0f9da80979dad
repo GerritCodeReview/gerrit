@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "380715e3_94f2c319",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "Looks like this repeats some of the styles from the change metadata component. Do you think we could shrink this component to only have the stuff inside ..\n\n \u003cspan class\u003d\"value\"\u003e\n\n.. and remove the things related to the section and the title? That way this component won\u0027t need to worry about formatting the title etc. consistently.",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 40,
+        "endChar": 7
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8061a5ac_f267294c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "Nitpick: We\u0027re not 100% consistent about it in PG, but class names should be camelCased.\n\n notReady",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 16
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693e511e_375f3305",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "For consistency with the label column in the change list, this color should be\n\n #D32F2F",
+      "range": {
+        "startLine": 47,
+        "startChar": 15,
+        "endLine": 47,
+        "endChar": 22
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a9af779_b533c7a4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "Optional naming nitpick: these two status classes are .ok / .not_ready but they\u0027re mutually exclusive, so what if they\u0027re named something like ..\n\n .ok / .notOk\n\n.. ?\n\nAlternatively, maybe\n* .ready / .notReady\n* .ready / .unready\n* .satisfied / .notSatisfied\n* .satisfied / .unsatisfied\n\nWhat do you think?",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 9
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eacc7385_f372b270",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "Also for consistency, this should be\n\n #388E3C",
+      "range": {
+        "startLine": 50,
+        "startChar": 15,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28457c9e_748490d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "Because this checks for whether there are any labels (whether they\u0027re approved or not) won\u0027t this always evaluate to true? Can this dom-if be removed?",
+      "range": {
+        "startLine": 80,
+        "startChar": 32,
+        "endLine": 80,
+        "endChar": 49
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "450905f6_e59f4f37",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "Would like a new test file for this component.\n\n gr-change-requirements_test.html",
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58330a0d_1da2d597",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "I think this should be `labels`, otherwise the section doesn\u0027t appear at all.",
+      "range": {
+        "startLine": 83,
+        "startChar": 36,
+        "endLine": 83,
+        "endChar": 48
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36ab9b20_87082a88",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "There are 3 locations where the status is mapped to a ✓ or an ✕ (well... 2½).\n\nI\u0027d much prefer we let this function take a boolean for the status item is \"okay\" (whether it\u0027s a requirement, label or WIP). That way we only have one location that maps \"okay\" to one of these two symbols.",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 29
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e52e3b18_0e38a68d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 1,
+      "message": "For consistency with label columns on the the change list, these should be\n\n \u0027✓\u0027 : \u0027✕\u0027",
+      "range": {
+        "startLine": 88,
+        "startChar": 42,
+        "endLine": 88,
+        "endChar": 51
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

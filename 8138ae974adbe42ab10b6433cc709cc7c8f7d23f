@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "560744db_3fc4da2c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T08:25:58Z",
+      "side": 0,
+      "message": "I think we should still use this to prevent the status section from appearing in merged changes.",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 8
+      },
+      "revId": "8138ae974adbe42ab10b6433cc709cc7c8f7d23f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

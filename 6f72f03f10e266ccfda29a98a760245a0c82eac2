@@ -22,6 +22,30 @@
       "revId": "6f72f03f10e266ccfda29a98a760245a0c82eac2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b6653e8_498af7b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-19T08:04:58Z",
+      "side": 0,
+      "message": "I actually removed that, as it doesn\u0027t match with the styling for the rest of our dropdowns. I should add more information in the commit message about that, though.",
+      "parentUuid": "c6533af8_94f02f37",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 30
+      },
+      "revId": "6f72f03f10e266ccfda29a98a760245a0c82eac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

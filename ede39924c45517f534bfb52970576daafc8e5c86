@@ -22,6 +22,30 @@
       "revId": "ede39924c45517f534bfb52970576daafc8e5c86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a02389e5_97c6792b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-19T08:04:58Z",
+      "side": 1,
+      "message": "That doesn\u0027t work, as all of the newly styled elements in this file don\u0027t have color: inherit -- they all are elements like \u003ca\u003e or \u003cgr-button\u003e that define their own styles.",
+      "parentUuid": "3ea37744_3f05caed",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "ede39924c45517f534bfb52970576daafc8e5c86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

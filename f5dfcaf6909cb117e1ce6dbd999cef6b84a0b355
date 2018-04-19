@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a20acb0_044eaf93",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-19T11:59:35Z",
+      "side": 1,
+      "message": "The method itself should also be @Nullable.",
+      "revId": "f5dfcaf6909cb117e1ce6dbd999cef6b84a0b355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaebe1e1_ca1aefb4",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-19T11:59:35Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "f5dfcaf6909cb117e1ce6dbd999cef6b84a0b355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

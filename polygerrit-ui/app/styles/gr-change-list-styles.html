@@ -28,9 +28,19 @@ limitations under the License.
       gr-change-list-item:focus {
         background-color: var(--selection-background-color);
       }
+      /* The border-collapse attribute only works on sibling elements, not
+        cousin elements. So, if we want the table to have a sticky header and
+        have borders between each row, we must disable the border-top on the
+        elements directly below a .topHeader. */
       .topHeader ~ gr-change-list-item:first-of-type,
       .topHeader + .groupHeader {
         border-top: none;
+      }
+      /* Needed to show a border on top of the first gr-change-list-item when a
+        groupHeader exists. Cannot use + selector because of dom-repeats
+        existing in the DOM tree. */
+      .topHeader ~ .groupHeader ~ gr-change-list-item {
+        border-top: 1px solid var(--border-color);
       }
       tbody {
         border-bottom: 1px solid var(--border-color);

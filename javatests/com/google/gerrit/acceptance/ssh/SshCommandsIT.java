@@ -54,6 +54,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "ls-projects",
           "ls-user-refs",
           "plugin",
+          "reload-config",
           "show-caches",
           "show-connections",
           "show-queue",

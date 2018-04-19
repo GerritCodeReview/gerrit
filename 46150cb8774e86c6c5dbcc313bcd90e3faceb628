@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "047c99aa_8ceb805e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-19T07:16:53Z",
+      "side": 1,
+      "message": "I would prefer if we could split these fixes into two separate commits, one for fixing the enum typo and one for fixing \"the the\" in documentation.",
+      "revId": "46150cb8774e86c6c5dbcc313bcd90e3faceb628",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

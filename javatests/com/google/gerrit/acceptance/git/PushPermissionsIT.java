@@ -21,7 +21,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import java.util.Arrays;
 import org.eclipse.jgit.transport.PushResult;
@@ -33,13 +32,12 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     // Remove all push-related permissions, so they can be added back individually by test methods.
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(allProjects)) {
-      ProjectConfig cfg = ProjectConfig.read(md);
-      removeAllBranchPermissions(cfg, Permission.PUSH);
-      removeAllBranchPermissions(cfg, Permission.CREATE);
-      removeAllBranchPermissions(cfg, Permission.DELETE);
-      removeAllBranchPermissions(cfg, Permission.PUSH_MERGE);
-      saveProjectConfig(allProjects, cfg);
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      removeAllBranchPermissions(u.getConfig(), Permission.PUSH);
+      removeAllBranchPermissions(u.getConfig(), Permission.CREATE);
+      removeAllBranchPermissions(u.getConfig(), Permission.DELETE);
+      removeAllBranchPermissions(u.getConfig(), Permission.PUSH_MERGE);
+      u.save();
     }
   }
 

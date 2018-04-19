@@ -29,7 +29,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.util.Providers;
 import java.util.Collection;
@@ -97,9 +96,7 @@ class RefControl {
 
   /** @return true if this user can add a new patch set to this ref */
   boolean canAddPatchSet() {
-    return projectControl
-        .controlForRef(MagicBranch.NEW_CHANGE + refName)
-        .canPerform(Permission.ADD_PATCH_SET);
+    return canPerform(Permission.ADD_PATCH_SET);
   }
 
   /** @return true if this user can rebase changes on this ref */

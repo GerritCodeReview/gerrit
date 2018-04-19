@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9127aaf1_af0e9853",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-19T11:59:39Z",
+      "side": 1,
+      "message": "Will need to use canonicalPath here were href is.",
+      "revId": "bbcd0e4a8586f08ad55eb019e816b9b148e94980",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

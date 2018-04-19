@@ -85,10 +85,10 @@ limitations under the License.
       nowStub.returns(3.123);
       element.timeEnd('foo');
       assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'foo', '3ms'
+          'timing-report', 'UI Latency', 'foo', 3.123
       ));
       assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'bar', '1ms'
+          'timing-report', 'UI Latency', 'bar', 1
       ));
     });
 
@@ -104,7 +104,7 @@ limitations under the License.
         sandbox.stub(element, 'now').returns(42);
         element.pluginsLoaded();
         assert.isTrue(element.defaultReporter.calledWithExactly(
-            'timing-report', 'UI Latency', 'PluginsLoaded', '42ms'
+            'timing-report', 'UI Latency', 'PluginsLoaded', 42
         ));
       });
 

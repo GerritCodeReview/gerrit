@@ -198,7 +198,7 @@
      */
     timeEnd(name) {
       const baseTime = this._baselines[name] || 0;
-      const time = Math.round(this.now() - baseTime) + 'ms';
+      const time = this.now() - baseTime;
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
       delete this._baselines[name];
     },

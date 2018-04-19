@@ -926,7 +926,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebaseNotAllowedWithoutPushPermission() throws Exception {
+  public void rebaseNotAllowedWithoutCreateReviewPermission() throws Exception {
     // Create two changes both with the same parent
     PushOneCommit.Result r = createChange();
     testRepo.reset("HEAD~1");
@@ -938,7 +938,7 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.submit();
 
     grant(project, "refs/heads/master", Permission.REBASE, false, REGISTERED_USERS);
-    block("refs/for/*", Permission.PUSH, REGISTERED_USERS);
+    block("refs/*", Permission.CREATE_REVIEW, REGISTERED_USERS);
 
     // Rebase the second
     String changeId = r2.getChangeId();
@@ -949,7 +949,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rebaseNotAllowedForOwnerWithoutPushPermission() throws Exception {
+  public void rebaseNotAllowedForOwnerWithoutCreateReviewPermission() throws Exception {
     // Create two changes both with the same parent
     PushOneCommit.Result r = createChange();
     testRepo.reset("HEAD~1");
@@ -960,7 +960,7 @@ public class ChangeIT extends AbstractDaemonTest {
     revision.review(ReviewInput.approve());
     revision.submit();
 
-    block("refs/for/*", Permission.PUSH, REGISTERED_USERS);
+    block("refs/*", Permission.CREATE_REVIEW, REGISTERED_USERS);
 
     // Rebase the second
     String changeId = r2.getChangeId();

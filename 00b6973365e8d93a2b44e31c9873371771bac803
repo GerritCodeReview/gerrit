@@ -94,6 +94,30 @@
       "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42302e2d_c7b902b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:11:07Z",
+      "side": 1,
+      "message": "So, leave as is? change?",
+      "parentUuid": "8959af97_0dd0f0ab",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

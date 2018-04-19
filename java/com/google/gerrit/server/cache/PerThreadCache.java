@@ -32,13 +32,13 @@ import java.util.function.Supplier;
  *
  * <p>This is different from the key-value storage in {@code CurrentUser}: {@code CurrentUser}
  * offers a key-value storage by providing thread-safe {@code get} and {@code put} methods. Once the
- * value is retrieved through {@code get} there is not thread-safety anymore - apart from the the
+ * value is retrieved through {@code get} there is not thread-safety anymore - apart from the
  * retrieved object guarantees. Depending on the implementation of {@code CurrentUser}, it might be
  * shared between the request serving thread as well as sub- or background treads.
  *
  * <p>In comparison to that, this class guarantees thread safety even on non-thread-safe objects as
- * it's cache is tied to the serving thread only. While allowing to cache non-thread-safe objects,
- * it has the downside of not sharing any objects with background threads or executors.
+ * its cache is tied to the serving thread only. While allowing to cache non-thread-safe objects, it
+ * has the downside of not sharing any objects with background threads or executors.
  *
  * <p>Lastly, this class offers a cache, that requires callers to also provide a {@code Supplier} in
  * case the object is not present in the cache, while {@code CurrentUser} provides a storage where
@@ -72,7 +72,7 @@ public class PerThreadCache implements AutoCloseable {
       return new Key<>(clazz, ImmutableList.copyOf(identifiers));
     }
 
-    public Key(Class<T> clazz, ImmutableList<Object> identifiers) {
+    private Key(Class<T> clazz, ImmutableList<Object> identifiers) {
       this.clazz = clazz;
       this.identifiers = identifiers;
     }

@@ -16,6 +16,24 @@
       "revId": "79ed9a750429086d46e69bd7e414fdbdd578a2b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14791b6f_4c7be08b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-19T19:05:59Z",
+      "side": 0,
+      "message": "They aren\u0027t required for tests to pass and slow them unnecessary.",
+      "parentUuid": "eef07435_f8decafc",
+      "revId": "79ed9a750429086d46e69bd7e414fdbdd578a2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

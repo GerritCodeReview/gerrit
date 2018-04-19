@@ -22,6 +22,109 @@
       "revId": "13d0c33b11e9c8ba4455a1e82a3ab545dd1e43a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62456b01_b3da0a6a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:09:07Z",
+      "side": 1,
+      "message": "I guess this is a product question but is after labels the right location for roles? I don\u0027t ask because I\u0027m doubting this, just want to make sure it\u0027s thought about.",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 22
+      },
+      "revId": "13d0c33b11e9c8ba4455a1e82a3ab545dd1e43a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f59e2fa5_34fd5e24",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:09:07Z",
+      "side": 1,
+      "message": "This should include tests for the new functionality",
+      "revId": "13d0c33b11e9c8ba4455a1e82a3ab545dd1e43a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51581c97_79784d4c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:09:07Z",
+      "side": 1,
+      "message": "Please add a test in gr-permission_test.html",
+      "revId": "13d0c33b11e9c8ba4455a1e82a3ab545dd1e43a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79f5d5ea_91158f52",
+        "filename": "polygerrit-ui/app/elements/admin/gr-permission/gr-permission.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:09:07Z",
+      "side": 1,
+      "message": "this can just be: \n\nreturn {name: roleName};\n(I see it could be simpler below too, which I probably wrote... 😊)",
+      "range": {
+        "startLine": 167,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 18
+      },
+      "revId": "13d0c33b11e9c8ba4455a1e82a3ab545dd1e43a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21e0fcd1_794ad328",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:09:07Z",
+      "side": 1,
+      "message": "there should be an assertion added to gr-repo-access_test test(\u0027_repoChanged\u0027...)",
+      "range": {
+        "startLine": 194,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 39
+      },
+      "revId": "13d0c33b11e9c8ba4455a1e82a3ab545dd1e43a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

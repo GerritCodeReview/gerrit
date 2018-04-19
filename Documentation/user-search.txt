@@ -9,14 +9,14 @@ query, execute it, and present the results.
 [options="header"]
 |=================================================
 |Description          | Default Query
-|All > Open           | status:open '(or is:open)'
-|All > Merged         | status:merged
-|All > Abandoned      | status:abandoned
-|My > Drafts          | owner:self is:draft
-|My > Watched Changes | is:watched is:open
-|My > Starred Changes | is:starred
-|My > Draft Comments  | has:draft
-|Open changes in Foo  | status:open project:Foo
+|All > Open           | `status:open '(or is:open)'`
+|All > Merged         | `status:merged`
+|All > Abandoned      | `status:abandoned`
+|My > Drafts          | `owner:self is:draft`
+|My > Watched Changes | `is:watched is:open`
+|My > Starred Changes | `is:starred`
+|My > Draft Comments  | `has:draft`
+|Open changes in Foo  | `status:open project:Foo`
 |=================================================
 
 
@@ -28,11 +28,11 @@ text and let Gerrit figure out the meaning:
 [options="header"]
 |=============================================================
 |Description                      | Examples
-|Legacy numerical id              | 15183
-|Full or abbreviated Change-Id    | Ic0ff33
-|Full or abbreviated commit SHA-1 | d81b32ef
-|Email address                    | user@example.com
-|Approval requirement             | Code-Review>=+2, Verified=1
+|Legacy numerical id              | `15183`
+|Full or abbreviated Change-Id    | `Ic0ff33`
+|Full or abbreviated commit SHA-1 | `d81b32ef`
+|Email address                    | `user@example.com`
+|Approval requirement             | `Code-Review>=+2`, `Verified=1`
 |=============================================================
 
 For change searches (i.e. those using a numerical id, Change-Id, or commit

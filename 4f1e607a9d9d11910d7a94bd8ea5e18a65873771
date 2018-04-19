@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b913ed9_5bd3ad7f",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T21:37:37Z",
+      "side": 0,
+      "message": "Optionally, maybe it\u0027s still worth it to round here, to get rid of those floating point errors.",
+      "range": {
+        "startLine": 201,
+        "startChar": 19,
+        "endLine": 201,
+        "endChar": 30
+      },
+      "revId": "4f1e607a9d9d11910d7a94bd8ea5e18a65873771",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

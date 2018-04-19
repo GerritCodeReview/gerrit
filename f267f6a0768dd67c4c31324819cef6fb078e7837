@@ -22,6 +22,30 @@
       "revId": "f267f6a0768dd67c4c31324819cef6fb078e7837",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e83d9f29_920074cc",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-19T09:32:40Z",
+      "side": 1,
+      "message": "No. We maintain a list of ConfigUpdates. Entry is for hinting about being part of a maintained list.",
+      "parentUuid": "43192118_0b0605ff",
+      "range": {
+        "startLine": 173,
+        "startChar": 22,
+        "endLine": 173,
+        "endChar": 39
+      },
+      "revId": "f267f6a0768dd67c4c31324819cef6fb078e7837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

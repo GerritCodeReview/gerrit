@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "72abcd61_b42cb430",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T09:32:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06798f89_c447d4c7",
+      "range": {
+        "startLine": 65,
+        "startChar": 49,
+        "endLine": 67,
+        "endChar": 9
+      },
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "385c1950_3e4496c4",
         "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html",
         "patchSetId": 5
@@ -48,6 +72,53 @@
     },
     {
       "key": {
+        "uuid": "fef4cdd8_84be0095",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T09:32:05Z",
+      "side": 1,
+      "message": "It is only accessed by the method in the behavior.",
+      "parentUuid": "385c1950_3e4496c4",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 16
+      },
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6920439_83ea0a6a",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T09:32:05Z",
+      "side": 1,
+      "message": "I forgot to refactor this out, I chose to pass the function to the behavior rather than rely on \u0027this\u0027 because I thought it might be easy for the element that includes the behavior to forget to include the API. \n\nSee\ngetAdminLinks(account, getAccountCapabilities, getAdminMenuLinks,\n        opt_options)\n\ngetAccountCapabilities comes from the rest API, getAdminMenuLinks comes from the JS API. Which do you think is a better pattern here?",
+      "range": {
+        "startLine": 96,
+        "startChar": 20,
+        "endLine": 96,
+        "endChar": 50
+      },
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d33647da_3cd86481",
         "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior_test.html",
         "patchSetId": 5
@@ -65,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "7a797dec_57fc9db9",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T09:32:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d33647da_3cd86481",
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c883ffd_59b81368",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 5
@@ -79,6 +168,24 @@
       "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f96d5d96_7efa403b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T09:32:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c883ffd_59b81368",
+      "revId": "4cc83a6be2f8e1c2ba0d520f6f963ac7158e452a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

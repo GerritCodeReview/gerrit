@@ -106,7 +106,7 @@ public abstract class AllRequestFilter implements Filter {
             throws IOException, ServletException {
           while (itr.hasNext()) {
             AllRequestFilter filter = itr.next();
-            // To avoid {@code synchronized} on the the whole filtering (and
+            // To avoid {@code synchronized} on the whole filtering (and
             // thereby killing concurrency), we start the below disjunction
             // with an unsynchronized check for containment. This
             // unsynchronized check is always correct if no filters got

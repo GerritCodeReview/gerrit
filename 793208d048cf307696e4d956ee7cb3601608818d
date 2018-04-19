@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a244d1_a9e76824",
+        "filename": "java/com/google/gerrit/server/cache/AbstractProtoConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T13:58:43Z",
+      "side": 1,
+      "message": "AFAICT there is no type relation between a Foo and its corresponding Foo.Builder, but I would love to be proven wrong.",
+      "revId": "793208d048cf307696e4d956ee7cb3601608818d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0a2b2ca_27ad91cc",
+        "filename": "java/com/google/gerrit/server/cache/h2/EntryType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T13:58:43Z",
+      "side": 1,
+      "message": "I think it should be possible to replace this hard-coded mapping with specifying converter classes in the CacheBinding, similar to what we do with the Weighers today. That would hopefully also be more typesafe.",
+      "revId": "793208d048cf307696e4d956ee7cb3601608818d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

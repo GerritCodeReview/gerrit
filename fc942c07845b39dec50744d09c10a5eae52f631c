@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d389ad5_691ebf8e",
+        "filename": "java/com/google/gerrit/server/group/testing/TestGroupBackend.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-19T10:13:39Z",
+      "side": 1,
+      "message": "It\u0027s strange that this part removes PREFIX but the input to this method was something which claims to be the name of the group. We could change the variable name to groupUuid but I think that manually adding PREFIX in tests is kind of cumbersome.\n\nI\u0027ve a suggestion for this: Let\u0027s have two methods. One of them is add(AccountGroup.UUID groupUuid) which contains most of the code of this method. Then we additionally add add(String name) which appends PREFIX to the name, creates the AccountGroup.UUID object and calls add(AccountGroup.UUID).\n\nHow does that sound?",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 56
+      },
+      "revId": "fc942c07845b39dec50744d09c10a5eae52f631c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20ccf756_bdeabbf1",
+        "filename": "javatests/com/google/gerrit/acceptance/TestGroupBackendTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-19T10:13:39Z",
+      "side": 1,
+      "message": "Could we please either use try-finally or an @After method to remove the TestGroupBackend again? It currently works because only one of the tests in this class uses universalGroupBackend but I would rather that we clean up properly. (For instance, if we decide to extend the sharing of the server state among all AbstractDaemonTests as Iaa0a10d466a proposes, we could easily create an issue by not cleaning up.)",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 40
+      },
+      "revId": "fc942c07845b39dec50744d09c10a5eae52f631c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

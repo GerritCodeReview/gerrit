@@ -277,7 +277,7 @@ created.
 
 === Private State Changed
 
-Sent when he link:intro-user.html#private-changes[private] state of the
+Sent when the link:intro-user.html#private-changes[private] state of the
 change has changed.
 
 type:: private-state-changed

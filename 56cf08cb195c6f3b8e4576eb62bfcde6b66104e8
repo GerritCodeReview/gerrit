@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e932a986_133ba59c",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-19T10:24:01Z",
+      "side": 1,
+      "message": "Possible in theory: yes; feasible with not much effort: no.\n\nYou\u0027re welcome to open that can of worms.\n\nI don\u0027t like it either but I didn\u0027t see a better way for the moment, except if anybody has a better name suggestion.",
+      "parentUuid": "38722037_87496754",
+      "range": {
+        "startLine": 1525,
+        "startChar": 6,
+        "endLine": 1525,
+        "endChar": 64
+      },
+      "revId": "56cf08cb195c6f3b8e4576eb62bfcde6b66104e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2bcda90_42f32379",
         "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperations.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-19T07:46:03Z",
       "side": 1,
       "message": "nit: remove",
+      "range": {
+        "startLine": 30,
+        "startChar": 33,
+        "endLine": 30,
+        "endChar": 34
+      },
+      "revId": "56cf08cb195c6f3b8e4576eb62bfcde6b66104e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c421f3a4_5b0a2f37",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperations.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-19T10:24:01Z",
+      "side": 1,
+      "message": "If we need to create another patch set, I\u0027ll remove it in this change. Otherwise, I\u0027ll remove it within another change and skip the effort to rebase all other dependent changes.",
+      "parentUuid": "b2bcda90_42f32379",
       "range": {
         "startLine": 30,
         "startChar": 33,

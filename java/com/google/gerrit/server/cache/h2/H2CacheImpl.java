@@ -263,7 +263,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize, long expireAfterWrite) {
       this.url = jdbcUrl;
-      this.entryType = EntryTypeImpl.create(keyType);
+      this.entryType = EntryType.create(keyType);
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
 

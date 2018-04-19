@@ -22,6 +22,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior.html">
 
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
+<link rel="import" href="../../../styles/gr-subpage-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -31,14 +32,13 @@ limitations under the License.
 
 <dom-module id="gr-repo-access">
   <template>
-    <style include="shared-styles">
+    <style include="shared-styles"></style>
+    <style include="gr-subpage-styles">
       gr-button,
       #inheritsFrom,
       #editInheritFromInput,
       .editing #inheritFromName,
-      .weblinks,
-      #loadingText,
-      .loading {
+      .weblinks{
         display: none;
       }
       #inheritsFrom.show {
@@ -50,7 +50,6 @@ limitations under the License.
         margin-right: .2em;
       }
       .weblinks.show,
-      #loadingText.loading,
       .referenceContainer {
         display: block;
       }
@@ -69,7 +68,7 @@ limitations under the License.
     </style>
     <style include="gr-menu-page-styles"></style>
     <main class$="[[_computeMainClass(_isAdmin, _canUpload, _editing)]]">
-      <div id="loadingText" class$="[[_computeLoadingClass(_loading)]]">
+      <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
         Loading...
       </div>
       <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">

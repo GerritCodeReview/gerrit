@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "14b23cc5_cc31441a",
+        "filename": "java/com/google/gerrit/server/cache/ChangeKindKeyProtoConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T14:07:42Z",
+      "side": 1,
+      "message": "One idea I had was to add another abstract class AbstractProtoWithObjectIdConverter, like this:\n\n protected final void populateBuilder(B builder, T obj) {\n   populateBuilder(builder, obj, new byte[OBJECT_ID_LENGTH]);\n }\n\n protected static ByteString toByteString(ObjectId id, byte[] buf) {\n   id.copyRawTo(buf, 0);\n   return ByteString.copyFrom(buf);\n }\n\n protected abstract void populateBuilder(B builder, T obj, byte[] objectIdBuf);\n\nThat reduces boilerplate somewhat, but is still pretty ugly. It is likely premature optimization anyway, since it\u0027s not like there are proto types with a huge number of ObjectIds. We could instead keep the toByteString helper but not care that we allocate a new byte[] every time.",
+      "revId": "793208d048cf307696e4d956ee7cb3601608818d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e0a2b2ca_27ad91cc",
         "filename": "java/com/google/gerrit/server/cache/h2/EntryType.java",
         "patchSetId": 1

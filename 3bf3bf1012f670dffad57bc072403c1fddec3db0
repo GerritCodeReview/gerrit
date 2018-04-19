@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1adc742f_a3470fd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T09:49:22Z",
+      "side": 1,
+      "message": "Nit: link to issue 2929.",
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbba3faa_95de0329",
+        "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T09:49:22Z",
+      "side": 1,
+      "message": "Now that we\u0027re loading two different Soy templates in httpd/ (this one and the index) it might make sense to compile them both into the same Tofu object that gets provided to either servlet via Guice -- similar to MailSoyTofuProvider.java.\n\nI don\u0027t think it should block this change, though; especially since, unlike mail templates, this renders only once per server lifetime.",
+      "range": {
+        "startLine": 41,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 28
+      },
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "044b060a_dc98f055",
+        "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T09:49:22Z",
+      "side": 1,
+      "message": "Based on my random pinging of other OpenSearch endpoints on the internet, I suspect the 100% proper type to use here is\n\n application/opensearchdescription+xml",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73ceaaec_8f02a488",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T09:49:22Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s much different, or if it\u0027s easier, but maybe the GerritInstanceNameProvider would apply here instead of the whole config?\n\n @GerritInstanceName Provider\u003cString\u003e instanceNameProvider,",
+      "range": {
+        "startLine": 258,
+        "startChar": 56,
+        "endLine": 258,
+        "endChar": 86
+      },
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caf88d98_7c4d72de",
+        "filename": "resources/com/google/gerrit/httpd/raw/OpenSearch.soy",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T09:49:22Z",
+      "side": 1,
+      "message": "Looks like this name was copied from the index template. Can this be changed to something like ..\n\n* OpenSearch\n* OpenSearchManifest\n* OpenSearchDescription\n\n.. ?\n\nThen correspondingly change the classname on l.44 of OpenSearchServlet.java.",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

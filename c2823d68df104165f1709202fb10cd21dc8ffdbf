@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3880f4b8_87176f49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-19T07:20:50Z",
+      "side": 1,
+      "message": "Nit: please punctuate commit messages.",
+      "revId": "c2823d68df104165f1709202fb10cd21dc8ffdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

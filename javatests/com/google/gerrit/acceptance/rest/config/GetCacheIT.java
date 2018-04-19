@@ -14,12 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.config;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
-import com.google.gerrit.server.restapi.config.ListCaches.CacheInfo;
-import com.google.gerrit.server.restapi.config.ListCaches.CacheType;
 import org.junit.Test;
 
 public class GetCacheIT extends AbstractDaemonTest {
@@ -28,24 +24,8 @@ public class GetCacheIT extends AbstractDaemonTest {
   public void getCache() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/caches/accounts");
     r.assertOK();
-    CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);
 
-    assertThat(result.name).isEqualTo("accounts");
-    assertThat(result.type).isEqualTo(CacheType.MEM);
-    assertThat(result.entries.mem).isAtLeast(1L);
-    assertThat(result.averageGet).isNotNull();
-    assertThat(result.averageGet).endsWith("s");
-    assertThat(result.entries.disk).isNull();
-    assertThat(result.entries.space).isNull();
-    assertThat(result.hitRatio.mem).isAtLeast(0);
-    assertThat(result.hitRatio.mem).isAtMost(100);
-    assertThat(result.hitRatio.disk).isNull();
-
-    userRestSession.get("/config/server/version").consume();
-    r = adminRestSession.get("/config/server/caches/accounts");
-    r.assertOK();
-    result = newGson().fromJson(r.getReader(), CacheInfo.class);
-    assertThat(result.entries.mem).isEqualTo(2);
+    // GetCache is implemented using ListCaches. See ListCacheIT.listCaches for detailed coverage.
   }
 
   @Test

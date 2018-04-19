@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "737b42d4_9c93b91a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-19T13:42:58Z",
+      "side": 1,
+      "message": "Possibly, however I haven\u0027t seen the @Nullable used in Gerrit where a null value is potentially returned.\nThere are 600+ return null in Gerrit, and they aren\u0027t annotated with @Nullable.\n\nShould we then add @Nullable in a consistent way everywhere? Separate follow-up?",
+      "parentUuid": "3a20acb0_044eaf93",
+      "revId": "f5dfcaf6909cb117e1ce6dbd999cef6b84a0b355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eaebe1e1_ca1aefb4",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "f5dfcaf6909cb117e1ce6dbd999cef6b84a0b355",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c537a3e8_755d3b9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-19T13:42:58Z",
+      "side": 1,
+      "message": "Same comment as before. Happy to do it in a separate change :-)",
+      "parentUuid": "eaebe1e1_ca1aefb4",
+      "revId": "f5dfcaf6909cb117e1ce6dbd999cef6b84a0b355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

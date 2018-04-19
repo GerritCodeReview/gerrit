@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e860a0df_a9d9ce38",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-19T10:20:50Z",
+      "side": 1,
+      "message": "Why would a caller pass null?",
+      "range": {
+        "startLine": 34,
+        "startChar": 62,
+        "endLine": 34,
+        "endChar": 81
+      },
+      "revId": "52a92a040a2171867481ee155bc0ac0ad2fc3f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8921ad9b_a637d15d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-19T10:20:50Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 34,
+        "startChar": 85,
+        "endLine": 34,
+        "endChar": 86
+      },
+      "revId": "52a92a040a2171867481ee155bc0ac0ad2fc3f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "108b9b0d_cc6b89a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-19T10:20:50Z",
+      "side": 1,
+      "message": "Should was also annotate the method and the parameter as @Nullable?\n\nSame for the method below.",
+      "revId": "52a92a040a2171867481ee155bc0ac0ad2fc3f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

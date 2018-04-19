@@ -87,15 +87,28 @@ limitations under the License.
         name: 'Facebook',
         url: 'https://facebook.com',
       }];
+      const adminLinks = [{
+        name: 'Repos',
+        url: '/repos',
+      }];
 
       // When no admin links are passed, it should use the default.
-      assert.deepEqual(element._computeLinks(defaultLinks, []), defaultLinks);
-      assert.deepEqual(
-          element._computeLinks(defaultLinks, userLinks),
+      assert.deepEqual(element._computeLinks(defaultLinks, [], adminLinks),
           defaultLinks.concat({
-            title: 'Your',
-            links: userLinks,
+            title: 'Browse',
+            links: adminLinks,
           }));
+      assert.deepEqual(
+          element._computeLinks(defaultLinks, userLinks, adminLinks),
+          defaultLinks.concat([
+            {
+              title: 'Your',
+              links: userLinks,
+            },
+            {
+              title: 'Browse',
+              links: adminLinks,
+            }]));
     });
 
     test('documentation links', () => {

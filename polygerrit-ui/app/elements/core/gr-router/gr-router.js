@@ -640,11 +640,22 @@
         return;
       }
       page(pattern, this._loadUserMiddleware.bind(this), data => {
-        this.$.reporting.locationChanged(handlerName);
+        this.$.reporting.locationChanged(this._getPageName(handlerName, data));
         const promise = opt_authRedirect ?
           this._redirectIfNotLoggedIn(data) : Promise.resolve();
         promise.then(() => { this[handlerName](data); });
       });
+    },
+
+    _getPageName(handlerName, ctx) {
+      switch (handlerName) {
+        case '_handleChangeOrDiffRoute': {
+          const isDiffView = ctx.params[8];
+          return isDiffView ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE;
+        }
+        default:
+          return handlerName;
+      }
     },
 
     _startRouter() {

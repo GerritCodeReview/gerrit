@@ -146,7 +146,7 @@ public class IncludedInResolver {
    *   <li>after = commits with time >= target.getCommitTime()
    * </ul>
    *
-   * Each of the before/after lists is sorted by the the commit time.
+   * Each of the before/after lists is sorted by the commit time.
    *
    * @param before
    * @param after

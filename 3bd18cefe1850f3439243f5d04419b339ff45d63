@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "591fa647_d29e31a9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-19T09:08:29Z",
+      "side": 1,
+      "message": "Should this go below shared-styles?",
+      "revId": "3bd18cefe1850f3439243f5d04419b339ff45d63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

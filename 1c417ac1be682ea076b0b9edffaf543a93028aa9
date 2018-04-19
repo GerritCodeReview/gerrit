@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aebe0938_0b935b74",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T11:22:30Z",
+      "side": 1,
+      "message": "Can these two be stubs?\n\n sinon.stub(),\n sinon.stub(),",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 68,
+        "endChar": 66
+      },
+      "revId": "1c417ac1be682ea076b0b9edffaf543a93028aa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

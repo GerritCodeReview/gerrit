@@ -199,5 +199,45 @@ limitations under the License.
       const scoreChips = Polymer.dom(element.root).querySelectorAll('.score');
       assert.equal(scoreChips.length, 0);
     });
+
+    suite('_consumeMessage', () => {
+      const assertConsumeFailed = str => {
+        element._consumeMessage(str);
+        assert.isFalse(element._successfulParse);
+      };
+      test('no message body', () => {
+        assertConsumeFailed('');
+      });
+
+      test('known old schema', () => {
+        const str = 'Patch Set 1: Looks good to me, approved; Verified';
+        assertConsumeFailed(str);
+      });
+
+      test('known old schema 2', () => {
+        const str = [
+          'Patch Set 2: Looks good to me',
+          '',
+          'Patch set 2 compiles, and runs as expected.',
+        ].join('\n');
+        assertConsumeFailed(str);
+      });
+
+      test('known old schema 3', () => {
+        const str = 'Patch Set 2: (1 inline comment)';
+        assertConsumeFailed(str);
+      });
+
+      test('known old schema 4', () => {
+        const str = [
+          'Patch Set 2: Looks good to me',
+          '',
+          '(1 inline comment)',
+        ].join('\n');
+        assertConsumeFailed(str);
+      });
+    });
+
+    // TODO(kaspern): Add success case tests.
   });
 </script>

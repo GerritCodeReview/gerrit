@@ -79,14 +79,14 @@ limitations under the License.
     test('time and timeEnd', () => {
       const nowStub = sandbox.stub(element, 'now').returns(0);
       element.time('foo');
-      nowStub.returns(1);
+      nowStub.returns(1.1);
       element.time('bar');
       nowStub.returns(2);
       element.timeEnd('bar');
-      nowStub.returns(3.123);
+      nowStub.returns(3.511);
       element.timeEnd('foo');
       assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'foo', 3.123
+          'timing-report', 'UI Latency', 'foo', 4
       ));
       assert.isTrue(element.reporter.calledWithExactly(
           'timing-report', 'UI Latency', 'bar', 1

@@ -22,6 +22,30 @@
       "revId": "0722d23ab76c2aa9f3d7661b6e02b7315cb5ac65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05e8c3a8_671c33c7",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-04-19T07:59:30Z",
+      "side": 1,
+      "message": "Oh, I see Iab45bb2bf684dbee171037e36da564d359280769 now. nvm.",
+      "parentUuid": "9536047a_d474f63e",
+      "range": {
+        "startLine": 280,
+        "startChar": 10,
+        "endLine": 280,
+        "endChar": 12
+      },
+      "revId": "0722d23ab76c2aa9f3d7661b6e02b7315cb5ac65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

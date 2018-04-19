@@ -20,7 +20,7 @@
   const ChangeStates = {
     MERGED: 'Merged',
     ABANDONED: 'Abandoned',
-    MERGE_CONFLIGT: 'Merge Conflict',
+    MERGE_CONFLICT: 'Merge Conflict',
     WIP: 'WIP',
     PRIVATE: 'Private',
   };

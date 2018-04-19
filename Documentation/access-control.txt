@@ -610,10 +610,9 @@ reviews should not grant this category.
 
 This category controls which users are allowed to upload new patch sets to
 existing changes. Irrespective of this permission, change owners are always
-allowed to upload new patch sets for their changes. This permission needs to be
-set on `refs/for/*`.
+allowed to upload new patch sets for their changes.
 
-By default, this permission is granted to `Registered Users` on `refs/for/*`,
+By default, this permission is granted to `Registered Users` on `refs/*`,
 allowing all registered users to upload a new patch set to any change. Revoking
 this permission (by granting it to no groups and setting the "Exclusive" flag)
 will prevent users from uploading a patch set to a change they do not own.

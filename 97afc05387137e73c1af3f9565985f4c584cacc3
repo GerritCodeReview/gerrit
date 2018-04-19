@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b7d2243_45af2d0a",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-19T14:09:07Z",
+      "side": 1,
+      "message": "google-java-format is messing with you here.",
+      "range": {
+        "startLine": 566,
+        "startChar": 61,
+        "endLine": 566,
+        "endChar": 66
+      },
+      "revId": "97afc05387137e73c1af3f9565985f4c584cacc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

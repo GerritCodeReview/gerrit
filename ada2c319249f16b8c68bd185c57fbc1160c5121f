@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e69bb3c_9dbe5a5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T10:20:28Z",
+      "side": 1,
+      "message": "50 is still pretty long for a status. What do you think of something like 20?",
+      "range": {
+        "startLine": 67,
+        "startChar": 35,
+        "endLine": 67,
+        "endChar": 37
+      },
+      "revId": "ada2c319249f16b8c68bd185c57fbc1160c5121f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5cecaca_d1a5ede4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-19T10:20:28Z",
+      "side": 1,
+      "message": "Note: this adds a tooltip to an element nested within another element that also has a tooltip. I\u0027m a bit surprised that it works, but it\u0027s sufficiently unusual UX that I felt it was worth mentioning.",
+      "revId": "ada2c319249f16b8c68bd185c57fbc1160c5121f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

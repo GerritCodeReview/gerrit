@@ -773,6 +773,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
       return true;
     }
+    if (isRefsForExclusively(refName) && perm.getName().equals(Permission.ADD_PATCH_SET)) {
+      // No need to migrate ADD_PATCH_SET on refs/*
+      AccessSection migratedAs = getAccessSection(unRefsFor(refName), true);
+      migratedAs.addPermission(perm);
+      return true;
+    }
     return false;
   }
 

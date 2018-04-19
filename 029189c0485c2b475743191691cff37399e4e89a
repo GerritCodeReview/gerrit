@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5231c065_24ea6cb9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-19T07:21:31Z",
+      "side": 1,
+      "message": "Your fix for this on JGit [1] is in the latest snapshot build [2]\n\n[1] https://git.eclipse.org/r/#/c/121087/\n[2] https://gerrit-review.googlesource.com/#/c/gerrit/+/173072",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 60
+      },
+      "revId": "029189c0485c2b475743191691cff37399e4e89a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "38722037_87496754",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-19T10:10:50Z",
+      "side": 1,
+      "message": "I am confused when two classes have the same name. Do you think it would be possible to convert all the TestUser usages?",
+      "range": {
+        "startLine": 1525,
+        "startChar": 6,
+        "endLine": 1525,
+        "endChar": 64
+      },
+      "revId": "56cf08cb195c6f3b8e4576eb62bfcde6b66104e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2bcda90_42f32379",
         "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperations.java",
         "patchSetId": 7

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "38b17777_ffba8b04",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-19T10:12:06Z",
+      "side": 1,
+      "message": "(okay I found the answer: there are now two TestAccount classes)\nI\u0027ll keep the comment here open: if I was confused, I\u0027m pretty sure someone else will be! :-)",
+      "parentUuid": "b6419f93_94afca04",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 51
+      },
+      "revId": "75661846cd24fcd9f455bdd0374eba89979ae95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc6e6c0c_2e2bae26",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 4

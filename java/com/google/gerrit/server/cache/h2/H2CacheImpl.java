@@ -34,7 +34,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -252,7 +251,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   static class SqlStore<K, V> {
     private final String url;
-    private final EntryType<K> entryType;
+    private final EntryType<K, V> entryType;
     private final long maxSize;
     private final long expireAfterWrite;
     private final BlockingQueue<SqlHandle> handles;
@@ -263,7 +262,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize, long expireAfterWrite) {
       this.url = jdbcUrl;
-      this.entryType = EntryType.create(keyType);
+      this.entryType = EntryType.createObjectValueType(keyType);
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
 
@@ -359,8 +358,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             return null;
           }
 
-          @SuppressWarnings("unchecked")
-          V val = (V) r.getObject(1);
+          V val = entryType.getValue(r, 1);
           ValueHolder<V> h = new ValueHolder<>(val);
           h.clean = true;
           hitCount.incrementAndGet();
@@ -430,7 +428,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
         try {
           entryType.setKey(c.put, 1, key);
-          c.put.setObject(2, holder.value, Types.JAVA_OBJECT);
+          entryType.setValue(c.put, 2, holder.value);
           c.put.setTimestamp(3, new Timestamp(holder.created));
           c.put.setTimestamp(4, TimeUtil.nowTs());
           c.put.executeUpdate();
@@ -577,7 +575,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     PreparedStatement touch;
     PreparedStatement invalidate;
 
-    SqlHandle(String url, EntryType<?> type) throws SQLException {
+    SqlHandle(String url, EntryType<?, ?> type) throws SQLException {
       this.url = url;
       this.conn = org.h2.Driver.load().connect(url, null);
       try (Statement stmt = conn.createStatement()) {

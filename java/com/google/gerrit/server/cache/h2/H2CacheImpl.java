@@ -22,15 +22,11 @@ import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.BloomFilter;
-import com.google.common.hash.Funnel;
-import com.google.common.hash.Funnels;
 import com.google.common.hash.PrimitiveSink;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.TypeLiteral;
-import java.io.IOException;
 import java.io.InvalidClassException;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -254,71 +250,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
   }
 
-  private static class KeyType<K> {
-    String columnType() {
-      return "OTHER";
-    }
-
-    @SuppressWarnings("unchecked")
-    K get(ResultSet rs, int col) throws SQLException {
-      return (K) rs.getObject(col);
-    }
-
-    void set(PreparedStatement ps, int col, K value) throws SQLException {
-      ps.setObject(col, value, Types.JAVA_OBJECT);
-    }
-
-    Funnel<K> funnel() {
-      return new Funnel<K>() {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void funnel(K from, PrimitiveSink into) {
-          try (ObjectOutputStream ser = new ObjectOutputStream(new SinkOutputStream(into))) {
-            ser.writeObject(from);
-            ser.flush();
-          } catch (IOException err) {
-            throw new RuntimeException("Cannot hash as Serializable", err);
-          }
-        }
-      };
-    }
-
-    @SuppressWarnings("unchecked")
-    static <K> KeyType<K> create(TypeLiteral<K> type) {
-      if (type.getRawType() == String.class) {
-        return (KeyType<K>) STRING;
-      }
-      return (KeyType<K>) OTHER;
-    }
-
-    static final KeyType<?> OTHER = new KeyType<>();
-    static final KeyType<String> STRING =
-        new KeyType<String>() {
-          @Override
-          String columnType() {
-            return "VARCHAR(4096)";
-          }
-
-          @Override
-          String get(ResultSet rs, int col) throws SQLException {
-            return rs.getString(col);
-          }
-
-          @Override
-          void set(PreparedStatement ps, int col, String value) throws SQLException {
-            ps.setString(col, value);
-          }
-
-          @SuppressWarnings("unchecked")
-          @Override
-          Funnel<String> funnel() {
-            Funnel<?> s = Funnels.unencodedCharsFunnel();
-            return (Funnel<String>) s;
-          }
-        };
-  }
-
   static class SqlStore<K, V> {
     private final String url;
     private final KeyType<K> keyType;
@@ -332,7 +263,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize, long expireAfterWrite) {
       this.url = jdbcUrl;
-      this.keyType = KeyType.create(keyType);
+      this.keyType = KeyTypeImpl.create(keyType);
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
 
@@ -695,7 +626,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
   }
 
-  private static class SinkOutputStream extends OutputStream {
+  static class SinkOutputStream extends OutputStream {
     private final PrimitiveSink sink;
 
     SinkOutputStream(PrimitiveSink sink) {

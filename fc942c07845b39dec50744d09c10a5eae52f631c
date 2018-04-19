@@ -93,6 +93,30 @@
       "revId": "fc942c07845b39dec50744d09c10a5eae52f631c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce17c46a_0fa0c880",
+        "filename": "javatests/com/google/gerrit/acceptance/TestGroupBackendTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-19T11:59:28Z",
+      "side": 1,
+      "message": "Oh. That\u0027s unfortunate. One more reason not to pursue Iaa0a10d466a for the moment.",
+      "parentUuid": "278d27a7_8fa3da25",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 40
+      },
+      "revId": "fc942c07845b39dec50744d09c10a5eae52f631c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

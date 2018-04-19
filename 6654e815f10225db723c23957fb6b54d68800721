@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd8e8aa3_b71bd60d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-19T08:59:10Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the implementation any more.",
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "448439f3_aa854f0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-19T08:59:10Z",
+      "side": 1,
+      "message": "Do you have an example of how a caller would handle/adjust its logic?\nSpecifically, I am interested in what more can be done than just logging the exception.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c96c3c7d_640a6e09",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-19T08:59:10Z",
+      "side": 1,
+      "message": "it also can returns when projectName is null (see the implementation)",
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adfd0260_0ec935a8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-19T08:59:10Z",
+      "side": 1,
+      "message": "I don\u0027t really like this method name. We have \"get\" and \"checkedGet\". This method\nseems to be a more strict variant of \"checkedGet\". Ideally it would be:\n\n  ProjectState checkedGet(Project.NameKey projectName) throws Exception;\n\nBut this wouldn\u0027t work in Java. I don\u0027t have a good proposal for a better method name :-(",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 34
+      },
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "571857f6_57ed5a85",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-04-19T08:59:10Z",
+      "side": 1,
+      "message": "Why java.util.concurrent.ExecutionException? The ProjectCache interface shouldn\u0027t\nleak implementation details unnecessarily.",
+      "range": {
+        "startLine": 56,
+        "startChar": 71,
+        "endLine": 56,
+        "endChar": 89
+      },
+      "revId": "6654e815f10225db723c23957fb6b54d68800721",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

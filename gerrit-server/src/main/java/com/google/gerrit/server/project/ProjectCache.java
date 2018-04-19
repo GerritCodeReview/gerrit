@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
@@ -31,19 +32,20 @@ public interface ProjectCache {
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.
-   * @return the cached data; null if no such project exists or a error occurred.
+   * @return the cached data; null if no such project exists, projectName is null or an error
+   *     occurred.
    * @see #checkedGet(com.google.gerrit.reviewdb.client.Project.NameKey)
    */
-  ProjectState get(Project.NameKey projectName);
+  ProjectState get(@Nullable Project.NameKey projectName);
 
   /**
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.
    * @throws IOException when there was an error.
-   * @return the cached data; null if no such project exists.
+   * @return the cached data; null if no such project exists or projectName is null.
    */
-  ProjectState checkedGet(Project.NameKey projectName) throws IOException;
+  ProjectState checkedGet(@Nullable Project.NameKey projectName) throws IOException;
 
   /** Invalidate the cached information about the given project. */
   void evict(Project p);

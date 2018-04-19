@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4841f7e_e6bb18fb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:33:38Z",
+      "side": 1,
+      "message": "for this to apply you have to add the \u0027gr-form-styles\u0027 class to the outer element you wish to have form styles applied to.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "de00e7d49a840945fadcd08afbb4302c68a0712b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c2991b6_714c9fa7",
+        "filename": "polygerrit-ui/app/styles/gr-page-nav-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:33:38Z",
+      "side": 1,
+      "message": "not you, but while you\u0027re in here there\u0027s an extra space",
+      "range": {
+        "startLine": 29,
+        "startChar": 19,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "de00e7d49a840945fadcd08afbb4302c68a0712b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38006235_8ec33547",
+        "filename": "polygerrit-ui/app/styles/gr-table-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:33:38Z",
+      "side": 1,
+      "message": "I think it might be dangerous to set a height for a table cell in the event it needs to wrap (see comment below)",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 24
+      },
+      "revId": "de00e7d49a840945fadcd08afbb4302c68a0712b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16c983cd_71c62a88",
+        "filename": "polygerrit-ui/app/styles/gr-table-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-19T08:33:38Z",
+      "side": 1,
+      "message": "I\u0027m not sure if we want this in all cases. for example, repository description, group description can be extremely lengthy and I think we would want those to either wrap or elipsize.",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "de00e7d49a840945fadcd08afbb4302c68a0712b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

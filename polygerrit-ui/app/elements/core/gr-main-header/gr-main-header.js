@@ -93,7 +93,8 @@
       },
       _links: {
         type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _docBaseUrl)',
+        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
+            '_docBaseUrl)',
       },
       _loginURL: {
         type: String,
@@ -106,6 +107,7 @@
     },
 
     behaviors: [
+      Gerrit.AdminNavBehavior,
       Gerrit.BaseUrlBehavior,
       Gerrit.DocsUrlBehavior,
     ],
@@ -149,7 +151,7 @@
       return '//' + window.location.host + this.getBaseUrl() + path;
     },
 
-    _computeLinks(defaultLinks, userLinks, docBaseUrl) {
+    _computeLinks(defaultLinks, userLinks, adminLinks, docBaseUrl) {
       const links = defaultLinks.slice();
       if (userLinks && userLinks.length > 0) {
         links.push({
@@ -165,6 +167,10 @@
           class: 'hideOnMobile',
         });
       }
+      links.push({
+        title: 'Browse',
+        links: adminLinks,
+      });
       return links;
     },
 
@@ -186,10 +192,23 @@
     },
 
     _loadAccount() {
-      return this.$.restAPI.getAccount().then(account => {
+      const promises = [
+        this.$.restAPI.getAccount(),
+        Gerrit.awaitPluginsLoaded(),
+      ];
+
+      return Promise.all(promises).then(result => {
+        const account = result[0];
         this._account = account;
         this.$.accountContainer.classList.toggle('loggedIn', account != null);
         this.$.accountContainer.classList.toggle('loggedOut', account == null);
+
+        return this.getAdminLinks(account,
+            this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
+            this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI))
+            .then(res => {
+              this._adminLinks = res.links;
+            });
       });
     },
 

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.UniversalGroupBackend;
@@ -38,8 +39,12 @@ public class TestGroupBackendTest extends AbstractDaemonTest {
 
   @Test
   public void universalGroupBackendHandlesTestGroup() throws Exception {
-    groupBackends.add(testGroupBackend);
-    assertThat(universalGroupBackend.handles(testUUID)).isTrue();
+    RegistrationHandle registrationHandle = groupBackends.add(testGroupBackend);
+    try {
+      assertThat(universalGroupBackend.handles(testUUID)).isTrue();
+    } finally {
+      registrationHandle.remove();
+    }
   }
 
   @Test

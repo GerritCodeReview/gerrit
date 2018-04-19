@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0cc5b91_de4a2fc2",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-19T11:45:14Z",
+      "side": 1,
+      "message": "This doesn\u0027t compile for me because H2CacheBindingProxy is not imported.",
+      "revId": "516aca54e4dbc198d4a16e59de68538dfcfa1f31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -31,7 +31,8 @@ public interface ProjectCache {
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.
-   * @return the cached data; null if no such project exists or a error occurred.
+   * @return the cached data; null if no such project exists, projectName is null or a error
+   *     occurred.
    * @see #checkedGet(com.google.gerrit.reviewdb.client.Project.NameKey)
    */
   ProjectState get(Project.NameKey projectName);
@@ -41,7 +42,7 @@ public interface ProjectCache {
    *
    * @param projectName name of the project.
    * @throws IOException when there was an error.
-   * @return the cached data; null if no such project exists.
+   * @return the cached data; null if no such project exists or projectName is null.
    */
   ProjectState checkedGet(Project.NameKey projectName) throws IOException;
 

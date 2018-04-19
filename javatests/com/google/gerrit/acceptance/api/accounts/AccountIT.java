@@ -1706,16 +1706,21 @@ public class AccountIT extends AbstractDaemonTest {
 
     TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
     String userRef = RefNames.refsUsers(admin.id);
-    PushResult r = deleteRef(allUsersRepo, userRef);
-    RemoteRefUpdate refUpdate = r.getRemoteUpdate(userRef);
-    assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.OK);
+    try {
+      PushResult r = deleteRef(allUsersRepo, userRef);
+      RemoteRefUpdate refUpdate = r.getRemoteUpdate(userRef);
+      assertThat(refUpdate.getStatus()).isEqualTo(RemoteRefUpdate.Status.OK);
 
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      assertThat(repo.exactRef(userRef)).isNull();
+      try (Repository repo = repoManager.openRepository(allUsers)) {
+        assertThat(repo.exactRef(userRef)).isNull();
+      }
+
+      assertThat(accountCache.get(admin.id)).isEmpty();
+      assertThat(accountQueryProvider.get().byDefault(admin.id.toString())).isEmpty();
+    } finally {
+      // Force-deleting an account upsets the cleanup logic of ProjectResetter.
+      accountCreator.evict(ImmutableSet.of(admin.id));
     }
-
-    assertThat(accountCache.get(admin.id)).isEmpty();
-    assertThat(accountQueryProvider.get().byDefault(admin.id.toString())).isEmpty();
   }
 
   @Test

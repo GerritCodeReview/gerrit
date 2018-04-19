@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43192118_0b0605ff",
+        "filename": "java/com/google/gerrit/server/config/ConfigUpdatedEvent.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-19T08:11:13Z",
+      "side": 1,
+      "message": "ConfigEntryUpdate?\nThis class describes the update of a config entry.",
+      "range": {
+        "startLine": 173,
+        "startChar": 22,
+        "endLine": 173,
+        "endChar": 39
+      },
+      "revId": "f267f6a0768dd67c4c31324819cef6fb078e7837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

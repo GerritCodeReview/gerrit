@@ -15,25 +15,35 @@
 package com.google.gerrit.server.cache.h2;
 
 import com.google.common.hash.Funnel;
-import com.google.inject.TypeLiteral;
+import com.google.common.hash.Funnels;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-interface EntryType<K> {
-  @SuppressWarnings("unchecked")
-  static <K> EntryType<K> create(TypeLiteral<K> type) {
-    if (type.getRawType() == String.class) {
-      return (EntryType<K>) StringKeyTypeImpl.INSTANCE;
-    }
-    return (EntryType<K>) ObjectKeyTypeImpl.INSTANCE;
+class StringKeyTypeImpl implements EntryType<String> {
+  static final EntryType<String> INSTANCE = new StringKeyTypeImpl();
+
+  private StringKeyTypeImpl() {}
+
+  @Override
+  public String keyColumnType() {
+    return "VARCHAR(4096)";
   }
 
-  String keyColumnType();
+  @Override
+  public String getKey(ResultSet rs, int col) throws SQLException {
+    return rs.getString(col);
+  }
 
-  K getKey(ResultSet rs, int col) throws SQLException;
+  @Override
+  public void setKey(PreparedStatement ps, int col, String value) throws SQLException {
+    ps.setString(col, value);
+  }
 
-  void setKey(PreparedStatement ps, int col, K key) throws SQLException;
-
-  Funnel<K> keyFunnel();
+  @SuppressWarnings("unchecked")
+  @Override
+  public Funnel<String> keyFunnel() {
+    Funnel<?> s = Funnels.unencodedCharsFunnel();
+    return (Funnel<String>) s;
+  }
 }

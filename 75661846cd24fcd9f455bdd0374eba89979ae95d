@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6419f93_94afca04",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-19T10:00:15Z",
+      "side": 1,
+      "message": "Is this on purpose?",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 51
+      },
+      "revId": "75661846cd24fcd9f455bdd0374eba89979ae95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc6e6c0c_2e2bae26",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-19T10:00:15Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 413,
+        "startChar": 4,
+        "endLine": 413,
+        "endChar": 51
+      },
+      "revId": "75661846cd24fcd9f455bdd0374eba89979ae95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bb6d671_b6ef5331",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-19T10:00:15Z",
+      "side": 1,
+      "message": "Can\u0027t this method also benefit from your (really nice!) Correspondance?",
+      "range": {
+        "startLine": 1475,
+        "startChar": 15,
+        "endLine": 1475,
+        "endChar": 28
+      },
+      "revId": "75661846cd24fcd9f455bdd0374eba89979ae95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

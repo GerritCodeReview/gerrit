@@ -51,7 +51,7 @@ fi
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site]"
+    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site] [--verbose]"
     exit 1
 }
 
@@ -100,6 +100,7 @@ get_config() {
 # Get the action and options
 ##################################################
 
+SILENT="</dev/null >/dev/null 2>&1"
 ACTION=$1
 shift
 
@@ -118,7 +119,11 @@ while test $# -gt 0 ; do
     GERRIT_SITE=${1##--site-path=}
     shift
     ;;
-
+  --verbose)
+    echo "\n** WARNING: Running Gerrit in verbose mode\n"
+    unset SILENT
+    shift
+    ;;
   *)
     usage
   esac
@@ -422,12 +427,12 @@ case "$ACTION" in
         chown $GERRIT_USER "$GERRIT_PID"
         su - $GERRIT_USER -s /bin/sh -c "
           JAVA='$JAVA' ; export JAVA ;
-          $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3 $RUN_ARGS </dev/null >/dev/null 2>&1 &
+          $RUN_EXEC $RUN_Arg1 '$RUN_Arg2' $RUN_Arg3 $RUN_ARGS $SILENT &
           PID=\$! ;
           disown ;
           echo \$PID >\"$GERRIT_PID\""
       else
-        $RUN_EXEC $RUN_Arg1 "$RUN_Arg2" $RUN_Arg3 $RUN_ARGS </dev/null >/dev/null 2>&1 &
+        $RUN_EXEC $RUN_Arg1 "$RUN_Arg2" $RUN_Arg3 $RUN_ARGS $SILENT &
         PID=$!
         type disown >/dev/null 2>&1 && disown
         echo $PID >"$GERRIT_PID"

@@ -520,7 +520,7 @@ public abstract class AbstractDaemonTest {
    * @return name prefixed by a string unique to this test method.
    */
   protected String name(String name) {
-    return resourcePrefix + name;
+    return name;
   }
 
   protected Project.NameKey createProject(String nameSuffix) throws RestApiException {

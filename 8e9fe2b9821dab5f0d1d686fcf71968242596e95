@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "090e8a22_3489b153",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-19T09:06:22Z",
+      "side": 1,
+      "message": "Nit: wrapped lines are indented four spaces, not six.",
+      "range": {
+        "startLine": 454,
+        "startChar": 8,
+        "endLine": 454,
+        "endChar": 10
+      },
+      "revId": "8e9fe2b9821dab5f0d1d686fcf71968242596e95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

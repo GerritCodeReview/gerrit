@@ -43,7 +43,7 @@ limitations under the License.
         padding: 0;
       }
       .dropdown-content {
-        background-color: var(--view-background-color);
+        background-color: var(--dropdown-background-color);
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
         max-height: 70vh;
         margin-top: 2em;
@@ -63,15 +63,15 @@ limitations under the License.
           min-height: 0;
           padding: 10px 16px;
         }
-        --paper-item-selected: {
-          background-color: rgba(161,194,250,.12);
-        }
         --paper-item-focused-before: {
-          background-color: #f2f2f2;
+          background-color: var(--selection-background-color);
         }
         --paper-item-focused: {
-          background-color: #f2f2f2;
+          background-color: var(--selection-background-color);
         }
+      }
+      paper-item:hover {
+        background-color: var(--hover-background-color);
       }
       paper-item:not(:last-of-type) {
         border-bottom: 1px solid var(--border-color);

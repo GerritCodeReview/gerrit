@@ -45,6 +45,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       clock = sinon.useFakeTimers(NOW_TIME);
       element = fixture('basic');
+      element._baselines = Object.assign({}, GrReporting.STARTUP_TIMERS);
       fakePerformance = {
         navigationStart: 1,
         loadEventEnd: 2,
@@ -53,6 +54,7 @@ limitations under the License.
           {get() { return fakePerformance; }});
       sandbox.stub(element, 'reporter');
     });
+
     teardown(() => {
       sandbox.restore();
       clock.restore();
@@ -74,6 +76,23 @@ limitations under the License.
               'timing-report', 'UI Latency', 'Page Loaded',
               fakePerformance.loadEventEnd - fakePerformance.navigationStart)
       );
+    });
+
+    test('beforeLocationChanged', () => {
+      sandbox.stub(element, 'time');
+      element.beforeLocationChanged();
+      assert.isTrue(element.time.calledWithExactly('DashboardDisplayed'));
+    });
+
+    test('dashboardDisplayed', () => {
+      sandbox.spy(element, 'timeEnd');
+      element.dashboardDisplayed();
+      assert.isFalse(
+          element.timeEnd.calledWithExactly('DashboardDisplayed'));
+      assert.isTrue(
+          element.timeEnd.calledWithExactly('StartupDashboardDisplayed'));
+      element.dashboardDisplayed();
+      assert.isTrue(element.timeEnd.calledWithExactly('DashboardDisplayed'));
     });
 
     test('time and timeEnd', () => {
@@ -117,11 +136,13 @@ limitations under the License.
 
       test('reports if plugins are loaded', () => {
         Gerrit._arePluginsLoaded.returns(true);
-        element.timeEnd('foo');
+        element.pluginsLoaded();
         assert.isTrue(element.defaultReporter.called);
       });
 
       test('reports cached events preserving order', () => {
+        element.time('foo');
+        element.time('bar');
         Gerrit._arePluginsLoaded.returns(false);
         element.timeEnd('foo');
         Gerrit._arePluginsLoaded.returns(true);

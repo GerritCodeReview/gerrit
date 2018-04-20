@@ -15,10 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../change-list/gr-change-list/gr-change-list.html">
+<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
 
@@ -62,6 +63,7 @@ limitations under the License.
           sections="[[_results]]"></gr-change-list>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-dashboard-view.js"></script>
 </dom-module>

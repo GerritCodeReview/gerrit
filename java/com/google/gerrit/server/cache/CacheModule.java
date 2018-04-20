@@ -67,15 +67,9 @@ public abstract class CacheModule extends FactoryModule {
    */
   protected <K, V> CacheBinding<K, V> cache(
       String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
-    Type type = Types.newParameterizedType(Cache.class, keyType.getType(), valType.getType());
-
-    @SuppressWarnings("unchecked")
-    Key<Cache<K, V>> key = (Key<Cache<K, V>>) Key.get(type, Names.named(name));
-
     CacheProvider<K, V> m = new CacheProvider<>(this, name, keyType, valType);
-    bind(key).toProvider(m).asEagerSingleton();
-    bind(ANY_CACHE).annotatedWith(Exports.named(name)).to(key);
-    return m.maximumWeight(1024);
+    bindCache(m, name, keyType, valType);
+    return m;
   }
 
   <K, V> Provider<CacheLoader<K, V>> bindCacheLoader(
@@ -126,7 +120,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
-  protected <K extends Serializable, V extends Serializable> CacheBinding<K, V> persist(
+  protected <K extends Serializable, V extends Serializable> PersistentCacheBinding<K, V> persist(
       String name, Class<K> keyType, Class<V> valType) {
     return persist(name, TypeLiteral.get(keyType), TypeLiteral.get(valType));
   }
@@ -138,7 +132,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
-  protected <K extends Serializable, V extends Serializable> CacheBinding<K, V> persist(
+  protected <K extends Serializable, V extends Serializable> PersistentCacheBinding<K, V> persist(
       String name, Class<K> keyType, TypeLiteral<V> valType) {
     return persist(name, TypeLiteral.get(keyType), valType);
   }
@@ -150,8 +144,21 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
-  protected <K extends Serializable, V extends Serializable> CacheBinding<K, V> persist(
+  protected <K extends Serializable, V extends Serializable> PersistentCacheBinding<K, V> persist(
       String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
-    return ((CacheProvider<K, V>) cache(name, keyType, valType)).persist(true);
+    PersistentCacheProvider<K, V> m = new PersistentCacheProvider<>(this, name, keyType, valType);
+    bindCache(m, name, keyType, valType);
+    return m;
+  }
+
+  private <K, V> void bindCache(
+      CacheProvider<K, V> m, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
+    Type type = Types.newParameterizedType(Cache.class, keyType.getType(), valType.getType());
+
+    @SuppressWarnings("unchecked")
+    Key<Cache<K, V>> key = (Key<Cache<K, V>>) Key.get(type, Names.named(name));
+    bind(key).toProvider(m).asEagerSingleton();
+    bind(ANY_CACHE).annotatedWith(Exports.named(name)).to(key);
+    m.maximumWeight(1024);
   }
 }

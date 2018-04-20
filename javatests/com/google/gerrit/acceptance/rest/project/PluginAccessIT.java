@@ -58,7 +58,7 @@ public class PluginAccessIT extends AbstractDaemonTest {
   public void addPluginCapability() throws Exception {
     ProjectAccessInput accessInput = new ProjectAccessInput();
     AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
-    PermissionInfo email = new PermissionInfo(null, null);
+    PermissionInfo email = new PermissionInfo(null, null, null);
     PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
 
     email.rules = ImmutableMap.of(SystemGroupBackend.REGISTERED_USERS.get(), pri);

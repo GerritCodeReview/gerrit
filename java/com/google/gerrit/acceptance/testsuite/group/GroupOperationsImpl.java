@@ -94,6 +94,10 @@ public class GroupOperationsImpl implements GroupOperations {
   private static InternalGroupUpdate toInternalGroupUpdate(TestGroupCreation groupCreation) {
     InternalGroupUpdate.Builder builder = InternalGroupUpdate.builder();
     groupCreation.description().ifPresent(builder::setDescription);
+    groupCreation.ownerGroupUuid().ifPresent(builder::setOwnerGroupUUID);
+    groupCreation.visibleToAll().ifPresent(builder::setVisibleToAll);
+    builder.setMemberModification(originalMembers -> groupCreation.members());
+    builder.setSubgroupModification(originalSubgroups -> groupCreation.subgroups());
     return builder.build();
   }
 
@@ -143,7 +147,12 @@ public class GroupOperationsImpl implements GroupOperations {
 
     private InternalGroupUpdate toInternalGroupUpdate(TestGroupUpdate groupUpdate) {
       InternalGroupUpdate.Builder builder = InternalGroupUpdate.builder();
+      groupUpdate.name().map(AccountGroup.NameKey::new).ifPresent(builder::setName);
       groupUpdate.description().ifPresent(builder::setDescription);
+      groupUpdate.ownerGroupUuid().ifPresent(builder::setOwnerGroupUUID);
+      groupUpdate.visibleToAll().ifPresent(builder::setVisibleToAll);
+      builder.setMemberModification(groupUpdate.memberModification()::apply);
+      builder.setSubgroupModification(groupUpdate.subgroupModification()::apply);
       return builder.build();
     }
   }

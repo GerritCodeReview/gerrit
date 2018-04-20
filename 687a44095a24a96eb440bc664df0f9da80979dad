@@ -514,6 +514,30 @@
       "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f55c95e0_8e07493c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T08:31:13Z",
+      "side": 1,
+      "message": "You\u0027re probably right. I think I got the hourglass idea comes from Arnab\u0027s designs. We can probably consult with him on what icons will fit as follow-up.",
+      "parentUuid": "3cc6bd19_bd886409",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 52
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

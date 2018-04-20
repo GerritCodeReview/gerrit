@@ -693,7 +693,7 @@ public class ProjectConfigTest extends GerritBaseTests {
   }
 
   @Test
-  public void readConfigAddPushMergeRefsForStarIsMigrated() throws Exception {
+  public void readConfigPushMergeRefsForStarIsMigrated() throws Exception {
     RevCommit rev =
         tr.commit()
             .add("groups", group(developers))
@@ -708,6 +708,29 @@ public class ProjectConfigTest extends GerritBaseTests {
     PermissionRule rule = new PermissionRule(developers);
     assertThat(as.getPermission(Permission.PUSH_MERGE, false).getRules())
         .isEqualTo(Lists.newArrayList(rule));
+  }
+
+  @Test
+  public void readConfigMultiplePermissionsOnRefsForStarIsMigrated() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[access \"refs/for/*\"]\n"
+                    + "  pushMerge = group Developers\n"
+                    + "  addPatchSet = group Developers\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    AccessSection as = cfg.getAccessSection("refs/for/*");
+    assertThat(as).isNull();
+    as = cfg.getAccessSection("refs/*");
+    assertThat(as).isNotNull();
+    assertThat(as.getPermission(Permission.PUSH_MERGE, false).getRules())
+        .isEqualTo(Lists.newArrayList(new PermissionRule(developers)));
+    assertThat(as.getPermission(Permission.ADD_PATCH_SET, false).getRules())
+        .isEqualTo(Lists.newArrayList(new PermissionRule(developers)));
   }
 
   @Test

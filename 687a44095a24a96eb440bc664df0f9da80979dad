@@ -491,6 +491,29 @@
       "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cc6bd19_bd886409",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-20T08:19:08Z",
+      "side": 1,
+      "message": "I\u0027m thinking we should use iron-icons instead. That could potentially be a follow-up, though. What do you think @Wyatt?",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 52
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

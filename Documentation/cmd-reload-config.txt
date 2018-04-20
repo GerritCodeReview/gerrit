@@ -13,7 +13,7 @@ _ssh_ -p <port> <host> _gerrit reload-config_
 == DESCRIPTION
 Reloads the gerrit.config configuration.
 
-Not all configuration value can be picked up by this command. Which config
+Not all configuration values can be picked up by this command. Which config
 sections and values that are supported is documented here:
 link:config-gerrit.html[Configuration]
 

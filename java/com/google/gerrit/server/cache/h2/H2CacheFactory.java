@@ -20,7 +20,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.server.cache.CacheBinding;
+import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
@@ -154,14 +154,14 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings({"unchecked"})
   @Override
-  public <K, V> Cache<K, V> build(CacheBinding<K, V> in) {
+  public <K, V> Cache<K, V> build(CacheDef<K, V> in) {
     long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
       return memCacheFactory.build(in);
     }
 
-    H2CacheBindingProxy<K, V> def = new H2CacheBindingProxy<>(in);
+    H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
     SqlStore<K, V> store =
         newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
     H2CacheImpl<K, V> cache =
@@ -175,14 +175,14 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> in, CacheLoader<K, V> loader) {
+  public <K, V> LoadingCache<K, V> build(CacheDef<K, V> in, CacheLoader<K, V> loader) {
     long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
       return memCacheFactory.build(in, loader);
     }
 
-    H2CacheBindingProxy<K, V> def = new H2CacheBindingProxy<>(in);
+    H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
     SqlStore<K, V> store =
         newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
     Cache<K, ValueHolder<V>> mem =

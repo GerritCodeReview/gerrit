@@ -16,8 +16,6 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.common.Nullable;
-import com.google.inject.TypeLiteral;
 import java.util.concurrent.TimeUnit;
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
@@ -40,41 +38,7 @@ public interface CacheBinding<K, V> {
   /**
    * Set the config name to something other than the cache name.
    *
-   * @see #configKey()
+   * @see CacheDef#configKey()
    */
   CacheBinding<K, V> configKey(String configKey);
-
-  /**
-   * Unique name for this cache.
-   *
-   * <p>The name can be used in a binding annotation {@code @Named(name)} to inject the cache
-   * configured with this binding.
-   */
-  String name();
-
-  /**
-   * Key to use when looking up configuration for this cache.
-   *
-   * <p>Typically, this will match the result of {@link #name()}, so that configuration is keyed by
-   * the actual cache name. However, it may be changed, for example to reuse the size limits of some
-   * other cache.
-   */
-  String configKey();
-
-  TypeLiteral<K> keyType();
-
-  TypeLiteral<V> valueType();
-
-  long maximumWeight();
-
-  long diskLimit();
-
-  @Nullable
-  Long expireAfterWrite(TimeUnit unit);
-
-  @Nullable
-  Weigher<K, V> weigher();
-
-  @Nullable
-  CacheLoader<K, V> loader();
 }

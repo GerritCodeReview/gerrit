@@ -312,6 +312,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       remove(section);
     } else if (section != null) {
       AccessSection a = accessSections.get(section.getName());
+      if (a == null) {
+        System.out.println(a);
+      }
       a.remove(permission);
       if (a.getPermissions().isEmpty()) {
         remove(a);
@@ -703,19 +706,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                 groupsByName,
                 perm,
                 Permission.hasRange(convertedName));
-            if (migrateRefsFor(as, perm)) {
-              if (isRefsForExclusively(refName)) {
-                // Since the ref only applies on refs/for/* and no other
-                // namespaces, we can remove the old permission.
-                remove(as, perm);
-              }
-            }
           } else {
             sectionsWithUnknownPermissions.add(as.getName());
           }
         }
       }
     }
+    migrateRefsFor();
 
     AccessSection capability = null;
     for (String varName : rc.getNames(CAPABILITY)) {
@@ -726,6 +723,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Permission perm = capability.getPermission(varName, true);
       loadPermissionRules(
           rc, CAPABILITY, null, varName, groupsByName, perm, GlobalCapability.hasRange(varName));
+    }
+  }
+
+  private void migrateRefsFor() {
+    for (AccessSection as : ImmutableList.copyOf(accessSections.values())) {
+      for (Permission p : ImmutableList.copyOf(as.getPermissions())) {
+        if (migrateRefsFor(as, p)) {
+          if (isRefsForExclusively(as.getName())) {
+            // Since the ref only applies on refs/for/* and no other
+            // namespaces, we can remove the old permission.
+            remove(as, p);
+          }
+        }
+      }
     }
   }
 
@@ -754,6 +765,35 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Permission convertedPerm = migratedAs.getPermission(Permission.CREATE_REVIEW, true);
       convertedPerm.setExclusiveGroup(perm.getExclusiveGroup());
       convertedPerm.addAll(perm.getRules());
+      return true;
+    }
+    if (isRefsForExclusively(refName) && perm.getName().equals(Permission.SUBMIT)) {
+      // We only migrate "Submit" if is exclusively added to refs/for/.
+      // We do this because when the new "Submit on Push" force
+      // option is added, it is somewhat likely that people will start specify
+      // Submit on refs/* (something which previously had to be avoided if the
+      // user did not want to enable "Submit on push").
+      // Also, before this change, the documentation mentioned
+      // explicitly that "refs/for/*" will enable "Submit on push".
+      AccessSection migratedAs = getAccessSection(unRefsFor(refName), true);
+      Permission migratedPerm = migratedAs.getPermission(Permission.SUBMIT, true);
+      migratedPerm.setExclusiveGroup(perm.getExclusiveGroup());
+      for (PermissionRule rule : perm.getRules()) {
+        PermissionRule migratedRule = migratedPerm.getRule(rule.getGroup(), true);
+        migratedRule.setForce(true);
+      }
+      return true;
+    }
+    if (isRefsForExclusively(refName) && perm.getName().equals(Permission.ADD_PATCH_SET)) {
+      // No need to migrate ADD_PATCH_SET on refs/*
+      AccessSection migratedAs = getAccessSection(unRefsFor(refName), true);
+      migratedAs.addPermission(perm);
+      return true;
+    }
+    if (isRefsForExclusively(refName) && perm.getName().equals(Permission.PUSH_MERGE)) {
+      // No need to migrate PUSH_MERGE on refs/*
+      AccessSection migratedAs = getAccessSection(unRefsFor(refName), true);
+      migratedAs.addPermission(perm);
       return true;
     }
     return false;

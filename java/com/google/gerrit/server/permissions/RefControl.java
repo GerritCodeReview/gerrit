@@ -29,7 +29,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.util.MagicBranch;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.util.Providers;
 import java.util.Collection;
@@ -97,9 +96,7 @@ class RefControl {
 
   /** @return true if this user can add a new patch set to this ref */
   boolean canAddPatchSet() {
-    return projectControl
-        .controlForRef(MagicBranch.NEW_CHANGE + refName)
-        .canPerform(Permission.ADD_PATCH_SET);
+    return canPerform(Permission.ADD_PATCH_SET);
   }
 
   /** @return true if this user can rebase changes on this ref */
@@ -108,7 +105,7 @@ class RefControl {
   }
 
   /** @return true if this user can submit patch sets to this ref */
-  boolean canSubmit(boolean isChangeOwner) {
+  boolean canSubmit(boolean isChangeOwner, boolean force) {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
       // Submitting configuration changes modifies the access control
@@ -117,7 +114,7 @@ class RefControl {
       // granting of powers beyond submitting to the configuration.
       return projectControl.isOwner();
     }
-    return canPerform(Permission.SUBMIT, isChangeOwner, false);
+    return canPerform(Permission.SUBMIT, isChangeOwner, force);
   }
 
   /** @return true if this user can force edit topic names. */
@@ -153,7 +150,7 @@ class RefControl {
 
   /** @return true if this user can submit merge patch sets to this ref */
   private boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
+    return canPerform(Permission.PUSH_MERGE);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */
@@ -494,7 +491,7 @@ class RefControl {
           return canPerform(refPermissionName(perm));
 
         case UPDATE_BY_SUBMIT:
-          return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
+          return canSubmit(true, true);
 
         case READ_PRIVATE_CHANGES:
           return canPerform(Permission.VIEW_PRIVATE_CHANGES);

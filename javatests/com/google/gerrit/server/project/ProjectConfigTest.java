@@ -615,6 +615,125 @@ public class ProjectConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void readConfigSubmitRefsForStarIsMigrated() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add("project.config", "[access \"refs/for/*\"]\n" + "  submit = group Developers\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    AccessSection as = cfg.getAccessSection("refs/for/*");
+    assertThat(as).isNull();
+
+    as = cfg.getAccessSection("refs/*");
+    assertThat(as.getPermission(Permission.SUBMIT, false)).isNotNull();
+    PermissionRule rule = new PermissionRule(developers);
+    rule.setForce(true);
+    assertThat(as.getPermission(Permission.SUBMIT, false).getRules())
+        .isEqualTo(Lists.newArrayList(rule));
+  }
+
+  @Test
+  public void readConfigSubmitRefsStarIsNotMigrated() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add("project.config", "[access \"refs/*\"]\n" + "  submit = group Developers\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    AccessSection as = cfg.getAccessSection("refs/*");
+    assertThat(as).isNotNull();
+    PermissionRule rule = new PermissionRule(developers);
+    assertThat(as.getPermission(Permission.SUBMIT, false).getRules())
+        .isEqualTo(Lists.newArrayList(rule));
+  }
+
+  @Test
+  public void readConfigSubmitRefsForStarIsMigratedIntoExistingPermission() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[access \"refs/*\"]\n"
+                    + "  submit = group Developers\n"
+                    + "[access \"refs/for/*\"]\n"
+                    + "  submit = group Developers\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    AccessSection as = cfg.getAccessSection("refs/*");
+    assertThat(as).isNotNull();
+    PermissionRule rule = new PermissionRule(developers);
+    rule.setForce(true);
+    assertThat(as.getPermission(Permission.SUBMIT, false).getRules())
+        .isEqualTo(Lists.newArrayList(rule));
+  }
+
+  @Test
+  public void readConfigAddPatchSetRefsForStarIsMigrated() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[access \"refs/for/*\"]\n" + "  addPatchSet = group Developers\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    AccessSection as = cfg.getAccessSection("refs/for/*");
+    assertThat(as).isNull();
+    as = cfg.getAccessSection("refs/*");
+    assertThat(as).isNotNull();
+    PermissionRule rule = new PermissionRule(developers);
+    assertThat(as.getPermission(Permission.ADD_PATCH_SET, false).getRules())
+        .isEqualTo(Lists.newArrayList(rule));
+  }
+
+  @Test
+  public void readConfigPushMergeRefsForStarIsMigrated() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add("project.config", "[access \"refs/for/*\"]\n" + "  pushMerge = group Developers\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    AccessSection as = cfg.getAccessSection("refs/for/*");
+    assertThat(as).isNull();
+    as = cfg.getAccessSection("refs/*");
+    assertThat(as).isNotNull();
+    PermissionRule rule = new PermissionRule(developers);
+    assertThat(as.getPermission(Permission.PUSH_MERGE, false).getRules())
+        .isEqualTo(Lists.newArrayList(rule));
+  }
+
+  @Test
+  public void readConfigMultiplePermissionsOnRefsForStarIsMigrated() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[access \"refs/for/*\"]\n"
+                    + "  pushMerge = group Developers\n"
+                    + "  addPatchSet = group Developers\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    AccessSection as = cfg.getAccessSection("refs/for/*");
+    assertThat(as).isNull();
+    as = cfg.getAccessSection("refs/*");
+    assertThat(as).isNotNull();
+    assertThat(as.getPermission(Permission.PUSH_MERGE, false).getRules())
+        .isEqualTo(Lists.newArrayList(new PermissionRule(developers)));
+    assertThat(as.getPermission(Permission.ADD_PATCH_SET, false).getRules())
+        .isEqualTo(Lists.newArrayList(new PermissionRule(developers)));
+  }
+
+  @Test
   public void readCommentLinkMatchButNoHtmlOrLink() throws Exception {
     RevCommit rev =
         tr.commit()

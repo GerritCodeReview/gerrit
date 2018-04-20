@@ -16,18 +16,15 @@ package com.google.gerrit.server.cache.h2;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.server.cache.CacheBinding;
+import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
 import java.util.concurrent.TimeUnit;
 
-class H2CacheBindingProxy<K, V> implements CacheBinding<K, V> {
-  private static final String MSG_NOT_SUPPORTED =
-      "This is read-only wrapper. Modifications are not supported";
+class H2CacheDefProxy<K, V> implements CacheDef<K, V> {
+  private final CacheDef<K, V> source;
 
-  private final CacheBinding<K, V> source;
-
-  H2CacheBindingProxy(CacheBinding<K, V> source) {
+  H2CacheDefProxy(CacheDef<K, V> source) {
     this.source = source;
   }
 
@@ -88,35 +85,5 @@ class H2CacheBindingProxy<K, V> implements CacheBinding<K, V> {
   @Override
   public CacheLoader<K, V> loader() {
     return source.loader();
-  }
-
-  @Override
-  public CacheBinding<K, V> configKey(String configKey) {
-    throw new RuntimeException(MSG_NOT_SUPPORTED);
-  }
-
-  @Override
-  public CacheBinding<K, V> maximumWeight(long weight) {
-    throw new RuntimeException(MSG_NOT_SUPPORTED);
-  }
-
-  @Override
-  public CacheBinding<K, V> diskLimit(long limit) {
-    throw new RuntimeException(MSG_NOT_SUPPORTED);
-  }
-
-  @Override
-  public CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits) {
-    throw new RuntimeException(MSG_NOT_SUPPORTED);
-  }
-
-  @Override
-  public CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz) {
-    throw new RuntimeException(MSG_NOT_SUPPORTED);
-  }
-
-  @Override
-  public CacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz) {
-    throw new RuntimeException(MSG_NOT_SUPPORTED);
   }
 }

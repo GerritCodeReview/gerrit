@@ -20,7 +20,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.server.cache.CacheBinding;
+import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -42,17 +42,17 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   }
 
   @Override
-  public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
+  public <K, V> Cache<K, V> build(CacheDef<K, V> def) {
     return create(def).build();
   }
 
   @Override
-  public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> def, CacheLoader<K, V> loader) {
+  public <K, V> LoadingCache<K, V> build(CacheDef<K, V> def, CacheLoader<K, V> loader) {
     return create(def).build(loader);
   }
 
   @SuppressWarnings("unchecked")
-  private <K, V> CacheBuilder<K, V> create(CacheBinding<K, V> def) {
+  private <K, V> CacheBuilder<K, V> create(CacheDef<K, V> def) {
     CacheBuilder<K, V> builder = newCacheBuilder();
     builder.recordStats();
     builder.maximumWeight(

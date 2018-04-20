@@ -83,7 +83,19 @@ limitations under the License.
       sandbox.stub(element, 'time');
       element.beforeLocationChanged();
       assert.isTrue(element.time.calledWithExactly('DashboardDisplayed'));
+      assert.isTrue(element.time.calledWithExactly('ChangeDisplayed'));
       assert.isFalse(element._baselines.hasOwnProperty('garbage'));
+    });
+
+    test('changeDisplayed', () => {
+      sandbox.spy(element, 'timeEnd');
+      element.changeDisplayed();
+      assert.isFalse(
+          element.timeEnd.calledWithExactly('ChangeDisplayed'));
+      assert.isTrue(
+          element.timeEnd.calledWithExactly('StartupChangeDisplayed'));
+      element.changeDisplayed();
+      assert.isTrue(element.timeEnd.calledWithExactly('ChangeDisplayed'));
     });
 
     test('dashboardDisplayed', () => {

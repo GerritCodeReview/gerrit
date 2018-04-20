@@ -39,13 +39,16 @@
   };
 
   const TIMER = {
+    CHANGE_DISPLAYED: 'ChangeDisplayed',
     DASHBOARD_DISPLAYED: 'DashboardDisplayed',
-    STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
     PLUGINS_LOADED: 'PluginsLoaded',
+    STARTUP_CHANGE_DISPLAYED: 'StartupChangeDisplayed',
+    STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
   };
 
   const STARTUP_TIMERS = {};
   STARTUP_TIMERS[TIMER.PLUGINS_LOADED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
 
   const INTERACTION_TYPE = 'interaction';
@@ -171,6 +174,7 @@
       for (const prop of Object.keys(this._baselines)) {
         delete this._baselines[prop];
       }
+      this.time(TIMER.CHANGE_DISPLAYED);
       this.time(TIMER.DASHBOARD_DISPLAYED);
     },
 
@@ -184,6 +188,14 @@
         this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED);
       } else {
         this.timeEnd(TIMER.DASHBOARD_DISPLAYED);
+      }
+    },
+
+    changeDisplayed() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_DISPLAYED)) {
+        this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED);
+      } else {
+        this.timeEnd(TIMER.CHANGE_DISPLAYED);
       }
     },
 

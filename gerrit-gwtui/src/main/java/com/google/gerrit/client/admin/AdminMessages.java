@@ -26,6 +26,8 @@ public interface AdminMessages extends Messages {
 
   String labelAs(String name);
 
+  String role(String name);
+
   String project(String name);
 
   String deletedGroup(int id);

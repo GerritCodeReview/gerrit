@@ -20,8 +20,8 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
+import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
@@ -154,7 +154,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings({"unchecked"})
   @Override
-  public <K, V> Cache<K, V> build(CacheDef<K, V> in) {
+  public <K, V> Cache<K, V> build(PersistentCacheDef<K, V> in) {
     long limit = config.getLong("cache", in.name(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
@@ -175,7 +175,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <K, V> LoadingCache<K, V> build(CacheDef<K, V> in, CacheLoader<K, V> loader) {
+  public <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> in, CacheLoader<K, V> loader) {
     long limit = config.getLong("cache", in.name(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {

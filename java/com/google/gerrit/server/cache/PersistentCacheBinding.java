@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,17 +18,20 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import java.util.concurrent.TimeUnit;
 
-/** Configure a cache declared within a {@link CacheModule} instance. */
-public interface CacheBinding<K, V> {
-  /** Set the total size of the cache. */
-  CacheBinding<K, V> maximumWeight(long weight);
+/** Configure a persistent cache declared within a {@link CacheModule} instance. */
+public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
+  @Override
+  PersistentCacheBinding<K, V> maximumWeight(long weight);
 
-  /** Set the time an element lives before being expired. */
-  CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits);
+  @Override
+  PersistentCacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits);
 
-  /** Populate the cache with items from the CacheLoader. */
-  CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
+  @Override
+  PersistentCacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
 
-  /** Algorithm to weigh an object with a method other than the unit weight 1. */
-  CacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz);
+  @Override
+  PersistentCacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz);
+
+  /** Set the total on-disk limit of the cache */
+  PersistentCacheBinding<K, V> diskLimit(long limit);
 }

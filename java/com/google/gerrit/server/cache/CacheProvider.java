@@ -14,9 +14,10 @@
 
 package com.google.gerrit.server.cache;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
@@ -34,16 +35,13 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   private final TypeLiteral<K> keyType;
   private final TypeLiteral<V> valType;
   private String configKey;
-  private boolean persist;
   private long maximumWeight;
-  private long diskLimit;
   private Long expireAfterWrite;
   private Provider<CacheLoader<K, V>> loader;
   private Provider<Weigher<K, V>> weigher;
 
   private String plugin;
   private MemoryCacheFactory memoryCacheFactory;
-  private PersistentCacheFactory persistentCacheFactory;
   private boolean frozen;
 
   CacheProvider(CacheModule module, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
@@ -63,57 +61,38 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
     this.memoryCacheFactory = factory;
   }
 
-  @Inject(optional = true)
-  void setPersistentCacheFactory(@Nullable PersistentCacheFactory factory) {
-    this.persistentCacheFactory = factory;
-  }
-
-  CacheBinding<K, V> persist(boolean p) {
-    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
-    persist = p;
-    return this;
-  }
-
   @Override
   public CacheBinding<K, V> maximumWeight(long weight) {
-    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    checkNotFrozen();
     maximumWeight = weight;
     return this;
   }
 
   @Override
-  public CacheBinding<K, V> diskLimit(long limit) {
-    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
-    Preconditions.checkState(persist, "diskLimit supported for persistent caches only");
-    diskLimit = limit;
-    return this;
-  }
-
-  @Override
   public CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit unit) {
-    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    checkNotFrozen();
     expireAfterWrite = SECONDS.convert(duration, unit);
     return this;
   }
 
   @Override
   public CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> impl) {
-    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    checkNotFrozen();
     loader = module.bindCacheLoader(this, impl);
     return this;
   }
 
   @Override
   public CacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> impl) {
-    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
+    checkNotFrozen();
     weigher = module.bindWeigher(this, impl);
     return this;
   }
 
   @Override
   public CacheBinding<K, V> configKey(String name) {
-    Preconditions.checkState(!frozen, "binding frozen, cannot be modified");
-    configKey = Preconditions.checkNotNull(name);
+    checkNotFrozen();
+    configKey = checkNotNull(name);
     return this;
   }
 
@@ -146,14 +125,6 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
-  public long diskLimit() {
-    if (diskLimit > 0) {
-      return diskLimit;
-    }
-    return 128 << 20;
-  }
-
-  @Override
   @Nullable
   public Long expireAfterWrite(TimeUnit unit) {
     return expireAfterWrite != null ? unit.convert(expireAfterWrite, SECONDS) : null;
@@ -173,18 +144,16 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
 
   @Override
   public Cache<K, V> get() {
-    frozen = true;
+    freeze();
+    CacheLoader<K, V> ldr = loader();
+    return ldr != null ? memoryCacheFactory.build(this, ldr) : memoryCacheFactory.build(this);
+  }
 
-    if (loader != null) {
-      CacheLoader<K, V> ldr = loader.get();
-      if (persist && persistentCacheFactory != null) {
-        return persistentCacheFactory.build(this, ldr);
-      }
-      return memoryCacheFactory.build(this, ldr);
-    } else if (persist && persistentCacheFactory != null) {
-      return persistentCacheFactory.build(this);
-    } else {
-      return memoryCacheFactory.build(this);
-    }
+  protected void checkNotFrozen() {
+    checkState(!frozen, "binding frozen, cannot be modified");
+  }
+
+  protected void freeze() {
+    frozen = true;
   }
 }

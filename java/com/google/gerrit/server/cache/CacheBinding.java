@@ -23,9 +23,6 @@ public interface CacheBinding<K, V> {
   /** Set the total size of the cache. */
   CacheBinding<K, V> maximumWeight(long weight);
 
-  /** Set the total on-disk limit of the cache */
-  CacheBinding<K, V> diskLimit(long limit);
-
   /** Set the time an element lives before being expired. */
   CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits);
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1471c070_5915e6b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-20T16:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5213334f_730b0f3e",
+      "range": {
+        "startLine": 9,
+        "startChar": 76,
+        "endLine": 9,
+        "endChar": 81
+      },
+      "revId": "e84adb0995a73bd31d00c8b3c07e4c055f002fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfed08c8_ef3fc503",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2
@@ -75,6 +99,24 @@
       "revId": "e84adb0995a73bd31d00c8b3c07e4c055f002fe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "324cd3ce_b92e6d70",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-20T16:27:53Z",
+      "side": 1,
+      "message": "I took a stab at it and this appeared to be non-trivial, so I\u0027ve added a TODO instead.",
+      "parentUuid": "6421c38c_ed07d92c",
+      "revId": "e84adb0995a73bd31d00c8b3c07e4c055f002fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

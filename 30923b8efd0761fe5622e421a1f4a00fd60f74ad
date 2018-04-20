@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faba8f53_30f120af",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-20T14:18:45Z",
+      "side": 1,
+      "message": "Should probably update the documentation links in this file that currently points to the ssh command",
+      "revId": "30923b8efd0761fe5622e421a1f4a00fd60f74ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

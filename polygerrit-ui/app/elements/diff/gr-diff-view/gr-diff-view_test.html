@@ -71,6 +71,23 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('params change triggers diffViewDisplayed()', () => {
+      sandbox.stub(element.$.reporting, 'diffViewDisplayed');
+      sandbox.stub(element.$.diff, 'reload').returns(Promise.resolve());
+      sandbox.spy(element, '_paramsChanged');
+      element.params = {
+        view: Gerrit.Nav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+      };
+
+      return element._paramsChanged.returnValues[0].then(() => {
+        assert.isTrue(element.$.reporting.diffViewDisplayed.calledOnce);
+      });
+    });
+
     test('toggle left diff with a hotkey', () => {
       const toggleLeftDiffStub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
       MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');

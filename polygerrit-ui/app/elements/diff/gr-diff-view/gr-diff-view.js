@@ -618,7 +618,7 @@
       promises.push(this._getChangeEdit(this._changeNum));
 
       this._loading = true;
-      Promise.all(promises).then(r => {
+      return Promise.all(promises).then(r => {
         const edit = r[4];
         if (edit) {
           this.set('_change.revisions.' + edit.commit.commit, {
@@ -629,7 +629,9 @@
         }
         this._loading = false;
         this.$.diff.comments = this._commentsForDiff;
-        this.$.diff.reload();
+        return this.$.diff.reload();
+      }).then(() => {
+        this.$.reporting.diffViewDisplayed();
       });
     },
 

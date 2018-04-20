@@ -84,6 +84,7 @@ limitations under the License.
       element.beforeLocationChanged();
       assert.isTrue(element.time.calledWithExactly('DashboardDisplayed'));
       assert.isTrue(element.time.calledWithExactly('ChangeDisplayed'));
+      assert.isTrue(element.time.calledWithExactly('DiffViewDisplayed'));
       assert.isFalse(element._baselines.hasOwnProperty('garbage'));
     });
 
@@ -96,6 +97,17 @@ limitations under the License.
           element.timeEnd.calledWithExactly('StartupChangeDisplayed'));
       element.changeDisplayed();
       assert.isTrue(element.timeEnd.calledWithExactly('ChangeDisplayed'));
+    });
+
+    test('diffViewDisplayed', () => {
+      sandbox.spy(element, 'timeEnd');
+      element.diffViewDisplayed();
+      assert.isFalse(
+          element.timeEnd.calledWithExactly('DiffViewDisplayed'));
+      assert.isTrue(
+          element.timeEnd.calledWithExactly('StartupDiffViewDisplayed'));
+      element.diffViewDisplayed();
+      assert.isTrue(element.timeEnd.calledWithExactly('DiffViewDisplayed'));
     });
 
     test('dashboardDisplayed', () => {

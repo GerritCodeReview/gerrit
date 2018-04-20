@@ -779,6 +779,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       migratedAs.addPermission(perm);
       return true;
     }
+    if (isRefsForExclusively(refName) && perm.getName().equals(Permission.PUSH_MERGE)) {
+      // No need to migrate PUSH_MERGE on refs/*
+      AccessSection migratedAs = getAccessSection(unRefsFor(refName), true);
+      migratedAs.addPermission(perm);
+      return true;
+    }
     return false;
   }
 

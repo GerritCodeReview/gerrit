@@ -150,7 +150,7 @@ class RefControl {
 
   /** @return true if this user can submit merge patch sets to this ref */
   private boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
+    return canPerform(Permission.PUSH_MERGE);
   }
 
   /** @return true if the user can update the reference as a fast-forward. */

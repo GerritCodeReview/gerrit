@@ -693,6 +693,24 @@ public class ProjectConfigTest extends GerritBaseTests {
   }
 
   @Test
+  public void readConfigAddPushMergeRefsForStarIsMigrated() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add("project.config", "[access \"refs/for/*\"]\n" + "  pushMerge = group Developers\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    AccessSection as = cfg.getAccessSection("refs/for/*");
+    assertThat(as).isNull();
+    as = cfg.getAccessSection("refs/*");
+    assertThat(as).isNotNull();
+    PermissionRule rule = new PermissionRule(developers);
+    assertThat(as.getPermission(Permission.PUSH_MERGE, false).getRules())
+        .isEqualTo(Lists.newArrayList(rule));
+  }
+
+  @Test
   public void readCommentLinkMatchButNoHtmlOrLink() throws Exception {
     RevCommit rev =
         tr.commit()

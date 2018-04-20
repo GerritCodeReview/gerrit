@@ -628,13 +628,6 @@ push to happen.  Some projects wish to restrict merges to being created
 by Gerrit. By granting `Push` without `Push Merge Commit`, the only
 merges that enter the system will be those created by Gerrit.
 
-The reference name connected to a `Push Merge Commit` entry must always
-be prefixed with `refs/for/`, for example `refs/for/refs/heads/BRANCH`.
-This applies even for an entry that complements a `Push` entry for
-`refs/heads/BRANCH` that allows direct pushes of non-merge commits, and
-the intention of the `Push Merge Commit` entry is to allow direct pushes
-of merge commits.
-
 
 [[category_push_annotated]]
 [[category_create_annotated]]
@@ -915,7 +908,7 @@ Suggested access rights to grant:
 
 * xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
 * xref:category_push[`Create Review`] to 'refs/heads/*'
-* xref:category_push_merge[`Push merge commit`] to 'refs/for/refs/heads/*'
+* xref:category_push_merge[`Push merge commit`] to 'refs/heads/*'
 * xref:category_forge_author[`Forge Author Identity`] to 'refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-2' to '+2' for 'refs/heads/*'
 * link:config-labels.html#label_Verified[`Label: Verified`] with range '-1' to '+1' for 'refs/heads/*'

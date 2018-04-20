@@ -162,7 +162,6 @@ public class AllProjectsCreator {
       AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
       AccessSection tags = config.getAccessSection("refs/tags/*", true);
       AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
-      AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
 
       grant(config, cap, GlobalCapability.ADMINISTRATE_SERVER, admin);
       grant(config, all, Permission.READ, admin, anonymous);
@@ -185,6 +184,7 @@ public class AllProjectsCreator {
       grant(config, heads, cr, -2, 2, admin, owners);
       grant(config, heads, Permission.CREATE, admin, owners);
       grant(config, heads, Permission.PUSH, admin, owners);
+      grant(config, all, Permission.PUSH_MERGE, registered);
       grant(config, heads, Permission.SUBMIT, admin, owners);
       grant(config, heads, Permission.FORGE_AUTHOR, registered);
       grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);
@@ -193,8 +193,6 @@ public class AllProjectsCreator {
       grant(config, tags, Permission.CREATE, admin, owners);
       grant(config, tags, Permission.CREATE_TAG, admin, owners);
       grant(config, tags, Permission.CREATE_SIGNED_TAG, admin, owners);
-
-      grant(config, magic, Permission.PUSH_MERGE, registered);
 
       meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
       grant(config, meta, Permission.READ, admin, owners);

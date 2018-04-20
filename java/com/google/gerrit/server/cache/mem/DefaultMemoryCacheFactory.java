@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache.h2;
+package com.google.gerrit.server.cache.mem;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -20,43 +20,21 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheBinding;
-import com.google.gerrit.server.cache.CacheImpl;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
-import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
-public class DefaultCacheFactory implements MemoryCacheFactory {
-  @CacheImpl(type = CacheImpl.Type.Memory)
-  public static class MemoryCacheModule extends FactoryModule {
-    @Override
-    protected void configure() {
-      factory(ForwardingRemovalListener.Factory.class);
-      bind(MemoryCacheFactory.class).to(DefaultCacheFactory.class);
-    }
-  }
-
-  @CacheImpl(type = CacheImpl.Type.Persistent)
-  public static class PersistentCacheModule extends LifecycleModule {
-    @Override
-    protected void configure() {
-      bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
-      listener().to(H2CacheFactory.class);
-    }
-  }
-
+class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   private final Config cfg;
   private final ForwardingRemovalListener.Factory forwardingRemovalListenerFactory;
 
   @Inject
-  public DefaultCacheFactory(
+  DefaultMemoryCacheFactory(
       @GerritServerConfig Config config,
       ForwardingRemovalListener.Factory forwardingRemovalListenerFactory) {
     this.cfg = config;

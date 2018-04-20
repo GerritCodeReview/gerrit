@@ -12,23 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server.cache.h2;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.cache.CacheImpl;
+import com.google.gerrit.server.cache.PersistentCacheFactory;
 
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-@Retention(RUNTIME)
-@Target(TYPE)
-@Inherited
-public @interface CacheImpl {
-  enum Type {
-    MEMORY,
-    PERSISTENT
+@CacheImpl(type = CacheImpl.Type.PERSISTENT)
+public class H2CacheModule extends LifecycleModule {
+  @Override
+  protected void configure() {
+    bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
+    listener().to(H2CacheFactory.class);
   }
-
-  Type type();
 }

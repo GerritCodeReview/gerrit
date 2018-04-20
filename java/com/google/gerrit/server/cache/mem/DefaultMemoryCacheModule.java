@@ -12,23 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server.cache.mem;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.cache.CacheImpl;
+import com.google.gerrit.server.cache.ForwardingRemovalListener;
+import com.google.gerrit.server.cache.MemoryCacheFactory;
 
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-@Retention(RUNTIME)
-@Target(TYPE)
-@Inherited
-public @interface CacheImpl {
-  enum Type {
-    MEMORY,
-    PERSISTENT
+@CacheImpl(type = CacheImpl.Type.MEMORY)
+public class DefaultMemoryCacheModule extends FactoryModule {
+  @Override
+  protected void configure() {
+    factory(ForwardingRemovalListener.Factory.class);
+    bind(MemoryCacheFactory.class).to(DefaultMemoryCacheFactory.class);
   }
-
-  Type type();
 }

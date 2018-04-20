@@ -14,33 +14,43 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.validators.AccountActivationValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class SetInactiveFlag {
-
+  private final DynamicSet<AccountActivationValidationListener>
+      accountActivationValidationListeners;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
-  SetInactiveFlag(@ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+  SetInactiveFlag(
+      DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+    this.accountActivationValidationListeners = accountActivationValidationListeners;
     this.accountsUpdateProvider = accountsUpdateProvider;
   }
 
   public Response<?> deactivate(Account.Id accountId)
       throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
+    AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     accountsUpdateProvider
         .get()
         .update(
@@ -50,10 +60,21 @@ public class SetInactiveFlag {
               if (!a.getAccount().isActive()) {
                 alreadyInactive.set(true);
               } else {
+                for (AccountActivationValidationListener l : accountActivationValidationListeners) {
+                  try {
+                    l.validateDeactivation(a);
+                  } catch (ValidationException e) {
+                    exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
+                    return;
+                  }
+                }
                 u.setActive(false);
               }
             })
         .orElseThrow(() -> new ResourceNotFoundException("account not found"));
+    if (exception.get().isPresent()) {
+      throw exception.get().get();
+    }
     if (alreadyInactive.get()) {
       throw new ResourceConflictException("account not active");
     }
@@ -61,8 +82,9 @@ public class SetInactiveFlag {
   }
 
   public Response<String> activate(Account.Id accountId)
-      throws ResourceNotFoundException, IOException, ConfigInvalidException, OrmException {
+      throws RestApiException, IOException, ConfigInvalidException, OrmException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);
+    AtomicReference<Optional<RestApiException>> exception = new AtomicReference<>(Optional.empty());
     accountsUpdateProvider
         .get()
         .update(
@@ -72,10 +94,21 @@ public class SetInactiveFlag {
               if (a.getAccount().isActive()) {
                 alreadyActive.set(true);
               } else {
+                for (AccountActivationValidationListener l : accountActivationValidationListeners) {
+                  try {
+                    l.validateActivation(a);
+                  } catch (ValidationException e) {
+                    exception.set(Optional.of(new ResourceConflictException(e.getMessage(), e)));
+                    return;
+                  }
+                }
                 u.setActive(true);
               }
             })
         .orElseThrow(() -> new ResourceNotFoundException("account not found"));
+    if (exception.get().isPresent()) {
+      throw exception.get().get();
+    }
     return alreadyActive.get() ? Response.ok("") : Response.created("");
   }
 }

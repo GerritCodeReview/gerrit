@@ -17,8 +17,8 @@ package com.google.gerrit.server.restapi.account;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.Input;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.SetInactiveFlag;
@@ -31,7 +31,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 @Singleton
 public class PutActive implements RestModifyView<AccountResource, Input> {
-
   private final SetInactiveFlag setInactiveFlag;
 
   @Inject
@@ -41,7 +40,7 @@ public class PutActive implements RestModifyView<AccountResource, Input> {
 
   @Override
   public Response<String> apply(AccountResource rsrc, Input input)
-      throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException {
     return setInactiveFlag.activate(rsrc.getUser().getAccountId());
   }
 }

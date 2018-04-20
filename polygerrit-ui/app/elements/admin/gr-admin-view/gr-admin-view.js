@@ -29,6 +29,7 @@
       path: String,
       adminView: String,
 
+      _breadcrumbParentName: String,
       _repoName: String,
       _groupId: {
         type: Number,
@@ -103,6 +104,8 @@
             options)
             .then(res => {
               this._filteredLinks = res.links;
+              this._breadcrumbParentName = res.expandedSection ?
+                  res.expandedSection.name : '';
 
               if (!res.expandedSection) {
                 this._subsectionLinks = [];
@@ -112,7 +115,7 @@
               .concat(res.expandedSection.children).map(section => {
                 return {
                   text: !section.detailType ? 'Home' : section.name,
-                  value: section.view + section.detailType,
+                  value: section.view + (section.detailType || ''),
                   view: section.view,
                   url: section.url,
                   detailType: section.detailType,
@@ -121,6 +124,17 @@
               });
             });
       });
+    },
+
+    _computeSelectValue(params) {
+      if (!params || !params.view) { return; }
+      return params.view + (params.detail || '');
+    },
+
+    _selectedIsCurrentPage(selected) {
+      return (selected.parent === (this._repoName || this._groupId) &&
+          selected.view === this.params.view &&
+          selected.detailType === this.params.detail);
     },
 
     _handleSubsectionChange(e) {
@@ -165,16 +179,22 @@
       this.set('_showPluginList', isAdminView &&
           params.adminView === 'gr-plugin-list');
 
+      let needsReload = false;
       if (params.repo !== this._repoName) {
         this._repoName = params.repo || '';
         // Reloads the admin menu.
-        this.reload();
+        needsReload = true;
       }
       if (params.groupId !== this._groupId) {
         this._groupId = params.groupId || '';
         // Reloads the admin menu.
-        this.reload();
+        needsReload = true;
       }
+      if (this._breadcrumbParentName && !params.groupId && !params.repo) {
+        needsReload = true;
+      }
+      if (!needsReload) { return; }
+      this.reload();
     },
 
     _computeSelectedTitle(params) {

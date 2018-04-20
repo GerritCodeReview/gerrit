@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27734a3b_b73555de",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T08:17:47Z",
+      "side": 1,
+      "message": "I\u0027m not sure why, but this still shows the submit status on merged and abandoned changes.",
+      "revId": "ea95f88b0e3955043440403aa40583fe0a964c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba65ac5a_9cc4485c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T08:17:47Z",
+      "side": 1,
+      "message": "Alphabetize these.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "ea95f88b0e3955043440403aa40583fe0a964c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a533eef6_1224ebbd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T08:17:47Z",
+      "side": 1,
+      "message": "Is this needed? It looks like this is unused, unless I missed it.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 6
+      },
+      "revId": "ea95f88b0e3955043440403aa40583fe0a964c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b228286_9080e2bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T08:17:47Z",
+      "side": 1,
+      "message": "Nit:\n\n return change.status \u003d\u003d\u003d this.ChangeStatus.NEW;",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 50,
+        "endChar": 25
+      },
+      "revId": "ea95f88b0e3955043440403aa40583fe0a964c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22244a6d_7f058b93",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T08:17:47Z",
+      "side": 1,
+      "message": "Since this sandbox is not used, you might just remove it.",
+      "revId": "ea95f88b0e3955043440403aa40583fe0a964c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f99941f_d6990712",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T08:17:47Z",
+      "side": 1,
+      "message": "Is this needed? The gr-change-requirements component doesn\u0027t request the config or the loggedIn APIs.",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 9
+      },
+      "revId": "ea95f88b0e3955043440403aa40583fe0a964c6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

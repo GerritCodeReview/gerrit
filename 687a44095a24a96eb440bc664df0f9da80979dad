@@ -467,6 +467,30 @@
       "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5d86c02_d419ae0f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T08:17:47Z",
+      "side": 1,
+      "message": "Hmm. It was my suggestion, but now that it has the familiar ✓ and ✕, when a label is missing, the red ✕ sort of makes it look like the label is -2\u0027d rather than simply missing.\n\nWhat do you think if we used ⧗ (instead of ✕) to indicate \"waiting\" and use the color ..\n\n #ffa62f\n\n.. instead of the red.",
+      "parentUuid": "fd64f42f_7809923d",
+      "range": {
+        "startLine": 88,
+        "startChar": 42,
+        "endLine": 88,
+        "endChar": 51
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

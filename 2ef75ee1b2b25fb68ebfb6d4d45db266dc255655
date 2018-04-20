@@ -46,6 +46,30 @@
       "revId": "2ef75ee1b2b25fb68ebfb6d4d45db266dc255655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78d98d28_e3150a76",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-20T10:19:54Z",
+      "side": 1,
+      "message": "That\u0027s ok, at least we tried :)",
+      "parentUuid": "b0ba8428_aff91ebb",
+      "range": {
+        "startLine": 491,
+        "startChar": 4,
+        "endLine": 492,
+        "endChar": 84
+      },
+      "revId": "2ef75ee1b2b25fb68ebfb6d4d45db266dc255655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

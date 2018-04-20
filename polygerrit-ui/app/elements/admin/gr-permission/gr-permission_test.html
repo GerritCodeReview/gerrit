@@ -162,6 +162,63 @@ limitations under the License.
         assert.isNotOk(element._computeLabel(permission, labels));
       });
 
+      test('_computeRole', () => {
+        const roles = {
+          developer: {
+            permissions: [
+              {
+                permission: 'createReview',
+                force: false,
+              },
+              {
+                permission: 'addPatchSet',
+                force: false,
+              },
+              {
+                permission: 'label-code-review',
+                force: false,
+                range: '-2..+2',
+              },
+            ],
+          },
+        };
+
+        let permission = {
+          id: 'role-developer',
+          value: {
+            role: 'developer',
+            rules: {
+              'global:Project-Owners': {
+                action: 'ALLOW',
+                force: false,
+              },
+            },
+          },
+        };
+
+        const expectedRole = {
+          name: 'developer',
+        };
+
+        assert.deepEqual(element._computeRole(permission, roles),
+            expectedRole);
+
+        permission = {
+          id: 'role-janitor',
+          value: {
+            role: 'janitor',
+            rules: {
+              'global:Project-Owners': {
+                action: 'ALLOW',
+                force: false,
+              },
+            },
+          },
+        };
+
+        assert.isNotOk(element._computeRole(permission, roles));
+      });
+
       test('_computeSectionClass', () => {
         let deleted = true;
         let editing = false;

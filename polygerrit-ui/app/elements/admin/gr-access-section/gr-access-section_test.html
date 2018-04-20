@@ -89,6 +89,25 @@ limitations under the License.
             default_value: 0,
           },
         };
+        element.roles = {
+          developer: {
+            permissions: [
+              {
+                permission: 'createReview',
+                force: false,
+              },
+              {
+                permission: 'addPatchSet',
+                force: false,
+              },
+              {
+                permission: 'label-code-review',
+                force: false,
+                range: '-2..+2',
+              },
+            ],
+          },
+        };
         element._updateSection(element.section);
         flushAsynchronousOperations();
       });
@@ -127,6 +146,21 @@ limitations under the License.
 
         assert.deepEqual(element._computeLabelOptions(element.labels),
             expectedLabelOptions);
+      });
+
+      test('_computeRoleOptions', () => {
+        const expectedRoleOptions = [
+          {
+            id: 'role-developer',
+            value: {
+              name: 'Role developer',
+              id: 'role-developer',
+            },
+          },
+        ];
+
+        assert.deepEqual(element._computeRoleOptions(element.roles),
+            expectedRoleOptions);
       });
 
       test('_handleAccessSaved', () => {
@@ -175,12 +209,21 @@ limitations under the License.
             },
           },
         ];
+        const roleOptions = [
+          {
+            id: 'role-developer',
+            value: {
+              name: 'Role developer',
+              id: 'role-developer',
+            },
+          },
+        ];
 
         // For global capabilities, just return the sorted array filtered by
         // existing permissions.
         let name = 'GLOBAL_CAPABILITIES';
         assert.deepEqual(element._computePermissions(name, element.capabilities,
-            element.labels), expectedPermissions);
+            element.labels, element.roles), expectedPermissions);
 
         // Uses the capabilities array to come up with possible values.
         assert.isTrue(element.toSortedArray.lastCall.
@@ -190,7 +233,8 @@ limitations under the License.
         // For everything else, include possible label values before filtering.
         name = 'refs/for/*';
         assert.deepEqual(element._computePermissions(name, element.capabilities,
-            element.labels), labelOptions.concat(expectedPermissions));
+            element.labels, element.roles), labelOptions.concat(
+                roleOptions, expectedPermissions));
 
         // Uses permissionValues (defined in gr-access-behavior) to come up with
         // possible values.
@@ -218,7 +262,6 @@ limitations under the License.
             name, permission, element.permissionValues, element.capabilities),
             element.permissionValues[permission.id].name);
 
-        name = 'refs/for/*';
         permission = {
           id: 'label-Code-Review',
           value: {
@@ -240,6 +283,17 @@ limitations under the License.
         assert.equal(element._computePermissionName(name, permission,
             element.permissionValues, element.capabilities),
             'Label Code-Review(On Behalf Of)');
+
+        permission = {
+          id: 'role-developer',
+          value: {
+            role: 'developer',
+          },
+        };
+
+        assert.equal(element._computePermissionName(name, permission,
+            element.permissionValues, element.capabilities),
+            'Role developer');
       });
 
       test('_computeSectionName', () => {
@@ -314,6 +368,25 @@ limitations under the License.
               '+2': 'Looks good to me, approved',
             },
             default_value: 0,
+          },
+        };
+        element.roles = {
+          developer: {
+            permissions: [
+              {
+                permission: 'createReview',
+                force: false,
+              },
+              {
+                permission: 'addPatchSet',
+                force: false,
+              },
+              {
+                permission: 'label-code-review',
+                force: false,
+                range: '-2..+2',
+              },
+            ],
           },
         };
       });
@@ -413,6 +486,27 @@ limitations under the License.
               element.section.value.permissions['label-Code-Review'],
               permission.value);
 
+          element.$.permissionSelect.value = 'role-developer';
+          MockInteractions.tap(element.$.addBtn);
+          flushAsynchronousOperations();
+
+          permission = {
+            id: 'role-developer',
+            value: {
+              role: 'developer',
+              added: true,
+              rules: {},
+            },
+          };
+
+          assert.equal(element._permissions.length, 3);
+          assert.deepEqual(element._permissions[2], permission);
+          assert.equal(Object.keys(element.section.value.permissions).length,
+              3);
+          assert.deepEqual(element.section.value.permissions['role-developer'],
+              permission.value);
+
+
           element.$.permissionSelect.value = 'abandon';
           MockInteractions.tap(element.$.addBtn);
           flushAsynchronousOperations();
@@ -425,10 +519,10 @@ limitations under the License.
             },
           };
 
-          assert.equal(element._permissions.length, 3);
-          assert.deepEqual(element._permissions[2], permission);
+          assert.equal(element._permissions.length, 4);
+          assert.deepEqual(element._permissions[3], permission);
           assert.equal(Object.keys(element.section.value.permissions).length,
-              3);
+              4);
           assert.deepEqual(element.section.value.permissions['abandon'],
               permission.value);
 

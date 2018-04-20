@@ -184,6 +184,7 @@ import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.AssigneeValidationListener;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.HashtagValidationListener;
@@ -365,6 +366,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), GroupCreationValidationListener.class);
     DynamicSet.setOf(binder(), HashtagValidationListener.class);
     DynamicSet.setOf(binder(), OutgoingEmailValidationListener.class);
+    DynamicSet.setOf(binder(), AccountActivationValidationListener.class);
     DynamicItem.itemOf(binder(), AvatarProvider.class);
     DynamicSet.setOf(binder(), LifecycleListener.class);
     DynamicSet.setOf(binder(), TopMenu.class);

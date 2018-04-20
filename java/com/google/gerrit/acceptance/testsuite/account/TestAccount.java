@@ -29,6 +29,8 @@ public abstract class TestAccount {
 
   public abstract Optional<String> username();
 
+  public abstract boolean active();
+
   // TODO(ekempin,aliceks): Factor out SSH key handling from the class.
   public abstract Optional<KeyPair> sshKeyPair();
 
@@ -45,6 +47,8 @@ public abstract class TestAccount {
     abstract Builder preferredEmail(Optional<String> fullname);
 
     abstract Builder username(Optional<String> username);
+
+    abstract Builder active(boolean active);
 
     abstract Builder sshKeyPair(KeyPair keyPair);
 

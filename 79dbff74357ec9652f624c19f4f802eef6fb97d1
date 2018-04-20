@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88747178_dbbdd7a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T09:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ce28bc2_507c5466",
+      "revId": "79dbff74357ec9652f624c19f4f802eef6fb97d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5da6a160_524235db",
         "filename": "java/com/google/gerrit/server/cache/CacheImpl.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "7188bcef_72339fe5",
+        "filename": "java/com/google/gerrit/server/cache/CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T09:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5da6a160_524235db",
+      "revId": "79dbff74357ec9652f624c19f4f802eef6fb97d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e74c597c_79ea93bf",
         "filename": "java/com/google/gerrit/server/cache/CacheOverrides.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-04-20T09:29:13Z",
       "side": 1,
       "message": "As mentioned in person, in an ideal world this would not be specific to the cache modules, and we would have a general way of overriding individual core modules. But this is fine for now.",
+      "revId": "79dbff74357ec9652f624c19f4f802eef6fb97d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e03d1d9e_238abbb6",
+        "filename": "java/com/google/gerrit/server/cache/CacheOverrides.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T09:52:54Z",
+      "side": 1,
+      "message": "will provide the follow up change for that",
+      "parentUuid": "e74c597c_79ea93bf",
       "revId": "79dbff74357ec9652f624c19f4f802eef6fb97d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "38525653_57c063f0",
+        "filename": "java/com/google/gerrit/server/cache/CacheOverrides.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T09:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b57b46c9_ec89fea6",
+      "revId": "79dbff74357ec9652f624c19f4f802eef6fb97d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73472a8b_897ef114",
         "filename": "java/com/google/gerrit/server/cache/CacheOverrides.java",
         "patchSetId": 2
@@ -84,6 +156,24 @@
       "revId": "79dbff74357ec9652f624c19f4f802eef6fb97d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "221a1c64_1e322aa3",
+        "filename": "java/com/google/gerrit/server/cache/CacheOverrides.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T09:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73472a8b_897ef114",
+      "revId": "79dbff74357ec9652f624c19f4f802eef6fb97d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

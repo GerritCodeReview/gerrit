@@ -22,6 +22,30 @@
       "revId": "2ef75ee1b2b25fb68ebfb6d4d45db266dc255655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0ba8428_aff91ebb",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T10:18:33Z",
+      "side": 1,
+      "message": "the only other module that I have checked (virtualhost) doesn\u0027t compile with master:\n\nbazel build virtualhost                                                                                                                                                                                                                                                                                [±master ✓]\nAnother command (pid\u003d45595) is running.  Waiting for it to complete on the server...\nINFO: Analysed target //plugins/virtualhost:virtualhost (1 packages loaded).\nINFO: Found 1 target...\nERROR: /Users/jcentkowski/workspace/open/gerrit/plugins/virtualhost/BUILD:4:1: Building plugins/virtualhost/libvirtualhost__plugin.jar (7 source files) and running annotation processors (AutoAnnotationProcessor, AutoValueProcessor) failed (Exit 1)\nplugins/virtualhost/src/main/java/com/gerritforge/gerrit/modules/virtualhost/WithVirtualHostUser.java:29: error: cannot find symbol\nimport com.google.gerrit.server.project.DefaultPermissionBackend;\n                                       ^\n  symbol:   class DefaultPermissionBackend\n  location: package com.google.gerrit.server.project\nplugins/virtualhost/src/main/java/com/gerritforge/gerrit/modules/virtualhost/WithVirtualHostUser.java:35: error: cannot find symbol\n  private final DefaultPermissionBackend defaultPermissionBackend;\n                ^\n  symbol:   class DefaultPermissionBackend\n  location: class WithVirtualHostUser\nplugins/virtualhost/src/main/java/com/gerritforge/gerrit/modules/virtualhost/WithVirtualHostUser.java:43: error: cannot find symbol\n  WithVirtualHostUser(VirtualHostConfig config, DefaultPermissionBackend defaultBackend,\n                                                ^\n  symbol:   class DefaultPermissionBackend\n  location: class WithVirtualHostUser\nTarget //plugins/virtualhost:virtualhost failed to build\nUse --verbose_failures to see the command lines of failed build steps.\nINFO: Elapsed time: 124.728s, Critical Path: 0.72s\nFAILED: Build did NOT complete successfully",
+      "parentUuid": "100f7f55_463aac8c",
+      "range": {
+        "startLine": 491,
+        "startChar": 4,
+        "endLine": 492,
+        "endChar": 84
+      },
+      "revId": "2ef75ee1b2b25fb68ebfb6d4d45db266dc255655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

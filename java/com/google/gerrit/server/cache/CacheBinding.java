@@ -16,8 +16,6 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.common.Nullable;
-import com.google.inject.TypeLiteral;
 import java.util.concurrent.TimeUnit;
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
@@ -36,23 +34,4 @@ public interface CacheBinding<K, V> {
 
   /** Algorithm to weigh an object with a method other than the unit weight 1. */
   CacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz);
-
-  String name();
-
-  TypeLiteral<K> keyType();
-
-  TypeLiteral<V> valueType();
-
-  long maximumWeight();
-
-  long diskLimit();
-
-  @Nullable
-  Long expireAfterWrite(TimeUnit unit);
-
-  @Nullable
-  Weigher<K, V> weigher();
-
-  @Nullable
-  CacheLoader<K, V> loader();
 }

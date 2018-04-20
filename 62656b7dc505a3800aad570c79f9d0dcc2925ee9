@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d4b97eb_752b91c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-20T15:13:29Z",
+      "side": 1,
+      "message": "Is it normal that this is not the same as your Author (ericsson) email above? Maybe yes, just not sure myself about this.",
+      "range": {
+        "startLine": 4,
+        "startChar": 33,
+        "endLine": 4,
+        "endChar": 58
+      },
+      "revId": "62656b7dc505a3800aad570c79f9d0dcc2925ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4ff9b5d_3b82eec6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-20T15:13:29Z",
+      "side": 1,
+      "message": "ChangeUserName: Remove",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "62656b7dc505a3800aad570c79f9d0dcc2925ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91edcf4_de01546f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-20T15:13:29Z",
+      "side": 1,
+      "message": "Exceeding max line wrap of 72 chars.",
+      "range": {
+        "startLine": 9,
+        "startChar": 69,
+        "endLine": 9,
+        "endChar": 75
+      },
+      "revId": "62656b7dc505a3800aad570c79f9d0dcc2925ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -28,7 +28,7 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import java.util.concurrent.TimeUnit;
 
-class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V> {
+class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, CacheDef<K, V> {
   private final CacheModule module;
   final String name;
   private final TypeLiteral<K> keyType;

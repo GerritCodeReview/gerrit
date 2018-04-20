@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3686e5dd_e9dcd2d3",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/group/GroupOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1032595
+      },
+      "writtenOn": "2018-04-20T11:10:10Z",
+      "side": 1,
+      "message": "It seems that the old CreateGroup has the ability to have admin user as initial member of the group created.\nDo you think it makes sense to have such feature on this new API?",
+      "range": {
+        "startLine": 56,
+        "startChar": 28,
+        "endLine": 56,
+        "endChar": 36
+      },
+      "revId": "aa18709025a977b6d0e228b066f7f9c35fceb53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

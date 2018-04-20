@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c76a24f6_99366fcb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-04-20T15:19:19Z",
+      "side": 1,
+      "message": "Yes, I was fiddling with my settings yesterday. So it happened. Changed back to Ericsson.",
+      "parentUuid": "3d4b97eb_752b91c4",
+      "range": {
+        "startLine": 4,
+        "startChar": 33,
+        "endLine": 4,
+        "endChar": 58
+      },
+      "revId": "62656b7dc505a3800aad570c79f9d0dcc2925ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4ff9b5d_3b82eec6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d52fbefc_21e1a0d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-04-20T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4ff9b5d_3b82eec6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "62656b7dc505a3800aad570c79f9d0dcc2925ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c91edcf4_de01546f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "62656b7dc505a3800aad570c79f9d0dcc2925ee9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eda61372_a52bead8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-04-20T15:19:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c91edcf4_de01546f",
+      "range": {
+        "startLine": 9,
+        "startChar": 69,
+        "endLine": 9,
+        "endChar": 75
+      },
+      "revId": "62656b7dc505a3800aad570c79f9d0dcc2925ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

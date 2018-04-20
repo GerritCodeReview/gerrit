@@ -45,7 +45,9 @@ import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.cache.CacheOverrides;
+import com.google.gerrit.server.cache.h2.H2CacheModule;
+import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
@@ -336,7 +338,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new SearchingChangeCacheImpl.Module());
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());
-    modules.add(new DefaultCacheFactory.Module());
+    modules.add(new DefaultMemoryCacheModule());
+    modules.add(new H2CacheModule());
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     modules.add(new SmtpEmailSender.Module());
     modules.add(new SignedTokenEmailTokenVerifier.Module());
@@ -384,9 +387,9 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new GarbageCollectionModule());
     modules.add(new ChangeCleanupRunner.Module());
     modules.add(new AccountDeactivator.Module());
-    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
     modules.add(new DefaultProjectNameLockManager.Module());
-    return cfgInjector.createChildInjector(modules);
+    return cfgInjector.createChildInjector(
+        CacheOverrides.override(modules, LibModuleLoader.loadModules(cfgInjector)));
   }
 
   private Module createIndexModule() {

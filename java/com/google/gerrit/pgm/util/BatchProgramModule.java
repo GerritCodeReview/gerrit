@@ -37,7 +37,8 @@ import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.cache.h2.H2CacheModule;
+import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
@@ -154,7 +155,8 @@ public class BatchProgramModule extends FactoryModule {
 
     install(new BatchGitModule());
     install(new DefaultPermissionBackendModule());
-    install(new DefaultCacheFactory.Module());
+    install(new DefaultMemoryCacheModule());
+    install(new H2CacheModule());
     install(new ExternalIdModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));

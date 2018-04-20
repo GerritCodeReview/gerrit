@@ -54,7 +54,9 @@ import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.cache.CacheOverrides;
+import com.google.gerrit.server.cache.h2.H2CacheModule;
+import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
@@ -422,7 +424,8 @@ public class Daemon extends SiteProgram {
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());
-    modules.add(new DefaultCacheFactory.Module());
+    modules.add(new DefaultMemoryCacheModule());
+    modules.add(new H2CacheModule());
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     if (emailModule != null) {
       modules.add(emailModule);
@@ -478,7 +481,6 @@ public class Daemon extends SiteProgram {
       modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
     }
-    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
     if (migrateToNoteDb()) {
       modules.add(new OnlineNoteDbMigrator.Module(trial));
     }
@@ -487,7 +489,8 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
-    return cfgInjector.createChildInjector(modules);
+    return cfgInjector.createChildInjector(
+        CacheOverrides.override(modules, LibModuleLoader.loadModules(cfgInjector)));
   }
 
   private boolean migrateToNoteDb() {

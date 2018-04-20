@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.cache.CacheBinding;
+import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
@@ -49,7 +50,7 @@ import org.slf4j.LoggerFactory;
 class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(H2CacheFactory.class);
 
-  private final DefaultCacheFactory defaultFactory;
+  private final MemoryCacheFactory memCacheFactory;
   private final Config config;
   private final Path cacheDir;
   private final List<H2CacheImpl<?, ?>> caches;
@@ -61,11 +62,11 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @Inject
   H2CacheFactory(
-      DefaultCacheFactory defaultCacheFactory,
+      MemoryCacheFactory memCacheFactory,
       @GerritServerConfig Config cfg,
       SitePaths site,
       DynamicMap<Cache<?, ?>> cacheMap) {
-    defaultFactory = defaultCacheFactory;
+    this.memCacheFactory = memCacheFactory;
     config = cfg;
     cacheDir = getCacheDir(site, cfg.getString("cache", null, "directory"));
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
@@ -153,21 +154,19 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings({"unchecked"})
   @Override
-  public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
-    long limit = config.getLong("cache", def.name(), "diskLimit", def.diskLimit());
+  public <K, V> Cache<K, V> build(CacheBinding<K, V> in) {
+    long limit = config.getLong("cache", in.name(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
-      return defaultFactory.build(def);
+      return memCacheFactory.build(in);
     }
 
+    H2CacheBindingProxy<K, V> def = new H2CacheBindingProxy<>(in);
     SqlStore<K, V> store =
         newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
     H2CacheImpl<K, V> cache =
         new H2CacheImpl<>(
-            executor,
-            store,
-            def.keyType(),
-            (Cache<K, ValueHolder<V>>) defaultFactory.create(def, true).build());
+            executor, store, def.keyType(), (Cache<K, ValueHolder<V>>) memCacheFactory.build(def));
     synchronized (caches) {
       caches.add(cache);
     }
@@ -176,20 +175,20 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> def, CacheLoader<K, V> loader) {
-    long limit = config.getLong("cache", def.name(), "diskLimit", def.diskLimit());
+  public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> in, CacheLoader<K, V> loader) {
+    long limit = config.getLong("cache", in.name(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
-      return defaultFactory.build(def, loader);
+      return memCacheFactory.build(in, loader);
     }
 
+    H2CacheBindingProxy<K, V> def = new H2CacheBindingProxy<>(in);
     SqlStore<K, V> store =
         newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
-            defaultFactory
-                .create(def, true)
-                .build((CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
+            memCacheFactory.build(
+                def, (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
     H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
     synchronized (caches) {
       caches.add(cache);

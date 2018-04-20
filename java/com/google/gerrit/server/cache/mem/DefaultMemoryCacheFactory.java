@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache.h2;
+package com.google.gerrit.server.cache.mem;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -20,34 +20,21 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.cache.CacheBinding;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
-import com.google.gerrit.server.cache.PersistentCacheFactory;
-import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
-public class DefaultCacheFactory implements MemoryCacheFactory {
-  public static class Module extends LifecycleModule {
-    @Override
-    protected void configure() {
-      factory(ForwardingRemovalListener.Factory.class);
-      bind(MemoryCacheFactory.class).to(DefaultCacheFactory.class);
-      bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
-      listener().to(H2CacheFactory.class);
-    }
-  }
-
+class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   private final Config cfg;
   private final ForwardingRemovalListener.Factory forwardingRemovalListenerFactory;
 
   @Inject
-  public DefaultCacheFactory(
+  DefaultMemoryCacheFactory(
       @GerritServerConfig Config config,
       ForwardingRemovalListener.Factory forwardingRemovalListenerFactory) {
     this.cfg = config;
@@ -56,16 +43,16 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
 
   @Override
   public <K, V> Cache<K, V> build(CacheBinding<K, V> def) {
-    return create(def, false).build();
+    return create(def).build();
   }
 
   @Override
   public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> def, CacheLoader<K, V> loader) {
-    return create(def, false).build(loader);
+    return create(def).build(loader);
   }
 
   @SuppressWarnings("unchecked")
-  <K, V> CacheBuilder<K, V> create(CacheBinding<K, V> def, boolean unwrapValueHolder) {
+  private <K, V> CacheBuilder<K, V> create(CacheBinding<K, V> def) {
     CacheBuilder<K, V> builder = newCacheBuilder();
     builder.recordStats();
     builder.maximumWeight(cfg.getLong("cache", def.name(), "memoryLimit", def.maximumWeight()));
@@ -73,17 +60,7 @@ public class DefaultCacheFactory implements MemoryCacheFactory {
     builder = builder.removalListener(forwardingRemovalListenerFactory.create(def.name()));
 
     Weigher<K, V> weigher = def.weigher();
-    if (weigher != null && unwrapValueHolder) {
-      final Weigher<K, V> impl = weigher;
-      weigher =
-          (Weigher<K, V>)
-              new Weigher<K, ValueHolder<V>>() {
-                @Override
-                public int weigh(K key, ValueHolder<V> value) {
-                  return impl.weigh(key, value.value);
-                }
-              };
-    } else if (weigher == null) {
+    if (weigher == null) {
       weigher = unitWeight();
     }
     builder.weigher(weigher);

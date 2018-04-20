@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc94f921_aca33dd9",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReloadConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-20T14:21:44Z",
+      "side": 1,
+      "message": "optional: This can be squashed down to only \"RestApiException\"",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 85
+      },
+      "revId": "73361b92ff378467c2332c1837f7a39996ff947a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

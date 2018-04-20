@@ -312,6 +312,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       remove(section);
     } else if (section != null) {
       AccessSection a = accessSections.get(section.getName());
+      if (a == null) {
+        System.out.println(a);
+      }
       a.remove(permission);
       if (a.getPermissions().isEmpty()) {
         remove(a);
@@ -703,19 +706,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                 groupsByName,
                 perm,
                 Permission.hasRange(convertedName));
-            if (migrateRefsFor(as, perm)) {
-              if (isRefsForExclusively(refName)) {
-                // Since the ref only applies on refs/for/* and no other
-                // namespaces, we can remove the old permission.
-                remove(as, perm);
-              }
-            }
           } else {
             sectionsWithUnknownPermissions.add(as.getName());
           }
         }
       }
     }
+    migrateRefsFor();
 
     AccessSection capability = null;
     for (String varName : rc.getNames(CAPABILITY)) {
@@ -726,6 +723,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       Permission perm = capability.getPermission(varName, true);
       loadPermissionRules(
           rc, CAPABILITY, null, varName, groupsByName, perm, GlobalCapability.hasRange(varName));
+    }
+  }
+
+  private void migrateRefsFor() {
+    for (AccessSection as : ImmutableList.copyOf(accessSections.values())) {
+      for (Permission p : ImmutableList.copyOf(as.getPermissions())) {
+        if (migrateRefsFor(as, p)) {
+          if (isRefsForExclusively(as.getName())) {
+            // Since the ref only applies on refs/for/* and no other
+            // namespaces, we can remove the old permission.
+            remove(as, p);
+          }
+        }
+      }
     }
   }
 

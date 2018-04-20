@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d66c35ca_eea8a74e",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheBindingProxy.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-20T09:26:32Z",
+      "side": 1,
+      "message": "I think you want to reconstruct the exception at the call site, otherwise you won\u0027t actually have a line in the stack trace telling you which method was called.\n\nI don\u0027t think that needs to block this change, I\u0027m going to be touching this class soon.",
+      "revId": "d380622800371f765424c09105b7fb4b8c891041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

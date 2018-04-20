@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "349360a3_86394f47",
+        "filename": "java/com/google/gerrit/server/cache/h2/DefaultCacheFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-20T09:26:32Z",
+      "side": 0,
+      "message": "Restating my understanding of the issue. This old code in MemoryCacheFactory means there is a hard dependency between MemoryCacheFactory and H2CacheFactory. We want to be able to not install the module that binds H2CacheFactory, but leave MemoryFactory alone. This source-level dependency makes that impossible.\n\nIn the near/medium term I would like to move the MemoryCacheFactory into a separate cache/mem package.",
+      "revId": "8d509ad0ea950f8c9671d5a2bcc2ca98826f9554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -110,6 +110,7 @@ public class AccountOperationsImpl implements AccountOperations {
     String httpPassword = accountCreation.httpPassword().orElse(null);
     accountCreation.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
     accountCreation.status().ifPresent(builder::setStatus);
+    accountCreation.active().ifPresent(builder::setActive);
   }
 
   private void addSshKeyPair(TestAccount.Builder builder, Account account, String username)
@@ -138,7 +139,8 @@ public class AccountOperationsImpl implements AccountOperations {
         .accountId(createdAccount.getId())
         .preferredEmail(Optional.ofNullable(createdAccount.getPreferredEmail()))
         .fullname(Optional.ofNullable(createdAccount.getFullName()))
-        .username(accountState.getUserName());
+        .username(accountState.getUserName())
+        .active(accountState.getAccount().isActive());
   }
 
   private static InternalAccountUpdate.Builder setPreferredEmail(
@@ -206,6 +208,7 @@ public class AccountOperationsImpl implements AccountOperations {
       String httpPassword = accountUpdate.httpPassword().orElse(null);
       accountUpdate.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
       accountUpdate.status().ifPresent(builder::setStatus);
+      accountUpdate.active().ifPresent(builder::setActive);
     }
   }
 }

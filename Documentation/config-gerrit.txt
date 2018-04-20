@@ -2648,7 +2648,8 @@ A link:http://lucene.apache.org/[Lucene] index is used.
 * `ELASTICSEARCH` look into link:#elasticsearch[Elasticsearch section]
 +
 An link:https://www.elastic.co/products/elasticsearch[Elasticsearch] index is
-used.
+used. Refer to the link:#elasticsearch[Elasticsearch section] for further
+configuration details.
 
 +
 By default, `LUCENE`.

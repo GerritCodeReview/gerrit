@@ -588,6 +588,30 @@
       "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b31edca_1fe264ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-20T11:03:47Z",
+      "side": 1,
+      "message": "+1 to using icons in a follow-up.",
+      "parentUuid": "da5e2606_9c02049f",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 52
+      },
+      "revId": "687a44095a24a96eb440bc664df0f9da80979dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

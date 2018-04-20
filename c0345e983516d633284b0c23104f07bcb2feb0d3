@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e208a840_89f55ee0",
+        "filename": "java/com/google/gerrit/server/cache/CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-20T09:49:11Z",
+      "side": 1,
+      "message": "I\u0027m expecting this to get fixed in the latest patch set of the parent.",
+      "revId": "c0345e983516d633284b0c23104f07bcb2feb0d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

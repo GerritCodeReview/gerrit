@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0de89c8a_d0e3dc49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-20T13:18:42Z",
+      "side": 1,
+      "message": "I was expecting to find a usage of the new method in a follow up change but I did not. Will you do a change in the core which use this method or you need this for a plugin?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "c3515f93674ab1f9317a518c8209961901e31ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7ada6ab_2c272a8d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 16

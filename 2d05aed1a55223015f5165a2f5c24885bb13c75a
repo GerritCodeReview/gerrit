@@ -34,6 +34,24 @@
       "revId": "2d05aed1a55223015f5165a2f5c24885bb13c75a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87bb7eab_140bccb9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-20T10:25:55Z",
+      "side": 1,
+      "message": "Oh good, that\u0027s a very good idea. Let me do it now ;-)",
+      "parentUuid": "aaa8931c_0d035e5d",
+      "revId": "2d05aed1a55223015f5165a2f5c24885bb13c75a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

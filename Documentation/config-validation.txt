@@ -114,6 +114,14 @@ This interface provides a low-level e-mail filtering API for plugins.
 Plugins implementing the `OutgoingEmailValidationListener` interface can perform
 filtering of outgoing e-mails just before they are sent.
 
+[[account-activation-validation]]
+== Account activation validation
+
+
+Plugins implementing the `AccountActivationValidationListener` interface can
+perform validation when an account is activated or deactivated via the Gerrit
+REST API or the Java extension API.
+
 
 GERRIT
 ------

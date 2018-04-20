@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0495d4cb_4b2a1a48",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheBindingProxy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T13:47:08Z",
+      "side": 1,
+      "message": "nit: would consider calling it H2CacheDefProxy",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "9d07924493af8fc84a2a11889510a6383a5087f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

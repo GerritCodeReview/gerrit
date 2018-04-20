@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc454e2b_7360ce71",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-20T09:43:28Z",
+      "side": 0,
+      "message": "are we ok with not having opacity anymore?",
+      "revId": "9bd69b135ac8b8920fcf8b3640ad0fb701a3e8ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "05dc0d596fa18e1b6beb1becd94b21f6c134f4ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cce1bdd8_640149fd",
+        "filename": "resources/com/google/gerrit/httpd/raw/OpenSearch.soy",
+        "patchSetId": 17
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-20T11:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43973d80_fbade016",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "05dc0d596fa18e1b6beb1becd94b21f6c134f4ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

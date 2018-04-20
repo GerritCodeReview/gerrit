@@ -79,7 +79,6 @@ limitations under the License.
         name: 'Repositories',
         url: '/admin/repos',
         view: 'gr-repo-list',
-        children: [],
       }];
 
       element.params = {
@@ -285,6 +284,189 @@ limitations under the License.
       element._groupName = 'oldName';
       flushAsynchronousOperations();
       element.$$('gr-group').fire('name-changed', {name: newName});
+    });
+
+    test('dropdown displays if there is a subsection', () => {
+      assert.isNotOk(element.$$('.mainHeader'));
+      element._subsectionLinks = [
+        {
+          text: 'Home',
+          value: 'repo',
+          view: 'repo',
+          url: '',
+          parent: 'my-repo',
+          detailType: undefined,
+        },
+      ];
+      flushAsynchronousOperations();
+      assert.isOk(element.$$('.mainHeader'));
+      element._subsectionLinks = undefined;
+      flushAsynchronousOperations();
+      assert.equal(getComputedStyle(element.$$('.mainHeader')).display, 'none');
+    });
+
+    test('Dropdown only triggers navigation on explicit select', done => {
+      element._repoName = 'my-repo';
+      element.params = {
+        repo: 'my-repo',
+        view: Gerrit.Nav.View.REPO,
+        detail: Gerrit.Nav.RepoDetailView.ACCESS,
+      };
+      flushAsynchronousOperations();
+
+      sandbox.stub(element.$.restAPI, 'getAccountCapabilities', () => {
+        return Promise.resolve({
+          createGroup: true,
+          createProject: true,
+          viewPlugins: true,
+        });
+      });
+      sandbox.stub(element.$.restAPI, 'getAccount', () => {
+        return Promise.resolve({_id: 1});
+      });
+      const expectedFilteredLinks = [
+        {
+          name: 'Repositories',
+          noBaseUrl: true,
+          url: '/admin/repos',
+          view: 'gr-repo-list',
+          viewableToAll: true,
+          subsection: {
+            name: 'my-repo',
+            view: 'repo',
+            url: '',
+            children: [
+              {
+                name: 'Access',
+                view: 'repo',
+                detailType: 'access',
+                url: '',
+              },
+              {
+                name: 'Commands',
+                view: 'repo',
+                detailType: 'commands',
+                url: '',
+              },
+              {
+                name: 'Branches',
+                view: 'repo',
+                detailType: 'branches',
+                url: '',
+              },
+              {
+                name: 'Tags',
+                view: 'repo',
+                detailType: 'tags',
+                url: '',
+              },
+              {
+                name: 'Dashboards',
+                view: 'repo',
+                detailType: 'dashboards',
+                url: '',
+              },
+            ],
+          },
+        },
+        {
+          name: 'Groups',
+          section: 'Groups',
+          noBaseUrl: true,
+          url: '/admin/groups',
+          view: 'gr-admin-group-list',
+        },
+        {
+          name: 'Plugins',
+          capability: 'viewPlugins',
+          section: 'Plugins',
+          noBaseUrl: true,
+          url: '/admin/plugins',
+          view: 'gr-plugin-list',
+        },
+      ];
+      const expectedSubsectionLinks = [
+        {
+          text: 'Home',
+          value: 'repo',
+          view: 'repo',
+          url: '',
+          parent: 'my-repo',
+          detailType: undefined,
+        },
+        {
+          text: 'Access',
+          value: 'repoaccess',
+          view: 'repo',
+          url: '',
+          detailType: 'access',
+          parent: 'my-repo',
+        },
+        {
+          text: 'Commands',
+          value: 'repocommands',
+          view: 'repo',
+          url: '',
+          detailType: 'commands',
+          parent: 'my-repo',
+        },
+        {
+          text: 'Branches',
+          value: 'repobranches',
+          view: 'repo',
+          url: '',
+          detailType: 'branches',
+          parent: 'my-repo',
+        },
+        {
+          text: 'Tags',
+          value: 'repotags',
+          view: 'repo',
+          url: '',
+          detailType: 'tags',
+          parent: 'my-repo',
+        },
+        {
+          text: 'Dashboards',
+          value: 'repodashboards',
+          view: 'repo',
+          url: '',
+          detailType: 'dashboards',
+          parent: 'my-repo',
+        },
+      ];
+      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      sandbox.spy(element, '_selectedIsCurrentPage');
+      sandbox.spy(element, '_handleSubsectionChange');
+      element.reload().then(() => {
+        assert.deepEqual(element._filteredLinks, expectedFilteredLinks);
+        assert.deepEqual(element._subsectionLinks, expectedSubsectionLinks);
+        assert.equal(element.$$('#pageSelect').value, 'repoaccess');
+        assert.isTrue(element._selectedIsCurrentPage.calledOnce);
+        // Doesn't trigger navigation from the page select menu.
+        assert.isFalse(Gerrit.Nav.navigateToRelativeUrl.called);
+
+        // When explicitly changed, navigation is called
+        element.$$('#pageSelect').value = 'repo';
+        assert.isTrue(element._selectedIsCurrentPage.calledTwice);
+        assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.calledOnce);
+        done();
+      });
+    });
+
+    test('_selectedIsCurrentPage', () => {
+      element._repoName = 'my-repo';
+      element.params = {view: 'repo', repo: 'my-repo'};
+      const selected = {
+        view: 'repo',
+        detailType: undefined,
+        parent: 'my-repo',
+      };
+      assert.isTrue(element._selectedIsCurrentPage(selected));
+      selected.parent = 'my-second-repo';
+      assert.isFalse(element._selectedIsCurrentPage(selected));
+      selected.detailType = 'detailType';
+      assert.isFalse(element._selectedIsCurrentPage(selected));
     });
 
     suite('_computeSelectedClass', () => {

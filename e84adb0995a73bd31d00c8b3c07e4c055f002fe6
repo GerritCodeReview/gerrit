@@ -57,6 +57,24 @@
       "revId": "e84adb0995a73bd31d00c8b3c07e4c055f002fe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6421c38c_ed07d92c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-20T06:53:32Z",
+      "side": 1,
+      "message": "No it isn\u0027t.\n\nIf that approach is taken instead, the current location reporting would \u0027just work\u0027, as the handlers would be two different functions.",
+      "parentUuid": "5a3b54b3_3b8dbdd8",
+      "revId": "e84adb0995a73bd31d00c8b3c07e4c055f002fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

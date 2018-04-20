@@ -49,12 +49,12 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
-import com.google.gerrit.server.cache.CacheOverrides;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
@@ -490,7 +490,7 @@ public class Daemon extends SiteProgram {
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
     return cfgInjector.createChildInjector(
-        CacheOverrides.override(modules, LibModuleLoader.loadModules(cfgInjector)));
+        ModuleOverloader.override(modules, LibModuleLoader.loadModules(cfgInjector)));
   }
 
   private boolean migrateToNoteDb() {

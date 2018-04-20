@@ -184,7 +184,7 @@ public class NoteDbMigrator implements AutoCloseable {
       // Reload gerrit.config/notedb.config on each migrator invocation, in case a previous
       // migration in the same process modified the on-disk contents. This ensures the defaults for
       // trial/autoMigrate get set correctly below.
-      this.cfg = configProvider.get();
+      this.cfg = configProvider.loadConfig();
       this.sitePaths = sitePaths;
       this.serverIdent = serverIdent;
       this.allUsers = allUsers;

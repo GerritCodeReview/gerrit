@@ -49,17 +49,22 @@ limitations under the License.
   --font-size-small: .92rem;
   --font-size-large: 1.076rem;
 
-  /* Follow are a part of the design refresh */
-  --color-link: #2a66d9;
-  --color-link-tertiary: #000;
-  /* 12% darker */
-  --color-button-hover: #0B47BA;
+  --link-color: #2a66d9;
+  --primary-button-background-color: var(--link-color);
+  --primary-button-text-color: #fff;
+  --secondary-button-background-color: #fff;
+  --secondary-button-text-color: #212121;
+  --default-button-background-color: #fff;
+  --default-button-text-color: var(--link-color);
 
   /* Used for both the old patchset header and for indicating that a particular
     change message was selected. */
   --emphasis-color: #fff9c4;
 
   --error-text-color: red;
+
+  --diff-highlight-range-color: rgba(255, 213, 0, 0.5);
+  --diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);
 
   --syntax-default-color: var(--primary-text-color);
   --syntax-meta-color: #FF1717;

@@ -29,8 +29,6 @@ public interface CacheDef<K, V> {
 
   long maximumWeight();
 
-  long diskLimit();
-
   @Nullable
   Long expireAfterWrite(TimeUnit unit);
 

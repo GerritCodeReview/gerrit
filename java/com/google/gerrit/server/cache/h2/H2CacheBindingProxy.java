@@ -16,15 +16,15 @@ package com.google.gerrit.server.cache.h2;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.server.cache.CacheDef;
+import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
 import java.util.concurrent.TimeUnit;
 
-class H2CacheBindingProxy<K, V> implements CacheDef<K, V> {
-  private final CacheDef<K, V> source;
+class H2CacheBindingProxy<K, V> implements PersistentCacheDef<K, V> {
+  private final PersistentCacheDef<K, V> source;
 
-  H2CacheBindingProxy(CacheDef<K, V> source) {
+  H2CacheBindingProxy(PersistentCacheDef<K, V> source) {
     this.source = source;
   }
 

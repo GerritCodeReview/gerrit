@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3356dff_a1ded94f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-20T13:16:06Z",
+      "side": 1,
+      "message": "The start of this sentence feels a bit strange. Perhaps something like this works better: \"For most properties in this file, a restart is needed for Gerrit to apply the new values, however some of the properties supports...",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "f72ac90d24a339530658c6a26de799eeef078ea0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

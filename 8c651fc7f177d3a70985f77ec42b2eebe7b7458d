@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "01210ef9_47b92c68",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-20T13:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c4481b1_b8b80660",
+      "revId": "8c651fc7f177d3a70985f77ec42b2eebe7b7458d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c5b7c3e_6dd0f067",
         "filename": "java/com/google/gerrit/extensions/api/config/ConfigUpdateEntryInfo.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "849eb094_c226dd13",
+        "filename": "java/com/google/gerrit/extensions/api/config/ConfigUpdateEntryInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-20T13:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c5b7c3e_6dd0f067",
+      "revId": "8c651fc7f177d3a70985f77ec42b2eebe7b7458d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ffe2614_54f43f04",
         "filename": "java/com/google/gerrit/server/restapi/config/ReloadConfig.java",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "8c651fc7f177d3a70985f77ec42b2eebe7b7458d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a420c125_faf0af53",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-20T13:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ffe2614_54f43f04",
+      "revId": "8c651fc7f177d3a70985f77ec42b2eebe7b7458d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -73,6 +127,30 @@
       "revId": "8c651fc7f177d3a70985f77ec42b2eebe7b7458d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b63fd1df_95cd5098",
+        "filename": "java/com/google/gerrit/server/restapi/config/ReloadConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-20T13:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e1f291c_20f5f032",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "8c651fc7f177d3a70985f77ec42b2eebe7b7458d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

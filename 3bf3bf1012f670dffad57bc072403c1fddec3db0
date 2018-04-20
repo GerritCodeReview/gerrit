@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f3010149_45c8befa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-20T07:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1adc742f_a3470fd8",
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbba3faa_95de0329",
         "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
         "patchSetId": 9
@@ -65,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "ea528ac4_cafc9248",
+        "filename": "java/com/google/gerrit/httpd/raw/OpenSearchServlet.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-20T07:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "044b060a_dc98f055",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 32
+      },
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73ceaaec_8f02a488",
         "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
         "patchSetId": 9
@@ -88,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "38c39476_2f150e3c",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-20T07:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ceaaec_8f02a488",
+      "range": {
+        "startLine": 258,
+        "startChar": 56,
+        "endLine": 258,
+        "endChar": 86
+      },
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caf88d98_7c4d72de",
         "filename": "resources/com/google/gerrit/httpd/raw/OpenSearch.soy",
         "patchSetId": 9
@@ -108,6 +174,30 @@
       "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc098b1f_3d301266",
+        "filename": "resources/com/google/gerrit/httpd/raw/OpenSearch.soy",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-20T07:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf88d98_7c4d72de",
+      "range": {
+        "startLine": 23,
+        "startChar": 11,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "3bf3bf1012f670dffad57bc072403c1fddec3db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

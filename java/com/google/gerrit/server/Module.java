@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -24,11 +24,11 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(TYPE)
 @Inherited
-public @interface CacheImpl {
-  enum Type {
-    MEMORY,
-    PERSISTENT
-  }
-
-  Type type();
+/**
+ * Use this annotation to mark module as being hot-swappable with implementation from {@code
+ * gerrit.installModule}. Note that module with this annotation shouldn't be part of circular
+ * dependency with any existing module.
+ */
+public @interface Module {
+  String name();
 }

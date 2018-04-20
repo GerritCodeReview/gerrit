@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
   'use strict';
 
   Polymer({
-    is: 'gr-confirm-dialog',
+    is: 'gr-confirm-submit-dialog',
 
     /**
      * Fired when the confirm button is pressed.
@@ -33,46 +33,37 @@
      */
 
     properties: {
-      confirmLabel: {
-        type: String,
-        value: 'Confirm',
-      },
-      cancelLabel: {
-        type: String,
-        value: 'Cancel',
-      },
-      disabled: {
-        type: Boolean,
-        value: false,
-      },
-      confirmOnEnter: {
-        type: Boolean,
-        value: false,
-      },
+      /**
+       * @type {{
+       *    subject: string,
+       *  }}
+       */
+      change: Object,
+
+      /**
+       * @type {{
+       *    label: string,
+       *  }}
+       */
+      action: Object,
     },
 
-    hostAttributes: {
-      role: 'dialog',
+    resetFocus(e) {
+      this.$.dialog.resetFocus();
     },
 
-    resetFocus() {
-      this.$.confirm.focus();
-    },
-
-    _handleConfirm(e) {
-      if (this.disabled) { return; }
-
+    _handleConfirmTap(e) {
       e.preventDefault();
+      this._confirm();
+    },
+
+    _confirm() {
       this.fire('confirm', null, {bubbles: false});
     },
 
     _handleCancelTap(e) {
       e.preventDefault();
       this.fire('cancel', null, {bubbles: false});
-    },
-
-    _handleKeydown(e) {
-      if (this.confirmOnEnter && e.keyCode === 13) { this._handleConfirm(e); }
     },
   });
 })();

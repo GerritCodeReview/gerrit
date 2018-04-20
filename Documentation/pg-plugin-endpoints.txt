@@ -124,3 +124,20 @@ This endpoint decorator wraps the voting buttons in the reply dialog.
 
 === header-title
 This endpoint wraps the title-text in the application header.
+
+=== confirm-submit-change
+This endpoint is inside the confirm submit dialog. By default it displays a
+generic confirmation message regarding submission of the change. Plugins may add
+content to this message or replace it entirely.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+The change beinng potentially submitted, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `action`
++
+The submit action, including the title and label, an instance of
+link:rest-api-changes.html#action-info[ActionInfo]

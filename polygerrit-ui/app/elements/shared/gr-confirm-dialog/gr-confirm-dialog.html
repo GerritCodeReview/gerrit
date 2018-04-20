@@ -60,7 +60,12 @@ limitations under the License.
       <main><slot name="main"></slot></main>
       <footer>
         <gr-button link on-tap="_handleCancelTap">[[cancelLabel]]</gr-button>
-        <gr-button link primary on-tap="_handleConfirm" disabled="[[disabled]]">
+        <gr-button
+            id="confirm"
+            link
+            primary
+            on-tap="_handleConfirm"
+            disabled="[[disabled]]">
           [[confirmLabel]]
         </gr-button>
       </footer>

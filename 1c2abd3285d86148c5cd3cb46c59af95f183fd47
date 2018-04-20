@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0cd83fd_91842f10",
+        "filename": "java/com/google/gerrit/server/restapi/account/PutActive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-20T11:15:15Z",
+      "side": 0,
+      "message": "unrelated formating change?",
+      "revId": "1c2abd3285d86148c5cd3cb46c59af95f183fd47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

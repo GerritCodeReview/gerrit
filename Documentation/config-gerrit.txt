@@ -2718,7 +2718,9 @@ A link:http://lucene.apache.org/[Lucene] index is used.
 +
 * `ELASTICSEARCH` look into link:#elasticsearch[Elasticsearch section]
 +
-An link:http://www.elasticsearch.org/[Elasticsearch] index is used.
+An link:https://www.elastic.co/products/elasticsearch[Elasticsearch] index is
+used. Refer to the link:#elasticsearch[Elasticsearch section] for further
+configuration details.
 
 +
 By default, `LUCENE`.
@@ -2929,8 +2931,8 @@ Sample Lucene index configuration:
 [[elasticsearch]]
 === Section elasticsearch
 
-WARNING: The Elasticsearch support is incomplete. Online reindexing
-is still considered as beta.
+WARNING: The Elasticsearch support has only been tested with Elasticsearch
+version 2.4.x. Support for other versions is not guaranteed.
 
 Open and closed changes are indexed in a single index, separated
 into types 'open_changes' and 'closed_changes' respectively.

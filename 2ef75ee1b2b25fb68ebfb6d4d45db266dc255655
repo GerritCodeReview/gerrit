@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "100f7f55_463aac8c",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-20T10:06:25Z",
+      "side": 1,
+      "message": "Let\u0027s test the only implemented module[1] to make sure it still load properly (if it compiles...).\n\n[1]https://gerrit-review.googlesource.com/#/admin/projects/modules/virtualhost",
+      "range": {
+        "startLine": 491,
+        "startChar": 4,
+        "endLine": 492,
+        "endChar": 84
+      },
+      "revId": "2ef75ee1b2b25fb68ebfb6d4d45db266dc255655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

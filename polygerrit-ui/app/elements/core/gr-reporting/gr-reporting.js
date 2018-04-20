@@ -38,6 +38,16 @@
     CATEGORY: 'exception',
   };
 
+  const TIMER = {
+    DASHBOARD_DISPLAYED: 'DashboardDisplayed',
+    STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
+    PLUGINS_LOADED: 'PluginsLoaded',
+  };
+
+  const STARTUP_TIMERS = {};
+  STARTUP_TIMERS[TIMER.PLUGINS_LOADED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
+
   const INTERACTION_TYPE = 'interaction';
 
   const pending = [];
@@ -81,8 +91,8 @@
       category: String,
 
       _baselines: {
-        type: Array,
-        value() { return {}; },
+        type: Object,
+        value: STARTUP_TIMERS, // Shared across all instances.
       },
     },
 
@@ -91,7 +101,7 @@
     },
 
     now() {
-      return Math.round(10 * window.performance.now()) / 10;
+      return window.performance.now();
     },
 
     reporter(...args) {
@@ -157,13 +167,28 @@
       }
     },
 
+    beforeLocationChanged() {
+      for (const prop of Object.keys(this._baselines)) {
+        delete this._baselines[prop];
+      }
+      this.time(TIMER.DASHBOARD_DISPLAYED);
+    },
+
     locationChanged(page) {
       this.reporter(
           NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
     },
 
+    dashboardDisplayed() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
+        this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED);
+      } else {
+        this.timeEnd(TIMER.DASHBOARD_DISPLAYED);
+      }
+    },
+
     pluginsLoaded() {
-      this.timeEnd('PluginsLoaded');
+      this.timeEnd(TIMER.PLUGINS_LOADED);
     },
 
     /**
@@ -177,7 +202,8 @@
      * Finish named timer and report it to server.
      */
     timeEnd(name) {
-      const baseTime = this._baselines[name] || 0;
+      if (!this._baselines.hasOwnProperty(name)) { return; }
+      const baseTime = this._baselines[name];
       const time = Math.round(this.now() - baseTime);
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
       delete this._baselines[name];
@@ -191,4 +217,5 @@
   window.GrReporting = GrReporting;
   // Expose onerror installation so it would be accessible from tests.
   window.GrReporting._catchErrors = catchErrors;
+  window.GrReporting.STARTUP_TIMERS = Object.assign({}, STARTUP_TIMERS);
 })();

@@ -55,7 +55,7 @@ limitations under the License.
       });
       const paramsChanged = element._paramsChanged.bind(element);
       sandbox.stub(element, '_paramsChanged', params => {
-        paramsChanged(params).then(resolver());
+        paramsChanged(params).then(() => resolver());
       });
     });
 
@@ -261,6 +261,18 @@ limitations under the License.
         project: 'project',
         dashboard: 'dashboard',
       };
+    });
+
+    test('params change triggers dashboardDisplayed()', () => {
+      sandbox.stub(element.$.reporting, 'dashboardDisplayed');
+      element.params = {
+        view: Gerrit.Nav.View.DASHBOARD,
+        project: 'project',
+        dashboard: 'dashboard',
+      };
+      return paramsChangedPromise.then(() => {
+        assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
+      });
     });
   });
 </script>

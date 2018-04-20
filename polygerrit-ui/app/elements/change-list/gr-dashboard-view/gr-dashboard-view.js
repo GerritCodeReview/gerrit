@@ -230,6 +230,8 @@
             };
           });
         });
+      }).then(() => {
+        this.$.reporting.dashboardDisplayed();
       }).catch(err => {
         this._loading = false;
         console.warn(err);

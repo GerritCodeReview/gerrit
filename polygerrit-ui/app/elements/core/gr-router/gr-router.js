@@ -199,6 +199,7 @@
         type: Object,
         value: app,
       },
+      _isRedirecting: Boolean,
     },
 
     behaviors: [
@@ -217,6 +218,7 @@
     },
 
     _redirect(url) {
+      this._isRedirecting = true;
       page.redirect(url);
     },
 
@@ -669,6 +671,14 @@
           this._generateUrl.bind(this),
           params => this._generateWeblinks(params)
       );
+
+      page.exit('*', (ctx, next) => {
+        if (!this._isRedirecting) {
+          this.$.reporting.beforeLocationChanged();
+        }
+        this._isRedirecting = false;
+        next();
+      });
 
       // Middleware
       page((ctx, next) => {

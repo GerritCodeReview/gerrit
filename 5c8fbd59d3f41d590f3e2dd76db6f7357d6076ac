@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ae7fabdd_66c656c5",
+        "filename": "java/com/google/gerrit/server/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T13:21:12Z",
+      "side": 1,
+      "message": "Done, fixed in PS#3",
+      "parentUuid": "694d8081_f281327c",
+      "range": {
+        "startLine": 28,
+        "startChar": 38,
+        "endLine": 28,
+        "endChar": 60
+      },
+      "revId": "5c8fbd59d3f41d590f3e2dd76db6f7357d6076ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "973d5627_35d535f1",
         "filename": "java/com/google/gerrit/server/Module.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Yeah, I was gonna say, I like everything about this change but the name of the annotation :)",
       "parentUuid": "973d5627_35d535f1",
+      "range": {
+        "startLine": 32,
+        "startChar": 18,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "5c8fbd59d3f41d590f3e2dd76db6f7357d6076ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d900ff8_feca4f4d",
+        "filename": "java/com/google/gerrit/server/Module.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-04-20T13:21:12Z",
+      "side": 1,
+      "message": "Changed into ModuleImpl",
+      "parentUuid": "318f8266_e0f5a9d3",
       "range": {
         "startLine": 32,
         "startChar": 18,

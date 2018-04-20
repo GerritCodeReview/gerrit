@@ -7,8 +7,9 @@ config file that controls many host specific settings for Gerrit.
 
 [NOTE]
 The contents of the `etc/gerrit.config` file are cached at startup
-by Gerrit.  If you modify any properties in this file, Gerrit needs
-to be restarted before it will use the new values.
+by Gerrit. For most properties, if they are modified in this file, Gerrit
+needs to be restarted before it will use the new values. Some properties
+support being link:#reloadConfig[`reloaded`]' without restart.
 
 Sample `etc/gerrit.config`:
 ----
@@ -18,6 +19,14 @@ Sample `etc/gerrit.config`:
 [cache]
   directory = /var/cache/gerrit
 ----
+
+[[reloadConfig]]
+=== Reload `etc/gerrit.config`
+Some properties support being reloaded without restart when a `reload config`
+command is issued through link:cmd-reload-config.html[`SSH`] or the
+link:rest-api-config.html#reload-config[`REST API`]. If a property supports
+this it is specified in the documentation for the property below.
+
 
 [[accountPatchReviewDb]]
 === Section accountPatchReviewDb
@@ -128,8 +137,7 @@ This setting only applies for adding reviewers in the Gerrit Web UI,
 but is ignored when adding reviewers with the
 link:cmd-set-reviewers.html[set-reviewers] command.
 +
-This value supports configuration reloads:
-link:cmd-reload-config.html[reload-config]
+This value supports link:#reloadConfig[configuration reloads].
 
 [[addreviewer.maxAllowed]]addreviewer.maxAllowed::
 +
@@ -141,8 +149,7 @@ be added at once by adding a group as reviewer.
 +
 Default is 20.
 +
-This value supports configuration reloads:
-link:cmd-reload-config.html[reload-config]
+This value supports link:#reloadConfig[configuration reloads].
 
 [[addReviewer.baseWeight]]addReviewer.baseWeight::
 +
@@ -1334,8 +1341,7 @@ supplying the argument record number '42' for display.  The third
 configuration 'tracker' uses raw HTML to more precisely control
 how the replacement is displayed to the user.
 
-commentlinks supports configuration reloads:
-link:cmd-reload-config.html[reload-config]. Though a
+commentlinks supports link:#reloadConfig[configuration reloads]. Though a
 link:cmd-flush-caches.html[flush-caches] of "projects" is needed for the
 commentlinks to be immediately available in the UI.
 
@@ -4545,8 +4551,7 @@ programmatic configuration.
 +
 By default, `true`.
 +
-This value supports configuration reloads:
-link:cmd-reload-config.html[reload-config]
+This value supports link:#reloadConfig[configuration reloads].
 
 [[sshd.rekeyBytesLimit]]sshd.rekeyBytesLimit::
 +
@@ -4575,8 +4580,7 @@ The maximum numbers of reviewers suggested.
 +
 By default 10.
 +
-This value supports configuration reloads:
-link:cmd-reload-config.html[reload-config]
+This value supports link:#reloadConfig[configuration reloads].
 
 [[suggest.from]]suggest.from::
 +

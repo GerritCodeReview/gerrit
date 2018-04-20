@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab5fd85e_bbb53a05",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-20T10:17:58Z",
+      "side": 1,
+      "message": "How about calling this checkedGet (as above) but adding an extra \"strict\" parameter that will cause it to throw when project is null or does not exist?",
+      "revId": "2d05aed1a55223015f5165a2f5c24885bb13c75a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

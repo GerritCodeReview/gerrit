@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c4f3279_ecc98b77",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T14:40:04Z",
+      "side": 1,
+      "message": "Extra semicolon.",
+      "range": {
+        "startLine": 56,
+        "startChar": 25,
+        "endLine": 56,
+        "endChar": 26
+      },
+      "revId": "3436d3d097273dfe6fe57c746e8b5e09bdf9df5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69a8f44a_0a67b59d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T14:40:04Z",
+      "side": 1,
+      "message": "This block is extra-indented.",
+      "range": {
+        "startLine": 113,
+        "startChar": 10,
+        "endLine": 122,
+        "endChar": 56
+      },
+      "revId": "3436d3d097273dfe6fe57c746e8b5e09bdf9df5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

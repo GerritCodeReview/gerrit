@@ -90,34 +90,10 @@ public class ChangeUserName implements Callable<VoidResult> {
 
       ExternalId.Key key = ExternalId.Key.create(SCHEME_USERNAME, newUsername);
       try {
-        String password = null;
-        for (ExternalId i : old) {
-          if (i.password() != null) {
-            password = i.password();
-          }
-        }
-        externalIdsUpdate.insert(db, ExternalId.create(key, user.getAccountId(), null, password));
+        externalIdsUpdate.insert(db, ExternalId.create(key, user.getAccountId(), null, null));
       } catch (OrmDuplicateKeyException dupeErr) {
-        // If we are using this identity, don't report the exception.
-        //
-        ExternalId other =
-            ExternalId.from(db.accountExternalIds().get(key.asAccountExternalIdKey()));
-        if (other != null && other.accountId().equals(user.getAccountId())) {
-          return VoidResult.INSTANCE;
-        }
-
-        // Otherwise, someone else has this identity.
-        //
         throw new NameAlreadyUsedException(newUsername);
       }
-    }
-
-    // If we have any older user names, remove them.
-    //
-    externalIdsUpdate.delete(db, old);
-    for (ExternalId extId : old) {
-      sshKeyCache.evict(extId.key().id());
-      accountCache.evictByUsername(extId.key().id());
     }
 
     accountCache.evictByUsername(newUsername);

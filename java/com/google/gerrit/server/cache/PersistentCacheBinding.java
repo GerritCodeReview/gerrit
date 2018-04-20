@@ -16,34 +16,22 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.common.Nullable;
-import com.google.inject.TypeLiteral;
 import java.util.concurrent.TimeUnit;
 
-public interface CacheDef<K, V> {
-  String name();
+/** Configure a persistent cache declared within a {@link CacheModule} instance. */
+public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
+  @Override
+  PersistentCacheBinding<K, V> maximumWeight(long weight);
 
-  /**
-   * Key to use when looking up configuration for this cache.
-   *
-   * <p>Typically, this will match the result of {@link #name()}, so that configuration is keyed by
-   * the actual cache name. However, it may be changed, for example to reuse the size limits of some
-   * other cache.
-   */
-  String configKey();
+  @Override
+  PersistentCacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits);
 
-  TypeLiteral<K> keyType();
+  @Override
+  PersistentCacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
 
-  TypeLiteral<V> valueType();
+  @Override
+  PersistentCacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz);
 
-  long maximumWeight();
-
-  @Nullable
-  Long expireAfterWrite(TimeUnit unit);
-
-  @Nullable
-  Weigher<K, V> weigher();
-
-  @Nullable
-  CacheLoader<K, V> loader();
+  /** Set the total on-disk limit of the cache */
+  PersistentCacheBinding<K, V> diskLimit(long limit);
 }

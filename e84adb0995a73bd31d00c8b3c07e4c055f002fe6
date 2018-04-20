@@ -117,6 +117,24 @@
       "revId": "e84adb0995a73bd31d00c8b3c07e4c055f002fe6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "020bd52e_25521cb1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-20T16:57:56Z",
+      "side": 1,
+      "message": "On a second though, decided to fil a monorail issue for tracking.\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d8813",
+      "parentUuid": "324cd3ce_b92e6d70",
+      "revId": "e84adb0995a73bd31d00c8b3c07e4c055f002fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

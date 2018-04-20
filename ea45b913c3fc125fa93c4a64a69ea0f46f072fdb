@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c89e5e9b_21ac3cab",
+        "filename": "java/com/google/gerrit/server/cache/CacheModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-20T13:45:15Z",
+      "side": 1,
+      "message": "MEMORY",
+      "range": {
+        "startLine": 34,
+        "startChar": 29,
+        "endLine": 34,
+        "endChar": 43
+      },
+      "revId": "ea45b913c3fc125fa93c4a64a69ea0f46f072fdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

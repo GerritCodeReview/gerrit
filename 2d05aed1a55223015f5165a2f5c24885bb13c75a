@@ -52,6 +52,24 @@
       "revId": "2d05aed1a55223015f5165a2f5c24885bb13c75a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ee6dd5e_2eb1bf95",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ProjectCache.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-20T10:43:47Z",
+      "side": 1,
+      "message": "We have a problem though: the exception thrown could be either IOException (strict \u003d false) or Exception (strict \u003d true). \n\nI will keep the throws Exception and have to cast it when called with strict \u003d false :-(",
+      "parentUuid": "87bb7eab_140bccb9",
+      "revId": "2d05aed1a55223015f5165a2f5c24885bb13c75a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

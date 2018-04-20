@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8460412_354c3421",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-20T14:18:54Z",
+      "side": 0,
+      "message": "Ouch. Sorry about that. I did it for a quick breakpoint.",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 7
+      },
+      "revId": "cde490ea0842e2cea42daf35a6a0da0483bce8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

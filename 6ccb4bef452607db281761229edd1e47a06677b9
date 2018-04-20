@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aecaf9cd_b6764f1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-20T12:15:46Z",
+      "side": 1,
+      "message": "I don\u0027t thing it\u0027s appropriate to reach into the dialog\u0027s `$` object. Why not just add ..\n\nresetFocus() {\n  this.$.confirm.focus();\n},\n\n.. to gr-confirm-dialog?",
+      "range": {
+        "startLine": 1095,
+        "startChar": 14,
+        "endLine": 1095,
+        "endChar": 30
+      },
+      "revId": "6ccb4bef452607db281761229edd1e47a06677b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

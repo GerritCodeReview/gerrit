@@ -46,6 +46,30 @@
       "revId": "c3515f93674ab1f9317a518c8209961901e31ee3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3f455e_5230900a",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-20T13:08:25Z",
+      "side": 1,
+      "message": "Right.  Sorry, I overlooked that this was in a test.",
+      "parentUuid": "4862c996_b4d682e8",
+      "range": {
+        "startLine": 269,
+        "startChar": 38,
+        "endLine": 269,
+        "endChar": 40
+      },
+      "revId": "c3515f93674ab1f9317a518c8209961901e31ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

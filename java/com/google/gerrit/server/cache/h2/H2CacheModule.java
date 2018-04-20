@@ -15,10 +15,11 @@
 package com.google.gerrit.server.cache.h2;
 
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.cache.CacheImpl;
+import com.google.gerrit.server.ModuleImpl;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 
-@CacheImpl(type = CacheImpl.Type.PERSISTENT)
+@ModuleImpl(name = CacheModule.PERSISTENT_MODULE)
 public class H2CacheModule extends LifecycleModule {
   @Override
   protected void configure() {

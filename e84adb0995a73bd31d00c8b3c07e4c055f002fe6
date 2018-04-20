@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfed08c8_ef3fc503",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-20T06:38:04Z",
+      "side": 1,
+      "message": "I think we\u0027re better off just splitting CHANGE_OR_DIFF into two separate routes. It\u0027s the only \u0027OR\u0027 route we have, I prefer the idea of adding a tiny bit of redundancy and mapping regexes to views directly, from a maintenance perspective.",
+      "revId": "e84adb0995a73bd31d00c8b3c07e4c055f002fe6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

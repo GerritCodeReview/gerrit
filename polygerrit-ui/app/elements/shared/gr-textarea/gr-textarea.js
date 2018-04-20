@@ -70,10 +70,6 @@
         notify: true,
         observer: '_handleTextChanged',
       },
-      backgroundColor: {
-        type: String,
-        value: '#fff',
-      },
       hideBorder: {
         type: Boolean,
         value: false,
@@ -122,9 +118,6 @@
       }
       if (this.hideBorder) {
         this.$.textarea.classList.add('noBorder');
-      }
-      if (this.backgroundColor) {
-        this.updateStyles({'--background-color': this.backgroundColor});
       }
     },
 

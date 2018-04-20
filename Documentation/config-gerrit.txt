@@ -7,8 +7,9 @@ config file that controls many host specific settings for Gerrit.
 
 [NOTE]
 The contents of the `etc/gerrit.config` file are cached at startup
-by Gerrit.  If you modify any properties in this file, Gerrit needs
-to be restarted before it will use the new values.
+by Gerrit.  If you modify any properties in this file, for many properties
+Gerrit needs to be restarted before it will use the new values.
+Some of the properties supports being #reloadConfig[`reloaded`] without restart.
 
 Sample `etc/gerrit.config`:
 ----
@@ -18,6 +19,14 @@ Sample `etc/gerrit.config`:
 [cache]
   directory = /var/cache/gerrit
 ----
+
+[[reloadConfig]]
+=== Reload `etc/gerrit.config`
+Some properties supports being reloaded without restart when a `reload config`
+command is issued through link:cmd-reload-config.html[SSH] or
+link:rest-api-config.html#reload-config[REST], if a property supports this it
+is documented below.
+
 
 [[accountPatchReviewDb]]
 === Section accountPatchReviewDb

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "5d11687c_a9c7d3c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-20T14:22:55Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/172460/11/gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java L73\n\n@Hugo thanks for the review, good catch indeed !",
+      "parentUuid": "499b3b37_c7f2e13b",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "c3515f93674ab1f9317a518c8209961901e31ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7ada6ab_2c272a8d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/project/RefControlTest.java",
         "patchSetId": 16

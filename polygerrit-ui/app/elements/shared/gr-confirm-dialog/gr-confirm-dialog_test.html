@@ -73,5 +73,11 @@ limitations under the License.
 
       assert.isTrue(handleConfirmStub.called);
     });
+
+    test('resetFocus', () => {
+      const focusStub = sandbox.stub(element.$.confirm, 'focus');
+      element.resetFocus();
+      assert.isTrue(focusStub.calledOnce);
+    });
   });
 </script>

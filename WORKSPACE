@@ -636,6 +636,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "sshd_contrib",
+    artifact = "org.apache.sshd:sshd-contrib:1.6.0",
+    sha1 = "4470ddcc33abcb5fe83dada9298944ea6e62b05c",
+)
+
+maven_jar(
     name = "h2",
     artifact = "com.h2database:h2:1.3.176",
     sha1 = "fd369423346b2f1525c413e33f8cf95b09c92cbd",

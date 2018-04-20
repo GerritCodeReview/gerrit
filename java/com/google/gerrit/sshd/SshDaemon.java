@@ -109,6 +109,7 @@ import org.apache.sshd.server.global.NoMoreSessionsHandler;
 import org.apache.sshd.server.global.TcpipForwardHandler;
 import org.apache.sshd.server.session.ServerSessionImpl;
 import org.apache.sshd.server.session.SessionFactory;
+import org.apache.sshd.server.session.proxyprotocol.ProxyProtocolAcceptor;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.bouncycastle.crypto.prng.VMPCRandomGenerator;
 import org.eclipse.jgit.lib.Config;
@@ -222,6 +223,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
             ? MinaServiceFactoryFactory.class.getName()
             : Nio2ServiceFactoryFactory.class.getName());
 
+    initServerProxyAcceptor(cfg);
     initProviderBouncyCastle(cfg);
     initCiphers(cfg);
     initKeyExchanges(cfg);
@@ -275,7 +277,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
             ServerSessionImpl s = super.createSession(io);
             int id = idGenerator.next();
             SocketAddress peer = io.getRemoteAddress();
-            final SshSession sd = new SshSession(id, peer);
+            final SshSession sd = new SshSession(id, peer, s);
             s.setAttribute(SshSession.KEY, sd);
 
             // Log a session close without authentication as a failure.
@@ -451,6 +453,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     List<NamedFactory<KeyExchange>> a = ServerBuilder.setUpDefaultKeyExchanges(true);
     setKeyExchangeFactories(
         filter(cfg, "kex", (NamedFactory<KeyExchange>[]) a.toArray(new NamedFactory<?>[a.size()])));
+  }
+
+  private void initServerProxyAcceptor(Config cfg) {
+    setServerProxyAcceptor(new ProxyProtocolAcceptor());
   }
 
   private void initProviderBouncyCastle(Config cfg) {

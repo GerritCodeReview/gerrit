@@ -38,5 +38,6 @@ java_library(
         "//lib/log:log4j",
         "//lib/mina:core",
         "//lib/mina:sshd",
+        "//lib/mina:sshd_contrib",
     ],
 )

@@ -231,7 +231,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   }
 
   void onLogout() {
-    LoggingEvent entry = log("LOGOUT");
+    LoggingEvent entry = log("LOGOUT " + session.get().getServerSession().getClientAddress());
     if (async != null) {
       async.append(entry);
     }

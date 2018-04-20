@@ -20,6 +20,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import org.apache.sshd.common.AttributeStore.AttributeKey;
+import org.apache.sshd.server.session.ServerSessionImpl;
 
 /** Global data related to an active SSH connection. */
 public class SshSession {
@@ -35,9 +36,12 @@ public class SshSession {
   private volatile String authError;
   private volatile String peerAgent;
 
-  SshSession(int sessionId, SocketAddress peer) {
+  private ServerSessionImpl s;
+
+  SshSession(int sessionId, SocketAddress peer, ServerSessionImpl s) {
     this.sessionId = sessionId;
     this.remoteAddress = peer;
+    this.s = s;
     this.remoteAsString = format(remoteAddress);
   }
 
@@ -51,6 +55,10 @@ public class SshSession {
       this.remoteAsString = format(peer) + "/" + parent.remoteAsString;
     }
     this.identity = user;
+  }
+
+  public ServerSessionImpl getServerSession() {
+    return s;
   }
 
   /** Unique session number, assigned during connect. */

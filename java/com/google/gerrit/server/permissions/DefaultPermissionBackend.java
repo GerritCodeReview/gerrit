@@ -32,13 +32,11 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.cache.PerThreadCache;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
@@ -107,17 +105,16 @@ public class DefaultPermissionBackend extends PermissionBackend {
     @Override
     public ForProject project(Project.NameKey project) {
       try {
-        ProjectState state = projectCache.checkedGet(project);
-        if (state != null) {
-          ProjectControl control =
-              PerThreadCache.getOrCompute(
-                  PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),
-                  () -> projectControlFactory.create(user, state));
-          return control.asForProject().database(db);
-        }
-        return FailedPermissionBackend.project("not found", new NoSuchProjectException(project));
-      } catch (IOException e) {
-        return FailedPermissionBackend.project("unavailable", e);
+        ProjectState state = projectCache.checkedGet(project, true);
+        ProjectControl control =
+            PerThreadCache.getOrCompute(
+                PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),
+                () -> projectControlFactory.create(user, state));
+        return control.asForProject().database(db);
+      } catch (Exception e) {
+        Throwable cause = e.getCause() != null ? e.getCause() : e;
+        return FailedPermissionBackend.project(
+            "project '" + project.get() + "' is unavailable", cause);
       }
     }
 

@@ -30,6 +30,8 @@ public abstract class TestAccountUpdate {
 
   public abstract Optional<String> status();
 
+  public abstract Optional<Boolean> active();
+
   abstract ThrowingFunction<TestAccountUpdate, TestAccount> accountUpdater();
 
   public static Builder builder(ThrowingFunction<TestAccountUpdate, TestAccount> accountUpdater) {
@@ -68,6 +70,16 @@ public abstract class TestAccountUpdate {
 
     public Builder clearStatus() {
       return status("");
+    }
+
+    abstract Builder active(boolean active);
+
+    public Builder active() {
+      return active(true);
+    }
+
+    public Builder inactive() {
+      return active(false);
     }
 
     abstract Builder accountUpdater(

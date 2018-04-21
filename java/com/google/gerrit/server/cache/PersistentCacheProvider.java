@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     implements Provider<Cache<K, V>>, PersistentCacheBinding<K, V>, PersistentCacheDef<K, V> {
+  private Integer version;
   private long diskLimit;
   private CacheSerializer<K> keySerializer;
   private CacheSerializer<V> valueSerializer;
@@ -64,6 +65,12 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   }
 
   @Override
+  public PersistentCacheBinding<K, V> version(int version) {
+    this.version = version;
+    return this;
+  }
+
+  @Override
   public PersistentCacheBinding<K, V> keySerializer(CacheSerializer<K> keySerializer) {
     this.keySerializer = keySerializer;
     return this;
@@ -91,6 +98,11 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   }
 
   @Override
+  public int version() {
+    return version;
+  }
+
+  @Override
   public CacheSerializer<K> keySerializer() {
     return keySerializer;
   }
@@ -105,6 +117,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     if (persistentCacheFactory == null) {
       return super.get();
     }
+    checkState(version != null, "version is required");
     checkState(keySerializer != null, "keySerializer is required");
     checkState(valueSerializer != null, "valueSerializer is required");
     freeze();

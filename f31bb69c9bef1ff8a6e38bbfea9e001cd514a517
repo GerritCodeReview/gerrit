@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83d3e88e_9745fd4d",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-21T17:24:52Z",
+      "side": 1,
+      "message": "FYI I do plan to make this an AutoValue type eventually, but I want to hold off until we\u0027ve migrated to the new serialization format internally and we\u0027ve deleted our hand-written serialization implementations.",
+      "revId": "f31bb69c9bef1ff8a6e38bbfea9e001cd514a517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

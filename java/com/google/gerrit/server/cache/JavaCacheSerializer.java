@@ -19,10 +19,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
-/** Serializer that uses default Java serialization. */
-public class JavaCacheSerializer<T extends Serializable> implements CacheSerializer<T> {
+/**
+ * Serializer that uses default Java serialization.
+ *
+ * @param <T> type to serialize. Must implement {@code Serializable}, but due to implementation
+ *     details this is only checked at runtime.
+ */
+public class JavaCacheSerializer<T> implements CacheSerializer<T> {
   @Override
   public byte[] serialize(T object) throws IOException {
     try (ByteArrayOutputStream bout = new ByteArrayOutputStream();

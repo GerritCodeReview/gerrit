@@ -16,6 +16,24 @@
       "revId": "9bd69b135ac8b8920fcf8b3640ad0fb701a3e8ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3276e46_ac85b067",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-04-21T12:04:43Z",
+      "side": 0,
+      "message": "Yes -- this is addressed in the commit message. It\u0027s functionally identical to the blackish background we have by default since most of the app is white, and .9 opacity is basically opaque anyway.\n\nHere\u0027s a screenshot of the dialog on gerrit-review right now: https://i.imgur.com/nfruOvH.png",
+      "parentUuid": "cc454e2b_7360ce71",
+      "revId": "9bd69b135ac8b8920fcf8b3640ad0fb701a3e8ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

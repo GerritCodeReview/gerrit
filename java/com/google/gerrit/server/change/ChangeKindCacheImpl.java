@@ -16,8 +16,6 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
-import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
@@ -30,6 +28,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.EnumCacheSerializer;
+import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -39,10 +40,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
+import com.google.protobuf.ByteString;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
@@ -51,6 +52,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
@@ -72,7 +74,10 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         bind(ChangeKindCache.class).to(ChangeKindCacheImpl.class);
         persist(ID_CACHE, Key.class, ChangeKind.class)
             .maximumWeight(2 << 20)
-            .weigher(ChangeKindWeigher.class);
+            .weigher(ChangeKindWeigher.class)
+            .version(1)
+            .keySerializer(new Key.Serializer())
+            .valueSerializer(new EnumCacheSerializer<>(ChangeKind.class));
       }
     };
   }
@@ -122,9 +127,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
   }
 
-  public static class Key implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+  public static class Key {
     private transient ObjectId prior;
     private transient ObjectId next;
     private transient String strategyName;
@@ -171,16 +174,26 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       return Objects.hash(prior, next, strategyName);
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-      writeWithoutMarker(out, prior);
-      writeWithoutMarker(out, next);
-      out.writeUTF(strategyName);
-    }
+    private static class Serializer implements CacheSerializer<Key> {
+      @Override
+      public void serialize(Key object, OutputStream out) throws IOException {
+        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
+        ChangeKindKeyProto.Builder b = ChangeKindKeyProto.newBuilder();
+        object.getPrior().copyRawTo(buf, 0);
+        b.setPrior(ByteString.copyFrom(buf));
+        object.getNext().copyRawTo(buf, 0);
+        b.setNext(ByteString.copyFrom(buf));
+        b.setStrategyName(object.getStrategyName()).build().writeTo(out);
+      }
 
-    private void readObject(ObjectInputStream in) throws IOException {
-      prior = readWithoutMarker(in);
-      next = readWithoutMarker(in);
-      strategyName = in.readUTF();
+      @Override
+      public Key deserialize(InputStream in) throws IOException {
+        ChangeKindKeyProto proto = ChangeKindKeyProto.parseFrom(in);
+        return new Key(
+            ObjectId.fromRaw(proto.getPrior().toByteArray()),
+            ObjectId.fromRaw(proto.getNext().toByteArray()),
+            proto.getStrategyName());
+      }
     }
   }
 

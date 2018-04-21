@@ -23,6 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
@@ -118,12 +119,24 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
       return super.get();
     }
     checkState(version != null, "version is required");
-    checkState(keySerializer != null, "keySerializer is required");
-    checkState(valueSerializer != null, "valueSerializer is required");
+    checkSerializer(keyType(), keySerializer, "key");
+    checkSerializer(valueType(), valueSerializer, "value");
     freeze();
     CacheLoader<K, V> ldr = loader();
     return ldr != null
         ? persistentCacheFactory.build(this, ldr)
         : persistentCacheFactory.build(this);
+  }
+
+  private static <T> void checkSerializer(
+      TypeLiteral<T> type, CacheSerializer<T> serializer, String name) {
+    checkState(serializer != null, "%sSerializer is required", name);
+    if (serializer instanceof JavaCacheSerializer) {
+      checkState(
+          Serializable.class.isAssignableFrom(type.getRawType()),
+          "%s type %s must implement Serializable",
+          name,
+          type);
+    }
   }
 }

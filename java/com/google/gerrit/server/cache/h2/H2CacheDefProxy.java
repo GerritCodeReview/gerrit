@@ -16,6 +16,7 @@ package com.google.gerrit.server.cache.h2;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
@@ -80,5 +81,15 @@ class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
   @Override
   public CacheLoader<K, V> loader() {
     return source.loader();
+  }
+
+  @Override
+  public CacheSerializer<K> keySerializer() {
+    return source.keySerializer();
+  }
+
+  @Override
+  public CacheSerializer<V> valueSerializer() {
+    return source.valueSerializer();
   }
 }

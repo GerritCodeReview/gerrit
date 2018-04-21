@@ -15,17 +15,19 @@
 package com.google.gerrit.server.cache.h2;
 
 import com.google.common.hash.Funnel;
-import com.google.common.hash.PrimitiveSink;
+import com.google.common.hash.Funnels;
+import com.google.gerrit.server.cache.CacheSerializer;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
-enum ObjectKeyTypeImpl implements KeyType<Object> {
-  INSTANCE;
+class ObjectKeyTypeImpl<K> implements KeyType<K> {
+  private final CacheSerializer<K> serializer;
+
+  ObjectKeyTypeImpl(CacheSerializer<K> serializer) {
+    this.serializer = serializer;
+  }
 
   @Override
   public String columnType() {
@@ -33,47 +35,23 @@ enum ObjectKeyTypeImpl implements KeyType<Object> {
   }
 
   @Override
-  public Object get(ResultSet rs, int col) throws SQLException {
-    return rs.getObject(col);
+  public K get(ResultSet rs, int col) throws IOException, SQLException {
+    return serializer.deserialize(rs.getBytes(col));
   }
 
   @Override
-  public void set(PreparedStatement ps, int col, Object key) throws SQLException {
-    ps.setObject(col, key, Types.JAVA_OBJECT);
+  public void set(PreparedStatement ps, int col, K key) throws IOException, SQLException {
+    ps.setBytes(col, serializer.serialize(key));
   }
 
   @Override
-  public Funnel<Object> funnel() {
-    return new Funnel<Object>() {
-      private static final long serialVersionUID = 1L;
-
-      @Override
-      public void funnel(Object from, PrimitiveSink into) {
-        try (ObjectOutputStream ser = new ObjectOutputStream(new SinkOutputStream(into))) {
-          ser.writeObject(from);
-          ser.flush();
-        } catch (IOException err) {
-          throw new RuntimeException("Cannot hash as Serializable", err);
-        }
+  public Funnel<K> funnel() {
+    return (from, into) -> {
+      try {
+        Funnels.byteArrayFunnel().funnel(serializer.serialize(from), into);
+      } catch (IOException e) {
+        throw new RuntimeException("Cannot hash as Serializable", e);
       }
     };
-  }
-
-  private static class SinkOutputStream extends OutputStream {
-    private final PrimitiveSink sink;
-
-    SinkOutputStream(PrimitiveSink sink) {
-      this.sink = sink;
-    }
-
-    @Override
-    public void write(int b) {
-      sink.putByte((byte) b);
-    }
-
-    @Override
-    public void write(byte[] b, int p, int n) {
-      sink.putBytes(b, p, n);
-    }
   }
 }

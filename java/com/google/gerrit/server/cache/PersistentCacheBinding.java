@@ -34,4 +34,8 @@ public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
 
   /** Set the total on-disk limit of the cache */
   PersistentCacheBinding<K, V> diskLimit(long limit);
+
+  PersistentCacheBinding<K, V> keySerializer(CacheSerializer<K> keySerializer);
+
+  PersistentCacheBinding<K, V> valueSerializer(CacheSerializer<V> valueSerializer);
 }

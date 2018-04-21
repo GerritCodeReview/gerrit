@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.server.cache.JavaCacheSerializer;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
@@ -41,7 +42,13 @@ public class H2CacheTest {
 
     TypeLiteral<String> keyType = new TypeLiteral<String>() {};
     SqlStore<String, Boolean> store =
-        new SqlStore<>("jdbc:h2:mem:Test_" + (++dbCnt), keyType, 1 << 20, 0);
+        new SqlStore<>(
+            "jdbc:h2:mem:Test_" + (++dbCnt),
+            keyType,
+            new JavaCacheSerializer<>(),
+            new JavaCacheSerializer<>(),
+            1 << 20,
+            0);
     impl = new H2CacheImpl<>(MoreExecutors.directExecutor(), store, keyType, mem);
   }
 

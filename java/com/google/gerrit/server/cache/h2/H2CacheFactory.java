@@ -222,6 +222,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         def.keyType(),
         def.keySerializer(),
         def.valueSerializer(),
+        def.version(),
         maxSize,
         expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
   }

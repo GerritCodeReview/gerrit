@@ -26,33 +26,36 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
-import org.junit.Before;
 import org.junit.Test;
 
 public class H2CacheTest {
+  private static final TypeLiteral<String> KEY_TYPE = new TypeLiteral<String>() {};
+  private static final int DEFAULT_VERSION = 1234;
   private static int dbCnt;
 
-  private Cache<String, ValueHolder<String>> mem;
-  private H2CacheImpl<String, String> impl;
+  private static int nextDbId() {
+    return ++dbCnt;
+  }
 
-  @Before
-  public void setUp() {
-    mem = CacheBuilder.newBuilder().build();
-
-    TypeLiteral<String> keyType = new TypeLiteral<String>() {};
+  private static H2CacheImpl<String, String> newH2CacheImpl(
+      int id, Cache<String, ValueHolder<String>> mem, int version) {
     SqlStore<String, String> store =
         new SqlStore<>(
-            "jdbc:h2:mem:Test_" + (++dbCnt),
-            keyType,
+            "jdbc:h2:mem:Test_" + id,
+            KEY_TYPE,
             StringSerializer.INSTANCE,
             StringSerializer.INSTANCE,
+            version,
             1 << 20,
             0);
-    impl = new H2CacheImpl<>(MoreExecutors.directExecutor(), store, keyType, mem);
+    return new H2CacheImpl<>(MoreExecutors.directExecutor(), store, KEY_TYPE, mem);
   }
 
   @Test
   public void get() throws ExecutionException {
+    Cache<String, ValueHolder<String>> mem = CacheBuilder.newBuilder().build();
+    H2CacheImpl<String, String> impl = newH2CacheImpl(nextDbId(), mem, DEFAULT_VERSION);
+
     assertThat(impl.getIfPresent("foo")).isNull();
 
     AtomicBoolean called = new AtomicBoolean();
@@ -90,6 +93,37 @@ public class H2CacheTest {
     assertThat(StringSerializer.INSTANCE.deserialize(serialized)).isEqualTo(input);
   }
 
+  @Test
+  public void version() throws Exception {
+    int id = nextDbId();
+    H2CacheImpl<String, String> oldImpl = newH2CacheImpl(id, disableMemCache(), DEFAULT_VERSION);
+    H2CacheImpl<String, String> newImpl =
+        newH2CacheImpl(id, disableMemCache(), DEFAULT_VERSION + 1);
+
+    assertThat(oldImpl.diskStats().space()).isEqualTo(0);
+    assertThat(newImpl.diskStats().space()).isEqualTo(0);
+    oldImpl.put("key", "val");
+    assertThat(oldImpl.getIfPresent("key")).isEqualTo("val");
+    assertThat(oldImpl.diskStats().space()).isEqualTo(12);
+    assertThat(oldImpl.diskStats().hitCount()).isEqualTo(1);
+
+    // Can't find key in cache with wrong version, but the data is still there.
+    assertThat(newImpl.diskStats().requestCount()).isEqualTo(0);
+    assertThat(newImpl.diskStats().space()).isEqualTo(12);
+    assertThat(newImpl.getIfPresent("key")).isNull();
+    assertThat(newImpl.diskStats().space()).isEqualTo(12);
+
+    // Re-putting it via the new cache works, and uses the same amount of space.
+    newImpl.put("key", "val2");
+    assertThat(newImpl.getIfPresent("key")).isEqualTo("val2");
+    assertThat(newImpl.diskStats().hitCount()).isEqualTo(1);
+    assertThat(newImpl.diskStats().space()).isEqualTo(14);
+
+    // Now it's no longer in the old cache.
+    assertThat(oldImpl.diskStats().space()).isEqualTo(14);
+    assertThat(oldImpl.getIfPresent("key")).isNull();
+  }
+
   // TODO(dborowitz): Won't be necessary when we use a real StringSerializer in the server code.
   private enum StringSerializer implements CacheSerializer<String> {
     INSTANCE;
@@ -105,5 +139,9 @@ public class H2CacheTest {
       // checked exceptions.
       return new String(in, UTF_8);
     }
+  }
+
+  private static <K, V> Cache<K, ValueHolder<V>> disableMemCache() {
+    return CacheBuilder.newBuilder().maximumSize(0).build();
   }
 }

@@ -15,29 +15,27 @@
 package com.google.gerrit.server.cache.h2;
 
 import com.google.common.hash.Funnel;
+import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.inject.TypeLiteral;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 interface EntryType<K, V> {
   @SuppressWarnings("unchecked")
-  static <K, V> EntryType<K, V> createObjectValueType(TypeLiteral<K> keyType) {
+  static <K, V> EntryType<K, V> create(
+      TypeLiteral<K> keyType,
+      CacheSerializer<K> keySerializer,
+      CacheSerializer<V> valueSerializer) {
     if (keyType.getRawType() == String.class) {
-      return (EntryType<K, V>) StringKeyTypeImpl.INSTANCE;
+      return (EntryType<K, V>)
+          new StringKeyTypeImpl<>((CacheSerializer<String>) keySerializer, valueSerializer);
     }
-    return (EntryType<K, V>) ObjectKeyTypeImpl.INSTANCE;
+    return new ObjectKeyTypeImpl<>(keySerializer, valueSerializer);
   }
 
   String keyColumnType();
 
-  K getKey(ResultSet rs, int col) throws SQLException;
-
-  void setKey(PreparedStatement ps, int col, K key) throws SQLException;
-
   Funnel<K> keyFunnel();
 
-  V getValue(ResultSet rs, int col) throws SQLException;
+  CacheSerializer<K> keySerializer();
 
-  void setValue(PreparedStatement ps, int col, V value) throws SQLException;
+  CacheSerializer<V> valueSerializer();
 }

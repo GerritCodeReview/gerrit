@@ -16,29 +16,20 @@ package com.google.gerrit.server.cache.h2;
 
 import com.google.common.hash.Funnel;
 import com.google.common.hash.Funnels;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import com.google.gerrit.server.cache.CacheSerializer;
 
-class StringKeyTypeImpl implements EntryType<String, Object> {
-  static final EntryType<String, ?> INSTANCE = new StringKeyTypeImpl();
+class StringKeyTypeImpl<V> implements EntryType<String, V> {
+  private final CacheSerializer<String> keySerializer;
+  private final CacheSerializer<V> valueSerializer;
 
-  private StringKeyTypeImpl() {}
+  StringKeyTypeImpl(CacheSerializer<String> keySerializer, CacheSerializer<V> valueSerializer) {
+    this.keySerializer = keySerializer;
+    this.valueSerializer = valueSerializer;
+  }
 
   @Override
   public String keyColumnType() {
     return "VARCHAR(4096)";
-  }
-
-  @Override
-  public String getKey(ResultSet rs, int col) throws SQLException {
-    return rs.getString(col);
-  }
-
-  @Override
-  public void setKey(PreparedStatement ps, int col, String value) throws SQLException {
-    ps.setString(col, value);
   }
 
   @SuppressWarnings("unchecked")
@@ -49,12 +40,12 @@ class StringKeyTypeImpl implements EntryType<String, Object> {
   }
 
   @Override
-  public Object getValue(ResultSet rs, int col) throws SQLException {
-    return rs.getObject(col);
+  public CacheSerializer<String> keySerializer() {
+    return keySerializer;
   }
 
   @Override
-  public void setValue(PreparedStatement ps, int col, Object value) throws SQLException {
-    ps.setObject(col, value, Types.JAVA_OBJECT);
+  public CacheSerializer<V> valueSerializer() {
+    return valueSerializer;
   }
 }

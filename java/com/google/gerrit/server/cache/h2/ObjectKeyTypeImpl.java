@@ -16,31 +16,23 @@ package com.google.gerrit.server.cache.h2;
 
 import com.google.common.hash.Funnel;
 import com.google.common.hash.PrimitiveSink;
+import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SinkOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
 
-class ObjectKeyTypeImpl<K> implements EntryType<K, Object> {
-  static final EntryType<?, ?> INSTANCE = new ObjectKeyTypeImpl<>();
+class ObjectKeyTypeImpl<K, V> implements EntryType<K, V> {
+  private final CacheSerializer<K> keySerializer;
+  private final CacheSerializer<V> valueSerializer;
+
+  ObjectKeyTypeImpl(CacheSerializer<K> keySerializer, CacheSerializer<V> valueSerializer) {
+    this.keySerializer = keySerializer;
+    this.valueSerializer = valueSerializer;
+  }
 
   @Override
   public String keyColumnType() {
     return "OTHER";
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public K getKey(ResultSet rs, int col) throws SQLException {
-    return (K) rs.getObject(col);
-  }
-
-  @Override
-  public void setKey(PreparedStatement ps, int col, K key) throws SQLException {
-    ps.setObject(col, key, Types.JAVA_OBJECT);
   }
 
   @Override
@@ -61,12 +53,12 @@ class ObjectKeyTypeImpl<K> implements EntryType<K, Object> {
   }
 
   @Override
-  public Object getValue(ResultSet rs, int col) throws SQLException {
-    return rs.getObject(col);
+  public CacheSerializer<K> keySerializer() {
+    return keySerializer;
   }
 
   @Override
-  public void setValue(PreparedStatement ps, int col, Object value) throws SQLException {
-    ps.setObject(col, value, Types.JAVA_OBJECT);
+  public CacheSerializer<V> valueSerializer() {
+    return valueSerializer;
   }
 }

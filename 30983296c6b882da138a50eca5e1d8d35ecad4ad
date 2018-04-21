@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cfc74484_5c3b9e08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-21T21:33:10Z",
+      "side": 1,
+      "message": "True, let me get the ticket that was opened a few weeks ago.",
+      "parentUuid": "56516957_1972e70c",
+      "revId": "30983296c6b882da138a50eca5e1d8d35ecad4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ee71fcf_f1205296",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-21T21:30:02Z",
       "side": 1,
       "message": "Parsing the causal chain like this is very fragile. Can we change the PermissionBackendException (e.g. by adding a method to it) instead?",
+      "revId": "30983296c6b882da138a50eca5e1d8d35ecad4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a14fdb75_8994feb8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-21T21:33:10Z",
+      "side": 1,
+      "message": "Best would be an AuthException instead of a PermissionBackendException: however that change was refused because the fact that a repository has vanished was considered a fatal exception.\n\nHowever, that happens sometimes, and we have 40k repositories :-) We cannot affort breaking the GUI for *everyone* because one repository is not there anymore.",
+      "parentUuid": "2ee71fcf_f1205296",
       "revId": "30983296c6b882da138a50eca5e1d8d35ecad4ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

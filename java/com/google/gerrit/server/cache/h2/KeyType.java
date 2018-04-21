@@ -15,6 +15,7 @@
 package com.google.gerrit.server.cache.h2;
 
 import com.google.common.hash.Funnel;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,9 +23,9 @@ import java.sql.SQLException;
 interface KeyType<K> {
   String columnType();
 
-  K get(ResultSet rs, int col) throws SQLException;
+  K get(ResultSet rs, int col) throws IOException, SQLException;
 
-  void set(PreparedStatement ps, int col, K key) throws SQLException;
+  void set(PreparedStatement ps, int col, K key) throws IOException, SQLException;
 
   Funnel<K> funnel();
 }

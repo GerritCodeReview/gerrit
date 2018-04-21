@@ -30,7 +30,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -162,8 +161,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
 
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
-    SqlStore<K, V> store =
-        newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
+    SqlStore<K, V> store = newSqlStore(def, limit);
     H2CacheImpl<K, V> cache =
         new H2CacheImpl<>(
             executor, store, def.keyType(), (Cache<K, ValueHolder<V>>) memCacheFactory.build(def));
@@ -183,8 +181,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
 
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
-    SqlStore<K, V> store =
-        newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
+    SqlStore<K, V> store = newSqlStore(def, limit);
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
             memCacheFactory.build(
@@ -208,10 +205,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
   }
 
-  private <V, K> SqlStore<K, V> newSqlStore(
-      String name, TypeLiteral<K> keyType, long maxSize, Long expireAfterWrite) {
+  private <V, K> SqlStore<K, V> newSqlStore(PersistentCacheDef<K, V> def, long maxSize) {
     StringBuilder url = new StringBuilder();
-    url.append("jdbc:h2:").append(cacheDir.resolve(name).toUri());
+    url.append("jdbc:h2:").append(cacheDir.resolve(def.name()).toUri());
     if (h2CacheSize >= 0) {
       url.append(";CACHE_SIZE=");
       // H2 CACHE_SIZE is always given in KB
@@ -220,9 +216,12 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     if (h2AutoServer) {
       url.append(";AUTO_SERVER=TRUE");
     }
+    Long expireAfterWrite = def.expireAfterWrite(TimeUnit.SECONDS);
     return new SqlStore<>(
         url.toString(),
-        keyType,
+        def.keyType(),
+        def.keySerializer(),
+        def.valueSerializer(),
         maxSize,
         expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
   }

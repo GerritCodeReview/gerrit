@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7fd6b229_7ab9c637",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-21T21:42:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfc74484_5c3b9e08",
+      "revId": "30983296c6b882da138a50eca5e1d8d35ecad4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ee71fcf_f1205296",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
         "patchSetId": 1

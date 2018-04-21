@@ -53,6 +53,7 @@ junit_tests(
         "//lib:gson",
         "//lib:guava-retrying",
         "//lib:gwtorm",
+        "//lib:protobuf",
         "//lib:truth-java8-extension",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
@@ -60,5 +61,6 @@ junit_tests(
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//proto:cache_java_proto",
     ],
 )

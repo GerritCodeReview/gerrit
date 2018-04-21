@@ -26,7 +26,6 @@ import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 import com.google.inject.util.Types;
-import java.io.Serializable;
 import java.lang.reflect.Type;
 
 /** Miniature DSL to support binding {@link Cache} instances in Guice. */
@@ -117,7 +116,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
-  protected <K extends Serializable, V extends Serializable> PersistentCacheBinding<K, V> persist(
+  protected <K, V> PersistentCacheBinding<K, V> persist(
       String name, Class<K> keyType, Class<V> valType) {
     return persist(name, TypeLiteral.get(keyType), TypeLiteral.get(valType));
   }
@@ -129,7 +128,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
-  protected <K extends Serializable, V extends Serializable> PersistentCacheBinding<K, V> persist(
+  protected <K, V> PersistentCacheBinding<K, V> persist(
       String name, Class<K> keyType, TypeLiteral<V> valType) {
     return persist(name, TypeLiteral.get(keyType), valType);
   }
@@ -141,7 +140,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
-  protected <K extends Serializable, V extends Serializable> PersistentCacheBinding<K, V> persist(
+  protected <K, V> PersistentCacheBinding<K, V> persist(
       String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     PersistentCacheProvider<K, V> m = new PersistentCacheProvider<>(this, name, keyType, valType);
     bindCache(m, name, keyType, valType);

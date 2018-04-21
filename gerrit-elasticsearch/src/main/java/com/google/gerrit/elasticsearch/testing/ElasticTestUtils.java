@@ -109,8 +109,36 @@ public final class ElasticTestUtils {
     return new ElasticNodeInfo(node, elasticDir, getHttpPort(node));
   }
 
-  public static void deleteAllIndexes(ElasticNodeInfo nodeInfo) {
-    nodeInfo.node.client().admin().indices().prepareDelete("_all").execute();
+  public static void deleteAllIndexes(ElasticNodeInfo nodeInfo, String prefix) {
+    Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
+    nodeInfo
+        .node
+        .client()
+        .admin()
+        .indices()
+        .prepareDelete(String.format("%s%s_%04d", prefix, CHANGES, changeSchema.getVersion()))
+        .execute()
+        .actionGet();
+
+    Schema<AccountState> accountSchema = AccountSchemaDefinitions.INSTANCE.getLatest();
+    nodeInfo
+        .node
+        .client()
+        .admin()
+        .indices()
+        .prepareDelete(String.format("%s%s_%04d", prefix, ACCOUNTS, accountSchema.getVersion()))
+        .execute()
+        .actionGet();
+
+    Schema<AccountGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
+    nodeInfo
+        .node
+        .client()
+        .admin()
+        .indices()
+        .prepareDelete(String.format("%s%s_%04d", prefix, GROUPS, groupSchema.getVersion()))
+        .execute()
+        .actionGet();
   }
 
   public static class NodeInfo {

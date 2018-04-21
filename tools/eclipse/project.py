@@ -145,6 +145,7 @@ def gen_classpath(ext):
   doc = make_classpath()
   src = set()
   lib = set()
+  proto = set()
   gwt_src = set()
   gwt_lib = set()
   plugins = set()
@@ -170,6 +171,9 @@ def gen_classpath(ext):
       # JGit dependency from external repository
       if 'gerrit-' not in p and 'jgit' in p:
         lib.add(p)
+      # Assume any jars in /proto/ are from java_proto_library rules
+      if '/bin/proto/' in p:
+        proto.add(p)
     else:
       # Don't mess up with Bazel internal test runner dependencies.
       # When we use Eclipse we rely on it for running the tests
@@ -238,6 +242,11 @@ def gen_classpath(ext):
               not j.endswith("libEdit-src.jar"):
             continue
         classpathentry('lib', j, s)
+
+  for p in sorted(proto):
+    s = p.replace('-fastbuild/bin/proto/lib', '-fastbuild/genfiles/proto/')
+    s = s.replace('.jar', '-src.jar')
+    classpathentry('lib', p, s)
 
   for s in sorted(gwt_src):
     p = path.join(ROOT, s, 'src', 'main', 'java')

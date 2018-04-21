@@ -16,16 +16,20 @@ package com.google.gerrit.server.cache.h2;
 
 import com.google.common.hash.Funnel;
 import com.google.common.hash.PrimitiveSink;
+import com.google.gerrit.server.cache.CacheSerializer;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
-enum ObjectKeyTypeImpl implements KeyType<Object> {
-  INSTANCE;
+class ObjectKeyTypeImpl<K> implements KeyType<K> {
+  private final CacheSerializer<K> serializer;
+
+  ObjectKeyTypeImpl(CacheSerializer<K> serializer) {
+    this.serializer = serializer;
+  }
 
   @Override
   public String columnType() {
@@ -33,24 +37,24 @@ enum ObjectKeyTypeImpl implements KeyType<Object> {
   }
 
   @Override
-  public Object get(ResultSet rs, int col) throws SQLException {
-    return rs.getObject(col);
+  public K get(ResultSet rs, int col) throws IOException, SQLException {
+    return serializer.deserialize(rs.getBinaryStream(col));
   }
 
   @Override
-  public void set(PreparedStatement ps, int col, Object key) throws SQLException {
-    ps.setObject(col, key, Types.JAVA_OBJECT);
+  public void set(PreparedStatement ps, int col, K key) throws IOException, SQLException {
+    ps.setBinaryStream(col, serializer.createInputStream(key));
   }
 
   @Override
-  public Funnel<Object> funnel() {
-    return new Funnel<Object>() {
+  public Funnel<K> funnel() {
+    return new Funnel<K>() {
       private static final long serialVersionUID = 1L;
 
       @Override
-      public void funnel(Object from, PrimitiveSink into) {
+      public void funnel(K from, PrimitiveSink into) {
         try (ObjectOutputStream ser = new ObjectOutputStream(new SinkOutputStream(into))) {
-          ser.writeObject(from);
+          serializer.serialize(from, ser);
           ser.flush();
         } catch (IOException err) {
           throw new RuntimeException("Cannot hash as Serializable", err);

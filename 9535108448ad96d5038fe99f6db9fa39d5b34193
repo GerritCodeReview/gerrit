@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb74ab09_9e9b72a0",
+        "filename": "Documentation/.vscode/settings.json",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T11:59:48Z",
+      "side": 1,
+      "message": "Unintentionally added file?",
+      "revId": "9535108448ad96d5038fe99f6db9fa39d5b34193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b09774e_a59f74cc",
+        "filename": "java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T11:59:48Z",
+      "side": 1,
+      "message": "2018?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9535108448ad96d5038fe99f6db9fa39d5b34193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e9dc3ec_36223f89",
+        "filename": "java/com/google/gerrit/extensions/common/RolePermissionInfo.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T11:59:48Z",
+      "side": 1,
+      "message": "Missing header",
+      "revId": "9535108448ad96d5038fe99f6db9fa39d5b34193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de1d5956_bb01f645",
+        "filename": "java/com/google/gerrit/extensions/common/RolePermissionInfo.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T11:59:48Z",
+      "side": 1,
+      "message": "Indent with spaces",
+      "revId": "9535108448ad96d5038fe99f6db9fa39d5b34193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14ac6712_395e0e25",
+        "filename": "java/com/google/gerrit/extensions/common/RoleTypeInfo.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T11:59:48Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "9535108448ad96d5038fe99f6db9fa39d5b34193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99be0dc5_73612404",
+        "filename": "java/com/google/gerrit/extensions/common/RoleTypeInfo.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T11:59:48Z",
+      "side": 1,
+      "message": "Should be indented with spaces.",
+      "revId": "9535108448ad96d5038fe99f6db9fa39d5b34193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

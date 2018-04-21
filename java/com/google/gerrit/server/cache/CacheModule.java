@@ -148,7 +148,9 @@ public abstract class CacheModule extends FactoryModule {
       String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     PersistentCacheProvider<K, V> m = new PersistentCacheProvider<>(this, name, keyType, valType);
     bindCache(m, name, keyType, valType);
-    return m;
+    // TODO(dborowitz): Once default Java serialization is removed, leave no default.
+    return m.keySerializer(new JavaCacheSerializer<>())
+        .valueSerializer(new JavaCacheSerializer<>());
   }
 
   private <K, V> void bindCache(

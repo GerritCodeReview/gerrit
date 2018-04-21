@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56516957_1972e70c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-21T21:30:02Z",
+      "side": 1,
+      "message": "Do you have more details about the symptoms (e.g. an error message or bug number)?",
+      "revId": "30983296c6b882da138a50eca5e1d8d35ecad4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ee71fcf_f1205296",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-21T21:30:02Z",
+      "side": 1,
+      "message": "Parsing the causal chain like this is very fragile. Can we change the PermissionBackendException (e.g. by adding a method to it) instead?",
+      "revId": "30983296c6b882da138a50eca5e1d8d35ecad4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

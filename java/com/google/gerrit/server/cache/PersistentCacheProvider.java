@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
@@ -26,6 +28,8 @@ import java.util.concurrent.TimeUnit;
 class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     implements Provider<Cache<K, V>>, PersistentCacheBinding<K, V>, PersistentCacheDef<K, V> {
   private long diskLimit;
+  private CacheSerializer<K> keySerializer;
+  private CacheSerializer<V> valueSerializer;
 
   private PersistentCacheFactory persistentCacheFactory;
 
@@ -60,6 +64,18 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   }
 
   @Override
+  public PersistentCacheBinding<K, V> keySerializer(CacheSerializer<K> keySerializer) {
+    this.keySerializer = keySerializer;
+    return this;
+  }
+
+  @Override
+  public PersistentCacheBinding<K, V> valueSerializer(CacheSerializer<V> valueSerializer) {
+    this.valueSerializer = valueSerializer;
+    return this;
+  }
+
+  @Override
   public PersistentCacheBinding<K, V> diskLimit(long limit) {
     checkNotFrozen();
     diskLimit = limit;
@@ -75,10 +91,22 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   }
 
   @Override
+  public CacheSerializer<K> keySerializer() {
+    return keySerializer;
+  }
+
+  @Override
+  public CacheSerializer<V> valueSerializer() {
+    return valueSerializer;
+  }
+
+  @Override
   public Cache<K, V> get() {
     if (persistentCacheFactory == null) {
       return super.get();
     }
+    checkState(keySerializer != null, "keySerializer is required");
+    checkState(valueSerializer != null, "valueSerializer is required");
     freeze();
     CacheLoader<K, V> ldr = loader();
     return ldr != null

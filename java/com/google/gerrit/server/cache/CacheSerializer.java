@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.cache;
 
-public interface PersistentCacheDef<K, V> extends CacheDef<K, V> {
-  long diskLimit();
+import java.io.IOException;
 
-  CacheSerializer<K> keySerializer();
+/** Interface for serializing/deserializing a type to/from a persistent cache. */
+public interface CacheSerializer<T> {
+  /** Serializes the object to a new byte array. */
+  byte[] serialize(T object) throws IOException;
 
-  CacheSerializer<V> valueSerializer();
+  /** Deserializes a single object from the given byte array. */
+  T deserialize(byte[] in) throws IOException;
 }

@@ -22,6 +22,53 @@
       "revId": "029189c0485c2b475743191691cff37399e4e89a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f72874ee_682abcaf",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T09:38:39Z",
+      "side": 1,
+      "message": "With the new JGit version this works after uncommenting the assertion.",
+      "parentUuid": "5231c065_24ea6cb9",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 60
+      },
+      "revId": "029189c0485c2b475743191691cff37399e4e89a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f93987f9_13c8c182",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T09:38:39Z",
+      "side": 1,
+      "message": "This test was failing.  To fix it I\u0027ve changed this to \u0027Create Change\u0027, and added CREATE_CHANGE to the list of removed permissions in the setup method.",
+      "range": {
+        "startLine": 224,
+        "startChar": 23,
+        "endLine": 224,
+        "endChar": 27
+      },
+      "revId": "029189c0485c2b475743191691cff37399e4e89a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

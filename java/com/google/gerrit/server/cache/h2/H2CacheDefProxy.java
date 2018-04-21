@@ -84,6 +84,11 @@ class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
   }
 
   @Override
+  public int version() {
+    return source.version();
+  }
+
+  @Override
   public CacheSerializer<K> keySerializer() {
     return source.keySerializer();
   }

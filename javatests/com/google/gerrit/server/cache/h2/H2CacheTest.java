@@ -47,6 +47,7 @@ public class H2CacheTest {
             keyType,
             new JavaCacheSerializer<>(),
             new JavaCacheSerializer<>(),
+            1234,
             1 << 20,
             0);
     impl = new H2CacheImpl<>(MoreExecutors.directExecutor(), store, keyType, mem);

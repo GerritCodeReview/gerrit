@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76cfb471_a26ca425",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-21T09:50:43Z",
+      "side": 1,
+      "message": "This is now failing because the error is \u0027Push\u0027, which makes me wonder if the fix I did in the earlier change in this series is correct or not.",
+      "range": {
+        "startLine": 224,
+        "startChar": 23,
+        "endLine": 224,
+        "endChar": 36
+      },
+      "revId": "d947ea3d3d204e98e6189046f9209d34f9613199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

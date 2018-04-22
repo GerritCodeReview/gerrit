@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41e1d920_84075121",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-22T13:56:52Z",
+      "side": 1,
+      "message": "The only use case I can think of is gerrit upgrade attempt following by gerrit downgrade. Even then it\u0027s possible to backup the H2 caches and restore them. Though I think this use cases can be ignored and it is safe to prune older versions.",
+      "revId": "b6bb5e08232144fa52c7ee838eef063e3b600edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

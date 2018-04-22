@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9aa983fd_141ce384",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-22T13:57:18Z",
+      "side": 1,
+      "message": "Sad to see, we are adding another dependency to server package, that can be avoided, because server.cache is not actually depending on the rest of the server package (except some classes from config package). And there is pending series to isolate server.cache from the rest of the server package. Next possible step is to move cache outside of the server, like you did with index package.",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 92,
+        "endChar": 34
+      },
+      "revId": "f31bb69c9bef1ff8a6e38bbfea9e001cd514a517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d3e88e_9745fd4d",
         "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 3
@@ -13,6 +36,69 @@
       "writtenOn": "2018-04-21T17:24:52Z",
       "side": 1,
       "message": "FYI I do plan to make this an AutoValue type eventually, but I want to hold off until we\u0027ve migrated to the new serialization format internally and we\u0027ve deleted our hand-written serialization implementations.",
+      "revId": "f31bb69c9bef1ff8a6e38bbfea9e001cd514a517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "142d9440_e9069c3f",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-22T13:57:18Z",
+      "side": 1,
+      "message": "Another alternative to generic cache.proto with multiple messages per key, is to add cache key specific proto files, e.g. ChangeKindKey.proto. Does it make sense? (Not really related to the core, but if plugins would like to add persistent caches, they would add their own proto files.)",
+      "revId": "f31bb69c9bef1ff8a6e38bbfea9e001cd514a517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ae8366a_93b4f120",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-22T13:57:18Z",
+      "side": 1,
+      "message": "This could be \"com.google.gerrit.cache.proto\".",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "f31bb69c9bef1ff8a6e38bbfea9e001cd514a517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a49c2018_3e3b4cb0",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-22T13:57:18Z",
+      "side": 1,
+      "message": "Could be removed? I think it\u0027s not possible that the proto was generated, but the src zip is missing because of the way how the protoc compile works: it generates the sourcs zip in the proto_library:\n\n  protoc \u0027--java_out\u003dbazel-out/k8-fastbuild/genfiles/proto/cache_proto-speed-src.jar\u0027 ...\n\nand in the java_proto_library it compiles them:\n\n  --source_jars\nbazel-out/k8-fastbuild/genfiles/proto/cache_proto-speed-src.jar ...\n\nSo that the both should be always there:\n\n* java_proto_library: \"bazel-out/k8-fastbuild/bin/proto/libcache_proto-speed.jar\"\n* source: \"bazel-out/k8-fastbuild/genfiles/proto/cache_proto-speed-src.jar\"\n\nI would also expect that if bazel-out was wiped out, and the artifacts are restored from the action cache, both binary and source artifact are restored.",
+      "range": {
+        "startLine": 249,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 14
+      },
       "revId": "f31bb69c9bef1ff8a6e38bbfea9e001cd514a517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

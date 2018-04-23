@@ -94,7 +94,7 @@ public class ForcePushIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAllowedWithDeletePermission() throws Exception {
-    grant(project, "refs/*", Permission.PUSH, true);
+    grant(project, "refs/*", Permission.DELETE, true);
     assertDeleteRef(OK);
   }
 

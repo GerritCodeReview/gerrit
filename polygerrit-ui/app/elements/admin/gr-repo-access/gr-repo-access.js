@@ -243,6 +243,12 @@
       return inheritsFrom ? 'show' : '';
     },
 
+    _handleAddedSectionRemoved(e) {
+      const index = e.model.index;
+      this._sections = this._sections.slice(0, index)
+          .concat(this._sections.slice(index + 1, this._sections.length));
+    },
+
     _handleEditingChanged(editing, editingOld) {
       // Ignore when editing gets set initially.
       if (!editingOld || editing) { return; }

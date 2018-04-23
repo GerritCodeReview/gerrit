@@ -301,6 +301,14 @@ limitations under the License.
         flushAsynchronousOperations();
       });
 
+      test('removing an added section', () => {
+        element.editing = true;
+        assert.equal(element._sections.length, 1);
+        element.$$('gr-access-section').fire('added-section-removed');
+        flushAsynchronousOperations();
+        assert.equal(element._sections.length, 0);
+      });
+
       test('button visibility for non admin', () => {
         assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
         assert.equal(getComputedStyle(element.$.editBtn).display, 'none');

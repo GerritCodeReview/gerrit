@@ -159,6 +159,7 @@ public class AllProjectsCreator {
 
       AccessSection cap = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
       AccessSection all = config.getAccessSection(AccessSection.ALL, true);
+      AccessSection refsFor = config.getAccessSection("refs/for/*", true);
       AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
       AccessSection tags = config.getAccessSection("refs/tags/*", true);
       AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
@@ -185,6 +186,7 @@ public class AllProjectsCreator {
       grant(config, heads, Permission.CREATE, admin, owners);
       grant(config, heads, Permission.PUSH, admin, owners);
       grant(config, all, Permission.PUSH_MERGE, registered);
+      grant(config, refsFor, Permission.PUSH_MERGE, registered);
       grant(config, heads, Permission.SUBMIT, admin, owners);
       grant(config, heads, Permission.FORGE_AUTHOR, registered);
       grant(config, heads, Permission.FORGE_COMMITTER, admin, owners);

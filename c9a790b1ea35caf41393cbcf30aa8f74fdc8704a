@@ -134,6 +134,24 @@
     },
     {
       "key": {
+        "uuid": "262453c2_0ebd70b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ChangeUserName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-23T23:42:13Z",
+      "side": 1,
+      "message": "nit: The logger is usually the first declared variable in the class. I.e. move this up to before L41.",
+      "parentUuid": "c23ebdd0_96d4f269",
+      "revId": "c9a790b1ea35caf41393cbcf30aa8f74fdc8704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12abea58_5c838f70",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ChangeUserName.java",
         "patchSetId": 1

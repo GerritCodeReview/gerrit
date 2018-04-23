@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5a98eeb0_29b6293e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-23T11:31:19Z",
+      "side": 1,
+      "message": "True, let me amend it with a less verbose headline :-)",
+      "parentUuid": "d443f19b_5ed63fcf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "87ce946ed0282c8af5c3c92a4c5f7583709b7bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a107d49_88fc83a3",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/permissions/PermissionBackend.java",
         "patchSetId": 3

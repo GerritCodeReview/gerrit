@@ -16,7 +16,9 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /** Caches important (but small) account state to avoid database hits. */
 public interface AccountCache {
@@ -29,6 +31,20 @@ public interface AccountCache {
    *     exists {@link Optional#empty()} is returned
    */
   Optional<AccountState> get(Account.Id accountId);
+
+  /**
+   * Returns a {@code Map} of {@code Account.Id} to {@code AccountState} for the given account IDs.
+   * If not cached yet the accounts are loaded. If an account can't be loaded (e.g. because it is
+   * missing), the entry will be missing from the result.
+   *
+   * <p>Loads accounts in parallel if applicable.
+   *
+   * @param accountIds IDs of the account that should be retrieved
+   * @return {@code Map} of {@code Account.Id} to {@code AccountState} instances for the given
+   *     account IDs, if an account can't be loaded (e.g. because it is missing), the entry will be
+   *     missing from the result
+   */
+  Map<Account.Id, AccountState> get(Set<Account.Id> accountIds);
 
   /**
    * Returns an {@code AccountState} instance for the given account ID. If not cached yet the

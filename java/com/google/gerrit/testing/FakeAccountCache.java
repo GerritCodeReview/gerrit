@@ -14,6 +14,8 @@
 
 package com.google.gerrit.testing;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -24,6 +26,7 @@ import com.google.gerrit.server.config.AllUsersNameProvider;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 /** Fake implementation of {@link AccountCache} for testing. */
 public class FakeAccountCache implements AccountCache {
@@ -45,6 +48,11 @@ public class FakeAccountCache implements AccountCache {
   @Override
   public synchronized Optional<AccountState> get(Account.Id accountId) {
     return Optional.ofNullable(byId.get(accountId));
+  }
+
+  @Override
+  public synchronized Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
+    return ImmutableMap.copyOf(Maps.filterKeys(byId, accountIds::contains));
   }
 
   @Override

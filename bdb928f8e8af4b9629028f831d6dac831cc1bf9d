@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1524492363 +0200\nnonce AFN+CTLZh3CPFZMhPEBY7z2lkh6jWfAHMAS+IdRGCI3fPegxD31j/tbntNIwtqgATEu+cEmZqP+/\n\n0000000000000000000000000000000000000000 bdb928f8e8af4b9629028f831d6dac831cc1bf9d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlrd6EsACgkQUbX9l6DQ\n71Fmegf/cEIgRKoOiZcLjlMIpatamC5eXWXidg7t1HrDCyn1IEpbxddgGfHd12vc\n6NtaLQjXo4Lt89GQlaniSJi4g/fjGsB+437pvceqWJWMQYHy5MllL7Wvxb/TMbaK\n+gHpe9rrmHSqtLoDo5DBb6sFpfqb3HXD9aJ+q3+vrvn1GtmwvF9FOFzmZoTL8094\nSBCjH4yJwHr9p9rXjQ4XUR8lRy4ueB6cfa+QJ/0G6BstHlg+8VXFtANfucX+4Aqf\nauw6IAwuodCHJqWWe8Wn1pESH9WduXt9XHlQp6w5HJ1kgNF2/uhjGcG3uAQvHDQX\ncjchs13DJAZp9TKtWS5Qf2YwQYcjDg\u003d\u003d\n\u003djYZV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "21215b63_aa8fe4a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-23T14:25:41Z",
+      "side": 1,
+      "message": "IMHO this is a problem with the way we read permissions, and duplicate permissions should just be silently filtered out.",
+      "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

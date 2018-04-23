@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "de41b789_a6026036",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-23T14:20:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f72874ee_682abcaf",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 60
+      },
+      "revId": "029189c0485c2b475743191691cff37399e4e89a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f93987f9_13c8c182",
         "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "029189c0485c2b475743191691cff37399e4e89a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9061ed_7b27f2e4",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-23T14:20:48Z",
+      "side": 1,
+      "message": "This was due to Sven\u0027s permission change series, it worked at the time :)",
+      "parentUuid": "f93987f9_13c8c182",
+      "range": {
+        "startLine": 224,
+        "startChar": 23,
+        "endLine": 224,
+        "endChar": 27
+      },
+      "revId": "029189c0485c2b475743191691cff37399e4e89a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

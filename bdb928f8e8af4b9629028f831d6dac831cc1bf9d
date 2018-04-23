@@ -35,6 +35,24 @@
       "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e25a070_ceaf93ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-23T14:30:49Z",
+      "side": 1,
+      "message": "How about starting by making AccessSections-\u003epermissions a set?\n  protected List\u003cPermission\u003e permissions;",
+      "parentUuid": "21215b63_aa8fe4a5",
+      "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

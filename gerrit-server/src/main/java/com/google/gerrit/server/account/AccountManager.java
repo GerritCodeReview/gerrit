@@ -214,10 +214,12 @@ public class AccountManager {
   private AuthResult create(ReviewDb db, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(db.nextAccountId());
+    log.debug("Assigning new Id {} to account", newId);
     Account account = new Account(newId, TimeUtil.nowTs());
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
+    log.debug("Created external Id: {}", extId.toString());
     account.setFullName(who.getDisplayName());
     account.setPreferredEmail(extId.email());
 
@@ -272,10 +274,13 @@ public class AccountManager {
       db.accountGroupMembers().insert(Collections.singleton(m));
     }
 
+    log.debug("Username from AuthRequest: {}", who.getUserName());
     if (who.getUserName() != null) {
+      log.debug("Setting username for: {}", who.getUserName());
       // Only set if the name hasn't been used yet, but was given to us.
       //
       IdentifiedUser user = userFactory.create(newId);
+      log.debug("Identified user {} was created from {}", user.toString(), who.getUserName());
       try {
         changeUserNameFactory.create(db, user, who.getUserName()).call();
       } catch (NameAlreadyUsedException e) {

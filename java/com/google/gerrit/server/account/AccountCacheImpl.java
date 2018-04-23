@@ -109,7 +109,7 @@ public class AccountCacheImpl implements AccountCache {
     Map<Account.Id, AccountState> accountStates = new HashMap<>(accountIds.size());
     List<Callable<Optional<AccountState>>> callables = new ArrayList<>();
     for (Account.Id accountId : accountIds) {
-      Optional<AccountState> state = byId.asMap().get(accountId);
+      Optional<AccountState> state = byId.getIfPresent(accountId);
       if (state != null) {
         // The value is in-memory, so we just get the state
         state.ifPresent(s -> accountStates.put(accountId, s));

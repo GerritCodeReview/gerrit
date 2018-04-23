@@ -289,7 +289,18 @@ Note: TODO
 
 Note: TODO
 
-[plugin-repo]
+[[plugin-rest-api]]
+=== restApi
+`plugin.restApi(opt_prefix)`
+
+.Params:
+- (optional) URL prefix, for easy switching into plugin URL space,
+  e.g. `changes/1/revisions/1/cookbook~say-hello`
+
+.Returns:
+- Instance of link:pg-plugin-rest-api.html[GrPluginRestApi].
+
+[[plugin-repo]]
 === repo
 `plugin.repo()`
 

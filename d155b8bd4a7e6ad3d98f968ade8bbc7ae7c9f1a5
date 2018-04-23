@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c3ff2f40_8c0a9902",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-23T18:39:08Z",
+      "side": 1,
+      "message": "Nope.",
+      "parentUuid": "71f19f5d_47fc6e65",
+      "range": {
+        "startLine": 95,
+        "startChar": 31,
+        "endLine": 95,
+        "endChar": 62
+      },
+      "revId": "d155b8bd4a7e6ad3d98f968ade8bbc7ae7c9f1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65dd5da4_1e3041e0",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "d155b8bd4a7e6ad3d98f968ade8bbc7ae7c9f1a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55c4736d_b6681f04",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-23T18:39:08Z",
+      "side": 1,
+      "message": "With rounding at L207, we don\u0027t need rounding at all.\nPreviously, it was rounding to the first digit after the .",
+      "parentUuid": "65dd5da4_1e3041e0",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 38
+      },
+      "revId": "d155b8bd4a7e6ad3d98f968ade8bbc7ae7c9f1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

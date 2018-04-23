@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8d80450_c6ae39ac",
+        "filename": "Documentation/pg-plugin-rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-23T22:39:00Z",
+      "side": 1,
+      "message": "url, opt_payload",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 17
+      },
+      "revId": "42f67bbcfe5e3fb6ce1efb25fd83b6194f246e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12d0d366_e8d8d83f",
+        "filename": "Documentation/pg-plugin-rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-23T22:39:00Z",
+      "side": 1,
+      "message": "Nit: Inconsistent with periods after param definitions (here and below)",
+      "range": {
+        "startLine": 48,
+        "startChar": 69,
+        "endLine": 48,
+        "endChar": 70
+      },
+      "revId": "42f67bbcfe5e3fb6ce1efb25fd83b6194f246e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "100f458c_63255b8a",
+        "filename": "Documentation/pg-plugin-rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-23T22:39:00Z",
+      "side": 1,
+      "message": "url, opt_payload",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 16
+      },
+      "revId": "42f67bbcfe5e3fb6ce1efb25fd83b6194f246e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

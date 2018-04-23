@@ -47,6 +47,30 @@
       "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c485d4_daff1af6",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-23T20:10:06Z",
+      "side": 1,
+      "message": "I tried making this a set but ran into issues with the GWT editor during compiling.\n\nThough I think the correct approach would be to check for existing permission and if it exists add the rules so we do not lose any permissions. Something like:\n \n  getPermission(p.name, true).addAll(p.getRules());",
+      "parentUuid": "bcbbd721_b3d5feb0",
+      "range": {
+        "startLine": 79,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

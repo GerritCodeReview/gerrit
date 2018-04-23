@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "260746b3_be719903",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-23T18:44:04Z",
+      "side": 1,
+      "message": "Let me clarify a bit: it wasn\u0027t shared but wasn\u0027t used, so - no, no bugs.\nWith this change, it\u0027ll be used.",
+      "parentUuid": "c3ff2f40_8c0a9902",
+      "range": {
+        "startLine": 95,
+        "startChar": 31,
+        "endLine": 95,
+        "endChar": 62
+      },
+      "revId": "d155b8bd4a7e6ad3d98f968ade8bbc7ae7c9f1a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65dd5da4_1e3041e0",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 2

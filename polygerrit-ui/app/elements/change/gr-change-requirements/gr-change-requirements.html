@@ -1,0 +1,75 @@
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+
+<dom-module id="gr-change-requirements">
+  <template strip-whitespace>
+    <style include="shared-styles">
+      .status {
+        display: inline-block;
+        font-weight: initial;
+        text-align: center;
+        width: 1em;
+      }
+      .unsatisfied .status {
+        color: #FFA62F;
+      }
+      .satisfied .status {
+        color: #388E3C;
+      }
+      .requirement {
+        padding: .1em .3em;
+      }
+      .requirementContainer:not(:first-of-type) {
+        margin-top: .25em;
+      }
+      .labelName, .changeIsWip {
+        font-weight: bold;
+      }
+    </style>
+    <template is="dom-if" if="[[_showWip]]">
+      <div class="requirement unsatisfied changeIsWip">
+        <span class="status">⧗</span>
+        Work in Progress
+      </div>
+    </template>
+    <template is="dom-if" if="[[_showLabels]]">
+      <template
+          is="dom-repeat"
+          items="[[labels]]">
+        <div class$="requirement [[item.style]]">
+          <span class="status">[[item.status]]</span>
+          Label <span class="labelName">[[item.label]]</span>
+        </div>
+      </template>
+    </template>
+    <template
+        is="dom-repeat"
+        items="[[requirements]]">
+      <div class$="requirement [[_computeRequirementClass(item.satisfied)]]">
+        <span class="status">
+          [[_computeRequirementStatus(item.satisfied)]]
+        </span>
+        [[item.fallback_text]]
+      </div>
+    </template>
+  </template>
+  <script src="gr-change-requirements.js"></script>
+</dom-module>

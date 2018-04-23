@@ -16,6 +16,24 @@
       "revId": "0e1dab6977fab666a1d48d4fabb558c4a1885dc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d54297e_b4d49e10",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ForcePushIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-23T14:17:01Z",
+      "side": 1,
+      "message": "PushPermissionsIT basically only tests the failure cases, it doesn\u0027t care as much about the actual results in the success cases.",
+      "parentUuid": "7fa42e72_242e362d",
+      "revId": "0e1dab6977fab666a1d48d4fabb558c4a1885dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

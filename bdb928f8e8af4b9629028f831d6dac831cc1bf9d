@@ -71,6 +71,24 @@
       "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32e50de7_35e824a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-04-23T14:36:47Z",
+      "side": 1,
+      "message": "Permissions are sorted before displayed in AccessSectionEditor...",
+      "parentUuid": "ea3f3b23_b5a21f41",
+      "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

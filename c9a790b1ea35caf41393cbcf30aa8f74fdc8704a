@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14c74869_9ff597a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-23T20:39:25Z",
+      "side": 1,
+      "message": "Account: Instrument",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "c9a790b1ea35caf41393cbcf30aa8f74fdc8704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00269dd0_9ccc31ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-23T20:39:25Z",
+      "side": 1,
+      "message": "the bug linked from below,",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "c9a790b1ea35caf41393cbcf30aa8f74fdc8704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "182d3299_057e0625",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-23T20:39:25Z",
+      "side": 1,
+      "message": "idea of that problem",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "c9a790b1ea35caf41393cbcf30aa8f74fdc8704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bedc1ea6_a8e9884c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-23T20:39:25Z",
+      "side": 1,
+      "message": "Bug: Issue 8803\nChange-Id:",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 10
+      },
+      "revId": "c9a790b1ea35caf41393cbcf30aa8f74fdc8704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6af7b74b_b7810f01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-23T20:39:25Z",
+      "side": 1,
+      "message": "\"Identified user {} was created from: {}\", user.toString(), who.getUserName()",
+      "range": {
+        "startLine": 285,
+        "startChar": 15,
+        "endLine": 285,
+        "endChar": 94
+      },
+      "revId": "c9a790b1ea35caf41393cbcf30aa8f74fdc8704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c23ebdd0_96d4f269",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ChangeUserName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-23T20:39:25Z",
+      "side": 1,
+      "message": "Missing one blank line here in between?",
+      "revId": "c9a790b1ea35caf41393cbcf30aa8f74fdc8704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12abea58_5c838f70",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/ChangeUserName.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-04-23T20:39:25Z",
+      "side": 1,
+      "message": "exists for; also, knowing which id and/or user involved in this error could make this trace even more useful I think.",
+      "range": {
+        "startLine": 84,
+        "startChar": 63,
+        "endLine": 84,
+        "endChar": 74
+      },
+      "revId": "c9a790b1ea35caf41393cbcf30aa8f74fdc8704a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "aeeb6614_99c19592",
+        "filename": "java/com/google/gerrit/common/data/RoleSection.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-23T06:40:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9315503_443b64bb",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "9535108448ad96d5038fe99f6db9fa39d5b34193",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e9dc3ec_36223f89",
         "filename": "java/com/google/gerrit/extensions/common/RolePermissionInfo.java",
         "patchSetId": 32

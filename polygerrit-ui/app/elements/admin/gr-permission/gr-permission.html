@@ -115,7 +115,8 @@ limitations under the License.
                 group-name="[[_computeGroupName(groups, rule.id)]]"
                 permission="[[permission.id]]"
                 rule="{{rule}}"
-                section="[[section]]"></gr-rule-editor>
+                section="[[section]]"
+                on-added-rule-removed="_handleAddedRuleRemoved"></gr-rule-editor>
           </template>
           <div id="addRule">
             <gr-autocomplete

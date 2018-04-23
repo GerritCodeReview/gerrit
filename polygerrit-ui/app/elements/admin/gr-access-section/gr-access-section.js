@@ -23,6 +23,11 @@
    * @event access-modified
    */
 
+  /**
+   * Fired when a section that was previously added was removed.
+   * @event added-section-removed
+   */
+
   const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 
   // The name that gets automatically input when a new reference is added.
@@ -130,6 +135,12 @@
       return section.id === 'GLOBAL_CAPABILITIES' ? 'hide' : '';
     },
 
+    _handleAddedPermissionRemoved(e) {
+      const index = e.model.index;
+      this._permissions = this._permissions.slice(0, index).concat(
+          this._permissions.slice(index + 1, this._permissions.length));
+    },
+
     _computeLabelOptions(labels) {
       const labelOptions = [];
       for (const labelName of Object.keys(labels)) {
@@ -184,6 +195,10 @@
     },
 
     _handleRemoveReference() {
+      if (this.section.value.added) {
+        this.dispatchEvent(new CustomEvent('added-section-removed',
+            {bubbles: true}));
+      }
       this._deleted = true;
       this.section.value.deleted = true;
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));

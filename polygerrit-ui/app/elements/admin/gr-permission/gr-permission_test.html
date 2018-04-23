@@ -327,10 +327,35 @@ limitations under the License.
         assert.equal(Object.keys(element.permission.value.rules).length, 2);
       });
 
+      test('removing an added rule', () => {
+        element.name = 'Priority';
+        element.section = 'refs/*';
+        element.groups = {};
+        element.$.groupAutocomplete.text = 'new group name';
+        assert.equal(element._rules.length, 2);
+        element.$$('gr-rule-editor').fire('added-rule-removed');
+        flushAsynchronousOperations();
+        assert.equal(element._rules.length, 1);
+      });
+
+      test('removing an added permission', () => {
+        const removeStub = sandbox.stub();
+        element.addEventListener('added-permission-removed', removeStub);
+        element.editing = true;
+        element.name = 'Priority';
+        element.section = 'refs/*';
+        element.permission.value.added = true;
+        MockInteractions.tap(element.$.removeBtn);
+        assert.isTrue(removeStub.called);
+      });
+
       test('removing the permission', () => {
         element.editing = true;
         element.name = 'Priority';
         element.section = 'refs/*';
+
+        const removeStub = sandbox.stub();
+        element.addEventListener('added-permission-removed', removeStub);
 
         assert.isFalse(element.$.permission.classList.contains('deleted'));
         assert.isFalse(element._deleted);
@@ -340,6 +365,7 @@ limitations under the License.
         MockInteractions.tap(element.$.undoRemoveBtn);
         assert.isFalse(element.$.permission.classList.contains('deleted'));
         assert.isFalse(element._deleted);
+        assert.isFalse(removeStub.called);
       });
 
       test('modify a permission', () => {

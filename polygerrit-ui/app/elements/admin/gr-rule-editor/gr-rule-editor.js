@@ -23,6 +23,11 @@
    * @event access-modified
    */
 
+  /**
+   * Fired when a rule that was previously added was removed.
+   * @event added-rule-removed
+   */
+
   const PRIORITY_OPTIONS = [
     'BATCH',
     'INTERACTIVE',
@@ -202,6 +207,10 @@
     },
 
     _handleRemoveRule() {
+      if (this.rule.value.added) {
+        this.dispatchEvent(new CustomEvent('added-rule-removed',
+            {bubbles: true}));
+      }
       this._deleted = true;
       this.rule.value.deleted = true;
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));

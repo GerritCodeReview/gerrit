@@ -507,6 +507,23 @@ limitations under the License.
           assert.isFalse(element._deleted);
           assert.isNotOk(element.section.value.deleted);
         });
+
+        test('removing an added permission', () => {
+          element.editing = true;
+          assert.equal(element._permissions.length, 1);
+          element.$$('gr-permission').fire('added-permission-removed');
+          flushAsynchronousOperations();
+          assert.equal(element._permissions.length, 0);
+        });
+
+        test('remove an added section', () => {
+          const removeStub = sandbox.stub();
+          element.addEventListener('added-section-removed', removeStub);
+          element.editing = true;
+          element.section.value.added = true;
+          MockInteractions.tap(element.$.deleteBtn);
+          assert.isTrue(removeStub.called);
+        });
       });
     });
   });

@@ -319,6 +319,7 @@ limitations under the License.
         element.section = 'refs/*';
         element._setupValues(element.rule);
         flushAsynchronousOperations();
+        element.rule.value.added = true;
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -328,9 +329,9 @@ limitations under the License.
         const expectedRuleValue = {
           action: 'ALLOW',
           force: false,
+          added: true,
         };
         assert.deepEqual(element.rule.value, expectedRuleValue);
-        assert.deepEqual(element._originalRuleValues, expectedRuleValue);
         test('values are set correctly', () => {
           assert.equal(element.$.action.bindValue, expectedRuleValue.action);
           assert.equal(element.$.force.bindValue, expectedRuleValue.action);
@@ -345,6 +346,15 @@ limitations under the License.
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
+      });
+
+      test('remove value', () => {
+        element.editing = true;
+        const removeStub = sandbox.stub();
+        element.addEventListener('added-rule-removed', removeStub);
+        MockInteractions.tap(element.$.removeBtn);
+        flushAsynchronousOperations();
+        assert.isTrue(removeStub.called);
       });
     });
 
@@ -389,10 +399,13 @@ limitations under the License.
       });
 
       test('modify value', () => {
+        const removeStub = sandbox.stub();
+        element.addEventListener('added-rule-removed', removeStub);
         assert.isNotOk(element.rule.value.modified);
         Polymer.dom(element.root).querySelector('#labelMin').bindValue = 1;
         flushAsynchronousOperations();
         assert.isTrue(element.rule.value.modified);
+        assert.isFalse(removeStub.called);
 
         // The original value should now differ from the rule values.
         assert.notDeepEqual(element._originalRuleValues, element.rule.value);
@@ -417,6 +430,7 @@ limitations under the License.
         element.section = 'refs/*';
         element._setupValues(element.rule);
         flushAsynchronousOperations();
+        element.rule.value.added = true;
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -429,9 +443,9 @@ limitations under the License.
           max: element.label.values[element.label.values.length - 1].value,
           min: element.label.values[0].value,
           action: 'ALLOW',
+          added: true,
         };
         assert.deepEqual(element.rule.value, expectedRuleValue);
-        assert.deepEqual(element._originalRuleValues, expectedRuleValue);
         test('values are set correctly', () => {
           assert.equal(
               element.$.action.bindValue,
@@ -507,6 +521,7 @@ limitations under the License.
         element.section = 'refs/*';
         element._setupValues(element.rule);
         flushAsynchronousOperations();
+        element.rule.value.added = true;
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -516,9 +531,9 @@ limitations under the License.
         const expectedRuleValue = {
           action: 'ALLOW',
           force: false,
+          added: true,
         };
         assert.deepEqual(element.rule.value, expectedRuleValue);
-        assert.deepEqual(element._originalRuleValues, expectedRuleValue);
         test('values are set correctly', () => {
           assert.equal(element.$.action.bindValue, expectedRuleValue.action);
           assert.equal(element.$.force.bindValue, expectedRuleValue.action);
@@ -569,45 +584,6 @@ limitations under the License.
       test('modify value', () => {
         assert.isNotOk(element.rule.value.modified);
         element.$.action.bindValue = false;
-        flushAsynchronousOperations();
-        assert.isTrue(element.rule.value.modified);
-
-        // The original value should now differ from the rule values.
-        assert.notDeepEqual(element._originalRuleValues, element.rule.value);
-      });
-    });
-
-    suite('new edit rule', () => {
-      setup(() => {
-        element.group = 'Group Name';
-        element.permission = 'editTopicName';
-        element.rule = {
-          id: '123',
-        };
-        element.section = 'refs/*';
-        element._setupValues(element.rule);
-        flushAsynchronousOperations();
-      });
-
-      test('_ruleValues and _originalRuleValues are set correctly', () => {
-        // Since the element does not already have default values, they should
-        // be set. The original values should be set to those too.
-        assert.isNotOk(element.rule.value.modified);
-        const expectedRuleValue = {
-          action: 'ALLOW',
-          force: false,
-        };
-        assert.deepEqual(element.rule.value, expectedRuleValue);
-        assert.deepEqual(element._originalRuleValues, expectedRuleValue);
-        test('values are set correctly', () => {
-          assert.equal(element.$.action.bindValue, expectedRuleValue.action);
-          assert.equal(element.$.force.bindValue, expectedRuleValue.action);
-        });
-      });
-
-      test('modify value', () => {
-        assert.isNotOk(element.rule.value.modified);
-        element.$.force.bindValue = true;
         flushAsynchronousOperations();
         assert.isTrue(element.rule.value.modified);
 

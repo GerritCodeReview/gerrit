@@ -25,6 +25,11 @@
    * @event access-modified
    */
 
+  /**
+   * Fired when a permission that was previously added was removed.
+   * @event added-permission-removed
+   */
+
   Polymer({
     is: 'gr-permission',
 
@@ -117,6 +122,12 @@
       }
     },
 
+    _handleAddedRuleRemoved(e) {
+      const index = e.model.index;
+      this._rules = this._rules.slice(0, index)
+          .concat(this._rules.slice(index + 1, this._rules.length));
+    },
+
     _handleValueChange() {
       this.permission.value.modified = true;
       // Allows overall access page to know a change has been made.
@@ -124,6 +135,10 @@
     },
 
     _handleRemovePermission() {
+      if (this.permission.value.added) {
+        this.dispatchEvent(new CustomEvent('added-permission-removed',
+            {bubbles: true}));
+      }
       this._deleted = true;
       this.permission.value.deleted = true;
       this.dispatchEvent(new CustomEvent('access-modified', {bubbles: true}));

@@ -76,7 +76,10 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void addPermission(Permission p) {
-    getPermissions().add(p);
+    List<Permission> l = getPermissions();
+    if (!l.contains(p)) {
+      l.add(p);
+    }
   }
 
   public void remove(Permission permission) {

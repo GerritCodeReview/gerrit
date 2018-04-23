@@ -1210,8 +1210,10 @@
 
       this._reloadComments();
 
+      let reloadPromise;
+
       if (this._patchRange.patchNum) {
-        return Promise.all([
+        reloadPromise = Promise.all([
           this._reloadPatchNumDependentResources(),
           detailCompletes,
         ]).then(() => {
@@ -1222,7 +1224,7 @@
         });
       } else {
         // The patch number is reliant on the change detail request.
-        return detailCompletes.then(() => {
+        reloadPromise = detailCompletes.then(() => {
           this.$.fileList.reload();
           if (!this._latestCommitMessage) {
             this._getLatestCommitMessage();
@@ -1230,6 +1232,10 @@
           return this._getMergeability();
         });
       }
+
+      return reloadPromise.then(() => {
+        this.$.reporting.changeDisplayed();
+      });
     },
 
     /**

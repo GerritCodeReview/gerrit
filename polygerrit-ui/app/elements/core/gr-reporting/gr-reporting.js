@@ -38,6 +38,25 @@
     CATEGORY: 'exception',
   };
 
+  const TIMER = {
+    CHANGE_DISPLAYED: 'ChangeDisplayed',
+    DASHBOARD_DISPLAYED: 'DashboardDisplayed',
+    DIFF_VIEW_DISPLAYED: 'DiffViewDisplayed',
+    PLUGINS_LOADED: 'PluginsLoaded',
+    STARTUP_CHANGE_DISPLAYED: 'StartupChangeDisplayed',
+    STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
+    STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
+    WEB_COMPONENTS_READY: 'WebComponentsReady',
+  };
+
+  const STARTUP_TIMERS = {};
+  STARTUP_TIMERS[TIMER.PLUGINS_LOADED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
+  // WebComponentsReady timer is triggered from gr-router.
+  STARTUP_TIMERS[TIMER.WEB_COMPONENTS_READY] = 0;
+
   const INTERACTION_TYPE = 'interaction';
 
   const pending = [];
@@ -81,8 +100,8 @@
       category: String,
 
       _baselines: {
-        type: Array,
-        value() { return {}; },
+        type: Object,
+        value: STARTUP_TIMERS, // Shared across all instances.
       },
     },
 
@@ -91,7 +110,7 @@
     },
 
     now() {
-      return Math.round(10 * window.performance.now()) / 10;
+      return window.performance.now();
     },
 
     reporter(...args) {
@@ -157,13 +176,46 @@
       }
     },
 
+    beforeLocationChanged() {
+      for (const prop of Object.keys(this._baselines)) {
+        delete this._baselines[prop];
+      }
+      this.time(TIMER.CHANGE_DISPLAYED);
+      this.time(TIMER.DASHBOARD_DISPLAYED);
+      this.time(TIMER.DIFF_VIEW_DISPLAYED);
+    },
+
     locationChanged(page) {
       this.reporter(
           NAVIGATION.TYPE, NAVIGATION.CATEGORY, NAVIGATION.PAGE, page);
     },
 
+    dashboardDisplayed() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
+        this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED);
+      } else {
+        this.timeEnd(TIMER.DASHBOARD_DISPLAYED);
+      }
+    },
+
+    changeDisplayed() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_DISPLAYED)) {
+        this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED);
+      } else {
+        this.timeEnd(TIMER.CHANGE_DISPLAYED);
+      }
+    },
+
+    diffViewDisplayed() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_DISPLAYED)) {
+        this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED);
+      } else {
+        this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED);
+      }
+    },
+
     pluginsLoaded() {
-      this.timeEnd('PluginsLoaded');
+      this.timeEnd(TIMER.PLUGINS_LOADED);
     },
 
     /**
@@ -177,7 +229,8 @@
      * Finish named timer and report it to server.
      */
     timeEnd(name) {
-      const baseTime = this._baselines[name] || 0;
+      if (!this._baselines.hasOwnProperty(name)) { return; }
+      const baseTime = this._baselines[name];
       const time = Math.round(this.now() - baseTime);
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
       delete this._baselines[name];
@@ -191,4 +244,5 @@
   window.GrReporting = GrReporting;
   // Expose onerror installation so it would be accessible from tests.
   window.GrReporting._catchErrors = catchErrors;
+  window.GrReporting.STARTUP_TIMERS = Object.assign({}, STARTUP_TIMERS);
 })();

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70045b19_0684bd97",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-23T22:30:08Z",
+      "side": 1,
+      "message": "paper-button uses px to size its padding, and this spacing mimics that, so we want to stick with px.",
+      "parentUuid": "7c508fe5_ea7bab97",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "dd4f12dee4fd07a921aca279406bb4362343d462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d95da4d_30524239",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2018-04-23T20:43:15Z",
       "side": 1,
       "message": "Nit: Add a guard.",
+      "revId": "dd4f12dee4fd07a921aca279406bb4362343d462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eeee75f_160b2d3a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-23T22:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d95da4d_30524239",
       "revId": "dd4f12dee4fd07a921aca279406bb4362343d462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "ffafdaaa_364d5d2a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-23T22:30:08Z",
+      "side": 1,
+      "message": "Nope. done.",
+      "parentUuid": "9bfc67fd_617f7348",
+      "revId": "dd4f12dee4fd07a921aca279406bb4362343d462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d5d5b256_5d175b80",
         "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
         "patchSetId": 3
@@ -70,6 +130,24 @@
       "writtenOn": "2018-04-23T20:43:15Z",
       "side": 1,
       "message": "Is it possible to remove private properties and methods from expectations for the test? This would improve code health.",
+      "revId": "dd4f12dee4fd07a921aca279406bb4362343d462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7ded232_0fc2ec6f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-23T22:30:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5d5b256_5d175b80",
       "revId": "dd4f12dee4fd07a921aca279406bb4362343d462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

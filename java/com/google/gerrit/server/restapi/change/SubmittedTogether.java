@@ -135,7 +135,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       if (c.getStatus().isOpen()) {
         ChangeSet cs =
             mergeSuperSet.get().completeChangeSet(dbProvider.get(), c, resource.getUser());
-        cds = cs.changes().asList();
+        cds = ensureSubmitRecordsAreLoaded(cs.changes().asList());
         hidden = cs.nonVisibleChanges().size();
       } else if (c.getStatus().asChangeStatus() == ChangeStatus.MERGED) {
         cds = queryProvider.get().bySubmissionId(c.getSubmissionId());
@@ -183,5 +183,19 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       sorted.add(psd.data());
     }
     return sorted;
+  }
+
+  private static List<ChangeData> ensureSubmitRecordsAreLoaded(List<ChangeData> cds)
+      throws OrmException {
+    // TODO(hiesel): Instead of calling these manually, either implement a helper that brings a
+    // database-backed change on-par with an index-backed change in terms of the populated fields in
+    // ChangeData or check if any of the ChangeDatas was loaded from the database and allow
+    // lazyloading if so.
+    for (ChangeData cd : cds) {
+      cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
+      cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_STRICT);
+      cd.currentPatchSet();
+    }
+    return cds;
   }
 }

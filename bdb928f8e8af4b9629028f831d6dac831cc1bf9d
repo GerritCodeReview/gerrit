@@ -17,6 +17,24 @@
       "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9cbff1c_0aec0a1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-23T14:29:11Z",
+      "side": 1,
+      "message": "I guess the permissions in AccessSection are stored as list (and not as a set) to preserve the order?",
+      "parentUuid": "21215b63_aa8fe4a5",
+      "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

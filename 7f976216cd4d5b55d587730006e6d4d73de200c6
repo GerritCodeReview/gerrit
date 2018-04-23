@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d56169e_44363145",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-23T18:48:41Z",
+      "side": 1,
+      "message": "should we add tests for the STARTUP_CHANGE_DISPLAYED (and probably STARTUP_DASHBOARD_DISPLAYED)?",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 41
+      },
+      "revId": "7f976216cd4d5b55d587730006e6d4d73de200c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

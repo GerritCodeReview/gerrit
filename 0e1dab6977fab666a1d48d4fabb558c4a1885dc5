@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fa42e72_242e362d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ForcePushIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-23T03:51:51Z",
+      "side": 1,
+      "message": "Do we need to keep this file?  It seems most of the tests are now covered in PushPermissionsIT.",
+      "revId": "0e1dab6977fab666a1d48d4fabb558c4a1885dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

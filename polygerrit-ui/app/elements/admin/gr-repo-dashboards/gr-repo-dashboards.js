@@ -68,10 +68,10 @@
       });
     },
 
-    _getUrl(url) {
-      if (!url) { return ''; }
+    _getUrl(project, sections) {
+      if (!project || !sections) { return ''; }
 
-      return Gerrit.Nav.navigateToRelativeUrl(url);
+      return Gerrit.Nav.getUrlForCustomDashboard(project, sections);
     },
 
     _computeLoadingClass(loading) {

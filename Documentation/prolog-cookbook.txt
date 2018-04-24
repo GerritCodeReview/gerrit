@@ -544,6 +544,7 @@ submit_rule(submit(Author)) :-
     Author = label('Author-is-John-Doe', need(_)).
 
 submit_rule(submit(Author)) :-
+    A = user(1000000),
     gerrit:commit_author(A, 'John Doe', 'john.doe@example.com'),
     Author = label('Author-is-John-Doe', ok(A)).
 ----
@@ -899,7 +900,10 @@ add_category_min_score(In, Category, Min,  P) :-
     findall(X, gerrit:commit_label(label(Category,X),R),Z),
     sum_list(Z, Sum),
     Sum >= Min, !,
-    P = [label(Category,ok(R)) | In].
+    gerrit:commit_label(label(Category, V), U),
+    V >= 1,
+    !,
+    P = [label(Category,ok(U)) | In].
 
 add_category_min_score(In, Category,Min,P) :-
     P = [label(Category,need(Min)) | In].

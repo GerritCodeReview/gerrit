@@ -154,7 +154,7 @@ public class AccountManager {
           }
           // New account, automatically create and return.
           //
-          log.info("External ID not found. Attempting to create new account.");
+          log.debug("External ID not found. Attempting to create new account.");
           return create(db, who);
         }
 
@@ -244,9 +244,7 @@ public class AccountManager {
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)
         && who.getUserName() != null
         && !eq(user.getUserName(), who.getUserName())) {
-      log.warn(
-          String.format(
-              "Not changing already set username %s to %s", user.getUserName(), who.getUserName()));
+      log.warn("Not changing already set username {} to {}", user.getUserName(), who.getUserName());
     }
 
     if (!accountUpdates.isEmpty()) {
@@ -404,15 +402,16 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
     ExternalId extId = externalIds.get(who.getExternalIdKey());
-    log.info("Link another authentication identity to an existing account");
+    log.debug("Link another authentication identity to an existing account");
     if (extId != null) {
       if (!extId.accountId().equals(to)) {
         throw new AccountException(
             "Identity '" + extId.key().get() + "' in use by another account");
       }
+      log.debug("Updating existing external ID data");
       update(who, extId);
     } else {
-      log.info("Linking new external ID to the existing account");
+      log.debug("Linking new external ID to the existing account");
       externalIdsUpdateFactory
           .create()
           .insert(ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress()));

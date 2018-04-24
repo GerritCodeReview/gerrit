@@ -405,6 +405,18 @@ limitations under the License.
       },
 
       /**
+       * @param {string} user The name of the user.
+       * @return {string}
+       */
+      getUrlForCustomDashboard(repo, sections) {
+        return this._getUrlFor({
+          repo,
+          view: Gerrit.Nav.View.DASHBOARD,
+          sections,
+        });
+      },
+
+      /**
        * Navigate to an arbitrary relative URL.
        * @param {string} relativeUrl
        */

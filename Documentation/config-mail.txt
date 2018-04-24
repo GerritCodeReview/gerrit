@@ -225,9 +225,10 @@ $shortProjectName::
 +
 The project name with the path abbreviated.
 
-$instanceAndProjectName::
+$instanceName::
 +
-The Gerrit instance name, followed by the short project name
+The Gerrit instance name, as defined in the
+link:config-gerrit.html#gerrit.instanceName[configuration].
 
 $addInstanceNameInSubject::
 +

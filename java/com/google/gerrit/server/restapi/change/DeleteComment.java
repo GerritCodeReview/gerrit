@@ -81,7 +81,7 @@ public class DeleteComment
       throws RestApiException, IOException, ConfigInvalidException, OrmException,
           PermissionBackendException, UpdateException {
     CurrentUser user = userProvider.get();
-    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+    permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
 
     String newMessage = getCommentNewMessage(user.asIdentifiedUser().getName(), input.reason);
     DeleteCommentOp deleteCommentOp = new DeleteCommentOp(rsrc, newMessage);

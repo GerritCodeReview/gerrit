@@ -20,7 +20,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -39,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ChangeArgumentParser {
-  private final CurrentUser currentUser;
   private final ChangesCollection changesCollection;
   private final ChangeFinder changeFinder;
   private final ReviewDb db;
@@ -48,13 +46,11 @@ public class ChangeArgumentParser {
 
   @Inject
   ChangeArgumentParser(
-      CurrentUser currentUser,
       ChangesCollection changesCollection,
       ChangeFinder changeFinder,
       ReviewDb db,
       ChangeNotes.Factory changeNotesFactory,
       PermissionBackend permissionBackend) {
-    this.currentUser = currentUser;
     this.changesCollection = changesCollection;
     this.changeFinder = changeFinder;
     this.db = db;
@@ -83,7 +79,7 @@ public class ChangeArgumentParser {
     List<ChangeNotes> toAdd = new ArrayList<>(changes.size());
     boolean canMaintainServer;
     try {
-      permissionBackend.user(currentUser).check(GlobalPermission.MAINTAIN_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
       canMaintainServer = true;
     } catch (AuthException | PermissionBackendException e) {
       canMaintainServer = false;
@@ -93,7 +89,7 @@ public class ChangeArgumentParser {
           && inProject(projectState, notes.getProjectName())
           && (canMaintainServer
               || (permissionBackend
-                      .user(currentUser)
+                      .currentUser()
                       .change(notes)
                       .database(db)
                       .test(ChangePermission.READ)

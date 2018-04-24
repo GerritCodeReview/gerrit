@@ -72,7 +72,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
 
     List<TaskInfo> allTasks = getTasks();
     try {
-      permissionBackend.user(user).check(GlobalPermission.VIEW_QUEUE);
+      permissionBackend.currentUser().check(GlobalPermission.VIEW_QUEUE);
       return allTasks;
     } catch (AuthException e) {
       // Fall through to filter tasks.
@@ -90,7 +90,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
             visible = false;
           } else {
             try {
-              permissionBackend.user(user).project(nameKey).check(ProjectPermission.ACCESS);
+              permissionBackend.currentUser().project(nameKey).check(ProjectPermission.ACCESS);
               visible = true;
             } catch (AuthException e) {
               visible = false;

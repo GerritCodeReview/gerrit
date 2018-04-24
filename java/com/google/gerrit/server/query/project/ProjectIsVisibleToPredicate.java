@@ -38,7 +38,6 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
     if (!pd.getProject().getState().permitsRead()) {
       return false;
     }
-
     return permissionBackend
         .user(user)
         .project(pd.getProject().getNameKey())

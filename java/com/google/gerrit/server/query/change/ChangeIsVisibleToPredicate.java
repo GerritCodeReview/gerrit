@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -40,19 +41,22 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   protected final CurrentUser user;
   protected final PermissionBackend permissionBackend;
   protected final ProjectCache projectCache;
+  private final Provider<AnonymousUser> anonymousUserProvider;
 
   public ChangeIsVisibleToPredicate(
       Provider<ReviewDb> db,
       ChangeNotes.Factory notesFactory,
       CurrentUser user,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      Provider<AnonymousUser> anonymousUserProvider) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
     this.db = db;
     this.notesFactory = notesFactory;
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.anonymousUserProvider = anonymousUserProvider;
   }
 
   @Override
@@ -81,13 +85,12 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     }
 
     boolean visible;
+    PermissionBackend.WithUser withUser =
+        user.isIdentifiedUser()
+            ? permissionBackend.absentUser(user.getAccountId())
+            : permissionBackend.user(anonymousUserProvider.get());
     try {
-      visible =
-          permissionBackend
-              .user(user)
-              .indexedChange(cd, notes)
-              .database(db)
-              .test(ChangePermission.READ);
+      visible = withUser.indexedChange(cd, notes).database(db).test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
       Throwable cause = e.getCause();
       if (cause instanceof RepositoryNotFoundException) {

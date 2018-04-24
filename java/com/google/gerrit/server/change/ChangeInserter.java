@@ -39,7 +39,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -93,7 +92,6 @@ public class ChangeInserter implements InsertChangeOp {
 
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
   private final ApprovalsUtil approvalsUtil;
@@ -143,7 +141,6 @@ public class ChangeInserter implements InsertChangeOp {
   ChangeInserter(
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      IdentifiedUser.GenericFactory userFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
@@ -159,7 +156,6 @@ public class ChangeInserter implements InsertChangeOp {
       @Assisted String refName) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
-    this.userFactory = userFactory;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.psUtil = psUtil;
     this.approvalsUtil = approvalsUtil;
@@ -465,9 +461,8 @@ public class ChangeInserter implements InsertChangeOp {
         .filter(
             accountId -> {
               try {
-                IdentifiedUser user = userFactory.create(accountId);
                 return permissionBackend
-                        .user(user)
+                        .absentUser(accountId)
                         .change(notes)
                         .database(db)
                         .test(ChangePermission.READ)

@@ -33,7 +33,7 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
   protected TestServerPlugin plugin;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUpTestPlugin() throws Exception {
     TestPlugin testPlugin = getTestPlugin(getClass());
     String name = testPlugin.name();
     plugin =

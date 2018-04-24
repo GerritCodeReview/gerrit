@@ -1,0 +1,104 @@
+= Gerrit Code Review - Repo admin customization API
+
+This API is provided by link:pg-plugin-dev.html#plugin-rest-api[plugin.restApi()]
+and provides interface for Gerrit REST API.
+
+== getLoggedIn
+`repoApi.getLoggedIn()`
+
+Get user logged in status.
+
+.Params
+- None
+
+.Returns
+- Promise<boolean>
+
+== getVersion
+`repoApi.getVersion()`
+
+Get server version.
+
+.Params
+- None
+
+.Returns
+- Promise<string>
+
+== get
+`repoApi.get(url)`
+
+Issues a GET REST API call to the URL, returns Promise that is resolved to
+parsed response on success. Returned Promise is rejected on network error.
+
+.Params
+- *url* String URL without base path or plugin prefix.
+
+.Returns
+- Promise<Object> Parsed response.
+
+== post
+`repoApi.post(url, opt_payload)`
+
+Issues a POST REST API call to the URL, returns Promise that is resolved to
+parsed response on success. Returned Promise is rejected on network error.
+
+.Params
+- *url* String URL without base path or plugin prefix.
+- *opt_payload* (optional) Object Payload to be sent with the request.
+
+.Returns
+- Promise<Object> Parsed response.
+
+== put
+`repoApi.put(url, opt_payload)`
+
+Issues a PUT REST API call to the URL, returns Promise that is resolved to
+parsed response on success. Returned Promise is rejected on network error.
+
+.Params
+- *url* String URL without base path or plugin prefix.
+- *opt_payload* (optional) Object Payload to be sent with the request.
+
+.Returns
+- Promise<Object> Parsed response.
+
+== delete
+`repoApi.delete(url)`
+
+Issues a DELETE REST API call to the URL, returns Promise that is resolved to
+parsed response on HTTP 204, and rejected otherwise.
+
+.Params
+- *url* String URL without base path or plugin prefix.
+
+.Returns
+- Promise<Response> Fetch API's Response object.
+
+== send
+`repoApi.send(method, url, opt_payload)`
+
+Send payload and parse the response, if request succeeds. Returned Promise is
+rejected with detailed message or HTTP error code on network error.
+
+.Params
+- *method* String HTTP method.
+- *url* String URL without base path or plugin prefix.
+- *opt_payload* (optional) Object Respected for POST and PUT only.
+
+.Returns
+- Promise<Object> Parsed response.
+
+== fetch
+`repoApi.fetch(method, url, opt_payload)`
+
+Send payload and return native Response. This method is for low-level access, to
+implement custom error handling and parsing.
+
+.Params
+- *method* String HTTP method.
+- *url* String URL without base path or plugin prefix.
+- *opt_payload* (optional) Object Respected for POST and PUT only.
+
+.Returns
+- Promise<Response> Fetch API's Response object.

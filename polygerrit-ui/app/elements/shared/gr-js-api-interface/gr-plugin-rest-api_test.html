@@ -30,20 +30,23 @@ limitations under the License.
     let sandbox;
     let getResponseObjectStub;
     let sendStub;
+    let restApiStub;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
       getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
       sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
-      stub('gr-rest-api-interface', {
-        getAccount() {
-          return Promise.resolve({name: 'Judy Hopps'});
-        },
+      restApiStub = {
+        getAccount: () => Promise.resolve({name: 'Judy Hopps'}),
         getResponseObject: getResponseObjectStub,
-        send(...args) {
-          return sendStub(...args);
-        },
-      });
+        send: sendStub,
+        getLoggedIn: sandbox.stub(),
+        getVersion: sandbox.stub(),
+      };
+      stub('gr-rest-api-interface', Object.keys(restApiStub).reduce((a, k) => {
+        a[k] = (...args) => restApiStub[k](...args);
+        return a;
+      }, {}));
       Gerrit._setPluginsCount(1);
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
@@ -119,6 +122,22 @@ limitations under the License.
       }).catch(err => {
         assert.isTrue(sendStub.calledWith('DELETE', '/url'));
         assert.equal('text', err);
+      });
+    });
+
+    test('getLoggedIn', () => {
+      restApiStub.getLoggedIn.returns(Promise.resolve(true));
+      return instance.getLoggedIn().then(result => {
+        assert.isTrue(restApiStub.getLoggedIn.calledOnce);
+        assert.isTrue(result);
+      });
+    });
+
+    test('getConfig', () => {
+      restApiStub.getVersion.returns(Promise.resolve('foo bar'));
+      return instance.getVersion().then(result => {
+        assert.isTrue(restApiStub.getVersion.calledOnce);
+        assert.equal(result, 'foo bar');
       });
     });
   });

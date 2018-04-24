@@ -17,13 +17,25 @@
 (function(window) {
   'use strict';
 
+  let restApi;
+
+  function getRestApi() {
+    if (!restApi) {
+      restApi = document.createElement('gr-rest-api-interface');
+    }
+    return restApi;
+  }
+
   function GrPluginRestApi(opt_prefix) {
     this.opt_prefix = opt_prefix || '';
-    this._restApi = document.createElement('gr-rest-api-interface');
   }
 
   GrPluginRestApi.prototype.getLoggedIn = function() {
-    return this._restApi.getLoggedIn();
+    return getRestApi().getLoggedIn();
+  };
+
+  GrPluginRestApi.prototype.getVersion = function() {
+    return getRestApi().getVersion();
   };
 
   /**
@@ -34,7 +46,7 @@
    * @return {!Promise}
    */
   GrPluginRestApi.prototype.fetch = function(method, url, opt_payload) {
-    return this._restApi.send(method, this.opt_prefix + url, opt_payload);
+    return getRestApi().send(method, this.opt_prefix + url, opt_payload);
   };
 
   /**
@@ -55,7 +67,7 @@
           }
         });
       } else {
-        return this._restApi.getResponseObject(response);
+        return getRestApi().getResponseObject(response);
       }
     });
   };

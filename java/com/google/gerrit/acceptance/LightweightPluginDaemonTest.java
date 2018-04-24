@@ -33,7 +33,7 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
   protected TestServerPlugin plugin;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUpTestPlugin() throws Exception {
     TestPlugin testPlugin = getTestPlugin(getClass());
     String name = testPlugin.name();
     plugin =
@@ -52,7 +52,7 @@ public class LightweightPluginDaemonTest extends AbstractDaemonTest {
   }
 
   @After
-  public void tearDown() {
+  public final void tearDownTestPlugin() {
     if (plugin != null) {
       // plugin will be null if the plugin test requires ssh, but the command
       // line flag says we are running tests without ssh as the assume()

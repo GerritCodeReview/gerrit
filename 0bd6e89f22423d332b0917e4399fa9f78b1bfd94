@@ -22,6 +22,30 @@
       "revId": "0bd6e89f22423d332b0917e4399fa9f78b1bfd94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "674b5c8f_b86a291f",
+        "filename": "java/com/google/gerrit/server/cache/h2/StringKeyTypeImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-24T18:12:17Z",
+      "side": 0,
+      "message": "Good catch, this is not backwards compatible. Unfortunately, I think fixing it will break some things in this series:\n\n* We can\u0027t get inline and remove the get/set methods in KeyType, since they might not call getObject/setObject.\n* If we need to leave the getObject/setObject call in the implementation of ObjectKeyTypeImpl#get/set, then either it can\u0027t be a singleton anymore, or we will have to pass the CacheSerializer into the get/set method.",
+      "parentUuid": "ef55ab78_227f5f07",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "0bd6e89f22423d332b0917e4399fa9f78b1bfd94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

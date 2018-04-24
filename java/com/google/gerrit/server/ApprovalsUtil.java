@@ -267,9 +267,12 @@ public class ApprovalsUtil {
 
   private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
     try {
-      IdentifiedUser user = userFactory.create(accountId);
       return projectCache.checkedGet(notes.getProjectName()).statePermitsRead()
-          && permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
+          && permissionBackend
+              .absentUser(accountId)
+              .change(notes)
+              .database(db)
+              .test(ChangePermission.READ);
     } catch (IOException | PermissionBackendException e) {
       log.warn(
           String.format(

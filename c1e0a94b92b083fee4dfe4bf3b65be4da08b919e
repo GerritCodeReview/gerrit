@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d973a597_27c111a8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-24T16:10:37Z",
+      "side": 0,
+      "message": "I prefer this version, it is shorter (less error-prone?) and doesn\u0027t require a dependency on the anonymous user provider.",
+      "range": {
+        "startLine": 87,
+        "startChar": 14,
+        "endLine": 87,
+        "endChar": 25
+      },
+      "revId": "c1e0a94b92b083fee4dfe4bf3b65be4da08b919e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

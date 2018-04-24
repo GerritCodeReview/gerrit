@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eba3446_33e0ae0c",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-24T07:41:15Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be under \"cds \u003d sort(cds, hidden);\", to only generate submit records for visible changes?",
+      "range": {
+        "startLine": 138,
+        "startChar": 14,
+        "endLine": 138,
+        "endChar": 40
+      },
+      "revId": "a39cb382a09993e9597d0eba41c78ba130216e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -148,7 +148,7 @@ class RefControl {
   }
 
   private boolean canUpload() {
-    return canPerform(Permission.CREATE_REVIEW);
+    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH);
   }
 
   /** @return true if this user can submit merge patch sets to this ref */

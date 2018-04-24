@@ -153,7 +153,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void moveChangeToBranchWithoutCreateReviewPerms() throws Exception {
+  public void moveChangeToBranchWithoutUploadPerms() throws Exception {
     // Move change to a destination where user doesn't have upload permissions
     PushOneCommit.Result r = createChange();
     Branch.NameKey newBranch =

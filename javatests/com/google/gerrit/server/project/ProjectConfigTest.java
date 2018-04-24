@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
@@ -556,62 +555,6 @@ public class ProjectConfigTest extends GerritBaseTests {
             new ValidationError(
                 "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
                     + "Raw html replacement not allowed"));
-  }
-
-  @Test
-  public void readConfigPushRefsForStarIsMigrated() throws Exception {
-    RevCommit rev =
-        tr.commit()
-            .add("groups", group(developers))
-            .add("project.config", "[access \"refs/for/*\"]\n" + "  push = group Developers\n")
-            .create();
-
-    ProjectConfig cfg = read(rev);
-    AccessSection as = cfg.getAccessSection("refs/for/*");
-    assertThat(as).isNull();
-
-    as = cfg.getAccessSection("refs/*");
-    assertThat(as.getPermission(Permission.CREATE_REVIEW, false)).isNotNull();
-    assertThat(as.getPermission(Permission.CREATE_REVIEW, false).getRules())
-        .isEqualTo(Lists.newArrayList(new PermissionRule(developers)));
-  }
-
-  @Test
-  public void readConfigPushRefsStarIsMigrated() throws Exception {
-    RevCommit rev =
-        tr.commit()
-            .add("groups", group(developers))
-            .add("project.config", "[access \"refs/*\"]\n" + "  push = group Developers\n")
-            .create();
-
-    ProjectConfig cfg = read(rev);
-    AccessSection as = cfg.getAccessSection("refs/*");
-    assertThat(as).isNotNull();
-
-    as = cfg.getAccessSection("refs/*");
-    assertThat(as.getPermission(Permission.CREATE_REVIEW, false)).isNotNull();
-    assertThat(as.getPermission(Permission.CREATE_REVIEW, false).getRules())
-        .isEqualTo(Lists.newArrayList(new PermissionRule(developers)));
-  }
-
-  @Test
-  public void readConfigPushRefsForRefsHeadsMasterIsMigrated() throws Exception {
-    RevCommit rev =
-        tr.commit()
-            .add("groups", group(developers))
-            .add(
-                "project.config",
-                "[access \"refs/for/refs/heads/master\"]\n" + "  push = group Developers\n")
-            .create();
-
-    ProjectConfig cfg = read(rev);
-    AccessSection as = cfg.getAccessSection("refs/for/refs/heads/master");
-    assertThat(as).isNull();
-
-    as = cfg.getAccessSection("refs/heads/master");
-    assertThat(as.getPermission(Permission.CREATE_REVIEW, false)).isNotNull();
-    assertThat(as.getPermission(Permission.CREATE_REVIEW, false).getRules())
-        .isEqualTo(Lists.newArrayList(new PermissionRule(developers)));
   }
 
   @Test

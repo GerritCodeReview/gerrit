@@ -22,6 +22,30 @@
       "revId": "a39cb382a09993e9597d0eba41c78ba130216e42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29f91e22_1accbf1e",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-24T07:47:47Z",
+      "side": 1,
+      "message": "cs.changes() is only the visible changes (the hidden ones are in cs.nonVisibleChanges()",
+      "parentUuid": "0eba3446_33e0ae0c",
+      "range": {
+        "startLine": 138,
+        "startChar": 14,
+        "endLine": 138,
+        "endChar": 40
+      },
+      "revId": "a39cb382a09993e9597d0eba41c78ba130216e42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

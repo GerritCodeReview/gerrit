@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2d8e0f69_9693088c",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/group/GroupOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T10:58:52Z",
+      "side": 1,
+      "message": "+1 to what Edwin said. :-)",
+      "parentUuid": "ad8cc081_64e017fb",
+      "range": {
+        "startLine": 56,
+        "startChar": 28,
+        "endLine": 56,
+        "endChar": 36
+      },
+      "revId": "aa18709025a977b6d0e228b066f7f9c35fceb53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adc0961c_bb43b80d",
         "filename": "java/com/google/gerrit/acceptance/testsuite/group/TestGroupUpdate.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2018-04-24T07:07:16Z",
       "side": 1,
       "message": "Why is this not returning the updated test group?",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 15
+      },
+      "revId": "aa18709025a977b6d0e228b066f7f9c35fceb53f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e8d5e02_457cbcd4",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/group/TestGroupUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T10:58:52Z",
+      "side": 1,
+      "message": "Why should it? Any test which updates a specific property of a group knows which part is changed in which way. Depending on the returned group object and passing it (or its non-ID properties) to further queries and assertions as expected values is a bad style. Further assertions should rather explicitly state their expected values. To not encourage the use of the updated group, I deliberately decided to not return it here.\n\nI know that we are returning the updated account in the test API of the accounts. I would prefer to not do that either. When we designed that API, I just didn\u0027t think of that aspect.\n\nMaybe we should also rethink what we return from the creation given my reasoning above. It would probably be sufficient to just return the main ID (e.g. Account.Id or AccountGroup.UUID).\n\nWhat do you think?",
+      "parentUuid": "adc0961c_bb43b80d",
       "range": {
         "startLine": 46,
         "startChar": 11,

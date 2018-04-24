@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1da1dc74_01fd7923",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/DefaultPermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-24T07:19:06Z",
+      "side": 1,
+      "message": "This isn\u0027t correct because we do have the source exception and we should keep that one instead of \"simulating\" a NoSuchProjectException() which can be misleading.\n\nAdditionally, if the source exception tells the Gerrit admin where the problem is, then there are chances to understand and fix the problem. It could be a permission issue for instance.\n\nIf we just re-throw a NoSuchProjectException without the root cause, then there is no chance to understand what\u0027s going on :-(\n\nWhy don\u0027t we do something like:\n\n   try {\n     return projectCache.checkedGet(project, true).controlFor(user).asForProject().database(db)\n   } catch (Exception e) {\n     if (e.getCause() instanceof RepositoryNotFoundException) {\n       return FailedPermissionBackend.project(\"Unable to access \" + project.get(), e.getCause())\n     }\n     return FailedPermissionBackend.project(project.get() + \" is unavailable, e);\n   }",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 97
+      },
+      "revId": "10ec07a5cca8a824748867425d80b9274a14afc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

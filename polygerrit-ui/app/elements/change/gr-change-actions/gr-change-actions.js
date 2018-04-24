@@ -385,7 +385,7 @@
 
     ready() {
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
-      this._loading = false;
+      this._handleLoadingComplete();
     },
 
     reload() {
@@ -398,12 +398,16 @@
         if (!revisionActions) { return; }
 
         this.revisionActions = revisionActions;
-        this._loading = false;
+        this._handleLoadingComplete();
       }).catch(err => {
         this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
         this._loading = false;
         throw err;
       });
+    },
+
+    _handleLoadingComplete() {
+      Gerrit.awaitPluginsLoaded().then(() => this._loading = false);
     },
 
     _changeChanged() {

@@ -49,13 +49,8 @@ limitations under the License.
   (function() {
     setup(() => {
       if (!window.Gerrit) { return; }
-      Gerrit._pluginsPending = -1;
-      Gerrit._allPluginsPromise = undefined;
       if (Gerrit._resetPlugins) {
         Gerrit._resetPlugins();
-      }
-      if (Gerrit._endpoints) {
-        Gerrit._endpoints = new GrPluginEndpoints();
       }
     });
   })();

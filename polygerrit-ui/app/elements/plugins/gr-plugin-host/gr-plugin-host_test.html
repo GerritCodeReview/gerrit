@@ -36,12 +36,14 @@ limitations under the License.
   suite('gr-diff tests', () => {
     let element;
     let sandbox;
+    let url;
 
     setup(() => {
       element = fixture('basic');
       sandbox = sinon.sandbox.create();
       sandbox.stub(document.body, 'appendChild');
       sandbox.stub(element, 'importHref');
+      url = window.location.href.split(window.location.pathname)[0];
     });
 
     teardown(() => {
@@ -60,36 +62,43 @@ limitations under the License.
     });
 
     test('imports relative html plugins from config', () => {
+      sandbox.stub(Gerrit, '_pluginInstallError');
       element.config = {
         plugin: {html_resource_paths: ['foo/bar', 'baz']},
       };
-      assert.equal(element.importHref.firstCall.args[0], '/foo/bar');
-      assert.equal(element.importHref.firstCall.args[2],
-          Gerrit._pluginInstalled);
+      assert.equal(element.importHref.firstCall.args[0], url + '/foo/bar');
       assert.isTrue(element.importHref.firstCall.args[3]);
 
-      assert.equal(element.importHref.secondCall.args[0], '/baz');
-      assert.equal(element.importHref.secondCall.args[2],
-          Gerrit._pluginInstalled);
+      assert.equal(element.importHref.secondCall.args[0], url + '/baz');
       assert.isTrue(element.importHref.secondCall.args[3]);
+
+      assert.equal(Gerrit._pluginInstallError.callCount, 0);
+      element.importHref.firstCall.args[2]();
+      assert.equal(Gerrit._pluginInstallError.callCount, 1);
+      element.importHref.secondCall.args[2]();
+      assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
 
     test('imports relative html plugins from config with a base url', () => {
+      sandbox.stub(Gerrit, '_pluginInstallError');
       sandbox.stub(element, 'getBaseUrl').returns('/the-base');
       element.config = {
         plugin: {html_resource_paths: ['foo/bar', 'baz']}};
-      assert.equal(element.importHref.firstCall.args[0], '/the-base/foo/bar');
-      assert.equal(element.importHref.firstCall.args[2],
-          Gerrit._pluginInstalled);
+      assert.equal(element.importHref.firstCall.args[0],
+          url + '/the-base/foo/bar');
       assert.isTrue(element.importHref.firstCall.args[3]);
 
-      assert.equal(element.importHref.secondCall.args[0], '/the-base/baz');
-      assert.equal(element.importHref.secondCall.args[2],
-          Gerrit._pluginInstalled);
+      assert.equal(element.importHref.secondCall.args[0],
+          url + '/the-base/baz');
       assert.isTrue(element.importHref.secondCall.args[3]);
+      assert.equal(Gerrit._pluginInstallError.callCount, 0);
+      element.importHref.firstCall.args[2]();
+      assert.equal(Gerrit._pluginInstallError.callCount, 1);
+      element.importHref.secondCall.args[2]();
+      assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
 
-    test('inportHref is not called with null callback functions', () => {
+    test('importHref is not called with null callback functions', () => {
       const plugins = ['path/to/plugin'];
       element._importHtmlPlugins(plugins);
       assert.isTrue(element.importHref.calledOnce);
@@ -98,6 +107,7 @@ limitations under the License.
     });
 
     test('imports absolute html plugins from config', () => {
+      sandbox.stub(Gerrit, '_pluginInstallError');
       element.config = {
         plugin: {
           html_resource_paths: [
@@ -108,15 +118,16 @@ limitations under the License.
       };
       assert.equal(element.importHref.firstCall.args[0],
           'http://example.com/foo/bar');
-      assert.equal(element.importHref.firstCall.args[2],
-          Gerrit._pluginInstalled);
       assert.isTrue(element.importHref.firstCall.args[3]);
 
       assert.equal(element.importHref.secondCall.args[0],
           'https://example.com/baz');
-      assert.equal(element.importHref.secondCall.args[2],
-          Gerrit._pluginInstalled);
       assert.isTrue(element.importHref.secondCall.args[3]);
+      assert.equal(Gerrit._pluginInstallError.callCount, 0);
+      element.importHref.firstCall.args[2]();
+      assert.equal(Gerrit._pluginInstallError.callCount, 1);
+      element.importHref.secondCall.args[2]();
+      assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
 
     test('adds js plugins from config to the body', () => {
@@ -127,16 +138,18 @@ limitations under the License.
     test('imports relative js plugins from config', () => {
       sandbox.stub(element, '_createScriptTag');
       element.config = {plugin: {js_resource_paths: ['foo/bar', 'baz']}};
-      assert.isTrue(element._createScriptTag.calledWith('/foo/bar'));
-      assert.isTrue(element._createScriptTag.calledWith('/baz'));
+      assert.isTrue(element._createScriptTag.calledWith(url + '/foo/bar'));
+      assert.isTrue(element._createScriptTag.calledWith(url + '/baz'));
     });
 
     test('imports relative html plugins from config with a base url', () => {
       sandbox.stub(element, '_createScriptTag');
       sandbox.stub(element, 'getBaseUrl').returns('/the-base');
       element.config = {plugin: {js_resource_paths: ['foo/bar', 'baz']}};
-      assert.isTrue(element._createScriptTag.calledWith('/the-base/foo/bar'));
-      assert.isTrue(element._createScriptTag.calledWith('/the-base/baz'));
+      assert.isTrue(element._createScriptTag.calledWith(
+          url + '/the-base/foo/bar'));
+      assert.isTrue(element._createScriptTag.calledWith(
+          url + '/the-base/baz'));
     });
 
     test('imports absolute html plugins from config', () => {
@@ -156,21 +169,23 @@ limitations under the License.
     });
 
     test('default theme is loaded with html plugins', () => {
+      sandbox.stub(Gerrit, '_pluginInstallError');
       element.config = {
         default_theme: '/oof',
         plugin: {
           html_resource_paths: ['some'],
         },
       };
-      assert.equal(element.importHref.firstCall.args[0], '/oof');
-      assert.equal(element.importHref.firstCall.args[2],
-          Gerrit._pluginInstalled);
+      assert.equal(element.importHref.firstCall.args[0], url + '/oof');
       assert.isFalse(element.importHref.firstCall.args[3]);
 
-      assert.equal(element.importHref.secondCall.args[0], '/some');
-      assert.equal(element.importHref.secondCall.args[2],
-          Gerrit._pluginInstalled);
+      assert.equal(element.importHref.secondCall.args[0], url + '/some');
       assert.isTrue(element.importHref.secondCall.args[3]);
+      assert.equal(Gerrit._pluginInstallError.callCount, 0);
+      element.importHref.firstCall.args[2]();
+      assert.equal(Gerrit._pluginInstallError.callCount, 1);
+      element.importHref.secondCall.args[2]();
+      assert.equal(Gerrit._pluginInstallError.callCount, 2);
     });
   });
 </script>

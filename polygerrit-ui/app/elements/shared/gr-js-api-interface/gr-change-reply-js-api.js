@@ -82,6 +82,7 @@
         if (!el.content) { return; }
 
         el.content.addEventListener('labels-changed', e => {
+          console.log('labels-changed', e.detail);
           handler(e.detail);
         });
       });

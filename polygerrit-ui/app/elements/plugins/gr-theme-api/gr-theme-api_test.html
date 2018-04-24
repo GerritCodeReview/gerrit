@@ -65,7 +65,7 @@ limitations under the License.
         stub('gr-custom-plugin-header', {
           ready() { customHeader = this; },
         });
-        Gerrit._resolveAllPluginsLoaded();
+        Gerrit._setPluginsPending([]);
       });
 
       test('sets logo and title', done => {

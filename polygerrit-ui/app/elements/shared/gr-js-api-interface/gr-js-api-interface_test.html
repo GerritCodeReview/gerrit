@@ -60,9 +60,9 @@ limitations under the License.
       });
       element = fixture('basic');
       errorStub = sandbox.stub(console, 'error');
-      Gerrit._setPluginsCount(1);
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
+      Gerrit._setPluginsPending([]);
     });
 
     teardown(() => {
@@ -306,7 +306,6 @@ limitations under the License.
     test('_setPluginsCount', done => {
       stub('gr-reporting', {
         pluginsLoaded() {
-          assert.equal(Gerrit._pluginsPending, 0);
           done();
         },
       });
@@ -324,13 +323,11 @@ limitations under the License.
     test('_pluginInstalled', done => {
       stub('gr-reporting', {
         pluginsLoaded() {
-          assert.equal(Gerrit._pluginsPending, 0);
           done();
         },
       });
       Gerrit._setPluginsCount(2);
       Gerrit._pluginInstalled();
-      assert.equal(Gerrit._pluginsPending, 1);
       Gerrit._pluginInstalled();
     });
 
@@ -348,10 +345,10 @@ limitations under the License.
       assert.isTrue(Gerrit._pluginInstalled.calledOnce);
     });
 
-    test('install calls _pluginInstalled on error', () => {
-      sandbox.stub(Gerrit, '_pluginInstalled');
+    test('plugin install errors mark plugins as loaded', () => {
+      Gerrit._setPluginsCount(1);
       Gerrit.install(() => {}, '0.0pre-alpha');
-      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
+      return Gerrit.awaitPluginsLoaded();
     });
 
     test('installGwt calls _pluginInstalled', () => {

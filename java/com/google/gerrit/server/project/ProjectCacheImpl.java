@@ -142,13 +142,8 @@ public class ProjectCacheImpl implements ProjectCache {
       return null;
     }
     try {
-      ProjectState state = byName.get(projectName.get());
-      if (state != null && state.needsRefresh(clock.read())) {
-        byName.invalidate(projectName.get());
-        state = byName.get(projectName.get());
-      }
-      return state;
-    } catch (ExecutionException e) {
+      return strictCheckedGet(projectName);
+    } catch (Exception e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
         log.warn(String.format("Cannot read project %s", projectName.get()), e);
         Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
@@ -157,6 +152,20 @@ public class ProjectCacheImpl implements ProjectCache {
       log.debug("Cannot find project {}", projectName.get(), e);
       return null;
     }
+  }
+
+  @Override
+  public ProjectState checkedGet(Project.NameKey projectName, boolean strict) throws Exception {
+    return strict ? strictCheckedGet(projectName) : checkedGet(projectName);
+  }
+
+  private ProjectState strictCheckedGet(Project.NameKey projectName) throws Exception {
+    ProjectState state = byName.get(projectName.get());
+    if (state != null && state.needsRefresh(clock.read())) {
+      byName.invalidate(projectName.get());
+      state = byName.get(projectName.get());
+    }
+    return state;
   }
 
   @Override

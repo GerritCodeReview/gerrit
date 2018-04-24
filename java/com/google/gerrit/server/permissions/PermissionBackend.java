@@ -41,6 +41,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -280,6 +281,13 @@ public abstract class PermissionBackend {
           allowed.add(project);
         } catch (AuthException e) {
           // Do not include this project in allowed.
+        } catch (PermissionBackendException e) {
+          if (e.getCause() instanceof RepositoryNotFoundException) {
+            logger.warn("Could not find repository of the project {} : ", project.get(), e);
+            // Do not include this project because doesn't exist
+          } else {
+            throw e;
+          }
         }
       }
       return allowed;

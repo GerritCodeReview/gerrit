@@ -75,13 +75,15 @@ def _bower_archive(ctx):
 
   _bash(ctx, " && " .join([
     "TMP=$(mktemp -d || mktemp -d -t bazel-tmp)",
+    "TZ=UTC",
+    "export UTC",
     "cd $TMP",
     "mkdir bower_components",
     "cd bower_components",
     "unzip %s" % ctx.path(download_name),
     "cd ..",
     "find . -exec touch -t 198001010000 '{}' ';'",
-    "zip -r %s bower_components" % renamed_name,
+    "zip -Xr %s bower_components" % renamed_name,
     "cd ..",
     "rm -rf ${TMP}",
   ]))
@@ -153,11 +155,13 @@ def _js_component(ctx):
     name = name[:-4]
   dest = "%s/%s" % (dir, name)
   cmd = " && ".join([
+    "TZ=UTC",
+    "export TZ",
     "mkdir -p %s" % dest,
     "cp %s %s/" % (' '.join([s.path for s in ctx.files.srcs]), dest),
     "cd %s" % dir,
     "find . -exec touch -t 198001010000 '{}' ';'",
-    "zip -qr ../%s *" %  ctx.outputs.zip.basename
+    "zip -Xqr ../%s *" %  ctx.outputs.zip.basename
   ])
 
   ctx.actions.run_shell(
@@ -232,13 +236,15 @@ def _bower_component_bundle_impl(ctx):
     outputs=[out_zip],
     command=" && ".join([
       "p=$PWD",
+      "TZ=UTC",
+      "export TZ",
       "rm -rf %s.dir" % out_zip.path,
       "mkdir -p %s.dir/bower_components" % out_zip.path,
       "cd %s.dir/bower_components" % out_zip.path,
       "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips])),
       "cd ..",
       "find . -exec touch -t 198001010000 '{}' ';'",
-      "zip -qr $p/%s bower_components/*" % out_zip.path,
+      "zip -Xqr $p/%s bower_components/*" % out_zip.path,
     ]),
     mnemonic="BowerCombine")
 

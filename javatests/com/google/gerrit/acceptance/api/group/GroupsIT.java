@@ -32,6 +32,7 @@ import com.google.common.truth.Correspondence;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.ProjectResetter;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -1105,8 +1106,9 @@ public class GroupsIT extends AbstractDaemonTest {
 
   @Test
   public void pushCustomInheritanceForAllUsersFails() throws Exception {
-    TestRepository<InMemoryRepository> repo = cloneProject(allUsers, RefNames.REFS_CONFIG);
-
+    TestRepository<InMemoryRepository> repo = cloneProject(allUsers);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
     String config =
         gApi.projects()
             .name(allUsers.get())

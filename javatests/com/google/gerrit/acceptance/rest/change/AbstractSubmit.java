@@ -530,7 +530,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void submitWorkInProgressChange() throws Exception {
-    PushOneCommit.Result change = createWorkInProgressChange();
+    PushOneCommit.Result change = pushTo("refs/for/master%wip");
     Change.Id num = change.getChange().getId();
     submitWithConflict(
         change.getChangeId(),
@@ -1318,5 +1318,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     grant(project, "refs/heads/*", Permission.PUSH);
     grant(project, "refs/for/refs/heads/*", Permission.SUBMIT);
     return cloneProject(project);
+  }
+
+  protected PushOneCommit.Result createChange(
+      String subject, String fileName, String content, String topic) throws Exception {
+    PushOneCommit push =
+        pushFactory.create(db, admin.getIdent(), testRepo, subject, fileName, content);
+    return push.to("refs/for/master/" + name(topic));
   }
 }

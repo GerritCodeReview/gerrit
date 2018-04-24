@@ -1,0 +1,52 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a6d1753_2406dcb1",
+        "filename": "resources/com/google/gerrit/server/mail/ChangeSubject.soy",
+        "patchSetId": 9
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-24T18:31:47Z",
+      "side": 1,
+      "message": "\u003e Found trailing space\n\nPlease Fix",
+      "parentUuid": "e9f991c9_9019229d",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "d4f9b30926648ec0cd62fc6851d060c95b8bcf47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83e22287_e76245ee",
+        "filename": "resources/com/google/gerrit/server/mail/ChangeSubject.soy",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-24T18:31:47Z",
+      "side": 1,
+      "message": "\u003e Found trailing space\n\nPlease Fix",
+      "parentUuid": "2765d36f_00322217",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "d4f9b30926648ec0cd62fc6851d060c95b8bcf47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

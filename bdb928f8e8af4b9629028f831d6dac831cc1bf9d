@@ -143,6 +143,24 @@
       "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3ea1abc_9f9a7f00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-24T14:01:28Z",
+      "side": 1,
+      "message": "Ups, I wanted to post this here: https://gerrit-review.googlesource.com/c/gerrit/+/173513/1/java/com/google/gerrit/common/data/AccessSection.java",
+      "parentUuid": "6478517f_3f10abd7",
+      "revId": "bdb928f8e8af4b9629028f831d6dac831cc1bf9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

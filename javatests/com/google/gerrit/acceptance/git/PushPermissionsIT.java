@@ -62,7 +62,6 @@ public class PushPermissionsIT extends AbstractDaemonTest {
       removeAllBranchPermissions(
           cfg,
           Permission.ADD_PATCH_SET,
-          Permission.CREATE_REVIEW,
           Permission.CREATE,
           Permission.DELETE,
           Permission.PUSH,
@@ -221,7 +220,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     assertThat(r)
         .hasMessages(
             "Branch refs/heads/master:",
-            "You need 'Create Review' rights to upload code review requests.",
+            "You need 'Push' rights to upload code review requests.",
             "Verify that you are pushing to the right branch.",
             "User: admin",
             "Please read the documentation and contact an administrator",

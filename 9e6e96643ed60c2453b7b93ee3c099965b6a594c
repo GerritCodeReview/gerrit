@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd558ff8_d182cfc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T16:51:59Z",
+      "side": 1,
+      "message": "Extracting KeyType from H2CacheImpl is a good idea in my opinion as well as the other improvements you did in the follow-up changes to it. Given the end of the series (currently I7f2e56f78), I don\u0027t think we should have a common type for key and value when we have the serializers. With them, it\u0027s kind of strange that StringEntryKeyImpl and ObjectEntryKeyImpl both just pass through to an arbitrary value serializer. I think it would be better to hold the value serializer directly in H2CacheImpl.\n\nIf it\u0027s easier for the refactoring to first separate out the value type as well, I\u0027m fine with having it as an intermediate version.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "9e6e96643ed60c2453b7b93ee3c099965b6a594c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf511412_10ceabcf",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T16:51:59Z",
+      "side": 1,
+      "message": "Even in the last change of this whole series, this class is only used by ObjectKeyTypeImpl (aka EntryTypeImpl.OTHER in this change). Could we move it there?",
+      "range": {
+        "startLine": 629,
+        "startChar": 15,
+        "endLine": 629,
+        "endChar": 31
+      },
+      "revId": "9e6e96643ed60c2453b7b93ee3c099965b6a594c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

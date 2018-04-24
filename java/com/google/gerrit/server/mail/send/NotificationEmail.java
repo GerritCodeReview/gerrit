@@ -111,11 +111,8 @@ public abstract class NotificationEmail extends OutgoingEmail {
     // shortProjectName is the project name with the path abbreviated.
     soyContext.put("shortProjectName", getShortProjectName(projectName));
 
-    // instanceAndProjectName is the instance's name followed by the abbreviated project path
-    soyContext.put(
-        "instanceAndProjectName",
-        getInstanceAndProjectName(args.instanceNameProvider.get(), projectName));
     soyContext.put("addInstanceNameInSubject", args.addInstanceNameInSubject);
+    soyContext.put("instanceName", args.instanceNameProvider.get());
 
     soyContextEmailData.put("sshHost", getSshHost());
 
@@ -135,15 +132,5 @@ public abstract class NotificationEmail extends OutgoingEmail {
     }
 
     return "..." + projectName.substring(lastIndexSlash + 1);
-  }
-
-  @VisibleForTesting
-  protected static String getInstanceAndProjectName(String instanceName, String projectName) {
-    if (instanceName == null || instanceName.isEmpty()) {
-      return getShortProjectName(projectName);
-    }
-    // Extract the project name (everything after the last slash) and prepends it with gerrit's
-    // instance name
-    return instanceName + "/" + projectName.substring(projectName.lastIndexOf('/') + 1);
   }
 }

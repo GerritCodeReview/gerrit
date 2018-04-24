@@ -54,9 +54,11 @@ def _add_file(in_file, output):
 def _make_war(input_dir, output):
   return '(%s)' % ' && '.join([
     'root=$(pwd)',
+    'TZ=UTC',
+    'export TZ',
     'cd %s' % input_dir,
     "find . -exec touch -t 198001010000 '{}' ';' 2> /dev/null",
-    'zip -9qr ${root}/%s .' % (output.path),
+    'zip -X -9qr ${root}/%s .' % (output.path),
   ])
 
 def _war_impl(ctx):

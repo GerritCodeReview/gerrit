@@ -141,6 +141,8 @@ genrule2(
         ("tar -hcf- $(locations :pg_code) |" +
          " tar --strip-components=2 -C $$TMP/ -xf-"),
         "cd $$TMP",
+        "TZ=UTC",
+        "export TZ",
         "find . -exec touch -t 198001010000 '{}' ';'",
         "zip -rq $$ROOT/$@ *",
     ]),

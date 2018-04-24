@@ -28,6 +28,8 @@ def _impl(ctx):
   source = ctx.outputs.zip.path + ".source"
   external_docs = ["http://docs.oracle.com/javase/8/docs/api"] + ctx.attr.external_docs
   cmd = [
+      "TZ=UTC",
+      "export TZ",
       "rm -rf %s" % source,
       "mkdir %s" % source,
       " && ".join(["unzip -qud %s %s" % (source, j.path) for j in source_jars]),
@@ -50,7 +52,7 @@ def _impl(ctx):
         ":".join(transitive_jar_paths),
         "-d %s" % dir]),
     "find %s -exec touch -t 198001010000 '{}' ';'" % dir,
-    "(cd %s && zip -qr ../%s *)" % (dir, ctx.outputs.zip.basename),
+    "(cd %s && zip -Xqr ../%s *)" % (dir, ctx.outputs.zip.basename),
   ]
   ctx.action(
       inputs = list(transitive_jar_set) + list(source_jars) + ctx.files._jdk,

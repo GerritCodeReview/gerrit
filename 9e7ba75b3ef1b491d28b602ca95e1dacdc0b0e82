@@ -143,6 +143,29 @@
       "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87f1b761_b74c0e9a",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T15:55:26Z",
+      "side": 1,
+      "message": "Just a pass-by comment: Please don\u0027t ever use \u0027l\u0027 as variable name. In some fonts, it\u0027s so easy to mistake it for the number one.",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 7
+      },
+      "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

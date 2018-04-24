@@ -124,7 +124,7 @@ public class AccountManager {
           }
           // New account, automatically create and return.
           //
-          log.info("External ID not found. Attempting to create new account.");
+          log.debug("External ID not found. Attempting to create new account.");
           return create(db, who);
         }
 
@@ -362,16 +362,16 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException {
     try (ReviewDb db = schema.open()) {
-      log.info("Link another authentication identity to an existing account");
+      log.debug("Link another authentication identity to an existing account");
       ExternalId extId = findExternalId(db, who.getExternalIdKey());
       if (extId != null) {
         if (!extId.accountId().equals(to)) {
           throw new AccountException("Identity in use by another account");
         }
-        log.info("Updating existing external ID data");
+        log.debug("Updating existing external ID data");
         update(db, who, extId);
       } else {
-        log.info("Linking new external ID to the existing account");
+        log.debug("Linking new external ID to the existing account");
         externalIdsUpdateFactory
             .create()
             .insert(

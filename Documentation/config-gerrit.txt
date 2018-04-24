@@ -1,4 +1,4 @@
-= Gerrit Code Review - Configuration
+f= Gerrit Code Review - Configuration
 
 == File `etc/gerrit.config`
 
@@ -3788,6 +3788,12 @@ named `project/plugins/a` would be `CHERRY_PICK`.
 All properties are used from the matching repository configuration. In
 the previous example, all properties will be used from `project/plugins/\*`
 section and no properties will be inherited nor overridden from `project/*`.
+
+[[repository.addToRESTAPI]]repository.addToRESTAPI::
++
+Adds 'repository' as a field to the REST API whenever a 'project' field is written.
+Also makes the REST API accept 'repository' on inputs whenever it accepts 'project'.
+This is experimental and not to be used in production. It may be removed anytime.
 
 [[repository.name.basePath]]repository.<name>.basePath::
 +

@@ -23,12 +23,12 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -89,8 +89,10 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
               .database(db)
               .test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
-      if (e.getCause() instanceof NoSuchProjectException) {
-        logger.info("No such project: {}", cd.project());
+      Throwable cause = e.getCause();
+      if (cause instanceof RepositoryNotFoundException) {
+        logger.warn(
+            "Skipping change {} because the corresponding repository was not found", cd.getId(), e);
         return false;
       }
       throw new OrmException("unable to check permissions on change " + cd.getId(), e);

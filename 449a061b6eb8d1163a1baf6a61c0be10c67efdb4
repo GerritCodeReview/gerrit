@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ba6557f6_877d74b1",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-24T14:31:04Z",
+      "side": 1,
+      "message": "It\u0027s not needed here.",
+      "parentUuid": "8a08cc3d_b5ffc98d",
+      "range": {
+        "startLine": 222,
+        "startChar": 46,
+        "endLine": 222,
+        "endChar": 57
+      },
+      "revId": "449a061b6eb8d1163a1baf6a61c0be10c67efdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b14343b_961ae491",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-24T13:54:10Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 283,
+        "startChar": 62,
+        "endLine": 283,
+        "endChar": 73
+      },
+      "revId": "449a061b6eb8d1163a1baf6a61c0be10c67efdb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f272a337_055d504a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-24T14:31:04Z",
+      "side": 1,
+      "message": "Or here",
+      "parentUuid": "4b14343b_961ae491",
       "range": {
         "startLine": 283,
         "startChar": 62,

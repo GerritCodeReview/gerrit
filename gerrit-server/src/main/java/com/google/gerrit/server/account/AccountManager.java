@@ -262,9 +262,11 @@ public class AccountManager {
   private AuthResult create(ReviewDb db, AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(sequences.nextAccountId());
+    log.debug("Assigning new Id {} to account", newId);
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
+    log.debug("Created external Id: {}", extId);
 
     boolean isFirstAccount = awaitsFirstAccountCheck.getAndSet(false) && !accounts.hasAnyAccount();
 
@@ -322,11 +324,14 @@ public class AccountManager {
       }
     }
 
+    log.debug("Username from AuthRequest: {}", who.getUserName());
     if (who.getUserName() != null) {
+      log.debug("Setting username for: {}", who.getUserName());
       // Only set if the name hasn't been used yet, but was given to us.
       //
       try {
         changeUserNameFactory.create(user, who.getUserName()).call();
+        log.debug("Identified user {} was created from {}", user, who.getUserName());
       } catch (NameAlreadyUsedException e) {
         String message =
             "Cannot assign user name \""

@@ -34,12 +34,15 @@ import java.util.Collection;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Operation to change the username of an account. */
 public class ChangeUserName implements Callable<VoidResult> {
-  public static final String USERNAME_CANNOT_BE_CHANGED = "Username cannot be changed.";
-
+  private static final Logger log = LoggerFactory.getLogger(ChangeUserName.class);
   private static final Pattern USER_NAME_PATTERN = Pattern.compile(Account.USER_NAME_PATTERN);
+
+  public static final String USERNAME_CANNOT_BE_CHANGED = "Username cannot be changed.";
 
   /** Generic factory to change any user's username. */
   public interface Factory {
@@ -73,6 +76,9 @@ public class ChangeUserName implements Callable<VoidResult> {
           ConfigInvalidException {
     Collection<ExternalId> old = externalIds.byAccount(user.getAccountId(), SCHEME_USERNAME);
     if (!old.isEmpty()) {
+      log.error(
+          "External id with scheme \"username:\" already exists for the user {}",
+          user.getAccountId());
       throw new IllegalStateException(USERNAME_CANNOT_BE_CHANGED);
     }
 
@@ -91,6 +97,7 @@ public class ChangeUserName implements Callable<VoidResult> {
           }
         }
         externalIdsUpdate.insert(ExternalId.create(key, user.getAccountId(), null, password));
+        log.info("Created the new external Id with key: {}", key);
       } catch (OrmDuplicateKeyException dupeErr) {
         // If we are using this identity, don't report the exception.
         //

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33a85b55_b4bdf708",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-24T18:42:14Z",
+      "side": 1,
+      "message": "template.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "d830e4c17c7435ce36a9e04761ce65e079cb40ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b03a6a0_74075f43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-04-24T18:42:14Z",
+      "side": 1,
+      "message": "nit: either add missing empty lines between paragraphs or create a single paragraph:\n\nRemove the instanceAndProjectName as it is easy to reconstruct it using\nthe projectName and instanceName variables.\n\nIt was also incorrect, as it relied on the short name and not on the\nproject name.\n\nAs it was introduced recently, _I_ don\u0027t think any gerrit instance will\nbreak.\n\n\nOR \n\n\nRemove the instanceAndProjectName as it is easy to reconstruct it using\nthe projectName and instanceName variables. It was also incorrect, as it\nrelied on the short name and not on the project name. As it was\nintroduced recently, _I_ don\u0027t think any gerrit instance will break.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "d830e4c17c7435ce36a9e04761ce65e079cb40ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

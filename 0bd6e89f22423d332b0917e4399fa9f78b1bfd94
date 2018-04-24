@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef55ab78_227f5f07",
+        "filename": "java/com/google/gerrit/server/cache/h2/StringKeyTypeImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T16:52:18Z",
+      "side": 0,
+      "message": "Is using the JavaCacheSerializer for Strings instead of this code backwards compatible?",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "0bd6e89f22423d332b0917e4399fa9f78b1bfd94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

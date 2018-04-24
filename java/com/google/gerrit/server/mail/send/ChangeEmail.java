@@ -27,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.MailHeader;
@@ -100,8 +99,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
     /** Is the from user in an email squelching group? */
     try {
-      IdentifiedUser user = args.identifiedUserFactory.create(id);
-      args.permissionBackend.user(user).check(GlobalPermission.EMAIL_REVIEWERS);
+      args.permissionBackend.absentUser(id).check(GlobalPermission.EMAIL_REVIEWERS);
     } catch (AuthException | PermissionBackendException e) {
       emailOnlyAuthors = true;
     }

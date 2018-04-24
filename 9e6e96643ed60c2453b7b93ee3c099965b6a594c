@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5c57e708_aee317ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T17:03:45Z",
+      "side": 1,
+      "message": "\u003e Just so I understand your suggestion...do you think we should keep KeyType as a simple container for the columnType and funnel fields? (Just in its own file and properly singleton-ified.)\n\nIndeed.",
+      "parentUuid": "3e4ceea5_88c4de4d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 9
+      },
+      "revId": "9e6e96643ed60c2453b7b93ee3c099965b6a594c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cf511412_10ceabcf",
         "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
         "patchSetId": 2

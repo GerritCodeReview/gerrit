@@ -95,6 +95,30 @@
       "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa8d51a5_7764cdfa",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-24T13:43:36Z",
+      "side": 1,
+      "message": "Actually this check doesn\u0027t provide full safety. Permission#equals is based on name and exclusiveGroup flag, hence you can have 2 permissions with the same name which are not equal. With the contains check you would be allowed to add both, but then the unique name check in setPermission would still be unhappy. This means also using a Set here will not prevent permissions with duplicate names.\n\n\u003e Though I think the correct approach would be to check for existing permission and if it\n\u003e exists add the rules so we do not lose any permissions. Something like:\n\u003e \n\u003e  getPermission(p.name, true).addAll(p.getRules());\n\nThat might work better, but what should we do if the existing permission is exclusive and the new one not?",
+      "parentUuid": "9916bfd6_fbdf933c",
+      "range": {
+        "startLine": 79,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

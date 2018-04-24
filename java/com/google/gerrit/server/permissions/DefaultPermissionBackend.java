@@ -15,7 +15,6 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermissionName;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
@@ -32,17 +31,14 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.cache.PerThreadCache;
-import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Singleton
@@ -107,17 +103,16 @@ public class DefaultPermissionBackend extends PermissionBackend {
     @Override
     public ForProject project(Project.NameKey project) {
       try {
-        ProjectState state = projectCache.checkedGet(project);
-        if (state != null) {
-          ProjectControl control =
-              PerThreadCache.getOrCompute(
-                  PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),
-                  () -> projectControlFactory.create(user, state));
-          return control.asForProject().database(db);
-        }
-        return FailedPermissionBackend.project("not found", new NoSuchProjectException(project));
-      } catch (IOException e) {
-        return FailedPermissionBackend.project("unavailable", e);
+        ProjectState state = projectCache.checkedGet(project, true);
+        ProjectControl control =
+            PerThreadCache.getOrCompute(
+                PerThreadCache.Key.create(ProjectControl.class, project, user.getCacheKey()),
+                () -> projectControlFactory.create(user, state));
+        return control.asForProject().database(db);
+      } catch (Exception e) {
+        Throwable cause = e.getCause() != null ? e.getCause() : e;
+        return FailedPermissionBackend.project(
+            "project '" + project.get() + "' is unavailable", cause);
       }
     }
 
@@ -146,7 +141,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         return can((GlobalPermission) perm);
       } else if (perm instanceof PluginPermission) {
         PluginPermission pluginPermission = (PluginPermission) perm;
-        return has(DefaultPermissionMappings.pluginPermissionName(pluginPermission))
+        return has(pluginPermission.permissionName())
             || (pluginPermission.fallBackToAdmin() && isAdmin());
       }
       throw new PermissionBackendException(perm + " unsupported");
@@ -164,7 +159,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case RUN_GC:
         case VIEW_CACHES:
         case VIEW_QUEUE:
-          return has(globalPermissionName(perm)) || can(GlobalPermission.MAINTAIN_SERVER);
+          return has(perm.permissionName()) || can(GlobalPermission.MAINTAIN_SERVER);
 
         case CREATE_ACCOUNT:
         case CREATE_GROUP:
@@ -175,12 +170,11 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case VIEW_ALL_ACCOUNTS:
         case VIEW_CONNECTIONS:
         case VIEW_PLUGINS:
-        case VIEW_ACCESS:
-          return has(globalPermissionName(perm)) || isAdmin();
+          return has(perm.permissionName()) || isAdmin();
 
         case ACCESS_DATABASE:
         case RUN_AS:
-          return has(globalPermissionName(perm));
+          return has(perm.permissionName());
       }
       throw new PermissionBackendException(perm + " unsupported");
     }
@@ -193,21 +187,18 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private Boolean computeAdmin() {
-      Optional<Boolean> r = user.get(IS_ADMIN);
-      if (r.isPresent()) {
-        return r.get();
+      Boolean r = user.get(IS_ADMIN);
+      if (r == null) {
+        if (user.isImpersonating()) {
+          r = false;
+        } else if (user instanceof PeerDaemonUser) {
+          r = true;
+        } else {
+          r = allow(capabilities().administrateServer);
+        }
+        user.put(IS_ADMIN, r);
       }
-
-      boolean isAdmin;
-      if (user.isImpersonating()) {
-        isAdmin = false;
-      } else if (user instanceof PeerDaemonUser) {
-        isAdmin = true;
-      } else {
-        isAdmin = allow(capabilities().administrateServer);
-      }
-      user.put(IS_ADMIN, isAdmin);
-      return isAdmin;
+      return r;
     }
 
     private boolean canEmailReviewers() {
@@ -216,7 +207,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private boolean has(String permissionName) {
-      return allow(capabilities().getPermission(checkNotNull(permissionName)));
+      return allow(capabilities().getPermission(permissionName));
     }
 
     private boolean allow(Collection<PermissionRule> rules) {

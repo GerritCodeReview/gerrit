@@ -89,7 +89,7 @@ public class AccountControl {
       AccountVisibility accountVisibility) {
     this.accountsSection = projectCache.getAllProjects().getConfig().getAccountsSection();
     this.groupControlFactory = groupControlFactory;
-    this.perm = permissionBackend.user(user);
+    this.perm = permissionBackend.currentUser();
     this.user = user;
     this.userFactory = userFactory;
     this.accountVisibility = accountVisibility;

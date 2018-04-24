@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "462f39fa_7a4c782f",
+        "filename": "java/com/google/gerrit/server/cache/h2/ObjectKeyTypeImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T16:52:07Z",
+      "side": 1,
+      "message": "If we didn\u0027t have the follow-up changes in this series, I would suggest to remove this parameter and simply use Object for all occurrences of K in this class. I don\u0027t know how clean you want to have the individual changes.",
+      "range": {
+        "startLine": 27,
+        "startChar": 23,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "caaa7b3c34fe6dd38061e41921d2bb50be8c7aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fb2e273_0a092528",
+        "filename": "java/com/google/gerrit/server/cache/h2/StringKeyTypeImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T16:52:07Z",
+      "side": 1,
+      "message": "Similar to my other comment: If it were just for this change, I would convert StringKeyTypeImpl and ObjectKeyTypeImpl (without generic type) to an enum with the only value INSTANCE. (By the way, it\u0027s a bit strange in this patch set that StringKeyTypeImpl has a private constructor but ObjectKeyTypeImpl doesn\u0027t.) Since both classes are changed from singletons to individual instances later in this series, I\u0027m fine with keeping it as is (provided that we really submit the other changes too) if it spares you unnecessary effort.",
+      "range": {
+        "startLine": 24,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "caaa7b3c34fe6dd38061e41921d2bb50be8c7aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

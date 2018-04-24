@@ -229,6 +229,10 @@ $instanceAndProjectName::
 +
 The Gerrit instance name, followed by the short project name
 
+$addInstanceNameInSubject::
++
+Whether the instance name should be included in the email subject.
+
 $sshHost::
 +
 SSH hostname for the Gerrit instance.

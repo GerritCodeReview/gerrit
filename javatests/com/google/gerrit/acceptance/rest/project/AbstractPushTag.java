@@ -54,7 +54,7 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
   private TagType tagType;
 
   @Before
-  public void setup() throws Exception {
+  public void setUpTestEnvironment() throws Exception {
     // clone with user to avoid inherited tag permissions of admin user
     testRepo = cloneProject(project, user);
 

@@ -77,7 +77,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
         }
         return FailedPermissionBackend.project("not found", new NoSuchProjectException(project));
       } catch (IOException e) {
-        return FailedPermissionBackend.project("unavailable", e);
+        return FailedPermissionBackend.project("project '" + project.get() + "' is unavailable", e);
       }
     }
 

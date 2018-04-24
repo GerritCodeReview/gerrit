@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5af16590_1e2832b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-24T16:10:37Z",
+      "side": 1,
+      "message": "weird sentence",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "b7735753e44956809653d5bd2b74fbc046f0b65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f775b950_9fe8538d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-24T16:10:37Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "b7735753e44956809653d5bd2b74fbc046f0b65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c494b624_e92a5e40",
+        "filename": "java/com/google/gerrit/server/query/project/ProjectIsVisibleToPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-24T16:10:37Z",
+      "side": 1,
+      "message": "I don\u0027t feel comfortable having a User parameter and ignoring it *sometimes*",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 40,
+        "endChar": 22
+      },
+      "revId": "b7735753e44956809653d5bd2b74fbc046f0b65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "118ec3b6_28267af7",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListTasks.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-24T16:10:37Z",
+      "side": 1,
+      "message": "currentUser here",
+      "range": {
+        "startLine": 93,
+        "startChar": 14,
+        "endLine": 93,
+        "endChar": 42
+      },
+      "revId": "b7735753e44956809653d5bd2b74fbc046f0b65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

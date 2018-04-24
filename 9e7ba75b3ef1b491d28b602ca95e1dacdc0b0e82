@@ -119,6 +119,30 @@
       "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4e98143_6109fd6c",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-24T14:00:53Z",
+      "side": 1,
+      "message": "E.g. what should be the result of the permission migration if you have\n\n[access \"refs/for/*\"]\n  read \u003d pushMerge Users\n[access \"refs/heads/*\"]\n  exclusiveGroupPermissions \u003d pushMerge\n  read \u003d pushMerge Administrators\n\n?",
+      "parentUuid": "fa8d51a5_7764cdfa",
+      "range": {
+        "startLine": 79,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

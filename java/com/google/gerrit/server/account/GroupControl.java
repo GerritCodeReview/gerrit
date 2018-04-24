@@ -97,7 +97,7 @@ public class GroupControl {
       GroupBackend gb) {
     user = who;
     group = gd;
-    this.perm = permissionBackend.user(user);
+    this.perm = permissionBackend.currentUser();
     groupBackend = gb;
   }
 

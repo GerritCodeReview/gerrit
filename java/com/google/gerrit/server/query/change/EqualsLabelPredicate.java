@@ -123,7 +123,7 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
     // Check the user has 'READ' permission.
     try {
       PermissionBackend.ForChange perm =
-          permissionBackend.user(reviewer).database(dbProvider).change(cd);
+          permissionBackend.absentUser(approver).database(dbProvider).change(cd);
       ProjectState projectState = projectCache.checkedGet(cd.project());
       return projectState != null
           && projectState.statePermitsRead()

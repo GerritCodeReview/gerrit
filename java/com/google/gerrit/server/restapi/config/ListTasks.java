@@ -72,7 +72,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
 
     List<TaskInfo> allTasks = getTasks();
     try {
-      permissionBackend.user(user).check(GlobalPermission.VIEW_QUEUE);
+      permissionBackend.currentUser().check(GlobalPermission.VIEW_QUEUE);
       return allTasks;
     } catch (AuthException e) {
       // Fall through to filter tasks.

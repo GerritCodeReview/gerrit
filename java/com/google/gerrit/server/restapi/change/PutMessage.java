@@ -185,7 +185,7 @@ public class PutMessage
     }
     try {
       permissionBackend
-          .user(currentUserProvider.get())
+          .currentUser()
           .database(db.get())
           .change(changeNotes)
           .check(ChangePermission.ADD_PATCH_SET);

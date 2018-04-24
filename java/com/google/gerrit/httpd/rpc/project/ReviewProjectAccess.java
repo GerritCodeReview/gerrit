@@ -134,7 +134,7 @@ public class ReviewProjectAccess extends ProjectAccessHandler<Change.Id> {
       ProjectConfig config, MetaDataUpdate md, boolean parentProjectUpdate)
       throws IOException, OrmException, AuthException, PermissionBackendException,
           ConfigInvalidException, ResourceConflictException {
-    PermissionBackend.ForProject perm = permissionBackend.user(user).project(config.getName());
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(config.getName());
     if (!check(perm, ProjectPermission.READ_CONFIG)) {
       throw new AuthException(RefNames.REFS_CONFIG + " not visible");
     }

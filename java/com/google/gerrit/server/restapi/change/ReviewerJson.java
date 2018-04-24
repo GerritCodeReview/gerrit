@@ -80,7 +80,10 @@ public class ReviewerJson {
       ReviewerInfo info =
           format(
               new ReviewerInfo(rsrc.getReviewerUser().getAccountId().get()),
-              permissionBackend.user(rsrc.getReviewerUser()).database(db).change(cd),
+              permissionBackend
+                  .absentUser(rsrc.getReviewerUser().getAccountId())
+                  .database(db)
+                  .change(cd),
               cd);
       loader.put(info);
       infos.add(info);

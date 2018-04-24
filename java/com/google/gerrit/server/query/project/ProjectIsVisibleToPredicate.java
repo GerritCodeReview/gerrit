@@ -25,12 +25,10 @@ import com.google.gwtorm.server.OrmException;
 
 public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectData> {
   protected final PermissionBackend permissionBackend;
-  protected final CurrentUser user;
 
   public ProjectIsVisibleToPredicate(PermissionBackend permissionBackend, CurrentUser user) {
     super(AccountQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
     this.permissionBackend = permissionBackend;
-    this.user = user;
   }
 
   @Override
@@ -38,9 +36,8 @@ public class ProjectIsVisibleToPredicate extends IsVisibleToPredicate<ProjectDat
     if (!pd.getProject().getState().permitsRead()) {
       return false;
     }
-
     return permissionBackend
-        .user(user)
+        .currentUser()
         .project(pd.getProject().getNameKey())
         .testOrFalse(ProjectPermission.READ);
   }

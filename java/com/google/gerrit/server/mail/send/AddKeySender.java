@@ -93,7 +93,7 @@ public class AddKeySender extends OutgoingEmail {
 
     try {
       // Don't email if an administrator added a key on behalf of the user.
-      permissionBackend.user(callingUser).check(GlobalPermission.ADMINISTRATE_SERVER);
+      permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
       return false;
     } catch (AuthException | PermissionBackendException e) {
       // Send email if a non-administrator modified the keys, e.g. by MODIFY_ACCOUNT.

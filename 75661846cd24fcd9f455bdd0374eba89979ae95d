@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "232808b3_80c61911",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T08:18:50Z",
+      "side": 1,
+      "message": "See this comment: https://gerrit-review.googlesource.com/c/gerrit/+/172465/7/java/com/google/gerrit/acceptance/AbstractDaemonTest.java#1525",
+      "parentUuid": "38b17777_ffba8b04",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 51
+      },
+      "revId": "75661846cd24fcd9f455bdd0374eba89979ae95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc6e6c0c_2e2bae26",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 4
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "14431fe1_a92e901e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T08:18:50Z",
+      "side": 1,
+      "message": "See my other comment.",
+      "parentUuid": "cc6e6c0c_2e2bae26",
+      "range": {
+        "startLine": 413,
+        "startChar": 4,
+        "endLine": 413,
+        "endChar": 51
+      },
+      "revId": "75661846cd24fcd9f455bdd0374eba89979ae95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bb6d671_b6ef5331",
         "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
         "patchSetId": 4
@@ -92,6 +140,30 @@
       "revId": "75661846cd24fcd9f455bdd0374eba89979ae95d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58082157_d7f36b17",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-24T08:18:50Z",
+      "side": 1,
+      "message": "It could but I don\u0027t want it to. This assertion method isn\u0027t a good approach. By improving it, I would only encourage others to use it more.",
+      "parentUuid": "6bb6d671_b6ef5331",
+      "range": {
+        "startLine": 1475,
+        "startChar": 15,
+        "endLine": 1475,
+        "endChar": 28
+      },
+      "revId": "75661846cd24fcd9f455bdd0374eba89979ae95d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2214,8 +2214,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
 
     for (int i = 1; i <= 11; i++) {
-      Iterable<ChangeData> cds =
-          queryProvider.get().byCommitsOnBranchNotMerged(repo.getRepository(), db, dest, shas, i);
+      Iterable<ChangeData> cds = queryProvider.get().byCommitsOnBranchNotMerged(dest, shas, i);
       Iterable<Integer> ids = FluentIterable.from(cds).transform(in -> in.getId().get());
       String name = "limit " + i;
       assertThat(ids).named(name).hasSize(n);

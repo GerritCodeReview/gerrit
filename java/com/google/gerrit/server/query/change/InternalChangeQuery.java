@@ -23,8 +23,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
@@ -32,23 +31,19 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
 
 /**
  * Query wrapper for the change index.
@@ -154,11 +149,8 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
   }
 
   public Iterable<ChangeData> byCommitsOnBranchNotMerged(
-      Repository repo, ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
-      throws OrmException, IOException {
+      Branch.NameKey branch, Collection<String> hashes) throws OrmException {
     return byCommitsOnBranchNotMerged(
-        repo,
-        db,
         branch,
         hashes,
         // Account for all commit predicates plus ref, project, status.
@@ -167,48 +159,17 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
 
   @VisibleForTesting
   Iterable<ChangeData> byCommitsOnBranchNotMerged(
-      Repository repo,
-      ReviewDb db,
-      Branch.NameKey branch,
-      Collection<String> hashes,
-      int indexLimit)
-      throws OrmException, IOException {
-    if (hashes.size() > indexLimit) {
-      return byCommitsOnBranchNotMergedFromDatabase(repo, db, branch, hashes);
+      Branch.NameKey branch, Collection<String> hashes, int indexLimit) throws OrmException {
+    if (hashes.size() <= indexLimit) {
+      return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
     }
-    return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
-  }
-
-  private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
-      Repository repo, ReviewDb db, Branch.NameKey branch, Collection<String> hashes)
-      throws OrmException, IOException {
-    Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
-    String lastPrefix = null;
-    for (Ref ref : repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
-      String r = ref.getName();
-      if ((lastPrefix != null && r.startsWith(lastPrefix))
-          || !hashes.contains(ref.getObjectId().name())) {
-        continue;
-      }
-      Change.Id id = Change.Id.fromRef(r);
-      if (id == null) {
-        continue;
-      }
-      if (changeIds.add(id)) {
-        lastPrefix = r.substring(0, r.lastIndexOf('/'));
-      }
+    // Partition hashes into smaller batches and execute individually
+    Map<Change.Id, ChangeData> result = Maps.newHashMap();
+    for (List<String> partitionedHashes : Iterables.partition(hashes, indexLimit)) {
+      Iterable<ChangeData> cds = byCommitsOnBranchNotMergedFromIndex(branch, partitionedHashes);
+      cds.forEach(cd -> result.putIfAbsent(cd.getId(), cd));
     }
-
-    List<ChangeNotes> notes =
-        notesFactory.create(
-            db,
-            branch.getParentKey(),
-            changeIds,
-            cn -> {
-              Change c = cn.getChange();
-              return c.getDest().equals(branch) && c.getStatus() != Change.Status.MERGED;
-            });
-    return Lists.transform(notes, n -> changeDataFactory.create(db, n));
+    return result.values();
   }
 
   private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(

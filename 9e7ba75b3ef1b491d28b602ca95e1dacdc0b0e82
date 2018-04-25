@@ -146,6 +146,30 @@
     },
     {
       "key": {
+        "uuid": "01ddac40_225b6da6",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T07:38:13Z",
+      "side": 1,
+      "message": "\u003e Though I think the correct approach would be to check for existing permission and if it\n\u003e exists add the rules so we do not lose any permissions. Something like:\n\u003e\n\u003e getPermission(p.name, true).addAll(p.getRules());\n\nFWIW I have tried this. Adding rules basically has the same issue, and you can end up with duplicate rules. Maybe they don\u0027t harm, but I feel we are missing some tests in this area.",
+      "parentUuid": "d4e98143_6109fd6c",
+      "range": {
+        "startLine": 79,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87f1b761_b74c0e9a",
         "filename": "java/com/google/gerrit/common/data/AccessSection.java",
         "patchSetId": 1

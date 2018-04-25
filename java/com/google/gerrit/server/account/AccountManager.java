@@ -151,7 +151,7 @@ public class AccountManager {
           }
         }
         // New account, automatically create and return.
-        log.info("External ID not found. Attempting to create new account.");
+        log.debug("External ID not found. Attempting to create new account.");
         return create(who);
       }
 
@@ -159,9 +159,9 @@ public class AccountManager {
       Optional<AccountState> accountState = byIdCache.get(extId.accountId());
       if (!accountState.isPresent()) {
         log.error(
-            String.format(
-                "Authentication with external ID %s failed. Account %s doesn't exist.",
-                extId.key().get(), extId.accountId().get()));
+            "Authentication with external ID {} failed. Account {} doesn't exist.",
+            extId.key().get(),
+            extId.accountId().get());
         throw new AccountException("Authentication error, account not found");
       }
 
@@ -285,9 +285,11 @@ public class AccountManager {
   private AuthResult create(AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(sequences.nextAccountId());
+    log.debug("Assigning new Id {} to account", newId);
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
+    log.debug("Created external Id: {}", extId);
     checkEmailNotUsed(extId);
     ExternalId userNameExtId =
         who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
@@ -412,7 +414,7 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
     Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
-    log.info("Link another authentication identity to an existing account");
+    log.debug("Link another authentication identity to an existing account");
     if (optionalExtId.isPresent()) {
       ExternalId extId = optionalExtId.get();
       if (!extId.accountId().equals(to)) {
@@ -421,7 +423,7 @@ public class AccountManager {
       }
       update(who, extId);
     } else {
-      log.info("Linking new external ID to the existing account");
+      log.debug("Linking new external ID to the existing account");
       ExternalId newExtId =
           ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress());
       checkEmailNotUsed(newExtId);

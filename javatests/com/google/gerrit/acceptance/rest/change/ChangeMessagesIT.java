@@ -15,16 +15,22 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestTimeUtil;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -95,7 +101,55 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(actual.tag).isEqualTo(tag);
   }
 
-  private void assertMessage(String expected, String actual) {
+  @Test
+  public void listChangeMessages() throws Exception {
+    int changeNum = createOneChange();
+    List<ChangeMessageInfo> messages1 = gApi.changes().id(changeNum).messages();
+    List<ChangeMessageInfo> messages2 =
+        new ArrayList<>(gApi.changes().id(changeNum).get().messages);
+    assertThat(messages1).containsExactlyElementsIn(messages2).inOrder();
+  }
+
+  private int createOneChange() throws Exception {
+    // Creates the following commit history on the meta branch of the test change.
+
+    setApiUser(user);
+    // Commit 1: create a change.
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    // Commit 2: post a review with message "message 1".
+    setApiUser(admin);
+    addOneReview(changeId, "message 1");
+    // Commit 3: amend a new patch set.
+    setApiUser(user);
+    amendChange(changeId);
+    // Commit 4: post a review with message "message 2".
+    addOneReview(changeId, "message 2");
+    // Commit 5: amend a new patch set.
+    amendChange(changeId);
+    // Commit 6: approve the change.
+    setApiUser(admin);
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
+    // commit 7: submit the change.
+    gApi.changes().id(changeId).current().submit();
+
+    return result.getChange().getId().get();
+  }
+
+  private void addOneReview(String changeId, String changeMessage) throws Exception {
+    ReviewInput.CommentInput c = new ReviewInput.CommentInput();
+    c.line = 1;
+    c.message = "comment 1";
+    c.path = FILE_NAME;
+
+    ReviewInput reviewInput = new ReviewInput().label("Code-Review", 1);
+    reviewInput.comments = ImmutableMap.of(c.path, Lists.newArrayList(c));
+    reviewInput.message = changeMessage;
+
+    gApi.changes().id(changeId).current().review(reviewInput);
+  }
+
+  private static void assertMessage(String expected, String actual) {
     assertThat(actual).isEqualTo("Patch Set 1:\n\n" + expected);
   }
 

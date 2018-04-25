@@ -2403,6 +2403,55 @@ As response the change's hashtags are returned as a list of strings.
   ]
 ----
 
+[[list-change-messages]]
+=== List Change Messages
+--
+'GET /changes/link:#change-id[\{change-id\}]/messages'
+--
+
+Lists all the messages of a change including link:#detailed-accounts[detailed account information].
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/messages
+----
+
+As response a list of link:#change-message-info[ChangeMessageInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "id": "YH-egE",
+      "author": {
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "username": "jdoe"
+      },
+      "date": "2013-03-23 21:34:02.419000000",
+      "message": "Patch Set 1:\n\nThis is the first message.",
+      "_revision_number": 1
+    },
+    {
+      "id": "WEEdhU",
+      "author": {
+      "_account_id": 1000097,
+      "name": "Jane Roe",
+      "email": "jane.roe@example.com",
+      "username": "jroe"
+      },
+      "date": "2013-03-23 21:36:52.332000000",
+      "message": "Patch Set 1:\n\nThis is the second message.\n\nWith a line break.",
+      "_revision_number": 1
+    }
+  ]
+----
 
 [[edit-endpoints]]
 == Change Edit Endpoints

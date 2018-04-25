@@ -45,4 +45,24 @@ public class ChangeMessageInfo {
   public int hashCode() {
     return Objects.hash(id, tag, author, realAuthor, date, message, _revisionNumber);
   }
+
+  @Override
+  public String toString() {
+    return "ChangeMessageInfo{"
+        + "id="
+        + id
+        + ", tag="
+        + tag
+        + ", author="
+        + author
+        + ", realAuthor="
+        + realAuthor
+        + ", date="
+        + date
+        + ", _revisionNumber"
+        + _revisionNumber
+        + ", message=["
+        + message
+        + "]}";
+  }
 }

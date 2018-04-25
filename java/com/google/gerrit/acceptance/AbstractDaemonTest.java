@@ -33,6 +33,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.jimfs.Jimfs;
 import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
@@ -63,6 +64,7 @@ import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeType;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -76,6 +78,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -148,6 +151,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -167,6 +171,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.FetchResult;
@@ -1694,5 +1699,30 @@ public abstract class AbstractDaemonTest {
         metaDataUpdate.close();
       }
     }
+  }
+
+  protected List<RevCommit> getChangeMetaCommitsInReverseOrder(Change.Id changeId)
+      throws IOException {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk revWalk = new RevWalk(repo)) {
+      revWalk.sort(RevSort.TOPO);
+      revWalk.sort(RevSort.REVERSE);
+      Ref metaRef = repo.exactRef(RefNames.changeMetaRef(changeId));
+      revWalk.markStart(revWalk.parseCommit(metaRef.getObjectId()));
+      return Lists.newArrayList(revWalk);
+    }
+  }
+
+  protected List<CommentInfo> getChangeSortedComments(int changeNum) throws Exception {
+    List<CommentInfo> comments = new ArrayList<>();
+    Map<String, List<CommentInfo>> commentsMap = gApi.changes().id(changeNum).comments();
+    for (Map.Entry<String, List<CommentInfo>> e : commentsMap.entrySet()) {
+      for (CommentInfo c : e.getValue()) {
+        c.path = e.getKey(); // Set the comment's path field.
+        comments.add(c);
+      }
+    }
+    comments.sort(Comparator.comparing(c -> c.id));
+    return comments;
   }
 }

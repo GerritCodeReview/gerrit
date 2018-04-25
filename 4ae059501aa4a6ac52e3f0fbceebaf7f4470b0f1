@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1524469478 +0200\nnonce AFN+CTJejXrkv8boF9DLwj9Lo4pX/HBgJw8a8chTLkk3jpD+whZEL6Svrr1XitqPXXFVhU0VcjYq\n\n0000000000000000000000000000000000000000 71362ee532bed2d4ac6394d3bc87870b9faaadaf refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEyBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlrdjuYACgkQUbX9l6DQ\n71GeAgf4paHq4LLHKx4FGikjxtKaP/R6cBixWN3JUN+8kcoK505v0VT9eBWS2EIM\nsVmXSxa4UF4MvvJVQ/aqRm3N1vde94VvP/WY7meRjrEhKqAHK3iSGgVeXUt9cpAa\nRiSkTYfTSzfZTEMPPtEbwC6SXCamoLtJa4aHnk4XZpPjHaEyaouOXFjxTgPE4vT6\nDSWydY3OLq6C3/kisLO2uvXS7+YPeuC9tojJUjqEVNPpzi2Og611Nstym5RZUIx4\nOrGQj1ibhB5GUIMIaNDEZnOIIVvcpI6ysvKPB+RkPX4RVCE2vxmQNSeGnqEweEOL\nlyxhNYxGdX4uZ+6Z4Ap/AnlPhFjW\n\u003dg4gX\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4af2063d_7d3d8eae",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestAccountCreation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-25T07:43:03Z",
+      "side": 1,
+      "message": "Here and in TestAccoutUpdate: As we have the convenience methods below, also offering this method might be confusing. To solve that, we could limit the visibility to package-private.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 51
+      },
+      "revId": "4ae059501aa4a6ac52e3f0fbceebaf7f4470b0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -46,6 +46,30 @@
       "revId": "55065875f9e17466a7ee3b744fefbf0526d5d913",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33931741_aaf74620",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-25T12:16:45Z",
+      "side": 1,
+      "message": "The general contract for @Before is\n\n The @Before methods of superclasses will be run before those of the current class, unless they are overridden in the current class.\n\n, which is clearly stated in the Javadoc of @Before.",
+      "parentUuid": "7655de50_b7000f18",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "55065875f9e17466a7ee3b744fefbf0526d5d913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

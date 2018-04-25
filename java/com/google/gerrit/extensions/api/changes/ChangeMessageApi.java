@@ -24,12 +24,25 @@ public interface ChangeMessageApi {
   ChangeMessageInfo get() throws RestApiException;
 
   /**
+   * Deletes a change message by replacing its message. For NoteDb, it's implemented by rewriting
+   * the commit history of change meta branch.
+   *
+   * @return the change message with its message updated.
+   */
+  ChangeMessageInfo delete(DeleteChangeMessageInput input) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
   class NotImplemented implements ChangeMessageApi {
     @Override
     public ChangeMessageInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeMessageInfo delete(DeleteChangeMessageInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

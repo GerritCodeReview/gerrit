@@ -160,6 +160,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
   private DeleteCommentRewriter deleteCommentRewriter;
+  private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
 
   @AssistedInject
   private ChangeUpdate(
@@ -395,6 +396,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         deleteCommentRewriterFactory.create(getChange().getId(), uuid, newMessage);
   }
 
+  public void deleteChangeMessageByRewritingHistory(int targetMessageIdx, String newMessage) {
+    deleteChangeMessageRewriter =
+        new DeleteChangeMessageRewriter(getChange().getId(), targetMessageIdx, newMessage);
+  }
+
   @VisibleForTesting
   ChangeDraftUpdate createDraftUpdateIfNull() {
     if (draftUpdate == null) {
@@ -615,7 +621,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws OrmException, IOException {
-    checkState(deleteCommentRewriter == null, "cannot update and rewrite ref in one BatchUpdate");
+    checkState(
+        deleteCommentRewriter == null && deleteChangeMessageRewriter == null,
+        "cannot update and rewrite ref in one BatchUpdate");
 
     CommitBuilder cb = new CommitBuilder();
 
@@ -827,6 +835,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public DeleteCommentRewriter getDeleteCommentRewriter() {
     return deleteCommentRewriter;
+  }
+
+  public DeleteChangeMessageRewriter getDeleteChangeMessageRewriter() {
+    return deleteChangeMessageRewriter;
   }
 
   public void setAllowWriteToNewRef(boolean allow) {

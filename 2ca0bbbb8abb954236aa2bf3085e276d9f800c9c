@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "788b391b_0ef59b91",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 6040,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T16:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f61d739_fbeb723e",
+      "range": {
+        "startLine": 6040,
+        "startChar": 28,
+        "endLine": 6040,
+        "endChar": 32
+      },
+      "revId": "2ca0bbbb8abb954236aa2bf3085e276d9f800c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c3ccb97_ed43b2df",
         "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "21f48d5f_052cbf17",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T16:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c3ccb97_ed43b2df",
+      "range": {
+        "startLine": 85,
+        "startChar": 52,
+        "endLine": 85,
+        "endChar": 56
+      },
+      "revId": "2ca0bbbb8abb954236aa2bf3085e276d9f800c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d50b490_7f733949",
         "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "2ca0bbbb8abb954236aa2bf3085e276d9f800c9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63d1819e_c1496973",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T16:04:16Z",
+      "side": 1,
+      "message": "Yes. I think you\u0027re right, it\u0027s similar in ChangeJson. I was trying to fill the user name in the return info. But detailed \u003d true should also work.",
+      "parentUuid": "9d50b490_7f733949",
+      "range": {
+        "startLine": 123,
+        "startChar": 12,
+        "endLine": 126,
+        "endChar": 56
+      },
+      "revId": "2ca0bbbb8abb954236aa2bf3085e276d9f800c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

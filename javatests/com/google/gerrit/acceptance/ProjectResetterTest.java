@@ -431,7 +431,7 @@ public class ProjectResetterTest extends GerritBaseTests {
 
     EasyMock.replay(cache, indexer);
 
-    Ref ref1 = createRef(allUsersRepo, RefNames.refsGroups(uuid1));
+    createRef(allUsersRepo, RefNames.refsGroups(uuid1));
     Ref ref2 = createRef(allUsersRepo, RefNames.refsGroups(uuid2));
     try (ProjectResetter resetProject =
         builder(null, null, null, cache, includeCache, indexer, null)

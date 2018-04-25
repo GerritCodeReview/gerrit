@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "afd6521a_61af7717",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-25T11:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40544788_1e533c0c",
+      "revId": "e894eee85a539428d4915f037f95914252df2da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f99ef0c_40f59a82",
         "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "e894eee85a539428d4915f037f95914252df2da5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8cfa85e_be43a7ce",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-25T11:49:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f99ef0c_40f59a82",
+      "range": {
+        "startLine": 412,
+        "startChar": 16,
+        "endLine": 412,
+        "endChar": 46
+      },
+      "revId": "e894eee85a539428d4915f037f95914252df2da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

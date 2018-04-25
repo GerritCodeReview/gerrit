@@ -76,11 +76,11 @@ public enum RefPermission implements GerritPermission {
 
   private final String description;
 
-  private RefPermission() {
+  RefPermission() {
     this.description = null;
   }
 
-  private RefPermission(String description) {
+  RefPermission(String description) {
     this.description = checkNotNull(description);
   }
 

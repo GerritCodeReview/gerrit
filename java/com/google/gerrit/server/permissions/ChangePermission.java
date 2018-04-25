@@ -35,11 +35,11 @@ public enum ChangePermission implements ChangePermissionOrLabel {
 
   private final String description;
 
-  private ChangePermission() {
+  ChangePermission() {
     this.description = null;
   }
 
-  private ChangePermission(String description) {
+  ChangePermission(String description) {
     this.description = checkNotNull(description);
   }
 

@@ -14,13 +14,17 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
 import java.util.Date;
+import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.RawParseUtils;
 
 public class ChangeNoteUtil {
   public static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
@@ -97,5 +101,88 @@ public class ChangeNoteUtil {
         author.getId().get() + "@" + serverId,
         when,
         serverIdent.getTimeZone());
+  }
+
+  public static Optional<CommitMessageRange> parseCommitMessageRange(RevCommit commit) {
+    byte[] raw = commit.getRawBuffer();
+    int size = raw.length;
+
+    int subjectStart = RawParseUtils.commitMessage(raw, 0);
+    if (subjectStart < 0 || subjectStart >= size) {
+      return Optional.empty();
+    }
+
+    int subjectEnd = RawParseUtils.endOfParagraph(raw, subjectStart);
+    if (subjectEnd == size) {
+      return Optional.empty();
+    }
+
+    int changeMessageStart;
+
+    if (raw[subjectEnd] == '\n') {
+      changeMessageStart = subjectEnd + 2; // \n\n ends paragraph
+    } else if (raw[subjectEnd] == '\r') {
+      changeMessageStart = subjectEnd + 4; // \r\n\r\n ends paragraph
+    } else {
+      return Optional.empty();
+    }
+
+    int ptr = size - 1;
+    int changeMessageEnd = -1;
+    while (ptr > changeMessageStart) {
+      ptr = RawParseUtils.prevLF(raw, ptr, '\r');
+      if (ptr == -1) {
+        break;
+      }
+      if (raw[ptr] == '\n') {
+        changeMessageEnd = ptr - 1;
+        break;
+      } else if (raw[ptr] == '\r') {
+        changeMessageEnd = ptr - 3;
+        break;
+      }
+    }
+
+    if (ptr <= changeMessageStart) {
+      return Optional.empty();
+    }
+
+    CommitMessageRange range =
+        CommitMessageRange.builder()
+            .subjectStart(subjectStart)
+            .subjectEnd(subjectEnd)
+            .changeMessageStart(changeMessageStart)
+            .changeMessageEnd(changeMessageEnd)
+            .build();
+
+    return Optional.of(range);
+  }
+
+  @AutoValue
+  public abstract static class CommitMessageRange {
+    public abstract int subjectStart();
+
+    public abstract int subjectEnd();
+
+    public abstract int changeMessageStart();
+
+    public abstract int changeMessageEnd();
+
+    public static Builder builder() {
+      return new AutoValue_ChangeNoteUtil_CommitMessageRange.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+      abstract Builder subjectStart(int subjectStart);
+
+      abstract Builder subjectEnd(int subjectEnd);
+
+      abstract Builder changeMessageStart(int changeMessageStart);
+
+      abstract Builder changeMessageEnd(int changeMessageEnd);
+
+      abstract CommitMessageRange build();
+    }
   }
 }

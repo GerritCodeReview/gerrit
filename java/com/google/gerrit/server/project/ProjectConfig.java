@@ -81,6 +81,22 @@ import org.eclipse.jgit.util.StringUtils;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
   public static final String COMMENTLINK = "commentlink";
+  public static final String LABEL = "label";
+  public static final String KEY_FUNCTION = "function";
+  public static final String KEY_DEFAULT_VALUE = "defaultValue";
+  public static final String KEY_COPY_MIN_SCORE = "copyMinScore";
+  public static final String KEY_ALLOW_POST_SUBMIT = "allowPostSubmit";
+  public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
+  public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
+      "copyAllScoresOnMergeFirstParentUpdate";
+  public static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE =
+      "copyAllScoresOnTrivialRebase";
+  public static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
+  public static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
+  public static final String KEY_VALUE = "value";
+  public static final String KEY_CAN_OVERRIDE = "canOverride";
+  public static final String KEY_BRANCH = "branch";
+
   private static final String KEY_MATCH = "match";
   private static final String KEY_HTML = "html";
   private static final String KEY_LINK = "link";
@@ -130,22 +146,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private static final String DASHBOARD = "dashboard";
   private static final String KEY_DEFAULT = "default";
   private static final String KEY_LOCAL_DEFAULT = "local-default";
-
-  private static final String LABEL = "label";
-  private static final String KEY_FUNCTION = "function";
-  private static final String KEY_DEFAULT_VALUE = "defaultValue";
-  private static final String KEY_COPY_MIN_SCORE = "copyMinScore";
-  private static final String KEY_ALLOW_POST_SUBMIT = "allowPostSubmit";
-  private static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
-  private static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
-      "copyAllScoresOnMergeFirstParentUpdate";
-  private static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE =
-      "copyAllScoresOnTrivialRebase";
-  private static final String KEY_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = "copyAllScoresIfNoCodeChange";
-  private static final String KEY_COPY_ALL_SCORES_IF_NO_CHANGE = "copyAllScoresIfNoChange";
-  private static final String KEY_VALUE = "value";
-  private static final String KEY_CAN_OVERRIDE = "canOverride";
-  private static final String KEY_BRANCH = "branch";
 
   private static final String LEGACY_PERMISSION_PUSH_TAG = "pushTag";
   private static final String LEGACY_PERMISSION_PUSH_SIGNED_TAG = "pushSignedTag";

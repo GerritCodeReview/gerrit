@@ -30,6 +30,8 @@ public abstract class TestAccountCreation {
 
   public abstract Optional<String> status();
 
+  public abstract Optional<Boolean> active();
+
   abstract ThrowingFunction<TestAccountCreation, TestAccount> accountCreator();
 
   public static Builder builder(ThrowingFunction<TestAccountCreation, TestAccount> accountCreator) {
@@ -68,6 +70,16 @@ public abstract class TestAccountCreation {
 
     public Builder clearStatus() {
       return status("");
+    }
+
+    abstract Builder active(boolean active);
+
+    public Builder active() {
+      return active(true);
+    }
+
+    public Builder inactive() {
+      return active(false);
     }
 
     abstract Builder accountCreator(

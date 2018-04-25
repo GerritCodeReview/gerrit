@@ -28,6 +28,8 @@ public abstract class TestAccount {
 
   public abstract Optional<String> username();
 
+  public abstract boolean active();
+
   static Builder builder() {
     return new AutoValue_TestAccount.Builder();
   }
@@ -41,6 +43,8 @@ public abstract class TestAccount {
     abstract Builder preferredEmail(Optional<String> fullname);
 
     abstract Builder username(Optional<String> username);
+
+    abstract Builder active(boolean active);
 
     abstract TestAccount build();
   }

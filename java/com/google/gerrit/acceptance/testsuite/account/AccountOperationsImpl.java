@@ -82,6 +82,7 @@ public class AccountOperationsImpl implements AccountOperations {
     String httpPassword = accountCreation.httpPassword().orElse(null);
     accountCreation.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
     accountCreation.status().ifPresent(builder::setStatus);
+    accountCreation.active().ifPresent(builder::setActive);
   }
 
   private static TestAccount toTestAccount(AccountState accountState) {
@@ -91,6 +92,7 @@ public class AccountOperationsImpl implements AccountOperations {
         .preferredEmail(Optional.ofNullable(createdAccount.getPreferredEmail()))
         .fullname(Optional.ofNullable(createdAccount.getFullName()))
         .username(accountState.getUserName())
+        .active(accountState.getAccount().isActive())
         .build();
   }
 
@@ -159,6 +161,7 @@ public class AccountOperationsImpl implements AccountOperations {
       String httpPassword = accountUpdate.httpPassword().orElse(null);
       accountUpdate.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
       accountUpdate.status().ifPresent(builder::setStatus);
+      accountUpdate.active().ifPresent(builder::setActive);
     }
   }
 }

@@ -36,6 +36,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
 import static java.util.stream.Collectors.joining;
 
@@ -692,59 +693,33 @@ class ChangeNotesParser {
       Account.Id realAccountId,
       ChangeNotesCommit commit,
       Timestamp ts) {
-    byte[] raw = commit.getRawBuffer();
-    int size = raw.length;
-    Charset enc = RawParseUtils.parseEncoding(raw);
-
-    int subjectStart = RawParseUtils.commitMessage(raw, 0);
-    if (subjectStart < 0 || subjectStart >= size) {
+    Optional<String> changeMsgString = getChangeMessageString(commit);
+    if (!changeMsgString.isPresent()) {
       return;
     }
 
-    int subjectEnd = RawParseUtils.endOfParagraph(raw, subjectStart);
-    if (subjectEnd == size) {
-      return;
-    }
-
-    int changeMessageStart;
-
-    if (raw[subjectEnd] == '\n') {
-      changeMessageStart = subjectEnd + 2; // \n\n ends paragraph
-    } else if (raw[subjectEnd] == '\r') {
-      changeMessageStart = subjectEnd + 4; // \r\n\r\n ends paragraph
-    } else {
-      return;
-    }
-
-    int ptr = size - 1;
-    int changeMessageEnd = -1;
-    while (ptr > changeMessageStart) {
-      ptr = RawParseUtils.prevLF(raw, ptr, '\r');
-      if (ptr == -1) {
-        break;
-      }
-      if (raw[ptr] == '\n') {
-        changeMessageEnd = ptr - 1;
-        break;
-      } else if (raw[ptr] == '\r') {
-        changeMessageEnd = ptr - 3;
-        break;
-      }
-    }
-
-    if (ptr <= changeMessageStart) {
-      return;
-    }
-
-    String changeMsgString =
-        RawParseUtils.decode(enc, raw, changeMessageStart, changeMessageEnd + 1);
     ChangeMessage changeMessage =
         new ChangeMessage(
             new ChangeMessage.Key(psId.getParentKey(), commit.name()), accountId, ts, psId);
-    changeMessage.setMessage(changeMsgString);
+    changeMessage.setMessage(changeMsgString.get());
     changeMessage.setTag(tag);
     changeMessage.setRealAuthor(realAccountId);
+
     allChangeMessages.add(changeMessage);
+  }
+
+  public static Optional<String> getChangeMessageString(ChangeNotesCommit commit) {
+    byte[] raw = commit.getRawBuffer();
+    Charset enc = RawParseUtils.parseEncoding(raw);
+
+    Optional<ChangeNoteUtil.CommitMessageRange> range = parseCommitMessageRange(commit);
+    if (!range.isPresent()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(
+        RawParseUtils.decode(
+            enc, raw, range.get().changeMessageStart(), range.get().changeMessageEnd() + 1));
   }
 
   private void parseNotes() throws IOException, ConfigInvalidException {
@@ -1091,8 +1066,9 @@ class ChangeNotesParser {
             approvals.values(), PatchSetApproval::getPatchSetId, missing);
 
     if (!missing.isEmpty()) {
-      logger.atWarning().log(
-          "ignoring %s additional entities due to missing patch sets: %s", pruned, missing);
+      logger
+          .atWarning()
+          .log("ignoring %s additional entities due to missing patch sets: %s", pruned, missing);
     }
   }
 

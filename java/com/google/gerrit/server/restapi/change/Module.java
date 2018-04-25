@@ -178,6 +178,8 @@ public class Module extends RestApiModule {
 
     child(CHANGE_KIND, "messages").to(ChangeMessages.class);
     get(CHANGE_MESSAGE_KIND).to(GetChangeMessage.class);
+    delete(CHANGE_MESSAGE_KIND).to(DeleteChangeMessage.class);
+    post(CHANGE_MESSAGE_KIND, "delete").to(DeleteChangeMessage.class);
 
     factory(AccountLoader.Factory.class);
     factory(ChangeEdits.Create.Factory.class);

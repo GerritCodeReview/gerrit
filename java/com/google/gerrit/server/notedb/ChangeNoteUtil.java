@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.auto.value.AutoValue;
 import com.google.inject.Inject;
+import java.util.Optional;
 import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.util.RawParseUtils;
 
 public class ChangeNoteUtil {
   public static final FooterKey FOOTER_ASSIGNEE = new FooterKey("Assignee");
@@ -79,5 +83,70 @@ public class ChangeNoteUtil {
 
   public LegacyChangeNoteWrite getLegacyChangeNoteWrite() {
     return legacyChangeNoteWrite;
+  }
+
+  public static Optional<CommitMessageRange> parseCommitMessageRange(RevCommit commit) {
+    byte[] raw = commit.getRawBuffer();
+    int size = raw.length;
+
+    int subjectStart = RawParseUtils.commitMessage(raw, 0);
+    if (subjectStart < 0 || subjectStart >= size) {
+      return Optional.empty();
+    }
+
+    int subjectEnd = RawParseUtils.endOfParagraph(raw, subjectStart);
+    if (subjectEnd == size) {
+      return Optional.empty();
+    }
+
+    int changeMessageStart;
+
+    if (raw[subjectEnd] == '\n') {
+      changeMessageStart = subjectEnd + 2; // \n\n ends paragraph
+    } else if (raw[subjectEnd] == '\r') {
+      changeMessageStart = subjectEnd + 4; // \r\n\r\n ends paragraph
+    } else {
+      return Optional.empty();
+    }
+
+    int ptr = size - 1;
+    int changeMessageEnd = -1;
+    while (ptr > changeMessageStart) {
+      ptr = RawParseUtils.prevLF(raw, ptr, '\r');
+      if (ptr == -1) {
+        break;
+      }
+      if (raw[ptr] == '\n') {
+        changeMessageEnd = ptr - 1;
+        break;
+      } else if (raw[ptr] == '\r') {
+        changeMessageEnd = ptr - 3;
+        break;
+      }
+    }
+
+    if (ptr <= changeMessageStart) {
+      return Optional.empty();
+    }
+
+    return Optional.of(
+        CommitMessageRange.create(subjectStart, subjectEnd, changeMessageStart, changeMessageEnd));
+  }
+
+  @AutoValue
+  public abstract static class CommitMessageRange {
+    public static CommitMessageRange create(
+        int subjectStart, int subjectEnd, int changeMessageStart, int changeMessageEnd) {
+      return new AutoValue_ChangeNoteUtil_CommitMessageRange(
+          subjectStart, subjectEnd, changeMessageStart, changeMessageEnd);
+    }
+
+    public abstract int subjectStart();
+
+    public abstract int subjectEnd();
+
+    public abstract int changeMessageStart();
+
+    public abstract int changeMessageEnd();
   }
 }

@@ -94,6 +94,54 @@
     },
     {
       "key": {
+        "uuid": "aae6abb9_77f3e071",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-25T12:26:14Z",
+      "side": 1,
+      "message": "I think byte[] is actually better. The choice of InputStream was based on an incorrect assumption about our internal API that I just checked.\n\nI assumed our internal implementation would be serializing to a ByteString (to put in a proto that we send to Bigtable). If that were true, we could call call ser.serialize(obj, ByteString.newOuptut()). and avoid the need for this method entirely. But that doesn\u0027t work. The API we have just takes byte[]s, so what we will need is a method to convert a T to a byte[].\n\nFrom the upstream perspective, the JDBC implementation just puts the result in a PreparedStatement, where using byte[] or InputStream is equally easy.",
+      "parentUuid": "f774feea_6df50e5a",
+      "range": {
+        "startLine": 44,
+        "startChar": 10,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "3dcfe72550a52db3bd3c0238f7ab4ff2e2a7f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21dc7197_34936f43",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-25T12:26:14Z",
+      "side": 1,
+      "message": "I was on the fence about calling it \"serialize\" if it returns an InputStream, but given my comments below, I think it should return byte[], in which case \"serialize\" is definitely a better name.",
+      "parentUuid": "63174942_ecc77fe7",
+      "range": {
+        "startLine": 44,
+        "startChar": 22,
+        "endLine": 44,
+        "endChar": 39
+      },
+      "revId": "3dcfe72550a52db3bd3c0238f7ab4ff2e2a7f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89fe7987_376129ee",
         "filename": "java/com/google/gerrit/server/cache/PersistentCacheBinding.java",
         "patchSetId": 1

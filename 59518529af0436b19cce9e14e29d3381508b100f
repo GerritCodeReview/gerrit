@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e6b0c946_9abb905e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2422,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T12:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00ddaec3_623dbe63",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "563a02e0_1eb82b66",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "59518529af0436b19cce9e14e29d3381508b100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b494635b_82d7e572",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6075,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T12:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "563a02e0_1eb82b66",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b56c7471_f3272386",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6080,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T12:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f935906b_6e1f4def",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "045f3d4b_85bcf2fb",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "59518529af0436b19cce9e14e29d3381508b100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "245cbeb0_b8a62591",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6088,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T12:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "045f3d4b_85bcf2fb",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "45ec6dc2_038ab3ef",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T12:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59af8bba_9c6363a5",
+      "range": {
+        "startLine": 1681,
+        "startChar": 28,
+        "endLine": 1681,
+        "endChar": 38
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fca4ada_dbd067c4",
         "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 2
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "6277fe27_653d93fd",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T12:59:01Z",
+      "side": 1,
+      "message": "Yes. We should do it. Thanks because this also reminds me that the UUID of a change message is different in NoteDb and ReviewDb. If we want to update both of them, we need to use the index of the change mesage rather than its UUID. Of course, it\u0027s a little bit easier for UI to provide UUID rather than index as an input.",
+      "parentUuid": "3fca4ada_dbd067c4",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 5
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6704f808_703ce99c",
         "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
         "patchSetId": 2
@@ -136,6 +256,30 @@
       "revId": "59518529af0436b19cce9e14e29d3381508b100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da2ad8a6_b3e41ef8",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-25T12:59:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6704f808_703ce99c",
+      "range": {
+        "startLine": 129,
+        "startChar": 13,
+        "endLine": 129,
+        "endChar": 35
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -117,6 +117,8 @@ import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.server.validators.AccountActivationValidationListener;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
@@ -215,6 +217,9 @@ public class AccountIT extends AbstractDaemonTest {
   private LoadingCache<Account.Id, Optional<AccountState>> accountsCache;
 
   @Inject private AccountOperations accountOperations;
+
+  @Inject
+  private DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners;
 
   private AccountIndexedCounter accountIndexedCounter;
   private RegistrationHandle accountIndexEventCounterHandle;
@@ -516,6 +521,95 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().id("user").setActive(true);
     assertThat(gApi.accounts().id("user").getActive()).isTrue();
     accountIndexedCounter.assertReindexOf(user);
+  }
+
+  @Test
+  public void validateAccountActivation() throws Exception {
+    com.google.gerrit.acceptance.testsuite.account.TestAccount activatableAccount =
+        accountOperations.newAccount().inactive().preferredEmail("foo@activatable.com").create();
+    com.google.gerrit.acceptance.testsuite.account.TestAccount deactivatableAccount =
+        accountOperations.newAccount().preferredEmail("foo@deactivatable.com").create();
+    RegistrationHandle registrationHandle =
+        accountActivationValidationListeners.add(
+            new AccountActivationValidationListener() {
+              @Override
+              public void validateActivation(AccountState account) throws ValidationException {
+                String preferredEmail = account.getAccount().getPreferredEmail();
+                if (preferredEmail == null || !preferredEmail.endsWith("@activatable.com")) {
+                  throw new ValidationException("not allowed to active account");
+                }
+              }
+
+              @Override
+              public void validateDeactivation(AccountState account) throws ValidationException {
+                String preferredEmail = account.getAccount().getPreferredEmail();
+                if (preferredEmail == null || !preferredEmail.endsWith("@deactivatable.com")) {
+                  throw new ValidationException("not allowed to deactive account");
+                }
+              }
+            });
+    try {
+      /* Test account that can be activated, but not deactivated */
+      // Deactivate account that is already inactive
+      try {
+        gApi.accounts().id(activatableAccount.accountId().get()).setActive(false);
+        fail("Expected exception");
+      } catch (ResourceConflictException e) {
+        assertThat(e.getMessage()).isEqualTo("account not active");
+      }
+      assertThat(accountOperations.account(activatableAccount.accountId()).get().active())
+          .isFalse();
+
+      // Activate account that can be activated
+      gApi.accounts().id(activatableAccount.accountId().get()).setActive(true);
+      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+
+      // Activate account that is already active
+      gApi.accounts().id(activatableAccount.accountId().get()).setActive(true);
+      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+
+      // Try deactivating account that cannot be deactivated
+      try {
+        gApi.accounts().id(activatableAccount.accountId().get()).setActive(false);
+        fail("Expected exception");
+      } catch (ResourceConflictException e) {
+        assertThat(e.getMessage()).isEqualTo("not allowed to deactive account");
+      }
+      assertThat(accountOperations.account(activatableAccount.accountId()).get().active()).isTrue();
+
+      /* Test account that can be deactivated, but not activated */
+      // Activate account that is already inactive
+      gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(true);
+      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
+          .isTrue();
+
+      // Deactivate account that can be deactivated
+      gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(false);
+      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
+          .isFalse();
+
+      // Deactivate account that is already inactive
+      try {
+        gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(false);
+        fail("Expected exception");
+      } catch (ResourceConflictException e) {
+        assertThat(e.getMessage()).isEqualTo("account not active");
+      }
+      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
+          .isFalse();
+
+      // Try activating account that cannot be activated
+      try {
+        gApi.accounts().id(deactivatableAccount.accountId().get()).setActive(true);
+        fail("Expected exception");
+      } catch (ResourceConflictException e) {
+        assertThat(e.getMessage()).isEqualTo("not allowed to active account");
+      }
+      assertThat(accountOperations.account(deactivatableAccount.accountId()).get().active())
+          .isFalse();
+    } finally {
+      registrationHandle.remove();
+    }
   }
 
   @Test

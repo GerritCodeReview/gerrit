@@ -240,6 +240,11 @@ public class ChangeTable extends NavigationTable<ChangeInfo> {
           row,
           C_STATUS,
           Util.toLongString(status) + (c.isPrivate() ? (" " + Util.C.isPrivate()) : ""));
+    } else if (c.isWorkInProgress()) {
+      table.setText(
+          row,
+          C_STATUS,
+          Util.C.workInProgress() + (c.isPrivate() ? (" " + Util.C.isPrivate()) : ""));
     } else if (!c.mergeable()) {
       table.setText(
           row,

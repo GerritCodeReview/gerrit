@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a828b5f_6a8884af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-25T11:53:08Z",
+      "side": 1,
+      "message": "does this really do anything? AFAIK, the @Before methods are invoked through reflection, not through object dispatch, which would mean you can have setUp in parent and child defined, and both would get called.",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "55065875f9e17466a7ee3b744fefbf0526d5d913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

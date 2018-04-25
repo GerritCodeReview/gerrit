@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "077bcc43_c4451ee9",
+        "filename": "java/com/google/gerrit/server/cache/h2/ObjectKeyTypeImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-25T14:26:45Z",
+      "side": 0,
+      "message": "I\u0027m not sure whether we can simply drop the serialVersionUID. The lambda still represents an own class definition and without specifying the version, it will be generated automatically, which is discouraged (see Effective Java).",
+      "range": {
+        "startLine": 48,
+        "startChar": 32,
+        "endLine": 48,
+        "endChar": 53
+      },
+      "revId": "1ef8ee617201c5908cb946719bd1b02caf39893e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

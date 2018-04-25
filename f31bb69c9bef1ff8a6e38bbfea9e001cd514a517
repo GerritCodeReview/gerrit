@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "e48c5726_362b5e60",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-25T15:42:12Z",
+      "side": 1,
+      "message": "I absolutely agree.",
+      "parentUuid": "e49edc2f_67430d17",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 92,
+        "endChar": 34
+      },
+      "revId": "f31bb69c9bef1ff8a6e38bbfea9e001cd514a517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34188f78_9390e4c3",
         "filename": "java/com/google/gerrit/server/cache/EnumCacheSerializer.java",
         "patchSetId": 3

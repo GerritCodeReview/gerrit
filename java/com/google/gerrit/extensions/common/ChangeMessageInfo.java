@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class ChangeMessageInfo {
   public String id;
@@ -24,4 +25,24 @@ public class ChangeMessageInfo {
   public Timestamp date;
   public String message;
   public Integer _revisionNumber;
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ChangeMessageInfo) {
+      ChangeMessageInfo cmi = (ChangeMessageInfo) o;
+      return Objects.equals(id, cmi.id)
+          && Objects.equals(tag, cmi.tag)
+          && Objects.equals(author, cmi.author)
+          && Objects.equals(realAuthor, cmi.realAuthor)
+          && Objects.equals(date, cmi.date)
+          && Objects.equals(message, cmi.message)
+          && Objects.equals(_revisionNumber, cmi._revisionNumber);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, tag, author, realAuthor, date, message, _revisionNumber);
+  }
 }

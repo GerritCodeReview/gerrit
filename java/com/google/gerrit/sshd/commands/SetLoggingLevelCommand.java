@@ -66,7 +66,8 @@ public class SetLoggingLevelCommand extends SshCommand {
       reset();
     } else {
       for (Enumeration<Logger> logger = LogManager.getCurrentLoggers();
-          logger.hasMoreElements(); ) {
+          logger.hasMoreElements();
+          ) {
         Logger log = logger.nextElement();
         if (name == null || log.getName().contains(name)) {
           log.setLevel(Level.toLevel(level.name()));

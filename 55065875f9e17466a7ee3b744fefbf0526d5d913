@@ -70,6 +70,30 @@
       "revId": "55065875f9e17466a7ee3b744fefbf0526d5d913",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bccf8feb_b99846ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-04-25T13:06:33Z",
+      "side": 1,
+      "message": "thanks, learned something new today!",
+      "parentUuid": "33931741_aaf74620",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "55065875f9e17466a7ee3b744fefbf0526d5d913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

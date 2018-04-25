@@ -22,6 +22,30 @@
       "revId": "e9890329069385a6c8af9c21b38e2245da9bfb76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0678abf_cfacfdd8",
+        "filename": "javatests/com/google/gerrit/acceptance/ProjectResetterTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T13:09:41Z",
+      "side": 1,
+      "message": "Fixed by https://gerrit-review.googlesource.com/174291",
+      "parentUuid": "62ea81d4_28c735b8",
+      "range": {
+        "startLine": 435,
+        "startChar": 4,
+        "endLine": 435,
+        "endChar": 12
+      },
+      "revId": "e9890329069385a6c8af9c21b38e2245da9bfb76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

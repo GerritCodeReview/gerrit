@@ -123,7 +123,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
   private String systemTimeZone;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUpTestEnvironment() throws Exception {
     setTimeForTesting();
 
     serverIdent = new PersonIdent("Gerrit Server", "noreply@gerrit.com", TimeUtil.nowTs(), TZ);

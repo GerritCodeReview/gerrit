@@ -137,7 +137,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Before
-  public void setUp() throws Exception {
+  public void setUpPatchSetLock() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       patchSetLock = Util.patchSetLock();
       u.getConfig().getLabelSections().put(patchSetLock.getName(), patchSetLock);
@@ -155,7 +155,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @After
-  public void tearDown() throws Exception {
+  public void resetPublishCommentOnPushOption() throws Exception {
     setApiUser(admin);
     GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
     prefs.publishCommentsOnPush = false;

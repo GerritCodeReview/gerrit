@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40544788_1e533c0c",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T11:24:23Z",
+      "side": 1,
+      "message": "Something is missing here:\n\n  this.groupIncludeCache \u003d groupIncludeCache",
+      "revId": "e894eee85a539428d4915f037f95914252df2da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f99ef0c_40f59a82",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T11:24:23Z",
+      "side": 1,
+      "message": "RefNames::isRefsGroups",
+      "range": {
+        "startLine": 412,
+        "startChar": 16,
+        "endLine": 412,
+        "endChar": 46
+      },
+      "revId": "e894eee85a539428d4915f037f95914252df2da5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

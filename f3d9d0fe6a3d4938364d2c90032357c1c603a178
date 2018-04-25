@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef154918_e3c451b2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/ListCachesIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T11:34:05Z",
+      "side": 1,
+      "message": "nit: This",
+      "range": {
+        "startLine": 59,
+        "startChar": 7,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "f3d9d0fe6a3d4938364d2c90032357c1c603a178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

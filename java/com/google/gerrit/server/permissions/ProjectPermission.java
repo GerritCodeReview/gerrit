@@ -88,11 +88,11 @@ public enum ProjectPermission implements GerritPermission {
 
   private final String description;
 
-  private ProjectPermission() {
+  ProjectPermission() {
     this.description = null;
   }
 
-  private ProjectPermission(String description) {
+  ProjectPermission(String description) {
     this.description = checkNotNull(description);
   }
 

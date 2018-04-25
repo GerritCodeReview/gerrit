@@ -15,9 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
-import static java.nio.charset.StandardCharsets.US_ASCII;
 
-import com.google.gerrit.acceptance.SshEnabled;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
@@ -25,17 +23,10 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.InternalAccountUpdate;
-import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.KeyPair;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -49,26 +40,13 @@ public class AccountOperationsImpl implements AccountOperations {
   private final Accounts accounts;
   private final AccountsUpdate accountsUpdate;
   private final Sequences seq;
-  private final SshKeyCache sshKeyCache;
-  private final VersionedAuthorizedKeys.Accessor authorizedKeys;
-  private final boolean sshEnabled;
 
   @Inject
   public AccountOperationsImpl(
-      Accounts accounts,
-      @ServerInitiated AccountsUpdate accountsUpdate,
-      Sequences seq,
-      SshKeyCache sshKeyCache,
-      VersionedAuthorizedKeys.Accessor authorizedKeys,
-      // TODO(ekempin,aliceks): Find a way not to use this config parameter here. Ideally,
-      // completely factor out SSH from this class.
-      @SshEnabled boolean sshEnabled) {
+      Accounts accounts, @ServerInitiated AccountsUpdate accountsUpdate, Sequences seq) {
     this.accounts = accounts;
     this.accountsUpdate = accountsUpdate;
     this.seq = seq;
-    this.sshKeyCache = sshKeyCache;
-    this.authorizedKeys = authorizedKeys;
-    this.sshEnabled = sshEnabled;
   }
 
   @Override
@@ -86,13 +64,7 @@ public class AccountOperationsImpl implements AccountOperations {
         (account, updateBuilder) ->
             fillBuilder(updateBuilder, accountCreation, account.getAccount().getId());
     AccountState createdAccount = createAccount(accountUpdater);
-
-    TestAccount.Builder builder = toTestAccount(createdAccount);
-    Optional<String> userName = createdAccount.getUserName();
-    if (sshEnabled && userName.isPresent()) {
-      addSshKeyPair(builder, createdAccount.getAccount(), userName.get());
-    }
-    return builder.build();
+    return toTestAccount(createdAccount);
   }
 
   private AccountState createAccount(AccountsUpdate.AccountUpdater accountUpdater)
@@ -112,33 +84,14 @@ public class AccountOperationsImpl implements AccountOperations {
     accountCreation.status().ifPresent(builder::setStatus);
   }
 
-  private void addSshKeyPair(TestAccount.Builder builder, Account account, String username)
-      throws Exception {
-    KeyPair sshKey = genSshKey();
-    authorizedKeys.addKey(account.getId(), publicKey(sshKey, account.getPreferredEmail()));
-    sshKeyCache.evict(username);
-    builder.sshKeyPair(sshKey);
-  }
-
-  private static KeyPair genSshKey() throws JSchException {
-    JSch jsch = new JSch();
-    return KeyPair.genKeyPair(jsch, KeyPair.RSA);
-  }
-
-  private static String publicKey(KeyPair sshKey, String comment)
-      throws UnsupportedEncodingException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    sshKey.writePublicKey(out, comment);
-    return out.toString(US_ASCII.name()).trim();
-  }
-
-  private static TestAccount.Builder toTestAccount(AccountState accountState) {
+  private static TestAccount toTestAccount(AccountState accountState) {
     Account createdAccount = accountState.getAccount();
     return TestAccount.builder()
         .accountId(createdAccount.getId())
         .preferredEmail(Optional.ofNullable(createdAccount.getPreferredEmail()))
         .fullname(Optional.ofNullable(createdAccount.getFullName()))
-        .username(accountState.getUserName());
+        .username(accountState.getUserName())
+        .build();
   }
 
   private static InternalAccountUpdate.Builder setPreferredEmail(
@@ -175,7 +128,7 @@ public class AccountOperationsImpl implements AccountOperations {
               .get(accountId)
               .orElseThrow(
                   () -> new IllegalStateException("Tried to get non-existing test account"));
-      return toTestAccount(account).build();
+      return toTestAccount(account);
     }
 
     @Override
@@ -189,7 +142,7 @@ public class AccountOperationsImpl implements AccountOperations {
           (account, updateBuilder) -> fillBuilder(updateBuilder, accountUpdate, accountId);
       Optional<AccountState> updatedAccount = updateAccount(accountUpdater);
       checkState(updatedAccount.isPresent(), "Tried to update non-existing test account");
-      return toTestAccount(updatedAccount.get()).build();
+      return toTestAccount(updatedAccount.get());
     }
 
     private Optional<AccountState> updateAccount(AccountsUpdate.AccountUpdater accountUpdater)

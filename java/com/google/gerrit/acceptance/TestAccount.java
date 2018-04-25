@@ -19,8 +19,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.net.InetAddresses;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.mail.Address;
-import com.jcraft.jsch.KeyPair;
-import java.io.ByteArrayOutputStream;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.List;
@@ -45,29 +43,15 @@ public class TestAccount {
   public final String email;
   public final Address emailAddress;
   public final String fullName;
-  public final KeyPair sshKey;
   public final String httpPassword;
 
-  TestAccount(
-      Account.Id id,
-      String username,
-      String email,
-      String fullName,
-      KeyPair sshKey,
-      String httpPassword) {
+  TestAccount(Account.Id id, String username, String email, String fullName, String httpPassword) {
     this.id = id;
     this.username = username;
     this.email = email;
     this.emailAddress = new Address(fullName, email);
     this.fullName = fullName;
-    this.sshKey = sshKey;
     this.httpPassword = httpPassword;
-  }
-
-  public byte[] privateKey() {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    sshKey.writePrivateKey(out);
-    return out.toByteArray();
   }
 
   public PersonIdent getIdent() {

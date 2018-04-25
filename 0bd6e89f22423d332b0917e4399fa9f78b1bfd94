@@ -46,6 +46,30 @@
       "revId": "0bd6e89f22423d332b0917e4399fa9f78b1bfd94",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c79d1b0_ad21b843",
+        "filename": "java/com/google/gerrit/server/cache/h2/StringKeyTypeImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-25T12:31:31Z",
+      "side": 0,
+      "message": "Per [1] I think we agree that a) this needs to be added back, and b) it will make KeyType a non-singleton but that\u0027s ok.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/173550/1/java/com/google/gerrit/server/cache/h2/EntryType.java#40",
+      "parentUuid": "674b5c8f_b86a291f",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "0bd6e89f22423d332b0917e4399fa9f78b1bfd94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

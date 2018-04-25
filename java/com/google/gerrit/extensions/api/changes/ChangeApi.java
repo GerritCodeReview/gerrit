@@ -617,7 +617,7 @@ public interface ChangeApi {
     }
 
     @Override
-    public ChangeMessageApi message(String id) {
+    public ChangeMessageApi message(String id) throws RestApiException {
       throw new NotImplementedException();
     }
   }

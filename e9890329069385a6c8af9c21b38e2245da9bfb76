@@ -46,6 +46,30 @@
       "revId": "e9890329069385a6c8af9c21b38e2245da9bfb76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ed92dd4_783cc7e7",
+        "filename": "javatests/com/google/gerrit/acceptance/ProjectResetterTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-25T13:11:31Z",
+      "side": 1,
+      "message": "Actually I put the comment on the wrong line.  It\u0027s `ref1` that is unused.",
+      "parentUuid": "b0678abf_cfacfdd8",
+      "range": {
+        "startLine": 435,
+        "startChar": 4,
+        "endLine": 435,
+        "endChar": 12
+      },
+      "revId": "e9890329069385a6c8af9c21b38e2245da9bfb76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

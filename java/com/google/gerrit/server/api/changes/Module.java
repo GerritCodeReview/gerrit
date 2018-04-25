@@ -31,5 +31,6 @@ public class Module extends FactoryModule {
     factory(ReviewerApiImpl.Factory.class);
     factory(RevisionReviewerApiImpl.Factory.class);
     factory(ChangeEditApiImpl.Factory.class);
+    factory(ChangeMessageApiImpl.Factory.class);
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
+import static com.google.gerrit.server.change.ChangeMessageResource.CHANGE_MESSAGE_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.CommentResource.COMMENT_KIND;
 import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT_KIND;
@@ -65,6 +66,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), REVISION_KIND);
     DynamicMap.mapOf(binder(), CHANGE_EDIT_KIND);
     DynamicMap.mapOf(binder(), VOTE_KIND);
+    DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
 
     get(CHANGE_KIND).to(GetChange.class);
     post(CHANGE_KIND, "merge").to(CreateMergePatchSet.class);
@@ -173,6 +175,11 @@ public class Module extends RestApiModule {
     get(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Get.class);
     get(CHANGE_EDIT_KIND, "meta").to(ChangeEdits.GetMeta.class);
     post(COMMIT_KIND, "cherrypick").to(CherryPickCommit.class);
+
+    child(CHANGE_KIND, "messages").to(ChangeMessages.class);
+    get(CHANGE_MESSAGE_KIND).to(GetChangeMessage.class);
+    delete(CHANGE_MESSAGE_KIND).to(DeleteChangeMessage.class);
+    post(CHANGE_MESSAGE_KIND, "delete").to(DeleteChangeMessage.class);
 
     factory(AccountLoader.Factory.class);
     factory(ChangeEdits.Create.Factory.class);

@@ -334,14 +334,14 @@ public abstract class AbstractDaemonTest {
         // Don't reset all refs so that refs/sequences/changes is not touched and change IDs are
         // not reused.
         .reset(allProjects, RefNames.REFS_CONFIG)
-        // Don't reset group branches since this would make the groups inconsistent between
-        // ReviewDb and NoteDb.
         // Don't reset refs/sequences/accounts so that account IDs are not reused.
         .reset(
             allUsers,
             RefNames.REFS_CONFIG,
             RefNames.REFS_USERS + "*",
             RefNames.REFS_EXTERNAL_IDS,
+            RefNames.REFS_GROUPNAMES,
+            RefNames.REFS_GROUPS + "*",
             RefNames.REFS_STARRED_CHANGES + "*",
             RefNames.REFS_DRAFT_COMMENTS + "*");
   }

@@ -105,6 +105,8 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
     post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
     put(CHANGE_KIND, "message").to(PutMessage.class);
+    delete(CHANGE_KIND, "change_message").to(DeleteChangeMessage.class);
+    post(CHANGE_KIND, "change_message.delete").to(DeleteChangeMessage.class);
 
     post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);

@@ -14,28 +14,15 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.project.ProjectIndex;
-import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.OnlineUpgrader;
-import com.google.gerrit.server.index.SingleVersionModule;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.Singleton;
-import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.util.Map;
-import org.eclipse.jgit.lib.Config;
 
-public class ElasticIndexModule extends AbstractModule {
+public class ElasticIndexModule extends AbstractIndexModule {
   public static ElasticIndexModule singleVersionWithExplicitVersions(
       Map<String, Integer> versions, int threads, boolean slave) {
     return new ElasticIndexModule(versions, threads, false, slave);
@@ -49,74 +36,33 @@ public class ElasticIndexModule extends AbstractModule {
     return new ElasticIndexModule(null, 0, false, slave);
   }
 
-  private final Map<String, Integer> singleVersions;
-  private final int threads;
-  private final boolean onlineUpgrade;
-  private final boolean slave;
-
   private ElasticIndexModule(
       Map<String, Integer> singleVersions, int threads, boolean onlineUpgrade, boolean slave) {
-    if (singleVersions != null) {
-      checkArgument(!onlineUpgrade, "online upgrade is incompatible with single version map");
-    }
-    this.singleVersions = singleVersions;
-    this.threads = threads;
-    this.onlineUpgrade = onlineUpgrade;
-    this.slave = slave;
+    super(singleVersions, threads, onlineUpgrade, slave);
   }
 
   @Override
-  protected void configure() {
-    if (slave) {
-      bind(AccountIndex.Factory.class).toInstance(ElasticIndexModule::createDummyIndexFactory);
-      bind(ChangeIndex.Factory.class).toInstance(ElasticIndexModule::createDummyIndexFactory);
-      bind(ProjectIndex.Factory.class).toInstance(ElasticIndexModule::createDummyIndexFactory);
-    } else {
-      install(
-          new FactoryModuleBuilder()
-              .implement(AccountIndex.class, ElasticAccountIndex.class)
-              .build(AccountIndex.Factory.class));
-      install(
-          new FactoryModuleBuilder()
-              .implement(ChangeIndex.class, ElasticChangeIndex.class)
-              .build(ChangeIndex.Factory.class));
-      install(
-          new FactoryModuleBuilder()
-              .implement(ProjectIndex.class, ElasticProjectIndex.class)
-              .build(ProjectIndex.Factory.class));
-    }
-    install(
-        new FactoryModuleBuilder()
-            .implement(GroupIndex.class, ElasticGroupIndex.class)
-            .build(GroupIndex.Factory.class));
-
-    install(new IndexModule(threads, slave));
-    if (singleVersions == null) {
-      install(new MultiVersionModule());
-    } else {
-      install(new SingleVersionModule(singleVersions));
-    }
+  protected Class<? extends AccountIndex> getAccountIndex() {
+    return ElasticAccountIndex.class;
   }
 
-  @SuppressWarnings("unused")
-  private static <T> T createDummyIndexFactory(Schema<?> schema) {
-    throw new UnsupportedOperationException();
+  @Override
+  protected Class<? extends ChangeIndex> getChangeIndex() {
+    return ElasticChangeIndex.class;
   }
 
-  @Provides
-  @Singleton
-  IndexConfig getIndexConfig(@GerritServerConfig Config cfg) {
-    return IndexConfig.fromConfig(cfg).separateChangeSubIndexes(true).build();
+  @Override
+  protected Class<? extends GroupIndex> getGroupIndex() {
+    return ElasticGroupIndex.class;
   }
 
-  private class MultiVersionModule extends LifecycleModule {
-    @Override
-    public void configure() {
-      bind(VersionManager.class).to(ElasticVersionManager.class);
-      listener().to(ElasticVersionManager.class);
-      if (onlineUpgrade) {
-        listener().to(OnlineUpgrader.class);
-      }
-    }
+  @Override
+  protected Class<? extends ProjectIndex> getProjectIndex() {
+    return ElasticProjectIndex.class;
+  }
+
+  @Override
+  protected Class<? extends VersionManager> getVersionManager() {
+    return ElasticVersionManager.class;
   }
 }

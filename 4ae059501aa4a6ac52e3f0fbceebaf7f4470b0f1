@@ -23,6 +23,30 @@
       "revId": "4ae059501aa4a6ac52e3f0fbceebaf7f4470b0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba020434_93b0a559",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestAccountCreation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T07:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4af2063d_7d3d8eae",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 51
+      },
+      "revId": "4ae059501aa4a6ac52e3f0fbceebaf7f4470b0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

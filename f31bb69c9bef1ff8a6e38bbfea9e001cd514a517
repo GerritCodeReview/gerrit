@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "34188f78_9390e4c3",
+        "filename": "java/com/google/gerrit/server/cache/EnumCacheSerializer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-25T12:11:06Z",
+      "side": 1,
+      "message": "Actually this could avoid the byte array allocation by using an OutputStreamWriter. (Granted, for small strings, it\u0027s probably a wash in terms of total memory allocation.)",
+      "revId": "f31bb69c9bef1ff8a6e38bbfea9e001cd514a517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83d3e88e_9745fd4d",
         "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
         "patchSetId": 3

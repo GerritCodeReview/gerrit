@@ -118,6 +118,8 @@
   };
   catchErrors();
 
+  GrJankDetector.start();
+
   const GrReporting = Polymer({
     is: 'gr-reporting',
 

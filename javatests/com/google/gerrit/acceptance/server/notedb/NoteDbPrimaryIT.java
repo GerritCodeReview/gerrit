@@ -356,7 +356,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
     c.setNoteDbState(null);
     db.changes().update(Collections.singleton(c));
 
-    exception.expect(OrmRuntimeException.class);
+    exception.expect(PrimaryStorageMigrator.NoNoteDbStateException.class);
     exception.expectMessage("no note_db_state");
     migrator.migrateToNoteDbPrimary(id);
   }

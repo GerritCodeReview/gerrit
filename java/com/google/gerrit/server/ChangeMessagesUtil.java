@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
@@ -27,7 +28,9 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.update.BatchUpdateReviewDb;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -126,6 +129,71 @@ public class ChangeMessagesUtil {
     update.setChangeMessage(changeMessage.getMessage());
     update.setTag(changeMessage.getTag());
     db.changeMessages().insert(Collections.singleton(changeMessage));
+  }
+
+  /**
+   * Replace an existing change message with the provided new message.
+   *
+   * <p>The ID of a change message is different between NoteDb and ReviewDb. In NoteDb, it's the
+   * commit SHA-1, but in ReviewDb it's generated randomly. To make sure the change message can be
+   * deleted from both NoteDb and ReviewDb, the index of the change message must be used rather than
+   * its ID.
+   *
+   * @param db the {@code ReviewDb} instance to update.
+   * @param update change update.
+   * @param targetMessageIdx the index of the target change message.
+   * @param newMessage the new message which is going to replace the old.
+   * @throws OrmException
+   */
+  public void replaceChangeMessage(
+      ReviewDb db, ChangeUpdate update, int targetMessageIdx, String newMessage)
+      throws OrmException {
+    if (PrimaryStorage.of(update.getChange()).equals(PrimaryStorage.REVIEW_DB)) {
+      if (db instanceof BatchUpdateReviewDb) {
+        db = ((BatchUpdateReviewDb) db).unsafeGetDelegate();
+      }
+      db = unwrapDb(db);
+
+      List<ChangeMessage> messagesInReviewDb =
+          sortChangeMessages(db.changeMessages().byChange(update.getId()));
+      if (migration.readChanges()) {
+        sanityCheckForChangeMessages(messagesInReviewDb, update.getNotes().getChangeMessages());
+      }
+      ChangeMessage targetMessage = messagesInReviewDb.get(targetMessageIdx);
+      targetMessage.setMessage(newMessage);
+      db.changeMessages().upsert(Collections.singleton(targetMessage));
+    }
+
+    update.deleteChangeMessageByRewritingHistory(targetMessageIdx, newMessage);
+  }
+
+  private static void sanityCheckForChangeMessages(
+      List<ChangeMessage> messagesInReviewDb, List<ChangeMessage> messagesInNoteDb) {
+    String message =
+        String.format(
+            "Change messages in ReivewDb and NoteDb don't match: NoteDb %s; ReviewDb %s",
+            messagesInNoteDb, messagesInReviewDb);
+    if (messagesInReviewDb.size() != messagesInNoteDb.size()) {
+      throw new IllegalStateException(message);
+    }
+
+    for (int i = 0; i < messagesInReviewDb.size(); i++) {
+      ChangeMessage messageInReviewDb = messagesInReviewDb.get(i);
+      ChangeMessage messageInNoteDb = messagesInNoteDb.get(i);
+
+      // Don't compare the keys because they are different for the same change message in NoteDb and
+      // ReviewDb.
+      boolean isEqual =
+          Objects.equals(messageInReviewDb.getAuthor(), messageInNoteDb.getAuthor())
+              && Objects.equals(messageInReviewDb.getWrittenOn(), messageInNoteDb.getWrittenOn())
+              && Objects.equals(messageInReviewDb.getMessage(), messageInNoteDb.getMessage())
+              && Objects.equals(messageInReviewDb.getPatchSetId(), messageInNoteDb.getPatchSetId())
+              && Objects.equals(messageInReviewDb.getTag(), messageInNoteDb.getTag())
+              && Objects.equals(messageInReviewDb.getRealAuthor(), messageInNoteDb.getRealAuthor());
+      if (!isEqual) {
+        throw new IllegalStateException(message);
+      }
+    }
   }
 
   /**

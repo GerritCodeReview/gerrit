@@ -2260,4 +2260,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       u.save();
     }
   }
+
+  private PushOneCommit.Result amendChange(String changeId, String ref) throws Exception {
+    return amendChange(changeId, ref, admin, testRepo);
+  }
 }

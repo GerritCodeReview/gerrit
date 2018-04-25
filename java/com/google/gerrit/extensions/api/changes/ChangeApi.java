@@ -19,6 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -282,6 +283,14 @@ public interface ChangeApi {
 
   /** Check if this change is a pure revert of claimedOriginal (SHA1 in 40 digit hex). */
   PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException;
+
+  /**
+   * Get all messages of a change with detailed account info.
+   *
+   * @return a list of messages sorted by their creation time.
+   * @throws RestApiException
+   */
+  List<ChangeMessageInfo> messages() throws RestApiException;
 
   abstract class SuggestedReviewersRequest {
     private String query;
@@ -588,6 +597,11 @@ public interface ChangeApi {
 
     @Override
     public PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ChangeMessageInfo> messages() throws RestApiException {
       throw new NotImplementedException();
     }
   }

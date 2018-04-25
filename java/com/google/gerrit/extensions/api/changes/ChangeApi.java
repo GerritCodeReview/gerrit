@@ -78,6 +78,23 @@ public interface ChangeApi {
    */
   ReviewerApi reviewer(String id) throws RestApiException;
 
+  /**
+   * Look up a change message of a change by its id.
+   *
+   * @param
+   */
+
+  /**
+   * Look up a change message of a change by its id.
+   *
+   * @param id the id of the change message. Notes that in NoteDb, this id is the {@code ObjectId}
+   *     of a commit on the change meta branch. In ReviewDb, it's a UUID generated randomly. That
+   *     means change mesage id could be different between NoteDb and ReviewDb.
+   * @return API for accessing a change message.
+   * @throws RestApiException if the id is not valid.
+   */
+  ChangeMessageApi message(String id) throws RestApiException;
+
   void abandon() throws RestApiException;
 
   void abandon(AbandonInput in) throws RestApiException;
@@ -335,6 +352,11 @@ public interface ChangeApi {
 
     @Override
     public RevisionApi revision(String id) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeMessageApi message(String id) {
       throw new NotImplementedException();
     }
 

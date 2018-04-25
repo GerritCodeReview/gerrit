@@ -17,15 +17,7 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.extensions.common.EditInfo;
-import com.google.gerrit.extensions.common.MergePatchSetInput;
-import com.google.gerrit.extensions.common.PureRevertInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
-import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.common.*;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Arrays;
@@ -282,6 +274,25 @@ public interface ChangeApi {
 
   /** Check if this change is a pure revert of claimedOriginal (SHA1 in 40 digit hex). */
   PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException;
+
+  /**
+   * Look up a change message of a change by its id.
+   *
+   * @param id the id of the change message. Notes that in NoteDb, this id is the {@code ObjectId}
+   *     of a commit on the change meta branch. In ReviewDb, it's a UUID generated randomly. That
+   *     means a change message id could be different between NoteDb and ReviewDb.
+   * @return API for accessing a change message.
+   * @throws RestApiException if the id is invalid.
+   */
+  ChangeMessageApi message(String id) throws RestApiException;
+
+  /**
+   * Get all messages of a change with detailed account info.
+   *
+   * @return messages sorted by the creation time of the change messages.
+   * @throws RestApiException
+   */
+  List<ChangeMessageInfo> messages() throws RestApiException;
 
   abstract class SuggestedReviewersRequest {
     private String query;
@@ -588,6 +599,16 @@ public interface ChangeApi {
 
     @Override
     public PureRevertInfo pureRevert(String claimedOriginal) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeMessageApi message(String id) {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ChangeMessageInfo> messages() {
       throw new NotImplementedException();
     }
   }

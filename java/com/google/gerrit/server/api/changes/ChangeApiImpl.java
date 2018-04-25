@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
+import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -37,27 +38,20 @@ import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
 import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.common.AccountInfo;
-import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.extensions.common.EditInfo;
-import com.google.gerrit.extensions.common.Input;
-import com.google.gerrit.extensions.common.MergePatchSetInput;
-import com.google.gerrit.extensions.common.PureRevertInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
-import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.common.*;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.restapi.change.Abandon;
 import com.google.gerrit.server.restapi.change.ChangeIncludedIn;
+import com.google.gerrit.server.restapi.change.ChangeMessages;
 import com.google.gerrit.server.restapi.change.Check;
 import com.google.gerrit.server.restapi.change.CreateMergePatchSet;
 import com.google.gerrit.server.restapi.change.DeleteAssignee;
@@ -111,6 +105,8 @@ class ChangeApiImpl implements ChangeApi {
   private final Revisions revisions;
   private final ReviewerApiImpl.Factory reviewerApi;
   private final RevisionApiImpl.Factory revisionApi;
+  private final ChangeMessageApiImpl.Factory changeMessageApi;
+  private final ChangeMessages changeMessages;
   private final SuggestChangeReviewers suggestReviewers;
   private final ChangeResource change;
   private final Abandon abandon;
@@ -157,6 +153,8 @@ class ChangeApiImpl implements ChangeApi {
       Revisions revisions,
       ReviewerApiImpl.Factory reviewerApi,
       RevisionApiImpl.Factory revisionApi,
+      ChangeMessageApiImpl.Factory changeMessageApi,
+      ChangeMessages changeMessages,
       SuggestChangeReviewers suggestReviewers,
       Abandon abandon,
       Revert revert,
@@ -201,6 +199,8 @@ class ChangeApiImpl implements ChangeApi {
     this.revisions = revisions;
     this.reviewerApi = reviewerApi;
     this.revisionApi = revisionApi;
+    this.changeMessageApi = changeMessageApi;
+    this.changeMessages = changeMessages;
     this.suggestReviewers = suggestReviewers;
     this.abandon = abandon;
     this.restore = restore;
@@ -707,6 +707,25 @@ class ChangeApiImpl implements ChangeApi {
       return pureRevert.get(change.getNotes(), claimedOriginal);
     } catch (Exception e) {
       throw asRestApiException("Cannot compute pure revert", e);
+    }
+  }
+
+  @Override
+  public List<ChangeMessageInfo> messages() throws RestApiException {
+    try {
+      return changeMessages.list().apply(change);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list change messages", e);
+    }
+  }
+
+  @Override
+  public ChangeMessageApi message(String id) throws RestApiException {
+    try {
+      ChangeMessageResource resource = changeMessages.parse(change, IdString.fromDecoded(id));
+      return changeMessageApi.create(resource);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse change message " + id, e);
     }
   }
 }

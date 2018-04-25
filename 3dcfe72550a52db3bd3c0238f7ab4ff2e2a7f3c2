@@ -94,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "89fe7987_376129ee",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-25T12:12:57Z",
+      "side": 1,
+      "message": "What I forgot to mention so far: I really like the idea of specifying the serializers here. It\u0027s close to where the cache is defined and at the same time allows a lot of flexibility (e.g. special serializer for enums).",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 83
+      },
+      "revId": "3dcfe72550a52db3bd3c0238f7ab4ff2e2a7f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed21637f_fd633bf7",
         "filename": "java/com/google/gerrit/server/cache/h2/EntryType.java",
         "patchSetId": 1

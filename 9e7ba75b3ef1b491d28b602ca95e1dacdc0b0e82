@@ -170,6 +170,30 @@
     },
     {
       "key": {
+        "uuid": "3086190d_631160be",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T07:42:10Z",
+      "side": 1,
+      "message": "\u003e Actually this check doesn\u0027t provide full safety. Permission#equals is based on name and \n\u003e exclusiveGroup flag, hence you can have 2 permissions with the same name which are not equal. \n\u003e With the contains check you would be allowed to add both, but then the unique name check in \n\u003e setPermission would still be unhappy. This means also using a Set here will not prevent \n\u003e permissions with duplicate names.\n\nDone",
+      "parentUuid": "01ddac40_225b6da6",
+      "range": {
+        "startLine": 79,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f1b761_b74c0e9a",
         "filename": "java/com/google/gerrit/common/data/AccessSection.java",
         "patchSetId": 1
@@ -190,6 +214,30 @@
       "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ecb7638_224ee2e6",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T07:42:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f1b761_b74c0e9a",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 7
+      },
+      "revId": "9e7ba75b3ef1b491d28b602ca95e1dacdc0b0e82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -127,6 +127,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
+  private final DeleteChangeMessageRewriter.Factory deleteChangeMessageRewriterFactory;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -160,6 +161,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
   private DeleteCommentRewriter deleteCommentRewriter;
+  private DeleteChangeMessageRewriter deleteChangeMessageRewriter;
 
   @AssistedInject
   private ChangeUpdate(
@@ -170,6 +172,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      DeleteChangeMessageRewriter.Factory deleteChangeMessageRewriterFactory,
       ProjectCache projectCache,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
@@ -182,6 +185,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
+        deleteChangeMessageRewriterFactory,
         projectCache,
         notes,
         user,
@@ -198,6 +202,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      DeleteChangeMessageRewriter.Factory deleteChangeMessageRewriterFactory,
       ProjectCache projectCache,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
@@ -211,6 +216,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
+        deleteChangeMessageRewriterFactory,
         notes,
         user,
         when,
@@ -232,6 +238,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      DeleteChangeMessageRewriter.Factory deleteChangeMessageRewriterFactory,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -242,6 +249,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
+    this.deleteChangeMessageRewriterFactory = deleteChangeMessageRewriterFactory;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -254,6 +262,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      DeleteChangeMessageRewriter.Factory deleteChangeMessageRewriterFactory,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
       @Assisted("effective") @Nullable Account.Id accountId,
@@ -276,6 +285,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
+    this.deleteChangeMessageRewriterFactory = deleteChangeMessageRewriterFactory;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -393,6 +403,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public void deleteCommentByRewritingHistory(String uuid, String newMessage) {
     deleteCommentRewriter =
         deleteCommentRewriterFactory.create(getChange().getId(), uuid, newMessage);
+  }
+
+  public void deleteChangeMessageByRewritingHistory(int targetMessageIdx, String newMessage) {
+    deleteChangeMessageRewriter =
+        deleteChangeMessageRewriterFactory.create(
+            getChange().getId(), targetMessageIdx, newMessage);
   }
 
   @VisibleForTesting
@@ -604,7 +620,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @Override
   protected CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws OrmException, IOException {
-    checkState(deleteCommentRewriter == null, "cannot update and rewrite ref in one BatchUpdate");
+    checkState(
+        deleteCommentRewriter == null && deleteChangeMessageRewriter == null,
+        "cannot update and rewrite ref in one BatchUpdate");
 
     CommitBuilder cb = new CommitBuilder();
 
@@ -816,6 +834,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public DeleteCommentRewriter getDeleteCommentRewriter() {
     return deleteCommentRewriter;
+  }
+
+  public DeleteChangeMessageRewriter getDeleteChangeMessageRewriter() {
+    return deleteChangeMessageRewriter;
   }
 
   public void setAllowWriteToNewRef(boolean allow) {

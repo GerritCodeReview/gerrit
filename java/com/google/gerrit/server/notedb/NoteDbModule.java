@@ -52,6 +52,7 @@ public class NoteDbModule extends FactoryModule {
     factory(ChangeDraftUpdate.Factory.class);
     factory(ChangeUpdate.Factory.class);
     factory(DeleteCommentRewriter.Factory.class);
+    factory(DeleteChangeMessageRewriter.Factory.class);
     factory(DraftCommentNotes.Factory.class);
     factory(NoteDbUpdateManager.Factory.class);
     factory(RobotCommentNotes.Factory.class);

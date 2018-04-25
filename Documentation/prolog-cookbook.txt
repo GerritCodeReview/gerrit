@@ -901,7 +901,10 @@ add_category_min_score(In, Category, Min,  P) :-
     findall(X, gerrit:commit_label(label(Category,X),R),Z),
     sum_list(Z, Sum),
     Sum >= Min, !,
-    P = [label(Category,ok(R)) | In].
+    gerrit:commit_label(label(Category, V), U),
+    V >= 1,
+    !,
+    P = [label(Category,ok(U)) | In].
 
 add_category_min_score(In, Category,Min,P) :-
     P = [label(Category,need(Min)) | In].

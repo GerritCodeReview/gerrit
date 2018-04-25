@@ -23,6 +23,30 @@
       "revId": "8044bb1b8789b1f3b4bbc695e96bdb2ec179f677",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e4a48b7_95887f66",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T13:36:30Z",
+      "side": 1,
+      "message": "\u003e Wouldn\u0027t it make sense to have permission as a Map\u003cString,Permission\u003e?\n\nYes, I think this makes sense, but the focus of this change was to fix the inconsistent behavior of this class. I would be happy to see this as a follow-up change, but will likely not look into this myself.\n\n\u003e Is there really a need to check name equality case insensitive?\n\u003e Is addPatchset and addpatCHset the same thing?\n\nI don\u0027t know and this is why I didn\u0027t want to change the existing case-insensitive check :)\nNothing against changing this if tests prove that this is fine.",
+      "parentUuid": "8ca1243c_083d1a53",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 20
+      },
+      "revId": "8044bb1b8789b1f3b4bbc695e96bdb2ec179f677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

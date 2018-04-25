@@ -22,6 +22,30 @@
       "revId": "55065875f9e17466a7ee3b744fefbf0526d5d913",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7655de50_b7000f18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-25T12:09:42Z",
+      "side": 1,
+      "message": "Unfortunately, this doesn\u0027t seem to work the way I hoped.\n\nThe list of methods is determined in `BlockJUnit4ClassRunner#withBefores`,\nwith this javadoc:\n\n   Returns a {@link Statement}: run *all non-overridden* {@code @Before}\n   methods on this class and superclasses before running {@code next}; if\n   any throws an Exception, stop execution and pass the exception on.\n\nI _discovered_ this behavior when working on my Simple Submit Rules plugin:\neverything worked if I installed the plugin\u0027s module by hand, but broke\nwhen I extend the LightweightPluginDaemonTest class.\n\nI had a setUp method in my test class, and could confirm with breakpoints that\nLightweightPluginDaemonTest\u0027s setUp method was never called, and couldn\u0027t\nfigure out why.\n(Thanks to Patrick for helping me on this, by the way!)",
+      "parentUuid": "1a828b5f_6a8884af",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "55065875f9e17466a7ee3b744fefbf0526d5d913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

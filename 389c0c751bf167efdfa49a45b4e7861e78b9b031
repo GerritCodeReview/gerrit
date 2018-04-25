@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "424790b6_dd704041",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T06:51:29Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand how disabling this predicate helps. Maybe you can clarify this a bit?\n\nAll it tells you is if an account (that is visible to you) can see a change (that is visible to you). If this predicate is disabled you can still go to the change and try to add that user as reviewer and if the user can\u0027t see the change you get a Not Found response, don\u0027t you? So if the predicate is disabled you can still do the same kind of probing.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "389c0c751bf167efdfa49a45b4e7861e78b9b031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a4f3c9c_49313a45",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2751,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-25T06:51:29Z",
+      "side": 1,
+      "message": "Should this included the index name? e.g. index.accounts.enableCanSeeQueries",
+      "range": {
+        "startLine": 2751,
+        "startChar": 2,
+        "endLine": 2751,
+        "endChar": 27
+      },
+      "revId": "389c0c751bf167efdfa49a45b4e7861e78b9b031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

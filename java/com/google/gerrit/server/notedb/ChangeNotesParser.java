@@ -98,12 +98,13 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class ChangeNotesParser {
+public class ChangeNotesParser {
   private static final Logger log = LoggerFactory.getLogger(ChangeNotesParser.class);
 
   // Sentinel RevId indicating a mutable field on a patch set was parsed, but
@@ -121,6 +122,23 @@ class ChangeNotesParser {
     private static ApprovalKey create(PatchSet.Id psId, Account.Id accountId, String label) {
       return new AutoValue_ChangeNotesParser_ApprovalKey(psId, accountId, label);
     }
+  }
+
+  @AutoValue
+  public abstract static class Range {
+    private static Range create(
+        int subjectStart, int subjectEnd, int changeMessageStart, int changeMessageEnd) {
+      return new AutoValue_ChangeNotesParser_Range(
+          subjectStart, subjectEnd, changeMessageStart, changeMessageEnd);
+    }
+
+    public abstract int subjectStart();
+
+    public abstract int subjectEnd();
+
+    public abstract int changeMessageStart();
+
+    public abstract int changeMessageEnd();
   }
 
   // Private final members initialized in the constructor.
@@ -699,18 +717,34 @@ class ChangeNotesParser {
       Account.Id realAccountId,
       ChangeNotesCommit commit,
       Timestamp ts) {
+    Optional<String> changeMsgString = getChangeMessageString(commit);
+    if (!changeMsgString.isPresent()) {
+      return;
+    }
+
+    ChangeMessage changeMessage =
+        new ChangeMessage(
+            new ChangeMessage.Key(psId.getParentKey(), commit.name()), accountId, ts, psId);
+    changeMessage.setMessage(changeMsgString.get());
+    changeMessage.setTag(tag);
+    changeMessage.setRealAuthor(realAccountId);
+
+    changeMessagesByPatchSet.put(psId, changeMessage);
+    allChangeMessages.add(changeMessage);
+  }
+
+  public static Optional<Range> parseCommitMessageRange(RevCommit commit) {
     byte[] raw = commit.getRawBuffer();
     int size = raw.length;
-    Charset enc = RawParseUtils.parseEncoding(raw);
 
     int subjectStart = RawParseUtils.commitMessage(raw, 0);
     if (subjectStart < 0 || subjectStart >= size) {
-      return;
+      return Optional.empty();
     }
 
     int subjectEnd = RawParseUtils.endOfParagraph(raw, subjectStart);
     if (subjectEnd == size) {
-      return;
+      return Optional.empty();
     }
 
     int changeMessageStart;
@@ -720,7 +754,7 @@ class ChangeNotesParser {
     } else if (raw[subjectEnd] == '\r') {
       changeMessageStart = subjectEnd + 4; // \r\n\r\n ends paragraph
     } else {
-      return;
+      return Optional.empty();
     }
 
     int ptr = size - 1;
@@ -740,19 +774,25 @@ class ChangeNotesParser {
     }
 
     if (ptr <= changeMessageStart) {
-      return;
+      return Optional.empty();
     }
 
-    String changeMsgString =
-        RawParseUtils.decode(enc, raw, changeMessageStart, changeMessageEnd + 1);
-    ChangeMessage changeMessage =
-        new ChangeMessage(
-            new ChangeMessage.Key(psId.getParentKey(), commit.name()), accountId, ts, psId);
-    changeMessage.setMessage(changeMsgString);
-    changeMessage.setTag(tag);
-    changeMessage.setRealAuthor(realAccountId);
-    changeMessagesByPatchSet.put(psId, changeMessage);
-    allChangeMessages.add(changeMessage);
+    return Optional.of(
+        Range.create(subjectStart, subjectEnd, changeMessageStart, changeMessageEnd));
+  }
+
+  public static Optional<String> getChangeMessageString(ChangeNotesCommit commit) {
+    byte[] raw = commit.getRawBuffer();
+    Charset enc = RawParseUtils.parseEncoding(raw);
+
+    Optional<Range> range = parseCommitMessageRange(commit);
+    if (!range.isPresent()) {
+      return Optional.empty();
+    }
+
+    return Optional.of(
+        RawParseUtils.decode(
+            enc, raw, range.get().changeMessageStart(), range.get().changeMessageEnd() + 1));
   }
 
   private void parseNotes() throws IOException, ConfigInvalidException {

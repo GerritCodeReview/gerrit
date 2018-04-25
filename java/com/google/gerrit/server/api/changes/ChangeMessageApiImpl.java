@@ -17,9 +17,11 @@ package com.google.gerrit.server.api.changes;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
+import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.ChangeMessageResource;
+import com.google.gerrit.server.restapi.change.DeleteChangeMessage;
 import com.google.gerrit.server.restapi.change.GetChangeMessage;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -30,12 +32,16 @@ class ChangeMessageApiImpl implements ChangeMessageApi {
   }
 
   private final GetChangeMessage getChangeMessage;
+  private final DeleteChangeMessage deleteChangeMessage;
   private final ChangeMessageResource changeMessageResource;
 
   @Inject
   ChangeMessageApiImpl(
-      GetChangeMessage getChangeMessage, @Assisted ChangeMessageResource changeMessageResource) {
+      GetChangeMessage getChangeMessage,
+      DeleteChangeMessage deleteChangeMessage,
+      @Assisted ChangeMessageResource changeMessageResource) {
     this.getChangeMessage = getChangeMessage;
+    this.deleteChangeMessage = deleteChangeMessage;
     this.changeMessageResource = changeMessageResource;
   }
 
@@ -45,6 +51,15 @@ class ChangeMessageApiImpl implements ChangeMessageApi {
       return getChangeMessage.apply(changeMessageResource);
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve change message", e);
+    }
+  }
+
+  @Override
+  public ChangeMessageInfo delete(DeleteChangeMessageInput input) throws RestApiException {
+    try {
+      return deleteChangeMessage.apply(changeMessageResource, input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete change message", e);
     }
   }
 }

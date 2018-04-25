@@ -47,7 +47,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -58,26 +57,21 @@ import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -838,7 +832,7 @@ public class CommentsIT extends AbstractDaemonTest {
     CommentInput c9 = newComment("b.txt", "comment 9");
     addComments(changeId, ps2, c9);
 
-    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(changeId);
+    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
     assertThat(commentsBeforeDelete).hasSize(9);
     // PS1 has comments [c1, c2, c3, c4, c5].
     assertThat(getRevisionComments(changeId, ps1)).hasSize(5);
@@ -853,7 +847,7 @@ public class CommentsIT extends AbstractDaemonTest {
     for (int i = 0; i < commentsBeforeDelete.size(); i++) {
       List<RevCommit> commitsBeforeDelete = new ArrayList<>();
       if (notesMigration.commitChangeWrites()) {
-        commitsBeforeDelete = getCommits(id);
+        commitsBeforeDelete = getChangeMetaCommits(id);
       }
 
       CommentInfo comment = commentsBeforeDelete.get(i);
@@ -879,7 +873,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
       comment.message = expectedMsg;
       commentsBeforeDelete.set(i, comment);
-      List<CommentInfo> commentsAfterDelete = getChangeSortedComments(changeId);
+      List<CommentInfo> commentsAfterDelete = getChangeSortedComments(id.get());
       assertThat(commentsAfterDelete).isEqualTo(commentsBeforeDelete);
     }
 
@@ -893,7 +887,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addComments(changeId, ps3, c12);
     addComments(changeId, ps4, c13);
 
-    assertThat(getChangeSortedComments(changeId)).hasSize(13);
+    assertThat(getChangeSortedComments(id.get())).hasSize(13);
     assertThat(getRevisionComments(changeId, ps1)).hasSize(6);
     assertThat(getRevisionComments(changeId, ps2)).hasSize(3);
     assertThat(getRevisionComments(changeId, ps3)).hasSize(1);
@@ -914,7 +908,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addComments(changeId, ps1, c2);
     addComments(changeId, ps1, c3);
 
-    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(changeId);
+    List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
     assertThat(commentsBeforeDelete).hasSize(3);
     Optional<CommentInfo> targetComment =
         commentsBeforeDelete.stream().filter(c -> c.message.equals("comment 2")).findFirst();
@@ -924,7 +918,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     List<RevCommit> commitsBeforeDelete = new ArrayList<>();
     if (notesMigration.commitChangeWrites()) {
-      commitsBeforeDelete = getCommits(id);
+      commitsBeforeDelete = getChangeMetaCommits(id);
     }
 
     setApiUser(admin);
@@ -944,7 +938,7 @@ public class CommentsIT extends AbstractDaemonTest {
     if (notesMigration.commitChangeWrites()) {
       assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
     }
-    assertThat(getChangeSortedComments(changeId)).hasSize(3);
+    assertThat(getChangeSortedComments(id.get())).hasSize(3);
   }
 
   @Test
@@ -962,19 +956,6 @@ public class CommentsIT extends AbstractDaemonTest {
     com.google.gerrit.reviewdb.client.Comment comment = comments.iterator().next();
     assertThat(comment.message).isEqualTo("comment");
     assertThat(comment.legacyFormat).isFalse();
-  }
-
-  private List<CommentInfo> getChangeSortedComments(String changeId) throws Exception {
-    List<CommentInfo> comments = new ArrayList<>();
-    Map<String, List<CommentInfo>> commentsMap = getPublishedComments(changeId);
-    for (Entry<String, List<CommentInfo>> e : commentsMap.entrySet()) {
-      for (CommentInfo c : e.getValue()) {
-        c.path = e.getKey(); // Set the comment's path field.
-        comments.add(c);
-      }
-    }
-    comments.sort(Comparator.comparing(c -> c.id));
-    return comments;
   }
 
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {
@@ -1000,15 +981,6 @@ public class CommentsIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(revision).review(input);
   }
 
-  private List<RevCommit> getCommits(Change.Id changeId) throws IOException {
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk revWalk = new RevWalk(repo)) {
-      Ref metaRef = repo.exactRef(RefNames.changeMetaRef(changeId));
-      revWalk.markStart(revWalk.parseCommit(metaRef.getObjectId()));
-      return Lists.newArrayList(revWalk);
-    }
-  }
-
   /**
    * All the commits, which contain the target comment before, should still contain the comment with
    * the updated message. All the other metas of the commits should be exactly the same.
@@ -1019,7 +991,7 @@ public class CommentsIT extends AbstractDaemonTest {
       String targetCommentUuid,
       String expectedMessage)
       throws Exception {
-    List<RevCommit> afterDelete = getCommits(changeId);
+    List<RevCommit> afterDelete = getChangeMetaCommits(changeId);
     assertThat(afterDelete).hasSize(beforeDelete.size());
 
     try (Repository repo = repoManager.openRepository(project);
@@ -1119,10 +1091,6 @@ public class CommentsIT extends AbstractDaemonTest {
   private Map<String, List<CommentInfo>> getDraftComments(String changeId, String revId)
       throws Exception {
     return gApi.changes().id(changeId).revision(revId).drafts();
-  }
-
-  private Map<String, List<CommentInfo>> getPublishedComments(String changeId) throws Exception {
-    return gApi.changes().id(changeId).comments();
   }
 
   private CommentInfo getDraftComment(String changeId, String revId, String uuid) throws Exception {

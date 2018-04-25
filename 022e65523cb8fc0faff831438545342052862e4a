@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f41bdacc_135d23f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-25T08:59:32Z",
+      "side": 1,
+      "message": "Good idea.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "022e65523cb8fc0faff831438545342052862e4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d778c95c_32615ff9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-25T08:59:32Z",
+      "side": 1,
+      "message": "I\u0027m not really sure we should start to add those partial safety measures. AbstractDaemonTest also has some @Before methods. They aren\u0027t final at the moment. Does that mean that they are safe to override? I guess not. By adding final only in LightweightPluginDaemonTest, we could give false signals to other developers. Even if we adjusted all @Before and @After methods of AbstractDaemonTest and LigthweightPluginDaemonTest, I could apply a similar reasoning to other methods in AbstractDaemonTest like initSsh().",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "022e65523cb8fc0faff831438545342052862e4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

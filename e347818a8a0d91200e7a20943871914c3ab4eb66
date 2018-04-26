@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba5de80d_04a3e51b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2410,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T07:04:14Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these be on a message resource rather than the change resource?\n\nI.e.\n\n /changes/{change-id}/messages/{message-id}/\n\nIt looks like we don\u0027t have that though. We only have a dedicated endpoint for comments (inline comments), and cover messages are retrieved as part of the change info.\n\nWould it be worth adding such a structure so that we can a) get change messages by a dedicated endpoint and b) implement the deletion using a URL as above?",
+      "range": {
+        "startLine": 2409,
+        "startChar": 0,
+        "endLine": 2410,
+        "endChar": 69
+      },
+      "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77835674_8635d92a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T07:04:14Z",
+      "side": 1,
+      "message": "it was",
+      "range": {
+        "startLine": 2415,
+        "startChar": 46,
+        "endLine": 2415,
+        "endChar": 50
+      },
+      "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eda9a5b_95ff9f1e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T07:04:14Z",
+      "side": 1,
+      "message": "deleted",
+      "range": {
+        "startLine": 2415,
+        "startChar": 0,
+        "endLine": 2415,
+        "endChar": 7
+      },
+      "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1228,7 +1228,7 @@
           repoInfo);
     },
 
-    setProjectAccessRightsForReview(projectName, projectInfo) {
+    setRepoAccessRightsForReview(projectName, projectInfo) {
       return this.send(
           'PUT', `/projects/${encodeURIComponent(projectName)}/access:review`,
           projectInfo).then(response => this.getResponseObject(response));

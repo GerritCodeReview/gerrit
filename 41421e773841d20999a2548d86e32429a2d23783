@@ -46,6 +46,30 @@
       "revId": "41421e773841d20999a2548d86e32429a2d23783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33c6d357_8acfb815",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-26T22:00:34Z",
+      "side": 1,
+      "message": "it just doesn\u0027t need a restamp",
+      "parentUuid": "a0362859_ffafe23a",
+      "range": {
+        "startLine": 159,
+        "startChar": 61,
+        "endLine": 159,
+        "endChar": 76
+      },
+      "revId": "41421e773841d20999a2548d86e32429a2d23783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

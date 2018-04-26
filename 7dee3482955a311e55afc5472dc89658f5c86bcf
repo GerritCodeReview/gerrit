@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c14077c4_2a3cf180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T10:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b1dbe2a_50b36691",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 67
+      },
+      "revId": "7dee3482955a311e55afc5472dc89658f5c86bcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c16bb8a_b8d88fb6",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1

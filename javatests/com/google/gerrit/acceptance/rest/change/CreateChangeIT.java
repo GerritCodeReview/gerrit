@@ -208,6 +208,34 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeWithParentCommit() throws Exception {
+    Map<String, PushOneCommit.Result> setup = changeInTwoBranches(
+        "foo", "foo.txt", "bar", "bar.txt");
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseCommit = setup.get("master").getCommit().getId().name();
+    assertCreateSucceeds(input);
+  }
+
+  @Test
+  public void createChangeWithBadParentCommitFails() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseCommit = "notasha1";
+    assertCreateFails(input, UnprocessableEntityException.class,
+        "Base notasha1 doesn't represent a valid SHA-1");
+  }
+
+  @Test
+  public void createChangeWithParentCommitOnWrongBranchFails() throws Exception {
+    Map<String, PushOneCommit.Result> setup = changeInTwoBranches(
+        "foo", "foo.txt", "bar", "bar.txt");
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.branch = "foo";
+    input.baseCommit = setup.get("bar").getCommit().getId().name();
+    assertCreateFails(input, BadRequestException.class,
+        String.format("Commit %s doesn't exist on ref foo", input.baseCommit));
+  }
+
+  @Test
   public void createChangeWithoutAccessToParentCommitFails() throws Exception {
     Map<String, PushOneCommit.Result> results =
         changeInTwoBranches("invisible-branch", "a.txt", "visible-branch", "b.txt");

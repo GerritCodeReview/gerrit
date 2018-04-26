@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76d46af9_c2c8fad4",
+        "filename": "java/com/google/gwtexpui/globalkey/client/GlobalKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-26T14:21:45Z",
+      "side": 1,
+      "message": "Is our GWT version compatible with Java 8 syntax?",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 27
+      },
+      "revId": "deb43c29500d1664cfd858225e7a8f46aa79bbfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

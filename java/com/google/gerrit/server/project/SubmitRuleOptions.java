@@ -27,7 +27,6 @@ import com.google.gerrit.common.Nullable;
 public abstract class SubmitRuleOptions {
   private static final SubmitRuleOptions defaults =
       new AutoValue_SubmitRuleOptions.Builder()
-          .allowClosed(false)
           .skipFilters(false)
           .logErrors(true)
           .rule(null)
@@ -41,8 +40,6 @@ public abstract class SubmitRuleOptions {
     return defaults.toBuilder();
   }
 
-  public abstract boolean allowClosed();
-
   public abstract boolean skipFilters();
 
   public abstract boolean logErrors();
@@ -54,8 +51,6 @@ public abstract class SubmitRuleOptions {
 
   @AutoValue.Builder
   public abstract static class Builder {
-    public abstract SubmitRuleOptions.Builder allowClosed(boolean allowClosed);
-
     public abstract SubmitRuleOptions.Builder skipFilters(boolean skipFilters);
 
     public abstract SubmitRuleOptions.Builder rule(@Nullable String rule);

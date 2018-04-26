@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.http.jetty;
 
 import static com.google.gerrit.server.config.ConfigUtil.getTimeUnit;
-import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 
@@ -72,7 +71,7 @@ public class ProjectQoSFilter implements Filter {
 
     @Override
     protected void configureServlets() {
-      bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
+      bind(QueueProvider.class).to(CommandExecutorQueueProvider.class);
       filterRegex(FILTER_RE).through(ProjectQoSFilter.class);
     }
   }

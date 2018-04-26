@@ -19,9 +19,11 @@ import com.google.gerrit.server.config.ThreadSettingsConfig;
 import com.google.gerrit.server.git.QueueProvider;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.util.concurrent.ThreadFactory;
 import org.eclipse.jgit.lib.Config;
 
+@Singleton
 public class CommandExecutorQueueProvider implements QueueProvider {
 
   private int poolSize;

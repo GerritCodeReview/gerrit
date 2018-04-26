@@ -34,8 +34,6 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -71,7 +69,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final Provider<ReviewDb> db;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
-  private final SubmitRuleEvaluator submitRuleEvaluator;
 
   @Inject
   Mergeable(
@@ -81,8 +78,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeData.Factory changeDataFactory,
       Provider<ReviewDb> db,
       ChangeIndexer indexer,
-      MergeabilityCache cache,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      MergeabilityCache cache) {
     this.gitManager = gitManager;
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
@@ -90,7 +86,6 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.db = db;
     this.indexer = indexer;
     this.cache = cache;
-    submitRuleEvaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
   }
 
   public void setOtherBranches(boolean otherBranches) {
@@ -146,7 +141,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   private SubmitType getSubmitType(ChangeData cd) throws OrmException {
-    SubmitTypeRecord rec = submitRuleEvaluator.getSubmitType(cd);
+    SubmitTypeRecord rec = cd.submitTypeRecord();
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new OrmException("Submit type rule failed: " + rec);
     }

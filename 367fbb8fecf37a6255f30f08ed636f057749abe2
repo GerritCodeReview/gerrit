@@ -47,6 +47,30 @@
       "revId": "367fbb8fecf37a6255f30f08ed636f057749abe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f30e5a8_eb9cd0bf",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-26T13:46:05Z",
+      "side": 1,
+      "message": "The latest patch set uses deterministic serialization, it was not hard.",
+      "parentUuid": "fee6c845_98cd0c76",
+      "range": {
+        "startLine": 185,
+        "startChar": 67,
+        "endLine": 185,
+        "endChar": 80
+      },
+      "revId": "367fbb8fecf37a6255f30f08ed636f057749abe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

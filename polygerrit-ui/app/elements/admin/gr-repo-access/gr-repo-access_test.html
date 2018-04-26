@@ -119,6 +119,8 @@ limitations under the License.
       repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
           Promise.resolve(repoRes));
       element._loading = false;
+      element._ownerOf = [];
+      element._canUpload = false;
     });
 
     teardown(() => {
@@ -258,8 +260,9 @@ limitations under the License.
     });
 
     suite('with defined sections', () => {
-      const testEditSaveCancelBtns = () => {
+      const testEditSaveCancelBtns = (shouldShowSave, shouldShowSaveReview) => {
         // Edit button is visible and Save button is hidden.
+        assert.equal(getComputedStyle(element.$.saveReviewBtn).display, 'none');
         assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
         assert.notEqual(getComputedStyle(element.$.editBtn).display, 'none');
         assert.equal(element.$.editBtn.innerText, 'EDIT');
@@ -278,14 +281,25 @@ limitations under the License.
         // Edit button changes to Cancel button, and Save button is visible but
         // disabled.
         assert.equal(element.$.editBtn.innerText, 'CANCEL');
-        assert.notEqual(getComputedStyle(element.$.saveBtn).display, 'none');
-        assert.isTrue(element.$.saveBtn.disabled);
+        if (shouldShowSaveReview) {
+          assert.notEqual(getComputedStyle(element.$.saveReviewBtn).display, 'none');
+          assert.isTrue(element.$.saveReviewBtn.disabled);
+        }
+        if (shouldShowSave) {
+          assert.notEqual(getComputedStyle(element.$.saveBtn).display, 'none');
+          assert.isTrue(element.$.saveBtn.disabled);
+        }
         assert.notEqual(getComputedStyle(element.$$('#editInheritFromInput'))
             .display, 'none');
 
         // Save button should be enabled after access is modified
         element.fire('access-modified');
-        assert.isFalse(element.$.saveBtn.disabled);
+        if (shouldShowSaveReview) {
+          assert.isFalse(element.$.saveReviewBtn.disabled);
+        }
+        if (shouldShowSave) {
+          assert.isFalse(element.$.saveBtn.disabled);
+        }
       };
 
       setup(() => {
@@ -308,19 +322,25 @@ limitations under the License.
         assert.equal(element._sections.length, 0);
       });
 
-      test('button visibility for non admin', () => {
-        assert.equal(getComputedStyle(element.$.saveBtn).display, 'none');
+      test('button visibility for non ref owner', () => {
+        assert.equal(getComputedStyle(element.$.saveReviewBtn).display, 'none');
         assert.equal(getComputedStyle(element.$.editBtn).display, 'none');
       });
 
-      test('button visibility for non admin with upload privilege', () => {
+      test('button visibility for non ref owner with upload privilege', () => {
         element._canUpload = true;
-        testEditSaveCancelBtns();
+        testEditSaveCancelBtns(false, true);
       });
 
-      test('button visibility for admin', () => {
+      test('button visibility for ref owner', () => {
         element._ownerOf = ['refs/for/*'];
-        testEditSaveCancelBtns();
+        testEditSaveCancelBtns(true, false);
+      });
+
+      test('button visibility for ref owner and upload', () => {
+        element._ownerOf = ['refs/for/*'];
+        element._canUpload = true;
+        testEditSaveCancelBtns(true, false);
       });
 
       test('_handleAccessModified called with event fired', () => {
@@ -342,7 +362,7 @@ limitations under the License.
 
       test('_handleSaveForReview', () => {
         const saveStub =
-            sandbox.stub(element.$.restAPI, 'setProjectAccessRightsForReview');
+            sandbox.stub(element.$.restAPI, 'setRepoAccessRightsForReview');
         sandbox.stub(element, '_computeAddAndRemove').returns({
           add: {},
           remove: {},
@@ -1046,7 +1066,7 @@ limitations under the License.
             Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
         sandbox.stub(Gerrit.Nav, 'navigateToChange');
         const saveForReviewStub = sandbox.stub(element.$.restAPI,
-            'setProjectAccessRightsForReview')
+            'setRepoAccessRightsForReview')
             .returns(Promise.resolve({_number: 1}));
 
         element.repo = 'test-repo';

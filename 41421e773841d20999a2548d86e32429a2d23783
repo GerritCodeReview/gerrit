@@ -22,6 +22,30 @@
       "revId": "41421e773841d20999a2548d86e32429a2d23783",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0362859_ffafe23a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-04-26T16:40:15Z",
+      "side": 1,
+      "message": "Oh, hmm, i guess i should use css class?",
+      "parentUuid": "b02afbcb_f975c63e",
+      "range": {
+        "startLine": 159,
+        "startChar": 61,
+        "endLine": 159,
+        "endChar": 76
+      },
+      "revId": "41421e773841d20999a2548d86e32429a2d23783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

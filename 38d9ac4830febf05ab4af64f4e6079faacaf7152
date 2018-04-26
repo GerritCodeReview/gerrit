@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56b95651_69c652e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-04-26T17:27:22Z",
+      "side": 1,
+      "message": "Acknowledged; note that the existing Cherry Pick API, which processes its input.base the same way, also explicitly documents it as a \"40 character sha-1\".\n\nWould you prefer that the documentation be accurate (change this), be consistent and encourage full SHAs (leave as-is), or both (update the cherry-pick doc as well)?",
+      "parentUuid": "12e5e674_1f1e1169",
+      "range": {
+        "startLine": 15,
+        "startChar": 56,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "209fb90b_2ee9abaf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a8cb934d_038350b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-04-26T17:27:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "209fb90b_2ee9abaf",
+      "range": {
+        "startLine": 21,
+        "startChar": 5,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15984a44_b5adcdab",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e8dfbd9_9014a945",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5736,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-04-26T17:27:22Z",
+      "side": 1,
+      "message": "See the next line, I already updated the doc for both fields.",
+      "parentUuid": "15984a44_b5adcdab",
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +174,30 @@
       "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "805ef42d_e468ee47",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-04-26T17:27:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eccdba73_a881bc99",
+      "range": {
+        "startLine": 239,
+        "startChar": 83,
+        "endLine": 239,
+        "endChar": 95
+      },
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

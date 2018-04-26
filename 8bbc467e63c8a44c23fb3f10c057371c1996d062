@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1fb4175_6a01270e",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-26T13:55:40Z",
+      "side": 0,
+      "message": "This comment went missing in CacheDef#name.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "8bbc467e63c8a44c23fb3f10c057371c1996d062",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

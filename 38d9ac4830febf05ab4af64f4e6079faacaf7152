@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12e5e674_1f1e1169",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T00:57:01Z",
+      "side": 1,
+      "message": "Looking at the code, it should also work with an abbreviated sha1.",
+      "range": {
+        "startLine": 15,
+        "startChar": 56,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "209fb90b_2ee9abaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T00:57:01Z",
+      "side": 1,
+      "message": "This is a Google internal issue identifier that doesn\u0027t work for non-Googlers.  Please replace it with an issue on the public Gerrit tracker.",
+      "range": {
+        "startLine": 21,
+        "startChar": 5,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15984a44_b5adcdab",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5736,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T00:57:01Z",
+      "side": 1,
+      "message": "It\u0027s mentioned below, but it would be better to also explicitly mention in this field that it\u0027s mutually exclusive with base_commit.",
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbc53ffc_6ef4335a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5739,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T00:57:01Z",
+      "side": 1,
+      "message": "Should work with abbreviated sha1 as mentioned in the commit message.",
+      "range": {
+        "startLine": 5739,
+        "startChar": 2,
+        "endLine": 5739,
+        "endChar": 20
+      },
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eccdba73_a881bc99",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T00:57:01Z",
+      "side": 1,
+      "message": "refName",
+      "range": {
+        "startLine": 239,
+        "startChar": 83,
+        "endLine": 239,
+        "endChar": 95
+      },
+      "revId": "38d9ac4830febf05ab4af64f4e6079faacaf7152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

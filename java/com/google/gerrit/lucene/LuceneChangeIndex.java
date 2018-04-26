@@ -54,7 +54,6 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gwtorm.protobuf.ProtobufCodec;
@@ -493,10 +492,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(PENDING_REVIEWER_BY_EMAIL_FIELD)) {
       decodePendingReviewersByEmail(doc, cd);
     }
-    decodeSubmitRecords(
-        doc, SUBMIT_RECORD_STRICT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
-    decodeSubmitRecords(
-        doc, SUBMIT_RECORD_LENIENT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_LENIENT, cd);
+    decodeSubmitRecords(doc, SUBMIT_RECORD_LENIENT_FIELD, cd);
     if (fields.contains(REF_STATE_FIELD)) {
       decodeRefStates(doc, cd);
     }
@@ -616,12 +612,9 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   private void decodeSubmitRecords(
-      ListMultimap<String, IndexableField> doc,
-      String field,
-      SubmitRuleOptions opts,
-      ChangeData cd) {
+      ListMultimap<String, IndexableField> doc, String field, ChangeData cd) {
     ChangeField.parseSubmitRecords(
-        Collections2.transform(doc.get(field), f -> f.binaryValue().utf8ToString()), opts, cd);
+        Collections2.transform(doc.get(field), f -> f.binaryValue().utf8ToString()), cd);
   }
 
   private void decodeRefStates(ListMultimap<String, IndexableField> doc, ChangeData cd) {

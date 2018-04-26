@@ -29,7 +29,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -346,7 +345,7 @@ public class ChangeData {
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
   private final PureRevert pureRevert;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final SubmitRuleEvaluator submitRuleEvaluator;
 
   // Required assisted injected fields.
   private final ReviewDb db;
@@ -355,8 +354,7 @@ public class ChangeData {
 
   // Lazily populated fields, including optional assisted injected fields.
 
-  private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
-      Maps.newLinkedHashMapWithExpectedSize(1);
+  private List<SubmitRecord> submitRecords = null;
 
   private boolean lazyLoad = true;
   private Change change;
@@ -437,12 +435,15 @@ public class ChangeData {
     this.starredChangesUtil = starredChangesUtil;
     this.trackingFooters = trackingFooters;
     this.pureRevert = pureRevert;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
 
     // May be null in tests when created via createForTest above, in which case lazy-loading will
     // intentionally fail with NPE. Still not marked @Nullable in the constructor, to force callers
     // using Guice to pass a non-null value.
     this.db = db;
+    this.submitRuleEvaluator =
+        submitRuleEvaluatorFactory == null
+            ? null
+            : submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
 
     this.project = project;
     this.legacyId = id;
@@ -944,31 +945,28 @@ public class ChangeData {
     return messages;
   }
 
-  public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
-    List<SubmitRecord> records = submitRecords.get(options);
-    if (records == null) {
+  public List<SubmitRecord> submitRecords(boolean lenient) {
+    if (!lenient && change.getStatus().isClosed()) {
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.CLOSED;
+      return ImmutableList.of(rec);
+    }
+    if (submitRecords == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      records = submitRuleEvaluatorFactory.create(options).evaluate(this);
-      submitRecords.put(options, records);
+      submitRecords = submitRuleEvaluator.evaluate(this);
     }
-    return records;
+    return submitRecords;
   }
 
-  @Nullable
-  public List<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
-    return submitRecords.get(options);
-  }
-
-  public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {
-    submitRecords.put(options, records);
+  public void setSubmitRecords(List<SubmitRecord> records) {
+    submitRecords = records;
   }
 
   public SubmitTypeRecord submitTypeRecord() {
     if (submitTypeRecord == null) {
-      submitTypeRecord =
-          submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults()).getSubmitType(this);
+      submitTypeRecord = submitRuleEvaluator.getSubmitType(this);
     }
     return submitTypeRecord;
   }

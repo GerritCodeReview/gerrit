@@ -102,12 +102,6 @@ public class SubmitRuleEvaluator {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
 
-    if (!opts.allowClosed() && change.getStatus().isClosed()) {
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.CLOSED;
-      return Collections.singletonList(rec);
-    }
-
     // We evaluate all the plugin-defined evaluators,
     // and then we collect the results in one list.
     return StreamSupport.stream(submitRules.spliterator(), false)

@@ -91,6 +91,7 @@ public class RepoSequence {
   private final Project.NameKey projectName;
   private final String refName;
   private final Seed seed;
+  private final int floor;
   private final int batchSize;
   private final Runnable afterReadRef;
   private final Retryer<RefUpdate.Result> retryer;
@@ -118,7 +119,28 @@ public class RepoSequence {
         seed,
         batchSize,
         Runnables.doNothing(),
-        RETRYER);
+        RETRYER,
+        0);
+  }
+
+  public RepoSequence(
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
+      Project.NameKey projectName,
+      String name,
+      Seed seed,
+      int batchSize,
+      int floor) {
+    this(
+        repoManager,
+        gitRefUpdated,
+        projectName,
+        name,
+        seed,
+        batchSize,
+        Runnables.doNothing(),
+        RETRYER,
+        floor);
   }
 
   @VisibleForTesting
@@ -131,6 +153,19 @@ public class RepoSequence {
       int batchSize,
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer) {
+    this(repoManager, gitRefUpdated, projectName, name, seed, batchSize, afterReadRef, retryer, 0);
+  }
+
+  RepoSequence(
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
+      Project.NameKey projectName,
+      String name,
+      Seed seed,
+      int batchSize,
+      Runnable afterReadRef,
+      Retryer<RefUpdate.Result> retryer,
+      int floor) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.projectName = checkNotNull(projectName, "projectName");
@@ -144,6 +179,7 @@ public class RepoSequence {
     this.refName = RefNames.REFS_SEQUENCES + name;
 
     this.seed = checkNotNull(seed, "seed");
+    this.floor = floor;
 
     checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
     this.batchSize = batchSize;
@@ -251,15 +287,18 @@ public class RepoSequence {
     @Override
     public RefUpdate.Result call() throws Exception {
       Ref ref = repo.exactRef(refName);
+      int nextCandidate;
       afterReadRef.run();
       ObjectId oldId;
       if (ref == null) {
         oldId = ObjectId.zeroId();
-        next = seed.get();
+        nextCandidate = seed.get();
       } else {
         oldId = ref.getObjectId();
-        next = parse(oldId);
+        int oldValue = parse(oldId);
+        nextCandidate = oldValue;
       }
+      next = Math.max(floor, nextCandidate);
       return store(repo, rw, oldId, next + count);
     }
 

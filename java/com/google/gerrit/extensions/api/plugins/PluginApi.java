@@ -33,22 +33,22 @@ public interface PluginApi {
    */
   class NotImplemented implements PluginApi {
     @Override
-    public PluginInfo get() throws RestApiException {
+    public PluginInfo get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void enable() throws RestApiException {
+    public void enable() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void disable() throws RestApiException {
+    public void disable() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void reload() throws RestApiException {
+    public void reload() {
       throw new NotImplementedException();
     }
   }

@@ -156,67 +156,67 @@ public interface ChangeEditApi {
    */
   class NotImplemented implements ChangeEditApi {
     @Override
-    public Optional<EditInfo> get() throws RestApiException {
+    public Optional<EditInfo> get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void create() throws RestApiException {
+    public void create() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void delete() throws RestApiException {
+    public void delete() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void rebase() throws RestApiException {
+    public void rebase() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void publish() throws RestApiException {
+    public void publish() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void publish(PublishChangeEditInput publishChangeEditInput) throws RestApiException {
+    public void publish(PublishChangeEditInput publishChangeEditInput) {
       throw new NotImplementedException();
     }
 
     @Override
-    public Optional<BinaryResult> getFile(String filePath) throws RestApiException {
+    public Optional<BinaryResult> getFile(String filePath) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void renameFile(String oldFilePath, String newFilePath) throws RestApiException {
+    public void renameFile(String oldFilePath, String newFilePath) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void restoreFile(String filePath) throws RestApiException {
+    public void restoreFile(String filePath) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void modifyFile(String filePath, RawInput newContent) throws RestApiException {
+    public void modifyFile(String filePath, RawInput newContent) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteFile(String filePath) throws RestApiException {
+    public void deleteFile(String filePath) {
       throw new NotImplementedException();
     }
 
     @Override
-    public String getCommitMessage() throws RestApiException {
+    public String getCommitMessage() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void modifyCommitMessage(String newCommitMessage) throws RestApiException {
+    public void modifyCommitMessage(String newCommitMessage) {
       throw new NotImplementedException();
     }
   }

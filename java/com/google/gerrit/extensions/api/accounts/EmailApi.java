@@ -31,17 +31,17 @@ public interface EmailApi {
    */
   class NotImplemented implements EmailApi {
     @Override
-    public EmailInfo get() throws RestApiException {
+    public EmailInfo get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void delete() throws RestApiException {
+    public void delete() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void setPreferred() throws RestApiException {
+    public void setPreferred() {
       throw new NotImplementedException();
     }
   }

@@ -31,17 +31,17 @@ public interface RevisionReviewerApi {
    */
   class NotImplemented implements RevisionReviewerApi {
     @Override
-    public Map<String, Short> votes() throws RestApiException {
+    public Map<String, Short> votes() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteVote(String label) throws RestApiException {
+    public void deleteVote(String label) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void deleteVote(DeleteVoteInput input) throws RestApiException {
+    public void deleteVote(DeleteVoteInput input) {
       throw new NotImplementedException();
     }
   }

@@ -38,12 +38,12 @@ public interface CommentApi {
    */
   class NotImplemented implements CommentApi {
     @Override
-    public CommentInfo get() throws RestApiException {
+    public CommentInfo get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public CommentInfo delete(DeleteCommentInput input) throws RestApiException {
+    public CommentInfo delete(DeleteCommentInput input) {
       throw new NotImplementedException();
     }
   }

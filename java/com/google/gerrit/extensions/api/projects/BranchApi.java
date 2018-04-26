@@ -37,27 +37,27 @@ public interface BranchApi {
    */
   class NotImplemented implements BranchApi {
     @Override
-    public BranchApi create(BranchInput in) throws RestApiException {
+    public BranchApi create(BranchInput in) {
       throw new NotImplementedException();
     }
 
     @Override
-    public BranchInfo get() throws RestApiException {
+    public BranchInfo get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public void delete() throws RestApiException {
+    public void delete() {
       throw new NotImplementedException();
     }
 
     @Override
-    public BinaryResult file(String path) throws RestApiException {
+    public BinaryResult file(String path) {
       throw new NotImplementedException();
     }
 
     @Override
-    public List<ReflogEntryInfo> reflog() throws RestApiException {
+    public List<ReflogEntryInfo> reflog() {
       throw new NotImplementedException();
     }
   }

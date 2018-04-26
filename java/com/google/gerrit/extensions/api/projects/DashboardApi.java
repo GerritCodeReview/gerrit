@@ -31,17 +31,17 @@ public interface DashboardApi {
    */
   class NotImplemented implements DashboardApi {
     @Override
-    public DashboardInfo get() throws RestApiException {
+    public DashboardInfo get() {
       throw new NotImplementedException();
     }
 
     @Override
-    public DashboardInfo get(boolean inherited) throws RestApiException {
+    public DashboardInfo get(boolean inherited) {
       throw new NotImplementedException();
     }
 
     @Override
-    public void setDefault() throws RestApiException {
+    public void setDefault() {
       throw new NotImplementedException();
     }
   }

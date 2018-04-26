@@ -26,7 +26,7 @@ public interface CommitApi {
   /** A default implementation for source compatibility when adding new methods to the interface. */
   class NotImplemented implements CommitApi {
     @Override
-    public ChangeApi cherryPick(CherryPickInput input) throws RestApiException {
+    public ChangeApi cherryPick(CherryPickInput input) {
       throw new NotImplementedException();
     }
   }

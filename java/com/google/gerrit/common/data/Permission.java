@@ -52,38 +52,38 @@ public class Permission implements Comparable<Permission> {
 
   static {
     NAMES_LC = new ArrayList<>();
-    NAMES_LC.add(ABANDON.toLowerCase());
-    NAMES_LC.add(ADD_PATCH_SET.toLowerCase());
-    NAMES_LC.add(CREATE.toLowerCase());
-    NAMES_LC.add(CREATE_SIGNED_TAG.toLowerCase());
-    NAMES_LC.add(CREATE_TAG.toLowerCase());
-    NAMES_LC.add(DELETE.toLowerCase());
-    NAMES_LC.add(DELETE_OWN_CHANGES.toLowerCase());
-    NAMES_LC.add(EDIT_ASSIGNEE.toLowerCase());
-    NAMES_LC.add(EDIT_HASHTAGS.toLowerCase());
-    NAMES_LC.add(EDIT_TOPIC_NAME.toLowerCase());
-    NAMES_LC.add(FORGE_AUTHOR.toLowerCase());
-    NAMES_LC.add(FORGE_COMMITTER.toLowerCase());
-    NAMES_LC.add(FORGE_SERVER.toLowerCase());
-    NAMES_LC.add(LABEL.toLowerCase());
-    NAMES_LC.add(LABEL_AS.toLowerCase());
-    NAMES_LC.add(OWNER.toLowerCase());
-    NAMES_LC.add(PUSH.toLowerCase());
-    NAMES_LC.add(PUSH_MERGE.toLowerCase());
-    NAMES_LC.add(READ.toLowerCase());
-    NAMES_LC.add(REBASE.toLowerCase());
-    NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());
-    NAMES_LC.add(SUBMIT.toLowerCase());
-    NAMES_LC.add(SUBMIT_AS.toLowerCase());
-    NAMES_LC.add(VIEW_PRIVATE_CHANGES.toLowerCase());
+    NAMES_LC.add(ABANDON);
+    NAMES_LC.add(ADD_PATCH_SET);
+    NAMES_LC.add(CREATE);
+    NAMES_LC.add(CREATE_SIGNED_TAG);
+    NAMES_LC.add(CREATE_TAG);
+    NAMES_LC.add(DELETE);
+    NAMES_LC.add(DELETE_OWN_CHANGES);
+    NAMES_LC.add(EDIT_ASSIGNEE);
+    NAMES_LC.add(EDIT_HASHTAGS);
+    NAMES_LC.add(EDIT_TOPIC_NAME);
+    NAMES_LC.add(FORGE_AUTHOR);
+    NAMES_LC.add(FORGE_COMMITTER);
+    NAMES_LC.add(FORGE_SERVER);
+    NAMES_LC.add(LABEL);
+    NAMES_LC.add(LABEL_AS);
+    NAMES_LC.add(OWNER);
+    NAMES_LC.add(PUSH);
+    NAMES_LC.add(PUSH_MERGE);
+    NAMES_LC.add(READ);
+    NAMES_LC.add(REBASE);
+    NAMES_LC.add(REMOVE_REVIEWER);
+    NAMES_LC.add(SUBMIT);
+    NAMES_LC.add(SUBMIT_AS);
+    NAMES_LC.add(VIEW_PRIVATE_CHANGES);
 
     LABEL_INDEX = NAMES_LC.indexOf(Permission.LABEL);
-    LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS.toLowerCase());
+    LABEL_AS_INDEX = NAMES_LC.indexOf(Permission.LABEL_AS);
   }
 
   /** @return true if the name is recognized as a permission name. */
   public static boolean isPermission(String varName) {
-    return isLabel(varName) || isLabelAs(varName) || NAMES_LC.contains(varName.toLowerCase());
+    return isLabel(varName) || isLabelAs(varName) || NAMES_LC.contains(varName);
   }
 
   public static boolean hasRange(String varName) {
@@ -251,7 +251,7 @@ public class Permission implements Comparable<Permission> {
       return LABEL_AS_INDEX;
     }
 
-    int index = NAMES_LC.indexOf(a.getName().toLowerCase());
+    int index = NAMES_LC.indexOf(a.getName());
     return 0 <= index ? index : NAMES_LC.size();
   }
 

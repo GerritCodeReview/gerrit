@@ -1206,7 +1206,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (capability != null) {
       Set<String> have = new HashSet<>();
       for (Permission permission : sort(capability.getPermissions())) {
-        have.add(permission.getName().toLowerCase());
+        have.add(permission.getName());
 
         boolean needRange = GlobalCapability.hasRange(permission.getName());
         List<String> rules = new ArrayList<>();
@@ -1220,7 +1220,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         rc.setStringList(CAPABILITY, null, permission.getName(), rules);
       }
       for (String varName : rc.getNames(CAPABILITY)) {
-        if (!have.contains(varName.toLowerCase())) {
+        if (!have.contains(varName)) {
           rc.unset(CAPABILITY, null, varName);
         }
       }
@@ -1251,7 +1251,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
       Set<String> have = new HashSet<>();
       for (Permission permission : sort(as.getPermissions())) {
-        have.add(permission.getName().toLowerCase());
+        have.add(permission.getName());
 
         boolean needRange = Permission.hasRange(permission.getName());
         List<String> rules = new ArrayList<>();
@@ -1266,8 +1266,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
 
       for (String varName : rc.getNames(ACCESS, refName)) {
-        if (isPermission(convertLegacyPermission(varName))
-            && !have.contains(varName.toLowerCase())) {
+        if (isPermission(convertLegacyPermission(varName)) && !have.contains(varName)) {
           rc.unset(ACCESS, refName, varName);
         }
       }

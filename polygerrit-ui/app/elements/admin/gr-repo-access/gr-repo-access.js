@@ -79,10 +79,6 @@
       // The current path
       path: String,
 
-      _isAdmin: {
-        type: Boolean,
-        value: false,
-      },
       _canUpload: {
         type: Boolean,
         value: false,
@@ -167,6 +163,7 @@
             this._groups = res.groups;
             this._weblinks = res.config_web_links || [];
             this._canUpload = res.can_upload;
+            this._ownerOf = res.owner_of || [];
             return this.toSortedArray(this._local);
           }));
 
@@ -183,10 +180,6 @@
 
             return res.labels;
           }));
-
-      promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-        this._isAdmin = isAdmin;
-      }));
 
       return Promise.all(promises).then(([sections, capabilities, labels]) => {
         this._capabilities = capabilities;
@@ -425,9 +418,9 @@
       return editing ? 'editing': '';
     },
 
-    _computeMainClass(isAdmin, canUpload, editing) {
+    _computeMainClass(ownerOf, canUpload, editing) {
       const classList = [];
-      if (isAdmin || canUpload) {
+      if (ownerOf.length > 0 || canUpload) {
         classList.push('admin');
       }
       if (editing) {

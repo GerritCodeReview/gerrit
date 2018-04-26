@@ -142,14 +142,11 @@ limitations under the License.
       const capabilitiesStub = sandbox.stub(element.$.restAPI,
           'getCapabilities');
       capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
-      const adminStub = sandbox.stub(element.$.restAPI, 'getIsAdmin').returns(
-          Promise.resolve(true));
 
       element._repoChanged('New Repo').then(() => {
         assert.isTrue(accessStub.called);
         assert.isTrue(capabilitiesStub.called);
         assert.isTrue(repoStub.called);
-        assert.isTrue(adminStub.called);
         assert.isNotOk(element._inheritsFrom);
         assert.deepEqual(element._local, accessRes.local);
         assert.deepEqual(element._sections,
@@ -195,20 +192,21 @@ limitations under the License.
     });
 
     test('_computeMainClass', () => {
-      let isAdmin = true;
+      let ownerOf = ['refs/*'];
       const editing = true;
       const canUpload = false;
-      assert.equal(element._computeMainClass(isAdmin, canUpload), 'admin');
-      assert.equal(element._computeMainClass(isAdmin, canUpload, editing),
+      assert.equal(element._computeMainClass(ownerOf, canUpload), 'admin');
+      assert.equal(element._computeMainClass(ownerOf, canUpload, editing),
           'admin editing');
-      isAdmin = false;
-      assert.equal(element._computeMainClass(isAdmin, canUpload), '');
-      assert.equal(element._computeMainClass(isAdmin, canUpload, editing),
+      ownerOf = [];
+      assert.equal(element._computeMainClass(ownerOf, canUpload), '');
+      assert.equal(element._computeMainClass(ownerOf, canUpload, editing),
           'editing');
     });
 
     test('inherit section', () => {
       element._local = {};
+      element._ownerOf = [];
       sandbox.stub(element, '_computeParentHref');
       // Nothing should appear when no inherit from and not in edit mode.
       assert.equal(getComputedStyle(element.$.inheritsFrom).display, 'none');
@@ -294,6 +292,7 @@ limitations under the License.
         // Create deep copies of these objects so the originals are not modified
         // by any tests.
         element._local = JSON.parse(JSON.stringify(accessRes.local));
+        element._ownerOf = [];
         element._sections = element.toSortedArray(element._local);
         element._groups = JSON.parse(JSON.stringify(accessRes.groups));
         element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
@@ -320,7 +319,7 @@ limitations under the License.
       });
 
       test('button visibility for admin', () => {
-        element._isAdmin = true;
+        element._ownerOf = ['refs/for/*'];
         testEditSaveCancelBtns();
       });
 

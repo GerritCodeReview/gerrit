@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d535296_e07a93f2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2410,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-26T07:17:39Z",
+      "side": 1,
+      "message": "\u003e Would it be worth adding such a structure so that we can a) get change messages by a dedicated endpoint and b) implement the deletion using a URL as above?\n\nYes. That\u0027s one reasonable way and it looks more flexible. At least it makes easier for UI to get/update/delete single change message. Will switch to this way.",
+      "parentUuid": "ba5de80d_04a3e51b",
+      "range": {
+        "startLine": 2409,
+        "startChar": 0,
+        "endLine": 2410,
+        "endChar": 69
+      },
+      "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77835674_8635d92a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

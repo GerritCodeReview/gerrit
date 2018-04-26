@@ -64,7 +64,6 @@ import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenBranch;
@@ -112,10 +111,6 @@ import org.slf4j.LoggerFactory;
  */
 public class MergeOp implements AutoCloseable {
   private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
-
-  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
-  private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
-      SUBMIT_RULE_OPTIONS.toBuilder().allowClosed(true).build();
 
   public static class CommitStatus {
     private final ImmutableMap<Change.Id, ChangeData> changes;
@@ -188,7 +183,7 @@ public class MergeOp implements AutoCloseable {
       // date by this point.
       ChangeData cd = checkNotNull(changes.get(id), "ChangeData for %s", id);
       return checkNotNull(
-          cd.getSubmitRecords(submitRuleOptions(allowClosed)),
+          cd.submitRecords(allowClosed),
           "getSubmitRecord only valid after submit rules are evalutated");
     }
 
@@ -329,12 +324,8 @@ public class MergeOp implements AutoCloseable {
     throw new IllegalStateException();
   }
 
-  private static SubmitRuleOptions submitRuleOptions(boolean allowClosed) {
-    return allowClosed ? SUBMIT_RULE_OPTIONS_ALLOW_CLOSED : SUBMIT_RULE_OPTIONS;
-  }
-
   private static List<SubmitRecord> getSubmitRecords(ChangeData cd, boolean allowClosed) {
-    return cd.submitRecords(submitRuleOptions(allowClosed));
+    return cd.submitRecords(allowClosed);
   }
 
   private static String describeLabels(ChangeData cd, List<SubmitRecord.Label> labels)
@@ -405,7 +396,7 @@ public class MergeOp implements AutoCloseable {
       SubmitRecord forced = new SubmitRecord();
       forced.status = SubmitRecord.Status.FORCED;
       records.add(forced);
-      cd.setSubmitRecords(submitRuleOptions(allowClosed), records);
+      cd.setSubmitRecords(records);
     }
   }
 

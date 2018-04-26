@@ -947,9 +947,6 @@ public class ChangeData {
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
     List<SubmitRecord> records = submitRecords.get(options);
     if (records == null) {
-      if (!lazyLoad) {
-        return Collections.emptyList();
-      }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
       submitRecords.put(options, records);
     }

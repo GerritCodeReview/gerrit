@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -80,7 +81,14 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
             .build();
 
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
-    List<SubmitRecord> records = submitRuleEvaluatorFactory.create(opts).evaluate(cd);
+    final List<SubmitRecord> records;
+    if (cd.change().getStatus().isClosed()) {
+      SubmitRecord rec = new SubmitRecord();
+      rec.status = SubmitRecord.Status.CLOSED;
+      records = ImmutableList.of(rec);
+    } else {
+      records = submitRuleEvaluatorFactory.create(opts).evaluate(cd);
+    }
 
     List<Record> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);

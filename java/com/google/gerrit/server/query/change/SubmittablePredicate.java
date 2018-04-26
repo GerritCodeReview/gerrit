@@ -15,27 +15,20 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 
 public class SubmittablePredicate extends ChangeIndexPredicate {
-  public static Predicate<ChangeData> create(SubmitRecord.Status status) {
-    return Predicate.and(ChangeStatusPredicate.open(), new SubmittablePredicate(status));
-  }
-
   protected final SubmitRecord.Status status;
 
-  private SubmittablePredicate(SubmitRecord.Status status) {
+  public SubmittablePredicate(SubmitRecord.Status status) {
     super(ChangeField.SUBMIT_RECORD, status.name());
     this.status = status;
   }
 
   @Override
   public boolean match(ChangeData cd) throws OrmException {
-    return cd.submitRecords(ChangeField.SUBMIT_RULE_OPTIONS_STRICT)
-        .stream()
-        .anyMatch(r -> r.status == status);
+    return cd.submitRecords(false).stream().anyMatch(r -> r.status == status);
   }
 
   @Override

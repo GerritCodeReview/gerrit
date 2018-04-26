@@ -586,7 +586,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     }
 
     if ("submittable".equalsIgnoreCase(value)) {
-      return SubmittablePredicate.create(SubmitRecord.Status.OK);
+      return new SubmittablePredicate(SubmitRecord.Status.OK);
     }
 
     if ("ignored".equalsIgnoreCase(value)) {
@@ -1140,7 +1140,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     if (status == null) {
       throw error("invalid value for submittable:" + str);
     }
-    return SubmittablePredicate.create(status);
+    return new SubmittablePredicate(status);
   }
 
   @Operator

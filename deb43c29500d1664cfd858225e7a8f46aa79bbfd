@@ -22,6 +22,30 @@
       "revId": "deb43c29500d1664cfd858225e7a8f46aa79bbfd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3191deb_21a182a7",
+        "filename": "java/com/google/gwtexpui/globalkey/client/GlobalKey.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-04-26T14:23:31Z",
+      "side": 1,
+      "message": "yes, GWT 2.8.2 even added support for Java 9!",
+      "parentUuid": "76d46af9_c2c8fad4",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 27
+      },
+      "revId": "deb43c29500d1664cfd858225e7a8f46aa79bbfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

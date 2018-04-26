@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.git.TaskInfoFactory;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;
@@ -107,14 +106,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
   }
 
   private List<TaskInfo> getTasks() {
-    List<TaskInfo> taskInfos =
-        workQueue.getTaskInfos(
-            new TaskInfoFactory<TaskInfo>() {
-              @Override
-              public TaskInfo getTaskInfo(Task<?> task) {
-                return new TaskInfo(task);
-              }
-            });
+    List<TaskInfo> taskInfos = workQueue.getTaskInfos(TaskInfo::new);
     Collections.sort(
         taskInfos,
         new Comparator<TaskInfo>() {

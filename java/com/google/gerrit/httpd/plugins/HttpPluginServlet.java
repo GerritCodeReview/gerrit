@@ -202,13 +202,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         return null;
       }
 
-      plugin.add(
-          new RegistrationHandle() {
-            @Override
-            public void remove() {
-              filter.destroy();
-            }
-          });
+      plugin.add(filter::destroy);
       return filter;
     }
     return null;

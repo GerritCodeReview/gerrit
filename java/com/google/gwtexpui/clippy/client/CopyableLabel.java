@@ -239,13 +239,7 @@ public class CopyableLabel extends Composite implements HasText {
                           @Override
                           public void onKeyUp(KeyUpEvent event) {
                             Scheduler.get()
-                                .scheduleDeferred(
-                                    new Command() {
-                                      @Override
-                                      public void execute() {
-                                        hideTextBox();
-                                      }
-                                    });
+                                .scheduleDeferred((Command) CopyableLabel.this::hideTextBox);
                           }
                         });
                     break;

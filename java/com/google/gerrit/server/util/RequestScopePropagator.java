@@ -198,16 +198,7 @@ public abstract class RequestScopePropagator {
   protected <T> Callable<T> cleanup(Callable<T> callable) {
     return () -> {
       RequestCleanup cleanup =
-          scope
-              .scope(
-                  Key.get(RequestCleanup.class),
-                  new Provider<RequestCleanup>() {
-                    @Override
-                    public RequestCleanup get() {
-                      return new RequestCleanup();
-                    }
-                  })
-              .get();
+          scope.scope(Key.get(RequestCleanup.class), RequestCleanup::new).get();
       try {
         return callable.call();
       } finally {

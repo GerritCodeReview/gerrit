@@ -95,6 +95,30 @@
       "revId": "367fbb8fecf37a6255f30f08ed636f057749abe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f11f397d_eef115b1",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-26T14:03:37Z",
+      "side": 1,
+      "message": "Sounds like we\u0027ll stick with this, then.\n\n\u003e If I read the documentation right, it might not just be about maps.\n\nI skimmed the code and it seemed to be just about maps, but I can see why they would not write the docs to encourage people to rely on that implementation detail.\n\n\u003e It\u0027s only a possibility that we might never encounter.\n\nAgreed, I think this is likely to be quite rare. Protobuf is a pretty stable format.\n\n\u003e For those, we would still not get wrong results. Instead, this would only represent an invalidation for those keys.\n\nYes, although they would not be immediately pruned, since we wouldn\u0027t know that they exist. But they would presumably never get touched and thus be eligible for size-based pruning, which is fine by me.",
+      "parentUuid": "92678e95_ccc8f723",
+      "range": {
+        "startLine": 185,
+        "startChar": 67,
+        "endLine": 185,
+        "endChar": 80
+      },
+      "revId": "367fbb8fecf37a6255f30f08ed636f057749abe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

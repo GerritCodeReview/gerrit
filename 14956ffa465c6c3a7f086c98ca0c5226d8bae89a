@@ -70,6 +70,30 @@
       "revId": "14956ffa465c6c3a7f086c98ca0c5226d8bae89a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4dd17cb4_80476348",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T05:40:52Z",
+      "side": 1,
+      "message": "I\u0027ll just remove the entire section in a new PS.  It\u0027ll likely conflict when merged up, but that\u0027s easy to resolve.",
+      "parentUuid": "c0bf1618_b7a00c68",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 371,
+        "endChar": 4
+      },
+      "revId": "14956ffa465c6c3a7f086c98ca0c5226d8bae89a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

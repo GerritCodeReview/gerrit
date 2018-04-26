@@ -169,7 +169,7 @@ to submit a change.
 
 Gerrit uses a Change-Id to identify which patch sets belong to the same review.
 For example, you make a change to a project. A reviewer supplies some feedback,
-which you address in a second commit. By assigning the same Change-Id to both
+which you address in an amended commit. By assigning the same Change-Id to both
 commits, Gerrit can attach those commits to the same change.
 
 Change-Ids are appended to the end of a commit message, and resemble the

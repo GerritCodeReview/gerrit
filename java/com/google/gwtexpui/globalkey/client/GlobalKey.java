@@ -14,6 +14,7 @@
 
 package com.google.gwtexpui.globalkey.client;
 
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -27,13 +28,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GlobalKey {
-  public static final KeyPressHandler STOP_PROPAGATION =
-      new KeyPressHandler() {
-        @Override
-        public void onKeyPress(KeyPressEvent event) {
-          event.stopPropagation();
-        }
-      };
+  public static final KeyPressHandler STOP_PROPAGATION = DomEvent::stopPropagation;
 
   private static State global;
   static State active;

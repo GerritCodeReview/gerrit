@@ -14,7 +14,6 @@
 
 package com.google.gerrit.metrics.proc;
 
-import com.google.common.base.Supplier;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
@@ -29,22 +28,12 @@ public class JGitMetricModule extends MetricModule {
         new Description("Bytes of memory retained in JGit block cache.")
             .setGauge()
             .setUnit(Units.BYTES),
-        new Supplier<Long>() {
-          @Override
-          public Long get() {
-            return WindowCacheStats.getOpenBytes();
-          }
-        });
+        WindowCacheStats::getOpenBytes);
 
     metrics.newCallbackMetric(
         "jgit/block_cache/open_files",
         Integer.class,
         new Description("File handles held open by JGit block cache.").setGauge().setUnit("fds"),
-        new Supplier<Integer>() {
-          @Override
-          public Integer get() {
-            return WindowCacheStats.getOpenFiles();
-          }
-        });
+        WindowCacheStats::getOpenFiles);
   }
 }

@@ -60,12 +60,7 @@ public class ProcMetricModule extends MetricModule {
         "proc/uptime",
         Long.class,
         new Description("Uptime of this process").setUnit(Units.MILLISECONDS),
-        new Supplier<Long>() {
-          @Override
-          public Long get() {
-            return ManagementFactory.getRuntimeMXBean().getUptime();
-          }
-        });
+        ManagementFactory.getRuntimeMXBean()::getUptime);
   }
 
   private void procCpuUsage(MetricMaker metrics) {
@@ -93,12 +88,7 @@ public class ProcMetricModule extends MetricModule {
           "proc/num_open_fds",
           Long.class,
           new Description("Number of open file descriptors").setGauge().setUnit("fds"),
-          new Supplier<Long>() {
-            @Override
-            public Long get() {
-              return provider.getOpenFileDescriptorCount();
-            }
-          });
+          provider::getOpenFileDescriptorCount);
     }
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7b1dbe2a_50b36691",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T09:36:02Z",
+      "side": 1,
+      "message": "Yes, it\u0027s because this was done first on another branch. I cherry picked it to avoid having the fix in the merge commit.\n\nI will rewrite it as suggested.",
+      "parentUuid": "53f2cbc4_4ddabdc5",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 67
+      },
+      "revId": "7dee3482955a311e55afc5472dc89658f5c86bcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c16bb8a_b8d88fb6",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-04-26T08:24:58Z",
       "side": 1,
       "message": "optional: Split this test into two: One that checks that a reviewer is contained when using reviewerin: and one that checks that CCs are not contained when calling reviewerin:",
+      "range": {
+        "startLine": 1955,
+        "startChar": 14,
+        "endLine": 1955,
+        "endChar": 24
+      },
+      "revId": "7dee3482955a311e55afc5472dc89658f5c86bcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd4c4118_6a59584f",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1955,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-26T09:36:02Z",
+      "side": 1,
+      "message": "I\u0027d rather leave it like this to keep consistent with the stable-2.14 branch.\n\nIf we really want to split it up, I can do that on the stable-2.14 later.",
+      "parentUuid": "8c16bb8a_b8d88fb6",
       "range": {
         "startLine": 1955,
         "startChar": 14,

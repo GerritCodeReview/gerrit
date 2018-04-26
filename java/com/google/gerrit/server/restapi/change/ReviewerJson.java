@@ -32,8 +32,6 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.LabelPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -50,7 +48,6 @@ public class ReviewerJson {
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountLoader.Factory accountLoaderFactory;
-  private final SubmitRuleEvaluator submitRuleEvaluator;
 
   @Inject
   ReviewerJson(
@@ -58,14 +55,12 @@ public class ReviewerJson {
       PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
-      AccountLoader.Factory accountLoaderFactory,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      AccountLoader.Factory accountLoaderFactory) {
     this.db = db;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountLoaderFactory = accountLoaderFactory;
-    submitRuleEvaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
   }
 
   public List<ReviewerInfo> format(Collection<ReviewerResource> rsrcs)
@@ -125,7 +120,7 @@ public class ReviewerJson {
     // do not exist in the DB.
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
-      for (SubmitRecord rec : submitRuleEvaluator.evaluate(cd)) {
+      for (SubmitRecord rec : cd.submitRecords(false)) {
         if (rec.labels == null) {
           continue;
         }

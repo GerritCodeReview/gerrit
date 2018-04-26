@@ -71,6 +71,30 @@
       "revId": "367fbb8fecf37a6255f30f08ed636f057749abe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92678e95_ccc8f723",
+        "filename": "java/com/google/gerrit/server/change/ChangeKindCacheImpl.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-26T13:51:19Z",
+      "side": 1,
+      "message": "Perfect. I was just about to send the following comment.\n\nPros for Protobuf for keys:\n- The three aspects you already mentioned. I totally agree with them.\n- Protobuf is much easier to get right. Other developers might not have so much experience with writing parsers.\n\nCons:\n- Even CodedOutputStream#useDeterministicSerialization doesn\u0027t ensure determinism across different versions of Protobuf. If I read the documentation right, it might not just be about maps.\n\nWhy I don\u0027t think that the \u0027Cons\u0027 are so bad:\n- It\u0027s only a possibility that we might never encounter.\n- Even if we do, it probably only affects a small subset of all keys.\n- For those, we would still not get wrong results. Instead, this would only represent an invalidation for those keys.\n\nSo, I would also lean towards Protobuf for non-primitive keys. My only condition would be that we introduce helper code for a deterministic toByteArray() and use it wherever we serialize Protobufs (which you just did with the latest patch set :-) ).",
+      "parentUuid": "fee6c845_98cd0c76",
+      "range": {
+        "startLine": 185,
+        "startChar": 67,
+        "endLine": 185,
+        "endChar": 80
+      },
+      "revId": "367fbb8fecf37a6255f30f08ed636f057749abe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

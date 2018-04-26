@@ -38,7 +38,8 @@ limitations under the License.
       #inheritsFrom,
       #editInheritFromInput,
       .editing #inheritFromName,
-      .weblinks{
+      .weblinks,
+      .editing .invisible{
         display: none;
       }
       #inheritsFrom.show {
@@ -96,10 +97,15 @@ limitations under the License.
         <gr-button id="editBtn"
             on-tap="_handleEdit">[[_editOrCancel(_editing)]]</gr-button>
         <gr-button id="saveBtn"
+              primary
+              class$="[[_computeSaveBtnClass(_ownerOf)]]"
+              on-tap="_handleSave"
+              disabled$="[[!_modified]]">Save</gr-button>
+        <gr-button id="saveReviewBtn"
             primary
+            class$="[[_computeSaveReviewBtnClass(_canUpload)]]"
             on-tap="_handleSaveForReview"
-            disabled$="[[!_modified]]">
-              Save for review</gr-button>
+            disabled$="[[!_modified]]">Save for review</gr-button>
         <template
             is="dom-repeat"
             items="{{_sections}}"

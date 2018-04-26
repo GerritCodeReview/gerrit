@@ -135,11 +135,17 @@
     _repoChanged(repo) {
       if (!repo) { return Promise.resolve(); }
 
+      return this._reload(repo);
+    },
+
+    _reload(repo) {
       const promises = [];
 
       const errFn = response => {
         this.fire('page-error', {response});
       };
+
+      this._editing = false;
 
       // Always reset sections when a project changes.
       this._sections = [];
@@ -386,7 +392,7 @@
           .editReference();
     },
 
-    _handleSaveForReview() {
+    _getObjforSave() {
       const addRemoveObj = this._computeAddAndRemove();
       // If there are no changes, don't actually save.
       if (!Object.keys(addRemoveObj.add).length &&
@@ -403,19 +409,33 @@
       if (addRemoveObj.parent) {
         obj.parent = addRemoveObj.parent;
       }
-      return this.$.restAPI.setProjectAccessRightsForReview(this.repo, obj)
+      return obj;
+    },
+
+    _handleSave() {
+      const obj = this._getObjforSave();
+      if (!obj) { return; }
+      return this.$.restAPI.setRepoAccessRights(this.repo, obj)
+          .then(() => {
+            this._reload(this.repo);
+          });
+    },
+
+    _handleSaveForReview() {
+      const obj = this._getObjforSave();
+      if (!obj) { return; }
+      return this.$.restAPI.setRepoAccessRightsForReview(this.repo, obj)
           .then(change => {
             Gerrit.Nav.navigateToChange(change);
           });
     },
 
-    _computeShowSaveClass(editing) {
-      if (!editing) { return ''; }
-      return 'visible';
+    _computeSaveReviewBtnClass(canUpload) {
+      return !canUpload ? 'invisible' : '';
     },
 
-    _computeEditingClass(editing) {
-      return editing ? 'editing': '';
+    _computeSaveBtnClass(ownerOf) {
+      return ownerOf.length < 0 ? 'invisible' : '';
     },
 
     _computeMainClass(ownerOf, canUpload, editing) {

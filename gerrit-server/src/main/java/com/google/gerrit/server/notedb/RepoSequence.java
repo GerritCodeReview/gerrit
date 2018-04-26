@@ -56,6 +56,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class for managing an incrementing sequence backed by a git repository.
@@ -84,6 +86,7 @@ public class RepoSequence {
         .withStopStrategy(StopStrategies.stopAfterDelay(30, TimeUnit.SECONDS));
   }
 
+  private static final Logger logger = LoggerFactory.getLogger(RepoSequence.class);
   private static final Retryer<RefUpdate.Result> RETRYER = retryerBuilder().build();
 
   private final GitRepositoryManager repoManager;
@@ -100,6 +103,7 @@ public class RepoSequence {
 
   private int limit;
   private int counter;
+  private int seedFloor;
 
   @VisibleForTesting int acquireCount;
 
@@ -151,6 +155,21 @@ public class RepoSequence {
     this.retryer = checkNotNull(retryer, "retryer");
 
     counterLock = new ReentrantLock(true);
+  }
+
+  private int getFloor(Seed seed) {
+    counterLock.lock();
+    try {
+      if (seedFloor == 0) {
+        seedFloor = seed.get();
+      }
+    } catch (OrmException e) {
+      logger.warn("Unable to calculate initial floor seed", e);
+    } finally {
+      counterLock.unlock();
+    }
+
+    return seedFloor;
   }
 
   public int next() throws OrmException {
@@ -258,7 +277,8 @@ public class RepoSequence {
         next = seed.get();
       } else {
         oldId = ref.getObjectId();
-        next = parse(oldId);
+        int oldValue = parse(oldId);
+        next = Math.max(getFloor(seed), oldValue);
       }
       return store(repo, rw, oldId, next + count);
     }

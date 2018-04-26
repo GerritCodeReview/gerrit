@@ -148,12 +148,6 @@ public class PrologRuleEvaluator {
       return ruleError("Error looking up change " + cd.getId(), e);
     }
 
-    if (!opts.allowClosed() && change.getStatus().isClosed()) {
-      SubmitRecord rec = new SubmitRecord();
-      rec.status = SubmitRecord.Status.CLOSED;
-      return Collections.singletonList(rec);
-    }
-
     List<Term> results;
     try {
       results =

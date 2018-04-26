@@ -31,7 +31,6 @@ import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gson.Gson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -250,8 +249,7 @@ public class OutputStreamQuery {
     }
 
     if (includeSubmitRecords) {
-      SubmitRuleOptions options = SubmitRuleOptions.builder().allowClosed(true).build();
-      eventFactory.addSubmitRecords(c, submitRuleEvaluatorFactory.create(options).evaluate(d));
+      eventFactory.addSubmitRecords(c, d.submitRecords(true));
     }
 
     if (includeCommitMessage) {

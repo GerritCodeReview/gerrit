@@ -132,7 +132,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.PluginDefinedAttributesFactory;
@@ -174,12 +173,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ChangeJson {
   private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
-
-  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().build();
-
-  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
-      ChangeField.SUBMIT_RULE_OPTIONS_STRICT.toBuilder().build();
 
   public static final ImmutableSet<ListChangesOption> REQUIRE_LAZY_LOAD =
       ImmutableSet.of(
@@ -446,7 +439,7 @@ public class ChangeJson {
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
     Collection<SubmitRequirementInfo> reqInfos = new ArrayList<>();
-    for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
+    for (SubmitRecord submitRecord : cd.submitRecords(false)) {
       if (submitRecord.requirements == null) {
         continue;
       }
@@ -757,11 +750,7 @@ public class ChangeJson {
   }
 
   private boolean submittable(ChangeData cd) {
-    return SubmitRecord.allRecordsOK(cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT));
-  }
-
-  private List<SubmitRecord> submitRecords(ChangeData cd) {
-    return cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT);
+    return SubmitRecord.allRecordsOK(cd.submitRecords(false));
   }
 
   private Map<String, LabelInfo> labelsFor(ChangeData cd, boolean standard, boolean detailed)
@@ -809,7 +798,7 @@ public class ChangeJson {
   private Map<String, LabelWithStatus> initLabels(
       ChangeData cd, LabelTypes labelTypes, boolean standard) {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
-    for (SubmitRecord rec : submitRecords(cd)) {
+    for (SubmitRecord rec : cd.submitRecords(true)) {
       if (rec.labels == null) {
         continue;
       }
@@ -1114,7 +1103,7 @@ public class ChangeJson {
     boolean isMerged = cd.change().getStatus() == Change.Status.MERGED;
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
-    for (SubmitRecord rec : submitRecords(cd)) {
+    for (SubmitRecord rec : cd.submitRecords(true)) {
       if (rec.labels != null) {
         for (SubmitRecord.Label r : rec.labels) {
           LabelType type = labelTypes.byLabel(r.label);
@@ -1128,7 +1117,7 @@ public class ChangeJson {
     Map<String, Short> labels = null;
     Set<LabelPermission.WithValue> can = perm.testLabels(toCheck.values());
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
-    for (SubmitRecord rec : submitRecords(cd)) {
+    for (SubmitRecord rec : cd.submitRecords(true)) {
       if (rec.labels == null) {
         continue;
       }

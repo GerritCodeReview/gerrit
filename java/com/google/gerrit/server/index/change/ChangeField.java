@@ -59,7 +59,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.RobotCommentNotes;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
@@ -637,12 +636,6 @@ public class ChangeField {
                 return reviewedBy.stream().map(Account.Id::get).collect(toList());
               });
 
-  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
-      SubmitRuleOptions.builder().allowClosed(true).build();
-
-  public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_STRICT =
-      SubmitRuleOptions.builder().build();
-
   /**
    * JSON type for storing SubmitRecords.
    *
@@ -723,25 +716,23 @@ public class ChangeField {
   }
 
   public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RECORD =
-      exact("submit_record").buildRepeatable(cd -> formatSubmitRecordValues(cd));
+      exact("submit_record").buildRepeatable(ChangeField::formatSubmitRecordValues);
 
+  @Deprecated
   public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT =
-      storedOnly("full_submit_record_strict")
-          .buildRepeatable(cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_STRICT));
+      storedOnly("full_submit_record_strict").buildRepeatable(ChangeField::storedSubmitRecords);
 
   public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_LENIENT =
-      storedOnly("full_submit_record_lenient")
-          .buildRepeatable(cd -> storedSubmitRecords(cd, SUBMIT_RULE_OPTIONS_LENIENT));
+      storedOnly("full_submit_record_lenient").buildRepeatable(ChangeField::storedSubmitRecords);
 
-  public static void parseSubmitRecords(
-      Collection<String> values, SubmitRuleOptions opts, ChangeData out) {
+  public static void parseSubmitRecords(Collection<String> values, ChangeData out) {
     List<SubmitRecord> records = parseSubmitRecords(values);
     if (records.isEmpty()) {
       // Assume no values means the field is not in the index;
       // SubmitRuleEvaluator ensures the list is non-empty.
       return;
     }
-    out.setSubmitRecords(opts, records);
+    out.setSubmitRecords(records);
   }
 
   @VisibleForTesting
@@ -754,16 +745,18 @@ public class ChangeField {
 
   @VisibleForTesting
   static List<byte[]> storedSubmitRecords(List<SubmitRecord> records) {
-    return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
+    return records
+        .stream()
+        .map(r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8))
+        .collect(toList());
   }
 
-  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
-    return storedSubmitRecords(cd.submitRecords(opts));
+  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd) {
+    return storedSubmitRecords(cd.submitRecords(true));
   }
 
   public static List<String> formatSubmitRecordValues(ChangeData cd) throws OrmException {
-    return formatSubmitRecordValues(
-        cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT), cd.change().getOwner());
+    return formatSubmitRecordValues(cd.submitRecords(false), cd.change().getOwner());
   }
 
   @VisibleForTesting

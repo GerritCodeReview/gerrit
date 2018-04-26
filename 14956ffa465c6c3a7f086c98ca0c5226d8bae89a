@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44974684_c172e2c7",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-04-26T04:27:57Z",
+      "side": 1,
+      "message": "It\u0027s different in bazel as it was in buck. Per default, download_file.py only caches in:\n\n  ~/.gerritcodereview/bazel-cache/downloaded-artifacts\n\nIn addition, we recommend repository and action cache invocation, so that we would get:\n\n  $ ls ~/.gerritcodereview/bazel-cache/\n  cas  downloaded-artifacts  repository",
+      "range": {
+        "startLine": 364,
+        "startChar": 0,
+        "endLine": 371,
+        "endChar": 4
+      },
+      "revId": "14956ffa465c6c3a7f086c98ca0c5226d8bae89a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -54,6 +54,8 @@
         value: false,
         observer: '_handleEditingChanged',
       },
+      canUpload: Boolean,
+      ownerOf: Array,
       _originalId: String,
       _editingRef: {
         type: Boolean,
@@ -214,9 +216,9 @@
       this.$.editRefInput.focus();
     },
 
-    _computeSectionClass(editing, editingRef, deleted) {
+    _computeSectionClass(editing, canUpload, ownerOf, editingRef, deleted) {
       const classList = [];
-      if (editing) {
+      if (editing && (canUpload || ownerOf.indexOf(this.section.id) >= 0)) {
         classList.push('editing');
       }
       if (editingRef) {

@@ -140,11 +140,19 @@ public class RepoSequenceTest {
   }
 
   @Test
-  public void startIsIgnoredIfRefIsPresent() throws Exception {
+  public void startIsNotIgnoredIfRefIsPresentButIsLowerThanStart() throws Exception {
     writeBlob("id", "1234");
     RepoSequence s = newSequence("id", 3456, 10);
-    assertThat(s.next()).isEqualTo(1234);
-    assertThat(readBlob("id")).isEqualTo("1244");
+    assertThat(s.next()).isEqualTo(3456);
+    assertThat(readBlob("id")).isEqualTo("3466");
+  }
+
+  @Test
+  public void startIsIgnoredIfRefIsPresentAndHigherThanStart() throws Exception {
+    writeBlob("id", "7899");
+    RepoSequence s = newSequence("id", 3456, 10);
+    assertThat(s.next()).isEqualTo(7899);
+    assertThat(readBlob("id")).isEqualTo("7909");
   }
 
   @Test

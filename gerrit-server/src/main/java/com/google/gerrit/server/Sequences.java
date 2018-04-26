@@ -17,6 +17,8 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -85,10 +87,30 @@ public class Sequences {
     int gap = getChangeSequenceGap(cfg);
     @SuppressWarnings("deprecation")
     RepoSequence.Seed changeSeed = () -> db.get().nextChangeId() + gap;
+    Supplier<Integer> floorSupplier =
+        Suppliers.memoize(
+            new Supplier<Integer>() {
+
+              @SuppressWarnings("deprecation")
+              @Override
+              public Integer get() {
+                try {
+                  return db.get().nextChangeId();
+                } catch (OrmException e) {
+                  throw new RuntimeException("Unable to get max sequence number from ReviewDb", e);
+                }
+              }
+            });
     int changeBatchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
     changeSeq =
         new RepoSequence(
-            repoManager, gitRefUpdated, allProjects, NAME_CHANGES, changeSeed, changeBatchSize);
+            repoManager,
+            gitRefUpdated,
+            allProjects,
+            NAME_CHANGES,
+            changeSeed,
+            changeBatchSize,
+            floorSupplier);
 
     nextIdLatency =
         metrics.newTimer(

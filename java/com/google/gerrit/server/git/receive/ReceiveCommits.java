@@ -2984,13 +2984,7 @@ class ReceiveCommits {
                     id,
                     mergedByPushOpFactory
                         .create(requestScopePropagator, req.psId, refName)
-                        .setPatchSetProvider(
-                            new Provider<PatchSet>() {
-                              @Override
-                              public PatchSet get() {
-                                return req.replaceOp.getPatchSet();
-                              }
-                            }));
+                        .setPatchSetProvider(req.replaceOp::getPatchSet));
                 bu.addOp(id, new ChangeProgressOp(closeProgress));
               }
 

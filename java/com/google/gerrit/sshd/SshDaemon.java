@@ -20,7 +20,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.sshd.common.channel.ChannelOutputStream.WAIT_FOR_SPACE_TIMEOUT;
 
 import com.google.common.base.Strings;
-import com.google.common.base.Supplier;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -242,12 +241,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         "sshd/sessions/connected",
         Integer.class,
         new Description("Currently connected SSH sessions").setGauge().setUnit("sessions"),
-        new Supplier<Integer>() {
-          @Override
-          public Integer get() {
-            return connected.get();
-          }
-        });
+        connected::get);
 
     final Counter0 sessionsCreated =
         metricMaker.newCounter(

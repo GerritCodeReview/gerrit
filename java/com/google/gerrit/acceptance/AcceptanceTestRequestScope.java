@@ -166,13 +166,7 @@ public class AcceptanceTestRequestScope {
 
   public Context disableDb() {
     Context old = current.get();
-    SchemaFactory<ReviewDb> sf =
-        new SchemaFactory<ReviewDb>() {
-          @Override
-          public ReviewDb open() {
-            return new DisabledReviewDb();
-          }
-        };
+    SchemaFactory<ReviewDb> sf = DisabledReviewDb::new;
     Context ctx = new Context(sf, old.session, old.user, old.created);
 
     current.set(ctx);

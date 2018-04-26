@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "51d1063f_b6cffc89",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2410,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-26T07:46:35Z",
+      "side": 1,
+      "message": "That\u0027s a good point, I agree that we should change this.",
+      "parentUuid": "4d535296_e07a93f2",
+      "range": {
+        "startLine": 2409,
+        "startChar": 0,
+        "endLine": 2410,
+        "endChar": 69
+      },
+      "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77835674_8635d92a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7

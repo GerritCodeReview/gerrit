@@ -32,7 +32,7 @@ public class SubmitRecord {
     }
 
     // The change can be submitted, unless at least one plugin prevents it.
-    return in.stream().noneMatch(r -> r.status != Status.OK);
+    return in.stream().map(SubmitRecord::status).noneMatch(SubmitRecord.Status::blocksSubmission);
   }
 
   public enum Status {
@@ -56,7 +56,11 @@ public class SubmitRecord {
      *
      * <p>Additional detail may be available in {@link SubmitRecord#errorMessage}.
      */
-    RULE_ERROR
+    RULE_ERROR;
+
+    private boolean blocksSubmission() {
+      return this != OK && this != FORCED;
+    }
   }
 
   public Status status;
@@ -177,5 +181,9 @@ public class SubmitRecord {
   @Override
   public int hashCode() {
     return Objects.hash(status, labels, errorMessage, requirements);
+  }
+
+  private Status status() {
+    return status;
   }
 }

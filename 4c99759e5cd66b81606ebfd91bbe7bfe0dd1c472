@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87447aa5_447a8d3b",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-26T09:04:01Z",
+      "side": 1,
+      "message": "Can you make this a non-static method of ReviewerUtil?\n\nthis would make the API much cleaner.\n\nYou can also call it \u0027checkPatchSetNotLocked(notes) and make it throw a ResourceConflictException directly which makes it easier for callers as they just have to make the call.",
+      "range": {
+        "startLine": 417,
+        "startChar": 8,
+        "endLine": 417,
+        "endChar": 24
+      },
+      "revId": "4c99759e5cd66b81606ebfd91bbe7bfe0dd1c472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

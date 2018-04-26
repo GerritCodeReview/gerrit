@@ -30,6 +30,7 @@ public class ChangeInput {
   public Boolean isPrivate;
   public Boolean workInProgress;
   public String baseChange;
+  public String baseCommit;
   public Boolean newBranch;
   public MergeInput merge;
 

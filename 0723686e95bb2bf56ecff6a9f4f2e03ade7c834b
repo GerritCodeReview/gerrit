@@ -34,6 +34,24 @@
       "revId": "0723686e95bb2bf56ecff6a9f4f2e03ade7c834b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30fd58c5_4c3ae232",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-26T16:48:36Z",
+      "side": 1,
+      "message": "If this change is the result of a bug, then there should be a test added",
+      "parentUuid": "45d19b2e_3a76a5b3",
+      "revId": "0723686e95bb2bf56ecff6a9f4f2e03ade7c834b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

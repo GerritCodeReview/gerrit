@@ -335,7 +335,7 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
   @Test
   public void enableSequencesNoGap() throws Exception {
-    testEnableSequences(0, 2, "12");
+    testEnableSequences(0, 3, "13");
   }
 
   @Test

@@ -5734,7 +5734,11 @@ Whether the new change should be marked as private.
 Whether the new change should be set to work in progress.
 |`base_change`        |optional|
 A link:#change-id[\{change-id\}] that identifies the base change for a create
-change operation.
+change operation. Mutually exclusive with `base_commit`.
+|`base_commit`        |optional|
+A 40-digit hex SHA-1 of the commit which will be the parent commit of the newly
+created change. If set, it must be a merged commit on the destination branch.
+Mutually exclusive with `base_change`.
 |`new_branch`         |optional, default to `false`|
 Allow creating a new branch when set to `true`.
 |`merge`              |optional|

@@ -81,6 +81,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -180,6 +181,10 @@ public class CreateChange
       }
     }
 
+    if (input.baseChange != null && input.baseCommit != null) {
+      throw new BadRequestException("only provide one of base_change or base_commit");
+    }
+
     ProjectResource rsrc = projectsCollection.parse(input.project);
     boolean privateByDefault = rsrc.getProjectState().is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
     boolean isPrivate = input.isPrivate == null ? privateByDefault : input.isPrivate;
@@ -205,6 +210,7 @@ public class CreateChange
         RevWalk rw = new RevWalk(reader)) {
       ObjectId parentCommit;
       List<String> groups;
+      Ref destRef = git.getRefDatabase().exactRef(refName);
       if (input.baseChange != null) {
         List<ChangeNotes> notes = changeFinder.find(input.baseChange);
         if (notes.size() != 1) {
@@ -219,8 +225,21 @@ public class CreateChange
         PatchSet ps = psUtil.current(db.get(), change);
         parentCommit = ObjectId.fromString(ps.getRevision().get());
         groups = ps.getGroups();
+      } else if (input.baseCommit != null) {
+        try {
+          parentCommit = ObjectId.fromString(input.baseCommit);
+        } catch (InvalidObjectIdException e) {
+          throw new UnprocessableEntityException(
+              String.format("Base %s doesn't represent a valid SHA-1", input.baseCommit));
+        }
+        RevCommit parentRevCommit = rw.parseCommit(parentCommit);
+        RevCommit destRefRevCommit = rw.parseCommit(destRef.getObjectId());
+        if (!rw.isMergedInto(parentRevCommit, destRefRevCommit)) {
+          throw new BadRequestException(
+              String.format("Commit %s doesn't exist on ref %s", input.baseCommit, refName));
+        }
+        groups = Collections.emptyList();
       } else {
-        Ref destRef = git.getRefDatabase().exactRef(refName);
         if (destRef != null) {
           if (Boolean.TRUE.equals(input.newBranch)) {
             throw new ResourceConflictException(
@@ -231,8 +250,7 @@ public class CreateChange
           if (Boolean.TRUE.equals(input.newBranch)) {
             parentCommit = null;
           } else {
-            throw new UnprocessableEntityException(
-                String.format("Branch %s does not exist.", refName));
+            throw new BadRequestException("Must provide a destination branch");
           }
         }
         groups = Collections.emptyList();

@@ -47,6 +47,30 @@
       "revId": "8044bb1b8789b1f3b4bbc695e96bdb2ec179f677",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2189af51_2cb95b52",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-26T13:05:53Z",
+      "side": 1,
+      "message": "Didn\u0027t notice that it got merge while I was writing the comment... :-)",
+      "parentUuid": "8e4a48b7_95887f66",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 20
+      },
+      "revId": "8044bb1b8789b1f3b4bbc695e96bdb2ec179f677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,7 +52,8 @@ import org.slf4j.LoggerFactory;
 public class ProjectCacheImpl implements ProjectCache {
   private static final Logger log = LoggerFactory.getLogger(ProjectCacheImpl.class);
 
-  private static final String CACHE_NAME = "projects";
+  public static final String CACHE_NAME = "projects";
+
   private static final String CACHE_LIST = "project_list";
 
   public static Module module() {

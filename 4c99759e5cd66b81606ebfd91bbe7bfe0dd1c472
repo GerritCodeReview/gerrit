@@ -22,6 +22,30 @@
       "revId": "4c99759e5cd66b81606ebfd91bbe7bfe0dd1c472",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc316755_55e0b370",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-04-26T09:15:48Z",
+      "side": 1,
+      "message": "\u003e Can you make this a non-static method of ReviewerUtil?\nDo you mean PatchSetUtil? This method doesn\u0027t look like something for ReviewerUtil? And if it\u0027s in PatchSetUtil, it can\u0027t be non-static because we can\u0027t inject ApprovalsUtil there (cyclic dependency).\n\n\u003e You can also call it \u0027checkPatchSetNotLocked(notes) and make it throw a ResourceConflictException directly which makes it easier for callers as they just have to make the call.\n\nAgree, this would make it easier.",
+      "parentUuid": "87447aa5_447a8d3b",
+      "range": {
+        "startLine": 417,
+        "startChar": 8,
+        "endLine": 417,
+        "endChar": 24
+      },
+      "revId": "4c99759e5cd66b81606ebfd91bbe7bfe0dd1c472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

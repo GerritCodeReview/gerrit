@@ -31,6 +31,8 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -558,7 +560,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private NotesMigrationState enableSequences(NotesMigrationState prev)
       throws OrmException, IOException {
-    try (ReviewDb db = schemaFactory.open()) {
+    try (ReviewDbLastChangeIdWrapper db = new ReviewDbLastChangeIdWrapper(schemaFactory.open())) {
       @SuppressWarnings("deprecation")
       RepoSequence seq =
           new RepoSequence(
@@ -570,10 +572,27 @@ public class NoteDbMigrator implements AutoCloseable {
               // by the call to seq.next() below. If we actually used this as a change ID, that
               // would be a problem, but we just discard it, so this is safe.
               () -> db.nextChangeId() + sequenceGap - 1,
-              1);
+              1,
+              floorSupplier(db));
       seq.next();
     }
     return saveState(prev, READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY);
+  }
+
+  private Supplier<Integer> floorSupplier(ReviewDbLastChangeIdWrapper db) {
+    return Suppliers.memoize(
+        new Supplier<Integer>() {
+
+          @SuppressWarnings("deprecation")
+          @Override
+          public Integer get() {
+            try {
+              return db.lastChangeId();
+            } catch (OrmException e) {
+              throw new RuntimeException("Unable to get max sequence number from ReviewDb", e);
+            }
+          }
+        });
   }
 
   private NotesMigrationState setNoteDbPrimary(NotesMigrationState prev)

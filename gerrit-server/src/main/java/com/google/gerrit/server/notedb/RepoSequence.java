@@ -29,6 +29,7 @@ import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Predicates;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
@@ -85,6 +86,13 @@ public class RepoSequence {
   }
 
   private static final Retryer<RefUpdate.Result> RETRYER = retryerBuilder().build();
+  private static final Supplier<Integer> ZERO_FLOOR_SUPPLIER =
+      new Supplier<Integer>() {
+        @Override
+        public Integer get() {
+          return 0;
+        }
+      };
 
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
@@ -100,6 +108,7 @@ public class RepoSequence {
 
   private int limit;
   private int counter;
+  private Supplier<Integer> floorSupplier;
 
   @VisibleForTesting int acquireCount;
 
@@ -118,7 +127,28 @@ public class RepoSequence {
         seed,
         batchSize,
         Runnables.doNothing(),
-        RETRYER);
+        RETRYER,
+        ZERO_FLOOR_SUPPLIER);
+  }
+
+  public RepoSequence(
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
+      Project.NameKey projectName,
+      String name,
+      Seed seed,
+      int batchSize,
+      Supplier<Integer> floorSupplier) {
+    this(
+        repoManager,
+        gitRefUpdated,
+        projectName,
+        name,
+        seed,
+        batchSize,
+        Runnables.doNothing(),
+        RETRYER,
+        floorSupplier);
   }
 
   @VisibleForTesting
@@ -131,6 +161,28 @@ public class RepoSequence {
       int batchSize,
       Runnable afterReadRef,
       Retryer<RefUpdate.Result> retryer) {
+    this(
+        repoManager,
+        gitRefUpdated,
+        projectName,
+        name,
+        seed,
+        batchSize,
+        afterReadRef,
+        retryer,
+        ZERO_FLOOR_SUPPLIER);
+  }
+
+  RepoSequence(
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated,
+      Project.NameKey projectName,
+      String name,
+      Seed seed,
+      int batchSize,
+      Runnable afterReadRef,
+      Retryer<RefUpdate.Result> retryer,
+      Supplier<Integer> floorSupplier) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
     this.gitRefUpdated = checkNotNull(gitRefUpdated, "gitRefUpdated");
     this.projectName = checkNotNull(projectName, "projectName");
@@ -144,6 +196,7 @@ public class RepoSequence {
     this.refName = RefNames.REFS_SEQUENCES + name;
 
     this.seed = checkNotNull(seed, "seed");
+    this.floorSupplier = floorSupplier;
 
     checkArgument(batchSize > 0, "expected batchSize > 0, got: %s", batchSize);
     this.batchSize = batchSize;
@@ -251,15 +304,18 @@ public class RepoSequence {
     @Override
     public RefUpdate.Result call() throws Exception {
       Ref ref = repo.exactRef(refName);
+      int nextCandidate;
       afterReadRef.run();
       ObjectId oldId;
       if (ref == null) {
         oldId = ObjectId.zeroId();
-        next = seed.get();
+        nextCandidate = seed.get();
       } else {
         oldId = ref.getObjectId();
-        next = parse(oldId);
+        int oldValue = parse(oldId);
+        nextCandidate = oldValue;
       }
+      next = Math.max(floorSupplier.get(), nextCandidate);
       return store(repo, rw, oldId, next + count);
     }
 

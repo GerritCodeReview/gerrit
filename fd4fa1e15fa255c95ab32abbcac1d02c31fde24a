@@ -22,6 +22,30 @@
       "revId": "fd4fa1e15fa255c95ab32abbcac1d02c31fde24a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14346d2d_547a7a04",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-04-27T18:26:45Z",
+      "side": 1,
+      "message": "Yeah, I like that/it\u0027s more readable.",
+      "parentUuid": "69306b80_0192a9d5",
+      "range": {
+        "startLine": 221,
+        "startChar": 21,
+        "endLine": 221,
+        "endChar": 73
+      },
+      "revId": "fd4fa1e15fa255c95ab32abbcac1d02c31fde24a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

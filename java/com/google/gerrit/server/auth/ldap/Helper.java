@@ -406,9 +406,7 @@ class Helper {
             throw new IllegalArgumentException("No variables in ldap.groupMemberPattern");
           }
 
-          for (String name : groupMemberQuery.getParameters()) {
-            accountAtts.add(name);
-          }
+          accountAtts.addAll(groupMemberQuery.getParameters());
 
           groupMemberQueryList.add(groupMemberQuery);
         }

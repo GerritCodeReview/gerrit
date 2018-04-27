@@ -114,9 +114,7 @@ public class SmtpEmailSender implements EmailSender {
     smtpPass = cfg.getString("sendemail", null, "smtppass");
 
     Set<String> rcpt = new HashSet<>();
-    for (String addr : cfg.getStringList("sendemail", null, "allowrcpt")) {
-      rcpt.add(addr);
-    }
+    Collections.addAll(rcpt, cfg.getStringList("sendemail", null, "allowrcpt"));
     allowrcpt = Collections.unmodifiableSet(rcpt);
     importance = cfg.getString("sendemail", null, "importance");
     expiryDays = cfg.getInt("sendemail", null, "expiryDays", 0);

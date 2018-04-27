@@ -31,9 +31,7 @@ public class DownloadInfo extends JavaScriptObject {
 
   public final List<String> archives() {
     List<String> archives = new ArrayList<>();
-    for (String f : Natives.asList(_archives())) {
-      archives.add(f);
-    }
+    archives.addAll(Natives.asList(_archives()));
     return archives;
   }
 

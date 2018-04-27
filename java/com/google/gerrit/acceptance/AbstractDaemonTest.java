@@ -1286,9 +1286,7 @@ public abstract class AbstractDaemonTest {
   protected void assertDiffForNewFile(
       DiffInfo diff, RevCommit commit, String path, String expectedContentSideB) throws Exception {
     List<String> expectedLines = new ArrayList<>();
-    for (String line : expectedContentSideB.split("\n")) {
-      expectedLines.add(line);
-    }
+    Collections.addAll(expectedLines, expectedContentSideB.split("\n"));
 
     assertThat(diff.binary).isNull();
     assertThat(diff.changeType).isEqualTo(ChangeType.ADDED);

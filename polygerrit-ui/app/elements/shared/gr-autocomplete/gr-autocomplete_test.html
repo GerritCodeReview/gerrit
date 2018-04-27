@@ -379,6 +379,20 @@ limitations under the License.
       assert.isTrue(commitStub.calledOnce);
     });
 
+    test('issue 8655', () => {
+      function makeSuggestion(s) { return {name: s, text: s, value: s}; }
+      const keydownSpy = sandbox.spy(element, '_handleKeydown');
+      element.setText('file:');
+      element._suggestions =
+          [makeSuggestion('file:'), makeSuggestion('-file:')];
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 88, null, 'x');
+      element.$.input.value = 'file:x';
+      assert.isTrue(keydownSpy.calledOnce);
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null, 'enter');
+      assert.isTrue(keydownSpy.calledTwice);
+      assert.equal(element.text, 'file:x');
+    });
+
     suite('focus', () => {
       let commitSpy;
       let focusSpy;

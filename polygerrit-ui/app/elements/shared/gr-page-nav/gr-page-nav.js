@@ -35,9 +35,7 @@
     _handleBodyScroll() {
       if (this._headerHeight === undefined) {
         let top = this._getOffsetTop(this);
-        // Don't want to include the element that wraps around the nav, start
-        // with its parent.
-        for (let offsetParent = this._getOffsetParent(this.offsetParent);
+        for (let offsetParent = this.offsetParent;
            offsetParent;
            offsetParent = this._getOffsetParent(offsetParent)) {
           top += this._getOffsetTop(offsetParent);

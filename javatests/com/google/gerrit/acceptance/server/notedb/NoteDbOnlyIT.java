@@ -53,6 +53,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
@@ -310,7 +311,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
       rw.markUninteresting(rw.parseCommit(fromExclusive));
       rw.sort(RevSort.REVERSE);
       rw.setRetainBody(true);
-      return Streams.stream(rw).map(c -> c.getShortMessage()).collect(toList());
+      return Streams.stream(rw).map(RevCommit::getShortMessage).collect(toList());
     }
   }
 

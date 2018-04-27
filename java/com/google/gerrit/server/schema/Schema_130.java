@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import static java.util.stream.Collectors.joining;
 
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -71,6 +72,6 @@ public class Schema_130 extends SchemaVersion {
       }
     }
     ui.message("\tMigration completed:  " + repoUpgraded.size() + " repositories updated:");
-    ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(joining(" ")));
+    ui.message("\t" + repoUpgraded.stream().map(NameKey::get).collect(joining(" ")));
   }
 }

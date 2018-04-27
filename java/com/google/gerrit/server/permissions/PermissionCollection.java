@@ -40,6 +40,7 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -142,7 +143,7 @@ public class PermissionCollection {
               .stream()
               .collect(
                   Collectors.groupingBy(
-                      e -> e.getValue(), LinkedHashMap::new, mapping(e -> e.getKey(), toList())));
+                      Entry::getValue, LinkedHashMap::new, mapping(Entry::getKey, toList())));
       // Within each project, sort by ref specificity.
       for (List<AccessSection> secs : accessByProject.values()) {
         sorter.sort(ref, secs);

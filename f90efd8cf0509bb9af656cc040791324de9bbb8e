@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08957491_6b559cb7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-27T21:54:22Z",
+      "side": 0,
+      "message": "This test isn\u0027t valid anymore as-is. If you do not define any gap between ReviewDb and NoteDb, you would end up with a \"nextChange\" in ReviewDb being +1 vs. NoteDb, which is exactly what this fix is about: avoiding that to happen.\n\nThat is the reason why I changed the test and incremented by 1, because the behaviour changes and we are fine with it.",
+      "range": {
+        "startLine": 338,
+        "startChar": 27,
+        "endLine": 338,
+        "endChar": 34
+      },
+      "revId": "f90efd8cf0509bb9af656cc040791324de9bbb8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -23,7 +23,6 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -185,11 +184,7 @@ public abstract class EmailHeader {
     }
 
     void remove(java.lang.String email) {
-      for (Iterator<Address> i = list.iterator(); i.hasNext(); ) {
-        if (i.next().getEmail().equals(email)) {
-          i.remove();
-        }
-      }
+      list.removeIf(address -> address.getEmail().equals(email));
     }
 
     @Override

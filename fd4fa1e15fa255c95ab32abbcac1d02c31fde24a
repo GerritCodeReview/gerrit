@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69306b80_0192a9d5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-27T17:08:01Z",
+      "side": 1,
+      "message": "Stray idea: would it make sense for this to be in its own method? Like ..\n\n _isEditEnabled(canUpload, ownerOf, sectionId)\n\n..?",
+      "range": {
+        "startLine": 221,
+        "startChar": 21,
+        "endLine": 221,
+        "endChar": 73
+      },
+      "revId": "fd4fa1e15fa255c95ab32abbcac1d02c31fde24a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

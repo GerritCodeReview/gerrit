@@ -61,7 +61,7 @@ public class CreateChangeSender extends NewChangeSender {
           getWatchers(NotifyType.NEW_CHANGES, !change.isWorkInProgress() && !change.isPrivate());
       // TODO(hiesel): Remove special handling for owners
       StreamSupport.stream(matching.all().accounts.spliterator(), false)
-          .filter(acc -> isOwnerOfProjectOrBranch(acc))
+          .filter(this::isOwnerOfProjectOrBranch)
           .forEach(acc -> add(RecipientType.TO, acc));
       // Add everyone else. Owners added above will not be duplicated.
       add(RecipientType.TO, matching.to);

@@ -63,9 +63,7 @@ public class ProjectCacheClock implements LifecycleListener {
       @SuppressWarnings("unused") // Runnable already handles errors
       Future<?> possiblyIgnoredError =
           executor.scheduleAtFixedRate(
-              () -> {
-                generation.incrementAndGet();
-              },
+              generation::incrementAndGet,
               checkFrequencyMillis,
               checkFrequencyMillis,
               TimeUnit.MILLISECONDS);

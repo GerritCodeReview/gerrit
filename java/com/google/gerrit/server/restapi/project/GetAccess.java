@@ -274,7 +274,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
             .entrySet()
             .stream()
             .filter(e -> e.getValue() != null)
-            .collect(toMap(e -> e.getKey().get(), e -> e.getValue()));
+            .collect(toMap(e -> e.getKey().get(), Map.Entry::getValue));
 
     return info;
   }

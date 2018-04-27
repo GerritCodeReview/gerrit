@@ -177,7 +177,7 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
 
   private void assertBranches(List<String> branches) throws Exception {
     List<String> expected = Lists.newArrayList("HEAD", RefNames.REFS_CONFIG, "refs/heads/master");
-    expected.addAll(branches.stream().map(b -> prefixRef(b)).collect(toList()));
+    expected.addAll(branches.stream().map(this::prefixRef).collect(toList()));
     try (Repository repo = repoManager.openRepository(project)) {
       for (String branch : expected) {
         assertThat(repo.exactRef(branch)).isNotNull();

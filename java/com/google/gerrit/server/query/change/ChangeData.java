@@ -91,6 +91,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -115,7 +116,7 @@ public class ChangeData {
   }
 
   public static Map<Change.Id, ChangeData> asMap(List<ChangeData> changes) {
-    return changes.stream().collect(toMap(ChangeData::getId, cd -> cd));
+    return changes.stream().collect(toMap(ChangeData::getId, Function.identity()));
   }
 
   public static void ensureChangeLoaded(Iterable<ChangeData> changes) throws OrmException {

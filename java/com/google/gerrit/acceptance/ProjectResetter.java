@@ -338,8 +338,7 @@ public class ProjectResetter implements AutoCloseable {
         // Make sure all accounts are evicted and reindexed.
         try (Repository repo = repoManager.openRepository(allUsersName)) {
           for (Account.Id id :
-              accountIds(
-                  repo.getAllRefs().values().stream().map(r -> r.getName()).collect(toSet()))) {
+              accountIds(repo.getAllRefs().values().stream().map(Ref::getName).collect(toSet()))) {
             evictAndReindexAccount(id);
           }
         }
@@ -401,7 +400,7 @@ public class ProjectResetter implements AutoCloseable {
   private Set<Account.Id> accountIds(Collection<String> refs) {
     return refs.stream()
         .filter(r -> r.startsWith(REFS_USERS))
-        .map(r -> Account.Id.fromRef(r))
+        .map(Account.Id::fromRef)
         .filter(Objects::nonNull)
         .collect(toSet());
   }
@@ -409,7 +408,7 @@ public class ProjectResetter implements AutoCloseable {
   private Set<AccountGroup.UUID> groupUUIDs(Collection<String> refs) {
     return refs.stream()
         .filter(RefNames::isRefsGroups)
-        .map(r -> AccountGroup.UUID.fromRef(r))
+        .map(AccountGroup.UUID::fromRef)
         .filter(Objects::nonNull)
         .collect(toSet());
   }

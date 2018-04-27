@@ -55,7 +55,7 @@ public class GcAllUsers {
 
   public void runWithLogger() {
     // Print log messages using logger, and skip progress.
-    run(s -> log.info(s), null);
+    run(log::info, null);
   }
 
   public void run(PrintWriter writer) {

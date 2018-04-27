@@ -1182,7 +1182,7 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
     ChangeData cd = changeDataFactory.create(db, project, id);
     assertThat(cd.change().currentPatchSetId()).isEqualTo(psId1);
-    assertThat(cd.patchSets().stream().map(ps -> ps.getId()).collect(toList()))
+    assertThat(cd.patchSets().stream().map(PatchSet::getId).collect(toList()))
         .containsExactly(psId1);
     PatchSet ps = cd.currentPatchSet();
     assertThat(ps).isNotNull();

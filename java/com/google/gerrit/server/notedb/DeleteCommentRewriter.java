@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -139,7 +140,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
         .values()
         .stream()
         .flatMap(n -> n.getComments().stream())
-        .collect(toMap(c -> c.key.uuid, c -> c));
+        .collect(toMap(c -> c.key.uuid, Function.identity()));
   }
 
   /**
@@ -177,7 +178,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
         .entrySet()
         .stream()
         .filter(c -> !curMap.containsKey(c.getKey()))
-        .map(c -> c.getValue())
+        .map(Map.Entry::getValue)
         .collect(toList());
   }
 

@@ -59,6 +59,7 @@ import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
@@ -275,8 +276,8 @@ public class InMemoryModule extends FactoryModule {
   @Provides
   @Singleton
   @FanOutExecutor
-  public ExecutorService createChangeJsonExecutor() {
-    return MoreExecutors.newDirectExecutorService();
+  public ExecutorService createFanOutExecutor(WorkQueue queues) {
+    return queues.createQueue(2, "FanOut");
   }
 
   @Provides

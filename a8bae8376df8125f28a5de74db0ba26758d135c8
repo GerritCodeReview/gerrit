@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15a6e69d_802c0a8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-27T12:12:58Z",
+      "side": 1,
+      "message": "What do you mean by \"overall synchronization\"? Synchronized methods block each other for the same object. So, we do have a performance penalty here.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 32
+      },
+      "revId": "a8bae8376df8125f28a5de74db0ba26758d135c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88237505_574fd5bd",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-04-27T12:12:58Z",
+      "side": 1,
+      "message": "Are you sure that you got the visibility among threads right? I know that synchronized methods ensure a happens-before relationship (aka memory barrier) among each other but I don\u0027t think there\u0027s a guarantee for other methods which aren\u0027t synchronized as this one. As result, changes to \u0027provided\u0027 might not be visible on all threads for this method.",
+      "range": {
+        "startLine": 91,
+        "startChar": 67,
+        "endLine": 91,
+        "endChar": 75
+      },
+      "revId": "a8bae8376df8125f28a5de74db0ba26758d135c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

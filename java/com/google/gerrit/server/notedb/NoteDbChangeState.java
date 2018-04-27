@@ -470,7 +470,7 @@ public class NoteDbChangeState {
     }
     NoteDbChangeState s = (NoteDbChangeState) o;
     return changeId.equals(s.changeId)
-        && primaryStorage.equals(s.primaryStorage)
+        && primaryStorage == s.primaryStorage
         && refState.equals(s.refState)
         && readOnlyUntil.equals(s.readOnlyUntil);
   }

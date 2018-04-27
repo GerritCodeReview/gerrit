@@ -282,7 +282,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       return false;
     }
     final PermissionRule other = (PermissionRule) obj;
-    return action.equals(other.action)
+    return action == other.action
         && force == other.force
         && min == other.min
         && max == other.max

@@ -129,7 +129,7 @@ public class RefOperationValidators {
       if (refEvent.project.getNameKey().equals(allUsersName)) {
         if (refEvent.command.getRefName().startsWith(RefNames.REFS_USERS)
             && !refEvent.command.getRefName().equals(RefNames.REFS_USERS_DEFAULT)) {
-          if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
+          if (refEvent.command.getType() == ReceiveCommand.Type.CREATE) {
             try {
               perm.check(GlobalPermission.ACCESS_DATABASE);
             } catch (AuthException | PermissionBackendException e) {
@@ -140,7 +140,7 @@ public class RefOperationValidators {
                   String.format(
                       "Not allowed to create non-user branch under %s.", RefNames.REFS_USERS));
             }
-          } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
+          } else if (refEvent.command.getType() == ReceiveCommand.Type.DELETE) {
             try {
               perm.check(GlobalPermission.ACCESS_DATABASE);
             } catch (AuthException | PermissionBackendException e) {
@@ -150,9 +150,9 @@ public class RefOperationValidators {
         }
 
         if (RefNames.isGroupRef(refEvent.command.getRefName())) {
-          if (refEvent.command.getType().equals(ReceiveCommand.Type.CREATE)) {
+          if (refEvent.command.getType() == ReceiveCommand.Type.CREATE) {
             throw new ValidationException("Not allowed to create group branch.");
-          } else if (refEvent.command.getType().equals(ReceiveCommand.Type.DELETE)) {
+          } else if (refEvent.command.getType() == ReceiveCommand.Type.DELETE) {
             throw new ValidationException("Not allowed to delete group branch.");
           }
         }

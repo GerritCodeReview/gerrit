@@ -199,7 +199,7 @@ public class MergeValidators {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_EDITABLE);
             }
 
-            if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
+            if (ProjectConfigEntryType.LIST == configEntry.getType()
                 && value != null
                 && !configEntry.getPermittedValues().contains(value)) {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_PERMITTED);

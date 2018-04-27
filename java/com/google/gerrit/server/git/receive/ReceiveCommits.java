@@ -1039,7 +1039,7 @@ class ReceiveCommits {
                   continue;
                 }
 
-                if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
+                if (ProjectConfigEntryType.LIST == configEntry.getType()
                     && value != null
                     && !configEntry.getPermittedValues().contains(value)) {
                   reject(

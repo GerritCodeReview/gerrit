@@ -540,7 +540,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     merge(r);
 
     String subject =
-        TRIVIAL_REBASE.equals(changeKind)
+        TRIVIAL_REBASE == changeKind
             ? PushOneCommit.SUBJECT
             : "Reworked change " + System.nanoTime();
     CherryPickInput in = new CherryPickInput();

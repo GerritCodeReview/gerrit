@@ -97,7 +97,7 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
-    if (NotifyHandling.NONE.equals(notify) && accountsToNotify.isEmpty()) {
+    if (NotifyHandling.NONE == notify && accountsToNotify.isEmpty()) {
       return;
     }
 

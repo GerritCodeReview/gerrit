@@ -184,7 +184,7 @@ public class JettyServer {
       final ServerConnector c;
       HttpConfiguration config = defaultConfig(requestHeaderSize);
 
-      if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
+      if (AuthType.CLIENT_SSL_CERT_LDAP == authType && !"https".equals(u.getScheme())) {
         throw new IllegalArgumentException(
             "Protocol '"
                 + u.getScheme()
@@ -212,7 +212,7 @@ public class JettyServer {
         ssl.setKeyStorePassword(password);
         ssl.setTrustStorePassword(password);
 
-        if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType)) {
+        if (AuthType.CLIENT_SSL_CERT_LDAP == authType) {
           ssl.setNeedClientAuth(true);
 
           Path crl = getFile(cfg, "sslCrl", "etc/crl.pem");

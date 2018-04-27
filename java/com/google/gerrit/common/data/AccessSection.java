@@ -94,11 +94,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   public void removePermission(String name) {
     if (permissions != null) {
-      for (Iterator<Permission> itr = permissions.iterator(); itr.hasNext(); ) {
-        if (name.equalsIgnoreCase(itr.next().getName())) {
-          itr.remove();
-        }
-      }
+      permissions.removeIf(permission -> name.equalsIgnoreCase(permission.getName()));
     }
   }
 

@@ -185,11 +185,7 @@ public abstract class EmailHeader {
     }
 
     void remove(java.lang.String email) {
-      for (Iterator<Address> i = list.iterator(); i.hasNext(); ) {
-        if (i.next().getEmail().equals(email)) {
-          i.remove();
-        }
-      }
+      list.removeIf(address -> address.getEmail().equals(email));
     }
 
     @Override

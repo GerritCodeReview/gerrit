@@ -69,7 +69,7 @@ public class AccountLoader {
     provided = new ArrayList<>();
   }
 
-  public AccountInfo get(Account.Id id) {
+  public synchronized AccountInfo get(Account.Id id) {
     if (id == null) {
       return null;
     }
@@ -81,7 +81,7 @@ public class AccountLoader {
     return info;
   }
 
-  public void put(AccountInfo info) {
+  public synchronized void put(AccountInfo info) {
     checkArgument(info._accountId != null, "_accountId field required");
     provided.add(info);
   }

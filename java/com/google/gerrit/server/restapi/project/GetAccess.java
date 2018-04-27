@@ -65,6 +65,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.slf4j.Logger;
@@ -274,7 +275,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
             .entrySet()
             .stream()
             .filter(e -> e.getValue() != null)
-            .collect(toMap(e -> e.getKey().get(), e -> e.getValue()));
+            .collect(toMap(e -> e.getKey().get(), Entry::getValue));
 
     return info;
   }

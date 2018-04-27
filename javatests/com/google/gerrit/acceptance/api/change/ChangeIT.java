@@ -157,6 +157,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -3683,7 +3684,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .entrySet()
             .stream()
             .filter(e -> e.getValue().stream().anyMatch(a -> a._accountId == accountId.get()))
-            .map(e -> e.getKey())
+            .map(Entry::getKey)
             .collect(toSet());
     assertThat(states.size()).named(states.toString()).isAtMost(1);
     return states.stream().findFirst();

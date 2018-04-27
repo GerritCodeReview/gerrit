@@ -160,7 +160,7 @@ public class AccountField {
                   a.getExternalIds()
                       .stream()
                       .filter(e -> e.blobId() != null)
-                      .map(e -> e.toByteArray())
+                      .map(ExternalId::toByteArray)
                       .collect(toSet()));
 
   private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {

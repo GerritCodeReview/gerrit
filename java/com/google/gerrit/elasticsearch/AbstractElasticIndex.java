@@ -196,7 +196,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
           builder.field(
               name,
               Streams.stream(values.getValues())
-                  .filter(e -> shouldAddElement(e))
+                  .filter(AbstractElasticIndex::shouldAddElement)
                   .collect(toList()));
         } else {
           Object element = Iterables.getOnlyElement(values.getValues(), "");

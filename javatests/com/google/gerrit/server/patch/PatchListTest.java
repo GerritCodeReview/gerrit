@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
-import java.util.Comparator;
 import org.junit.Test;
 
 public class PatchListTest {
@@ -36,16 +35,7 @@ public class PatchListTest {
       Patch.COMMIT_MSG, Patch.MERGE_LIST, "/!xxx", "abc", "def/g", "qrx", "zzz",
     };
 
-    Arrays.sort(
-        names,
-        0,
-        names.length,
-        new Comparator<String>() {
-          @Override
-          public int compare(String o1, String o2) {
-            return PatchList.comparePaths(o1, o2);
-          }
-        });
+    Arrays.sort(names, 0, names.length, PatchList::comparePaths);
     assertThat(names).isEqualTo(want);
   }
 
@@ -58,16 +48,7 @@ public class PatchListTest {
       Patch.COMMIT_MSG, "/!xxx", "abc", "def/g", "qrx", "zzz",
     };
 
-    Arrays.sort(
-        names,
-        0,
-        names.length,
-        new Comparator<String>() {
-          @Override
-          public int compare(String o1, String o2) {
-            return PatchList.comparePaths(o1, o2);
-          }
-        });
+    Arrays.sort(names, 0, names.length, PatchList::comparePaths);
     assertThat(names).isEqualTo(want);
   }
 

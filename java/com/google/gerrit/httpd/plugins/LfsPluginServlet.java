@@ -151,13 +151,7 @@ public class LfsPluginServlet extends HttpServlet
         return null;
       }
 
-      plugin.add(
-          new RegistrationHandle() {
-            @Override
-            public void remove() {
-              guiceFilter.destroy();
-            }
-          });
+      plugin.add(guiceFilter::destroy);
       return guiceFilter;
     }
     return null;

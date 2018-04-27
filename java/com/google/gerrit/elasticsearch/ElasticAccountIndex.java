@@ -31,19 +31,18 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndex;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.search.sort.Sort;
-import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
 import java.util.Set;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.client.Response;
 
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
     implements AccountIndex {
@@ -65,7 +64,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
-      JestClientBuilder clientBuilder,
+      ElasticRestClientBuilder clientBuilder,
       @Assisted Schema<AccountState> schema) {
     super(cfg, sitePaths, schema, clientBuilder, ACCOUNTS);
     this.accountCache = accountCache;
@@ -74,33 +73,31 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   @Override
   public void replace(AccountState as) throws IOException {
-    Bulk bulk =
-        new Bulk.Builder()
-            .defaultIndex(indexName)
-            .defaultType(ACCOUNTS)
-            .addAction(insert(ACCOUNTS, as))
-            .refresh(true)
-            .build();
-    JestResult result = client.execute(bulk);
-    if (!result.isSucceeded()) {
+    String bulk = toAction(ACCOUNTS, getId(as), INDEX);
+    bulk += toDoc(as);
+
+    String uri = getURI(ACCOUNTS, BULK);
+    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
           String.format(
               "Failed to replace account %s in index %s: %s",
-              as.getAccount().getId(), indexName, result.getErrorMessage()));
+              as.getAccount().getId(), indexName, statusCode));
     }
   }
 
   @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
-    Sort sort = new Sort(AccountField.ID.getName(), Sorting.ASC);
-    sort.setIgnoreUnmapped();
-    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::accountFields), ACCOUNTS, sort);
+    JsonArray sortArray = getSortArray(AccountField.ID.getName());
+    return new ElasticQuerySource(
+        p, opts.filterFields(IndexUtils::accountFields), ACCOUNTS, sortArray);
   }
 
   @Override
-  protected Builder addActions(Builder builder, Account.Id c) {
-    return builder.addAction(delete(ACCOUNTS, c));
+  protected String addActions(Account.Id c) {
+    return delete(ACCOUNTS, c);
   }
 
   @Override

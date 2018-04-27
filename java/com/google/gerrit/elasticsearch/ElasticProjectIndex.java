@@ -29,19 +29,18 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.search.sort.Sort;
-import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
 import java.util.Set;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.client.Response;
 
 public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, ProjectData>
     implements ProjectIndex {
@@ -63,7 +62,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
-      JestClientBuilder clientBuilder,
+      ElasticRestClientBuilder clientBuilder,
       @Assisted Schema<ProjectData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, PROJECTS);
     this.projectCache = projectCache;
@@ -72,33 +71,31 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
 
   @Override
   public void replace(ProjectData projectState) throws IOException {
-    Bulk bulk =
-        new Bulk.Builder()
-            .defaultIndex(indexName)
-            .defaultType(PROJECTS)
-            .addAction(insert(PROJECTS, projectState))
-            .refresh(true)
-            .build();
-    JestResult result = client.execute(bulk);
-    if (!result.isSucceeded()) {
+    String bulk = toAction(PROJECTS, getId(projectState), INDEX);
+    bulk += toDoc(projectState);
+
+    String uri = getURI(PROJECTS, BULK);
+    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
           String.format(
               "Failed to replace project %s in index %s: %s",
-              projectState.getProject().getName(), indexName, result.getErrorMessage()));
+              projectState.getProject().getName(), indexName, statusCode));
     }
   }
 
   @Override
   public DataSource<ProjectData> getSource(Predicate<ProjectData> p, QueryOptions opts)
       throws QueryParseException {
-    Sort sort = new Sort(ProjectField.NAME.getName(), Sorting.ASC);
-    sort.setIgnoreUnmapped();
-    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::projectFields), PROJECTS, sort);
+    JsonArray sortArray = getSortArray(ProjectField.NAME.getName());
+    return new ElasticQuerySource(
+        p, opts.filterFields(IndexUtils::projectFields), PROJECTS, sortArray);
   }
 
   @Override
-  protected Builder addActions(Builder builder, Project.NameKey nameKey) {
-    return builder.addAction(delete(PROJECTS, nameKey));
+  protected String addActions(Project.NameKey nameKey) {
+    return delete(PROJECTS, nameKey);
   }
 
   @Override

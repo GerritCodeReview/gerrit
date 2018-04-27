@@ -24,10 +24,9 @@ import com.google.gerrit.server.git.ValidationError;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-import junit.framework.TestCase;
 import org.junit.Test;
 
-public class DestinationListTest extends TestCase {
+public class DestinationListTest {
   public static final String R_FOO = "refs/heads/foo";
   public static final String R_BAR = "refs/heads/bar";
 

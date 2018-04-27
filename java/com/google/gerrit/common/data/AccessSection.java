@@ -16,18 +16,19 @@ package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
+
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /** Portion of a {@link Project} describing access rules. */
 public class AccessSection extends RefConfigSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
 
-  protected List<Permission> permissions;
+  protected Map<String, Permission> permissions;
 
   protected AccessSection() {}
 
@@ -36,21 +37,20 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public List<Permission> getPermissions() {
-    if (permissions == null) {
-      permissions = new ArrayList<>();
-    }
-    return permissions;
+    return Collections.unmodifiableList(
+        getPermissionMap().values().stream().collect(Collectors.toList()));
   }
 
   public void setPermissions(List<Permission> list) {
-    Set<String> names = new HashSet<>();
+    Map<String, Permission> incoming = new HashMap<>();
     for (Permission p : list) {
-      if (!names.add(p.getName())) {
+      if (incoming.containsKey(p.getName())) {
         throw new IllegalArgumentException();
       }
+      incoming.put(p.getName(), p);
     }
 
-    permissions = list;
+    permissions = incoming;
   }
 
   @Nullable
@@ -60,15 +60,14 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   @Nullable
   public Permission getPermission(String name, boolean create) {
-    for (Permission p : getPermissions()) {
-      if (p.getName().equals(name)) {
-        return p;
-      }
+    Map<String, Permission> perms = getPermissionMap();
+    if (perms.containsKey(name)) {
+      return perms.get(name);
     }
 
     if (create) {
       Permission p = new Permission(name);
-      permissions.add(p);
+      perms.put(p.getName(), p);
       return p;
     }
 
@@ -76,14 +75,12 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void addPermission(Permission permission) {
-    List<Permission> permissions = getPermissions();
-    for (Permission p : permissions) {
-      if (p.getName().equals(permission.getName())) {
-        throw new IllegalArgumentException();
-      }
+    Map<String, Permission> perms = getPermissionMap();
+    if (perms.containsKey(permission.getName())) {
+      throw new IllegalArgumentException();
     }
 
-    permissions.add(permission);
+    perms.put(permission.getName(), permission);
   }
 
   public void remove(Permission permission) {
@@ -94,11 +91,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   public void removePermission(String name) {
     if (permissions != null) {
-      for (Iterator<Permission> itr = permissions.iterator(); itr.hasNext(); ) {
-        if (name.equals(itr.next().getName())) {
-          itr.remove();
-        }
-      }
+      permissions.remove(name);
     }
   }
 
@@ -108,7 +101,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
       if (dst != null) {
         dst.mergeFrom(src);
       } else {
-        permissions.add(src);
+        getPermissionMap().put(src.getName(), src);
       }
     }
   }
@@ -135,7 +128,13 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
     if (!super.equals(obj) || !(obj instanceof AccessSection)) {
       return false;
     }
-    return new HashSet<>(getPermissions())
-        .equals(new HashSet<>(((AccessSection) obj).getPermissions()));
+    return permissions.equals(((AccessSection) obj).permissions);
+  }
+
+  private Map<String, Permission> getPermissionMap() {
+    if (permissions == null) {
+      permissions = new HashMap<>();
+    }
+    return permissions;
   }
 }

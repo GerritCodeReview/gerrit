@@ -108,9 +108,7 @@ public class SshUtil {
       strBuf.append(' ');
       strBuf.append("converted-key");
       return strBuf.toString();
-    } catch (IOException e) {
-      return keyStr;
-    } catch (RuntimeException re) {
+    } catch (IOException | RuntimeException e) {
       return keyStr;
     }
   }

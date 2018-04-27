@@ -82,7 +82,7 @@ public class SshModule extends LifecycleModule {
         .annotatedWith(StreamCommandExecutor.class)
         .toProvider(StreamCommandExecutorProvider.class)
         .in(SINGLETON);
-    bind(QueueProvider.class).to(CommandExecutorQueueProvider.class).in(SINGLETON);
+    bind(QueueProvider.class).to(CommandExecutorQueueProvider.class);
 
     bind(GSSAuthenticator.class).to(GerritGSSAuthenticator.class);
     bind(PublickeyAuthenticator.class).to(CachingPublicKeyAuthenticator.class);

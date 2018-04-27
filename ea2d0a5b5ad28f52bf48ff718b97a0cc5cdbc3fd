@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44b23aaf_acc440b2",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-27T06:58:40Z",
+      "side": 1,
+      "message": "Where is this actually used?  I can\u0027t see any caller of it, nor of the method named createChangeJsonExecutor on the left side.\n\nOr does it get implicitly called by something in the guice injector stack?",
+      "revId": "ea2d0a5b5ad28f52bf48ff718b97a0cc5cdbc3fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

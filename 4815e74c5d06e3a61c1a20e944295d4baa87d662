@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d75a8c6_ee752d5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-27T01:47:07Z",
+      "side": 1,
+      "message": "Should this be more severe?\n\nShould the server fail to start in this case?",
+      "revId": "4815e74c5d06e3a61c1a20e944295d4baa87d662",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

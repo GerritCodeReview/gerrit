@@ -918,21 +918,6 @@ maven_jar(
     sha1 = "d2954e1173a608a9711f132d1768a676a8b1fb81",
 )
 
-# Java REST client for Elasticsearch.
-JEST_VERSION = "2.4.0"
-
-maven_jar(
-    name = "jest_common",
-    artifact = "io.searchbox:jest-common:" + JEST_VERSION,
-    sha1 = "ea779ebe7c438a53dce431f85b0d4e1d8faee2ac",
-)
-
-maven_jar(
-    name = "jest",
-    artifact = "io.searchbox:jest:" + JEST_VERSION,
-    sha1 = "e2a604a584e6633545ac6b1fe99ef888ab96dae9",
-)
-
 maven_jar(
     name = "joda_time",
     artifact = "joda-time:joda-time:2.9.9",
@@ -943,6 +928,12 @@ maven_jar(
     name = "joda_convert",
     artifact = "org.joda:joda-convert:1.8.1",
     sha1 = "675642ac208e0b741bc9118dcbcae44c271b992a",
+)
+
+maven_jar(
+    name = "elasticsearch-rest-client",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:5.6.9",
+    sha1 = "895706412e2fba3f842fca82ec3dece1cb4ee7d1",
 )
 
 maven_jar(

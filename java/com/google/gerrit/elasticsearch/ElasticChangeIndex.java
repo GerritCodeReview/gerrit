@@ -24,7 +24,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
@@ -61,18 +60,16 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.search.sort.Sort;
-import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
+import org.elasticsearch.client.Response;
 
 /** Secondary index implementation using Elasticsearch. */
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
@@ -102,7 +99,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       SitePaths sitePaths,
-      JestClientBuilder clientBuilder,
+      ElasticRestClientBuilder clientBuilder,
       @Assisted Schema<ChangeData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, CHANGES);
     this.db = db;
@@ -127,20 +124,17 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       throw new IOException(e);
     }
 
-    Bulk bulk =
-        new Bulk.Builder()
-            .defaultIndex(indexName)
-            .defaultType("changes")
-            .addAction(insert(insertIndex, cd))
-            .addAction(delete(deleteIndex, cd.getId()))
-            .refresh(true)
-            .build();
-    JestResult result = client.execute(bulk);
-    if (!result.isSucceeded()) {
+    String bulk = toAction(insertIndex, getId(cd), INDEX);
+    bulk += toDoc(cd);
+    bulk += toAction(deleteIndex, cd.getId().toString(), DELETE);
+
+    String uri = getURI(CHANGES, BULK);
+    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
           String.format(
-              "Failed to replace change %s in index %s: %s",
-              cd.getId(), indexName, result.getErrorMessage()));
+              "Failed to replace change %s in index %s: %s", cd.getId(), indexName, statusCode));
     }
   }
 
@@ -156,20 +150,28 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       indexes.add(CLOSED_CHANGES);
     }
 
-    List<Sort> sorts =
-        ImmutableList.of(
-            new Sort(ChangeField.UPDATED.getName(), Sorting.DESC),
-            new Sort(ChangeField.LEGACY_ID.getName(), Sorting.DESC));
-    for (Sort sort : sorts) {
-      sort.setIgnoreUnmapped();
-    }
     QueryOptions filteredOpts = opts.filterFields(IndexUtils::changeFields);
-    return new ElasticQuerySource(p, filteredOpts, indexes, sorts);
+    return new ElasticQuerySource(p, filteredOpts, getURI(indexes), getSortArray());
+  }
+
+  private JsonArray getSortArray() {
+    JsonObject properties = new JsonObject();
+    properties.addProperty(ORDER, "desc");
+    properties.addProperty(IGNORE_UNMAPPED, true);
+
+    JsonArray sortArray = new JsonArray();
+    addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);
+    addNamedElement(ChangeField.LEGACY_ID.getName(), properties, sortArray);
+    return sortArray;
+  }
+
+  private String getURI(List<String> types) {
+    return String.join(",", types);
   }
 
   @Override
-  protected Builder addActions(Builder builder, Id c) {
-    return builder.addAction(delete(OPEN_CHANGES, c)).addAction(delete(OPEN_CHANGES, c));
+  protected String addActions(Id c) {
+    return delete(OPEN_CHANGES, c) + delete(CLOSED_CHANGES, c);
   }
 
   @Override

@@ -10,6 +10,7 @@ load(
 TEST_DEPS = [
     "//gerrit-gwtui:ui_tests",
     "//javatests/com/google/gerrit/server:server_tests",
+    "//lib/elasticsearch",
 ]
 
 DEPS = [

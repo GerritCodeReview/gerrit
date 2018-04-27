@@ -18,13 +18,12 @@ import com.google.common.base.MoreObjects;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import org.apache.http.HttpHost;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -33,7 +32,7 @@ class ElasticConfiguration {
   private static final String DEFAULT_PORT = "9200";
   private static final String DEFAULT_PROTOCOL = "http";
 
-  final List<String> urls;
+  final List<HttpHost> urls;
   final String username;
   final String password;
   final boolean requestCompression;
@@ -59,34 +58,23 @@ class ElasticConfiguration {
 
     Set<String> subsections = cfg.getSubsections("elasticsearch");
     if (subsections.isEmpty()) {
-      this.urls = Arrays.asList(buildUrl(DEFAULT_PROTOCOL, DEFAULT_HOST, DEFAULT_PORT));
+      HttpHost httpHost =
+          new HttpHost(DEFAULT_HOST, Integer.valueOf(DEFAULT_PORT), DEFAULT_PROTOCOL);
+      this.urls = Collections.singletonList(httpHost);
     } else {
       this.urls = new ArrayList<>(subsections.size());
       for (String subsection : subsections) {
         String port = getString(cfg, subsection, "port", DEFAULT_PORT);
         String host = getString(cfg, subsection, "hostname", DEFAULT_HOST);
         String protocol = getString(cfg, subsection, "protocol", DEFAULT_PROTOCOL);
-        this.urls.add(buildUrl(protocol, host, port));
+
+        HttpHost httpHost = new HttpHost(host, Integer.valueOf(port), protocol);
+        this.urls.add(httpHost);
       }
     }
   }
 
   private String getString(Config cfg, String subsection, String name, String defaultValue) {
     return MoreObjects.firstNonNull(cfg.getString("elasticsearch", subsection, name), defaultValue);
-  }
-
-  private String buildUrl(String protocol, String hostname, String port) {
-    try {
-      return new URL(protocol, hostname, Integer.parseInt(port), "").toString();
-    } catch (MalformedURLException | NumberFormatException e) {
-      throw new RuntimeException(
-          "Cannot build url to Elasticsearch from values: protocol="
-              + protocol
-              + " hostname="
-              + hostname
-              + " port="
-              + port,
-          e);
-    }
   }
 }

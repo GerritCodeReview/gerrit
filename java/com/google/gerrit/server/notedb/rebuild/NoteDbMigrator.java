@@ -492,7 +492,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
     boolean rebuilt = false;
     while (state.compareTo(NOTE_DB) < 0) {
-      if (state.equals(stopAtState)) {
+      if (state == stopAtState) {
         return;
       }
       boolean stillNeedsRebuild = forceRebuild && !rebuilt;

@@ -515,7 +515,7 @@ public class Dispatcher {
   }
 
   private static boolean preferUnified() {
-    return DiffView.UNIFIED_DIFF.equals(Gerrit.getUserPreferences().diffView())
+    return DiffView.UNIFIED_DIFF == Gerrit.getUserPreferences().diffView()
         || (UserAgent.isPortrait() && UserAgent.isMobile());
   }
 

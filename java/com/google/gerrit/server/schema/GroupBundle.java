@@ -606,7 +606,7 @@ abstract class GroupBundle {
         Set<AuditEntry> redundantReviewDbAuditEntries = new HashSet<>();
         while (reviewDbIndex < reviewDbAuditEntries.size()) {
           AuditEntry reviewDbAuditEntry = reviewDbAuditEntries.get(reviewDbIndex);
-          if (!reviewDbAuditEntry.getAction().equals(noteDbAuditEntry.getAction())) {
+          if (reviewDbAuditEntry.getAction() != noteDbAuditEntry.getAction()) {
             break;
           }
           redundantReviewDbAuditEntries.add(reviewDbAuditEntry);

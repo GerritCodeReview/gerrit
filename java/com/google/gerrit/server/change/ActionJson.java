@@ -176,7 +176,7 @@ public class ActionJson {
     // have a server side handler. It must be manually registered into the
     // resulting action map.
     Status status = notes.getChange().getStatus();
-    if (status.isOpen() || status.equals(Status.MERGED)) {
+    if (status.isOpen() || status == Status.MERGED) {
       UiAction.Description descr = new UiAction.Description();
       PrivateInternals_UiActionDescription.setId(descr, "followup");
       PrivateInternals_UiActionDescription.setMethod(descr, "POST");

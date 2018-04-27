@@ -426,7 +426,7 @@ public class CommentsUtil {
   public void deleteCommentByRewritingHistory(
       ReviewDb db, ChangeUpdate update, Comment.Key commentKey, PatchSet.Id psId, String newMessage)
       throws OrmException {
-    if (PrimaryStorage.of(update.getChange()).equals(PrimaryStorage.REVIEW_DB)) {
+    if (PrimaryStorage.of(update.getChange()) == PrimaryStorage.REVIEW_DB) {
       PatchLineComment.Key key =
           new PatchLineComment.Key(new Patch.Key(psId, commentKey.filename), commentKey.uuid);
 
@@ -437,7 +437,7 @@ public class CommentsUtil {
 
       PatchLineComment patchLineComment = db.patchComments().get(key);
 
-      if (!patchLineComment.getStatus().equals(PUBLISHED)) {
+      if (patchLineComment.getStatus() != PUBLISHED) {
         throw new OrmException(String.format("comment %s is not published", key));
       }
 

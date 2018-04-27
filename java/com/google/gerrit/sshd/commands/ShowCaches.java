@@ -206,7 +206,7 @@ final class ShowCaches extends SshCommand {
 
   private void printMemoryCoreCaches(Collection<CacheInfo> caches) {
     for (CacheInfo cache : caches) {
-      if (!cache.name.contains("-") && CacheType.MEM.equals(cache.type)) {
+      if (!cache.name.contains("-") && CacheType.MEM == cache.type) {
         printCache(cache);
       }
     }

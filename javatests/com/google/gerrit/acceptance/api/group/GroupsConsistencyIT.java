@@ -240,7 +240,7 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
     List<ConsistencyProblemInfo> problems = check();
 
     for (ConsistencyProblemInfo i : problems) {
-      if (!i.status.equals(want)) {
+      if (i.status != want) {
         continue;
       }
       if (i.message.contains(msg)) {

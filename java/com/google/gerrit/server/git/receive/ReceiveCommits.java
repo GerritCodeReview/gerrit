@@ -1039,7 +1039,7 @@ class ReceiveCommits {
                   continue;
                 }
 
-                if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
+                if (ProjectConfigEntryType.LIST == configEntry.getType()
                     && value != null
                     && !configEntry.getPermittedValues().contains(value)) {
                   reject(
@@ -1255,11 +1255,10 @@ class ReceiveCommits {
     String topic;
 
     @Option(
-      name = "--draft",
-      usage =
-          "Will be removed. Before that, this option will be mapped to '--private'"
-              + "for new changes and '--edit' for existing changes"
-    )
+        name = "--draft",
+        usage =
+            "Will be removed. Before that, this option will be mapped to '--private'"
+                + "for new changes and '--edit' for existing changes")
     boolean draft;
 
     boolean publish;
@@ -1271,20 +1270,18 @@ class ReceiveCommits {
     boolean removePrivate;
 
     @Option(
-      name = "--wip",
-      aliases = {"-work-in-progress"},
-      usage = "mark change as work in progress"
-    )
+        name = "--wip",
+        aliases = {"-work-in-progress"},
+        usage = "mark change as work in progress")
     boolean workInProgress;
 
     @Option(name = "--ready", usage = "mark change as ready")
     boolean ready;
 
     @Option(
-      name = "--edit",
-      aliases = {"-e"},
-      usage = "upload as change edit"
-    )
+        name = "--edit",
+        aliases = {"-e"},
+        usage = "upload as change edit")
     boolean edit;
 
     @Option(name = "--submit", usage = "immediately submit the change")
@@ -1297,19 +1294,17 @@ class ReceiveCommits {
     private boolean publishComments;
 
     @Option(
-      name = "--no-publish-comments",
-      aliases = {"--np"},
-      usage = "do not publish draft comments"
-    )
+        name = "--no-publish-comments",
+        aliases = {"--np"},
+        usage = "do not publish draft comments")
     private boolean noPublishComments;
 
     @Option(
-      name = "--notify",
-      usage =
-          "Notify handling that defines to whom email notifications "
-              + "should be sent. Allowed values are NONE, OWNER, "
-              + "OWNER_REVIEWERS, ALL. If not set, the default is ALL."
-    )
+        name = "--notify",
+        usage =
+            "Notify handling that defines to whom email notifications "
+                + "should be sent. Allowed values are NONE, OWNER, "
+                + "OWNER_REVIEWERS, ALL. If not set, the default is ALL.")
     private NotifyHandling notify;
 
     @Option(name = "--notify-to", metaVar = "USER", usage = "user that should be notified")
@@ -1322,11 +1317,10 @@ class ReceiveCommits {
     List<Account.Id> bccs = new ArrayList<>();
 
     @Option(
-      name = "--reviewer",
-      aliases = {"-r"},
-      metaVar = "EMAIL",
-      usage = "add reviewer to changes"
-    )
+        name = "--reviewer",
+        aliases = {"-r"},
+        metaVar = "EMAIL",
+        usage = "add reviewer to changes")
     void reviewer(Account.Id id) {
       reviewer.add(id);
     }
@@ -1337,11 +1331,10 @@ class ReceiveCommits {
     }
 
     @Option(
-      name = "--label",
-      aliases = {"-l"},
-      metaVar = "LABEL+VALUE",
-      usage = "label(s) to assign (defaults to +1 if no value provided"
-    )
+        name = "--label",
+        aliases = {"-l"},
+        metaVar = "LABEL+VALUE",
+        usage = "label(s) to assign (defaults to +1 if no value provided")
     void addLabel(String token) throws CmdLineException {
       LabelVote v = LabelVote.parse(token);
       try {
@@ -1354,11 +1347,10 @@ class ReceiveCommits {
     }
 
     @Option(
-      name = "--message",
-      aliases = {"-m"},
-      metaVar = "MESSAGE",
-      usage = "Comment message to apply to the review"
-    )
+        name = "--message",
+        aliases = {"-m"},
+        metaVar = "MESSAGE",
+        usage = "Comment message to apply to the review")
     void addMessage(String token) {
       // Many characters have special meaning in the context of a git ref.
       //
@@ -1376,11 +1368,10 @@ class ReceiveCommits {
     }
 
     @Option(
-      name = "--hashtag",
-      aliases = {"-t"},
-      metaVar = "HASHTAG",
-      usage = "add hashtag to changes"
-    )
+        name = "--hashtag",
+        aliases = {"-t"},
+        metaVar = "HASHTAG",
+        usage = "add hashtag to changes")
     void addHashtag(String token) throws CmdLineException {
       if (!notesMigration.readChanges()) {
         throw clp.reject("cannot add hashtags; noteDb is disabled");

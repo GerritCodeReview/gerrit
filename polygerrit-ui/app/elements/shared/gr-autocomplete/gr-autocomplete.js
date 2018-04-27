@@ -312,6 +312,12 @@
           // For any normal keypress, return focus to the input to allow for
           // unbroken user input.
           this.$.input.inputElement.focus();
+
+          // Since this has been a normal keypress, the suggestions will have
+          // been based on a previous input. Clear them. This prevents an
+          // outdated suggestion from being used if the input keystroke is
+          // immediately followed by a commit keystroke. @see Issue 8655
+          this._suggestions = [];
       }
       this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
     },

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13100eea_6489233d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-04-27T08:20:32Z",
+      "side": 1,
+      "message": "Do we know what happens when an access section has a permission twice with different case?\nE.g. how is it displayed in the UI, what happens if such an access section is persisted, can it be loaded back?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "b891bca48e8b077fe1f43cf5c9a653997ee96ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

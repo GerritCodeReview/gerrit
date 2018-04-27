@@ -34,6 +34,24 @@
       "revId": "ea2d0a5b5ad28f52bf48ff718b97a0cc5cdbc3fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "004cc1f9_a000d108",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-04-27T07:09:52Z",
+      "side": 1,
+      "message": "Ah, right, now I see how it works.  It\u0027s the @FanOutExecutor and @Provides annotations that are important; the name of the method is not relevant.",
+      "parentUuid": "d64dcf77_84f00c66",
+      "revId": "ea2d0a5b5ad28f52bf48ff718b97a0cc5cdbc3fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

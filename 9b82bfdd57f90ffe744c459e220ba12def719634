@@ -47,6 +47,29 @@
       "revId": "9b82bfdd57f90ffe744c459e220ba12def719634",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee79f3f5_6485d9dc",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-04-27T12:28:02Z",
+      "side": 1,
+      "message": "Oh gosh, so that was intentional indeed?\nIn this test we actually verify that even if ReviewDb has sequence 3456 but NoteDb has 1244, we should stick to what NoteDb has and thus we are causing the Issue 8861",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 44
+      },
+      "revId": "9b82bfdd57f90ffe744c459e220ba12def719634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

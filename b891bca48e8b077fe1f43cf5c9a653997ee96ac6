@@ -39,6 +39,24 @@
       "revId": "b891bca48e8b077fe1f43cf5c9a653997ee96ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aa5f3f4_ab4f6c18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-27T11:44:45Z",
+      "side": 1,
+      "message": "The poor commit message is due to the fact that I should have pushed these changes as WIP (haven\u0027t gotten used to WIP yet).\n\nI don\u0027t know why permissions are case sensitive, haven\u0027t found any explanation for it. Don\u0027t know if the case has changed and it\u0027s for backwards compatibility or if it\u0027s just that users should be able to add permissions without worrying about case.\nHaving them case insensitive adds extra code and it needs to be addressed when you are working with permissions. All the case-insensitive code seems redundant and error prone to me.\n\nIn a follow up change I\u0027m trying to replace the AccessSection#permissions List with a Map instead since the list is traversed in multiple different locations in AccessSection and a Map seems more suitable. And that accented the confusion that case-insensitivity brings.",
+      "parentUuid": "c52395c3_a1e48dc3",
+      "revId": "b891bca48e8b077fe1f43cf5c9a653997ee96ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

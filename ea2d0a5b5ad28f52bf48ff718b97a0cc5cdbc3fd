@@ -16,6 +16,24 @@
       "revId": "ea2d0a5b5ad28f52bf48ff718b97a0cc5cdbc3fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d64dcf77_84f00c66",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-04-27T07:01:35Z",
+      "side": 1,
+      "message": "It gets injected with Guice e.g. in ChangeJson and AccountCacheImpl.",
+      "parentUuid": "44b23aaf_acc440b2",
+      "revId": "ea2d0a5b5ad28f52bf48ff718b97a0cc5cdbc3fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

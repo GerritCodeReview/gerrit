@@ -273,7 +273,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
         .commit()
         .insertChangeId()
         .message("subject: adding new subscription")
-        .add(".gitmodules", config.toText().toString())
+        .add(".gitmodules", config.toText())
         .create();
 
     repo.git()

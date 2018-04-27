@@ -298,7 +298,7 @@ public class MergeUtil {
   public static String createConflictMessage(List<String> conflicts) {
     StringBuilder sb = new StringBuilder("merge conflict(s)");
     for (String c : conflicts) {
-      sb.append('\n' + c);
+      sb.append('\n').append(c);
     }
     return sb.toString();
   }

@@ -471,7 +471,7 @@ class GitwebServlet extends HttpServlet {
 
     String queryString = req.getQueryString();
     if (queryString != null && !queryString.isEmpty()) {
-      token = token.concat("?" + queryString);
+      token = token + "?" + queryString;
     }
     return (loginUrl + Url.encode(token));
   }

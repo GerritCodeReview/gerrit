@@ -172,7 +172,7 @@ public abstract class BaseCommand implements Command {
         String arg = argv[i];
         int indexOfMultiLine = arg.indexOf("\n");
         if (indexOfMultiLine > -1) {
-          arg = arg.substring(0, indexOfMultiLine).concat(" [trimmed]");
+          arg = arg.substring(0, indexOfMultiLine) + " [trimmed]";
         }
         trimmedArgv[i] = arg;
       }

@@ -137,7 +137,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
     if (limit > 0) {
       s = s.limit(limit);
     }
-    return new TreeMap<>(s.collect(toMap(p -> p.getName(), p -> toPluginInfo(p))));
+    return new TreeMap<>(s.collect(toMap(Plugin::getName, ListPlugins::toPluginInfo)));
   }
 
   private void checkMatchOptions(boolean cond) throws BadRequestException {

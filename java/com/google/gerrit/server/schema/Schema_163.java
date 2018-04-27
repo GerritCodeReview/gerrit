@@ -41,7 +41,7 @@ public class Schema_163 extends SchemaVersion {
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     @SuppressWarnings("deprecation")
-    RepoSequence.Seed groupSeed = () -> db.nextAccountGroupId();
+    RepoSequence.Seed groupSeed = db::nextAccountGroupId;
     RepoSequence groupSeq =
         new RepoSequence(
             repoManager,

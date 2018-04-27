@@ -294,7 +294,7 @@ public class RetryHelper {
   private <T> T executeWithTimeoutCount(ActionType actionType, Action<T> action, Retryer<T> retryer)
       throws Throwable {
     try {
-      return retryer.call(() -> action.call());
+      return retryer.call(action::call);
     } catch (ExecutionException | RetryException e) {
       if (e instanceof RetryException) {
         metrics.timeoutCount.increment(actionType);

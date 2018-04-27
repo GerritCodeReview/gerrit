@@ -3683,7 +3683,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .entrySet()
             .stream()
             .filter(e -> e.getValue().stream().anyMatch(a -> a._accountId == accountId.get()))
-            .map(e -> e.getKey())
+            .map(Map.Entry::getKey)
             .collect(toSet());
     assertThat(states.size()).named(states.toString()).isAtMost(1);
     return states.stream().findFirst();

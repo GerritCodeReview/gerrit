@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.function.Function;
 
 /** Possible values for {@code -o notedb=X} push option. */
 public enum NoteDbPushOption {
@@ -29,7 +30,7 @@ public enum NoteDbPushOption {
   public static final String OPTION_NAME = "notedb";
 
   private static final ImmutableMap<String, NoteDbPushOption> ALL =
-      Arrays.stream(values()).collect(toImmutableMap(NoteDbPushOption::value, o -> o));
+      Arrays.stream(values()).collect(toImmutableMap(NoteDbPushOption::value, Function.identity()));
 
   /**
    * Parses an option value from a lowercase string representation.

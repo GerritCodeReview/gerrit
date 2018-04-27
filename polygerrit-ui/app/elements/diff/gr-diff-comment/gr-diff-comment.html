@@ -25,6 +25,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-confirm-dialog/gr-confirm-dialog.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
@@ -155,6 +156,12 @@ limitations under the License.
         margin-bottom: .8em;
         margin-top: -.4em;
       }
+      /* because of the antenna of the robot, it looks off center even when it
+       is centered. artificially adjust margin to account for this. */
+      .robotIcon {
+        margin-top: -.3em;
+        margin-right: .2em;
+      }
       .runIdInformation {
         margin: .7em 0;
       }
@@ -270,6 +277,7 @@ limitations under the License.
       <div class="body">
         <template is="dom-if" if="[[comment.robot_id]]">
           <div class="robotId" hidden$="[[collapsed]]">
+            <iron-icon class="robotIcon" icon="gr-icons:robot"></iron-icon>
             [[comment.robot_id]]
           </div>
         </template>

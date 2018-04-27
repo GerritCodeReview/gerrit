@@ -335,9 +335,9 @@ public class CommitValidators {
       StringBuilder sb = new StringBuilder();
       sb.append("ERROR: ").append(errMsg);
 
-      if (c.getFullMessage().indexOf(CHANGE_ID_PREFIX) >= 0) {
+      if (c.getFullMessage().contains(CHANGE_ID_PREFIX)) {
         String lastLine = Iterables.getLast(Splitter.on('\n').split(c.getFullMessage()), "");
-        if (lastLine.indexOf(CHANGE_ID_PREFIX) == -1) {
+        if (!lastLine.contains(CHANGE_ID_PREFIX)) {
           sb.append('\n');
           sb.append('\n');
           sb.append("Hint: A potential ");

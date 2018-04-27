@@ -2,6 +2,7 @@ package(default_visibility = ["//visibility:public"])
 
 java_library(
     name = "elasticsearch",
+    testonly = 1,
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@elasticsearch//jar"],
     runtime_deps = [

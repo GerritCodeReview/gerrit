@@ -110,7 +110,7 @@ final class StreamEvents extends BaseCommand {
           StringBuilder b = new StringBuilder();
           b.append("Stream Events");
           if (currentUser.getUserName().isPresent()) {
-            b.append(" (" + currentUser.getUserName().get() + ")");
+            b.append(" (").append(currentUser.getUserName().get()).append(")");
           }
           return b.toString();
         }

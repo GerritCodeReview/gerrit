@@ -62,6 +62,6 @@ public class WebLinkInfo {
         + url
         + ", target"
         + target
-        + "}".toString();
+        + "}";
   }
 }

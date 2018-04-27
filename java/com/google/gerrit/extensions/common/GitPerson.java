@@ -51,6 +51,6 @@ public class GitPerson {
         + date
         + ", tz="
         + tz
-        + "}".toString();
+        + "}";
   }
 }

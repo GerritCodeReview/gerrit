@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f056812_905cc667",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-27T16:12:04Z",
+      "side": 1,
+      "message": "APPROVED\n\nSimilar to REST API response fields?\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#_fields_set_by_code_labels_code",
+      "range": {
+        "startLine": 67,
+        "startChar": 15,
+        "endLine": 67,
+        "endChar": 18
+      },
+      "revId": "01ae9dcbb1b8f169937a05759c376c299606c440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e1d62de_82f888bb",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-27T16:12:04Z",
+      "side": 1,
+      "message": "RECOMMENDED",
+      "range": {
+        "startLine": 68,
+        "startChar": 15,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "01ae9dcbb1b8f169937a05759c376c299606c440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b3f2c14_654cdf88",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-27T16:12:04Z",
+      "side": 1,
+      "message": "REJECTED",
+      "range": {
+        "startLine": 69,
+        "startChar": 15,
+        "endLine": 69,
+        "endChar": 18
+      },
+      "revId": "01ae9dcbb1b8f169937a05759c376c299606c440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cbc9d3d_1926671d",
+        "filename": "polygerrit-ui/app/styles/app-theme.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-27T16:12:04Z",
+      "side": 1,
+      "message": "DISLIKED",
+      "range": {
+        "startLine": 70,
+        "startChar": 15,
+        "endLine": 70,
+        "endChar": 23
+      },
+      "revId": "01ae9dcbb1b8f169937a05759c376c299606c440",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

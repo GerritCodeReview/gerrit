@@ -70,6 +70,30 @@
       "revId": "9b82bfdd57f90ffe744c459e220ba12def719634",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bef4564_5e4eb417",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/notedb/RepoSequenceTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-04-27T12:34:26Z",
+      "side": 1,
+      "message": "\u003e Oh gosh, so that was intentional indeed?\n\nIgnoring the value of the seed argument is intended behavior, yes. This is so that the code doesn\u0027t have to worry about what is an appropriate value to pass to seed.\n\n\u003e if ReviewDb has sequence 3456 but NoteDb has 1244\n\nThat\u0027s not what this is saying. Note that I said \"the seed argument\" above. This is about the behavior of the low-level repo sequence code; at this point in the code there is no concept of \"ReviewDb\".",
+      "parentUuid": "ee79f3f5_6485d9dc",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 122,
+        "endChar": 44
+      },
+      "revId": "9b82bfdd57f90ffe744c459e220ba12def719634",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -57,6 +57,30 @@
       "revId": "b891bca48e8b077fe1f43cf5c9a653997ee96ac6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1143bfd7_751dbe3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-04-27T11:44:55Z",
+      "side": 1,
+      "message": "This change should be WIP, sorry for that.\n\nI will look into such problems and probably write some tests as well, just wanted to get some feedback.\n\nWhen loaded from config ProjectConfig.java makes an \"isPermission\" check [1] that compares the configured \"permission\" with the list of valid permissions. If the configured permission is not a label or a valid permission no Permission is created for it in the AccessSection. I.e. it\u0027s just ignored so I cannot see how it could turn up in the UI.\n\nWhen saving it looks to me like it will be saved to project.config as a separate permission. So if you have:\n\n    [access \"refs/for/refs/heads/master\"]\n        addPatchSet \u003d group Registered Users\n\nand add:\n\n    [access \"refs/for/refs/heads/master\"]\n        addpatchset \u003d group Registered Users\n\nyou will end up with:\n\n    [access \"refs/for/refs/heads/master\"]\n        addPatchSet \u003d group Registered Users\n        addpatchset \u003d group Registered Users\n\nWhere addpatchset will be ignored when config is loaded.\n\nThe UI displays what is loaded from project.config (no non-permissions).\nYour only option when editing the access-sections in the UI is to add permissions that are valid from a har-coded list.\n\nAFAICT the only way in for a \"wrong case\" permission to enter the project.config is through direct push or SetAccess REST.\n\nThe main thing that worries me with this change is that IIUC you were able to have any-case permissions previously and there might be Gerrit instances where f.i. an \"addpatchset\" is configured which was recognized as equal to \"addPatchSet\" before this change but is now ignored. Perhaps I should write a migration from any-case to camel case permissions in project.config.\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/project/ProjectConfig.java#687 and #695",
+      "parentUuid": "13100eea_6489233d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "b891bca48e8b077fe1f43cf5c9a653997ee96ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

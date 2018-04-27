@@ -479,7 +479,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
     @Override
     public ResultSet<V> read() throws OrmException {
-      return readImpl((doc) -> fromDocument(doc));
+      return readImpl(AbstractLuceneIndex.this::fromDocument);
     }
 
     @Override

@@ -28,7 +28,9 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroupById;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
+import com.google.gerrit.reviewdb.client.AccountGroupMember;
 import com.google.gerrit.reviewdb.client.AccountGroupMemberAudit;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
@@ -227,10 +229,10 @@ class GroupRebuilder {
     return b ->
         b.setMemberModification(
                 in ->
-                    bundle.members().stream().map(m -> m.getAccountId()).collect(toImmutableSet()))
+                    bundle.members().stream().map(AccountGroupMember::getAccountId).collect(toImmutableSet()))
             .setSubgroupModification(
                 in ->
-                    bundle.byId().stream().map(m -> m.getIncludeUUID()).collect(toImmutableSet()));
+                    bundle.byId().stream().map(AccountGroupById::getIncludeUUID).collect(toImmutableSet()));
   }
 
   private static Event event(

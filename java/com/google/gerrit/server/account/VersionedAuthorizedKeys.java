@@ -264,7 +264,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
    * @param newKeys the new public SSH keys
    */
   public void setKeys(Collection<AccountSshKey> newKeys) {
-    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.seq()));
+    Ordering<AccountSshKey> o = Ordering.from(comparing(AccountSshKey::seq));
     keys = new ArrayList<>(Collections.nCopies(o.max(newKeys).seq(), Optional.empty()));
     for (AccountSshKey key : newKeys) {
       keys.set(key.seq() - 1, Optional.of(key));

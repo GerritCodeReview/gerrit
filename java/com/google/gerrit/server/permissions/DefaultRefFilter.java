@@ -38,6 +38,7 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
@@ -320,9 +321,9 @@ class DefaultRefFilter {
       log.error("Cannot load changes for project " + p + ", assuming no changes are visible", e);
       return Collections.emptyMap();
     }
-    return s.map(r -> toNotes(r))
+    return s.map(this::toNotes)
         .filter(Objects::nonNull)
-        .collect(toMap(n -> n.getChangeId(), n -> n.getChange().getDest()));
+        .collect(toMap(AbstractChangeNotes::getChangeId, n -> n.getChange().getDest()));
   }
 
   @Nullable

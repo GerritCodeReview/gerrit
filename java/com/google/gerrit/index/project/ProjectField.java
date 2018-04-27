@@ -21,6 +21,7 @@ import static com.google.gerrit.index.FieldDef.prefix;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 
 /** Index schema for projects. */
 public class ProjectField {
@@ -39,5 +40,5 @@ public class ProjectField {
 
   public static final FieldDef<ProjectData, Iterable<String>> ANCESTOR_NAME =
       exact("ancestor_name")
-          .buildRepeatable(p -> Iterables.transform(p.getAncestors(), n -> n.get()));
+          .buildRepeatable(p -> Iterables.transform(p.getAncestors(), NameKey::get));
 }

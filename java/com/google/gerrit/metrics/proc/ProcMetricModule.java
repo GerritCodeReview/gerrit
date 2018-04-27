@@ -194,6 +194,6 @@ public class ProcMetricModule extends MetricModule {
         "proc/jvm/thread/num_live",
         Integer.class,
         new Description("Current live thread count").setGauge().setUnit("threads"),
-        () -> thread.getThreadCount());
+        thread::getThreadCount);
   }
 }

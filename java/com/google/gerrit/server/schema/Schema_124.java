@@ -119,7 +119,7 @@ public class Schema_124 extends SchemaVersion {
   }
 
   private Collection<AccountSshKey> fixInvalidSequenceNumbers(Collection<AccountSshKey> keys) {
-    Ordering<AccountSshKey> o = Ordering.from(comparing(k -> k.seq()));
+    Ordering<AccountSshKey> o = Ordering.from(comparing(AccountSshKey::seq));
     List<AccountSshKey> fixedKeys = new ArrayList<>(keys);
     AccountSshKey minKey = o.min(keys);
     while (minKey.seq() <= 0) {

@@ -111,7 +111,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
     reservedNames = reservedNamesBuilder.build();
     namesToGroups = Collections.unmodifiableSortedMap(n);
     names =
-        ImmutableSet.copyOf(namesToGroups.values().stream().map(r -> r.getName()).collect(toSet()));
+        ImmutableSet.copyOf(namesToGroups.values().stream().map(GroupReference::getName).collect(toSet()));
     uuids = u.build();
   }
 

@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
@@ -108,7 +109,7 @@ public class Accounts {
    * @return first n account IDs
    */
   public List<Account.Id> firstNIds(int n) throws IOException {
-    return readUserRefs().sorted(comparing(id -> id.get())).limit(n).collect(toList());
+    return readUserRefs().sorted(comparing(Id::get)).limit(n).collect(toList());
   }
 
   /**

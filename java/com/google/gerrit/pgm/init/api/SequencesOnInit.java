@@ -37,7 +37,7 @@ public class SequencesOnInit {
 
   public int nextAccountId(ReviewDb db) throws OrmException {
     @SuppressWarnings("deprecation")
-    RepoSequence.Seed accountSeed = () -> db.nextAccountId();
+    RepoSequence.Seed accountSeed = db::nextAccountId;
     RepoSequence accountSeq =
         new RepoSequence(
             repoManager,

@@ -132,7 +132,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
       // Return a named subject that displays a human-readable table of
       // recipients.
-      return named(recipientMapToString(recipients, e -> users.emailToName(e)));
+      return named(recipientMapToString(recipients, users::emailToName));
     }
 
     private static String recipientMapToString(

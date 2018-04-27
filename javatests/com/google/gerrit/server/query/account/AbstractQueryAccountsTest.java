@@ -608,7 +608,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertThat(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE)).hasSize(blobs.size());
     assertThat(
             Streams.stream(rawFields.get().getValue(AccountField.EXTERNAL_ID_STATE))
-                .map(b -> new ByteArrayWrapper(b))
+                .map(ByteArrayWrapper::new)
                 .collect(toList()))
         .containsExactlyElementsIn(blobs);
   }

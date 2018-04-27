@@ -588,7 +588,7 @@ public class EventFactory {
     if (id == null) {
       return null;
     }
-    return accountCache.get(id).map(a -> asAccountAttribute(a)).orElse(null);
+    return accountCache.get(id).map(this::asAccountAttribute).orElse(null);
   }
 
   /**

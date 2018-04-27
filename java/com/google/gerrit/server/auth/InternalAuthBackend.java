@@ -54,7 +54,7 @@ public class InternalAuthBackend implements AuthBackend {
     }
 
     AccountState who =
-        accountCache.getByUsername(username).orElseThrow(() -> new UnknownUserException());
+        accountCache.getByUsername(username).orElseThrow(UnknownUserException::new);
 
     if (!who.getAccount().isActive()) {
       throw new UserNotAllowedException(

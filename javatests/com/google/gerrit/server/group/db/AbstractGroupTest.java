@@ -121,7 +121,7 @@ public class AbstractGroupTest extends GerritBaseTests {
 
   protected AuditLogFormatter getAuditLogFormatter() {
     return AuditLogFormatter.create(
-        AbstractGroupTest::getAccount, uuid -> getGroup(uuid), SERVER_ID);
+        AbstractGroupTest::getAccount, this::getGroup, SERVER_ID);
   }
 
   private static Optional<Account> getAccount(Account.Id id) {

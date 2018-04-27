@@ -723,7 +723,7 @@ public class ChangeField {
   }
 
   public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RECORD =
-      exact("submit_record").buildRepeatable(cd -> formatSubmitRecordValues(cd));
+      exact("submit_record").buildRepeatable(ChangeField::formatSubmitRecordValues);
 
   public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT =
       storedOnly("full_submit_record_strict")

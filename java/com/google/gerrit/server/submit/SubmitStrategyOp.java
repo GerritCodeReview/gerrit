@@ -185,7 +185,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       }
     }
     Collections.sort(
-        commits, ReviewDbUtil.intKeyOrdering().reverse().onResultOf(c -> c.getPatchsetId()));
+        commits, ReviewDbUtil.intKeyOrdering().reverse().onResultOf(CodeReviewCommit::getPatchsetId));
     CodeReviewCommit result = MergeUtil.findAnyMergedInto(rw, commits, tip);
     if (result == null) {
       return null;

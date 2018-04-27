@@ -38,6 +38,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.externalids.ExternalId.Key;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -603,7 +604,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       return;
     }
 
-    replace(accountId, toDelete.stream().map(e -> e.key()).collect(toSet()), toAdd);
+    replace(accountId, toDelete.stream().map(ExternalId::key).collect(toSet()), toAdd);
   }
 
   @Override
@@ -894,12 +895,12 @@ public class ExternalIdNotes extends VersionedMetaData {
 
       // External IDs that have this email assigned after the external ID updates have been
       // performed.
-      SortedSet<ExternalId.Key> extIdsAfter = new TreeSet<>(comparing(a -> a.get()));
+      SortedSet<ExternalId.Key> extIdsAfter = new TreeSet<>(comparing(Key::get));
       extIdsAfter.addAll(e.getValue());
 
       // External IDs that already had this email assigned before the external ID updates had been
       // performed.
-      SortedSet<ExternalId.Key> extIdsBefore = new TreeSet<>(comparing(a -> a.get()));
+      SortedSet<ExternalId.Key> extIdsBefore = new TreeSet<>(comparing(Key::get));
       extIdsBefore.addAll((extIdsByEmailBefore.get(email)));
 
       if (extIdsBefore.isEmpty()) {

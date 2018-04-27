@@ -127,7 +127,7 @@ public class GetReflog implements RestReadView<BranchResource> {
           }
         }
       }
-      return Lists.transform(entries, e -> newReflogEntryInfo(e));
+      return Lists.transform(entries, this::newReflogEntryInfo);
     }
   }
 

@@ -234,6 +234,6 @@ final class AdminSetParent extends SshCommand {
     if (ps == null) {
       return Collections.emptySet();
     }
-    return ps.parents().transform(s -> s.getNameKey()).toSet();
+    return ps.parents().transform(ProjectState::getNameKey).toSet();
   }
 }

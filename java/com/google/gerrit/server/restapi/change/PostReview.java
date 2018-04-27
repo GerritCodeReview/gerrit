@@ -1274,7 +1274,7 @@ public class PostReview
             "Cannot reduce vote on labels for closed change: "
                 + reduced
                     .stream()
-                    .map(p -> p.getLabel())
+                    .map(PatchSetApproval::getLabel)
                     .distinct()
                     .sorted()
                     .collect(joining(", ")));

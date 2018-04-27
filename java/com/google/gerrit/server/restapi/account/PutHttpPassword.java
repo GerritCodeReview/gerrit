@@ -105,7 +105,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
         user.getUserName().orElseThrow(() -> new ResourceConflictException("username must be set"));
     Optional<ExternalId> optionalExtId =
         externalIds.get(ExternalId.Key.create(SCHEME_USERNAME, userName));
-    ExternalId extId = optionalExtId.orElseThrow(() -> new ResourceNotFoundException());
+    ExternalId extId = optionalExtId.orElseThrow(ResourceNotFoundException::new);
     accountsUpdateProvider
         .get()
         .update(

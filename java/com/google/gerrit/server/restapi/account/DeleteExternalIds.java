@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
@@ -79,7 +80,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
         externalIds
             .byAccount(resource.getUser().getAccountId())
             .stream()
-            .collect(toMap(i -> i.key(), i -> i));
+            .collect(toMap(ExternalId::key, Function.identity()));
 
     List<ExternalId> toDelete = new ArrayList<>();
     Optional<ExternalId.Key> last = resource.getUser().getLastLoginExternalIdKey();
@@ -102,7 +103,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
 
     try {
       accountManager.unlink(
-          resource.getUser().getAccountId(), toDelete.stream().map(e -> e.key()).collect(toSet()));
+          resource.getUser().getAccountId(), toDelete.stream().map(ExternalId::key).collect(toSet()));
     } catch (AccountException e) {
       throw new ResourceConflictException(e.getMessage());
     }

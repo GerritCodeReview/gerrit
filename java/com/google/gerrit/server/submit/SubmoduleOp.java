@@ -407,7 +407,7 @@ public class SubmoduleOp {
     int count = 0;
 
     List<SubmoduleSubscription> subscriptions = new ArrayList<>(targets.get(subscriber));
-    Collections.sort(subscriptions, comparing((SubmoduleSubscription s) -> s.getPath()));
+    Collections.sort(subscriptions, comparing(SubmoduleSubscription::getPath));
     for (SubmoduleSubscription s : subscriptions) {
       if (count > 0) {
         msgbuf.append("\n\n");

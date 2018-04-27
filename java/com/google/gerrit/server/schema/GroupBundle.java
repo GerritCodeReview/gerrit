@@ -338,27 +338,27 @@ abstract class GroupBundle {
 
   private static final Comparator<AccountGroupMemberAudit> ACCOUNT_GROUP_MEMBER_AUDIT_COMPARATOR =
       Comparator.comparingInt((AccountGroupMemberAudit a) -> a.getGroupId().get())
-          .thenComparing(a -> a.getAddedOn())
+          .thenComparing(AccountGroupMemberAudit::getAddedOn)
           .thenComparingInt(a -> a.getAddedBy().get())
           .thenComparingInt(a -> a.getMemberId().get())
           .thenComparing(
               a -> a.getRemovedBy() != null ? a.getRemovedBy().get() : null,
               nullsLast(naturalOrder()))
-          .thenComparing(a -> a.getRemovedOn(), nullsLast(naturalOrder()));
+          .thenComparing(AccountGroupMemberAudit::getRemovedOn, nullsLast(naturalOrder()));
 
   private static final Comparator<AccountGroupById> ACCOUNT_GROUP_BY_ID_COMPARATOR =
       Comparator.comparingInt((AccountGroupById m) -> m.getGroupId().get())
-          .thenComparing(m -> m.getIncludeUUID());
+          .thenComparing(AccountGroupById::getIncludeUUID);
 
   private static final Comparator<AccountGroupByIdAud> ACCOUNT_GROUP_BY_ID_AUD_COMPARATOR =
       Comparator.comparingInt((AccountGroupByIdAud a) -> a.getGroupId().get())
-          .thenComparing(a -> a.getAddedOn())
+          .thenComparing(AccountGroupByIdAud::getAddedOn)
           .thenComparingInt(a -> a.getAddedBy().get())
-          .thenComparing(a -> a.getIncludeUUID())
+          .thenComparing(AccountGroupByIdAud::getIncludeUUID)
           .thenComparing(
               a -> a.getRemovedBy() != null ? a.getRemovedBy().get() : null,
               nullsLast(naturalOrder()))
-          .thenComparing(a -> a.getRemovedOn(), nullsLast(naturalOrder()));
+          .thenComparing(AccountGroupByIdAud::getRemovedOn, nullsLast(naturalOrder()));
 
   private static final Comparator<AuditEntry> AUDIT_ENTRY_COMPARATOR =
       Comparator.comparing(AuditEntry::getTimestamp)
@@ -742,7 +742,7 @@ abstract class GroupBundle {
     ADD(1),
     REMOVE(2);
 
-    private int order;
+    private final int order;
 
     Action(int order) {
       this.order = order;

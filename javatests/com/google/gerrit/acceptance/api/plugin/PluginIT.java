@@ -137,7 +137,7 @@ public class PluginIT extends AbstractDaemonTest {
 
   private void assertPlugins(List<PluginInfo> actual, List<String> expected) {
     List<String> _actual = actual.stream().map(p -> p.id).collect(toList());
-    List<String> _expected = expected.stream().map(p -> pluginName(p)).collect(toList());
+    List<String> _expected = expected.stream().map(this::pluginName).collect(toList());
     assertThat(_actual).containsExactlyElementsIn(_expected);
   }
 

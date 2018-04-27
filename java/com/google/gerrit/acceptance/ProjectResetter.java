@@ -24,7 +24,9 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
@@ -339,7 +341,7 @@ public class ProjectResetter implements AutoCloseable {
         try (Repository repo = repoManager.openRepository(allUsersName)) {
           for (Account.Id id :
               accountIds(
-                  repo.getAllRefs().values().stream().map(r -> r.getName()).collect(toSet()))) {
+                  repo.getAllRefs().values().stream().map(Ref::getName).collect(toSet()))) {
             evictAndReindexAccount(id);
           }
         }
@@ -401,7 +403,7 @@ public class ProjectResetter implements AutoCloseable {
   private Set<Account.Id> accountIds(Collection<String> refs) {
     return refs.stream()
         .filter(r -> r.startsWith(REFS_USERS))
-        .map(r -> Account.Id.fromRef(r))
+        .map(Id::fromRef)
         .filter(Objects::nonNull)
         .collect(toSet());
   }
@@ -409,7 +411,7 @@ public class ProjectResetter implements AutoCloseable {
   private Set<AccountGroup.UUID> groupUUIDs(Collection<String> refs) {
     return refs.stream()
         .filter(RefNames::isRefsGroups)
-        .map(r -> AccountGroup.UUID.fromRef(r))
+        .map(UUID::fromRef)
         .filter(Objects::nonNull)
         .collect(toSet());
   }

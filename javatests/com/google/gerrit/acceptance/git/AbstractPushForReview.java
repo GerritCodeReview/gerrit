@@ -1841,7 +1841,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         sender
             .getMessages()
             .stream()
-            .map(m -> m.body())
+            .map(Message::body)
             .sorted(Comparator.comparingInt(m -> m.contains("reexamine") ? 0 : 1))
             .collect(toList());
     assertThat(messages).hasSize(2);
@@ -2102,7 +2102,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .comments()
         .values()
         .stream()
-        .flatMap(cs -> cs.stream())
+        .flatMap(Collection::stream)
         .collect(toList());
   }
 

@@ -149,7 +149,7 @@ public class DeleteTagsIT extends AbstractDaemonTest {
     List<TagInfo> actualTags = project().tags().get();
     Iterable<String> actualNames = Iterables.transform(actualTags, b -> b.ref);
     assertThat(actualNames)
-        .containsExactlyElementsIn(expected.stream().map(t -> prefixRef(t)).collect(toList()))
+        .containsExactlyElementsIn(expected.stream().map(this::prefixRef).collect(toList()))
         .inOrder();
   }
 

@@ -69,7 +69,7 @@ public class ReloadConfig implements RestModifyView<ConfigResource, Input> {
     return update
         .getConfigUpdates()
         .stream()
-        .map(e -> toConfigUpdateEntryInfo(e))
+        .map(ReloadConfig::toConfigUpdateEntryInfo)
         .collect(toImmutableList());
   }
 

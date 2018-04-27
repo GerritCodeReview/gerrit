@@ -768,7 +768,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     // expand a group predicate into multiple user predicates
     if (group != null) {
       Set<Account.Id> allMembers =
-          args.groupMembers.listAccounts(group).stream().map(a -> a.getId()).collect(toSet());
+          args.groupMembers.listAccounts(group).stream().map(Account::getId).collect(toSet());
 
       int maxTerms = args.indexConfig.maxTerms();
       if (allMembers.size() > maxTerms) {

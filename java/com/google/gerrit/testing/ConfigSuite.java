@@ -275,7 +275,7 @@ public class ConfigSuite extends Suite {
           "The map returned by %s cannot contain key %s (duplicate test suite name)",
           m,
           DEFAULT);
-      for (String name : configs.stream().map(cm -> cm.getName()).collect(toSet())) {
+      for (String name : configs.stream().map(Method::getName).collect(toSet())) {
         checkArgument(
             !configMap.containsKey(name),
             "The map returned by %s cannot contain key %s (duplicate test suite name)",

@@ -30,6 +30,7 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -66,7 +67,7 @@ public class SubmitDryRun {
             repo.getRefDatabase().getRefs(Constants.R_HEADS).values().stream(),
             repo.getRefDatabase().getRefs(Constants.R_TAGS).values().stream())
         .map(Ref::getObjectId)
-        .filter(o -> o != null)
+        .filter(Objects::nonNull)
         .collect(toSet());
   }
 

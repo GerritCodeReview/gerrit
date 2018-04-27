@@ -3082,7 +3082,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected static Iterable<Change.Id> ids(Change... changes) {
-    return Arrays.stream(changes).map(c -> c.getId()).collect(toList());
+    return Arrays.stream(changes).map(Change::getId).collect(toList());
   }
 
   protected static Iterable<Change.Id> ids(Iterable<ChangeInfo> changes) {

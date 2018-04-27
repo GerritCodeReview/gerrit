@@ -337,7 +337,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** BCC any user who has starred this change. */
   protected void bccStarredBy() {
-    if (!NotifyHandling.ALL.equals(notify)) {
+    if (NotifyHandling.ALL != notify) {
       return;
     }
 
@@ -359,7 +359,7 @@ public abstract class ChangeEmail extends NotificationEmail {
   @Override
   protected final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig)
       throws OrmException {
-    if (!NotifyHandling.ALL.equals(notify)) {
+    if (NotifyHandling.ALL != notify) {
       return new Watchers();
     }
 
@@ -369,7 +369,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Any user who has published comments on this change. */
   protected void ccAllApprovals() {
-    if (!NotifyHandling.ALL.equals(notify) && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+    if (NotifyHandling.ALL != notify && NotifyHandling.OWNER_REVIEWERS != notify) {
       return;
     }
 
@@ -384,7 +384,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Users who have non-zero approval codes on the change. */
   protected void ccExistingReviewers() {
-    if (!NotifyHandling.ALL.equals(notify) && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
+    if (NotifyHandling.ALL != notify && NotifyHandling.OWNER_REVIEWERS != notify) {
       return;
     }
 

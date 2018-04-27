@@ -39,7 +39,7 @@ public enum ReviewerStateInternal {
       ok = false;
     }
     for (int i = 0; i < ReviewerStateInternal.values().length; i++) {
-      ok &= ReviewerState.values()[i].equals(ReviewerStateInternal.values()[i].state);
+      ok &= ReviewerState.values()[i] == ReviewerStateInternal.values()[i].state;
     }
     if (!ok) {
       throw new IllegalStateException(

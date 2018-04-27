@@ -222,13 +222,13 @@ public class CreateChange
       } else {
         Ref destRef = git.getRefDatabase().exactRef(refName);
         if (destRef != null) {
-          if (Boolean.TRUE.equals(input.newBranch)) {
+          if (Boolean.TRUE == input.newBranch) {
             throw new ResourceConflictException(
                 String.format("Branch %s already exists.", refName));
           }
           parentCommit = destRef.getObjectId();
         } else {
-          if (Boolean.TRUE.equals(input.newBranch)) {
+          if (Boolean.TRUE == input.newBranch) {
             parentCommit = null;
           } else {
             throw new UnprocessableEntityException(
@@ -253,7 +253,7 @@ public class CreateChange
         commitMessage = ChangeIdUtil.insertId(commitMessage, id);
       }
 
-      if (Boolean.TRUE.equals(info.signedOffBy)) {
+      if (Boolean.TRUE == info.signedOffBy) {
         commitMessage =
             Joiner.on("\n")
                 .join(
@@ -267,8 +267,8 @@ public class CreateChange
       RevCommit c;
       if (input.merge != null) {
         // create a merge commit
-        if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
-            || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
+        if (!(submitType == SubmitType.MERGE_ALWAYS
+            || submitType == SubmitType.MERGE_IF_NECESSARY)) {
           throw new BadRequestException("Submit type: " + submitType + " is not supported");
         }
         c =

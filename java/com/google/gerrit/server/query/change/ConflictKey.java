@@ -29,7 +29,7 @@ public class ConflictKey implements Serializable {
 
   public ConflictKey(
       ObjectId commit, ObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(submitType) || commit.compareTo(otherCommit) < 0) {
+    if (SubmitType.FAST_FORWARD_ONLY == submitType || commit.compareTo(otherCommit) < 0) {
       this.commit = commit;
       this.otherCommit = otherCommit;
     } else {
@@ -64,7 +64,7 @@ public class ConflictKey implements Serializable {
     ConflictKey other = (ConflictKey) o;
     return commit.equals(other.commit)
         && otherCommit.equals(other.otherCommit)
-        && submitType.equals(other.submitType)
+        && submitType == other.submitType
         && contentMerge == other.contentMerge;
   }
 

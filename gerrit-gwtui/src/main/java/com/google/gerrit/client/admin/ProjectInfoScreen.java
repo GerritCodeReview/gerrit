@@ -311,8 +311,8 @@ public class ProjectInfoScreen extends ProjectScreen {
    * merge the useContentMerge checkbox gets disabled.
    */
   private void setEnabledForUseContentMerge() {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(
-        SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex())))) {
+    if (SubmitType.FAST_FORWARD_ONLY
+        == SubmitType.valueOf(submitType.getValue(submitType.getSelectedIndex()))) {
       contentMerge.setEnabled(false);
       InheritedBooleanInfo b = InheritedBooleanInfo.create();
       b.setConfiguredValue(InheritableBoolean.FALSE);

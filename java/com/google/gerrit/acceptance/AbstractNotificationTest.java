@@ -184,9 +184,9 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     private void rcpt(@Nullable RecipientType type, String email) {
-      rcpt(TO, email, TO.equals(type));
-      rcpt(CC, email, CC.equals(type));
-      rcpt(BCC, email, BCC.equals(type));
+      rcpt(TO, email, TO == type);
+      rcpt(CC, email, CC == type);
+      rcpt(BCC, email, BCC == type);
     }
 
     private void rcpt(@Nullable RecipientType type, String email, boolean expected) {
@@ -363,11 +363,11 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
           watch(
               allProjects.get(),
               pwi -> {
-                pwi.notifyAllComments = watch.equals(NotifyType.ALL_COMMENTS);
-                pwi.notifyAbandonedChanges = watch.equals(NotifyType.ABANDONED_CHANGES);
-                pwi.notifyNewChanges = watch.equals(NotifyType.NEW_CHANGES);
-                pwi.notifyNewPatchSets = watch.equals(NotifyType.NEW_PATCHSETS);
-                pwi.notifySubmittedChanges = watch.equals(NotifyType.SUBMITTED_CHANGES);
+                pwi.notifyAllComments = watch == NotifyType.ALL_COMMENTS;
+                pwi.notifyAbandonedChanges = watch == NotifyType.ABANDONED_CHANGES;
+                pwi.notifyNewChanges = watch == NotifyType.NEW_CHANGES;
+                pwi.notifyNewPatchSets = watch == NotifyType.NEW_PATCHSETS;
+                pwi.notifySubmittedChanges = watch == NotifyType.SUBMITTED_CHANGES;
               });
           watchers.put(watch, watcher);
         }

@@ -79,8 +79,8 @@ public class CheckMergeability implements RestReadView<BranchResource> {
   @Override
   public MergeableInfo apply(BranchResource resource)
       throws IOException, BadRequestException, ResourceNotFoundException {
-    if (!(submitType.equals(SubmitType.MERGE_ALWAYS)
-        || submitType.equals(SubmitType.MERGE_IF_NECESSARY))) {
+    if (!(submitType == SubmitType.MERGE_ALWAYS
+        || submitType == SubmitType.MERGE_IF_NECESSARY)) {
       throw new BadRequestException("Submit type: " + submitType + " is not supported");
     }
 

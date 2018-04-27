@@ -78,7 +78,7 @@ public class ListCaches implements RestReadView<ConfigResource> {
     }
     Collections.sort(cacheNames);
 
-    if (OutputFormat.TEXT_LIST.equals(format)) {
+    if (OutputFormat.TEXT_LIST == format) {
       return BinaryResult.create(Joiner.on('\n').join(cacheNames))
           .base64()
           .setContentType("text/plain")

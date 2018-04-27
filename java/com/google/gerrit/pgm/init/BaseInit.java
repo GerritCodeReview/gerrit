@@ -202,12 +202,7 @@ public class BaseInit extends SiteProgram {
       }
       List<String> names = pluginsDistribution.listPluginNames();
       if (pluginsToInstall != null) {
-        for (Iterator<String> i = names.iterator(); i.hasNext(); ) {
-          String n = i.next();
-          if (!pluginsToInstall.contains(n)) {
-            i.remove();
-          }
-        }
+        names.removeIf(n -> !pluginsToInstall.contains(n));
       }
       return names;
     } catch (FileNotFoundException e) {

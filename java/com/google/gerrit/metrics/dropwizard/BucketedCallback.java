@@ -67,12 +67,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
   }
 
   void doPrune() {
-    Iterator<Map.Entry<Object, ValueGauge>> i = cells.entrySet().iterator();
-    while (i.hasNext()) {
-      if (!i.next().getValue().set) {
-        i.remove();
-      }
-    }
+    cells.entrySet().removeIf(objectValueGaugeEntry -> !objectValueGaugeEntry.getValue().set);
   }
 
   void doEndSet() {

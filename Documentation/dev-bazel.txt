@@ -358,26 +358,6 @@ To consume the JGit dependency from the development tree, edit
 `lib/jgit/jgit.bzl` setting LOCAL_JGIT_REPO to a directory holding a
 JGit repository.
 
-[[clean-cache]]
-=== Cleaning The download cache
-
-The cache for the Gerrit Code Review project is located in
-`~/.gerritcodereview/buck-cache/locally-built-artifacts`.
-
-If you really do need to clean the cache manually, then:
-
-----
- rm -rf ~/.gerritcodereview/buck-cache/locally-built-artifacts
-----
-
-Note that the root `buck-cache` folder should not be deleted as it also contains
-the `downloaded-artifacts` directory, which holds the artifacts that got
-downloaded (not built locally).
-
-[NOTE] When building with Bazel the artifacts are still cached in
-`~/.gerritcodereview/buck-cache/`. This allows Bazel to make use of
-libraries that were previously downloaded by Buck.
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

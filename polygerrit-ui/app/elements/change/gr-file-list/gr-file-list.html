@@ -368,9 +368,11 @@ limitations under the License.
               </label>
             </div>
             <div class="editFileControls showOnEdit">
-              <gr-edit-file-controls
-                  class$="[[_computeClass('', file.__path)]]"
-                  file-path="[[file.__path]]"></gr-edit-file-controls>
+              <template is="dom-if" if="[[editMode]]">
+                <gr-edit-file-controls
+                    class$="[[_computeClass('', file.__path)]]"
+                    file-path="[[file.__path]]"></gr-edit-file-controls>
+              </template>
             </div>
             <div class="show-hide">
               <label class="show-hide" data-path$="[[file.__path]]"

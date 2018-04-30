@@ -34,7 +34,7 @@
     CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK: 'change-metadata-item',
   };
 
-  const PLUGIN_LOADING_TIMEOUT_MS = 10000;
+  const PLUGIN_LOADING_TIMEOUT_MS = 60000;
 
   let _restAPI;
   const getRestAPI = () => {
@@ -552,11 +552,6 @@
   };
 
   Gerrit._pluginLoadingTimeout = function() {
-    document.dispatchEvent(new CustomEvent('show-alert', {
-      detail: {
-        message: 'Plugins loading timeout. Check the console for errors.',
-      },
-    }));
     console.error(`Failed to load plugins: ${Object.keys(_pluginsPending)}`);
     Gerrit._setPluginsPending([]);
   };
@@ -580,7 +575,12 @@
   };
 
   Gerrit._pluginInstallError = function(message) {
-    console.log(`Plugin install error: ${message}`);
+    document.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {
+        message: `Plugin install error: ${message}`,
+      },
+    }));
+    console.info(`Plugin install error: ${message}`);
     Gerrit._setPluginsCount(_pluginsPendingCount - 1);
   };
 

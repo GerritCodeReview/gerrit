@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.rpc;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.audit.Audit;
 import com.google.gerrit.common.auth.SignInRequired;
@@ -38,13 +39,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Base JSON servlet to ensure the current user is not forged. */
 @SuppressWarnings("serial")
 final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> {
-  private static final Logger log = LoggerFactory.getLogger(GerritJsonServlet.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final ThreadLocal<GerritCall> currentCall = new ThreadLocal<>();
   private static final ThreadLocal<MethodHandle> currentMethod = new ThreadLocal<>();
   private final DynamicItem<WebSession> session;
@@ -141,7 +141,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
                 result));
       }
     } catch (Throwable all) {
-      log.error("Unable to log the call", all);
+      logger.atSevere().withCause(all).log("Unable to log the call");
     }
   }
 
@@ -190,7 +190,7 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
         declaredField = clazz.getDeclaredField(fieldName);
         declaredField.setAccessible(true);
       } catch (Exception e) {
-        log.error("Unable to expose RPS/JSON result field");
+        logger.atSevere().log("Unable to expose RPS/JSON result field");
       }
       return declaredField;
     }
@@ -205,9 +205,9 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
         Method method = (Method) methodField.get(this.getMethod());
         return method.getDeclaringClass();
       } catch (IllegalArgumentException e) {
-        log.error("Cannot access result field");
+        logger.atSevere().log("Cannot access result field");
       } catch (IllegalAccessException e) {
-        log.error("No permissions to access result field");
+        logger.atSevere().log("No permissions to access result field");
       }
 
       return null;
@@ -222,9 +222,9 @@ final class GerritJsonServlet extends JsonServlet<GerritJsonServlet.GerritCall> 
       try {
         return resultField.get(this);
       } catch (IllegalArgumentException e) {
-        log.error("Cannot access result field");
+        logger.atSevere().log("Cannot access result field");
       } catch (IllegalAccessException e) {
-        log.error("No permissions to access result field");
+        logger.atSevere().log("No permissions to access result field");
       }
 
       return null;

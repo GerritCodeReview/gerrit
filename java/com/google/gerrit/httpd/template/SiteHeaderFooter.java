@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.template;
 import static com.google.gerrit.common.FileUtil.lastModified;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -25,14 +26,12 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 @Singleton
 public class SiteHeaderFooter {
-  private static final Logger log = LoggerFactory.getLogger(SiteHeaderFooter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final boolean refreshHeaderFooter;
   private final SitePaths sitePaths;
@@ -48,7 +47,7 @@ public class SiteHeaderFooter {
       t.load();
       template = t;
     } catch (IOException e) {
-      log.warn("Cannot load site header or footer", e);
+      logger.atWarning().withCause(e).log("Cannot load site header or footer");
     }
   }
 
@@ -60,7 +59,7 @@ public class SiteHeaderFooter {
         t.load();
         template = t;
       } catch (IOException e) {
-        log.warn("Cannot refresh site header or footer", e);
+        logger.atWarning().withCause(e).log("Cannot refresh site header or footer");
         t = template;
       }
     }

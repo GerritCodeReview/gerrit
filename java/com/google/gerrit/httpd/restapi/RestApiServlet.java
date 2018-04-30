@@ -58,6 +58,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -164,12 +165,11 @@ import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RestApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(RestApiServlet.class);
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** MIME type used for a JSON response body. */
   private static final String JSON_TYPE = "application/json";
@@ -1192,7 +1192,7 @@ public class RestApiServlet extends HttpServlet {
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + req.getQueryString();
     }
-    log.error("Error in {} {}", req.getMethod(), uri, err);
+    logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uri);
 
     if (!res.isCommitted()) {
       res.reset();

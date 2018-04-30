@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "a5796d49_52a5daad",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-30T21:16:57Z",
+      "side": 1,
+      "message": "Is this true for GWT UI? Or is it a PG-only thing?",
+      "range": {
+        "startLine": 178,
+        "startChar": 23,
+        "endLine": 178,
+        "endChar": 65
+      },
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b406db23_378522d6",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-30T21:16:57Z",
+      "side": 1,
+      "message": "Please describe the purpose of it and since it has default content, add a few words about it.",
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e99783_9f3d8410",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-30T21:16:57Z",
+      "side": 1,
+      "message": "Are those imports used?",
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a53ae9cd_1164fb12",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-04-30T21:16:57Z",
+      "side": 1,
+      "message": "This is global and isn\u0027t specific enough - please consider adding \u0027change\u0027 to the name, e.g. confirm-submit-change",
+      "range": {
+        "startLine": 44,
+        "startChar": 37,
+        "endLine": 44,
+        "endChar": 51
+      },
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5947f58c_382048b0",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
         "patchSetId": 5

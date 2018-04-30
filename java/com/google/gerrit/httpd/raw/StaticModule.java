@@ -21,6 +21,7 @@ import static java.nio.file.Files.isReadable;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.UiType;
 import com.google.gerrit.httpd.XsrfCookieFilter;
@@ -57,11 +58,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class StaticModule extends ServletModule {
-  private static final Logger log = LoggerFactory.getLogger(StaticModule.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String CACHE = "static_content";
   public static final String GERRIT_UI_COOKIE = "GERRIT_UI";
@@ -184,7 +183,7 @@ public class StaticModule extends ServletModule {
         if (exists(configPath) && isReadable(configPath)) {
           return new SingleFileServlet(cache, configPath, true);
         }
-        log.warn("Cannot read httpd.robotsFile, using default");
+        logger.atWarning().log("Cannot read httpd.robotsFile, using default");
       }
       Paths p = getPaths();
       if (p.warFs != null) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dff3fe89_76680be6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-04-30T15:14:53Z",
+      "side": 1,
+      "message": "I don\u0027t think we can expect a request body to come through for DELETE. The client can\u0027t make an informed choice since they don\u0027t know what sequence of proxies the request will go through before it hits Gerrit\u0027s servlet container.\n\nCould the POST be the only case, or the DELETE be for the case without reason being specified?",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

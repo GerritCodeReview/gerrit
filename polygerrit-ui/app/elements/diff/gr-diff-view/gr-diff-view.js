@@ -148,10 +148,6 @@
         type: Boolean,
         computed: '_computeEditMode(_patchRange.*)',
       },
-      _isBlameSupported: {
-        type: Boolean,
-        value: false,
-      },
       _isBlameLoaded: Boolean,
       _isBlameLoading: {
         type: Boolean,
@@ -201,10 +197,6 @@
     attached() {
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
-      });
-
-      this.$.restAPI.getConfig().then(config => {
-        this._isBlameSupported = config.change.allow_blame;
       });
 
       this.$.cursor.push('diffs', this.$.diff);

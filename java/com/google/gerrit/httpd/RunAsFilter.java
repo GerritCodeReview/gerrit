@@ -18,6 +18,7 @@ import static com.google.gerrit.httpd.restapi.RestApiServlet.replyError;
 import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -41,13 +42,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Allows running a request as another user account. */
 @Singleton
 class RunAsFilter implements Filter {
-  private static final Logger log = LoggerFactory.getLogger(RunAsFilter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String RUN_AS = "X-Gerrit-RunAs";
 
   static class Module extends ServletModule {
@@ -99,7 +98,7 @@ class RunAsFilter implements Filter {
         replyError(req, res, SC_FORBIDDEN, "not permitted to use " + RUN_AS, null);
         return;
       } catch (PermissionBackendException e) {
-        log.warn("cannot check runAs", e);
+        logger.atWarning().withCause(e).log("cannot check runAs");
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, RUN_AS + " unavailable", null);
         return;
       }
@@ -108,7 +107,7 @@ class RunAsFilter implements Filter {
       try {
         target = accountResolver.find(runas);
       } catch (OrmException | IOException | ConfigInvalidException e) {
-        log.warn("cannot resolve account for " + RUN_AS, e);
+        logger.atWarning().withCause(e).log("cannot resolve account for %s", RUN_AS);
         replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
         return;
       }

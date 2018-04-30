@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CanonicalWebUrl;
@@ -40,8 +41,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -49,7 +48,7 @@ import org.w3c.dom.Element;
 @SuppressWarnings("serial")
 @Singleton
 class LdapLoginServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory.getLogger(LdapLoginServlet.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AccountManager accountManager;
   private final DynamicItem<WebSession> webSession;
@@ -127,11 +126,11 @@ class LdapLoginServlet extends HttpServlet {
       sendForm(req, res, "Authentication unavailable at this time.");
       return;
     } catch (AccountException e) {
-      log.info(String.format("'%s' failed to sign in: %s", username, e.getMessage()));
+      logger.atInfo().log("'%s' failed to sign in: %s", username, e.getMessage());
       sendForm(req, res, "Invalid username or password.");
       return;
     } catch (RuntimeException e) {
-      log.error("LDAP authentication failed", e);
+      logger.atSevere().withCause(e).log("LDAP authentication failed");
       sendForm(req, res, "Authentication unavailable at this time.");
       return;
     }

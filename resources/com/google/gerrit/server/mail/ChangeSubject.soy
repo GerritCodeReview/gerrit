@@ -22,13 +22,13 @@
  * @param branch
  * @param change
  * @param shortProjectName
- * @param instanceName
+ * @param instanceAndProjectName
  * @param addInstanceNameInSubject boolean
  */
 {template .ChangeSubject kind="text"}
   {if not $addInstanceNameInSubject}
     Change in {$shortProjectName}[{$branch.shortName}]: {$change.shortSubject}
   {else}
-    [{$instanceName}] Change in {$shortProjectName}[{$branch.shortName}]: {$change.shortSubject}
+    Change in {$instanceAndProjectName}[{$branch.shortName}]: {$change.shortSubject}
   {/if}
 {/template}

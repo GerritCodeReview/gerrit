@@ -50,13 +50,14 @@ limitations under the License.
     });
 
     test('tap on trigger opens menu, then closes', () => {
-      sandbox.stub(element, '_open', () => { element.$.dropdown.open(); });
-      sandbox.stub(element, '_close', () => { element.$.dropdown.close(); });
-      assert.isFalse(element.$.dropdown.opened);
+      sandbox.stub(element, '_close');
+      assert.isNotOk(element.dropdown);
       MockInteractions.tap(element.$.trigger);
-      assert.isTrue(element.$.dropdown.opened);
+      assert.isOk(element.dropdown);
+      assert.isTrue(element.dropdown.opened);
       MockInteractions.tap(element.$.trigger);
-      assert.isFalse(element.$.dropdown.opened);
+      flushAsynchronousOperations();
+      assert.isTrue(element._close.called);
     });
 
     test('_computeURLHelper', () => {
@@ -99,6 +100,7 @@ limitations under the License.
 
     test('Top text exists and is bolded correctly', () => {
       element.topContent = [{text: 'User', bold: true}, {text: 'email'}];
+      MockInteractions.tap(element.$.trigger);
       flushAsynchronousOperations();
       const topItems = Polymer.dom(element.root).querySelectorAll('.top-item');
       assert.equal(topItems.length, 2);
@@ -113,6 +115,7 @@ limitations under the License.
       const tapped = sandbox.stub();
       element.addEventListener('tap-item-foo', fooTapped);
       element.addEventListener('tap-item', tapped);
+      MockInteractions.tap(element.$.trigger);
       flushAsynchronousOperations();
       MockInteractions.tap(element.$$('.itemAction'));
       assert.isTrue(fooTapped.called);
@@ -128,6 +131,7 @@ limitations under the License.
       const tapped = sandbox.stub();
       element.addEventListener('tap-item-foo', stub);
       element.addEventListener('tap-item', tapped);
+      MockInteractions.tap(element.$.trigger);
       flushAsynchronousOperations();
       MockInteractions.tap(element.$$('.itemAction'));
       assert.isFalse(stub.called);
@@ -140,6 +144,7 @@ limitations under the License.
         {name: 'item two', id: 'bar'},
       ];
       element.disabledIds = [];
+      MockInteractions.tap(element.$.trigger);
       flushAsynchronousOperations();
       const tooltipContents = Polymer.dom(element.root)
           .querySelectorAll('iron-dropdown li gr-tooltip-content');
@@ -159,19 +164,19 @@ limitations under the License.
       });
 
       test('down', () => {
-        const stub = sandbox.stub(element.$.cursor, 'next');
-        assert.isFalse(element.$.dropdown.opened);
+        assert.isNotOk(element.dropdown);
         MockInteractions.pressAndReleaseKeyOn(element, 40);
-        assert.isTrue(element.$.dropdown.opened);
+        assert.isTrue(element.dropdown.opened);
+        const stub = sandbox.stub(element.cursor, 'next');
         MockInteractions.pressAndReleaseKeyOn(element, 40);
         assert.isTrue(stub.called);
       });
 
       test('up', () => {
-        const stub = sandbox.stub(element.$.cursor, 'previous');
-        assert.isFalse(element.$.dropdown.opened);
+        assert.isNotOk(element.dropdown);
         MockInteractions.pressAndReleaseKeyOn(element, 38);
-        assert.isTrue(element.$.dropdown.opened);
+        assert.isTrue(element.dropdown.opened);
+        const stub = sandbox.stub(element.cursor, 'previous');
         MockInteractions.pressAndReleaseKeyOn(element, 38);
         assert.isTrue(stub.called);
       });
@@ -179,11 +184,11 @@ limitations under the License.
       test('enter/space', () => {
         // Because enter and space are handled by the same fn, we need only to
         // test one.
-        assert.isFalse(element.$.dropdown.opened);
+        assert.isNotOk(element.dropdown);
         MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
-        assert.isTrue(element.$.dropdown.opened);
+        assert.isTrue(element.dropdown.opened);
 
-        const el = element.$.cursor.target.querySelector(':not([hidden])');
+        const el = element.cursor.target.querySelector(':not([hidden])');
         const stub = sandbox.stub(el, 'click');
         MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
         assert.isTrue(stub.called);

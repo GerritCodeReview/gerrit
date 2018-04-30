@@ -76,6 +76,10 @@
         type: Array,
         value() { return []; },
       },
+      _enableDropdown: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -90,15 +94,23 @@
       'up': '_handleUp',
     },
 
+    get dropdown() {
+      return this.$$('#dropdown');
+    },
+
+    get cursor() {
+      return this.$$('#cursor');
+    },
+
     /**
      * Handle the up key.
      * @param {!Event} e
      */
     _handleUp(e) {
-      if (this.$.dropdown.opened) {
+      if (this._enableDropdown && this.dropdown.opened) {
         e.preventDefault();
         e.stopPropagation();
-        this.$.cursor.previous();
+        this.cursor.previous();
       } else {
         this._open();
       }
@@ -109,10 +121,10 @@
      * @param {!Event} e
      */
     _handleDown(e) {
-      if (this.$.dropdown.opened) {
+      if (this._enableDropdown && this.dropdown.opened) {
         e.preventDefault();
         e.stopPropagation();
-        this.$.cursor.next();
+        this.cursor.next();
       } else {
         this._open();
       }
@@ -123,7 +135,7 @@
      * @param {!Event} e
      */
     _handleTab(e) {
-      if (this.$.dropdown.opened) {
+      if (this._enableDropdown && this.dropdown.opened) {
         // Tab in a native select is a no-op. Emulate this.
         e.preventDefault();
         e.stopPropagation();
@@ -137,11 +149,11 @@
     _handleEnter(e) {
       e.preventDefault();
       e.stopPropagation();
-      if (this.$.dropdown.opened) {
+      if (this._enableDropdown && this.dropdown.opened) {
         // TODO(kaspern): This solution will not work in Shadow DOM, and
         // is not particularly robust in general. Find a better solution
         // when page.js has been abstracted away from components.
-        const el = this.$.cursor.target.querySelector(':not([hidden])');
+        const el = this.cursor.target.querySelector(':not([hidden])');
         if (el) { el.click(); }
       } else {
         this._open();
@@ -163,7 +175,7 @@
     _dropdownTriggerTapHandler(e) {
       e.preventDefault();
       e.stopPropagation();
-      if (this.$.dropdown.opened) {
+      if (this._enableDropdown && this.dropdown.opened) {
         this._close();
       } else {
         this._open();
@@ -174,17 +186,25 @@
      * Open the dropdown and initialize the cursor.
      */
     _open() {
-      this.$.dropdown.open();
-      this.$.cursor.setCursorAtIndex(0);
+      if (!this._enableDropdown) {
+        this._enableDropdown = true;
+        this._resetCursorStops();
+      }
+      this.dropdown.open();
+
+      if (!this._listElements.length) {
+        return;
+      }
+      this.cursor.setCursorAtIndex(0);
       Polymer.dom.flush();
-      this.$.cursor.target.focus();
+      this.cursor.target.focus();
     },
 
     _close() {
       // async is needed so that that the click event is fired before the
       // dropdown closes (This was a bug for touch devices).
       this.async(() => {
-        this.$.dropdown.close();
+        this.dropdown.close();
       }, 1);
     },
 

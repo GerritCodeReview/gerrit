@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.plugins;
 
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.server.plugins.Plugin;
 import java.io.InputStream;
@@ -29,11 +30,9 @@ import java.util.concurrent.ConcurrentMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class PluginServletContext {
-  private static final Logger log = LoggerFactory.getLogger(PluginServletContext.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static ServletContext create(Plugin plugin, String contextPath) {
     return (ServletContext)
@@ -155,7 +154,7 @@ class PluginServletContext {
 
     @Override
     public void log(String msg, Throwable reason) {
-      log.warn(String.format("[plugin %s] %s", plugin.getName(), msg), reason);
+      logger.atWarning().withCause(reason).log("[plugin %s] %s", plugin.getName(), msg);
     }
 
     @Override

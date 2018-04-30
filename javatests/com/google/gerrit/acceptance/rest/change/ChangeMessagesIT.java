@@ -110,6 +110,17 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(messages1).containsExactlyElementsIn(messages2).inOrder();
   }
 
+  @Test
+  public void getOneChangeMessage() throws Exception {
+    int changeNum = createOneChange();
+    List<ChangeMessageInfo> messages = new ArrayList<>(gApi.changes().id(changeNum).get().messages);
+
+    for (ChangeMessageInfo messageInfo : messages) {
+      String id = messageInfo.id;
+      assertThat(gApi.changes().id(changeNum).message(id).get()).isEqualTo(messageInfo);
+    }
+  }
+
   private int createOneChange() throws Exception {
     // Creates the following commit history on the meta branch of the test change.
 

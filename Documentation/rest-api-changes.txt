@@ -2453,6 +2453,38 @@ As response a list of link:#change-message-info[ChangeMessageInfo] is returned.
   ]
 ----
 
+[[get-change-message]]
+=== Get Change Message
+
+Retrieves a change message including link:#detailed-accounts[detailed account information].
+
+--
+'GET /changes/link:#change-id[\{change-id\}]/message/link:#change-message-id[\{change-message-id\}'
+--
+
+As response a link:#change-message-info[ChangeMessageInfo] entity is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "aaee04dcb46bafc8be24d8aa70b3b1beb7df5780",
+    "author": {
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "username": "jdoe"
+     },
+     "date": "2013-03-23 21:34:02.419000000",
+     "message": "Change message removed by: Administrator; Reason: spam",
+     "_revision_number": 1
+  }
+----
+
 [[edit-endpoints]]
 == Change Edit Endpoints
 
@@ -5414,6 +5446,10 @@ deprecated identifiers. These will be removed in a future release:
 If you need more time to migrate off of old change IDs, please see
 link:config-gerrit.html#change.api.allowedIdentifier[change.api.allowedIdentifier]
 for more information on how to enable the use of deprecated identifiers.
+
+[[change-message-id]]
+=== \{change-message-id\}
+ID of a change message returned in a link:#change-message-info[ChangeMessageInfo].
 
 [[comment-id]]
 === \{comment-id\}

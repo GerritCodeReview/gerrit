@@ -177,6 +177,7 @@ public class Module extends RestApiModule {
     post(COMMIT_KIND, "cherrypick").to(CherryPickCommit.class);
 
     child(CHANGE_KIND, "messages").to(ChangeMessages.class);
+    get(CHANGE_MESSAGE_KIND).to(GetChangeMessage.class);
 
     factory(AccountLoader.Factory.class);
     factory(ChangeEdits.Create.Factory.class);

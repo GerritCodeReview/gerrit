@@ -283,6 +283,17 @@ public interface ChangeApi {
    */
   List<ChangeMessageInfo> messages() throws RestApiException;
 
+  /**
+   * Look up a change message of a change by its id.
+   *
+   * @param id the id of the change message. Notes that in NoteDb, this id is the {@code ObjectId}
+   *     of a commit on the change meta branch. In ReviewDb, it's a UUID generated randomly. That
+   *     means a change message id could be different between NoteDb and ReviewDb.
+   * @return API for accessing a change message.
+   * @throws RestApiException if the id is invalid.
+   */
+  ChangeMessageApi message(String id) throws RestApiException;
+
   abstract class SuggestedReviewersRequest {
     private String query;
     private int limit;
@@ -593,6 +604,11 @@ public interface ChangeApi {
 
     @Override
     public List<ChangeMessageInfo> messages() {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeMessageApi message(String id) {
       throw new NotImplementedException();
     }
   }

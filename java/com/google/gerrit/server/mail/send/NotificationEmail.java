@@ -115,6 +115,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
         "instanceAndProjectName",
         getInstanceAndProjectName(args.instanceNameProvider.get(), projectName));
     soyContext.put("addInstanceNameInSubject", args.addInstanceNameInSubject);
+    soyContext.put("instanceName", args.instanceNameProvider.get());
 
     soyContextEmailData.put("sshHost", getSshHost());
 

@@ -32,11 +32,11 @@ java_library(
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:codec",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b097ed05_6cfb22a1",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-30T22:19:08Z",
+      "side": 1,
+      "message": "So far as I know, this is only executed multiple times per submit-flow by PG.\n\nI only add this note because the function was being used non-idempotently by the chumpdetector.js plugin in issue 8794 to add a vanilla-JS confirmation.\n\nWe could run it only once and use it to guard showing the submit confirmation dialog in the first place. Currently the submit confirmation dialog errs on the side of caution and makes additional checks that submit is okay at each stage.\n\nWhat do you think?",
+      "parentUuid": "a5796d49_52a5daad",
+      "range": {
+        "startLine": 178,
+        "startChar": 23,
+        "endLine": 178,
+        "endChar": 65
+      },
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b406db23_378522d6",
         "filename": "Documentation/pg-plugin-endpoints.txt",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4891b264_496906a7",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-30T22:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b406db23_378522d6",
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8e99783_9f3d8410",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
         "patchSetId": 5
@@ -56,6 +98,24 @@
       "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d0871a4_e566cf64",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-30T22:19:08Z",
+      "side": 1,
+      "message": "Good catch: these are vestiges of an earlier implementation. Done.",
+      "parentUuid": "f8e99783_9f3d8410",
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "4bd4b980_54fe1ff2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-30T22:19:08Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "a53ae9cd_1164fb12",
+      "range": {
+        "startLine": 44,
+        "startChar": 37,
+        "endLine": 44,
+        "endChar": 51
+      },
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5947f58c_382048b0",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
         "patchSetId": 5
@@ -93,6 +177,30 @@
       "writtenOn": "2018-04-27T17:08:22Z",
       "side": 1,
       "message": "I wonder if these should go below the paragraph asking if ready to submit?",
+      "range": {
+        "startLine": 45,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 82
+      },
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68df103e_9d1b1358",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-30T22:19:08Z",
+      "side": 1,
+      "message": "Do you mean as a formality? These two entries should have no effect on the the way this is displayed.",
+      "parentUuid": "5947f58c_382048b0",
       "range": {
         "startLine": 45,
         "startChar": 10,
@@ -125,6 +233,30 @@
       "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e76abd73_9f0f450e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-confirm-dialog/gr-confirm-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-04-30T22:19:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e836f55b_ce1e1206",
+      "range": {
+        "startLine": 58,
+        "startChar": 15,
+        "endLine": 58,
+        "endChar": 16
+      },
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

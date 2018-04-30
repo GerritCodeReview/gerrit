@@ -22,6 +22,7 @@ java_library(
         "//java/com/google/gwtexpui/server",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",
+        "//lib/flogger:api",
         "//lib:gson",
         "//lib:guava",
         "//lib:gwtjsonrpc",
@@ -37,6 +38,5 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

@@ -351,6 +351,16 @@ limitations under the License.
       return Gerrit.awaitPluginsLoaded();
     });
 
+    test('plugin install errors shows toasts', () => {
+      const alertStub = sandbox.stub();
+      document.addEventListener('show-alert', alertStub);
+      Gerrit._setPluginsCount(1);
+      Gerrit.install(() => {}, '0.0pre-alpha');
+      return Gerrit.awaitPluginsLoaded().then(() => {
+        assert.isTrue(alertStub.calledOnce);
+      });
+    });
+
     test('installGwt calls _pluginInstalled', () => {
       sandbox.stub(Gerrit, '_pluginInstalled');
       Gerrit.installGwt('http://test.com/plugins/testplugin/static/test.js');

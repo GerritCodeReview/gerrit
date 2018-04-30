@@ -227,7 +227,12 @@ The project name with the path abbreviated.
 
 $instanceAndProjectName::
 +
-The Gerrit instance name, followed by the short project name
+Deprecated. The Gerrit instance name, followed by the short project name.
+
+$instanceName::
++
+The Gerrit instance name, as defined in the
+link:config-gerrit.html#gerrit.instanceName[configuration].
 
 $addInstanceNameInSubject::
 +

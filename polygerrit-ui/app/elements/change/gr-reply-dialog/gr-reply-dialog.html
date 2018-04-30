@@ -38,6 +38,7 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
+        background-color: var(--dialog-background-color);
         display: block;
         max-height: 100%;
       }
@@ -59,7 +60,7 @@ limitations under the License.
         width: 100%;
       }
       .actions {
-        background-color: var(--view-background-color);
+        background-color: var(--dialog-background-color);
         bottom: 0;
         display: flex;
         justify-content: space-between;
@@ -75,6 +76,7 @@ limitations under the License.
         flex-shrink: 0;
       }
       .peopleContainer {
+        border-top: none;
         display: table;
       }
       .peopleList {

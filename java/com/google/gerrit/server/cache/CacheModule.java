@@ -24,6 +24,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.TypeLiteral;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.google.inject.util.Types;
 import java.lang.reflect.Type;
@@ -147,6 +148,14 @@ public abstract class CacheModule extends FactoryModule {
       String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     PersistentCacheProvider<K, V> m = new PersistentCacheProvider<>(this, name, keyType, valType);
     bindCache(m, name, keyType, valType);
+
+    Type cacheDefType =
+        Types.newParameterizedType(PersistentCacheDef.class, keyType.getType(), valType.getType());
+    @SuppressWarnings("unchecked")
+    Key<PersistentCacheDef<K, V>> cacheDefKey =
+        (Key<PersistentCacheDef<K, V>>) Key.get(cacheDefType, Names.named(name));
+    bind(cacheDefKey).toInstance(m);
+
     // TODO(dborowitz): Once default Java serialization is removed, leave no default.
     return m.version(0)
         .keySerializer(new JavaCacheSerializer<>())
@@ -156,11 +165,19 @@ public abstract class CacheModule extends FactoryModule {
   private <K, V> void bindCache(
       CacheProvider<K, V> m, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     Type type = Types.newParameterizedType(Cache.class, keyType.getType(), valType.getType());
+    Named named = Names.named(name);
 
     @SuppressWarnings("unchecked")
-    Key<Cache<K, V>> key = (Key<Cache<K, V>>) Key.get(type, Names.named(name));
+    Key<Cache<K, V>> key = (Key<Cache<K, V>>) Key.get(type, named);
     bind(key).toProvider(m).asEagerSingleton();
     bind(ANY_CACHE).annotatedWith(Exports.named(name)).to(key);
+
+    Type cacheDefType =
+        Types.newParameterizedType(CacheDef.class, keyType.getType(), valType.getType());
+    @SuppressWarnings("unchecked")
+    Key<CacheDef<K, V>> cacheDefKey = (Key<CacheDef<K, V>>) Key.get(cacheDefType, named);
+    bind(cacheDefKey).toInstance(m);
+
     m.maximumWeight(1024);
   }
 }

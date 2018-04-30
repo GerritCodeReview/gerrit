@@ -18,7 +18,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.extensions.common.BlameInfo;
 import com.google.gerrit.extensions.common.RangeInfo;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -55,7 +54,6 @@ public class GetBlame implements RestReadView<FileResource> {
 
   private final GitRepositoryManager repoManager;
   private final BlameCache blameCache;
-  private final boolean allowBlame;
   private final ThreeWayMergeStrategy mergeStrategy;
   private final AutoMerger autoMerger;
 
@@ -78,16 +76,11 @@ public class GetBlame implements RestReadView<FileResource> {
     this.blameCache = blameCache;
     this.mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     this.autoMerger = autoMerger;
-    allowBlame = cfg.getBoolean("change", "allowBlame", true);
   }
 
   @Override
   public Response<List<BlameInfo>> apply(FileResource resource)
       throws RestApiException, OrmException, IOException, InvalidChangeOperationException {
-    if (!allowBlame) {
-      throw new BadRequestException("blame is disabled");
-    }
-
     Project.NameKey project = resource.getRevision().getChange().getProject();
     try (Repository repository = repoManager.openRepository(project);
         ObjectInserter ins = repository.newObjectInserter();

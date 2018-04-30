@@ -110,9 +110,18 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(messages1).containsExactlyElementsIn(messages2).inOrder();
   }
 
-  private int createOneChangeWithMultipleChangeMessagesInHistory() throws Exception {
-    // Creates the following commit history on the meta branch of the test change.
+  @Test
+  public void getOneChangeMessage() throws Exception {
+    int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
+    List<ChangeMessageInfo> messages = new ArrayList<>(gApi.changes().id(changeNum).get().messages);
 
+    for (ChangeMessageInfo messageInfo : messages) {
+      String id = messageInfo.id;
+      assertThat(gApi.changes().id(changeNum).message(id).get()).isEqualTo(messageInfo);
+    }
+  }
+
+  private int createOneChangeWithMultipleChangeMessagesInHistory() throws Exception {
     setApiUser(user);
     // Commit 1: create a change.
     PushOneCommit.Result result = createChange();

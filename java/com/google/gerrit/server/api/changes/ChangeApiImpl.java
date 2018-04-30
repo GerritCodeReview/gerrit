@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
+import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
@@ -54,6 +55,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.change.WorkInProgressOp;
@@ -113,6 +115,7 @@ class ChangeApiImpl implements ChangeApi {
   private final Revisions revisions;
   private final ReviewerApiImpl.Factory reviewerApi;
   private final RevisionApiImpl.Factory revisionApi;
+  private final ChangeMessageApiImpl.Factory changeMessageApi;
   private final ChangeMessages changeMessages;
   private final SuggestChangeReviewers suggestReviewers;
   private final ChangeResource change;
@@ -160,6 +163,7 @@ class ChangeApiImpl implements ChangeApi {
       Revisions revisions,
       ReviewerApiImpl.Factory reviewerApi,
       RevisionApiImpl.Factory revisionApi,
+      ChangeMessageApiImpl.Factory changeMessageApi,
       ChangeMessages changeMessages,
       SuggestChangeReviewers suggestReviewers,
       Abandon abandon,
@@ -205,6 +209,7 @@ class ChangeApiImpl implements ChangeApi {
     this.revisions = revisions;
     this.reviewerApi = reviewerApi;
     this.revisionApi = revisionApi;
+    this.changeMessageApi = changeMessageApi;
     this.changeMessages = changeMessages;
     this.suggestReviewers = suggestReviewers;
     this.abandon = abandon;
@@ -721,6 +726,16 @@ class ChangeApiImpl implements ChangeApi {
       return changeMessages.list().apply(change);
     } catch (Exception e) {
       throw asRestApiException("Cannot list change messages", e);
+    }
+  }
+
+  @Override
+  public ChangeMessageApi message(String id) throws RestApiException {
+    try {
+      ChangeMessageResource resource = changeMessages.parse(change, IdString.fromDecoded(id));
+      return changeMessageApi.create(resource);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse change message " + id, e);
     }
   }
 }

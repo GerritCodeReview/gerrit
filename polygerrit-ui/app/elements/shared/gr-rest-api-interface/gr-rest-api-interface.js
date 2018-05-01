@@ -815,8 +815,9 @@
     /**
      * @param {string} url
      * @param {function(?Response, string=)=} opt_errFn
+     * @param {?Object=} opt_params URL params, key-value hash.
      */
-    _fetchSharedCacheURL(url, opt_errFn) {
+    _fetchSharedCacheURL(url, opt_errFn, opt_params) {
       if (this._sharedFetchPromises[url]) {
         return this._sharedFetchPromises[url];
       }
@@ -824,7 +825,8 @@
       if (this._cache[url] !== undefined) {
         return Promise.resolve(this._cache[url]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn)
+      this._sharedFetchPromises[url] = this.fetchJSON(
+          url, opt_errFn, undefined, opt_params)
           .then(response => {
             if (response !== undefined) {
               this._cache[url] = response;
@@ -1589,10 +1591,8 @@
      * @param {number|string} patchNum
      * @param {string} path
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {function()=} opt_cancelCondition
      */
-    getDiff(changeNum, basePatchNum, patchNum, path,
-        opt_errFn, opt_cancelCondition) {
+    getDiff(changeNum, basePatchNum, patchNum, path, opt_errFn) {
       const params = {
         context: 'ALL',
         intraline: null,
@@ -1604,9 +1604,8 @@
         params.base = basePatchNum;
       }
       const endpoint = `/files/${encodeURIComponent(path)}/diff`;
-
-      return this._getChangeURLAndFetch(changeNum, endpoint, patchNum,
-          opt_errFn, opt_cancelCondition, params);
+      return this._changeBaseURL(changeNum, patchNum).then(url =>
+          this._fetchSharedCacheURL(url + endpoint, opt_errFn, params));
     },
 
     /**

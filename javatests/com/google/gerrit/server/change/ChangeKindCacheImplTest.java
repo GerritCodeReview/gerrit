@@ -15,7 +15,9 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.protobuf.ByteString;
@@ -43,6 +45,18 @@ public class ChangeKindCacheImplTest {
                 .setStrategyName("aStrategy")
                 .build());
     assertThat(s.deserialize(serialized)).isEqualTo(key);
+  }
+
+  /**
+   * See {@link com.google.gerrit.server.cache.testing.SerializedClassSubject} for background and
+   * what to do if this test fails.
+   */
+  @Test
+  public void keyFields() throws Exception {
+    assertThatSerializedClass(ChangeKindCacheImpl.Key.class)
+        .hasFields(
+            ImmutableMap.of(
+                "prior", ObjectId.class, "next", ObjectId.class, "strategyName", String.class));
   }
 
   private static ByteString bytes(int... ints) {

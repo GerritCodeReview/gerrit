@@ -15,7 +15,9 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import com.google.protobuf.ByteString;
@@ -48,6 +50,21 @@ public class MergeabilityCacheImplTest {
                 .build());
     assertThat(MergeabilityCacheImpl.EntryKey.Serializer.INSTANCE.deserialize(serialized))
         .isEqualTo(key);
+  }
+
+  /**
+   * See {@link com.google.gerrit.server.cache.testing.SerializedClassSubject} for background and
+   * what to do if this test fails.
+   */
+  @Test
+  public void keyFields() throws Exception {
+    assertThatSerializedClass(MergeabilityCacheImpl.EntryKey.class)
+        .hasFields(
+            ImmutableMap.of(
+                "commit", ObjectId.class,
+                "into", ObjectId.class,
+                "submitType", SubmitType.class,
+                "mergeStrategy", String.class));
   }
 
   private static ByteString bytes(int... ints) {

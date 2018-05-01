@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.cache.testing;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.protobuf.ByteString;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -32,6 +34,22 @@ public class CacheSerializerTestUtil {
                 .filter(f -> !Modifier.isStatic(f.getModifiers()))
                 .collect(toImmutableMap(Field::getName, Field::getGenericType)))
         .isEqualTo(expectedFields);
+  }
+
+  public static void testExpectedAutoValueMethods(
+      Class<?> clazz, Map<String, Type> expectedMethods) {
+    // Would be nice if we could check clazz is an @AutoValue, but the retention is not RUNTIME.
+    checkArgument(
+        Modifier.isAbstract(clazz.getModifiers()), "not an abstract class: %s", clazz.getName());
+
+    assertThat(
+            Arrays.stream(clazz.getDeclaredMethods())
+                .filter(m -> !Modifier.isStatic(m.getModifiers()))
+                .filter(m -> Modifier.isAbstract(m.getModifiers()))
+                .filter(m -> m.getParameters().length == 0)
+                .collect(toImmutableMap(Method::getName, Method::getGenericReturnType)))
+        .named("no-argument abstract methods on %s", clazz.getName())
+        .isEqualTo(expectedMethods);
   }
 
   public static ByteString bytes(int... ints) {

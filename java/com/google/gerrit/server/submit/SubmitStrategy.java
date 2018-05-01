@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
@@ -148,7 +148,7 @@ public abstract class SubmitStrategy {
         MergeUtil.Factory mergeUtilFactory,
         PatchSetInfoFactory patchSetInfoFactory,
         PatchSetUtil psUtil,
-        @GerritPersonIdent PersonIdent serverIdent,
+        GerritPersonIdentFactory identFactory,
         ProjectCache projectCache,
         RebaseChangeOp.Factory rebaseFactory,
         OnSubmitValidators.Factory onSubmitValidatorsFactory,
@@ -183,7 +183,7 @@ public abstract class SubmitStrategy {
       this.tagCache = tagCache;
       this.queryProvider = queryProvider;
 
-      this.serverIdent = serverIdent;
+      this.serverIdent = identFactory.createAtCurrentTime();
       this.destBranch = destBranch;
       this.commitStatus = commitStatus;
       this.rw = rw;

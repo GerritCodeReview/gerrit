@@ -25,7 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.InternalAccountUpdate.Builder;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -195,7 +195,7 @@ public class AccountsUpdate {
       ExternalIds externalIds,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritPersonIdentFactory identFactory,
       @Assisted @Nullable IdentifiedUser currentUser,
       @Assisted ExternalIdNotesLoader extIdNotesLoader) {
     this(
@@ -207,8 +207,7 @@ public class AccountsUpdate {
         metaDataUpdateInternalFactory,
         retryHelper,
         extIdNotesLoader,
-        serverIdent,
-        createPersonIdent(serverIdent, currentUser),
+        identFactory,
         Runnables.doNothing(),
         Runnables.doNothing());
   }
@@ -223,8 +222,7 @@ public class AccountsUpdate {
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       ExternalIdNotesLoader extIdNotesLoader,
-      PersonIdent committerIdent,
-      PersonIdent authorIdent,
+      GerritPersonIdentFactory identFactory,
       Runnable afterReadRevision,
       Runnable beforeCommit) {
     this.repoManager = checkNotNull(repoManager, "repoManager");
@@ -236,18 +234,14 @@ public class AccountsUpdate {
         checkNotNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = checkNotNull(retryHelper, "retryHelper");
     this.extIdNotesLoader = checkNotNull(extIdNotesLoader, "extIdNotesLoader");
-    this.committerIdent = checkNotNull(committerIdent, "committerIdent");
-    this.authorIdent = checkNotNull(authorIdent, "authorIdent");
+    PersonIdent serverIdent = identFactory.createAtCurrentTime();
+    this.committerIdent = serverIdent;
+    this.authorIdent =
+        currentUser != null
+            ? currentUser.newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone())
+            : serverIdent;
     this.afterReadRevision = checkNotNull(afterReadRevision, "afterReadRevision");
     this.beforeCommit = checkNotNull(beforeCommit, "beforeCommit");
-  }
-
-  private static PersonIdent createPersonIdent(
-      PersonIdent serverIdent, @Nullable IdentifiedUser user) {
-    if (user == null) {
-      return serverIdent;
-    }
-    return user.newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone());
   }
 
   /**

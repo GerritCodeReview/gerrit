@@ -25,7 +25,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStore;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -44,18 +44,18 @@ import org.eclipse.jgit.lib.RefUpdate;
 
 public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
 
-  private final Provider<PersonIdent> serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final Provider<PublicKeyStore> storeProvider;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final ExternalIds externalIds;
 
   @Inject
   DeleteGpgKey(
-      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      GerritPersonIdentFactory identFactory,
       Provider<PublicKeyStore> storeProvider,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       ExternalIds externalIds) {
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.storeProvider = storeProvider;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.externalIds = externalIds;
@@ -82,7 +82,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       store.remove(rsrc.getKeyRing().getPublicKey().getFingerprint());
 
       CommitBuilder cb = new CommitBuilder();
-      PersonIdent committer = serverIdent.get();
+      PersonIdent committer = identFactory.createAtCurrentTime();
       cb.setAuthor(rsrc.getUser().newCommitterIdent(committer.getWhen(), committer.getTimeZone()));
       cb.setCommitter(committer);
       cb.setMessage("Delete public key " + keyIdToString(key.getKeyID()));

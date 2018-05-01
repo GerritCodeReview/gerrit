@@ -1439,7 +1439,7 @@ public class GroupsIT extends AbstractDaemonTest {
         treeId = oi.insert(Constants.OBJ_TREE, new byte[] {});
       }
 
-      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
+      PersonIdent ident = identFactory.createAtCurrentTime();
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(treeId);
       cb.setCommitter(ident);

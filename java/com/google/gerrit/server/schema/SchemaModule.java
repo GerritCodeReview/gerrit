@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.GerritServerIdentModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
@@ -33,6 +34,8 @@ import org.eclipse.jgit.lib.PersonIdent;
 public class SchemaModule extends FactoryModule {
   @Override
   protected void configure() {
+    install(new GerritServerIdentModule());
+
     bind(PersonIdent.class)
         .annotatedWith(GerritPersonIdent.class)
         .toProvider(GerritPersonIdentProvider.class);

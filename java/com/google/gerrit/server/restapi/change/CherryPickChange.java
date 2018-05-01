@@ -35,7 +35,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
@@ -89,7 +88,7 @@ public class CherryPickChange {
   private final Sequences seq;
   private final Provider<InternalChangeQuery> queryProvider;
   private final GitRepositoryManager gitManager;
-  private final TimeZone serverTimeZone;
+  private final TimeZone tz;
   private final Provider<IdentifiedUser> user;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
@@ -105,7 +104,7 @@ public class CherryPickChange {
       Provider<ReviewDb> dbProvider,
       Sequences seq,
       Provider<InternalChangeQuery> queryProvider,
-      @GerritPersonIdent PersonIdent myIdent,
+      TimeZone tz,
       GitRepositoryManager gitManager,
       Provider<IdentifiedUser> user,
       ChangeInserter.Factory changeInserterFactory,
@@ -120,7 +119,7 @@ public class CherryPickChange {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
-    this.serverTimeZone = myIdent.getTimeZone();
+    this.tz = tz;
     this.user = user;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
@@ -188,7 +187,7 @@ public class CherryPickChange {
       }
 
       Timestamp now = TimeUtil.nowTs();
-      PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, serverTimeZone);
+      PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, tz);
 
       final ObjectId computedChangeId =
           ChangeIdUtil.computeChangeId(

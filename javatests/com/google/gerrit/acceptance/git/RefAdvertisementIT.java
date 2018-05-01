@@ -431,7 +431,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       }
 
       if (notesMigration.commitChangeWrites()) {
-        PersonIdent committer = serverIdent.get();
+        PersonIdent committer = identFactory.createAtCurrentTime();
         PersonIdent author =
             noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
         tr.branch(RefNames.changeMetaRef(c3.getId()))

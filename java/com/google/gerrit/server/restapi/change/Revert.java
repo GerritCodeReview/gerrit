@@ -38,7 +38,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
@@ -102,7 +102,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final PatchSetUtil psUtil;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeJson.Factory json;
-  private final PersonIdent serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeReverted changeReverted;
   private final ContributorAgreementsChecker contributorAgreements;
@@ -121,7 +121,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritPersonIdentFactory identFactory,
       ApprovalsUtil approvalsUtil,
       ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
@@ -137,7 +137,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.psUtil = psUtil;
     this.revertedSenderFactory = revertedSenderFactory;
     this.json = json;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeReverted = changeReverted;
     this.contributorAgreements = contributorAgreements;
@@ -186,7 +186,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       }
 
       Timestamp now = TimeUtil.nowTs();
-      PersonIdent committerIdent = new PersonIdent(serverIdent, now);
+      PersonIdent committerIdent = identFactory.createAtCurrentTime();
       PersonIdent authorIdent =
           user.asIdentifiedUser().newCommitterIdent(now, committerIdent.getTimeZone());
 

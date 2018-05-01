@@ -78,7 +78,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeFinder;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
@@ -222,7 +223,8 @@ public abstract class AbstractDaemonTest {
       };
 
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
-  @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
+  @Inject protected GerritPersonIdentFactory identFactory;
+  @Inject protected GerritServerIdent serverIdent;
   @Inject @GerritServerConfig protected Config cfg;
   @Inject protected AcceptanceTestRequestScope atrScope;
   @Inject protected AccountCache accountCache;

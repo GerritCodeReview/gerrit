@@ -52,7 +52,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountCache;
@@ -111,7 +111,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Inject protected GerritApi gApi;
 
-  @Inject @GerritPersonIdent Provider<PersonIdent> serverIdent;
+  @Inject protected GerritPersonIdentFactory identFactory;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
@@ -558,7 +558,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     String newName = "Test User";
     try (Repository repo = repoManager.openRepository(allUsers)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, repo);
-      PersonIdent ident = serverIdent.get();
+      PersonIdent ident = identFactory.createAtCurrentTime();
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);
       new AccountConfig(accountId, repo)

@@ -43,7 +43,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
@@ -102,7 +101,7 @@ public class CreateChange
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final Sequences seq;
-  private final TimeZone serverTimeZone;
+  private final TimeZone tz;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
   private final ProjectsCollection projectsCollection;
@@ -123,7 +122,7 @@ public class CreateChange
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       Sequences seq,
-      @GerritPersonIdent PersonIdent myIdent,
+      TimeZone tz,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> user,
       ProjectsCollection projectsCollection,
@@ -142,7 +141,7 @@ public class CreateChange
     this.db = db;
     this.gitManager = gitManager;
     this.seq = seq;
-    this.serverTimeZone = myIdent.getTimeZone();
+    this.tz = tz;
     this.permissionBackend = permissionBackend;
     this.user = user;
     this.projectsCollection = projectsCollection;
@@ -259,7 +258,7 @@ public class CreateChange
 
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
-      PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+      PersonIdent author = me.newCommitterIdent(now, tz);
       AccountState accountState = me.state();
       GeneralPreferencesInfo info = accountState.getGeneralPreferences();
 

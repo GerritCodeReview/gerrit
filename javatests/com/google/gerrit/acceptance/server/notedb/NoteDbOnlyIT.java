@@ -274,7 +274,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
 
   private ObjectId newCommit(RevWalk rw, ObjectInserter ins, ObjectId parent, String msg)
       throws IOException {
-    PersonIdent ident = serverIdent.get();
+    PersonIdent ident = identFactory.createAtCurrentTime();
     CommitBuilder cb = new CommitBuilder();
     cb.setParentId(parent);
     cb.setTreeId(rw.parseCommit(parent).getTree());

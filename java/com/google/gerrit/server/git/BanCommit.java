@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -80,14 +79,14 @@ public class BanCommit {
   BanCommit(
       Provider<IdentifiedUser> currentUser,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent gerritIdent,
+      TimeZone tz,
       NotesBranchUtil.Factory notesBranchUtilFactory,
       PermissionBackend permissionBackend) {
     this.currentUser = currentUser;
     this.repoManager = repoManager;
     this.notesBranchUtilFactory = notesBranchUtilFactory;
     this.permissionBackend = permissionBackend;
-    this.tz = gerritIdent.getTimeZone();
+    this.tz = tz;
   }
 
   public BanCommitResult ban(

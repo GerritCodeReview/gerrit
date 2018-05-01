@@ -42,7 +42,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -114,7 +114,7 @@ public class ConsistencyChecker {
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final PatchSetUtil psUtil;
   private final Provider<CurrentUser> user;
-  private final Provider<PersonIdent> serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final Provider<ReviewDb> db;
   private final RetryHelper retryHelper;
 
@@ -134,7 +134,7 @@ public class ConsistencyChecker {
 
   @Inject
   ConsistencyChecker(
-      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      GerritPersonIdentFactory identFactory,
       ChangeNotes.Factory notesFactory,
       Accounts accounts,
       DynamicItem<AccountPatchReviewStore> accountPatchReviewStore,
@@ -154,7 +154,7 @@ public class ConsistencyChecker {
     this.psUtil = psUtil;
     this.repoManager = repoManager;
     this.retryHelper = retryHelper;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.user = user;
     reset();
   }
@@ -733,7 +733,7 @@ public class ConsistencyChecker {
     if (u.isIdentifiedUser()) {
       return u.asIdentifiedUser().newRefLogIdent();
     }
-    return serverIdent.get();
+    return identFactory.createAtCurrentTime();
   }
 
   private ObjectId parseObjectId(String objIdStr, String desc) {

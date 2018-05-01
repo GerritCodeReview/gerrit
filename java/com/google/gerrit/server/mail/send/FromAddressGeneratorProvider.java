@@ -18,7 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -34,7 +34,6 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 
 /** Creates a {@link FromAddressGenerator} from the {@link GerritServerConfig} */
 @Singleton
@@ -45,10 +44,10 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
   FromAddressGeneratorProvider(
       @GerritServerConfig Config cfg,
       @AnonymousCowardName String anonymousCowardName,
-      @GerritPersonIdent PersonIdent myIdent,
+      GerritServerIdent serverIdent,
       AccountCache accountCache) {
     final String from = cfg.getString("sendemail", null, "from");
-    final Address srvAddr = toAddress(myIdent);
+    final Address srvAddr = toAddress(serverIdent);
 
     if (from == null || "MIXED".equalsIgnoreCase(from)) {
       ParameterizedString name = new ParameterizedString("${user} (Code Review)");
@@ -74,8 +73,8 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     }
   }
 
-  private static Address toAddress(PersonIdent myIdent) {
-    return new Address(myIdent.getName(), myIdent.getEmailAddress());
+  private static Address toAddress(GerritServerIdent serverIdent) {
+    return new Address(serverIdent.name(), serverIdent.email());
   }
 
   @Override

@@ -2149,7 +2149,6 @@ public class AccountIT extends AbstractDaemonTest {
     String status = "happy";
     String fullName = "Foo";
     AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
@@ -2166,8 +2165,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
-            ident,
-            ident,
+            identFactory,
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -2204,7 +2202,6 @@ public class AccountIT extends AbstractDaemonTest {
     List<String> status = ImmutableList.of("foo", "bar", "baz");
     String fullName = "Foo";
     AtomicInteger bgCounter = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
@@ -2223,8 +2220,7 @@ public class AccountIT extends AbstractDaemonTest {
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
                         .withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
-            ident,
-            ident,
+            identFactory,
             () -> {
               try {
                 accountsUpdateProvider
@@ -2266,7 +2262,6 @@ public class AccountIT extends AbstractDaemonTest {
 
     AtomicInteger bgCounterA1 = new AtomicInteger(0);
     AtomicInteger bgCounterA2 = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
         new AccountsUpdate(
             repoManager,
@@ -2283,8 +2278,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
-            ident,
-            ident,
+            identFactory,
             Runnables.doNothing(),
             () -> {
               try {
@@ -2336,7 +2330,6 @@ public class AccountIT extends AbstractDaemonTest {
 
     AtomicInteger bgCounterA1 = new AtomicInteger(0);
     AtomicInteger bgCounterA2 = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     ExternalId extIdA2 = ExternalId.create("foo", "A-2", accountId);
     AccountsUpdate update =
         new AccountsUpdate(
@@ -2354,8 +2347,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
-            ident,
-            ident,
+            identFactory,
             Runnables.doNothing(),
             () -> {
               try {
@@ -2428,7 +2420,7 @@ public class AccountIT extends AbstractDaemonTest {
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(repo.exactRef(userRef).getObjectId());
 
-      PersonIdent ident = new PersonIdent(serverIdent.get(), TimeUtil.nowTs());
+      PersonIdent ident = identFactory.createAtCurrentTime();
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(commit.getTree());
       cb.setCommitter(ident);

@@ -900,7 +900,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     if (!notesMigration.commitChangeWrites()) {
       return;
     }
-    PersonIdent committer = serverIdent.get();
+    PersonIdent committer = identFactory.createAtCurrentTime();
     PersonIdent author =
         noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
     serverSideTestRepo

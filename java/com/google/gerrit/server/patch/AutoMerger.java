@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.inject.Inject;
@@ -59,13 +59,13 @@ public class AutoMerger {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
   }
 
-  private final PersonIdent gerritIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final boolean save;
 
   @Inject
-  AutoMerger(@GerritServerConfig Config cfg, @GerritPersonIdent PersonIdent gerritIdent) {
+  AutoMerger(@GerritServerConfig Config cfg, GerritPersonIdentFactory identFactory) {
     save = cacheAutomerge(cfg);
-    this.gerritIdent = gerritIdent;
+    this.identFactory = identFactory;
   }
 
   /**
@@ -221,9 +221,7 @@ public class AutoMerger {
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
     // the input commit, using the server name and timezone.
-    PersonIdent ident =
-        new PersonIdent(
-            gerritIdent, merge.getCommitterIdent().getWhen(), gerritIdent.getTimeZone());
+    PersonIdent ident = identFactory.create(merge.getCommitterIdent().getWhen());
     CommitBuilder cb = new CommitBuilder();
     cb.setAuthor(ident);
     cb.setCommitter(ident);

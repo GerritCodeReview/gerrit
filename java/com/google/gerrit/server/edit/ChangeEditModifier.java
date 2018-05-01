@@ -26,7 +26,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
@@ -89,7 +88,7 @@ public class ChangeEditModifier {
 
   @Inject
   ChangeEditModifier(
-      @GerritPersonIdent PersonIdent gerritIdent,
+      TimeZone tz,
       ChangeIndexer indexer,
       Provider<ReviewDb> reviewDb,
       Provider<CurrentUser> currentUser,
@@ -101,7 +100,7 @@ public class ChangeEditModifier {
     this.reviewDb = reviewDb;
     this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
-    this.tz = gerritIdent.getTimeZone();
+    this.tz = tz;
     this.changeEditUtil = changeEditUtil;
     this.patchSetUtil = patchSetUtil;
     this.projectCache = projectCache;

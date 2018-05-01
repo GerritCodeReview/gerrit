@@ -473,7 +473,9 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
       RevCommit commit = rw.parseCommit(metaId);
       rw.parseBody(commit);
       assertThat(commit.getFullMessage())
-          .contains("Read-only-until: " + formatTime(serverIdent.get(), new Timestamp(0)));
+          .contains(
+              "Read-only-until: "
+                  + formatTime(identFactory.createAtCurrentTime(), new Timestamp(0)));
     }
     NoteDbChangeState state = NoteDbChangeState.parse(db.changes().get(id));
     assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);

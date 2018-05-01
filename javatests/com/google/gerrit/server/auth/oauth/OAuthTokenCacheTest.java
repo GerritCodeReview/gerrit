@@ -2,9 +2,12 @@ package com.google.gerrit.server.auth.oauth;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
+import com.google.gerrit.server.cache.testing.CacheSerializerTestUtil;
+import java.lang.reflect.Type;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -50,5 +53,18 @@ public final class OAuthTokenCacheTest {
     byte[] serializedWithEmptyString = s.serialize(tokenWithEmptyString);
     assertThat(OAuthTokenProto.parseFrom(serializedWithEmptyString)).isEqualTo(expectedProto);
     assertThat(s.deserialize(serializedWithEmptyString)).isEqualTo(tokenWithNull);
+  }
+
+  @Test
+  public void oAuthTokenFields() throws Exception {
+    CacheSerializerTestUtil.testExpectedFields(
+        OAuthToken.class,
+        ImmutableMap.<String, Type>builder()
+            .put("token", String.class)
+            .put("secret", String.class)
+            .put("raw", String.class)
+            .put("expiresAt", long.class)
+            .put("providerId", String.class)
+            .build());
   }
 }

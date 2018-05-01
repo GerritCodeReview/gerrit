@@ -16,9 +16,11 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
+import com.google.gerrit.server.cache.testing.CacheSerializerTestUtil;
 import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -53,6 +55,17 @@ public class MergeabilityCacheImplTest {
                 .setMergeStrategy("aStrategy")
                 .build());
     assertThat(s.deserialize(serialized)).isEqualTo(key);
+  }
+
+  @Test
+  public void keyFields() throws Exception {
+    CacheSerializerTestUtil.testExpectedFields(
+        MergeabilityCacheImpl.EntryKey.class,
+        ImmutableMap.of(
+            "commit", ObjectId.class,
+            "into", ObjectId.class,
+            "submitType", SubmitType.class,
+            "mergeStrategy", String.class));
   }
 
   private static ByteString bytes(int... ints) {

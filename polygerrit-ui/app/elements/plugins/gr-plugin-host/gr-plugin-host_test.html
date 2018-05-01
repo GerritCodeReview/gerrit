@@ -33,7 +33,7 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-diff tests', () => {
+  suite('gr-plugin-host tests', () => {
     let element;
     let sandbox;
     let url;
@@ -54,8 +54,8 @@ limitations under the License.
       sandbox.stub(Gerrit, '_setPluginsCount');
       element.config = {
         plugin: {
-          html_resource_paths: ['foo/bar', 'baz'],
-          js_resource_paths: ['42'],
+          html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
+          js_resource_paths: ['plugins/42'],
         },
       };
       assert.isTrue(Gerrit._setPluginsCount.calledWith(3));

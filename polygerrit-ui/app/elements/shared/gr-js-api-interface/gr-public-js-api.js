@@ -561,7 +561,7 @@
       o[getPluginNameFromUrl(url)] = url;
       return o;
     }, {});
-    Gerrit._setPluginsCount(plugins.length);
+    Gerrit._setPluginsCount(Object.keys(_pluginsPending).length);
   };
 
   Gerrit._setPluginsCount = function(count) {

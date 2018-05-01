@@ -351,6 +351,15 @@ limitations under the License.
       return Gerrit.awaitPluginsLoaded();
     });
 
+    test('multiple ui plugins per java plugin', () => {
+      const file1 = 'http://test.com/plugins/qaz/static/foo.nocache.js';
+      const file2 = 'http://test.com/plugins/qaz/static/bar.js';
+      Gerrit._setPluginsPending([file1, file2]);
+      Gerrit.install(() => {}, '0.1', file1);
+      Gerrit.install(() => {}, '0.1', file2);
+      return Gerrit.awaitPluginsLoaded();
+    });
+
     test('plugin install errors shows toasts', () => {
       const alertStub = sandbox.stub();
       document.addEventListener('show-alert', alertStub);

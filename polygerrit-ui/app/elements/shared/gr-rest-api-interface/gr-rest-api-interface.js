@@ -1589,10 +1589,8 @@
      * @param {number|string} patchNum
      * @param {string} path
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {function()=} opt_cancelCondition
      */
-    getDiff(changeNum, basePatchNum, patchNum, path,
-        opt_errFn, opt_cancelCondition) {
+    getDiff(changeNum, basePatchNum, patchNum, path, opt_errFn) {
       const params = {
         context: 'ALL',
         intraline: null,
@@ -1604,9 +1602,8 @@
         params.base = basePatchNum;
       }
       const endpoint = `/files/${encodeURIComponent(path)}/diff`;
-
-      return this._getChangeURLAndFetch(changeNum, endpoint, patchNum,
-          opt_errFn, opt_cancelCondition, params);
+      return this._changeBaseURL(changeNum, patchNum)
+          .then(url => this._fetchSharedCacheURL(url + endpoint, opt_errFn));
     },
 
     /**

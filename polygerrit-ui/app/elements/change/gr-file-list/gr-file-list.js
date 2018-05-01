@@ -21,6 +21,7 @@
   const PATCH_DESC_MAX_LENGTH = 500;
   const WARN_SHOW_ALL_THRESHOLD = 1000;
   const LOADING_DEBOUNCE_INTERVAL = 100;
+  const TOGGLE_DIFF_THROTTLE_INTERVAL = 500;
 
   const SIZE_BAR_MAX_WIDTH = 61;
   const SIZE_BAR_GAP_WIDTH = 1;
@@ -176,6 +177,7 @@
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.PathListBehavior,
+      Gerrit.ThrottleBehavior,
     ],
 
     observers: [
@@ -526,8 +528,10 @@
           this.modifierPressed(e) ||
           this.$.fileCursor.index === -1) { return; }
 
-      e.preventDefault();
-      this._togglePathExpandedByIndex(this.$.fileCursor.index);
+      this.throttle('toggle-diff', () => {
+        e.preventDefault();
+        this._togglePathExpandedByIndex(this.$.fileCursor.index);
+      }, TOGGLE_DIFF_THROTTLE_INTERVAL);
     },
 
     _handleCapitalIKey(e) {

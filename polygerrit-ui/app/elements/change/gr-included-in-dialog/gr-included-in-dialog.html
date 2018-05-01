@@ -23,13 +23,13 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
+        background-color: var(--dialog-background-color);
         display: block;
         max-height: 80vh;
         overflow-y: auto;
         padding: 4.5em 1em 1em 1em;
       }
       header {
-        background: var(--view-background-color);
         border-bottom: 1px solid var(--border-color);
         left: 0;
         padding: 1em;
@@ -58,8 +58,9 @@ limitations under the License.
         margin-bottom: 1em;
       }
       ul li {
+        border: 1px solid var(--border-color);
         border-radius: .2em;
-        background: var(--header-background-color);
+        background: var(--chip-background-color);
         display: inline-block;
         margin: 0 .2em .4em .2em;
         padding: .2em .4em;

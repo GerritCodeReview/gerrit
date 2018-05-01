@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
@@ -159,7 +160,7 @@ public class StaticModule extends ServletModule {
         @Override
         protected void service(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-          resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          resp.sendError(SC_NOT_FOUND);
         }
       };
     }

@@ -16,7 +16,7 @@ package com.google.gerrit.pgm.http.jetty;
 
 import static com.google.gerrit.server.config.ConfigUtil.getTimeUnit;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
+import static org.apache.http.HttpStatus.SC_SERVICE_UNAVAILABLE;
 
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;

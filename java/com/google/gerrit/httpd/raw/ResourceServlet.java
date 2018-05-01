@@ -22,9 +22,9 @@ import static com.google.common.net.HttpHeaders.IF_NONE_MATCH;
 import static com.google.common.net.HttpHeaders.LAST_MODIFIED;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MINUTES;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_NOT_MODIFIED;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;

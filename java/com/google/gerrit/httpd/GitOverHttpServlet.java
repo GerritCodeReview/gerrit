@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Lists;
@@ -264,7 +266,7 @@ public class GitOverHttpServlet extends GitServlet {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
-            HttpServletResponse.SC_FORBIDDEN,
+            SC_FORBIDDEN,
             "upload-pack not permitted on this server");
         return;
       } catch (PermissionBackendException e) {
@@ -360,7 +362,7 @@ public class GitOverHttpServlet extends GitServlet {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
-            HttpServletResponse.SC_FORBIDDEN,
+            SC_FORBIDDEN,
             "receive-pack not permitted on this server");
         return;
       } catch (PermissionBackendException e) {
@@ -371,7 +373,7 @@ public class GitOverHttpServlet extends GitServlet {
         GitSmartHttpTools.sendError(
             (HttpServletRequest) request,
             (HttpServletResponse) response,
-            HttpServletResponse.SC_FORBIDDEN,
+            SC_FORBIDDEN,
             "\n" + s.getMessage());
         return;
       }

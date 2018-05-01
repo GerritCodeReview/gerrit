@@ -15,6 +15,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:gwtorm",
+        "//lib/httpcomponents:httpcore",
         "//lib:servlet-api-3_1",
         "//lib/commons:codec",
         "//lib/guice",

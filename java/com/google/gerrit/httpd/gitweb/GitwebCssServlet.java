@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.gitweb;
 
 import static com.google.gerrit.common.FileUtil.lastModified;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.config.GitwebCgiConfig;
@@ -101,7 +102,7 @@ abstract class GitwebCssServlet extends HttpServlet {
       }
     } else {
       CacheHeaders.setNotCacheable(rsp);
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      rsp.sendError(SC_NOT_FOUND);
     }
   }
 }

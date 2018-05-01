@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import static org.apache.http.HttpStatus.SC_MOVED_PERMANENTLY;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
@@ -85,7 +87,7 @@ public class RequireSslFilter implements Filter {
       } else {
         url = urlProvider.get() + req.getServletPath();
       }
-      rsp.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+      rsp.setStatus(SC_MOVED_PERMANENTLY);
       rsp.setHeader("Location", url);
     }
   }

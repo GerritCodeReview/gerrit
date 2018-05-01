@@ -35,6 +35,7 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit.http.server:jgit-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",

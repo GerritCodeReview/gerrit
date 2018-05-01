@@ -23,6 +23,7 @@ junit_tests(
         "//lib/easymock",
         "//lib/guice",
         "//lib/guice:guice-servlet",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
     ],

@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.raw;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
@@ -104,7 +105,7 @@ public class BazelBuild {
     }
 
     public void display(String rule, HttpServletResponse res) throws IOException {
-      res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      res.setStatus(SC_INTERNAL_SERVER_ERROR);
       res.setContentType("text/html");
       res.setCharacterEncoding(UTF_8.name());
       CacheHeaders.setNotCacheable(res);

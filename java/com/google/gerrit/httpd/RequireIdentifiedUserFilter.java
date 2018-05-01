@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
+
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -50,7 +52,7 @@ class RequireIdentifiedUserFilter implements Filter {
       chain.doFilter(request, response);
     } else {
       HttpServletResponse res = (HttpServletResponse) response;
-      res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+      res.sendError(SC_UNAUTHORIZED);
     }
   }
 }

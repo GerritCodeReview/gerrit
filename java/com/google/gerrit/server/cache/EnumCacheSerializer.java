@@ -37,9 +37,12 @@ public class EnumCacheSerializer<E extends Enum<E>> implements CacheSerializer<E
 
   @Override
   public E deserialize(byte[] in) throws IOException {
-    String name = new String(in, UTF_8);
-    return Enums.getIfPresent(clazz, name)
+    return deserializeFromString(new String(in, UTF_8));
+  }
+
+  public E deserializeFromString(String in) throws IOException {
+    return Enums.getIfPresent(clazz, in)
         .toJavaUtil()
-        .orElseThrow(() -> new IOException("Invalid " + clazz.getName() + " value: " + name));
+        .orElseThrow(() -> new IOException("Invalid " + clazz.getName() + " value: " + in));
   }
 }

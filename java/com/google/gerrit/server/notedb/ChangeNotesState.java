@@ -15,15 +15,27 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.MESSAGE_CODEC;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Table;
+import com.google.common.primitives.Chars;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
@@ -35,15 +47,31 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.EnumCacheSerializer;
+import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerStatusUpdateProto;
+import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
+import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
+import com.google.gson.Gson;
+import com.google.gwtorm.protobuf.ProtobufCodec;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -102,7 +130,7 @@ public abstract class ChangeNotesState {
         .metaId(metaId)
         .changeId(changeId)
         .columns(
-            new AutoValue_ChangeNotesState_ChangeColumns.Builder()
+            ChangeColumns.builder()
                 .changeKey(changeKey)
                 .createdOn(createdOn)
                 .lastUpdatedOn(lastUpdatedOn)
@@ -147,6 +175,10 @@ public abstract class ChangeNotesState {
    */
   @AutoValue
   abstract static class ChangeColumns {
+    static Builder builder() {
+      return new AutoValue_ChangeNotesState_ChangeColumns.Builder();
+    }
+
     abstract Change.Key changeKey();
 
     abstract Timestamp createdOn();
@@ -186,6 +218,8 @@ public abstract class ChangeNotesState {
 
     @Nullable
     abstract Change.Id revertOf();
+
+    abstract Builder toBuilder();
 
     @AutoValue.Builder
     abstract static class Builder {
@@ -364,7 +398,7 @@ public abstract class ChangeNotesState {
 
     abstract Builder pastAssignees(Set<Account.Id> pastAssignees);
 
-    abstract Builder hashtags(Set<String> hashtags);
+    abstract Builder hashtags(Iterable<String> hashtags);
 
     abstract Builder patchSets(Iterable<Map.Entry<PatchSet.Id, PatchSet>> patchSets);
 
@@ -391,5 +425,274 @@ public abstract class ChangeNotesState {
     abstract Builder readOnlyUntil(@Nullable Timestamp readOnlyUntil);
 
     abstract ChangeNotesState build();
+  }
+
+  static enum Serializer implements CacheSerializer<ChangeNotesState> {
+    INSTANCE;
+
+    @VisibleForTesting static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
+
+    private static final EnumCacheSerializer<ReviewerStateInternal> REVIEWER_STATE_SERIALIZER =
+        new EnumCacheSerializer<>(ReviewerStateInternal.class);
+
+    @Override
+    public byte[] serialize(ChangeNotesState object) throws IOException {
+      checkArgument(object.metaId() != null, "meta ID is required in: %s", object);
+      checkArgument(object.columns() != null, "ChangeColumns is required in: %s", object);
+      ChangeNotesStateProto.Builder b = ChangeNotesStateProto.newBuilder();
+
+      if (object.metaId() != null) {
+        byte[] idBuf = new byte[Constants.OBJECT_ID_LENGTH];
+        object.metaId().copyRawTo(idBuf, 0);
+        b.setMetaId(ByteString.copyFrom(idBuf));
+      }
+
+      b.setChangeId(object.changeId().get());
+
+      ChangeColumns cols = object.columns();
+      ChangeColumnsProto.Builder cb =
+          b.getColumnsBuilder()
+              .setChangeKey(cols.changeKey().get())
+              .setCreatedOn(cols.createdOn().getTime())
+              .setLastUpdatedOn(cols.lastUpdatedOn().getTime())
+              .setOwner(cols.owner().get())
+              .setBranch(cols.branch());
+      if (cols.currentPatchSetId() != null) {
+        cb.setCurrentPatchSetId(cols.currentPatchSetId().get()).setHasCurrentPatchSetId(true);
+      }
+      cb.setSubject(cols.subject());
+      if (cols.topic() != null) {
+        cb.setTopic(cols.topic()).setHasTopic(true);
+      }
+      if (cols.originalSubject() != null) {
+        cb.setOriginalSubject(cols.originalSubject()).setHasOriginalSubject(true);
+      }
+      if (cols.submissionId() != null) {
+        cb.setSubmissionId(cols.submissionId()).setHasSubmissionId(true);
+      }
+      if (cols.assignee() != null) {
+        cb.setAssignee(cols.assignee().get()).setHasAssignee(true);
+      }
+      if (cols.status() != null) {
+        cb.setStatus(cols.status().getCode()).setHasStatus(true);
+      }
+      cb.setIsPrivate(cols.isPrivate())
+          .setIsWorkInProgress(cols.isWorkInProgress())
+          .setHasReviewStarted(cols.hasReviewStarted());
+      if (cols.revertOf() != null) {
+        cb.setRevertOf(cols.revertOf().get()).setHasRevertOf(true);
+      }
+
+      object.pastAssignees().forEach(a -> b.addPastAssignee(a.get()));
+      object.hashtags().forEach(b::addHashtag);
+      object
+          .patchSets()
+          .forEach(e -> b.addPatchSet(encodeToByteString(PATCH_SET_CODEC, e.getValue())));
+      object
+          .approvals()
+          .forEach(e -> b.addApproval(encodeToByteString(APPROVAL_CODEC, e.getValue())));
+
+      object.reviewers().asTable().cellSet().forEach(c -> b.addReviewer(toReviewerSetEntry(c)));
+      object
+          .reviewersByEmail()
+          .asTable()
+          .cellSet()
+          .forEach(c -> b.addReviewerByEmail(toReviewerByEmailSetEntry(c)));
+      object
+          .pendingReviewers()
+          .asTable()
+          .cellSet()
+          .forEach(c -> b.addPendingReviewer(toReviewerSetEntry(c)));
+      object
+          .pendingReviewersByEmail()
+          .asTable()
+          .cellSet()
+          .forEach(c -> b.addPendingReviewerByEmail(toReviewerByEmailSetEntry(c)));
+
+      object.allPastReviewers().forEach(a -> b.addPastReviewer(a.get()));
+      object.reviewerUpdates().forEach(u -> b.addReviewerUpdate(toReviewerStatusUpdateProto(u)));
+      object
+          .submitRecords()
+          .forEach(r -> b.addSubmitRecord(GSON.toJson(new StoredSubmitRecord(r))));
+      object
+          .changeMessages()
+          .forEach(m -> b.addChangeMessage(encodeToByteString(MESSAGE_CODEC, m)));
+      object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
+
+      if (object.readOnlyUntil() != null) {
+        b.setReadOnlyUntil(object.readOnlyUntil().getTime()).setHasReadOnlyUntil(true);
+      }
+
+      return ProtoCacheSerializers.toByteArray(b.build());
+    }
+
+    @VisibleForTesting
+    static <T> ByteString encodeToByteString(ProtobufCodec<T> codec, T object) {
+      try (ByteString.Output bout = ByteString.newOutput()) {
+        CodedOutputStream cout = CodedOutputStream.newInstance(bout);
+        codec.encode(object, cout);
+        cout.flush();
+        return bout.toByteString();
+      } catch (IOException e) {
+        throw new RuntimeException("failed to encode " + object);
+      }
+    }
+
+    private static ReviewerSetEntryProto toReviewerSetEntry(
+        Table.Cell<ReviewerStateInternal, Account.Id, Timestamp> c) {
+      return ReviewerSetEntryProto.newBuilder()
+          .setState(REVIEWER_STATE_SERIALIZER.serializeToString(c.getRowKey()))
+          .setAccountId(c.getColumnKey().get())
+          .setTimestamp(c.getValue().getTime())
+          .build();
+    }
+
+    private static ReviewerByEmailSetEntryProto toReviewerByEmailSetEntry(
+        Table.Cell<ReviewerStateInternal, Address, Timestamp> c) {
+      return ReviewerByEmailSetEntryProto.newBuilder()
+          .setState(REVIEWER_STATE_SERIALIZER.serializeToString(c.getRowKey()))
+          .setAddress(c.getColumnKey().toHeaderString())
+          .setTimestamp(c.getValue().getTime())
+          .build();
+    }
+
+    private static ReviewerStatusUpdateProto toReviewerStatusUpdateProto(ReviewerStatusUpdate u) {
+      return ReviewerStatusUpdateProto.newBuilder()
+          .setDate(u.date().getTime())
+          .setUpdatedBy(u.updatedBy().get())
+          .setReviewer(u.reviewer().get())
+          .setState(REVIEWER_STATE_SERIALIZER.serializeToString(u.state()))
+          .build();
+    }
+
+    @Override
+    public ChangeNotesState deserialize(byte[] in) throws IOException {
+      ChangeNotesStateProto proto = ChangeNotesStateProto.parseFrom(in);
+      ChangeColumnsProto cols = proto.getColumns();
+      Change.Id changeId = new Change.Id(proto.getChangeId());
+
+      ChangeColumns.Builder cb =
+          ChangeColumns.builder()
+              .changeKey(new Change.Key(cols.getChangeKey()))
+              .createdOn(new Timestamp(cols.getCreatedOn()))
+              .lastUpdatedOn(new Timestamp(cols.getLastUpdatedOn()))
+              .owner(new Account.Id(cols.getOwner()))
+              .branch(cols.getBranch());
+      if (cols.getHasCurrentPatchSetId()) {
+        cb.currentPatchSetId(new PatchSet.Id(changeId, cols.getCurrentPatchSetId()));
+      }
+      cb.subject(cols.getSubject());
+      if (cols.getHasTopic()) {
+        cb.topic(cols.getTopic());
+      }
+      if (cols.getHasOriginalSubject()) {
+        cb.originalSubject(cols.getOriginalSubject());
+      }
+      if (cols.getHasSubmissionId()) {
+        cb.submissionId(cols.getSubmissionId());
+      }
+      if (cols.getHasAssignee()) {
+        cb.assignee(new Account.Id(cols.getAssignee()));
+      }
+      if (cols.getHasStatus()) {
+        cb.status(Change.Status.forCode(Chars.checkedCast(cols.getStatus())));
+      }
+      cb.isPrivate(cols.getIsPrivate())
+          .isWorkInProgress(cols.getIsWorkInProgress())
+          .hasReviewStarted(cols.getHasReviewStarted());
+      if (cols.getHasRevertOf()) {
+        cb.revertOf(new Change.Id(cols.getRevertOf()));
+      }
+
+      return builder()
+          .metaId(ObjectId.fromRaw(proto.getMetaId().toByteArray()))
+          .changeId(changeId)
+          .columns(cb.build())
+          .pastAssignees(
+              proto.getPastAssigneeList().stream().map(Account.Id::new).collect(toImmutableSet()))
+          .hashtags(proto.getHashtagList())
+          .patchSets(
+              proto
+                  .getPatchSetList()
+                  .stream()
+                  .map(PATCH_SET_CODEC::decode)
+                  .map(ps -> Maps.immutableEntry(ps.getId(), ps))
+                  .collect(toImmutableList()))
+          .approvals(
+              proto
+                  .getApprovalList()
+                  .stream()
+                  .map(APPROVAL_CODEC::decode)
+                  .map(a -> Maps.immutableEntry(a.getPatchSetId(), a))
+                  .collect(toImmutableList()))
+          .reviewers(toReviewerSet(proto.getReviewerList()))
+          .reviewersByEmail(toReviewerByEmailSet(proto.getReviewerByEmailList()))
+          .pendingReviewers(toReviewerSet(proto.getPendingReviewerList()))
+          .pendingReviewersByEmail(toReviewerByEmailSet(proto.getPendingReviewerByEmailList()))
+          .allPastReviewers(
+              proto.getPastReviewerList().stream().map(Account.Id::new).collect(toImmutableList()))
+          .reviewerUpdates(toReviewerStatusUpdateList(proto.getReviewerUpdateList()))
+          .submitRecords(
+              proto
+                  .getSubmitRecordList()
+                  .stream()
+                  .map(r -> GSON.fromJson(r, StoredSubmitRecord.class).toSubmitRecord())
+                  .collect(toImmutableList()))
+          .changeMessages(
+              proto
+                  .getChangeMessageList()
+                  .stream()
+                  .map(MESSAGE_CODEC::decode)
+                  .collect(toImmutableList()))
+          .publishedComments(
+              proto
+                  .getPublishedCommentList()
+                  .stream()
+                  .map(r -> GSON.fromJson(r, Comment.class))
+                  .collect(toImmutableListMultimap(c -> new RevId(c.revId), c -> c)))
+          .readOnlyUntil(
+              proto.getHasReadOnlyUntil() ? new Timestamp(proto.getReadOnlyUntil()) : null)
+          .build();
+    }
+
+    private static ReviewerSet toReviewerSet(List<ReviewerSetEntryProto> protos)
+        throws IOException {
+      ImmutableTable.Builder<ReviewerStateInternal, Account.Id, Timestamp> b =
+          ImmutableTable.builder();
+      for (ReviewerSetEntryProto e : protos) {
+        b.put(
+            REVIEWER_STATE_SERIALIZER.deserializeFromString(e.getState()),
+            new Account.Id(e.getAccountId()),
+            new Timestamp(e.getTimestamp()));
+      }
+      return ReviewerSet.fromTable(b.build());
+    }
+
+    private static ReviewerByEmailSet toReviewerByEmailSet(
+        List<ReviewerByEmailSetEntryProto> protos) throws IOException {
+      ImmutableTable.Builder<ReviewerStateInternal, Address, Timestamp> b =
+          ImmutableTable.builder();
+      for (ReviewerByEmailSetEntryProto e : protos) {
+        b.put(
+            REVIEWER_STATE_SERIALIZER.deserializeFromString(e.getState()),
+            Address.parse(e.getAddress()),
+            new Timestamp(e.getTimestamp()));
+      }
+      return ReviewerByEmailSet.fromTable(b.build());
+    }
+
+    private static ImmutableList<ReviewerStatusUpdate> toReviewerStatusUpdateList(
+        List<ReviewerStatusUpdateProto> protos) throws IOException {
+      ImmutableList.Builder<ReviewerStatusUpdate> b = ImmutableList.builder();
+      for (ReviewerStatusUpdateProto proto : protos) {
+        b.add(
+            ReviewerStatusUpdate.create(
+                new Timestamp(proto.getDate()),
+                new Account.Id(proto.getUpdatedBy()),
+                new Account.Id(proto.getReviewer()),
+                REVIEWER_STATE_SERIALIZER.deserializeFromString(proto.getState())));
+      }
+      return b.build();
+    }
   }
 }

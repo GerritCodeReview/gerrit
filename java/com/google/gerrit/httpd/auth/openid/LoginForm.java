@@ -364,6 +364,6 @@ class LoginForm extends HttpServlet {
   }
 
   private static boolean isGerritLogin(HttpServletRequest request) {
-    return request.getRequestURI().indexOf(OAuthSessionOverOpenID.GERRIT_LOGIN) >= 0;
+    return request.getRequestURI().contains(OAuthSessionOverOpenID.GERRIT_LOGIN);
   }
 }

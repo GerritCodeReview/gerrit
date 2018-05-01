@@ -90,6 +90,6 @@ class OAuthWebFilterOverOpenID implements Filter {
   }
 
   private static boolean isGerritLogin(HttpServletRequest request) {
-    return request.getRequestURI().indexOf(GERRIT_LOGIN) >= 0;
+    return request.getRequestURI().contains(GERRIT_LOGIN);
   }
 }

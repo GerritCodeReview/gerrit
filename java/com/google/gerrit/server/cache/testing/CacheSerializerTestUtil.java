@@ -18,6 +18,24 @@ import com.google.protobuf.ByteString;
 
 /** Static utilities for testing cache serializers. */
 public class CacheSerializerTestUtil {
+
+  // TODO(dborowitz): Move to subject
+  public static void testExpectedAutoValueMethods(
+      Class<?> clazz, Map<String, Type> expectedMethods) {
+    // Would be nice if we could check clazz is an @AutoValue, but the retention is not RUNTIME.
+    checkArgument(
+        Modifier.isAbstract(clazz.getModifiers()), "not an abstract class: %s", clazz.getName());
+
+    assertThat(
+            Arrays.stream(clazz.getDeclaredMethods())
+                .filter(m -> !Modifier.isStatic(m.getModifiers()))
+                .filter(m -> Modifier.isAbstract(m.getModifiers()))
+                .filter(m -> m.getParameters().length == 0)
+                .collect(toImmutableMap(Method::getName, Method::getGenericReturnType)))
+        .named("no-argument abstract methods on %s", clazz.getName())
+        .isEqualTo(expectedMethods);
+  }
+
   public static ByteString bytes(int... ints) {
     byte[] bytes = new byte[ints.length];
     for (int i = 0; i < ints.length; i++) {

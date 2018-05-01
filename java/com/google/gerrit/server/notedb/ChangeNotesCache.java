@@ -25,12 +25,16 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.notedb.AbstractChangeNotes.Args;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +42,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
@@ -49,20 +54,59 @@ public class ChangeNotesCache {
       @Override
       protected void configure() {
         bind(ChangeNotesCache.class);
-        cache(CACHE_NAME, Key.class, ChangeNotesState.class)
+        persist(CACHE_NAME, Key.class, ChangeNotesState.class)
             .weigher(Weigher.class)
-            .maximumWeight(10 << 20);
+            .maximumWeight(10 << 20)
+            .diskLimit(-1)
+            .version(1)
+            .keySerializer(Key.Serializer.INSTANCE)
+            .valueSerializer(ChangeNotesState.Serializer.INSTANCE);
       }
     };
   }
 
   @AutoValue
   public abstract static class Key {
+    static Key create(Project.NameKey project, Change.Id changeId, ObjectId id) {
+      return new AutoValue_ChangeNotesCache_Key(project, changeId, id.copy());
+    }
+
     abstract Project.NameKey project();
 
     abstract Change.Id changeId();
 
     abstract ObjectId id();
+
+    @VisibleForTesting
+    static enum Serializer implements CacheSerializer<Key> {
+      INSTANCE;
+
+      @Override
+      public byte[] serialize(Key object) {
+        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
+        object.id().copyRawTo(buf, 0);
+        return ProtoCacheSerializers.toByteArray(
+            ChangeNotesKeyProto.newBuilder()
+                .setProject(object.project().get())
+                .setChangeId(object.changeId().get())
+                .setId(ByteString.copyFrom(buf))
+                .build());
+      }
+
+      @Override
+      public Key deserialize(byte[] in) {
+        ChangeNotesKeyProto proto;
+        try {
+          proto = ChangeNotesKeyProto.parseFrom(in);
+        } catch (IOException e) {
+          throw new IllegalArgumentException("Failed to deserialize " + Key.class.getName());
+        }
+        return Key.create(
+            new Project.NameKey(proto.getProject()),
+            new Change.Id(proto.getChangeId()),
+            ObjectId.fromRaw(proto.getId().toByteArray()));
+      }
+    }
   }
 
   public static class Weigher implements com.google.common.cache.Weigher<Key, ChangeNotesState> {
@@ -330,7 +374,7 @@ public class ChangeNotesCache {
   Value get(Project.NameKey project, Change.Id changeId, ObjectId metaId, ChangeNotesRevWalk rw)
       throws IOException {
     try {
-      Key key = new AutoValue_ChangeNotesCache_Key(project, changeId, metaId.copy());
+      Key key = Key.create(project, changeId, metaId);
       Loader loader = new Loader(key, rw);
       ChangeNotesState s = cache.get(key, loader);
       return new AutoValue_ChangeNotesCache_Value(s, loader.revisionNoteMap);

@@ -63,6 +63,13 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
               try {
                 reindex();
                 ok = true;
+              } catch (IOException e) {
+                log.error(
+                    "Online reindex of {} schema version {} failed",
+                    name,
+                    version(index),
+                    e.getMessage(),
+                    e);
               } finally {
                 running.set(false);
                 if (!ok) {
@@ -91,7 +98,7 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
     return i.getSchema().getVersion();
   }
 
-  private void reindex() {
+  private void reindex() throws IOException {
     for (OnlineUpgradeListener listener : listeners) {
       listener.onStart(name, oldVersion, newVersion);
     }
@@ -106,6 +113,10 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
         name,
         version(indexes.getSearchIndex()),
         version(index));
+
+    if (oldVersion != newVersion) {
+      index.deleteAll();
+    }
     SiteIndexer.Result result = batchIndexer.indexAll(index);
     if (!result.success()) {
       log.error(

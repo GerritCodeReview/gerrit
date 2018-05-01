@@ -7,6 +7,7 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:junit",
+        "//lib:protobuf",
         "//lib:truth",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

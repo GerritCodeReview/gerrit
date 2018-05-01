@@ -15,13 +15,13 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import com.google.gerrit.server.cache.testing.CacheSerializerTestUtil;
-import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,13 +66,5 @@ public class MergeabilityCacheImplTest {
             "into", ObjectId.class,
             "submitType", SubmitType.class,
             "mergeStrategy", String.class));
-  }
-
-  private static ByteString bytes(int... ints) {
-    byte[] bytes = new byte[ints.length];
-    for (int i = 0; i < ints.length; i++) {
-      bytes[i] = (byte) ints[i];
-    }
-    return ByteString.copyFrom(bytes);
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de6b97f9_f26f0835",
+        "filename": "javatests/com/google/gerrit/server/mail/receive/MailHeaderParserTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T03:15:08Z",
+      "side": 1,
+      "message": "This file needs formatting.",
+      "revId": "64d5c7cb792b56b17656ce437ee9dddaaacedb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

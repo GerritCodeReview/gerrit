@@ -64,31 +64,40 @@ limitations under the License.
       });
     });
 
-    test('cached results', done => {
-      let n = 0;
-      sandbox.stub(element, 'fetchJSON', () => {
-        return Promise.resolve(++n);
-      });
-      const promises = [];
-      promises.push(element._fetchSharedCacheURL('/foo'));
-      promises.push(element._fetchSharedCacheURL('/foo'));
-      promises.push(element._fetchSharedCacheURL('/foo'));
+    suite('_fetchSharedCacheURL', () => {
+      test('cached results', () => {
+        let n = 0;
+        sandbox.stub(element, 'fetchJSON', () => {
+          return Promise.resolve(++n);
+        });
+        const promises = [];
+        promises.push(element._fetchSharedCacheURL('/foo'));
+        promises.push(element._fetchSharedCacheURL('/foo'));
+        promises.push(element._fetchSharedCacheURL('/foo'));
 
-      Promise.all(promises).then(results => {
-        assert.deepEqual(results, [1, 1, 1]);
-        element._fetchSharedCacheURL('/foo').then(foo => {
-          assert.equal(foo, 1);
-          done();
+        return Promise.all(promises).then(results => {
+          assert.deepEqual(results, [1, 1, 1]);
+          element._fetchSharedCacheURL('/foo').then(foo => {
+            assert.equal(foo, 1);
+          });
         });
       });
-    });
 
-    test('cached promise', done => {
-      const promise = Promise.reject('foo');
-      element._cache['/foo'] = promise;
-      element._fetchSharedCacheURL('/foo').catch(p => {
-        assert.equal(p, 'foo');
-        done();
+      test('cached promise', () => {
+        const promise = Promise.reject('foo');
+        element._cache['/foo'] = promise;
+        return element._fetchSharedCacheURL('/foo').catch(p => {
+          assert.equal(p, 'foo');
+        });
+      });
+
+      test('params included when indexing cache', () => {
+        element._cache['/foo'] = Promise.resolve(false);
+        element._cache['/foo?bar=baz'] = Promise.resolve(true);
+        return element._fetchSharedCacheURL('/foo', undefined, {bar: 'baz'})
+            .then(result => {
+              assert.isTrue(result);
+            });
       });
     });
 
@@ -1203,39 +1212,72 @@ limitations under the License.
     });
 
     suite('getDiff', () => {
-      test('patchOnly', () => {
-        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+      let fetchChangeStub;
+      let fetchCacheStub;
+      let changeBaseUrlStub;
+
+      setup(() => {
+        fetchChangeStub = sandbox.stub(element, '_getChangeURLAndFetch')
             .returns(Promise.resolve());
+        fetchCacheStub = sandbox.stub(element, '_fetchSharedCacheURL')
+            .returns(Promise.resolve());
+        changeBaseUrlStub = sandbox.stub(element, '_changeBaseURL')
+            .returns(Promise.resolve('url'));
+      });
+
+      test('patchOnly', () => {
         return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 2);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].parent);
-          assert.isNotOk(fetchStub.lastCall.args[5].base);
+          assert.isFalse(fetchChangeStub.called);
+          assert.isTrue(changeBaseUrlStub.calledOnce);
+          assert.equal(changeBaseUrlStub.lastCall.args[1], 2);
+          assert.isTrue(fetchCacheStub.calledOnce);
+          assert.isOk(fetchCacheStub.lastCall.args[2]);
+          assert.isNotOk(fetchCacheStub.lastCall.args[2].parent);
+          assert.isNotOk(fetchCacheStub.lastCall.args[2].base);
         });
       });
 
       test('simple range', () => {
-        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
-            .returns(Promise.resolve());
         return element.getDiff(123, 4, 5, 'foo/bar.baz').then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].parent);
-          assert.equal(fetchStub.lastCall.args[5].base, 4);
+          assert.isFalse(fetchChangeStub.called);
+          assert.isTrue(changeBaseUrlStub.calledOnce);
+          assert.equal(changeBaseUrlStub.lastCall.args[1], 5);
+          assert.isTrue(fetchCacheStub.calledOnce);
+          assert.isOk(fetchCacheStub.lastCall.args[2]);
+          assert.isNotOk(fetchCacheStub.lastCall.args[2].parent);
+          assert.equal(fetchCacheStub.lastCall.args[2].base, 4);
         });
       });
 
       test('parent index', () => {
-        const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
-            .returns(Promise.resolve());
         return element.getDiff(123, -3, 5, 'foo/bar.baz').then(() => {
-          assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].base);
-          assert.equal(fetchStub.lastCall.args[5].parent, 3);
+          assert.isFalse(fetchChangeStub.called);
+          assert.isTrue(changeBaseUrlStub.calledOnce);
+          assert.equal(changeBaseUrlStub.lastCall.args[1], 5);
+          assert.isTrue(fetchCacheStub.calledOnce);
+          assert.isOk(fetchCacheStub.lastCall.args[2]);
+          assert.isNotOk(fetchCacheStub.lastCall.args[2].base);
+          assert.equal(fetchCacheStub.lastCall.args[2].parent, 3);
+        });
+      });
+
+      test('edit patch does not use cache', () => {
+        return element.getDiff(123, 3, 'edit', 'foo/bar.baz').then(() => {
+          assert.isFalse(changeBaseUrlStub.called);
+          assert.isFalse(fetchCacheStub.called);
+          assert.isTrue(fetchChangeStub.calledOnce);
+          assert.equal(fetchChangeStub.lastCall.args[2], 'edit');
+          assert.equal(fetchChangeStub.lastCall.args[5].base, 3);
+        });
+      });
+
+      test('edit base patch does not use cache', () => {
+        return element.getDiff(123, 'edit', 4, 'foo/bar.baz').then(() => {
+          assert.isFalse(changeBaseUrlStub.called);
+          assert.isFalse(fetchCacheStub.called);
+          assert.isTrue(fetchChangeStub.calledOnce);
+          assert.equal(fetchChangeStub.lastCall.args[2], 4);
+          assert.equal(fetchChangeStub.lastCall.args[5].base, 'edit');
         });
       });
     });

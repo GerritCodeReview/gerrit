@@ -815,27 +815,30 @@
     /**
      * @param {string} url
      * @param {function(?Response, string=)=} opt_errFn
+     * @param {?Object=} opt_params URL params, key-value hash.
      */
-    _fetchSharedCacheURL(url, opt_errFn) {
-      if (this._sharedFetchPromises[url]) {
-        return this._sharedFetchPromises[url];
+    _fetchSharedCacheURL(url, opt_errFn, opt_params) {
+      const urlWithParams = this._urlWithParams(url, opt_params);
+      if (this._sharedFetchPromises[urlWithParams]) {
+        return this._sharedFetchPromises[urlWithParams];
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[url] !== undefined) {
-        return Promise.resolve(this._cache[url]);
+      if (this._cache[urlWithParams] !== undefined) {
+        return Promise.resolve(this._cache[urlWithParams]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn)
+      this._sharedFetchPromises[urlWithParams] = this.fetchJSON(
+          url, opt_errFn, undefined, opt_params)
           .then(response => {
             if (response !== undefined) {
-              this._cache[url] = response;
+              this._cache[urlWithParams] = response;
             }
-            this._sharedFetchPromises[url] = undefined;
+            this._sharedFetchPromises[urlWithParams] = undefined;
             return response;
           }).catch(err => {
-            this._sharedFetchPromises[url] = undefined;
+            this._sharedFetchPromises[urlWithParams] = undefined;
             throw err;
           });
-      return this._sharedFetchPromises[url];
+      return this._sharedFetchPromises[urlWithParams];
     },
 
     _isNarrowScreen() {
@@ -1589,10 +1592,8 @@
      * @param {number|string} patchNum
      * @param {string} path
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {function()=} opt_cancelCondition
      */
-    getDiff(changeNum, basePatchNum, patchNum, path,
-        opt_errFn, opt_cancelCondition) {
+    getDiff(changeNum, basePatchNum, patchNum, path, opt_errFn) {
       const params = {
         context: 'ALL',
         intraline: null,
@@ -1605,8 +1606,18 @@
       }
       const endpoint = `/files/${encodeURIComponent(path)}/diff`;
 
-      return this._getChangeURLAndFetch(changeNum, endpoint, patchNum,
-          opt_errFn, opt_cancelCondition, params);
+      // If either patchset is an edit, then it should not be cached, since an
+      // edit can change w/r/t their URL.
+      if (this.patchNumEquals(patchNum, this.EDIT_NAME) ||
+          this.patchNumEquals(basePatchNum, this.EDIT_NAME)) {
+        return this._getChangeURLAndFetch(changeNum, endpoint, patchNum,
+            opt_errFn, undefined, params);
+      }
+
+      // Otherwise, request the diff through the cache, because non-edit diffs
+      // will be stable respective to their URL.
+      return this._changeBaseURL(changeNum, patchNum).then(url =>
+          this._fetchSharedCacheURL(url + endpoint, opt_errFn, params));
     },
 
     /**

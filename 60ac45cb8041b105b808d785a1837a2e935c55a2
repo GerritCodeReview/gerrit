@@ -34,6 +34,24 @@
       "revId": "60ac45cb8041b105b808d785a1837a2e935c55a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "939369ef_7cef189c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-01T20:18:16Z",
+      "side": 1,
+      "message": "I think maybe my confusion is the difference between installed and loaded... It seems like a plugin isn\u0027t actually fully loaded until it\u0027s done with all of its installs, at least to me. Is that not what this is trying to accomplish?",
+      "parentUuid": "26f247c8_a2a53c37",
+      "revId": "60ac45cb8041b105b808d785a1837a2e935c55a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

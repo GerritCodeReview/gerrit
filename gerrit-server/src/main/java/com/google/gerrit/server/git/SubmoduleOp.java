@@ -36,6 +36,7 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -92,7 +93,7 @@ public class SubmoduleOp {
   @Singleton
   public static class Factory {
     private final GitModules.Factory gitmodulesFactory;
-    private final PersonIdent myIdent;
+    private final Provider<PersonIdent> serverIdent;
     private final Config cfg;
     private final ProjectCache projectCache;
     private final ProjectState.Factory projectStateFactory;
@@ -101,13 +102,13 @@ public class SubmoduleOp {
     @Inject
     Factory(
         GitModules.Factory gitmodulesFactory,
-        @GerritPersonIdent PersonIdent myIdent,
+        @GerritPersonIdent Provider<PersonIdent> serverIdent,
         @GerritServerConfig Config cfg,
         ProjectCache projectCache,
         ProjectState.Factory projectStateFactory,
         BatchUpdate.Factory batchUpdateFactory) {
       this.gitmodulesFactory = gitmodulesFactory;
-      this.myIdent = myIdent;
+      this.serverIdent = serverIdent;
       this.cfg = cfg;
       this.projectCache = projectCache;
       this.projectStateFactory = projectStateFactory;
@@ -118,7 +119,7 @@ public class SubmoduleOp {
         throws SubmoduleException {
       return new SubmoduleOp(
           gitmodulesFactory,
-          myIdent,
+          serverIdent.get(),
           cfg,
           projectCache,
           projectStateFactory,

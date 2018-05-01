@@ -14,9 +14,20 @@
 
 package com.google.gerrit.extensions.auth.oauth;
 
-import java.io.Serializable;
+import static com.google.common.base.Preconditions.checkNotNull;
 
-/* OAuth token */
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * OAuth token.
+ *
+ * <p>Only implements {@link Serializable} for backwards compatibility; new extensions should not
+ * depend on the serialized format.
+ */
 public class OAuthToken implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,8 +43,9 @@ public class OAuthToken implements Serializable {
   private final long expiresAt;
 
   /**
-   * The identifier of the OAuth provider that issued this token in the form
-   * <tt>"plugin-name:provider-name"</tt>, or {@code null}.
+   * The identifier of the OAuth provider that issued this token in the form {@code
+   * "plugin-name:provider-name"}, or {@code null}. The empty string {@code ""} is treated the same
+   * as {@code null}.
    */
   private final String providerId;
 
@@ -41,12 +53,13 @@ public class OAuthToken implements Serializable {
     this(token, secret, raw, Long.MAX_VALUE, null);
   }
 
-  public OAuthToken(String token, String secret, String raw, long expiresAt, String providerId) {
-    this.token = token;
-    this.secret = secret;
-    this.raw = raw;
+  public OAuthToken(
+      String token, String secret, String raw, long expiresAt, @Nullable String providerId) {
+    this.token = checkNotNull(token, "token");
+    this.secret = checkNotNull(secret, "secret");
+    this.raw = checkNotNull(raw, "raw");
     this.expiresAt = expiresAt;
-    this.providerId = providerId;
+    this.providerId = Strings.emptyToNull(providerId);
   }
 
   public String getToken() {
@@ -69,7 +82,37 @@ public class OAuthToken implements Serializable {
     return System.currentTimeMillis() > expiresAt;
   }
 
+  @Nullable
   public String getProviderId() {
     return providerId;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof OAuthToken)) {
+      return false;
+    }
+    OAuthToken t = (OAuthToken) o;
+    return token.equals(t.token)
+        && secret.equals(t.secret)
+        && raw.equals(t.raw)
+        && expiresAt == t.expiresAt
+        && Objects.equals(providerId, t.providerId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(token, secret, raw, expiresAt, providerId);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("token", token)
+        .add("secret", secret)
+        .add("raw", raw)
+        .add("expiresAt", expiresAt)
+        .add("providerId", providerId)
+        .toString();
   }
 }

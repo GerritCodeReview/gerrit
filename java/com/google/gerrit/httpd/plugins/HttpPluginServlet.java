@@ -24,6 +24,8 @@ import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CHARACTER_ENCODI
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CONTENT_TYPE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
+import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
@@ -227,7 +229,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     final PluginHolder holder = plugins.get(name);
     if (holder == null) {
       CacheHeaders.setNotCacheable(res);
-      res.sendError(HttpServletResponse.SC_NOT_FOUND);
+      res.sendError(SC_NOT_FOUND);
       return;
     }
 
@@ -258,7 +260,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       throws IOException {
     if (!"GET".equals(req.getMethod()) && !"HEAD".equals(req.getMethod())) {
       CacheHeaders.setNotCacheable(res);
-      res.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+      res.sendError(SC_METHOD_NOT_ALLOWED);
       return;
     }
 

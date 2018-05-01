@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.common.base.Strings;
 import com.google.common.io.Resources;

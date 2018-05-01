@@ -16,7 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.httpd.ProjectBasicAuthFilter.authenticationFailedMsg;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;

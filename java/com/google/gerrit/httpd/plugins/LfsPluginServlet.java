@@ -16,7 +16,7 @@ package com.google.gerrit.httpd.plugins;
 
 import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.CONTENTTYPE_VND_GIT_LFS_JSON;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
+import static org.apache.http.HttpStatus.SC_NOT_IMPLEMENTED;
 
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.resources.Resource;

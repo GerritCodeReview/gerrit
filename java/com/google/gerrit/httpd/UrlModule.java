@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static com.google.inject.Scopes.SINGLETON;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
@@ -122,7 +123,7 @@ class UrlModule extends ServletModule {
 
           @Override
           protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-            rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            rsp.sendError(SC_NOT_FOUND);
           }
         });
   }
@@ -182,7 +183,7 @@ class UrlModule extends ServletModule {
               // the numeric change id.
               toGerrit(PageLinks.toChange(null, id), req, rsp);
             } catch (IllegalArgumentException err) {
-              rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+              rsp.sendError(SC_NOT_FOUND);
             }
           }
         });

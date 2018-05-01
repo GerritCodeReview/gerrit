@@ -18,7 +18,7 @@ import static com.google.gerrit.httpd.HtmlDomUtil.compress;
 import static com.google.gerrit.httpd.HtmlDomUtil.newDocument;
 import static com.google.gerrit.httpd.HtmlDomUtil.toUTF8;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 import static org.eclipse.jgit.util.HttpSupport.HDR_CACHE_CONTROL;
 import static org.eclipse.jgit.util.HttpSupport.HDR_EXPIRES;
 import static org.eclipse.jgit.util.HttpSupport.HDR_PRAGMA;

@@ -20,7 +20,7 @@ import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_CONTENT_TYPE;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_METHOD;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyBinaryResult;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyError;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;

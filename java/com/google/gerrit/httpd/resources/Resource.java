@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.resources;
 
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+
 import com.google.gwtexpui.server.CacheHeaders;
 import java.io.IOException;
 import java.io.Serializable;
@@ -35,7 +37,7 @@ public abstract class Resource implements Serializable {
         @Override
         public void send(HttpServletRequest req, HttpServletResponse res) throws IOException {
           CacheHeaders.setNotCacheable(res);
-          res.sendError(HttpServletResponse.SC_NOT_FOUND);
+          res.sendError(SC_NOT_FOUND);
         }
 
         @Override

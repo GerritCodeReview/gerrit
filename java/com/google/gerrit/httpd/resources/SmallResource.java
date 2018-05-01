@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd.resources;
 
+import static org.apache.http.HttpStatus.SC_NOT_MODIFIED;
+
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import java.io.IOException;
@@ -56,7 +58,7 @@ public final class SmallResource extends Resource {
     if (0 < lastModified) {
       long ifModifiedSince = req.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
       if (ifModifiedSince > 0 && ifModifiedSince == lastModified) {
-        res.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+        res.setStatus(SC_NOT_MODIFIED);
         return;
       }
       res.setDateHeader("Last-Modified", lastModified);

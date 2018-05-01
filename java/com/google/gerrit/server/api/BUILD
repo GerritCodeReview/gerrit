@@ -17,6 +17,7 @@ java_library(
         "//lib:servlet-api-3_1",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

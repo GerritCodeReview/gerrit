@@ -16,6 +16,7 @@ package com.google.gerrit.httpd.auth.container;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -101,7 +102,7 @@ class HttpLoginServlet extends HttpServlet {
       replace(doc, "ContextPath", req.getContextPath());
 
       final byte[] bin = HtmlDomUtil.toUTF8(doc);
-      rsp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+      rsp.setStatus(SC_FORBIDDEN);
       rsp.setContentType("text/html");
       rsp.setCharacterEncoding(UTF_8.name());
       rsp.setContentLength(bin.length);
@@ -119,7 +120,7 @@ class HttpLoginServlet extends HttpServlet {
       arsp = accountManager.authenticate(areq);
     } catch (AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
-      rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+      rsp.sendError(SC_FORBIDDEN);
       return;
     }
 
@@ -136,7 +137,7 @@ class HttpLoginServlet extends HttpServlet {
                 + user
                 + "\"",
             e);
-        rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        rsp.sendError(SC_FORBIDDEN);
         return;
       }
     }

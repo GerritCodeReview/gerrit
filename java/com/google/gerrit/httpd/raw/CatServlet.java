@@ -14,6 +14,9 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -89,7 +92,7 @@ public class CatServlet extends HttpServlet {
     keyStr = Url.decode(keyStr);
 
     if (!keyStr.startsWith("/")) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      rsp.sendError(SC_NOT_FOUND);
       return;
     }
     keyStr = keyStr.substring(1);
@@ -99,7 +102,7 @@ public class CatServlet extends HttpServlet {
     {
       final int c = keyStr.lastIndexOf('^');
       if (c == 0) {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        rsp.sendError(SC_NOT_FOUND);
         return;
       }
 
@@ -110,7 +113,7 @@ public class CatServlet extends HttpServlet {
           side = Integer.parseInt(keyStr.substring(c + 1));
           keyStr = keyStr.substring(0, c);
         } catch (NumberFormatException e) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          rsp.sendError(SC_NOT_FOUND);
           return;
         }
       }
@@ -118,7 +121,7 @@ public class CatServlet extends HttpServlet {
       try {
         patchKey = Patch.Key.parse(keyStr);
       } catch (NumberFormatException e) {
-        rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        rsp.sendError(SC_NOT_FOUND);
         return;
       }
     }
@@ -139,23 +142,23 @@ public class CatServlet extends HttpServlet {
         if (edit.isPresent()) {
           revision = ObjectId.toString(edit.get().getEditCommit());
         } else {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          rsp.sendError(SC_NOT_FOUND);
           return;
         }
       } else {
         PatchSet patchSet = psUtil.get(requestDb.get(), notes, patchKey.getParentKey());
         if (patchSet == null) {
-          rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+          rsp.sendError(SC_NOT_FOUND);
           return;
         }
         revision = patchSet.getRevision().get();
       }
     } catch (ResourceConflictException | NoSuchChangeException | AuthException e) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      rsp.sendError(SC_NOT_FOUND);
       return;
     } catch (OrmException | PermissionBackendException | IOException e) {
       getServletContext().log("Cannot query database", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      rsp.sendError(SC_INTERNAL_SERVER_ERROR);
       return;
     }
 

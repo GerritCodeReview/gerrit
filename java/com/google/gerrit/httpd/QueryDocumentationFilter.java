@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
@@ -63,7 +65,7 @@ public class QueryDocumentationFilter implements Filter {
         RestApiServlet.replyJson(req, rsp, ImmutableListMultimap.of(), result);
       } catch (DocQueryException e) {
         log.error("Doc search failed:", e);
-        rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        rsp.sendError(SC_INTERNAL_SERVER_ERROR);
       }
     } else {
       chain.doFilter(request, response);

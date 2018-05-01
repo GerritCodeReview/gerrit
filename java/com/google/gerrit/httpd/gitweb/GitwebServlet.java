@@ -31,6 +31,10 @@ package com.google.gerrit.httpd.gitweb;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.http.HttpStatus.SC_CONFLICT;
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
@@ -389,7 +393,7 @@ class GitwebServlet extends HttpServlet {
     String a = params.get("a");
     if (a != null) {
       if (deniedActions.contains(a)) {
-        rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        rsp.sendError(SC_FORBIDDEN);
         return;
       }
 
@@ -406,7 +410,7 @@ class GitwebServlet extends HttpServlet {
 
     String name = params.get("p");
     if (name == null) {
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      rsp.sendError(SC_NOT_FOUND);
       return;
     }
     if (name.endsWith(".git")) {
@@ -418,7 +422,7 @@ class GitwebServlet extends HttpServlet {
     try {
       projectState = projectCache.checkedGet(nameKey);
       if (projectState == null) {
-        sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
+        sendErrorOrRedirect(req, rsp, SC_NOT_FOUND);
         return;
       }
 
@@ -428,14 +432,14 @@ class GitwebServlet extends HttpServlet {
           .project(nameKey)
           .check(ProjectPermission.READ);
     } catch (AuthException e) {
-      sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
+      sendErrorOrRedirect(req, rsp, SC_NOT_FOUND);
       return;
     } catch (IOException | PermissionBackendException err) {
       log.error("cannot load " + name, err);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      rsp.sendError(SC_INTERNAL_SERVER_ERROR);
       return;
     } catch (ResourceConflictException e) {
-      sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_CONFLICT);
+      sendErrorOrRedirect(req, rsp, SC_CONFLICT);
       return;
     }
 
@@ -444,7 +448,7 @@ class GitwebServlet extends HttpServlet {
       exec(req, rsp, projectState);
     } catch (RepositoryNotFoundException e) {
       getServletContext().log("Cannot open repository", e);
-      rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+      rsp.sendError(SC_INTERNAL_SERVER_ERROR);
     }
   }
 

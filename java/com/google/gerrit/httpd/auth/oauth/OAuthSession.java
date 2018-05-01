@@ -14,7 +14,9 @@
 
 package com.google.gerrit.httpd.auth.oauth;
 
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
@@ -97,7 +99,7 @@ class OAuthSession {
 
     if (isOAuthFinal(request)) {
       if (!checkState(request)) {
-        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        response.sendError(SC_NOT_FOUND);
         return false;
       }
 
@@ -149,7 +151,7 @@ class OAuthSession {
       tokenCache.put(accountId, token);
     } catch (AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
-      rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+      rsp.sendError(SC_FORBIDDEN);
       return;
     }
 
@@ -185,7 +187,7 @@ class OAuthSession {
                 + actualId.get()
                 + " is "
                 + user.getExternalId());
-        rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        rsp.sendError(SC_FORBIDDEN);
         return false;
       }
     } else if (claimedId.isPresent() && !actualId.isPresent()) {
@@ -203,7 +205,7 @@ class OAuthSession {
                 + claimedId.get()
                 + " is "
                 + claimedIdentifier);
-        rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+        rsp.sendError(SC_FORBIDDEN);
         return false;
       }
     }
@@ -220,7 +222,7 @@ class OAuthSession {
               + user.getExternalId()
               + " to user identity: "
               + identifiedUser.get().getAccountId());
-      rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+      rsp.sendError(SC_FORBIDDEN);
       return false;
     } finally {
       linkMode = false;

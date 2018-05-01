@@ -16,6 +16,7 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
+        "//lib/httpcomponents:httpcore",
         "//lib/jetty:jmx",
         "//lib/jetty:server",
         "//lib/jetty:servlet",

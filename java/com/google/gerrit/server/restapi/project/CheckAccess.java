@@ -15,6 +15,8 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_OK;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
@@ -41,7 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 
@@ -95,7 +96,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
           String.format(
               "user %s (%s) cannot see project %s",
               user.getNameEmail(), user.getAccount().getId(), rsrc.getName());
-      info.status = HttpServletResponse.SC_FORBIDDEN;
+      info.status = SC_FORBIDDEN;
       return info;
     }
 
@@ -122,7 +123,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
             .ref(new Branch.NameKey(rsrc.getNameKey(), input.ref))
             .check(refPerm);
       } catch (AuthException e) {
-        info.status = HttpServletResponse.SC_FORBIDDEN;
+        info.status = SC_FORBIDDEN;
         info.message =
             String.format(
                 "user %s (%s) lacks permission %s for %s in project %s",
@@ -142,7 +143,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
         }
       }
     }
-    info.status = HttpServletResponse.SC_OK;
+    info.status = SC_OK;
     return info;
   }
 }

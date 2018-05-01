@@ -14,7 +14,9 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
-import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
@@ -93,7 +95,7 @@ class OAuthSessionOverOpenID {
 
     if (isOAuthFinal(request)) {
       if (!checkState(request)) {
-        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        response.sendError(SC_NOT_FOUND);
         return false;
       }
 
@@ -162,7 +164,7 @@ class OAuthSessionOverOpenID {
                     + actualId.get()
                     + " is "
                     + user.getExternalId());
-            rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            rsp.sendError(SC_FORBIDDEN);
             return;
           }
         } else {
@@ -179,7 +181,7 @@ class OAuthSessionOverOpenID {
                     + claimedId.get()
                     + " is "
                     + claimedIdentifier);
-            rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+            rsp.sendError(SC_FORBIDDEN);
             return;
           }
         }
@@ -191,7 +193,7 @@ class OAuthSessionOverOpenID {
           accountManager.link(accountId, areq);
         } catch (OrmException | ConfigInvalidException e) {
           log.error("Cannot link: " + user.getExternalId() + " to user identity: " + accountId);
-          rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+          rsp.sendError(SC_FORBIDDEN);
           return;
         } finally {
           linkMode = false;
@@ -203,7 +205,7 @@ class OAuthSessionOverOpenID {
       arsp = accountManager.authenticate(areq);
     } catch (AccountException e) {
       log.error("Unable to authenticate user \"" + user + "\"", e);
-      rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
+      rsp.sendError(SC_FORBIDDEN);
       return;
     }
 

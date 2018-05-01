@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.gitweb;
 
 import static com.google.gerrit.common.FileUtil.lastModified;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.server.config.GitwebCgiConfig;
@@ -74,7 +75,7 @@ class GitwebJavaScriptServlet extends HttpServlet {
       }
     } else {
       CacheHeaders.setNotCacheable(rsp);
-      rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      rsp.sendError(SC_NOT_FOUND);
     }
   }
 }

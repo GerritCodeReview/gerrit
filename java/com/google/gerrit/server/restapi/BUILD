@@ -31,6 +31,7 @@ java_library(
         "//lib/commons:lang",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
     ],

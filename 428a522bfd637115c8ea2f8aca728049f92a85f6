@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ef8010f_9bd51825",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T03:06:45Z",
+      "side": 1,
+      "message": "If we have to import this explicitly to make the method reference work, then let\u0027s also change other references to Account.Id to just Id.\n\nOtherwise, remove this explicit import and refer to Account.Id in the method reference.",
+      "revId": "428a522bfd637115c8ea2f8aca728049f92a85f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83da20ba_a55b6246",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T03:06:45Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "428a522bfd637115c8ea2f8aca728049f92a85f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac6b14d_685a009a",
+        "filename": "java/com/google/gerrit/server/schema/GroupBundle.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T03:06:45Z",
+      "side": 1,
+      "message": "Is this necessary as part of this change?",
+      "range": {
+        "startLine": 745,
+        "startChar": 12,
+        "endLine": 745,
+        "endChar": 17
+      },
+      "revId": "428a522bfd637115c8ea2f8aca728049f92a85f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "621b5836_f86e4772",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T03:06:45Z",
+      "side": 1,
+      "message": "Long line?",
+      "revId": "428a522bfd637115c8ea2f8aca728049f92a85f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -773,6 +773,7 @@ performed once every 24 hours.
 +
 Default is 128 MiB per cache, except:
 +
+* `"change_notes"`: disk storage is disabled by default
 * `"diff_summary"`: default is `1g` (1 GiB of disk space)
 
 +

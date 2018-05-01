@@ -17,6 +17,7 @@ package com.google.gerrit.server.cache.testing;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.protobuf.ByteString;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -32,6 +33,14 @@ public class CacheSerializerTestUtil {
                 .filter(f -> !Modifier.isTransient(f.getModifiers()))
                 .collect(toImmutableMap(Field::getName, Field::getGenericType)))
         .isEqualTo(expectedFields);
+  }
+
+  public static ByteString bytes(int... ints) {
+    byte[] bytes = new byte[ints.length];
+    for (int i = 0; i < ints.length; i++) {
+      bytes[i] = (byte) ints[i];
+    }
+    return ByteString.copyFrom(bytes);
   }
 
   private CacheSerializerTestUtil() {}

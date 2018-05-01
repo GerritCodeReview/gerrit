@@ -643,7 +643,7 @@ public class ChangeField {
    * <p>Stored fields need to use a stable format over a long period; this type insulates the index
    * from implementation changes in SubmitRecord itself.
    */
-  static class StoredSubmitRecord {
+  public static class StoredSubmitRecord {
     static class StoredLabel {
       String label;
       SubmitRecord.Label.Status status;
@@ -661,7 +661,7 @@ public class ChangeField {
     List<StoredRequirement> requirements;
     String errorMessage;
 
-    StoredSubmitRecord(SubmitRecord rec) {
+    public StoredSubmitRecord(SubmitRecord rec) {
       this.status = rec.status;
       this.errorMessage = rec.errorMessage;
       if (rec.labels != null) {
@@ -686,7 +686,7 @@ public class ChangeField {
       }
     }
 
-    private SubmitRecord toSubmitRecord() {
+    public SubmitRecord toSubmitRecord() {
       SubmitRecord rec = new SubmitRecord();
       rec.status = status;
       rec.errorMessage = errorMessage;

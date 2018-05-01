@@ -15,15 +15,24 @@
 package com.google.gerrit.server.cache;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.protobuf.TextFormat;
 import org.junit.Test;
 
 public class EnumCacheSerializerTest {
   @Test
   public void serialize() throws Exception {
-    assertRoundTrip(MyEnum.FOO);
-    assertRoundTrip(MyEnum.BAR);
-    assertRoundTrip(MyEnum.BAZ);
+    for (MyEnum value : MyEnum.values()) {
+      assertRoundTrip(value);
+    }
+  }
+
+  @Test
+  public void serializeToString() throws Exception {
+    for (MyEnum value : MyEnum.values()) {
+      assertRoundTripToString(value);
+    }
   }
 
   private enum MyEnum {
@@ -34,6 +43,17 @@ public class EnumCacheSerializerTest {
 
   private static void assertRoundTrip(MyEnum e) throws Exception {
     CacheSerializer<MyEnum> s = new EnumCacheSerializer<>(MyEnum.class);
-    assertThat(s.deserialize(s.serialize(e))).isEqualTo(e);
+    byte[] serialized = s.serialize(e);
+    MyEnum result = s.deserialize(serialized);
+    assertThat(result)
+        .named("round-trip of %s via \"%s\"", e, TextFormat.escapeBytes(serialized))
+        .isEqualTo(e);
+  }
+
+  private static void assertRoundTripToString(MyEnum e) throws Exception {
+    EnumCacheSerializer<MyEnum> s = new EnumCacheSerializer<>(MyEnum.class);
+    String serialized = s.serializeToString(e);
+    MyEnum result = s.deserialize(serialized.getBytes(UTF_8));
+    assertThat(result).named("round-trip of %s via \"%s\"", e, serialized).isEqualTo(e);
   }
 }

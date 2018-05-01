@@ -16,30 +16,29 @@ package com.google.gerrit.server.cache;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Enums;
+import com.google.protobuf.TextFormat;
 import java.io.IOException;
+import java.util.Arrays;
 
-public class EnumCacheSerializer<E extends Enum<E>> implements CacheSerializer<E> {
-  private final Class<E> clazz;
+public enum BooleanCacheSerializer implements CacheSerializer<Boolean> {
+  INSTANCE;
 
-  public EnumCacheSerializer(Class<E> clazz) {
-    this.clazz = clazz;
+  private static final byte[] TRUE = Boolean.toString(true).getBytes(UTF_8);
+  private static final byte[] FALSE = Boolean.toString(false).getBytes(UTF_8);
+
+  @Override
+  public byte[] serialize(Boolean object) throws IOException {
+    byte[] bytes = object ? TRUE : FALSE;
+    return Arrays.copyOf(bytes, bytes.length);
   }
 
   @Override
-  public byte[] serialize(E object) throws IOException {
-    return serializeToString(object).getBytes(UTF_8);
-  }
-
-  public String serializeToString(E object) {
-    return object.name();
-  }
-
-  @Override
-  public E deserialize(byte[] in) throws IOException {
-    String name = new String(in, UTF_8);
-    return Enums.getIfPresent(clazz, name)
-        .toJavaUtil()
-        .orElseThrow(() -> new IOException("Invalid " + clazz.getName() + " value: " + name));
+  public Boolean deserialize(byte[] in) throws IOException {
+    if (Arrays.equals(in, TRUE)) {
+      return Boolean.TRUE;
+    } else if (Arrays.equals(in, FALSE)) {
+      return Boolean.FALSE;
+    }
+    throw new IOException("Invalid Boolean value: " + TextFormat.escapeBytes(in));
   }
 }

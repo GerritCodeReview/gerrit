@@ -363,18 +363,6 @@ To consume the JGit dependency from the development tree, edit
 `lib/jgit/jgit.bzl` setting LOCAL_JGIT_REPO to a directory holding a
 JGit repository.
 
-[[clean-download-cache]]
-=== Cleaning The download cache
-
-The cache for downloaded artifacts is located in
-`~/.gerritcodereview/bazel-cache/downloaded-artifacts`.
-
-If you really do need to clean the download cache manually, then:
-
-----
- rm -rf ~/.gerritcodereview/bazel-cache/downloaded-artifacts
-----
-
 [[local-action-cache]]
 
 To accelerate builds, local action cache can be activated. Note, that this
@@ -423,7 +411,6 @@ build --experimental_repository_cache=/home/<user>/.gerritcodereview/bazel-cache
 [NOTE] `experimental_repository_cache` must be absolute path. Expansion of `~` is
 unfortunately not supported yet. This is also the reason why we can't activate this
 feature by default yet (by adjusting tools/bazel.rc file).
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

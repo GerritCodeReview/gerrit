@@ -1961,11 +1961,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void reviewerin() throws Exception {
     Account.Id user1 = accountManager.authenticate(AuthRequest.forUser("user1")).getAccountId();
     Account.Id user2 = accountManager.authenticate(AuthRequest.forUser("user2")).getAccountId();
+    Account.Id user3 = accountManager.authenticate(AuthRequest.forUser("user3")).getAccountId();
     TestRepository<Repo> repo = createProject("repo");
 
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
-    insert(repo, newChange(repo));
+    Change change3 = insert(repo, newChange(repo));
 
     AddReviewerInput rin = new AddReviewerInput();
     rin.reviewer = user1.toString();
@@ -1977,8 +1978,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     rin.state = ReviewerState.REVIEWER;
     gApi.changes().id(change2.getId().get()).addReviewer(rin);
 
+    rin = new AddReviewerInput();
+    rin.reviewer = user3.toString();
+    rin.state = ReviewerState.CC;
+    gApi.changes().id(change3.getId().get()).addReviewer(rin);
+
     String group = gApi.groups().create("foo").get().name;
-    gApi.groups().id(group).addMembers(user2.toString());
+    gApi.groups().id(group).addMembers(user2.toString(), user3.toString());
 
     List<String> members =
         gApi.groups()
@@ -1989,15 +1995,30 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .collect(toList());
     assertThat(members).contains(user2.toString());
 
-    assertQuery("reviewerin:\"Registered Users\"", change2, change1);
-    assertQuery("reviewerin:" + group, change2);
+    if (notesMigration.readChanges()) {
+      // CC and REVIEWER are separate in NoteDB
+      assertQuery("reviewerin:\"Registered Users\"", change2, change1);
+      assertQuery("reviewerin:" + group, change2);
+    } else {
+      // CC and REVIEWER are the same in ReviewDb
+      assertQuery("reviewerin:\"Registered Users\"", change3, change2, change1);
+      assertQuery("reviewerin:" + group, change3, change2);
+    }
 
     gApi.changes().id(change2.getId().get()).current().review(ReviewInput.approve());
     gApi.changes().id(change2.getId().get()).current().submit();
 
-    assertQuery("reviewerin:" + group, change2);
-    assertQuery("project:repo reviewerin:" + group, change2);
-    assertQuery("status:merged reviewerin:" + group, change2);
+    if (notesMigration.readChanges()) {
+      // CC and REVIEWER are separate in NoteDB
+      assertQuery("reviewerin:" + group, change2);
+      assertQuery("project:repo reviewerin:" + group, change2);
+      assertQuery("status:merged reviewerin:" + group, change2);
+    } else {
+      // CC and REVIEWER are the same in ReviewDb
+      assertQuery("reviewerin:" + group, change2, change3);
+      assertQuery("project:repo reviewerin:" + group, change2, change3);
+      assertQuery("status:merged reviewerin:" + group, change2);
+    }
   }
 
   @Test

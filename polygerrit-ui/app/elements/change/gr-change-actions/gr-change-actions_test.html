@@ -251,11 +251,12 @@ limitations under the License.
     });
 
     test('submit change', done => {
+      element.$.confirmSubmitDialog.$.confirm.focus = done;
       sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchChangeUpdates',
           () => { return Promise.resolve({isLatest: true}); });
-      const showDialogStub = sandbox.stub(element, '_showActionDialog');
+      sandbox.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
         revisions: {
           rev1: {_number: 1},
@@ -264,16 +265,9 @@ limitations under the License.
       };
       element.latestPatchNum = '2';
 
-      flush(() => {
-        const submitButton = element.$$('gr-button[data-action-key="submit"]');
-        assert.ok(submitButton);
-        MockInteractions.tap(submitButton);
-
-        assert.isTrue(showDialogStub.calledOnce);
-        assert.equal(showDialogStub.lastCall.args[0],
-            element.$.confirmSubmitDialog);
-        done();
-      });
+      const submitButton = element.$$('gr-button[data-action-key="submit"]');
+      assert.ok(submitButton);
+      MockInteractions.tap(submitButton);
     });
 
     test('_handleSubmitConfirm', () => {

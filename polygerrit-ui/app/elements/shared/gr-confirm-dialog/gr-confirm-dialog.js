@@ -70,5 +70,9 @@
     _handleKeydown(e) {
       if (this.confirmOnEnter && e.keyCode === 13) { this._handleConfirm(e); }
     },
+
+    resetFocus() {
+      this.$.confirm.focus();
+    },
   });
 })();

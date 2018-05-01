@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c707c88_bd0a0cd9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2419,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T01:40:39Z",
+      "side": 1,
+      "message": "a list of ChangeMessageInfo entities is returned.\n\ni.e. \"entities\" is missing in this sentence.",
+      "revId": "ab2cc428f50eade713b4646fd35b40c50f5c5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33b7e10_1b4d2e88",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T01:40:39Z",
+      "side": 1,
+      "message": "Don\u0027t use wildcard imports.\n\n(I\u0027m surprised gjf didn\u0027t warn about this)",
+      "revId": "ab2cc428f50eade713b4646fd35b40c50f5c5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14cc1df0_d5f85205",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T01:40:39Z",
+      "side": 1,
+      "message": "\"A list of...\"",
+      "range": {
+        "startLine": 281,
+        "startChar": 13,
+        "endLine": 281,
+        "endChar": 21
+      },
+      "revId": "ab2cc428f50eade713b4646fd35b40c50f5c5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27154aba_1dc33048",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T01:40:39Z",
+      "side": 1,
+      "message": "throws RestApiException",
+      "range": {
+        "startLine": 595,
+        "startChar": 46,
+        "endLine": 595,
+        "endChar": 47
+      },
+      "revId": "ab2cc428f50eade713b4646fd35b40c50f5c5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a805198_2e00c071",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T01:40:39Z",
+      "side": 1,
+      "message": "Don\u0027t use wildcard import",
+      "revId": "ab2cc428f50eade713b4646fd35b40c50f5c5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b29a3876_ef5772f9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeMessages.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T01:40:39Z",
+      "side": 1,
+      "message": "Could this be done with the stream API (filter, findAny)?  Or do we actually need to keep the index value?",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 0
+      },
+      "revId": "ab2cc428f50eade713b4646fd35b40c50f5c5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193a6c61_871bfdff",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T01:40:39Z",
+      "side": 1,
+      "message": "This method is doing a lot more than only creating a change.",
+      "range": {
+        "startLine": 113,
+        "startChar": 14,
+        "endLine": 113,
+        "endChar": 29
+      },
+      "revId": "ab2cc428f50eade713b4646fd35b40c50f5c5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

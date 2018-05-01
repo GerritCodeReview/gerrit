@@ -16,16 +16,23 @@ package com.google.gerrit.server.auth.oauth;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.IntKeyCacheSerializer;
+import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.io.IOException;
 
 @Singleton
 public class OAuthTokenCache {
@@ -37,9 +44,40 @@ public class OAuthTokenCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        persist(OAUTH_TOKENS, Account.Id.class, OAuthToken.class);
+        persist(OAUTH_TOKENS, Account.Id.class, OAuthToken.class)
+            .version(1)
+            .keySerializer(new IntKeyCacheSerializer<>(Account.Id::new))
+            .valueSerializer(new Serializer());
       }
     };
+  }
+
+  // Defined outside of OAuthToken class, since that is in the extensions package which doesn't have
+  // access to the serializer code.
+  @VisibleForTesting
+  static class Serializer implements CacheSerializer<OAuthToken> {
+    @Override
+    public byte[] serialize(OAuthToken object) throws IOException {
+      return ProtoCacheSerializers.toByteArray(
+          OAuthTokenProto.newBuilder()
+              .setToken(object.getToken())
+              .setSecret(object.getSecret())
+              .setRaw(object.getRaw())
+              .setExpiresAt(object.getExpiresAt())
+              .setProviderId(Strings.nullToEmpty(object.getProviderId()))
+              .build());
+    }
+
+    @Override
+    public OAuthToken deserialize(byte[] in) throws IOException {
+      OAuthTokenProto proto = OAuthTokenProto.parseFrom(in);
+      return new OAuthToken(
+          proto.getToken(),
+          proto.getSecret(),
+          proto.getRaw(),
+          proto.getExpiresAt(),
+          Strings.emptyToNull(proto.getProviderId()));
+    }
   }
 
   private final Cache<Account.Id, OAuthToken> cache;

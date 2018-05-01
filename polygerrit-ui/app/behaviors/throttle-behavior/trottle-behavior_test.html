@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>throttle-behavior</title>
+
+<script src="../../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../test/common-test-setup.html"/>
+<link rel="import" href="throttle-behavior.html">
+
+<test-fixture id="basic">
+  <template>
+    <test-element></test-element>
+  </template>
+</test-fixture>
+
+<script>
+  suite('throttle-behavior tests', () => {
+    let element;
+
+    suiteSetup(() => {
+      // Define a Polymer element that uses this behavior.
+      Polymer({
+        is: 'test-element',
+        behaviors: [Gerrit.ThrottleBehavior],
+      });
+    });
+
+    setup(() => {
+      element = fixture('basic');
+    });
+
+    test('throttle calls callback immediately', done => {
+      element.throttle('job', done, 1000000);
+    });
+
+    test('throttle calls callback once per interval', done => {
+      const stub = sinon.stub();
+      for (let i = 0; i < 100; i++) {
+        element.throttle('job', stub, 50);
+      }
+      assert.equal(stub.callCount, 1);
+
+      setTimeout(() => {
+        element.throttle('job', stub, 50);
+        assert.equal(stub.callCount, 2);
+        done();
+      }, 100);
+    });
+
+    test('different job names throttled separately', () => {
+      const stub = sinon.stub();
+
+      element.throttle('job1', stub, 100);
+      element.throttle('job1', stub, 100);
+      assert.equal(stub.callCount, 1);
+
+      element.throttle('job2', stub, 100);
+      element.throttle('job2', stub, 100);
+      element.throttle('job3', stub, 100);
+      element.throttle('job3', stub, 100);
+      assert.equal(stub.callCount, 3);
+    });
+
+    test('flusheing permits immediate execution', () => {
+      const stub = sinon.stub();
+      element.throttle('job', stub, 100);
+      element.flushThrottle('job');
+      element.throttle('job', stub, 100);
+      assert.equal(stub.callCount, 2);
+    });
+  });
+</script>

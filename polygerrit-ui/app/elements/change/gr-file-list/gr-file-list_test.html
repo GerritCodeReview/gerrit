@@ -533,20 +533,25 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.include(element._expandedFilePaths, element.diffs[0].path);
+        element.flushThrottle('toggle-diff');
         MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.notInclude(element._expandedFilePaths, element.diffs[0].path);
         element.$.fileCursor.setCursorAtIndex(1);
+        element.flushThrottle('toggle-diff');
         MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.include(element._expandedFilePaths, element.diffs[1].path);
 
+        element.flushThrottle('toggle-diff');
         MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
         for (const index in element.diffs) {
           if (!element.diffs.hasOwnProperty(index)) { continue; }
           assert.include(element._expandedFilePaths, element.diffs[index].path);
         }
+
+        element.flushThrottle('toggle-diff');
         MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
         for (const index in element.diffs) {
@@ -1364,6 +1369,7 @@ limitations under the License.
 
       // The file cusor is now at 1.
       assert.equal(element.$.fileCursor.index, 1);
+      element.flushThrottle('toggle-diff');
       MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
       flushAsynchronousOperations();
 

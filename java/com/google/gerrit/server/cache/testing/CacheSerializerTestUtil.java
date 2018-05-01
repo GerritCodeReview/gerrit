@@ -17,6 +17,7 @@ package com.google.gerrit.server.cache.testing;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.protobuf.ByteString;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -29,6 +30,14 @@ public class CacheSerializerTestUtil {
             Arrays.stream(clazz.getDeclaredFields())
                 .collect(ImmutableMap.toImmutableMap(Field::getName, Field::getGenericType)))
         .isEqualTo(expectedFields);
+  }
+
+  public static ByteString bytes(int... ints) {
+    byte[] bytes = new byte[ints.length];
+    for (int i = 0; i < ints.length; i++) {
+      bytes[i] = (byte) ints[i];
+    }
+    return ByteString.copyFrom(bytes);
   }
 
   private CacheSerializerTestUtil() {}

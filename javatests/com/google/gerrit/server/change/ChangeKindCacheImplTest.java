@@ -15,12 +15,12 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.cache.testing.CacheSerializerTestUtil;
-import com.google.protobuf.ByteString;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -53,13 +53,5 @@ public class ChangeKindCacheImplTest {
         ChangeKindCacheImpl.Key.class,
         ImmutableMap.of(
             "prior", ObjectId.class, "next", ObjectId.class, "strategyName", String.class));
-  }
-
-  private static ByteString bytes(int... ints) {
-    byte[] bytes = new byte[ints.length];
-    for (int i = 0; i < ints.length; i++) {
-      bytes[i] = (byte) ints[i];
-    }
-    return ByteString.copyFrom(bytes);
   }
 }

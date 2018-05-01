@@ -172,10 +172,7 @@ class OpenIdServiceImpl {
         pape.setMaxAuthAge(papeMaxAuthAge);
         aReq.addExtension(pape);
       }
-    } catch (MessageException e) {
-      log.error("Cannot create OpenID redirect for " + openidIdentifier, e);
-      return new DiscoveryResult(DiscoveryResult.Status.ERROR);
-    } catch (ConsumerException e) {
+    } catch (MessageException | ConsumerException e) {
       log.error("Cannot create OpenID redirect for " + openidIdentifier, e);
       return new DiscoveryResult(DiscoveryResult.Status.ERROR);
     }

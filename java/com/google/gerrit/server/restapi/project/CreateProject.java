@@ -45,7 +45,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -109,7 +109,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final MetaDataUpdate.User metaDataUpdateFactory;
   private final GitReferenceUpdated referenceUpdated;
   private final RepositoryConfig repositoryCfg;
-  private final PersonIdent serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final Provider<IdentifiedUser> identifiedUser;
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
@@ -131,7 +131,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       MetaDataUpdate.User metaDataUpdateFactory,
       GitReferenceUpdated referenceUpdated,
       RepositoryConfig repositoryCfg,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritPersonIdentFactory identFactory,
       Provider<IdentifiedUser> identifiedUser,
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
@@ -150,7 +150,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.referenceUpdated = referenceUpdated;
     this.repositoryCfg = repositoryCfg;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.identifiedUser = identifiedUser;
     this.putConfig = putConfig;
     this.allProjects = allProjects;
@@ -348,8 +348,9 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     try (ObjectInserter oi = repo.newObjectInserter()) {
       CommitBuilder cb = new CommitBuilder();
       cb.setTreeId(oi.insert(Constants.OBJ_TREE, new byte[] {}));
-      cb.setAuthor(metaDataUpdateFactory.getUserPersonIdent());
-      cb.setCommitter(serverIdent);
+      PersonIdent authorIdent = metaDataUpdateFactory.getUserPersonIdent();
+      cb.setAuthor(authorIdent);
+      cb.setCommitter(identFactory.create(authorIdent.getWhen()));
       cb.setMessage("Initial empty repository\n");
 
       ObjectId id = oi.insert(cb);

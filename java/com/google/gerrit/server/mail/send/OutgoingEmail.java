@@ -333,7 +333,7 @@ public abstract class OutgoingEmail {
   /** Lookup a human readable name for an account, usually the "full name". */
   protected String getNameFor(Account.Id accountId) {
     if (accountId == null) {
-      return args.gerritPersonIdent.getName();
+      return args.serverIdent.name();
     }
 
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::getAccount);

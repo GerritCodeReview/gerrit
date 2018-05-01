@@ -253,6 +253,6 @@ public class GroupsConsistencyIT extends AbstractDaemonTest {
 
   private void updateGroupFile(String refName, String fileName, String content) throws Exception {
     GroupTestUtil.updateGroupFile(
-        repoManager, allUsers, serverIdent.get(), refName, fileName, content);
+        repoManager, allUsers, identFactory.createAtCurrentTime(), refName, fileName, content);
   }
 }

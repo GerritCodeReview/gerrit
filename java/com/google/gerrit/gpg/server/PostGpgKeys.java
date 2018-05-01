@@ -39,7 +39,7 @@ import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
@@ -76,7 +76,7 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput> {
   private final Logger log = LoggerFactory.getLogger(getClass());
-  private final Provider<PersonIdent> serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
   private final GerritPublicKeyChecker.Factory checkerFactory;
@@ -87,7 +87,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
 
   @Inject
   PostGpgKeys(
-      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      GerritPersonIdentFactory identFactory,
       Provider<CurrentUser> self,
       Provider<PublicKeyStore> storeProvider,
       GerritPublicKeyChecker.Factory checkerFactory,
@@ -95,7 +95,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       Provider<InternalAccountQuery> accountQueryProvider,
       ExternalIds externalIds,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.self = self;
     this.storeProvider = storeProvider;
     this.checkerFactory = checkerFactory;
@@ -211,7 +211,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
         store.remove(fp.get());
       }
       CommitBuilder cb = new CommitBuilder();
-      PersonIdent committer = serverIdent.get();
+      PersonIdent committer = identFactory.createAtCurrentTime();
       cb.setAuthor(rsrc.getUser().newCommitterIdent(committer.getWhen(), committer.getTimeZone()));
       cb.setCommitter(committer);
 

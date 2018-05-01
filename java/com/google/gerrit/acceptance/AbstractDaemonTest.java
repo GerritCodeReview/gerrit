@@ -78,7 +78,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.ChangeFinder;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
@@ -161,7 +162,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -222,7 +222,8 @@ public abstract class AbstractDaemonTest {
       };
 
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
-  @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
+  @Inject protected GerritPersonIdentFactory identFactory;
+  @Inject protected GerritServerIdent serverIdent;
   @Inject @GerritServerConfig protected Config cfg;
   @Inject protected AcceptanceTestRequestScope atrScope;
   @Inject protected AccountCache accountCache;

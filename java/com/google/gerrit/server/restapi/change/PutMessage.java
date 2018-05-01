@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyUtil;
@@ -57,7 +56,6 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -84,7 +82,7 @@ public class PutMessage
       Provider<ReviewDb> db,
       PatchSetInserter.Factory psInserterFactory,
       PermissionBackend permissionBackend,
-      @GerritPersonIdent PersonIdent gerritIdent,
+      TimeZone tz,
       PatchSetUtil psUtil,
       NotifyUtil notifyUtil,
       ProjectCache projectCache) {
@@ -93,7 +91,7 @@ public class PutMessage
     this.userProvider = userProvider;
     this.db = db;
     this.psInserterFactory = psInserterFactory;
-    this.tz = gerritIdent.getTimeZone();
+    this.tz = tz;
     this.permissionBackend = permissionBackend;
     this.psUtil = psUtil;
     this.notifyUtil = notifyUtil;

@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritServerIdentModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.account.AccountCache;
@@ -166,6 +167,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(Realm.class).to(FakeRealm.class);
                 bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
                 bind(AccountCache.class).toInstance(accountCache);
+                install(new GerritServerIdentModule());
                 bind(PersonIdent.class)
                     .annotatedWith(GerritPersonIdent.class)
                     .toInstance(serverIdent);

@@ -25,7 +25,7 @@ import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
@@ -110,7 +110,7 @@ public class GroupsUpdate {
       AccountCache accountCache,
       RenameGroupOp.Factory renameGroupOpFactory,
       @GerritServerId String serverId,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritPersonIdentFactory identFactory,
       MetaDataUpdate.InternalFactory metaDataUpdateInternalFactory,
       GitReferenceUpdated gitRefUpdated,
       RetryHelper retryHelper,
@@ -127,6 +127,7 @@ public class GroupsUpdate {
     this.currentUser = currentUser;
 
     auditLogFormatter = AuditLogFormatter.createBackedBy(accountCache, groupBackend, serverId);
+    PersonIdent serverIdent = identFactory.createAtCurrentTime();
     metaDataUpdateFactory =
         getMetaDataUpdateFactory(
             metaDataUpdateInternalFactory, currentUser, serverIdent, auditLogFormatter);

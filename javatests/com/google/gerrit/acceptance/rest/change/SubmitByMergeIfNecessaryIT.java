@@ -103,7 +103,8 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         .isEqualTo(change2.getCommit().getShortMessage());
 
     assertPersonEquals(admin.getIdent(), headAfterSecondSubmit.getAuthorIdent());
-    assertPersonEquals(serverIdent.get(), headAfterSecondSubmit.getCommitterIdent());
+    assertPersonEquals(
+        identFactory.createAtCurrentTime(), headAfterSecondSubmit.getCommitterIdent());
 
     // First change stays untouched.
     assertNew(change.getChangeId());

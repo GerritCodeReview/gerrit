@@ -37,7 +37,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -88,7 +88,7 @@ public class CommitValidators {
 
   @Singleton
   public static class Factory {
-    private final PersonIdent gerritIdent;
+    private final GerritServerIdent serverIdent;
     private final String canonicalWebUrl;
     private final DynamicSet<CommitValidationListener> pluginValidators;
     private final GitRepositoryManager repoManager;
@@ -101,7 +101,7 @@ public class CommitValidators {
 
     @Inject
     Factory(
-        @GerritPersonIdent PersonIdent gerritIdent,
+        GerritServerIdent serverIdent,
         @CanonicalWebUrl @Nullable String canonicalWebUrl,
         @GerritServerConfig Config cfg,
         DynamicSet<CommitValidationListener> pluginValidators,
@@ -111,7 +111,7 @@ public class CommitValidators {
         ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
         AccountValidator accountValidator,
         ProjectCache projectCache) {
-      this.gerritIdent = gerritIdent;
+      this.serverIdent = serverIdent;
       this.canonicalWebUrl = canonicalWebUrl;
       this.pluginValidators = pluginValidators;
       this.repoManager = repoManager;
@@ -139,7 +139,7 @@ public class CommitValidators {
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
-              new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
+              new AmendedGerritMergeCommitValidationListener(perm, serverIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new CommitterUploaderValidator(user, perm, canonicalWebUrl),
               new SignedOffByValidator(user, perm, projectState),
@@ -171,7 +171,7 @@ public class CommitValidators {
           ImmutableList.of(
               new UploadMergesPermissionValidator(perm),
               new ProjectStateValidationListener(projectState),
-              new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
+              new AmendedGerritMergeCommitValidationListener(perm, serverIdent),
               new AuthorUploaderValidator(user, perm, canonicalWebUrl),
               new SignedOffByValidator(user, perm, projectCache.checkedGet(branch.getParentKey())),
               new ChangeIdValidator(
@@ -637,12 +637,11 @@ public class CommitValidators {
   public static class AmendedGerritMergeCommitValidationListener
       implements CommitValidationListener {
     private final PermissionBackend.ForRef perm;
-    private final PersonIdent gerritIdent;
+    private final GerritServerIdent serverIdent;
 
-    public AmendedGerritMergeCommitValidationListener(
-        PermissionBackend.ForRef perm, PersonIdent gerritIdent) {
+    public AmendedGerritMergeCommitValidationListener(ForRef perm, GerritServerIdent serverIdent) {
       this.perm = perm;
-      this.gerritIdent = gerritIdent;
+      this.serverIdent = serverIdent;
     }
 
     @Override
@@ -650,8 +649,8 @@ public class CommitValidators {
         throws CommitValidationException {
       PersonIdent author = receiveEvent.commit.getAuthorIdent();
       if (receiveEvent.commit.getParentCount() > 1
-          && author.getName().equals(gerritIdent.getName())
-          && author.getEmailAddress().equals(gerritIdent.getEmailAddress())) {
+          && author.getName().equals(serverIdent.name())
+          && author.getEmailAddress().equals(serverIdent.email())) {
         try {
           // Stop authors from amending the merge commits that Gerrit itself creates.
           perm.check(RefPermission.FORGE_SERVER);
@@ -660,7 +659,7 @@ public class CommitValidators {
               String.format(
                   "pushing merge commit %s by %s requires '%s' permission",
                   receiveEvent.commit.getId(),
-                  gerritIdent.getEmailAddress(),
+                  serverIdent.email(),
                   RefPermission.FORGE_SERVER.name()));
         } catch (PermissionBackendException e) {
           log.error("cannot check FORGE_SERVER", e);

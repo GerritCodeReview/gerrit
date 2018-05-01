@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.group;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -34,7 +35,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.UserInitiated;
@@ -62,9 +62,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
 public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
@@ -73,7 +73,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   }
 
   private final Provider<IdentifiedUser> self;
-  private final PersonIdent serverIdent;
+  private final TimeZone tz;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
   private final GroupCache groupCache;
   private final GroupsCollection groups;
@@ -88,7 +88,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   @Inject
   CreateGroup(
       Provider<IdentifiedUser> self,
-      @GerritPersonIdent PersonIdent serverIdent,
+      TimeZone tz,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       GroupCache groupCache,
       GroupsCollection groups,
@@ -100,7 +100,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       @Assisted String name,
       Sequences sequences) {
     this.self = self;
-    this.serverIdent = serverIdent;
+    this.tz = tz;
     this.groupsUpdateProvider = groupsUpdateProvider;
     this.groupCache = groupCache;
     this.groups = groups;
@@ -198,8 +198,7 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     AccountGroup.Id groupId = new AccountGroup.Id(sequences.nextGroupId());
     AccountGroup.UUID uuid =
         GroupUUID.make(
-            createGroupArgs.getGroupName(),
-            self.get().newCommitterIdent(serverIdent.getWhen(), serverIdent.getTimeZone()));
+            createGroupArgs.getGroupName(), self.get().newCommitterIdent(TimeUtil.nowTs(), tz));
     InternalGroupCreation groupCreation =
         InternalGroupCreation.builder()
             .setGroupUUID(uuid)

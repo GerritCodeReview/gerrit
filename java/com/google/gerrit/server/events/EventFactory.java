@@ -36,7 +36,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Emails;
@@ -91,7 +91,7 @@ public class EventFactory {
   private final Emails emails;
   private final Provider<String> urlProvider;
   private final PatchListCache patchListCache;
-  private final PersonIdent myIdent;
+  private final GerritServerIdent serverIdent;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeKindCache changeKindCache;
@@ -105,7 +105,7 @@ public class EventFactory {
       Emails emails,
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
       PatchListCache patchListCache,
-      @GerritPersonIdent PersonIdent myIdent,
+      GerritServerIdent serverIdent,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
       ChangeKindCache changeKindCache,
@@ -116,7 +116,7 @@ public class EventFactory {
     this.emails = emails;
     this.urlProvider = urlProvider;
     this.patchListCache = patchListCache;
-    this.myIdent = myIdent;
+    this.serverIdent = serverIdent;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeKindCache = changeKindCache;
@@ -646,9 +646,16 @@ public class EventFactory {
     a.reviewer =
         message.getAuthor() != null
             ? asAccountAttribute(message.getAuthor())
-            : asAccountAttribute(myIdent);
+            : newServerAccountAttribute();
     a.message = message.getMessage();
     return a;
+  }
+
+  private AccountAttribute newServerAccountAttribute() {
+    AccountAttribute who = new AccountAttribute();
+    who.name = serverIdent.name();
+    who.email = serverIdent.email();
+    return who;
   }
 
   public PatchSetCommentAttribute asPatchSetLineAttribute(Comment c) {

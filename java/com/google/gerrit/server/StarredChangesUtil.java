@@ -63,7 +63,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -167,7 +166,7 @@ public class StarredChangesUtil {
   private final GitReferenceUpdated gitRefUpdated;
   private final AllUsersName allUsers;
   private final Provider<ReviewDb> dbProvider;
-  private final PersonIdent serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final ChangeIndexer indexer;
   private final Provider<InternalChangeQuery> queryProvider;
 
@@ -177,14 +176,14 @@ public class StarredChangesUtil {
       GitReferenceUpdated gitRefUpdated,
       AllUsersName allUsers,
       Provider<ReviewDb> dbProvider,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritPersonIdentFactory identFactory,
       ChangeIndexer indexer,
       Provider<InternalChangeQuery> queryProvider) {
     this.repoManager = repoManager;
     this.gitRefUpdated = gitRefUpdated;
     this.allUsers = allUsers;
     this.dbProvider = dbProvider;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.indexer = indexer;
     this.queryProvider = queryProvider;
   }
@@ -242,7 +241,7 @@ public class StarredChangesUtil {
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
       batchUpdate.setAllowNonFastForwards(true);
-      batchUpdate.setRefLogIdent(serverIdent);
+      batchUpdate.setRefLogIdent(identFactory.createAtCurrentTime());
       batchUpdate.setRefLogMessage("Unstar change " + changeId.get(), true);
       for (Account.Id accountId : byChangeFromIndex(changeId).keySet()) {
         String refName = RefNames.refsStarredChanges(changeId, accountId);
@@ -452,7 +451,7 @@ public class StarredChangesUtil {
       u.setExpectedOldObjectId(oldObjectId);
       u.setForceUpdate(true);
       u.setNewObjectId(writeLabels(repo, labels));
-      u.setRefLogIdent(serverIdent);
+      u.setRefLogIdent(identFactory.createAtCurrentTime());
       u.setRefLogMessage("Update star labels", true);
       RefUpdate.Result result = u.update(rw);
       switch (result) {
@@ -482,7 +481,7 @@ public class StarredChangesUtil {
     RefUpdate u = repo.updateRef(refName);
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(oldObjectId);
-    u.setRefLogIdent(serverIdent);
+    u.setRefLogIdent(identFactory.createAtCurrentTime());
     u.setRefLogMessage("Unstar change", true);
     RefUpdate.Result result = u.delete();
     switch (result) {

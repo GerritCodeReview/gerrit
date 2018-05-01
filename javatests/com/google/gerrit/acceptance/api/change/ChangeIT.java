@@ -2675,19 +2675,20 @@ public class ChangeIT extends AbstractDaemonTest {
           rw.parseCommit(repo.exactRef(changeMetaRef(new Change.Id(c._number))).getObjectId());
 
       assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
+      PersonIdent serverIdent = identFactory.createAtCurrentTime();
       PersonIdent expectedAuthor =
-          changeNoteUtil.newIdent(getAccount(admin.id), c.updated, serverIdent.get());
+          changeNoteUtil.newIdent(getAccount(admin.id), c.updated, serverIdent);
       assertThat(commitPatchSetCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitPatchSetCreation.getCommitterIdent())
-          .isEqualTo(new PersonIdent(serverIdent.get(), c.updated));
+          .isEqualTo(new PersonIdent(serverIdent, c.updated));
       assertThat(commitPatchSetCreation.getParentCount()).isEqualTo(1);
 
       RevCommit commitChangeCreation = rw.parseCommit(commitPatchSetCreation.getParent(0));
       assertThat(commitChangeCreation.getShortMessage()).isEqualTo("Create change");
-      expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.created, serverIdent.get());
+      expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.created, serverIdent);
       assertThat(commitChangeCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitChangeCreation.getCommitterIdent())
-          .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
+          .isEqualTo(new PersonIdent(serverIdent, c.created));
       assertThat(commitChangeCreation.getParentCount()).isEqualTo(0);
     }
   }

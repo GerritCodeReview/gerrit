@@ -38,7 +38,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
@@ -82,7 +81,7 @@ public class CreateMergePatchSet
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
   private final CommitsCollection commits;
-  private final TimeZone serverTimeZone;
+  private final TimeZone tz;
   private final Provider<CurrentUser> user;
   private final ChangeJson.Factory jsonFactory;
   private final PatchSetUtil psUtil;
@@ -97,7 +96,7 @@ public class CreateMergePatchSet
       Provider<ReviewDb> db,
       GitRepositoryManager gitManager,
       CommitsCollection commits,
-      @GerritPersonIdent PersonIdent myIdent,
+      TimeZone tz,
       Provider<CurrentUser> user,
       ChangeJson.Factory json,
       PatchSetUtil psUtil,
@@ -111,7 +110,7 @@ public class CreateMergePatchSet
     this.db = db;
     this.gitManager = gitManager;
     this.commits = commits;
-    this.serverTimeZone = myIdent.getTimeZone();
+    this.tz = tz;
     this.user = user;
     this.jsonFactory = json;
     this.psUtil = psUtil;
@@ -168,7 +167,7 @@ public class CreateMergePatchSet
 
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
-      PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+      PersonIdent author = me.newCommitterIdent(now, tz);
       RevCommit newCommit =
           createMergeCommit(
               in,

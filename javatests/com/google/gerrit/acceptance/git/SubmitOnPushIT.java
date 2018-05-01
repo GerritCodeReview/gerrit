@@ -380,8 +380,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       assertThat(c.getParentCount()).isEqualTo(2);
       assertThat(c.getShortMessage()).isEqualTo("Merge \"" + subject + "\"");
       assertThat(c.getAuthorIdent().getEmailAddress()).isEqualTo(admin.email);
-      assertThat(c.getCommitterIdent().getEmailAddress())
-          .isEqualTo(serverIdent.get().getEmailAddress());
+      assertThat(c.getCommitterIdent().getEmailAddress()).isEqualTo(serverIdent.email());
     }
   }
 

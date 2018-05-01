@@ -17,7 +17,7 @@ package com.google.gerrit.server.git;
 import static com.google.common.base.MoreObjects.firstNonNull;
 
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.inject.Inject;
@@ -64,12 +64,12 @@ public class NotesBranchUtil {
 
   @Inject
   public NotesBranchUtil(
-      @GerritPersonIdent PersonIdent gerritIdent,
+      GerritPersonIdentFactory identFactory,
       GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey project,
       @Assisted Repository db,
       @Assisted ObjectInserter inserter) {
-    this.gerritIdent = gerritIdent;
+    this.gerritIdent = identFactory.createAtCurrentTime();
     this.gitRefUpdated = gitRefUpdated;
     this.project = project;
     this.db = db;

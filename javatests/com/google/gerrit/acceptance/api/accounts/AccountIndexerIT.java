@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountState;
@@ -52,7 +52,7 @@ public class AccountIndexerIT {
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
   @Inject private GitRepositoryManager repoManager;
   @Inject private AllUsersName allUsersName;
-  @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
+  @Inject private GerritPersonIdentFactory identFactory;
 
   @Test
   public void indexingUpdatesTheIndex() throws Exception {
@@ -158,7 +158,7 @@ public class AccountIndexerIT {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName);
         MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo)) {
-      PersonIdent ident = serverIdent.get();
+      PersonIdent ident = identFactory.createAtCurrentTime();
       md.getCommitBuilder().setAuthor(ident);
       md.getCommitBuilder().setCommitter(ident);
 

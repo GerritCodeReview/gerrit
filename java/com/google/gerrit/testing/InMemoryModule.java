@@ -32,6 +32,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.GerritServerIdentModule;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
@@ -170,6 +171,7 @@ public class InMemoryModule extends FactoryModule {
             });
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
+    install(new GerritServerIdentModule());
     install(new GerritApiModule());
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());

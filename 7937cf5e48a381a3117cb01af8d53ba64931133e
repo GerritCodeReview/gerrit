@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69751347_14b99a15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T23:38:26Z",
+      "side": 1,
+      "message": "upgrading",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "7937cf5e48a381a3117cb01af8d53ba64931133e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27ed5f37_5dc3f62c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-01T23:38:26Z",
+      "side": 1,
+      "message": "This is called not only for changes but also for accounts and groups (and projects, when merged up to master).\n\nSo this should be replaced by {} and `name` should be passed as an argument.",
+      "range": {
+        "startLine": 67,
+        "startChar": 45,
+        "endLine": 67,
+        "endChar": 56
+      },
+      "revId": "7937cf5e48a381a3117cb01af8d53ba64931133e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

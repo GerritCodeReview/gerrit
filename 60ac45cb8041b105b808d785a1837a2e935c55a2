@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41e526a2_8d9d9240",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-01T20:10:45Z",
+      "side": 1,
+      "message": "Why is the first install the correct signal of plugins being loaded? What exactly was wrong with the old approach of waiting for all pending plugins? And should we not wait for the _last_ Gerrit.install() call to finish?",
+      "revId": "60ac45cb8041b105b808d785a1837a2e935c55a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -41,7 +41,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ChangeUpdateExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -78,7 +77,6 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -331,7 +329,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       ChangeNotes.Factory changeNotesFactory,
       @ChangeUpdateExecutor ListeningExecutorService changeUpdateExector,
       ChangeUpdate.Factory changeUpdateFactory,
-      @GerritPersonIdent PersonIdent serverIdent,
+      TimeZone tz,
       GitReferenceUpdated gitRefUpdated,
       GitRepositoryManager repoManager,
       Metrics metrics,
@@ -342,7 +340,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
-    super(repoManager, serverIdent, project, user, when);
+    super(repoManager, tz, project, user, when);
     this.allUsers = allUsers;
     this.changeNotesFactory = changeNotesFactory;
     this.changeUpdateExector = changeUpdateExector;

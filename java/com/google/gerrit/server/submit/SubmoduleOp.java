@@ -25,7 +25,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -38,7 +38,6 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -96,7 +95,7 @@ public class SubmoduleOp {
   @Singleton
   public static class Factory {
     private final GitModules.Factory gitmodulesFactory;
-    private final Provider<PersonIdent> serverIdent;
+    private final GerritPersonIdentFactory serverIdentFactory;
     private final Config cfg;
     private final ProjectCache projectCache;
     private final BatchUpdate.Factory batchUpdateFactory;
@@ -104,12 +103,12 @@ public class SubmoduleOp {
     @Inject
     Factory(
         GitModules.Factory gitmodulesFactory,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent,
+        GerritPersonIdentFactory serverIdentFactory,
         @GerritServerConfig Config cfg,
         ProjectCache projectCache,
         BatchUpdate.Factory batchUpdateFactory) {
       this.gitmodulesFactory = gitmodulesFactory;
-      this.serverIdent = serverIdent;
+      this.serverIdentFactory = serverIdentFactory;
       this.cfg = cfg;
       this.projectCache = projectCache;
       this.batchUpdateFactory = batchUpdateFactory;
@@ -119,7 +118,7 @@ public class SubmoduleOp {
         throws SubmoduleException {
       return new SubmoduleOp(
           gitmodulesFactory,
-          serverIdent.get(),
+          serverIdentFactory.createAtCurrentTime(),
           cfg,
           projectCache,
           batchUpdateFactory,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d697711_23395e89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-02T18:35:31Z",
+      "side": 1,
+      "message": "I added a behavior since this seems useful and looks a lot tidier. However, it\u0027s only used once, so it would also make sense to do it manually in the gr-file-list.\n\nI think this looks right, but please let me know of you\u0027d rather this be done differently.",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "2f6c7f9c5b9a65597171c7db3355f770610636ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

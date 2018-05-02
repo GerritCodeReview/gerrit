@@ -75,7 +75,6 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ImmutableListMultimap.of(),
         ImmutableListMultimap.of(),
-        null,
         null);
   }
 
@@ -150,8 +149,7 @@ public abstract class ChangeNotesState {
         ImmutableList.copyOf(allChangeMessages),
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
         ImmutableListMultimap.copyOf(publishedComments),
-        readOnlyUntil,
-        revertOf);
+        readOnlyUntil);
   }
 
   /**
@@ -246,9 +244,6 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Timestamp readOnlyUntil();
-
-  @Nullable
-  abstract Change.Id revertOf();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");

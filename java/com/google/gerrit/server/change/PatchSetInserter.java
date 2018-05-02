@@ -311,7 +311,11 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   private void validate(RepoContext ctx)
-      throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+      throws AuthException, ResourceConflictException, IOException, PermissionBackendException,
+          OrmException {
+    // Not allowed to create a new patch set if the current patch set is locked.
+    psUtil.checkPatchSetNotLocked(origNotes, ctx.getUser());
+
     if (checkAddPatchSetPermission) {
       permissionBackend
           .user(ctx.getUser())

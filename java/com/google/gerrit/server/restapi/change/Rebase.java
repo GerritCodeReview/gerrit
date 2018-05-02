@@ -14,16 +14,12 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -81,6 +77,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   private final Provider<ReviewDb> dbProvider;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final PatchSetUtil patchSetUtil;
 
   @Inject
   public Rebase(
@@ -91,7 +88,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       ChangeJson.Factory json,
       Provider<ReviewDb> dbProvider,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      PatchSetUtil patchSetUtil) {
     super(retryHelper);
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
@@ -100,13 +98,17 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     this.dbProvider = dbProvider;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.patchSetUtil = patchSetUtil;
   }
 
   @Override
   protected ChangeInfo applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, RebaseInput input)
-      throws EmailException, OrmException, UpdateException, RestApiException, IOException,
-          NoSuchChangeException, PermissionBackendException {
+      throws OrmException, UpdateException, RestApiException, IOException,
+          PermissionBackendException {
+    // Not allowed to rebase if the current patch set is locked.
+    patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes(), rsrc.getUser());
+
     rsrc.permissions().database(dbProvider).check(ChangePermission.REBASE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
@@ -203,40 +205,54 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   }
 
   @Override
-  public UiAction.Description getDescription(RevisionResource resource) {
-    PatchSet patchSet = resource.getPatchSet();
-    Change change = resource.getChange();
-    Branch.NameKey dest = change.getDest();
-    boolean visible = change.getStatus().isOpen() && resource.isCurrent();
-    boolean enabled = false;
+  public UiAction.Description getDescription(RevisionResource rsrc) {
+    UiAction.Description description =
+        new UiAction.Description()
+            .setLabel("Rebase")
+            .setTitle("Rebase onto tip of branch or parent change")
+            .setVisible(false);
+
+    Change change = rsrc.getChange();
+    if (!(change.getStatus().isOpen() && rsrc.isCurrent())) {
+      return description;
+    }
 
     try {
-      visible &= projectCache.checkedGet(resource.getProject()).statePermitsWrite();
-    } catch (IOException e) {
-      log.error("Failed to check if project state permits write: " + resource.getProject(), e);
-      visible = false;
-    }
-
-    if (visible) {
-      try (Repository repo = repoManager.openRepository(dest.getParentKey());
-          RevWalk rw = new RevWalk(repo)) {
-        visible = hasOneParent(rw, resource.getPatchSet());
-        if (visible) {
-          enabled = rebaseUtil.canRebase(patchSet, dest, repo, rw);
-        }
-      } catch (IOException e) {
-        log.error("Failed to check if patch set can be rebased: " + resource.getPatchSet(), e);
-        visible = false;
+      if (!projectCache.checkedGet(rsrc.getProject()).statePermitsWrite()) {
+        return description;
       }
+    } catch (IOException e) {
+      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+      return description;
     }
 
-    BooleanCondition permissionCond =
-        resource.permissions().database(dbProvider).testCond(ChangePermission.REBASE);
-    return new UiAction.Description()
-        .setLabel("Rebase")
-        .setTitle("Rebase onto tip of branch or parent change")
-        .setVisible(and(visible, permissionCond))
-        .setEnabled(and(enabled, permissionCond));
+    try {
+      if (patchSetUtil.isPatchSetLocked(rsrc.getNotes(), rsrc.getUser())) {
+        return description;
+      }
+    } catch (OrmException | IOException e) {
+      log.error(
+          String.format(
+              "Failed to check if the current patch set of change %s is locked", change.getId()),
+          e);
+      return description;
+    }
+
+    boolean enabled = false;
+    try (Repository repo = repoManager.openRepository(change.getDest().getParentKey());
+        RevWalk rw = new RevWalk(repo)) {
+      if (hasOneParent(rw, rsrc.getPatchSet())) {
+        enabled = rebaseUtil.canRebase(rsrc.getPatchSet(), change.getDest(), repo, rw);
+      }
+    } catch (IOException e) {
+      log.error("Failed to check if patch set can be rebased: " + rsrc.getPatchSet(), e);
+      return description;
+    }
+
+    if (rsrc.permissions().database(dbProvider).testOrFalse(ChangePermission.REBASE)) {
+      return description.setVisible(true).setEnabled(enabled);
+    }
+    return description;
   }
 
   public static class CurrentRevision
@@ -254,7 +270,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     @Override
     protected ChangeInfo applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
-        throws EmailException, OrmException, UpdateException, RestApiException, IOException,
+        throws OrmException, UpdateException, RestApiException, IOException,
             PermissionBackendException {
       PatchSet ps = psUtil.current(rebase.dbProvider.get(), rsrc.getNotes());
       if (ps == null) {

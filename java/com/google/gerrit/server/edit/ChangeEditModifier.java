@@ -394,7 +394,8 @@ public class ChangeEditModifier {
   }
 
   private void assertCanEdit(ChangeNotes notes)
-      throws AuthException, PermissionBackendException, IOException, ResourceConflictException {
+      throws AuthException, PermissionBackendException, IOException, ResourceConflictException,
+          OrmException {
     if (!currentUser.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -406,6 +407,8 @@ public class ChangeEditModifier {
               "change %s is %s", c.getChangeId(), c.getStatus().toString().toLowerCase()));
     }
 
+    // Not allowed to edit if the current patch set is locked.
+    patchSetUtil.checkPatchSetNotLocked(notes, currentUser.get());
     try {
       permissionBackend
           .currentUser()

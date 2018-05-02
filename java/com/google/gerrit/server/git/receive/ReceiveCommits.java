@@ -2452,6 +2452,13 @@ class ReceiveCommits {
 
       RevCommit newCommit = rp.getRevWalk().parseCommit(newCommitId);
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+
+      // Not allowed to create a new patch set if the current patch set is locked.
+      if (psUtil.isPatchSetLocked(notes, user)) {
+        reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
+        return false;
+      }
+
       try {
         permissions.change(notes).database(db).check(ChangePermission.ADD_PATCH_SET);
       } catch (AuthException no) {

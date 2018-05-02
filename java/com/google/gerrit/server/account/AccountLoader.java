@@ -15,9 +15,11 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Throwables;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
@@ -33,7 +35,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Provides methods to fill in {@link AccountInfo}s lazily. Accounts can be queued up for filling by
+ * calling {@code get} or {@code put} and are filled once {@code fill} is called.
+ *
+ * <p>This class is thread-safe.
+ */
 public class AccountLoader {
   public static final Set<FillOptions> DETAILED_OPTIONS =
       Collections.unmodifiableSet(
@@ -52,9 +61,11 @@ public class AccountLoader {
   }
 
   private final InternalAccountDirectory directory;
-  private final Set<FillOptions> options;
+  private final ImmutableSet<FillOptions> options;
   private final Map<Account.Id, AccountInfo> created;
   private final List<AccountInfo> provided;
+
+  private AtomicBoolean fillingCompleted;
 
   @AssistedInject
   AccountLoader(InternalAccountDirectory directory, @Assisted boolean detailed) {
@@ -64,12 +75,26 @@ public class AccountLoader {
   @AssistedInject
   AccountLoader(InternalAccountDirectory directory, @Assisted Set<FillOptions> options) {
     this.directory = directory;
-    this.options = options;
-    created = new HashMap<>();
-    provided = new ArrayList<>();
+    this.options = ImmutableSet.copyOf(options);
+    created = Collections.synchronizedMap(new HashMap<>());
+    provided = Collections.synchronizedList(new ArrayList<>());
+    fillingCompleted = new AtomicBoolean(false);
   }
 
-  public synchronized AccountInfo get(Account.Id id) {
+  /**
+   * Returns an {@link AccountInfo} that contains only the provided {@link Account.Id}. Deduplicates
+   * {@link AccountInfo}s by their {@link Account.Id}.
+   *
+   * <p>Callers are not supposed to mutate the returned value while calling methods on this class.
+   *
+   * <p>Calling this method after {@link #fill()} was called will throw an {@link
+   * IllegalStateException}.
+   *
+   * @param id that the {@link AccountInfo} is for
+   * @return {@link AccountInfo} based on the provided id
+   */
+  public AccountInfo get(Account.Id id) {
+    checkState(!fillingCompleted.get(), "fill() was already called");
     if (id == null) {
       return null;
     }
@@ -81,30 +106,65 @@ public class AccountLoader {
     return info;
   }
 
-  public synchronized void put(AccountInfo info) {
+  /**
+   * Stores an {@link AccountInfo} for later filling.
+   *
+   * <p>Callers are not supposed to mutate the returned value while calling methods on this class.
+   *
+   * <p>Calling this method after {@link #fill()} was called will throw an {@link
+   * IllegalStateException}.
+   *
+   * @param info that should be filled with details later on
+   */
+  public void put(AccountInfo info) {
+    checkState(!fillingCompleted.get(), "fill() was already called");
     checkArgument(info._accountId != null, "_accountId field required");
     provided.add(info);
   }
 
-  public void fill() throws OrmException {
+  /**
+   * Fills all {@link AccountInfo} objects that were previously provided through {@link
+   * #get(Account.Id)} and {@link #put(AccountInfo)} with data.
+   *
+   * <p>Can be called only once. Successive calls will throw an {@link IllegalStateException}.
+   */
+  public synchronized void fill() throws OrmException {
+    checkState(!fillingCompleted.get(), "fill() was already called before");
+    // Make a copy of the concurrent data structures so that they are only used inside this class.
+    // This makes it so that implementation changes in InternalAccountDirectory do not affect
+    // locking on these collections.
+    ImmutableList.Builder<AccountInfo> accountInfos =
+        ImmutableList.<AccountInfo>builder().addAll(created.values()).addAll(provided);
+    fill(accountInfos.build());
+    fillingCompleted.set(true);
+  }
+
+  /**
+   * Fills all provided {@link AccountInfo} objects with data.
+   *
+   * <p>Does not cache results internally between consecutive calls. Does not touch any internal
+   * object state. Can be called multiple times in succession.
+   */
+  public void fill(Collection<? extends AccountInfo> infos) throws OrmException {
+    infos.forEach(a -> checkArgument(a._accountId != null, "_accountId field required"));
+
     try {
-      directory.fillAccountInfo(Iterables.concat(created.values(), provided), options);
+      directory.fillAccountInfo(infos, options);
     } catch (DirectoryException e) {
       Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
       throw new OrmException(e);
     }
   }
 
-  public void fill(Collection<? extends AccountInfo> infos) throws OrmException {
-    for (AccountInfo info : infos) {
-      put(info);
-    }
-    fill();
-  }
-
+  /**
+   * Returns a filled {@link AccountInfo} object for the provided {@link Account.Id}.
+   *
+   * <p>Does not cache results internally between consecutive calls. Does not touch any internal
+   * object state. Can be called multiple times in succession.
+   */
   public AccountInfo fillOne(Account.Id id) throws OrmException {
-    AccountInfo info = get(id);
-    fill();
+    AccountInfo info = new AccountInfo(id.get());
+    fill(ImmutableList.of(info));
     return info;
   }
 }

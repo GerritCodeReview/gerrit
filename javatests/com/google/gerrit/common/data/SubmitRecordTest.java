@@ -21,9 +21,9 @@ import java.util.Collection;
 import org.junit.Test;
 
 public class SubmitRecordTest {
-  private static SubmitRecord OK_RECORD;
-  private static SubmitRecord FORCED_RECORD;
-  private static SubmitRecord NOT_READY_RECORD;
+  private static final SubmitRecord OK_RECORD;
+  private static final SubmitRecord FORCED_RECORD;
+  private static final SubmitRecord NOT_READY_RECORD;
 
   static {
     OK_RECORD = new SubmitRecord();

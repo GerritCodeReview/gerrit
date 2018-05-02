@@ -116,6 +116,7 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.GpgApiAdapter;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -157,6 +158,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -272,6 +274,7 @@ public class ChangeJson {
   private final RemoveReviewerControl removeReviewerControl;
   private final TrackingFooters trackingFooters;
   private final Metrics metrics;
+  private final boolean enableParallelFormatting;
   private final ExecutorService fanOutExecutor;
 
   private boolean lazyLoad = true;
@@ -306,6 +309,7 @@ public class ChangeJson {
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
       Metrics metrics,
+      @GerritServerConfig Config config,
       @FanOutExecutor ExecutorService fanOutExecutor,
       @Assisted Iterable<ListChangesOption> options) {
     this.db = db;
@@ -333,6 +337,7 @@ public class ChangeJson {
     this.removeReviewerControl = removeReviewerControl;
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;
+    this.enableParallelFormatting = config.getBoolean("change", "enableParallelFormatting", false);
     this.fanOutExecutor = fanOutExecutor;
     this.options = Sets.immutableEnumSet(options);
   }
@@ -503,7 +508,7 @@ public class ChangeJson {
       }
 
       long numProjects = changes.stream().map(c -> c.project()).distinct().count();
-      if (!lazyLoad || changes.size() < 3 || numProjects < 2) {
+      if (!enableParallelFormatting || !lazyLoad || changes.size() < 3 || numProjects < 2) {
         // Format these changes in the request thread as the multithreading overhead would be too
         // high.
         List<ChangeInfo> result = new ArrayList<>(changes.size());

@@ -1171,6 +1171,15 @@ performance improvements by reducing the number of refs in the repo.
 +
 Default is true.
 
+[[change.enableParallelFormatting]]change.enableParallelFormatting::
++
+Whether or not changes can be formatted in parallel when requesting
+multiple changes at once. An example for this are Dashboards.
++
+This setting is experimental.
++
+Default is `false`.
+
 [[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
 +
 Show assignee field in changes table. If set to false, assignees will

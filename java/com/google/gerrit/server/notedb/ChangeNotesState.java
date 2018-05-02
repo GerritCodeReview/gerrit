@@ -76,9 +76,6 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.of(),
         ImmutableListMultimap.of(),
         null,
-        null,
-        null,
-        true,
         null);
   }
 
@@ -112,8 +109,8 @@ public abstract class ChangeNotesState {
       ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
       ListMultimap<RevId, Comment> publishedComments,
       @Nullable Timestamp readOnlyUntil,
-      @Nullable Boolean isPrivate,
-      @Nullable Boolean workInProgress,
+      boolean isPrivate,
+      boolean workInProgress,
       boolean hasReviewStarted,
       @Nullable Change.Id revertOf) {
     return new AutoValue_ChangeNotesState(
@@ -151,9 +148,6 @@ public abstract class ChangeNotesState {
         ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
         ImmutableListMultimap.copyOf(publishedComments),
         readOnlyUntil,
-        isPrivate,
-        workInProgress,
-        hasReviewStarted,
         revertOf);
   }
 
@@ -198,14 +192,11 @@ public abstract class ChangeNotesState {
     @Nullable
     abstract Change.Status status();
 
-    @Nullable
-    abstract Boolean isPrivate();
+    abstract boolean isPrivate();
 
-    @Nullable
-    abstract Boolean isWorkInProgress();
+    abstract boolean isWorkInProgress();
 
-    @Nullable
-    abstract Boolean hasReviewStarted();
+    abstract boolean hasReviewStarted();
 
     @Nullable
     abstract Change.Id revertOf();
@@ -252,15 +243,6 @@ public abstract class ChangeNotesState {
 
   @Nullable
   abstract Timestamp readOnlyUntil();
-
-  @Nullable
-  abstract Boolean isPrivate();
-
-  @Nullable
-  abstract Boolean isWorkInProgress();
-
-  @Nullable
-  abstract Boolean hasReviewStarted();
 
   @Nullable
   abstract Change.Id revertOf();
@@ -322,9 +304,9 @@ public abstract class ChangeNotesState {
     change.setLastUpdatedOn(c.lastUpdatedOn());
     change.setSubmissionId(c.submissionId());
     change.setAssignee(c.assignee());
-    change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
-    change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
-    change.setReviewStarted(c.hasReviewStarted() == null ? false : c.hasReviewStarted());
+    change.setPrivate(c.isPrivate());
+    change.setWorkInProgress(c.isWorkInProgress());
+    change.setReviewStarted(c.hasReviewStarted());
     change.setRevertOf(c.revertOf());
 
     if (!patchSets().isEmpty()) {

@@ -671,17 +671,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public boolean isPrivate() {
-    if (state.isPrivate() == null) {
-      return false;
-    }
-    return state.isPrivate();
+    return state.columns().isPrivate();
   }
 
   public boolean isWorkInProgress() {
-    if (state.isWorkInProgress() == null) {
-      return false;
-    }
-    return state.isWorkInProgress();
+    return state.columns().isWorkInProgress();
   }
 
   public Change.Id getRevertOf() {
@@ -689,7 +683,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public boolean hasReviewStarted() {
-    return state.hasReviewStarted();
+    return state.columns().hasReviewStarted();
   }
 
   @Override

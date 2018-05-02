@@ -63,9 +63,6 @@ limitations under the License.
         <span class="email">
           [[_computeEmailStr(account)]]
         </span>
-        <template is="dom-if" if="[[account.status]]">
-          (<gr-limited-text limit="20" text="[[account.status]]"></gr-limited-text>)
-        </template>
       </span>
     </span>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

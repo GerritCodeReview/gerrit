@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf0c3581_b295997e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-02T01:02:42Z",
+      "side": 1,
+      "message": "Let\u0027s make the formatting of this message consistent with the one at L117",
+      "revId": "b46df35dec9851b3fdae032207374dbc2ddfcb3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

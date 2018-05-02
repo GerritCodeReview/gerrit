@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "2f3e8d7c_5cabca9c",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-02T11:52:06Z",
+      "side": 1,
+      "message": "Yes. Anyway I can\u0027t reproduce this even though I\u0027m sure I didn\u0027t change this manually.",
+      "parentUuid": "67c61294_6c1193e1",
+      "revId": "ab2cc428f50eade713b4646fd35b40c50f5c5ce0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14cc1df0_d5f85205",
         "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 1

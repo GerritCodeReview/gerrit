@@ -1078,7 +1078,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId1, psId2);
     assertThat(notes.getApprovals()).isNotEmpty();
-    assertThat(notes.getChangeMessagesByPatchSet()).isNotEmpty();
     assertThat(notes.getChangeMessages()).isNotEmpty();
     assertThat(notes.getComments()).isNotEmpty();
 
@@ -1095,7 +1094,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId1);
     assertThat(notes.getApprovals()).isEmpty();
-    assertThat(notes.getChangeMessagesByPatchSet()).isEmpty();
     assertThat(notes.getChangeMessages()).isEmpty();
     assertThat(notes.getComments()).isEmpty();
   }
@@ -1349,16 +1347,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putReviewer(changeOwner.getAccount().getId(), REVIEWER);
     update.setChangeMessage("Just a little code change.\n");
     update.commit();
-    PatchSet.Id ps1 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages = notes.getChangeMessagesByPatchSet();
-    assertThat(changeMessages.keySet()).containsExactly(ps1);
-
-    ChangeMessage cm = Iterables.getOnlyElement(changeMessages.get(ps1));
+    ChangeMessage cm = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm.getMessage()).isEqualTo("Just a little code change.\n");
     assertThat(cm.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
-    assertThat(cm.getPatchSetId()).isEqualTo(ps1);
+    assertThat(cm.getPatchSetId()).isEqualTo(c.currentPatchSetId());
   }
 
   @Test
@@ -1378,13 +1372,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setChangeMessage("Testing trailing double newline\n\n");
     update.commit();
-    PatchSet.Id ps1 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages = notes.getChangeMessagesByPatchSet();
-    assertThat(changeMessages).hasSize(1);
-
-    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
+    ChangeMessage cm1 = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm1.getMessage()).isEqualTo("Testing trailing double newline\n\n");
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
   }
@@ -1395,13 +1385,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setChangeMessage("Testing paragraph 1\n\nTesting paragraph 2\n\nTesting paragraph 3");
     update.commit();
-    PatchSet.Id ps1 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages = notes.getChangeMessagesByPatchSet();
-    assertThat(changeMessages).hasSize(1);
-
-    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
+    ChangeMessage cm1 = Iterables.getOnlyElement(notes.getChangeMessages());
     assertThat(cm1.getMessage())
         .isEqualTo(
             "Testing paragraph 1\n"
@@ -1429,15 +1415,15 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id ps2 = c.currentPatchSetId();
 
     ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages = notes.getChangeMessagesByPatchSet();
-    assertThat(changeMessages).hasSize(2);
+    assertThat(notes.getChangeMessages()).hasSize(2);
 
-    ChangeMessage cm1 = Iterables.getOnlyElement(changeMessages.get(ps1));
+    ChangeMessage cm1 = notes.getChangeMessages().get(0);
+    assertThat(cm1.getPatchSetId()).isEqualTo(ps1);
     assertThat(cm1.getMessage()).isEqualTo("This is the change message for the first PS.");
     assertThat(cm1.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
 
-    ChangeMessage cm2 = Iterables.getOnlyElement(changeMessages.get(ps2));
-    assertThat(cm1.getPatchSetId()).isEqualTo(ps1);
+    ChangeMessage cm2 = notes.getChangeMessages().get(1);
+    assertThat(cm2.getPatchSetId()).isEqualTo(ps2);
     assertThat(cm2.getMessage()).isEqualTo("This is the change message for the second PS.");
     assertThat(cm2.getAuthor()).isEqualTo(changeOwner.getAccount().getId());
     assertThat(cm2.getPatchSetId()).isEqualTo(ps2);
@@ -1459,10 +1445,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    ListMultimap<PatchSet.Id, ChangeMessage> changeMessages = notes.getChangeMessagesByPatchSet();
-    assertThat(changeMessages.keySet()).hasSize(1);
 
-    List<ChangeMessage> cm = changeMessages.get(ps1);
+    List<ChangeMessage> cm = notes.getChangeMessages();
     assertThat(cm).hasSize(2);
     assertThat(cm.get(0).getMessage()).isEqualTo("First change message.\n");
     assertThat(cm.get(0).getAuthor()).isEqualTo(changeOwner.getAccount().getId());

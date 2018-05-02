@@ -74,7 +74,6 @@ public abstract class ChangeNotesState {
         ImmutableList.of(),
         ImmutableList.of(),
         ImmutableListMultimap.of(),
-        ImmutableListMultimap.of(),
         null);
   }
 
@@ -104,8 +103,7 @@ public abstract class ChangeNotesState {
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
       List<SubmitRecord> submitRecords,
-      List<ChangeMessage> allChangeMessages,
-      ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
+      List<ChangeMessage> changeMessages,
       ListMultimap<RevId, Comment> publishedComments,
       @Nullable Timestamp readOnlyUntil,
       boolean isPrivate,
@@ -143,8 +141,7 @@ public abstract class ChangeNotesState {
         ImmutableList.copyOf(allPastReviewers),
         ImmutableList.copyOf(reviewerUpdates),
         ImmutableList.copyOf(submitRecords),
-        ImmutableList.copyOf(allChangeMessages),
-        ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
+        ImmutableList.copyOf(changeMessages),
         ImmutableListMultimap.copyOf(publishedComments),
         readOnlyUntil);
   }
@@ -233,9 +230,7 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableList<SubmitRecord> submitRecords();
 
-  abstract ImmutableList<ChangeMessage> allChangeMessages();
-
-  abstract ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet();
+  abstract ImmutableList<ChangeMessage> changeMessages();
 
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 

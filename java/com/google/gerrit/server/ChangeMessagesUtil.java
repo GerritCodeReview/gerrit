@@ -116,14 +116,6 @@ public class ChangeMessagesUtil {
     return notes.load().getChangeMessages();
   }
 
-  public Iterable<ChangeMessage> byPatchSet(ReviewDb db, ChangeNotes notes, PatchSet.Id psId)
-      throws OrmException {
-    if (!migration.readChanges()) {
-      return db.changeMessages().byPatchSet(psId);
-    }
-    return notes.load().getChangeMessagesByPatchSet().get(psId);
-  }
-
   public void addChangeMessage(ReviewDb db, ChangeUpdate update, ChangeMessage changeMessage)
       throws OrmException {
     checkState(

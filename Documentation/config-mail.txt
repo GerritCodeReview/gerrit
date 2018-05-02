@@ -11,7 +11,7 @@ the template language for Gerrit emails. Support for VTL has now been removed
 in favor of Soy, and Velocity templates that modify text emails are no longer
 supported.
 
-== Template Locations and Extensions:
+== Template Locations and Extensions
 
 The default example templates reside under:  `'$site_path'/etc/mail` and are
 terminated with the double extension `.soy.example`. Modifying these example
@@ -19,7 +19,7 @@ files will have no effect on the behavior of Gerrit.  However, copying an
 example template to an equivalently named file without the `.example` extension
 and modifying it will allow an administrator to customize the template.
 
-== Supported Mail Templates:
+== Supported Mail Templates
 
 Each mail that Gerrit sends out is controlled by at least one template.  These
 are listed below.  Change emails are influenced by two additional templates,

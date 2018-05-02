@@ -128,10 +128,7 @@ public class ChangeNotesCache {
           + P
           + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P
-          + list(state.allChangeMessages(), changeMessage())
-          // Just key overhead for map, already counted messages in previous.
-          + P
-          + map(state.changeMessagesByPatchSet().asMap(), patchSetId())
+          + list(state.changeMessages(), changeMessage())
           + P
           + map(state.publishedComments().asMap(), comment())
           + T // readOnlyUntil

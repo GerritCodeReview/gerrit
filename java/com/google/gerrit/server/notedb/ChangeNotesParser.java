@@ -45,7 +45,6 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
@@ -146,7 +145,6 @@ class ChangeNotesParser {
   private final Map<ApprovalKey, PatchSetApproval> approvals;
   private final List<PatchSetApproval> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
-  private final ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet;
 
   // Non-final private members filled in during the parsing process.
   private String branch;
@@ -194,7 +192,6 @@ class ChangeNotesParser {
     reviewerUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
-    changeMessagesByPatchSet = LinkedListMultimap.create();
     comments = MultimapBuilder.hashKeys().arrayListValues().build();
     patchSets = new HashMap<>();
     deletedPatchSets = new HashSet<>();
@@ -265,7 +262,6 @@ class ChangeNotesParser {
         buildReviewerUpdates(),
         submitRecords,
         buildAllMessages(),
-        buildMessagesByPatchSet(),
         comments,
         readOnlyUntil,
         firstNonNull(isPrivate, false),
@@ -317,13 +313,6 @@ class ChangeNotesParser {
 
   private List<ChangeMessage> buildAllMessages() {
     return Lists.reverse(allChangeMessages);
-  }
-
-  private ListMultimap<PatchSet.Id, ChangeMessage> buildMessagesByPatchSet() {
-    for (Collection<ChangeMessage> v : changeMessagesByPatchSet.asMap().values()) {
-      Collections.reverse((List<ChangeMessage>) v);
-    }
-    return changeMessagesByPatchSet;
   }
 
   private void parse(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -752,7 +741,6 @@ class ChangeNotesParser {
     changeMessage.setMessage(changeMsgString);
     changeMessage.setTag(tag);
     changeMessage.setRealAuthor(realAccountId);
-    changeMessagesByPatchSet.put(psId, changeMessage);
     allChangeMessages.add(changeMessage);
   }
 
@@ -1089,8 +1077,6 @@ class ChangeNotesParser {
     // (or otherwise missing) patch sets. This is safer than trying to prevent
     // insertion, as it will also filter out items racily added after the patch
     // set was deleted.
-    changeMessagesByPatchSet.keys().retainAll(patchSets.keySet());
-
     int pruned =
         pruneEntitiesForMissingPatchSets(allChangeMessages, ChangeMessage::getPatchSetId, missing);
     pruned +=

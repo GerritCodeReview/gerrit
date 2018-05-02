@@ -149,6 +149,26 @@ public final class ChangeMessage {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof ChangeMessage)) {
+      return false;
+    }
+    ChangeMessage m = (ChangeMessage) o;
+    return key.equals(m.key)
+        && Objects.equals(author, m.author)
+        && writtenOn.equals(m.writtenOn)
+        && Objects.equals(message, m.message)
+        && Objects.equals(patchset, m.patchset)
+        && Objects.equals(tag, m.tag)
+        && Objects.equals(realAuthor, m.realAuthor);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(key, author, writtenOn, message, patchset, tag, realAuthor);
+  }
+
+  @Override
   public String toString() {
     return "ChangeMessage{"
         + "key="

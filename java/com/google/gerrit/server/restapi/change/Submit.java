@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
@@ -33,12 +32,10 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -119,7 +116,6 @@ public class Submit
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
-  private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
@@ -141,7 +137,6 @@ public class Submit
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
-      ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeSuperSet> mergeSuperSet,
@@ -154,7 +149,6 @@ public class Submit
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
-    this.cmUtil = cmUtil;
     this.changeNotesFactory = changeNotesFactory;
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
@@ -237,10 +231,8 @@ public class Submit
       case MERGED:
         return change;
       case NEW:
-        ChangeMessage msg = getConflictMessage(rsrc);
-        if (msg != null) {
-          throw new ResourceConflictException(msg.getMessage());
-        }
+        throw new RestApiException(
+            "change unexpectedly had status " + change.getStatus() + " after submit attempt");
         // $FALL-THROUGH$
       case ABANDONED:
       default:
@@ -392,18 +384,6 @@ public class Submit
         .setTitle(Strings.emptyToNull(tp.replace(params)))
         .setVisible(true)
         .setEnabled(Boolean.TRUE.equals(enabled));
-  }
-
-  /**
-   * If the merge was attempted and it failed the system usually writes a comment as a ChangeMessage
-   * and sets status to NEW. Find the relevant message and return it.
-   */
-  public ChangeMessage getConflictMessage(RevisionResource rsrc) throws OrmException {
-    return FluentIterable.from(
-            cmUtil.byPatchSet(dbProvider.get(), rsrc.getNotes(), rsrc.getPatchSet().getId()))
-        .filter(cm -> cm.getAuthor() == null)
-        .last()
-        .orNull();
   }
 
   public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws OrmException, IOException {

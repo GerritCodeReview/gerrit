@@ -679,7 +679,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   }
 
   public Change.Id getRevertOf() {
-    return state.revertOf();
+    return state.columns().revertOf();
   }
 
   public boolean hasReviewStarted() {

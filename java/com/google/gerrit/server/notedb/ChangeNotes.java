@@ -670,22 +670,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.readOnlyUntil();
   }
 
-  public boolean isPrivate() {
-    return state.columns().isPrivate();
-  }
-
-  public boolean isWorkInProgress() {
-    return state.columns().isWorkInProgress();
-  }
-
-  public Change.Id getRevertOf() {
-    return state.columns().revertOf();
-  }
-
-  public boolean hasReviewStarted() {
-    return state.columns().hasReviewStarted();
-  }
-
   @Override
   protected void onLoad(LoadHandle handle)
       throws NoSuchChangeException, IOException, ConfigInvalidException {

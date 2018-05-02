@@ -21,13 +21,16 @@ import java.util.Collection;
 import org.junit.Test;
 
 public class SubmitRecordTest {
-
   private static SubmitRecord OK_RECORD;
+  private static SubmitRecord FORCED_RECORD;
   private static SubmitRecord NOT_READY_RECORD;
 
   static {
     OK_RECORD = new SubmitRecord();
     OK_RECORD.status = SubmitRecord.Status.OK;
+
+    FORCED_RECORD = new SubmitRecord();
+    FORCED_RECORD.status = SubmitRecord.Status.FORCED;
 
     NOT_READY_RECORD = new SubmitRecord();
     NOT_READY_RECORD.status = SubmitRecord.Status.NOT_READY;
@@ -44,6 +47,14 @@ public class SubmitRecordTest {
   @Test
   public void okWhenEmpty() {
     Collection<SubmitRecord> submitRecords = new ArrayList<>();
+
+    assertThat(SubmitRecord.allRecordsOK(submitRecords)).isTrue();
+  }
+
+  @Test
+  public void okWhenForced() {
+    Collection<SubmitRecord> submitRecords = new ArrayList<>();
+    submitRecords.add(FORCED_RECORD);
 
     assertThat(SubmitRecord.allRecordsOK(submitRecords)).isTrue();
   }

@@ -120,7 +120,6 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -269,7 +268,6 @@ public class ChangeJson {
   private final ChangeNotes.Factory notesFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeKindCache changeKindCache;
-  private final ChangeIndexCollection indexes;
   private final ApprovalsUtil approvalsUtil;
   private final RemoveReviewerControl removeReviewerControl;
   private final TrackingFooters trackingFooters;
@@ -304,7 +302,6 @@ public class ChangeJson {
       ChangeNotes.Factory notesFactory,
       ChangeResource.Factory changeResourceFactory,
       ChangeKindCache changeKindCache,
-      ChangeIndexCollection indexes,
       ApprovalsUtil approvalsUtil,
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
@@ -332,7 +329,6 @@ public class ChangeJson {
     this.notesFactory = notesFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeKindCache = changeKindCache;
-    this.indexes = indexes;
     this.approvalsUtil = approvalsUtil;
     this.removeReviewerControl = removeReviewerControl;
     this.trackingFooters = trackingFooters;
@@ -606,11 +602,7 @@ public class ChangeJson {
     out.project = in.getProject().get();
     out.branch = in.getDest().getShortName();
     out.topic = in.getTopic();
-    if (indexes.getSearchIndex().getSchema().hasField(ChangeField.ASSIGNEE)) {
-      if (in.getAssignee() != null) {
-        out.assignee = accountLoader.get(in.getAssignee());
-      }
-    }
+    out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();
     out.changeId = in.getKey().get();
     if (in.getStatus().isOpen()) {

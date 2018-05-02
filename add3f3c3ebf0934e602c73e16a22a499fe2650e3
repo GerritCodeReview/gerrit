@@ -45,6 +45,52 @@
       "revId": "add3f3c3ebf0934e602c73e16a22a499fe2650e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ef60724_e28e35f7",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-05-02T08:42:58Z",
+      "side": 1,
+      "message": "while you\u0027re here, add some doc to the methods. Is it OK to call fill() twice, for example?",
+      "range": {
+        "startLine": 96,
+        "startChar": 27,
+        "endLine": 96,
+        "endChar": 31
+      },
+      "revId": "add3f3c3ebf0934e602c73e16a22a499fe2650e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c44ff7_f5cb668f",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-05-02T08:42:58Z",
+      "side": 1,
+      "message": "this protects created and provided, but this mutates the info it contains. Shouldnt\u0027 you copy the info you receive in the put method too? Or document that info may not be modified after calling \u0027put\u0027.",
+      "range": {
+        "startLine": 103,
+        "startChar": 16,
+        "endLine": 103,
+        "endChar": 31
+      },
+      "revId": "add3f3c3ebf0934e602c73e16a22a499fe2650e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d119132c_d1efe73e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1159,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-02T06:59:50Z",
+      "side": 1,
+      "message": "Not sure how this is related to the API. Sounds to me like this is rather an implementation detail?",
+      "range": {
+        "startLine": 1159,
+        "startChar": 39,
+        "endLine": 1159,
+        "endChar": 75
+      },
+      "revId": "67fc11f71a1acede8099fec507e6096f94c2541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0405e487_a82414ee",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-02T06:59:50Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 1162,
+        "startChar": 46,
+        "endLine": 1162,
+        "endChar": 48
+      },
+      "revId": "67fc11f71a1acede8099fec507e6096f94c2541d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

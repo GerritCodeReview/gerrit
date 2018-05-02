@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2324ea6_c47fb7c0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1177,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-02T07:20:36Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 1177,
+        "startChar": 46,
+        "endLine": 1177,
+        "endChar": 49
+      },
+      "revId": "3e035652d0dde418a6b668a2f8e9e7fe010f8443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0b1976e_bca81ff4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-02T07:20:36Z",
+      "side": 1,
+      "message": "optional: Enable this in the init when \"Enable experimental features\" is selected?",
+      "revId": "3e035652d0dde418a6b668a2f8e9e7fe010f8443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

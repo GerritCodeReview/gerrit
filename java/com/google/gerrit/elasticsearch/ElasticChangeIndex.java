@@ -15,9 +15,9 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.gerrit.server.index.change.ChangeField.APPROVAL_CODEC;
-import static com.google.gerrit.server.index.change.ChangeField.CHANGE_CODEC;
-import static com.google.gerrit.server.index.change.ChangeField.PATCH_SET_CODEC;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_STATUSES;
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.nio.charset.StandardCharsets.UTF_8;

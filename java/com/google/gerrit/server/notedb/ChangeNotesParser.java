@@ -268,9 +268,9 @@ class ChangeNotesParser {
         buildMessagesByPatchSet(),
         comments,
         readOnlyUntil,
-        isPrivate,
-        workInProgress,
-        hasReviewStarted,
+        firstNonNull(isPrivate, false),
+        firstNonNull(workInProgress, false),
+        firstNonNull(hasReviewStarted, true),
         revertOf);
   }
 

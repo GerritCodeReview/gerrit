@@ -22,6 +22,30 @@
       "revId": "b9b8bb55e9218a0e8853fa97061936123c5e74da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f93358cf_c897f94d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-02T01:17:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c197df_8da86a3b",
+      "range": {
+        "startLine": 71,
+        "startChar": 20,
+        "endLine": 71,
+        "endChar": 35
+      },
+      "revId": "b9b8bb55e9218a0e8853fa97061936123c5e74da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,6 +52,24 @@
       "revId": "60ac45cb8041b105b808d785a1837a2e935c55a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9706efe9_df731c12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-02T03:47:20Z",
+      "side": 1,
+      "message": "\u003e the difference between installed and loaded\n\nCorrect, at the moment there is no difference. If a plugin fails to be installed, or it fails to be loaded - the result is the same.\n\n\u003e It seems like a plugin isn\u0027t actually fully loaded until it\u0027s done with all of its installs, at least to me.\n\nThat makes sense. However, should we show alerting messages, prevent user from taking action stc if one of the UI parts of the plugin fails to load? I think the answer is \"it depends\". This change is an attempt to make one thing that makes sense in current circumstances - e.i. if a plugin was able to be installed, that will not block the change actions.",
+      "parentUuid": "939369ef_7cef189c",
+      "revId": "60ac45cb8041b105b808d785a1837a2e935c55a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

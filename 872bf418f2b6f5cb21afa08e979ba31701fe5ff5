@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ef1b285_18899690",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-02T18:02:30Z",
+      "side": 1,
+      "message": "Since most of people uses same tool as reverse proxy(most likely HAProxy), it is possible to give snippet of the configuration to print username in the logs?\n\nOut of curiosity, are you removing that response header at the reverse proxy level before returning the response to the client?",
+      "revId": "872bf418f2b6f5cb21afa08e979ba31701fe5ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

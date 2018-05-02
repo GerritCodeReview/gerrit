@@ -564,12 +564,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   /** @return all change messages, in chronological order, oldest first. */
   public ImmutableList<ChangeMessage> getChangeMessages() {
-    return state.allChangeMessages();
-  }
-
-  /** @return change messages by patch set, in chronological order, oldest first. */
-  public ImmutableListMultimap<PatchSet.Id, ChangeMessage> getChangeMessagesByPatchSet() {
-    return state.changeMessagesByPatchSet();
+    return state.changeMessages();
   }
 
   /** @return inline comments on each revision. */

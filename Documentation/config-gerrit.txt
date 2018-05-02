@@ -2415,6 +2415,15 @@ Pattern to print user in Tomcat AccessLog.
 +
 Default value is true.
 
+[[http.addUserAsResponseHeader]]http.addUserAsResponseHeader::
++
+If true, the header 'User' will be added to the list of response headers so it
+can be accessed from a reverse proxy for logging purposes.
+
++
+Default value is false.
+
+
 [[httpd]]
 === Section httpd
 

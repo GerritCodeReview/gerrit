@@ -16,6 +16,70 @@
       "revId": "e9f48976e1aa8f0fe6f837b4aeb6dd5c9a1515a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03dfa7cd_210fb436",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-02T08:37:12Z",
+      "side": 1,
+      "message": "I checked, and no, it can\u0027t.",
+      "parentUuid": "c396339a_c2d56fa5",
+      "revId": "e9f48976e1aa8f0fe6f837b4aeb6dd5c9a1515a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d96f253b_76d8060c",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-02T08:37:12Z",
+      "side": 1,
+      "message": "Does this still behave as expected when `bin` gets re-assigned below?",
+      "range": {
+        "startLine": 947,
+        "startChar": 4,
+        "endLine": 947,
+        "endChar": 40
+      },
+      "revId": "e9f48976e1aa8f0fe6f837b4aeb6dd5c9a1515a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "844d7603_c0c0500e",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-02T08:37:12Z",
+      "side": 1,
+      "message": "The suppression above is for these lines.",
+      "range": {
+        "startLine": 954,
+        "startChar": 10,
+        "endLine": 956,
+        "endChar": 38
+      },
+      "revId": "e9f48976e1aa8f0fe6f837b4aeb6dd5c9a1515a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

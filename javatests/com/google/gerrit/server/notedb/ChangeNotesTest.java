@@ -3266,7 +3266,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void privateDefault() throws Exception {
     Change c = newChange();
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.isPrivate()).isFalse();
+    assertThat(notes.getChange().isPrivate()).isFalse();
   }
 
   @Test
@@ -3277,7 +3277,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.isPrivate()).isTrue();
+    assertThat(notes.getChange().isPrivate()).isTrue();
   }
 
   @Test
@@ -3292,7 +3292,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.isPrivate()).isFalse();
+    assertThat(notes.getChange().isPrivate()).isFalse();
   }
 
   @Test
@@ -3397,38 +3397,38 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void hasReviewStarted() throws Exception {
     ChangeNotes notes = newNotes(newChange());
-    assertThat(notes.hasReviewStarted()).isTrue();
+    assertThat(notes.getChange().hasReviewStarted()).isTrue();
 
     notes = newNotes(newWorkInProgressChange());
-    assertThat(notes.hasReviewStarted()).isFalse();
+    assertThat(notes.getChange().hasReviewStarted()).isFalse();
 
     Change c = newWorkInProgressChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isFalse();
+    assertThat(notes.getChange().hasReviewStarted()).isFalse();
 
     update = newUpdate(c, changeOwner);
     update.setWorkInProgress(true);
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isFalse();
+    assertThat(notes.getChange().hasReviewStarted()).isFalse();
 
     update = newUpdate(c, changeOwner);
     update.setWorkInProgress(false);
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isTrue();
+    assertThat(notes.getChange().hasReviewStarted()).isTrue();
 
     // Once review is started, setting WIP should have no impact.
     c = newChange();
     notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isTrue();
+    assertThat(notes.getChange().hasReviewStarted()).isTrue();
     update = newUpdate(c, changeOwner);
     update.setWorkInProgress(true);
     update.commit();
     notes = newNotes(c);
-    assertThat(notes.hasReviewStarted()).isTrue();
+    assertThat(notes.getChange().hasReviewStarted()).isTrue();
   }
 
   @Test
@@ -3493,7 +3493,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void revertOfIsNullByDefault() throws Exception {
     Change c = newChange();
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getRevertOf()).isNull();
+    assertThat(notes.getChange().getRevertOf()).isNull();
   }
 
   @Test
@@ -3504,7 +3504,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setChangeId(c.getKey().get());
     update.setRevertOf(changeToRevert.getId().get());
     update.commit();
-    assertThat(newNotes(c).getRevertOf()).isEqualTo(changeToRevert.getId());
+    assertThat(newNotes(c).getChange().getRevertOf()).isEqualTo(changeToRevert.getId());
   }
 
   @Test

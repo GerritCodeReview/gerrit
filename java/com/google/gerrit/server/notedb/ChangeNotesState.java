@@ -97,8 +97,8 @@ public abstract class ChangeNotesState {
       @Nullable String submissionId,
       @Nullable Account.Id assignee,
       @Nullable Change.Status status,
-      @Nullable Set<Account.Id> pastAssignees,
-      @Nullable Set<String> hashtags,
+      Set<Account.Id> pastAssignees,
+      Set<String> hashtags,
       Map<PatchSet.Id, PatchSet> patchSets,
       ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
@@ -116,9 +116,6 @@ public abstract class ChangeNotesState {
       @Nullable Boolean workInProgress,
       boolean hasReviewStarted,
       @Nullable Change.Id revertOf) {
-    if (hashtags == null) {
-      hashtags = ImmutableSet.of();
-    }
     return new AutoValue_ChangeNotesState(
         metaId,
         changeId,

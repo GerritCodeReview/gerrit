@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
@@ -253,7 +254,7 @@ class ChangeNotesParser {
         assignee != null ? assignee.orElse(null) : null,
         status,
         Sets.newLinkedHashSet(Lists.reverse(pastAssignees)),
-        hashtags,
+        firstNonNull(hashtags, ImmutableSet.of()),
         patchSets,
         buildApprovals(),
         ReviewerSet.fromTable(Tables.transpose(reviewers)),

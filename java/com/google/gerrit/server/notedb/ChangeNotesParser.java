@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
@@ -267,9 +268,9 @@ class ChangeNotesParser {
         buildMessagesByPatchSet(),
         comments,
         readOnlyUntil,
-        isPrivate,
-        workInProgress,
-        hasReviewStarted,
+        firstNonNull(isPrivate, false),
+        firstNonNull(workInProgress, false),
+        firstNonNull(hasReviewStarted, true),
         revertOf);
   }
 

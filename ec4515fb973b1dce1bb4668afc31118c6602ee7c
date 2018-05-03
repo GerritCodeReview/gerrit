@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25a4f682_ee8c0cf1",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-05-03T13:03:21Z",
+      "side": 1,
+      "message": "should be final",
+      "range": {
+        "startLine": 68,
+        "startChar": 10,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "ec4515fb973b1dce1bb4668afc31118c6602ee7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47bc0625_742ee064",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-05-03T13:03:21Z",
+      "side": 1,
+      "message": "What about ConcurrentHashMap? Provides a similar contract, without requiring synchronization",
+      "range": {
+        "startLine": 79,
+        "startChar": 14,
+        "endLine": 79,
+        "endChar": 58
+      },
+      "revId": "ec4515fb973b1dce1bb4668afc31118c6602ee7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "453c738b_403a6bb5",
+        "filename": "java/com/google/gerrit/server/account/AccountLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-05-03T13:03:21Z",
+      "side": 1,
+      "message": "I am not fan of synchronization on methods.\nCurrently, this method is synchronized. Each collection is synchronized and an AtomicBoolean is used. This is a bit redundant :-)\n\nThe atomic boolean could be replaced by a volatile boolean: no atomic operations are done on it (compareAndSet being the... only one).\n\nSynchronization on this method does not prevent other threads from calling get/put while it is processing data, as it doesn\u0027t set fillingCompleted to true.\nIt might be worth renaming the boolean into \"canBeModified\", to prevent modification as soon as #fill() is called (and not when it ends).",
+      "range": {
+        "startLine": 131,
+        "startChar": 9,
+        "endLine": 131,
+        "endChar": 21
+      },
+      "revId": "ec4515fb973b1dce1bb4668afc31118c6602ee7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

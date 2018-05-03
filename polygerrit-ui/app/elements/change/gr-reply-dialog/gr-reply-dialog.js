@@ -217,7 +217,8 @@
       _sendDisabled: {
         type: Boolean,
         computed: '_computeSendButtonDisabled(_sendButtonLabel, diffDrafts, ' +
-            'draft, _reviewersMutated, _labelsChanged, _includeComments)',
+            'draft, _reviewersMutated, _labelsChanged, _includeComments, ' +
+            'disabled)',
         observer: '_sendDisabledChanged',
       },
     },
@@ -859,10 +860,9 @@
     },
 
     _computeSendButtonDisabled(buttonLabel, drafts, text, reviewersMutated,
-        labelsChanged, includeComments) {
-      if (buttonLabel === ButtonLabels.START_REVIEW) {
-        return false;
-      }
+        labelsChanged, includeComments, disabled) {
+      if (disabled) { return true; }
+      if (buttonLabel === ButtonLabels.START_REVIEW) { return false; }
       const hasDrafts = includeComments && Object.keys(drafts).length;
       return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
     },

@@ -94,7 +94,7 @@ public class WorkQueue {
     this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1));
   }
 
-  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize) {
+  private WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize) {
     this.idGenerator = idGenerator;
     this.queues = new CopyOnWriteArrayList<>();
     this.defaultQueueSize = defaultThreadPoolSize;

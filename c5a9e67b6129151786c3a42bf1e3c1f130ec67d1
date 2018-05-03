@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fcf135e_0b89a080",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-03T17:17:16Z",
+      "side": 1,
+      "message": "Why is _confirm a separate function when it\u0027s only called in one place? Could we just put the event firing in _handleConfirmTap?",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 6
+      },
+      "revId": "c5a9e67b6129151786c3a42bf1e3c1f130ec67d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7204748f_7111ebe5",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-03T17:17:16Z",
+      "side": 1,
+      "message": "Replace this.fire with...\n\n  this.dispatchEvent(new CustomEvent(...));",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 6
+      },
+      "revId": "c5a9e67b6129151786c3a42bf1e3c1f130ec67d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

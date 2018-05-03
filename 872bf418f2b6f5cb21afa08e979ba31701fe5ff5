@@ -34,6 +34,47 @@
       "revId": "872bf418f2b6f5cb21afa08e979ba31701fe5ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d93960e9_eadafc19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-03T14:07:40Z",
+      "side": 1,
+      "message": "\u003e \u003e Since most of people uses same tool as reverse proxy(most likely\n \u003e HAProxy), it is possible to give snippet of the configuration to\n \u003e print username in the logs?\n \u003e \n \u003e Do you mean you want it in the documentation? I think the syntax\n \u003e differs a bit between haproxy versions. For 1.7.1 it is:\n \u003e \n \u003e capture response header \u003cheadername\u003e len \u003clength\u003e\n \u003e \n \u003e Hmm.. Not sure we want that kind of ever changing technical details\n \u003e in the Gerrit documentation.\n\nNo, I was thinking about commit message but you are right, who wants to know should refer to the reverse proxy documentation.\n\n\u003e \u003e Out of curiosity, are you removing that response header at the\n \u003e reverse proxy level before returning the response to the client?\n \u003e \n \u003e While we remove a header (ETag on a rest end point to enforce a non\n \u003e cached GET from the clients), it is not this one. I see no reason\n \u003e to remove it. Is there?\n\nI was asking because this feature is to send username from backend to reverse proxy so the client should not get this header even if harmless. I was asking more from a conceptual perspective, I know this extra header will not cause any issue.\n\n \u003e Can we cherry-pick this to 2.15? While it is a feature, it is a\n \u003e small one that is complementing an already existing setting.\n\nI am ok with this change on stable-2.15, let\u0027s see what the others think.",
+      "parentUuid": "92364588_45da42bc",
+      "revId": "872bf418f2b6f5cb21afa08e979ba31701fe5ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "635e914c_baac4009",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2424,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-03T14:07:40Z",
+      "side": 1,
+      "message": "Should we make the default to false to preserve current behavior?",
+      "range": {
+        "startLine": 2424,
+        "startChar": 17,
+        "endLine": 2424,
+        "endChar": 21
+      },
+      "revId": "872bf418f2b6f5cb21afa08e979ba31701fe5ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

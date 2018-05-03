@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69abf097_ef0f9c83",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-05-03T14:27:22Z",
+      "side": 1,
+      "message": "would also add gauge for scheduledTaskCount so that we could see how many tasks are currently waiting for execution. Cumulative will not give this info.",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 278,
+        "endChar": 13
+      },
+      "revId": "2630a27ed489a95a051c2ec686ffe87a96b106a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -34,9 +34,23 @@
       loggedIn: Boolean,
       _sortedThreads: {
         type: Array,
-        computed: '_computeSortedThreads(threads.*)',
+      },
+      _filteredThreads: {
+        type: Array,
+        computed: '_computeFilteredThreads(_sortedThreads, _unresolvedOnly, ' +
+            '_draftsOnly)',
+      },
+      _unresolvedOnly: {
+        type: Boolean,
+        value: false,
+      },
+      _draftsOnly: {
+        type: Boolean,
+        value: false,
       },
     },
+
+    observers: ['_computeSortedThreads(threads.*)'],
 
     _computeShowDraftToggle(loggedIn) {
       return loggedIn ? 'show' : '';
@@ -49,36 +63,59 @@
      *  - Resolved threads with drafts (reverse chronological)
      *  - Resolved threads without drafts (reverse chronological)
      * @param {!Object} changeRecord
-     * @return {!Array}
      */
     _computeSortedThreads(changeRecord) {
       const threads = changeRecord.base;
       if (!threads) { return []; }
-      return threads.map(this._getThreadWithSortInfo).sort((c1, c2) => {
-        const c1Date = c1.__date || util.parseDate(c1.updated);
-        const c2Date = c2.__date || util.parseDate(c2.updated);
-        const dateCompare = c2Date - c1Date;
-        if (c2.unresolved || c1.unresolved) {
-          if (!c1.unresolved) { return 1; }
-          if (!c2.unresolved) { return -1; }
-        }
-        if (c2.hasDraft || c1.hasDraft) {
-          if (!c1.hasDraft) { return 1; }
-          if (!c2.hasDraft) { return -1; }
-        }
+      this._updateSortedThreads(threads);
+    },
 
-        if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {
-          return 0;
+    _updateSortedThreads(threads) {
+      this._sortedThreads =
+          threads.map(this._getThreadWithSortInfo).sort((c1, c2) => {
+            const c1Date = c1.__date || util.parseDate(c1.updated);
+            const c2Date = c2.__date || util.parseDate(c2.updated);
+            const dateCompare = c2Date - c1Date;
+            if (c2.unresolved || c1.unresolved) {
+              if (!c1.unresolved) { return 1; }
+              if (!c2.unresolved) { return -1; }
+            }
+            if (c2.hasDraft || c1.hasDraft) {
+              if (!c1.hasDraft) { return 1; }
+              if (!c2.hasDraft) { return -1; }
+            }
+
+            if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {
+              return 0;
+            }
+            return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
+          });
+    },
+    _computeFilteredThreads(sortedThreads, unresolvedOnly, draftsOnly) {
+      return sortedThreads.filter(c => {
+        if (draftsOnly) {
+          return c.hasDraft;
+        } else if (unresolvedOnly) {
+          return c.unresolved;
+        } else {
+          return c;
         }
-        return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
       }).map(threadInfo => threadInfo.thread);
     },
 
     _getThreadWithSortInfo(thread) {
       const lastComment = thread.comments[thread.comments.length - 1] || {};
+
+      const lastNonDraftComment =
+          (lastComment.__draft && thread.comments.length > 1) ?
+          thread.comments[thread.comments.length - 2] :
+          lastComment;
+
       return {
         thread,
-        unresolved: !!lastComment.unresolved,
+        // Use the unresolved bit for the last non draft comment. This is what
+        // anybody other than the current user would see.
+        unresolved: !!lastNonDraftComment.unresolved,
         hasDraft: !!lastComment.__draft,
         updated: lastComment.updated,
       };
@@ -100,20 +137,16 @@
     },
 
     _handleCommentsChanged(e) {
+      // Reset threads so thread computations occur on deep array changes to
+      // threads comments that are not observed naturally.
+      this._updateSortedThreads(this.threads);
+
       this.dispatchEvent(new CustomEvent('thread-list-modified',
           {detail: {rootId: e.detail.rootId, path: e.detail.path}}));
     },
 
     _isOnParent(side) {
       return !!side;
-    },
-
-    _toggleUnresolved() {
-      this.$.threads.classList.toggle('unresolvedOnly');
-    },
-
-    _toggleDrafts() {
-      this.$.threads.classList.toggle('draftsOnly');
     },
   });
 })();

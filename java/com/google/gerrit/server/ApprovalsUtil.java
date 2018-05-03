@@ -108,7 +108,6 @@ public class ApprovalsUtil {
   }
 
   private final NotesMigration migration;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final ApprovalCopier copier;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
@@ -117,12 +116,10 @@ public class ApprovalsUtil {
   @Inject
   public ApprovalsUtil(
       NotesMigration migration,
-      IdentifiedUser.GenericFactory userFactory,
       ApprovalCopier copier,
       PermissionBackend permissionBackend,
       ProjectCache projectCache) {
     this.migration = migration;
-    this.userFactory = userFactory;
     this.copier = copier;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;

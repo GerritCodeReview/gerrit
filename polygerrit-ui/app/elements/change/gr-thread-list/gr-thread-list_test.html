@@ -37,15 +37,6 @@ limitations under the License.
     let element;
     let sandbox;
     let threadElements;
-    const computeVisibleNumber = threads => {
-      let count = 0;
-      for (const thread of threads) {
-        if (getComputedStyle(thread).display !== 'none') {
-          count++;
-        }
-      }
-      return count;
-    };
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -74,7 +65,7 @@ limitations under the License.
               in_reply_to: 'ecf0b9fa_fe1a5f62',
               updated: '2018-02-13 22:48:48.018000000',
               message: 'draft',
-              unresolved: true,
+              unresolved: false,
               __draft: true,
               __draftID: '0.m683trwff68',
               __editing: false,
@@ -196,7 +187,8 @@ limitations under the License.
     });
 
     test('there are five threads by default', () => {
-      assert.equal(computeVisibleNumber(threadElements), 5);
+      assert.equal(Polymer.dom(element.root)
+          .querySelectorAll('gr-diff-comment-thread').length, 5);
     });
 
     test('_computeSortedThreads', () => {
@@ -229,21 +221,24 @@ limitations under the License.
     test('toggle unresolved only shows unressolved comments', () => {
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadElements), 3);
+      assert.equal(Polymer.dom(element.root)
+          .querySelectorAll('gr-diff-comment-thread').length, 3);
     });
 
     test('toggle drafts only shows threads with draft comments', () => {
       MockInteractions.tap(element.$.draftToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadElements), 2);
+      assert.equal(Polymer.dom(element.root)
+          .querySelectorAll('gr-diff-comment-thread').length, 2);
     });
 
     test('toggle drafts and unresolved only shows threads with drafts and ' +
-        'unresolved', () => {
+        'publicly unresolved ', () => {
       MockInteractions.tap(element.$.draftToggle);
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
-      assert.equal(computeVisibleNumber(threadElements), 1);
+      assert.equal(Polymer.dom(element.root)
+          .querySelectorAll('gr-diff-comment-thread').length, 2);
     });
 
     test('modification events are consumed and displatched', () => {

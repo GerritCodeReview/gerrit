@@ -114,11 +114,12 @@ limitations under the License.
     });
 
     test('prev button', () => {
+      assert.isTrue(element._hidePrevArrow(true, 0));
       flush(() => {
         let offset = 0;
-        assert.isTrue(element._hidePrevArrow(offset));
+        assert.isTrue(element._hidePrevArrow(false, offset));
         offset = 5;
-        assert.isFalse(element._hidePrevArrow(offset));
+        assert.isFalse(element._hidePrevArrow(false, offset));
       });
     });
 

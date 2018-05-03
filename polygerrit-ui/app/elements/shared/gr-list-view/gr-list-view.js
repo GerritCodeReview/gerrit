@@ -84,8 +84,8 @@
       return createNew ? 'show' : '';
     },
 
-    _hidePrevArrow(offset) {
-      return offset === 0;
+    _hidePrevArrow(loading, offset) {
+      return loading || offset === 0;
     },
 
     _hideNextArrow(loading, items) {

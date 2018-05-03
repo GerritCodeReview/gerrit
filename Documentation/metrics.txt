@@ -67,6 +67,17 @@ formatQueryResults invocations in ChangeJson.
 * `query/query_latency`: Successful query latency, accumulated over the life
 of the process.
 
+=== Queue
+
+The metrics below are per queue. For each queue following metrics are reported.
+
+* `queue/<queueName>/poolSize`: Current number of threads in the pool
+* `queue/<queueName>/maxPoolSize`: Maximum allowed number of threads in the pool
+* `queue/<queueName>/activeThreads` : Number of threads that are actively executing tasks
+* `queue/<queryName>/scheduledTasks` : Number of scheduled tasks in the queue
+* `queue/<queryName>/totalScheduledTasksCount` : Total number of tasks that have been scheduled
+* `queue/<queryName>/totalCompletedTasksCount` : Total number of tasks that have completed execution
+
 === SSH sessions
 
 * `sshd/sessions/connected`: Number of currently connected SSH sessions.

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76313a90_fc2c6542",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-03T22:13:06Z",
+      "side": 1,
+      "message": "The issue is that updating a toggle will trigger the function that does the filtering, but it does not updated the original list of sorted threads. \n\nHere\u0027s a case where this is a problem (without the on-tap handler):\n- Have a comment thread without a draft\n- Add a draft to the thread\n- Save (or don\u0027t save, behaves the same either way)\n- Select the \u0027has draft\u0027 toggle\n- No comments appear\n\nhttp://recordit.co/76iWNJ15zC",
+      "parentUuid": "9e0b27df_cfa5f09a",
+      "range": {
+        "startLine": 74,
+        "startChar": 20,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ebff19f7_277b15e7",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-03T21:55:34Z",
       "side": 1,
       "message": "I\u0027m confused about the need for this. What computations is this for?\n\nIt\u0027s also confusing because this method doesn\u0027t sort or filter, like the name sorta suggests.",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 6
+      },
+      "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0711522_b5527c6f",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-03T22:13:06Z",
+      "side": 1,
+      "message": "See comment on other thread. I Agree I don\u0027t like this approach but was having trouble coming up with something that would work.",
+      "parentUuid": "ebff19f7_277b15e7",
       "range": {
         "startLine": 54,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "73f88407_14acff32",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-03T22:13:06Z",
+      "side": 1,
+      "message": "Yeah we can do that. I thought there was a reason that we didn\u0027t want to do this before.",
+      "parentUuid": "1813566e_316cd5d6",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 29
+      },
+      "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a4dae98_f88ac325",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b69d8a4_122de326",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-03T22:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a4dae98_f88ac325",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 26
+      },
+      "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

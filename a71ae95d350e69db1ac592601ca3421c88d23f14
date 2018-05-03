@@ -23,6 +23,30 @@
       "revId": "a71ae95d350e69db1ac592601ca3421c88d23f14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c0d01e5_0b110f84",
+        "filename": "java/com/google/gerrit/server/cache/CacheModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-03T12:58:32Z",
+      "side": 1,
+      "message": "Yes, this was the intent. In practice I\u0027m only using the PersistentCacheDef in our internal tests, but it would feel weird to not bind them both IMO.",
+      "parentUuid": "9089cd83_6cb5d89e",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 13
+      },
+      "revId": "a71ae95d350e69db1ac592601ca3421c88d23f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,7 +17,6 @@ package com.google.gerrit.metrics.dropwizard;
 import com.codahale.metrics.Metric;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -32,7 +31,6 @@ import org.kohsuke.args4j.Option;
 
 class ListMetrics implements RestReadView<ConfigResource> {
   private final PermissionBackend permissionBackend;
-  private final CurrentUser user;
   private final DropWizardMetricMaker metrics;
 
   @Option(name = "--data-only", usage = "return only values")
@@ -47,17 +45,15 @@ class ListMetrics implements RestReadView<ConfigResource> {
   List<String> query = new ArrayList<>();
 
   @Inject
-  ListMetrics(
-      PermissionBackend permissionBackend, CurrentUser user, DropWizardMetricMaker metrics) {
+  ListMetrics(PermissionBackend permissionBackend, DropWizardMetricMaker metrics) {
     this.permissionBackend = permissionBackend;
-    this.user = user;
     this.metrics = metrics;
   }
 
   @Override
   public Map<String, MetricJson> apply(ConfigResource resource)
       throws AuthException, PermissionBackendException {
-    permissionBackend.user(user).check(GlobalPermission.VIEW_CACHES);
+    permissionBackend.currentUser().check(GlobalPermission.VIEW_CACHES);
 
     SortedMap<String, MetricJson> out = new TreeMap<>();
     List<String> prefixes = new ArrayList<>(query.size());

@@ -46,6 +46,29 @@
       "revId": "2f6c7f9c5b9a65597171c7db3355f770610636ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cacb5c51_d52144cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-03T17:30:51Z",
+      "side": 1,
+      "message": "another possible idea, this could be \u0027i:keyup\u0027 and it will only trigger once per keypress, when the key is released.",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 9
+      },
+      "revId": "2f6c7f9c5b9a65597171c7db3355f770610636ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

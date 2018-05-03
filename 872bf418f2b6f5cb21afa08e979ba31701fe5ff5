@@ -16,6 +16,24 @@
       "revId": "872bf418f2b6f5cb21afa08e979ba31701fe5ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92364588_45da42bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-05-03T06:10:20Z",
+      "side": 1,
+      "message": "\u003e Since most of people uses same tool as reverse proxy(most likely HAProxy), it is possible to give snippet of the configuration to print username in the logs?\n\nDo you mean you want it in the documentation? I think the syntax differs a bit between haproxy versions. For 1.7.1 it is: \n\n        capture response header \u003cheadername\u003e len \u003clength\u003e\n\nHmm.. Not sure we want that kind of ever changing technical details in the Gerrit documentation. \n\n\u003e Out of curiosity, are you removing that response header at the reverse proxy level before returning the response to the client?\n\nWhile we remove a header (ETag on a rest end point to enforce a non cached GET from the clients), it is not this one. I see no reason to remove it. Is there?\n\nCan we cherry-pick this to 2.15? While it is a feature, it is a small one that is complementing an already existing setting.",
+      "parentUuid": "6ef1b285_18899690",
+      "revId": "872bf418f2b6f5cb21afa08e979ba31701fe5ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

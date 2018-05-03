@@ -32,11 +32,14 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
@@ -49,6 +52,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Utilities for manipulating patch sets. */
@@ -58,17 +63,20 @@ public class PatchSetUtil {
   private final Provider<ApprovalsUtil> approvalsUtilProvider;
   private final ProjectCache projectCache;
   private final Provider<ReviewDb> dbProvider;
+  private final GitRepositoryManager repoManager;
 
   @Inject
   PatchSetUtil(
       NotesMigration migration,
       Provider<ApprovalsUtil> approvalsUtilProvider,
       ProjectCache projectCache,
-      Provider<ReviewDb> dbProvider) {
+      Provider<ReviewDb> dbProvider,
+      GitRepositoryManager repoManager) {
     this.migration = migration;
     this.approvalsUtilProvider = approvalsUtilProvider;
     this.projectCache = projectCache;
     this.dbProvider = dbProvider;
+    this.repoManager = repoManager;
   }
 
   public PatchSet current(ReviewDb db, ChangeNotes notes) throws OrmException {
@@ -205,5 +213,17 @@ public class PatchSetUtil {
       }
     }
     return false;
+  }
+
+  public String getCommitMessage(Project.NameKey project, PatchSet patchSet)
+      throws PatchSetInfoNotAvailableException {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit src = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
+      rw.parseBody(src);
+      return src.getFullMessage();
+    } catch (IOException e) {
+      throw new PatchSetInfoNotAvailableException(e);
+    }
   }
 }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e0b27df_cfa5f09a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-03T21:55:34Z",
+      "side": 1,
+      "message": "Why are these needed? Shouldn\u0027t changing the `_draftsOnly` and `_unresolvedOnly` properties trigger a filtered list recomputation?",
+      "range": {
+        "startLine": 74,
+        "startChar": 20,
+        "endLine": 74,
+        "endChar": 36
+      },
+      "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebff19f7_277b15e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-03T21:55:34Z",
+      "side": 1,
+      "message": "I\u0027m confused about the need for this. What computations is this for?\n\nIt\u0027s also confusing because this method doesn\u0027t sort or filter, like the name sorta suggests.",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 6
+      },
+      "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1813566e_316cd5d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-03T21:55:34Z",
+      "side": 1,
+      "message": "This does a shallow clone on each thread, I wonder if this might be expensive if there are many threads. \n\nBut, luckily, since the `_sortedThreads` are no longer used directly in the dom-repeat, can we just return the array of `threadInfo` objects by dropping this `.map`?\n\nThen, `_computeFilteredThreads` could end with the same `.map(threadInfo \u003d\u003e threadInfo.thread)` that was used here before.",
+      "range": {
+        "startLine": 95,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 29
+      },
+      "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a4dae98_f88ac325",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-03T21:55:34Z",
+      "side": 1,
+      "message": "This nested ternary is a little hard to read. What do you think of\n\nconst lastNonDraftComment \u003d (lastComment.__draft \u0026\u0026 thread.comments.length \u003e 1) ?\n    thread.comments[thread.comments.length - 2] :\n    lastComment;",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 26
+      },
+      "revId": "32c19bae13428733834e13af9f24e3b7b16c1467",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

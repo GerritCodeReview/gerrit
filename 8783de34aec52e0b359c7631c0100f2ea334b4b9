@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2682ac57_00c3912c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-03T08:34:10Z",
+      "side": 1,
+      "message": "It seems in a few classes we migrate the caller although it still needs the CurrentUser object in this class. Is this intended (e.g.ReviewProjectAccess, DeleteComment, ListTasks, TasksCollection)?",
+      "range": {
+        "startLine": 11,
+        "startChar": 52,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "8783de34aec52e0b359c7631c0100f2ea334b4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8920aa25_acff8c6a",
+        "filename": "java/com/google/gerrit/server/account/AccountControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-03T08:34:10Z",
+      "side": 1,
+      "message": "user is not injected here, can be non-current user?",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 48
+      },
+      "revId": "8783de34aec52e0b359c7631c0100f2ea334b4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b915a82_6a40f63d",
+        "filename": "java/com/google/gerrit/server/account/GroupControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-03T08:34:10Z",
+      "side": 1,
+      "message": "user is not injected here, can be non-current user?",
+      "range": {
+        "startLine": 100,
+        "startChar": 16,
+        "endLine": 100,
+        "endChar": 48
+      },
+      "revId": "8783de34aec52e0b359c7631c0100f2ea334b4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b79002cd_8a17f1a2",
+        "filename": "java/com/google/gerrit/server/mail/send/AddKeySender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-03T08:34:10Z",
+      "side": 1,
+      "message": "callingUser is not injects and can be non-current user",
+      "revId": "8783de34aec52e0b359c7631c0100f2ea334b4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

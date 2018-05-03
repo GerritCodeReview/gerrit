@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79fd7e61_a2718d3a",
+        "filename": "java/com/google/gerrit/server/query/project/ProjectIsVisibleToPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-03T08:34:10Z",
+      "side": 0,
+      "message": "nit: unrelated modification",
+      "revId": "6ea8a15a2f2686af16c7951bb7cc7f1a82c67039",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

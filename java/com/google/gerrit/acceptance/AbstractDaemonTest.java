@@ -101,6 +101,8 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.Groups;
+import com.google.gerrit.server.index.account.AccountIndex;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -271,6 +273,7 @@ public abstract class AbstractDaemonTest {
   protected BlockStrategy noSleepBlockStrategy = t -> {}; // Don't sleep in tests.
 
   @Inject private ChangeIndexCollection changeIndexes;
+  @Inject private AccountIndexCollection accountIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private Provider<AnonymousUser> anonymousUser;
@@ -873,6 +876,23 @@ public abstract class AbstractDaemonTest {
         ChangeIndex searchIndex = changeIndexes.getSearchIndex();
         if (searchIndex instanceof DisabledChangeIndex) {
           changeIndexes.setSearchIndex(((DisabledChangeIndex) searchIndex).unwrap(), false);
+        }
+      }
+    };
+  }
+
+  protected AutoCloseable disableAccountIndex() {
+    AccountIndex searchIndex = accountIndexes.getSearchIndex();
+    if (!(searchIndex instanceof DisabledAccountIndex)) {
+      accountIndexes.setSearchIndex(new DisabledAccountIndex(searchIndex), false);
+    }
+
+    return new AutoCloseable() {
+      @Override
+      public void close() {
+        AccountIndex searchIndex = accountIndexes.getSearchIndex();
+        if (searchIndex instanceof DisabledAccountIndex) {
+          accountIndexes.setSearchIndex(((DisabledAccountIndex) searchIndex).unwrap(), false);
         }
       }
     };

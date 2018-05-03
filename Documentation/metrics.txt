@@ -53,6 +53,15 @@ objects needing finalization.
 * `query/query_latency`: Successful query latency, accumulated over the life
 of the process.
 
+=== Work Queue
+
+* `queue/work_queue/pool_size`: Current number of threads in the pool
+* `queue/work_queue/max_pool_size`: Maximum allowed number of threads in the pool
+* `queue/work_queue/active_threads`: Number of threads that are actively executing tasks
+* `queue/work_queue/scheduled_tasks`: Number of scheduled tasks in the queue
+* `queue/work_queue/total_scheduled_tasks_count`: Total number of tasks that have been scheduled
+* `queue/work_queue/total_completed_tasks_count`: Total number of tasks that have completed execution
+
 === SSH sessions
 
 * `sshd/sessions/connected`: Number of currently connected SSH sessions.

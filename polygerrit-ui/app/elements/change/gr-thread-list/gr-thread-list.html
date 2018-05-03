@@ -54,10 +54,6 @@ limitations under the License.
         display: flex;
         margin-right: 1rem;
       }
-      .draftsOnly gr-diff-comment-thread,
-      .unresolvedOnly gr-diff-comment-thread {
-        display: none
-      }
       .draftsOnly:not(.unresolvedOnly) gr-diff-comment-thread[has-draft],
       .unresolvedOnly:not(.draftsOnly) gr-diff-comment-thread[unresolved],
       .draftsOnly.unresolvedOnly gr-diff-comment-thread[has-draft][unresolved] {
@@ -68,12 +64,12 @@ limitations under the License.
       <div class="toggleItem">
         <paper-toggle-button
             id="unresolvedToggle"
-            on-change="_toggleUnresolved"></paper-toggle-button>
+            checked="{{_unresolvedOnly}}"></paper-toggle-button>
           Only unresolved threads</div>
       <div class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]">
         <paper-toggle-button
             id="draftToggle"
-            on-change="_toggleDrafts"></paper-toggle-button>
+            checked="{{_draftsOnly}}"></paper-toggle-button>
           Only threads with drafts</div>
     </div>
     <div id="threads">
@@ -82,7 +78,7 @@ limitations under the License.
       </template>
       <template
           is="dom-repeat"
-          items="[[_sortedThreads]]"
+          items="[[_filteredThreads]]"
           as="thread"
           initial-count="5"
           target-framerate="60">

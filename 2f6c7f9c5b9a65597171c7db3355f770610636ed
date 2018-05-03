@@ -22,6 +22,30 @@
       "revId": "2f6c7f9c5b9a65597171c7db3355f770610636ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fadcf38e_78a309e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-03T17:14:18Z",
+      "side": 1,
+      "message": "I see nothing wrong with this approach. But, could we consider adding this to the Polymer.Base prototype?\n\nIt seems super useful (most `debounce` implementations I\u0027ve used before have a flag to support this behavior anyway), and would be kind of nice to *just have* in every element. Pros/cons?",
+      "parentUuid": "9d697711_23395e89",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "2f6c7f9c5b9a65597171c7db3355f770610636ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

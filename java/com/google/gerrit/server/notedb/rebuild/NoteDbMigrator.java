@@ -560,6 +560,8 @@ public class NoteDbMigrator implements AutoCloseable {
       throws OrmException, IOException {
     try (ReviewDb db = schemaFactory.open()) {
       @SuppressWarnings("deprecation")
+      final int nextChangeId = db.nextChangeId();
+
       RepoSequence seq =
           new RepoSequence(
               repoManager,
@@ -569,8 +571,9 @@ public class NoteDbMigrator implements AutoCloseable {
               // If sequenceGap is 0, this writes into the sequence ref the same ID that is returned
               // by the call to seq.next() below. If we actually used this as a change ID, that
               // would be a problem, but we just discard it, so this is safe.
-              () -> db.nextChangeId() + sequenceGap - 1,
-              1);
+              () -> nextChangeId + sequenceGap - 1,
+              1,
+              nextChangeId);
       seq.next();
     }
     return saveState(prev, READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY);

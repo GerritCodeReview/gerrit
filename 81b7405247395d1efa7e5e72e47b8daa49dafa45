@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7640b60f_a3054f79",
+        "filename": "java/com/google/gerrit/server/mail/send/AddKeySender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-03T09:30:16Z",
+      "side": 1,
+      "message": "\u0027callingUser\u0027 as it was before?",
+      "range": {
+        "startLine": 96,
+        "startChar": 29,
+        "endLine": 96,
+        "endChar": 33
+      },
+      "revId": "81b7405247395d1efa7e5e72e47b8daa49dafa45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

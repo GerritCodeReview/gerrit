@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77e8419c_e483c863",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/RulesIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-03T16:02:14Z",
+      "side": 1,
+      "message": "Can you add a comment here to state that this method is just documenting the current behavior and is expected to be fixed in the future?",
+      "revId": "7d92dbac307cbfaf9cfba552f1eafc025e3c4fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

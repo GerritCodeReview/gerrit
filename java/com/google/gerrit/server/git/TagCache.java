@@ -103,7 +103,7 @@ public class TagCache {
     cache.put(name.get(), val);
   }
 
-  static class EntryVal implements Serializable {
+  public static class EntryVal implements Serializable {
     static final long serialVersionUID = 1L;
 
     transient TagSetHolder holder;

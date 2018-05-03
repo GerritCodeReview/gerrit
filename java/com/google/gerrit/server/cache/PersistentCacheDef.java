@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,12 @@
 
 package com.google.gerrit.server.cache;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+public interface PersistentCacheDef<K, V> extends CacheDef<K, V> {
+  long diskLimit();
 
-public interface PersistentCacheFactory {
-  <K, V> Cache<K, V> build(PersistentCacheDef<K, V> def);
+  int version();
 
-  <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> def, CacheLoader<K, V> loader);
+  CacheSerializer<K> keySerializer();
 
-  void onStop(String plugin);
+  CacheSerializer<V> valueSerializer();
 }

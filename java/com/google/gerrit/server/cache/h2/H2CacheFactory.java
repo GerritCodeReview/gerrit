@@ -20,8 +20,8 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.server.cache.CacheBinding;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
+import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
@@ -30,7 +30,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -154,16 +153,15 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings({"unchecked"})
   @Override
-  public <K, V> Cache<K, V> build(CacheBinding<K, V> in) {
+  public <K, V> Cache<K, V> build(PersistentCacheDef<K, V> in) {
     long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
       return memCacheFactory.build(in);
     }
 
-    H2CacheBindingProxy<K, V> def = new H2CacheBindingProxy<>(in);
-    SqlStore<K, V> store =
-        newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
+    H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
+    SqlStore<K, V> store = newSqlStore(def, limit);
     H2CacheImpl<K, V> cache =
         new H2CacheImpl<>(
             executor, store, def.keyType(), (Cache<K, ValueHolder<V>>) memCacheFactory.build(def));
@@ -175,16 +173,15 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <K, V> LoadingCache<K, V> build(CacheBinding<K, V> in, CacheLoader<K, V> loader) {
+  public <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> in, CacheLoader<K, V> loader) {
     long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
       return memCacheFactory.build(in, loader);
     }
 
-    H2CacheBindingProxy<K, V> def = new H2CacheBindingProxy<>(in);
-    SqlStore<K, V> store =
-        newSqlStore(def.name(), def.keyType(), limit, def.expireAfterWrite(TimeUnit.SECONDS));
+    H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
+    SqlStore<K, V> store = newSqlStore(def, limit);
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
             memCacheFactory.build(
@@ -208,10 +205,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     }
   }
 
-  private <V, K> SqlStore<K, V> newSqlStore(
-      String name, TypeLiteral<K> keyType, long maxSize, Long expireAfterWrite) {
+  private <V, K> SqlStore<K, V> newSqlStore(PersistentCacheDef<K, V> def, long maxSize) {
     StringBuilder url = new StringBuilder();
-    url.append("jdbc:h2:").append(cacheDir.resolve(name).toUri());
+    url.append("jdbc:h2:").append(cacheDir.resolve(def.name()).toUri());
     if (h2CacheSize >= 0) {
       url.append(";CACHE_SIZE=");
       // H2 CACHE_SIZE is always given in KB
@@ -220,9 +216,13 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     if (h2AutoServer) {
       url.append(";AUTO_SERVER=TRUE");
     }
+    Long expireAfterWrite = def.expireAfterWrite(TimeUnit.SECONDS);
     return new SqlStore<>(
         url.toString(),
-        keyType,
+        def.keyType(),
+        def.keySerializer(),
+        def.valueSerializer(),
+        def.version(),
         maxSize,
         expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
   }

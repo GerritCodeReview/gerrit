@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server.cache.h2;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.hash.Funnel;
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public interface PersistentCacheFactory {
-  <K, V> Cache<K, V> build(PersistentCacheDef<K, V> def);
+interface KeyType<K> {
+  String columnType();
 
-  <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> def, CacheLoader<K, V> loader);
+  K get(ResultSet rs, int col) throws IOException, SQLException;
 
-  void onStop(String plugin);
+  void set(PreparedStatement ps, int col, K key) throws IOException, SQLException;
+
+  Funnel<K> funnel();
 }

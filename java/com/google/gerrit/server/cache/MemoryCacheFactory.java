@@ -19,7 +19,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 public interface MemoryCacheFactory {
-  <K, V> Cache<K, V> build(CacheBinding<K, V> def);
+  <K, V> Cache<K, V> build(CacheDef<K, V> def);
 
-  <K, V> LoadingCache<K, V> build(CacheBinding<K, V> def, CacheLoader<K, V> loader);
+  <K, V> LoadingCache<K, V> build(CacheDef<K, V> def, CacheLoader<K, V> loader);
 }

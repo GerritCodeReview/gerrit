@@ -22,23 +22,18 @@ import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.BloomFilter;
-import com.google.common.hash.Funnel;
-import com.google.common.hash.Funnels;
-import com.google.common.hash.PrimitiveSink;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.inject.TypeLiteral;
 import java.io.IOException;
 import java.io.InvalidClassException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -254,74 +249,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
   }
 
-  private static class KeyType<K> {
-    String columnType() {
-      return "OTHER";
-    }
-
-    @SuppressWarnings("unchecked")
-    K get(ResultSet rs, int col) throws SQLException {
-      return (K) rs.getObject(col);
-    }
-
-    void set(PreparedStatement ps, int col, K value) throws SQLException {
-      ps.setObject(col, value, Types.JAVA_OBJECT);
-    }
-
-    Funnel<K> funnel() {
-      return new Funnel<K>() {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void funnel(K from, PrimitiveSink into) {
-          try (ObjectOutputStream ser = new ObjectOutputStream(new SinkOutputStream(into))) {
-            ser.writeObject(from);
-            ser.flush();
-          } catch (IOException err) {
-            throw new RuntimeException("Cannot hash as Serializable", err);
-          }
-        }
-      };
-    }
-
-    @SuppressWarnings("unchecked")
-    static <K> KeyType<K> create(TypeLiteral<K> type) {
-      if (type.getRawType() == String.class) {
-        return (KeyType<K>) STRING;
-      }
-      return (KeyType<K>) OTHER;
-    }
-
-    static final KeyType<?> OTHER = new KeyType<>();
-    static final KeyType<String> STRING =
-        new KeyType<String>() {
-          @Override
-          String columnType() {
-            return "VARCHAR(4096)";
-          }
-
-          @Override
-          String get(ResultSet rs, int col) throws SQLException {
-            return rs.getString(col);
-          }
-
-          @Override
-          void set(PreparedStatement ps, int col, String value) throws SQLException {
-            ps.setString(col, value);
-          }
-
-          @SuppressWarnings("unchecked")
-          @Override
-          Funnel<String> funnel() {
-            Funnel<?> s = Funnels.unencodedCharsFunnel();
-            return (Funnel<String>) s;
-          }
-        };
-  }
-
   static class SqlStore<K, V> {
     private final String url;
     private final KeyType<K> keyType;
+    private final CacheSerializer<V> valueSerializer;
+    private final int version;
     private final long maxSize;
     private final long expireAfterWrite;
     private final BlockingQueue<SqlHandle> handles;
@@ -330,15 +262,33 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private volatile BloomFilter<K> bloomFilter;
     private int estimatedSize;
 
-    SqlStore(String jdbcUrl, TypeLiteral<K> keyType, long maxSize, long expireAfterWrite) {
+    SqlStore(
+        String jdbcUrl,
+        TypeLiteral<K> keyType,
+        CacheSerializer<K> keySerializer,
+        CacheSerializer<V> valueSerializer,
+        int version,
+        long maxSize,
+        long expireAfterWrite) {
       this.url = jdbcUrl;
-      this.keyType = KeyType.create(keyType);
+      this.keyType = createKeyType(keyType, keySerializer);
+      this.valueSerializer = valueSerializer;
+      this.version = version;
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
       this.handles = new ArrayBlockingQueue<>(keep);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> KeyType<T> createKeyType(
+        TypeLiteral<T> type, CacheSerializer<T> serializer) {
+      if (type.getRawType() == String.class) {
+        return (KeyType<T>) StringKeyTypeImpl.INSTANCE;
+      }
+      return new ObjectKeyTypeImpl<>(serializer);
     }
 
     synchronized void open() {
@@ -372,33 +322,43 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       SqlHandle c = null;
       try {
         c = acquire();
-        try (Statement s = c.conn.createStatement()) {
-          if (estimatedSize <= 0) {
-            try (ResultSet r = s.executeQuery("SELECT COUNT(*) FROM data")) {
+        if (estimatedSize <= 0) {
+          try (PreparedStatement ps =
+              c.conn.prepareStatement("SELECT COUNT(*) FROM data WHERE version=?")) {
+            ps.setInt(1, version);
+            try (ResultSet r = ps.executeQuery()) {
               estimatedSize = r.next() ? r.getInt(1) : 0;
             }
           }
+        }
 
-          BloomFilter<K> b = newBloomFilter();
-          try (ResultSet r = s.executeQuery("SELECT k FROM data")) {
+        BloomFilter<K> b = newBloomFilter();
+        try (PreparedStatement ps = c.conn.prepareStatement("SELECT k FROM data WHERE version=?")) {
+          ps.setInt(1, version);
+          try (ResultSet r = ps.executeQuery()) {
             while (r.next()) {
               b.put(keyType.get(r, 1));
             }
-          } catch (JdbcSQLException e) {
-            if (e.getCause() instanceof InvalidClassException) {
-              log.warn(
-                  "Entries cached for "
-                      + url
-                      + " have an incompatible class and can't be deserialized. "
-                      + "Cache is flushed.");
-              invalidateAll();
-            } else {
-              throw e;
-            }
           }
-          return b;
+        } catch (JdbcSQLException e) {
+          if (e.getCause() instanceof InvalidClassException) {
+            // If deserialization failed using default Java serialization, this means we are using
+            // the old serialVersionUID-based invalidation strategy. In that case, authors are
+            // most likely bumping serialVersionUID rather than using the new versioning in the
+            // CacheBinding.  That's ok; we'll continue to support both for now.
+            // TODO(dborowitz): Remove this case when Java serialization is no longer used.
+            log.warn(
+                "Entries cached for "
+                    + url
+                    + " have an incompatible class and can't be deserialized. "
+                    + "Cache is flushed.");
+            invalidateAll();
+          } else {
+            throw e;
+          }
         }
-      } catch (SQLException e) {
+        return b;
+      } catch (IOException | SQLException e) {
         log.warn("Cannot build BloomFilter for " + url + ": " + e.getMessage());
         c = close(c);
         return null;
@@ -412,9 +372,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try {
         c = acquire();
         if (c.get == null) {
-          c.get = c.conn.prepareStatement("SELECT v, created FROM data WHERE k=?");
+          c.get = c.conn.prepareStatement("SELECT v, created FROM data WHERE k=? AND version=?");
         }
         keyType.set(c.get, 1, key);
+
+        // Silently no results when the only value in the database is an older version. This will
+        // result in put overwriting the stored value with the new version, which is intended.
+        c.get.setInt(2, version);
+
         try (ResultSet r = c.get.executeQuery()) {
           if (!r.next()) {
             missCount.incrementAndGet();
@@ -428,8 +393,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             return null;
           }
 
-          @SuppressWarnings("unchecked")
-          V val = (V) r.getObject(1);
+          V val = valueSerializer.deserialize(r.getBytes(1));
           ValueHolder<V> h = new ValueHolder<>(val);
           h.clean = true;
           hitCount.incrementAndGet();
@@ -438,7 +402,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         } finally {
           c.get.clearParameters();
         }
-      } catch (SQLException e) {
+      } catch (IOException | SQLException e) {
         if (!isOldClassNameError(e)) {
           log.warn("Cannot read cache " + url + " for " + key, e);
         }
@@ -466,13 +430,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       return 1000 * expireAfterWrite < age;
     }
 
-    private void touch(SqlHandle c, K key) throws SQLException {
+    private void touch(SqlHandle c, K key) throws IOException, SQLException {
       if (c.touch == null) {
-        c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=?");
+        c.touch = c.conn.prepareStatement("UPDATE data SET accessed=? WHERE k=? AND version=?");
       }
       try {
         c.touch.setTimestamp(1, TimeUtil.nowTs());
         keyType.set(c.touch, 2, key);
+        c.touch.setInt(3, version);
         c.touch.executeUpdate();
       } finally {
         c.touch.clearParameters();
@@ -495,19 +460,21 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         c = acquire();
         if (c.put == null) {
           c.put =
-              c.conn.prepareStatement("MERGE INTO data (k, v, created, accessed) VALUES(?,?,?,?)");
+              c.conn.prepareStatement(
+                  "MERGE INTO data (k, v, version, created, accessed) VALUES(?,?,?,?,?)");
         }
         try {
           keyType.set(c.put, 1, key);
-          c.put.setObject(2, holder.value, Types.JAVA_OBJECT);
-          c.put.setTimestamp(3, new Timestamp(holder.created));
-          c.put.setTimestamp(4, TimeUtil.nowTs());
+          c.put.setBytes(2, valueSerializer.serialize(holder.value));
+          c.put.setInt(3, version);
+          c.put.setTimestamp(4, new Timestamp(holder.created));
+          c.put.setTimestamp(5, TimeUtil.nowTs());
           c.put.executeUpdate();
           holder.clean = true;
         } finally {
           c.put.clearParameters();
         }
-      } catch (SQLException e) {
+      } catch (IOException | SQLException e) {
         log.warn("Cannot put into cache " + url, e);
         c = close(c);
       } finally {
@@ -520,7 +487,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try {
         c = acquire();
         invalidate(c, key);
-      } catch (SQLException e) {
+      } catch (IOException | SQLException e) {
         log.warn("Cannot invalidate cache " + url, e);
         c = close(c);
       } finally {
@@ -528,12 +495,13 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
-    private void invalidate(SqlHandle c, K key) throws SQLException {
+    private void invalidate(SqlHandle c, K key) throws IOException, SQLException {
       if (c.invalidate == null) {
-        c.invalidate = c.conn.prepareStatement("DELETE FROM data WHERE k=?");
+        c.invalidate = c.conn.prepareStatement("DELETE FROM data WHERE k=? and version=?");
       }
       try {
         keyType.set(c.invalidate, 1, key);
+        c.invalidate.setInt(2, version);
         c.invalidate.executeUpdate();
       } finally {
         c.invalidate.clearParameters();
@@ -560,7 +528,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       SqlHandle c = null;
       try {
         c = acquire();
+        try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
+          ps.setInt(1, version);
+          int oldEntries = ps.executeUpdate();
+          log.info(
+              "Pruned {} entries not matching version {} from cache {}", oldEntries, version, url);
+        }
         try (Statement s = c.conn.createStatement()) {
+          // Compute size without restricting to version (although obsolete data was just pruned
+          // anyway).
           long used = 0;
           try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
             used = r.next() ? r.getLong(1) : 0;
@@ -570,8 +546,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
 
           try (ResultSet r =
-              s.executeQuery(
-                  "SELECT" + " k" + ",space" + ",created" + " FROM data" + " ORDER BY accessed")) {
+              s.executeQuery("SELECT k, space, created FROM data ORDER BY accessed")) {
             while (maxSize < used && r.next()) {
               K key = keyType.get(r, 1);
               Timestamp created = r.getTimestamp(3);
@@ -584,7 +559,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             }
           }
         }
-      } catch (SQLException e) {
+      } catch (IOException | SQLException e) {
         log.warn("Cannot prune cache " + url, e);
         c = close(c);
       } finally {
@@ -599,7 +574,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       try {
         c = acquire();
         try (Statement s = c.conn.createStatement();
-            ResultSet r = s.executeQuery("SELECT" + " COUNT(*)" + ",SUM(space)" + " FROM data")) {
+            // Stats include total size regardless of version.
+            ResultSet r = s.executeQuery("SELECT COUNT(*), SUM(space) FROM data")) {
           if (r.next()) {
             size = r.getLong(1);
             space = r.getLong(2);
@@ -662,6 +638,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         stmt.addBatch(
             "ALTER TABLE data ADD COLUMN IF NOT EXISTS "
                 + "space BIGINT AS OCTET_LENGTH(k) + OCTET_LENGTH(v)");
+        stmt.addBatch("ALTER TABLE data ADD COLUMN IF NOT EXISTS version INT DEFAULT 0 NOT NULL");
         stmt.executeBatch();
       }
     }
@@ -692,24 +669,6 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
       }
       return null;
-    }
-  }
-
-  private static class SinkOutputStream extends OutputStream {
-    private final PrimitiveSink sink;
-
-    SinkOutputStream(PrimitiveSink sink) {
-      this.sink = sink;
-    }
-
-    @Override
-    public void write(int b) {
-      sink.putByte((byte) b);
-    }
-
-    @Override
-    public void write(byte[] b, int p, int n) {
-      sink.putBytes(b, p, n);
     }
   }
 }

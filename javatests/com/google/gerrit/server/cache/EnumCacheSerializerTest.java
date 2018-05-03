@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,26 @@
 
 package com.google.gerrit.server.cache;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import static com.google.common.truth.Truth.assertThat;
 
-public interface PersistentCacheFactory {
-  <K, V> Cache<K, V> build(PersistentCacheDef<K, V> def);
+import org.junit.Test;
 
-  <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> def, CacheLoader<K, V> loader);
+public class EnumCacheSerializerTest {
+  @Test
+  public void serialize() throws Exception {
+    assertRoundTrip(MyEnum.FOO);
+    assertRoundTrip(MyEnum.BAR);
+    assertRoundTrip(MyEnum.BAZ);
+  }
 
-  void onStop(String plugin);
+  private enum MyEnum {
+    FOO,
+    BAR,
+    BAZ;
+  }
+
+  private static void assertRoundTrip(MyEnum e) throws Exception {
+    CacheSerializer<MyEnum> s = new EnumCacheSerializer<>(MyEnum.class);
+    assertThat(s.deserialize(s.serialize(e))).isEqualTo(e);
+  }
 }

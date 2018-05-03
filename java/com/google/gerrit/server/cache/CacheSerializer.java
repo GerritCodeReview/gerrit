@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,14 +14,13 @@
 
 package com.google.gerrit.server.cache;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import java.io.IOException;
 
-public interface PersistentCacheFactory {
-  <K, V> Cache<K, V> build(PersistentCacheDef<K, V> def);
+/** Interface for serializing/deserializing a type to/from a persistent cache. */
+public interface CacheSerializer<T> {
+  /** Serializes the object to a new byte array. */
+  byte[] serialize(T object) throws IOException;
 
-  <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> def, CacheLoader<K, V> loader);
-
-  void onStop(String plugin);
+  /** Deserializes a single object from the given byte array. */
+  T deserialize(byte[] in) throws IOException;
 }

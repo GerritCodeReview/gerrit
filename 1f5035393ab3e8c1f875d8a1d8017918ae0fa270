@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "197e4604_66d764ac",
+        "filename": "java/com/google/gerrit/server/PatchSetUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-03T16:23:10Z",
+      "side": 1,
+      "message": "nit: getFullCommitMessage to make clear what the JGit command is that is run here.",
+      "range": {
+        "startLine": 218,
+        "startChar": 16,
+        "endLine": 218,
+        "endChar": 32
+      },
+      "revId": "1f5035393ab3e8c1f875d8a1d8017918ae0fa270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "477333d0_ad389482",
+        "filename": "java/com/google/gerrit/server/PatchSetUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-03T16:23:10Z",
+      "side": 1,
+      "message": "Please just let the IOException propagate",
+      "range": {
+        "startLine": 225,
+        "startChar": 3,
+        "endLine": 227,
+        "endChar": 5
+      },
+      "revId": "1f5035393ab3e8c1f875d8a1d8017918ae0fa270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

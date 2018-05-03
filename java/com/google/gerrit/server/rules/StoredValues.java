@@ -25,6 +25,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.Emails;
@@ -84,6 +85,22 @@ public final class StoredValues {
           try {
             return patchInfoFactory.get(change.getProject(), ps);
           } catch (PatchSetInfoNotAvailableException e) {
+            throw new SystemException(e.getMessage());
+          }
+        }
+      };
+
+  public static final StoredValue<String> COMMIT_MESSAGE =
+      new StoredValue<String>() {
+        @Override
+        public String createValue(Prolog engine) {
+          Change change = getChange(engine);
+          PatchSet ps = getPatchSet(engine);
+          PrologEnvironment env = (PrologEnvironment) engine.control;
+          PatchSetUtil patchSetUtil = env.getArgs().getPatchsetUtil();
+          try {
+            return patchSetUtil.getFullCommitMessage(change.getProject(), ps);
+          } catch (IOException e) {
             throw new SystemException(e.getMessage());
           }
         }

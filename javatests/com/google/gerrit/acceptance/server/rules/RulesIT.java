@@ -65,10 +65,8 @@ public class RulesIT extends AbstractDaemonTest {
 
   @Test
   public void testUnresolvedCommentsCount() throws Exception {
-    // This test results in a RULE_ERROR as Prolog tries to find accounts by email, using the index.
-    // TODO(maximeg) get OK results
     modifySubmitRules("gerrit:commit_message_matches('.*')");
-    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test

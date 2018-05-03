@@ -36,6 +36,27 @@
         type: Array,
         computed: '_computeSortedThreads(threads.*)',
       },
+      _filteredThreads: {
+        type: Array,
+        computed: '_computeFilteredThreads(_sortedThreads, _unresolvedOnly, ' +
+            '_draftsOnly)',
+      },
+      _unresolvedOnly: {
+        type: Boolean,
+        value: false,
+      },
+      _draftsOnly: {
+        type: Boolean,
+        value: false,
+      },
+    },
+
+    _reSortAndFilter() {
+      // Reset threads so thread computations occur on deep array changes to
+      // threads comments that are not observed naturally.
+      const threads = this.threads;
+      this.threads = [];
+      this.threads = threads;
     },
 
     _computeShowDraftToggle(loggedIn) {
@@ -71,14 +92,35 @@
           return 0;
         }
         return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
-      }).map(threadInfo => threadInfo.thread);
+      }).map(threadInfo => Object.assign({
+        hasDraft: threadInfo.hasDraft,
+        unresolved: threadInfo.unresolved,
+      }, threadInfo.thread));
+    },
+
+    _computeFilteredThreads(sortedThreads, unresolvedOnly, draftsOnly) {
+      return sortedThreads.filter(c => {
+        if (draftsOnly) {
+          return c.hasDraft;
+        } else if (unresolvedOnly) {
+          return c.unresolved;
+        } else {
+          return c;
+        }
+      });
     },
 
     _getThreadWithSortInfo(thread) {
       const lastComment = thread.comments[thread.comments.length - 1] || {};
+      const lasNonDraftComment = lastComment.__draft ?
+          thread.comments.length > 1 ?
+            thread.comments[thread.comments.length - 2]: lastComment
+            : lastComment;
       return {
         thread,
-        unresolved: !!lastComment.unresolved,
+        // Use the unresolved bit for the last non draft comment. This is what
+        // anybody other than the current user would see.
+        unresolved: !!lasNonDraftComment.unresolved,
         hasDraft: !!lastComment.__draft,
         updated: lastComment.updated,
       };
@@ -106,14 +148,6 @@
 
     _isOnParent(side) {
       return !!side;
-    },
-
-    _toggleUnresolved() {
-      this.$.threads.classList.toggle('unresolvedOnly');
-    },
-
-    _toggleDrafts() {
-      this.$.threads.classList.toggle('draftsOnly');
     },
   });
 })();

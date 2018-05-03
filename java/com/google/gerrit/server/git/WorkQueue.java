@@ -14,8 +14,11 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.base.Supplier;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
@@ -88,16 +91,18 @@ public class WorkQueue {
   private int defaultQueueSize;
   private final IdGenerator idGenerator;
   private final CopyOnWriteArrayList<Executor> queues;
+  private MetricMaker metric;
 
   @Inject
-  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg) {
-    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1));
+  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metric) {
+    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1), metric);
   }
 
-  private WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize) {
+  private WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize, MetricMaker metric) {
     this.idGenerator = idGenerator;
     this.queues = new CopyOnWriteArrayList<>();
     this.defaultQueueSize = defaultThreadPoolSize;
+    this.metric = metric;
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
@@ -227,6 +232,54 @@ public class WorkQueue {
               corePoolSize + 4 // concurrency level
               );
       queueName = prefix;
+      buildMetrics(queueName, metric);
+    }
+
+    private void buildMetrics(String queueName, MetricMaker metric) {
+      metric.newCallbackMetric(
+          getMetricName(queueName, "poolSize"),
+          Long.class,
+          new Description("current pool size").setGauge().setUnit("threads"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getPoolSize();
+            }
+          });
+      metric.newCallbackMetric(
+          getMetricName(queueName, "activeThreads"),
+          Long.class,
+          new Description("Number of active threads").setGauge().setUnit("threads"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getActiveCount();
+            }
+          });
+      metric.newCallbackMetric(
+          getMetricName(queueName, "scheduledTasksCount"),
+          Long.class,
+          new Description("Number of tasks").setCumulative().setUnit("tasks"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getTaskCount();
+            }
+          });
+      metric.newCallbackMetric(
+          getMetricName(queueName, "completedTasksCount"),
+          Long.class,
+          new Description("Number of tasks").setCumulative().setUnit("tasks"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getCompletedTaskCount();
+            }
+          });
+    }
+
+    private String getMetricName(String queueName, String metricsName) {
+      return String.format("queue/%s/%s", queueName, metricsName);
     }
 
     @Override

@@ -562,7 +562,7 @@ public class PostReview
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
-      PatchSet.Id patchSetId = revision.getChange().currentPatchSetId();
+      PatchSet.Id patchSetId = revision.getPatchSet().getId();
       ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
 
       List<T> comments = entry.getValue();

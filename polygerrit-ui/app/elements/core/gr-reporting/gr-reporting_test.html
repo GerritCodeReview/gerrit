@@ -162,6 +162,14 @@ limitations under the License.
         ));
       });
 
+      test('pluginsLoaded reports plugins', () => {
+        Gerrit._arePluginsLoaded.returns(true);
+        element.pluginsLoaded(['foo', 'bar']);
+        assert.isTrue(element.defaultReporter.calledWithExactly(
+            'lifecycle', 'Plugins installed', 'foo,bar'
+        ));
+      });
+
       test('caches reports if plugins are not loaded', () => {
         Gerrit._arePluginsLoaded.returns(false);
         element.timeEnd('foo');

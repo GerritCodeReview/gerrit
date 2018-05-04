@@ -320,15 +320,19 @@ limitations under the License.
       assert.isTrue(Gerrit._arePluginsLoaded());
     });
 
-    test('_pluginInstalled', done => {
+    test('_pluginInstalled', () => {
+      const pluginsLoadedStub = sandbox.stub();
       stub('gr-reporting', {
-        pluginsLoaded() {
-          done();
-        },
+        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
       });
-      Gerrit._setPluginsCount(2);
-      Gerrit._pluginInstalled();
-      Gerrit._pluginInstalled();
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/bar/static/test.js',
+      ];
+      Gerrit._setPluginsPending(plugins);
+      Gerrit._pluginInstalled(plugins[0]);
+      Gerrit._pluginInstalled(plugins[1]);
+      assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
     });
 
     test('install calls _pluginInstalled', () => {

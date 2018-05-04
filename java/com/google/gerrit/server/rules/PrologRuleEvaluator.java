@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.SubmitRuleEvaluator.createRuleErr
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.defaultRuleError;
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.defaultTypeError;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -50,15 +51,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
  * the results through rules found in the parent projects, all the way up to All-Projects.
  */
 public class PrologRuleEvaluator {
-  private static final Logger log = LoggerFactory.getLogger(PrologRuleEvaluator.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     /** Returns a new {@link PrologRuleEvaluator} with the specified options */
@@ -302,11 +301,7 @@ public class PrologRuleEvaluator {
 
   private List<SubmitRecord> ruleError(String err, Exception e) {
     if (opts.logErrors()) {
-      if (e == null) {
-        log.error(err);
-      } else {
-        log.error(err, e);
-      }
+      logger.atSevere().withCause(e).log(err);
       return defaultRuleError();
     }
     return createRuleError(err);
@@ -384,11 +379,7 @@ public class PrologRuleEvaluator {
 
   private SubmitTypeRecord typeError(String err, Exception e) {
     if (opts.logErrors()) {
-      if (e == null) {
-        log.error(err);
-      } else {
-        log.error(err, e);
-      }
+      logger.atSevere().withCause(e).log(err);
       return defaultTypeError();
     }
     return SubmitTypeRecord.error(err);

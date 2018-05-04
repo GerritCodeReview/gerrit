@@ -22,6 +22,7 @@ import com.google.common.base.Enums;
 import com.google.common.base.MoreObjects;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -48,12 +49,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MergeabilityCacheImpl implements MergeabilityCache {
-  private static final Logger log = LoggerFactory.getLogger(MergeabilityCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String CACHE_NAME = "mergeability";
 
@@ -224,11 +223,12 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
             }
           });
     } catch (ExecutionException | UncheckedExecutionException e) {
-      log.error(
-          String.format(
+      logger
+          .atSevere()
+          .withCause(e.getCause())
+          .log(
               "Error checking mergeability of %s into %s (%s)",
-              key.commit.name(), key.into.name(), key.submitType.name()),
-          e.getCause());
+              key.commit.name(), key.into.name(), key.submitType.name());
       return false;
     }
   }

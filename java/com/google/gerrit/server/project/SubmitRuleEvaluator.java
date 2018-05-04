@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -29,15 +30,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
  * the results through rules found in the parent projects, all the way up to All-Projects.
  */
 public class SubmitRuleEvaluator {
-  private static final Logger log = LoggerFactory.getLogger(SubmitRuleEvaluator.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String DEFAULT_MSG = "Error evaluating project rules, check server log";
 
   private final ProjectCache projectCache;
@@ -119,9 +119,9 @@ public class SubmitRuleEvaluator {
   private List<SubmitRecord> ruleError(String err, Exception e) {
     if (opts.logErrors()) {
       if (e == null) {
-        log.error(err);
+        logger.atSevere().log(err);
       } else {
-        log.error(err, e);
+        logger.atSevere().withCause(e).log(err);
       }
       return defaultRuleError();
     }
@@ -150,11 +150,7 @@ public class SubmitRuleEvaluator {
 
   private SubmitTypeRecord typeError(String err, Exception e) {
     if (opts.logErrors()) {
-      if (e == null) {
-        log.error(err);
-      } else {
-        log.error(err, e);
-      }
+      logger.atSevere().withCause(e).log(err);
       return defaultTypeError();
     }
     return SubmitTypeRecord.error(err);

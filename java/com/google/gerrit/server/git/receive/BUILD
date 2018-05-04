@@ -10,6 +10,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/util/cli",
         "//lib:args4j",
+        "//lib/flogger:api",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/auto:auto-value",
@@ -17,6 +18,5 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

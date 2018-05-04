@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -21,12 +22,10 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** User configured named destinations. */
 public class VersionedAccountDestinations extends VersionedMetaData {
-  private static final Logger log = LoggerFactory.getLogger(VersionedAccountDestinations.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static VersionedAccountDestinations forUser(Account.Id id) {
     return new VersionedAccountDestinations(RefNames.refsUsers(id));
@@ -62,7 +61,8 @@ public class VersionedAccountDestinations extends VersionedMetaData {
           destinations.parseLabel(
               label,
               readUTF8(path),
-              error -> log.error("Error parsing file {}: {}", path, error.getMessage()));
+              error ->
+                  logger.atSevere().log("Error parsing file %s: %s", path, error.getMessage()));
         }
       }
     }

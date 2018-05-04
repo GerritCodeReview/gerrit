@@ -16,6 +16,7 @@ package com.google.gerrit.server.documentation;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -36,12 +37,10 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.IndexOutput;
 import org.apache.lucene.store.RAMDirectory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class QueryDocumentationExecutor {
-  private static final Logger log = LoggerFactory.getLogger(QueryDocumentationExecutor.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static Map<String, Float> WEIGHTS =
       ImmutableMap.of(
@@ -70,7 +69,7 @@ public class QueryDocumentationExecutor {
       searcher = new IndexSearcher(reader);
       parser = new SimpleQueryParser(new StandardAnalyzer(), WEIGHTS);
     } catch (IOException e) {
-      log.error("Cannot initialize documentation full text index", e);
+      logger.atSevere().withCause(e).log("Cannot initialize documentation full text index");
       searcher = null;
       parser = null;
     }
@@ -107,7 +106,7 @@ public class QueryDocumentationExecutor {
     byte[] buffer = new byte[4096];
     InputStream index = getClass().getResourceAsStream(Constants.INDEX_ZIP);
     if (index == null) {
-      log.warn("No index available");
+      logger.atWarning().log("No index available");
       return null;
     }
 

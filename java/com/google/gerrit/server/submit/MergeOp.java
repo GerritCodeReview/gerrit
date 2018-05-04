@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -96,8 +97,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -111,7 +110,7 @@ import org.slf4j.LoggerFactory;
  * conflicting, even if an earlier commit along that same line can be merged cleanly.
  */
 public class MergeOp implements AutoCloseable {
-  private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
@@ -160,12 +159,12 @@ public class MergeOp implements AutoCloseable {
 
     public void logProblem(Change.Id id, Throwable t) {
       String msg = "Error reading change";
-      log.error(msg + " " + id, t);
+      logger.atSevere().withCause(t).log("%s %s", msg, id);
       problems.put(id, msg);
     }
 
     public void logProblem(Change.Id id, String msg) {
-      log.error(msg + " " + id);
+      logger.atSevere().log("%s %s", msg, id);
       problems.put(id, msg);
     }
 
@@ -390,7 +389,7 @@ public class MergeOp implements AutoCloseable {
         commitStatus.problem(cd.getId(), e.getMessage());
       } catch (OrmException e) {
         String msg = "Error checking submit rules for change";
-        log.warn(msg + " " + cd.getId(), e);
+        logger.atWarning().withCause(e).log("%s %s", msg, cd.getId());
         commitStatus.problem(cd.getId(), msg);
       }
     }
@@ -938,31 +937,21 @@ public class MergeOp implements AutoCloseable {
   }
 
   private void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(submissionId + msg, args);
+    if (logger.atFine().isEnabled()) {
+      logger.atFine().logVarargs(submissionId + msg, args);
     }
   }
 
   private void logWarn(String msg, Throwable t) {
-    if (log.isWarnEnabled()) {
-      log.warn(submissionId + msg, t);
-    }
+    logger.atWarning().withCause(t).log("%s%s", submissionId, msg);
   }
 
   private void logWarn(String msg) {
-    if (log.isWarnEnabled()) {
-      log.warn(submissionId + msg);
-    }
+    logger.atWarning().log("%s%s", submissionId, msg);
   }
 
   private void logError(String msg, Throwable t) {
-    if (log.isErrorEnabled()) {
-      if (t != null) {
-        log.error(submissionId + msg, t);
-      } else {
-        log.error(submissionId + msg);
-      }
-    }
+    logger.atSevere().withCause(t).log("%s%s", submissionId, msg);
   }
 
   private void logError(String msg) {

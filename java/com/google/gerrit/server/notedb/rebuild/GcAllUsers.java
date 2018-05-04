@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.ConfigConstants.CONFIG_KEY_AUTO;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.server.config.AllUsersName;
@@ -32,12 +33,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GcAllUsers {
-  private static final Logger log = LoggerFactory.getLogger(GcAllUsers.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AllUsersName allUsers;
   private final GarbageCollection.Factory gcFactory;
@@ -55,7 +54,7 @@ public class GcAllUsers {
 
   public void runWithLogger() {
     // Print log messages using logger, and skip progress.
-    run(log::info, null);
+    run(s -> logger.atInfo().log(s), null);
   }
 
   public void run(PrintWriter writer) {

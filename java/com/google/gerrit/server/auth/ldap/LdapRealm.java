@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GER
 import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.extensions.client.AccountFieldName;
@@ -56,12 +57,10 @@ import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.security.auth.login.LoginException;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class LdapRealm extends AbstractRealm {
-  private static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";
@@ -196,7 +195,7 @@ class LdapRealm extends AbstractRealm {
       String configOption, String suppliedValue, boolean disabledByBackend) {
     if (disabledByBackend && !Strings.isNullOrEmpty(suppliedValue)) {
       String msg = String.format("LDAP backend doesn't support: ldap.%s", configOption);
-      log.error(msg);
+      logger.atSevere().log(msg);
       throw new IllegalArgumentException(msg);
     }
   }
@@ -290,10 +289,10 @@ class LdapRealm extends AbstractRealm {
         helper.close(ctx);
       }
     } catch (IOException | NamingException e) {
-      log.error("Cannot query LDAP to authenticate user", e);
+      logger.atSevere().withCause(e).log("Cannot query LDAP to authenticate user");
       throw new AuthenticationUnavailableException("Cannot query LDAP for account", e);
     } catch (LoginException e) {
-      log.error("Cannot authenticate server via JAAS", e);
+      logger.atSevere().withCause(e).log("Cannot authenticate server via JAAS");
       throw new AuthenticationUnavailableException("Cannot query LDAP for account", e);
     }
   }
@@ -312,7 +311,7 @@ class LdapRealm extends AbstractRealm {
       Optional<Account.Id> id = usernameCache.get(accountName);
       return id != null ? id.orElse(null) : null;
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
+      logger.atWarning().withCause(e).log("Cannot lookup account %s in LDAP", accountName);
       return null;
     }
   }

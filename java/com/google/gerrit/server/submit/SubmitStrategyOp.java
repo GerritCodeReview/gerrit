@@ -21,6 +21,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -63,11 +64,9 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 abstract class SubmitStrategyOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(SubmitStrategyOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected final SubmitStrategy.Arguments args;
   protected final CodeReviewCommit toMerge;
@@ -290,7 +289,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       setMerged(ctx, message(ctx, commit, s));
     } catch (OrmException err) {
       String msg = "Error updating change status for " + id;
-      log.error(msg, err);
+      logger.atSevere().withCause(err).log(msg);
       args.commitStatus.logProblem(id, msg);
       // It's possible this happened before updating anything in the db, but
       // it's hard to know for sure, so just return true below to be safe.
@@ -532,7 +531,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         try (Repository git = args.repoManager.openRepository(getProject())) {
           git.setGitwebDescription(p.getProject().getDescription());
         } catch (IOException e) {
-          log.error("cannot update description of " + p.getName(), e);
+          logger.atSevere().withCause(e).log("cannot update description of %s", p.getName());
         }
       }
     }
@@ -549,7 +548,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
               args.accountsToNotify)
           .sendAsync();
     } catch (Exception e) {
-      log.error("Cannot email merged notification for " + getId(), e);
+      logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());
     }
     if (mergeResultRev != null && !args.dryrun) {
       args.changeMerged.fire(
@@ -602,25 +601,17 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   protected final void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(this.args.submissionId + msg, args);
+    if (logger.atFine().isEnabled()) {
+      logger.atFine().logVarargs(this.args.submissionId + msg, args);
     }
   }
 
   protected final void logWarn(String msg, Throwable t) {
-    if (log.isWarnEnabled()) {
-      log.warn(args.submissionId + msg, t);
-    }
+    logger.atWarning().withCause(t).log("%s%s", args.submissionId, msg);
   }
 
   protected void logError(String msg, Throwable t) {
-    if (log.isErrorEnabled()) {
-      if (t != null) {
-        log.error(args.submissionId + msg, t);
-      } else {
-        log.error(args.submissionId + msg);
-      }
-    }
+    logger.atSevere().withCause(t).log("%s%s", args.submissionId, msg);
   }
 
   protected void logError(String msg) {

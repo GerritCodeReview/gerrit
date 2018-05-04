@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -82,8 +83,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * {@link BatchUpdate} implementation that supports mixed ReviewDb/NoteDb operations, depending on
@@ -102,7 +101,7 @@ import org.slf4j.LoggerFactory;
  * attempt to reimplement this logic. Use {@code BatchUpdate} if at all possible.
  */
 public class ReviewDbBatchUpdate extends BatchUpdate {
-  private static final Logger log = LoggerFactory.getLogger(ReviewDbBatchUpdate.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface AssistedFactory {
     ReviewDbBatchUpdate create(
@@ -579,7 +578,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
         // rebuilt the next time it is needed.
         //
         // Always log even without RequestId.
-        log.debug("Ignoring NoteDb update error after ReviewDb write", e);
+        logger.atFine().withCause(e).log("Ignoring NoteDb update error after ReviewDb write");
 
         // Otherwise, we can't prove it's safe to ignore the error, either because some change had
         // NOTE_DB primary, or a task failed before determining the primary storage.
@@ -732,7 +731,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
             // already written the NoteDbChangeState to ReviewDb, which means
             // if the state is out of date it will be rebuilt the next time it
             // is needed.
-            log.debug("Ignoring NoteDb update error after ReviewDb write", ex);
+            logger.atFine().withCause(ex).log("Ignoring NoteDb update error after ReviewDb write");
           }
         }
       } catch (Exception e) {
@@ -827,14 +826,14 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     private void logDebug(String msg, Throwable t) {
-      if (log.isDebugEnabled()) {
-        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "]" + msg, t);
+      if (logger.atFine().isEnabled()) {
+        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, t);
       }
     }
 
     private void logDebug(String msg, Object... args) {
-      if (log.isDebugEnabled()) {
-        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "]" + msg, args);
+      if (logger.atFine().isEnabled()) {
+        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, args);
       }
     }
   }

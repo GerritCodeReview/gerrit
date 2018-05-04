@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -35,11 +36,9 @@ import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GarbageCollection {
-  private static final Logger log = LoggerFactory.getLogger(GarbageCollection.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String LOG_NAME = "gc_log";
 
@@ -120,7 +119,7 @@ public class GarbageCollection {
       try {
         l.onGarbageCollected(event);
       } catch (RuntimeException e) {
-        log.warn("Failure in GarbageCollectorListener", e);
+        logger.atWarning().withCause(e).log("Failure in GarbageCollectorListener");
       }
     }
   }
@@ -141,7 +140,7 @@ public class GarbageCollection {
       }
       b.append(s);
     }
-    log.info(b.toString());
+    logger.atInfo().log(b.toString());
   }
 
   private static void logGcConfiguration(
@@ -181,7 +180,7 @@ public class GarbageCollection {
     print(writer, "failed.\n\n");
     StringBuilder b = new StringBuilder();
     b.append("[").append(projectName.get()).append("]");
-    log.error(b.toString(), e);
+    logger.atSevere().withCause(e).log(b.toString());
   }
 
   private static void print(PrintWriter writer, String message) {

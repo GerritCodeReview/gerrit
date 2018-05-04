@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 
 <dom-module id="gr-change-requirements">
   <template strip-whitespace>
@@ -26,16 +27,15 @@ limitations under the License.
         display: inline-block;
         font-weight: initial;
         text-align: center;
-        width: 1em;
       }
-      .unsatisfied .status {
+      .unsatisfied .icon {
         color: #FFA62F;
       }
-      .satisfied .status {
+      .satisfied .icon {
         color: #388E3C;
       }
       .requirement {
-        padding: .1em .3em;
+        padding: .1em 0;
       }
       .requirementContainer:not(:first-of-type) {
         margin-top: .25em;
@@ -46,7 +46,7 @@ limitations under the License.
     </style>
     <template is="dom-if" if="[[_showWip]]">
       <div class="requirement unsatisfied changeIsWip">
-        <span class="status">⧗</span>
+        <span class="status"><iron-icon class="icon" icon="gr-icons:hourglass"></iron-icon></span>
         Work in Progress
       </div>
     </template>
@@ -55,7 +55,9 @@ limitations under the License.
           is="dom-repeat"
           items="[[labels]]">
         <div class$="requirement [[item.style]]">
-          <span class="status">[[item.status]]</span>
+          <span class="status">
+            <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
+          </span>
           Label <span class="labelName">[[item.label]]</span>
         </div>
       </template>
@@ -65,7 +67,7 @@ limitations under the License.
         items="[[requirements]]">
       <div class$="requirement [[_computeRequirementClass(item.satisfied)]]">
         <span class="status">
-          [[_computeRequirementStatus(item.satisfied)]]
+          <iron-icon id="icon" icon="[[_computeRequirementIcon(item.satisfied)]]"></iron-icon>
         </span>
         [[item.fallback_text]]
       </div>

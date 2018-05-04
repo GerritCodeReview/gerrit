@@ -75,9 +75,9 @@
         const obj = labels[label];
         if (obj.optional) { continue; }
 
-        const status = this._computeRequirementStatus(obj.approved);
+        const icon = this._computeRequirementIcon(obj.approved);
         const style = this._computeRequirementClass(obj.approved);
-        _labels.push({label, status, style});
+        _labels.push({label, icon, style});
       }
 
       return _labels;
@@ -91,11 +91,11 @@
       }
     },
 
-    _computeRequirementStatus(requirementStatus) {
+    _computeRequirementIcon(requirementStatus) {
       if (requirementStatus) {
-        return '✓';
+        return 'gr-icons:check';
       } else {
-        return '⧗';
+        return 'gr-icons:hourglass';
       }
     },
   });

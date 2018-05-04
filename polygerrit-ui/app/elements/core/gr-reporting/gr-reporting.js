@@ -49,10 +49,12 @@
     CHANGE_DISPLAYED: 'ChangeDisplayed',
     DASHBOARD_DISPLAYED: 'DashboardDisplayed',
     DIFF_VIEW_DISPLAYED: 'DiffViewDisplayed',
+    FILE_LIST_DISPLAYED: 'FileListDisplayed',
     PLUGINS_LOADED: 'PluginsLoaded',
     STARTUP_CHANGE_DISPLAYED: 'StartupChangeDisplayed',
     STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
     STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
+    STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
     WEB_COMPONENTS_READY: 'WebComponentsReady',
   };
 
@@ -61,6 +63,7 @@
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
   // WebComponentsReady timer is triggered from gr-router.
   STARTUP_TIMERS[TIMER.WEB_COMPONENTS_READY] = 0;
 
@@ -190,6 +193,7 @@
       this.time(TIMER.CHANGE_DISPLAYED);
       this.time(TIMER.DASHBOARD_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
+      this.time(TIMER.FILE_LIST_DISPLAYED);
     },
 
     locationChanged(page) {
@@ -218,6 +222,14 @@
         this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED);
       } else {
         this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED);
+      }
+    },
+
+    fileListDisplayed() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_FILE_LIST_DISPLAYED)) {
+        this.timeEnd(TIMER.STARTUP_FILE_LIST_DISPLAYED);
+      } else {
+        this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
       }
     },
 

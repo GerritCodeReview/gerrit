@@ -257,6 +257,7 @@
 
       return Promise.all(promises).then(() => {
         this._loading = false;
+        this.$.reporting.fileListDisplayed();
       });
     },
 

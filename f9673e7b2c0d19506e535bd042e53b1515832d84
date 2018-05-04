@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "79cd30ac_1930f54b",
+        "filename": "javatests/com/google/gerrit/server/cache/EnumCacheSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T12:11:17Z",
+      "side": 1,
+      "message": "Yes, theories or parameterized tests. We should also ask ourselves each time if a table-driven approach is really appropriate. They have their valid uses but shouldn\u0027t be the Swiss army knife for everything.",
+      "parentUuid": "f40989b7_a8e28380",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c9c4cc0_e3062ffd",
         "filename": "javatests/com/google/gerrit/server/change/MergeabilityCacheImplTest.java",
         "patchSetId": 2

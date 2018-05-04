@@ -17,6 +17,7 @@ package com.google.gerrit.server.permissions;
 import com.google.auto.value.AutoValue;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.util.MostSpecificComparator;
@@ -28,8 +29,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Caches the order AccessSections should be sorted for evaluation.
@@ -41,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class SectionSortCache {
-  private static final Logger log = LoggerFactory.getLogger(SectionSortCache.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String CACHE_NAME = "permission_sort";
 
@@ -102,7 +101,7 @@ public class SectionSortCache {
       }
 
       if (poison) {
-        log.error("Received duplicate AccessSection instances, not caching sort");
+        logger.atSevere().log("Received duplicate AccessSection instances, not caching sort");
       } else {
         cache.put(key, new EntryVal(srcIdx));
       }

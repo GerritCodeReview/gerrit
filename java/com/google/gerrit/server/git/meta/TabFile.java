@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.meta;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.git.ValidationError;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +25,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
 
 public class TabFile {
   @FunctionalInterface
@@ -142,7 +142,7 @@ public class TabFile {
     return r.toString();
   }
 
-  public static ValidationError.Sink createLoggerSink(String file, Logger log) {
+  public static ValidationError.Sink createLoggerSink(String file, FluentLogger log) {
     return ValidationError.createLoggerSink("Error parsing file " + file + ": ", log);
   }
 }

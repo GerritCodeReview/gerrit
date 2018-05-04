@@ -25,6 +25,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -36,13 +37,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Caches external IDs of all accounts. The external IDs are always loaded from NoteDb. */
 @Singleton
 class ExternalIdCacheImpl implements ExternalIdCache {
-  private static final Logger log = LoggerFactory.getLogger(ExternalIdCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final LoadingCache<ObjectId, AllExternalIds> extIdsByAccount;
   private final ExternalIdReader externalIdReader;
@@ -154,7 +153,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       update.accept(m);
       extIdsByAccount.put(newNotesRev, AllExternalIds.create(m));
     } catch (ExecutionException e) {
-      log.warn("Cannot update external IDs", e);
+      logger.atWarning().withCause(e).log("Cannot update external IDs");
     } finally {
       lock.unlock();
     }

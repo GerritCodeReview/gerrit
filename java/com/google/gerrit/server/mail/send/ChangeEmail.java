@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -62,12 +63,10 @@ import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Sends an email to one or more interested parties. */
 public abstract class ChangeEmail extends NotificationEmail {
-  private static final Logger log = LoggerFactory.getLogger(ChangeEmail.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static ChangeData newChangeData(
       EmailArguments ea, Project.NameKey project, Change.Id id) {
@@ -300,7 +299,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       }
       return detail.toString();
     } catch (Exception err) {
-      log.warn("Cannot format change detail", err);
+      logger.atWarning().withCause(err).log("Cannot format change detail");
       return "";
     }
   }
@@ -376,7 +375,7 @@ public abstract class ChangeEmail extends NotificationEmail {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {
-      log.warn("Cannot CC users that reviewed updated change", err);
+      logger.atWarning().withCause(err).log("Cannot CC users that reviewed updated change");
     }
   }
 
@@ -391,7 +390,7 @@ public abstract class ChangeEmail extends NotificationEmail {
         add(RecipientType.CC, id);
       }
     } catch (OrmException err) {
-      log.warn("Cannot CC users that commented on updated change", err);
+      logger.atWarning().withCause(err).log("Cannot CC users that commented on updated change");
     }
   }
 
@@ -514,7 +513,7 @@ public abstract class ChangeEmail extends NotificationEmail {
         reviewers.add(getNameEmailFor(who));
       }
     } catch (OrmException e) {
-      log.warn("Cannot get change reviewers", e);
+      logger.atWarning().withCause(e).log("Cannot get change reviewers");
     }
     return reviewers;
   }
@@ -536,10 +535,10 @@ public abstract class ChangeEmail extends NotificationEmail {
         return "[Octopus merge; cannot be formatted as a diff.]\n";
       }
     } catch (PatchListObjectTooLargeException e) {
-      log.warn("Cannot format patch " + e.getMessage());
+      logger.atWarning().log("Cannot format patch %s", e.getMessage());
       return "";
     } catch (PatchListNotAvailableException e) {
-      log.error("Cannot format patch", e);
+      logger.atSevere().withCause(e).log("Cannot format patch");
       return "";
     }
 
@@ -556,11 +555,11 @@ public abstract class ChangeEmail extends NotificationEmail {
           if (JGitText.get().inMemoryBufferLimitExceeded.equals(e.getMessage())) {
             return "";
           }
-          log.error("Cannot format patch", e);
+          logger.atSevere().withCause(e).log("Cannot format patch");
           return "";
         }
       } catch (IOException e) {
-        log.error("Cannot open repository to format patch", e);
+        logger.atSevere().withCause(e).log("Cannot open repository to format patch");
         return "";
       }
     }

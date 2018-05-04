@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7bbce3cf_6a95f328",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T14:14:22Z",
+      "side": 1,
+      "message": "I have to admit that I don\u0027t have any prior experience with ThreadLocal. What I read online upon your comment makes me a bit hesitant to use it. It seems as if ThreadLocal must be used with care to not introduce unintended memory leaks. Do we actually know how harmful it would be to construct the byte array every time (e.g. just use a local variable in the new class)?",
+      "parentUuid": "ac0de105_450d16d2",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 150,
+        "endChar": 46
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9b584a5_61e604e6",
         "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
         "patchSetId": 2
@@ -226,6 +250,30 @@
       "side": 1,
       "message": "Sure, but IMO a table-driven test is appropriate for a test that a CacheSerializer implementation is capable of serializing and deserializing all possible values of a proto.",
       "parentUuid": "79cd30ac_1930f54b",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1d3f967_723bbf7c",
+        "filename": "javatests/com/google/gerrit/server/cache/EnumCacheSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T14:14:22Z",
+      "side": 1,
+      "message": "I didn\u0027t intend to start a long discussion but since you kind of (implicitly) asked, here\u0027s my opinion:\n\nI guess a test for a CacheSerializer implementation should cover all values which are structurally different. Let\u0027s say we had a StringCacheSerializer. I would expect it to cover null, the empty string, a one-letter string and a longer string. Testing all possible values would be impossible in that case. For enums, I would probably test null and one of the values. If one of the values works, why should another value not work? What would be the aspect which distinguishes them? (We might have special cases for single letter enum values or ones with special characters in their names but BAR and BAZ are the same for me.)",
+      "parentUuid": "0b1d1f9f_013ce4ac",
       "range": {
         "startLine": 26,
         "startChar": 4,

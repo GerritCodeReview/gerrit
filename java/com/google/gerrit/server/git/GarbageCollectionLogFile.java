@@ -38,11 +38,16 @@ public class GarbageCollectionLogFile implements LifecycleListener {
 
   @Override
   public void stop() {
-    LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
+    LogManager.getLogger(GarbageCollection.class).removeAllAppenders();
+    LogManager.getLogger(GarbageCollectionRunner.class).removeAllAppenders();
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
-    Logger gcLogger = LogManager.getLogger(GarbageCollection.LOG_NAME);
+    initGcLogger(logdir, rotate, LogManager.getLogger(GarbageCollection.class));
+    initGcLogger(logdir, rotate, LogManager.getLogger(GarbageCollectionRunner.class));
+  }
+
+  private static void initGcLogger(Path logdir, boolean rotate, Logger gcLogger) {
     gcLogger.removeAllAppenders();
     gcLogger.addAppender(
         SystemLog.createAppender(

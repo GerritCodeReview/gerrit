@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.index.query.QueryParseException;
@@ -54,8 +55,6 @@ import java.util.Map;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Change query implementation that outputs to a stream in the style of an SSH command.
@@ -64,7 +63,7 @@ import org.slf4j.LoggerFactory;
  * holding on to a single instance.
  */
 public class OutputStreamQuery {
-  private static final Logger log = LoggerFactory.getLogger(OutputStreamQuery.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final DateTimeFormatter dtf =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss zzz")
@@ -214,7 +213,7 @@ public class OutputStreamQuery {
         stats.runTimeMilliseconds = TimeUtil.nowMs() - stats.runTimeMilliseconds;
         show(stats);
       } catch (OrmException err) {
-        log.error("Cannot execute query: " + queryString, err);
+        logger.atSevere().withCause(err).log("Cannot execute query: %s", queryString);
 
         ErrorMessage m = new ErrorMessage();
         m.message = "cannot query database";

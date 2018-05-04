@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
@@ -29,8 +30,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Query wrapper for the group index.
@@ -39,7 +38,7 @@ import org.slf4j.LoggerFactory;
  * holding on to a single instance.
  */
 public class InternalGroupQuery extends InternalQuery<InternalGroup> {
-  private static final Logger log = LoggerFactory.getLogger(InternalGroupQuery.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject
   InternalGroupQuery(
@@ -76,7 +75,7 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup> {
 
     ImmutableList<AccountGroup.UUID> groupUuids =
         groups.stream().map(InternalGroup::getGroupUUID).collect(toImmutableList());
-    log.warn(String.format("Ambiguous %s for groups %s.", groupDescription, groupUuids));
+    logger.atWarning().log("Ambiguous %s for groups %s.", groupDescription, groupUuids);
     return Optional.empty();
   }
 }

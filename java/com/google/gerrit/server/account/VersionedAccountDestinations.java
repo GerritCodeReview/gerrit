@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.ValidationError;
@@ -23,12 +24,10 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** User configured named destinations. */
 public class VersionedAccountDestinations extends VersionedMetaData {
-  private static final Logger log = LoggerFactory.getLogger(VersionedAccountDestinations.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static VersionedAccountDestinations forUser(Account.Id id) {
     return new VersionedAccountDestinations(RefNames.refsUsers(id));
@@ -61,7 +60,7 @@ public class VersionedAccountDestinations extends VersionedMetaData {
         String path = p.path;
         if (path.startsWith(prefix)) {
           String label = path.substring(prefix.length());
-          ValidationError.Sink errors = TabFile.createLoggerSink(path, log);
+          ValidationError.Sink errors = TabFile.createLoggerSink(path, logger);
           destinations.parseLabel(label, readUTF8(path), errors);
         }
       }
@@ -69,7 +68,7 @@ public class VersionedAccountDestinations extends VersionedMetaData {
   }
 
   public ValidationError.Sink createSink(String file) {
-    return ValidationError.createLoggerSink(file, log);
+    return ValidationError.createLoggerSink(file, logger);
   }
 
   @Override

@@ -17,6 +17,7 @@ package com.google.gerrit.server.tools;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.Version;
 import com.google.inject.Inject;
@@ -34,8 +35,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Listing of all client side tools stored on this server.
@@ -45,7 +44,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class ToolsCatalog {
-  private static final Logger log = LoggerFactory.getLogger(ToolsCatalog.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final SortedMap<String, Entry> toc;
 
@@ -127,7 +126,7 @@ public class ToolsCatalog {
       }
       return out.toByteArray();
     } catch (Exception e) {
-      log.debug("Cannot read " + path, e);
+      logger.atFine().withCause(e).log("Cannot read %s", path);
       return null;
     }
   }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -25,12 +26,10 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Runnable to enable scheduling change cleanups to run periodically */
 public class ChangeCleanupRunner implements Runnable {
-  private static final Logger log = LoggerFactory.getLogger(ChangeCleanupRunner.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends LifecycleModule {
     @Override
@@ -76,7 +75,7 @@ public class ChangeCleanupRunner implements Runnable {
 
   @Override
   public void run() {
-    log.info("Running change cleanups.");
+    logger.atInfo().log("Running change cleanups.");
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {
       // abandonInactiveOpenChanges skips failures instead of throwing, so retrying will never
       // actually happen. For the purposes of this class that is fine: they'll get tried again the
@@ -87,7 +86,7 @@ public class ChangeCleanupRunner implements Runnable {
             return null;
           });
     } catch (RestApiException | UpdateException | OrmException e) {
-      log.error("Failed to cleanup changes.", e);
+      logger.atSevere().withCause(e).log("Failed to cleanup changes.");
     }
   }
 

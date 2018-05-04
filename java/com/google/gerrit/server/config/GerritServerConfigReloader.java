@@ -14,18 +14,17 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Issues a configuration reload from the GerritServerConfigProvider and notify all listeners. */
 @Singleton
 public class GerritServerConfigReloader {
-  private static final Logger log = LoggerFactory.getLogger(GerritServerConfigReloader.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GerritServerConfigProvider configProvider;
   private final DynamicSet<GerritConfigListener> configListeners;
@@ -42,9 +41,9 @@ public class GerritServerConfigReloader {
    * reload is fully completed before a new one starts.
    */
   public List<ConfigUpdatedEvent.Update> reloadConfig() {
-    log.info("Starting server configuration reload");
+    logger.atInfo().log("Starting server configuration reload");
     List<ConfigUpdatedEvent.Update> updates = fireUpdatedConfigEvent(configProvider.updateConfig());
-    log.info("Server configuration reload completed succesfully");
+    logger.atInfo().log("Server configuration reload completed succesfully");
     return updates;
   }
 

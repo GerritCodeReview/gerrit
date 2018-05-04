@@ -15,6 +15,7 @@
 package com.google.gerrit.server.ssh;
 
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.AbstractModule;
@@ -26,11 +27,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SshAddressesModule extends AbstractModule {
-  private static final Logger log = LoggerFactory.getLogger(SshAddressesModule.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final int DEFAULT_PORT = 29418;
   public static final int IANA_SSH_PORT = 22;
@@ -57,7 +56,7 @@ public class SshAddressesModule extends AbstractModule {
       try {
         listen.add(SocketUtil.resolve(desc, DEFAULT_PORT));
       } catch (IllegalArgumentException e) {
-        log.error("Bad sshd.listenaddress: " + desc + ": " + e.getMessage());
+        logger.atSevere().log("Bad sshd.listenaddress: %s: %s", desc, e.getMessage());
       }
     }
     return listen;

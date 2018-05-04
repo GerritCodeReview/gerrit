@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
@@ -61,12 +62,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PluginLoader implements LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(PluginLoader.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public String getPluginName(Path srcPath) {
     return MoreObjects.firstNonNull(getGerritPluginName(srcPath), PluginUtil.nameOf(srcPath));
@@ -164,10 +163,11 @@ public class PluginLoader implements LifecycleListener {
     Path tmp = PluginUtil.asTemp(in, ".next_" + fileName + "_", ".tmp", pluginsDir);
     String name = MoreObjects.firstNonNull(getGerritPluginName(tmp), PluginUtil.nameOf(fileName));
     if (!originalName.equals(name)) {
-      log.warn(
-          String.format(
+      logger
+          .atWarning()
+          .log(
               "Plugin provides its own name: <%s>, use it instead of the input name: <%s>",
-              name, originalName));
+              name, originalName);
     }
 
     String fileExtension = getExtension(fileName);
@@ -176,7 +176,7 @@ public class PluginLoader implements LifecycleListener {
       Plugin active = running.get(name);
       if (active != null) {
         fileName = active.getSrcFile().getFileName().toString();
-        log.info(String.format("Replacing plugin %s", active.getName()));
+        logger.atInfo().log("Replacing plugin %s", active.getName());
         Path old = pluginsDir.resolve(".last_" + fileName);
         Files.deleteIfExists(old);
         Files.move(active.getSrcFile(), old);
@@ -187,7 +187,7 @@ public class PluginLoader implements LifecycleListener {
       try {
         Plugin plugin = runPlugin(name, dst, active);
         if (active == null) {
-          log.info(String.format("Installed plugin %s", plugin.getName()));
+          logger.atInfo().log("Installed plugin %s", plugin.getName());
         }
       } catch (PluginInstallException e) {
         Files.deleteIfExists(dst);
@@ -203,7 +203,7 @@ public class PluginLoader implements LifecycleListener {
   private synchronized void unloadPlugin(Plugin plugin) {
     persistentCacheFactory.onStop(plugin.getName());
     String name = plugin.getName();
-    log.info(String.format("Unloading plugin %s, version %s", name, plugin.getVersion()));
+    logger.atInfo().log("Unloading plugin %s, version %s", name, plugin.getVersion());
     plugin.stop(env);
     env.onStopPlugin(plugin);
     running.remove(name);
@@ -213,7 +213,9 @@ public class PluginLoader implements LifecycleListener {
 
   public void disablePlugins(Set<String> names) {
     if (!isRemoteAdminEnabled()) {
-      log.warn("Remote plugin administration is disabled, ignoring disablePlugins(" + names + ")");
+      logger
+          .atWarning()
+          .log("Remote plugin administration is disabled, ignoring disablePlugins(%s)", names);
       return;
     }
 
@@ -224,13 +226,13 @@ public class PluginLoader implements LifecycleListener {
           continue;
         }
 
-        log.info(String.format("Disabling plugin %s", active.getName()));
+        logger.atInfo().log("Disabling plugin %s", active.getName());
         Path off =
             active.getSrcFile().resolveSibling(active.getSrcFile().getFileName() + ".disabled");
         try {
           Files.move(active.getSrcFile(), off);
         } catch (IOException e) {
-          log.error("Failed to disable plugin", e);
+          logger.atSevere().withCause(e).log("Failed to disable plugin");
           // In theory we could still unload the plugin even if the rename
           // failed. However, it would be reloaded on the next server startup,
           // which is probably not what the user expects.
@@ -244,7 +246,10 @@ public class PluginLoader implements LifecycleListener {
           disabled.put(name, offPlugin);
         } catch (Throwable e) {
           // This shouldn't happen, as the plugin was loaded earlier.
-          log.warn(String.format("Cannot load disabled plugin %s", active.getName()), e.getCause());
+          logger
+              .atWarning()
+              .withCause(e.getCause())
+              .log("Cannot load disabled plugin %s", active.getName());
         }
       }
       cleanInBackground();
@@ -253,7 +258,9 @@ public class PluginLoader implements LifecycleListener {
 
   public void enablePlugins(Set<String> names) throws PluginInstallException {
     if (!isRemoteAdminEnabled()) {
-      log.warn("Remote plugin administration is disabled, ignoring enablePlugins(" + names + ")");
+      logger
+          .atWarning()
+          .log("Remote plugin administration is disabled, ignoring enablePlugins(%s)", names);
       return;
     }
 
@@ -264,7 +271,7 @@ public class PluginLoader implements LifecycleListener {
           continue;
         }
 
-        log.info(String.format("Enabling plugin %s", name));
+        logger.atInfo().log("Enabling plugin %s", name);
         String n = off.getSrcFile().toFile().getName();
         if (n.endsWith(".disabled")) {
           n = n.substring(0, n.lastIndexOf('.'));
@@ -273,7 +280,7 @@ public class PluginLoader implements LifecycleListener {
         try {
           Files.move(off.getSrcFile(), on);
         } catch (IOException e) {
-          log.error("Failed to move plugin " + name + " into place", e);
+          logger.atSevere().withCause(e).log("Failed to move plugin %s into place", name);
           continue;
         }
         disabled.remove(name);
@@ -293,18 +300,19 @@ public class PluginLoader implements LifecycleListener {
         };
     try (DirectoryStream<Path> files = Files.newDirectoryStream(tempDir, filter)) {
       for (Path file : files) {
-        log.info("Removing stale plugin file: " + file.toFile().getName());
+        logger.atInfo().log("Removing stale plugin file: %s", file.toFile().getName());
         try {
           Files.delete(file);
         } catch (IOException e) {
-          log.error(
-              String.format(
+          logger
+              .atSevere()
+              .log(
                   "Failed to remove stale plugin file %s: %s",
-                  file.toFile().getName(), e.getMessage()));
+                  file.toFile().getName(), e.getMessage());
         }
       }
     } catch (IOException e) {
-      log.warn("Unable to discover stale plugin files: " + e.getMessage());
+      logger.atWarning().log("Unable to discover stale plugin files: %s", e.getMessage());
     }
   }
 
@@ -313,14 +321,14 @@ public class PluginLoader implements LifecycleListener {
     removeStalePluginFiles();
     Path absolutePath = pluginsDir.toAbsolutePath();
     if (!Files.exists(absolutePath)) {
-      log.info(absolutePath + " does not exist; creating");
+      logger.atInfo().log("%s does not exist; creating", absolutePath);
       try {
         Files.createDirectories(absolutePath);
       } catch (IOException e) {
-        log.error(String.format("Failed to create %s: %s", absolutePath, e.getMessage()));
+        logger.atSevere().log("Failed to create %s: %s", absolutePath, e.getMessage());
       }
     }
-    log.info("Loading plugins from " + absolutePath);
+    logger.atInfo().log("Loading plugins from %s", absolutePath);
     srvInfoImpl.state = ServerInformation.State.STARTUP;
     rescan();
     srvInfoImpl.state = ServerInformation.State.RUNNING;
@@ -369,13 +377,13 @@ public class PluginLoader implements LifecycleListener {
       for (Plugin active : reload) {
         String name = active.getName();
         try {
-          log.info(String.format("Reloading plugin %s", name));
+          logger.atInfo().log("Reloading plugin %s", name);
           Plugin newPlugin = runPlugin(name, active.getSrcFile(), active);
-          log.info(
-              String.format(
-                  "Reloaded plugin %s, version %s", newPlugin.getName(), newPlugin.getVersion()));
+          logger
+              .atInfo()
+              .log("Reloaded plugin %s, version %s", newPlugin.getName(), newPlugin.getVersion());
         } catch (PluginInstallException e) {
-          log.warn(String.format("Cannot reload plugin %s", name), e.getCause());
+          logger.atWarning().withCause(e.getCause()).log("Cannot reload plugin %s", name);
           throw e;
         }
       }
@@ -398,7 +406,9 @@ public class PluginLoader implements LifecycleListener {
       Path path = entry.getValue();
       String fileName = path.getFileName().toString();
       if (!isUiPlugin(fileName) && !serverPluginFactory.handles(path)) {
-        log.warn("No Plugin provider was found that handles this file format: {}", fileName);
+        logger
+            .atWarning()
+            .log("No Plugin provider was found that handles this file format: %s", fileName);
         continue;
       }
 
@@ -413,21 +423,22 @@ public class PluginLoader implements LifecycleListener {
       }
 
       if (active != null) {
-        log.info(String.format("Reloading plugin %s", active.getName()));
+        logger.atInfo().log("Reloading plugin %s", active.getName());
       }
 
       try {
         Plugin loadedPlugin = runPlugin(name, path, active);
         if (!loadedPlugin.isDisabled()) {
-          log.info(
-              String.format(
+          logger
+              .atInfo()
+              .log(
                   "%s plugin %s, version %s",
                   active == null ? "Loaded" : "Reloaded",
                   loadedPlugin.getName(),
-                  loadedPlugin.getVersion()));
+                  loadedPlugin.getVersion());
         }
       } catch (PluginInstallException e) {
-        log.warn(String.format("Cannot load plugin %s", name), e.getCause());
+        logger.atWarning().withCause(e.getCause()).log("Cannot load plugin %s", name);
       }
     }
 
@@ -660,19 +671,20 @@ public class PluginLoader implements LifecycleListener {
       Collection<Path> elementsToRemove = new ArrayList<>();
       Collection<Path> elementsToAdd = new ArrayList<>();
       for (Path loser : Iterables.skip(enabled, 1)) {
-        log.warn(
-            String.format(
+        logger
+            .atWarning()
+            .log(
                 "Plugin <%s> was disabled, because"
                     + " another plugin <%s>"
                     + " with the same name <%s> already exists",
-                loser, winner, plugin));
+                loser, winner, plugin);
         Path disabledPlugin = Paths.get(loser + ".disabled");
         elementsToAdd.add(disabledPlugin);
         elementsToRemove.add(loser);
         try {
           Files.move(loser, disabledPlugin);
         } catch (IOException e) {
-          log.warn("Failed to fully disable plugin " + loser, e);
+          logger.atWarning().withCause(e).log("Failed to fully disable plugin %s", loser);
         }
       }
       Iterables.removeAll(files, elementsToRemove);
@@ -685,7 +697,7 @@ public class PluginLoader implements LifecycleListener {
     try {
       return PluginUtil.listPlugins(pluginsDir);
     } catch (IOException e) {
-      log.error("Cannot list " + pluginsDir.toAbsolutePath(), e);
+      logger.atSevere().withCause(e).log("Cannot list %s", pluginsDir.toAbsolutePath());
       return ImmutableList.of();
     }
   }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -27,12 +28,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.stream.StreamSupport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Notify interested parties of a brand new change. */
 public class CreateChangeSender extends NewChangeSender {
-  private static final Logger log = LoggerFactory.getLogger(CreateChangeSender.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     CreateChangeSender create(Project.NameKey project, Change.Id id);
@@ -71,7 +70,7 @@ public class CreateChangeSender extends NewChangeSender {
       // Just don't CC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.
-      log.warn("Cannot notify watchers for new change", err);
+      logger.atWarning().withCause(err).log("Cannot notify watchers for new change");
     }
 
     includeWatchers(NotifyType.NEW_PATCHSETS, !change.isWorkInProgress() && !change.isPrivate());

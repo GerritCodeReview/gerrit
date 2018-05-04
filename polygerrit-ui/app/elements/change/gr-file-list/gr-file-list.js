@@ -257,8 +257,16 @@
 
       return Promise.all(promises).then(() => {
         this._loading = false;
+        this._detectChromiteButler();
         this.$.reporting.fileListDisplayed();
       });
+    },
+
+    _detectChromiteButler() {
+      const hasButler = !!document.getElementById('butler-suggested-owners');
+      if (hasButler) {
+        this.$.reporting.reportExtension('butler');
+      }
     },
 
     get diffs() {

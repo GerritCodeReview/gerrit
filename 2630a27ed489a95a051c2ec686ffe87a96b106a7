@@ -22,6 +22,30 @@
       "revId": "2630a27ed489a95a051c2ec686ffe87a96b106a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44f28611_867eb788",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2018-05-04T11:33:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69abf097_ef0f9c83",
+      "range": {
+        "startLine": 259,
+        "startChar": 6,
+        "endLine": 278,
+        "endChar": 13
+      },
+      "revId": "2630a27ed489a95a051c2ec686ffe87a96b106a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

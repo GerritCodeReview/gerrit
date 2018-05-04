@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -24,12 +25,10 @@ import com.google.inject.ProvisionException;
 import java.util.Arrays;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Loads configured Guice modules from {@code gerrit.installModule}. */
 public class LibModuleLoader {
-  private static final Logger log = LoggerFactory.getLogger(LibModuleLoader.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static List<Module> loadModules(Injector parent) {
     Config cfg = getConfig(parent);
@@ -44,7 +43,7 @@ public class LibModuleLoader {
 
   private static Module createModule(Injector injector, String className) {
     Module m = injector.getInstance(loadModule(className));
-    log.info("Installed module {}", className);
+    logger.atInfo().log("Installed module %s", className);
     return m;
   }
 
@@ -54,7 +53,7 @@ public class LibModuleLoader {
       return (Class<Module>) Class.forName(className);
     } catch (ClassNotFoundException | LinkageError e) {
       String msg = "Cannot load LibModule " + className;
-      log.error(msg, e);
+      logger.atSevere().withCause(e).log(msg);
       throw new ProvisionException(msg, e);
     }
   }

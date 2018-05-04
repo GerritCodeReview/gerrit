@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Supplier;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
@@ -48,12 +49,12 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Delayed execution of tasks using a background thread pool. */
 @Singleton
 public class WorkQueue {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static class Lifecycle implements LifecycleListener {
     private final WorkQueue workQueue;
 
@@ -79,12 +80,11 @@ public class WorkQueue {
     }
   }
 
-  private static final Logger log = LoggerFactory.getLogger(WorkQueue.class);
   private static final UncaughtExceptionHandler LOG_UNCAUGHT_EXCEPTION =
       new UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-          log.error("WorkQueue thread " + t.getName() + " threw exception", e);
+          logger.atSevere().withCause(e).log("WorkQueue thread %s threw exception", t.getName());
         }
       };
 
@@ -564,7 +564,9 @@ public class WorkQueue {
           }
         }
       } catch (ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
-        log.debug("Cannot get a proper name for TrustedListenableFutureTask: {}", e.getMessage());
+        logger
+            .atFine()
+            .log("Cannot get a proper name for TrustedListenableFutureTask: %s", e.getMessage());
       }
       return runnable.toString();
     }

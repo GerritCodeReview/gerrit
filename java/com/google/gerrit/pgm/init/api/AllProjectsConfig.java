@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.SitePaths;
@@ -26,12 +27,9 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RepositoryCache;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AllProjectsConfig extends VersionedMetaDataOnInit {
-
-  private static final Logger log = LoggerFactory.getLogger(AllProjectsConfig.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private Config cfg;
   private GroupList groupList;
@@ -65,7 +63,7 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
     return GroupList.parse(
         new Project.NameKey(project),
         readUTF8(GroupList.FILE_NAME),
-        GroupList.createLoggerSink(GroupList.FILE_NAME, log));
+        GroupList.createLoggerSink(GroupList.FILE_NAME, logger));
   }
 
   public void save(String pluginName, String message) throws IOException, ConfigInvalidException {

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mime;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import eu.medsea.mimeutil.MimeException;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil;
@@ -27,12 +28,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Loads mime types from {@code mime-types.properties} at specificity of 2. */
 public class DefaultFileExtensionRegistry extends MimeDetector {
-  private static final Logger log = LoggerFactory.getLogger(DefaultFileExtensionRegistry.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final ImmutableMap<String, MimeType> TYPES;
 
   static {
@@ -41,7 +41,7 @@ public class DefaultFileExtensionRegistry extends MimeDetector {
         DefaultFileExtensionRegistry.class.getResourceAsStream("mime-types.properties")) {
       prop.load(in);
     } catch (IOException e) {
-      log.warn("Cannot load mime-types.properties", e);
+      logger.atWarning().withCause(e).log("Cannot load mime-types.properties");
     }
 
     ImmutableMap.Builder<String, MimeType> b = ImmutableMap.builder();

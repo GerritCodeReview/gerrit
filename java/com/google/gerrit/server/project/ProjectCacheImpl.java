@@ -22,6 +22,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -44,13 +45,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Cache of project information, including access rights. */
 @Singleton
 public class ProjectCacheImpl implements ProjectCache {
-  private static final Logger log = LoggerFactory.getLogger(ProjectCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String CACHE_NAME = "projects";
 
@@ -132,7 +131,7 @@ public class ProjectCacheImpl implements ProjectCache {
     try {
       return checkedGet(projectName);
     } catch (IOException e) {
-      log.warn("Cannot read project " + projectName, e);
+      logger.atWarning().withCause(e).log("Cannot read project %s", projectName);
       return null;
     }
   }
@@ -146,11 +145,11 @@ public class ProjectCacheImpl implements ProjectCache {
       return strictCheckedGet(projectName);
     } catch (Exception e) {
       if (!(e.getCause() instanceof RepositoryNotFoundException)) {
-        log.warn(String.format("Cannot read project %s", projectName.get()), e);
+        logger.atWarning().withCause(e).log("Cannot read project %s", projectName.get());
         Throwables.throwIfInstanceOf(e.getCause(), IOException.class);
         throw new IOException(e);
       }
-      log.debug("Cannot find project {}", projectName.get(), e);
+      logger.atFine().withCause(e).log("Cannot find project %s", projectName.get());
       return null;
     }
   }
@@ -195,7 +194,7 @@ public class ProjectCacheImpl implements ProjectCache {
           ListKey.ALL,
           ImmutableSortedSet.copyOf(Sets.difference(list.get(ListKey.ALL), ImmutableSet.of(name))));
     } catch (ExecutionException e) {
-      log.warn("Cannot list available projects", e);
+      logger.atWarning().withCause(e).log("Cannot list available projects");
     } finally {
       listLock.unlock();
     }
@@ -211,7 +210,7 @@ public class ProjectCacheImpl implements ProjectCache {
           ImmutableSortedSet.copyOf(
               Sets.union(list.get(ListKey.ALL), ImmutableSet.of(newProjectName))));
     } catch (ExecutionException e) {
-      log.warn("Cannot list available projects", e);
+      logger.atWarning().withCause(e).log("Cannot list available projects");
     } finally {
       listLock.unlock();
     }
@@ -223,7 +222,7 @@ public class ProjectCacheImpl implements ProjectCache {
     try {
       return list.get(ListKey.ALL);
     } catch (ExecutionException e) {
-      log.warn("Cannot list available projects", e);
+      logger.atWarning().withCause(e).log("Cannot list available projects");
       return ImmutableSortedSet.of();
     }
   }
@@ -249,7 +248,7 @@ public class ProjectCacheImpl implements ProjectCache {
       // Right endpoint is exclusive, but U+FFFF is a non-character so no project ends with it.
       return list.get(ListKey.ALL).subSet(start, end);
     } catch (ExecutionException e) {
-      log.warn("Cannot look up projects for prefix " + pfx, e);
+      logger.atWarning().withCause(e).log("Cannot look up projects for prefix %s", pfx);
       return ImmutableSortedSet.of();
     }
   }

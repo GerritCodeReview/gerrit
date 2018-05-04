@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -37,12 +38,10 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Exposes only the non refs/changes/ reference names. */
 public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
-  private static final Logger log = LoggerFactory.getLogger(ReceiveCommitsAdvertiseRefsHook.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @VisibleForTesting
   @AutoValue
@@ -120,7 +119,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
       }
       return r;
     } catch (OrmException err) {
-      log.error("Cannot list open changes of " + projectName, err);
+      logger.atSevere().withCause(err).log("Cannot list open changes of %s", projectName);
       return Collections.emptySet();
     }
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab6531af_23decc4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-04T17:13:24Z",
+      "side": 1,
+      "message": "To remove the CS-1, document the existence of the new parameter in the JSDoc.",
+      "revId": "a14cc3c7318347cda4581fba27c2be0dba2a8e03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

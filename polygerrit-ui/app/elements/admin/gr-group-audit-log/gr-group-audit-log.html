@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/gr-table-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
@@ -47,11 +48,20 @@ limitations under the License.
           </td>
           <td class="type">[[itemType(item.type)]]</td>
           <td class="member">
-            <a href$="[[_computeGroupUrl(item.member.group_id)]]">
-              [[_getNameForMember(item.member)]]
-            </a>
+            <template is="dom-if" if="[[_isGroupEvent(item.type)]]">
+              <a href$="[[_computeGroupUrl(item.member)]]">
+                [[_getNameForMember(item.member)]]
+              </a>
+            </template>
+            <template is="dom-if" if="[[!_isGroupEvent(item.type)]]">
+              <gr-account-link account="[[item.member]]"></gr-account-link>
+              [[_getIdForUser(item.member)]]
+            </template>
           </td>
-          <td class="by-user">[[_getNameForUser(item.user)]]</td>
+          <td class="by-user">
+            <gr-account-link account="[[item.user]]"></gr-account-link>
+            [[_getIdForUser(item.user)]]
+          </td>
         </tr>
       </template>
     </table>

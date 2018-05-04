@@ -27,6 +27,8 @@
    */
   let _pluginsPending = {};
 
+  let _pluginsInstalled = [];
+
   let _pluginsPendingCount = -1;
 
   const PANEL_ENDPOINTS_MAPPING = {
@@ -37,11 +39,20 @@
   const PLUGIN_LOADING_TIMEOUT_MS = 60000;
 
   let _restAPI;
+
   const getRestAPI = () => {
     if (!_restAPI) {
       _restAPI = document.createElement('gr-rest-api-interface');
     }
     return _restAPI;
+  };
+
+  let _reporting;
+  const getReporting = () => {
+    if (!_reporting) {
+      _reporting = document.createElement('gr-reporting');
+    }
+    return _reporting;
   };
 
   // TODO (viktard): deprecate in favor of GrPluginRestApi.
@@ -422,6 +433,9 @@
     Gerrit._resetPlugins = () => {
       _resolveAllPluginsLoaded = null;
       _allPluginsPromise = null;
+      _restAPI = null;
+      _reporting = null;
+      _pluginsInstalled = [];
       Gerrit._setPluginsPending([]);
       Gerrit._endpoints = new GrPluginEndpoints();
       for (const k of Object.keys(_plugins)) {
@@ -567,7 +581,7 @@
   Gerrit._setPluginsCount = function(count) {
     _pluginsPendingCount = count;
     if (Gerrit._arePluginsLoaded()) {
-      document.createElement('gr-reporting').pluginsLoaded();
+      getReporting().pluginsLoaded(_pluginsInstalled);
       if (_resolveAllPluginsLoaded) {
         _resolveAllPluginsLoaded();
       }
@@ -585,17 +599,14 @@
   };
 
   Gerrit._pluginInstalled = function(url) {
-    const name = getPluginNameFromUrl(url);
-    if (name && !_pluginsPending[name]) {
-      console.warn(`Unexpected plugin from ${url}!`);
+    const name = getPluginNameFromUrl(url) || '';
+    if (!name || !_pluginsPending[name]) {
+      console.warn(`Unexpected plugin ${name} installed from ${url}.`);
     } else {
-      if (name) {
-        delete _pluginsPending[name];
-        console.log(`Plugin ${name} installed`);
-      } else {
-        console.log(`Plugin installed from ${url}`);
-      }
+      delete _pluginsPending[name];
+      _pluginsInstalled.push(name);
       Gerrit._setPluginsCount(_pluginsPendingCount - 1);
+      console.log(`Plugin ${name} installed.`);
     }
   };
 

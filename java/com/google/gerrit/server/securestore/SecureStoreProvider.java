@@ -15,6 +15,7 @@
 package com.google.gerrit.server.securestore;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.server.config.SitePaths;
@@ -23,12 +24,10 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class SecureStoreProvider implements Provider<SecureStore> {
-  private static final Logger log = LoggerFactory.getLogger(SecureStoreProvider.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Path libdir;
   private final Injector injector;
@@ -58,7 +57,7 @@ public class SecureStoreProvider implements Provider<SecureStore> {
       return (Class<? extends SecureStore>) Class.forName(className);
     } catch (ClassNotFoundException e) {
       String msg = String.format("Cannot load secure store class: %s", className);
-      log.error(msg, e);
+      logger.atSevere().withCause(e).log(msg);
       throw new RuntimeException(msg, e);
     }
   }

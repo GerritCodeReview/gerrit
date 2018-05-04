@@ -15,6 +15,7 @@
 package com.google.gerrit.server.extensions.events;
 
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -28,12 +29,10 @@ import com.google.inject.Singleton;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class HashtagsEdited {
-  private static final Logger log = LoggerFactory.getLogger(HashtagsEdited.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicSet<HashtagsEditedListener> listeners;
   private final EventUtil util;
@@ -66,7 +65,7 @@ public class HashtagsEdited {
         }
       }
     } catch (OrmException e) {
-      log.error("Couldn't fire event", e);
+      logger.atSevere().withCause(e).log("Couldn't fire event");
     }
   }
 

@@ -21,6 +21,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.BloomFilter;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.cache.CacheSerializer;
@@ -46,8 +47,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import org.h2.jdbc.JdbcSQLException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Hybrid in-memory and database backed cache built on H2.
@@ -71,7 +70,7 @@ import org.slf4j.LoggerFactory;
  * @see H2CacheFactory
  */
 public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements PersistentCache {
-  private static final Logger log = LoggerFactory.getLogger(H2CacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final ImmutableSet<String> OLD_CLASS_NAMES =
       ImmutableSet.of("com.google.gerrit.server.change.ChangeKind");
@@ -347,11 +346,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             // most likely bumping serialVersionUID rather than using the new versioning in the
             // CacheBinding.  That's ok; we'll continue to support both for now.
             // TODO(dborowitz): Remove this case when Java serialization is no longer used.
-            log.warn(
-                "Entries cached for "
-                    + url
-                    + " have an incompatible class and can't be deserialized. "
-                    + "Cache is flushed.");
+            logger
+                .atWarning()
+                .log(
+                    "Entries cached for %s have an incompatible class and can't be deserialized. "
+                        + "Cache is flushed.",
+                    url);
             invalidateAll();
           } else {
             throw e;
@@ -359,7 +359,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
         return b;
       } catch (IOException | SQLException e) {
-        log.warn("Cannot build BloomFilter for " + url + ": " + e.getMessage());
+        logger.atWarning().log("Cannot build BloomFilter for %s: %s", url, e.getMessage());
         c = close(c);
         return null;
       } finally {
@@ -404,7 +404,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
       } catch (IOException | SQLException e) {
         if (!isOldClassNameError(e)) {
-          log.warn("Cannot read cache " + url + " for " + key, e);
+          logger.atWarning().withCause(e).log("Cannot read cache %s for %s", url, key);
         }
         c = close(c);
         return null;
@@ -475,7 +475,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           c.put.clearParameters();
         }
       } catch (IOException | SQLException e) {
-        log.warn("Cannot put into cache " + url, e);
+        logger.atWarning().withCause(e).log("Cannot put into cache %s", url);
         c = close(c);
       } finally {
         release(c);
@@ -488,7 +488,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         c = acquire();
         invalidate(c, key);
       } catch (IOException | SQLException e) {
-        log.warn("Cannot invalidate cache " + url, e);
+        logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
         c = close(c);
       } finally {
         release(c);
@@ -517,7 +517,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         }
         bloomFilter = newBloomFilter();
       } catch (SQLException e) {
-        log.warn("Cannot invalidate cache " + url, e);
+        logger.atWarning().withCause(e).log("Cannot invalidate cache %s", url);
         c = close(c);
       } finally {
         release(c);
@@ -531,8 +531,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
           ps.setInt(1, version);
           int oldEntries = ps.executeUpdate();
-          log.info(
-              "Pruned {} entries not matching version {} from cache {}", oldEntries, version, url);
+          logger
+              .atInfo()
+              .log(
+                  "Pruned %d entries not matching version %d from cache %s",
+                  oldEntries, version, url);
         }
         try (Statement s = c.conn.createStatement()) {
           // Compute size without restricting to version (although obsolete data was just pruned
@@ -560,7 +563,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
         }
       } catch (IOException | SQLException e) {
-        log.warn("Cannot prune cache " + url, e);
+        logger.atWarning().withCause(e).log("Cannot prune cache %s", url);
         c = close(c);
       } finally {
         release(c);
@@ -582,7 +585,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
         }
       } catch (SQLException e) {
-        log.warn("Cannot get DiskStats for " + url, e);
+        logger.atWarning().withCause(e).log("Cannot get DiskStats for %s", url);
         c = close(c);
       } finally {
         release(c);
@@ -653,7 +656,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try {
           conn.close();
         } catch (SQLException e) {
-          log.warn("Cannot close connection to " + url, e);
+          logger.atWarning().withCause(e).log("Cannot close connection to %s", url);
         } finally {
           conn = null;
         }
@@ -665,7 +668,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try {
           ps.close();
         } catch (SQLException e) {
-          log.warn("Cannot close statement for " + url, e);
+          logger.atWarning().withCause(e).log("Cannot close statement for %s", url);
         }
       }
       return null;

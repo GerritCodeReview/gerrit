@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -42,12 +43,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGroup, GroupIndex> {
-  private static final Logger log = LoggerFactory.getLogger(AllGroupsIndexer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ListeningExecutorService executor;
   private final GroupCache groupCache;
@@ -72,7 +71,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     try {
       uuids = collectGroups(progress);
     } catch (IOException | ConfigInvalidException e) {
-      log.error("Error collecting groups", e);
+      logger.atSevere().withCause(e).log("Error collecting groups");
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
     return reindexGroups(index, uuids, progress);
@@ -118,7 +117,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
     try {
       Futures.successfulAsList(futures).get();
     } catch (ExecutionException | InterruptedException e) {
-      log.error("Error waiting on group futures", e);
+      logger.atSevere().withCause(e).log("Error waiting on group futures");
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
 

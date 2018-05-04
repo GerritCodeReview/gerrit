@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "433f4f32_0734f3fa",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-05-04T09:22:31Z",
+      "side": 1,
+      "message": "appResult is never reassigned, so the close call was always called on the \"first\" bin value.\nThis is still the case with this syntax, and seems valid with the rest of the code (unfortunately?)",
+      "parentUuid": "d96f253b_76d8060c",
+      "range": {
+        "startLine": 947,
+        "startChar": 4,
+        "endLine": 947,
+        "endChar": 40
+      },
+      "revId": "e9f48976e1aa8f0fe6f837b4aeb6dd5c9a1515a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844d7603_c0c0500e",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 2
@@ -71,6 +95,30 @@
       "writtenOn": "2018-05-02T08:37:12Z",
       "side": 1,
       "message": "The suppression above is for these lines.",
+      "range": {
+        "startLine": 954,
+        "startChar": 10,
+        "endLine": 956,
+        "endChar": 38
+      },
+      "revId": "e9f48976e1aa8f0fe6f837b4aeb6dd5c9a1515a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ff1aaa2_0af06b08",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-05-04T09:22:31Z",
+      "side": 1,
+      "message": "The returned object implements Closeable, but has a no-op close method.",
+      "parentUuid": "844d7603_c0c0500e",
       "range": {
         "startLine": 954,
         "startChar": 10,

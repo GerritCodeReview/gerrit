@@ -26,6 +26,13 @@
     PAGE_LOADED: 'Page Loaded',
   };
 
+  // Plugin-related reporting constants.
+  const PLUGINS = {
+    TYPE: 'lifecycle',
+    // Reported events - alphabetize below.
+    INSTALLED: 'Plugins installed',
+  };
+
   // Navigation reporting constants.
   const NAVIGATION = {
     TYPE: 'nav-report',
@@ -214,8 +221,10 @@
       }
     },
 
-    pluginsLoaded() {
+    pluginsLoaded(pluginsList) {
       this.timeEnd(TIMER.PLUGINS_LOADED);
+      this.reporter(
+          PLUGINS.TYPE, PLUGINS.INSTALLED, (pluginsList || []).join(','));
     },
 
     /**

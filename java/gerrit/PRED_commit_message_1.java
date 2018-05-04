@@ -14,7 +14,6 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.Operation;
@@ -41,9 +40,9 @@ public class PRED_commit_message_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
+    String commitMessage = StoredValues.COMMIT_MESSAGE.get(engine);
 
-    SymbolTerm msg = SymbolTerm.create(psInfo.getMessage());
+    SymbolTerm msg = SymbolTerm.create(commitMessage);
     if (!a1.unify(msg, engine.trail)) {
       return engine.fail();
     }

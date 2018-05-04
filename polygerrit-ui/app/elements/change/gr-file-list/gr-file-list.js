@@ -257,6 +257,10 @@
 
       return Promise.all(promises).then(() => {
         this._loading = false;
+        const hasButler = !!document.getElementById('butler-suggested-owners');
+        if (hasButler) {
+          this.$.reporting.reportExtension('butler');
+        }
         this.$.reporting.fileListDisplayed();
       });
     },

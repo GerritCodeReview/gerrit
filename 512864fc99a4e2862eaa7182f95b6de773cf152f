@@ -1,4 +1,143 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1525371634 -0400\nnonce ACQuaLDVKMyYr0vViO2+2LMzD5wrmgq7ze91ETtOQKfi+MYxGjjx927blhxgXwf2lTYedrHCrKbp\n\n0000000000000000000000000000000000000000 6cd0fc955dd5505db99557ee41879ad28c3df042 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlrrUvIVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMB70QANLVPvXO/UVUXz2JiYM9ax7q4hQh\nTforcF6mxEtzzSNEzyLrpLpSzpZoiuly0/3MFmi+4/pCaj+NfpSw42hn9cnEK1rf\nN9ofAQPMQPhdKQakEChnMSqcK1ZvED/XzIdedUjNxi8c6OLD5+kNLD8+fxa5dAua\n/RAu/D5LcsXqIq89Zt3iJFe4e/cdrwePT7vcvup0hWoqFoTANHgBMRoHOyNYJUuS\ngs1Y8Z/SARYLI6F80ceOgy8CtrahveLzLvKzLhO+iu/UBJLDPuEVCyVYehFV5J7g\nC2cd/TU1EEQs9wJfm/AQo4Zsz9E4OeK1Xy3IQo9hf8PhN8cSkKkS+r8h0vB9N8bH\nA3NzsD/DAnq/r9DzWw3gedkJZx04zD6GXDJAKEzn24LO5T+YVKRVS0xvk403UU/c\nwMZ1gRUGwhXJG4zSuBee2Ch7AW2e9VCcDWK2g1W+/6Vd3JpFYZatDOsPgC7pZl9K\nZQ1G95xuL3UT9/ozlR/Kw1qm4AjUFFsw+nkE8kpmvx/doritOOd7VbsNPMwkfRsB\no6yj0IED+eja8n5mJ2LTUBjI+I0UqSfj5Gd7AcA40HZ4RZsgpWlmGFhtgaaimO2N\nDaaLel6Zwrr+1DcoAIwCG6YFF5AvqvfTDVXoIZ0ducBwh/OV39ns+5a6aVNYYjvx\nxitmBUsnQ99i2U+p\n\u003dJZrq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "30875da3_bfda3664",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T15:38:38Z",
+      "side": 1,
+      "message": "java.util?",
+      "range": {
+        "startLine": 17,
+        "startChar": 7,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "177a0f9a_147c335a",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T15:38:38Z",
+      "side": 1,
+      "message": "I would prefer this to be a static inner class instead. (Anonymous classes always require special care and large ones diminish readability.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 11,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa886fc9_d6a2567a",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T15:38:38Z",
+      "side": 1,
+      "message": "Might we encounter null values for object?",
+      "range": {
+        "startLine": 28,
+        "startChar": 57,
+        "endLine": 28,
+        "endChar": 69
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e59a41b0_25ee9dc9",
+        "filename": "java/com/google/gerrit/server/cache/IntegerCacheSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T15:38:38Z",
+      "side": 1,
+      "message": "Do we need to care about null values?",
+      "range": {
+        "startLine": 31,
+        "startChar": 34,
+        "endLine": 31,
+        "endChar": 40
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d48b10d_988f00f3",
+        "filename": "java/com/google/gerrit/server/cache/IntegerCacheSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T15:38:38Z",
+      "side": 1,
+      "message": "Do you have a preference to use proto style serialization for ints? If not, we could also use\n\n ByteBuffer.allocate(Integer.BYTES).putInt(object).array()\n\ninstead of all of this code here.",
+      "range": {
+        "startLine": 34,
+        "startChar": 9,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a579199_20350131",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheSerializersTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T15:38:38Z",
+      "side": 1,
+      "message": "There\u0027s no BUILD target which covers CacheSerializersTest or IntegerCacheSerializerTest (or at least my IntelliJ claims so). I just realized that\u0027s also true for JavaCacheSerializerTest, EnumCacheSerializerTest, and BooleanCacheSerializerTest.",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 33
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

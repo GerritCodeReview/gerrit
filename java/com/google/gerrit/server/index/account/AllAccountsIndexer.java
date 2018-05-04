@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.account;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -38,12 +39,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, AccountIndex> {
-  private static final Logger log = LoggerFactory.getLogger(AllAccountsIndexer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ListeningExecutorService executor;
   private final Accounts accounts;
@@ -68,7 +67,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
     try {
       ids = collectAccounts(progress);
     } catch (IOException e) {
-      log.error("Error collecting accounts", e);
+      logger.atSevere().withCause(e).log("Error collecting accounts");
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
     return reindexAccounts(index, ids, progress);
@@ -110,7 +109,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
     try {
       Futures.successfulAsList(futures).get();
     } catch (ExecutionException | InterruptedException e) {
-      log.error("Error waiting on account futures", e);
+      logger.atSevere().withCause(e).log("Error waiting on account futures");
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
 

@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -40,12 +41,10 @@ import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Dry run of a submit strategy. */
 public class SubmitDryRun {
-  private static final Logger log = LoggerFactory.getLogger(SubmitDryRun.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static class Arguments {
     final Repository repo;
@@ -134,7 +133,7 @@ public class SubmitDryRun {
       case INHERIT:
       default:
         String errorMsg = "No submit strategy for: " + submitType;
-        log.error(errorMsg);
+        logger.atSevere().log(errorMsg);
         throw new IntegrationException(errorMsg);
     }
   }

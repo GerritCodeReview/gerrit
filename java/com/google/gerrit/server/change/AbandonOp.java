@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -38,11 +39,9 @@ import com.google.gerrit.server.update.Context;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AbandonOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(AbandonOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AbandonedSender.Factory abandonedSenderFactory;
   private final ChangeMessagesUtil cmUtil;
@@ -133,7 +132,7 @@ public class AbandonOp implements BatchUpdateOp {
       cm.setAccountsToNotify(accountsToNotify);
       cm.send();
     } catch (Exception e) {
-      log.error("Cannot email update for change " + change.getId(), e);
+      logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
     changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notifyHandling);
   }

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.flogger.FluentLogger;
 import java.util.Objects;
-import org.slf4j.Logger;
 
 /** Indicates a problem with Git based data. */
 public class ValidationError {
@@ -46,8 +46,8 @@ public class ValidationError {
     void error(ValidationError error);
   }
 
-  public static Sink createLoggerSink(String message, Logger log) {
-    return error -> log.error(message + error.getMessage());
+  public static Sink createLoggerSink(String message, FluentLogger log) {
+    return error -> log.atSevere().log(message + error.getMessage());
   }
 
   @Override

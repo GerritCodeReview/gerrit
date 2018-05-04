@@ -14,14 +14,13 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TrackingIdPredicate extends ChangeIndexPredicate {
-  private static final Logger log = LoggerFactory.getLogger(TrackingIdPredicate.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public TrackingIdPredicate(String trackingId) {
     super(ChangeField.TR, trackingId);
@@ -32,7 +31,7 @@ public class TrackingIdPredicate extends ChangeIndexPredicate {
     try {
       return cd.trackingFooters().containsValue(getValue());
     } catch (IOException e) {
-      log.warn("Cannot extract footers from " + cd.getId(), e);
+      logger.atWarning().withCause(e).log("Cannot extract footers from %s", cd.getId());
     }
     return false;
   }

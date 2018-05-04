@@ -17,6 +17,7 @@ package com.google.gerrit.server.events;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -69,8 +70,6 @@ import java.util.Map.Entry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class StreamEventsApiListener
@@ -89,7 +88,7 @@ public class StreamEventsApiListener
         RevisionCreatedListener,
         TopicEditedListener,
         VoteDeletedListener {
-  private static final Logger log = LoggerFactory.getLogger(StreamEventsApiListener.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends AbstractModule {
     @Override
@@ -267,7 +266,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -283,7 +282,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -301,7 +300,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -321,7 +320,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -339,7 +338,7 @@ public class StreamEventsApiListener
         dispatcher.get().postEvent(change, event);
       }
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -366,7 +365,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -391,7 +390,7 @@ public class StreamEventsApiListener
     try {
       dispatcher.get().postEvent(refName, event);
     } catch (PermissionBackendException e) {
-      log.error("error while posting event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -411,7 +410,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -429,7 +428,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -447,7 +446,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -465,7 +464,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -480,7 +479,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -495,7 +494,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 
@@ -515,7 +514,7 @@ public class StreamEventsApiListener
 
       dispatcher.get().postEvent(change, event);
     } catch (OrmException | PermissionBackendException e) {
-      log.error("Failed to dispatch event", e);
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
     }
   }
 }

@@ -18,6 +18,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.WebLinkInfoCommon;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
@@ -37,19 +38,17 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collections;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class WebLinks {
-  private static final Logger log = LoggerFactory.getLogger(WebLinks.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final Predicate<WebLinkInfo> INVALID_WEBLINK =
       link -> {
         if (link == null) {
           return false;
         } else if (Strings.isNullOrEmpty(link.name) || Strings.isNullOrEmpty(link.url)) {
-          log.warn(String.format("%s is missing name and/or url", link.getClass().getName()));
+          logger.atWarning().log("%s is missing name and/or url", link.getClass().getName());
           return false;
         }
         return true;
@@ -60,7 +59,7 @@ public class WebLinks {
         if (link == null) {
           return false;
         } else if (Strings.isNullOrEmpty(link.name) || Strings.isNullOrEmpty(link.url)) {
-          log.warn(String.format("%s is missing name and/or url", link.getClass().getName()));
+          logger.atWarning().log("%s is missing name and/or url", link.getClass().getName());
           return false;
         }
         return true;

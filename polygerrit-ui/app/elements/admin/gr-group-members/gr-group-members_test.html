@@ -117,6 +117,20 @@ limitations under the License.
             return Promise.resolve({});
           }
         },
+        getSuggestedGroups(input) {
+          if (input.startsWith('test')) {
+            return Promise.resolve({
+              'test-admin': {
+                id: '1ce023d3fb4e4260776fb92cd08b52bbd21ce70a',
+              },
+              'test/Administrator (admin)': {
+                id: 'test%3Aadmin',
+              },
+            });
+          } else {
+            return Promise.resolve({});
+          }
+        },
         getLoggedIn() { return Promise.resolve(true); },
         getConfig() {
           return Promise.resolve();
@@ -159,7 +173,7 @@ limitations under the License.
           'https://test/site/group/url');
     });
 
-    test('save correctly', () => {
+    test('save members correctly', () => {
       element._groupOwner = true;
 
       const memberName = 'test-admin';
@@ -169,7 +183,7 @@ limitations under the License.
             return Promise.resolve({});
           });
 
-      const button = Polymer.dom(element.root).querySelector('gr-button');
+      const button = element.$.saveGroupMember;
 
       assert.isTrue(button.hasAttribute('disabled'));
 
@@ -183,6 +197,33 @@ limitations under the License.
         assert.isFalse(element.$.Title.classList.contains('edited'));
         assert.isTrue(saveStub.lastCall.calledWithExactly('Administrators',
             1234));
+      });
+    });
+
+    test('save included groups correctly', () => {
+      element._groupOwner = true;
+
+      const includedGroupName = 'testName';
+
+      const saveIncludedGroupStub = sandbox.stub(
+          element.$.restAPI, 'saveIncludedGroup', () => {
+            return Promise.resolve({});
+          });
+
+      const button = element.$.saveIncludedGroups;
+
+      assert.isTrue(button.hasAttribute('disabled'));
+
+      element.$.includedGroupSearchInput.text = includedGroupName;
+      element.$.includedGroupSearchInput.value = 'testId';
+
+      assert.isFalse(button.hasAttribute('disabled'));
+
+      return element._handleSavingIncludedGroups().then(() => {
+        assert.isTrue(button.hasAttribute('disabled'));
+        assert.isFalse(element.$.Title.classList.contains('edited'));
+        assert.equal(saveIncludedGroupStub.lastCall.args[0], 'Administrators');
+        assert.equal(saveIncludedGroupStub.lastCall.args[1], 'testId');
       });
     });
 
@@ -220,6 +261,20 @@ limitations under the License.
       });
     });
 
+    test('_getGroupSuggestions empty', () => {
+      return element._getGroupSuggestions('nonexistent').then(groups => {
+        assert.equal(groups.length, 0);
+      });
+    });
+
+    test('_getGroupSuggestions non-empty', () => {
+      return element._getGroupSuggestions('test').then(groups => {
+        assert.equal(groups.length, 2);
+        assert.equal(groups[0].name, 'test-admin');
+        assert.equal(groups[1].name, 'test/Administrator (admin)');
+      });
+    });
+
     test('_computeHideItemClass returns string for admin', () => {
       const admin = true;
       const owner = false;
@@ -240,7 +295,7 @@ limitations under the License.
 
     test('delete member', () => {
       const deletelBtns = Polymer.dom(element.root)
-          .querySelectorAll('.deleteButton');
+          .querySelectorAll('.deleteMembersButton');
       MockInteractions.tap(deletelBtns[0]);
       assert.equal(element._itemId, '1000097');
       assert.equal(element._itemName, 'jane');
@@ -253,6 +308,20 @@ limitations under the License.
       MockInteractions.tap(deletelBtns[3]);
       assert.equal(element._itemId, '1000098');
       assert.equal(element._itemName, '1000098');
+    });
+
+    test('delete included groups', () => {
+      const deletelBtns = Polymer.dom(element.root)
+          .querySelectorAll('.deleteIncludedGroupButton');
+      MockInteractions.tap(deletelBtns[0]);
+      assert.equal(element._itemId, 'testId');
+      assert.equal(element._itemName, 'testName');
+      MockInteractions.tap(deletelBtns[1]);
+      assert.equal(element._itemId, 'testId2');
+      assert.equal(element._itemName, 'testName2');
+      MockInteractions.tap(deletelBtns[2]);
+      assert.equal(element._itemId, 'testId3');
+      assert.equal(element._itemName, 'testName3');
     });
 
     test('_computeLoadingClass', () => {

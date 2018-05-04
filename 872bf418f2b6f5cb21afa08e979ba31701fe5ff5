@@ -75,6 +75,30 @@
       "revId": "872bf418f2b6f5cb21afa08e979ba31701fe5ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c88df949_3fa89a0a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2424,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-05-04T12:58:39Z",
+      "side": 1,
+      "message": "Done. Which also should minimize impact for 2.15. I\u0027ll cherry-pick to 2.15, and we\u0027ll see if someone wants to block it.",
+      "parentUuid": "635e914c_baac4009",
+      "range": {
+        "startLine": 2424,
+        "startChar": 17,
+        "endLine": 2424,
+        "endChar": 21
+      },
+      "revId": "872bf418f2b6f5cb21afa08e979ba31701fe5ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

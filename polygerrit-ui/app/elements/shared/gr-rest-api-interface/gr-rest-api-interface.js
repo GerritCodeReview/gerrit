@@ -513,9 +513,9 @@
 
     deleteIncludedGroup(groupName, includedGroup) {
       const encodeName = encodeURIComponent(groupName);
-      const encodeIncludedGroup = encodeURIComponent(includedGroup);
+      const decodeIncludedGroup = decodeURIComponent(includedGroup);
       return this.send('DELETE',
-          `/groups/${encodeName}/groups/${encodeIncludedGroup}`);
+          `/groups/${encodeName}/groups/${decodeIncludedGroup}`);
     },
 
     getVersion() {

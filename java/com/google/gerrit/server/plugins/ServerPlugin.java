@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
@@ -33,11 +34,9 @@ import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ServerPlugin extends Plugin {
-  private static final Logger log = LoggerFactory.getLogger(ServerPlugin.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Manifest manifest;
   private final PluginContentScanner scanner;
@@ -160,9 +159,9 @@ public class ServerPlugin extends Plugin {
     } else if ("restart".equalsIgnoreCase(v)) {
       return false;
     } else {
-      log.warn(
-          String.format(
-              "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart", getName(), v));
+      logger
+          .atWarning()
+          .log("Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart", getName(), v);
       return false;
     }
   }

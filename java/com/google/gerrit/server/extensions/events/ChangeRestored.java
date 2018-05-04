@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -32,12 +33,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ChangeRestored {
-  private static final Logger log = LoggerFactory.getLogger(ChangeRestored.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicSet<ChangeRestoredListener> listeners;
   private final EventUtil util;
@@ -69,13 +68,13 @@ public class ChangeRestored {
         }
       }
     } catch (PatchListObjectTooLargeException e) {
-      log.warn("Couldn't fire event: " + e.getMessage());
+      logger.atWarning().log("Couldn't fire event: %s", e.getMessage());
     } catch (PatchListNotAvailableException
         | GpgException
         | IOException
         | OrmException
         | PermissionBackendException e) {
-      log.error("Couldn't fire event", e);
+      logger.atSevere().withCause(e).log("Couldn't fire event");
     }
   }
 

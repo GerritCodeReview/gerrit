@@ -9,8 +9,8 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:h2",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

@@ -19,6 +19,7 @@ import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Strings.nullToEmpty;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GitwebType;
 import com.google.gerrit.common.data.ParameterizedString;
@@ -36,11 +37,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GitwebConfig {
-  private static final Logger log = LoggerFactory.getLogger(GitwebConfig.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static boolean isDisabled(Config cfg) {
     return isEmptyString(cfg, "gitweb", null, "url")
@@ -124,10 +123,10 @@ public class GitwebConfig {
         if (isValidPathSeparator(c)) {
           type.setPathSeparator(firstNonNull(c, defaultType.getPathSeparator()));
         } else {
-          log.warn("Invalid gitweb.pathSeparator: " + c);
+          logger.atWarning().log("Invalid gitweb.pathSeparator: %s", c);
         }
       } else {
-        log.warn("gitweb.pathSeparator is not a single character: " + pathSeparator);
+        logger.atWarning().log("gitweb.pathSeparator is not a single character: %s", pathSeparator);
       }
     }
     return type;

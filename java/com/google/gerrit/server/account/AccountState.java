@@ -23,6 +23,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -41,8 +42,6 @@ import java.util.Collection;
 import java.util.Optional;
 import org.apache.commons.codec.DecoderException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Superset of all information related to an Account. This includes external IDs, project watches,
@@ -52,7 +51,7 @@ import org.slf4j.LoggerFactory;
  * account cache (see {@link AccountCache#get(Account.Id)}).
  */
 public class AccountState {
-  private static final Logger logger = LoggerFactory.getLogger(AccountState.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final Function<AccountState, Account.Id> ACCOUNT_ID_FUNCTION =
       a -> a.getAccount().getId();
@@ -224,8 +223,7 @@ public class AccountState {
         try {
           return HashedPassword.decode(hashedStr).checkPassword(password);
         } catch (DecoderException e) {
-          logger.error(
-              String.format("DecoderException for user %s: %s ", username, e.getMessage()));
+          logger.atSevere().log("DecoderException for user %s: %s ", username, e.getMessage());
           return false;
         }
       }

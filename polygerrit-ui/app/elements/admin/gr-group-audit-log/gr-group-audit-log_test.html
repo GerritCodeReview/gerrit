@@ -47,81 +47,50 @@ limitations under the License.
     });
 
     suite('members', () => {
-      test('test getNameForMember', () => {
-        let account = {
-          member: {
-            username: 'test-user',
-            _account_id: 12,
-          },
-        };
-        assert.equal(element._getNameForMember(account.member, false),
-            'test-user');
-
-        account = {
+      test('test _getNameForGroup', () => {
+        let group = {
           member: {
             name: 'test-name',
             _account_id: 12,
           },
         };
-        assert.equal(element._getNameForMember(account.member), 'test-name');
+        assert.equal(element._getNameForGroup(group.member), 'test-name');
 
         account = {
-          user: {
-            email: 'test-email@gmail.com',
+          member: {
+            id: 'test-id',
           },
         };
-        assert.equal(element._getNameForMember(account.user), 'test-email');
+        assert.equal(element._getNameForGroup(group.member), 'test-id');
+      });
+
+      test('test _isGroupEvent', () => {
+        assert.isTrue(element._isGroupEvent('ADD_GROUP'));
+        assert.isTrue(element._isGroupEvent('REMOVE_GROUP'));
+
+        assert.isFalse(element._isGroupEvent('ADD_USER'));
+        assert.isFalse(element._isGroupEvent('REMOVE_USER'));
       });
     });
 
     suite('users', () => {
-      test('test _getName', () => {
-        let account = {
+      test('test _getIdForUser', () => {
+        const account = {
           user: {
             username: 'test-user',
             _account_id: 12,
           },
         };
-        assert.equal(element._getNameForUser(account.user), 'test-user (12)');
-
-        account = {
-          user: {
-            name: 'test-name',
-            _account_id: 12,
-          },
-        };
-        assert.equal(element._getNameForUser(account.user), 'test-name (12)');
-
-        account = {
-          user: {
-            email: 'test-email@gmail.com',
-            _account_id: 12,
-          },
-        };
-        assert.equal(element._getNameForUser(account.user), 'test-email (12)');
+        assert.equal(element._getIdForUser(account.user), ' (12)');
       });
 
       test('test _account_id not present', () => {
-        let account = {
+        const account = {
           user: {
             username: 'test-user',
           },
         };
-        assert.equal(element._getNameForUser(account.user), 'test-user');
-
-        account = {
-          user: {
-            name: 'test-name',
-          },
-        };
-        assert.equal(element._getNameForUser(account.user), 'test-name');
-
-        account = {
-          user: {
-            email: 'test-email@gmail.com',
-          },
-        };
-        assert.equal(element._getNameForUser(account.user), 'test-email');
+        assert.equal(element._getIdForUser(account.user), '');
       });
     });
 

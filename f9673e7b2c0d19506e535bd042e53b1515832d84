@@ -232,6 +232,30 @@
       "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c72975cf_60190a15",
+        "filename": "javatests/com/google/gerrit/server/change/MergeabilityCacheImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-04T12:01:40Z",
+      "side": 1,
+      "message": "Already done in https://gerrit-review.googlesource.com/c/gerrit/+/175553 :)",
+      "parentUuid": "c4d77e8b_721dd4a6",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 46
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

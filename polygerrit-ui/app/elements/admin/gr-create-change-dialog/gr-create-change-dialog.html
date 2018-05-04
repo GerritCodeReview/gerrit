@@ -72,6 +72,17 @@ limitations under the License.
             </gr-autocomplete>
           </span>
         </section>
+        <section class$="[[_computeBranchClass(baseChange)]]">
+          <span class="title">Provide base commit sha1 for change</span>
+          <span class="value">
+            <input
+                is="iron-input"
+                id="baseCommitInput"
+                maxlength="40"
+                placeholder="(optional)"
+                bind-value="{{baseCommit}}">
+          </span>
+        </section>
         <section>
           <span class="title">Enter topic for new change</span>
           <span class="value">

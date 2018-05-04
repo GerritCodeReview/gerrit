@@ -1412,7 +1412,7 @@
      * @param {string=} opt_baseChange
      */
     createChange(project, branch, subject, opt_topic, opt_isPrivate,
-        opt_workInProgress, opt_baseChange) {
+        opt_workInProgress, opt_baseChange, opt_baseCommit) {
       return this.send('POST', '/changes/', {
         project,
         branch,
@@ -1421,6 +1421,7 @@
         is_private: opt_isPrivate,
         work_in_progress: opt_workInProgress,
         base_change: opt_baseChange,
+        base_commit: opt_baseCommit,
       }).then(response => this.getResponseObject(response));
     },
 

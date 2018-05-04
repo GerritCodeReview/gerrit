@@ -286,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "00a1327a_2081fee0",
+        "filename": "javatests/com/google/gerrit/server/cache/EnumCacheSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-04T14:37:40Z",
+      "side": 1,
+      "message": "As you say, there are lots of tests for which it is impossible to succinctly write a test that both covers all possible inputs and runs quickly, so I agree with your strategy for narrowing down the input space into a few representative examples. But in the cases when it *is* possible to write a succinct test over all inputs, I\u0027d just do it.\n\nOf course I then realized that that\u0027s not what\u0027s happening in this test, because MyEnum.values() is not the whole input space of all enum values, it\u0027s just a hand-picked set of enum names hard-coded in this test. So what I said in the previous paragraph isn\u0027t really applicable, and I\u0027ll just reduce a few structurally different examples in this test.",
+      "parentUuid": "b1d3f967_723bbf7c",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c9c4cc0_e3062ffd",
         "filename": "javatests/com/google/gerrit/server/change/MergeabilityCacheImplTest.java",
         "patchSetId": 2

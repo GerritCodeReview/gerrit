@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "59369591_cb1af5f8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-04T21:18:57Z",
+      "side": 1,
+      "message": "It\u0027s because the singleusergroups plugin removes group_id when the plugin is uninstalled leaving just id.\n\nSo better to use id then to use group_id which will be undefined when the plugin is removed.",
+      "parentUuid": "e7724192_cd248d1b",
+      "range": {
+        "startLine": 50,
+        "startChar": 52,
+        "endLine": 50,
+        "endChar": 54
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "521c37c2_79a02aac",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
         "patchSetId": 4

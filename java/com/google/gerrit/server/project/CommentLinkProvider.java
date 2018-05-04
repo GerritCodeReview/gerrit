@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.server.config.ConfigUpdatedEvent;
 import com.google.gerrit.server.config.GerritConfigListener;
@@ -27,12 +28,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, GerritConfigListener {
-  private static final Logger log = LoggerFactory.getLogger(CommentLinkProvider.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private volatile List<CommentLinkInfo> commentLinks;
 
@@ -48,12 +47,12 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, Ger
       try {
         CommentLinkInfoImpl cl = ProjectConfig.buildCommentLink(cfg, name, true);
         if (cl.isOverrideOnly()) {
-          log.warn("commentlink " + name + " empty except for \"enabled\"");
+          logger.atWarning().log("commentlink %s empty except for \"enabled\"", name);
           continue;
         }
         cls.add(cl);
       } catch (IllegalArgumentException e) {
-        log.warn("invalid commentlink: " + e.getMessage());
+        logger.atWarning().log("invalid commentlink: %s", e.getMessage());
       }
     }
     return ImmutableList.copyOf(cls);

@@ -23,6 +23,7 @@ import static org.eclipse.jgit.lib.Constants.R_HEADS;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -78,10 +79,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ReplaceOp implements BatchUpdateOp {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     ReplaceOp create(
         ProjectState projectState,
@@ -96,8 +97,6 @@ public class ReplaceOp implements BatchUpdateOp {
         @Nullable MagicBranchInput magicBranch,
         @Nullable PushCertificate pushCertificate);
   }
-
-  private static final Logger log = LoggerFactory.getLogger(ReplaceOp.class);
 
   private static final String CHANGE_IS_CLOSED = "change is closed";
 
@@ -486,7 +485,7 @@ public class ReplaceOp implements BatchUpdateOp {
     try {
       fireCommentAddedEvent(ctx);
     } catch (Exception e) {
-      log.warn("comment-added event invocation failed", e);
+      logger.atWarning().withCause(e).log("comment-added event invocation failed");
     }
     if (mergedByPushOp != null) {
       mergedByPushOp.postUpdate(ctx);
@@ -516,7 +515,10 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.addExtraCC(recipients.getCcOnly());
         cm.send();
       } catch (Exception e) {
-        log.error("Cannot send email for new patch set " + newPatchSet.getId(), e);
+        logger
+            .atSevere()
+            .withCause(e)
+            .log("Cannot send email for new patch set %s", newPatchSet.getId());
       }
     }
 
@@ -600,7 +602,7 @@ public class ReplaceOp implements BatchUpdateOp {
       }
       return null;
     } catch (IOException e) {
-      log.warn("Can't check for already submitted change", e);
+      logger.atWarning().withCause(e).log("Can't check for already submitted change");
       return null;
     }
   }

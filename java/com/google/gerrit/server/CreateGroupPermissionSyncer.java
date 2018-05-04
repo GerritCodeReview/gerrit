@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
@@ -36,8 +37,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * With groups in NoteDb, the capability of creating a group is expressed as a {@code CREATE}
@@ -52,7 +51,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class CreateGroupPermissionSyncer implements ChangeMergedListener {
-  private static final Logger log = LoggerFactory.getLogger(CreateGroupPermissionSyncer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
@@ -135,7 +134,7 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
     try {
       syncIfNeeded();
     } catch (IOException | ConfigInvalidException e) {
-      log.error("Can't sync create group permissions", e);
+      logger.atSevere().withCause(e).log("Can't sync create group permissions");
     }
   }
 }

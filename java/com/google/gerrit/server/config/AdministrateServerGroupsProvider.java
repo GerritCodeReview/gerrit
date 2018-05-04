@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.server.account.GroupBackend;
@@ -25,11 +26,11 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Loads {@link AdministrateServerGroups} from {@code gerrit.config}. */
 public class AdministrateServerGroupsProvider implements Provider<ImmutableSet<GroupReference>> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ImmutableSet<GroupReference> groups;
 
   @Inject
@@ -48,8 +49,7 @@ public class AdministrateServerGroupsProvider implements Provider<ImmutableSet<G
         if (g != null) {
           builder.add(g);
         } else {
-          Logger log = LoggerFactory.getLogger(getClass());
-          log.warn("Group \"{}\" not available, skipping.", name);
+          logger.atWarning().log("Group \"%s\" not available, skipping.", name);
         }
       }
       groups = builder.build();

@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.reviewdb.client.Account;
@@ -27,12 +28,10 @@ import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gwtorm.server.OrmException;
 import java.util.HashMap;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Common class for notifications that are related to a project and branch */
 public abstract class NotificationEmail extends OutgoingEmail {
-  private static final Logger log = LoggerFactory.getLogger(NotificationEmail.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected Branch.NameKey branch;
 
@@ -73,7 +72,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
       // Just don't CC everyone. Better to send a partial message to those
       // we already have queued up then to fail deliver entirely to people
       // who have a lower interest in the change.
-      log.warn("Cannot BCC watchers for " + type, err);
+      logger.atWarning().withCause(err).log("Cannot BCC watchers for %s", type);
     }
   }
 

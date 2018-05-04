@@ -596,10 +596,10 @@
 
     deleteIncludedGroup(groupName, includedGroup) {
       const encodeName = encodeURIComponent(groupName);
-      const encodeIncludedGroup = encodeURIComponent(includedGroup);
+      const decodeIncludedGroup = decodeURIComponent(includedGroup);
       return this._send({
         method: 'DELETE',
-        url: `/groups/${encodeName}/groups/${encodeIncludedGroup}`,
+        url: `/groups/${encodeName}/groups/${decodeIncludedGroup}`,
       });
     },
 

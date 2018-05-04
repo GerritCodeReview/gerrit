@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.project;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -36,13 +37,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData, ProjectIndex> {
-
-  private static final Logger log = LoggerFactory.getLogger(AllProjectsIndexer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ListeningExecutorService executor;
   private final ProjectCache projectCache;
@@ -93,7 +91,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
     try {
       Futures.successfulAsList(futures).get();
     } catch (ExecutionException | InterruptedException e) {
-      log.error("Error waiting on project futures", e);
+      logger.atSevere().withCause(e).log("Error waiting on project futures");
       return new SiteIndexer.Result(sw, false, 0, 0);
     }
 

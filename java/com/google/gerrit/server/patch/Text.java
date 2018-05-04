@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -34,11 +35,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.mozilla.universalchardet.UniversalDetector;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Text extends RawText {
-  private static final Logger log = LoggerFactory.getLogger(Text.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final int bigFileThreshold = PackConfig.DEFAULT_BIG_FILE_THRESHOLD;
 
   public static final byte[] NO_BYTES = {};
@@ -157,11 +157,11 @@ public class Text extends RawText {
       return Charset.forName(encoding);
 
     } catch (IllegalCharsetNameException err) {
-      log.error("Invalid detected charset name '" + encoding + "': " + err);
+      logger.atSevere().log("Invalid detected charset name '%s': %s", encoding, err);
       return ISO_8859_1;
 
     } catch (UnsupportedCharsetException err) {
-      log.error("Detected charset '" + encoding + "' not supported: " + err);
+      logger.atSevere().log("Detected charset '%s' not supported: %s", encoding, err);
       return ISO_8859_1;
     }
   }

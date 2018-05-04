@@ -15,6 +15,7 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -37,11 +38,9 @@ import com.google.inject.ProvisionException;
 import com.google.inject.assistedinject.Assisted;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class EmailMerge implements Runnable, RequestContext {
-  private static final Logger log = LoggerFactory.getLogger(EmailMerge.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   interface Factory {
     EmailMerge create(
@@ -107,7 +106,7 @@ class EmailMerge implements Runnable, RequestContext {
       cm.setAccountsToNotify(accountsToNotify);
       cm.send();
     } catch (Exception e) {
-      log.error("Cannot email merged notification for " + changeId, e);
+      logger.atSevere().withCause(e).log("Cannot email merged notification for %s", changeId);
     } finally {
       requestContext.setContext(old);
       if (db != null) {

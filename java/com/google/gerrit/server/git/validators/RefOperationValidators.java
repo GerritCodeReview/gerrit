@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.validators;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -34,12 +35,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RefOperationValidators {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final GetErrorMessages GET_ERRORS = new GetErrorMessages();
-  private static final Logger LOG = LoggerFactory.getLogger(RefOperationValidators.class);
 
   public interface Factory {
     RefOperationValidators create(Project project, IdentifiedUser user, ReceiveCommand cmd);
@@ -101,7 +101,7 @@ public class RefOperationValidators {
         String.format(
             "Ref \"%s\" %S in project %s validation failed",
             event.command.getRefName(), event.command.getType(), event.project.getName());
-    LOG.error(header);
+    logger.atSevere().log(header);
     throw new RefOperationValidationException(header, errors);
   }
 

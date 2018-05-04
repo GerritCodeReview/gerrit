@@ -106,14 +106,14 @@ public class PatchListCacheImpl implements PatchListCache {
       }
       return pl;
     } catch (ExecutionException e) {
-      PatchListLoader.log.warn("Error computing " + key, e);
+      PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
       throw new PatchListNotAvailableException(e);
     } catch (UncheckedExecutionException e) {
       if (e.getCause() instanceof LargeObjectException) {
         // Cache negative result so we don't need to redo expensive computations that would yield
         // the same result.
         fileCache.put(key, new LargeObjectTombstone());
-        PatchListLoader.log.warn("Error computing " + key, e);
+        PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
         throw new PatchListNotAvailableException(e);
       }
       throw e;
@@ -151,7 +151,7 @@ public class PatchListCacheImpl implements PatchListCache {
       try {
         return intraCache.get(key, intraLoaderFactory.create(key, args));
       } catch (ExecutionException | LargeObjectException e) {
-        IntraLineLoader.log.warn("Error computing " + key, e);
+        IntraLineLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
         return new IntraLineDiff(IntraLineDiff.Status.ERROR);
       }
     }
@@ -164,11 +164,11 @@ public class PatchListCacheImpl implements PatchListCache {
     try {
       return diffSummaryCache.get(key, diffSummaryLoaderFactory.create(key, project));
     } catch (ExecutionException e) {
-      PatchListLoader.log.warn("Error computing " + key, e);
+      PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
       throw new PatchListNotAvailableException(e);
     } catch (UncheckedExecutionException e) {
       if (e.getCause() instanceof LargeObjectException) {
-        PatchListLoader.log.warn("Error computing " + key, e);
+        PatchListLoader.logger.atWarning().withCause(e).log("Error computing %s", key);
         throw new PatchListNotAvailableException(e);
       }
       throw e;

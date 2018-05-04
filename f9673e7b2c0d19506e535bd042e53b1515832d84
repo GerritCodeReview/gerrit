@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "f40989b7_a8e28380",
+        "filename": "javatests/com/google/gerrit/server/cache/EnumCacheSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-04T12:03:31Z",
+      "side": 1,
+      "message": "I guess one answer would be to use Theories, the minor downside being we only get one test per class in that case.",
+      "parentUuid": "bc9dcb37_4d6ebc9d",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c9c4cc0_e3062ffd",
         "filename": "javatests/com/google/gerrit/server/change/MergeabilityCacheImplTest.java",
         "patchSetId": 2

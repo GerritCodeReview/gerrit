@@ -1,4 +1,189 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1525371634 -0400\nnonce ACQuaLDVKMyYr0vViO2+2LMzD5wrmgq7ze91ETtOQKfi+MYxGjjx927blhxgXwf2lTYedrHCrKbp\n\n0000000000000000000000000000000000000000 6cd0fc955dd5505db99557ee41879ad28c3df042 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlrrUvIVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMB70QANLVPvXO/UVUXz2JiYM9ax7q4hQh\nTforcF6mxEtzzSNEzyLrpLpSzpZoiuly0/3MFmi+4/pCaj+NfpSw42hn9cnEK1rf\nN9ofAQPMQPhdKQakEChnMSqcK1ZvED/XzIdedUjNxi8c6OLD5+kNLD8+fxa5dAua\n/RAu/D5LcsXqIq89Zt3iJFe4e/cdrwePT7vcvup0hWoqFoTANHgBMRoHOyNYJUuS\ngs1Y8Z/SARYLI6F80ceOgy8CtrahveLzLvKzLhO+iu/UBJLDPuEVCyVYehFV5J7g\nC2cd/TU1EEQs9wJfm/AQo4Zsz9E4OeK1Xy3IQo9hf8PhN8cSkKkS+r8h0vB9N8bH\nA3NzsD/DAnq/r9DzWw3gedkJZx04zD6GXDJAKEzn24LO5T+YVKRVS0xvk403UU/c\nwMZ1gRUGwhXJG4zSuBee2Ch7AW2e9VCcDWK2g1W+/6Vd3JpFYZatDOsPgC7pZl9K\nZQ1G95xuL3UT9/ozlR/Kw1qm4AjUFFsw+nkE8kpmvx/doritOOd7VbsNPMwkfRsB\no6yj0IED+eja8n5mJ2LTUBjI+I0UqSfj5Gd7AcA40HZ4RZsgpWlmGFhtgaaimO2N\nDaaLel6Zwrr+1DcoAIwCG6YFF5AvqvfTDVXoIZ0ducBwh/OV39ns+5a6aVNYYjvx\nxitmBUsnQ99i2U+p\n\u003dJZrq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e520b5a6_d7fa139a",
+        "filename": "java/com/google/gerrit/server/cache/BooleanCacheSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T11:50:49Z",
+      "side": 1,
+      "message": "If object is null, we\u0027ll get a NPE here.",
+      "range": {
+        "startLine": 31,
+        "startChar": 19,
+        "endLine": 31,
+        "endChar": 25
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19f31674_e7e2697c",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T11:50:49Z",
+      "side": 1,
+      "message": "At some point, we should introduce another class which helps with writing/reading ObjectIds to protos.\n\nBasic outline:\n- If we want to encourage the reuse of the byte array, the object should be instantiated. (If so, make clear that the class is *not* thread-safe.)\n- A method which takes in an ObjectId and returns a ByteString.\n- A method which takes in a ByteString and returns an ObjectId.",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 150,
+        "endChar": 46
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9b584a5_61e604e6",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T11:50:49Z",
+      "side": 1,
+      "message": "This requires a bit too much insider knowledge of the implementation of EnumCacheSerializer in my opinion. To keep implementation details local to classes (and hence avoid coupling of separate classes), I would suggest another approach. Either we figure out an easy way to map enum values to proto enums or rather have an EnumToStringMapper (I don\u0027t insist on the name ;-) ). The latter would allow to map an enum of a specific type to a string and the other way around, similarly to EnumCacheSerializer but without the step to byte[] and without implementing the CacheSerializer interface. EnumCacheSerializer would internally delegate to EnumToStringMapper. Other CacheSerializers like this one here would directly use EnumToStringMapper.",
+      "range": {
+        "startLine": 169,
+        "startChar": 45,
+        "endLine": 169,
+        "endChar": 85
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc32b8a9_44b82ea0",
+        "filename": "javatests/com/google/gerrit/server/cache/BooleanCacheSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T11:50:49Z",
+      "side": 1,
+      "message": "We should test null too.",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 25
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cff288f_2c622504",
+        "filename": "javatests/com/google/gerrit/server/cache/EnumCacheSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T11:50:49Z",
+      "side": 1,
+      "message": "optional: Having loops in tests is typically a sign that the test is doing too much. When I looked at this and related tests previously, I was already tempted to quote TotT episodes like 510 and 520 but thought I should concentrate on more important matters first. I\u0027m not saying that we should improve this whole test class now. Just please keep in mind in the future that tests (and especially unit tests) should focus on one small aspect and all relevant details which are necessary to understand the test (setup, method call, verification) should happen within the @Test code.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c9c4cc0_e3062ffd",
+        "filename": "javatests/com/google/gerrit/server/change/MergeabilityCacheImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T11:50:49Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need this.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 22
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da6f3c6c_a9c115e1",
+        "filename": "javatests/com/google/gerrit/server/change/MergeabilityCacheImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T11:50:49Z",
+      "side": 1,
+      "message": "At the moment, both ChangeKindCacheImplTest and MergeabilityCacheImplTest are covered by the BUILD target server_tests, which is marked as \u0027large\u0027. Both tests are just unit tests, though. We could think about introducing a \u0027small\u0027 target for them.",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4d77e8b_721dd4a6",
+        "filename": "javatests/com/google/gerrit/server/change/MergeabilityCacheImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-04T11:50:49Z",
+      "side": 1,
+      "message": "When we start to write more serializer tests with ObjectIds, we should move this method to a test helper class.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 46
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

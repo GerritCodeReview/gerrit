@@ -56,6 +56,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -209,12 +210,10 @@ import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Receives change upload using the Git receive-pack protocol. */
 class ReceiveCommits {
-  private static final Logger log = LoggerFactory.getLogger(ReceiveCommits.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private enum ReceiveError {
     CONFIG_UPDATE(
@@ -1738,7 +1737,7 @@ class ReceiveCommits {
     try {
       return repo.getFullBranch();
     } catch (IOException e) {
-      log.error("Cannot read HEAD symref", e);
+      logger.atSevere().withCause(e).log("Cannot read HEAD symref");
       return null;
     }
   }
@@ -2707,20 +2706,23 @@ class ReceiveCommits {
         try {
           projectCache.evict(project);
         } catch (IOException e) {
-          log.warn("Cannot evict from project cache, name key: " + project.getName(), e);
+          logger
+              .atWarning()
+              .withCause(e)
+              .log("Cannot evict from project cache, name key: %s", project.getName());
         }
         ProjectState ps = projectCache.get(project.getNameKey());
         try {
           logDebug("Updating project description");
           repo.setGitwebDescription(ps.getProject().getDescription());
         } catch (IOException e) {
-          log.warn("cannot update description of " + project.getName(), e);
+          logger.atWarning().withCause(e).log("cannot update description of %s", project.getName());
         }
         if (allProjectsName.equals(project.getNameKey())) {
           try {
             createGroupPermissionSyncer.syncIfNeeded();
           } catch (IOException | ConfigInvalidException e) {
-            log.error("Can't sync create group permissions", e);
+            logger.atSevere().withCause(e).log("Can't sync create group permissions");
           }
         }
       }
@@ -3115,19 +3117,13 @@ class ReceiveCommits {
   }
 
   private void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(receiveId + msg, args);
+    if (logger.atFine().isEnabled()) {
+      logger.atFine().logVarargs(receiveId + msg, args);
     }
   }
 
   private void logWarn(String msg, Throwable t) {
-    if (log.isWarnEnabled()) {
-      if (t != null) {
-        log.warn(receiveId + msg, t);
-      } else {
-        log.warn(receiveId + msg);
-      }
-    }
+    logger.atWarning().withCause(t).log("%s%s", receiveId, msg);
   }
 
   private void logWarn(String msg) {
@@ -3135,13 +3131,7 @@ class ReceiveCommits {
   }
 
   private void logError(String msg, Throwable t) {
-    if (log.isErrorEnabled()) {
-      if (t != null) {
-        log.error(receiveId + msg, t);
-      } else {
-        log.error(receiveId + msg);
-      }
-    }
+    logger.atSevere().withCause(t).log("%s%s", receiveId, msg);
   }
 
   private void logError(String msg) {

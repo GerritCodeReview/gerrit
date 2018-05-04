@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mime;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,14 +30,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String KEY_SAFE = "safe";
   private static final String SECTION_MIMETYPE = "mimetype";
-  private static final Logger log = LoggerFactory.getLogger(MimeUtilFileTypeRegistry.class);
 
   private final Config cfg;
   private final MimeUtil2 mimeUtil;
@@ -85,7 +85,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
       try {
         mimeTypes.addAll(mimeUtil.getMimeTypes(content));
       } catch (MimeException e) {
-        log.warn("Unable to determine MIME type from content", e);
+        logger.atWarning().withCause(e).log("Unable to determine MIME type from content");
       }
     }
     return getMimeType(mimeTypes, path);
@@ -98,7 +98,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     try {
       mimeTypes.addAll(mimeUtil.getMimeTypes(is));
     } catch (MimeException e) {
-      log.warn("Unable to determine MIME type from content", e);
+      logger.atWarning().withCause(e).log("Unable to determine MIME type from content");
     }
     return getMimeType(mimeTypes, path);
   }
@@ -108,7 +108,7 @@ public class MimeUtilFileTypeRegistry implements FileTypeRegistry {
     try {
       mimeTypes.addAll(mimeUtil.getMimeTypes(path));
     } catch (MimeException e) {
-      log.warn("Unable to determine MIME type from path", e);
+      logger.atWarning().withCause(e).log("Unable to determine MIME type from path");
     }
 
     if (isUnknownType(mimeTypes)) {

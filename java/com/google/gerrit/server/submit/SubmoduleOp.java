@@ -19,6 +19,7 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -70,10 +71,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SubmoduleOp {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Only used for branches without code review changes */
   public class GitlinkOp implements RepoOnlyOp {
@@ -127,8 +127,6 @@ public class SubmoduleOp {
           orm);
     }
   }
-
-  private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
 
   private final GitModules.Factory gitmodulesFactory;
   private final PersonIdent myIdent;
@@ -679,8 +677,8 @@ public class SubmoduleOp {
   }
 
   private void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(orm.getSubmissionId() + msg, args);
+    if (logger.atFine().isEnabled()) {
+      logger.atFine().logVarargs(orm.getSubmissionId() + " " + msg, args);
     }
   }
 }

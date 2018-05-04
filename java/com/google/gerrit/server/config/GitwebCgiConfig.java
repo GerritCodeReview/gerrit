@@ -17,17 +17,16 @@ package com.google.gerrit.server.config;
 import static java.nio.file.Files.isExecutable;
 import static java.nio.file.Files.isRegularFile;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GitwebCgiConfig {
-  private static final Logger log = LoggerFactory.getLogger(GitwebCgiConfig.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public GitwebCgiConfig disabled() {
     return new GitwebCgiConfig();
@@ -84,11 +83,11 @@ public class GitwebCgiConfig {
     } else if (isRegularFile(pkgCgi) && isExecutable(pkgCgi)) {
       // Use the OS packaged CGI.
       //
-      log.debug("Assuming gitweb at " + pkgCgi);
+      logger.atFine().log("Assuming gitweb at %s", pkgCgi);
       cgi = pkgCgi;
 
     } else {
-      log.warn("gitweb not installed (no " + pkgCgi + " found)");
+      logger.atWarning().log("gitweb not installed (no %s found)", pkgCgi);
       cgi = null;
       resourcePaths = new String[] {};
     }

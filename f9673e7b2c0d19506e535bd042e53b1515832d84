@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "0b1d1f9f_013ce4ac",
+        "filename": "javatests/com/google/gerrit/server/cache/EnumCacheSerializerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-04T12:12:57Z",
+      "side": 1,
+      "message": "Sure, but IMO a table-driven test is appropriate for a test that a CacheSerializer implementation is capable of serializing and deserializing all possible values of a proto.",
+      "parentUuid": "79cd30ac_1930f54b",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 42
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c9c4cc0_e3062ffd",
         "filename": "javatests/com/google/gerrit/server/change/MergeabilityCacheImplTest.java",
         "patchSetId": 2

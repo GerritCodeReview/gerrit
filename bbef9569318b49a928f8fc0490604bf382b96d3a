@@ -22,6 +22,30 @@
       "revId": "bbef9569318b49a928f8fc0490604bf382b96d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19824e2a_630e4d6e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2404,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-05-04T13:33:51Z",
+      "side": 1,
+      "message": "I wanted the name to reflect the closely related \"addUserAsRequestAttribute\" option.",
+      "parentUuid": "f179a1cf_288c85ce",
+      "range": {
+        "startLine": 2404,
+        "startChar": 7,
+        "endLine": 2404,
+        "endChar": 30
+      },
+      "revId": "bbef9569318b49a928f8fc0490604bf382b96d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

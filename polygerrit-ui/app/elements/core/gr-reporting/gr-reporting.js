@@ -33,6 +33,13 @@
     INSTALLED: 'Plugins installed',
   };
 
+  // Chrome extension-related reporting constants.
+  const EXTENSION = {
+    TYPE: 'lifecycle',
+    // Reported events - alphabetize below.
+    DETECTED: 'Extension detected',
+  };
+
   // Navigation reporting constants.
   const NAVIGATION = {
     TYPE: 'nav-report',
@@ -231,6 +238,10 @@
       } else {
         this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
       }
+    },
+
+    reportExtension(name) {
+      this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
     },
 
     pluginsLoaded(pluginsList) {

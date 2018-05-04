@@ -70,6 +70,24 @@
       "revId": "f4eed8754fc1b9839deb5db5632483fbbb812b97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f7818e3_7e2d51cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-04T17:24:53Z",
+      "side": 1,
+      "message": "I don\u0027t mean that I looked at the source and this expect it to work, I\u0027m saying that I expect a function named \"pressAndReleaseKeyOn\" would properly emulate a keypress and release. My OP was meant to clarify why you changed it, as that wasn\u0027t explained anywhere.",
+      "parentUuid": "9c0dd6b0_49b98c1e",
+      "revId": "f4eed8754fc1b9839deb5db5632483fbbb812b97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

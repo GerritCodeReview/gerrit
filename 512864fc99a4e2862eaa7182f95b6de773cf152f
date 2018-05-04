@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b06221c1_29f7cb0e",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializers.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-04T15:51:25Z",
+      "side": 1,
+      "message": "We shouldn\u0027t. Given this and other comments on BooleanCacheSerializer, I think we need to document in CacheSerializer.java that unless otherwise specified, CacheSerializer implementations are null-hostile. (Of course, this is not mutually exclusive with making the intent clear by explicitly throwing checked exceptions.)",
+      "parentUuid": "aa886fc9_d6a2567a",
+      "range": {
+        "startLine": 28,
+        "startChar": 57,
+        "endLine": 28,
+        "endChar": 69
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e59a41b0_25ee9dc9",
         "filename": "java/com/google/gerrit/server/cache/IntegerCacheSerializer.java",
         "patchSetId": 2
@@ -106,6 +130,30 @@
       "writtenOn": "2018-05-04T15:38:38Z",
       "side": 1,
       "message": "Do you have a preference to use proto style serialization for ints? If not, we could also use\n\n ByteBuffer.allocate(Integer.BYTES).putInt(object).array()\n\ninstead of all of this code here.",
+      "range": {
+        "startLine": 34,
+        "startChar": 9,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e73bb487_9888ba49",
+        "filename": "java/com/google/gerrit/server/cache/IntegerCacheSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-04T15:51:25Z",
+      "side": 1,
+      "message": "Minor reasons I prefer varints:\n\n* Representation is more compact for small values. Not that I have data about the distribution of integer values in front of me.\n* I don\u0027t have to think about byte order. I know now after rereading the ByteBuffer docs that ByteBuffer#allocate always creates a big-endian buffer, but until reading it I had forgotten. (Granted, I am personally more familiar with proto than with ByteBuffers, so this might not hold true for everyone.) If we just inline a simple ByteBuffer.allocate(BYTES).putInt(object) call, then it is clear that nobody is changing the order of the ByteBuffer between allocation and use, but if we start factoring out new helpers that take ByteBuffer arguments, this is harder to reason about.",
+      "parentUuid": "2d48b10d_988f00f3",
       "range": {
         "startLine": 34,
         "startChar": 9,

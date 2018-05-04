@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d591a60_f6826871",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-04T20:11:33Z",
+      "side": 1,
+      "message": "Spacing is off.",
+      "revId": "38972c28c07ad5427abcb60f4ec8ee16f7f89742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa85474_fda524cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-04T20:11:33Z",
+      "side": 1,
+      "message": "Could this instead be a single \u003ciron-icon\u003e element in which we compute the value for the icon attribute? I ask because I believe there are more icons on the way, like a big red X to indicate that requirement failed.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 21
+      },
+      "revId": "38972c28c07ad5427abcb60f4ec8ee16f7f89742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

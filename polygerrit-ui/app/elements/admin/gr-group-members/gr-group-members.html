@@ -110,7 +110,7 @@ limitations under the License.
                     <td>[[item.email]]</td>
                     <td class="deleteColumn">
                       <gr-button
-                          class="deleteButton"
+                          class="deleteMembersButton"
                           on-tap="_handleDeleteMember">
                         Delete
                       </gr-button>
@@ -125,7 +125,8 @@ limitations under the License.
             <span class="value">
               <gr-autocomplete
                   id="includedGroupSearchInput"
-                  text="{{_includedGroupSearch}}"
+                  text="{{_includedGroupSearchName}}"
+                  value="{{_includedGroupSearchId}}"
                   query="[[_queryIncludedGroup]]"
                   placeholder="Group Name">
               </gr-autocomplete>
@@ -133,7 +134,7 @@ limitations under the License.
             <gr-button
                 id="saveIncludedGroups"
                 on-tap="_handleSavingIncludedGroups"
-                disabled="[[!_includedGroupSearch]]">
+                disabled="[[!_includedGroupSearchId]]">
               Add
             </gr-button>
             <table id="includedGroups">

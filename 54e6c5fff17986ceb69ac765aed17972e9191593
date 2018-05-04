@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f81fda59_1b17888b",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-04T20:39:17Z",
+      "side": 1,
+      "message": "Please add a test for this",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a11e16a_a09bfdf8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-04T20:39:17Z",
+      "side": 1,
+      "message": "should this not be testing for group_id still?",
+      "range": {
+        "startLine": 50,
+        "startChar": 52,
+        "endLine": 50,
+        "endChar": 54
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cf4846c_5d60a662",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-04T20:39:17Z",
+      "side": 1,
+      "message": "It looks like checking for the correct \u0027type\u0027 would be a bit clearer here, as it isn\u0027t obvious that only GroupInfo objects would have an \u0027id\u0027 attribute, and it\u0027s not a given that this will not ever change. \n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-audit-event-info\n\nThe event type, can be: ADD_USER, REMOVE_USER, ADD_GROUP or REMOVE_GROUP.\n\nCan add an a constant to gr-group-audit-log.js\n\nconst GROUP_EVENTS \u003d [\u0027ADD_GROUP\u0027, \u0027REMOVE_GROUP\u0027];\n\n_isGroupEvent(type) {\n  return GROUP_EVENTS.indexof(type) !\u003d\u003d -1;\n},",
+      "range": {
+        "startLine": 50,
+        "startChar": 40,
+        "endLine": 50,
+        "endChar": 54
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4194b3c4_76a470ad",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-04T20:39:17Z",
+      "side": 1,
+      "message": "I don\u0027t think these need to be restamped (and below)",
+      "range": {
+        "startLine": 50,
+        "startChar": 57,
+        "endLine": 50,
+        "endChar": 72
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "521c37c2_79a02aac",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-04T20:39:17Z",
+      "side": 1,
+      "message": "This should be a String",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed5ecb0_d7a527e4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-04T20:39:17Z",
+      "side": 1,
+      "message": "this should be an Array",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77db0916_17809f7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2018-05-04T20:39:17Z",
+      "side": 1,
+      "message": "This should use gr-navigation (getUrlForGroup), and get rid of using the base url behavior.",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 20
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

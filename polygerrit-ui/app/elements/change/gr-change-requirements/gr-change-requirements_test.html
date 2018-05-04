@@ -51,8 +51,8 @@ limitations under the License.
       assert.equal(element._computeRequirementClass(true), 'satisfied');
       assert.equal(element._computeRequirementClass(false), 'unsatisfied');
 
-      assert.equal(element._computeRequirementStatus(true), '✓');
-      assert.equal(element._computeRequirementStatus(false), '⧗');
+      assert.equal(element._computeRequirementIcon(true), 'gr-icons:check');
+      assert.equal(element._computeRequirementIcon(false), 'gr-icons:hourglass');
     });
 
     test('properly converts satisfied labels', () => {

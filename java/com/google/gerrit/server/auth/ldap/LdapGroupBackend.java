@@ -22,6 +22,7 @@ import static com.google.gerrit.server.auth.ldap.LdapModule.GROUP_EXIST_CACHE;
 
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
@@ -51,12 +52,10 @@ import javax.naming.directory.DirContext;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 import javax.security.auth.login.LoginException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Implementation of GroupBackend for the LDAP group system. */
 public class LdapGroupBackend implements GroupBackend {
-  static final Logger log = LoggerFactory.getLogger(LdapGroupBackend.class);
+  static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String LDAP_NAME = "ldap/";
   private static final String GROUPNAME = "groupname";
@@ -103,7 +102,7 @@ public class LdapGroupBackend implements GroupBackend {
         return cn;
       }
     } catch (InvalidNameException e) {
-      log.warn("Cannot parse LDAP dn for cn", e);
+      logger.atWarning().withCause(e).log("Cannot parse LDAP dn for cn");
     }
     return dn;
   }
@@ -127,7 +126,7 @@ public class LdapGroupBackend implements GroupBackend {
           return null;
         }
       } catch (ExecutionException e) {
-        log.warn(String.format("Cannot lookup group %s in LDAP", groupDn), e);
+        logger.atWarning().withCause(e).log("Cannot lookup group %s in LDAP", groupDn);
         return null;
       }
     }
@@ -217,7 +216,7 @@ public class LdapGroupBackend implements GroupBackend {
         helper.close(ctx);
       }
     } catch (IOException | NamingException | LoginException e) {
-      log.warn("Cannot query LDAP for groups matching requested name", e);
+      logger.atWarning().withCause(e).log("Cannot query LDAP for groups matching requested name");
     }
     return out;
   }

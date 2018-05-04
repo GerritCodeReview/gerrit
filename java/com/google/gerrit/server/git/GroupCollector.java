@@ -27,6 +27,7 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -44,8 +45,6 @@ import java.util.TreeSet;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Helper for assigning groups to commits during {@code ReceiveCommits}.
@@ -75,7 +74,7 @@ import org.slf4j.LoggerFactory;
  * visited, call {@link #getGroups()} for the result.
  */
 public class GroupCollector {
-  private static final Logger log = LoggerFactory.getLogger(GroupCollector.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static List<String> getDefaultGroups(PatchSet ps) {
     return ImmutableList.of(ps.getRevision().get());
@@ -281,7 +280,7 @@ public class GroupCollector {
       return ObjectId.fromString(group);
     } catch (IllegalArgumentException e) {
       // Shouldn't happen; some sort of corruption or manual tinkering?
-      log.warn("group for commit {} is not a SHA-1: {}", forCommit.name(), group);
+      logger.atWarning().log("group for commit %s is not a SHA-1: %s", forCommit.name(), group);
       return null;
     }
   }

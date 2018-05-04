@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.group.InternalGroup;
@@ -29,13 +30,11 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Tracks group objects in memory for efficient access. */
 @Singleton
 public class GroupCacheImpl implements GroupCache {
-  private static final Logger log = LoggerFactory.getLogger(GroupCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String BYID_NAME = "groups";
   private static final String BYNAME_NAME = "groups_byname";
@@ -82,7 +81,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byId.get(groupId);
     } catch (ExecutionException e) {
-      log.warn("Cannot load group " + groupId, e);
+      logger.atWarning().withCause(e).log("Cannot load group %s", groupId);
       return Optional.empty();
     }
   }
@@ -95,7 +94,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byName.get(name.get());
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot look up group %s by name", name.get()), e);
+      logger.atWarning().withCause(e).log("Cannot look up group %s by name", name.get());
       return Optional.empty();
     }
   }
@@ -109,7 +108,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byUUID.get(groupUuid.get());
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
+      logger.atWarning().withCause(e).log("Cannot look up group %s by uuid", groupUuid.get());
       return Optional.empty();
     }
   }

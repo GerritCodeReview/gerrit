@@ -17,6 +17,7 @@ package com.google.gerrit.server.git.receive;
 import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,8 +32,6 @@ import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.BaseReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Advertises part of history to git push clients.
@@ -47,7 +46,7 @@ import org.slf4j.LoggerFactory;
  * a common ancestor.
  */
 public class HackPushNegotiateHook implements AdvertiseRefsHook {
-  private static final Logger log = LoggerFactory.getLogger(HackPushNegotiateHook.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Size of an additional ".have" line. */
   private static final int HAVE_LINE_LEN = 4 + Constants.OBJECT_ID_STRING_LENGTH + 1 + 5 + 1;
@@ -127,7 +126,7 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
           }
         }
       } catch (IOException err) {
-        log.error("error trying to advertise history", err);
+        logger.atSevere().withCause(err).log("error trying to advertise history");
       }
       return history;
     } finally {

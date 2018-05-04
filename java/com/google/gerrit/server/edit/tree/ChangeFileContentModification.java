@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.IOException;
@@ -32,13 +33,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** A {@code TreeModification} which changes the content of a file. */
 public class ChangeFileContentModification implements TreeModification {
-
-  private static final Logger log = LoggerFactory.getLogger(ChangeFileContentModification.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final String filePath;
   private final RawInput newContent;
@@ -97,9 +95,9 @@ public class ChangeFileContentModification implements TreeModification {
       } catch (IOException e) {
         String message =
             String.format("Could not change the content of %s", dirCacheEntry.getPathString());
-        log.error(message, e);
+        logger.atSevere().withCause(e).log(message);
       } catch (InvalidObjectIdException e) {
-        log.error("Invalid object id in submodule link", e);
+        logger.atSevere().withCause(e).log("Invalid object id in submodule link");
       }
     }
 

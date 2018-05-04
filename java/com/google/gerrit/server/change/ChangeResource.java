@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -49,11 +50,9 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ChangeResource implements RestResource, HasETag {
-  private static final Logger log = LoggerFactory.getLogger(ChangeResource.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /**
    * JSON format version number for ETag computations.
@@ -196,7 +195,7 @@ public class ChangeResource implements RestResource, HasETag {
     try {
       projectStateTree = projectCache.checkedGet(getProject()).tree();
     } catch (IOException e) {
-      log.error(String.format("could not load project %s while computing etag", getProject()));
+      logger.atSevere().log("could not load project %s while computing etag", getProject());
       projectStateTree = ImmutableList.of();
     }
 

@@ -21,6 +21,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.FluentIterable;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Change;
@@ -59,11 +60,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ChangeKindCacheImpl implements ChangeKindCache {
-  private static final Logger log = LoggerFactory.getLogger(ChangeKindCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String ID_CACHE = "change_kind";
 
@@ -109,8 +108,10 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         Key key = new Key(prior, next, useRecursiveMerge);
         return new Loader(key, repoManager, project, rw, repoConfig).call();
       } catch (IOException e) {
-        log.warn(
-            "Cannot check trivial rebase of new patch set " + next.name() + " in " + project, e);
+        logger
+            .atWarning()
+            .withCause(e)
+            .log("Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
         return ChangeKind.REWORK;
       }
     }
@@ -380,7 +381,10 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       Key key = new Key(prior, next, useRecursiveMerge);
       return cache.get(key, new Loader(key, repoManager, project, rw, repoConfig));
     } catch (ExecutionException e) {
-      log.warn("Cannot check trivial rebase of new patch set " + next.name() + " in " + project, e);
+      logger
+          .atWarning()
+          .withCause(e)
+          .log("Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
       return ChangeKind.REWORK;
     }
   }
@@ -432,12 +436,12 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         }
       } catch (OrmException e) {
         // Do nothing; assume we have a complex change
-        log.warn(
-            "Unable to get change kind for patchSet "
-                + patch.getPatchSetId()
-                + "of change "
-                + change.getId(),
-            e);
+        logger
+            .atWarning()
+            .withCause(e)
+            .log(
+                "Unable to get change kind for patchSet %s of change %s",
+                patch.getPatchSetId(), change.getId());
       }
     }
     return kind;
@@ -462,12 +466,12 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
                 cache, rw, repo.getConfig(), changeDataFactory.create(db, change), patch);
       } catch (IOException e) {
         // Do nothing; assume we have a complex change
-        log.warn(
-            "Unable to get change kind for patchSet "
-                + patch.getPatchSetId()
-                + "of change "
-                + change.getChangeId(),
-            e);
+        logger
+            .atWarning()
+            .withCause(e)
+            .log(
+                "Unable to get change kind for patchSet %s of change %s",
+                patch.getPatchSetId(), change.getChangeId());
       }
     }
     return kind;

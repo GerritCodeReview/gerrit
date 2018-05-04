@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -36,15 +37,13 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.treewalk.TreeWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Loads the .gitmodules file of the specified project/branch. It can be queried which submodules
  * this branch is subscribed to.
  */
 public class GitModules {
-  private static final Logger log = LoggerFactory.getLogger(GitModules.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     GitModules create(Branch.NameKey project, MergeOpRepoManager m);
@@ -105,8 +104,8 @@ public class GitModules {
   }
 
   private void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(submissionId + msg, args);
+    if (logger.atFine().isEnabled()) {
+      logger.atFine().logVarargs(submissionId + msg, args);
     }
   }
 }

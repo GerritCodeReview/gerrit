@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -22,11 +23,9 @@ import com.google.gerrit.server.util.RequestId;
 import java.io.IOException;
 import java.util.Queue;
 import org.eclipse.jgit.lib.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class TestHelperOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(TestHelperOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Change.Id changeId;
   private final TestSubmitInput input;
@@ -51,8 +50,8 @@ class TestHelperOp implements BatchUpdateOp {
   }
 
   private void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(submissionId + msg, args);
+    if (logger.atFine().isEnabled()) {
+      logger.atFine().logVarargs(submissionId + msg, args);
     }
   }
 }

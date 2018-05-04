@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
@@ -27,13 +28,11 @@ import java.util.List;
 import org.apache.commons.net.pop3.POP3Client;
 import org.apache.commons.net.pop3.POP3MessageInfo;
 import org.apache.commons.net.pop3.POP3SClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** An implementation of {@link MailReceiver} for POP3. */
 @Singleton
 public class Pop3MailReceiver extends MailReceiver {
-  private static final Logger log = LoggerFactory.getLogger(Pop3MailReceiver.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject
   Pop3MailReceiver(EmailSettings mailSettings, MailProcessor mailProcessor, WorkQueue workQueue) {
@@ -70,7 +69,7 @@ public class Pop3MailReceiver extends MailReceiver {
         if (messages == null) {
           throw new MailTransferException("Could not retrieve message list via POP3");
         }
-        log.info("Received " + messages.length + " messages via POP3");
+        logger.atInfo().log("Received %d messages via POP3", messages.length);
         // Fetch messages
         List<MailMessage> mailMessages = new ArrayList<>();
         for (POP3MessageInfo msginfo : messages) {
@@ -93,14 +92,14 @@ public class Pop3MailReceiver extends MailReceiver {
               if (pop3.deleteMessage(msginfo.number)) {
                 pendingDeletion.remove(mailMessage.id());
               } else {
-                log.error("Could not delete message " + msginfo.number);
+                logger.atSevere().log("Could not delete message %d", msginfo.number);
               }
             } else {
               // Process message further
               mailMessages.add(mailMessage);
             }
           } catch (MailParsingException e) {
-            log.error("Could not parse message " + msginfo.number);
+            logger.atSevere().log("Could not parse message %d", msginfo.number);
           }
         }
         dispatchMailProcessor(mailMessages, async);

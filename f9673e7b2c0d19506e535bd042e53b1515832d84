@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ac0de105_450d16d2",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-04T12:01:00Z",
+      "side": 1,
+      "message": "How would you feel about putting such an object in a ThreadLocal to encourage per-thread reuse?",
+      "parentUuid": "19f31674_e7e2697c",
+      "range": {
+        "startLine": 147,
+        "startChar": 8,
+        "endLine": 150,
+        "endChar": 46
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9b584a5_61e604e6",
         "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
         "patchSetId": 2

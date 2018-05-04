@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -43,11 +44,9 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class EmailReviewComments implements Runnable, RequestContext {
-  private static final Logger log = LoggerFactory.getLogger(EmailReviewComments.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     // TODO(dborowitz/wyatta): Rationalize these arguments so HTML and text templates are operating
@@ -150,7 +149,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       cm.setAccountsToNotify(accountsToNotify);
       cm.send();
     } catch (Exception e) {
-      log.error("Cannot email comments for " + patchSet.getId(), e);
+      logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.getId());
     } finally {
       requestContext.setContext(old);
       if (db != null) {

@@ -18,6 +18,7 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalIds;
@@ -35,13 +36,11 @@ import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Class to access accounts. */
 @Singleton
 public class Accounts {
-  private static final Logger log = LoggerFactory.getLogger(Accounts.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -85,7 +84,7 @@ public class Accounts {
         try {
           read(repo, accountId).ifPresent(accounts::add);
         } catch (Exception e) {
-          log.error(String.format("Ignoring invalid account %s", accountId.get()), e);
+          logger.atSevere().withCause(e).log("Ignoring invalid account %s", accountId);
         }
       }
     }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.auth.ldap;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.auth.AuthBackend;
@@ -33,12 +34,10 @@ import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.security.auth.login.LoginException;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Implementation of AuthBackend for the LDAP authentication system. */
 public class LdapAuthBackend implements AuthBackend {
-  private static final Logger log = LoggerFactory.getLogger(LdapAuthBackend.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Helper helper;
   private final AuthConfig authConfig;
@@ -90,13 +89,13 @@ public class LdapAuthBackend implements AuthBackend {
         helper.close(ctx);
       }
     } catch (AccountException e) {
-      log.error("Cannot query LDAP to authenticate user", e);
+      logger.atSevere().withCause(e).log("Cannot query LDAP to authenticate user");
       throw new InvalidCredentialsException("Cannot query LDAP for account", e);
     } catch (IOException | NamingException e) {
-      log.error("Cannot query LDAP to authenticate user", e);
+      logger.atSevere().withCause(e).log("Cannot query LDAP to authenticate user");
       throw new AuthException("Cannot query LDAP for account", e);
     } catch (LoginException e) {
-      log.error("Cannot authenticate server via JAAS", e);
+      logger.atSevere().withCause(e).log("Cannot authenticate server via JAAS");
       throw new AuthException("Cannot query LDAP for account", e);
     }
   }

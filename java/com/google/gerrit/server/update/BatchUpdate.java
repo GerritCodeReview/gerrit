@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -62,8 +63,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Helper for a set of updates that should be applied for a site.
@@ -88,7 +87,7 @@ import org.slf4j.LoggerFactory;
  * successfully before proceeding to the next phase.
  */
 public abstract class BatchUpdate implements AutoCloseable {
-  private static final Logger log = LoggerFactory.getLogger(BatchUpdate.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static Module module() {
     return new FactoryModule() {
@@ -386,8 +385,8 @@ public abstract class BatchUpdate implements AutoCloseable {
   }
 
   protected void logDebug(String msg, Throwable t) {
-    if (requestId != null && log.isDebugEnabled()) {
-      log.debug(requestId + msg, t);
+    if (requestId != null && logger.atFine().isEnabled()) {
+      logger.atFine().withCause(t).log(requestId + "%s", msg);
     }
   }
 
@@ -395,8 +394,8 @@ public abstract class BatchUpdate implements AutoCloseable {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
-    if (requestId != null && log.isDebugEnabled()) {
-      log.debug(requestId + msg, args);
+    if (requestId != null && logger.atFine().isEnabled()) {
+      logger.atFine().logVarargs(requestId + msg, args);
     }
   }
 }

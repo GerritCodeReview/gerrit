@@ -23,6 +23,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.reviewdb.client.Account;
@@ -50,12 +51,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** View of the draft comments for a single {@link Change} based on the log of its drafts branch. */
 public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
-  private static final Logger log = LoggerFactory.getLogger(DraftCommentNotes.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     DraftCommentNotes create(Change change, Account.Id accountId);
@@ -225,7 +224,9 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
           repo.scanForRepoChanges();
         } catch (OrmException | IOException e) {
           // See ChangeNotes#rebuildAndOpen.
-          log.debug("Rebuilding change {} via drafts failed: {}", getChangeId(), e.getMessage());
+          logger
+              .atFine()
+              .log("Rebuilding change %s via drafts failed: %s", getChangeId(), e.getMessage());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
           checkNotNull(r.staged());
           return LoadHandle.create(
@@ -238,11 +239,13 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     } catch (OrmException e) {
       throw new IOException(e);
     } finally {
-      log.debug(
-          "Rebuilt change {} in {} in {} ms via drafts",
-          getChangeId(),
-          change != null ? "project " + change.getProject() : "unknown project",
-          TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
+      logger
+          .atFine()
+          .log(
+              "Rebuilt change %s in %s in %s ms via drafts",
+              getChangeId(),
+              change != null ? "project " + change.getProject() : "unknown project",
+              TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
     }
   }
 

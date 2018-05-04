@@ -51,6 +51,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -100,11 +101,9 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.FooterKey;
 import org.eclipse.jgit.util.GitDateParser;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class ChangeNotesParser {
-  private static final Logger log = LoggerFactory.getLogger(ChangeNotesParser.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   // Sentinel RevId indicating a mutable field on a patch set was parsed, but
   // the parser does not yet know its commit SHA-1.
@@ -1092,7 +1091,9 @@ class ChangeNotesParser {
             approvals.values(), PatchSetApproval::getPatchSetId, missing);
 
     if (!missing.isEmpty()) {
-      log.warn("ignoring {} additional entities due to missing patch sets: {}", pruned, missing);
+      logger
+          .atWarning()
+          .log("ignoring %s additional entities due to missing patch sets: %s", pruned, missing);
     }
   }
 

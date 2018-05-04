@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.flogger.backend.Platform;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -40,13 +41,17 @@ public class GarbageCollectionLogFile implements LifecycleListener {
 
   @Override
   public void stop() {
-    LogManager.getLogger(GarbageCollection.class).removeAllAppenders();
-    LogManager.getLogger(GarbageCollectionRunner.class).removeAllAppenders();
+    getLogger(GarbageCollection.class).removeAllAppenders();
+    getLogger(GarbageCollectionRunner.class).removeAllAppenders();
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
-    initGcLogger(logdir, rotate, LogManager.getLogger(GarbageCollection.class));
-    initGcLogger(logdir, rotate, LogManager.getLogger(GarbageCollectionRunner.class));
+    initGcLogger(logdir, rotate, getLogger(GarbageCollection.class));
+    initGcLogger(logdir, rotate, getLogger(GarbageCollectionRunner.class));
+  }
+
+  private static Logger getLogger(Class<?> clazz) {
+    return LogManager.getLogger(Platform.getBackend(clazz.getName()).getLoggerName());
   }
 
   private static void initGcLogger(Path logdir, boolean rotate, Logger gcLogger) {

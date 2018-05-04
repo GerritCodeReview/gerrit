@@ -52,8 +52,11 @@ breaking changes to gr-change-actions won’t be noticed.
 
     suite('early init', () => {
       setup(() => {
+        Gerrit._resetPlugins();
         Gerrit.install(p => { plugin = p; }, '0.1',
             'http://test.com/plugins/testplugin/static/test.js');
+        // Mimic all plugins loaded.
+        Gerrit._setPluginsPending([]);
         changeActions = plugin.changeActions();
         element = fixture('basic');
       });
@@ -71,6 +74,7 @@ breaking changes to gr-change-actions won’t be noticed.
 
     suite('normal init', () => {
       setup(() => {
+        Gerrit._resetPlugins();
         element = fixture('basic');
         sinon.stub(element, '_editStatusChanged');
         element.change = {};
@@ -78,6 +82,8 @@ breaking changes to gr-change-actions won’t be noticed.
         Gerrit.install(p => { plugin = p; }, '0.1',
             'http://test.com/plugins/testplugin/static/test.js');
         changeActions = plugin.changeActions();
+        // Mimic all plugins loaded.
+        Gerrit._setPluginsPending([]);
       });
 
       teardown(() => {

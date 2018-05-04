@@ -186,8 +186,8 @@
     keyBindings: {
       'shift+left': '_handleShiftLeftKey',
       'shift+right': '_handleShiftRightKey',
-      'i': '_handleIKey',
-      'shift+i': '_handleCapitalIKey',
+      'i:keyup': '_handleIKey',
+      'shift+i:keyup': '_handleCapitalIKey',
       'down j': '_handleDownKey',
       'up k': '_handleUpKey',
       'c': '_handleCKey',

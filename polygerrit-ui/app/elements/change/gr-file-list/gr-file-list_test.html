@@ -530,24 +530,24 @@ limitations under the License.
         const files = Polymer.dom(element.root).querySelectorAll('.file-row');
         element.$.fileCursor.stops = files;
         element.$.fileCursor.setCursorAtIndex(0);
-        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
+        MockInteractions.keyUpOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.include(element._expandedFilePaths, element.diffs[0].path);
-        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
+        MockInteractions.keyUpOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.notInclude(element._expandedFilePaths, element.diffs[0].path);
         element.$.fileCursor.setCursorAtIndex(1);
-        MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
+        MockInteractions.keyUpOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.include(element._expandedFilePaths, element.diffs[1].path);
 
-        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
+        MockInteractions.keyUpOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
         for (const index in element.diffs) {
           if (!element.diffs.hasOwnProperty(index)) { continue; }
           assert.include(element._expandedFilePaths, element.diffs[index].path);
         }
-        MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
+        MockInteractions.keyUpOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
         for (const index in element.diffs) {
           if (!element.diffs.hasOwnProperty(index)) { continue; }
@@ -1338,7 +1338,7 @@ limitations under the License.
     });
 
     test('cursor with individually opened files', () => {
-      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
+      MockInteractions.keyUpOn(element, 73, null, 'i');
       flushAsynchronousOperations();
       let diffs = renderAndGetNewDiffs(0);
       const diffStops = diffs[0].getCursorStops();
@@ -1364,7 +1364,7 @@ limitations under the License.
 
       // The file cusor is now at 1.
       assert.equal(element.$.fileCursor.index, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 73, null, 'i');
+      MockInteractions.keyUpOn(element, 73, null, 'i');
       flushAsynchronousOperations();
 
       diffs = renderAndGetNewDiffs(1);
@@ -1379,7 +1379,7 @@ limitations under the License.
     });
 
     test('cursor with toggle all files', () => {
-      MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
+      MockInteractions.keyUpOn(element, 73, 'shift', 'i');
       flushAsynchronousOperations();
 
       const diffs = renderAndGetNewDiffs(0);
@@ -1426,7 +1426,7 @@ limitations under the License.
       });
 
       test('n key with some files expanded and no shift key', () => {
-        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
+        MockInteractions.keyUpOn(fileRows[0], 73, null, 'i');
         flushAsynchronousOperations();
         assert.equal(nextChunkStub.callCount, 1);
 
@@ -1441,7 +1441,7 @@ limitations under the License.
       });
 
       test('n key with some files expanded and shift key', () => {
-        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, null, 'i');
+        MockInteractions.keyUpOn(fileRows[0], 73, null, 'i');
         flushAsynchronousOperations();
         assert.equal(nextChunkStub.callCount, 1);
 
@@ -1455,7 +1455,7 @@ limitations under the License.
       });
 
       test('n key without all files expanded and shift key', () => {
-        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
+        MockInteractions.keyUpOn(fileRows[0], 73, 'shift', 'i');
         flushAsynchronousOperations();
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
@@ -1468,7 +1468,7 @@ limitations under the License.
       });
 
       test('n key without all files expanded and no shift key', () => {
-        MockInteractions.pressAndReleaseKeyOn(fileRows[0], 73, 'shift', 'i');
+        MockInteractions.keyUpOn(fileRows[0], 73, 'shift', 'i');
         flushAsynchronousOperations();
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
@@ -1601,7 +1601,7 @@ limitations under the License.
       commentStub.withArgs('ecf0b9fa_fe1a5f62').returns(
           commentStubRes2);
       // Expand the commit message diff
-      MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'i');
+      MockInteractions.keyUpOn(element, 73, 'shift', 'i');
       const diffs = renderAndGetNewDiffs(0);
       flushAsynchronousOperations();
 

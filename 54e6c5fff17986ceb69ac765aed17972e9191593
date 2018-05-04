@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc63214f_30fb3c2a",
+        "filename": "polygerrit-ui/app/behaviors/gr-anonymous-name-behavior/gr-anonymous-name-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-04T21:14:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f81fda59_1b17888b",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a11e16a_a09bfdf8",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
         "patchSetId": 4
@@ -94,6 +118,78 @@
     },
     {
       "key": {
+        "uuid": "a1779743_27132173",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-04T21:14:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4cf4846c_5d60a662",
+      "range": {
+        "startLine": 50,
+        "startChar": 40,
+        "endLine": 50,
+        "endChar": 54
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "581f6773_45362b67",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-04T21:14:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4194b3c4_76a470ad",
+      "range": {
+        "startLine": 50,
+        "startChar": 57,
+        "endLine": 50,
+        "endChar": 72
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7724192_cd248d1b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-04T21:14:14Z",
+      "side": 1,
+      "message": "Nope. id is only added if the group is a group not a member being added.",
+      "parentUuid": "6a11e16a_a09bfdf8",
+      "range": {
+        "startLine": 50,
+        "startChar": 52,
+        "endLine": 50,
+        "endChar": 54
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "521c37c2_79a02aac",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
         "patchSetId": 4
@@ -114,6 +210,30 @@
       "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a84302_234948a5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-04T21:14:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "521c37c2_79a02aac",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "28631c13_5cd361c8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-04T21:14:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0ed5ecb0_d7a527e4",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77db0916_17809f7d",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
         "patchSetId": 4
@@ -160,6 +304,30 @@
       "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a20ba0d4_b16bb8ce",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-04T21:14:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "77db0916_17809f7d",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 20
+      },
+      "revId": "54e6c5fff17986ceb69ac765aed17972e9191593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

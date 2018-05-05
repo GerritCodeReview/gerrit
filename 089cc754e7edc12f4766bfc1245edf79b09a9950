@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b00b5584_b14f770d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-05T00:24:32Z",
+      "side": 1,
+      "message": "I\u0027d be more comfortable if this were moved into its own method, such as\n\n this.detectChromiteButler();",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 263,
+        "endChar": 9
+      },
+      "revId": "089cc754e7edc12f4766bfc1245edf79b09a9950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aad2308c_e4d94ba8",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-05T00:24:32Z",
+      "side": 1,
+      "message": "This is confusing to me. If this is categorized as a \"lifecycle\" event, what does this type mean? What\u0027s the criterion for a reporting event to use this type?",
+      "revId": "089cc754e7edc12f4766bfc1245edf79b09a9950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

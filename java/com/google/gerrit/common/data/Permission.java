@@ -177,11 +177,7 @@ public class Permission implements Comparable<Permission> {
 
   public void removeRule(GroupReference group) {
     if (rules != null) {
-      for (Iterator<PermissionRule> itr = rules.iterator(); itr.hasNext(); ) {
-        if (sameGroup(itr.next(), group)) {
-          itr.remove();
-        }
-      }
+      rules.removeIf(permissionRule -> sameGroup(permissionRule, group));
     }
   }
 

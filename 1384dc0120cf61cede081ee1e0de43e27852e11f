@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "718c8626_9fd9fc7c",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-06T23:32:59Z",
+      "side": 1,
+      "message": "Unrelated to this change, but this should be final.  Fixed in https://gerrit-review.googlesource.com/#/c/gerrit/+/176291",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 31
+      },
+      "revId": "1384dc0120cf61cede081ee1e0de43e27852e11f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6783417_9166056a",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-06T23:32:59Z",
+      "side": 1,
+      "message": "Should be final.\n\nAlso, optional: name it \"metrics\" or \"metricMaker\".",
+      "revId": "1384dc0120cf61cede081ee1e0de43e27852e11f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26461343_b0f9941a",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-06T23:32:59Z",
+      "side": 1,
+      "message": "nit: all other metric names are underscore_separated rather than camelCase.",
+      "range": {
+        "startLine": 240,
+        "startChar": 36,
+        "endLine": 240,
+        "endChar": 47
+      },
+      "revId": "1384dc0120cf61cede081ee1e0de43e27852e11f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d9a8b35_66d479d0",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-06T23:32:59Z",
+      "side": 1,
+      "message": "Can this value actually change?  As far as I can see there is no call to setMaximumPoolSize, and gerrit is using ScheduledThreadPoolExecutor which extends ThreadPoolExecutor and always passes Integer.MAX_VALUE in the superconstructor.\n\n  public ScheduledThreadPoolExecutor(int corePoolSize) {\n        super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,\n              new DelayedWorkQueue());\n  }",
+      "range": {
+        "startLine": 242,
+        "startChar": 27,
+        "endLine": 242,
+        "endChar": 72
+      },
+      "revId": "1384dc0120cf61cede081ee1e0de43e27852e11f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

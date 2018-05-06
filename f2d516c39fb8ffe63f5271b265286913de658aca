@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33acddba_3b2a7d35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-06T23:16:30Z",
+      "side": 1,
+      "message": "Mention that the reason for doing this is to force instantiation by injection using the @Inject annotated constructor?",
+      "revId": "f2d516c39fb8ffe63f5271b265286913de658aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

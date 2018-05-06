@@ -69,9 +69,7 @@ public class AuthInfo extends JavaScriptObject {
     List<AgreementInfo> agreements = new ArrayList<>();
     JsArray<AgreementInfo> contributorAgreements = _contributorAgreements();
     if (contributorAgreements != null) {
-      for (AgreementInfo a : Natives.asList(contributorAgreements)) {
-        agreements.add(a);
-      }
+      agreements.addAll(Natives.asList(contributorAgreements));
     }
     return agreements;
   }

@@ -53,6 +53,7 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -839,9 +840,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   private static void assertReviewers(
       ChangeInfo c, ReviewerState reviewerState, TestAccount... accounts) throws Exception {
     List<TestAccount> accountList = new ArrayList<>(accounts.length);
-    for (TestAccount a : accounts) {
-      accountList.add(a);
-    }
+    Collections.addAll(accountList, accounts);
     assertReviewers(c, reviewerState, accountList);
   }
 

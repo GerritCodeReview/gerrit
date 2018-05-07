@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -48,11 +49,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CreateBranch implements RestModifyView<ProjectResource, BranchInput> {
-  private static final Logger log = LoggerFactory.getLogger(CreateBranch.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     CreateBranch create(String ref);
@@ -193,7 +192,7 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
         }
         return info;
       } catch (IOException err) {
-        log.error("Cannot create branch \"" + name + "\"", err);
+        logger.atSevere().withCause(err).log("Cannot create branch \"%s\"", name);
         throw err;
       }
     } catch (RefUtil.InvalidRevisionException e) {

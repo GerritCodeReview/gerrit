@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -42,8 +43,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
@@ -51,7 +50,7 @@ import org.slf4j.LoggerFactory;
   description = "Change the project permissions are inherited from"
 )
 final class AdminSetParent extends SshCommand {
-  private static final Logger log = LoggerFactory.getLogger(AdminSetParent.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(
     name = "--parent",
@@ -172,7 +171,7 @@ final class AdminSetParent extends SshCommand {
         err.append("error: Project ").append(name).append(" not found\n");
       } catch (IOException | ConfigInvalidException e) {
         final String msg = "Cannot update project " + name;
-        log.error(msg, e);
+        logger.atSevere().withCause(e).log(msg);
         err.append("error: ").append(msg).append("\n");
       }
 
@@ -180,7 +179,7 @@ final class AdminSetParent extends SshCommand {
         projectCache.evict(nameKey);
       } catch (IOException e) {
         final String msg = "Cannot reindex project: " + name;
-        log.error(msg, e);
+        logger.atSevere().withCause(e).log(msg);
         err.append("error: ").append(msg).append("\n");
       }
     }

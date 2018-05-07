@@ -34,7 +34,7 @@
     CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK: 'change-metadata-item',
   };
 
-  const PLUGIN_LOADING_TIMEOUT_MS = 60000;
+  const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
   let _restAPI;
   const getRestAPI = () => {

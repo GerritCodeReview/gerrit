@@ -20,6 +20,7 @@ java_library(
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",
         "//lib:blame-cache",
+        "//lib/flogger:api",
         "//lib:gson",
         "//lib:guava",
         "//lib:gwtorm",
@@ -32,6 +33,5 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

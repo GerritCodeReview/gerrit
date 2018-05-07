@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -50,11 +51,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DeleteRef {
-  private static final Logger log = LoggerFactory.getLogger(DeleteRef.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final int MAX_LOCK_FAILURE_CALLS = 10;
   private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;
@@ -138,7 +137,7 @@ public class DeleteRef {
       } catch (LockFailedException e) {
         result = RefUpdate.Result.LOCK_FAILURE;
       } catch (IOException e) {
-        log.error("Cannot delete " + ref, e);
+        logger.atSevere().withCause(e).log("Cannot delete %s", ref);
         throw e;
       }
       if (result == RefUpdate.Result.LOCK_FAILURE && --remainingLockFailureCalls > 0) {
@@ -162,7 +161,7 @@ public class DeleteRef {
         break;
 
       case REJECTED_CURRENT_BRANCH:
-        log.error("Cannot delete " + ref + ": " + result.name());
+        logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
         throw new ResourceConflictException("cannot delete current branch");
 
       case IO_FAILURE:
@@ -173,7 +172,7 @@ public class DeleteRef {
       case REJECTED_MISSING_OBJECT:
       case REJECTED_OTHER_REASON:
       default:
-        log.error("Cannot delete " + ref + ": " + result.name());
+        logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
         throw new ResourceConflictException("cannot delete: " + result.name());
     }
   }
@@ -277,7 +276,7 @@ public class DeleteRef {
         msg = format("Cannot delete %s: %s", cmd.getRefName(), cmd.getResult());
         break;
     }
-    log.error(msg);
+    logger.atSevere().log(msg);
     errorMessages.append(msg);
     errorMessages.append("\n");
   }

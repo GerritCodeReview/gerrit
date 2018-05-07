@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 import static java.util.Collections.reverseOrder;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
 import com.google.gerrit.extensions.client.ChangeStatus;
@@ -47,11 +48,9 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SubmittedTogether implements RestReadView<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(SubmittedTogether.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final EnumSet<SubmittedTogetherOption> options =
       EnumSet.noneOf(SubmittedTogetherOption.class);
@@ -155,7 +154,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       info.nonVisibleChanges = hidden;
       return info;
     } catch (OrmException | IOException e) {
-      log.error("Error on getting a ChangeSet", e);
+      logger.atSevere().withCause(e).log("Error on getting a ChangeSet");
       throw e;
     }
   }

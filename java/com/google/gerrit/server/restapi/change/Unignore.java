@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -24,12 +25,10 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Unignore implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Unignore.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final StarredChangesUtil stars;
 
@@ -59,7 +58,7 @@ public class Unignore implements RestModifyView<ChangeResource, Input>, UiAction
     try {
       return stars.isIgnored(rsrc);
     } catch (OrmException e) {
-      log.error("failed to check ignored star", e);
+      logger.atSevere().withCause(e).log("failed to check ignored star");
     }
     return false;
   }

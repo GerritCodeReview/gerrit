@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.group;
 
 import static com.google.common.base.Strings.nullToEmpty;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -30,12 +31,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ListSubgroups implements RestReadView<GroupResource> {
-  private static final Logger log = LoggerFactory.getLogger(ListSubgroups.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GroupControl.Factory controlFactory;
   private final GroupJson json;
@@ -65,9 +64,9 @@ public class ListSubgroups implements RestReadView<GroupResource> {
           included.add(json.format(i.getGroup()));
         }
       } catch (NoSuchGroupException notFound) {
-        log.warn(
-            String.format(
-                "Group %s no longer available, subgroup of %s", subgroupUuid, group.getName()));
+        logger
+            .atWarning()
+            .log("Group %s no longer available, subgroup of %s", subgroupUuid, group.getName());
         continue;
       }
     }

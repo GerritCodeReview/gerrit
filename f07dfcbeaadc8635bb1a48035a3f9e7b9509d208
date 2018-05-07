@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c76e6b0_815fa9f9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-07T09:57:30Z",
+      "side": 0,
+      "message": "Previously, this seemed to be inconsistent with the default (true) used in line 81. However, I guess that c.hasReviewStarted() could never be null. Hence, using always true as default now seems safe for me.",
+      "range": {
+        "startLine": 330,
+        "startChar": 49,
+        "endLine": 330,
+        "endChar": 64
+      },
+      "revId": "f07dfcbeaadc8635bb1a48035a3f9e7b9509d208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

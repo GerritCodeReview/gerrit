@@ -1087,17 +1087,17 @@ limitations under the License.
       assert.isFalse(fn('Start review'));
       assert.isTrue(fn('Send', {}, '', false, false, false));
       // Mock nonempty comment draft array, with seding comments.
-      assert.isFalse(fn('Send', {file: ['draft']}, '', false, false,
-          true));
+      assert.isFalse(fn('Send', {file: ['draft']}, '', false, false, true));
       // Mock nonempty comment draft array, without seding comments.
-      assert.isTrue(fn('Send', {file: ['draft']}, '', false, false,
-          false));
+      assert.isTrue(fn('Send', {file: ['draft']}, '', false, false, false));
       // Mock nonempty change message.
       assert.isFalse(fn('Send', {}, 'test', false, false, false));
       // Mock reviewers mutated.
       assert.isFalse(fn('Send', {}, '', true, false, false));
       // Mock labels changed.
       assert.isFalse(fn('Send', {}, '', false, true, false));
+      // Whole dialog is disabled.
+      assert.isTrue(fn('Send', {}, '', false, true, false, true));
     });
 
     test('_submit blocked when no mutations exist', () => {

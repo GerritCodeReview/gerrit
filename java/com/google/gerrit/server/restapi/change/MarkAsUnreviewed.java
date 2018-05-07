@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -27,13 +28,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MarkAsUnreviewed
     implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(MarkAsUnreviewed.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;
@@ -70,7 +69,7 @@ public class MarkAsUnreviewed
           .create(dbProvider.get(), rsrc.getNotes())
           .isReviewedBy(rsrc.getUser().asIdentifiedUser().getAccountId());
     } catch (OrmException e) {
-      log.error("failed to check if change is reviewed", e);
+      logger.atSevere().withCause(e).log("failed to check if change is reviewed");
     }
     return false;
   }

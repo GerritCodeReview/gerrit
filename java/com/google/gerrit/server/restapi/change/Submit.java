@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -79,13 +80,11 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Submit
     implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
-  private static final Logger log = LoggerFactory.getLogger(Submit.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String DEFAULT_TOOLTIP = "Submit patch set ${patchSet} into ${branch}";
   private static final String DEFAULT_TOOLTIP_ANCESTORS =
@@ -284,7 +283,7 @@ public class Submit
     } catch (ResourceConflictException e) {
       return BLOCKED_SUBMIT_TOOLTIP;
     } catch (PermissionBackendException | OrmException | IOException e) {
-      log.error("Error checking if change is submittable", e);
+      logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
     return null;
@@ -304,7 +303,7 @@ public class Submit
         return null; // submit not visible
       }
     } catch (IOException e) {
-      log.error("Error checking if change is submittable", e);
+      logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 
@@ -315,7 +314,7 @@ public class Submit
     } catch (ResourceConflictException e) {
       return null; // submit not visible
     } catch (OrmException e) {
-      log.error("Error checking if change is submittable", e);
+      logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 

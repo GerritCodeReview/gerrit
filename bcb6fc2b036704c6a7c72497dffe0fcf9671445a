@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a34cbdf0_927f44d6",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-07T08:44:35Z",
+      "side": 1,
+      "message": "nit: now this could be moved to line#129.",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 71
+      },
+      "revId": "bcb6fc2b036704c6a7c72497dffe0fcf9671445a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c1b726e_967f78bd",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-07T08:44:35Z",
+      "side": 1,
+      "message": "PBE needs to be thrown out from this method.",
+      "range": {
+        "startLine": 232,
+        "startChar": 1,
+        "endLine": 232,
+        "endChar": 74
+      },
+      "revId": "bcb6fc2b036704c6a7c72497dffe0fcf9671445a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
@@ -64,12 +65,10 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Response<?>> {
-  private static final Logger log = LoggerFactory.getLogger(DeleteVote.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<ReviewDb> db;
   private final ApprovalsUtil approvalsUtil;
@@ -252,7 +251,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
           cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
           cm.send();
         } catch (Exception e) {
-          log.error("Cannot email update for change " + change.getId(), e);
+          logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
         }
       }
 

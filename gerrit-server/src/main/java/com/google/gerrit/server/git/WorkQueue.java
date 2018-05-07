@@ -93,6 +93,7 @@ public class WorkQueue {
     this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1));
   }
 
+  /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */
   public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize) {
     this.idGenerator = idGenerator;
     this.queues = new CopyOnWriteArrayList<>();

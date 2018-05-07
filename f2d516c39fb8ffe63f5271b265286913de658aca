@@ -63,6 +63,30 @@
       "revId": "f2d516c39fb8ffe63f5271b265286913de658aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7349ed6_5c4e3d73",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-07T12:31:08Z",
+      "side": 1,
+      "message": "Done with [1] on stable-2.14.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/176391",
+      "parentUuid": "11d4e795_57c14b90",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 3
+      },
+      "revId": "f2d516c39fb8ffe63f5271b265286913de658aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

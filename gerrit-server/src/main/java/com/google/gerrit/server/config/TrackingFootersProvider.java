@@ -62,7 +62,7 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
       } else if (system.length() > TrackingId.TRACKING_SYSTEM_MAX_CHAR) {
         configValid = false;
         log.error(
-            "String to long \""
+            "String too long \""
                 + system
                 + "\" in gerrit.config "
                 + TRACKING_ID_TAG

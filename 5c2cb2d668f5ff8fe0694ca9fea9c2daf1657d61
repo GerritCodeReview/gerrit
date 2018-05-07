@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0662de40_1eb83d1d",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-07T07:21:53Z",
+      "side": 1,
+      "message": "Instead of passing repo as a parameter, could we just open the repository when necessary?",
+      "range": {
+        "startLine": 363,
+        "startChar": 7,
+        "endLine": 363,
+        "endChar": 80
+      },
+      "revId": "5c2cb2d668f5ff8fe0694ca9fea9c2daf1657d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

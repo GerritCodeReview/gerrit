@@ -95,14 +95,10 @@ public class Submit
       "Submit all ${topicSize} changes of the same topic "
           + "(${submitSize} changes including ancestors and other "
           + "changes related by topic)";
-  private static final String BLOCKED_SUBMIT_TOOLTIP =
-      "This change depends on other changes which are not ready";
   private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
       "This change depends on other hidden changes which are not ready";
-  private static final String BLOCKED_WORK_IN_PROGRESS = "This change is marked work in progress";
   private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
   private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
-  private static final String CHANGES_NOT_MERGEABLE = "Problems with change(s): ";
 
   public static class Output {
     transient Change change;
@@ -261,12 +257,16 @@ public class Submit
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }
         if (!can.contains(ChangePermission.SUBMIT)) {
-          return BLOCKED_SUBMIT_TOOLTIP;
+          return "You don't have permission to submit change " + c.getId();
         }
         if (c.change().isWorkInProgress()) {
-          return BLOCKED_WORK_IN_PROGRESS;
+          return "Change " + c.getId() + " is marked work in progress";
         }
-        MergeOp.checkSubmitRule(c, false);
+        try {
+          MergeOp.checkSubmitRule(c, false);
+        } catch (ResourceConflictException e) {
+          return "Change " + c.getId() + " is not ready: " + e.getMessage();
+        }
       }
 
       Collection<ChangeData> unmergeable = unmergeableChanges(cs);
@@ -278,11 +278,10 @@ public class Submit
             return CHANGE_UNMERGEABLE;
           }
         }
-        return CHANGES_NOT_MERGEABLE
+
+        return "Problems with change(s): "
             + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
       }
-    } catch (ResourceConflictException e) {
-      return BLOCKED_SUBMIT_TOOLTIP;
     } catch (PermissionBackendException | OrmException | IOException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);

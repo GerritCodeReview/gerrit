@@ -291,7 +291,7 @@ public class Submit
             + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
       }
     } catch (ResourceConflictException e) {
-      return BLOCKED_SUBMIT_TOOLTIP;
+      return e.getMessage();
     } catch (PermissionBackendException | OrmException | IOException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);

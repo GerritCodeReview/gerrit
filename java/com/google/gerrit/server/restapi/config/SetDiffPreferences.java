@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.server.config.ConfigUtil.skipField;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -32,13 +33,11 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPreferencesInfo> {
-  private static final Logger log = LoggerFactory.getLogger(SetDiffPreferences.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
@@ -82,7 +81,7 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
         }
       }
     } catch (IllegalAccessException e) {
-      log.warn("Unable to verify input", e);
+      logger.atWarning().withCause(e).log("Unable to verify input");
     }
     return false;
   }

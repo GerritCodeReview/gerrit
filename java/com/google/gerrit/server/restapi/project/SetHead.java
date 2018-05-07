@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -42,12 +43,10 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
-  private static final Logger log = LoggerFactory.getLogger(SetHead.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -128,7 +127,7 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
       try {
         l.onHeadUpdated(event);
       } catch (RuntimeException e) {
-        log.warn("Failure in HeadUpdatedListener", e);
+        logger.atWarning().withCause(e).log("Failure in HeadUpdatedListener");
       }
     }
   }

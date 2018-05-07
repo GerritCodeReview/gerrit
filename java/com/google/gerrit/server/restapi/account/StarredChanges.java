@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -45,14 +46,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class StarredChanges
     implements ChildCollection<AccountResource, AccountResource.StarredChange>,
         AcceptsCreate<AccountResource> {
-  private static final Logger log = LoggerFactory.getLogger(StarredChanges.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangesCollection changes;
   private final DynamicMap<RestView<AccountResource.StarredChange>> views;
@@ -110,7 +109,7 @@ public class StarredChanges
     } catch (ResourceNotFoundException e) {
       throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
     } catch (OrmException | PermissionBackendException | IOException e) {
-      log.error("cannot resolve change", e);
+      logger.atSevere().withCause(e).log("cannot resolve change");
       throw new UnprocessableEntityException("internal server error");
     }
   }

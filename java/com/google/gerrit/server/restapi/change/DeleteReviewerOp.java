@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
@@ -57,11 +58,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DeleteReviewerOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(DeleteReviewerOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     DeleteReviewerOp create(AccountState reviewerAccount, DeleteReviewerInput input);
@@ -248,7 +247,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
       cm.send();
     } catch (Exception err) {
-      log.error("Cannot email update for change " + change.getId(), err);
+      logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());
     }
   }
 }

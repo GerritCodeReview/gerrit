@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53e69275_a87215b2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-07T11:20:48Z",
+      "side": 0,
+      "message": "Change I7eeb38bae4 [1] explains why this constructor is needed. We are still using it internally and hence can\u0027t remove it.\n\nInstead of removing it, maybe we should add a comment saying why it is here?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/55933",
+      "revId": "6255d15e53e67724645400b0c06fd5753ac48bd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

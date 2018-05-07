@@ -526,6 +526,7 @@ limitations under the License.
               <td ui:field='actionDate'/>
             </tr>
             <tr ui:field='hashtagTableRow'>
+              <th><ui:msg>Hashtags</ui:msg></th>
               <td colspan='2'>
                 <c:Hashtags ui:field='hashtags'/>
               </td>

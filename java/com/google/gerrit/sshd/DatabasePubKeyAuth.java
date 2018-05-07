@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Preconditions;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
@@ -44,12 +45,10 @@ import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Authenticates by public key through {@link AccountSshKey} entities. */
 class DatabasePubKeyAuth implements PublickeyAuthenticator {
-  private static final Logger log = LoggerFactory.getLogger(DatabasePubKeyAuth.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final SshKeyCacheImpl sshKeyCache;
   private final SshLog sshLog;
@@ -203,13 +202,13 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
       } catch (NoSuchFileException noFile) {
         return Collections.emptySet();
       } catch (IOException err) {
-        log.error("Cannot read " + path, err);
+        logger.atSevere().withCause(err).log("Cannot read %s", path);
         return Collections.emptySet();
       }
     }
 
     private static void logBadKey(Path path, String line, Exception e) {
-      log.warn("Invalid key in " + path + ":\n  " + line, e);
+      logger.atWarning().withCause(e).log("Invalid key in %s:\n  %s", path, line);
     }
 
     boolean isCurrent() {

@@ -83,4 +83,27 @@ public class PerThreadCacheTest {
       PerThreadCache.create();
     }
   }
+
+  @Test
+  public void enforceMaxSize() {
+    try (PerThreadCache ignored = PerThreadCache.create()) {
+      PerThreadCache cache = PerThreadCache.get();
+      // Fill the cache
+      for (int i = 0; i < 50; i++) {
+        PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);
+        cache.get(key, () -> "cached value");
+      }
+      // Check that the previously added value is present (hence the loader was not called)
+      PerThreadCache.Key<String> key1 = PerThreadCache.Key.create(String.class, 0);
+      String value1 = cache.get(key1, () -> "never called");
+      assertThat(value1).isEqualTo("cached value");
+      // Since the cache is now full, check that we directly get the loader's value
+      PerThreadCache.Key<String> key2 = PerThreadCache.Key.create(String.class, 1000);
+      String value2 = cache.get(key2, () -> "new value");
+      assertThat(value2).isEqualTo("new value");
+      // Assert that the value was not persisted
+      String value3 = cache.get(key2, () -> "directly served");
+      assertThat(value3).isEqualTo("directly served");
+    }
+  }
 }

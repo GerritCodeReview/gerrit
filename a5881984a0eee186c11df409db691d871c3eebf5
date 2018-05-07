@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48d3a08e_cb0ad3c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-05-07T13:04:03Z",
+      "side": 1,
+      "message": "this explanation is good, but it should be a comment in the code.",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "a5881984a0eee186c11df409db691d871c3eebf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

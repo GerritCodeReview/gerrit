@@ -22,6 +22,30 @@
       "revId": "06864f02089cfd51f710a3b170a5e735bc9e293c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d61b269_4407b807",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-07T17:15:34Z",
+      "side": 1,
+      "message": "Good point.\n\nNot really sure what to do here, as I don\u0027t see anywhere else where we use private properties with reflectToAttribute: true.",
+      "parentUuid": "cf19e68b_62f31913",
+      "range": {
+        "startLine": 108,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 8
+      },
+      "revId": "06864f02089cfd51f710a3b170a5e735bc9e293c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

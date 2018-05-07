@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a08cb55_99af4a50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-07T16:53:01Z",
+      "side": 1,
+      "message": "Spelling nitpicks: \"aligned\" and \"PolyGerrit\".\n\nAlso, the commit message body should be wrapped at 72 characters.\n\n This patch set is to ensure the aligned of the PolyGerrit header text\n and the page content are the same.",
+      "revId": "e8505f9a90a176ed7004a77813daeae47b238750",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

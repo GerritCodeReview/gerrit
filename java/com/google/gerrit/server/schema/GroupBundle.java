@@ -742,7 +742,7 @@ abstract class GroupBundle {
     ADD(1),
     REMOVE(2);
 
-    private int order;
+    private final int order;
 
     Action(int order) {
       this.order = order;

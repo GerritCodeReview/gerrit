@@ -95,14 +95,18 @@ public class Submit
       "Submit all ${topicSize} changes of the same topic "
           + "(${submitSize} changes including ancestors and other "
           + "changes related by topic)";
-  private static final String BLOCKED_SUBMIT_TOOLTIP =
-      "This change depends on other changes which are not ready";
+  private static final ParameterizedString BLOCKED_SUBMIT_TOOLTIP =
+      new ParameterizedString("You don't have permission to submit change ${changeId}");
   private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
       "This change depends on other hidden changes which are not ready";
-  private static final String BLOCKED_WORK_IN_PROGRESS = "This change is marked work in progress";
+  private static final ParameterizedString BLOCKED_WORK_IN_PROGRESS =
+      new ParameterizedString("Change ${changeId} is marked work in progress");
   private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
   private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
-  private static final String CHANGES_NOT_MERGEABLE = "Problems with change(s): ";
+  private static final ParameterizedString CHANGES_NOT_MERGEABLE =
+      new ParameterizedString("Problems with change(s): ${changeIds}");
+  private static final ParameterizedString CHANGE_NOT_READY =
+      new ParameterizedString("Change ${changeId} is not ready: ${e}");
 
   public static class Output {
     transient Change change;
@@ -261,12 +265,19 @@ public class Submit
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }
         if (!can.contains(ChangePermission.SUBMIT)) {
-          return BLOCKED_SUBMIT_TOOLTIP;
+          return BLOCKED_SUBMIT_TOOLTIP.replace("changeId", c.getId().toString()).toString();
         }
         if (c.change().isWorkInProgress()) {
-          return BLOCKED_WORK_IN_PROGRESS;
+          return BLOCKED_WORK_IN_PROGRESS.replace("changeId", c.getId().toString()).toString();
         }
-        MergeOp.checkSubmitRule(c, false);
+        try {
+          MergeOp.checkSubmitRule(c, false);
+        } catch (ResourceConflictException e) {
+          return CHANGE_NOT_READY
+              .replace("changeId", c.getId().toString())
+              .replace("e", e.getMessage())
+              .toString();
+        }
       }
 
       Collection<ChangeData> unmergeable = unmergeableChanges(cs);
@@ -278,11 +289,13 @@ public class Submit
             return CHANGE_UNMERGEABLE;
           }
         }
+
         return CHANGES_NOT_MERGEABLE
-            + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
+            .replace(
+                "changeIds",
+                unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", ")))
+            .toString();
       }
-    } catch (ResourceConflictException e) {
-      return BLOCKED_SUBMIT_TOOLTIP;
     } catch (PermissionBackendException | OrmException | IOException e) {
       log.error("Error checking if change is submittable", e);
       throw new OrmRuntimeException("Could not determine problems for the change", e);

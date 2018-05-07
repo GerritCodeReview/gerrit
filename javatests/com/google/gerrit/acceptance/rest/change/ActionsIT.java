@@ -113,7 +113,7 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isNull();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("This change depends on other changes which are not ready");
+      assertThat(info.title).matches("Change (\\d+) is not ready: needs Code-Review");
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
 

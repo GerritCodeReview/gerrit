@@ -24,6 +24,7 @@ package com.google.gerrit.sshd.commands;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.tools.ToolsCatalog.Entry;
 import com.google.gerrit.sshd.BaseCommand;
@@ -33,13 +34,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import org.apache.sshd.server.Environment;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 final class ScpCommand extends BaseCommand {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String TYPE_DIR = "D";
   private static final String TYPE_FILE = "C";
-  private static final Logger log = LoggerFactory.getLogger(ScpCommand.class);
 
   private boolean opt_r;
   private boolean opt_t;
@@ -137,7 +137,7 @@ final class ScpCommand extends BaseCommand {
       } catch (IOException e2) {
         // Ignore
       }
-      log.debug("Error in scp command", e);
+      logger.atFine().withCause(e).log("Error in scp command");
     }
   }
 
@@ -216,7 +216,7 @@ final class ScpCommand extends BaseCommand {
       case 0:
         break;
       case 1:
-        log.debug("Received warning: " + readLine());
+        logger.atFine().log("Received warning: %s", readLine());
         break;
       case 2:
         throw new IOException("Received nack: " + readLine());

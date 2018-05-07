@@ -1097,6 +1097,14 @@ Allow blame on side by side diff. If set to false, blame cannot be used.
 +
 Default is true.
 
+[[change.allowDrafts]]change.allowDrafts::
++
+Legacy support for drafts workflow. If set to true, pushing a new change
+with draft option will create a private change. Pushing with draft option
+to an existing change will create change edit.
++
+Default is false.
+
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
 When reviewing diff commits, the left-hand side shows the output of the

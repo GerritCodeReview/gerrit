@@ -19,9 +19,10 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CONFIG;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -53,7 +54,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
@@ -105,16 +105,16 @@ class DefaultRefFilter {
         permissionBackend.user(user).database(db).project(projectState.getNameKey());
   }
 
-  Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts) {
+  Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+      throws PermissionBackendException {
     if (projectState.isAllUsers()) {
       refs = addUsersSelfSymref(refs);
     }
 
     PermissionBackend.WithUser withUser = permissionBackend.user(user);
-    PermissionBackend.ForProject forProject = withUser.project(projectState.getNameKey());
     if (!projectState.isAllUsers()) {
       if (projectState.statePermitsRead()
-          && checkProjectPermission(forProject, ProjectPermission.READ)) {
+          && checkProjectPermission(permissionBackendForProject, ProjectPermission.READ)) {
         return refs;
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
         return fastHideRefsMetaConfig(refs);
@@ -250,7 +250,7 @@ class DefaultRefFilter {
     return refs;
   }
 
-  private boolean visible(Repository repo, Change.Id changeId) {
+  private boolean visible(Repository repo, Change.Id changeId) throws PermissionBackendException {
     if (visibleChanges == null) {
       if (changeCache == null) {
         visibleChanges = visibleChangesByScan(repo);
@@ -261,7 +261,7 @@ class DefaultRefFilter {
     return visibleChanges.containsKey(changeId);
   }
 
-  private boolean visibleEdit(Repository repo, String name) {
+  private boolean visibleEdit(Repository repo, String name) throws PermissionBackendException {
     Change.Id id = Change.Id.fromEditRefPart(name);
     // Initialize if it wasn't yet
     if (visibleChanges == null) {
@@ -284,15 +284,13 @@ class DefaultRefFilter {
         return true;
       } catch (AuthException e) {
         return false;
-      } catch (PermissionBackendException e) {
-        log.error("Failed to check permission for " + id + " in " + projectState.getName(), e);
-        return false;
       }
     }
     return false;
   }
 
-  private Map<Change.Id, Branch.NameKey> visibleChangesBySearch() {
+  private Map<Change.Id, Branch.NameKey> visibleChangesBySearch()
+      throws PermissionBackendException {
     Project.NameKey project = projectState.getNameKey();
     try {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
@@ -304,14 +302,15 @@ class DefaultRefFilter {
         }
       }
       return visibleChanges;
-    } catch (OrmException | PermissionBackendException e) {
+    } catch (OrmException e) {
       log.error(
           "Cannot load changes for project " + project + ", assuming no changes are visible", e);
       return Collections.emptyMap();
     }
   }
 
-  private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo) {
+  private Map<Change.Id, Branch.NameKey> visibleChangesByScan(Repository repo)
+      throws PermissionBackendException {
     Project.NameKey p = projectState.getNameKey();
     Stream<ChangeNotesResult> s;
     try {
@@ -320,25 +319,26 @@ class DefaultRefFilter {
       log.error("Cannot load changes for project " + p + ", assuming no changes are visible", e);
       return Collections.emptyMap();
     }
-    return s.map(r -> toNotes(r))
-        .filter(Objects::nonNull)
-        .collect(toMap(n -> n.getChangeId(), n -> n.getChange().getDest()));
+    Map<Change.Id, Branch.NameKey> result = Maps.newHashMapWithExpectedSize((int) s.count());
+    for (ChangeNotesResult notesResult : s.collect(toList())) {
+      ChangeNotes notes = toNotes(notesResult);
+      if (notes != null) {
+        result.put(notes.getChangeId(), notes.getChange().getDest());
+      }
+    }
+    return result;
   }
 
   @Nullable
-  private ChangeNotes toNotes(ChangeNotesResult r) {
+  private ChangeNotes toNotes(ChangeNotesResult r) throws PermissionBackendException {
     if (r.error().isPresent()) {
       log.warn(
           "Failed to load change " + r.id() + " in " + projectState.getName(), r.error().get());
       return null;
     }
-    try {
-      if (projectState.statePermitsRead()
-          && permissionBackendForProject.change(r.notes()).test(ChangePermission.READ)) {
-        return r.notes();
-      }
-    } catch (PermissionBackendException e) {
-      log.error("Failed to check permission for " + r.id() + " in " + projectState.getName(), e);
+    if (projectState.statePermitsRead()
+        && permissionBackendForProject.change(r.notes()).test(ChangePermission.READ)) {
+      return r.notes();
     }
     return null;
   }
@@ -368,16 +368,11 @@ class DefaultRefFilter {
   }
 
   private boolean checkProjectPermission(
-      PermissionBackend.ForProject forProject, ProjectPermission perm) {
+      PermissionBackend.ForProject forProject, ProjectPermission perm)
+      throws PermissionBackendException {
     try {
       forProject.check(perm);
     } catch (AuthException e) {
-      return false;
-    } catch (PermissionBackendException e) {
-      log.error(
-          String.format(
-              "Can't check permission for user %s on project %s", user, projectState.getName()),
-          e);
       return false;
     }
     return true;

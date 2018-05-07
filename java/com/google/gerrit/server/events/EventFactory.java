@@ -452,7 +452,7 @@ public class EventFactory {
     } catch (PatchListObjectTooLargeException e) {
       log.warn("Cannot get patch list: " + e.getMessage());
     } catch (PatchListNotAvailableException e) {
-      log.warn("Cannot get patch list", e);
+      log.error("Cannot get patch list", e);
     }
   }
 

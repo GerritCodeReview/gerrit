@@ -20,6 +20,7 @@ import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.MoveInput;
@@ -70,13 +71,11 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, ChangeInfo>
     implements UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Move.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
   private final Provider<ReviewDb> dbProvider;
@@ -298,7 +297,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         return description;
       }
     } catch (IOException e) {
-      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+      logger
+          .atSevere()
+          .withCause(e)
+          .log("Failed to check if project state permits write: %s", rsrc.getProject());
       return description;
     }
 
@@ -307,10 +309,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         return description;
       }
     } catch (OrmException | IOException e) {
-      log.error(
-          String.format(
-              "Failed to check if the current patch set of change %s is locked", change.getId()),
-          e);
+      logger
+          .atSevere()
+          .withCause(e)
+          .log("Failed to check if the current patch set of change %s is locked", change.getId());
       return description;
     }
 

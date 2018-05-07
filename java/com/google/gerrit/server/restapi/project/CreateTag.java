@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
@@ -50,11 +51,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
-  private static final Logger log = LoggerFactory.getLogger(CreateTag.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     CreateTag create(String ref);
@@ -151,7 +150,7 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
     } catch (InvalidRevisionException e) {
       throw new BadRequestException("Invalid base revision");
     } catch (GitAPIException e) {
-      log.error("Cannot create tag \"" + ref + "\"", e);
+      logger.atSevere().withCause(e).log("Cannot create tag \"%s\"", ref);
       throw new IOException(e);
     }
   }

@@ -129,7 +129,7 @@ public class EventUtil {
           error);
     } else {
       log.warn(
-          "Error in listener {} for event {}: {}",
+          "Error in event listener {} for event {}: {}",
           listener.getClass().getName(),
           event.getClass().getName(),
           error.getMessage());
@@ -140,7 +140,7 @@ public class EventUtil {
     if (log.isDebugEnabled()) {
       log.debug(String.format("Error in event listener %s", listener.getClass().getName()), error);
     } else {
-      log.warn("Error in listener {}: {}", listener.getClass().getName(), error.getMessage());
+      log.warn("Error in event listener {}: {}", listener.getClass().getName(), error.getMessage());
     }
   }
 }

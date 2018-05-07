@@ -158,7 +158,7 @@ public class EventFactory {
     try {
       a.commitMessage = changeDataFactory.create(db, change).commitMessage();
     } catch (Exception e) {
-      log.error("Error while getting full commit message for change " + a.number);
+      log.error("Error while getting full commit message for change " + a.number, e);
     }
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
@@ -452,7 +452,7 @@ public class EventFactory {
     } catch (PatchListObjectTooLargeException e) {
       log.warn("Cannot get patch list: " + e.getMessage());
     } catch (PatchListNotAvailableException e) {
-      log.warn("Cannot get patch list", e);
+      log.error("Cannot get patch list", e);
     }
   }
 

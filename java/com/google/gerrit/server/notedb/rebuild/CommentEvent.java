@@ -68,7 +68,7 @@ class CommentEvent extends Event {
         setCommentRevId(c, cache, change, ps);
       } catch (PatchListNotAvailableException e) {
         log.warn(
-            "Unable to determine parent commit of patch set {} ({}); omitting inline comment",
+            "Unable to determine parent commit of patch set {} ({}); omitting inline comment {}",
             ps.getId(),
             ps.getRevision(),
             c);

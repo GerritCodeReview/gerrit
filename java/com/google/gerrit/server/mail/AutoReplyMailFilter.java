@@ -33,7 +33,7 @@ public class AutoReplyMailFilter implements MailFilter {
 
         if (prec.equals("list") || prec.equals("junk") || prec.equals("bulk")) {
           log.error(
-              "Message %s has a Precedence header. Will ignore and delete message.", message.id());
+              "Message {} has a Precedence header. Will ignore and delete message.", message.id());
           return false;
         }
 
@@ -43,7 +43,7 @@ public class AutoReplyMailFilter implements MailFilter {
 
         if (!autoSubmitted.equals("no")) {
           log.error(
-              "Message %s has an Auto-Submitted header. Will ignore and delete message.",
+              "Message {} has an Auto-Submitted header. Will ignore and delete message.",
               message.id());
           return false;
         }

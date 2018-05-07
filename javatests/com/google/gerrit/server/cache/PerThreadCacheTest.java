@@ -83,4 +83,20 @@ public class PerThreadCacheTest {
       PerThreadCache.create();
     }
   }
+
+  @Test
+  public void enforceMaxSize() {
+    try (PerThreadCache cache = PerThreadCache.create()) {
+      // Fill the cache
+      for (int i = 0; i < 50; i++) {
+        PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);
+        cache.get(key, () -> "cached value");
+      }
+      // Assert that the value was not persisted
+      PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, 1000);
+      cache.get(key, () -> "new value");
+      String value3 = cache.get(key, () -> "directly served");
+      assertThat(value3).isEqualTo("directly served");
+    }
+  }
 }

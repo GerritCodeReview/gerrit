@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -79,12 +80,10 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** List projects visible to the calling user. */
 public class ListProjects implements RestReadView<TopLevelResource> {
-  private static final Logger log = LoggerFactory.getLogger(ListProjects.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public enum FilterType {
     CODE {
@@ -453,7 +452,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           // If the Git repository is gone, the project doesn't actually exist anymore.
           continue;
         } catch (IOException err) {
-          log.warn("Unexpected error reading " + projectName, err);
+          logger.atWarning().withCause(err).log("Unexpected error reading %s", projectName);
           continue;
         }
 
@@ -557,9 +556,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                   if (projectCache.get(parent) != null) {
                     return parent;
                   }
-                  log.warn(
-                      String.format(
-                          "parent project %s of project %s not found", parent.get(), ps.getName()));
+                  logger
+                      .atWarning()
+                      .log("parent project %s of project %s not found", parent.get(), ps.getName());
                 }
               }
               return null;

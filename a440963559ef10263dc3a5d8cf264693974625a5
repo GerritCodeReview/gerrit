@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03bbc578_592246db",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-07T07:37:36Z",
+      "side": 1,
+      "message": "It would be useful to explicitly mention that enabling this allows to push to the refs/drafts/branch, and when disabled any push to refs/drafts/branch will be rejected.",
+      "revId": "a440963559ef10263dc3a5d8cf264693974625a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e1e4b6a_0c819fdd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/DisablePrivateChangesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-07T07:37:36Z",
+      "side": 1,
+      "message": "Add a test that pushing to refs/drafts fails when allowDrafts is disabled?",
+      "revId": "a440963559ef10263dc3a5d8cf264693974625a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

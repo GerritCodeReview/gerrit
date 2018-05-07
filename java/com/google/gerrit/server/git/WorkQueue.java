@@ -84,8 +84,7 @@ public class WorkQueue {
         }
       };
 
-  private ScheduledExecutorService defaultQueue;
-  private final int defaultQueueSize;
+  private final ScheduledExecutorService defaultQueue;
   private final IdGenerator idGenerator;
   private final CopyOnWriteArrayList<Executor> queues;
 
@@ -93,14 +92,12 @@ public class WorkQueue {
   WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg) {
     this.idGenerator = idGenerator;
     this.queues = new CopyOnWriteArrayList<>();
-    this.defaultQueueSize = cfg.getInt("execution", "defaultThreadPoolSize", 1);
+    this.defaultQueue =
+        createQueue(cfg.getInt("execution", "defaultThreadPoolSize", 1), "WorkQueue");
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
-  public synchronized ScheduledExecutorService getDefaultQueue() {
-    if (defaultQueue == null) {
-      defaultQueue = createQueue(defaultQueueSize, "WorkQueue");
-    }
+  public ScheduledExecutorService getDefaultQueue() {
     return defaultQueue;
   }
 

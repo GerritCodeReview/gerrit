@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5a60780_b0f430e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-07T04:04:37Z",
+      "side": 1,
+      "message": "We could avoid keeping defaultQueueSize as a member, and make defaultQueue final, if we initialize defaultQueue here instead of doing it lazily at L99-100.\n\nIt\u0027s probably better to do this refactoring on master though.",
+      "revId": "746fdf530ab709a13757f9b38cbef4f6a56eaa05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

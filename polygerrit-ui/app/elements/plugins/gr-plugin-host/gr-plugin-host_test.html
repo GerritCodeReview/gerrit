@@ -43,7 +43,7 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       sandbox.stub(document.body, 'appendChild');
       sandbox.stub(element, 'importHref');
-      url = window.location.href.split(window.location.pathname)[0];
+      url = window.location.origin;
     });
 
     teardown(() => {

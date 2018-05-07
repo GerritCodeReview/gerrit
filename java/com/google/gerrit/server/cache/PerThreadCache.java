@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
-import com.google.gerrit.common.Nullable;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -30,6 +29,16 @@ import java.util.function.Supplier;
  * the current request and potentially need to be instantiated multiple times while serving a
  * request.
  *
+ * <p><strong>Warning:</strong> This class must be used with absolute care. Before thinking about
+ * using it, check to see if there is another way of achieving the caching behavior you are looking
+ * for. Typical questions to ask in this design: Instead of caching the heavy object here, can the
+ * code be refactored to cache smaller state in a regular cache? Can we cut down on the
+ * instantiation cost of the object? In case the answer to these questions is <i>no</i>, make sure
+ * you understand the implications of caching an object here: The cached objects will be retained
+ * until the request is completed. Given the size of the object that should be newly cached, how
+ * much memory will this use at maximum? It is OK to use this class, once these concerns are
+ * addressed.
+ *
  * <p>This is different from the key-value storage in {@code CurrentUser}: {@code CurrentUser}
  * offers a key-value storage by providing thread-safe {@code get} and {@code put} methods. Once the
  * value is retrieved through {@code get} there is not thread-safety anymore - apart from the
@@ -38,14 +47,25 @@ import java.util.function.Supplier;
  *
  * <p>In comparison to that, this class guarantees thread safety even on non-thread-safe objects as
  * its cache is tied to the serving thread only. While allowing to cache non-thread-safe objects, it
- * has the downside of not sharing any objects with background threads or executors.
+ * has the downside of not sharing any objects with background threads or executors. When calling
+ * methods from background threads, the {@code Supplier} will be invoked directly.
  *
  * <p>Lastly, this class offers a cache, that requires callers to also provide a {@code Supplier} in
  * case the object is not present in the cache, while {@code CurrentUser} provides a storage where
  * just retrieving stored values is a valid operation.
+ *
+ * <p>To prevent OOM errors on requests that would cache a lot of objects, this class enforces an
+ * internal limit after which no new elements are cached. All {@code get} calls are served by
+ * invoking the {@code Supplier} after that.
  */
 public class PerThreadCache implements AutoCloseable {
   private static final ThreadLocal<PerThreadCache> CACHE = new ThreadLocal<>();
+  /**
+   * Cache at maximum 50 values per thread. This value was chosen arbitrarily. Some endpoints (like
+   * ListProjects) break the assumption that the data cached in a request is limited. To prevent
+   * this class from accumulating an unbound number of objects, we enforce this limit.
+   */
+  private static final int PER_THREAD_CACHE_SIZE = 50;
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's
@@ -58,7 +78,7 @@ public class PerThreadCache implements AutoCloseable {
 
     /**
      * Returns a key based on the value's class and an identifier that uniquely identify the value.
-     * The identifier needs to implement {@code equals()} and {@hashCode()}.
+     * The identifier needs to implement {@code equals()} and {@code hashCode()}.
      */
     public static <T> Key<T> create(Class<T> clazz, Object identifier) {
       return new Key<>(clazz, ImmutableList.of(identifier));
@@ -66,7 +86,7 @@ public class PerThreadCache implements AutoCloseable {
 
     /**
      * Returns a key based on the value's class and a set of identifiers that uniquely identify the
-     * value. Identifiers need to implement {@code equals()} and {@hashCode()}.
+     * value. Identifiers need to implement {@code equals()} and {@code hashCode()}.
      */
     public static <T> Key<T> create(Class<T> clazz, Object... identifiers) {
       return new Key<>(clazz, ImmutableList.copyOf(identifiers));
@@ -99,17 +119,12 @@ public class PerThreadCache implements AutoCloseable {
     return cache;
   }
 
-  @Nullable
-  public static PerThreadCache get() {
-    return CACHE.get();
-  }
-
   public static <T> T getOrCompute(Key<T> key, Supplier<T> loader) {
-    PerThreadCache cache = get();
+    PerThreadCache cache = CACHE.get();
     return cache != null ? cache.get(key, loader) : loader.get();
   }
 
-  private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(10);
+  private final Map<Key<?>, Object> cache = Maps.newHashMapWithExpectedSize(PER_THREAD_CACHE_SIZE);
 
   private PerThreadCache() {}
 
@@ -122,7 +137,9 @@ public class PerThreadCache implements AutoCloseable {
     T value = (T) cache.get(key);
     if (value == null) {
       value = loader.get();
-      cache.put(key, value);
+      if (cache.size() < PER_THREAD_CACHE_SIZE) {
+        cache.put(key, value);
+      }
     }
     return value;
   }

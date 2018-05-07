@@ -1859,6 +1859,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(getPublishedComments(r.getChangeId())).isEmpty();
   }
 
+  @GerritConfig(name = "change.allowDrafts", value = "true")
   @Test
   public void pushDraftGetsPrivateChange() throws Exception {
     String changeId1 = createChange("refs/drafts/master").getChangeId();
@@ -1875,6 +1876,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info2.revisions).hasSize(1);
   }
 
+  @GerritConfig(name = "change.allowDrafts", value = "true")
   @Sandboxed
   @Test
   public void pushWithDraftOptionToExistingNewChangeGetsChangeEdit() throws Exception {

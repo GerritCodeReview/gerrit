@@ -27,6 +27,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.metrics.Counter0;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.DisabledMetricMaker;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
@@ -113,28 +117,33 @@ public class ExternalIdNotes extends VersionedMetaData {
     private final ExternalIdCache externalIdCache;
     private final AccountCache accountCache;
     private final Provider<AccountIndexer> accountIndexer;
+    private final MetricMaker metricMaker;
 
     @Inject
     Factory(
         ExternalIdCache externalIdCache,
         AccountCache accountCache,
-        Provider<AccountIndexer> accountIndexer) {
+        Provider<AccountIndexer> accountIndexer,
+        MetricMaker metricMaker) {
       this.externalIdCache = externalIdCache;
       this.accountCache = accountCache;
       this.accountIndexer = accountIndexer;
+      this.metricMaker = metricMaker;
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(externalIdCache, accountCache, accountIndexer, allUsersRepo)
+      return new ExternalIdNotes(
+              externalIdCache, accountCache, accountIndexer, metricMaker, allUsersRepo)
           .load();
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(externalIdCache, accountCache, accountIndexer, allUsersRepo)
+      return new ExternalIdNotes(
+              externalIdCache, accountCache, accountIndexer, metricMaker, allUsersRepo)
           .load(rev);
     }
   }
@@ -142,22 +151,24 @@ public class ExternalIdNotes extends VersionedMetaData {
   @Singleton
   public static class FactoryNoReindex implements ExternalIdNotesLoader {
     private final ExternalIdCache externalIdCache;
+    private final MetricMaker metricMaker;
 
     @Inject
-    FactoryNoReindex(ExternalIdCache externalIdCache) {
+    FactoryNoReindex(ExternalIdCache externalIdCache, MetricMaker metricMaker) {
       this.externalIdCache = externalIdCache;
+      this.metricMaker = metricMaker;
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(externalIdCache, null, null, allUsersRepo).load();
+      return new ExternalIdNotes(externalIdCache, null, null, metricMaker, allUsersRepo).load();
     }
 
     @Override
     public ExternalIdNotes load(Repository allUsersRepo, @Nullable ObjectId rev)
         throws IOException, ConfigInvalidException {
-      return new ExternalIdNotes(externalIdCache, null, null, allUsersRepo).load(rev);
+      return new ExternalIdNotes(externalIdCache, null, null, metricMaker, allUsersRepo).load(rev);
     }
   }
 
@@ -169,7 +180,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public static ExternalIdNotes loadReadOnly(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(new DisabledExternalIdCache(), null, null, allUsersRepo)
+    return new ExternalIdNotes(
+            new DisabledExternalIdCache(), null, null, new DisabledMetricMaker(), allUsersRepo)
         .setReadOnly()
         .load();
   }
@@ -186,7 +198,8 @@ public class ExternalIdNotes extends VersionedMetaData {
    */
   public static ExternalIdNotes loadReadOnly(Repository allUsersRepo, @Nullable ObjectId rev)
       throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(new DisabledExternalIdCache(), null, null, allUsersRepo)
+    return new ExternalIdNotes(
+            new DisabledExternalIdCache(), null, null, new DisabledMetricMaker(), allUsersRepo)
         .setReadOnly()
         .load(rev);
   }
@@ -195,16 +208,23 @@ public class ExternalIdNotes extends VersionedMetaData {
    * Loads the external ID notes for updates without cache evictions. The external ID notes are
    * loaded from the current tip of the {@code refs/meta/external-ids} branch.
    *
+   * <p>Use this only from init, schema upgrades and tests.
+   *
+   * <p>Metrics are disabled.
+   *
    * @return {@link ExternalIdNotes} instance that doesn't updates caches on save
    */
   public static ExternalIdNotes loadNoCacheUpdate(Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
-    return new ExternalIdNotes(new DisabledExternalIdCache(), null, null, allUsersRepo).load();
+    return new ExternalIdNotes(
+            new DisabledExternalIdCache(), null, null, new DisabledMetricMaker(), allUsersRepo)
+        .load();
   }
 
   private final ExternalIdCache externalIdCache;
   @Nullable private final AccountCache accountCache;
   @Nullable private final Provider<AccountIndexer> accountIndexer;
+  private final Counter0 updateCount;
   private final Repository repo;
 
   private NoteMap noteMap;
@@ -223,10 +243,15 @@ public class ExternalIdNotes extends VersionedMetaData {
       ExternalIdCache externalIdCache,
       @Nullable AccountCache accountCache,
       @Nullable Provider<AccountIndexer> accountIndexer,
+      MetricMaker metricMaker,
       Repository allUsersRepo) {
     this.externalIdCache = checkNotNull(externalIdCache, "externalIdCache");
     this.accountCache = accountCache;
     this.accountIndexer = accountIndexer;
+    this.updateCount =
+        metricMaker.newCounter(
+            "notedb/external_id_update_count",
+            new Description("Total number of external ID updates.").setRate().setUnit("updates"));
     this.repo = checkNotNull(allUsersRepo, "allUsersRepo");
   }
 
@@ -600,7 +625,9 @@ public class ExternalIdNotes extends VersionedMetaData {
   @Override
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     oldRev = revision != null ? revision.copy() : ObjectId.zeroId();
-    return super.commit(update);
+    RevCommit commit = super.commit(update);
+    updateCount.increment();
+    return commit;
   }
 
   /**

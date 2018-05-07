@@ -37,6 +37,7 @@
         },
       },
       baseChange: String,
+      baseCommit: String,
       privateByDefault: String,
       canCreate: {
         type: Boolean,
@@ -73,7 +74,8 @@
       const isPrivate = this.$.privateChangeCheckBox.checked;
       const isWip = true;
       return this.$.restAPI.createChange(this.repoName, this.branch,
-          this.subject, this.topic, isPrivate, isWip, this.baseChange)
+          this.subject, this.topic, isPrivate, isWip, this.baseChange,
+          this.baseCommit)
           .then(changeCreated => {
             if (!changeCreated) { return; }
             Gerrit.Nav.navigateToChange(changeCreated);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8120282b_39ca8816",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-07T07:00:35Z",
+      "side": 1,
+      "message": "Bad rebase.",
+      "range": {
+        "startLine": 1100,
+        "startChar": 0,
+        "endLine": 1110,
+        "endChar": 17
+      },
+      "revId": "2b2a372c5d9c3c06a45bb1d80d1e4fcd65de2a2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

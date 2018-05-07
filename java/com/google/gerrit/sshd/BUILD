@@ -29,12 +29,12 @@ java_library(
         "//lib/bouncycastle:bcprov-neverlink",
         "//lib/commons:codec",
         "//lib/dropwizard:dropwizard-core",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",  # SSH should not depend on servlet
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
         "//lib/log:log4j",
         "//lib/mina:core",
         "//lib/mina:sshd",

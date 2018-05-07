@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83c2d0c9_37c73b9c",
+        "filename": "gerrit-gwtui/src/main/java/com/google/gerrit/client/change/ChangeScreen.ui.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1028863
+      },
+      "writtenOn": "2018-05-07T03:42:06Z",
+      "side": 1,
+      "message": "In new UI, it\u0027s \u0027Hashtag\u0027. I\u0027m not sure which one is correct.",
+      "range": {
+        "startLine": 529,
+        "startChar": 26,
+        "endLine": 529,
+        "endChar": 34
+      },
+      "revId": "669bed5f01d91c184cd0d43778586d3c8621224a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

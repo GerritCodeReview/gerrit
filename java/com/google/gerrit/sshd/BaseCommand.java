@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -59,11 +60,10 @@ import org.apache.sshd.server.ExitCallback;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class BaseCommand implements Command {
-  private static final Logger log = LoggerFactory.getLogger(BaseCommand.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static final Charset ENC = UTF_8;
 
   private static final int PRIVATE_STATUS = 1 << 30;
@@ -351,7 +351,7 @@ public abstract class BaseCommand implements Command {
       }
       m.append(" during ");
       m.append(context.getCommandLine());
-      log.error(m.toString(), e);
+      logger.atSevere().withCause(e).log(m.toString());
     }
 
     if (e instanceof Failure) {
@@ -362,7 +362,7 @@ public abstract class BaseCommand implements Command {
       } catch (IOException e2) {
         // Ignored
       } catch (Throwable e2) {
-        log.warn("Cannot send failure message to client", e2);
+        logger.atWarning().withCause(e2).log("Cannot send failure message to client");
       }
       return f.exitCode;
     }
@@ -373,7 +373,7 @@ public abstract class BaseCommand implements Command {
     } catch (IOException e2) {
       // Ignored
     } catch (Throwable e2) {
-      log.warn("Cannot send internal server error message to client", e2);
+      logger.atWarning().withCause(e2).log("Cannot send internal server error message to client");
     }
     return 128;
   }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.reviewdb.client.Change;
@@ -30,11 +31,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DeleteReviewerByEmailOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(DeleteReviewerByEmailOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     DeleteReviewerByEmailOp create(Address reviewer, DeleteReviewerInput input);
@@ -100,7 +99,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
       cm.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));
       cm.send();
     } catch (Exception err) {
-      log.error("Cannot email update for change " + change.getId(), err);
+      logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());
     }
   }
 }

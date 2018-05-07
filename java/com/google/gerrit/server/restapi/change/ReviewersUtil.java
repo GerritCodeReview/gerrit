@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
@@ -66,10 +67,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ReviewersUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @Singleton
   private static class Metrics {
     final Timer0 queryAccountsLatency;
@@ -112,8 +113,6 @@ public class ReviewersUtil {
                   .setUnit(Units.MILLISECONDS));
     }
   }
-
-  private static final Logger log = LoggerFactory.getLogger(ReviewersUtil.class);
 
   // Generate a candidate list at 2x the size of what the user wants to see to
   // give the ranking algorithm a good set of candidates it can work with
@@ -170,35 +169,37 @@ public class ReviewersUtil {
       throws IOException, OrmException, ConfigInvalidException, PermissionBackendException {
     CurrentUser currentUser = self.get();
     if (changeNotes != null) {
-      log.debug(
-          "Suggesting reviewers for change {} to user {}.",
-          changeNotes.getChangeId().get(),
-          currentUser.getLoggableName());
+      logger
+          .atFine()
+          .log(
+              "Suggesting reviewers for change %s to user %s.",
+              changeNotes.getChangeId().get(), currentUser.getLoggableName());
     } else {
-      log.debug(
-          "Suggesting default reviewers for project {} to user {}.",
-          projectState.getName(),
-          currentUser.getLoggableName());
+      logger
+          .atFine()
+          .log(
+              "Suggesting default reviewers for project %s to user %s.",
+              projectState.getName(), currentUser.getLoggableName());
     }
 
     String query = suggestReviewers.getQuery();
-    log.debug("Query: {}", query);
+    logger.atFine().log("Query: %s", query);
     int limit = suggestReviewers.getLimit();
 
     if (!suggestReviewers.getSuggestAccounts()) {
-      log.debug("Reviewer suggestion is disabled.");
+      logger.atFine().log("Reviewer suggestion is disabled.");
       return Collections.emptyList();
     }
 
     List<Account.Id> candidateList = new ArrayList<>();
     if (!Strings.isNullOrEmpty(query)) {
       candidateList = suggestAccounts(suggestReviewers);
-      log.debug("Candidate list: {}", candidateList);
+      logger.atFine().log("Candidate list: %s", candidateList);
     }
 
     List<Account.Id> sortedRecommendations =
         recommendAccounts(changeNotes, suggestReviewers, projectState, candidateList);
-    log.debug("Sorted recommendations: {}", sortedRecommendations);
+    logger.atFine().log("Sorted recommendations: %s", sortedRecommendations);
 
     // Filter accounts by visibility and enforce limit
     List<Account.Id> filteredRecommendations = new ArrayList<>();
@@ -214,7 +215,7 @@ public class ReviewersUtil {
         }
       }
     }
-    log.debug("Filtered recommendations: {}", filteredRecommendations);
+    logger.atFine().log("Filtered recommendations: %s", filteredRecommendations);
 
     List<SuggestedReviewerInfo> suggestedReviewers = loadAccounts(filteredRecommendations);
     if (!excludeGroups && suggestedReviewers.size() < limit && !Strings.isNullOrEmpty(query)) {
@@ -230,23 +231,25 @@ public class ReviewersUtil {
 
     if (suggestedReviewers.size() > limit) {
       suggestedReviewers = suggestedReviewers.subList(0, limit);
-      log.debug("Limited suggested reviewers to {} accounts.", limit);
+      logger.atFine().log("Limited suggested reviewers to %d accounts.", limit);
     }
-    log.debug(
-        "Suggested reviewers: {}",
-        suggestedReviewers
-            .stream()
-            .map(
-                r -> {
-                  if (r.account != null) {
-                    return "a/" + r.account._accountId;
-                  } else if (r.group != null) {
-                    return "g/" + r.group.id;
-                  } else {
-                    return "";
-                  }
-                })
-            .collect(toList()));
+    logger
+        .atFine()
+        .log(
+            "Suggested reviewers: %s",
+            suggestedReviewers
+                .stream()
+                .map(
+                    r -> {
+                      if (r.account != null) {
+                        return "a/" + r.account._accountId;
+                      } else if (r.group != null) {
+                        return "g/" + r.group.id;
+                      } else {
+                        return "";
+                      }
+                    })
+                .collect(toList()));
     return suggestedReviewers;
   }
 

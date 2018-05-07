@@ -22,6 +22,30 @@
       "revId": "5c2cb2d668f5ff8fe0694ca9fea9c2daf1657d61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "488cdcb8_e96be48f",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-07T07:36:32Z",
+      "side": 1,
+      "message": "Unfortunately not, because that would yield much more repository opens making performance worse.",
+      "parentUuid": "0662de40_1eb83d1d",
+      "range": {
+        "startLine": 363,
+        "startChar": 7,
+        "endLine": 363,
+        "endChar": 80
+      },
+      "revId": "5c2cb2d668f5ff8fe0694ca9fea9c2daf1657d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

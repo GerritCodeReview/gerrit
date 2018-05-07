@@ -84,7 +84,7 @@ public class WorkQueue {
       };
 
   private ScheduledExecutorService defaultQueue;
-  private int defaultQueueSize;
+  private final int defaultQueueSize;
   private final IdGenerator idGenerator;
   private final CopyOnWriteArrayList<Executor> queues;
 

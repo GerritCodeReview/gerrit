@@ -16,6 +16,29 @@
       "revId": "f2d516c39fb8ffe63f5271b265286913de658aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c4a449c_9be8d619",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-07T03:57:49Z",
+      "side": 1,
+      "message": "I think we can just remove this constructor and move the implementation into the constructor above.\n\nSee https://gerrit-review.googlesource.com/#/c/gerrit/+/176391",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 3
+      },
+      "revId": "f2d516c39fb8ffe63f5271b265286913de658aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

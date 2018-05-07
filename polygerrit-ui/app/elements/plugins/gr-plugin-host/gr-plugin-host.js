@@ -102,8 +102,7 @@
       if (!pathOrUrl.startsWith('/')) {
         pathOrUrl = '/' + pathOrUrl;
       }
-      const {href, pathname} = window.location;
-      return href.split(pathname)[0] + this.getBaseUrl() + pathOrUrl;
+      return window.location.origin + this.getBaseUrl() + pathOrUrl;
     },
   });
 })();

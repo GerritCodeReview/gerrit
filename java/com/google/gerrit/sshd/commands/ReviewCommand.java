@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
@@ -53,12 +54,10 @@ import java.util.Set;
 import java.util.TreeMap;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @CommandMetaData(name = "review", description = "Apply reviews to one or more patch sets")
 public class ReviewCommand extends SshCommand {
-  private static final Logger log = LoggerFactory.getLogger(ReviewCommand.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected final CmdLineParser newCmdLineParser(Object options) {
@@ -231,7 +230,7 @@ public class ReviewCommand extends SshCommand {
       } catch (Exception e) {
         ok = false;
         writeError("fatal", "internal server error while reviewing " + patchSet.getId() + "\n");
-        log.error("internal error while reviewing " + patchSet.getId(), e);
+        logger.atSevere().withCause(e).log("internal error while reviewing %s", patchSet.getId());
       }
     }
 

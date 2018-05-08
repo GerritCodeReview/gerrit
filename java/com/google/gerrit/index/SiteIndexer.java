@@ -17,6 +17,7 @@ package com.google.gerrit.index;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.MoreExecutors;
 import java.io.OutputStream;
@@ -27,11 +28,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
-  private static final Logger log = LoggerFactory.getLogger(SiteIndexer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Result {
     private final long elapsedNanos;
@@ -128,7 +127,7 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
     }
 
     private void fail(Throwable t) {
-      log.error("Failed to index " + desc, t);
+      logger.atSevere().withCause(t).log("Failed to index %s", desc);
       ok.set(false);
     }
 

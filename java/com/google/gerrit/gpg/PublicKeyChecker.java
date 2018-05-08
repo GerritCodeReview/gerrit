@@ -28,6 +28,7 @@ import static org.bouncycastle.bcpg.sig.RevocationReasonTags.NO_REASON;
 import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
 import static org.bouncycastle.openpgp.PGPSignature.KEY_REVOCATION;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,12 +50,10 @@ import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.bouncycastle.openpgp.PGPPublicKeyRingCollection;
 import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Checker for GPG public keys for use in a push certificate. */
 public class PublicKeyChecker {
-  private static final Logger log = LoggerFactory.getLogger(PublicKeyChecker.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   // https://tools.ietf.org/html/rfc4880#section-5.2.3.13
   private static final int COMPLETE_TRUST = 120;
@@ -294,12 +293,11 @@ public class PublicKeyChecker {
         // Revoker is authorized and there is a revocation signature by this
         // revoker, but the key is not in the store so we can't verify the
         // signature.
-        log.info(
-            "Key "
-                + Fingerprint.toString(key.getFingerprint())
-                + " is revoked by "
-                + Fingerprint.toString(rfp)
-                + ", which is not in the store. Assuming revocation is valid.");
+        logger
+            .atInfo()
+            .log(
+                "Key %s is revoked by %s, which is not in the store. Assuming revocation is valid.",
+                Fingerprint.toString(key.getFingerprint()), Fingerprint.toString(rfp));
         problems.add(reasonToString(getRevocationReason(revocation)));
         continue;
       }

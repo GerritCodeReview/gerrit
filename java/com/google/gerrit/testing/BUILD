@@ -29,6 +29,7 @@ java_library(
         "//java/com/google/gerrit/server/cache/mem",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//lib/flogger:api",
         "//lib:gwtorm",
         "//lib:h2",
         "//lib:truth",
@@ -38,6 +39,5 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/log:api",
     ],
 )

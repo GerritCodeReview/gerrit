@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
@@ -33,12 +34,10 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class LuceneVersionManager extends VersionManager {
-  private static final Logger log = LoggerFactory.getLogger(LuceneVersionManager.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static Path getDir(SitePaths sitePaths, String name, Schema<?> schema) {
     return sitePaths.index_dir.resolve(String.format("%s_%04d", name, schema.getVersion()));
@@ -62,7 +61,7 @@ public class LuceneVersionManager extends VersionManager {
       Path p = getDir(sitePaths, def.getName(), schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {
-        log.warn("Not a directory: {}", p.toAbsolutePath());
+        logger.atWarning().log("Not a directory: %s", p.toAbsolutePath());
       }
       int v = schema.getVersion();
       versions.put(v, new Version<>(schema, v, isDir, cfg.getReady(def.getName(), v)));
@@ -78,7 +77,7 @@ public class LuceneVersionManager extends VersionManager {
         String versionStr = n.substring(prefix.length());
         Integer v = Ints.tryParse(versionStr);
         if (v == null || versionStr.length() != 4) {
-          log.warn("Unrecognized version in index directory: {}", p.toAbsolutePath());
+          logger.atWarning().log("Unrecognized version in index directory: %s", p.toAbsolutePath());
           continue;
         }
         if (!versions.containsKey(v)) {
@@ -86,7 +85,7 @@ public class LuceneVersionManager extends VersionManager {
         }
       }
     } catch (IOException e) {
-      log.error("Error scanning index directory: " + sitePaths.index_dir, e);
+      logger.atSevere().withCause(e).log("Error scanning index directory: %s", sitePaths.index_dir);
     }
     return versions;
   }

@@ -21,6 +21,7 @@ import static com.google.gerrit.gpg.PublicKeyStore.keyIdToString;
 import static com.google.gerrit.gpg.PublicKeyStore.keyToString;
 
 import com.google.common.base.Joiner;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -38,12 +39,10 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.PushCertificate.NonceStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Checker for push certificates. */
 public abstract class PushCertificateChecker {
-  private static final Logger log = LoggerFactory.getLogger(PushCertificateChecker.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Result {
     private final PGPPublicKey key;
@@ -107,7 +106,7 @@ public abstract class PushCertificateChecker {
       }
     } catch (PGPException | IOException e) {
       String msg = "Internal error checking push certificate";
-      log.error(msg, e);
+      logger.atSevere().withCause(e).log(msg);
       results.add(CheckResult.bad(msg));
     }
 

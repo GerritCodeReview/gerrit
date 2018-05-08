@@ -557,18 +557,21 @@ limitations under the License.
       });
 
       test('r key toggles reviewed flag', () => {
+        const reducer = (accum, file) => file.isReviewed ? ++accum : accum;
+        const getNumReviewed = () => element._files.reduce(reducer, 0);
         flushAsynchronousOperations();
 
         // Default state should be unreviewed.
-        assert.equal(element._reviewed.length, 0);
+        assert.equal(getNumReviewed(), 0);
 
         // Press the review key to toggle it (set the flag).
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.equal(element._reviewed.length, 1);
+        flushAsynchronousOperations();
+        assert.equal(getNumReviewed(), 1);
 
         // Press the review key to toggle it (clear the flag).
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        assert.equal(element._reviewed.length, 0);
+        assert.equal(getNumReviewed(), 0);
       });
 
       suite('_handleOKey', () => {
@@ -655,12 +658,12 @@ limitations under the License.
     });
 
     test('file review status', () => {
+      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._filesByPath = {
         '/COMMIT_MSG': {},
         'file_added_in_rev2.txt': {},
         'myfile.txt': {},
       };
-      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._loggedIn = true;
       element.changeNum = '42';
       element.patchRange = {
@@ -1025,6 +1028,7 @@ limitations under the License.
     });
 
     test('_loadingChanged fired from reload in debouncer', done => {
+      sandbox.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
       element._filesByPath = {'foo.bar': {}};
@@ -1042,6 +1046,7 @@ limitations under the License.
     });
 
     test('_loadingChanged does not set class when there are no files', () => {
+      sandbox.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
       element.reload();

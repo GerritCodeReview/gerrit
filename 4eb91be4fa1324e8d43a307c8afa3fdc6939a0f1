@@ -22,6 +22,30 @@
       "revId": "4eb91be4fa1324e8d43a307c8afa3fdc6939a0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea9739aa_b01e0ccd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-08T16:03:09Z",
+      "side": 1,
+      "message": "Nope, because these are all fixes for  gr-group-audit-log.",
+      "parentUuid": "544af9af_c4bc0cf8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "4eb91be4fa1324e8d43a307c8afa3fdc6939a0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

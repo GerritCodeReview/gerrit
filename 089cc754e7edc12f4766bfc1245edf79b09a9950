@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "37275f13_e59f9008",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-08T22:09:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b00b5584_b14f770d",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 263,
+        "endChar": 9
+      },
+      "revId": "089cc754e7edc12f4766bfc1245edf79b09a9950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aad2308c_e4d94ba8",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "089cc754e7edc12f4766bfc1245edf79b09a9950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2bd32cf_023f375c",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-08T22:09:10Z",
+      "side": 1,
+      "message": "I\u0027m open to alternatives. So far it\u0027s a generic event that depends on a rendering, hence lifecycle.",
+      "parentUuid": "aad2308c_e4d94ba8",
+      "revId": "089cc754e7edc12f4766bfc1245edf79b09a9950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

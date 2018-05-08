@@ -77,7 +77,7 @@ public class RefOperationValidators {
     boolean withException = false;
     List<RefOperationValidationListener> listeners = new ArrayList<>();
     listeners.add(new DisallowCreationAndDeletionOfUserBranches(perm, allUsersName));
-    refOperationValidationListeners.forEach(l -> listeners.add(l));
+    refOperationValidationListeners.forEach(listeners::add);
     try {
       for (RefOperationValidationListener listener : listeners) {
         messages.addAll(listener.onRefOperation(event));

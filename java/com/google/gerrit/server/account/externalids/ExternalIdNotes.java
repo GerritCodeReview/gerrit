@@ -610,7 +610,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       return;
     }
 
-    replace(accountId, toDelete.stream().map(e -> e.key()).collect(toSet()), toAdd);
+    replace(accountId, toDelete.stream().map(ExternalId::key).collect(toSet()), toAdd);
   }
 
   @Override

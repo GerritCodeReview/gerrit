@@ -508,7 +508,7 @@ public class ChangeJson {
             });
       }
 
-      long numProjects = changes.stream().map(c -> c.project()).distinct().count();
+      long numProjects = changes.stream().map(ChangeData::project).distinct().count();
       if (!enableParallelFormatting || !lazyLoad || changes.size() < 3 || numProjects < 2) {
         // Format these changes in the request thread as the multithreading overhead would be too
         // high.

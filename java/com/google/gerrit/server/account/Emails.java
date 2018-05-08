@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Streams;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gwtorm.server.OrmException;
@@ -61,7 +62,7 @@ public class Emails {
    */
   public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException, OrmException {
     return Streams.concat(
-            externalIds.byEmail(email).stream().map(e -> e.accountId()),
+            externalIds.byEmail(email).stream().map(ExternalId::accountId),
             queryProvider.get().byPreferredEmail(email).stream().map(a -> a.getAccount().getId()))
         .collect(toImmutableSet());
   }

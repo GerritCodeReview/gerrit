@@ -223,7 +223,6 @@ public abstract class StandaloneSiteTest {
 
   @SafeVarargs
   protected static void runGerrit(Iterable<String>... multiArgs) throws Exception {
-    runGerrit(
-        Arrays.stream(multiArgs).flatMap(args -> Streams.stream(args)).toArray(String[]::new));
+    runGerrit(Arrays.stream(multiArgs).flatMap(Streams::stream).toArray(String[]::new));
   }
 }

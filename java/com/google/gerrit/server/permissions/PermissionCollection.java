@@ -142,7 +142,9 @@ public class PermissionCollection {
               .stream()
               .collect(
                   Collectors.groupingBy(
-                      e -> e.getValue(), LinkedHashMap::new, mapping(e -> e.getKey(), toList())));
+                      Map.Entry::getValue,
+                      LinkedHashMap::new,
+                      mapping(Map.Entry::getKey, toList())));
       // Within each project, sort by ref specificity.
       for (List<AccessSection> secs : accessByProject.values()) {
         sorter.sort(ref, secs);

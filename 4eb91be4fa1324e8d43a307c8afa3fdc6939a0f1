@@ -46,6 +46,30 @@
       "revId": "4eb91be4fa1324e8d43a307c8afa3fdc6939a0f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0764715b_0185793b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-08T23:19:31Z",
+      "side": 1,
+      "message": "There are several different fixes.  Ideally each commit should be a distinct thing.",
+      "parentUuid": "ea9739aa_b01e0ccd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "4eb91be4fa1324e8d43a307c8afa3fdc6939a0f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

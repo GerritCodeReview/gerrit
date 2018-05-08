@@ -1502,6 +1502,14 @@ class ReceiveCommits {
       return;
     }
 
+    // TODO(davido): Remove legacy support for drafts magic branch option
+    // after repo-tool supports private and work-in-progress changes.
+    if (magicBranch.draft && !receiveConfig.allowDrafts) {
+      errors.put(ReceiveError.CODE_REVIEW, ref);
+      reject(cmd, "draft workflow is disabled");
+      return;
+    }
+
     if (magicBranch.isPrivate && magicBranch.removePrivate) {
       reject(cmd, "the options 'private' and 'remove-private' are mutually exclusive");
       return;

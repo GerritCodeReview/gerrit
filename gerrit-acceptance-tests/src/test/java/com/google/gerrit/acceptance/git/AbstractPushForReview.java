@@ -1860,6 +1860,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithDraftOptionIsDisabledPerDefault() throws Exception {
+    for (String ref : ImmutableSet.of("refs/drafts/master", "refs/for/master%draft")) {
+      PushOneCommit.Result r = pushTo(ref);
+      r.assertErrorStatus();
+      r.assertMessage("draft workflow is disabled");
+    }
+  }
+
+  @GerritConfig(name = "change.allowDrafts", value = "true")
+  @Test
   public void pushDraftGetsPrivateChange() throws Exception {
     String changeId1 = createChange("refs/drafts/master").getChangeId();
     String changeId2 = createChange("refs/for/master%draft").getChangeId();
@@ -1875,6 +1885,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info2.revisions).hasSize(1);
   }
 
+  @GerritConfig(name = "change.allowDrafts", value = "true")
   @Sandboxed
   @Test
   public void pushWithDraftOptionToExistingNewChangeGetsChangeEdit() throws Exception {

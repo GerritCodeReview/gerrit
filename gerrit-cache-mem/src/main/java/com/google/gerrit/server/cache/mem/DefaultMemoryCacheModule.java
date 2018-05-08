@@ -15,11 +15,12 @@
 package com.google.gerrit.server.cache.mem;
 
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.server.cache.CacheImpl;
+import com.google.gerrit.server.ModuleImpl;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 
-@CacheImpl(type = CacheImpl.Type.MEMORY)
+@ModuleImpl(name = CacheModule.MEMORY_MODULE)
 public class DefaultMemoryCacheModule extends FactoryModule {
   @Override
   protected void configure() {

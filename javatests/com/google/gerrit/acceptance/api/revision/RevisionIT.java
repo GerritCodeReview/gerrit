@@ -922,7 +922,7 @@ public class RevisionIT extends AbstractDaemonTest {
         changeIndexedListeners.add(
             new ChangeIndexedListener() {
               @Override
-              public void onChangeIndexed(int id) {
+              public void onChangeIndexed(String projectName, int id) {
                 if (id == id2.get()) {
                   reindexed.countDown();
                 }

@@ -61,6 +61,7 @@ toChangeInfo invocations in ChangeJson.
 toChangeInfos invocations in ChangeJson.
 * `http/server/rest_api/change_json/format_query_results_latency`: Latency for
 formatQueryResults invocations in ChangeJson.
+* `http/server/rest_api/ui_actions/latency`: Latency for RestView#getDescription calls.
 
 === Query
 

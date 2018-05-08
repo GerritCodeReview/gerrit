@@ -31,6 +31,10 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.extensions.webui.UiAction.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.Field;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendCondition;
@@ -55,10 +59,18 @@ public class UiActions {
   }
 
   private final PermissionBackend permissionBackend;
+  private final Timer1<String> uiActionLatency;
 
   @Inject
-  UiActions(PermissionBackend permissionBackend) {
+  UiActions(PermissionBackend permissionBackend, MetricMaker metricMaker) {
     this.permissionBackend = permissionBackend;
+    this.uiActionLatency =
+        metricMaker.newTimer(
+            "http/server/rest_api/ui_actions/latency",
+            new com.google.gerrit.metrics.Description("Latency for RestView#getDescription calls")
+                .setCumulative()
+                .setUnit(Units.MILLISECONDS),
+            Field.ofString("view"));
   }
 
   public <R extends RestResource> Iterable<UiAction.Description> from(
@@ -128,7 +140,12 @@ public class UiActions {
       return null;
     }
 
-    UiAction.Description dsc = ((UiAction<R>) view).getDescription(resource);
+    String name = e.getExportName().substring(d + 1);
+    UiAction.Description dsc;
+    try (Timer1.Context ignored = uiActionLatency.start(name)) {
+      dsc = ((UiAction<R>) view).getDescription(resource);
+    }
+
     if (dsc == null) {
       return null;
     }
@@ -151,7 +168,6 @@ public class UiActions {
       dsc.setVisible(and(p, dsc.getVisibleCondition()));
     }
 
-    String name = e.getExportName().substring(d + 1);
     PrivateInternals_UiActionDescription.setMethod(dsc, e.getExportName().substring(0, d));
     PrivateInternals_UiActionDescription.setId(
         dsc, "gerrit".equals(e.getPluginName()) ? name : e.getPluginName() + '~' + name);

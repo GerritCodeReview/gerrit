@@ -171,6 +171,28 @@ maven_jar(
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
 )
 
+# TODO(ekempin): Update the Flogger version (we need the Flogger version that allows to use
+# alternative backends and contains the log4j backend)
+FLOGGER_VERS = "0.1"
+
+maven_jar(
+    name = "flogger",
+    artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
+    sha1 = "e02b7e9c66921e31b506416ef690c72774e1ed65",
+)
+
+maven_jar(
+    name = "flogger-log4j-backend",
+    artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
+    sha1 = "XXX",
+)
+
+maven_jar(
+    name = "flogger-system-backend",
+    artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
+    sha1 = "051278e0c81e2eaf5e275e4275a8fb9ca5967695",
+)
+
 maven_jar(
     name = "gwtjsonrpc",
     artifact = "com.google.gerrit:gwtjsonrpc:1.11",

@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.util;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -36,12 +37,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.concurrent.Future;
 import java.util.zip.GZIPOutputStream;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Compresses the old error logs. */
 public class LogFileCompressor implements Runnable {
-  private static final Logger log = LoggerFactory.getLogger(LogFileCompressor.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends LifecycleModule {
     @Override
@@ -113,10 +112,10 @@ public class LogFileCompressor implements Runnable {
           }
         }
       } catch (IOException e) {
-        log.error("Error listing logs to compress in " + logs_dir, e);
+        logger.atSevere().withCause(e).log("Error listing logs to compress in %s", logs_dir);
       }
     } catch (Exception e) {
-      log.error("Failed to compress log files: " + e.getMessage(), e);
+      logger.atSevere().withCause(e).log("Failed to compress log files: %s", e.getMessage());
     }
   }
 
@@ -156,11 +155,11 @@ public class LogFileCompressor implements Runnable {
       }
       Files.delete(src);
     } catch (IOException e) {
-      log.error("Cannot compress " + src, e);
+      logger.atSevere().withCause(e).log("Cannot compress %s", src);
       try {
         Files.deleteIfExists(tmp);
       } catch (IOException e2) {
-        log.warn("Failed to delete temporary log file " + tmp, e2);
+        logger.atWarning().withCause(e2).log("Failed to delete temporary log file %s", tmp);
       }
     }
   }

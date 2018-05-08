@@ -14,10 +14,9 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.google.common.flogger.FluentLogger;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RuntimeShutdown {
   private static final ShutdownCallback cb = new ShutdownCallback();
@@ -45,7 +44,7 @@ public class RuntimeShutdown {
   private RuntimeShutdown() {}
 
   private static class ShutdownCallback extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(ShutdownCallback.class);
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
     private final List<Runnable> tasks = new ArrayList<>();
     private boolean shutdownStarted;
@@ -72,7 +71,7 @@ public class RuntimeShutdown {
 
     @Override
     public void run() {
-      log.debug("Graceful shutdown requested");
+      logger.atFine().log("Graceful shutdown requested");
 
       List<Runnable> taskList;
       synchronized (this) {
@@ -84,11 +83,11 @@ public class RuntimeShutdown {
         try {
           task.run();
         } catch (Exception err) {
-          log.error("Cleanup task failed", err);
+          logger.atSevere().withCause(err).log("Cleanup task failed");
         }
       }
 
-      log.debug("Shutdown complete");
+      logger.atFine().log("Shutdown complete");
 
       synchronized (this) {
         shutdownComplete = true;

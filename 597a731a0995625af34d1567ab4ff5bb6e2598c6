@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6509bf7_e43dc30f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-08T19:48:47Z",
+      "side": 1,
+      "message": "optional: it would be nice to put a short explanation of the bug and fix here. That said, the code is clear too so it would not be necessary, only nice.",
+      "revId": "597a731a0995625af34d1567ab4ff5bb6e2598c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93542c12_661da9b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-08T19:48:47Z",
+      "side": 1,
+      "message": "Bug: Issue 8722",
+      "revId": "597a731a0995625af34d1567ab4ff5bb6e2598c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

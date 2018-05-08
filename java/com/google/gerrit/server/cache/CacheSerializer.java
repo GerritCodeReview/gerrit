@@ -16,11 +16,33 @@ package com.google.gerrit.server.cache;
 
 import java.io.IOException;
 
-/** Interface for serializing/deserializing a type to/from a persistent cache. */
+/**
+ * Interface for serializing/deserializing a type to/from a persistent cache.
+ *
+ * <p>Implementations are null-hostile and will throw exceptions from {@link #serialize} when passed
+ * null values, unless otherwise specified.
+ */
 public interface CacheSerializer<T> {
-  /** Serializes the object to a new byte array. */
-  byte[] serialize(T object) throws IOException;
+  /**
+   * Serializes the object to a new byte array.
+   *
+   * @param object object to serialize.
+   * @return serialized byte array representation.
+   * @throws IOException if an I/O related error occurred, for example from writing to an internal
+   *     {@code OutputStream} or similar.
+   * @throws RuntimeException for malformed input, for example null or an otherwise unsupported
+   *     value.
+   */
+  byte[] serialize(T object) throws IOException, RuntimeException;
 
-  /** Deserializes a single object from the given byte array. */
-  T deserialize(byte[] in) throws IOException;
+  /**
+   * Deserializes a single object from the given byte array.
+   *
+   * @param in serialized byte array representation.
+   * @throws IOException if an I/O related error occurred, for example from reading from an internal
+   *     {@code InputStream} or similar.
+   * @throws RuntimeException for malformed input, for example null or an otherwise corrupt
+   *     serialized representation.
+   */
+  T deserialize(byte[] in) throws IOException, RuntimeException;
 }

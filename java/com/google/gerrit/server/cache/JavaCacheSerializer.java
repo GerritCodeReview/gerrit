@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache;
 
+import com.google.gerrit.common.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,12 +24,14 @@ import java.io.ObjectOutputStream;
 /**
  * Serializer that uses default Java serialization.
  *
+ * <p>Unlike most {@link CacheSerializer} implementations, serializing null is supported.
+ *
  * @param <T> type to serialize. Must implement {@code Serializable}, but due to implementation
  *     details this is only checked at runtime.
  */
 public class JavaCacheSerializer<T> implements CacheSerializer<T> {
   @Override
-  public byte[] serialize(T object) throws IOException {
+  public byte[] serialize(@Nullable T object) throws IOException {
     try (ByteArrayOutputStream bout = new ByteArrayOutputStream();
         ObjectOutputStream oout = new ObjectOutputStream(bout)) {
       oout.writeObject(object);

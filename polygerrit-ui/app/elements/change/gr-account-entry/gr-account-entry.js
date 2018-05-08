@@ -144,9 +144,7 @@
     },
 
     _getReviewerSuggestions(input) {
-      if (!this.change || !this.change._number) { return Promise.resolve([]); }
-
-      input = `cansee:${this.change._number} ${input}`;
+      if (!this.change) { return Promise.resolve([]); }
       const api = this.$.restAPI;
       const xhr = this.allowAnyUser ?
           api.getSuggestedAccounts(input) :

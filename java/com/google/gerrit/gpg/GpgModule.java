@@ -14,15 +14,14 @@
 
 package com.google.gerrit.gpg;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.gpg.api.GpgApiModule;
 import com.google.gerrit.server.EnableSignedPush;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GpgModule extends FactoryModule {
-  private static final Logger log = LoggerFactory.getLogger(GpgModule.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Config cfg;
 
@@ -39,7 +38,7 @@ public class GpgModule extends FactoryModule {
     bindConstant().annotatedWith(EnableSignedPush.class).to(enableSignedPush);
 
     if (configEnableSignedPush && !havePgp) {
-      log.info("Bouncy Castle PGP not installed; signed push verification is disabled");
+      logger.atInfo().log("Bouncy Castle PGP not installed; signed push verification is disabled");
     }
     if (enableSignedPush) {
       install(new SignedPushModule());

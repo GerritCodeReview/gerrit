@@ -117,6 +117,30 @@
       "revId": "021c2dcdd88d43bd0b4a926694f8875a9e6a9b22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "126f5577_e87df779",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-08T11:31:06Z",
+      "side": 1,
+      "message": "If we do not have the project name already to pass to the extension, forget my comment.",
+      "parentUuid": "eac28137_730c9ba7",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "021c2dcdd88d43bd0b4a926694f8875a9e6a9b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

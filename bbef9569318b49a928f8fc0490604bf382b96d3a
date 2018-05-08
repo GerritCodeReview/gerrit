@@ -63,6 +63,24 @@
       "revId": "bbef9569318b49a928f8fc0490604bf382b96d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6b8460c_1193ace8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2407,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-05-08T06:18:05Z",
+      "side": 1,
+      "message": "Yes. Same logic as addUserAsRequestAttribute for creating the username (with fallback to account id).",
+      "parentUuid": "d5647345_ad0b7b29",
+      "revId": "bbef9569318b49a928f8fc0490604bf382b96d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

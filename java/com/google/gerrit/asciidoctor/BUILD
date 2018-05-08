@@ -13,8 +13,6 @@ java_library(
         "//lib:args4j",
         "//lib:guava",
         "//lib/asciidoctor",
-        "//lib/log:api",
-        "//lib/log:nop",
     ],
 )
 

@@ -252,12 +252,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "log_nop",
-    artifact = "org.slf4j:slf4j-nop:" + SLF4J_VERS,
-    sha1 = "6cca9a3b999ff28b7a35ca762b3197cd7e4c2ad1",
-)
-
-maven_jar(
     name = "log_ext",
     artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
     sha1 = "09a8f58c784c37525d2624062414358acf296717",

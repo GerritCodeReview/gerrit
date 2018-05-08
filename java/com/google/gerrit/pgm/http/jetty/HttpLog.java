@@ -89,7 +89,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     String uri = req.getRequestURI();
     uri = redactQueryString(uri, req.getQueryString());
 
-    String user = (String) req.getAttribute(GetUserFilter.REQ_ATTR_KEY);
+    String user = (String) req.getAttribute(GetUserFilter.USER_ATTR_KEY);
     if (user != null) {
       event.setProperty(P_USER, user);
     }

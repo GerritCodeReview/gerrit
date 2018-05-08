@@ -84,8 +84,7 @@ public class WorkQueue {
         }
       };
 
-  private ScheduledExecutorService defaultQueue;
-  private final int defaultQueueSize;
+  private final ScheduledExecutorService defaultQueue;
   private final IdGenerator idGenerator;
   private final CopyOnWriteArrayList<Executor> queues;
 
@@ -98,14 +97,11 @@ public class WorkQueue {
   public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize) {
     this.idGenerator = idGenerator;
     this.queues = new CopyOnWriteArrayList<>();
-    this.defaultQueueSize = defaultThreadPoolSize;
+    this.defaultQueue = createQueue(defaultThreadPoolSize, "WorkQueue");
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
-  public synchronized ScheduledExecutorService getDefaultQueue() {
-    if (defaultQueue == null) {
-      defaultQueue = createQueue(defaultQueueSize, "WorkQueue");
-    }
+  public ScheduledExecutorService getDefaultQueue() {
     return defaultQueue;
   }
 

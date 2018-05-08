@@ -70,6 +70,30 @@
       "revId": "4b5b9a393aa46030c325da512d6f7ee5396a29ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5efeb84_9fd8336c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-08T21:38:39Z",
+      "side": 1,
+      "message": "If a plugin was set to be loaded and the url doesn\u0027t conform to the expected pattern - for example, in integration tests.",
+      "parentUuid": "5ca4515c_f2f92bd0",
+      "range": {
+        "startLine": 575,
+        "startChar": 33,
+        "endLine": 575,
+        "endChar": 39
+      },
+      "revId": "4b5b9a393aa46030c325da512d6f7ee5396a29ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

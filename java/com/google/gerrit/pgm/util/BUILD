@@ -18,6 +18,7 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/util/cli",
         "//lib:args4j",
+        "//lib/flogger:api",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/commons:dbcp",

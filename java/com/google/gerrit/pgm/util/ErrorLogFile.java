@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.util;
 
+import com.google.common.flogger.backend.log4j.Log4jBackendFactory;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
@@ -32,7 +33,11 @@ public class ErrorLogFile {
   static final String LOG_NAME = "error_log";
   static final String JSON_SUFFIX = ".json";
 
+  private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
+
   public static void errorOnlyConsole() {
+    configureFloggerBackend();
+
     LogManager.resetConfiguration();
 
     final PatternLayout layout = new PatternLayout();
@@ -68,6 +73,8 @@ public class ErrorLogFile {
   }
 
   private static void initLogSystem(Path logdir, Config config) {
+    configureFloggerBackend();
+
     final Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();
 
@@ -86,5 +93,16 @@ public class ErrorLogFile {
           SystemLog.createAppender(
               logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1(), rotate));
     }
+  }
+
+  private static void configureFloggerBackend() {
+    if (System.getProperty(FLOGGER_BACKEND_PROPERTY) != null) {
+      // Flogger backend is already configured
+      return;
+    }
+
+    // Configure log4j backend
+    System.setProperty(
+        FLOGGER_BACKEND_PROPERTY, Log4jBackendFactory.class.getName() + "#getInstance");
   }
 }

@@ -28,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
@@ -73,11 +74,9 @@ import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
-  private static final Logger log = LoggerFactory.getLogger(AbstractElasticIndex.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtobufCodec<T> codec) {
@@ -309,7 +308,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
             }
           }
         } else {
-          log.error(result.getErrorMessage());
+          logger.atSevere().log(result.getErrorMessage());
         }
         final List<T> r = Collections.unmodifiableList(results);
         return new ResultSet<T>() {

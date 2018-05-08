@@ -18,16 +18,15 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.flogger.FluentLogger;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @GwtIncompatible("Unemulated com.google.gerrit.common.Version")
 public class Version {
-  private static final Logger log = LoggerFactory.getLogger(Version.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @VisibleForTesting static final String DEV = "(dev)";
 
@@ -57,7 +56,7 @@ public class Version {
         return vs;
       }
     } catch (IOException e) {
-      log.error(e.getMessage(), e);
+      logger.atSevere().withCause(e).log(e.getMessage());
       return "(unknown version)";
     }
   }

@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -46,12 +47,10 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.runner.Description;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class NoteDbChecker {
-  static final Logger log = LoggerFactory.getLogger(NoteDbChecker.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<ReviewDb> dbProvider;
   private final GitRepositoryManager repoManager;
@@ -193,7 +192,7 @@ public class NoteDbChecker {
         } catch (Throwable t) {
           String msg = "Error converting change: " + c;
           msgs.add(msg);
-          log.error(msg, t);
+          logger.atSevere().withCause(t).log(msg);
           continue;
         }
         List<String> diff = expected.differencesFrom(actual);

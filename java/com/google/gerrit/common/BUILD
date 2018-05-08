@@ -24,8 +24,8 @@ gwt_module(
         "//lib:servlet-api-3_1",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/flogger:api",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
     gwt_xml = "Common.gwt.xml",
     visibility = ["//visibility:public"],
@@ -50,8 +50,8 @@ java_library(
         "//lib:servlet-api-3_1",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/flogger:api",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )
 

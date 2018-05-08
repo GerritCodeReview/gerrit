@@ -21,26 +21,25 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @GwtIncompatible("Unemulated classes in java.nio and Guava")
 public final class SiteLibraryLoaderUtil {
-  private static final Logger log = LoggerFactory.getLogger(SiteLibraryLoaderUtil.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static void loadSiteLib(Path libdir) {
     try {
       List<Path> jars = listJars(libdir);
       IoUtil.loadJARs(jars);
-      log.debug("Loaded site libraries: {}", jarList(jars));
+      logger.atFine().log("Loaded site libraries: %s", jarList(jars));
     } catch (IOException e) {
-      log.error("Error scanning lib directory " + libdir, e);
+      logger.atSevere().withCause(e).log("Error scanning lib directory %s", libdir);
     }
   }
 

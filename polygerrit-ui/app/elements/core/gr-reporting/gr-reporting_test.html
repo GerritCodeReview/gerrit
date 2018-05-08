@@ -61,11 +61,15 @@ limitations under the License.
     });
 
     test('appStarted', () => {
-      element.appStarted();
+      element.appStarted(true);
       assert.isTrue(
           element.reporter.calledWithExactly(
               'timing-report', 'UI Latency', 'App Started',
               NOW_TIME - fakePerformance.navigationStart
+      ));
+      assert.isTrue(
+          element.reporter.calledWithExactly(
+              'lifecycle', 'Page Visibility', 'hidden'
       ));
     });
 

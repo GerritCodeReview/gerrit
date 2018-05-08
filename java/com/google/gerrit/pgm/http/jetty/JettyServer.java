@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
@@ -69,12 +70,10 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class JettyServer {
-  private static final Logger log = LoggerFactory.getLogger(JettyServer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
@@ -426,7 +425,7 @@ public class JettyServer {
             EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
       } catch (Throwable e) {
         String errorMessage = "Unable to instantiate front-end HTTP Filter " + filterClassName;
-        log.error(errorMessage, e);
+        logger.atSevere().withCause(e).log(errorMessage);
         throw new IllegalArgumentException(errorMessage, e);
       }
     }

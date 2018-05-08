@@ -101,7 +101,8 @@
       _filesByPath: Object,
       _files: {
         type: Array,
-        computed: '_computeFiles(_filesByPath, changeComments, patchRange)',
+        computed: '_computeFiles(_filesByPath, changeComments, patchRange, ' +
+            '_reviewed)',
         observer: '_filesChanged',
         value() { return []; },
       },
@@ -180,7 +181,6 @@
 
     observers: [
       '_expandedPathsChanged(_expandedFilePaths.splices)',
-      '_setReviewedFiles(_shownFiles, _files, _reviewed.*, _loggedIn)',
     ],
 
     keyBindings: {
@@ -421,18 +421,14 @@
       return GrCountStringFormatter.computeShortString(commentCount, 'c');
     },
 
-    _computeReviewed(file, _reviewed) {
-      return _reviewed.includes(file.__path);
-    },
-
     _reviewFile(path) {
       if (this.editMode) { return; }
-      const index = this._reviewed.indexOf(path);
-      const reviewed = index !== -1;
-      if (reviewed) {
-        this.splice('_reviewed', index, 1);
-      } else {
-        this.push('_reviewed', path);
+      const index = this._files.findIndex(file => file.__path === path);
+      const reviewed = this._files[index].isReviewed;
+
+      this.set(['_files', index, 'isReviewed'], !reviewed);
+      if (index < this._shownFiles.length) {
+        this.set(['_shownFiles', index, 'isReviewed'], !reviewed);
       }
 
       this._saveReviewedState(path, !reviewed);
@@ -772,7 +768,7 @@
           'gr-icons:expand-less' : 'gr-icons:expand-more';
     },
 
-    _computeFiles(filesByPath, changeComments, patchRange) {
+    _computeFiles(filesByPath, changeComments, patchRange, reviewed) {
       const commentedPaths = changeComments.getPaths(patchRange);
       const files = Object.assign({}, filesByPath);
       Object.keys(commentedPaths).forEach(commentedPath => {
@@ -781,6 +777,12 @@
         }
         files[commentedPath] = {status: 'U'};
       });
+      const reviewedSet = new Set(reviewed || []);
+      for (const filePath in files) {
+        if (!files.hasOwnProperty(filePath)) { continue; }
+        files[filePath].isReviewed = reviewedSet.has(filePath);
+      }
+
       return this._normalizeChangeFilesResponse(files);
     },
 
@@ -788,19 +790,6 @@
       const filesShown = files.base.slice(0, numFilesShown);
       this.fire('files-shown-changed', {length: filesShown.length});
       return filesShown;
-    },
-
-    _setReviewedFiles(shownFiles, files, reviewedRecord, loggedIn) {
-      if (!loggedIn) { return; }
-      const reviewed = reviewedRecord.base;
-      let fileReviewed;
-      for (let i = 0; i < files.length; i++) {
-        fileReviewed = this._computeReviewed(files[i], reviewed);
-        this._files[i].isReviewed = fileReviewed;
-        if (i < shownFiles.length) {
-          this.set(['_shownFiles', i, 'isReviewed'], fileReviewed);
-        }
-      }
     },
 
     _updateDiffCursor() {

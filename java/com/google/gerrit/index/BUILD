@@ -37,6 +37,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/metrics",
+        "//lib/flogger:api",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
@@ -44,6 +45,5 @@ java_library(
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

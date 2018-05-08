@@ -1,16 +1,11 @@
 java_library(
     name = "api",
     data = ["//lib:LICENSE-slf4j"],
-    visibility = ["//visibility:public"],
+    visibility = [
+        "//lib/jgit/org.eclipse.jgit:__pkg__",
+        "//plugins:__pkg__",
+    ],
     exports = ["@log_api//jar"],
-)
-
-java_library(
-    name = "nop",
-    data = ["//lib:LICENSE-slf4j"],
-    visibility = ["//visibility:public"],
-    exports = ["@log_nop//jar"],
-    runtime_deps = [":api"],
 )
 
 java_library(

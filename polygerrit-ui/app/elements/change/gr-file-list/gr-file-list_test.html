@@ -655,12 +655,12 @@ limitations under the License.
     });
 
     test('file review status', () => {
+      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._filesByPath = {
         '/COMMIT_MSG': {},
         'file_added_in_rev2.txt': {},
         'myfile.txt': {},
       };
-      element._reviewed = ['/COMMIT_MSG', 'myfile.txt'];
       element._loggedIn = true;
       element.changeNum = '42';
       element.patchRange = {
@@ -1025,6 +1025,7 @@ limitations under the License.
     });
 
     test('_loadingChanged fired from reload in debouncer', done => {
+      sandbox.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
       element._filesByPath = {'foo.bar': {}};
@@ -1042,6 +1043,7 @@ limitations under the License.
     });
 
     test('_loadingChanged does not set class when there are no files', () => {
+      sandbox.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
       element.reload();

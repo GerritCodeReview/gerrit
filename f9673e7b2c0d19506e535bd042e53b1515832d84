@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5e632391_99eef571",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T16:03:10Z",
+      "side": 1,
+      "message": "\u003e The good news is there is Enums.stringConverter which does almost exactly what we want.\n\nPerfect. :-)\n\n\u003e Part of me still wants a simple wrapper around the Converter which converts IllegalArgumentException to IOException. A larger part of me wants to let the unchecked exceptions bubble up, since our cache implementations are (out of necessity) catching RuntimeException already. So to keep it simple I\u0027ve left it as unchecked, but let me know if you think I should change it.\n\nA RuntimeException is fine in my opinion. There are some reasons why I think it\u0027s even better. I\u0027ll write a more detailed comment tomorrow when I\u0027m back in the office.",
+      "parentUuid": "b0ccad7b_1deaf475",
+      "range": {
+        "startLine": 169,
+        "startChar": 45,
+        "endLine": 169,
+        "endChar": 85
+      },
+      "revId": "f9673e7b2c0d19506e535bd042e53b1515832d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc32b8a9_44b82ea0",
         "filename": "javatests/com/google/gerrit/server/cache/BooleanCacheSerializerTest.java",
         "patchSetId": 2

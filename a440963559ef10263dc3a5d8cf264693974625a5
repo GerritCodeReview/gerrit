@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c9d6a0f_b7de4365",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-08T06:26:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03bbc578_592246db",
+      "revId": "a440963559ef10263dc3a5d8cf264693974625a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e1e4b6a_0c819fdd",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/DisablePrivateChangesIT.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-05-07T07:37:36Z",
       "side": 1,
       "message": "Add a test that pushing to refs/drafts fails when allowDrafts is disabled?",
+      "revId": "a440963559ef10263dc3a5d8cf264693974625a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87938417_ca3bef95",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/DisablePrivateChangesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-08T06:26:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e1e4b6a_0c819fdd",
       "revId": "a440963559ef10263dc3a5d8cf264693974625a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

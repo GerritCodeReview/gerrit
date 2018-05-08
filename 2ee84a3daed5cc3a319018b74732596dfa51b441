@@ -22,6 +22,30 @@
       "revId": "2ee84a3daed5cc3a319018b74732596dfa51b441",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c248211f_c699ba00",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1065886
+      },
+      "writtenOn": "2018-05-08T16:50:23Z",
+      "side": 0,
+      "message": "Thanks. You\u0027re right. The change list and the menu items in the admin page also need to be adjusted. Let me know if there is any other view that I am still missing.",
+      "parentUuid": "400e94b3_68e824d5",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 28
+      },
+      "revId": "2ee84a3daed5cc3a319018b74732596dfa51b441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

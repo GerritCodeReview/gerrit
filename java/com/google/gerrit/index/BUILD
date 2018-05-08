@@ -43,7 +43,7 @@ java_library(
         "//lib/antlr:java_runtime",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/flogger:api",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

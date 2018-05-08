@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gson.JsonParser;
@@ -32,12 +33,10 @@ import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(ElasticRestClientProvider.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final HttpHost[] hosts;
   private final String username;
@@ -68,7 +67,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
         if (client == null) {
           client = build();
           ElasticVersion version = getVersion();
-          log.info("Elasticsearch integration version {}", version);
+          logger.atInfo().log("Elasticsearch integration version %s", version);
         }
       }
     }
@@ -117,7 +116,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
               .getAsJsonObject()
               .get("number")
               .getAsString();
-      log.info("Connected to Elasticsearch version {}", version);
+      logger.atInfo().log("Connected to Elasticsearch version %s", version);
       return ElasticVersion.forVersion(version);
     } catch (IOException e) {
       throw new FailedToGetVersion(e);

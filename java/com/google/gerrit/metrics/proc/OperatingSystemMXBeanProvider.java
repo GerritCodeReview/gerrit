@@ -14,15 +14,14 @@
 
 package com.google.gerrit.metrics.proc;
 
+import com.google.common.flogger.FluentLogger;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class OperatingSystemMXBeanProvider {
-  private static final Logger log = LoggerFactory.getLogger(OperatingSystemMXBeanProvider.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final OperatingSystemMXBean sys;
   private final Method getProcessCpuTime;
@@ -41,10 +40,10 @@ class OperatingSystemMXBeanProvider {
             return new OperatingSystemMXBeanProvider(sys);
           }
         } catch (ReflectiveOperationException e) {
-          log.debug("No implementation for {}", name, e);
+          logger.atFine().withCause(e).log("No implementation for %s", name);
         }
       }
-      log.warn("No implementation of UnixOperatingSystemMXBean found");
+      logger.atWarning().log("No implementation of UnixOperatingSystemMXBean found");
       return null;
     }
   }

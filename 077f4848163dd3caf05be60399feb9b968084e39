@@ -1,4 +1,459 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1525378308 -0400\nnonce AFN+CTJIEgXX2tp3aDYh+hxlSdMYqS9I63FhBd2UXIIfpMTFqM1oDqqJD58jnUs2TqwwnpNU12Up\n\n0000000000000000000000000000000000000000 077f4848163dd3caf05be60399feb9b968084e39 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlrrbQQVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiM5rgP/3Jy8tLFN387tc0Uk98kRXu6nCXL\ngKD5B0KP85+7ri3aJJ1FiFI6oxHBvkjPE4HLec+O7xsIlEen0xd1x/lubp6hbrz1\nbasDVJMRnsaUWecQ7zqPxax95kwWjUBmAQAGgKpUWSXzNQbI3i3v4F/B5qLYGnYP\nPdf82INZlgtL7C2rkqBOxlT0GSDq7eKpBxmenc25GkWxtBdNWdI6hly+nuljP3Hh\nOca8mRsXpwAOzQmoM9NluvYJUP0dIaBZRT7pNbniQVLoy/dslvf1nsjlXj8jCZTJ\nSKIp1UvI2RfmpwChjnanV/H8NGqRL4SQx+YUn/xK5UiwGAiZNekWZYwC7d7RpHUq\nvSlrl+u8NieDLvv4gko9MoyyLKyrqcWl89UrRRnzdohjrJJBRBTgl34gzj3JnR7h\nnCZClq4j+ArUrkA7ABdUetpCtA81OBMzyHycW+cQ3ygitCtSiS6qICK/UfzRWR2l\n3mQe6qP/9H1t2hRSEFjm9P4BfFdwAXYxtW15POa8T/JCvi3DIgIwtChJbhCQFneN\nHkKbH9ZxWL4C/l5WlZt9ufFV4u0LZUqB+54YcQX8Be33gFNqs4gIqeAZ2g0R6XlS\niX4ZrA/CdK7FOb3lMhLkoWLPhhFHDMR5rJv+aewm0tpjKPpJLfOrZUMqkrkyZ9o3\nzqPSEA+ODMGcyaYr\n\u003dDuVp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea513408_c9ad2915",
+        "filename": "java/com/google/gerrit/server/cache/testing/CacheSerializerTestUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "After spending some mental cycles on remembering why we need this method as well as testExpectedAutoValueMethods(), I feel that we should add some comments, especially as others won\u0027t have our insights from this chain of changes.\n\nIdeally, we would add those comments directly in the tests using those methods. I generally think that we should add more comments to those tests which briefly explain what we are testing and why we do that. In addition, we should also add some hints for others which indicate what a developer should do (-\u003e cache invalidation -\u003e increase version) if one of the tests fails due to code changes. Without that, other developers might just adjust the tests (e.g. add further method to expected AutoValue methods) but miss additionally necessary steps.",
+      "range": {
+        "startLine": 31,
+        "startChar": 21,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b86e71a0_c3ddfc9e",
+        "filename": "java/com/google/gerrit/server/cache/testing/CacheSerializerTestUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "This only covers the fields declared in the specified class and excludes those of super classes. In theory, we would need to cover those as well. To get them, we could manually gather all fields from all involved classes or use something like the Reflections library (see below).",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 33,
+        "endChar": 51
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a70b7635_047891b5",
+        "filename": "java/com/google/gerrit/server/cache/testing/CacheSerializerTestUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "It\u0027s a bit unfortunate that we have to distinguish between an AutoValue class and a non-AutoValue class and call the appropriate method. For AutoValue classes, it would also be possible to look at the fields. The only issue is that getting the generated AutoValue_ class isn\u0027t that easy. I don\u0027t have a good suggestion for this yet. The best would be to use the Reflections library and search for the subtype when we encounter an abstract class but that would mean we would need to add a new dependency to the Gerrit tests.",
+      "range": {
+        "startLine": 39,
+        "startChar": 21,
+        "endLine": 39,
+        "endChar": 49
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90d1518d_01d574ab",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "I don\u0027t think this disables the cache by default as you intended. Internally, any values less than or equal to 0 are mapped to 128 \u003c\u003c 20.",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 26
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "035f4509_7719c875",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "This check and the one in line 440 are tautologous.",
+      "range": {
+        "startLine": 444,
+        "startChar": 6,
+        "endLine": 444,
+        "endChar": 36
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d1ea3d2_35463ae5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "Here and below: It would be better for readability if everything for ChangeColumnsProto was in a separate method.",
+      "range": {
+        "startLine": 453,
+        "startChar": 6,
+        "endLine": 453,
+        "endChar": 24
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7289d68_37cbf5ca",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "For simplicity here and during deserialization, wouldn\u0027t it be better to use our regular approach of converting enums to strings?",
+      "range": {
+        "startLine": 477,
+        "startChar": 21,
+        "endLine": 477,
+        "endChar": 34
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de11b83e_f2826a5c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "Can\u0027t we directly use ProtobufCodec#encodeToByteString?",
+      "range": {
+        "startLine": 530,
+        "startChar": 26,
+        "endLine": 530,
+        "endChar": 44
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "613f4ab8_96655f73",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "When reading the code in this method, it\u0027s a bit strange that two different styles are used to do the same. Many lines above, the getHas..() calls were always wrapped in an if-statement. Would it be possible to use a consistent style, no matter which of them? Thus, when scanning this method, it would be easier to spot whether a getHas..() call is missing as you would only need to look out for one pattern.",
+      "range": {
+        "startLine": 654,
+        "startChar": 14,
+        "endLine": 654,
+        "endChar": 43
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "181959cb_8394e79f",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "I don\u0027t know how thorough you want your tests to be. I noticed that the tests don\u0027t cover serialization of all attributes of the nested classes.\n\nMissing are:\n- ChangeMessage: message, tag, realAuthor\n- ReviewerByEmailSet: null for name\n- Comment: lineNbr, range, revId, realAuthor; true for legacyFormat doesn\u0027t show up in the JSON output\n- SubmitRecord: labels, requirements, errorMessage\n\nBy the way, I noticed an inconsistency for the realAuthor of Comment: If you just call the constructor of Comment, realAuthor is set to author. If you call setRealAuthor with null or the Account.Id of the author, realAuthor is set to null.\n\nIf you feel it would be good to have those tests, please add them. If not, just ignore this comment.",
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f16faf2_c32fd748",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we also have the following tests?\n- serializeChangeKey\n- serializeCreatedOn\n- serializeLastUpdatedOn\n- serializeOwner\n- serializeBranch\n- serializeSubject",
+      "range": {
+        "startLine": 65,
+        "startChar": 13,
+        "endLine": 65,
+        "endChar": 33
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aca9ef74_58a98931",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "Here and below: Can\u0027t we simply specify a specific Timestamp here instead of relying on the specification of TestTimeUtil#resetWithClockStep above? This would also help for tests which explicitly verify some Timestamps as it is not immediately obvious in a test why TimeUtil.newTs() equals for instance 1254344403000L.",
+      "range": {
+        "startLine": 85,
+        "startChar": 23,
+        "endLine": 85,
+        "endChar": 39
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45f0c740_810a6f3b",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "Instead of this assertion, we should rather ensure that we set up the test data correctly and don\u0027t rely on default values (TotT 511). For instance, we could use:\n\n newBuilder().columns(cols.toBuilder().topic(null).build()).build();\n\nin the previous line.",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 49
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25f72802_6fd1f0cc",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "Here and below: This assertion is superfluous. We correctly set up the test data one line above.",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 141,
+        "endChar": 52
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a0f85b_7b02ed7e",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "Here and below: Do we care that those values match? Can\u0027t we simply use an arbitrary value here?",
+      "range": {
+        "startLine": 289,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 34
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abb16ea7_c06dd544",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "In order to not depend on the logic of Serializer.GSON, we could generate the JSON once and paste it as string here.",
+      "range": {
+        "startLine": 589,
+        "startChar": 20,
+        "endLine": 589,
+        "endChar": 47
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "436a4a8d_4c3bb7a4",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "unrelated: I wonder why we even have a map here. I was curious and checked the usages of ChangeNotesState#publishedComments. Outside of tests, all relevant usages call ImmutableMultimap#values.",
+      "range": {
+        "startLine": 606,
+        "startChar": 16,
+        "endLine": 606,
+        "endChar": 90
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab96e494_8ec27eb2",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we mention that fact somewhere (e.g. in config-gerrit)?",
+      "range": {
+        "startLine": 81,
+        "startChar": 49,
+        "endLine": 82,
+        "endChar": 74
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdf7aec3_3d8322fe",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "For strings, would it be possible to assume empty \u003d\u003d null \u003d\u003d unset? If so, we could do without the additional has_ fields. On the other hand, I\u0027m not sure if this added additional confusion as we would then use another approach for strings and other scalar values. What is your opinion?",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 24
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f9a24d1_bea25bb6",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-08T15:45:12Z",
+      "side": 1,
+      "message": "What about omitting the verb here and below (e.g. just \u0027private\u0027)? This would result in nicer generated method (e.g. getIsPrivate() isn\u0027t that nice) and would reduce confusion for has_review_started with other has_ methods of nullable fields.",
+      "range": {
+        "startLine": 119,
+        "startChar": 9,
+        "endLine": 119,
+        "endChar": 19
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

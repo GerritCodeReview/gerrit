@@ -1156,6 +1156,17 @@ explicitly.
 +
 Default is `ALL`.
 
+[[change.allowDrafts]]change.allowDrafts::
++
+Legacy support for drafts workflow. If set to true, pushing a new change
+with draft option will create a private change. Pushing with draft option
+to an existing change will create change edit.
++
+Enabling this option allows to push to the `refs/drafts/branch`. When
+disabled any push to `refs/drafts/branch` will be rejected.
++
+Default is false.
+
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
 When reviewing diff commits, the left-hand side shows the output of the
@@ -2423,6 +2434,14 @@ Pattern to print user in Tomcat AccessLog.
 
 +
 Default value is true.
+
+[[http.addUserAsResponseHeader]]http.addUserAsResponseHeader::
++
+If true, the header 'User' will be added to the list of response headers so it
+can be accessed from a reverse proxy for logging purposes.
+
++
+Default value is false.
 
 [[httpd]]
 === Section httpd

@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.cache;
+package com.google.gerrit.server;
 
 import com.google.inject.Module;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class CacheOverrides {
+public class ModuleOverloader {
   public static List<Module> override(List<Module> modules, List<Module> overrideCandidates) {
     if (overrideCandidates == null || overrideCandidates.isEmpty()) {
       return modules;
@@ -30,7 +30,7 @@ public class CacheOverrides {
         overrideCandidates
             .stream()
             .collect(
-                Collectors.groupingBy(m -> m.getClass().getAnnotation(CacheImpl.class) != null));
+                Collectors.groupingBy(m -> m.getClass().getAnnotation(ModuleImpl.class) != null));
 
     // add all non annotated libs to modules list
     List<Module> libs = grouped.get(Boolean.FALSE);
@@ -48,18 +48,23 @@ public class CacheOverrides {
         .stream()
         .map(
             m -> {
-              CacheImpl a = m.getClass().getAnnotation(CacheImpl.class);
+              ModuleImpl a = m.getClass().getAnnotation(ModuleImpl.class);
               if (a == null) {
                 return m;
               }
               return overrides
                   .stream()
-                  .filter(o -> o.getClass().getAnnotation(CacheImpl.class).type() == a.type())
+                  .filter(
+                      o ->
+                          o.getClass()
+                              .getAnnotation(ModuleImpl.class)
+                              .name()
+                              .equalsIgnoreCase(a.name()))
                   .findFirst()
                   .orElse(m);
             })
         .collect(Collectors.toList());
   }
 
-  private CacheOverrides() {}
+  private ModuleOverloader() {}
 }

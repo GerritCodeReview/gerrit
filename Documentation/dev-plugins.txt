@@ -765,7 +765,7 @@ ssh command.
 [source, java]
 ----
 public class SshModule extends AbstractModule {
-  private static final Logger log = LoggerFactory.getLogger(SshModule.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected void configure() {
@@ -778,7 +778,7 @@ public class SshModule extends AbstractModule {
   public static class BanOptions implements DynamicOptions.DynamicBean {
     @Option(name = "--log", aliases = { "-l" }, usage = "Say Hello in the Log")
     private void parse(String arg) {
-      log.error("Say Hello in the Log " + arg);
+      logger.atSevere().log("Say Hello in the Log %s", arg);
     }
   }
 ----

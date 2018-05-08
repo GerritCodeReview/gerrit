@@ -80,7 +80,6 @@ limitations under the License.
 
       element = fixture('basic');
       element.change = {
-        _number: 42,
         owner,
         reviewers: {
           CC: [existingReviewer1],
@@ -180,14 +179,12 @@ limitations under the License.
 
       element._getReviewerSuggestions('').then(() => {
         assert.isTrue(suggestReviewerStub.calledOnce);
-        assert.isTrue(suggestReviewerStub.calledWith(42, 'cansee:42 '));
         assert.isFalse(suggestAccountStub.called);
         element.allowAnyUser = true;
 
         element._getReviewerSuggestions('').then(() => {
           assert.isTrue(suggestReviewerStub.calledOnce);
           assert.isTrue(suggestAccountStub.calledOnce);
-          assert.isTrue(suggestAccountStub.calledWith('cansee:42 '));
           done();
         });
       });

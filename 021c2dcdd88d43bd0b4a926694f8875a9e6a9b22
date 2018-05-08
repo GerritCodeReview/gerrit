@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "084a5602_d28140a3",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-08T11:01:29Z",
+      "side": 1,
+      "message": "Should this rather be Project.NameKey?",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "021c2dcdd88d43bd0b4a926694f8875a9e6a9b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

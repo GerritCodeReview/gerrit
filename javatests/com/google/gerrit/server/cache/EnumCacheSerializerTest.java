@@ -15,6 +15,8 @@
 package com.google.gerrit.server.cache;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import org.junit.Test;
 
@@ -26,6 +28,14 @@ public class EnumCacheSerializerTest {
     assertRoundTrip(MyEnum.BAZ);
   }
 
+  @Test
+  public void deserializeInvalidValues() throws Exception {
+    assertDeserializeFails(null);
+    assertDeserializeFails("".getBytes(UTF_8));
+    assertDeserializeFails("foo".getBytes(UTF_8));
+    assertDeserializeFails("QUUX".getBytes(UTF_8));
+  }
+
   private enum MyEnum {
     FOO,
     BAR,
@@ -35,5 +45,15 @@ public class EnumCacheSerializerTest {
   private static void assertRoundTrip(MyEnum e) throws Exception {
     CacheSerializer<MyEnum> s = new EnumCacheSerializer<>(MyEnum.class);
     assertThat(s.deserialize(s.serialize(e))).isEqualTo(e);
+  }
+
+  private static void assertDeserializeFails(byte[] in) {
+    CacheSerializer<MyEnum> s = new EnumCacheSerializer<>(MyEnum.class);
+    try {
+      s.deserialize(in);
+      assert_().fail("expected RuntimeException");
+    } catch (RuntimeException e) {
+      // Expected.
+    }
   }
 }

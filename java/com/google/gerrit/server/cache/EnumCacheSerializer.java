@@ -14,28 +14,26 @@
 
 package com.google.gerrit.server.cache;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Converter;
 import com.google.common.base.Enums;
-import java.io.IOException;
 
 public class EnumCacheSerializer<E extends Enum<E>> implements CacheSerializer<E> {
-  private final Class<E> clazz;
+  private final Converter<String, E> converter;
 
   public EnumCacheSerializer(Class<E> clazz) {
-    this.clazz = clazz;
+    this.converter = Enums.stringConverter(clazz);
   }
 
   @Override
-  public byte[] serialize(E object) throws IOException {
-    return object.name().getBytes(UTF_8);
+  public byte[] serialize(E object) {
+    return converter.reverse().convert(checkNotNull(object)).getBytes(UTF_8);
   }
 
   @Override
-  public E deserialize(byte[] in) throws IOException {
-    String name = new String(in, UTF_8);
-    return Enums.getIfPresent(clazz, name)
-        .toJavaUtil()
-        .orElseThrow(() -> new IOException("Invalid " + clazz.getName() + " value: " + name));
+  public E deserialize(byte[] in) {
+    return converter.convert(new String(checkNotNull(in), UTF_8));
   }
 }

@@ -52,11 +52,7 @@ class ObjectKeyTypeImpl<K> implements KeyType<K> {
 
       @Override
       public void funnel(K from, PrimitiveSink into) {
-        try {
-          Funnels.byteArrayFunnel().funnel(serializer.serialize(from), into);
-        } catch (IOException e) {
-          throw new RuntimeException("Cannot hash", e);
-        }
+        Funnels.byteArrayFunnel().funnel(serializer.serialize(from), into);
       }
     };
   }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache;
 
+import com.google.gerrit.common.Nullable;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,29 +24,33 @@ import java.io.ObjectOutputStream;
 /**
  * Serializer that uses default Java serialization.
  *
+ * <p>Unlike most {@link CacheSerializer} implementations, serializing null is supported.
+ *
  * @param <T> type to serialize. Must implement {@code Serializable}, but due to implementation
  *     details this is only checked at runtime.
  */
 public class JavaCacheSerializer<T> implements CacheSerializer<T> {
   @Override
-  public byte[] serialize(T object) throws IOException {
+  public byte[] serialize(@Nullable T object) {
     try (ByteArrayOutputStream bout = new ByteArrayOutputStream();
         ObjectOutputStream oout = new ObjectOutputStream(bout)) {
       oout.writeObject(object);
       oout.flush();
       return bout.toByteArray();
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Failed to serialize object", e);
     }
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public T deserialize(byte[] in) throws IOException {
+  public T deserialize(byte[] in) {
     Object object;
     try (ByteArrayInputStream bin = new ByteArrayInputStream(in);
         ObjectInputStream oin = new ObjectInputStream(bin)) {
       object = oin.readObject();
-    } catch (ClassNotFoundException e) {
-      throw new IOException("Failed to deserialize object of type", e);
+    } catch (ClassNotFoundException | IOException e) {
+      throw new IllegalArgumentException("Failed to deserialize object", e);
     }
     return (T) object;
   }

@@ -46,6 +46,30 @@
       "revId": "4b5b9a393aa46030c325da512d6f7ee5396a29ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ca4515c_f2f92bd0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-08T21:23:34Z",
+      "side": 1,
+      "message": "I\u0027m still curious what situation this is here for. In what situations does `getPluginNameFromUrl` fail? Is there an issue?",
+      "parentUuid": "3da37fdc_700e4b20",
+      "range": {
+        "startLine": 575,
+        "startChar": 33,
+        "endLine": 575,
+        "endChar": 39
+      },
+      "revId": "4b5b9a393aa46030c325da512d6f7ee5396a29ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

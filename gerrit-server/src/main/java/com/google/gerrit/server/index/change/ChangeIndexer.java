@@ -206,7 +206,7 @@ public class ChangeIndexer {
     for (Index<?, ChangeData> i : getWriteIndexes()) {
       i.replace(cd);
     }
-    fireChangeIndexedEvent(cd.getId().get());
+    fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
 
     // Always double-check whether the change might be stale immediately after
     // interactively indexing it. This fixes up the case where two writers write
@@ -229,10 +229,10 @@ public class ChangeIndexer {
     autoReindexIfStale(cd);
   }
 
-  private void fireChangeIndexedEvent(int id) {
+  private void fireChangeIndexedEvent(String projectName, int id) {
     for (ChangeIndexedListener listener : indexedListeners) {
       try {
-        listener.onChangeIndexed(id);
+        listener.onChangeIndexed(projectName, id);
       } catch (Exception e) {
         logEventListenerError(listener, e);
       }

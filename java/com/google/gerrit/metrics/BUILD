@@ -8,8 +8,8 @@ java_library(
         "//java/com/google/gerrit/lifecycle",
         "//java/org/eclipse/jgit:server",
         "//lib:guava",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

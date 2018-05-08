@@ -17,6 +17,7 @@ java_library(
         "//lib/commons:codec",
         "//lib/commons:lang",
         "//lib/elasticsearch-rest-client",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/httpcomponents:httpasyncclient",
@@ -25,6 +26,5 @@ java_library(
         "//lib/httpcomponents:httpcore-nio",
         "//lib/jackson:jackson-core",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

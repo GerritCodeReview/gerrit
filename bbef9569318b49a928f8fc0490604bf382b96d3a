@@ -46,6 +46,23 @@
       "revId": "bbef9569318b49a928f8fc0490604bf382b96d3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5647345_ad0b7b29",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2407,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-08T03:54:07Z",
+      "side": 1,
+      "message": "Does it get set to id if the username is not configured, same as addUserAsRequestAttribute?  (See L2388).",
+      "revId": "bbef9569318b49a928f8fc0490604bf382b96d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

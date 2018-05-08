@@ -21,6 +21,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/commons:dbcp",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",

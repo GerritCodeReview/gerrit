@@ -148,7 +148,8 @@ public class BatchProgramModule extends FactoryModule {
     factory(ProjectControl.AssistedFactory.class);
 
     install(new BatchGitModule());
-    install(new DefaultCacheFactory.Module());
+    install(new DefaultCacheFactory.MemoryCacheModule());
+    install(new DefaultCacheFactory.PersistentCacheModule());
     install(new GroupModule());
     install(new NoteDbModule(cfg));
     install(new PrologModule());

@@ -46,6 +46,30 @@
       "revId": "4262125e193170b010c25ad7b087bf526c53f714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eb31a4a_7042444b",
+        "filename": "java/com/google/gerrit/server/cache/testing/CacheSerializerTestUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-08T01:24:59Z",
+      "side": 1,
+      "message": "Agreed that doing the assert in this method is not the best. Let me play around and see if it makes more sense to express this as a Subject.",
+      "parentUuid": "06077e7e_0d9d88b3",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 32,
+        "endChar": 79
+      },
+      "revId": "4262125e193170b010c25ad7b087bf526c53f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

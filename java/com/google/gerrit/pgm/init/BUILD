@@ -18,6 +18,7 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/schema",
+        "//lib/flogger:api",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
@@ -26,6 +27,5 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

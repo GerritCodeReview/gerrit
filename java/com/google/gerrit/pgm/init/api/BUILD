@@ -7,11 +7,11 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//lib/flogger:api",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

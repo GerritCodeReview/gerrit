@@ -14,16 +14,15 @@
 
 package com.google.gerrit.gwtdebug;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gwt.dev.codeserver.CodeServer;
 import com.google.gwt.dev.codeserver.Options;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class GerritGwtDebugLauncher {
-  private static final Logger log = LoggerFactory.getLogger(GerritGwtDebugLauncher.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static void main(String[] argv) throws Exception {
     GerritGwtDebugLauncher launcher = new GerritGwtDebugLauncher();
@@ -54,7 +53,7 @@ class GerritGwtDebugLauncher {
 
     Options options = new Options();
     if (!options.parseArgs(sdmLauncherOptions.toArray(new String[sdmLauncherOptions.size()]))) {
-      log.error("Failed to parse codeserver arguments");
+      logger.atSevere().log("Failed to parse codeserver arguments");
       return 1;
     }
 
@@ -65,11 +64,11 @@ class GerritGwtDebugLauncher {
           new Daemon()
               .main(daemonLauncherOptions.toArray(new String[daemonLauncherOptions.size()]));
       if (r != 0) {
-        log.error("Daemon exited with return code: " + r);
+        logger.atSevere().log("Daemon exited with return code: %d", r);
         return 1;
       }
     } catch (Exception e) {
-      log.error("Cannot start daemon", e);
+      logger.atSevere().withCause(e).log("Cannot start daemon");
       return 1;
     }
 

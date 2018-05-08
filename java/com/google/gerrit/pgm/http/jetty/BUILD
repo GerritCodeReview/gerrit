@@ -13,6 +13,7 @@ java_library(
         "//java/com/google/gwtexpui/server",
         "//lib:guava",
         "//lib:servlet-api-3_1",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
@@ -20,7 +21,6 @@ java_library(
         "//lib/jetty:server",
         "//lib/jetty:servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
         "//lib/log:log4j",
     ],
 )

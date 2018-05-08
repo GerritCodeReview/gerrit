@@ -50,6 +50,7 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.InternalAccountDirectory;
+import com.google.gerrit.server.cache.CacheOverrides;
 import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
@@ -438,8 +439,8 @@ public class Daemon extends SiteProgram {
     if (!slave) {
       modules.add(new ChangeCleanupRunner.Module());
     }
-    modules.addAll(LibModuleLoader.loadModules(cfgInjector));
-    return cfgInjector.createChildInjector(modules);
+    return cfgInjector.createChildInjector(
+        CacheOverrides.override(modules, LibModuleLoader.loadModules(cfgInjector)));
   }
 
   private Module createIndexModule() {

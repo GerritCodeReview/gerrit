@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6fedb154_db91f5d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-08T06:58:26Z",
+      "side": 1,
+      "message": "Seems like a bad author ID on my laptop :(",
+      "parentUuid": "dcebc760_770c58c6",
+      "range": {
+        "startLine": 2,
+        "startChar": 28,
+        "endLine": 2,
+        "endChar": 74
+      },
+      "revId": "2ed3982ffb18697cf0baf7cb84894ccd1a3e3e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d39e135_36f10cf0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

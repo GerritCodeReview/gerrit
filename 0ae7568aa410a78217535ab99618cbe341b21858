@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b346f75b_d215f164",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-08T22:27:30Z",
+      "side": 1,
+      "message": "Probably this line doesn\u0027t belong in the _detectChromiteButler method.",
+      "range": {
+        "startLine": 269,
+        "startChar": 6,
+        "endLine": 269,
+        "endChar": 43
+      },
+      "revId": "0ae7568aa410a78217535ab99618cbe341b21858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -171,6 +171,26 @@ maven_jar(
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
 )
 
+FLOGGER_VERS = "0.2"
+
+maven_jar(
+    name = "flogger",
+    artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
+    sha1 = "a22d04ed3b84bae8ecf8aa6d4430ad000bcdf7b4",
+)
+
+maven_jar(
+    name = "flogger-log4j-backend",
+    artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
+    sha1 = "d5085e3996bddc4b105d53b886190cc9a8811a9e",
+)
+
+maven_jar(
+    name = "flogger-system-backend",
+    artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
+    sha1 = "b995c84b8443d6cfbd011a55719b63494b974c3a",
+)
+
 maven_jar(
     name = "gwtjsonrpc",
     artifact = "com.google.gerrit:gwtjsonrpc:1.11",

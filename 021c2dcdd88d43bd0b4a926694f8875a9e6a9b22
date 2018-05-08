@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "456f1cfa_2987ff81",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-08T11:26:59Z",
+      "side": 1,
+      "message": "I agree. Additionally, having more \"plain types\" allows the plugins to be less prone to versions compatibility issues.",
+      "parentUuid": "4a221246_e38606d5",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 29
+      },
+      "revId": "021c2dcdd88d43bd0b4a926694f8875a9e6a9b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0224fb9b_396e647a",
         "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "writtenOn": "2018-05-08T11:19:06Z",
       "side": 1,
       "message": "For consistency reasons, should we pass the project name here too?",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "021c2dcdd88d43bd0b4a926694f8875a9e6a9b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eac28137_730c9ba7",
+        "filename": "gerrit-extension-api/src/main/java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-08T11:26:59Z",
+      "side": 1,
+      "message": "I thought about that, however, there are two problems:\n\n- Requires a lot more changes in Gerrit, possibly even a bit of CPU cycles spent on it\n- It isn\u0027t needed. If a change is gone, we just need to remove it from the index. No need to make any extra lookup on the repository.\n\nHowever, I agree with you: it would make it consistent and thus clearer and less prone to future changes.\nLet me investigate on the extra effort.\n\nPossibly will add a new commit on the same topic. (one commit \u003d one change)",
+      "parentUuid": "0224fb9b_396e647a",
       "range": {
         "startLine": 31,
         "startChar": 7,

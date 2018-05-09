@@ -266,6 +266,30 @@
     },
     {
       "key": {
+        "uuid": "660366ed_8d39e69e",
+        "filename": "java/com/google/gerrit/server/cache/IntegerCacheSerializer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T14:37:54Z",
+      "side": 1,
+      "message": "The Enums#stringConverter you introduced made me stumble upon Ints#toByteArray and Ints#fromByteArray. What that be an option?\n\nRegarding compactness of representation: I don\u0027t have a clue how important this really is. If you say we have to be careful about this and having this custom implementation helps, I trust you.\n\nRegarding byte order: If we used the methods of Ints, we wouldn\u0027t need to care about this, would we?\n\nOverall, I trust your opinion on which is the best approach for this class. If you prefer the current implementation, I\u0027m fine with this.",
+      "parentUuid": "e73bb487_9888ba49",
+      "range": {
+        "startLine": 34,
+        "startChar": 9,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "512864fc99a4e2862eaa7182f95b6de773cf152f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a579199_20350131",
         "filename": "javatests/com/google/gerrit/server/cache/CacheSerializersTest.java",
         "patchSetId": 2

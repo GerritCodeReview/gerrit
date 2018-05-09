@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f982654d_9128b33b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-09T06:55:20Z",
+      "side": 0,
+      "message": "It seems that the problem was introduced during cherry-pick of this change to stable-2.15 branch (on master it was done correct):\n\n* master: https://gerrit-review.googlesource.com/#/c/gerrit/+/138250/11/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js@925\n* stable-2.15: https://gerrit-review.googlesource.com/#/c/gerrit/+/138854/4/polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js@912",
+      "revId": "8ab3d378cd883ac6446f827706207b5b64b600fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

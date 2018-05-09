@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f49405bc_46defa3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T11:19:52Z",
+      "side": 1,
+      "message": "I\u0027m curious: Do you have a reference for this claim?\n\nAs far as I know, lambdas are implemented in the JVM by a special approach using invokedynamic. They are definitely not objects. How lambdas are desugared (and hence whether JIT can optimize the code) depends on whether the arguments are effectively final or not (and hence not on whether simply an argument is passed or not). In general, performance differences between lambdas and method references should be minimal (that\u0027s what I always read) and will probably even get smaller in the future with further optimizations for the JVM. Typically, caring about those minor performance improvements is worthy of disregard compared to more important matters (like readability).\n\nIn general, I do prefer method references to lambdas for the other reason (readability) you mentioned, though. What we shouldn\u0027t forget is that there are situation when a lambda is more readable (see item 43 of Effective Java 3rd edition).",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "609f9826e55a285482670d747c23c8ecc151b6e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

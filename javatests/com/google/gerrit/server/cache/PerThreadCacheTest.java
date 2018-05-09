@@ -43,17 +43,16 @@ public class PerThreadCacheTest {
   @Test
   public void endToEndCache() {
     try (PerThreadCache ignored = PerThreadCache.create()) {
-      PerThreadCache cache = PerThreadCache.get();
       PerThreadCache.Key<String> key1 = PerThreadCache.Key.create(String.class);
 
-      String value1 = cache.get(key1, () -> "value1");
+      String value1 = PerThreadCache.getOrCompute(key1, () -> "value1");
       assertThat(value1).isEqualTo("value1");
 
       Supplier<String> neverCalled =
           () -> {
             throw new IllegalStateException("this method must not be called");
           };
-      assertThat(cache.get(key1, neverCalled)).isEqualTo("value1");
+      assertThat(PerThreadCache.getOrCompute(key1, neverCalled)).isEqualTo("value1");
     }
   }
 
@@ -61,16 +60,14 @@ public class PerThreadCacheTest {
   public void cleanUp() {
     PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class);
     try (PerThreadCache ignored = PerThreadCache.create()) {
-      PerThreadCache cache = PerThreadCache.get();
-      String value1 = cache.get(key, () -> "value1");
+      String value1 = PerThreadCache.getOrCompute(key, () -> "value1");
       assertThat(value1).isEqualTo("value1");
     }
 
     // Create a second cache and assert that it is not connected to the first one.
     // This ensures that the cleanup is actually working.
     try (PerThreadCache ignored = PerThreadCache.create()) {
-      PerThreadCache cache = PerThreadCache.get();
-      String value1 = cache.get(key, () -> "value2");
+      String value1 = PerThreadCache.getOrCompute(key, () -> "value2");
       assertThat(value1).isEqualTo("value2");
     }
   }
@@ -86,15 +83,15 @@ public class PerThreadCacheTest {
 
   @Test
   public void enforceMaxSize() {
-    try (PerThreadCache cache = PerThreadCache.create()) {
+    try (PerThreadCache ignored = PerThreadCache.create()) {
       // Fill the cache
       for (int i = 0; i < 60; i++) {
         PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, i);
-        cache.get(key, () -> "cached value");
+        PerThreadCache.getOrCompute(key, () -> "cached value");
       }
       // Assert that the value was not persisted
       PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class, 1000);
-      String value3 = cache.get(key, () -> "directly served");
+      String value3 = PerThreadCache.getOrCompute(key, () -> "directly served");
       assertThat(value3).isEqualTo("directly served");
     }
   }

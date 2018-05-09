@@ -61,11 +61,15 @@ limitations under the License.
     });
 
     test('appStarted', () => {
-      element.appStarted();
+      element.appStarted(true);
       assert.isTrue(
           element.reporter.calledWithExactly(
               'timing-report', 'UI Latency', 'App Started',
               NOW_TIME - fakePerformance.navigationStart
+      ));
+      assert.isTrue(
+          element.reporter.calledWithExactly(
+              'lifecycle', 'Page Visibility', 'hidden'
       ));
     });
 
@@ -155,6 +159,13 @@ limitations under the License.
       ));
       assert.isTrue(element.reporter.calledWithExactly(
           'timing-report', 'UI Latency', 'bar', 1
+      ));
+    });
+
+    test('reportExtension', () => {
+      element.reportExtension('foo');
+      assert.isTrue(element.reporter.calledWithExactly(
+          'lifecycle', 'Extension detected', 'foo'
       ));
     });
 

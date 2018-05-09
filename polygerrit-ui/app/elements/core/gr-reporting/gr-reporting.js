@@ -33,6 +33,21 @@
     INSTALLED: 'Plugins installed',
   };
 
+  // Chrome extension-related reporting constants.
+  const EXTENSION = {
+    TYPE: 'lifecycle',
+    // Reported events - alphabetize below.
+    DETECTED: 'Extension detected',
+  };
+
+  // Page visibility related constants.
+  const PAGE_VISIBILITY = {
+    TYPE: 'lifecycle',
+    CATEGORY: 'Page Visibility',
+    // Reported events - alphabetize below.
+    STARTED_HIDDEN: 'hidden',
+  };
+
   // Navigation reporting constants.
   const NAVIGATION = {
     TYPE: 'nav-report',
@@ -164,11 +179,15 @@
     /**
      * User-perceived app start time, should be reported when the app is ready.
      */
-    appStarted() {
+    appStarted(hidden) {
       const startTime =
           new Date().getTime() - this.performanceTiming.navigationStart;
       this.reporter(
           TIMING.TYPE, TIMING.CATEGORY, TIMING.APP_STARTED, startTime);
+      if (hidden) {
+        this.reporter(PAGE_VISIBILITY.TYPE, PAGE_VISIBILITY.CATEGORY,
+            PAGE_VISIBILITY.STARTED_HIDDEN);
+      }
     },
 
     /**
@@ -231,6 +250,10 @@
       } else {
         this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
       }
+    },
+
+    reportExtension(name) {
+      this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
     },
 
     pluginsLoaded(pluginsList) {

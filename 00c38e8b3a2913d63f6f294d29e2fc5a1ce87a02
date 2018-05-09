@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "7aeb6436_4770458d",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-09T12:36:41Z",
+      "side": 1,
+      "message": "If we could scope a different absent user in \"ForRef\", then we could do that. But here, each time we have to create a new \"ForRef\" for a new member.\n\nI agree this could be potentially expensive, and we should try to avoiding creating a new one in the loop. This is a good motivation to allow scope a different absent user in \"ForRef\" and maybe also for \"ForProject\", \"ForChange\"?",
+      "parentUuid": "7390d96e_39539c9f",
+      "range": {
+        "startLine": 337,
+        "startChar": 10,
+        "endLine": 337,
+        "endChar": 64
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa9f797a_b965d609",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2018-05-09T11:58:58Z",
       "side": 1,
       "message": "can we write this as:\n\nif (!member.isActive()) {\n  return false;\n}\n// rest of the logic",
+      "range": {
+        "startLine": 376,
+        "startChar": 3,
+        "endLine": 376,
+        "endChar": 24
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "461d04a3_b6bebba0",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-09T12:36:41Z",
+      "side": 1,
+      "message": "We can and I could update this. I just didn\u0027t plan to touch more code which is not related to this fix.",
+      "parentUuid": "aa9f797a_b965d609",
       "range": {
         "startLine": 376,
         "startChar": 3,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "42cc06a8_5fe06f9b",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-09T12:36:41Z",
+      "side": 1,
+      "message": "same reason above.",
+      "parentUuid": "a8140403_afff2c84",
+      "range": {
+        "startLine": 463,
+        "startChar": 15,
+        "endLine": 463,
+        "endChar": 90
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f39769d_13485e03",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1
@@ -105,6 +177,24 @@
       "writtenOn": "2018-05-09T11:58:58Z",
       "side": 1,
       "message": "Same as above.",
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44a61d20_84ac3bc0",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-09T12:36:41Z",
+      "side": 1,
+      "message": "same above.",
+      "parentUuid": "9f39769d_13485e03",
       "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

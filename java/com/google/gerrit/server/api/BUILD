@@ -18,5 +18,8 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "@commons_codec//jar",
+        "@log_api//jar",
+        "@commons_lang//jar",
     ],
 )

@@ -3997,7 +3997,7 @@ public class ChangeIT extends AbstractDaemonTest {
     private final AtomicLongMap<Integer> countsByChange = AtomicLongMap.create();
 
     @Override
-    public void onChangeIndexed(int id) {
+    public void onChangeIndexed(String projectName, int id) {
       countsByChange.incrementAndGet(id);
     }
 

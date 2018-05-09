@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1525742908 -0400\nnonce ACQuaLAc1hefRBf01TuFMF8gbeD3VAqPTc1MQnXBMeWhM/V8M4jYNI0JvaNNDRjmZ3FFC9yCMm3j\n\n0000000000000000000000000000000000000000 67f8f5b37872ca1ccd6ae01c51f2ba44922899be refs/for/master%r\u003daliceks\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlrw/TwVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMSL8P/jc8a8h9oINTHAscNjKLkGKIoQ2S\ncA/Nv1Xtz72MJuHt5/zK/vMv/zcplhc4QaDe9nzyvxu0dYvJvQNIznuwJH0/Pnbm\nRXeK7qGLL3+oePIPVoHV9Ze09IF1cH2Pew2Ogokt5aHXV4ULvt39I3rOILhaNGNH\nl1b/fp/+IQouWW71rXPfyesoJtOyKKK+EjgNkzY9DeeVkRsNXGuYYb/7xnKIA68m\n9JTtQy8qQrFrAWFu9YFSwFHCuhv2To9Cfv6JUNLQflWEZN7B20Gycuxfm7tgj4+z\nTXgHRWf7ANuJraJVoFg63bRPQOyEKIiZ1/suYjMPy8G9+/ULDyYaOojxE1R9xuZG\n/kMA1S17Bw5W4JetNKnMR9h5n6jrAjfVJcobFtXc9gl76S08TnUVasZZLahisF0T\nUDnUX+xpY843KYMVVdNyqPsQWdko3KDh67/nzAu2ozGHYT1HKv2wXHVf3/evi4uc\nbDCSnSrLJWEnWzgC6N4SuRX2gmwK5DgRaIdP+yUECBGYJ0+35KdsgJaZTvfOlq+m\nHoQx4+tpmiA7YpCG12dvKq22BzvhJ0k2pFAQEqHyb9ZkMuxsEdojpMI38LW1KAmR\ndc2FVi1ALlr/jVkSrXEUQ5zMRdtwwa4q9YwFfgGnlxrRyRMwEl4ANKf5sSLro5yR\nd35tWKSj7wnSqBZ8\n\u003dAoOY\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "162cb406_02210184",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T13:38:40Z",
+      "side": 1,
+      "message": "To me, this sounds as if IOException and RuntimeException occur in distinct situations. Reality looks different, though. For instance, we wrap the IOException in an IllegalStateException in ProtoCacheSerializers#toByteArray (similarly as the regular implementation of toByteArray() on a proto).\n\nI\u0027m not saying we should change ProtoCacheSerializers#toByteArray. Quite the contrary: I had been contemplating whether we should only allow unchecked exceptions for serialize and deserialize. The only reason I didn\u0027t suggest it yet is that I thought it might simplify the migration. You might argue that both methods should throw a checked exception so that cache implementations remember to catch them. I would counter that this would be very misleading. Developers might think that catching only the checked exceptions (which the compiler tells them about) is sufficient, which absolutely is not. After the migration, there isn\u0027t, in my opinion, any real benefit in having a checked exception here. It only adds developer pain due to the limitations when handling methods with checked exceptions.",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 34,
+        "endChar": 15
+      },
+      "revId": "2bcb236d4f3b24ef9591d537a387715887d942d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "522731e4_dd744a83",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T13:38:40Z",
+      "side": 1,
+      "message": "For unchecked exceptions, the recommendation is to only document them in Javadoc. Should I explain the reasons for this recommendation?",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 65
+      },
+      "revId": "2bcb236d4f3b24ef9591d537a387715887d942d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bd98639_6be5745b",
+        "filename": "javatests/com/google/gerrit/server/cache/EnumCacheSerializerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T13:38:40Z",
+      "side": 1,
+      "message": "deserialize",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "2bcb236d4f3b24ef9591d537a387715887d942d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

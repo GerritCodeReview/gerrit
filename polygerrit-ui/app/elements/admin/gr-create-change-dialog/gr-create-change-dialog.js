@@ -75,7 +75,7 @@
       const isWip = true;
       return this.$.restAPI.createChange(this.repoName, this.branch,
           this.subject, this.topic, isPrivate, isWip, this.baseChange,
-          this.baseCommit)
+          this.baseCommit ? this.baseCommit : null)
           .then(changeCreated => {
             if (!changeCreated) { return; }
             Gerrit.Nav.navigateToChange(changeCreated);

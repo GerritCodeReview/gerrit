@@ -926,8 +926,7 @@
       if (patchRange.basePatchNum !== 'PARENT') {
         endpoint += '?base=' + encodeURIComponent(patchRange.basePatchNum);
       }
-      return this._getChangeURLAndFetch(changeNum, endpoint,
-          patchRange.patchNum);
+      return this._getChangeURLAndFetch(changeNum, endpoint);
     },
 
     getChangeFilesAsSpeciallySortedArray(changeNum, patchRange) {

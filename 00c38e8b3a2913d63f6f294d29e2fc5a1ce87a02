@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "5ebc515c_306a8baf",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-09T12:57:36Z",
+      "side": 1,
+      "message": "\u003e This is a good motivation to allow scope a different absent user in \"ForRef\" and maybe also for \"ForProject\", \"ForChange\"?\n\nYes. I was originally hoping that we can keep this to a single method for the sake of being easy to discover, but it seems like we can\u0027t.\n\n\u003e Yeah. I\u0027m kind of worrying the potential performance problem of this fix. The members here could be a lot and it could be slow\n\nI think we shouldn\u0027t submit this change without addressing this for performance reasons.",
+      "parentUuid": "576190d2_0289b406",
+      "range": {
+        "startLine": 337,
+        "startChar": 10,
+        "endLine": 337,
+        "endChar": 64
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa9f797a_b965d609",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1

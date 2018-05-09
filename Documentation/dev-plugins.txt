@@ -2740,6 +2740,34 @@ class MyCommandInterceptor implements SshCreateCommandInterceptor {
 Gerrit provides an extension point that enables plugins to prevent a change
 from being submitted.
 
+[[encryption]]
+== String Encryption
+
+Gerrit provides an API to encrypt/decrypt secrets. Plugins can leverage this
+API to encrypt/decrypt secrets without the hassle of keeping the secret
+encryption key stored in repositories.
+
+[source, java]
+----
+import com.google.gerrit.server.api.config.StringEncryptor;
+
+class MySecret {
+
+  private StringEncryptor encryptor;
+
+  MySecret(StringEncryptor encryptor) {
+     this.encryptor = encryptor;
+  }
+
+  public String encrypt(String secret) {
+    return encryptor.encrypt(secret);
+  }
+
+  public String decrypt(String encrypted) {
+    return encryptor.decrypt(encrypted);
+  }
+----
+
 [IMPORTANT]
 This extension point **must NOT** be used for long or slow operations, like
 calling external programs or content, running unit tests...

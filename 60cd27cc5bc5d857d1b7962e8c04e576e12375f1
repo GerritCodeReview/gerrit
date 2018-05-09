@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "4fefc09a_2dc63172",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-09T04:56:24Z",
+      "side": 1,
+      "message": "This needs to be initialized before createQueue",
+      "revId": "60cd27cc5bc5d857d1b7962e8c04e576e12375f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c335251_2df27938",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-09T04:56:24Z",
+      "side": 1,
+      "message": "NullPointerException here because metrics was not initialized yet.",
+      "range": {
+        "startLine": 212,
+        "startChar": 6,
+        "endLine": 212,
+        "endChar": 30
+      },
+      "revId": "60cd27cc5bc5d857d1b7962e8c04e576e12375f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37a7df06_0fe3fdea",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 2

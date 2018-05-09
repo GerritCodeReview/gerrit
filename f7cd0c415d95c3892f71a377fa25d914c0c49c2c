@@ -23,6 +23,29 @@
       "revId": "f7cd0c415d95c3892f71a377fa25d914c0c49c2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a1e2b7e_0322ebfc",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T15:12:51Z",
+      "side": 1,
+      "message": "Just a note about what cost me time when I was reviewing this change:\n\nJust knowing this change, I would have preferred the return type of Builder#empty to be different as it would represent a less error-prone API for this class. I also started to write a comment with an explanation and a suggestion but then decided to check out the whole series and look for other usages of Builder#empty. I found one in I1ffe15fe5. Thereupon, I discarded my comment and didn\u0027t invest more effort in coming up with a better alternative.",
+      "range": {
+        "startLine": 61,
+        "startChar": 11,
+        "endLine": 61,
+        "endChar": 49
+      },
+      "revId": "f7cd0c415d95c3892f71a377fa25d914c0c49c2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -251,9 +252,7 @@ public class PostReviewers
       return null;
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.absentUser(reviewerUser.getAccountId()).ref(rsrc.getChange().getDest());
-    if (isValidReviewer(reviewerUser.getAccount(), perm)) {
+    if (isValidReviewer(reviewerUser.getAccount(), rsrc.getChange().getDest())) {
       return new Addition(
           reviewer,
           rsrc,
@@ -334,10 +333,8 @@ public class PostReviewers
               ChangeMessages.get().groupManyMembersConfirmation, group.getName(), members.size()));
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.user(rsrc.getUser()).ref(rsrc.getChange().getDest());
     for (Account member : members) {
-      if (isValidReviewer(member, perm)) {
+      if (isValidReviewer(member, rsrc.getChange().getDest())) {
         reviewers.add(member.getId());
       }
     }
@@ -374,14 +371,13 @@ public class PostReviewers
         reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
   }
 
-  private boolean isValidReviewer(Account member, PermissionBackend.ForRef perm)
+  private boolean isValidReviewer(Account member, Branch.NameKey ref)
       throws PermissionBackendException {
     if (member.isActive()) {
-      IdentifiedUser user = identifiedUserFactory.create(member.getId());
       // Does not account for draft status as a user might want to let a
       // reviewer see a draft.
       try {
-        perm.user(user).check(RefPermission.READ);
+        permissionBackend.absentUser(member.getId()).ref(ref).check(RefPermission.READ);
         return true;
       } catch (AuthException e) {
         return false;
@@ -455,17 +451,17 @@ public class PostReviewers
       }
 
       ChangeData cd = changeDataFactory.create(dbProvider.get(), notes);
-      PermissionBackend.ForChange perm =
-          permissionBackend.user(caller).database(dbProvider).change(cd);
-
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
       PostReviewersOp.Result opResult = op.getResult();
       if (migration.readChanges() && state == CC) {
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {
-          IdentifiedUser u = identifiedUserFactory.create(accountId);
-          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), perm.user(u), cd));
+          result.ccs.add(
+              json.format(
+                  new ReviewerInfo(accountId.get()),
+                  permissionBackend.absentUser(accountId).database(dbProvider).change(cd),
+                  cd));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : reviewersByEmail) {
@@ -475,11 +471,10 @@ public class PostReviewers
         result.reviewers = Lists.newArrayListWithCapacity(opResult.addedReviewers().size());
         for (PatchSetApproval psa : opResult.addedReviewers()) {
           // New reviewers have value 0, don't bother normalizing.
-          IdentifiedUser u = identifiedUserFactory.create(psa.getAccountId());
           result.reviewers.add(
               json.format(
                   new ReviewerInfo(psa.getAccountId().get()),
-                  perm.user(u),
+                  permissionBackend.absentUser(psa.getAccountId()).database(dbProvider).change(cd),
                   cd,
                   ImmutableList.of(psa)));
         }

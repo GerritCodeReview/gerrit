@@ -19,8 +19,8 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.config.ConfigUtil;
+import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.eclipse.jgit.lib.Config;
@@ -59,6 +59,8 @@ class GerritIndexWriterConfig {
     } catch (IllegalArgumentException e) {
       commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
     }
+
+    luceneConfig.setInfoStream(new LuceneInfoStream());
   }
 
   CustomMappingAnalyzer getAnalyzer() {

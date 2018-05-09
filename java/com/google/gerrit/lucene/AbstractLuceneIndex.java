@@ -60,15 +60,14 @@ import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.IntField;
-import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.IntPoint;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TrackingIndexWriter;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -96,7 +95,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final Directory dir;
   private final String name;
   private final ListeningExecutorService writerThread;
-  private final TrackingIndexWriter writer;
+  private final IndexWriter writer;
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
@@ -164,8 +163,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
               commitPeriod,
               MILLISECONDS);
     }
-    writer = new TrackingIndexWriter(delegateWriter);
-    searcherManager = new WrappableSearcherManager(writer.getIndexWriter(), true, searcherFactory);
+    writer = delegateWriter;
+    searcherManager = new WrappableSearcherManager(writer, true, searcherFactory);
 
     notDoneNrtFutures = Sets.newConcurrentHashSet();
 
@@ -248,7 +247,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
 
     try {
-      writer.getIndexWriter().close();
+      writer.close();
     } catch (AlreadyClosedException e) {
       // Ignore.
     } catch (IOException e) {
@@ -291,7 +290,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     writer.deleteAll();
   }
 
-  public TrackingIndexWriter getWriter() {
+  public IndexWriter getWriter() {
     return writer;
   }
 
@@ -322,15 +321,27 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
     if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
       for (Object value : values.getValues()) {
-        doc.add(new IntField(name, (Integer) value, store));
+        Integer intValue = (Integer) value;
+        doc.add(new IntPoint(name, intValue));
+        if (store == Store.YES) {
+          doc.add(new StoredField(name, intValue));
+        }
       }
     } else if (type == FieldType.LONG) {
       for (Object value : values.getValues()) {
-        doc.add(new LongField(name, (Long) value, store));
+        Long longValue = (Long) value;
+        doc.add(new LongPoint(name, longValue));
+        if (store == Store.YES) {
+          doc.add(new StoredField(name, longValue));
+        }
       }
     } else if (type == FieldType.TIMESTAMP) {
       for (Object value : values.getValues()) {
-        doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
+        Long timeValue = ((Timestamp) value).getTime();
+        doc.add(new LongPoint(name, timeValue));
+        if (store == Store.YES) {
+          doc.add(new StoredField(name, timeValue));
+        }
       }
     } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
       for (Object value : values.getValues()) {

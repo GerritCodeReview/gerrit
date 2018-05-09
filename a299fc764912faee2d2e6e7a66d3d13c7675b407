@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6067a51b_09051a17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-09T17:58:25Z",
+      "side": 1,
+      "message": "Not sure where the discrepancy is, but if I measure with a stopwatch I see more like a 2x speedup (3s vs 6s), less precise but likely more accurate than my earlier measurement.\n\nI wish we we had a better way of measuring DOM if performance.\n\nSorry for the distraction.",
+      "parentUuid": "54a56fc3_4ef6b876",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 17
+      },
+      "revId": "a299fc764912faee2d2e6e7a66d3d13c7675b407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762ba37e_024e1a52",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

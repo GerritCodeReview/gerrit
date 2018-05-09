@@ -4,4 +4,7 @@ acceptance_tests(
     srcs = glob(["*IT.java"]),
     group = "api_config",
     labels = ["api"],
+    deps = [
+        "//java/com/google/gerrit/server/api",
+    ],
 )

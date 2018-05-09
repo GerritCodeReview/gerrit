@@ -273,6 +273,24 @@
     },
     {
       "key": {
+        "uuid": "b5e7cfe1_a20c4cbe",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-09T15:52:48Z",
+      "side": 1,
+      "message": "My general rule is that it is out of scope here to test the serialization format for other types which already have some other serialization strategy used elsewhere in Gerrit. So I don\u0027t think we need tests for all types of ChangeMessage/Comment/SubmitRecord, but there probably should be more tests for ReviewerByEmailSet",
+      "parentUuid": "181959cb_8394e79f",
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aca9ef74_58a98931",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
         "patchSetId": 2

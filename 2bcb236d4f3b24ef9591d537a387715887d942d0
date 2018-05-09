@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "f3a7e8c6_82c348e5",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-09T17:42:57Z",
+      "side": 1,
+      "message": "The only reason for having IOExceptions is convenience for implementors, since they will often be using Input/OutputStreams for serialization, and this allows them to avoid wrapping those in IllegalStateExceptions in their implementations. But that\u0027s a good point that documenting the exceptions separately gives callers the incorrect impression that IOException/RuntimeException are really different and might need to be handled differently.\n\nI am totally fine with changing the interface to not throw any checked exceptions, even if it\u0027s slightly more inconvenient for implementors.",
+      "parentUuid": "162cb406_02210184",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 34,
+        "endChar": 15
+      },
+      "revId": "2bcb236d4f3b24ef9591d537a387715887d942d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "522731e4_dd744a83",
         "filename": "java/com/google/gerrit/server/cache/CacheSerializer.java",
         "patchSetId": 1
@@ -46,6 +70,30 @@
       "revId": "2bcb236d4f3b24ef9591d537a387715887d942d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1924c64c_8443db4a",
+        "filename": "java/com/google/gerrit/server/cache/CacheSerializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-09T17:42:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "522731e4_dd744a83",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 65
+      },
+      "revId": "2bcb236d4f3b24ef9591d537a387715887d942d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

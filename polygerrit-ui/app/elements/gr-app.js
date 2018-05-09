@@ -131,7 +131,7 @@
       // router has been initialized. @see Issue 7837
       this._settingsUrl = Gerrit.Nav.getUrlForSettings();
 
-      this.$.reporting.appStarted(document.hidden);
+      this.$.reporting.appStarted(document.visibilityState === 'hidden');
 
       this._viewState = {
         changeView: {

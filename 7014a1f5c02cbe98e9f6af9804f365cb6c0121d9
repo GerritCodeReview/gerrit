@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5697834d_d6167228",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T09:18:39Z",
+      "side": 1,
+      "message": "Unrelated to this exact change but I feel I need to say this:\n\nThe Javadoc of this class sounds as if this class is the perfect answer to all problems. The point is: it\u0027s a very dangerous band-aid and must be used with absolute care (as the need to limit the number of objects shows). If the objects vary in size and some of them are very large, we might still be in trouble.\n\nI\u0027m also not a fan of the current API, contract, and documentation of this class. Some examples:\n- The method get() should not be public at all (It\u0027s used in tests but I\u0027m quite sure that we don\u0027t need it there.).\n- I also don\u0027t understand the choice of the signatures of the Key#create methods. The first is redundant compared to the second method and the second method is very lax (e.g. passing in no identifiers is possible but it\u0027s not clear whether this was a deliberate design decision).\n- It\u0027s also non-obvious how and when the close() method is called and hence when cleanup is performed.\n- The documentation mentions that not any objects are shared with background threads but doesn\u0027t loudly call out that using this class on a non-serving thread means another mode of operation (-\u003e always calling the supplier) without any warning.\n- There doesn\u0027t seem to be a test which tests the behavior of this class on multiple threads in parallel.\n\nSince we now have this class, I guess it will be difficult to get rid of it again. To at least limit the spreading of this class in our code, could we please add a prominent warning in the Javadoc that this class should only be used if the benefits of this class are big enough and there is absolutely no other way?",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 27
+      },
+      "revId": "7014a1f5c02cbe98e9f6af9804f365cb6c0121d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "954a41d5_44a3a253",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T09:18:39Z",
+      "side": 1,
+      "message": "This sentence makes no sense to me. There are probably some words missing.",
+      "range": {
+        "startLine": 54,
+        "startChar": 79,
+        "endLine": 56,
+        "endChar": 24
+      },
+      "revId": "7014a1f5c02cbe98e9f6af9804f365cb6c0121d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6baf393b_f8f47eed",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T09:18:39Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this variable is created. Instead of this variable and the get() calls below, I would have expected PerThreadCache#getOrCompute to be used everywhere.",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 50
+      },
+      "revId": "7014a1f5c02cbe98e9f6af9804f365cb6c0121d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eac0d035_cc0c2658",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T09:18:39Z",
+      "side": 1,
+      "message": "Why do we need this check? The loop above puts entries in the cache. Whether that works correctly should be covered by another test, not indirectly here.",
+      "range": {
+        "startLine": 96,
+        "startChar": 6,
+        "endLine": 99,
+        "endChar": 51
+      },
+      "revId": "7014a1f5c02cbe98e9f6af9804f365cb6c0121d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15e24969_9a614a6f",
+        "filename": "javatests/com/google/gerrit/server/cache/PerThreadCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-09T09:18:39Z",
+      "side": 1,
+      "message": "This assertion is superfluous. Even if the cache wasn\u0027t full, we would still get this value. The only relevant assertion is the one in line 106, which checks that the previous value wasn\u0027t cached.",
+      "range": {
+        "startLine": 103,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 48
+      },
+      "revId": "7014a1f5c02cbe98e9f6af9804f365cb6c0121d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

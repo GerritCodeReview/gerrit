@@ -79,8 +79,8 @@ public class DefaultPermissionBackend extends PermissionBackend {
   }
 
   @Override
-  public WithUser absentUser(Account.Id user) {
-    IdentifiedUser identifiedUser = identifiedUserFactory.create(checkNotNull(user, "user"));
+  public WithUser absentUser(Account.Id id) {
+    IdentifiedUser identifiedUser = identifiedUserFactory.create(checkNotNull(id, "user"));
     return new WithUserImpl(identifiedUser);
   }
 

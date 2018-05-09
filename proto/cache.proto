@@ -43,5 +43,5 @@ message OAuthTokenProto {
   string secret = 2;
   string raw = 3;
   int64 expires_at = 4;
-  string providerId = 5;
+  string provider_id = 5;
 }

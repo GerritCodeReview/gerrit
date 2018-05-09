@@ -196,7 +196,7 @@ class Helper {
       Throwables.throwIfInstanceOf(e.getException(), IOException.class);
       Throwables.throwIfInstanceOf(e.getException(), NamingException.class);
       Throwables.throwIfInstanceOf(e.getException(), RuntimeException.class);
-      LdapRealm.log.warn("Internal error", e.getException());
+      log.warn("Internal error", e.getException());
       return null;
     } finally {
       ctx.logout();
@@ -343,7 +343,7 @@ class Helper {
             }
           }
         } catch (NamingException e) {
-          LdapRealm.log.warn("Could not find group " + groupDN, e);
+          log.warn("Could not find group {}", groupDN, e);
         }
         cachedParentsDNs = dns.build();
         parentGroups.put(groupDN, cachedParentsDNs);
@@ -474,10 +474,10 @@ class Helper {
       try {
         return LdapType.guessType(ctx);
       } catch (NamingException e) {
-        LdapRealm.log.warn(
-            "Cannot discover type of LDAP server at "
-                + server
-                + ", assuming the server is RFC 2307 compliant.",
+        log.warn(
+            "Cannot discover type of LDAP server at {},"
+                + " assuming the server is RFC 2307 compliant.",
+            server,
             e);
         return LdapType.RFC_2307;
       }

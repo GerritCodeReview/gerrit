@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-jank-detector</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+
+<script src="gr-jank-detector.js"></script>
+
+<script>
+  suite('gr-jank-detector tests', () => {
+    let sandbox;
+    let clock;
+    let instance;
+
+    const NOW_TIME = 100;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      clock = sinon.useFakeTimers(NOW_TIME);
+      instance = GrJankDetector;
+      instance._lastFrameTime = 0;
+      sandbox.stub(instance, '_requestAnimationFrame');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('start() installs frame callback', () => {
+      sandbox.stub(instance, '_detect');
+      instance._requestAnimationFrame.callsArg(0);
+      instance.start();
+      assert.isTrue(instance._detect.calledOnce);
+    });
+
+    test('measures fps', () => {
+      instance._detect(10);
+      instance._detect(30);
+      assert.equal(instance.fps, 50);
+    });
+
+    test('detects jank', () => {
+      let now = 10;
+      instance._detect(now);
+      const fastFrame = () => instance._detect(now += 20);
+      const slowFrame = () => instance._detect(now += 300);
+      fastFrame();
+      assert.equal(instance.jank, 0);
+      _.times(4, slowFrame);
+      assert.equal(instance.jank, 0);
+      instance._requestAnimationFrame.reset();
+      slowFrame();
+      assert.equal(instance.jank, 1);
+      assert.isFalse(instance._requestAnimationFrame.called);
+      clock.tick(1000);
+      assert.isTrue(instance._requestAnimationFrame.called);
+    });
+  });
+</script>

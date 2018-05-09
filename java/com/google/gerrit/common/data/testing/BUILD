@@ -6,6 +6,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/reviewdb:server",
-        "//lib:truth",
+        "//lib/truth",
     ],
 )

@@ -29,6 +29,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -47,11 +48,16 @@ class ChangeControl {
   static class Factory {
     private final ChangeData.Factory changeDataFactory;
     private final ChangeNotes.Factory notesFactory;
+    private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
     @Inject
-    Factory(ChangeData.Factory changeDataFactory, ChangeNotes.Factory notesFactory) {
+    Factory(
+        ChangeData.Factory changeDataFactory,
+        ChangeNotes.Factory notesFactory,
+        IdentifiedUser.GenericFactory identifiedUserFactory) {
       this.changeDataFactory = changeDataFactory;
       this.notesFactory = notesFactory;
+      this.identifiedUserFactory = identifiedUserFactory;
     }
 
     ChangeControl create(
@@ -61,17 +67,22 @@ class ChangeControl {
     }
 
     ChangeControl create(RefControl refControl, ChangeNotes notes) {
-      return new ChangeControl(changeDataFactory, refControl, notes);
+      return new ChangeControl(changeDataFactory, identifiedUserFactory, refControl, notes);
     }
   }
 
   private final ChangeData.Factory changeDataFactory;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final RefControl refControl;
   private final ChangeNotes notes;
 
   private ChangeControl(
-      ChangeData.Factory changeDataFactory, RefControl refControl, ChangeNotes notes) {
+      ChangeData.Factory changeDataFactory,
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      RefControl refControl,
+      ChangeNotes notes) {
     this.changeDataFactory = changeDataFactory;
+    this.identifiedUserFactory = identifiedUserFactory;
     this.refControl = refControl;
     this.notes = notes;
   }
@@ -84,7 +95,8 @@ class ChangeControl {
     if (getUser().equals(who)) {
       return this;
     }
-    return new ChangeControl(changeDataFactory, refControl.forUser(who), notes);
+    return new ChangeControl(
+        changeDataFactory, identifiedUserFactory, refControl.forUser(who), notes);
   }
 
   private CurrentUser getUser() {
@@ -258,6 +270,11 @@ class ChangeControl {
     @Override
     public ForChange user(CurrentUser user) {
       return user().equals(user) ? this : forUser(user).asForChange(cd, db);
+    }
+
+    @Override
+    public ForChange absentUser(Account.Id id) {
+      return user(identifiedUserFactory.create(id));
     }
 
     @Override

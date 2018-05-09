@@ -16,8 +16,6 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.git.ValidationError;
-import com.google.gerrit.server.git.meta.TabFile;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -61,15 +59,13 @@ public class VersionedAccountDestinations extends VersionedMetaData {
         String path = p.path;
         if (path.startsWith(prefix)) {
           String label = path.substring(prefix.length());
-          ValidationError.Sink errors = TabFile.createLoggerSink(path, log);
-          destinations.parseLabel(label, readUTF8(path), errors);
+          destinations.parseLabel(
+              label,
+              readUTF8(path),
+              error -> log.error("Error parsing file {}: {}", path, error.getMessage()));
         }
       }
     }
-  }
-
-  public ValidationError.Sink createSink(String file) {
-    return ValidationError.createLoggerSink(file, log);
   }
 
   @Override

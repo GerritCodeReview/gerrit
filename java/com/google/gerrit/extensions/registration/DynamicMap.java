@@ -83,6 +83,11 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
     binder.bind(key).toProvider(new DynamicMapProvider<>(member)).in(Scopes.SINGLETON);
   }
 
+  /** Returns an empty DynamicMap instance * */
+  public static <T> DynamicMap<T> emptyMap() {
+    return new PrivateInternals_DynamicMapImpl<>();
+  }
+
   final ConcurrentMap<NamePair, Provider<T>> items;
 
   DynamicMap() {
@@ -188,8 +193,8 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
     private final String exportName;
 
     NamePair(String pn, String en) {
-      this.pluginName = pn;
-      this.exportName = en;
+      pluginName = pn;
+      exportName = en;
     }
 
     @Override
@@ -205,9 +210,5 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
       }
       return false;
     }
-  }
-
-  public static <T> DynamicMap<T> emptyMap() {
-    return new DynamicMap<T>() {};
   }
 }

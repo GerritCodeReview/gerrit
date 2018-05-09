@@ -48,7 +48,14 @@ import org.apache.commons.lang3.reflect.FieldUtils;
  */
 public class SerializedClassSubject extends Subject<SerializedClassSubject, Class<?>> {
   public static SerializedClassSubject assertThatSerializedClass(Class<?> actual) {
-    return assertAbout(SerializedClassSubject::new).that(actual);
+    // This formulation fails in Eclipse 4.7.3a with "The type
+    // SerializedClassSubject does not define SerializedClassSubject() that is
+    // applicable here", due to
+    // https://bugs.eclipse.org/bugs/show_bug.cgi?id=534694 or a similar bug:
+    // return assertAbout(SerializedClassSubject::new).that(actual);
+    Subject.Factory<SerializedClassSubject, Class<?>> factory =
+        (m, a) -> new SerializedClassSubject(m, a);
+    return assertAbout(factory).that(actual);
   }
 
   private SerializedClassSubject(FailureMetadata metadata, Class<?> actual) {

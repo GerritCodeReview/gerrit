@@ -60,7 +60,6 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
-        fetchJSON() { return Promise.resolve({}); },
         getDiffComments() { return Promise.resolve({}); },
         getDiffRobotComments() { return Promise.resolve({}); },
         getDiffDrafts() { return Promise.resolve({}); },
@@ -125,6 +124,19 @@ limitations under the License.
       assert.equal(element.numFilesShown, 500);
       assert.equal(element._shownFiles.length, 500);
       assert.isTrue(controlRow.classList.contains('invisible'));
+    });
+
+    test('rendering each row calls the _reportRenderedRow method', () => {
+      const renderedStub = sandbox.stub(element, '_reportRenderedRow');
+      element._filesByPath = _.range(10)
+          .reduce((_filesByPath, i) => {
+            _filesByPath['/file' + i] = {lines_inserted: 9};
+            return _filesByPath;
+          }, {});
+      flushAsynchronousOperations();
+      assert.equal(
+          Polymer.dom(element.root).querySelectorAll('.file-row').length, 10);
+      assert.equal(renderedStub.callCount, 10);
     });
 
     test('calculate totals for patch number', () => {
@@ -1023,6 +1035,7 @@ limitations under the License.
         delete element.diffPrefs.manual_review;
         return element._renderInOrder(['p'], diffs, 1).then(() => {
           assert.isTrue(reviewStub.called);
+          assert.isTrue(reviewStub.calledWithExactly('p', true));
         });
       });
     });

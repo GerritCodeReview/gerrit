@@ -9,8 +9,8 @@ junit_tests(
         "//lib:gwtorm",
         "//lib:junit",
         "//lib:protobuf",
-        "//lib:truth",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/truth",
     ],
 )

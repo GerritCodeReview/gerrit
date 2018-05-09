@@ -87,7 +87,7 @@ public class ListCapabilitiesTest {
     }
 
     @Override
-    public WithUser absentUser(Id user) {
+    public WithUser absentUser(Id id) {
       throw new UnsupportedOperationException();
     }
 

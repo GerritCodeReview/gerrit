@@ -26,6 +26,8 @@
   const SIZE_BAR_GAP_WIDTH = 1;
   const SIZE_BAR_MIN_WIDTH = 1.5;
 
+  const RENDER_TIME = 'FileListRenderTime';
+
   const FileStatus = {
     A: 'Added',
     C: 'Copied',
@@ -429,17 +431,21 @@
       return GrCountStringFormatter.computeShortString(commentCount, 'c');
     },
 
-    _reviewFile(path) {
+    /**
+     * @param {string} path
+     * @param {boolean=} opt_reviewed
+     */
+    _reviewFile(path, opt_reviewed) {
       if (this.editMode) { return; }
       const index = this._files.findIndex(file => file.__path === path);
-      const reviewed = this._files[index].isReviewed;
+      const reviewed = opt_reviewed || !this._files[index].isReviewed;
 
-      this.set(['_files', index, 'isReviewed'], !reviewed);
+      this.set(['_files', index, 'isReviewed'], reviewed);
       if (index < this._shownFiles.length) {
-        this.set(['_shownFiles', index, 'isReviewed'], !reviewed);
+        this.set(['_shownFiles', index, 'isReviewed'], reviewed);
       }
 
-      this._saveReviewedState(path, !reviewed);
+      this._saveReviewedState(path, reviewed);
     },
 
     _saveReviewedState(path, reviewed) {
@@ -797,6 +803,12 @@
     _computeFilesShown(numFilesShown, files) {
       const filesShown = files.base.slice(0, numFilesShown);
       this.fire('files-shown-changed', {length: filesShown.length});
+
+      // Start the timer for the rendering work hwere because this is where the
+      // _shownFiles property is being set, and _shownFiles is used in the
+      // dom-repeat binding.
+      this.$.reporting.time(RENDER_TIME);
+
       return filesShown;
     },
 
@@ -953,7 +965,7 @@
               path, this.patchRange, this.projectConfig);
           const promises = [diffElem.reload()];
           if (this._loggedIn && !this.diffPrefs.manual_review) {
-            promises.push(this._reviewFile(path));
+            promises.push(this._reviewFile(path, true));
           }
           return Promise.all(promises);
         }).then(() => {
@@ -1174,6 +1186,22 @@
      */
     _noDiffsExpanded() {
       return this.filesExpanded === GrFileListConstants.FilesExpandedState.NONE;
+    },
+
+    /**
+     * Method to call via binding when each file list row is rendered. This
+     * allows approximate detection of when the dom-repeat has completed
+     * rendering.
+     * @param {number} index The index of the row being rendered.
+     * @return {string} an empty string.
+     */
+    _reportRenderedRow(index) {
+      if (index === this._shownFiles.length - 1) {
+        this.async(() => {
+          this.$.reporting.timeEnd(RENDER_TIME);
+        }, 1);
+      }
+      return '';
     },
   });
 })();

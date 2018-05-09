@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.registration;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -31,6 +33,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    * @return handle to remove the item at a later point in time.
    */
   public RegistrationHandle put(String pluginName, String exportName, Provider<T> item) {
+    checkNotNull(item);
     final NamePair key = new NamePair(pluginName, exportName);
     items.put(key, item);
     return new RegistrationHandle() {
@@ -53,6 +56,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    *     the collection.
    */
   public ReloadableRegistrationHandle<T> put(String pluginName, Key<T> key, Provider<T> item) {
+    checkNotNull(item);
     String exportName = ((Export) key.getAnnotation()).value();
     NamePair np = new NamePair(pluginName, exportName);
     items.put(np, item);

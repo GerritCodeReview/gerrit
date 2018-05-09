@@ -58,7 +58,7 @@ limitations under the License.
     });
 
     test('JSON prefix is properly removed', done => {
-      element.fetchJSON('/dummy/url').then(obj => {
+      element._fetchJSON('/dummy/url').then(obj => {
         assert.deepEqual(obj, {hello: 'bonjour'});
         done();
       });
@@ -66,7 +66,7 @@ limitations under the License.
 
     test('cached results', done => {
       let n = 0;
-      sandbox.stub(element, 'fetchJSON', () => {
+      sandbox.stub(element, '_fetchJSON', () => {
         return Promise.resolve(++n);
       });
       const promises = [];
@@ -86,7 +86,7 @@ limitations under the License.
     test('cached promise', done => {
       const promise = Promise.reject('foo');
       element._cache['/foo'] = promise;
-      element._fetchSharedCacheURL('/foo').catch(p => {
+      element._fetchSharedCacheURL({url: '/foo'}).catch(p => {
         assert.equal(p, 'foo');
         done();
       });
@@ -120,7 +120,8 @@ limitations under the License.
           cancel() { cancelCalled = true; },
         },
       }));
-      element.fetchJSON('/dummy/url', null, () => { return true; }).then(
+      const cancelCondition = () => { return true; };
+      element._fetchJSON({url: '/dummy/url', cancelCondition}).then(
           obj => {
             assert.isUndefined(obj);
             assert.isTrue(cancelCalled);
@@ -129,7 +130,7 @@ limitations under the License.
     });
 
     test('parent diff comments are properly grouped', done => {
-      sandbox.stub(element, 'fetchJSON', () => {
+      sandbox.stub(element, '_fetchJSON', () => {
         return Promise.resolve({
           '/COMMIT_MSG': [],
           'sieve.go': [
@@ -272,7 +273,8 @@ limitations under the License.
     test('differing patch diff comments are properly grouped', done => {
       sandbox.stub(element, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
-      sandbox.stub(element, 'fetchJSON', url => {
+      sandbox.stub(element, '_fetchJSON', request => {
+        const url = request.url;
         if (url === '/changes/test~42/revisions/1') {
           return Promise.resolve({
             '/COMMIT_MSG': [],
@@ -386,11 +388,11 @@ limitations under the License.
     });
 
     suite('rebase action', () => {
-      let resolveFetchJSON;
+      let resolve_fetchJSON;
       setup(() => {
-        sandbox.stub(element, 'fetchJSON').returns(
+        sandbox.stub(element, '_fetchJSON').returns(
             new Promise(resolve => {
-              resolveFetchJSON = resolve;
+              resolve_fetchJSON = resolve;
             }));
       });
 
@@ -401,7 +403,7 @@ limitations under the License.
               assert.isFalse(response.rebase.rebaseOnCurrent);
               done();
             });
-        resolveFetchJSON({rebase: {}});
+        resolve_fetchJSON({rebase: {}});
       });
 
       test('rebase on current', done => {
@@ -411,7 +413,7 @@ limitations under the License.
               assert.isTrue(response.rebase.rebaseOnCurrent);
               done();
             });
-        resolveFetchJSON({rebase: {enabled: true}});
+        resolve_fetchJSON({rebase: {enabled: true}});
       });
     });
 
@@ -423,7 +425,7 @@ limitations under the License.
         element.addEventListener('server-error', resolve);
       });
 
-      element.fetchJSON().then(response => {
+      element._fetchJSON({}).then(response => {
         assert.isUndefined(response);
         assert.isTrue(getResponseObjectStub.notCalled);
         serverErrorEventPromise.then(() => done());
@@ -444,7 +446,7 @@ limitations under the License.
       element.addEventListener('server-error', serverErrorStub);
       const authErrorStub = sandbox.stub();
       element.addEventListener('auth-error', authErrorStub);
-      element.fetchJSON('/bar').then(r => {
+      element._fetchJSON('/bar').then(r => {
         flush(() => {
           assert.isTrue(authErrorStub.called);
           assert.isFalse(serverErrorStub.called);
@@ -484,10 +486,10 @@ limitations under the License.
     });
 
     test('legacy n,z key in change url is replaced', () => {
-      const stub = sandbox.stub(element, 'fetchJSON')
+      const stub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve([]));
       element.getChanges(1, null, 'n,z');
-      assert.equal(stub.args[0][3].S, 0);
+      assert.equal(stub.lastCall.args[0].params.S, 0);
     });
 
     test('saveDiffPreferences invalidates cache line', () => {
@@ -512,7 +514,7 @@ limitations under the License.
           });
 
           element._cache[cacheKey] = 'fake cache';
-          stub.callArg(1);
+          stub.lastCall.args[0].errFn();
         });
 
     test('getAccount does not add to the cache when resp.status is 403',
@@ -527,7 +529,7 @@ limitations under the License.
             done();
           });
           element._cache[cacheKey] = 'fake cache';
-          stub.callArgWith(1, {status: 403});
+          stub.lastCall.args[0].errFn({status: 403});
         });
 
     test('getAccount when resp is successful', done => {
@@ -541,7 +543,8 @@ limitations under the License.
         done();
       });
       element._cache[cacheKey] = 'fake cache';
-      stub.callArg(1, {});
+
+      stub.lastCall.args[0].errFn({});
     });
 
     const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
@@ -872,66 +875,69 @@ limitations under the License.
       const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
-        assert.deepEqual(fetchStub.lastCall.args,
-            ['42', '/files?q=test%2Fpath.js', 'edit']);
+        assert.deepEqual(fetchStub.lastCall.args[0], {
+          changeNum: '42',
+          endpoint: '/files?q=test%2Fpath.js',
+          patchNum: 'edit',
+        });
       });
     });
 
     test('getRepos', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getRepos('test', 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=0&m=test'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=0&m=test');
 
       element.getRepos(null, 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=0'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=0');
 
       element.getRepos('test', 25, 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=25&m=test'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=25&m=test');
     });
 
     test('getRepos filter', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getRepos('test/test/test', 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=0&m=test%2Ftest%2Ftest'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=0&m=test%2Ftest%2Ftest');
     });
 
     test('getRepos filter regex', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getRepos('^test.*', 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=0&r=%5Etest.*'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=0&r=%5Etest.*');
     });
 
     test('getGroups filter regex', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getGroups('^test.*', 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/groups/?n=26&S=0&r=%5Etest.*'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/groups/?n=26&S=0&r=%5Etest.*');
     });
 
     test('gerrit auth is used', () => {
       sandbox.stub(Gerrit.Auth, 'fetch').returns(Promise.resolve());
-      element.fetchJSON('foo');
+      element._fetchJSON('foo');
       assert(Gerrit.Auth.fetch.called);
     });
 
-    test('getSuggestedAccounts does not return fetchJSON', () => {
-      const fetchJSONSpy = sandbox.spy(element, 'fetchJSON');
+    test('getSuggestedAccounts does not return _fetchJSON', () => {
+      const _fetchJSONSpy = sandbox.spy(element, '_fetchJSON');
       return element.getSuggestedAccounts().then(accts => {
-        assert.isFalse(fetchJSONSpy.called);
+        assert.isFalse(_fetchJSONSpy.called);
         assert.equal(accts.length, 0);
       });
     });
 
-    test('fetchJSON gets called by getSuggestedAccounts', () => {
-      const fetchJSONStub = sandbox.stub(element, 'fetchJSON',
+    test('_fetchJSON gets called by getSuggestedAccounts', () => {
+      const _fetchJSONStub = sandbox.stub(element, '_fetchJSON',
           () => Promise.resolve());
       return element.getSuggestedAccounts('own').then(() => {
-        assert.deepEqual(fetchJSONStub.lastCall.args[3], {
+        assert.deepEqual(_fetchJSONStub.lastCall.args[0].params, {
           q: 'own',
           suggest: null,
         });
@@ -1064,7 +1070,7 @@ limitations under the License.
 
     suite('getChanges populates _projectLookup', () => {
       test('multiple queries', () => {
-        sandbox.stub(element, 'fetchJSON')
+        sandbox.stub(element, '_fetchJSON')
             .returns(Promise.resolve([
               [
                 {_number: 1, project: 'test'},
@@ -1073,7 +1079,7 @@ limitations under the License.
                 {_number: 3, project: 'test/test'},
               ],
             ]));
-        // When opt_query instanceof Array, fetchJSON returns
+        // When opt_query instanceof Array, _fetchJSON returns
         // Array<Array<Object>>.
         return element.getChanges(null, []).then(() => {
           assert.equal(Object.keys(element._projectLookup).length, 3);
@@ -1084,14 +1090,14 @@ limitations under the License.
       });
 
       test('no query', () => {
-        sandbox.stub(element, 'fetchJSON')
+        sandbox.stub(element, '_fetchJSON')
             .returns(Promise.resolve([
               {_number: 1, project: 'test'},
               {_number: 2, project: 'test'},
               {_number: 3, project: 'test/test'},
             ]));
 
-        // When opt_query !instanceof Array, fetchJSON returns
+        // When opt_query !instanceof Array, _fetchJSON returns
         // Array<Object>.
         return element.getChanges().then(() => {
           assert.equal(Object.keys(element._projectLookup).length, 3);
@@ -1104,10 +1110,12 @@ limitations under the License.
 
     test('_getChangeURLAndFetch', () => {
       element._projectLookup = {1: 'test'};
-      const fetchStub = sandbox.stub(element, 'fetchJSON')
+      const fetchStub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve());
-      return element._getChangeURLAndFetch(1, '/test', 1).then(() => {
-        assert.isTrue(fetchStub.calledWith('/changes/test~1/revisions/1/test'));
+      const req = {changeNum: 1, endpoint: '/test', patchNum: 1};
+      return element._getChangeURLAndFetch(req).then(() => {
+        assert.equal(fetchStub.lastCall.args[0].url,
+            '/changes/test~1/revisions/1/test');
       });
     });
 
@@ -1170,8 +1178,8 @@ limitations under the License.
         const range = {basePatchNum: 'PARENT', patchNum: 2};
         return element.getChangeFiles(123, range).then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 2);
-          assert.isNotOk(fetchStub.lastCall.args[5]);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
+          assert.isNotOk(fetchStub.lastCall.args[0].params);
         });
       });
 
@@ -1181,10 +1189,10 @@ limitations under the License.
         const range = {basePatchNum: 4, patchNum: 5};
         return element.getChangeFiles(123, range).then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.equal(fetchStub.lastCall.args[5].base, 4);
-          assert.isNotOk(fetchStub.lastCall.args[5].parent);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.equal(fetchStub.lastCall.args[0].params.base, 4);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
         });
       });
 
@@ -1194,10 +1202,10 @@ limitations under the License.
         const range = {basePatchNum: -3, patchNum: 5};
         return element.getChangeFiles(123, range).then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].base);
-          assert.equal(fetchStub.lastCall.args[5].parent, 3);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
+          assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
         });
       });
     });
@@ -1208,10 +1216,10 @@ limitations under the License.
             .returns(Promise.resolve());
         return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 2);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].parent);
-          assert.isNotOk(fetchStub.lastCall.args[5].base);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
         });
       });
 
@@ -1220,10 +1228,10 @@ limitations under the License.
             .returns(Promise.resolve());
         return element.getDiff(123, 4, 5, 'foo/bar.baz').then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].parent);
-          assert.equal(fetchStub.lastCall.args[5].base, 4);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
+          assert.equal(fetchStub.lastCall.args[0].params.base, 4);
         });
       });
 
@@ -1232,10 +1240,10 @@ limitations under the License.
             .returns(Promise.resolve());
         return element.getDiff(123, -3, 5, 'foo/bar.baz').then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].base);
-          assert.equal(fetchStub.lastCall.args[5].parent, 3);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
+          assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
         });
       });
     });
@@ -1245,7 +1253,7 @@ limitations under the License.
       element.getDashboard('gerrit/project', 'default:main');
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
-          fetchStub.lastCall.args[0],
+          fetchStub.lastCall.args[0].url,
           '/projects/gerrit%2Fproject/dashboards/default%3Amain');
     });
 

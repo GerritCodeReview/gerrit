@@ -56,18 +56,16 @@ limitations under the License.
       stub('gr-endpoint-decorator', {
         _import: sandbox.stub().returns(Promise.resolve()),
       });
-      // Since _endpoints are global, must reset state.
-      Gerrit._endpoints = new GrPluginEndpoints();
+      Gerrit._resetPlugins();
       container = fixture('basic');
       Gerrit.install(p => plugin = p, '0.1', 'http://some/plugin/url.html');
-      hooks = [];
       // Decoration
       decorationHook = plugin.registerCustomComponent('first', 'some-module');
       // Replacement
       replacementHook = plugin.registerCustomComponent(
           'second', 'other-module', {replace: true});
       // Mimic all plugins loaded.
-      Gerrit._setPluginsCount(0);
+      Gerrit._setPluginsPending([]);
       flush(done);
     });
 
@@ -88,8 +86,10 @@ limitations under the License.
     test('decoration', () => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="first"]');
-      const module = Polymer.dom(element.root).children.find(
+      const modules = Polymer.dom(element.root).children.filter(
           element => element.nodeName === 'SOME-MODULE');
+      assert.equal(modules.length, 1);
+      const [module] = modules;
       assert.isOk(module);
       assert.equal(module['someparam'], 'barbar');
       return decorationHook.getLastAttached().then(element => {

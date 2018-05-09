@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "576190d2_0289b406",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-09T12:42:13Z",
+      "side": 1,
+      "message": "Yeah. I\u0027m kind of worrying the potential performance problem of this fix. The members here could be a lot and it could be slow.",
+      "parentUuid": "7aeb6436_4770458d",
+      "range": {
+        "startLine": 337,
+        "startChar": 10,
+        "endLine": 337,
+        "endChar": 64
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa9f797a_b965d609",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1

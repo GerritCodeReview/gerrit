@@ -209,6 +209,29 @@
     },
     {
       "key": {
+        "uuid": "3f5e273e_0f23c6f5",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-05-09T20:58:40Z",
+      "side": 1,
+      "message": "If these are to be defined as constants, they need to comply with the constants naming convention.",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 70
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "902b2ff0_92c77281",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1
@@ -225,6 +248,75 @@
         "startChar": 23,
         "endLine": 45,
         "endChar": 49
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd950ea7_f5d1dc37",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-05-09T20:58:40Z",
+      "side": 1,
+      "message": "Constant name convention",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 39
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10a0aa7b_f8de39e7",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-05-09T20:58:40Z",
+      "side": 1,
+      "message": "Do we really need to pass these as parameters? If they are defined as constants or fields, why not using them directly in the called method?",
+      "range": {
+        "startLine": 60,
+        "startChar": 65,
+        "endLine": 60,
+        "endChar": 90
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614fd743_0978b827",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-05-09T20:58:40Z",
+      "side": 1,
+      "message": "If this is only used in the called method, why not instantiate it there and avoid passing it as parameter?",
+      "range": {
+        "startLine": 60,
+        "startChar": 54,
+        "endLine": 60,
+        "endChar": 63
       },
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

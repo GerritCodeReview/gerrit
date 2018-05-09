@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "54a56fc3_4ef6b876",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-09T17:18:22Z",
+      "side": 1,
+      "message": "This change makes sense on its own, so I don\u0027t mean to block it, but I remain unconvinced by these numbers. I don\u0027t see a 4x or 5.5x speedup, and I\u0027m measuring a slight slowdown (0.9x).\n\n          Before       |         After\n  First 200 | All 1000 | First 200 | All 1000\n  ----------+----------+-----------+---------\n        356 |     1301 |       449 |     1602\n        393 |     1590 |       561 |     1396\n        362 |     1431 |       340 |     1382\n        490 |     1348 |       385 |     1466\n        334 |     1363 |       339 |     1609\n        373 |     1349 |       395 |     1411\n        366 |     1521 |       387 |     1538\n        391 |     1297 |       346 |     1576\n        375 |     1287 |       489 |     1317\n        376 |     1396 |       399 |     1614\n\n                   | Std Dev     | Average\n  -----------------+-------------+--------\n  First 200 before | 41.72183015 |   381.6\n   All 1000 before | 100.1122148 |  1388.3\n   First 200 after | 71.56193898 |     409\n    All 1000 after | 110.058015  |  1491.1\n\n  First 200 speedup | 0.933007335\n   All 1000 speedup | 0.9310576085",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 17
+      },
+      "revId": "a299fc764912faee2d2e6e7a66d3d13c7675b407",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762ba37e_024e1a52",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

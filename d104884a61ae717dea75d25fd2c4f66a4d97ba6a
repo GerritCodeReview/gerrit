@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b877ca89_bc7219c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-09T10:21:25Z",
+      "side": 1,
+      "message": "This seems like it would be better to do in a separate commit from the Javadoc update, which is the only thing mentioned in the subject of this commit.",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "d104884a61ae717dea75d25fd2c4f66a4d97ba6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

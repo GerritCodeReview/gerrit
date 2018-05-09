@@ -22,6 +22,30 @@
       "revId": "609f9826e55a285482670d747c23c8ecc151b6e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d1ef508_deec8409",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-05-09T12:10:58Z",
+      "side": 1,
+      "message": "I don\u0027t have a strong reference (book or documentation), but I encountered issues with Lambdas (I missed the chance to write a \"The hidden cost of lambdas\" article!)\n\nI had a simple worker class that did this: for each name in a list, get (or add) a value from a map. It worked well using Plain Old Java, but I wanted to use a lambda, using the shiny computeIfAbsent method.\nThis worker was handling thousands (\u003e 300k) values per second and crashed because of the GC pressure, turns out it was because the lambdas created garbage - even if they were not used.\nThis was not a problem with the \"if null, put\" syntax as most of the times, the key was present in the map ... but with lambdas, it was not the case.\n\nI quickly found the issue using YourKit, and since then I want to use method references everywhere! :)\n\nI was able to reproduce the \"bug\" I mention, and will provide the code for it, but feel free to tweak it if you have hypothesis (like, \"but what happens if I run it 300k times and not just 4?\").\n\nMy specific problem was using a stateful lambda, but I tend to think all lambdas are stateful (can depend on local variables, or use a parameter), and have this issue.\n\n\n\tpackage com.company;\n\t\n\timport java.util.ArrayList;\n\timport java.util.List;\n\timport java.util.function.Consumer;\n\t\n\tpublic class Main {\n\t\n\t  private static final List\u003cString\u003e words \u003d new ArrayList\u003c\u003e();\n\t\n\t  static { // Works even if the list is empty.\n\t    words.add(\"hello\");\n\t    words.add(\"flower\");\n\t    words.add(\"water\");\n\t  }\n\t\n\t  public static void main(String[] args) {\n\t    // If the method is static, the behavior is different\n\t    Main main \u003d new Main();\n\t\n\t    // Prints different memory pointers every time\n\t\n\t    System.out.println(\"---------------------\");\n\t    System.out.println(\"Using Runnable\");\n\t    System.out.println(\"---------------------\");\n\t    for (int i \u003d 0; i \u003c 4; i++) {\n\t      main.usingRunnable();\n\t    }\n\t\n\t    System.out.println(\"---------------------\");\n\t    System.out.println(\"Using Consumer\u003cString\u003e\");\n\t    System.out.println(\"---------------------\");\n\t    // Prints different memory pointers\n\t\n\t    for (int i \u003d 0; i \u003c 3; i++) {\n\t      main.usingConsumer();\n\t    }\n\t\n\t    System.out.println(\"---------------------\");\n\t    System.out.println(\"Using method reference\");\n\t    System.out.println(\"---------------------\");\n\t    // Prints the same pointer (example )\n\t    for (int i \u003d 0; i \u003c 3; i++) {\n\t      main.usingMethodReference();\n\t    }\n\t  }\n\t\n\t  private void usingRunnable() {\n\t    for (String word : words) {\n\t      Runnable method \u003d () -\u003e print(word);\n\t      System.out.println(method);\n\t    }\n\t  }\n\t\n\t  private void usingMethodReference() {\n\t    Consumer\u003cString\u003e method;\n\t    words.forEach(method \u003d this::print);\n\t    System.out.println(method);\n\t  }\n\t\n\t  private void usingConsumer() {\n\t    Consumer\u003cString\u003e method;\n\t    words.forEach(method \u003d word -\u003e print(word));\n\t    System.out.println(method);\n\t  }\n\t\n\t  private void print(String word) {\n\t    word \u003d \"no-op\";\n\t  }\n\t}\n\n\nGitHub gist: https://gist.github.com/PunKeel/527032db2f84186ac414122f6f407236\n\nThat being said, I agree this looks like micro-optimisation and should not warrant a change, but I think it was worth mentioning.",
+      "parentUuid": "f49405bc_46defa3b",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "609f9826e55a285482670d747c23c8ecc151b6e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

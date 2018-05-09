@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f1ecc6_c2fb5fe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-09T18:40:14Z",
+      "side": 1,
+      "message": "Please add more detail to the commit message. How does this fix the linked issue?",
+      "revId": "52a45d4d24ff49eddb69c33833b24ed7d27fee51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

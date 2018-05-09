@@ -1,17 +1,19 @@
 = Gerrit Code Review - Standalone Daemon Installation Guide
 
-[[requirements]]
-== Requirements
-To run the Gerrit service, the following requirements must be met on
-the host:
+[[prerequisites]]
+== Prerequisites
+
+To run the Gerrit service, the following requirement must be met on the host:
 
 * JRE, minimum version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
 
-You'll also need an SQL database to house the review metadata. You have the
-choice of either using the embedded H2 or to host your own MySQL or PostgreSQL.
+By default, Gerrit uses link:note-db.html[NoteDB] as the storage backend. (If
+desired, you can _optionally_ use an external database such as MySQL or
+PostgreSQL.)
 
 [[cryptography]]
 == Configure Java for Strong Cryptography
+
 Support for extra strength cryptographic ciphers: _AES128CTR_, _AES256CTR_,
 _ARCFOUR256_, and _ARCFOUR128_ can be enabled by downloading the _Java
 Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files_

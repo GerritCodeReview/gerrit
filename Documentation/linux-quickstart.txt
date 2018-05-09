@@ -1,64 +1,63 @@
 = Quickstart for Installing Gerrit on Linux
 
-This quickstart shows you how to install Gerrit on a Linux machine.
+This content explains how to install a basic instance of Gerrit on a Linux
+machine.
 
 [NOTE]
 ====
-The installation steps provided in this quickstart are for
-demonstration purposes only. They are not intended for use in a production
-environment.
+This quickstart is provided for demonstration purposes only. The Gerrit instance
+they install must not be used in a production environment.
 
-For a more detailed installation guide, see
+Instead, to install a Gerrit production environment, see
 link:install.html[Standalone Daemon Installation Guide].
 ====
 
-== Before you begin
+== Before you start
 
-To complete this quickstart, you need:
+Be sure you have:
 
-. A Unix-based server such as any of the Linux flavors or BSD.
-. Java SE Runtime Environment version 1.8 or later.
+. A Unix-based server, including any Linux flavor, MacOS, or Berkeley Software
+    Distribution (BSD).
+. Java SE Runtime Environment 1.8 (or higher).
 
 == Download Gerrit
 
 From the Linux machine on which you want to install Gerrit:
 
 . Open a terminal window.
-. Download the Gerrit archive. See
-link:https://gerrit-releases.storage.googleapis.com/index.html[Gerrit Code
-Review - Releases] for a list of available archives.
+. Download the desired Gerrit archive.
 
-The steps in this quickstart used Gerrrit 2.14.2, which you can download using
-a command such as:
+To view previous archives, see
+link:https://gerrit-releases.storage.googleapis.com/index.html[Gerrit Code Review: Releases]. The steps below install Gerrit 2.15.1:
 
 ....
-wget https://www.gerritcodereview.com/download/gerrit-2.14.2.war
+wget https://www.gerritcodereview.com/download/gerrit-2.15.1.war
 ....
 
-NOTE: If you want to build and install Gerrit from the source files, see
-link:dev-readme.html[Developer Setup].
+NOTE: To build and install Gerrit from the source files, see
+link:dev-readme.html[Gerrit Code Review: Developer Setup].
 
 == Install and initialize Gerrit
 
-From the command line, type the following:
+From the command line, enter:
 
 ....
 java -jar gerrit*.war init --batch --dev -d ~/gerrit_testsite
 ....
 
-The preceding command uses two parameters:
+This command takes two parameters:
 
-* `--batch`. This parameter assigns default values to a variety of Gerrit
-  configuration options. To learn more about these configuration options, see
-  link:config-gerrit.html[Configuration].
-* `--dev`. This parameter configures the server to use the authentication
-  option, `DEVELOPMENT_BECOME_ANY_ACCOUNT`. This authentication type makes it
-  easy for you to switch between different users to explore how Gerrit works.
-  To learn more about setting up Gerrit for development, see
-  link:dev-readme.html[Developer Setup].
+* `--batch` assigns default values to several Gerrit configuration
+    options. To learn more about these options, see
+    link:config-gerrit.html[Configuration].
+* `--dev` configures the Gerrit server to use the authentication
+  option, `DEVELOPMENT_BECOME_ANY_ACCOUNT`, which enables you to
+  switch between different users to explore how Gerrit works. To learn more
+  about setting up Gerrit for development, see
+  link:dev-readme.html[Gerrit Code Review: Developer Setup].
 
-This command displays a number of messages in the terminal window. The following
-is an example of these messages:
+While this command executes, status messages are displayed in the terminal
+window. For example:
 
 ....
 Generating SSH host key ... rsa(simple)... done
@@ -67,14 +66,15 @@ Executing /home/gerrit/gerrit_testsite/bin/gerrit.sh start
 Starting Gerrit Code Review: OK
 ....
 
-The last message you should see is `Starting Gerrit Code Review: OK`. This
-message informs you that the Gerrit service is now running.
+The last message confirms that the Gerrit service is running:
+
+`Starting Gerrit Code Review: OK`.
 
 == Update the listen URL
 
-Another recommended task is to change the URL that Gerrit listens to from `*`
-to `localhost`. This change helps prevent outside connections from contacting
-the instance.
+To prevent outside connections from contacting your new Gerrit instance
+(strongly recommended), change the URL on which Gerrit listens from `*` to
+`localhost`. For example:
 
 ....
 git config --file ~/gerrit_testsite/etc/gerrit.config httpd.listenUrl 'http://localhost:8080'
@@ -83,7 +83,7 @@ git config --file ~/gerrit_testsite/etc/gerrit.config httpd.listenUrl 'http://lo
 == Restart the Gerrit service
 
 You must restart the Gerrit service for your authentication type and listen URL
-changes to take effect.
+changes to take effect:
 
 ....
 ~/gerrit_testsite/bin/gerrit.sh restart
@@ -91,8 +91,7 @@ changes to take effect.
 
 == Viewing Gerrit
 
-At this point, you have a basic installation of Gerrit. You can view this
-installation by opening a browser and entering the following URL:
+To view your new basic installation of Gerrit, go to:
 
 ....
 http://localhost:8080
@@ -100,10 +99,10 @@ http://localhost:8080
 
 == Next steps
 
-Through this quickstart, you now have a simple version of Gerrit running on your
-Linux machine. You can use this installation to explore the UI and become
-familiar with some of Gerrit's features. For a more detailed installation guide,
-see link:install.html[Standalone Daemon Installation Guide].
+Now that you have a simple version of Gerrit running, use the installation to
+explore the user interface and learn about Gerrit. For more detailed
+installation instructions, see
+link:[Standalone Daemon Installation Guide](install.html).
 
 GERRIT
 ------

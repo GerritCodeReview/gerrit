@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "b2aae399_ba569b02",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-09T13:00:03Z",
+      "side": 1,
+      "message": "Agree. This fix may slow down this heavily used endpoint. so let\u0027s keep it here for now.",
+      "parentUuid": "5ebc515c_306a8baf",
+      "range": {
+        "startLine": 337,
+        "startChar": 10,
+        "endLine": 337,
+        "endChar": 64
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa9f797a_b965d609",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09c53b2f_32c935ea",
+        "filename": "java/com/google/gerrit/httpd/gitweb/GitwebServlet.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-09T09:44:46Z",
+      "side": 1,
+      "message": "Any reason why this is changed from \"userProvider\" to \"anonymousUserProvider\"?",
+      "range": {
+        "startLine": 427,
+        "startChar": 16,
+        "endLine": 427,
+        "endChar": 43
+      },
+      "revId": "4bdef6c0308e65bfdb9418ee5f856bcd2f87c16c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

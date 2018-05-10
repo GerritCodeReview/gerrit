@@ -52,7 +52,8 @@ public class DeleteWatchedProjects
   public Response<?> apply(AccountResource rsrc, List<ProjectWatchInfo> input)
       throws AuthException, UnprocessableEntityException, OrmException, IOException,
           ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("It is not allowed to edit project watches of other users");
     }
     if (input == null) {

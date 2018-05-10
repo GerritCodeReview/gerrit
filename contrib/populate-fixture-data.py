@@ -21,6 +21,7 @@ TODO(hiesel): Make real git commits instead of empty changes
 TODO(hiesel): Add comments
 """
 
+from __future__ import print_function
 import atexit
 import json
 import optparse
@@ -280,7 +281,7 @@ def main():
   (options, _) = p.parse_args()
   global BASE_URL
   BASE_URL = BASE_URL % options.port
-  print BASE_URL
+  print(BASE_URL)
 
   set_up()
   gerrit_users = get_random_users(options.user_count)

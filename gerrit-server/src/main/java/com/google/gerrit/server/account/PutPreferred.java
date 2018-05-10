@@ -55,7 +55,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   public Response<String> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, OrmException, IOException,
           PermissionBackendException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().isSameAccountId(rsrc.getUser())) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
     return apply(rsrc.getUser(), rsrc.getEmail());

@@ -146,4 +146,8 @@ public abstract class CurrentUser {
   public ExternalId.Key getLastLoginExternalIdKey() {
     return get(lastLoginExternalIdPropertyKey);
   }
+
+  public boolean isSameAccountId(CurrentUser other) {
+    return getAccountId().get() == other.getAccountId().get();
+  }
 }

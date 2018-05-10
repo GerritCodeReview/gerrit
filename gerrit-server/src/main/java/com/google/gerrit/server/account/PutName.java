@@ -63,7 +63,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
           IOException, PermissionBackendException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().isSameAccountId(rsrc.getUser())) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
     return apply(rsrc.getUser(), input);

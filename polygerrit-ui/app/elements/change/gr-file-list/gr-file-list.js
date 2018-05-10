@@ -26,6 +26,8 @@
   const SIZE_BAR_GAP_WIDTH = 1;
   const SIZE_BAR_MIN_WIDTH = 1.5;
 
+  const RENDER_TIME = 'FileListRenderTime';
+
   const FileStatus = {
     A: 'Added',
     C: 'Copied',
@@ -146,6 +148,7 @@
         type: Array,
         computed: '_computeFilesShown(numFilesShown, _files.*)',
       },
+
       _expandedFilePaths: {
         type: Array,
         value() { return []; },
@@ -797,6 +800,7 @@
     _computeFilesShown(numFilesShown, files) {
       const filesShown = files.base.slice(0, numFilesShown);
       this.fire('files-shown-changed', {length: filesShown.length});
+      this.$.reporting.time(RENDER_TIME);
       return filesShown;
     },
 
@@ -1174,6 +1178,22 @@
      */
     _noDiffsExpanded() {
       return this.filesExpanded === GrFileListConstants.FilesExpandedState.NONE;
+    },
+
+    /**
+     * Method to call via binding when each file list row is rendered. This
+     * allows approximate detection of when the dom-repeat has completed
+     * rendering.
+     * @param {number} index The index of the row being rendered.
+     * @return {string} an empty string.
+     */
+    _reportRenderedRow(index) {
+      if (index === this._shownFiles.length - 1) {
+        this.async(() => {
+          this.$.reporting.timeEnd(RENDER_TIME);
+        }, 1);
+      }
+      return '';
     },
   });
 })();

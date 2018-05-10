@@ -51,7 +51,8 @@ class Capabilities implements ChildCollection<AccountResource, AccountResource.C
   @Override
   public Capability parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, AuthException {
-    if (self.get() != parent.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+    if (!self.get().hasSameAccountId(parent.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
 

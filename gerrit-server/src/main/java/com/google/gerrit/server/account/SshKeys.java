@@ -56,7 +56,8 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
   @Override
   public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
       throw new ResourceNotFoundException();
     }
     return parse(rsrc.getUser(), id);

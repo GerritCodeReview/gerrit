@@ -36,7 +36,8 @@ public class GetPreferences implements RestReadView<AccountResource> {
 
   @Override
   public GeneralPreferencesInfo apply(AccountResource rsrc) throws AuthException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e388b682_1d3e9dd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-10T16:54:40Z",
+      "side": 1,
+      "message": "The whole thing? Done.",
+      "parentUuid": "e66677ea_9ad21da5",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "7ee4964966edb8a7e5eda454aaf4b02d0e1bc460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40a9ea8f_598e1a6c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "7ee4964966edb8a7e5eda454aaf4b02d0e1bc460",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7586a135_87f53534",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-10T16:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40a9ea8f_598e1a6c",
+      "range": {
+        "startLine": 1143,
+        "startChar": 32,
+        "endLine": 1143,
+        "endChar": 33
+      },
+      "revId": "7ee4964966edb8a7e5eda454aaf4b02d0e1bc460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -146,6 +146,8 @@
         type: Array,
         computed: '_computeFilesShown(numFilesShown, _files.*)',
       },
+      _lastShownFilesChangeTime: Number,
+
       _expandedFilePaths: {
         type: Array,
         value() { return []; },
@@ -797,6 +799,7 @@
     _computeFilesShown(numFilesShown, files) {
       const filesShown = files.base.slice(0, numFilesShown);
       this.fire('files-shown-changed', {length: filesShown.length});
+      this._lastShownFilesChangeTime = Date.now();
       return filesShown;
     },
 
@@ -1174,6 +1177,17 @@
      */
     _noDiffsExpanded() {
       return this.filesExpanded === GrFileListConstants.FilesExpandedState.NONE;
+    },
+
+
+    _redneredItem(index) {
+      if (index === this._shownFiles.length - 1) {
+        setTimeout(() => {
+          console.log('Rendered file rows in ' +
+              (Date.now() - this._lastShownFilesChangeTime) + 'ms');
+        }, 1);
+      }
+      return '';
     },
   });
 })();

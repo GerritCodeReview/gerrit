@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "20dd926c_c2d58787",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-10T21:56:22Z",
+      "side": 1,
+      "message": "I wonder what\u0027s the cost of this.",
+      "parentUuid": "9f69b5ed_45b707df",
+      "revId": "8988d03fe5b06e0543bdc82acefdd20657681902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20b5fa82_fa0bf302",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-05-10T21:21:14Z",
       "side": 1,
       "message": "Troublingly\n\n window.requestAnimationFrame\n\ndoesn\u0027t work here.",
+      "range": {
+        "startLine": 1185,
+        "startChar": 8,
+        "endLine": 1185,
+        "endChar": 26
+      },
+      "revId": "8988d03fe5b06e0543bdc82acefdd20657681902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fb95199_5f0ead7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1185,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-10T21:56:22Z",
+      "side": 1,
+      "message": "would this.async() work?",
+      "parentUuid": "20b5fa82_fa0bf302",
       "range": {
         "startLine": 1185,
         "startChar": 8,

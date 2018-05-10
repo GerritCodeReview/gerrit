@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9272910_061c682f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-10T18:23:28Z",
+      "side": 1,
+      "message": "Nit: return \u0027\u0027 in the fallthrough case (optional because I don\u0027t expect that to be a problem on live servers).",
+      "revId": "c8b66f468f6951165d6e06239a19624e7a1593e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef9bd86d_6d836ff6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-10T18:23:28Z",
+      "side": 1,
+      "message": "This isn\u0027t needed.",
+      "revId": "c8b66f468f6951165d6e06239a19624e7a1593e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

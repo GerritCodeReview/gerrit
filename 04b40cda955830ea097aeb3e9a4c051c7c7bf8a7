@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32c8fcc1_44bce0a8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-10T18:09:07Z",
+      "side": 1,
+      "message": "Rename to _getNameForGroup, because this is never called for user members.",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "04b40cda955830ea097aeb3e9a4c051c7c7bf8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b1c643f_d1afd38f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-10T18:09:07Z",
+      "side": 1,
+      "message": "Remove these four lines. There are no username or email properties on GroupInfo.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 41
+      },
+      "revId": "04b40cda955830ea097aeb3e9a4c051c7c7bf8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b2ae8f_868147b9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-10T18:09:07Z",
+      "side": 1,
+      "message": "Rename this to group.",
+      "range": {
+        "startLine": 51,
+        "startChar": 12,
+        "endLine": 51,
+        "endChar": 19
+      },
+      "revId": "04b40cda955830ea097aeb3e9a4c051c7c7bf8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

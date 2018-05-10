@@ -78,7 +78,8 @@ class GetCapabilities implements RestReadView<AccountResource> {
 
   @Override
   public Object apply(AccountResource resource) throws AuthException {
-    if (self.get() != resource.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+    if (!self.get().hasSameAccountId(resource.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("restricted to administrator");
     }
 

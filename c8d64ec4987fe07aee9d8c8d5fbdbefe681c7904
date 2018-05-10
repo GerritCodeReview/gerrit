@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de21cf3a_709e8dd8",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/GpgKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-10T23:04:52Z",
+      "side": 1,
+      "message": "If we have to do this on every usage instead of using equality operators, it\u0027s going to be tedious and error-prone (i.e. easy to forget to use this method instead of the equality operator).",
+      "revId": "c8d64ec4987fe07aee9d8c8d5fbdbefe681c7904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c13e6e9_b45bf00e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-10T23:04:52Z",
+      "side": 1,
+      "message": "It would be better to override the equals method so that \u003d\u003d can continue to be used in the code.",
+      "revId": "c8d64ec4987fe07aee9d8c8d5fbdbefe681c7904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

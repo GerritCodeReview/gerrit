@@ -17,12 +17,14 @@
 (function() {
   'use strict';
 
+  const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
+
   Polymer({
     is: 'gr-group-audit-log',
 
     properties: {
-      groupId: Object,
-      _auditLog: Object,
+      groupId: String,
+      _auditLog: Array,
       _loading: {
         type: Boolean,
         value: true,
@@ -63,12 +65,6 @@
       return item.disabled ? 'Disabled' : 'Enabled';
     },
 
-    _computeGroupUrl(id) {
-      if (!id) { return ''; }
-
-      return this.getBaseUrl() + '/admin/groups/' + id;
-    },
-
     itemType(type) {
       let item;
       switch (type) {
@@ -86,20 +82,31 @@
       return item;
     },
 
-    _getNameForUser(account) {
-      const accountId = account._account_id ? ' (' +
-        account._account_id + ')' : '';
-      return this._getNameForMember(account) + accountId;
+    _isGroupEvent(type) {
+      return GROUP_EVENTS.indexOf(type) !== -1;
     },
 
-    _getNameForMember(account) {
-      if (account && account.name) {
-        return account.name;
-      } else if (account && account.username) {
-        return account.username;
-      } else if (account && account.email) {
-        return account.email.split('@')[0];
+    _computeGroupUrl(group) {
+      if (group && group.url && group.id) {
+        return Gerrit.Nav.getUrlForGroup(group.id);
       }
+
+      return '';
+    },
+
+    _getIdForUser(account) {
+      return account._account_id ? ' (' + account._account_id + ')' : '';
+    },
+
+    _getNameForGroup(group) {
+      if (group && group.name) {
+        return group.name;
+      } else if (group && group.id) {
+        // The URL encoded id of the member
+        return decodeURIComponent(group.id);
+      }
+
+      return '';
     },
   });
 })();

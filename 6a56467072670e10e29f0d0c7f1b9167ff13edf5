@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70918c4f_f2cb8019",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-jank-detector.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-10T22:53:27Z",
+      "side": 1,
+      "message": "This doesn\u0027t detect any framerate problems when I try it. How did you test the detection?",
+      "revId": "6a56467072670e10e29f0d0c7f1b9167ff13edf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74fca0ca_16ec81cb",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-jank-detector.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-10T22:53:27Z",
+      "side": 1,
+      "message": "What does this number represent?",
+      "revId": "6a56467072670e10e29f0d0c7f1b9167ff13edf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28ce993e_a1cf2f92",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-jank-detector.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-10T22:53:27Z",
+      "side": 1,
+      "message": "Please add a comment to explain this math.",
+      "revId": "6a56467072670e10e29f0d0c7f1b9167ff13edf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "19fba5df1a292632cdfc9b9ff761ff1604166f15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79d5ec5d_fc85ef4c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-10T17:57:36Z",
+      "side": 1,
+      "message": "Yep, sure. Thanks, done :)\n\nAlso that\u0027s the one place (it\u0027s log.audit) :)\n\n  {\n    \"member\": {\n      \"url\": \"#/admin/groups/uuid-529b3c2605bb1029c8146f9de4a91c776fe64498\",\n      \"options\": {},\n      \"group_id\": 8,\n      \"owner\": \"test/test\",\n      \"owner_id\": \"529b3c2605bb1029c8146f9de4a91c776fe64498\",\n      \"created_on\": \"2018-03-29 11:56:38.000000000\",\n      \"id\": \"529b3c2605bb1029c8146f9de4a91c776fe64498\",\n      \"name\": \"test/test\"\n    },\n    \"type\": \"ADD_GROUP\",\n    \"user\": {\n      \"_account_id\": 1,\n      \"name\": \"Administrator\",\n      \"email\": \"thomasmulhall410@yahoo.com\",\n      \"username\": \"admin\"\n    },\n    \"date\": \"2018-04-02 20:04:02.000000000\"\n  },\n  {\n    \"member\": {\n      \"id\": \"user%3Aadmin\",\n      \"name\": \"user/Administrator (admin)\"\n    },\n    \"type\": \"ADD_GROUP\",\n    \"user\": {\n      \"_account_id\": 1,\n      \"name\": \"Administrator\",\n      \"email\": \"thomasmulhall410@yahoo.com\",\n      \"username\": \"admin\"\n    },\n    \"date\": \"2018-04-02 19:59:33.000000000\"\n  },\n\nSo here we use either member: {} or user: {}\n\nShould i call this config instead?",
+      "parentUuid": "533f3307_bbd6ec7c",
+      "range": {
+        "startLine": 109,
+        "startChar": 15,
+        "endLine": 109,
+        "endChar": 33
+      },
+      "revId": "19fba5df1a292632cdfc9b9ff761ff1604166f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

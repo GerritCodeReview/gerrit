@@ -75,7 +75,8 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   @Override
   public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo i)
       throws AuthException, BadRequestException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 

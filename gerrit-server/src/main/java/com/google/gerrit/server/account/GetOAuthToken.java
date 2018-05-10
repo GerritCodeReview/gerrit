@@ -50,7 +50,7 @@ class GetOAuthToken implements RestReadView<AccountResource> {
   @Override
   public OAuthTokenInfo apply(AccountResource rsrc)
       throws AuthException, ResourceNotFoundException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().isSameAccountId(rsrc.getUser())) {
       throw new AuthException("not allowed to get access token");
     }
     Account a = rsrc.getUser().getAccount();

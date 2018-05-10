@@ -49,7 +49,8 @@ public class GetEditPreferences implements RestReadView<AccountResource> {
   @Override
   public EditPreferencesInfo apply(AccountResource rsrc)
       throws AuthException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())
+        && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 

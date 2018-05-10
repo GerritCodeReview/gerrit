@@ -158,4 +158,14 @@ public abstract class CurrentUser {
   public ExternalId.Key getLastLoginExternalIdKey() {
     return get(lastLoginExternalIdPropertyKey);
   }
+
+  /**
+   * Checks if the current user has the same account id of another.
+   *
+   * @param other user to compare
+   * @return true if the two users have the same account id
+   */
+  public boolean hasSameAccountId(CurrentUser other) {
+    return getAccountId().get() == other.getAccountId().get();
+  }
 }

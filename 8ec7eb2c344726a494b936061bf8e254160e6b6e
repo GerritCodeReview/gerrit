@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "196df536_f7339364",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-10T23:08:11Z",
+      "side": 1,
+      "message": "I don\u0027t see ES being upgraded in this change.\n\nThat said, I think it would be worth spending some effort to decouple Lucene and ES so that we don\u0027t have this dependency, before attempting to upgrade Lucene.",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "8ec7eb2c344726a494b936061bf8e254160e6b6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30daa14f_df4cd5ed",
         "filename": "java/com/google/gerrit/lucene/LuceneInfoStream.java",
         "patchSetId": 1

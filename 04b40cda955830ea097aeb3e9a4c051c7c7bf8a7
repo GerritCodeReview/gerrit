@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "3faabcd7_d153b533",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-10T18:16:32Z",
+      "side": 1,
+      "message": "Ah i see, yeh i was just going through it and realised with this change we are not using this _getNameForMember if it was a group added (ie through included groups).",
+      "parentUuid": "b0f8db37_d8ed13b7",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "04b40cda955830ea097aeb3e9a4c051c7c7bf8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b1c643f_d1afd38f",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
         "patchSetId": 9

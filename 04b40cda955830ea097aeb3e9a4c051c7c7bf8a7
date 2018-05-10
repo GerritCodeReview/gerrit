@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a9d82819_f49c7b43",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-10T18:12:48Z",
+      "side": 1,
+      "message": "Hmm, we doin\u0027t use GroupInfo in audit.log though\n\nSee https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#get-audit-log\n\nWe use that rest api for this function.",
+      "parentUuid": "32c8fcc1_44bce0a8",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "04b40cda955830ea097aeb3e9a4c051c7c7bf8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b1c643f_d1afd38f",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
         "patchSetId": 9
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-10T18:09:07Z",
       "side": 1,
       "message": "Remove these four lines. There are no username or email properties on GroupInfo.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 107,
+        "endChar": 41
+      },
+      "revId": "04b40cda955830ea097aeb3e9a4c051c7c7bf8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ffc1f10_fc2c554d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-10T18:12:48Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#get-audit-log\n\nwe use that here (which includes username and email in user: {})",
+      "parentUuid": "1b1c643f_d1afd38f",
       "range": {
         "startLine": 104,
         "startChar": 0,

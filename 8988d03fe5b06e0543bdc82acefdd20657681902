@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4b68ecee_3acbb42d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-10T23:22:33Z",
+      "side": 1,
+      "message": "It\u0027s fair to assume there\u0027s some cost, but the design is to keep it minimal.\n\nThis instrumentation cannot be used to detect its own effect, naturally. But I have tested using a stopwatch and the cost is undetectable.\n\nThis result makes sense to me at least, since there are other (honestly much more expensive) bindings in this template. (... and even those expensive bindings are negligible.)",
+      "parentUuid": "20dd926c_c2d58787",
+      "revId": "8988d03fe5b06e0543bdc82acefdd20657681902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20b5fa82_fa0bf302",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 1
@@ -81,6 +99,30 @@
       "revId": "8988d03fe5b06e0543bdc82acefdd20657681902",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b69ee44_0b7f441e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1185,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-10T23:22:33Z",
+      "side": 1,
+      "message": "That makes more sense. Done.",
+      "parentUuid": "3fb95199_5f0ead7c",
+      "range": {
+        "startLine": 1185,
+        "startChar": 8,
+        "endLine": 1185,
+        "endChar": 26
+      },
+      "revId": "8988d03fe5b06e0543bdc82acefdd20657681902",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

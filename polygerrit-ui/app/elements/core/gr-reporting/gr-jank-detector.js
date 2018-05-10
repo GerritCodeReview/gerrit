@@ -17,33 +17,39 @@
 (function() {
   'use strict';
 
-  const GrJankDetector = {
-    jank: false,
-    lastTime: 0,
-    fps: 0,
+  const JANK_SLEEP_TIME_MS = 1000;
 
-    start(onJank) {
-      this.onJank = onJank;
-      window.requestAnimationFrame(this.detect);
+  const GrJankDetector = {
+    jank: 0,
+    fps: 0,
+    _lastFrameTime: 0,
+
+    start() {
+      this._requestAnimationFrame(this._detect.bind(this));
     },
 
-    detect(now) {
-      if (this.lastFrameTime === 0) {
-        this.lastFrameTime = now;
+    _requestAnimationFrame(callback) {
+      window.requestAnimationFrame(callback);
+    },
+
+    _detect(now) {
+      if (this._lastFrameTime === 0) {
+        this._lastFrameTime = now;
         this.fps = 0;
-        window.requestAnimationFrame(this.detect);
+        this._requestAnimationFrame(this._detect.bind(this));
         return;
       }
-      const fpsNow = 1000/(now - this.lastFrameTime);
-      this.lastFrameTime = now;
-      this.fps = this.fps === 0 ? fpsNow : (this.fps * 4 + fpsNow) / 5;
+      const fpsNow = 1000/(now - this._lastFrameTime);
+      this._lastFrameTime = now;
+      this.fps = this.fps === 0 ? fpsNow : ((this.fps * 2 + fpsNow) / 3);
       if (this.fps > 10) {
-        window.requestAnimationFrame(this.detect);
+        this._requestAnimationFrame(this._detect.bind(this));
       } else {
-        this.jank = true;
-        this.lastFrameTime = 0;
+        this.jank++;
+        this._lastFrameTime = 0;
         window.setTimeout(
-            () => window.requestAnimationFrame(this.detect), 1000);
+            () => this._requestAnimationFrame(this._detect.bind(this)),
+            JANK_SLEEP_TIME_MS);
       }
     },
   };

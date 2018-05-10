@@ -283,6 +283,7 @@ limitations under the License.
           as="file"
           initial-count="[[fileListIncrement]]"
           target-framerate="1">
+        [[_reportRenderedRow(index)]]
         <div class="stickyArea">
           <div class$="file-row row [[_computePathClass(file.__path, _expandedFilePaths.*)]]"
               data-path$="[[file.__path]]" tabindex="-1">

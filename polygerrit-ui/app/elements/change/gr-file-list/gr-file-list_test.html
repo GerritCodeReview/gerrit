@@ -127,6 +127,19 @@ limitations under the License.
       assert.isTrue(controlRow.classList.contains('invisible'));
     });
 
+    test('rendering each row calls the _reportRenderedRow method', () => {
+      const renderedStub = sandbox.stub(element, '_reportRenderedRow');
+      element._filesByPath = _.range(10)
+          .reduce((_filesByPath, i) => {
+            _filesByPath['/file' + i] = {lines_inserted: 9};
+            return _filesByPath;
+          }, {});
+      flushAsynchronousOperations();
+      assert.equal(
+          Polymer.dom(element.root).querySelectorAll('.file-row').length, 10);
+      assert.equal(renderedStub.callCount, 10);
+    });
+
     test('calculate totals for patch number', () => {
       element._filesByPath = {
         '/COMMIT_MSG': {

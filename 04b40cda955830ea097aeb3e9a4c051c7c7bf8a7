@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b0f8db37_d8ed13b7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-10T18:14:34Z",
+      "side": 1,
+      "message": "That returns GroupAdutEventInfo (https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-audit-event-info). Here\u0027s the documentation for the member property:\n\n  The group member that is added/removed. If type is ADD_USER or REMOVE_USER the member is returned as detailed AccountInfo \n  entity, if type is ADD_GROUP or REMOVE_GROUP the member is returned as GroupInfo entity. Note that the name in GroupInfo \n  will not be set if the member group is not available.",
+      "parentUuid": "a9d82819_f49c7b43",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 21
+      },
+      "revId": "04b40cda955830ea097aeb3e9a4c051c7c7bf8a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b1c643f_d1afd38f",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
         "patchSetId": 9

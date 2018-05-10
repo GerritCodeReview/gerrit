@@ -279,6 +279,30 @@
     },
     {
       "key": {
+        "uuid": "8b8bb345_8c4c0c52",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-10T06:51:40Z",
+      "side": 1,
+      "message": "In a nutshell, if I do not have a SecureStore, everything is in plaintext. What\u0027s the point of this change then? I thought that was providing a default encryption even without a SecureStore.\n\nAlternatively, let\u0027s just add an abstract method in SecureStore to encrypt and we do not need this change altogether.",
+      "parentUuid": "ee5e4ba6_0e1eb7af",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd950ea7_f5d1dc37",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1

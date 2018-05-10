@@ -46,6 +46,30 @@
       "revId": "19fba5df1a292632cdfc9b9ff761ff1604166f15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "533f3307_bbd6ec7c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-audit-log/gr-group-audit-log.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-10T17:48:44Z",
+      "side": 1,
+      "message": "I see. The account parameter is not an AccountInfo, it\u0027s a GroupInfo (https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info).\n\nWould you mind cleaning up this method to rename account to group, and add a comment on this line reminding the reader that the id property is \"The URL encoded UUID of the group\"?\n\nAlso, I see nothing in the code or the documentation that suggests that there would ever be an email property present. Am I missing something?",
+      "parentUuid": "8637660b_480e0c22",
+      "range": {
+        "startLine": 109,
+        "startChar": 15,
+        "endLine": 109,
+        "endChar": 33
+      },
+      "revId": "19fba5df1a292632cdfc9b9ff761ff1604166f15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

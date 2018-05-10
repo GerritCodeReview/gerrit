@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40a9ea8f_598e1a6c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-10T07:42:09Z",
+      "side": 1,
+      "message": "add \"in the GWT UI\" here instead of at the end of the next sentence?",
+      "range": {
+        "startLine": 1143,
+        "startChar": 32,
+        "endLine": 1143,
+        "endChar": 33
+      },
+      "revId": "7ee4964966edb8a7e5eda454aaf4b02d0e1bc460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

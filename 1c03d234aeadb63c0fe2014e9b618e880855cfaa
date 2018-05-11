@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "2b768c89_dfc9d345",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T18:47:35Z",
+      "side": 1,
+      "message": "Actually, I had to revert it back to 128 size because if I use 256, I hit the key size limit in my JRE and need to install the \"JCE Unlimited Strength Jurisdiction Policy Files\" to be able to run AES with 256 size key. I think it will be better to keep it at 128, and given these options are configurable, if one needs bigger key size, can do it with all the other requirements from JRE perspective.\n\nLink showing the default limits on Key sizes:\n\nhttps://docs.oracle.com/javase/7/docs/technotes/guides/security/SunProviders.html#importlimits",
+      "parentUuid": "8798c113_af11066e",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cee67bff_f7a08668",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

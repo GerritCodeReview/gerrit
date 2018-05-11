@@ -138,6 +138,14 @@ public class AgreementsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void signAgreementAnonymous() throws Exception {
+    setApiUserAnonymous();
+    exception.expect(AuthException.class);
+    exception.expectMessage("Authentication required");
+    gApi.accounts().self().signAgreement(caAutoVerify.getName());
+  }
+
+  @Test
   public void agreementsDisabledSign() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isFalse();
     exception.expect(MethodNotAllowedException.class);

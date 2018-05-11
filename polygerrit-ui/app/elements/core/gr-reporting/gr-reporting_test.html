@@ -166,6 +166,19 @@ limitations under the License.
       ));
     });
 
+    test('timeEndWithAverage', () => {
+      const nowStub = sandbox.stub(element, 'now').returns(0);
+      nowStub.returns(1000);
+      element.time('foo');
+      nowStub.returns(1100);
+      element.timeEndWithAverage('foo', 'bar', 10);
+      assert.isTrue(element.reporter.calledTwice);
+      assert.isTrue(element.reporter.calledWithExactly(
+          'timing-report', 'UI Latency', 'foo', 100));
+      assert.isTrue(element.reporter.calledWithExactly(
+          'timing-report', 'UI Latency', 'bar', 10));
+    });
+
     test('reportExtension', () => {
       element.reportExtension('foo');
       assert.isTrue(element.reporter.calledWithExactly(

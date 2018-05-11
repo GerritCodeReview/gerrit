@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "e517af59_84875a75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-05-11T13:56:58Z",
+      "side": 1,
+      "message": "NSA recommends minimum key length 256 for symmetric encryption, see https://www.keylength.com/en/compare/",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cee67bff_f7a08668",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -139,6 +162,24 @@
       "writtenOn": "2018-05-11T08:40:45Z",
       "side": 1,
       "message": "Do this once, from an init step?",
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da96ad98_aa9d56fb",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-05-11T13:56:58Z",
+      "side": 1,
+      "message": "Would it make sense to allow defining more than one encryption key identified by a name ?\n\nDo we want to support re-encrypting with a new key ?",
+      "parentUuid": "dcf1ce35_9f9d014d",
       "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

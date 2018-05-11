@@ -351,6 +351,30 @@
     },
     {
       "key": {
+        "uuid": "e899d048_cdc76daa",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T11:16:41Z",
+      "side": 1,
+      "message": "\u003e \u003e The idea behind using a secret key was that you need something more than just the source\n\u003e \u003e code in order to decrypt encrypted secrets. How would a default encryption without a\n\u003e \u003e secret key achieve that?\n\u003e \n\u003e The JKS is the place designed to manage, secure and retrieve secure encryption keys.\n\u003e The default one is a simple file, protected inside the JDK. There are lots of more secure implementations that goes from smart-cards to HSMs.\n\nWhat I do not get is why is usage of secure.config now suddenly a problem for this one\nspecific use-case and is not a problem for everything else we store in the secure.config\nlike:\n\n* key store password: httpd.sslKeyPassword\n* database password: data.password\n* email registration private key: auth.registerEmailPrivateKey\n* ldap.password\n\nI accept that secure.config is not the best secure store, but why are we discussing\nthat in the context of this change which neither introduces secure.config not it changes\nanything about its usage and its security?",
+      "parentUuid": "b2148fdc_8a48aac9",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd950ea7_f5d1dc37",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1

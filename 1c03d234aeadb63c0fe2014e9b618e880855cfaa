@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "de8054db_1e12dd56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-11T23:33:08Z",
+      "side": 1,
+      "message": "Key length and algo should not be hardcoded but cinfigurable, will secure defaults, as Matthias suggested, at least 256 bit AES key length.",
+      "parentUuid": "77901326_8fdb893e",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cee67bff_f7a08668",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -79,7 +79,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throws AuthException, BadRequestException, ResourceConflictException,
           ResourceNotFoundException, OrmException, EmailException, MethodNotAllowedException,
           IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
+    if (!self.get().equals(rsrc.getUser()) && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to add email address");
     }
 

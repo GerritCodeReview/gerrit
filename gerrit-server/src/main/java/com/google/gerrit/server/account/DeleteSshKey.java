@@ -50,7 +50,8 @@ public class DeleteSshKey implements RestModifyView<AccountResource.SshKey, Inpu
   public Response<?> apply(AccountResource.SshKey rsrc, Input input)
       throws AuthException, OrmException, RepositoryNotFoundException, IOException,
           ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+    if (!self.get().equals(rsrc.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to delete SSH keys");
     }
 

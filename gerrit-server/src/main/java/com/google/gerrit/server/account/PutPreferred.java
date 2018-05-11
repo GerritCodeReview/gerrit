@@ -50,7 +50,7 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
   @Override
   public Response<String> apply(AccountResource.Email rsrc, Input input)
       throws AuthException, ResourceNotFoundException, OrmException, IOException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
+    if (!self.get().equals(rsrc.getUser()) && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to set preferred email address");
     }
     return apply(rsrc.getUser(), rsrc.getEmail());

@@ -59,7 +59,7 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
   public EditPreferencesInfo apply(AccountResource rsrc, EditPreferencesInfo in)
       throws AuthException, BadRequestException, RepositoryNotFoundException, IOException,
           ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
+    if (!self.get().equals(rsrc.getUser()) && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("requires Modify Account capability");
     }
 

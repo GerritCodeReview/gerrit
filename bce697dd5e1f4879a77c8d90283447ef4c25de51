@@ -375,6 +375,30 @@
     },
     {
       "key": {
+        "uuid": "1dc6e83d_2d07ad8b",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T11:21:39Z",
+      "side": 1,
+      "message": "Btw, this change already uses the SecureStore interface to access the secrets, right?\nTherefore, if you use a custom secure store (instead of the default secure.config)\nit will pick the encryption secret key from your custom key store already. This change\ndoesn\u0027t force anyone to use secure.config for storing the encryption key.",
+      "parentUuid": "e899d048_cdc76daa",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd950ea7_f5d1dc37",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1

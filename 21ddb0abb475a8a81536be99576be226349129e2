@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b1a1082_e94e8b79",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-11T22:38:38Z",
+      "side": 1,
+      "message": "What kind of naming scheme can we give this pattern to make it stand out more clearly?",
+      "range": {
+        "startLine": 286,
+        "startChar": 10,
+        "endLine": 286,
+        "endChar": 23
+      },
+      "revId": "21ddb0abb475a8a81536be99576be226349129e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20f63db2_71d618e3",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-05-11T22:38:38Z",
+      "side": 1,
+      "message": "How much work in the reporting system would it take to support reporting an average timing value? Could be an optional argument to timeEnd (defaulting to 1), and would be good to associate the scaling factor with the reported event.",
+      "revId": "21ddb0abb475a8a81536be99576be226349129e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

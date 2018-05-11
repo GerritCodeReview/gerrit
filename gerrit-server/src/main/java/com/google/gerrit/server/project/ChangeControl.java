@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -158,7 +159,8 @@ public class ChangeControl {
   }
 
   public ChangeControl forUser(final CurrentUser who) {
-    if (getUser().equals(who)) {
+    CurrentUser user = getUser();
+    if ((user instanceof IdentifiedUser) && user.equals(who)) {
       return this;
     }
     return new ChangeControl(

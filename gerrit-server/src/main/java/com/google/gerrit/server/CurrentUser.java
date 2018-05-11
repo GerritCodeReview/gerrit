@@ -158,4 +158,14 @@ public abstract class CurrentUser {
   public ExternalId.Key getLastLoginExternalIdKey() {
     return get(lastLoginExternalIdPropertyKey);
   }
+
+  @Override
+  public boolean equals(Object other) {
+    throw new UnsupportedOperationException("Cannot compare CurrentUser instances");
+  }
+
+  @Override
+  public int hashCode() {
+    return 0;
+  }
 }

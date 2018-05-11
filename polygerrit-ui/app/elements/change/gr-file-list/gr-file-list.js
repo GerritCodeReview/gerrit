@@ -27,6 +27,7 @@
   const SIZE_BAR_MIN_WIDTH = 1.5;
 
   const RENDER_TIME = 'FileListRenderTime';
+  const RENDER_TIME_AVERAGE = 'FileListRenderTimePerFile';
 
   const FileStatus = {
     A: 'Added',
@@ -148,6 +149,12 @@
         type: Array,
         computed: '_computeFilesShown(numFilesShown, _files.*)',
       },
+
+      /**
+       * The amount of files added to the shown files list the last time it was
+       * updated. This is used for reporting the average render time.
+       */
+      _reportinShownFilesIncrement: Number,
 
       _expandedFilePaths: {
         type: Array,
@@ -798,9 +805,17 @@
     },
 
     _computeFilesShown(numFilesShown, files) {
+      const previousNumFilesShown = this._shownFiles ?
+          this._shownFiles.length : 0;
+
       const filesShown = files.base.slice(0, numFilesShown);
       this.fire('files-shown-changed', {length: filesShown.length});
       this.$.reporting.time(RENDER_TIME);
+
+      // How many more files are being shown (if it's an increase).
+      this._reportinShownFilesIncrement =
+          Math.max(0, filesShown.length - previousNumFilesShown);
+
       return filesShown;
     },
 
@@ -1190,7 +1205,8 @@
     _reportRenderedRow(index) {
       if (index === this._shownFiles.length - 1) {
         this.async(() => {
-          this.$.reporting.timeEnd(RENDER_TIME);
+          this.$.reporting.timeEndWithAverage(RENDER_TIME, RENDER_TIME_AVERAGE,
+              this._reportinShownFilesIncrement);
         }, 1);
       }
       return '';

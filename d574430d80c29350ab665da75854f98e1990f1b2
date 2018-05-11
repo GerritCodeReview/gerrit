@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49ba33a0_810aaf53",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "range": {
+        "startLine": 5,
+        "startChar": 55,
+        "endLine": 5,
+        "endChar": 56
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f428b3f_5a2f30f8",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "I wonder if this is obsolete these days.  Isn\u0027t review metadata stored in git (Documentation/note-db.txt)?",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 55
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a8ae908_2c25904c",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "Should this mention \"git checkout --recurse-submodules\"?\n\nPerhaps it can say: \"When using `git checkout` without `--recurse-submodules` to switch branches,\"",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b2d4485_8f4c03e7",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "nit: I think this would be clearer without \"the\".",
+      "range": {
+        "startLine": 28,
+        "startChar": 111,
+        "endLine": 28,
+        "endChar": 114
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "581e0a74_940d5c2d",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "ensure?",
+      "range": {
+        "startLine": 33,
+        "startChar": 27,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d2459aa_0bf7c205",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "which files?",
+      "range": {
+        "startLine": 36,
+        "startChar": 64,
+        "endLine": 36,
+        "endChar": 73
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb387d5c_504c5b9a",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "I think Apple just calls this \"MacOS\" these days (with no X).",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25fe31a3_680b32e3",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "I suspect this was spelled as \"Mac OS X\" in that particular update.",
+      "range": {
+        "startLine": 56,
+        "startChar": 34,
+        "endLine": 56,
+        "endChar": 39
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6c84cc7_d8a418c6",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence. The old text was saying that you should launch Gerrit using the same version of Java that you used to build Gerrit.",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 73
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dc98ee5_a77745d5",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "The defaults are the old values. The updates make them non-default. How about just \"update two settings\" or \"change two settings from their defaults\"?",
+      "range": {
+        "startLine": 80,
+        "startChar": 23,
+        "endLine": 80,
+        "endChar": 50
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f96968e_dd7ebd8b",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "(preexisting problem with the text) Connections don\u0027t contact a host; clients do.\n\nMaybe: \"To prevent external clients from contacting the development instance\"? Or something like \"To ensure the development instance is not externally accessible\".",
+      "range": {
+        "startLine": 82,
+        "startChar": 3,
+        "endLine": 82,
+        "endChar": 74
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52e14a39_141c2132",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "another preexisting problem: this phrase\u0027s construction is convoluted. I don\u0027t have a good replacement in mind, though.",
+      "range": {
+        "startLine": 83,
+        "startChar": 3,
+        "endLine": 83,
+        "endChar": 94
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28570707_f1b430dc",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "can simplify --- e.g. something like\n\n After initializing the test site, Gerrit starts serving in the background. A web\n browser will launch showing the Start page.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 43
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82af9727_665025dc",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-11T21:56:10Z",
+      "side": 1,
+      "message": "This list makes it appear that these are two separate steps, but the second step is describing how to accomplish the first.",
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

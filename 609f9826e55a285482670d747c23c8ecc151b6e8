@@ -46,6 +46,30 @@
       "revId": "609f9826e55a285482670d747c23c8ecc151b6e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c6f5b60_288c06ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-11T09:20:16Z",
+      "side": 1,
+      "message": "Thanks for the example and your explanation.\n\nI understand your experience as I once had a similar one. (Someone had specified a static member class to be final and for some reason the JVM we were using never cleaned up references for that class.)\n\nNevertheless, it\u0027s difficult to make general statements as there are so many other aspects involved (e.g. JVM implementation/version, optimizations in specific situations, JIT being cold/warm, GC algorithm and implementation, ...). I agree, though, that lambdas (as well as method references to a particular object ;-) ) should be used with care but the same has been true for anonymous or non-static member classes. All of them have the potential to introduce memory leaks.\n\nI think for all of this we should keep in mind what Joshua Bloch wrote in the last paragraphs of item 6 \"Avoid creating unnecessary objects\" of Effective Java 3rd edition. According to my understanding, he tries to tell us that object creation in general shouldn\u0027t be frowned upon and often increases security/readability but that we have to watch out for cases when it is exceptionally harmful for performance (e.g. doing a lot of autoboxing whereas the occasional autoboxing is fine).",
+      "parentUuid": "2d1ef508_deec8409",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "609f9826e55a285482670d747c23c8ecc151b6e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

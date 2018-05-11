@@ -191,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "77901326_8fdb893e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T20:37:41Z",
+      "side": 1,
+      "message": "Oh alright. Although, we are using Java 8 and I tried it on my local and got the error about \"illegal key length\". I will try and tweak other parameters may the transformation is not compatible with 256 key size. Thanks for the info :)",
+      "parentUuid": "8eeb6930_b36a4842",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cee67bff_f7a08668",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

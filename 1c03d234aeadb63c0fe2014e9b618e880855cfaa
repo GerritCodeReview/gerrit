@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "8eeb6930_b36a4842",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-05-11T20:32:08Z",
+      "side": 1,
+      "message": "according to [1] the unlimited policy is switched on by default since Java 7u171, Java 8u162 and Java 9 or higher\n\n[1] https://bugs.openjdk.java.net/browse/JDK-8170157",
+      "parentUuid": "2b768c89_dfc9d345",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cee67bff_f7a08668",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

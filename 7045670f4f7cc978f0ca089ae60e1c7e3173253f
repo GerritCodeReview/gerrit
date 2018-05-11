@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b85b6cc_88b7b086",
+        "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-11T06:38:24Z",
+      "side": 1,
+      "message": "Why is this necessary?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "7045670f4f7cc978f0ca089ae60e1c7e3173253f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "4262125e193170b010c25ad7b087bf526c53f714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c353448_a3614763",
+        "filename": "java/com/google/gerrit/server/cache/testing/CacheSerializerTestUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-11T08:29:16Z",
+      "side": 1,
+      "message": "The SerializedClassSubject is a very nice solution. Thanks for investing the time.",
+      "parentUuid": "5eb31a4a_7042444b",
+      "range": {
+        "startLine": 30,
+        "startChar": 12,
+        "endLine": 32,
+        "endChar": 79
+      },
+      "revId": "4262125e193170b010c25ad7b087bf526c53f714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

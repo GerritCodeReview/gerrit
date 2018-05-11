@@ -59,7 +59,8 @@ public class PutUsername implements RestModifyView<AccountResource, Input> {
   public String apply(AccountResource rsrc, Input input)
       throws AuthException, MethodNotAllowedException, UnprocessableEntityException,
           ResourceConflictException, OrmException, IOException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canAdministrateServer()) {
+    if (!self.get().equals(rsrc.getUser())
+        && !self.get().getCapabilities().canAdministrateServer()) {
       throw new AuthException("not allowed to set username");
     }
 

@@ -61,7 +61,7 @@ public class PutName implements RestModifyView<AccountResource, Input> {
   public Response<String> apply(AccountResource rsrc, Input input)
       throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
           IOException {
-    if (self.get() != rsrc.getUser() && !self.get().getCapabilities().canModifyAccount()) {
+    if (!self.get().equals(rsrc.getUser()) && !self.get().getCapabilities().canModifyAccount()) {
       throw new AuthException("not allowed to change name");
     }
     return apply(rsrc.getUser(), input);

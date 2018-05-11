@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "780cc2ee_3a167baa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T08:40:45Z",
+      "side": 1,
+      "message": "secrets\n\nThis is not limited to passwords only. It would also be used to encrypt other\nsecrets like oauth tokens, etc..",
+      "range": {
+        "startLine": 7,
+        "startChar": 57,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbebf909_058725a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T08:40:45Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this be a candidate for an init step?",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cee67bff_f7a08668",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T08:40:45Z",
+      "side": 1,
+      "message": "If this is an example of a complete [encryption] section, then it should also contain\na \"key\", like in the line 16.",
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28fcb9e5_a77a5c67",
+        "filename": "java/com/google/gerrit/server/api/config/EncryptionConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T08:40:45Z",
+      "side": 1,
+      "message": "Missing license header",
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d232b3f_d0716d7c",
+        "filename": "java/com/google/gerrit/server/api/config/EncryptionConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T08:40:45Z",
+      "side": 1,
+      "message": "This pattern is occurring several times in this file. Why not use the Config.getInt\nand provide defaultValue to it:\n\n  gerritConfig.getInt(SECTION, null, \"keyLength\", KEY_LENGTH;",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a50c7b1_b99c25ae",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T08:40:45Z",
+      "side": 1,
+      "message": "As said, there is nothing in this change that restricts it to password encryption.\nThis class will encrypt any string provided to it, therefore I propose to name it:\n\n  StringEncryption",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcf1ce35_9f9d014d",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-11T08:40:45Z",
+      "side": 1,
+      "message": "Do this once, from an init step?",
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "6aec1c05_a40af5b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T23:54:42Z",
+      "side": 1,
+      "message": "All these parameters are configurable if you see the latest patch set.",
+      "parentUuid": "de8054db_1e12dd56",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cee67bff_f7a08668",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

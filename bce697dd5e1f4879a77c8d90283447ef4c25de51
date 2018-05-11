@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9aa8482e_68f72a3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8051ebe_ce943e10",
+      "range": {
+        "startLine": 18,
+        "startChar": 34,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1233a9e2_b77fc891",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dedd432_943edce8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1233a9e2_b77fc891",
+      "range": {
+        "startLine": 19,
+        "startChar": 4,
+        "endLine": 19,
+        "endChar": 40
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fe1ac6a7_f26a4636",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3edfaa1b_6ed8c7a0",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 11
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14067916_658e85fc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "863bceba_f49307d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14067916_658e85fc",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 21,
+        "endChar": 58
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "54afeac8_f27da456",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "898551f9_b7d053d1",
+      "range": {
+        "startLine": 22,
+        "startChar": 9,
+        "endLine": 22,
+        "endChar": 19
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1513849_f896e48b",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1
@@ -137,6 +257,30 @@
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77aded8c_d1e18713",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1513849_f896e48b",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "4d1537bb_8381e734",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "868c8964_fcbea063",
+      "range": {
+        "startLine": 41,
+        "startChar": 10,
+        "endLine": 41,
+        "endChar": 22
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fecde208_fa50c8a5",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1
@@ -183,6 +351,30 @@
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42070653_5d068200",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fecde208_fa50c8a5",
+      "range": {
+        "startLine": 42,
+        "startChar": 10,
+        "endLine": 42,
+        "endChar": 22
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -229,6 +421,54 @@
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ac2b20_6e4503d8",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a000e12_faac94f0",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 22
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3735b95f_32cbd61c",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f5e273e_0f23c6f5",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 70
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -399,6 +639,30 @@
     },
     {
       "key": {
+        "uuid": "b97b176c_cef5e78e",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "The SecretKey is encoded when stored in the file, it does not depend on the SecureStore implementation.",
+      "parentUuid": "8b8bb345_8c4c0c52",
+      "range": {
+        "startLine": 45,
+        "startChar": 23,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd950ea7_f5d1dc37",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1
@@ -419,6 +683,30 @@
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "607155e8_8242258e",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd950ea7_f5d1dc37",
+      "range": {
+        "startLine": 46,
+        "startChar": 30,
+        "endLine": 46,
+        "endChar": 39
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -468,6 +756,54 @@
     },
     {
       "key": {
+        "uuid": "074f5833_f0788939",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a0aa7b_f8de39e7",
+      "range": {
+        "startLine": 60,
+        "startChar": 65,
+        "endLine": 60,
+        "endChar": 90
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc90a89d_ab2fc8f8",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "614fd743_0978b827",
+      "range": {
+        "startLine": 60,
+        "startChar": 54,
+        "endLine": 60,
+        "endChar": 63
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b8dac52_53005d85",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1
@@ -488,6 +824,30 @@
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5720f35f_591cfdc9",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b8dac52_53005d85",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 55
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -514,6 +874,30 @@
     },
     {
       "key": {
+        "uuid": "3ea7a7c7_6a2b0ec2",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c624818c_ceb8922e",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 28
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "450461f4_caaa7314",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1
@@ -537,6 +921,30 @@
     },
     {
       "key": {
+        "uuid": "1bae565e_570dfa3d",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "450461f4_caaa7314",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 26
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4272e7f_c771e853",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 1
@@ -557,6 +965,30 @@
       "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4313eb9_b5f25958",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4272e7f_c771e853",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 93,
+        "endChar": 28
+      },
+      "revId": "bce697dd5e1f4879a77c8d90283447ef4c25de51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

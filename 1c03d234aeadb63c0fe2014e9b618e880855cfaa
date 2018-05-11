@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "664bdccf_ab4c2acc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "780cc2ee_3a167baa",
+      "range": {
+        "startLine": 7,
+        "startChar": 57,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbebf909_058725a5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-11T08:40:45Z",
       "side": 1,
       "message": "Wouldn\u0027t this be a candidate for an init step?",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a49b91_86183aa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "There is one concern with moving it to init step. It will work for users migrating from one release version to another but not for the users working from master to master. Should i move it to another class altogether and still create in at runtime to meet all the use-case\u0027s requirements?",
+      "parentUuid": "fbebf909_058725a5",
       "range": {
         "startLine": 20,
         "startChar": 32,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8798c113_af11066e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e517af59_84875a75",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cee67bff_f7a08668",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -82,6 +154,24 @@
       "writtenOn": "2018-05-11T08:40:45Z",
       "side": 1,
       "message": "If this is an example of a complete [encryption] section, then it should also contain\na \"key\", like in the line 16.",
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "343efaca_79d636cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "The key will be the result of using all these configurable parameters and will be stored in secure.config.So, the parameters needed to generate the key are available for custom configuration in gerrit.config but not the key.",
+      "parentUuid": "cee67bff_f7a08668",
       "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -151,6 +241,30 @@
     },
     {
       "key": {
+        "uuid": "c3adc94b_98c9fe7a",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "Done, I changed it to StringEncryptor, please let me know if you have any preference for StringEncryption.",
+      "parentUuid": "6a50c7b1_b99c25ae",
+      "range": {
+        "startLine": 41,
+        "startChar": 13,
+        "endLine": 41,
+        "endChar": 21
+      },
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcf1ce35_9f9d014d",
         "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
         "patchSetId": 2
@@ -180,6 +294,24 @@
       "side": 1,
       "message": "Would it make sense to allow defining more than one encryption key identified by a name ?\n\nDo we want to support re-encrypting with a new key ?",
       "parentUuid": "dcf1ce35_9f9d014d",
+      "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08ad46c2_c025f900",
+        "filename": "java/com/google/gerrit/server/api/config/PasswordEncryption.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-11T15:17:11Z",
+      "side": 1,
+      "message": "@Sasa, please see my comment above in the commit message reply.\n\n@Matthias - currently, I do not think there is a need for this feature. May be, we can add it in future :)",
+      "parentUuid": "da96ad98_aa9d56fb",
       "revId": "1c03d234aeadb63c0fe2014e9b618e880855cfaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

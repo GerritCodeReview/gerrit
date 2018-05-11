@@ -45,6 +45,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -413,6 +414,17 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public String toString() {
     return "IdentifiedUser[account " + getAccountId() + "]";
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    return (other instanceof IdentifiedUser)
+        && Objects.equals(getAccountId(), ((IdentifiedUser) other).getAccountId());
+  }
+
+  @Override
+  public int hashCode() {
+    return getAccountId().hashCode();
   }
 
   /** Check if user is the IdentifiedUser */

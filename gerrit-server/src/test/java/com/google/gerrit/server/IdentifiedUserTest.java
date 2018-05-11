@@ -50,6 +50,7 @@ public class IdentifiedUserTest {
   @ConfigSuite.Parameter public Config config;
 
   private IdentifiedUser identifiedUser;
+  private Account.Id ownerId;
 
   @Inject private IdentifiedUser.GenericFactory identifiedUserFactory;
 
@@ -103,8 +104,8 @@ public class IdentifiedUserTest {
     injector.injectMembers(this);
 
     Account account = new Account(new Account.Id(1), TimeUtil.nowTs());
-    Account.Id ownerId = account.getId();
 
+    ownerId = account.getId();
     identifiedUser = identifiedUserFactory.create(ownerId);
 
     /* Trigger identifiedUser to load the email addresses from mockRealm */
@@ -126,5 +127,17 @@ public class IdentifiedUserTest {
     assertThat(identifiedUser.hasEmailAddress("non-exist@email.com")).isFalse();
     /* assert again to test cached email address by IdentifiedUser.invalidEmails */
     assertThat(identifiedUser.hasEmailAddress("non-exist@email.com")).isFalse();
+  }
+
+  @Test
+  public void comparison() {
+    IdentifiedUser sameUser = identifiedUserFactory.create(ownerId);
+    assertThat(identifiedUser).isEqualTo(sameUser);
+    assertThat(identifiedUser == sameUser).isFalse();
+
+    Account otherAccount = new Account(new Account.Id(2), TimeUtil.nowTs());
+    IdentifiedUser otherUser = identifiedUserFactory.create(otherAccount.getId());
+    assertThat(identifiedUser).isNotEqualTo(otherUser);
+    assertThat(identifiedUser == otherUser).isFalse();
   }
 }

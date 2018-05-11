@@ -33,6 +33,29 @@
       "revId": "c8d64ec4987fe07aee9d8c8d5fbdbefe681c7904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef2a6615_6c215f83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-11T01:33:54Z",
+      "side": 1,
+      "message": "Note that calling getAccountId on an instance of CurrentUser will result in UnsupportedOperationException (see L114).",
+      "range": {
+        "startLine": 151,
+        "startChar": 11,
+        "endLine": 151,
+        "endChar": 23
+      },
+      "revId": "c8d64ec4987fe07aee9d8c8d5fbdbefe681c7904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

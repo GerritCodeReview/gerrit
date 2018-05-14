@@ -21,6 +21,13 @@ java_library(
 )
 
 java_library(
+    name = "solr",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@solr//jar"],
+)
+
+java_library(
     name = "lucene-core",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@lucene-core//jar"],

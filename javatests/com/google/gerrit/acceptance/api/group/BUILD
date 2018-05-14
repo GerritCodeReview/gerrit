@@ -21,6 +21,6 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//lib:gwtorm",
-        "//lib:truth",
+        "//lib/truth",
     ],
 )

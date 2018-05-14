@@ -13,11 +13,11 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:junit",
-        "//lib:truth",
         "//lib/easymock",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/truth",
     ],
 )
 

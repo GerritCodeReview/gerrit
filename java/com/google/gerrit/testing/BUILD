@@ -31,7 +31,6 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//lib:gwtorm",
         "//lib:h2",
-        "//lib:truth",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/guice",
@@ -39,5 +38,6 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/log:api",
+        "//lib/truth",
     ],
 )

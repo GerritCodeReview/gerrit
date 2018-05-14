@@ -39,6 +39,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
       CacheModule module, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     super(module, name, keyType, valType);
     version = -1;
+    diskLimit = 128 << 20;
   }
 
   @Inject(optional = true)
@@ -93,10 +94,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
 
   @Override
   public long diskLimit() {
-    if (diskLimit > 0) {
-      return diskLimit;
-    }
-    return 128 << 20;
+    return diskLimit;
   }
 
   @Override

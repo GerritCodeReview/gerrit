@@ -437,72 +437,79 @@ maven_jar(
 )
 
 # When upgrading Lucene, make sure it's compatible with Elasticsearch
-LUCENE_VERS = "6.6.3"
+LUCENE_VERS = "7.3.0"
+
+# Needed for LegacyInt and LegacyLong field support for another major release
+maven_jar(
+    name = "solr",
+    artifact = "org.apache.solr:solr-core:" + LUCENE_VERS,
+    sha1 = "b1f0bbef2e7ab230d169c5197c44c5cb42e7d6de",
+)
 
 maven_jar(
     name = "lucene_core",
     artifact = "org.apache.lucene:lucene-core:" + LUCENE_VERS,
-    sha1 = "8f38f8a8cc6ebd3338f361d91a0d853569427278",
+    sha1 = "040e2de30c5e6bad868b144e371730200719ceb3",
 )
 
 maven_jar(
     name = "lucene_analyzers_common",
     artifact = "org.apache.lucene:lucene-analyzers-common:" + LUCENE_VERS,
-    sha1 = "5416aefb968d763dfa750375eb2e418ceeaeffa3",
+    sha1 = "4325a5cdf8d3fa23f326cd86a2297fee2bc844f5",
 )
 
 maven_jar(
     name = "backward_codecs",
     artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
-    sha1 = "a80563df6fbba89c0e84754d38ba50094ea2a95d",
+    sha1 = "3b618a21a924cb35ac1f27d3ca47d9ed04f43588",
 )
 
 maven_jar(
     name = "lucene_misc",
     artifact = "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
-    sha1 = "45d3bc3a811ef5b66cc90f6f70ec996105c781ac",
+    sha1 = "b6a2418a94b84c29c4b9fcfe4381f2cc1aa4c214",
 )
 
 maven_jar(
     name = "lucene_queryparser",
     artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
-    sha1 = "8dde5f08816e0089fa73169fd198bc1fb940d703",
+    sha1 = "95b2563e5337377dde2eb987b3fce144be5e7a77",
 )
 
 maven_jar(
     name = "lucene_highlighter",
     artifact = "org.apache.lucene:lucene-highlighter:" + LUCENE_VERS,
-    sha1 = "17119bdaf8dd9ea5c0620ff3d51ea413ba7cae6c",
+    sha1 = "1f92c7d3d9bc2765fe6195bcc4fcb160d11175cc",
 )
 
 maven_jar(
     name = "lucene_join",
     artifact = "org.apache.lucene:lucene-join:" + LUCENE_VERS,
-    sha1 = "8419e4a5a4a8383640161c555f50df21ad366ce8",
+    sha1 = "da4af75a7e4fe7843fbfa4b58e6a238b6b706d64",
 )
 
 maven_jar(
     name = "lucene_memory",
     artifact = "org.apache.lucene:lucene-memory:" + LUCENE_VERS,
-    sha1 = "6a5503ab90cde6b4bf5927a5ac60268ff8a49d7c",
+    sha1 = "fc45b02a5086ec454e6d6ae81fc2cbe7be1c0902",
 )
 
 maven_jar(
     name = "lucene_spatial",
     artifact = "org.apache.lucene:lucene-spatial:" + LUCENE_VERS,
-    sha1 = "73028880c6f5b6d98cb44dffb6f36837dc9b03eb",
+    sha1 = "93512c2160bdc3e602141329e5945a91918b6752",
 )
 
 maven_jar(
     name = "lucene_suggest",
     artifact = "org.apache.lucene:lucene-suggest:" + LUCENE_VERS,
-    sha1 = "14ac0eb75d8e93c8147e8f17d0f2e18b75ce9f60",
+    sha1 = "6034ccf6b27c659ab7a2678680bae8390fbfc40a",
 )
 
 maven_jar(
     name = "lucene_queries",
     artifact = "org.apache.lucene:lucene-queries:" + LUCENE_VERS,
-    sha1 = "4e7939d8f6360e144993e6cc0fa62376bd89990e",
+    sha1 = "6292a5579a6ab3423ceca60d2ea41cd86481e7c0",
 )
 
 maven_jar(

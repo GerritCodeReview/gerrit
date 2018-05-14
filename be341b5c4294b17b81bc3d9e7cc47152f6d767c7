@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26edaa40_3538cf9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-14T17:38:13Z",
+      "side": 0,
+      "message": "Is this the vestigial code? As far as I see, it\u0027s unused.",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 7
+      },
+      "revId": "be341b5c4294b17b81bc3d9e7cc47152f6d767c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

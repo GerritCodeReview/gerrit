@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.gerrit.extensions.annotations.Export;
 import com.google.inject.Binder;
 import com.google.inject.Key;
 import com.google.inject.Provider;
@@ -40,7 +41,7 @@ import java.util.concurrent.ConcurrentMap;
  * resolve the provider to an instance on demand. This enables registrations to decide between
  * singleton and non-singleton members.
  */
-public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
+public class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
   /**
    * Declare a singleton {@code DynamicMap<T>} with a binder.
    *
@@ -153,9 +154,9 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
       }
 
       @Override
-      public DynamicMap.Entry<T> next() {
+      public Entry<T> next() {
         final Map.Entry<DynamicMap.NamePair, Provider<T>> e = i.next();
-        return new DynamicMap.Entry<T>() {
+        return new Entry<T>() {
           @Override
           public String getPluginName() {
             return e.getKey().pluginName;
@@ -209,6 +210,73 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
         return pluginName.equals(np.pluginName) && exportName.equals(np.exportName);
       }
       return false;
+    }
+  }
+
+  /**
+   * Store one new element into the map.
+   *
+   * @param pluginName unique name of the plugin providing the export.
+   * @param exportName name the plugin has exported the item as.
+   * @param item the item to add to the collection. Must not be null.
+   * @return handle to remove the item at a later point in time.
+   */
+  protected RegistrationHandle put(String pluginName, String exportName, Provider<T> item) {
+    DynamicMap.NamePair key = new DynamicMap.NamePair(pluginName, exportName);
+    items.put(key, item);
+    return new RegistrationHandle() {
+      @Override
+      public void remove() {
+        items.remove(key, item);
+      }
+    };
+  }
+
+  /**
+   * Store one new element that may be hot-replaceable in the future.
+   *
+   * @param pluginName unique name of the plugin providing the export.
+   * @param key unique description from the item's Guice binding. This can be later obtained from
+   *     the registration handle to facilitate matching with the new equivalent instance during a
+   *     hot reload. The key must use an {@link Export} annotation.
+   * @param item the item to add to the collection right now. Must not be null.
+   * @return a handle that can remove this item later, or hot-swap the item without it ever leaving
+   *     the collection.
+   */
+  public ReloadableRegistrationHandle<T> put(String pluginName, Key<T> key, Provider<T> item) {
+    String exportName = ((Export) key.getAnnotation()).value();
+    DynamicMap.NamePair np = new DynamicMap.NamePair(pluginName, exportName);
+    items.put(np, item);
+    return new ReloadableHandle(np, key, item);
+  }
+
+  private class ReloadableHandle implements ReloadableRegistrationHandle<T> {
+    private final DynamicMap.NamePair np;
+    private final Key<T> key;
+    private final Provider<T> item;
+
+    ReloadableHandle(DynamicMap.NamePair np, Key<T> key, Provider<T> item) {
+      this.np = np;
+      this.key = key;
+      this.item = item;
+    }
+
+    @Override
+    public void remove() {
+      items.remove(np, item);
+    }
+
+    @Override
+    public Key<T> getKey() {
+      return key;
+    }
+
+    @Override
+    public ReloadableHandle replace(Key<T> newKey, Provider<T> newItem) {
+      if (items.replace(np, item, newItem)) {
+        return new ReloadableHandle(np, newKey, newItem);
+      }
+      return null;
     }
   }
 }

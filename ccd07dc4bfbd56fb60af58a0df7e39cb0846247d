@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "70c3c71c_91fbfd7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-14T21:51:10Z",
+      "side": 1,
+      "message": "See for instance:\nhttps://dzone.com/articles/secret-key-import-java\n\nJava has already predefined mechanisms for generating and storing private keys securely.",
+      "parentUuid": "989234bb_dbd6a93e",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b912b23_bae82e9c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I tried with 256 key size but the tests keep failing until I manually download the  \"JCE Unlimited Strength Jurisdiction Policy Files\" jar files \" [1]. I am using Java 8 and still I need to download them. IMO, it would not be appropriate to put 256 as key size until we get these \"Jurisdiction Policy Files\" bundled with JREs. \n\n@Matthias and Luca, please let me know your opinion on this and I will change it accordingly.",
       "parentUuid": "0b912b23_bae82e9c",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d8c844_27aa72d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-14T21:51:10Z",
+      "side": 1,
+      "message": "There were historically reasons why the USA did not want people to have longer keys in their secrets. However those times are gone and now there shouldn\u0027t be any problem in having AES-256 enabled by default.",
+      "parentUuid": "a7b27594_83a00a03",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -330,6 +378,30 @@
       "side": 1,
       "message": "I tried with 256 key size but the tests keep failing until I manually download the  \"JCE Unlimited Strength Jurisdiction Policy Files\" jar files \" [1]. I am using Java 8 and still I need to download them. IMO, it would not be appropriate to put 256 as key size until we get these \"Jurisdiction Policy Files\" bundled with JREs. Please let me know your opinion.",
       "parentUuid": "9e9a755a_f2ef6021",
+      "range": {
+        "startLine": 24,
+        "startChar": 39,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e0bea31_599a483a",
+        "filename": "java/com/google/gerrit/server/api/config/EncryptionConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-14T21:51:10Z",
+      "side": 1,
+      "message": "See the comment about encryption keys size above.",
+      "parentUuid": "40e11111_33b58a15",
       "range": {
         "startLine": 24,
         "startChar": 39,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "60181d04_72cc5441",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-14T17:10:57Z",
+      "side": 1,
+      "message": "I changed the name to `_reportRenderedRow`. Maybe the word \"report\" makes the intent clearer and stand out enough? (\"_report\" as distinct from the typical \"_compute\".)\n\nI\u0027m open to alternatives, but I agree that `_renderedItem` is sort of generic.",
+      "parentUuid": "6b1a1082_e94e8b79",
+      "range": {
+        "startLine": 286,
+        "startChar": 10,
+        "endLine": 286,
+        "endChar": 23
+      },
+      "revId": "21ddb0abb475a8a81536be99576be226349129e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20f63db2_71d618e3",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "21ddb0abb475a8a81536be99576be226349129e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02dc69ba_79ebb02c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-14T17:10:57Z",
+      "side": 1,
+      "message": "Not too much work. I\u0027ve started it in a dependent change so that updating the reporting interface doesn\u0027t need to block this one.",
+      "parentUuid": "20f63db2_71d618e3",
+      "revId": "21ddb0abb475a8a81536be99576be226349129e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

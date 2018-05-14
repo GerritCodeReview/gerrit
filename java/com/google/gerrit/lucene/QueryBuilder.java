@@ -38,19 +38,20 @@ import java.util.List;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.LegacyNumericRangeQuery;
 import org.apache.lucene.search.MatchAllDocsQuery;
-import org.apache.lucene.search.NumericRangeQuery;
 import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.BytesRefBuilder;
-import org.apache.lucene.util.NumericUtils;
+import org.apache.lucene.util.LegacyNumericUtils;
 
+@SuppressWarnings("deprecation")
 public class QueryBuilder<V> {
   static Term intTerm(String name, int value) {
     BytesRefBuilder builder = new BytesRefBuilder();
-    NumericUtils.intToPrefixCoded(value, 0, builder);
+    LegacyNumericUtils.intToPrefixCoded(value, 0, builder);
     return new Term(name, builder.get());
   }
 
@@ -180,7 +181,8 @@ public class QueryBuilder<V> {
         // Just fall back to a standard integer query.
         return new TermQuery(intTerm(p.getField().getName(), minimum));
       }
-      return NumericRangeQuery.newIntRange(r.getField().getName(), minimum, maximum, true, true);
+      return LegacyNumericRangeQuery.newIntRange(
+          r.getField().getName(), minimum, maximum, true, true);
     }
     throw new QueryParseException("not an integer range: " + p);
   }
@@ -188,7 +190,7 @@ public class QueryBuilder<V> {
   private Query timestampQuery(IndexPredicate<V> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
-      return NumericRangeQuery.newLongRange(
+      return LegacyNumericRangeQuery.newLongRange(
           r.getField().getName(),
           r.getMinTimestamp().getTime(),
           r.getMaxTimestamp().getTime(),
@@ -200,7 +202,7 @@ public class QueryBuilder<V> {
 
   private Query notTimestamp(TimestampRangePredicate<V> r) throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
-      return NumericRangeQuery.newLongRange(
+      return LegacyNumericRangeQuery.newLongRange(
           r.getField().getName(), r.getMaxTimestamp().getTime(), null, true, true);
     }
     throw new QueryParseException("cannot negate: " + r);

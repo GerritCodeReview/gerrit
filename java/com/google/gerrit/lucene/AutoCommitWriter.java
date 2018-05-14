@@ -47,58 +47,64 @@ public class AutoCommitWriter extends IndexWriter {
   }
 
   @Override
-  public void addDocument(Iterable<? extends IndexableField> doc) throws IOException {
-    super.addDocument(doc);
+  public long addDocument(Iterable<? extends IndexableField> doc) throws IOException {
+    long ret = super.addDocument(doc);
     autoFlush();
+    return ret;
   }
 
   @Override
-  public void addDocuments(Iterable<? extends Iterable<? extends IndexableField>> docs)
+  public long addDocuments(Iterable<? extends Iterable<? extends IndexableField>> docs)
       throws IOException {
-    super.addDocuments(docs);
+    long ret = super.addDocuments(docs);
     autoFlush();
+    return ret;
   }
 
   @Override
-  public void updateDocuments(
+  public long updateDocuments(
       Term delTerm, Iterable<? extends Iterable<? extends IndexableField>> docs)
       throws IOException {
-    super.updateDocuments(delTerm, docs);
+    long ret = super.updateDocuments(delTerm, docs);
     autoFlush();
+    return ret;
   }
 
   @Override
-  public void deleteDocuments(Term... term) throws IOException {
-    super.deleteDocuments(term);
+  public long deleteDocuments(Term... term) throws IOException {
+    long ret = super.deleteDocuments(term);
     autoFlush();
+    return ret;
   }
 
   @Override
-  public synchronized boolean tryDeleteDocument(IndexReader readerIn, int docID)
-      throws IOException {
-    boolean ret = super.tryDeleteDocument(readerIn, docID);
-    if (ret) {
+  public synchronized long tryDeleteDocument(IndexReader readerIn, int docID) throws IOException {
+    long ret = super.tryDeleteDocument(readerIn, docID);
+    if (ret != -1) {
       autoFlush();
     }
     return ret;
   }
 
   @Override
-  public void deleteDocuments(Query... queries) throws IOException {
-    super.deleteDocuments(queries);
+  public long deleteDocuments(Query... queries) throws IOException {
+    long ret = super.deleteDocuments(queries);
     autoFlush();
+    return ret;
   }
 
   @Override
-  public void updateDocument(Term term, Iterable<? extends IndexableField> doc) throws IOException {
-    super.updateDocument(term, doc);
+  public long updateDocument(Term term, Iterable<? extends IndexableField> doc) throws IOException {
+    long ret = super.updateDocument(term, doc);
     autoFlush();
+    return ret;
   }
 
   @Override
-  public void deleteAll() throws IOException {
-    super.deleteAll();
+  public long deleteAll() throws IOException {
+    long ret = super.deleteAll();
     autoFlush();
+    return ret;
   }
 
   void manualFlush() throws IOException {

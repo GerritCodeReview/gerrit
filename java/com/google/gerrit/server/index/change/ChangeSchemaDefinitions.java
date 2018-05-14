@@ -101,6 +101,9 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   // Bump Lucene version requires reindexing
   static final Schema<ChangeData> V50 = schema(V49);
 
+  // Bump Lucene version requires reindexing
+  static final Schema<ChangeData> V51 = schema(V50);
+
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();
 

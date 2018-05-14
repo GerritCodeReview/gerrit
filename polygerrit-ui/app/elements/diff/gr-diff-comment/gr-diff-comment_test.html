@@ -279,6 +279,39 @@ limitations under the License.
         });
       });
     });
+
+    suite('draft update reporting', () => {
+      let timeEndStub;
+
+      setup(() => {
+        sandbox.stub(element.$.restAPI, 'saveDiffDraft')
+            .returns(Promise.resolve({ok: true}));
+        sandbox.stub(element.$.restAPI, 'deleteDiffDraft')
+            .returns(Promise.resolve({ok: true}));
+        timeEndStub = sandbox.stub(element.$.reporting, 'timeEnd');
+      });
+
+      test('create', () => {
+        return element._saveDraft({}).then(() => {
+          assert.isTrue(timeEndStub.calledOnce);
+          assert.equal(timeEndStub.lastCall.args[0], 'CreateDraftComment');
+        });
+      });
+
+      test('update', () => {
+        return element._saveDraft({id: 'abc_123'}).then(() => {
+          assert.isTrue(timeEndStub.calledOnce);
+          assert.equal(timeEndStub.lastCall.args[0], 'UpdateDraftComment');
+        });
+      });
+
+      test('discard', () => {
+        return element._deleteDraft({id: 'abc_123'}).then(() => {
+          assert.isTrue(timeEndStub.calledOnce);
+          assert.equal(timeEndStub.lastCall.args[0], 'DiscardDraftComment');
+        });
+      });
+    });
   });
 
   suite('gr-diff-comment draft tests', () => {
@@ -751,7 +784,7 @@ limitations under the License.
       });
 
       test('saving', () => {
-        element._saveDraft();
+        element._saveDraft({});
         assert.equal(element._savingMessage, 'Saving draft...');
       });
 

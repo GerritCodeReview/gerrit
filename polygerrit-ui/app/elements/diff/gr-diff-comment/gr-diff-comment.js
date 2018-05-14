@@ -27,6 +27,10 @@
   const SAVING_PROGRESS_MESSAGE = 'Saving draft...';
   const DiSCARDING_PROGRESS_MESSAGE = 'Discarding draft...';
 
+  const REPORT_CREATE_DRAFT = 'CreateDraftComment';
+  const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
+  const REPORT_DISCARD_DRAFT = 'DiscardDraftComment';
+
   Polymer({
     is: 'gr-diff-comment',
 
@@ -562,8 +566,11 @@
     _saveDraft(draft) {
       this._savingMessage = SAVING_PROGRESS_MESSAGE;
       this._showStartRequest();
+      const timingLabel = draft.id ? REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
+      this.$.reporting.time(timingLabel);
       return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
           .then(result => {
+            this.$.reporting.timeEnd(timingLabel);
             if (result.ok) {
               this._showEndRequest();
             } else {
@@ -575,8 +582,10 @@
 
     _deleteDraft(draft) {
       this._showStartRequest();
+      this.$.reporting.time(REPORT_DISCARD_DRAFT);
       return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
           draft).then(result => {
+            this.$.reporting.timeEnd(REPORT_DISCARD_DRAFT);
             if (result.ok) {
               this._showEndRequest();
             } else {

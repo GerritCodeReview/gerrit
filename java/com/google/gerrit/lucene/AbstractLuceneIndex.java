@@ -60,15 +60,14 @@ import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.IntField;
-import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.LegacyIntField;
+import org.apache.lucene.document.LegacyLongField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.index.TrackingIndexWriter;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -84,6 +83,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /** Basic Lucene index implementation. */
+@SuppressWarnings("deprecation")
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private static final Logger log = LoggerFactory.getLogger(AbstractLuceneIndex.class);
 
@@ -96,7 +96,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final Directory dir;
   private final String name;
   private final ListeningExecutorService writerThread;
-  private final TrackingIndexWriter writer;
+  private final IndexWriter writer;
   private final ReferenceManager<IndexSearcher> searcherManager;
   private final ControlledRealTimeReopenThread<IndexSearcher> reopenThread;
   private final Set<NrtFuture> notDoneNrtFutures;
@@ -116,17 +116,16 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.dir = dir;
     this.name = name;
     String index = Joiner.on('_').skipNulls().join(name, subIndex);
-    IndexWriter delegateWriter;
     long commitPeriod = writerConfig.getCommitWithinMs();
 
     if (commitPeriod < 0) {
-      delegateWriter = new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
+      writer = new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
     } else if (commitPeriod == 0) {
-      delegateWriter = new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), true);
+      writer = new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), true);
     } else {
       final AutoCommitWriter autoCommitWriter =
           new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
-      delegateWriter = autoCommitWriter;
+      writer = autoCommitWriter;
 
       autoCommitExecutor =
           new ScheduledThreadPoolExecutor(
@@ -164,8 +163,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
               commitPeriod,
               MILLISECONDS);
     }
-    writer = new TrackingIndexWriter(delegateWriter);
-    searcherManager = new WrappableSearcherManager(writer.getIndexWriter(), true, searcherFactory);
+    searcherManager = new WrappableSearcherManager(writer, true, searcherFactory);
 
     notDoneNrtFutures = Sets.newConcurrentHashSet();
 
@@ -248,7 +246,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     }
 
     try {
-      writer.getIndexWriter().close();
+      writer.close();
     } catch (AlreadyClosedException e) {
       // Ignore.
     } catch (IOException e) {
@@ -291,7 +289,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     writer.deleteAll();
   }
 
-  public TrackingIndexWriter getWriter() {
+  public IndexWriter getWriter() {
     return writer;
   }
 
@@ -322,15 +320,15 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
     if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
       for (Object value : values.getValues()) {
-        doc.add(new IntField(name, (Integer) value, store));
+        doc.add(new LegacyIntField(name, (Integer) value, store));
       }
     } else if (type == FieldType.LONG) {
       for (Object value : values.getValues()) {
-        doc.add(new LongField(name, (Long) value, store));
+        doc.add(new LegacyLongField(name, (Long) value, store));
       }
     } else if (type == FieldType.TIMESTAMP) {
       for (Object value : values.getValues()) {
-        doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
+        doc.add(new LegacyLongField(name, ((Timestamp) value).getTime(), store));
       }
     } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
       for (Object value : values.getValues()) {

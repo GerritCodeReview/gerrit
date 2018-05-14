@@ -279,6 +279,45 @@ limitations under the License.
         });
       });
     });
+
+    suite('draft update reporting', () => {
+      let timeEndStub;
+      let mockEvent;
+
+      setup(() => {
+        mockEvent = {preventDefault() {}};
+        sandbox.stub(element, 'save')
+            .returns(Promise.resolve({}));
+        sandbox.stub(element, '_discardDraft')
+            .returns(Promise.resolve({}));
+        timeEndStub = sandbox.stub(element.$.reporting, 'timeEnd');
+      });
+
+      test('create', () => {
+        element.comment = {};
+        return element._handleSave(mockEvent).then(() => {
+          assert.isTrue(timeEndStub.calledOnce);
+          assert.equal(timeEndStub.lastCall.args[0], 'CreateDraftComment');
+        });
+      });
+
+      test('update', () => {
+        element.comment = {id: 'abc_123'};
+        return element._handleSave(mockEvent).then(() => {
+          assert.isTrue(timeEndStub.calledOnce);
+          assert.equal(timeEndStub.lastCall.args[0], 'UpdateDraftComment');
+        });
+      });
+
+      test('discard', () => {
+        element.comment = {id: 'abc_123'};
+        sandbox.stub(element, '_closeConfirmDiscardOverlay');
+        return element._handleConfirmDiscard(mockEvent).then(() => {
+          assert.isTrue(timeEndStub.calledOnce);
+          assert.equal(timeEndStub.lastCall.args[0], 'DiscardDraftComment');
+        });
+      });
+    });
   });
 
   suite('gr-diff-comment draft tests', () => {
@@ -578,6 +617,7 @@ limitations under the License.
         assert.isTrue(stub.called);
         stub.restore();
         done();
+        return Promise.resolve();
       });
       element._messageText = 'is that the horse from horsing around??';
       element.editing = true;
@@ -654,7 +694,7 @@ limitations under the License.
     });
 
     test('draft prevent save when disabled', () => {
-      const saveStub = sandbox.stub(element, 'save');
+      const saveStub = sandbox.stub(element, 'save').returns(Promise.resolve());
       element.showActions = true;
       element.draft = true;
       MockInteractions.tap(element.$.header);
@@ -751,7 +791,7 @@ limitations under the License.
       });
 
       test('saving', () => {
-        element._saveDraft();
+        element._saveDraft({});
         assert.equal(element._savingMessage, 'Saving draft...');
       });
 

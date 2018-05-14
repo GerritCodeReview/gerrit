@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae94d5f2_4d6ee138",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-14T21:41:33Z",
+      "side": 1,
+      "message": "This point seems a bit arbitrary for starting the measuring.\nShouldn\u0027t it be in _filesChanged instead? Event better, somewhere outside where the files are set.",
+      "revId": "025bb821e20629274b9ce37dd64abfb57744d058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0e3db9a_a9251ea2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-14T21:41:33Z",
+      "side": 1,
+      "message": "Do you need this? Would microtask timing (i.e. removing the time) be sufficient?",
+      "range": {
+        "startLine": 1193,
+        "startChar": 11,
+        "endLine": 1193,
+        "endChar": 12
+      },
+      "revId": "025bb821e20629274b9ce37dd64abfb57744d058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

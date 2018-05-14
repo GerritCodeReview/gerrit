@@ -1,4 +1,91 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1526282667 +0200\nnonce ACQuaLBfKjoeCOk7daq3kRtrNNDBCvG10u13QCLENY5CwfWC4deAK5UqLjqpZHx9GhiJ2x5L71p6\n\n0000000000000000000000000000000000000000 89e71270fd2e1a96516022f36a6b289f03b061e8 refs/for/infra/config\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlr5OasACgkQUbX9l6DQ\n71FV/Af/Qsv5giwvof4WSdSNXmGDAvUvw3Zj57EAOx6/thuqQyyRO60GHiQVBOqu\nYLTXK0zu2wCbPo9VTt6KiW914uc81KlE1ortHBDtGzPeULOVk/MLxgPM53S1Ng4c\nMs/Qz8/uoX/RcItecegBzyUKh5PSsGHVowQxm6JNWAuV8gyYT5Kxu3b+ss8IHKjj\nhKYS9oc45d9fMhM2Jsn3lkH0+s9JUdd8p0jBgH6UNYexaTzO/DgRv3Un7hX9xx/5\nw/1VvYW04ZJVRc677gbcn1w0NxqBJhGYb/g3wX6mXcYzZfAkquAx75LWbjtWbrqn\nCpdW5Lu7S7olx7NuuW5bDL4Tgqrgaw\u003d\u003d\n\u003dhYL1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea34ecc9_6016d302",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1023707
+      },
+      "writtenOn": "2018-05-14T15:52:42Z",
+      "side": 1,
+      "message": "We usually use the term \"service config\" to refer to the centralized config for the service (e.g. https://luci-config.appspot.com/#/services/tricium-dev) and \"project config\" for clients of the service (https://luci-config.appspot.com/#/projects/gerrit-tricium-integration)",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62ba779b_699a451c",
+        "filename": "tricium-dev.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1023707
+      },
+      "writtenOn": "2018-05-14T15:52:42Z",
+      "side": 1,
+      "message": "Optional: I added a link to the schema proto file (https://luci-config.appspot.com/schemas/projects:tricium-dev.cfg / https://config.appspot.com/schemas/projects:tricium-prod.cfg, they both link to the same place) to some other files... not necessary but it serves to help double-check what valid values might be.",
+      "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9d60ba_b33b5bfc",
+        "filename": "tricium-dev.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1023707
+      },
+      "writtenOn": "2018-05-14T15:52:42Z",
+      "side": 1,
+      "message": "This field name should be changed to gerrit_project",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e57f2dd1_b94263a7",
+        "filename": "tricium-dev.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1023707
+      },
+      "writtenOn": "2018-05-14T15:52:42Z",
+      "side": 1,
+      "message": "If we\u0027ll switch to using the stable instance (tricium-prod), then we can replace \"dev\" with \"prod\" in this name; same below.",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 29
+      },
+      "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

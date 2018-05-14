@@ -6,7 +6,7 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
         "//lib:guava",
-        "//lib:truth",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/truth",
     ],
 )

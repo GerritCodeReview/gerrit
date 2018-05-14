@@ -6,7 +6,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/truth",
-        "//lib:truth",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/truth",
     ],
 )

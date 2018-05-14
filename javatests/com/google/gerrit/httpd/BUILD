@@ -19,11 +19,11 @@ junit_tests(
         "//lib:junit",
         "//lib:servlet-api-3_1-without-neverlink",
         "//lib:soy",
-        "//lib:truth",
         "//lib/easymock",
         "//lib/guice",
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/truth",
     ],
 )

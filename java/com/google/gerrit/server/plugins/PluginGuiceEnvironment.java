@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
@@ -339,8 +338,7 @@ public class PluginGuiceEnvironment {
       TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
 
       @SuppressWarnings("unchecked")
-      PrivateInternals_DynamicMapImpl<Object> map =
-          (PrivateInternals_DynamicMapImpl<Object>) e.getValue();
+      DynamicMap<Object> map = (DynamicMap<Object>) e.getValue();
 
       Map<Annotation, ReloadableRegistrationHandle<?>> am = new HashMap<>();
       for (ReloadableRegistrationHandle<?> h : oldHandles.get(type)) {

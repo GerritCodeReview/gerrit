@@ -139,7 +139,7 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   public DynamicSet() {
-    this(Collections.<AtomicReference<Provider<T>>>emptySet());
+    this(Collections.emptySet());
   }
 
   @Override
@@ -216,12 +216,9 @@ public class DynamicSet<T> implements Iterable<T> {
   public RegistrationHandle add(Provider<T> item) {
     final AtomicReference<Provider<T>> ref = new AtomicReference<>(item);
     items.add(ref);
-    return new RegistrationHandle() {
-      @Override
-      public void remove() {
-        if (ref.compareAndSet(item, null)) {
-          items.remove(ref);
-        }
+    return () -> {
+      if (ref.compareAndSet(item, null)) {
+        items.remove(ref);
       }
     };
   }

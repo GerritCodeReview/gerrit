@@ -32,7 +32,7 @@ class DynamicMapProvider<T> implements Provider<DynamicMap<T>> {
 
   @Override
   public DynamicMap<T> get() {
-    PrivateInternals_DynamicMapImpl<T> m = new PrivateInternals_DynamicMapImpl<>();
+    DynamicMap<T> m = new DynamicMap<>();
     List<Binding<T>> bindings = injector.findBindingsByType(type);
     if (bindings != null) {
       for (Binding<T> b : bindings) {

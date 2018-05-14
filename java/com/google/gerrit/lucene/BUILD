@@ -12,6 +12,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/lucene:lucene-core-and-backward-codecs",
+        "//lib/lucene:solr",
     ],
 )
 
@@ -43,5 +44,6 @@ java_library(
         "//lib/lucene:lucene-analyzers-common",
         "//lib/lucene:lucene-core-and-backward-codecs",
         "//lib/lucene:lucene-misc",
+        "//lib/lucene:solr",
     ],
 )

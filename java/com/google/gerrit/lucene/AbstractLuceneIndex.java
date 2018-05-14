@@ -64,8 +64,6 @@ import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
-import org.apache.lucene.document.LegacyIntField;
-import org.apache.lucene.document.LegacyLongField;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -83,6 +81,8 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
+import org.apache.solr.legacy.LegacyIntField;
+import org.apache.solr.legacy.LegacyLongField;
 
 /** Basic Lucene index implementation. */
 @SuppressWarnings("deprecation")

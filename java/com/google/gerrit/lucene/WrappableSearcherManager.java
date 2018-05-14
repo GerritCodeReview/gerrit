@@ -81,11 +81,17 @@ final class WrappableSearcherManager extends ReferenceManager<IndexSearcher> {
   WrappableSearcherManager(
       IndexWriter writer, boolean applyAllDeletes, SearcherFactory searcherFactory)
       throws IOException {
+    // TODO(davido): Make it configurable
+    // If true, new deletes will be written down to index files instead of carried over from writer
+    // to reader directly in heap
+    boolean writeAllDeletes = false;
     if (searcherFactory == null) {
       searcherFactory = new SearcherFactory();
     }
     this.searcherFactory = searcherFactory;
-    current = getSearcher(searcherFactory, DirectoryReader.open(writer, applyAllDeletes));
+    current =
+        getSearcher(
+            searcherFactory, DirectoryReader.open(writer, applyAllDeletes, writeAllDeletes));
   }
 
   /**

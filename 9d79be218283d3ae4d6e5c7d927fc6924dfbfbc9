@@ -16,6 +16,24 @@
       "revId": "9d79be218283d3ae4d6e5c7d927fc6924dfbfbc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "713bb226_e1a13fd0",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-05-14T11:16:55Z",
+      "side": 1,
+      "message": "David explained how to handle dependencies in follow-up https://gerrit-review.googlesource.com/c/gerrit/+/162694.",
+      "parentUuid": "5e9cb9ec_0af2edec",
+      "revId": "9d79be218283d3ae4d6e5c7d927fc6924dfbfbc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

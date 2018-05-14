@@ -423,10 +423,7 @@ class GitwebServlet extends HttpServlet {
       }
 
       projectState.checkStatePermitsRead();
-      permissionBackend
-          .user(anonymousUserProvider.get())
-          .project(nameKey)
-          .check(ProjectPermission.READ);
+      permissionBackend.user(userProvider.get()).project(nameKey).check(ProjectPermission.READ);
     } catch (AuthException e) {
       sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
       return;

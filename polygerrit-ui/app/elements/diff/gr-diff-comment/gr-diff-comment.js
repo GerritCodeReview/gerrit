@@ -27,6 +27,10 @@
   const SAVING_PROGRESS_MESSAGE = 'Saving draft...';
   const DiSCARDING_PROGRESS_MESSAGE = 'Discarding draft...';
 
+  const REPORT_CREATE_DRAFT = 'CreateDraftComment';
+  const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
+  const REPORT_DISCARD_DRAFT = 'DiscardDraftComment';
+
   Polymer({
     is: 'gr-diff-comment',
 
@@ -251,6 +255,7 @@
           resComment.__commentSide = this.commentSide;
           this.comment = resComment;
           this.editing = false;
+
           this._fireSave();
           return obj;
         });
@@ -450,9 +455,12 @@
 
       // Ignore saves started while already saving.
       if (this.disabled) { return; }
-
+      const timingLabel = this.comment.id ?
+          REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
+      this.$.reporting.time(timingLabel);
       this.set('comment.__editing', false);
-      this.save();
+      return this.save()
+          .then(() => { this.$.reporting.timeEnd(timingLabel); });
     },
 
     _handleCancel(e) {
@@ -485,8 +493,10 @@
 
     _handleConfirmDiscard(e) {
       e.preventDefault();
+      this.$.reporting.time(REPORT_DISCARD_DRAFT);
       this._closeConfirmDiscardOverlay();
-      this._discardDraft();
+      return this._discardDraft()
+          .then(() => { this.$.reporting.timeEnd(REPORT_DISCARD_DRAFT); });
     },
 
     _discardDraft() {

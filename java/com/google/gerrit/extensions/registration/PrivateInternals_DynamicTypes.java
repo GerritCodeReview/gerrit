@@ -64,14 +64,14 @@ public class PrivateInternals_DynamicTypes {
   }
 
   public static Map<TypeLiteral<?>, DynamicMap<?>> dynamicMapsOf(Injector src) {
-    Map<TypeLiteral<?>, DynamicMap<?>> m = new HashMap<>();
+    Map<TypeLiteral<?>, DynamicMap<Object>> m = new HashMap<>();
     for (Map.Entry<Key<?>, Binding<?>> e : src.getBindings().entrySet()) {
       TypeLiteral<?> type = e.getKey().getTypeLiteral();
       if (type.getRawType() == DynamicMap.class) {
         ParameterizedType p = (ParameterizedType) type.getType();
         m.put(
             TypeLiteral.get(p.getActualTypeArguments()[0]),
-            (DynamicMap<?>) e.getValue().getProvider().get());
+            (DynamicMap<Object>) e.getValue().getProvider().get());
       }
     }
     if (m.isEmpty()) {
@@ -143,12 +143,8 @@ public class PrivateInternals_DynamicTypes {
     List<RegistrationHandle> handles = new ArrayList<>(4);
     try {
       for (Map.Entry<TypeLiteral<?>, DynamicMap<?>> e : maps.entrySet()) {
-        @SuppressWarnings("unchecked")
         TypeLiteral<Object> type = (TypeLiteral<Object>) e.getKey();
-
-        @SuppressWarnings("unchecked")
-        PrivateInternals_DynamicMapImpl<Object> set =
-            (PrivateInternals_DynamicMapImpl<Object>) e.getValue();
+        DynamicMap<Object> set = (DynamicMap<Object>) e.getValue();
 
         for (Binding<Object> b : bindings(src, type)) {
           if (b.getKey().getAnnotation() != null) {

@@ -34,7 +34,12 @@ public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
 
   PersistentCacheBinding<K, V> version(int version);
 
-  /** Set the total on-disk limit of the cache */
+  /**
+   * Set the total on-disk limit of the cache.
+   *
+   * <p>If 0 or negative, persistence for the cache is disabled by default, but may still be
+   * overridden in the config.
+   */
   PersistentCacheBinding<K, V> diskLimit(long limit);
 
   PersistentCacheBinding<K, V> keySerializer(CacheSerializer<K> keySerializer);

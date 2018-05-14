@@ -12,9 +12,9 @@ junit_tests(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:junit",
-        "//lib:truth",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/truth",
     ],
 )
 
@@ -34,10 +34,10 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:gwtorm",
-        "//lib:truth",
-        "//lib:truth-java8-extension",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/truth",
+        "//lib/truth:truth-java8-extension",
     ],
 )

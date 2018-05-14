@@ -9,7 +9,7 @@ junit_tests(
         "//lib:guava",
         "//lib:h2",
         "//lib:junit",
-        "//lib:truth",
         "//lib/guice",
+        "//lib/truth",
     ],
 )

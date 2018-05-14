@@ -127,6 +127,10 @@
         this._version = version;
       });
 
+      if (window.localStorage.getItem('dark-theme')) {
+        this.importHref('../styles/themes/dark-theme.html');
+      }
+
       // Note: this is evaluated here to ensure that it only happens after the
       // router has been initialized. @see Issue 7837
       this._settingsUrl = Gerrit.Nav.getUrlForSettings();

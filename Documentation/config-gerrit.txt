@@ -776,7 +776,7 @@ Default is 128 MiB per cache, except:
 * `"diff_summary"`: default is `1g` (1 GiB of disk space)
 
 +
-If 0, disk storage for the cache is disabled.
+If 0 or negative, disk storage for the cache is disabled.
 
 ==== [[cache_names]]Standard Caches
 

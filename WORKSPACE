@@ -599,36 +599,43 @@ maven_jar(
     sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
 )
 
-LUCENE_VERS = "6.6.5"
+LUCENE_VERS = "7.4.0"
+
+# Needed for LegacyInt and LegacyLong field support for another major release
+maven_jar(
+    name = "solr",
+    artifact = "org.apache.solr:solr-core:" + LUCENE_VERS,
+    sha1 = "b87fb274703357e02d28ae173103d897c00be9c6",
+)
 
 maven_jar(
     name = "lucene-core",
     artifact = "org.apache.lucene:lucene-core:" + LUCENE_VERS,
-    sha1 = "2983f80b1037e098209657b0ca9176827892d0c0",
+    sha1 = "730d9ac80436c8cbc0b2a8a749259be536b97316",
 )
 
 maven_jar(
     name = "lucene-analyzers-common",
     artifact = "org.apache.lucene:lucene-analyzers-common:" + LUCENE_VERS,
-    sha1 = "6094f91071d90570b7f5f8ce481d5de7d2d2e9d5",
+    sha1 = "e1afb580df500626a1c695e0fc9a7e8a8f58bcac",
 )
 
 maven_jar(
     name = "backward-codecs",
     artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
-    sha1 = "460a19e8d1aa7d31e9614cf528a6cb508c9e823d",
+    sha1 = "a6ad941ef1fdad48673ed511631b7e48a9456bf7",
 )
 
 maven_jar(
     name = "lucene-misc",
     artifact = "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
-    sha1 = "ce3a1b7b6a92b9af30791356a4bd46d1cea6cc1e",
+    sha1 = "bf844bb6f6d84da19e8c79ce5fbb4cf6d00f2611",
 )
 
 maven_jar(
     name = "lucene-queryparser",
     artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
-    sha1 = "2db9ca0086a4b8e0b9bc9f08a9b420303168e37c",
+    sha1 = "8e58add0d0c39df97d07c8e343041989bf4b3a3f",
 )
 
 maven_jar(

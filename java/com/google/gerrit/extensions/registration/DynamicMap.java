@@ -83,7 +83,12 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
     binder.bind(key).toProvider(new DynamicMapProvider<>(member)).in(Scopes.SINGLETON);
   }
 
-  final ConcurrentMap<NamePair, Provider<T>> items;
+  /** Returns an empty DynamicMap instance * */
+  public static <T> DynamicMap<T> emptyMap() {
+    return new DynamicMap<T>() {};
+  }
+
+  final ConcurrentMap<DynamicMap.NamePair, Provider<T>> items;
 
   DynamicMap() {
     items =
@@ -104,7 +109,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    *     requested implementation.
    */
   public T get(String pluginName, String exportName) throws ProvisionException {
-    Provider<T> p = items.get(new NamePair(pluginName, exportName));
+    Provider<T> p = items.get(new DynamicMap.NamePair(pluginName, exportName));
     return p != null ? p.get() : null;
   }
 
@@ -115,7 +120,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    */
   public SortedSet<String> plugins() {
     SortedSet<String> r = new TreeSet<>();
-    for (NamePair p : items.keySet()) {
+    for (DynamicMap.NamePair p : items.keySet()) {
       r.add(p.pluginName);
     }
     return Collections.unmodifiableSortedSet(r);
@@ -129,7 +134,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
    */
   public SortedMap<String, Provider<T>> byPlugin(String pluginName) {
     SortedMap<String, Provider<T>> r = new TreeMap<>();
-    for (Map.Entry<NamePair, Provider<T>> e : items.entrySet()) {
+    for (Map.Entry<DynamicMap.NamePair, Provider<T>> e : items.entrySet()) {
       if (e.getKey().pluginName.equals(pluginName)) {
         r.put(e.getKey().exportName, e.getValue());
       }
@@ -139,18 +144,18 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
 
   /** Iterate through all entries in an undefined order. */
   @Override
-  public Iterator<Entry<T>> iterator() {
-    final Iterator<Map.Entry<NamePair, Provider<T>>> i = items.entrySet().iterator();
-    return new Iterator<Entry<T>>() {
+  public Iterator<DynamicMap.Entry<T>> iterator() {
+    final Iterator<Map.Entry<DynamicMap.NamePair, Provider<T>>> i = items.entrySet().iterator();
+    return new Iterator<DynamicMap.Entry<T>>() {
       @Override
       public boolean hasNext() {
         return i.hasNext();
       }
 
       @Override
-      public Entry<T> next() {
-        final Map.Entry<NamePair, Provider<T>> e = i.next();
-        return new Entry<T>() {
+      public DynamicMap.Entry<T> next() {
+        final Map.Entry<DynamicMap.NamePair, Provider<T>> e = i.next();
+        return new DynamicMap.Entry<T>() {
           @Override
           public String getPluginName() {
             return e.getKey().pluginName;
@@ -199,15 +204,11 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
 
     @Override
     public boolean equals(Object other) {
-      if (other instanceof NamePair) {
-        NamePair np = (NamePair) other;
+      if (other instanceof DynamicMap.NamePair) {
+        DynamicMap.NamePair np = (DynamicMap.NamePair) other;
         return pluginName.equals(np.pluginName) && exportName.equals(np.exportName);
       }
       return false;
     }
-  }
-
-  public static <T> DynamicMap<T> emptyMap() {
-    return new DynamicMap<T>() {};
   }
 }

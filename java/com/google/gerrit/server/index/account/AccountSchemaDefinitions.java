@@ -48,6 +48,9 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   // Bump Lucene version requires reindexing
   static final Schema<AccountState> V9 = schema(V8);
 
+  // Bump Lucene version requires reindexing
+  static final Schema<AccountState> V10 = schema(V9);
+
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();
 

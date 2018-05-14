@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e9cb9ec_0af2edec",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T11:08:14Z",
+      "side": 1,
+      "message": "Can this be better clarified? For example if \"my-plugin\" has external dependency to\na library \"foo\" and the tests of \"my-plugin\" have dependency on \"mockito\" should\n\"my-plugin\" be included in both CUSTOM_PLUGINS and CUSTOM_PLUGINS_TEST_DEPS or\nis it enough to only list \"my-plugin\" in the CUSTOM_PLUGINS_TEST_DEPS?\n\nIt is probably not hard to find out by trying it, but not everyone should lose time\nwith such tests.",
+      "revId": "9d79be218283d3ae4d6e5c7d927fc6924dfbfbc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

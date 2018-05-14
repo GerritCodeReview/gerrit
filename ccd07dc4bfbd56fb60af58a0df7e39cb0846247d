@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "b2b40d8b_90965ed3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-14T15:06:50Z",
+      "side": 1,
+      "message": "Can we use a standard format (or, better, JKS storage) for keys? So that when a company has security policies on how keys should be managed and rotated, they can use them instead of using our \"custom-made\" key generation.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b912b23_bae82e9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-14T15:06:50Z",
+      "side": 1,
+      "message": "Still, default should be secure, i.e. \u003e\u003d 256-bit as Matthias pointed out.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 3
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d2bb929_e357620f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -93,6 +139,29 @@
       "writtenOn": "2018-05-14T09:17:06Z",
       "side": 1,
       "message": "missing closing }",
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e9a755a_f2ef6021",
+        "filename": "java/com/google/gerrit/server/api/config/EncryptionConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-14T15:06:50Z",
+      "side": 1,
+      "message": "256",
+      "range": {
+        "startLine": 24,
+        "startChar": 39,
+        "endLine": 24,
+        "endChar": 42
+      },
       "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

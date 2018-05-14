@@ -34,6 +34,24 @@
       "revId": "9d79be218283d3ae4d6e5c7d927fc6924dfbfbc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "516e6953_719c848c",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-05-14T11:18:18Z",
+      "side": 1,
+      "message": "Which was a cherry-pick of Chad\u0027s contribution on master:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/162511",
+      "parentUuid": "713bb226_e1a13fd0",
+      "revId": "9d79be218283d3ae4d6e5c7d927fc6924dfbfbc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

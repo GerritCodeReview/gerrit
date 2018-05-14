@@ -5,6 +5,6 @@ junit_tests(
     srcs = glob(["*.java"]),
     deps = [
         "//java/com/google/gerrit/git/testing",
-        "//lib:truth",
+        "//lib/truth",
     ],
 )

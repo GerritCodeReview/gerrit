@@ -15,7 +15,7 @@ junit_tests(
         "//java/com/google/gerrit/common:client",
         "//lib:guava",
         "//lib:junit",
-        "//lib:truth",
+        "//lib/truth",
     ],
 )
 
@@ -28,8 +28,8 @@ junit_tests(
         "//java/com/google/gerrit/common:version",
         "//java/com/google/gerrit/launcher",
         "//lib:guava",
-        "//lib:truth",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/truth",
     ],
 )

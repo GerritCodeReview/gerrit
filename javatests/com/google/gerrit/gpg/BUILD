@@ -20,7 +20,6 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:gwtorm",
-        "//lib:truth",
         "//lib/bouncycastle:bcpg",
         "//lib/bouncycastle:bcpg-neverlink",
         "//lib/bouncycastle:bcprov",
@@ -30,5 +29,6 @@ junit_tests(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/log:api",
+        "//lib/truth",
     ],
 )

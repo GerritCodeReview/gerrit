@@ -676,7 +676,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     List<NamedFactory<UserAuth>> authFactories = new ArrayList<>();
     if (kerberosKeytab != null) {
       authFactories.add(UserAuthGSSFactory.INSTANCE);
-      log.info("Enabling kerberos with keytab " + kerberosKeytab);
+      sshDaemonLog.info("Enabling kerberos with keytab " + kerberosKeytab);
       if (!new File(kerberosKeytab).canRead()) {
         sshDaemonLog.error(
             "Keytab "

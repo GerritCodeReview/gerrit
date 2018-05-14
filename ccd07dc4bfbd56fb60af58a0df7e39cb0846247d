@@ -1,0 +1,216 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d2bb929_e357620f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5026,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "Replace with: The encryption algorithm is configurable.\n\nAvoid mentioning the number of configuration options here as this text becomes\nerror prone to maintain. Every time a new parameter is added, this paragraph needs\nto be changed at several places.",
+      "range": {
+        "startLine": 5024,
+        "startChar": 12,
+        "endLine": 5026,
+        "endChar": 32
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f45a878_8d8a4e69",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5042,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "delete this prefix here and in all places below",
+      "range": {
+        "startLine": 5042,
+        "startChar": 0,
+        "endLine": 5042,
+        "endChar": 19
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b1e98f6_1e1fe073",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2756,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "nit: empty line below this line",
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4feffc8_9613a37d",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2758,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "nit: wrong indentation level",
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fb4a745_365cdbd5",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2763,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "missing closing }",
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eb22ad7_f3f688e9",
+        "filename": "java/com/google/gerrit/server/api/config/StringEncryptor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "Instead of doing it here, maybe the createSecretKey method could do all of the encoding\nand return exactly the string we need here? Then the \"key\" variable could also be inlined\nhere.",
+      "range": {
+        "startLine": 85,
+        "startChar": 44,
+        "endLine": 85,
+        "endChar": 74
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d57b0b5_019f827a",
+        "filename": "java/com/google/gerrit/server/api/config/StringEncryptor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "1. it is enough to split the string once\n\n2. prefer using guava Splitter instead of String.split, see [1] for more details about\nthe reasons [1].\n\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/158710",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 49
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a618b35c_d1ae10a9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/EncryptionConfigIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "Do we really need to start Gerrit daemon in order to test encryptor configuration?",
+      "range": {
+        "startLine": 38,
+        "startChar": 32,
+        "endLine": 38,
+        "endChar": 59
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e791d4e2_759256d4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/StringEncryptorIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "Why do we need to start Gerrit daemon in order to test StringEncyptor?",
+      "range": {
+        "startLine": 31,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 57
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "652a401a_d701bbb8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/StringEncryptorIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-14T09:17:06Z",
+      "side": 1,
+      "message": "please avoid dependencies between the test cases\n\nlet each test case create/initialize what it needs",
+      "range": {
+        "startLine": 46,
+        "startChar": 21,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

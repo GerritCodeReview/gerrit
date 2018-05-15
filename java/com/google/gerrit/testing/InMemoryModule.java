@@ -48,6 +48,8 @@ import com.google.gerrit.server.config.ChangeUpdateExecutor;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.GerritRuntime;
+import com.google.gerrit.server.config.GerritRuntimeType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
@@ -168,6 +170,7 @@ public class InMemoryModule extends FactoryModule {
                 bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
               }
             });
+    bindConstant().annotatedWith(GerritRuntimeType.class).to(GerritRuntime.DAEMON);
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new GerritApiModule());

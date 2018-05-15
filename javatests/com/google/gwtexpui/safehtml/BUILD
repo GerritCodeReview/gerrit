@@ -5,6 +5,7 @@ junit_tests(
     srcs = glob(["client/**/*.java"]),
     deps = [
         "//java/com/google/gwtexpui/safehtml",
+        "//lib:guava",
         "//lib/gwt:dev",
         "//lib/gwt:user",
         "//lib/truth",

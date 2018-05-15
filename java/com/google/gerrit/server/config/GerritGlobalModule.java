@@ -76,7 +76,6 @@ import com.google.gerrit.server.ChangeFinder;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
@@ -262,7 +261,6 @@ public class GerritGlobalModule extends FactoryModule {
     factory(MergedSender.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchScriptFactory.Factory.class);
-    factory(PluginUser.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RegisterNewEmailSender.Factory.class);
     factory(ReplacePatchSetSender.Factory.class);

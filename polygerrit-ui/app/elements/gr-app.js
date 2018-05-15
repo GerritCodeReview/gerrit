@@ -94,6 +94,12 @@
       'page-error': '_handlePageError',
       'title-change': '_handleTitleChange',
       'location-change': '_handleLocationChange',
+      'rpc-log': '_handleRpcLog',
+    },
+
+    _handleRpcLog(e) {
+      this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
+          e.detail.elapsed);
     },
 
     observers: [

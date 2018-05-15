@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99518568_4fafafdf",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-jank-detector.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-15T21:42:17Z",
+      "side": 1,
+      "message": "I\u0027ve used https://chromium-review.googlesource.com/c/chromium/third_party/ffmpeg/+/1048178 as a reference point.",
+      "parentUuid": "70918c4f_f2cb8019",
+      "revId": "6a56467072670e10e29f0d0c7f1b9167ff13edf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74fca0ca_16ec81cb",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-jank-detector.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "24e1a193_24085b56",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-jank-detector.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-15T21:42:17Z",
+      "side": 1,
+      "message": "Comment added.\nBasically, number of times jank occured.",
+      "parentUuid": "74fca0ca_16ec81cb",
+      "revId": "6a56467072670e10e29f0d0c7f1b9167ff13edf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28ce993e_a1cf2f92",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-jank-detector.js",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "6a56467072670e10e29f0d0c7f1b9167ff13edf5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4889aa90_86c292f1",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-jank-detector.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-15T21:42:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28ce993e_a1cf2f92",
+      "revId": "6a56467072670e10e29f0d0c7f1b9167ff13edf5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GerritApiImpl implements GerritApi {
+class GerritApiImpl implements GerritApi {
   private final Accounts accounts;
   private final Changes changes;
   private final Config config;

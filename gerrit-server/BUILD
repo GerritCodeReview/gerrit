@@ -169,6 +169,7 @@ TESTUTIL_DEPS = [
     "//gerrit-common:annotations",
     "//gerrit-common:server",
     "//gerrit-cache-h2:cache-h2",
+    "//gerrit-cache-mem:mem",
     "//gerrit-extension-api:api",
     "//gerrit-gpg:gpg",
     "//gerrit-index:index",

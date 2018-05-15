@@ -6,6 +6,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//gerrit-cache-h2:cache-h2",
+        "//gerrit-cache-mem:mem",
         "//gerrit-elasticsearch:elasticsearch",
         "//gerrit-extension-api:api",
         "//gerrit-gpg:gpg",

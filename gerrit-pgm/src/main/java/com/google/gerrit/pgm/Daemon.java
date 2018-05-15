@@ -50,10 +50,12 @@ import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
+import com.google.gerrit.server.ModuleOverloader;
 import com.google.gerrit.server.StartupChecks;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.cache.h2.H2CacheModule;
+import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
@@ -412,7 +414,8 @@ public class Daemon extends SiteProgram {
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());
-    modules.add(new DefaultCacheFactory.Module());
+    modules.add(new DefaultMemoryCacheModule());
+    modules.add(new H2CacheModule());
     modules.add(cfgInjector.getInstance(MailReceiver.Module.class));
     if (emailModule != null) {
       modules.add(emailModule);
@@ -472,7 +475,8 @@ public class Daemon extends SiteProgram {
     if (testSysModule != null) {
       modules.add(testSysModule);
     }
-    return cfgInjector.createChildInjector(modules);
+    return cfgInjector.createChildInjector(
+        ModuleOverloader.override(modules, LibModuleLoader.loadModules(cfgInjector)));
   }
 
   private boolean migrateToNoteDb() {

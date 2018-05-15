@@ -66,6 +66,7 @@ java_library(
 
 REST_UTIL_DEPS = [
     "//gerrit-cache-h2:cache-h2",
+    "//gerrit-cache-mem:mem",
     "//gerrit-util-cli:cli",
     "//lib:args4j",
     "//lib/commons:dbcp",
@@ -116,6 +117,7 @@ REST_PGM_DEPS = [
     ":init-api",
     ":util",
     "//gerrit-cache-h2:cache-h2",
+    "//gerrit-cache-mem:mem",
     "//gerrit-elasticsearch:elasticsearch",
     "//gerrit-gpg:gpg",
     "//gerrit-index:index",

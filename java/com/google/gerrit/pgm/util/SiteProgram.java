@@ -24,6 +24,8 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.server.config.GerritRuntime;
+import com.google.gerrit.server.config.GerritRuntimeType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -108,6 +110,14 @@ public abstract class SiteProgram extends AbstractProgram {
   protected Injector createDbInjector(boolean enableMetrics, DataSourceProvider.Context context) {
     Path sitePath = getSitePath();
     List<Module> modules = new ArrayList<>();
+
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bindConstant().annotatedWith(GerritRuntimeType.class).to(GerritRuntime.BATCH);
+          }
+        });
 
     Module sitePathModule =
         new AbstractModule() {

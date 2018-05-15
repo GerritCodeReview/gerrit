@@ -66,6 +66,8 @@ import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.GerritRuntime;
+import com.google.gerrit.server.config.GerritRuntimeType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
@@ -381,6 +383,13 @@ public class Daemon extends SiteProgram {
   private Injector createCfgInjector() {
     final List<Module> modules = new ArrayList<>();
     modules.add(new AuthConfigModule());
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bindConstant().annotatedWith(GerritRuntimeType.class).to(GerritRuntime.DAEMON);
+          }
+        });
     return dbInjector.createChildInjector(modules);
   }
 

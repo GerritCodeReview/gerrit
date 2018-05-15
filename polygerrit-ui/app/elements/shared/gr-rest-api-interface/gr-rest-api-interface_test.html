@@ -874,8 +874,11 @@ limitations under the License.
       const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
-        assert.deepEqual(fetchStub.lastCall.args,
-            ['42', '/files?q=test%2Fpath.js', 'edit']);
+        assert.deepEqual(fetchStub.lastCall.args[0], {
+          changeNum: '42',
+          endpoint: '/files?q=test%2Fpath.js',
+          patchNum: 'edit',
+        });
       });
     });
 
@@ -1108,7 +1111,8 @@ limitations under the License.
       element._projectLookup = {1: 'test'};
       const fetchStub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve());
-      return element._getChangeURLAndFetch(1, '/test', 1).then(() => {
+      const req = {changeNum: 1, endpoint: '/test', patchNum: 1};
+      return element._getChangeURLAndFetch(req).then(() => {
         assert.equal(fetchStub.lastCall.args[0].url,
             '/changes/test~1/revisions/1/test');
       });
@@ -1173,8 +1177,8 @@ limitations under the License.
         const range = {basePatchNum: 'PARENT', patchNum: 2};
         return element.getChangeFiles(123, range).then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 2);
-          assert.isNotOk(fetchStub.lastCall.args[5]);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
+          assert.isNotOk(fetchStub.lastCall.args[0].params);
         });
       });
 
@@ -1184,10 +1188,10 @@ limitations under the License.
         const range = {basePatchNum: 4, patchNum: 5};
         return element.getChangeFiles(123, range).then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.equal(fetchStub.lastCall.args[5].base, 4);
-          assert.isNotOk(fetchStub.lastCall.args[5].parent);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.equal(fetchStub.lastCall.args[0].params.base, 4);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
         });
       });
 
@@ -1197,10 +1201,10 @@ limitations under the License.
         const range = {basePatchNum: -3, patchNum: 5};
         return element.getChangeFiles(123, range).then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].base);
-          assert.equal(fetchStub.lastCall.args[5].parent, 3);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
+          assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
         });
       });
     });
@@ -1211,10 +1215,10 @@ limitations under the License.
             .returns(Promise.resolve());
         return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 2);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].parent);
-          assert.isNotOk(fetchStub.lastCall.args[5].base);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 2);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
         });
       });
 
@@ -1223,10 +1227,10 @@ limitations under the License.
             .returns(Promise.resolve());
         return element.getDiff(123, 4, 5, 'foo/bar.baz').then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].parent);
-          assert.equal(fetchStub.lastCall.args[5].base, 4);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.parent);
+          assert.equal(fetchStub.lastCall.args[0].params.base, 4);
         });
       });
 
@@ -1235,10 +1239,10 @@ limitations under the License.
             .returns(Promise.resolve());
         return element.getDiff(123, -3, 5, 'foo/bar.baz').then(() => {
           assert.isTrue(fetchStub.calledOnce);
-          assert.equal(fetchStub.lastCall.args[2], 5);
-          assert.isOk(fetchStub.lastCall.args[5]);
-          assert.isNotOk(fetchStub.lastCall.args[5].base);
-          assert.equal(fetchStub.lastCall.args[5].parent, 3);
+          assert.equal(fetchStub.lastCall.args[0].patchNum, 5);
+          assert.isOk(fetchStub.lastCall.args[0].params);
+          assert.isNotOk(fetchStub.lastCall.args[0].params.base);
+          assert.equal(fetchStub.lastCall.args[0].params.parent, 3);
         });
       });
     });

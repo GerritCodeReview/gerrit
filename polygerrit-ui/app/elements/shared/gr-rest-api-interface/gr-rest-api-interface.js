@@ -44,6 +44,19 @@
    */
   Defs.FetchJSONRequest;
 
+  /**
+   * @typedef {{
+   *   changeNum: (string|number),
+   *   endpoint: string,
+   *   patchNum: (string|number|null|undefined),
+   *   errFn: (function(?Response, string=)|null|undefined),
+   *   cancelCondition: (function()|null|undefined),
+   *   params: (Object|null|undefined),
+   *   fetchOptions: (Object|null|undefined),
+   * }}
+   */
+  Defs.ChangeFetchRequest;
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -1013,7 +1026,11 @@
      * @param {number|string} patchNum
      */
     getChangeCommitInfo(changeNum, patchNum) {
-      return this._getChangeURLAndFetch(changeNum, '/commit?links', patchNum);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/commit?links',
+        patchNum,
+      });
     },
 
     /**
@@ -1028,8 +1045,12 @@
       } else if (!this.patchNumEquals(patchRange.basePatchNum, 'PARENT')) {
         params = {base: patchRange.basePatchNum};
       }
-      return this._getChangeURLAndFetch(changeNum, '/files',
-          patchRange.patchNum, undefined, undefined, params);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/files',
+        patchNum: patchRange.patchNum,
+        params,
+      });
     },
 
     /**
@@ -1041,7 +1062,7 @@
       if (patchRange.basePatchNum !== 'PARENT') {
         endpoint += '&base=' + encodeURIComponent(patchRange.basePatchNum + '');
       }
-      return this._getChangeURLAndFetch(changeNum, endpoint);
+      return this._getChangeURLAndFetch({changeNum, endpoint});
     },
 
     /**
@@ -1051,8 +1072,11 @@
      * @return {!Promise<!Object>}
      */
     queryChangeFiles(changeNum, patchNum, query) {
-      return this._getChangeURLAndFetch(changeNum,
-          `/files?q=${encodeURIComponent(query)}`, patchNum);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: `/files?q=${encodeURIComponent(query)}`,
+        patchNum,
+      });
     },
 
     /**
@@ -1080,16 +1104,16 @@
     },
 
     getChangeRevisionActions(changeNum, patchNum) {
-      return this._getChangeURLAndFetch(changeNum, '/actions', patchNum)
-          .then(revisionActions => {
-            // The rebase button on change screen is always enabled.
-            if (revisionActions.rebase) {
-              revisionActions.rebase.rebaseOnCurrent =
-                  !!revisionActions.rebase.enabled;
-              revisionActions.rebase.enabled = true;
-            }
-            return revisionActions;
-          });
+      const req = {changeNum, endpoint: '/actions', patchNum};
+      return this._getChangeURLAndFetch(req).then(revisionActions => {
+        // The rebase button on change screen is always enabled.
+        if (revisionActions.rebase) {
+          revisionActions.rebase.rebaseOnCurrent =
+              !!revisionActions.rebase.enabled;
+          revisionActions.rebase.enabled = true;
+        }
+        return revisionActions;
+      });
     },
 
     /**
@@ -1100,15 +1124,19 @@
     getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn) {
       const params = {n: 10};
       if (inputVal) { params.q = inputVal; }
-      return this._getChangeURLAndFetch(changeNum, '/suggest_reviewers', null,
-          opt_errFn, null, params);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/suggest_reviewers',
+        errFn: opt_errFn,
+        params,
+      });
     },
 
     /**
      * @param {number|string} changeNum
      */
     getChangeIncludedIn(changeNum) {
-      return this._getChangeURLAndFetch(changeNum, '/in', null);
+      return this._getChangeURLAndFetch({changeNum, endpoint: '/in'});
     },
 
     _computeFilter(filter) {
@@ -1324,11 +1352,18 @@
     },
 
     getRelatedChanges(changeNum, patchNum) {
-      return this._getChangeURLAndFetch(changeNum, '/related', patchNum);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/related',
+        patchNum,
+      });
     },
 
     getChangesSubmittedTogether(changeNum) {
-      return this._getChangeURLAndFetch(changeNum, '/submitted_together', null);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/submitted_together',
+      });
     },
 
     getChangeConflicts(changeNum) {
@@ -1376,7 +1411,11 @@
     },
 
     getReviewedFiles(changeNum, patchNum) {
-      return this._getChangeURLAndFetch(changeNum, '/files?reviewed', patchNum);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: '/files?reviewed',
+        patchNum,
+      });
     },
 
     /**
@@ -1414,10 +1453,12 @@
     getChangeEdit(changeNum, opt_download_commands) {
       const params = opt_download_commands ? {'download-commands': true} : null;
       return this.getLoggedIn().then(loggedIn => {
-        return loggedIn ?
-            this._getChangeURLAndFetch(changeNum, '/edit/', null, null, null,
-                params) :
-            false;
+        if (!loggedIn) { return false; }
+        return this._getChangeURLAndFetch({
+          changeNum,
+          endpoint: '/edit/',
+          params,
+        });
       });
     },
 
@@ -1626,8 +1667,14 @@
       }
       const endpoint = `/files/${encodeURIComponent(path)}/diff`;
 
-      return this._getChangeURLAndFetch(changeNum, endpoint, patchNum,
-          opt_errFn, opt_cancelCondition, params);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint,
+        patchNum,
+        errFn: opt_errFn,
+        cancelCondition: opt_cancelCondition,
+        params,
+      });
     },
 
     /**
@@ -1714,7 +1761,11 @@
        * @return {!Promise<!Object>} Diff comments response.
        */
       const fetchComments = opt_patchNum => {
-        return this._getChangeURLAndFetch(changeNum, endpoint, opt_patchNum);
+        return this._getChangeURLAndFetch({
+          changeNum,
+          endpoint,
+          patchNum: opt_patchNum,
+        });
       };
 
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
@@ -2165,27 +2216,19 @@
       });
     },
 
-   /**
-    * Alias for _changeBaseURL.then(_fetchJSON).
-    * @todo(beckysiegel) clean up comments
-    * @param {string|number} changeNum
-    * @param {string} endpoint
-    * @param {?string|number=} opt_patchNum gets passed as null.
-    * @param {?function(?Response, string=)=} opt_errFn gets passed as null.
-    * @param {?function()=} opt_cancelCondition gets passed as null.
-    * @param {?Object=} opt_params gets passed as null.
-    * @param {!Object=} opt_options
-    * @return {!Promise<!Object>}
-    */
-    _getChangeURLAndFetch(changeNum, endpoint, opt_patchNum, opt_errFn,
-        opt_cancelCondition, opt_params, opt_options) {
-      return this._changeBaseURL(changeNum, opt_patchNum).then(url => {
+    /**
+     * Alias for _changeBaseURL.then(_fetchJSON).
+     * @param {Defs.ChangeFetchRequest} req
+     * @return {!Promise<!Object>}
+     */
+    _getChangeURLAndFetch(req) {
+      return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
         return this._fetchJSON({
-          url: url + endpoint,
-          errFn: opt_errFn,
-          cancelCondition: opt_cancelCondition,
-          params: opt_params,
-          fetchOptions: opt_options,
+          url: url + req.endpoint,
+          errFn: req.errFn,
+          cancelCondition: req.cancelCondition,
+          params: req.params,
+          fetchOptions: req.fetchOptions,
         });
       });
     },
@@ -2201,9 +2244,12 @@
      */
     getBlame(changeNum, patchNum, path, opt_base) {
       const encodedPath = encodeURIComponent(path);
-      return this._getChangeURLAndFetch(changeNum,
-          `/files/${encodedPath}/blame`, patchNum, undefined, undefined,
-          opt_base ? {base: 't'} : undefined);
+      return this._getChangeURLAndFetch({
+        changeNum,
+        endpoint: `/files/${encodedPath}/blame`,
+        patchNum,
+        params: opt_base ? {base: 't'} : undefined,
+      });
     },
 
     /**

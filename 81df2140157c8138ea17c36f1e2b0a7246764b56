@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e03de9ef_6f2f8ba4",
+        "filename": "java/com/google/gerrit/util/ssl/BlindHostnameVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-15T09:21:08Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "81df2140157c8138ea17c36f1e2b0a7246764b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ec3995_f4fb22c6",
+        "filename": "java/com/google/gerrit/util/ssl/BlindHostnameVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-15T09:21:08Z",
+      "side": 1,
+      "message": "Can this be @Singleton and be injected where it\u0027s used?",
+      "revId": "81df2140157c8138ea17c36f1e2b0a7246764b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

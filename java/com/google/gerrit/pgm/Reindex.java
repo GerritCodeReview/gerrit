@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -72,6 +73,7 @@ public class Reindex extends SiteProgram {
 
   private Injector dbInjector;
   private Injector sysInjector;
+  private Injector cfgInjector;
   private Config globalConfig;
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
@@ -80,6 +82,7 @@ public class Reindex extends SiteProgram {
   public int run() throws Exception {
     mustHaveValidSite();
     dbInjector = createDbInjector(MULTI_USER);
+    cfgInjector = dbInjector.createChildInjector();
     globalConfig = dbInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     threads = ThreadLimiter.limitThreads(dbInjector, threads);
     overrideConfig();
@@ -88,9 +91,11 @@ public class Reindex extends SiteProgram {
     dbManager.start();
 
     sysInjector = createSysInjector();
+    sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
     LifecycleManager sysManager = new LifecycleManager();
     sysManager.add(sysInjector);
     sysManager.start();
+
     sysInjector.injectMembers(this);
     checkIndicesOption();
 

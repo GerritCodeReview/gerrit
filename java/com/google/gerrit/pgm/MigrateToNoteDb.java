@@ -34,6 +34,7 @@ import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.rebuild.GcAllUsers;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
+import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -118,6 +119,9 @@ public class MigrateToNoteDb extends SiteProgram {
       sysInjector.injectMembers(this);
       sysManager = new LifecycleManager();
       sysManager.add(sysInjector);
+      sysInjector
+          .getInstance(PluginGuiceEnvironment.class)
+          .setDbCfgInjector(dbInjector, dbInjector);
       sysManager.start();
 
       try (NoteDbMigrator migrator =

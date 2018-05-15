@@ -118,6 +118,54 @@
       "revId": "cb22af9a160596d3fe39d2c66ca03bff0dc33b5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05535049_f5bec11f",
+        "filename": "gerrit-acceptance-tests/tests.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-15T08:31:06Z",
+      "side": 1,
+      "message": "Seems to be Java 5 specific issue: [1].\n\n  \n\n\n[1] http://www.thezonemanager.com/2015/07/whats-so-special-about-devurandom.html",
+      "parentUuid": "8c267895_760bfd0c",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 17,
+        "endChar": 57
+      },
+      "revId": "cb22af9a160596d3fe39d2c66ca03bff0dc33b5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5771f19e_53e55b55",
+        "filename": "gerrit-acceptance-tests/tests.defs",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-15T08:31:06Z",
+      "side": 1,
+      "message": "Seems to be Java 5 issue and could be probably replaced with /dev/urandom: [1].\n\nWith regards to why /dev/urandom vs /dev/./urandom.  That is something unique to Java versions 5 and following that resulted from problems with /dev/urandom on Linux systems back in 2004.  The easy fix was to force /dev/urandom to use /dev/random.  However, it doesn\u0027t appear that Java will be updated to let /dev/urandom use /dev/urandom. So, the workaround is to fake Java out by obscuring /dev/urandom to /dev/./urandom which is functionally the same thing but looks different.\n\n[1] http://www.thezonemanager.com/2015/07/whats-so-special-about-devurandom.html",
+      "parentUuid": "3770c873_70409e0d",
+      "range": {
+        "startLine": 17,
+        "startChar": 56,
+        "endLine": 17,
+        "endChar": 57
+      },
+      "revId": "cb22af9a160596d3fe39d2c66ca03bff0dc33b5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

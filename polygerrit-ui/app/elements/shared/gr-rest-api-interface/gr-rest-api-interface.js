@@ -27,6 +27,23 @@
    */
   Defs.patchRange;
 
+  /**
+   * Object to describe a request for passing into _fetchJSON or _fetchRawJSON.
+   * - url is the URL for the request (excluding get params)
+   * - errFn is a function to invoke when the request fails.
+   * - cancelCondition is a function that, if provided and returns true, will
+   *   cancel the response after it resolves.
+   * - params is a key-value hash to specify get params for the request URL.
+   * @typedef {{
+   *    url: string,
+   *    errFn: (function(?Response, string=)|null|undefined),
+   *    cancelCondition: (function()|null|undefined),
+   *    params: (Object|null|undefined),
+   *    fetchOptions: (Object|null|undefined),
+   * }}
+   */
+  Defs.FetchJSONRequest;
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -112,23 +129,17 @@
      * Returns a Promise that resolves to a native Response.
      * Doesn't do error checking. Supports cancel condition. Performs auth.
      * Validates auth expiry errors.
-     * @param {string} url
-     * @param {?function(?Response, string=)=} opt_errFn
-     *    passed as null sometimes.
-     * @param {?function()=} opt_cancelCondition
-     *    passed as null sometimes.
-     * @param {?Object=} opt_params URL params, key-value hash.
-     * @param {?Object=} opt_options Fetch options.
+     * @param {Defs.FetchJSONRequest} opt
+     * @return {Promise}
      */
-    _fetchRawJSON(url, opt_errFn, opt_cancelCondition, opt_params,
-        opt_options) {
-      const urlWithParams = this._urlWithParams(url, opt_params);
-      return this._auth.fetch(urlWithParams, opt_options).then(response => {
-        if (opt_cancelCondition && opt_cancelCondition()) {
-          response.body.cancel();
+    _fetchRawJSON(opt) {
+      const urlWithParams = this._urlWithParams(opt.url, opt.params);
+      return this._auth.fetch(urlWithParams, opt.fetchOptions).then(res => {
+        if (opt.cancelCondition && opt.cancelCondition()) {
+          res.body.cancel();
           return;
         }
-        return response;
+        return res;
       }).catch(err => {
         const isLoggedIn = !!this._cache['/accounts/self/detail'];
         if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
@@ -139,8 +150,8 @@
               CHECK_SIGN_IN_DEBOUNCE_MS);
           return;
         }
-        if (opt_errFn) {
-          opt_errFn.call(undefined, null, err);
+        if (opt.errFn) {
+          opt.errFn.call(undefined, null, err);
         } else {
           this.fire('network-error', {error: err});
         }
@@ -152,31 +163,23 @@
      * Fetch JSON from url provided.
      * Returns a Promise that resolves to a parsed response.
      * Same as {@link _fetchRawJSON}, plus error handling.
-     * @param {string} url
-     * @param {?function(?Response, string=)=} opt_errFn
-     *    passed as null sometimes.
-     * @param {?function()=} opt_cancelCondition
-     *    passed as null sometimes.
-     * @param {?Object=} opt_params URL params, key-value hash.
-     * @param {?Object=} opt_options Fetch options.
+     * @param {Defs.FetchJSONRequest} req
      */
-    _fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
-      return this._fetchRawJSON(
-          url, opt_errFn, opt_cancelCondition, opt_params, opt_options)
-          .then(response => {
-            if (!response) {
-              return;
-            }
-            if (!response.ok) {
-              if (opt_errFn) {
-                opt_errFn.call(null, response);
-                return;
-              }
-              this.fire('server-error', {response});
-              return;
-            }
-            return response && this.getResponseObject(response);
-          });
+    _fetchJSON(req) {
+      return this._fetchRawJSON(req).then(response => {
+        if (!response) {
+          return;
+        }
+        if (!response.ok) {
+          if (req.errFn) {
+            req.errFn.call(null, response);
+            return;
+          }
+          this.fire('server-error', {response});
+          return;
+        }
+        return response && this.getResponseObject(response);
+      });
     },
 
     /**
@@ -239,7 +242,7 @@
         return this._fetchSharedCacheURL('/config/server/info');
       }
 
-      return this._fetchJSON('/config/server/info');
+      return this._fetchJSON({url: '/config/server/info'});
     },
 
     getRepo(repo, opt_errFn) {
@@ -315,8 +318,10 @@
     },
 
     getGroupConfig(group, opt_errFn) {
-      const encodeName = encodeURIComponent(group);
-      return this._fetchJSON(`/groups/${encodeName}/detail`, opt_errFn);
+      return this._fetchJSON({
+        url: `/groups/${encodeURIComponent(group)}/detail`,
+        errFn: opt_errFn,
+      });
     },
 
     /**
@@ -578,7 +583,7 @@
     },
 
     getExternalIds() {
-      return this._fetchJSON('/accounts/self/external.ids');
+      return this._fetchJSON({url: '/accounts/self/external.ids'});
     },
 
     deleteAccountIdentity(id) {
@@ -591,7 +596,9 @@
      * @return {!Promise<!Object>}
      */
     getAccountDetails(userId) {
-      return this._fetchJSON(`/accounts/${encodeURIComponent(userId)}/detail`);
+      return this._fetchJSON({
+        url: `/accounts/${encodeURIComponent(userId)}/detail`,
+      });
     },
 
     getAccountEmails() {
@@ -692,15 +699,17 @@
     },
 
     getAccountStatus(userId) {
-      return this._fetchJSON(`/accounts/${encodeURIComponent(userId)}/status`);
+      return this._fetchJSON({
+        url: `/accounts/${encodeURIComponent(userId)}/status`,
+      });
     },
 
     getAccountGroups() {
-      return this._fetchJSON('/accounts/self/groups');
+      return this._fetchJSON({url: '/accounts/self/groups'});
     },
 
     getAccountAgreements() {
-      return this._fetchJSON('/accounts/self/agreements');
+      return this._fetchJSON({url: '/accounts/self/agreements'});
     },
 
     saveAccountAgreement(name) {
@@ -741,19 +750,19 @@
 
     checkCredentials() {
       // Skip the REST response cache.
-      return this._fetchRawJSON('/accounts/self/detail').then(response => {
-        if (!response) { return; }
-        if (response.status === 403) {
+      return this._fetchRawJSON({url: '/accounts/self/detail'}).then(res => {
+        if (!res) { return; }
+        if (res.status === 403) {
           this.fire('auth-error');
           this._cache['/accounts/self/detail'] = null;
-        } else if (response.ok) {
-          return this.getResponseObject(response);
+        } else if (res.ok) {
+          return this.getResponseObject(res);
         }
-      }).then(response => {
-        if (response) {
-          this._cache['/accounts/self/detail'] = response;
+      }).then(res => {
+        if (res) {
+          this._cache['/accounts/self/detail'] = res;
         }
-        return response;
+        return res;
       });
     },
 
@@ -824,7 +833,7 @@
       if (this._cache[url] !== undefined) {
         return Promise.resolve(this._cache[url]);
       }
-      this._sharedFetchPromises[url] = this._fetchJSON(url, opt_errFn)
+      this._sharedFetchPromises[url] = this._fetchJSON({url, errFn: opt_errFn})
           .then(response => {
             if (response !== undefined) {
               this._cache[url] = response;
@@ -874,7 +883,7 @@
           this._maybeInsertInLookup(change);
         }
       };
-      return this._fetchJSON('/changes/', null, null, params).then(response => {
+      return this._fetchJSON({url: '/changes/', params}).then(response => {
         // Response may be an array of changes OR an array of arrays of
         // changes.
         if (opt_query instanceof Array) {
@@ -959,43 +968,43 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @param {function()=} opt_cancelCondition
      */
-    _getChangeDetail(changeNum, params, opt_errFn,
-        opt_cancelCondition) {
+    _getChangeDetail(changeNum, params, opt_errFn, opt_cancelCondition) {
       return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
         const urlWithParams = this._urlWithParams(url, params);
-        return this._fetchRawJSON(
-            url,
-            opt_errFn,
-            opt_cancelCondition,
-            {O: params},
-            this._etags.getOptions(urlWithParams))
-            .then(response => {
-              if (response && response.status === 304) {
-                return Promise.resolve(this._parsePrefixedJSON(
-                    this._etags.getCachedPayload(urlWithParams)));
-              }
+        const req = {
+          url,
+          errFn: opt_errFn,
+          cancelCondition: opt_cancelCondition,
+          params: {O: params},
+          fetchOptions: this._etags.getOptions(urlWithParams),
+        };
+        return this._fetchRawJSON(req).then(response => {
+          if (response && response.status === 304) {
+            return Promise.resolve(this._parsePrefixedJSON(
+                this._etags.getCachedPayload(urlWithParams)));
+          }
 
-              if (response && !response.ok) {
-                if (opt_errFn) {
-                  opt_errFn.call(null, response);
-                } else {
-                  this.fire('server-error', {response});
-                }
-                return;
-              }
+          if (response && !response.ok) {
+            if (opt_errFn) {
+              opt_errFn.call(null, response);
+            } else {
+              this.fire('server-error', {response});
+            }
+            return;
+          }
 
-              const payloadPromise = response ?
-                  this._readResponsePayload(response) :
-                  Promise.resolve(null);
+          const payloadPromise = response ?
+              this._readResponsePayload(response) :
+              Promise.resolve(null);
 
-              return payloadPromise.then(payload => {
-                if (!payload) { return null; }
-                this._etags.collect(urlWithParams, response, payload.raw);
-                this._maybeInsertInLookup(payload.parsed);
+          return payloadPromise.then(payload => {
+            if (!payload) { return null; }
+            this._etags.collect(urlWithParams, response, payload.raw);
+            this._maybeInsertInLookup(payload.parsed);
 
-                return payload.parsed;
-              });
-            });
+            return payload.parsed;
+          });
+        });
       });
     },
 
@@ -1165,12 +1174,12 @@
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchJSON(
-          `/projects/${encodeURIComponent(repo)}/branches` +
-          `?n=${reposBranchesPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter),
-          opt_errFn
-      );
+      return this._fetchJSON({
+        url: `/projects/${encodeURIComponent(repo)}/branches` +
+            `?n=${reposBranchesPerPage + 1}&S=${offset}` +
+            this._computeFilter(filter),
+        errFn: opt_errFn,
+      });
     },
 
     /**
@@ -1186,12 +1195,12 @@
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchJSON(
-          `/projects/${encodeURIComponent(repo)}/tags` +
-          `?n=${reposTagsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter),
-          opt_errFn
-      );
+      return this._fetchJSON({
+        url: `/projects/${encodeURIComponent(repo)}/tags` +
+            `?n=${reposTagsPerPage + 1}&S=${offset}` +
+            this._computeFilter(filter),
+        errFn: opt_errFn,
+      });
     },
 
     /**
@@ -1204,20 +1213,20 @@
     getPlugins(filter, pluginsPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
 
-      return this._fetchJSON(
-          `/plugins/?all&n=${pluginsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter),
-          opt_errFn
-      );
+      return this._fetchJSON({
+        url: `/plugins/?all&n=${pluginsPerPage + 1}&S=${offset}` +
+            this._computeFilter(filter),
+        errFn: opt_errFn,
+      });
     },
 
     getRepoAccessRights(repoName, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchJSON(
-          `/projects/${encodeURIComponent(repoName)}/access`,
-          opt_errFn
-      );
+      return this._fetchJSON({
+        url: `/projects/${encodeURIComponent(repoName)}/access`,
+        errFn: opt_errFn,
+      });
     },
 
     setRepoAccessRights(repoName, repoInfo) {
@@ -1243,7 +1252,12 @@
     getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {
       const params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }
-      return this._fetchJSON('/groups/', opt_errFn, opt_ctx, params);
+      return this._fetchJSON({
+        url: '/groups/',
+        errFn: opt_errFn,
+        cancelCondition: opt_ctx,
+        params,
+      });
     },
 
     /**
@@ -1259,7 +1273,12 @@
         type: 'ALL',
       };
       if (opt_n) { params.n = opt_n; }
-      return this._fetchJSON('/projects/', opt_errFn, opt_ctx, params);
+      return this._fetchJSON({
+        url: '/projects/',
+        errFn: opt_errFn,
+        cancelCondition: opt_ctx,
+        params,
+      });
     },
 
     /**
@@ -1274,7 +1293,12 @@
       }
       const params = {suggest: null, q: inputVal};
       if (opt_n) { params.n = opt_n; }
-      return this._fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
+      return this._fetchJSON({
+        url: '/accounts/',
+        errFn: opt_errFn,
+        cancelCondition: opt_ctx,
+        params,
+      });
     },
 
     addChangeReviewer(changeNum, reviewerID) {
@@ -1321,7 +1345,7 @@
         O: options,
         q: 'status:open is:mergeable conflicts:' + changeNum,
       };
-      return this._fetchJSON('/changes/', null, null, params);
+      return this._fetchJSON({url: '/changes/', params});
     },
 
     getChangeCherryPicks(project, changeID, changeNum) {
@@ -1339,7 +1363,7 @@
         O: options,
         q: query,
       };
-      return this._fetchJSON('/changes/', null, null, params);
+      return this._fetchJSON({url: '/changes/', params});
     },
 
     getChangesWithSameTopic(topic) {
@@ -1353,7 +1377,7 @@
         O: options,
         q: 'status:open topic:' + topic,
       };
-      return this._fetchJSON('/changes/', null, null, params);
+      return this._fetchJSON({url: '/changes/', params});
     },
 
     getReviewedFiles(changeNum, patchNum) {
@@ -1809,9 +1833,10 @@
     },
 
     getCommitInfo(project, commit) {
-      return this._fetchJSON(
-          '/projects/' + encodeURIComponent(project) +
-          '/commits/' + encodeURIComponent(commit));
+      return this._fetchJSON({
+        url: '/projects/' + encodeURIComponent(project) +
+            '/commits/' + encodeURIComponent(commit),
+      });
     },
 
     _fetchB64File(url) {
@@ -1963,7 +1988,7 @@
     },
 
     getAccountGPGKeys() {
-      return this._fetchJSON('/accounts/self/gpgkeys');
+      return this._fetchJSON({url: '/accounts/self/gpgkeys'});
     },
 
     addAccountGPGKey(key) {
@@ -2006,7 +2031,10 @@
     },
 
     getCapabilities(token, opt_errFn) {
-      return this._fetchJSON('/config/server/capabilities', opt_errFn);
+      return this._fetchJSON({
+        url: '/config/server/capabilities',
+        errFn: opt_errFn,
+      });
     },
 
     setAssignee(changeNum, assignee) {
@@ -2073,11 +2101,13 @@
      */
     getChange(changeNum, opt_errFn) {
       // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-      return this._fetchJSON(`/changes/?q=change:${changeNum}`, opt_errFn)
-          .then(res => {
-            if (!res || !res.length) { return null; }
-            return res[0];
-          });
+      return this._fetchJSON({
+        url: `/changes/?q=change:${changeNum}`,
+        errFn: opt_errFn,
+      }).then(res => {
+        if (!res || !res.length) { return null; }
+        return res[0];
+      });
     },
 
     /**
@@ -2155,8 +2185,13 @@
     _getChangeURLAndFetch(changeNum, endpoint, opt_patchNum, opt_errFn,
         opt_cancelCondition, opt_params, opt_options) {
       return this._changeBaseURL(changeNum, opt_patchNum).then(url => {
-        return this._fetchJSON(url + endpoint, opt_errFn, opt_cancelCondition,
-            opt_params, opt_options);
+        return this._fetchJSON({
+          url: url + endpoint,
+          errFn: opt_errFn,
+          cancelCondition: opt_cancelCondition,
+          params: opt_params,
+          fetchOptions: opt_options,
+        });
       });
     },
 

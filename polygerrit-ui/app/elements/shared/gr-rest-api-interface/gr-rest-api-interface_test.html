@@ -58,7 +58,7 @@ limitations under the License.
     });
 
     test('JSON prefix is properly removed', done => {
-      element.fetchJSON('/dummy/url').then(obj => {
+      element._fetchJSON('/dummy/url').then(obj => {
         assert.deepEqual(obj, {hello: 'bonjour'});
         done();
       });
@@ -66,7 +66,7 @@ limitations under the License.
 
     test('cached results', done => {
       let n = 0;
-      sandbox.stub(element, 'fetchJSON', () => {
+      sandbox.stub(element, '_fetchJSON', () => {
         return Promise.resolve(++n);
       });
       const promises = [];
@@ -120,7 +120,7 @@ limitations under the License.
           cancel() { cancelCalled = true; },
         },
       }));
-      element.fetchJSON('/dummy/url', null, () => { return true; }).then(
+      element._fetchJSON('/dummy/url', null, () => { return true; }).then(
           obj => {
             assert.isUndefined(obj);
             assert.isTrue(cancelCalled);
@@ -129,7 +129,7 @@ limitations under the License.
     });
 
     test('parent diff comments are properly grouped', done => {
-      sandbox.stub(element, 'fetchJSON', () => {
+      sandbox.stub(element, '_fetchJSON', () => {
         return Promise.resolve({
           '/COMMIT_MSG': [],
           'sieve.go': [
@@ -272,7 +272,7 @@ limitations under the License.
     test('differing patch diff comments are properly grouped', done => {
       sandbox.stub(element, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
-      sandbox.stub(element, 'fetchJSON', url => {
+      sandbox.stub(element, '_fetchJSON', url => {
         if (url === '/changes/test~42/revisions/1') {
           return Promise.resolve({
             '/COMMIT_MSG': [],
@@ -386,11 +386,11 @@ limitations under the License.
     });
 
     suite('rebase action', () => {
-      let resolveFetchJSON;
+      let resolve_fetchJSON;
       setup(() => {
-        sandbox.stub(element, 'fetchJSON').returns(
+        sandbox.stub(element, '_fetchJSON').returns(
             new Promise(resolve => {
-              resolveFetchJSON = resolve;
+              resolve_fetchJSON = resolve;
             }));
       });
 
@@ -401,7 +401,7 @@ limitations under the License.
               assert.isFalse(response.rebase.rebaseOnCurrent);
               done();
             });
-        resolveFetchJSON({rebase: {}});
+        resolve_fetchJSON({rebase: {}});
       });
 
       test('rebase on current', done => {
@@ -411,7 +411,7 @@ limitations under the License.
               assert.isTrue(response.rebase.rebaseOnCurrent);
               done();
             });
-        resolveFetchJSON({rebase: {enabled: true}});
+        resolve_fetchJSON({rebase: {enabled: true}});
       });
     });
 
@@ -423,7 +423,7 @@ limitations under the License.
         element.addEventListener('server-error', resolve);
       });
 
-      element.fetchJSON().then(response => {
+      element._fetchJSON().then(response => {
         assert.isUndefined(response);
         assert.isTrue(getResponseObjectStub.notCalled);
         serverErrorEventPromise.then(() => done());
@@ -444,7 +444,7 @@ limitations under the License.
       element.addEventListener('server-error', serverErrorStub);
       const authErrorStub = sandbox.stub();
       element.addEventListener('auth-error', authErrorStub);
-      element.fetchJSON('/bar').then(r => {
+      element._fetchJSON('/bar').then(r => {
         flush(() => {
           assert.isTrue(authErrorStub.called);
           assert.isFalse(serverErrorStub.called);
@@ -484,7 +484,7 @@ limitations under the License.
     });
 
     test('legacy n,z key in change url is replaced', () => {
-      const stub = sandbox.stub(element, 'fetchJSON')
+      const stub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve([]));
       element.getChanges(1, null, 'n,z');
       assert.equal(stub.args[0][3].S, 0);
@@ -915,23 +915,23 @@ limitations under the License.
 
     test('gerrit auth is used', () => {
       sandbox.stub(Gerrit.Auth, 'fetch').returns(Promise.resolve());
-      element.fetchJSON('foo');
+      element._fetchJSON('foo');
       assert(Gerrit.Auth.fetch.called);
     });
 
-    test('getSuggestedAccounts does not return fetchJSON', () => {
-      const fetchJSONSpy = sandbox.spy(element, 'fetchJSON');
+    test('getSuggestedAccounts does not return _fetchJSON', () => {
+      const _fetchJSONSpy = sandbox.spy(element, '_fetchJSON');
       return element.getSuggestedAccounts().then(accts => {
-        assert.isFalse(fetchJSONSpy.called);
+        assert.isFalse(_fetchJSONSpy.called);
         assert.equal(accts.length, 0);
       });
     });
 
-    test('fetchJSON gets called by getSuggestedAccounts', () => {
-      const fetchJSONStub = sandbox.stub(element, 'fetchJSON',
+    test('_fetchJSON gets called by getSuggestedAccounts', () => {
+      const _fetchJSONStub = sandbox.stub(element, '_fetchJSON',
           () => Promise.resolve());
       return element.getSuggestedAccounts('own').then(() => {
-        assert.deepEqual(fetchJSONStub.lastCall.args[3], {
+        assert.deepEqual(_fetchJSONStub.lastCall.args[3], {
           q: 'own',
           suggest: null,
         });
@@ -1064,7 +1064,7 @@ limitations under the License.
 
     suite('getChanges populates _projectLookup', () => {
       test('multiple queries', () => {
-        sandbox.stub(element, 'fetchJSON')
+        sandbox.stub(element, '_fetchJSON')
             .returns(Promise.resolve([
               [
                 {_number: 1, project: 'test'},
@@ -1073,7 +1073,7 @@ limitations under the License.
                 {_number: 3, project: 'test/test'},
               ],
             ]));
-        // When opt_query instanceof Array, fetchJSON returns
+        // When opt_query instanceof Array, _fetchJSON returns
         // Array<Array<Object>>.
         return element.getChanges(null, []).then(() => {
           assert.equal(Object.keys(element._projectLookup).length, 3);
@@ -1084,14 +1084,14 @@ limitations under the License.
       });
 
       test('no query', () => {
-        sandbox.stub(element, 'fetchJSON')
+        sandbox.stub(element, '_fetchJSON')
             .returns(Promise.resolve([
               {_number: 1, project: 'test'},
               {_number: 2, project: 'test'},
               {_number: 3, project: 'test/test'},
             ]));
 
-        // When opt_query !instanceof Array, fetchJSON returns
+        // When opt_query !instanceof Array, _fetchJSON returns
         // Array<Object>.
         return element.getChanges().then(() => {
           assert.equal(Object.keys(element._projectLookup).length, 3);
@@ -1104,7 +1104,7 @@ limitations under the License.
 
     test('_getChangeURLAndFetch', () => {
       element._projectLookup = {1: 'test'};
-      const fetchStub = sandbox.stub(element, 'fetchJSON')
+      const fetchStub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve());
       return element._getChangeURLAndFetch(1, '/test', 1).then(() => {
         assert.isTrue(fetchStub.calledWith('/changes/test~1/revisions/1/test'));

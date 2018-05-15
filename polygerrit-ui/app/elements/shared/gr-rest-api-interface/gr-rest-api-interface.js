@@ -160,7 +160,7 @@
      * @param {?Object=} opt_params URL params, key-value hash.
      * @param {?Object=} opt_options Fetch options.
      */
-    fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
+    _fetchJSON(url, opt_errFn, opt_cancelCondition, opt_params, opt_options) {
       return this._fetchRawJSON(
           url, opt_errFn, opt_cancelCondition, opt_params, opt_options)
           .then(response => {
@@ -239,7 +239,7 @@
         return this._fetchSharedCacheURL('/config/server/info');
       }
 
-      return this.fetchJSON('/config/server/info');
+      return this._fetchJSON('/config/server/info');
     },
 
     getRepo(repo, opt_errFn) {
@@ -316,7 +316,7 @@
 
     getGroupConfig(group, opt_errFn) {
       const encodeName = encodeURIComponent(group);
-      return this.fetchJSON(`/groups/${encodeName}/detail`, opt_errFn);
+      return this._fetchJSON(`/groups/${encodeName}/detail`, opt_errFn);
     },
 
     /**
@@ -578,7 +578,7 @@
     },
 
     getExternalIds() {
-      return this.fetchJSON('/accounts/self/external.ids');
+      return this._fetchJSON('/accounts/self/external.ids');
     },
 
     deleteAccountIdentity(id) {
@@ -591,7 +591,7 @@
      * @return {!Promise<!Object>}
      */
     getAccountDetails(userId) {
-      return this.fetchJSON(`/accounts/${encodeURIComponent(userId)}/detail`);
+      return this._fetchJSON(`/accounts/${encodeURIComponent(userId)}/detail`);
     },
 
     getAccountEmails() {
@@ -692,15 +692,15 @@
     },
 
     getAccountStatus(userId) {
-      return this.fetchJSON(`/accounts/${encodeURIComponent(userId)}/status`);
+      return this._fetchJSON(`/accounts/${encodeURIComponent(userId)}/status`);
     },
 
     getAccountGroups() {
-      return this.fetchJSON('/accounts/self/groups');
+      return this._fetchJSON('/accounts/self/groups');
     },
 
     getAccountAgreements() {
-      return this.fetchJSON('/accounts/self/agreements');
+      return this._fetchJSON('/accounts/self/agreements');
     },
 
     saveAccountAgreement(name) {
@@ -824,7 +824,7 @@
       if (this._cache[url] !== undefined) {
         return Promise.resolve(this._cache[url]);
       }
-      this._sharedFetchPromises[url] = this.fetchJSON(url, opt_errFn)
+      this._sharedFetchPromises[url] = this._fetchJSON(url, opt_errFn)
           .then(response => {
             if (response !== undefined) {
               this._cache[url] = response;
@@ -848,8 +848,8 @@
      * @param {number|string=} opt_offset
      * @param {!Object=} opt_options
      * @return {?Array<!Object>|?Array<!Array<!Object>>} If opt_query is an
-     *     array, fetchJSON will return an array of arrays of changeInfos. If it
-     *     is unspecified or a string, fetchJSON will return an array of
+     *     array, _fetchJSON will return an array of arrays of changeInfos. If it
+     *     is unspecified or a string, _fetchJSON will return an array of
      *     changeInfos.
      */
     getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
@@ -874,7 +874,7 @@
           this._maybeInsertInLookup(change);
         }
       };
-      return this.fetchJSON('/changes/', null, null, params).then(response => {
+      return this._fetchJSON('/changes/', null, null, params).then(response => {
         // Response may be an array of changes OR an array of arrays of
         // changes.
         if (opt_query instanceof Array) {
@@ -1165,7 +1165,7 @@
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this.fetchJSON(
+      return this._fetchJSON(
           `/projects/${encodeURIComponent(repo)}/branches` +
           `?n=${reposBranchesPerPage + 1}&S=${offset}` +
           this._computeFilter(filter),
@@ -1186,7 +1186,7 @@
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this.fetchJSON(
+      return this._fetchJSON(
           `/projects/${encodeURIComponent(repo)}/tags` +
           `?n=${reposTagsPerPage + 1}&S=${offset}` +
           this._computeFilter(filter),
@@ -1204,7 +1204,7 @@
     getPlugins(filter, pluginsPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
 
-      return this.fetchJSON(
+      return this._fetchJSON(
           `/plugins/?all&n=${pluginsPerPage + 1}&S=${offset}` +
           this._computeFilter(filter),
           opt_errFn
@@ -1214,7 +1214,7 @@
     getRepoAccessRights(repoName, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this.fetchJSON(
+      return this._fetchJSON(
           `/projects/${encodeURIComponent(repoName)}/access`,
           opt_errFn
       );
@@ -1243,7 +1243,7 @@
     getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {
       const params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }
-      return this.fetchJSON('/groups/', opt_errFn, opt_ctx, params);
+      return this._fetchJSON('/groups/', opt_errFn, opt_ctx, params);
     },
 
     /**
@@ -1259,7 +1259,7 @@
         type: 'ALL',
       };
       if (opt_n) { params.n = opt_n; }
-      return this.fetchJSON('/projects/', opt_errFn, opt_ctx, params);
+      return this._fetchJSON('/projects/', opt_errFn, opt_ctx, params);
     },
 
     /**
@@ -1274,7 +1274,7 @@
       }
       const params = {suggest: null, q: inputVal};
       if (opt_n) { params.n = opt_n; }
-      return this.fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
+      return this._fetchJSON('/accounts/', opt_errFn, opt_ctx, params);
     },
 
     addChangeReviewer(changeNum, reviewerID) {
@@ -1321,7 +1321,7 @@
         O: options,
         q: 'status:open is:mergeable conflicts:' + changeNum,
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this._fetchJSON('/changes/', null, null, params);
     },
 
     getChangeCherryPicks(project, changeID, changeNum) {
@@ -1339,7 +1339,7 @@
         O: options,
         q: query,
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this._fetchJSON('/changes/', null, null, params);
     },
 
     getChangesWithSameTopic(topic) {
@@ -1353,7 +1353,7 @@
         O: options,
         q: 'status:open topic:' + topic,
       };
-      return this.fetchJSON('/changes/', null, null, params);
+      return this._fetchJSON('/changes/', null, null, params);
     },
 
     getReviewedFiles(changeNum, patchNum) {
@@ -1809,7 +1809,7 @@
     },
 
     getCommitInfo(project, commit) {
-      return this.fetchJSON(
+      return this._fetchJSON(
           '/projects/' + encodeURIComponent(project) +
           '/commits/' + encodeURIComponent(commit));
     },
@@ -1963,7 +1963,7 @@
     },
 
     getAccountGPGKeys() {
-      return this.fetchJSON('/accounts/self/gpgkeys');
+      return this._fetchJSON('/accounts/self/gpgkeys');
     },
 
     addAccountGPGKey(key) {
@@ -2006,7 +2006,7 @@
     },
 
     getCapabilities(token, opt_errFn) {
-      return this.fetchJSON('/config/server/capabilities', opt_errFn);
+      return this._fetchJSON('/config/server/capabilities', opt_errFn);
     },
 
     setAssignee(changeNum, assignee) {
@@ -2073,7 +2073,7 @@
      */
     getChange(changeNum, opt_errFn) {
       // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-      return this.fetchJSON(`/changes/?q=change:${changeNum}`, opt_errFn)
+      return this._fetchJSON(`/changes/?q=change:${changeNum}`, opt_errFn)
           .then(res => {
             if (!res || !res.length) { return null; }
             return res[0];
@@ -2141,7 +2141,7 @@
     },
 
    /**
-    * Alias for _changeBaseURL.then(fetchJSON).
+    * Alias for _changeBaseURL.then(_fetchJSON).
     * @todo(beckysiegel) clean up comments
     * @param {string|number} changeNum
     * @param {string} endpoint
@@ -2155,7 +2155,7 @@
     _getChangeURLAndFetch(changeNum, endpoint, opt_patchNum, opt_errFn,
         opt_cancelCondition, opt_params, opt_options) {
       return this._changeBaseURL(changeNum, opt_patchNum).then(url => {
-        return this.fetchJSON(url + endpoint, opt_errFn, opt_cancelCondition,
+        return this._fetchJSON(url + endpoint, opt_errFn, opt_cancelCondition,
             opt_params, opt_options);
       });
     },

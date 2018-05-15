@@ -163,6 +163,12 @@
      * @event auth-error
      */
 
+    /**
+     * Fired after an RPC completes.
+     *
+     * @event rpc-log
+     */
+
     properties: {
       _cache: {
         type: Object,
@@ -236,6 +242,10 @@
         elapsed + 'ms',
         req.anonymizedUrl || req.url,
       ].join(' '));
+      if (req.anonymizedUrl) {
+        this.fire('rpc-log',
+            {status, method, elapsed, anonymizedUrl: req.anonymizedUrl});
+      }
     },
 
     /**

@@ -76,6 +76,7 @@ java_library2(
         "//java/com/google/gerrit/server/group/testing",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//lib:guava",
         "//lib:jimfs",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

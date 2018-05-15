@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -44,6 +45,7 @@ public class ServerPlugin extends Plugin {
   private final String pluginCanonicalWebUrl;
   private final ClassLoader classLoader;
   private final String metricsPrefix;
+  private final GerritRuntime gerritRuntime;
   protected Class<? extends Module> sysModule;
   protected Class<? extends Module> sshModule;
   protected Class<? extends Module> httpModule;
@@ -63,7 +65,8 @@ public class ServerPlugin extends Plugin {
       PluginContentScanner scanner,
       Path dataDir,
       ClassLoader classLoader,
-      String metricsPrefix)
+      String metricsPrefix,
+      GerritRuntime gerritRuntime)
       throws InvalidPluginException {
     super(
         name,
@@ -77,31 +80,10 @@ public class ServerPlugin extends Plugin {
     this.classLoader = classLoader;
     this.manifest = scanner == null ? null : getPluginManifest(scanner);
     this.metricsPrefix = metricsPrefix;
+    this.gerritRuntime = gerritRuntime;
     if (manifest != null) {
       loadGuiceModules(manifest, classLoader);
     }
-  }
-
-  public ServerPlugin(
-      String name,
-      String pluginCanonicalWebUrl,
-      PluginUser pluginUser,
-      Path srcJar,
-      FileSnapshot snapshot,
-      PluginContentScanner scanner,
-      Path dataDir,
-      ClassLoader classLoader)
-      throws InvalidPluginException {
-    this(
-        name,
-        pluginCanonicalWebUrl,
-        pluginUser,
-        srcJar,
-        snapshot,
-        scanner,
-        dataDir,
-        classLoader,
-        null);
   }
 
   private void loadGuiceModules(Manifest manifest, ClassLoader classLoader)

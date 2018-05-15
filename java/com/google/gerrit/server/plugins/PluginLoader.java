@@ -33,6 +33,7 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugins.ServerPluginProvider.PluginDescription;
@@ -89,6 +90,7 @@ public class PluginLoader implements LifecycleListener {
   private final PersistentCacheFactory persistentCacheFactory;
   private final boolean remoteAdmin;
   private final UniversalServerPluginProvider serverPluginFactory;
+  private final GerritRuntime gerritRuntime;
 
   @Inject
   public PluginLoader(
@@ -100,7 +102,8 @@ public class PluginLoader implements LifecycleListener {
       @GerritServerConfig Config cfg,
       @CanonicalWebUrl Provider<String> provider,
       PersistentCacheFactory cacheFactory,
-      UniversalServerPluginProvider pluginFactory) {
+      UniversalServerPluginProvider pluginFactory,
+      GerritRuntime gerritRuntime) {
     pluginsDir = sitePaths.plugins_dir;
     dataDir = sitePaths.data_dir;
     tempDir = sitePaths.tmp_dir;
@@ -113,6 +116,7 @@ public class PluginLoader implements LifecycleListener {
     serverPluginFactory = pluginFactory;
 
     remoteAdmin = cfg.getBoolean("plugins", null, "allowRemoteAdmin", false);
+    this.gerritRuntime = gerritRuntime;
 
     long checkFrequency =
         ConfigUtil.getTimeUnit(
@@ -611,7 +615,8 @@ public class PluginLoader implements LifecycleListener {
         new PluginDescription(
             pluginUserFactory.create(name),
             getPluginCanonicalWebUrl(name),
-            getPluginDataDir(name)));
+            getPluginDataDir(name),
+            gerritRuntime));
   }
 
   // Only one active plugin per plugin name can exist for each plugin name.

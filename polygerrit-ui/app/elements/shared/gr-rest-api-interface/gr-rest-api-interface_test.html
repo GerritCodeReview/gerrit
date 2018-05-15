@@ -1392,5 +1392,18 @@ limitations under the License.
         assert.isFalse(response.text.called);
       });
     });
+
+    test('_logCall only reports requests with anonymized URLss', () => {
+      sandbox.stub(Date, 'now').returns(200);
+      const handler = sinon.stub();
+      element.addEventListener('rpc-log', handler);
+
+      element._logCall({url: 'url'}, 100, 200);
+      assert.isFalse(handler.called);
+
+      element._logCall({url: 'url', anonymizedUrl: 'not url'}, 100, 200);
+      flushAsynchronousOperations();
+      assert.isTrue(handler.calledOnce);
+    });
   });
 </script>

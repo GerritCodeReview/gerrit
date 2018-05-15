@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b1dbd12d_633c44f6",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49ba33a0_810aaf53",
+      "range": {
+        "startLine": 5,
+        "startChar": 55,
+        "endLine": 5,
+        "endChar": 56
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f428b3f_5a2f30f8",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c123f165_c4fcb859",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f428b3f_5a2f30f8",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 55
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "521cbb41_0de472de",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b2d4485_8f4c03e7",
+      "range": {
+        "startLine": 28,
+        "startChar": 111,
+        "endLine": 28,
+        "endChar": 114
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "583aeaa9_98a4cb25",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a8ae908_2c25904c",
+      "range": {
+        "startLine": 28,
+        "startChar": 12,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "581e0a74_940d5c2d",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5b0387d_22bb789c",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "581e0a74_940d5c2d",
+      "range": {
+        "startLine": 33,
+        "startChar": 27,
+        "endLine": 33,
+        "endChar": 34
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "e00c2920_c25e225c",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7d2459aa_0bf7c205",
+      "range": {
+        "startLine": 36,
+        "startChar": 64,
+        "endLine": 36,
+        "endChar": 73
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb387d5c_504c5b9a",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -160,6 +304,30 @@
       "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc7b87cc_86632777",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb387d5c_504c5b9a",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 10
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "c7667be3_29568f1d",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25fe31a3_680b32e3",
+      "range": {
+        "startLine": 56,
+        "startChar": 34,
+        "endLine": 56,
+        "endChar": 39
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6c84cc7_d8a418c6",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -206,6 +398,30 @@
       "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fdeae64_bbbaad72",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c84cc7_d8a418c6",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 73
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "af5aef10_a7974b50",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dc98ee5_a77745d5",
+      "range": {
+        "startLine": 80,
+        "startChar": 23,
+        "endLine": 80,
+        "endChar": 50
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f96968e_dd7ebd8b",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -252,6 +492,30 @@
       "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e1668a7_5cec01d6",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f96968e_dd7ebd8b",
+      "range": {
+        "startLine": 82,
+        "startChar": 3,
+        "endLine": 82,
+        "endChar": 74
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "be2fd9a9_7115c8e7",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "52e14a39_141c2132",
+      "range": {
+        "startLine": 83,
+        "startChar": 3,
+        "endLine": 83,
+        "endChar": 94
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28570707_f1b430dc",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "728802f2_99ae921f",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28570707_f1b430dc",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 43
+      },
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82af9727_665025dc",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 1
@@ -315,6 +627,24 @@
       "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24487bf6_85c2fadf",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-15T21:24:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82af9727_665025dc",
+      "revId": "d574430d80c29350ab665da75854f98e1990f1b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -112,16 +112,16 @@ public abstract class ChangeNotesState {
                 .lastUpdatedOn(lastUpdatedOn)
                 .owner(owner)
                 .branch(branch)
+                .status(status)
                 .currentPatchSetId(currentPatchSetId)
                 .subject(subject)
                 .topic(topic)
                 .originalSubject(originalSubject)
                 .submissionId(submissionId)
                 .assignee(assignee)
-                .status(status)
                 .isPrivate(isPrivate)
-                .isWorkInProgress(workInProgress)
-                .hasReviewStarted(hasReviewStarted)
+                .workInProgress(workInProgress)
+                .reviewStarted(hasReviewStarted)
                 .revertOf(revertOf)
                 .build())
         .pastAssignees(pastAssignees)
@@ -147,7 +147,7 @@ public abstract class ChangeNotesState {
    * <p>Notable exceptions include rowVersion and noteDbState, which are only make sense when read
    * from NoteDb, so they cannot be cached.
    *
-   * <p>Fields are in listed column order.
+   * <p>Fields should match the column names in {@link Change}, and are in listed column order.
    */
   @AutoValue
   abstract static class ChangeColumns {
@@ -161,6 +161,10 @@ public abstract class ChangeNotesState {
 
     // Project not included, as it's not stored anywhere in the meta ref.
     abstract String branch();
+
+    // TODO(dborowitz): Use a sensible default other than null
+    @Nullable
+    abstract Change.Status status();
 
     @Nullable
     abstract PatchSet.Id currentPatchSetId();
@@ -178,15 +182,12 @@ public abstract class ChangeNotesState {
 
     @Nullable
     abstract Account.Id assignee();
-    // TODO(dborowitz): Use a sensible default other than null
-    @Nullable
-    abstract Change.Status status();
 
     abstract boolean isPrivate();
 
-    abstract boolean isWorkInProgress();
+    abstract boolean workInProgress();
 
-    abstract boolean hasReviewStarted();
+    abstract boolean reviewStarted();
 
     @Nullable
     abstract Change.Id revertOf();
@@ -219,9 +220,9 @@ public abstract class ChangeNotesState {
 
       abstract Builder isPrivate(boolean isPrivate);
 
-      abstract Builder isWorkInProgress(boolean isWorkInProgress);
+      abstract Builder workInProgress(boolean workInProgress);
 
-      abstract Builder hasReviewStarted(boolean hasReviewStarted);
+      abstract Builder reviewStarted(boolean reviewStarted);
 
       abstract Builder revertOf(@Nullable Change.Id revertOf);
 
@@ -327,8 +328,8 @@ public abstract class ChangeNotesState {
     change.setSubmissionId(c.submissionId());
     change.setAssignee(c.assignee());
     change.setPrivate(c.isPrivate());
-    change.setWorkInProgress(c.isWorkInProgress());
-    change.setReviewStarted(c.hasReviewStarted());
+    change.setWorkInProgress(c.workInProgress());
+    change.setReviewStarted(c.reviewStarted());
     change.setRevertOf(c.revertOf());
 
     if (!patchSets().isEmpty()) {

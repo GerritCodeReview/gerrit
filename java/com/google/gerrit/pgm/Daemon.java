@@ -89,6 +89,7 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
+import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
@@ -433,6 +434,7 @@ public class Daemon extends SiteProgram {
       modules.add(new SmtpEmailSender.Module());
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
+    modules.add(new RestApiModule());
     modules.add(new PluginRestApiModule());
     modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));

@@ -26,7 +26,8 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
-import com.google.gerrit.server.cache.h2.DefaultCacheFactory;
+import com.google.gerrit.server.cache.h2.H2CacheModule;
+import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
@@ -199,7 +200,8 @@ public class InMemoryModule extends FactoryModule {
             return MoreExecutors.newDirectExecutorService();
           }
         });
-    install(new DefaultCacheFactory.Module());
+    install(new DefaultMemoryCacheModule());
+    install(new H2CacheModule());
     install(new FakeEmailSender.Module());
     install(new SignedTokenEmailTokenVerifier.Module());
     install(new GpgModule(cfg));

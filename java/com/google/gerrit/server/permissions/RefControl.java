@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -67,11 +68,18 @@ class RefControl {
   }
 
   RefControl forUser(CurrentUser who) {
-    ProjectControl newCtl = projectControl.forUser(who);
+    return forUser(projectControl.forUser(who));
+  }
+
+  RefControl forAbsentUser(Account.Id id) {
+    return forUser(projectControl.forAbsentUser(id));
+  }
+
+  private RefControl forUser(ProjectControl projectControl) {
     if (relevant.isUserSpecific()) {
-      return newCtl.controlForRef(refName);
+      return projectControl.controlForRef(refName);
     }
-    return new RefControl(newCtl, refName, relevant);
+    return new RefControl(projectControl, refName, relevant);
   }
 
   /** Is this user a ref owner? */
@@ -401,6 +409,11 @@ class RefControl {
     @Override
     public ForRef user(CurrentUser user) {
       return forUser(user).asForRef().database(db);
+    }
+
+    @Override
+    public ForRef absentUser(Account.Id id) {
+      return forAbsentUser(id).asForRef().database(db);
     }
 
     @Override

@@ -112,7 +112,7 @@ public abstract class PermissionBackend {
    *
    * <p>Usage should be very limited as this can expose a group-oracle.
    */
-  public abstract WithUser absentUser(Account.Id user);
+  public abstract WithUser absentUser(Account.Id id);
 
   /**
    * Check whether this {@code PermissionBackend} respects the same global capabilities as the
@@ -305,6 +305,17 @@ public abstract class PermissionBackend {
     /** Returns a new instance rescoped to same project, but different {@code user}. */
     public abstract ForProject user(CurrentUser user);
 
+    /**
+     * Returns an instance scoped to the provided user. Should be used in cases where the caller
+     * wants to check the permissions of a user who is not the issuer of the current request and not
+     * the target of impersonation.
+     *
+     * <p>Usage should be very limited as this can expose a group-oracle.
+     */
+    public ForProject absentUser(Account.Id id) {
+      throw new UnsupportedOperationException("not implemented");
+    }
+
     /** Returns an instance scoped for {@code ref} in this project. */
     public abstract ForRef ref(String ref);
 
@@ -413,6 +424,17 @@ public abstract class PermissionBackend {
     /** Returns a new instance rescoped to same reference, but different {@code user}. */
     public abstract ForRef user(CurrentUser user);
 
+    /**
+     * Returns an instance scoped to the provided user. Should be used in cases where the caller
+     * wants to check the permissions of a user who is not the issuer of the current request and not
+     * the target of impersonation.
+     *
+     * <p>Usage should be very limited as this can expose a group-oracle.
+     */
+    public ForRef absentUser(Account.Id id) {
+      throw new UnsupportedOperationException("not implemented");
+    }
+
     /** Returns an instance scoped to change. */
     public abstract ForChange change(ChangeData cd);
 
@@ -470,6 +492,17 @@ public abstract class PermissionBackend {
 
     /** Returns a new instance rescoped to same change, but different {@code user}. */
     public abstract ForChange user(CurrentUser user);
+
+    /**
+     * Returns an instance scoped to the provided user. Should be used in cases where the caller
+     * wants to check the permissions of a user who is not the issuer of the current request and not
+     * the target of impersonation.
+     *
+     * <p>Usage should be very limited as this can expose a group-oracle.
+     */
+    public ForChange absentUser(Account.Id id) {
+      throw new UnsupportedOperationException("not implemented");
+    }
 
     /** Verify scoped user can {@code perm}, throwing if denied. */
     public abstract void check(ChangePermissionOrLabel perm)

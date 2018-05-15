@@ -376,18 +376,18 @@ public class PostReviewers
 
   private boolean isValidReviewer(Account member, PermissionBackend.ForRef perm)
       throws PermissionBackendException {
-    if (member.isActive()) {
-      IdentifiedUser user = identifiedUserFactory.create(member.getId());
-      // Does not account for draft status as a user might want to let a
-      // reviewer see a draft.
-      try {
-        perm.user(user).check(RefPermission.READ);
-        return true;
-      } catch (AuthException e) {
-        return false;
-      }
+    if (!member.isActive()) {
+      return false;
     }
-    return false;
+
+    // Does not account for draft status as a user might want to let a
+    // reviewer see a draft.
+    try {
+      perm.absentUser(member.getId()).check(RefPermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 
   private Addition fail(String reviewer, String error) {
@@ -464,8 +464,8 @@ public class PostReviewers
       if (migration.readChanges() && state == CC) {
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {
-          IdentifiedUser u = identifiedUserFactory.create(accountId);
-          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), perm.user(u), cd));
+          result.ccs.add(
+              json.format(new ReviewerInfo(accountId.get()), perm.absentUser(accountId), cd));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : reviewersByEmail) {
@@ -475,11 +475,10 @@ public class PostReviewers
         result.reviewers = Lists.newArrayListWithCapacity(opResult.addedReviewers().size());
         for (PatchSetApproval psa : opResult.addedReviewers()) {
           // New reviewers have value 0, don't bother normalizing.
-          IdentifiedUser u = identifiedUserFactory.create(psa.getAccountId());
           result.reviewers.add(
               json.format(
                   new ReviewerInfo(psa.getAccountId().get()),
-                  perm.user(u),
+                  perm.absentUser(psa.getAccountId()),
                   cd,
                   ImmutableList.of(psa)));
         }

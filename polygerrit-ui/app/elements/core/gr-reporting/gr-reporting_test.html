@@ -264,7 +264,7 @@ limitations under the License.
         sandbox.stub(element, 'now').returns(42);
         element.pluginsLoaded();
         assert.isTrue(element.defaultReporter.calledWithExactly(
-            'timing-report', 'UI Latency', 'PluginsLoaded', 42
+            'timing-report', 'UI Latency', 'PluginsLoaded', 42, undefined
         ));
       });
 

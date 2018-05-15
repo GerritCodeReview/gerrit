@@ -20,7 +20,8 @@
   // Latency reporting constants.
   const TIMING = {
     TYPE: 'timing-report',
-    CATEGORY: 'UI Latency',
+    CATEGORY_UI_LATENCY: 'UI Latency',
+    CATEGORY_RPC: 'RPC Timing',
     // Reported events - alphabetize below.
     APP_STARTED: 'App Started',
     PAGE_LOADED: 'Page Loaded',
@@ -162,7 +163,16 @@
       report.apply(this, args);
     },
 
-    defaultReporter(type, category, eventName, eventValue) {
+    /**
+     * The dofeault reprter reports events immediately.
+     * @param {string} type
+     * @param {string} category
+     * @param {string} eventName
+     * @param {string|number} eventValue
+     * @param {boolean|undefined} opt_noLog If true, the event will not be
+     *     logged to the JS console.
+     */
+    defaultReporter(type, category, eventName, eventValue, opt_noLog) {
       const detail = {
         type,
         category,
@@ -170,6 +180,7 @@
         value: eventValue,
       };
       document.dispatchEvent(new CustomEvent(type, {detail}));
+      if (opt_noLog) { return; }
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       } else {
@@ -178,7 +189,17 @@
       }
     },
 
-    cachingReporter(type, category, eventName, eventValue) {
+    /**
+     * The caching reprter will queue reports until plugins have loaded, and log
+     * events immediately if they're reported after plugins have loaded.
+     * @param {string} type
+     * @param {string} category
+     * @param {string} eventName
+     * @param {string|number} eventValue
+     * @param {boolean|undefined} opt_noLog If true, the event will not be
+     *     logged to the JS console.
+     */
+    cachingReporter(type, category, eventName, eventValue, opt_noLog) {
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       }
@@ -188,9 +209,9 @@
             this.reporter(...args);
           }
         }
-        this.reporter(type, category, eventName, eventValue);
+        this.reporter(type, category, eventName, eventValue, opt_noLog);
       } else {
-        pending.push([type, category, eventName, eventValue]);
+        pending.push([type, category, eventName, eventValue, opt_noLog]);
       }
     },
 
@@ -200,8 +221,8 @@
     appStarted(hidden) {
       const startTime =
           new Date().getTime() - this.performanceTiming.navigationStart;
-      this.reporter(
-          TIMING.TYPE, TIMING.CATEGORY, TIMING.APP_STARTED, startTime);
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+          TIMING.APP_STARTED, startTime);
       if (hidden) {
         this.reporter(PAGE_VISIBILITY.TYPE, PAGE_VISIBILITY.CATEGORY,
             PAGE_VISIBILITY.STARTED_HIDDEN);
@@ -218,8 +239,8 @@
       } else {
         const loadTime = this.performanceTiming.loadEventEnd -
             this.performanceTiming.navigationStart;
-        this.reporter(
-            TIMING.TYPE, TIMING.CATEGORY, TIMING.PAGE_LOADED, loadTime);
+        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+            TIMING.PAGE_LOADED, loadTime);
       }
     },
 
@@ -358,6 +379,16 @@
           this._reportTiming(name, this.now() - start);
         },
       };
+    },
+
+    /**
+     * Log timing informatoin for an RPC.
+     * @param {string} anonymizedUrl The URL of the RPC with tokens obfuscated.
+     * @param {number} elapsed The time elapsed of the RPC.
+     */
+    reportRpcTiming(anonymizedUrl, elapsed) {
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_RPC, 'RPC-' + anonymizedUrl,
+          elapsed, true);
     },
 
     reportInteraction(eventName, opt_msg) {

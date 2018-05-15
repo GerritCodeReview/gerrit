@@ -4,6 +4,7 @@ java_library(
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
     deps = [
+        "//lib:guava",
         "//lib/truth",
     ],
 )

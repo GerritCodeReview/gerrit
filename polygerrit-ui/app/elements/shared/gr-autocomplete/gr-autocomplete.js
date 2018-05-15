@@ -165,6 +165,10 @@
       _selected: Object,
     },
 
+    behaviors: [
+      Gerrit.KeyboardShortcutBehavior,
+    ],
+
     observers: [
       '_maybeOpenDropdown(_suggestions, _focused)',
       '_updateSuggestions(text, threshold, noDebounce)',
@@ -305,6 +309,7 @@
           }
           break;
         case 13: // Enter
+          if (this.modifierPressed(e)) { break; }
           e.preventDefault();
           this._handleInputCommit();
           break;

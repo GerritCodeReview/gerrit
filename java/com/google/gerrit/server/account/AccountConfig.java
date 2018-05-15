@@ -312,11 +312,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
             || !accountUpdate.get().getUpdatedProjectWatches().isEmpty())) {
       Map<ProjectWatchKey, Set<NotifyType>> newProjectWatches =
           new HashMap<>(projectWatches.getProjectWatches());
-      accountUpdate.get().getDeletedProjectWatches().forEach(pw -> newProjectWatches.remove(pw));
-      accountUpdate
-          .get()
-          .getUpdatedProjectWatches()
-          .forEach((pw, nt) -> newProjectWatches.put(pw, nt));
+      accountUpdate.get().getDeletedProjectWatches().forEach(newProjectWatches::remove);
+      accountUpdate.get().getUpdatedProjectWatches().forEach(newProjectWatches::put);
       saveConfig(ProjectWatches.WATCH_CONFIG, projectWatches.save(newProjectWatches));
     }
   }

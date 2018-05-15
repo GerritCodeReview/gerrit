@@ -56,7 +56,14 @@ limitations under the License.
 
     test('test for it to return name', () => {
       const account = {
-        name: 'test-user',
+        name: 'test-name',
+      };
+      assert.deepEqual(element.getUserName(config, account, true), 'test-name');
+    });
+
+    test('test for it to return username', () => {
+      const account = {
+        username: 'test-user',
       };
       assert.deepEqual(element.getUserName(config, account, true), 'test-user');
     });

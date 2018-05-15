@@ -496,6 +496,18 @@ limitations under the License.
       assert.isTrue(listener.called);
     });
 
+    test('enter with modifier does not complete', () => {
+      const handleSpy = sandbox.spy(element, '_handleKeydown');
+      const commitStub = sandbox.stub(element, '_handleInputCommit');
+      MockInteractions.pressAndReleaseKeyOn(
+          element.$.input, 13, 'ctrl', 'enter');
+      assert.isTrue(handleSpy.called);
+      assert.isFalse(commitStub.called);
+      MockInteractions.pressAndReleaseKeyOn(
+          element.$.input, 13, null, 'enter');
+      assert.isTrue(commitStub.called);
+    });
+
     suite('warnUncommitted', () => {
       let inputClassList;
       setup(() => {
@@ -507,12 +519,8 @@ limitations under the License.
         element.text = 'blah blah blah';
         MockInteractions.blur(element.$.input);
         assert.isTrue(inputClassList.contains('warnUncommitted'));
-        assert.equal(getComputedStyle(element.$.input.inputElement).color,
-            'rgb(255, 0, 0)');
         MockInteractions.focus(element.$.input);
         assert.isFalse(inputClassList.contains('warnUncommitted'));
-        assert.notEqual(getComputedStyle(element.$.input.inputElement).color,
-            'rgb(255, 0, 0)ed');
       });
 
       test('disabled', () => {

@@ -1140,7 +1140,8 @@ Default is 5 minutes.
 
 [[change.allowBlame]]change.allowBlame::
 +
-Allow blame on side by side diff. If set to false, blame cannot be used.
+Allow blame on side by side diff in the GWT UI. If set to false, blame cannot be
+used.
 +
 Default is true.
 
@@ -2974,13 +2975,13 @@ WARNING: The Elasticsearch support has only been tested with Elasticsearch
 version 2.4.x. Support for other versions is not guaranteed.
 
 Open and closed changes are indexed in a single index, separated
-into types 'open_changes' and 'closed_changes' respectively.
+into types `open_changes` and `closed_changes` respectively.
 
 [[elasticsearch.prefix]]elasticsearch.prefix::
 +
 This setting can be used to prefix index names to allow multiple Gerrit
-instances in a single Elasticsearch cluster. Prefix 'gerrit1_' would result in a
-change index named 'gerrit1_changes_0001'.
+instances in a single Elasticsearch cluster. Prefix `gerrit1_` would result in a
+change index named `gerrit1_changes_0001`.
 +
 Not set by default.
 
@@ -3006,7 +3007,7 @@ Defaults to `false`.
 +
 How long should Gerrit waits for connection.
 +
-The value is in the usual time-unit format like "1 m", "5 m".
+The value is in the usual time-unit format like `1 m`, `5 m`.
 +
 Defaults to `5 m`
 
@@ -3014,31 +3015,31 @@ Defaults to `5 m`
 +
 How long connection can stay in idle.
 +
-The value is in the usual time-unit format like "1 m", "5 m".
+The value is in the usual time-unit format like `1 m`, `5 m`.
 +
 Defaults to `5 m`
 
 [[elasticsearch.maxTotalConnection]]elasticsearch.maxTotalConnection::
 +
-How many connections can be spawn simultaneously.
+How many connections can be spawned simultaneously.
 +
 Defaults to `1`
 
 [[elasticsearch.maxReadTimeout]]elasticsearch.maxReadTimeout::
 +
-Timeout for the read operation.
+Timeout for read operations.
 +
-The value is in the usual time-unit format like "1 m", "5 m".
+The value is in the usual time-unit format like `1 m`, `5 m`.
 +
 Defaults to `5 m`
 
 ==== Elasticsearch server(s) configuration
 
-Each section correspond to one Elasticsearch server.
+Each section corresponds to one Elasticsearch server.
 
 [[elasticsearch.name.protocol]]elasticsearch.name.protocol::
 +
-Elasticsearch server protocol [http|https].
+Elasticsearch server protocol. Can be `http` or `https`.
 +
 Defaults to `http`.
 

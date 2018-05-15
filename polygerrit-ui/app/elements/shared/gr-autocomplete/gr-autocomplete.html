@@ -15,8 +15,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../../bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="../../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
@@ -59,7 +59,7 @@ limitations under the License.
       }
       paper-input.warnUncommitted {
         --paper-input-container-input: {
-          color: #ff0000;
+          color: var(--error-text-color);
           font-size: var(--font-size-normal);
         }
       }

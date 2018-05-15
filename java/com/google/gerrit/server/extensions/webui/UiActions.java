@@ -94,7 +94,7 @@ public class UiActions {
 
     evaluatePermissionBackendConditions(permissionBackend, conds);
 
-    return descs.stream().filter(u -> u.isVisible()).collect(toList());
+    return descs.stream().filter(Description::isVisible).collect(toList());
   }
 
   @VisibleForTesting

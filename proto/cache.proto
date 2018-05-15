@@ -25,3 +25,23 @@ message ChangeKindKeyProto {
   bytes next = 2;
   string strategy_name = 3;
 }
+
+// Serialized form of
+// com.google.gerrit.server.change.MergeabilityCacheImpl.EntryKey.
+// Next ID: 5
+message MergeabilityKeyProto {
+  bytes commit = 1;
+  bytes into = 2;
+  string submit_type = 3;
+  string merge_strategy = 4;
+}
+
+// Serialized form of com.google.gerrit.extensions.auth.oauth.OAuthToken.
+// Next ID: 6
+message OAuthTokenProto {
+  string token = 1;
+  string secret = 2;
+  string raw = 3;
+  int64 expires_at = 4;
+  string providerId = 5;
+}

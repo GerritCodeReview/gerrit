@@ -477,7 +477,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     // Check that the repo has the expected commits
     List<RevCommit> log = getRemoteLog();
-    List<String> commitsInRepo = log.stream().map(c -> c.getShortMessage()).collect(toList());
+    List<String> commitsInRepo = log.stream().map(RevCommit::getShortMessage).collect(toList());
     int expectedCommitCount =
         getSubmitType() == SubmitType.MERGE_ALWAYS
             ? 5 // initial commit + 3 commits + merge commit

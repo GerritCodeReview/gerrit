@@ -61,11 +61,15 @@ limitations under the License.
     });
 
     test('appStarted', () => {
-      element.appStarted();
+      element.appStarted(true);
       assert.isTrue(
           element.reporter.calledWithExactly(
               'timing-report', 'UI Latency', 'App Started',
               NOW_TIME - fakePerformance.navigationStart
+      ));
+      assert.isTrue(
+          element.reporter.calledWithExactly(
+              'lifecycle', 'Page Visibility', 'hidden'
       ));
     });
 
@@ -93,6 +97,7 @@ limitations under the License.
       assert.isTrue(element.time.calledWithExactly('DashboardDisplayed'));
       assert.isTrue(element.time.calledWithExactly('ChangeDisplayed'));
       assert.isTrue(element.time.calledWithExactly('DiffViewDisplayed'));
+      assert.isTrue(element.time.calledWithExactly('FileListDisplayed'));
       assert.isFalse(element._baselines.hasOwnProperty('garbage'));
     });
 
@@ -116,6 +121,17 @@ limitations under the License.
           element.timeEnd.calledWithExactly('StartupDiffViewDisplayed'));
       element.diffViewDisplayed();
       assert.isTrue(element.timeEnd.calledWithExactly('DiffViewDisplayed'));
+    });
+
+    test('fileListDisplayed', () => {
+      sandbox.spy(element, 'timeEnd');
+      element.fileListDisplayed();
+      assert.isFalse(
+          element.timeEnd.calledWithExactly('FileListDisplayed'));
+      assert.isTrue(
+          element.timeEnd.calledWithExactly('StartupFileListDisplayed'));
+      element.fileListDisplayed();
+      assert.isTrue(element.timeEnd.calledWithExactly('FileListDisplayed'));
     });
 
     test('dashboardDisplayed', () => {
@@ -146,6 +162,13 @@ limitations under the License.
       ));
     });
 
+    test('reportExtension', () => {
+      element.reportExtension('foo');
+      assert.isTrue(element.reporter.calledWithExactly(
+          'lifecycle', 'Extension detected', 'foo'
+      ));
+    });
+
     suite('plugins', () => {
       setup(() => {
         element.reporter.restore();
@@ -159,6 +182,14 @@ limitations under the License.
         element.pluginsLoaded();
         assert.isTrue(element.defaultReporter.calledWithExactly(
             'timing-report', 'UI Latency', 'PluginsLoaded', 42
+        ));
+      });
+
+      test('pluginsLoaded reports plugins', () => {
+        Gerrit._arePluginsLoaded.returns(true);
+        element.pluginsLoaded(['foo', 'bar']);
+        assert.isTrue(element.defaultReporter.calledWithExactly(
+            'lifecycle', 'Plugins installed', 'foo,bar'
         ));
       });
 

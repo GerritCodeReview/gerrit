@@ -197,7 +197,7 @@ public class PostReviewersOp implements BatchUpdateOp {
             .build();
     emailReviewers(
         rsrc.getChange(),
-        Lists.transform(addedReviewers, r -> r.getAccountId()),
+        Lists.transform(addedReviewers, PatchSetApproval::getAccountId),
         addedCCs == null ? ImmutableList.of() : addedCCs,
         reviewersByEmail,
         addedCCsByEmail,

@@ -69,7 +69,7 @@ limitations under the License.
         @apply --gr-dropdown-item;
       }
       li .itemAction.disabled {
-        color: #ccc;
+        color: var(--deemphasized-text-color);
         cursor: default;
       }
       li .itemAction:link,
@@ -145,6 +145,7 @@ limitations under the License.
                 <a
                     class="itemAction"
                     href$="[[_computeLinkURL(link)]]"
+                    download$="[[_computeIsDownload(link)]]"
                     rel$="[[_computeLinkRel(link)]]"
                     target$="[[link.target]]"
                     hidden$="[[!link.url]]"

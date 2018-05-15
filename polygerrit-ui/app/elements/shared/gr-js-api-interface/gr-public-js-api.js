@@ -27,7 +27,11 @@
    */
   let _pluginsPending = {};
 
+  let _pluginsInstalled = [];
+
   let _pluginsPendingCount = -1;
+
+  const UNKNOWN_PLUGIN = 'unknown';
 
   const PANEL_ENDPOINTS_MAPPING = {
     CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
@@ -37,11 +41,20 @@
   const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
   let _restAPI;
+
   const getRestAPI = () => {
     if (!_restAPI) {
       _restAPI = document.createElement('gr-rest-api-interface');
     }
     return _restAPI;
+  };
+
+  let _reporting;
+  const getReporting = () => {
+    if (!_reporting) {
+      _reporting = document.createElement('gr-reporting');
+    }
+    return _reporting;
   };
 
   // TODO (viktard): deprecate in favor of GrPluginRestApi.
@@ -420,9 +433,13 @@
   if (!app) {
     // No gr-app found (running tests)
     Gerrit._resetPlugins = () => {
-      _resolveAllPluginsLoaded = null;
       _allPluginsPromise = null;
-      Gerrit._setPluginsPending([]);
+      _pluginsInstalled = [];
+      _pluginsPending = {};
+      _pluginsPendingCount = -1;
+      _reporting = null;
+      _resolveAllPluginsLoaded = null;
+      _restAPI = null;
       Gerrit._endpoints = new GrPluginEndpoints();
       for (const k of Object.keys(_plugins)) {
         delete _plugins[k];
@@ -558,7 +575,8 @@
 
   Gerrit._setPluginsPending = function(plugins) {
     _pluginsPending = plugins.reduce((o, url) => {
-      o[getPluginNameFromUrl(url)] = url;
+      // TODO(viktard): Remove guard (@see Issue 8962)
+      o[getPluginNameFromUrl(url) || UNKNOWN_PLUGIN] = url;
       return o;
     }, {});
     Gerrit._setPluginsCount(Object.keys(_pluginsPending).length);
@@ -567,7 +585,7 @@
   Gerrit._setPluginsCount = function(count) {
     _pluginsPendingCount = count;
     if (Gerrit._arePluginsLoaded()) {
-      document.createElement('gr-reporting').pluginsLoaded();
+      getReporting().pluginsLoaded(_pluginsInstalled);
       if (_resolveAllPluginsLoaded) {
         _resolveAllPluginsLoaded();
       }
@@ -585,17 +603,14 @@
   };
 
   Gerrit._pluginInstalled = function(url) {
-    const name = getPluginNameFromUrl(url);
-    if (name && !_pluginsPending[name]) {
-      console.warn(`Unexpected plugin from ${url}!`);
+    const name = getPluginNameFromUrl(url) || UNKNOWN_PLUGIN;
+    if (!_pluginsPending[name]) {
+      console.warn(`Unexpected plugin ${name} installed from ${url}.`);
     } else {
-      if (name) {
-        delete _pluginsPending[name];
-        console.log(`Plugin ${name} installed`);
-      } else {
-        console.log(`Plugin installed from ${url}`);
-      }
+      delete _pluginsPending[name];
+      _pluginsInstalled.push(name);
       Gerrit._setPluginsCount(_pluginsPendingCount - 1);
+      console.log(`Plugin ${name} installed.`);
     }
   };
 

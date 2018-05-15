@@ -16,6 +16,7 @@
 # Startup script for Gerrit Inspector - a Jython introspector
 # -----------------------------------------------------------------------
 
+from __future__ import print_function
 import sys
 
 def print_help():
@@ -23,9 +24,9 @@ def print_help():
     if not n.startswith("__") and not n in ['help', 'reload'] \
        and str(type(v)) != "<type 'javapackage'>"             \
        and not str(v).startswith("<module"):
-       print "\"%s\" is \"%s\"" % (n, v)
-  print
-  print "Welcome to the Gerrit Inspector"
-  print "Enter help() to see the above again, EOF to quit and stop Gerrit"
+       print("\"%s\" is \"%s\"" % (n, v))
+  print()
+  print("Welcome to the Gerrit Inspector")
+  print("Enter help() to see the above again, EOF to quit and stop Gerrit")
 
 print_help()

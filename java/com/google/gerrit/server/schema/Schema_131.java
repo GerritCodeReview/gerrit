@@ -71,6 +71,6 @@ public class Schema_131 extends SchemaVersion {
       }
     }
     ui.message("\tMigration completed:  " + repoUpgraded.size() + " repositories updated:");
-    ui.message("\t" + repoUpgraded.stream().map(n -> n.get()).collect(joining(" ")));
+    ui.message("\t" + repoUpgraded.stream().map(Project.NameKey::get).collect(joining(" ")));
   }
 }

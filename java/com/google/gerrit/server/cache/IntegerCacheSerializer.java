@@ -1,0 +1,63 @@
+// Copyright (C) 2018 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.cache;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.TextFormat;
+import java.io.IOException;
+import java.util.Arrays;
+
+public enum IntegerCacheSerializer implements CacheSerializer<Integer> {
+  INSTANCE;
+
+  // Same as com.google.protobuf.WireFormat#MAX_VARINT_SIZE. Note that negative values take up more
+  // than MAX_VARINT32_SIZE space.
+  private static final int MAX_VARINT_SIZE = 10;
+
+  @Override
+  public byte[] serialize(Integer object) {
+    byte[] buf = new byte[MAX_VARINT_SIZE];
+    CodedOutputStream cout = CodedOutputStream.newInstance(buf);
+    try {
+      cout.writeInt32NoTag(checkNotNull(object));
+      cout.flush();
+    } catch (IOException e) {
+      throw new IllegalStateException("Failed to serialize int");
+    }
+    int n = cout.getTotalBytesWritten();
+    return n == buf.length ? buf : Arrays.copyOfRange(buf, 0, n);
+  }
+
+  @Override
+  public Integer deserialize(byte[] in) {
+    CodedInputStream cin = CodedInputStream.newInstance(checkNotNull(in));
+    int ret;
+    try {
+      ret = cin.readRawVarint32();
+    } catch (IOException e) {
+      throw new IllegalArgumentException("Failed to deserialize int");
+    }
+    int n = cin.getTotalBytesRead();
+    if (n != in.length) {
+      throw new IllegalArgumentException(
+          "Extra bytes in int representation: "
+              + TextFormat.escapeBytes(Arrays.copyOfRange(in, n, in.length)));
+    }
+    return ret;
+  }
+}

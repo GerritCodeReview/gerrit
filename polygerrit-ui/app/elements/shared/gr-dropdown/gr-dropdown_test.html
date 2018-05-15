@@ -49,6 +49,11 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('_computeIsDownload', () => {
+      assert.isTrue(element._computeIsDownload({download: true}));
+      assert.isFalse(element._computeIsDownload({download: false}));
+    });
+
     test('tap on trigger opens menu, then closes', () => {
       sandbox.stub(element, '_open', () => { element.$.dropdown.open(); });
       sandbox.stub(element, '_close', () => { element.$.dropdown.close(); });

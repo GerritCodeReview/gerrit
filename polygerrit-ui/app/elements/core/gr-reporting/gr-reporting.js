@@ -26,6 +26,28 @@
     PAGE_LOADED: 'Page Loaded',
   };
 
+  // Plugin-related reporting constants.
+  const PLUGINS = {
+    TYPE: 'lifecycle',
+    // Reported events - alphabetize below.
+    INSTALLED: 'Plugins installed',
+  };
+
+  // Chrome extension-related reporting constants.
+  const EXTENSION = {
+    TYPE: 'lifecycle',
+    // Reported events - alphabetize below.
+    DETECTED: 'Extension detected',
+  };
+
+  // Page visibility related constants.
+  const PAGE_VISIBILITY = {
+    TYPE: 'lifecycle',
+    CATEGORY: 'Page Visibility',
+    // Reported events - alphabetize below.
+    STARTED_HIDDEN: 'hidden',
+  };
+
   // Navigation reporting constants.
   const NAVIGATION = {
     TYPE: 'nav-report',
@@ -42,10 +64,12 @@
     CHANGE_DISPLAYED: 'ChangeDisplayed',
     DASHBOARD_DISPLAYED: 'DashboardDisplayed',
     DIFF_VIEW_DISPLAYED: 'DiffViewDisplayed',
+    FILE_LIST_DISPLAYED: 'FileListDisplayed',
     PLUGINS_LOADED: 'PluginsLoaded',
     STARTUP_CHANGE_DISPLAYED: 'StartupChangeDisplayed',
     STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
     STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
+    STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
     WEB_COMPONENTS_READY: 'WebComponentsReady',
   };
 
@@ -54,6 +78,7 @@
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
   // WebComponentsReady timer is triggered from gr-router.
   STARTUP_TIMERS[TIMER.WEB_COMPONENTS_READY] = 0;
 
@@ -154,11 +179,15 @@
     /**
      * User-perceived app start time, should be reported when the app is ready.
      */
-    appStarted() {
+    appStarted(hidden) {
       const startTime =
           new Date().getTime() - this.performanceTiming.navigationStart;
       this.reporter(
           TIMING.TYPE, TIMING.CATEGORY, TIMING.APP_STARTED, startTime);
+      if (hidden) {
+        this.reporter(PAGE_VISIBILITY.TYPE, PAGE_VISIBILITY.CATEGORY,
+            PAGE_VISIBILITY.STARTED_HIDDEN);
+      }
     },
 
     /**
@@ -183,6 +212,7 @@
       this.time(TIMER.CHANGE_DISPLAYED);
       this.time(TIMER.DASHBOARD_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
+      this.time(TIMER.FILE_LIST_DISPLAYED);
     },
 
     locationChanged(page) {
@@ -214,8 +244,22 @@
       }
     },
 
-    pluginsLoaded() {
+    fileListDisplayed() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_FILE_LIST_DISPLAYED)) {
+        this.timeEnd(TIMER.STARTUP_FILE_LIST_DISPLAYED);
+      } else {
+        this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
+      }
+    },
+
+    reportExtension(name) {
+      this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
+    },
+
+    pluginsLoaded(pluginsList) {
       this.timeEnd(TIMER.PLUGINS_LOADED);
+      this.reporter(
+          PLUGINS.TYPE, PLUGINS.INSTALLED, (pluginsList || []).join(','));
     },
 
     /**

@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 /** Helper to search sorted lists for elements matching a {@link RegExp}. */
 public final class RegexListSearcher<T> {
   public static RegexListSearcher<String> ofStrings(String re) {
-    return new RegexListSearcher<>(re, in -> in);
+    return new RegexListSearcher<>(re, Function.identity());
   }
 
   private final RunAutomaton pattern;

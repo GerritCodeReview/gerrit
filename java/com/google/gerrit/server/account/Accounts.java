@@ -108,7 +108,7 @@ public class Accounts {
    * @return first n account IDs
    */
   public List<Account.Id> firstNIds(int n) throws IOException {
-    return readUserRefs().sorted(comparing(id -> id.get())).limit(n).collect(toList());
+    return readUserRefs().sorted(comparing(Account.Id::get)).limit(n).collect(toList());
   }
 
   /**

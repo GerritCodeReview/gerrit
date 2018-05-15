@@ -286,5 +286,9 @@
     _computeHasTooltip(tooltip) {
       return !!tooltip;
     },
+
+    _computeIsDownload(link) {
+      return !!link.download;
+    },
   });
 })();

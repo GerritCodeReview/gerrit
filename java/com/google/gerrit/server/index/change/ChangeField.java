@@ -22,6 +22,9 @@ import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.APPROVAL_CODEC;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.CHANGE_CODEC;
+import static com.google.gerrit.reviewdb.server.ReviewDbCodecs.PATCH_SET_CODEC;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -64,7 +67,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gson.Gson;
-import com.google.gwtorm.protobuf.CodecFactory;
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.gwtorm.server.OrmException;
 import com.google.protobuf.CodedOutputStream;
@@ -468,14 +470,9 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMITTER)
           .buildRepeatable(ChangeField::getCommitterNameAndEmail);
 
-  public static final ProtobufCodec<Change> CHANGE_CODEC = CodecFactory.encoder(Change.class);
-
   /** Serialized change object, used for pre-populating results. */
   public static final FieldDef<ChangeData, byte[]> CHANGE =
       storedOnly("_change").build(changeGetter(CHANGE_CODEC::encodeToByteArray));
-
-  public static final ProtobufCodec<PatchSetApproval> APPROVAL_CODEC =
-      CodecFactory.encoder(PatchSetApproval.class);
 
   /** Serialized approvals for the current patch set, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> APPROVAL =
@@ -595,9 +592,6 @@ public class ChangeField {
           .buildRepeatable(
               cd ->
                   cd.patchSets().stream().flatMap(ps -> ps.getGroups().stream()).collect(toSet()));
-
-  public static final ProtobufCodec<PatchSet> PATCH_SET_CODEC =
-      CodecFactory.encoder(PatchSet.class);
 
   /** Serialized patch set object, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
@@ -723,7 +717,7 @@ public class ChangeField {
   }
 
   public static final FieldDef<ChangeData, Iterable<String>> SUBMIT_RECORD =
-      exact("submit_record").buildRepeatable(cd -> formatSubmitRecordValues(cd));
+      exact("submit_record").buildRepeatable(ChangeField::formatSubmitRecordValues);
 
   public static final FieldDef<ChangeData, Iterable<byte[]>> STORED_SUBMIT_RECORD_STRICT =
       storedOnly("full_submit_record_strict")

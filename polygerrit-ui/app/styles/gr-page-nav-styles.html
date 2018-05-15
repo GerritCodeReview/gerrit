@@ -24,7 +24,7 @@ limitations under the License.
         border-bottom: 1px solid transparent;
         border-top: 1px solid transparent;
         display: block;
-        padding: 0 2em;
+        padding: 0 calc(var(--default-horizontal-margin) + 0.5em);
       }
       .navStyles li a {
         display: block;
@@ -33,13 +33,13 @@ limitations under the License.
         white-space: nowrap;
       }
       .navStyles .subsectionItem {
-        padding-left: 3em;
+        padding-left: calc(var(--default-horizontal-margin) + 1.5em);
       }
       .navStyles .hideSubsection {
         display: none;
       }
       .navStyles li.sectionTitle {
-        padding: 0 2em 0 1.5em;
+        padding: 0 2em 0 var(--default-horizontal-margin);
       }
       .navStyles li.sectionTitle:not(:first-child) {
         margin-top: 1em;

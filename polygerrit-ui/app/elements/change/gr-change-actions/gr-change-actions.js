@@ -172,6 +172,22 @@
     __type: 'change',
   };
 
+  // Set of keys that have icons. As more icons are added to gr-icons.html, this
+  // set should be expanded.
+  const ACTIONS_WITH_ICONS = new Set([
+    ChangeActions.ABANDON,
+    ChangeActions.DELETE_EDIT,
+    ChangeActions.EDIT,
+    ChangeActions.PUBLISH_EDIT,
+    ChangeActions.REBASE_EDIT,
+    ChangeActions.RESTORE,
+    ChangeActions.REVERT,
+    ChangeActions.STOP_EDIT,
+    QUICK_APPROVE_ACTION.key,
+    RevisionActions.REBASE,
+    RevisionActions.SUBMIT,
+  ]);
+
   const AWAIT_CHANGE_ATTEMPTS = 5;
   const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
@@ -1270,7 +1286,13 @@
 
       return revisionActionValues
           .concat(changeActionValues)
-          .sort(this._actionComparator.bind(this));
+          .sort(this._actionComparator.bind(this))
+          .map(action => {
+            if (ACTIONS_WITH_ICONS.has(action.__key)) {
+              action.icon = action.__key;
+            }
+            return action;
+          });
     },
 
     _getActionPriority(action) {
@@ -1385,6 +1407,10 @@
 
     _computeHasTooltip(title) {
       return !!title;
+    },
+
+    _computeHasIcon(action) {
+      return action.icon ? '' : 'hidden';
     },
   });
 })();

@@ -169,6 +169,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
+import com.google.gerrit.server.restapi.RestApiModule;
 import com.google.gerrit.server.restapi.change.SuggestReviewers;
 import com.google.gerrit.server.restapi.group.GroupModule;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
@@ -305,12 +306,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     install(new AuditModule());
     bind(UiActions.class);
-    install(new com.google.gerrit.server.restapi.access.Module());
-    install(new com.google.gerrit.server.restapi.config.Module());
-    install(new com.google.gerrit.server.restapi.change.Module());
-    install(new com.google.gerrit.server.restapi.account.Module());
-    install(new com.google.gerrit.server.restapi.project.Module());
-    install(new com.google.gerrit.server.restapi.group.Module());
+    install(new RestApiModule());
 
     bind(GitReferenceUpdated.class);
     DynamicMap.mapOf(binder(), new TypeLiteral<Cache<?, ?>>() {});

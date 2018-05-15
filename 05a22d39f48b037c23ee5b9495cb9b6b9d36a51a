@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e19d7c7_31437095",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5065,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-15T08:18:05Z",
+      "side": 1,
+      "message": "hashing",
+      "range": {
+        "startLine": 5065,
+        "startChar": 10,
+        "endLine": 5065,
+        "endChar": 16
+      },
+      "revId": "05a22d39f48b037c23ee5b9495cb9b6b9d36a51a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62fc1c01_1b05e4ce",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5070,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-15T08:18:05Z",
+      "side": 1,
+      "message": "nit: this should go into the previous line which is anyway too short to be wrapped",
+      "revId": "05a22d39f48b037c23ee5b9495cb9b6b9d36a51a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "997d9519_05a11331",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5079,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-15T08:18:05Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "05a22d39f48b037c23ee5b9495cb9b6b9d36a51a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

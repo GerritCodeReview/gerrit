@@ -57,33 +57,15 @@ import org.eclipse.jgit.lib.ObjectId;
 @AutoValue
 public abstract class ChangeNotesState {
   static ChangeNotesState empty(Change change) {
-    return new AutoValue_ChangeNotesState(
-        null,
-        change.getId(),
-        null,
-        ImmutableSet.of(),
-        ImmutableSet.of(),
-        ImmutableList.of(),
-        ImmutableList.of(),
-        ReviewerSet.empty(),
-        ReviewerByEmailSet.empty(),
-        ReviewerSet.empty(),
-        ReviewerByEmailSet.empty(),
-        ImmutableList.of(),
-        ImmutableList.of(),
-        ImmutableList.of(),
-        ImmutableList.of(),
-        ImmutableListMultimap.of(),
-        ImmutableListMultimap.of(),
-        null,
-        null,
-        null,
-        true,
-        null);
+    return Builder.empty(change.getId()).build();
+  }
+
+  static Builder builder() {
+    return new AutoValue_ChangeNotesState.Builder();
   }
 
   static ChangeNotesState create(
-      @Nullable ObjectId metaId,
+      ObjectId metaId,
       Change.Id changeId,
       Change.Key changeKey,
       Timestamp createdOn,
@@ -97,8 +79,8 @@ public abstract class ChangeNotesState {
       @Nullable String submissionId,
       @Nullable Account.Id assignee,
       @Nullable Change.Status status,
-      @Nullable Set<Account.Id> pastAssignees,
-      @Nullable Set<String> hashtags,
+      Set<Account.Id> pastAssignees,
+      Set<String> hashtags,
       Map<PatchSet.Id, PatchSet> patchSets,
       ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
       ReviewerSet reviewers,
@@ -108,56 +90,55 @@ public abstract class ChangeNotesState {
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
       List<SubmitRecord> submitRecords,
-      List<ChangeMessage> allChangeMessages,
-      ListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet,
+      List<ChangeMessage> changeMessages,
       ListMultimap<RevId, Comment> publishedComments,
       @Nullable Timestamp readOnlyUntil,
-      @Nullable Boolean isPrivate,
-      @Nullable Boolean workInProgress,
+      boolean isPrivate,
+      boolean workInProgress,
       boolean hasReviewStarted,
       @Nullable Change.Id revertOf) {
-    if (hashtags == null) {
-      hashtags = ImmutableSet.of();
-    }
-    return new AutoValue_ChangeNotesState(
+    checkNotNull(
         metaId,
-        changeId,
-        new AutoValue_ChangeNotesState_ChangeColumns(
-            changeKey,
-            createdOn,
-            lastUpdatedOn,
-            owner,
-            branch,
-            currentPatchSetId,
-            subject,
-            topic,
-            originalSubject,
-            submissionId,
-            assignee,
-            status,
-            isPrivate,
-            workInProgress,
-            hasReviewStarted,
-            revertOf),
-        ImmutableSet.copyOf(pastAssignees),
-        ImmutableSet.copyOf(hashtags),
-        ImmutableList.copyOf(patchSets.entrySet()),
-        ImmutableList.copyOf(approvals.entries()),
-        reviewers,
-        reviewersByEmail,
-        pendingReviewers,
-        pendingReviewersByEmail,
-        ImmutableList.copyOf(allPastReviewers),
-        ImmutableList.copyOf(reviewerUpdates),
-        ImmutableList.copyOf(submitRecords),
-        ImmutableList.copyOf(allChangeMessages),
-        ImmutableListMultimap.copyOf(changeMessagesByPatchSet),
-        ImmutableListMultimap.copyOf(publishedComments),
-        readOnlyUntil,
-        isPrivate,
-        workInProgress,
-        hasReviewStarted,
-        revertOf);
+        "metaId is required when passing arguments to create(...). To create an empty %s without"
+            + " NoteDb data, use empty(...) instead",
+        ChangeNotesState.class.getSimpleName());
+    return builder()
+        .metaId(metaId)
+        .changeId(changeId)
+        .columns(
+            new AutoValue_ChangeNotesState_ChangeColumns.Builder()
+                .changeKey(changeKey)
+                .createdOn(createdOn)
+                .lastUpdatedOn(lastUpdatedOn)
+                .owner(owner)
+                .branch(branch)
+                .currentPatchSetId(currentPatchSetId)
+                .subject(subject)
+                .topic(topic)
+                .originalSubject(originalSubject)
+                .submissionId(submissionId)
+                .assignee(assignee)
+                .status(status)
+                .isPrivate(isPrivate)
+                .isWorkInProgress(workInProgress)
+                .hasReviewStarted(hasReviewStarted)
+                .revertOf(revertOf)
+                .build())
+        .pastAssignees(pastAssignees)
+        .hashtags(hashtags)
+        .patchSets(patchSets.entrySet())
+        .approvals(approvals.entries())
+        .reviewers(reviewers)
+        .reviewersByEmail(reviewersByEmail)
+        .pendingReviewers(pendingReviewers)
+        .pendingReviewersByEmail(pendingReviewersByEmail)
+        .allPastReviewers(allPastReviewers)
+        .reviewerUpdates(reviewerUpdates)
+        .submitRecords(submitRecords)
+        .changeMessages(changeMessages)
+        .publishedComments(publishedComments)
+        .readOnlyUntil(readOnlyUntil)
+        .build();
   }
 
   /**
@@ -201,17 +182,51 @@ public abstract class ChangeNotesState {
     @Nullable
     abstract Change.Status status();
 
-    @Nullable
-    abstract Boolean isPrivate();
+    abstract boolean isPrivate();
 
-    @Nullable
-    abstract Boolean isWorkInProgress();
+    abstract boolean isWorkInProgress();
 
-    @Nullable
-    abstract Boolean hasReviewStarted();
+    abstract boolean hasReviewStarted();
 
     @Nullable
     abstract Change.Id revertOf();
+
+    @AutoValue.Builder
+    abstract static class Builder {
+      abstract Builder changeKey(Change.Key changeKey);
+
+      abstract Builder createdOn(Timestamp createdOn);
+
+      abstract Builder lastUpdatedOn(Timestamp lastUpdatedOn);
+
+      abstract Builder owner(Account.Id owner);
+
+      abstract Builder branch(String branch);
+
+      abstract Builder currentPatchSetId(@Nullable PatchSet.Id currentPatchSetId);
+
+      abstract Builder subject(String subject);
+
+      abstract Builder topic(@Nullable String topic);
+
+      abstract Builder originalSubject(@Nullable String originalSubject);
+
+      abstract Builder submissionId(@Nullable String submissionId);
+
+      abstract Builder assignee(@Nullable Account.Id assignee);
+
+      abstract Builder status(@Nullable Change.Status status);
+
+      abstract Builder isPrivate(boolean isPrivate);
+
+      abstract Builder isWorkInProgress(boolean isWorkInProgress);
+
+      abstract Builder hasReviewStarted(boolean hasReviewStarted);
+
+      abstract Builder revertOf(@Nullable Change.Id revertOf);
+
+      abstract ChangeColumns build();
+    }
   }
 
   // Only null if NoteDb is disabled.
@@ -247,26 +262,12 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableList<SubmitRecord> submitRecords();
 
-  abstract ImmutableList<ChangeMessage> allChangeMessages();
-
-  abstract ImmutableListMultimap<PatchSet.Id, ChangeMessage> changeMessagesByPatchSet();
+  abstract ImmutableList<ChangeMessage> changeMessages();
 
   abstract ImmutableListMultimap<RevId, Comment> publishedComments();
 
   @Nullable
   abstract Timestamp readOnlyUntil();
-
-  @Nullable
-  abstract Boolean isPrivate();
-
-  @Nullable
-  abstract Boolean isWorkInProgress();
-
-  @Nullable
-  abstract Boolean hasReviewStarted();
-
-  @Nullable
-  abstract Change.Id revertOf();
 
   Change newChange(Project.NameKey project) {
     ChangeColumns c = checkNotNull(columns(), "columns are required");
@@ -325,9 +326,9 @@ public abstract class ChangeNotesState {
     change.setLastUpdatedOn(c.lastUpdatedOn());
     change.setSubmissionId(c.submissionId());
     change.setAssignee(c.assignee());
-    change.setPrivate(c.isPrivate() == null ? false : c.isPrivate());
-    change.setWorkInProgress(c.isWorkInProgress() == null ? false : c.isWorkInProgress());
-    change.setReviewStarted(c.hasReviewStarted() == null ? false : c.hasReviewStarted());
+    change.setPrivate(c.isPrivate());
+    change.setWorkInProgress(c.isWorkInProgress());
+    change.setReviewStarted(c.hasReviewStarted());
     change.setRevertOf(c.revertOf());
 
     if (!patchSets().isEmpty()) {
@@ -337,5 +338,62 @@ public abstract class ChangeNotesState {
       // some tests to pass.
       change.clearCurrentPatchSet();
     }
+  }
+
+  @AutoValue.Builder
+  abstract static class Builder {
+    static Builder empty(Change.Id changeId) {
+      return new AutoValue_ChangeNotesState.Builder()
+          .changeId(changeId)
+          .pastAssignees(ImmutableSet.of())
+          .hashtags(ImmutableSet.of())
+          .patchSets(ImmutableList.of())
+          .approvals(ImmutableList.of())
+          .reviewers(ReviewerSet.empty())
+          .reviewersByEmail(ReviewerByEmailSet.empty())
+          .pendingReviewers(ReviewerSet.empty())
+          .pendingReviewersByEmail(ReviewerByEmailSet.empty())
+          .allPastReviewers(ImmutableList.of())
+          .reviewerUpdates(ImmutableList.of())
+          .submitRecords(ImmutableList.of())
+          .changeMessages(ImmutableList.of())
+          .publishedComments(ImmutableListMultimap.of());
+    }
+
+    abstract Builder metaId(ObjectId metaId);
+
+    abstract Builder changeId(Change.Id changeId);
+
+    abstract Builder columns(ChangeColumns columns);
+
+    abstract Builder pastAssignees(Set<Account.Id> pastAssignees);
+
+    abstract Builder hashtags(Set<String> hashtags);
+
+    abstract Builder patchSets(Iterable<Map.Entry<PatchSet.Id, PatchSet>> patchSets);
+
+    abstract Builder approvals(Iterable<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals);
+
+    abstract Builder reviewers(ReviewerSet reviewers);
+
+    abstract Builder reviewersByEmail(ReviewerByEmailSet reviewersByEmail);
+
+    abstract Builder pendingReviewers(ReviewerSet pendingReviewers);
+
+    abstract Builder pendingReviewersByEmail(ReviewerByEmailSet pendingReviewersByEmail);
+
+    abstract Builder allPastReviewers(List<Account.Id> allPastReviewers);
+
+    abstract Builder reviewerUpdates(List<ReviewerStatusUpdate> reviewerUpdates);
+
+    abstract Builder submitRecords(List<SubmitRecord> submitRecords);
+
+    abstract Builder changeMessages(List<ChangeMessage> changeMessages);
+
+    abstract Builder publishedComments(ListMultimap<RevId, Comment> publishedComments);
+
+    abstract Builder readOnlyUntil(@Nullable Timestamp readOnlyUntil);
+
+    abstract ChangeNotesState build();
   }
 }

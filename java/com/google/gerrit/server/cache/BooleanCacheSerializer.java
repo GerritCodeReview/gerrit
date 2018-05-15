@@ -17,23 +17,28 @@ package com.google.gerrit.server.cache;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Converter;
-import com.google.common.base.Enums;
+import com.google.protobuf.TextFormat;
+import java.util.Arrays;
 
-public class EnumCacheSerializer<E extends Enum<E>> implements CacheSerializer<E> {
-  private final Converter<String, E> converter;
+public enum BooleanCacheSerializer implements CacheSerializer<Boolean> {
+  INSTANCE;
 
-  public EnumCacheSerializer(Class<E> clazz) {
-    this.converter = Enums.stringConverter(clazz);
+  private static final byte[] TRUE = Boolean.toString(true).getBytes(UTF_8);
+  private static final byte[] FALSE = Boolean.toString(false).getBytes(UTF_8);
+
+  @Override
+  public byte[] serialize(Boolean object) {
+    byte[] bytes = checkNotNull(object) ? TRUE : FALSE;
+    return Arrays.copyOf(bytes, bytes.length);
   }
 
   @Override
-  public byte[] serialize(E object) {
-    return converter.reverse().convert(checkNotNull(object)).getBytes(UTF_8);
-  }
-
-  @Override
-  public E deserialize(byte[] in) {
-    return converter.convert(new String(checkNotNull(in), UTF_8));
+  public Boolean deserialize(byte[] in) {
+    if (Arrays.equals(in, TRUE)) {
+      return Boolean.TRUE;
+    } else if (Arrays.equals(in, FALSE)) {
+      return Boolean.FALSE;
+    }
+    throw new IllegalArgumentException("Invalid Boolean value: " + TextFormat.escapeBytes(in));
   }
 }

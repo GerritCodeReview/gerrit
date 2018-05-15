@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /** A single revision of a {@link Change}. */
 public final class PatchSet {
@@ -277,6 +278,26 @@ public final class PatchSet {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof PatchSet)) {
+      return false;
+    }
+    PatchSet p = (PatchSet) o;
+    return Objects.equals(id, p.id)
+        && Objects.equals(revision, p.revision)
+        && Objects.equals(uploader, p.uploader)
+        && Objects.equals(createdOn, p.createdOn)
+        && Objects.equals(groups, p.groups)
+        && Objects.equals(pushCertificate, p.pushCertificate)
+        && Objects.equals(description, p.description);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, revision, uploader, createdOn, groups, pushCertificate, description);
   }
 
   @Override

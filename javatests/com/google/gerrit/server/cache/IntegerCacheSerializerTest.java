@@ -16,41 +16,46 @@ package com.google.gerrit.server.cache;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.primitives.Bytes;
+import com.google.protobuf.TextFormat;
 import org.junit.Test;
 
-public class EnumCacheSerializerTest {
+public class IntegerCacheSerializerTest {
   @Test
   public void serialize() throws Exception {
-    assertRoundTrip(MyEnum.FOO);
-    assertRoundTrip(MyEnum.BAR);
-    assertRoundTrip(MyEnum.BAZ);
+    for (int i :
+        ImmutableList.of(
+            Integer.MIN_VALUE,
+            Integer.MIN_VALUE + 20,
+            -1,
+            0,
+            1,
+            Integer.MAX_VALUE - 20,
+            Integer.MAX_VALUE)) {
+      assertRoundTrip(i);
+    }
   }
 
   @Test
   public void deserializeInvalidValues() throws Exception {
     assertDeserializeFails(null);
-    assertDeserializeFails("".getBytes(UTF_8));
-    assertDeserializeFails("foo".getBytes(UTF_8));
-    assertDeserializeFails("QUUX".getBytes(UTF_8));
+    assertDeserializeFails(
+        Bytes.concat(IntegerCacheSerializer.INSTANCE.serialize(1), new byte[] {0, 0, 0, 0}));
   }
 
-  private enum MyEnum {
-    FOO,
-    BAR,
-    BAZ;
-  }
-
-  private static void assertRoundTrip(MyEnum e) throws Exception {
-    CacheSerializer<MyEnum> s = new EnumCacheSerializer<>(MyEnum.class);
-    assertThat(s.deserialize(s.serialize(e))).isEqualTo(e);
+  private static void assertRoundTrip(int i) throws Exception {
+    byte[] serialized = IntegerCacheSerializer.INSTANCE.serialize(i);
+    int result = IntegerCacheSerializer.INSTANCE.deserialize(serialized);
+    assertThat(result)
+        .named("round-trip of %s via \"%s\"", i, TextFormat.escapeBytes(serialized))
+        .isEqualTo(i);
   }
 
   private static void assertDeserializeFails(byte[] in) {
-    CacheSerializer<MyEnum> s = new EnumCacheSerializer<>(MyEnum.class);
     try {
-      s.deserialize(in);
+      IntegerCacheSerializer.INSTANCE.deserialize(in);
       assert_().fail("expected RuntimeException");
     } catch (RuntimeException e) {
       // Expected.

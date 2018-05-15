@@ -564,12 +564,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   /** @return all change messages, in chronological order, oldest first. */
   public ImmutableList<ChangeMessage> getChangeMessages() {
-    return state.allChangeMessages();
-  }
-
-  /** @return change messages by patch set, in chronological order, oldest first. */
-  public ImmutableListMultimap<PatchSet.Id, ChangeMessage> getChangeMessagesByPatchSet() {
-    return state.changeMessagesByPatchSet();
+    return state.changeMessages();
   }
 
   /** @return inline comments on each revision. */
@@ -668,28 +663,6 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   @VisibleForTesting
   public Timestamp getReadOnlyUntil() {
     return state.readOnlyUntil();
-  }
-
-  public boolean isPrivate() {
-    if (state.isPrivate() == null) {
-      return false;
-    }
-    return state.isPrivate();
-  }
-
-  public boolean isWorkInProgress() {
-    if (state.isWorkInProgress() == null) {
-      return false;
-    }
-    return state.isWorkInProgress();
-  }
-
-  public Change.Id getRevertOf() {
-    return state.revertOf();
-  }
-
-  public boolean hasReviewStarted() {
-    return state.hasReviewStarted();
   }
 
   @Override

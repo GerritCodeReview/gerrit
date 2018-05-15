@@ -16,20 +16,20 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.ioutil.BasicSerialization.readString;
-import static com.google.gerrit.server.ioutil.BasicSerialization.writeString;
-import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
-import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
+import com.google.common.base.Converter;
+import com.google.common.base.Enums;
 import com.google.common.base.MoreObjects;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
-import com.google.common.collect.ImmutableBiMap;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.server.cache.BooleanCacheSerializer;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.submit.SubmitDryRun;
@@ -37,14 +37,13 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.google.protobuf.ByteString;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -58,30 +57,16 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
   private static final String CACHE_NAME = "mergeability";
 
-  public static final ImmutableBiMap<SubmitType, Character> SUBMIT_TYPES =
-      new ImmutableBiMap.Builder<SubmitType, Character>()
-          .put(SubmitType.INHERIT, 'I')
-          .put(SubmitType.FAST_FORWARD_ONLY, 'F')
-          .put(SubmitType.MERGE_IF_NECESSARY, 'M')
-          .put(SubmitType.REBASE_ALWAYS, 'P')
-          .put(SubmitType.REBASE_IF_NECESSARY, 'R')
-          .put(SubmitType.MERGE_ALWAYS, 'A')
-          .put(SubmitType.CHERRY_PICK, 'C')
-          .build();
-
-  static {
-    checkState(
-        SUBMIT_TYPES.size() == SubmitType.values().length,
-        "SubmitType <-> char BiMap needs updating");
-  }
-
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
         persist(CACHE_NAME, EntryKey.class, Boolean.class)
             .maximumWeight(1 << 20)
-            .weigher(MergeabilityWeigher.class);
+            .weigher(MergeabilityWeigher.class)
+            .version(1)
+            .keySerializer(EntryKey.Serializer.INSTANCE)
+            .valueSerializer(BooleanCacheSerializer.INSTANCE);
         bind(MergeabilityCache.class).to(MergeabilityCacheImpl.class);
       }
     };
@@ -91,9 +76,7 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
     return ref != null && ref.getObjectId() != null ? ref.getObjectId() : ObjectId.zeroId();
   }
 
-  public static class EntryKey implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+  public static class EntryKey {
     private ObjectId commit;
     private ObjectId into;
     private SubmitType submitType;
@@ -154,26 +137,44 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
           .toString();
     }
 
-    private void writeObject(ObjectOutputStream out) throws IOException {
-      writeWithoutMarker(out, commit);
-      writeWithoutMarker(out, into);
-      Character c = SUBMIT_TYPES.get(submitType);
-      if (c == null) {
-        throw new IOException("Invalid submit type: " + submitType);
-      }
-      out.writeChar(c);
-      writeString(out, mergeStrategy);
-    }
+    static enum Serializer implements CacheSerializer<EntryKey> {
+      INSTANCE;
 
-    private void readObject(ObjectInputStream in) throws IOException {
-      commit = readWithoutMarker(in);
-      into = readWithoutMarker(in);
-      char t = in.readChar();
-      submitType = SUBMIT_TYPES.inverse().get(t);
-      if (submitType == null) {
-        throw new IOException("Invalid submit type code: " + t);
+      private static final Converter<String, SubmitType> SUBMIT_TYPE_CONVERTER =
+          Enums.stringConverter(SubmitType.class);
+
+      @Override
+      public byte[] serialize(EntryKey object) {
+        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
+        MergeabilityKeyProto.Builder b = MergeabilityKeyProto.newBuilder();
+        object.getCommit().copyRawTo(buf, 0);
+        b.setCommit(ByteString.copyFrom(buf));
+        object.getInto().copyRawTo(buf, 0);
+        b.setInto(ByteString.copyFrom(buf));
+        b.setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.getSubmitType()));
+        b.setMergeStrategy(object.getMergeStrategy());
+        return ProtoCacheSerializers.toByteArray(b.build());
       }
-      mergeStrategy = readString(in);
+
+      @Override
+      public EntryKey deserialize(byte[] in) {
+        MergeabilityKeyProto proto;
+        try {
+          proto = MergeabilityKeyProto.parseFrom(in);
+        } catch (IOException e) {
+          throw new IllegalArgumentException("Failed to deserialize mergeability cache key");
+        }
+        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
+        proto.getCommit().copyTo(buf, 0);
+        ObjectId commit = ObjectId.fromRaw(buf);
+        proto.getInto().copyTo(buf, 0);
+        ObjectId into = ObjectId.fromRaw(buf);
+        return new EntryKey(
+            commit,
+            into,
+            SUBMIT_TYPE_CONVERTER.convert(proto.getSubmitType()),
+            proto.getMergeStrategy());
+      }
     }
   }
 

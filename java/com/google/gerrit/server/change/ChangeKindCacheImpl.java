@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
 import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -176,7 +177,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     @VisibleForTesting
     static class Serializer implements CacheSerializer<Key> {
       @Override
-      public byte[] serialize(Key object) throws IOException {
+      public byte[] serialize(Key object) {
         byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
         ChangeKindKeyProto.Builder b = ChangeKindKeyProto.newBuilder();
         object.getPrior().copyRawTo(buf, 0);
@@ -188,12 +189,16 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       }
 
       @Override
-      public Key deserialize(byte[] in) throws IOException {
-        ChangeKindKeyProto proto = ChangeKindKeyProto.parseFrom(in);
-        return new Key(
-            ObjectId.fromRaw(proto.getPrior().toByteArray()),
-            ObjectId.fromRaw(proto.getNext().toByteArray()),
-            proto.getStrategyName());
+      public Key deserialize(byte[] in) {
+        try {
+          ChangeKindKeyProto proto = ChangeKindKeyProto.parseFrom(in);
+          return new Key(
+              ObjectId.fromRaw(proto.getPrior().toByteArray()),
+              ObjectId.fromRaw(proto.getNext().toByteArray()),
+              proto.getStrategyName());
+        } catch (InvalidProtocolBufferException e) {
+          throw new IllegalArgumentException("Failed to deserialize object", e);
+        }
       }
     }
   }

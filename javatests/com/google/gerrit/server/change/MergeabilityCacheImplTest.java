@@ -19,32 +19,37 @@ import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.byt
 import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.server.cache.CacheSerializer;
-import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
+import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-public class ChangeKindCacheImplTest {
+public class MergeabilityCacheImplTest {
   @Test
   public void keySerializer() throws Exception {
-    ChangeKindCacheImpl.Key key =
-        new ChangeKindCacheImpl.Key(
-            ObjectId.zeroId(),
+    MergeabilityCacheImpl.EntryKey key =
+        new MergeabilityCacheImpl.EntryKey(
+            ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee"),
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
+            SubmitType.MERGE_IF_NECESSARY,
             "aStrategy");
-    CacheSerializer<ChangeKindCacheImpl.Key> s = new ChangeKindCacheImpl.Key.Serializer();
-    byte[] serialized = s.serialize(key);
-    assertThat(ChangeKindKeyProto.parseFrom(serialized))
+    byte[] serialized = MergeabilityCacheImpl.EntryKey.Serializer.INSTANCE.serialize(key);
+    assertThat(MergeabilityKeyProto.parseFrom(serialized))
         .isEqualTo(
-            ChangeKindKeyProto.newBuilder()
-                .setPrior(bytes(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0))
-                .setNext(
+            MergeabilityKeyProto.newBuilder()
+                .setCommit(
+                    bytes(
+                        0xba, 0xdc, 0x0f, 0xee, 0xba, 0xdc, 0x0f, 0xee, 0xba, 0xdc, 0x0f, 0xee,
+                        0xba, 0xdc, 0x0f, 0xee, 0xba, 0xdc, 0x0f, 0xee))
+                .setInto(
                     bytes(
                         0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef,
                         0xde, 0xad, 0xbe, 0xef, 0xde, 0xad, 0xbe, 0xef))
-                .setStrategyName("aStrategy")
+                .setSubmitType("MERGE_IF_NECESSARY")
+                .setMergeStrategy("aStrategy")
                 .build());
-    assertThat(s.deserialize(serialized)).isEqualTo(key);
+    assertThat(MergeabilityCacheImpl.EntryKey.Serializer.INSTANCE.deserialize(serialized))
+        .isEqualTo(key);
   }
 
   /**
@@ -53,9 +58,12 @@ public class ChangeKindCacheImplTest {
    */
   @Test
   public void keyFields() throws Exception {
-    assertThatSerializedClass(ChangeKindCacheImpl.Key.class)
+    assertThatSerializedClass(MergeabilityCacheImpl.EntryKey.class)
         .hasFields(
             ImmutableMap.of(
-                "prior", ObjectId.class, "next", ObjectId.class, "strategyName", String.class));
+                "commit", ObjectId.class,
+                "into", ObjectId.class,
+                "submitType", SubmitType.class,
+                "mergeStrategy", String.class));
   }
 }

@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.config.CapabilityResource;
 import com.google.gerrit.server.config.TopMenuResource;
 
-public class ConfigRestModule extends RestApiModule {
+public class Module extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), CapabilityResource.CAPABILITY_KIND);

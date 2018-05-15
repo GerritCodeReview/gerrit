@@ -66,6 +66,7 @@ import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
@@ -369,6 +370,11 @@ public class Daemon extends SiteProgram {
       }
     }
     manager.stop();
+  }
+
+  @Override
+  protected GerritRuntime getGerritRuntime() {
+    return GerritRuntime.DAEMON;
   }
 
   private boolean sshdOff() {

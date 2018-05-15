@@ -154,7 +154,7 @@
       report.apply(this, args);
     },
 
-    defaultReporter(type, category, eventName, eventValue) {
+    defaultReporter(type, category, eventName, eventValue, opt_noLog) {
       const detail = {
         type,
         category,
@@ -162,6 +162,7 @@
         value: eventValue,
       };
       document.dispatchEvent(new CustomEvent(type, {detail}));
+      if (opt_noLog) { return; }
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       } else {
@@ -170,7 +171,7 @@
       }
     },
 
-    cachingReporter(type, category, eventName, eventValue) {
+    cachingReporter(type, category, eventName, eventValue, opt_noLog) {
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       }
@@ -180,9 +181,9 @@
             this.reporter(...args);
           }
         }
-        this.reporter(type, category, eventName, eventValue);
+        this.reporter(type, category, eventName, eventValue, opt_noLog);
       } else {
-        pending.push([type, category, eventName, eventValue]);
+        pending.push([type, category, eventName, eventValue, opt_noLog]);
       }
     },
 
@@ -313,6 +314,11 @@
       const time = Math.round(this.now() - baseTime);
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, averageName,
           Math.round(time / denominator));
+    },
+
+    reportRpcTiming(anonymizedUrl, elapsed) {
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY, 'RPC-' + anonymizedUrl,
+          elapsed, true);
     },
 
     reportInteraction(eventName, opt_msg) {

@@ -1109,6 +1109,7 @@
         patchNum: 'current',
         endpoint: '/review',
         body: {labels},
+        reportEndpointAsIs: true,
       });
     },
 
@@ -1199,6 +1200,7 @@
               endpoint: actionEndpoint,
               body: payload,
               errFn: handleError,
+              reportEndpointAsIs: true,
             };
             return this.$.restAPI.getChangeURLAndSend(req).then(response => {
               cleanupFn.call(this);

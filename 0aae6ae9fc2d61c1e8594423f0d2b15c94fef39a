@@ -47,6 +47,30 @@
       "revId": "0aae6ae9fc2d61c1e8594423f0d2b15c94fef39a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e54fb3f_88cd0a25",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-15T11:22:09Z",
+      "side": 0,
+      "message": "Thanks. The checkNotNull is helpful.",
+      "parentUuid": "0cd6844f_eefed882",
+      "range": {
+        "startLine": 81,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 15
+      },
+      "revId": "0aae6ae9fc2d61c1e8594423f0d2b15c94fef39a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

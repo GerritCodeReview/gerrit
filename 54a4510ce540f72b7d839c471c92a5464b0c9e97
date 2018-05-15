@@ -22,6 +22,30 @@
       "revId": "54a4510ce540f72b7d839c471c92a5464b0c9e97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c8550ee_5ee70ad8",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-05-15T09:30:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3d9dfec_bdf40843",
+      "range": {
+        "startLine": 86,
+        "startChar": 43,
+        "endLine": 86,
+        "endChar": 44
+      },
+      "revId": "54a4510ce540f72b7d839c471c92a5464b0c9e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

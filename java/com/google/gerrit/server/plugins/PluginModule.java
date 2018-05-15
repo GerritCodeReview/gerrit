@@ -17,10 +17,12 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.PluginUser;
 
 public class PluginModule extends LifecycleModule {
   @Override
   protected void configure() {
+    factory(PluginUser.Factory.class);
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
 

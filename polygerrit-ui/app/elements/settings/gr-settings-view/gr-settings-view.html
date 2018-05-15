@@ -16,7 +16,9 @@ limitations under the License.
 -->
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+
 <link rel="import" href="../../../behaviors/docs-url-behavior/docs-url-behavior.html">
+<link rel="import" href="../../../bower_components/paper-toggle-button/paper-toggle-button.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
 <link rel="import" href="../../../styles/gr-page-nav-styles.html">
@@ -52,11 +54,18 @@ limitations under the License.
       #email {
         margin-bottom: 1em;
       }
-      .filters p {
+      .filters p,
+      .darkToggle p {
         margin-bottom: 1em;
       }
       .queryExample em {
         color: violet;
+      }
+      .toggle {
+        align-items: center;
+        display: flex;
+        margin-bottom: 1rem;
+        margin-right: 1rem;
       }
     </style>
     <style include="gr-form-styles"></style>
@@ -95,6 +104,19 @@ limitations under the License.
       </gr-page-nav>
       <main class="gr-form-styles">
         <h1>User Settings</h1>
+        <section class="darkToggle">
+          <div class="toggle">
+            <paper-toggle-button
+                checked="[[_isDark]]"
+                on-change="_handleToggleDark"></paper-toggle-button>
+            <div>Dark theme (alpha)</div>
+          </div>
+          <p>
+            Gerrit's dark theme is in early alpha, and almost definitely will
+            not play nicely with themes set by specific Gerrit hosts. Filing
+            feedback via the link in the app footer is strongly encouraged!
+          </p>
+        </section>
         <h2
             id="Profile"
             class$="[[_computeHeaderClass(_accountInfoChanged)]]">Profile</h2>

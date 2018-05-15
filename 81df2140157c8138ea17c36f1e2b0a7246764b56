@@ -57,6 +57,24 @@
       "revId": "81df2140157c8138ea17c36f1e2b0a7246764b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e8cf09_247161f0",
+        "filename": "java/com/google/gerrit/util/ssl/BlindHostnameVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-15T12:06:53Z",
+      "side": 1,
+      "message": "OK, I hadn\u0027t noticed that.\n\nIn that case let\u0027s leave it like this.  We can look into making them both singletons in a followup change.",
+      "parentUuid": "87f374b6_ff0ef742",
+      "revId": "81df2140157c8138ea17c36f1e2b0a7246764b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

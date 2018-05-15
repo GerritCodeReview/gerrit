@@ -17,6 +17,7 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritRuntimeType;
 import com.google.inject.Key;
@@ -26,6 +27,7 @@ public class PluginModule extends LifecycleModule {
   protected void configure() {
     requireBinding(Key.get(GerritRuntime.class, GerritRuntimeType.class));
 
+    factory(PluginUser.Factory.class);
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
 

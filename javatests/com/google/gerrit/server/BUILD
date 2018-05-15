@@ -12,6 +12,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/truth",
+        "//lib:guava",
         "//lib/truth",
     ],
 )
@@ -52,6 +53,7 @@ junit_tests(
         "//java/org/eclipse/jgit:server",
         "//lib:grappa",
         "//lib:gson",
+        "//lib:guava",
         "//lib:guava-retrying",
         "//lib:gwtorm",
         "//lib:protobuf",
@@ -61,6 +63,7 @@ junit_tests(
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/truth",
         "//lib/truth:truth-java8-extension",
         "//proto:cache_java_proto",
     ],

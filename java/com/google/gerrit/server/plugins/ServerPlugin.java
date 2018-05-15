@@ -47,6 +47,7 @@ public class ServerPlugin extends Plugin {
   private final String metricsPrefix;
   private final GerritRuntime gerritRuntime;
   protected Class<? extends Module> sysModule;
+  protected Class<? extends Module> batchModule;
   protected Class<? extends Module> sshModule;
   protected Class<? extends Module> httpModule;
 
@@ -92,6 +93,7 @@ public class ServerPlugin extends Plugin {
     String sysName = main.getValue("Gerrit-Module");
     String sshName = main.getValue("Gerrit-SshModule");
     String httpName = main.getValue("Gerrit-HttpModule");
+    String batchName = main.getValue("Gerrit-BatchModule");
 
     if (!Strings.isNullOrEmpty(sshName) && getApiType() != Plugin.ApiType.PLUGIN) {
       throw new InvalidPluginException(
@@ -100,6 +102,7 @@ public class ServerPlugin extends Plugin {
     }
 
     try {
+      this.batchModule = load(batchName, classLoader);
       this.sysModule = load(sysName, classLoader);
       this.sshModule = load(sshName, classLoader);
       this.httpModule = load(httpName, classLoader);
@@ -109,7 +112,7 @@ public class ServerPlugin extends Plugin {
   }
 
   @SuppressWarnings("unchecked")
-  protected static Class<? extends Module> load(String name, ClassLoader pluginLoader)
+  protected static Class<? extends Module> load(@Nullable String name, ClassLoader pluginLoader)
       throws ClassNotFoundException {
     if (Strings.isNullOrEmpty(name)) {
       return null;
@@ -181,6 +184,18 @@ public class ServerPlugin extends Plugin {
     Injector root = newRootInjector(env);
     serverManager = new LifecycleManager();
     serverManager.add(root);
+
+    if (gerritRuntime == GerritRuntime.BATCH) {
+      if (batchModule != null) {
+        sysInjector = root.createChildInjector(root.getInstance(batchModule));
+        serverManager.add(sysInjector);
+      } else {
+        sysInjector = root;
+      }
+
+      serverManager.start();
+      return;
+    }
 
     AutoRegisterModules auto = null;
     if (sysModule == null && sshModule == null && httpModule == null) {

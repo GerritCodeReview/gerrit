@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "55db1cbf_f14d45d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-15T02:00:35Z",
+      "side": 1,
+      "message": "It needs to listen to changes in `_shownFiles` rather than in `_files` because `_shownFiles` is the one that drives the DOM update (the expensive work).\n\nFor example, if, it hypothetically listened to `_files`, and then it\u0027s set to something like 10k file-paths, then we\u0027d only observe the timing for the first 200 of them -- and we wouldn\u0027t observe anything if the user clicks [Show All].\n\nSo, since this only works if it listens to the change that drives the UI update, it\u0027s in this `_computeFilesShown` method. Granted, it could go into a new observer of `_shownFiles`, but that seemed excessive.",
+      "parentUuid": "ae94d5f2_4d6ee138",
+      "revId": "025bb821e20629274b9ce37dd64abfb57744d058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0e3db9a_a9251ea2",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 6
@@ -39,6 +57,30 @@
       "revId": "025bb821e20629274b9ce37dd64abfb57744d058",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3b54471_0212d63b",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-15T02:00:35Z",
+      "side": 1,
+      "message": "Removing the time doesn\u0027t work in my testing. Without the time, it fires far earlier than the list appears. \nOn the change I\u0027m using to test (chromium/src\u0027s change:444189) it fired more than 10s before the content appeared.\n\nThis corresponds to my general experience with Polymer: doing work in a microtask typically doesn\u0027t mean the content will have been painted.",
+      "parentUuid": "c0e3db9a_a9251ea2",
+      "range": {
+        "startLine": 1193,
+        "startChar": 11,
+        "endLine": 1193,
+        "endChar": 12
+      },
+      "revId": "025bb821e20629274b9ce37dd64abfb57744d058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

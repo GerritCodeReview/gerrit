@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d5c3739_780fc601",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-15T16:46:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84206e8b_d6aa42c6",
+      "range": {
+        "startLine": 7,
+        "startChar": 46,
+        "endLine": 7,
+        "endChar": 53
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7390d96e_39539c9f",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1
@@ -191,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "877eaf2e_40db1a8c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-15T16:46:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "461d04a3_b6bebba0",
+      "range": {
+        "startLine": 376,
+        "startChar": 3,
+        "endLine": 376,
+        "endChar": 24
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8140403_afff2c84",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1
@@ -238,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "8d5386b4_a3b3761a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-15T16:46:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42cc06a8_5fe06f9b",
+      "range": {
+        "startLine": 463,
+        "startChar": 15,
+        "endLine": 463,
+        "endChar": 90
+      },
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f39769d_13485e03",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
         "patchSetId": 1
@@ -270,6 +342,24 @@
       "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cf185e2_a9d5359c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-15T16:46:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44a61d20_84ac3bc0",
+      "revId": "00c38e8b3a2913d63f6f294d29e2fc5a1ce87a02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

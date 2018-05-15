@@ -39,6 +39,24 @@
       "revId": "81df2140157c8138ea17c36f1e2b0a7246764b56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87f374b6_ff0ef742",
+        "filename": "java/com/google/gerrit/util/ssl/BlindHostnameVerifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2018-05-15T09:38:21Z",
+      "side": 1,
+      "message": "I took the BlindSSLSocketFactory as a reference :)\n\nI will try to make it @Singleton",
+      "parentUuid": "f8ec3995_f4fb22c6",
+      "revId": "81df2140157c8138ea17c36f1e2b0a7246764b56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

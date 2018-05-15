@@ -87,6 +87,10 @@ class ChangeControl {
     return new ChangeControl(changeDataFactory, refControl.forUser(who), notes);
   }
 
+  private ChangeControl forAbsentUser(Account.Id id) {
+    return new ChangeControl(changeDataFactory, refControl.forAbsentUser(id), notes);
+  }
+
   private CurrentUser getUser() {
     return refControl.getUser();
   }
@@ -258,6 +262,11 @@ class ChangeControl {
     @Override
     public ForChange user(CurrentUser user) {
       return user().equals(user) ? this : forUser(user).asForChange(cd, db);
+    }
+
+    @Override
+    public ForChange absentUser(Account.Id id) {
+      return forAbsentUser(id).asForChange(cd, db);
     }
 
     @Override

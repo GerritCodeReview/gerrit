@@ -94,6 +94,7 @@
       'page-error': '_handlePageError',
       'title-change': '_handleTitleChange',
       'location-change': '_handleLocationChange',
+      'rpc-log': '_handleRpcLog',
     },
 
     observers: [
@@ -309,6 +310,16 @@
 
     _computePluginScreenName({plugin, screen}) {
       return Gerrit._getPluginScreenName(plugin, screen);
+    },
+
+    /**
+     * Intercept RPC log events emitted by REST API interfaces. Note: the REST
+     * API interface cannot use gr-reporting directly because that would create
+     * a cyclic dependency.
+     */
+    _handleRpcLog(e) {
+      this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
+          e.detail.elapsed);
     },
   });
 })();

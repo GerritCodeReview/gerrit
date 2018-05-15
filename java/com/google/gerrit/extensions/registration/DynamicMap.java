@@ -85,7 +85,7 @@ public abstract class DynamicMap<T> implements Iterable<DynamicMap.Entry<T>> {
 
   /** Returns an empty DynamicMap instance * */
   public static <T> DynamicMap<T> emptyMap() {
-    return new DynamicMap<T>() {};
+    return new PrivateInternals_DynamicMapImpl<>();
   }
 
   final ConcurrentMap<NamePair, Provider<T>> items;

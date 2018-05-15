@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f83fab8_48ba0bb9",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-15T15:33:15Z",
+      "side": 0,
+      "message": "I think most parts of Gerrit have \u0027this\u0027 as a qualifier even if they don\u0027t strictly need it.",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 14
+      },
+      "revId": "285db9333abb2d867d6008d31d3d5d93d5261e02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

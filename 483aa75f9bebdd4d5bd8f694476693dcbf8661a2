@@ -16,6 +16,23 @@
       "revId": "483aa75f9bebdd4d5bd8f694476693dcbf8661a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82605af6_e259a329",
+        "filename": "java/com/google/gerrit/server/config/GerritRuntimeType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-16T15:26:50Z",
+      "side": 1,
+      "message": "As discussed, I think it would be better to remove this as Guice can identify the enum by its definition",
+      "revId": "483aa75f9bebdd4d5bd8f694476693dcbf8661a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

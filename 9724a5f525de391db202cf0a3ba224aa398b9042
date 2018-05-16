@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "12bf49d9_e9d53aaf",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-16T07:58:25Z",
+      "side": 1,
+      "message": "Yes. I noticed this. I guess they are not because in class like IdentifiedUser.Generic factory, each time we create a new instance. So I would think this is not working as we expect. By the way there is a pending change  I8ec7065ac8 which adds \"equals\" to CurrentUser.",
+      "parentUuid": "117269b4_0b56100d",
+      "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47c5a5c8_a97e445a",
         "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "d6173060_203a7ff1",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-16T07:58:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47c5a5c8_a97e445a",
+      "range": {
+        "startLine": 309,
+        "startChar": 7,
+        "endLine": 313,
+        "endChar": 73
+      },
+      "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7eb41b9_65309d9b",
         "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
         "patchSetId": 2
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "565499d7_b2900657",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-16T07:58:25Z",
+      "side": 1,
+      "message": "Add this method will also be called in RefControl. But yes, it could be simplified by call forUser(CurrentUser).",
+      "parentUuid": "b7eb41b9_65309d9b",
+      "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6bceb41_62f55e3a",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 2
@@ -73,6 +133,24 @@
       "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8476518_754011b2",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-16T07:58:25Z",
+      "side": 1,
+      "message": "This method is added so that we can use in ChangeControl. Without it we need create IdentifiedUser in ChangeControl which needs more modifications.",
+      "parentUuid": "a6bceb41_62f55e3a",
+      "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

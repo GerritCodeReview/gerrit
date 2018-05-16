@@ -139,7 +139,7 @@ public class DynamicSet<T> implements Iterable<T> {
   }
 
   public DynamicSet() {
-    this(Collections.<AtomicReference<Provider<T>>>emptySet());
+    this(Collections.emptySet());
   }
 
   @Override

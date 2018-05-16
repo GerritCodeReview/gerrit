@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df6dd02b_ac037691",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-16T08:35:44Z",
+      "side": 1,
+      "message": "The first release candidate was released that contains this change: [1].\n\n+ [1] https://groups.google.com/d/topic/bazel-discuss/YD52LjVN9x8/discussion",
+      "revId": "0b349bbb71ab76e7b0e1f4f3bbc10fc83493509f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c61521c0_f63d0226",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-16T08:16:02Z",
+      "side": 1,
+      "message": "I think we should scale down on the duplicate code even further: For all of the absentUser methods, just do: return user(identifiedUserFactory.create(id)).\n\nThe behavior is then consistent and easy to understand.",
+      "range": {
+        "startLine": 341,
+        "startChar": 7,
+        "endLine": 341,
+        "endChar": 59
+      },
+      "revId": "78db0cb6ca79be00234652e93172a0c537a2ce53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

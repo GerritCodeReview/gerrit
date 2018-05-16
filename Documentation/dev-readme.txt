@@ -1,9 +1,8 @@
 = Gerrit Code Review - Developer Setup
 
-To build a developer instance, you need:
+To build a developer instance, you need link:https://bazel.build/[Bazel] to compile the code.
 
-*  link:https://bazel.build/[Bazel] to compile the code 
-*  A SQL database in which to store the review metadata. link:http://h2database.com/html/main.html[H2] is recommended for development databases because it requires no external server process.
+Review metadata is now stored in link:http://Documentation/note-db.txt[NoteDb]. 
 
 == Getting the Source
 
@@ -25,15 +24,14 @@ For details, see <<dev-bazel#,Building with Bazel>>.
 
 == Switching between branches
 
-When using `git checkout` to switch between branches, submodule revisions are not altered, which can result in the:
+When using `git checkout` without `--recurse-submodules` to switch between branches, submodule revisions are not altered, which can result in:
 
 *  Incorrect or unneeded plugin revisions.
 *  Missing plugins.
 
-After you switch branches, confirm that you have the correct versions of submodules. Run the following:
+After you switch branches, ensure that you have the correct versions of submodules. Run the following:
 
-CAUTION: If you store Eclipse or IntelliJ project files in the
-Gerrit source directories, running `git clean -fdx` will remove the files and damage your project! 
+CAUTION: If you store Eclipse or IntelliJ project files in the Gerrit source directories, running `git clean -fdx` may remove untracked files and damage your project. For more information, see link:https://git-scm.com/docs/git-clean[git-clean].
 
 ----
   git submodule update
@@ -51,9 +49,9 @@ To configure the Eclipse workspace with Bazel, see link:dev-bazel.html#eclipse[E
 
 See <<dev-intellij#,IntelliJ Setup>> for details.
 
-== MacOS X
+== MacOS
 
-On MacOS X, ensure that "Java For MacOS X 10.5 Update 4" (or higher)  is installed and that `JAVA_HOME` is set to the
+On MacOS, ensure that "Java for MacOS 10.5 Update 4" (or higher)  is installed and that `JAVA_HOME` is set to the
 link:install.html#Requirements[required Java version].
 
 Java installations can typically be found in
@@ -74,15 +72,14 @@ After you compile the project <<compile_project,(above)>>, run the Gerrit `init'
 ----
 
 [[special_bazel_java_version]]
-NOTE: For the build, you must use the same version of Java used by Bazel. This version of Java is available at
-`$(bazel info output_base)/external/local_jdk/bin/java`.
+NOTE: You must use the same Java version that Bazel used for the build, which is available at `$(bazel info output_base)/external/local_jdk/bin/java`.
 
-During initialization, update two default settings:
+During initialization, change two settings from the defaults:
 
-*  To prevent outside connections from contacting the development instance, change the listen addresses from '*' to 'localhost'.
+*  To ensure the development instance is not externally accessible, change the listen addresses from '*' to 'localhost'.
 *  To allow yourself to create and act as arbitrary test accounts on your development instance, change the auth type from 'OPENID' to 'DEVELOPMENT_BECOME_ANY_ACCOUNT'.
 
-When the initialization process is complete, the daemon starts in the background and launches the Start page in a browser.
+After initializing the test site, Gerrit starts serving in the background. A web browser displays the Start page.
 
 On the Start page, you can:
 
@@ -150,8 +147,7 @@ NOTE: To learn why using `java -jar` isn't sufficient, see <<special_bazel_java_
 
 To debug the Gerrit server of this test site:
 
-.  Open a debug port (such as port 5005).
-.  Insert the following code immediately after `-jar` of the previous command. To learn how to attach IntelliJ, see 
+.  Open a debug port (such as port 5005). To do so, insert the following code immediately after `-jar` in the previous command. To learn how to attach IntelliJ, see 
 <<dev-intellij#remote-debug,Debugging a remote Gerrit server>>.
 
 ----

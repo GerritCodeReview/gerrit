@@ -118,15 +118,13 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     pm.beginTask("Collecting projects", ProgressMonitor.UNKNOWN);
     SortedSet<ProjectHolder> projects = new TreeSet<>();
     int changeCount = 0;
-    Stopwatch sw = Stopwatch.createStarted();
     for (Project.NameKey name : projectCache.all()) {
       try (Repository repo = repoManager.openRepository(name)) {
         int size = ChangeNotes.Factory.scan(repo).size();
         changeCount += size;
         projects.add(new ProjectHolder(name, size));
       } catch (IOException e) {
-        log.error("Error collecting projects", e);
-        return new Result(sw, false, 0, 0);
+        log.error("Error collecting changes for project {}", name, e);
       }
       pm.update(1);
     }

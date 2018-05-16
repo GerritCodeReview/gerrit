@@ -23,6 +23,30 @@
       "revId": "2a8ecb178f32bcf76b9ca312652b6685bcae27e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7278ea43_f0c14135",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T21:49:05Z",
+      "side": 1,
+      "message": "I would like to avoid having to set it in gerrit.config if at all possible.\n\nWhat if we set the property at the top of main() in Main.java? That class is guaranteed to be loaded before any FluentLogger is initialized, because it hasn\u0027t yet created the ClassLoader that will load the flogger code from a jar embedded in the war.\n\nThat won\u0027t work for tests, but for tests I don\u0027t think we need to respect any log4j properties so we might be ok with the default Flogger backend.",
+      "parentUuid": "5cb4ede3_f943648a",
+      "range": {
+        "startLine": 105,
+        "startChar": 3,
+        "endLine": 106,
+        "endChar": 88
+      },
+      "revId": "2a8ecb178f32bcf76b9ca312652b6685bcae27e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

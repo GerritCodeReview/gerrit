@@ -21,10 +21,10 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.AssumptionViolatedException;
 import org.junit.BeforeClass;
 
 public class ElasticQueryProjectsTest extends AbstractQueryProjectsTest {
@@ -34,22 +34,31 @@ public class ElasticQueryProjectsTest extends AbstractQueryProjectsTest {
   }
 
   private static ElasticNodeInfo nodeInfo;
+  private static ElasticContainer<?> container;
 
   @BeforeClass
-  public static void startIndexService() throws InterruptedException, ExecutionException {
+  public static void startIndexService() {
     if (nodeInfo != null) {
       // do not start Elasticsearch twice
       return;
     }
-    nodeInfo = ElasticTestUtils.startElasticsearchNode();
+
+    try {
+      container = new ElasticContainer<>();
+      container.start();
+    } catch (Throwable t) {
+      throw new AssumptionViolatedException("Unable to start container[might be docker related]");
+    }
+
+    int httpPort = container.getHttpHost().getPort();
+    int tcpPort = container.getTcpHost().getPort();
+    nodeInfo = new ElasticNodeInfo(ElasticTestUtils.attachClient(tcpPort), httpPort);
   }
 
   @AfterClass
   public static void stopElasticsearchServer() {
-    if (nodeInfo != null) {
-      nodeInfo.node.close();
-      nodeInfo.elasticDir.delete();
-      nodeInfo = null;
+    if (container != null) {
+      container.stop();
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4333f0d_db5f024c",
+        "filename": "java/com/google/gerrit/server/config/GerritRuntime.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-16T15:24:55Z",
+      "side": 1,
+      "message": "Would it be worth it to add TEST?\n\nProbably this wouldn\u0027t be used for now and going with DAEMON seems perfectly fine to me.",
+      "revId": "483aa75f9bebdd4d5bd8f694476693dcbf8661a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

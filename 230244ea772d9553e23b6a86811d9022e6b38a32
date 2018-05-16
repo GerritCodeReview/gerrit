@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1526285462 +0200\nnonce ACQuaLB2XSY9Xp3I9Eoo6NT6kKMTA/Mv2HdVNW+pMNliyomNAdXD6G4wti3d7zYQ8Va9HutOtlZ4\n\n0000000000000000000000000000000000000000 4299656c0fafafadeb71face0cef0abee90ea6d8 refs/for/master%private\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlr5RJYACgkQUbX9l6DQ\n71EDIAf+LkqcqzFe842Jhp6rkiELCZAzCdnFmRir/8JE/Pgi4D0LRvGLcbZH9J4Z\nG3GLAmvGXPBzRCISi2hlPe0AkbVA5+4AQs9lLuHXdEvnT9uxPA7BCxTyvJByMDas\nyPXhtlzsAOANBAgZy5qORLEbtEqqy1qKobDZXFBrk4wobH+OTYN5MupOpeUuHNsb\nlJ/t0bw1RqSksAqvxAOow4jlGJtZi/d5FK/DCdRl41ZEpLi8h4pDhhlh6pDHRTWx\nUYQz+gFCXbLzFzmN08o+295eTpA0yRAUDNl4G35UtYbLyZ4UXjWyRgySogGQ14MN\nMitc8WCJkpvoY/vc2novtoWRZJ8j/A\u003d\u003d\n\u003dzFmj\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b689c61_d8801287",
+        "filename": "java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T01:33:20Z",
+      "side": 1,
+      "message": "Do you plan to limit these string literals to 100-char lines?",
+      "revId": "230244ea772d9553e23b6a86811d9022e6b38a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7fec59e_b79382a1",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T01:33:20Z",
+      "side": 1,
+      "message": "Trailing whitespace",
+      "revId": "230244ea772d9553e23b6a86811d9022e6b38a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

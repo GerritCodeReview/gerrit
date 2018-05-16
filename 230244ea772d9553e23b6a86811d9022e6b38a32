@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "51430fa7_f8154ffc",
+        "filename": "java/com/google/gerrit/httpd/auth/container/HttpLoginServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-16T07:14:38Z",
+      "side": 1,
+      "message": "There were a few. I think I fixed them all now.\n\nDone",
+      "parentUuid": "4b689c61_d8801287",
+      "revId": "230244ea772d9553e23b6a86811d9022e6b38a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7fec59e_b79382a1",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 6
@@ -34,6 +52,24 @@
       "revId": "230244ea772d9553e23b6a86811d9022e6b38a32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88bf9dc6_0aaa5251",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-16T07:14:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7fec59e_b79382a1",
+      "revId": "230244ea772d9553e23b6a86811d9022e6b38a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

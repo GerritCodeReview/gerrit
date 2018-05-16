@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "720aba04_47054c3f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 5055,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-05-16T23:15:34Z",
+      "side": 1,
+      "message": "use AES/GCM/NoPadding, see e.g. https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9",
+      "range": {
+        "startLine": 5055,
+        "startChar": 23,
+        "endLine": 5055,
+        "endChar": 26
+      },
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58236662_3f110421",
+        "filename": "java/com/google/gerrit/server/api/config/EncryptionConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-05-16T23:15:34Z",
+      "side": 1,
+      "message": "use AES/GCM/NoPadding",
+      "range": {
+        "startLine": 31,
+        "startChar": 51,
+        "endLine": 31,
+        "endChar": 54
+      },
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eeea202e_c53142de",
         "filename": "java/com/google/gerrit/server/api/config/KeyManager.java",
         "patchSetId": 13

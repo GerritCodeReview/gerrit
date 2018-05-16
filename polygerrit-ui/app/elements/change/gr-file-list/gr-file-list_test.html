@@ -1036,6 +1036,7 @@ limitations under the License.
         delete element.diffPrefs.manual_review;
         return element._renderInOrder(['p'], diffs, 1).then(() => {
           assert.isTrue(reviewStub.called);
+          assert.isTrue(reviewStub.calledWithExactly('p', true));
         });
       });
     });

@@ -207,7 +207,15 @@ public class WorkQueue {
               corePoolSize + 4 // concurrency level
               );
       queueName = prefix;
-      buildMetrics(queueName, metrics);
+      try {
+        buildMetrics(queueName, metrics);
+      } catch (IllegalArgumentException e) {
+        if (e.getMessage().contains("already")) {
+          log.error("Not creating metrics for queue '{}': already exists", queueName);
+        } else {
+          throw e;
+        }
+      }
     }
 
     private void buildMetrics(String queueName, MetricMaker metric) {

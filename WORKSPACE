@@ -239,6 +239,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "log_ext",
+    artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+    sha1 = "09a8f58c784c37525d2624062414358acf296717",
+)
+
+maven_jar(
     name = "impl_log4j",
     artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
     sha1 = "58f588119ffd1702c77ccab6acb54bfb41bed8bd",
@@ -993,6 +999,30 @@ maven_jar(
     name = "httpcore_nio",
     artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCOMP_VERS,
     sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
+)
+
+maven_jar(
+    name = "testcontainers",
+    artifact = "org.testcontainers:testcontainers:1.7.2",
+    sha1 = "fec8b360b6b613f6c9d3b8e7a9fa32d1a2bcb978",
+)
+
+maven_jar(
+    name = "duct_tape",
+    artifact = "org.rnorth.duct-tape:duct-tape:1.0.7",
+    sha1 = "a26b5d90d88c91321dc7a3734ea72d2fc019ebb6",
+)
+
+maven_jar(
+    name = "visible_assertions",
+    artifact = "org.rnorth.visible-assertions:visible-assertions:2.1.0",
+    sha1 = "f2fcff2862860828ac38a5e1f14d941787c06b13",
+)
+
+maven_jar(
+    name = "jna",
+    artifact = "net.java.dev.jna:jna:4.5.1",
+    sha1 = "65bd0cacc9c79a21c6ed8e9f588577cd3c2f85b9",
 )
 
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")

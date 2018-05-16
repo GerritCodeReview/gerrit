@@ -30,6 +30,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountUserNameException;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
@@ -126,9 +127,15 @@ class LdapLoginServlet extends HttpServlet {
     } catch (AuthenticationUnavailableException e) {
       sendForm(req, res, "Authentication unavailable at this time.");
       return;
-    } catch (AccountException e) {
-      log.info(String.format("'%s' failed to sign in: %s", username, e.getMessage()));
+    } catch (AuthenticationFailedException e) {
+      // This exception is thrown if the user provided wrong credentials, we don't need to log a
+      // stacktrace for it.
+      log.warn(String.format("'%s' failed to sign in: %s", username, e.getMessage()));
       sendForm(req, res, "Invalid username or password.");
+      return;
+    } catch (AccountException e) {
+      log.warn(String.format("'%s' failed to sign in", username), e);
+      sendForm(req, res, "Authentication failed.");
       return;
     } catch (RuntimeException e) {
       log.error("LDAP authentication failed", e);

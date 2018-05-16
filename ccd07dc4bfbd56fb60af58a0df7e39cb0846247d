@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "edcd3783_3b9cecb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-16T17:53:28Z",
+      "side": 1,
+      "message": "Done. Now, I used KeyGenerator class to generate the keys instead of using custom random string and random salt. For the part of storing the keys, I guess, it was already discussed in the previous review comments that secure.config file is fine for storing the key.",
+      "parentUuid": "70c3c71c_91fbfd7d",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "ccd07dc4bfbd56fb60af58a0df7e39cb0846247d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b912b23_bae82e9c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -431,17 +431,21 @@
       return GrCountStringFormatter.computeShortString(commentCount, 'c');
     },
 
-    _reviewFile(path) {
+    /**
+     * @param {string} path
+     * @param {boolean=} opt_reviewed
+     */
+    _reviewFile(path, opt_reviewed) {
       if (this.editMode) { return; }
       const index = this._files.findIndex(file => file.__path === path);
-      const reviewed = this._files[index].isReviewed;
+      const reviewed = opt_reviewed || !this._files[index].isReviewed;
 
-      this.set(['_files', index, 'isReviewed'], !reviewed);
+      this.set(['_files', index, 'isReviewed'], reviewed);
       if (index < this._shownFiles.length) {
-        this.set(['_shownFiles', index, 'isReviewed'], !reviewed);
+        this.set(['_shownFiles', index, 'isReviewed'], reviewed);
       }
 
-      this._saveReviewedState(path, !reviewed);
+      this._saveReviewedState(path, reviewed);
     },
 
     _saveReviewedState(path, reviewed) {
@@ -961,7 +965,7 @@
               path, this.patchRange, this.projectConfig);
           const promises = [diffElem.reload()];
           if (this._loggedIn && !this.diffPrefs.manual_review) {
-            promises.push(this._reviewFile(path));
+            promises.push(this._reviewFile(path, true));
           }
           return Promise.all(promises);
         }).then(() => {

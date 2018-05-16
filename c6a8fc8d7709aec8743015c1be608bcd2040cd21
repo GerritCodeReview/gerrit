@@ -1,4 +1,182 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1526454504 +0200\nnonce ACQuaLBfcvdnbS7mqaSUVsciMILd3Rk7nfM9rVIow27ZjMAeA+N/sxHrbOWyQhjslrF1N4qr/XDK\n\n0000000000000000000000000000000000000000 e8fde3f31592a214fb68dbc7a57a74aca3eb367a refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlr72OkACgkQUbX9l6DQ\n71GHAQf9Es0/HVovjYWDfJniaaz9i1lPYEnDITIy0h7j6cs5qb0e0zLl8shkAR9q\n+bUQqQZXcRAOsz5hLgWBhBz7z36TQKGf6AX1uCpv8xKUDZr7AkJv0qGkufhy9nqN\nzh4v/eW54OFSzBaC3Y1FMNW1rKWgGv/WTVWIlS2kgLbEbVjArH2dq8ApzVcQOZKe\nb5whrjC9cDbKzn8EK++FxkWqN/ruQAY3aX6zucI9IqvYshgWhfzxcpHHoDxDLVsL\nt2ZXc6aW2UQE8LX03K8ylxUxuqax6m8+Zmp4snvdie4UHGCa1ga/mQOXPZFrEckW\nJWcnxbBFKUB/9pEmZDQ3S9isxWbrZQ\u003d\u003d\n\u003dbwQ1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "240d47c7_7667e06c",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "Unrelated, but I wonder why we can\u0027t just use the local logger.",
+      "range": {
+        "startLine": 198,
+        "startChar": 6,
+        "endLine": 198,
+        "endChar": 15
+      },
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa96cc1a_8bf9c60c",
+        "filename": "java/com/google/gerrit/server/config/TrackingFootersProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "Optional: %d?",
+      "range": {
+        "startLine": 69,
+        "startChar": 71,
+        "endLine": 69,
+        "endChar": 73
+      },
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30d85ce4_aa762748",
+        "filename": "java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "Not a requirement for this change, but it would be neat if Flogger could do this for us, i.e. a method like .withCauseAtFineOrHigher(error) or .atWarningIgnoringCauses(error). (With a less silly name perhaps, but you get the idea.)",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6d40736_aa794d1c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3121,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "Is this a behavior change?",
+      "range": {
+        "startLine": 3121,
+        "startChar": 45,
+        "endLine": 3121,
+        "endChar": 48
+      },
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21bc8b45_47753e27",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3126,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "I think on the LHS this was just to avoid string concatenation when the log level is too low. I think it should be safe to omit this.",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9b3df20_89f0732f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "Not necessary; the withCause javadoc says \"If the cause is {@code null} then this method has no effect.\"",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f01b9958_2f40547c",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "%s",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca8317a_e0115fcb",
+        "filename": "java/com/google/gerrit/server/submit/GitModules.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "Is this a behavior change?",
+      "range": {
+        "startLine": 108,
+        "startChar": 48,
+        "endLine": 108,
+        "endChar": 51
+      },
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "082294c3_6d203721",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 1,
+      "message": "Unnecessary (not sure why the LHS has it either)",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

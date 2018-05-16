@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ee5083c_64458501",
+        "filename": "java/com/google/gerrit/server/config/AdministrateServerGroupsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "Wat.",
+      "range": {
+        "startLine": 51,
+        "startChar": 59,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9df0884_fbdd3d14",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "Are we no longer logging to this separate logger? I don\u0027t see how this functionality is being replicated on the Flogger side.",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d93fce5_8d48fa4b",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "Not necessary, cause argument supports null.",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f9e0b02_69f30f8b",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "Unnecessary",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93a5c752_9e75f316",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "Unnecessary",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5249eb9_923ede84",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "Unnecessary",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9be92a74_77a82174",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "Unnecessary",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09531192_10343e10",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "Unnecessary",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d95f1d8_caf74511",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-16T22:47:15Z",
+      "side": 0,
+      "message": "I\u0027m really looking forward to getting support in the Flogger API for request ID prefixing :)",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

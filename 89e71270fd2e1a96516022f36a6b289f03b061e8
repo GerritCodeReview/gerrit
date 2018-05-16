@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "4c51258a_d9fd18ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-16T08:27:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea34ecc9_6016d302",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62ba779b_699a451c",
         "filename": "tricium-dev.cfg",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2018-05-14T15:52:42Z",
       "side": 1,
       "message": "Optional: I added a link to the schema proto file (https://luci-config.appspot.com/schemas/projects:tricium-dev.cfg / https://config.appspot.com/schemas/projects:tricium-prod.cfg, they both link to the same place) to some other files... not necessary but it serves to help double-check what valid values might be.",
+      "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bce957b2_904ba405",
+        "filename": "tricium-dev.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-16T08:27:14Z",
+      "side": 1,
+      "message": "Done as separate change (https://gerrit-review.googlesource.com/c/gerrit/+/178810).",
+      "parentUuid": "62ba779b_699a451c",
       "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -66,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "aeebbcbc_29c7a88c",
+        "filename": "tricium-dev.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-16T08:27:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad9d60ba_b33b5bfc",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e57f2dd1_b94263a7",
         "filename": "tricium-dev.cfg",
         "patchSetId": 1
@@ -86,6 +152,30 @@
       "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef1b386_023bf9e8",
+        "filename": "tricium-dev.cfg",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-16T08:27:14Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/178150",
+      "parentUuid": "e57f2dd1_b94263a7",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 29
+      },
+      "revId": "89e71270fd2e1a96516022f36a6b289f03b061e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

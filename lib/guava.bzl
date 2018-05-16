@@ -1,5 +1,5 @@
-GUAVA_VERSION = "24.1-jre"
+GUAVA_VERSION = "25.0-jre"
 
-GUAVA_BIN_SHA1 = "96c528475465aeb22cce60605d230a7e67cebd7b"
+GUAVA_BIN_SHA1 = "7319c34fa5866a85b6bad445adad69d402323129"
 
 GUAVA_DOC_URL = "https://google.github.io/guava/releases/" + GUAVA_VERSION + "/api/docs/"

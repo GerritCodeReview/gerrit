@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aa68027_76c7a837",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPluginProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-16T15:27:31Z",
+      "side": 1,
+      "message": "please add docs here, too",
+      "revId": "7b8cb28cebb043d17b777ead913c945b495d5c3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -252,7 +252,7 @@
 
     getConfig(noCache) {
       if (!noCache) {
-        return this._fetchSharedCacheURL('/config/server/info');
+        return this._fetchSharedCacheURL({url: '/config/server/info'});
       }
 
       return this._fetchJSON({url: '/config/server/info'});
@@ -261,30 +261,36 @@
     getRepo(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(repo), opt_errFn);
+      return this._fetchSharedCacheURL({
+        url: '/projects/' + encodeURIComponent(repo),
+        errFn: opt_errFn,
+      });
     },
 
     getProjectConfig(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(repo) + '/config', opt_errFn);
+      return this._fetchSharedCacheURL({
+        url: '/projects/' + encodeURIComponent(repo) + '/config',
+        errFn: opt_errFn,
+      });
     },
 
     getRepoAccess(repo) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchSharedCacheURL(
-          '/access/?project=' + encodeURIComponent(repo));
+      return this._fetchSharedCacheURL({
+        url: '/access/?project=' + encodeURIComponent(repo),
+      });
     },
 
     getRepoDashboards(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchSharedCacheURL(
-          `/projects/${encodeURIComponent(repo)}/dashboards?inherited`,
-          opt_errFn);
+      return this._fetchSharedCacheURL({
+        url: `/projects/${encodeURIComponent(repo)}/dashboards?inherited`,
+        errFn: opt_errFn,
+      });
     },
 
     saveRepoConfig(repo, config, opt_errFn, opt_ctx) {
@@ -412,7 +418,7 @@
      */
     getIsGroupOwner(groupName) {
       const encodeName = encodeURIComponent(groupName);
-      return this._fetchSharedCacheURL(`/groups/?owned&q=${encodeName}`)
+      return this._fetchSharedCacheURL({url: `/groups/?owned&q=${encodeName}`})
           .then(configs => configs.hasOwnProperty(groupName));
     },
 
@@ -450,8 +456,10 @@
     },
 
     getGroupAuditLog(group, opt_errFn) {
-      return this._fetchSharedCacheURL(
-          '/groups/' + group + '/log.audit', opt_errFn);
+      return this._fetchSharedCacheURL({
+        url: '/groups/' + group + '/log.audit',
+        errFn: opt_errFn,
+      });
     },
 
     saveGroupMembers(groupName, groupMembers) {
@@ -488,13 +496,15 @@
     },
 
     getVersion() {
-      return this._fetchSharedCacheURL('/config/server/version');
+      return this._fetchSharedCacheURL({url: '/config/server/version'});
     },
 
     getDiffPreferences() {
       return this.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          return this._fetchSharedCacheURL('/accounts/self/preferences.diff');
+          return this._fetchSharedCacheURL({
+            url: '/accounts/self/preferences.diff',
+          });
         }
         // These defaults should match the defaults in
         // java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java
@@ -522,7 +532,9 @@
     getEditPreferences() {
       return this.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          return this._fetchSharedCacheURL('/accounts/self/preferences.edit');
+          return this._fetchSharedCacheURL({
+            url: '/accounts/self/preferences.edit',
+          });
         }
         // These defaults should match the defaults in
         // java/com/google/gerrit/extensions/client/EditPreferencesInfo.java
@@ -588,10 +600,13 @@
     },
 
     getAccount() {
-      return this._fetchSharedCacheURL('/accounts/self/detail', resp => {
-        if (!resp || resp.status === 403) {
-          this._cache['/accounts/self/detail'] = null;
-        }
+      return this._fetchSharedCacheURL({
+        url: '/accounts/self/detail',
+        errFn: resp => {
+          if (!resp || resp.status === 403) {
+            this._cache['/accounts/self/detail'] = null;
+          }
+        },
       });
     },
 
@@ -615,7 +630,7 @@
     },
 
     getAccountEmails() {
-      return this._fetchSharedCacheURL('/accounts/self/emails');
+      return this._fetchSharedCacheURL({url: '/accounts/self/emails'});
     },
 
     /**
@@ -739,8 +754,9 @@
             .map(param => { return encodeURIComponent(param); })
             .join('&q=');
       }
-      return this._fetchSharedCacheURL('/accounts/self/capabilities' +
-          queryString);
+      return this._fetchSharedCacheURL({
+        url: '/accounts/self/capabilities' + queryString,
+      });
     },
 
     getLoggedIn() {
@@ -780,14 +796,14 @@
     },
 
     getDefaultPreferences() {
-      return this._fetchSharedCacheURL('/config/server/preferences');
+      return this._fetchSharedCacheURL({url: '/config/server/preferences'});
     },
 
     getPreferences() {
       return this.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          return this._fetchSharedCacheURL('/accounts/self/preferences').then(
-              res => {
+          return this._fetchSharedCacheURL({url: '/accounts/self/preferences'})
+              .then(res => {
                 if (this._isNarrowScreen()) {
                   res.default_diff_view = DiffViewMode.UNIFIED;
                 } else {
@@ -808,7 +824,9 @@
     },
 
     getWatchedProjects() {
-      return this._fetchSharedCacheURL('/accounts/self/watched.projects');
+      return this._fetchSharedCacheURL({
+        url: '/accounts/self/watched.projects',
+      });
     },
 
     /**
@@ -835,29 +853,28 @@
     },
 
     /**
-     * @param {string} url
-     * @param {function(?Response, string=)=} opt_errFn
+     * @param {Defs.FetchJSONRequest} req
      */
-    _fetchSharedCacheURL(url, opt_errFn) {
-      if (this._sharedFetchPromises[url]) {
-        return this._sharedFetchPromises[url];
+    _fetchSharedCacheURL(req) {
+      if (this._sharedFetchPromises[req.url]) {
+        return this._sharedFetchPromises[req.url];
       }
       // TODO(andybons): Periodic cache invalidation.
-      if (this._cache[url] !== undefined) {
-        return Promise.resolve(this._cache[url]);
+      if (this._cache[req.url] !== undefined) {
+        return Promise.resolve(this._cache[req.url]);
       }
-      this._sharedFetchPromises[url] = this._fetchJSON({url, errFn: opt_errFn})
+      this._sharedFetchPromises[req.url] = this._fetchJSON(req)
           .then(response => {
             if (response !== undefined) {
-              this._cache[url] = response;
+              this._cache[req.url] = response;
             }
-            this._sharedFetchPromises[url] = undefined;
+            this._sharedFetchPromises[req.url] = undefined;
             return response;
           }).catch(err => {
-            this._sharedFetchPromises[url] = undefined;
+            this._sharedFetchPromises[req.url] = undefined;
             throw err;
           });
-      return this._sharedFetchPromises[url];
+      return this._sharedFetchPromises[req.url];
     },
 
     _isNarrowScreen() {
@@ -1159,10 +1176,10 @@
     getGroups(filter, groupsPerPage, opt_offset) {
       const offset = opt_offset || 0;
 
-      return this._fetchSharedCacheURL(
-          `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
-      );
+      return this._fetchSharedCacheURL({
+        url: `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
+            this._computeFilter(filter),
+      });
     },
 
     /**
@@ -1176,10 +1193,10 @@
 
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchSharedCacheURL(
-          `/projects/?d&n=${reposPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
-      );
+      return this._fetchSharedCacheURL({
+        url: `/projects/?d&n=${reposPerPage + 1}&S=${offset}` +
+            this._computeFilter(filter),
+      });
     },
 
     setRepoHead(repo, ref) {
@@ -2016,7 +2033,7 @@
     },
 
     getAccountSSHKeys() {
-      return this._fetchSharedCacheURL('/accounts/self/sshkeys');
+      return this._fetchSharedCacheURL({url: '/accounts/self/sshkeys'});
     },
 
     addAccountSSHKey(key) {
@@ -2298,7 +2315,7 @@
     getDashboard(project, dashboard, opt_errFn) {
       const url = '/projects/' + encodeURIComponent(project) + '/dashboards/' +
           encodeURIComponent(dashboard);
-      return this._fetchSharedCacheURL(url, opt_errFn);
+      return this._fetchSharedCacheURL({url, errFn: opt_errFn});
     },
 
     getMergeable(changeNum) {

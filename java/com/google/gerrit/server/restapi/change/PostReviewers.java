@@ -98,7 +98,6 @@ public class PostReviewers
   private final AccountLoader.Factory accountLoaderFactory;
   private final Provider<ReviewDb> dbProvider;
   private final ChangeData.Factory changeDataFactory;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final Config cfg;
   private final ReviewerJson json;
   private final NotesMigration migration;
@@ -118,7 +117,6 @@ public class PostReviewers
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       RetryHelper retryHelper,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
       @GerritServerConfig Config cfg,
       ReviewerJson json,
       NotesMigration migration,
@@ -135,7 +133,6 @@ public class PostReviewers
     this.accountLoaderFactory = accountLoaderFactory;
     this.dbProvider = db;
     this.changeDataFactory = changeDataFactory;
-    this.identifiedUserFactory = identifiedUserFactory;
     this.cfg = cfg;
     this.json = json;
     this.migration = migration;

@@ -259,9 +259,10 @@ public class PostGpgKeys implements RestModifyView<AccountResource, Input> {
 
     if (accountStates.size() > 1) {
       StringBuilder msg = new StringBuilder();
-      msg.append("GPG key ").append(extIdKey.get()).append(" associated with multiple accounts: ");
-      Joiner.on(", ")
-          .appendTo(msg, Lists.transform(accountStates, AccountState.ACCOUNT_ID_FUNCTION));
+      msg.append("GPG key ")
+          .append(extIdKey.get())
+          .append(" associated with multiple accounts: ")
+          .append(Lists.transform(accountStates, AccountState.ACCOUNT_ID_FUNCTION));
       throw new IllegalStateException(msg.toString());
     }
 

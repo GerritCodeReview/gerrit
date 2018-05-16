@@ -22,6 +22,30 @@
       "revId": "cd9f2183b04940fa4a8b600440ff3f490b00ab69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba1c5c9_1d3852e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-action-context.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-16T21:52:39Z",
+      "side": 1,
+      "message": "Hm, good question. I guess not, but it\u0027s either a string on an Error that has .toString() resolving to the error message.\n\nLet me know if you think this needs guards.\n\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.js#108",
+      "parentUuid": "b8515e91_2130a7bc",
+      "range": {
+        "startLine": 97,
+        "startChar": 15,
+        "endLine": 97,
+        "endChar": 20
+      },
+      "revId": "cd9f2183b04940fa4a8b600440ff3f490b00ab69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

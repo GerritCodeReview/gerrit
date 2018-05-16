@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8515e91_2130a7bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-action-context.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-16T20:58:51Z",
+      "side": 1,
+      "message": "Is this guaranteed to be a string?",
+      "range": {
+        "startLine": 97,
+        "startChar": 15,
+        "endLine": 97,
+        "endChar": 20
+      },
+      "revId": "cd9f2183b04940fa4a8b600440ff3f490b00ab69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

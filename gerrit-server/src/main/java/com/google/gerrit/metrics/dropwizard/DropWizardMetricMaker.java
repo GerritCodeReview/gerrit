@@ -339,7 +339,8 @@ public class DropWizardMetricMaker extends MetricMaker {
   private static void checkMetricName(String name) {
     checkArgument(
         METRIC_NAME_PATTERN.matcher(name).matches(),
-        "metric name must match %s",
+        "invalid metric name '%s': must match pattern '%s'",
+        name,
         METRIC_NAME_PATTERN.pattern());
   }
 

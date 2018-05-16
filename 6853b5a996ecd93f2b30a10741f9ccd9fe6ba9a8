@@ -22,6 +22,30 @@
       "revId": "6853b5a996ecd93f2b30a10741f9ccd9fe6ba9a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58c5d6ef_6adee81d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-16T22:23:38Z",
+      "side": 1,
+      "message": "I don\u0027t think that was intentional.",
+      "parentUuid": "d0d6ffb3_4e7b377c",
+      "range": {
+        "startLine": 381,
+        "startChar": 20,
+        "endLine": 381,
+        "endChar": 27
+      },
+      "revId": "6853b5a996ecd93f2b30a10741f9ccd9fe6ba9a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

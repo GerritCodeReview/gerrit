@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "117269b4_0b56100d",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-16T07:43:56Z",
+      "side": 1,
+      "message": "Not related to this change, but neither CurrentUser, nor IdentifiedUser implement equals. So this is just checking for reference equality. I am not 100% sure if CurrentUser (or IdentifiedUser) always link to the same instance, but maybe they do.",
+      "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47c5a5c8_a97e445a",
+        "filename": "java/com/google/gerrit/server/permissions/PermissionBackend.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-16T07:43:56Z",
+      "side": 1,
+      "message": "Instead of copying this 3x, can you use @see to reference the JavaDoc from the top level PermissionBackend ?",
+      "range": {
+        "startLine": 309,
+        "startChar": 7,
+        "endLine": 313,
+        "endChar": 73
+      },
+      "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7eb41b9_65309d9b",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-16T07:43:56Z",
+      "side": 1,
+      "message": "No need to duplicate this method. In the DefaultPermissionBackend, we always fall back to user(identifiedUserFactory.create(id)), so you can just do this call in l.354",
+      "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6bceb41_62f55e3a",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-16T07:43:56Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "revId": "9724a5f525de391db202cf0a3ba224aa398b9042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

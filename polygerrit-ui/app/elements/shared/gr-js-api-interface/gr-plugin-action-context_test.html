@@ -128,5 +128,26 @@ limitations under the License.
       assert.isTrue(sendStub.calledWith(
           'METHOD', '/changes/1/revisions/2/foo~bar', payload));
     });
+
+    test('call error', done => {
+      instance.action = {
+        method: 'METHOD',
+        __key: 'key',
+        __url: '/changes/1/revisions/2/foo~bar',
+      };
+      const sendStub = sandbox.stub().returns(Promise.reject('boom'));
+      sandbox.stub(plugin, 'restApi').returns({
+        send: sendStub,
+      });
+      const errorStub = sandbox.stub();
+      document.addEventListener('network-error', errorStub);
+      instance.call();
+      flush(() => {
+        assert.isTrue(errorStub.calledOnce);
+        assert.equal(errorStub.args[0][0].detail.message,
+            'Plugin network error: boom');
+        done();
+      });
+    });
   });
 </script>

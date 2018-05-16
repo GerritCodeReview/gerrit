@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "080bb890_d6c786c1",
+        "filename": "java/com/google/gerrit/server/api/config/StringEncryptor.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-16T20:30:54Z",
+      "side": 1,
+      "message": "Is there any advantage to the user of this API to have to check\nagainst null instead of having to deal with an exception?\nIOW, why not let the exception exit the method?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9001b2_55d66709",
+        "filename": "java/com/google/gerrit/server/api/config/StringEncryptor.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-16T20:30:54Z",
+      "side": 1,
+      "message": "same here: why catch exception, log and return null?",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 16
+      },
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39c8e420_a8aa129a",
+        "filename": "javatests/com/google/gerrit/server/api/config/StringEncryptorTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-16T20:30:54Z",
+      "side": 1,
+      "message": "Do you also want to test error conditions, where encrypt/decrypt methods fail?",
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

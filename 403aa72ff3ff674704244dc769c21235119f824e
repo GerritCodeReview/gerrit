@@ -34,6 +34,24 @@
       "revId": "403aa72ff3ff674704244dc769c21235119f824e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a2ef655_526a9e5f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-16T07:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d77a802e_95891ae2",
+      "revId": "403aa72ff3ff674704244dc769c21235119f824e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

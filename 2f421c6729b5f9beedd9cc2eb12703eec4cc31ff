@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb266f13_14eda3af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-16T21:50:46Z",
+      "side": 1,
+      "message": "Indent this line.",
+      "range": {
+        "startLine": 35,
+        "startChar": 7,
+        "endLine": 35,
+        "endChar": 45
+      },
+      "revId": "2f421c6729b5f9beedd9cc2eb12703eec4cc31ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67935e65_c77e3cbd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-16T21:50:46Z",
+      "side": 1,
+      "message": "Optional: refactoring this URL creation would make this function much more legible (imo)...\n\n    getRepoBranches(filter, repo, reposBranchesPerPage, opt_offset, opt_errFn) {\n      const offset \u003d opt_offset || 0;\n      const count \u003d reposBranchesPerPage + 1;\n      filter \u003d this._computeFilter(filter);\n      repo \u003d encodeURIComponent(repo);\n      const url \u003d `/projects/${repo}/branches?n\u003d${count}\u0026S\u003d${offset}${filter}`\n      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend\n      // supports it.\n      return this._fetchJSON({url, errFn: opt_errFn});\n    },\n\n...but up to you.",
+      "range": {
+        "startLine": 1178,
+        "startChar": 0,
+        "endLine": 1180,
+        "endChar": 40
+      },
+      "revId": "2f421c6729b5f9beedd9cc2eb12703eec4cc31ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "971eae25_ad16968a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-16T21:50:46Z",
+      "side": 1,
+      "message": "Same for these two.",
+      "range": {
+        "startLine": 1193,
+        "startChar": 0,
+        "endLine": 1221,
+        "endChar": 6
+      },
+      "revId": "2f421c6729b5f9beedd9cc2eb12703eec4cc31ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

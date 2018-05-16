@@ -51,7 +51,9 @@ public class VersionedAccountQueries extends VersionedMetaData {
   protected void onLoad() throws IOException, ConfigInvalidException {
     queryList =
         QueryList.parse(
-            readUTF8(QueryList.FILE_NAME), QueryList.createLoggerSink(QueryList.FILE_NAME, log));
+            readUTF8(QueryList.FILE_NAME),
+            error ->
+                log.error("Error parsing file " + QueryList.FILE_NAME + ": " + error.getMessage()));
   }
 
   @Override

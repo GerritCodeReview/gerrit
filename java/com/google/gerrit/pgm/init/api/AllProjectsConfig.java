@@ -30,7 +30,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AllProjectsConfig extends VersionedMetaDataOnInit {
-
   private static final Logger log = LoggerFactory.getLogger(AllProjectsConfig.class);
 
   private Config cfg;
@@ -65,7 +64,8 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
     return GroupList.parse(
         new Project.NameKey(project),
         readUTF8(GroupList.FILE_NAME),
-        GroupList.createLoggerSink(GroupList.FILE_NAME, log));
+        error ->
+            log.error("Error parsing file " + GroupList.FILE_NAME + ": " + error.getMessage()));
   }
 
   public void save(String pluginName, String message) throws IOException, ConfigInvalidException {

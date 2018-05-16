@@ -22,6 +22,30 @@
       "revId": "78db0cb6ca79be00234652e93172a0c537a2ce53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "333ab54a_84546e37",
+        "filename": "java/com/google/gerrit/server/permissions/ProjectControl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-05-16T08:25:09Z",
+      "side": 1,
+      "message": "This works for ProjectControl. But #absentUser is also created for RefControl. Removing this will make code there more complicate.",
+      "parentUuid": "c61521c0_f63d0226",
+      "range": {
+        "startLine": 341,
+        "startChar": 7,
+        "endLine": 341,
+        "endChar": 59
+      },
+      "revId": "78db0cb6ca79be00234652e93172a0c537a2ce53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

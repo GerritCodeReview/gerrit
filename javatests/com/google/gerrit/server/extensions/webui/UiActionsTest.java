@@ -78,6 +78,11 @@ public class UiActionsTest {
     }
 
     @Override
+    public ForProject absentUser(Account.Id id) {
+      throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
     public ForRef ref(String ref) {
       throw new UnsupportedOperationException("not implemented");
     }

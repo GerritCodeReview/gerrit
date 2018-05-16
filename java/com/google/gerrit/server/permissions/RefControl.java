@@ -21,10 +21,12 @@ import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForRef;
@@ -39,6 +41,7 @@ import java.util.Set;
 
 /** Manages access control for Git references (aka branches, tags). */
 class RefControl {
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -52,7 +55,12 @@ class RefControl {
   private Boolean canForgeCommitter;
   private Boolean isVisible;
 
-  RefControl(ProjectControl projectControl, String ref, PermissionCollection relevant) {
+  RefControl(
+      IdentifiedUser.GenericFactory identifiedUserFactory,
+      ProjectControl projectControl,
+      String ref,
+      PermissionCollection relevant) {
+    this.identifiedUserFactory = identifiedUserFactory;
     this.projectControl = projectControl;
     this.refName = ref;
     this.relevant = relevant;
@@ -71,7 +79,7 @@ class RefControl {
     if (relevant.isUserSpecific()) {
       return newCtl.controlForRef(refName);
     }
-    return new RefControl(newCtl, refName, relevant);
+    return new RefControl(identifiedUserFactory, newCtl, refName, relevant);
   }
 
   /** Is this user a ref owner? */
@@ -401,6 +409,11 @@ class RefControl {
     @Override
     public ForRef user(CurrentUser user) {
       return forUser(user).asForRef().database(db);
+    }
+
+    @Override
+    public ForRef absentUser(Account.Id id) {
+      return user(identifiedUserFactory.create(id));
     }
 
     @Override

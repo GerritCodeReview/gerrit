@@ -635,7 +635,7 @@ class GitwebServlet extends HttpServlet {
                   dst.close();
                 }
               } catch (IOException e) {
-                log.debug("Unexpected error copying input to CGI", e);
+                log.error("Unexpected error copying input to CGI", e);
               }
             },
             "Gitweb-InputFeeder")
@@ -652,7 +652,7 @@ class GitwebServlet extends HttpServlet {
                   log.error("CGI: " + line);
                 }
               } catch (IOException e) {
-                log.debug("Unexpected error copying stderr from CGI", e);
+                log.error("Unexpected error copying stderr from CGI", e);
               }
             },
             "Gitweb-ErrorLogger")

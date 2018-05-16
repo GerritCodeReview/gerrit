@@ -680,8 +680,8 @@ maven_jar(
 
 maven_jar(
     name = "junit",
-    artifact = "junit:junit:4.11",
-    sha1 = "4e031bb61df09069aeb2bffb4019e7a5034a4ee0",
+    artifact = "junit:junit:4.12",
+    sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
 )
 
 maven_jar(

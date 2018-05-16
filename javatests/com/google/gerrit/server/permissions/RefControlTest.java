@@ -47,7 +47,6 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.ListGroupMembership;
@@ -203,7 +202,6 @@ public class RefControlTest {
   @Inject private InMemoryDatabase schemaFactory;
   @Inject private ThreadLocalRequestContext requestContext;
   @Inject private DefaultRefFilter.Factory refFilterFactory;
-  @Inject private IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Before
   public void setUp() throws Exception {
@@ -988,7 +986,6 @@ public class RefControlTest {
         changeControlFactory,
         permissionBackend,
         refFilterFactory,
-        identifiedUserFactory,
         new MockUser(name, memberOf),
         newProjectState(local));
   }

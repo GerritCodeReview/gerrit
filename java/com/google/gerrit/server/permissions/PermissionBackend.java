@@ -112,7 +112,7 @@ public abstract class PermissionBackend {
    *
    * <p>Usage should be very limited as this can expose a group-oracle.
    */
-  public abstract WithUser absentUser(Account.Id id);
+  public abstract WithUser absentUser(Account.Id user);
 
   /**
    * Check whether this {@code PermissionBackend} respects the same global capabilities as the
@@ -305,9 +305,6 @@ public abstract class PermissionBackend {
     /** Returns a new instance rescoped to same project, but different {@code user}. */
     public abstract ForProject user(CurrentUser user);
 
-    /** @see PermissionBackend#absentUser(Account.Id) */
-    public abstract ForProject absentUser(Account.Id id);
-
     /** Returns an instance scoped for {@code ref} in this project. */
     public abstract ForRef ref(String ref);
 
@@ -416,9 +413,6 @@ public abstract class PermissionBackend {
     /** Returns a new instance rescoped to same reference, but different {@code user}. */
     public abstract ForRef user(CurrentUser user);
 
-    /** @see PermissionBackend#absentUser(Account.Id) */
-    public abstract ForRef absentUser(Account.Id id);
-
     /** Returns an instance scoped to change. */
     public abstract ForChange change(ChangeData cd);
 
@@ -476,9 +470,6 @@ public abstract class PermissionBackend {
 
     /** Returns a new instance rescoped to same change, but different {@code user}. */
     public abstract ForChange user(CurrentUser user);
-
-    /** @see PermissionBackend#absentUser(Account.Id) */
-    public abstract ForChange absentUser(Account.Id id);
 
     /** Verify scoped user can {@code perm}, throwing if denied. */
     public abstract void check(ChangePermissionOrLabel perm)

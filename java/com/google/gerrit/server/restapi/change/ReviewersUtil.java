@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -217,39 +218,16 @@ public class ReviewersUtil {
     }
     logger.atFine().log("Filtered recommendations: %s", filteredRecommendations);
 
-    List<SuggestedReviewerInfo> suggestedReviewers = loadAccounts(filteredRecommendations);
-    if (!excludeGroups && suggestedReviewers.size() < limit && !Strings.isNullOrEmpty(query)) {
-      // Add groups at the end as individual accounts are usually more
-      // important.
-      suggestedReviewers.addAll(
-          suggestAccountGroups(
-              suggestReviewers,
-              projectState,
-              visibilityControl,
-              limit - suggestedReviewers.size()));
-    }
-
-    if (suggestedReviewers.size() > limit) {
-      suggestedReviewers = suggestedReviewers.subList(0, limit);
-      logger.atFine().log("Limited suggested reviewers to %d accounts.", limit);
-    }
+    List<SuggestedReviewerInfo> suggestedReviewers =
+        suggestReviewers(
+            suggestReviewers,
+            projectState,
+            visibilityControl,
+            excludeGroups,
+            filteredRecommendations);
     logger
         .atFine()
-        .log(
-            "Suggested reviewers: %s",
-            suggestedReviewers
-                .stream()
-                .map(
-                    r -> {
-                      if (r.account != null) {
-                        return "a/" + r.account._accountId;
-                      } else if (r.group != null) {
-                        return "g/" + r.group.id;
-                      } else {
-                        return "";
-                      }
-                    })
-                .collect(toList()));
+        .log("Suggested reviewers: %s", lazy(() -> formatSuggestedReviewers(suggestedReviewers)));
     return suggestedReviewers;
   }
 
@@ -281,6 +259,36 @@ public class ReviewersUtil {
         return ImmutableList.of();
       }
     }
+  }
+
+  private List<SuggestedReviewerInfo> suggestReviewers(
+      SuggestReviewers suggestReviewers,
+      ProjectState projectState,
+      VisibilityControl visibilityControl,
+      boolean excludeGroups,
+      List<Account.Id> filteredRecommendations)
+      throws OrmException, PermissionBackendException, IOException {
+    List<SuggestedReviewerInfo> suggestedReviewers = loadAccounts(filteredRecommendations);
+
+    int limit = suggestReviewers.getLimit();
+    if (!excludeGroups
+        && suggestedReviewers.size() < limit
+        && !Strings.isNullOrEmpty(suggestReviewers.getQuery())) {
+      // Add groups at the end as individual accounts are usually more
+      // important.
+      suggestedReviewers.addAll(
+          suggestAccountGroups(
+              suggestReviewers,
+              projectState,
+              visibilityControl,
+              limit - suggestedReviewers.size()));
+    }
+
+    if (suggestedReviewers.size() > limit) {
+      suggestedReviewers = suggestedReviewers.subList(0, limit);
+      logger.atFine().log("Limited suggested reviewers to %d accounts.", limit);
+    }
+    return suggestedReviewers;
   }
 
   private List<Account.Id> recommendAccounts(
@@ -413,5 +421,22 @@ public class ReviewersUtil {
     }
 
     return result;
+  }
+
+  private static String formatSuggestedReviewers(List<SuggestedReviewerInfo> suggestedReviewers) {
+    return suggestedReviewers
+        .stream()
+        .map(
+            r -> {
+              if (r.account != null) {
+                return "a/" + r.account._accountId;
+              } else if (r.group != null) {
+                return "g/" + r.group.id;
+              } else {
+                return "";
+              }
+            })
+        .collect(toList())
+        .toString();
   }
 }

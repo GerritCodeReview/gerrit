@@ -222,14 +222,15 @@ public abstract class ExternalId implements Serializable {
   }
 
   public static ExternalId createWithPassword(
-      Key key, Account.Id accountId, @Nullable String email, String plainPassword) {
+      Key key, Account.Id accountId, @Nullable String email, @Nullable String plainPassword) {
     plainPassword = Strings.emptyToNull(plainPassword);
     String hashedPassword =
         plainPassword != null ? HashedPassword.fromPassword(plainPassword).encode() : null;
     return create(key, accountId, email, hashedPassword);
   }
 
-  public static ExternalId createUsername(String id, Account.Id accountId, String plainPassword) {
+  public static ExternalId createUsername(
+      String id, Account.Id accountId, @Nullable String plainPassword) {
     return createWithPassword(Key.create(SCHEME_USERNAME, id), accountId, null, plainPassword);
   }
 

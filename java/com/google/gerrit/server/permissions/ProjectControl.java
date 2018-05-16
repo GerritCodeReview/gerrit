@@ -20,7 +20,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -28,7 +27,6 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
@@ -69,7 +67,6 @@ class ProjectControl {
   private final ChangeControl.Factory changeControlFactory;
   private final PermissionCollection.Factory permissionFilter;
   private final DefaultRefFilter.Factory refFilterFactory;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   private List<SectionMatcher> allSections;
   private Map<String, RefControl> refControls;
@@ -83,7 +80,6 @@ class ProjectControl {
       ChangeControl.Factory changeControlFactory,
       PermissionBackend permissionBackend,
       DefaultRefFilter.Factory refFilterFactory,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
       @Assisted CurrentUser who,
       @Assisted ProjectState ps) {
     this.changeControlFactory = changeControlFactory;
@@ -92,7 +88,6 @@ class ProjectControl {
     this.permissionFilter = permissionFilter;
     this.permissionBackend = permissionBackend;
     this.refFilterFactory = refFilterFactory;
-    this.identifiedUserFactory = identifiedUserFactory;
     user = who;
     state = ps;
   }
@@ -106,7 +101,6 @@ class ProjectControl {
             changeControlFactory,
             permissionBackend,
             refFilterFactory,
-            identifiedUserFactory,
             who,
             state);
     // Not per-user, and reusing saves lookup time.
@@ -138,7 +132,7 @@ class ProjectControl {
     RefControl ctl = refControls.get(refName);
     if (ctl == null) {
       PermissionCollection relevant = permissionFilter.filter(access(), refName, user);
-      ctl = new RefControl(identifiedUserFactory, this, refName, relevant);
+      ctl = new RefControl(this, refName, relevant);
       refControls.put(refName, ctl);
     }
     return ctl;
@@ -330,11 +324,6 @@ class ProjectControl {
     @Override
     public ForProject user(CurrentUser user) {
       return forUser(user).asForProject().database(db);
-    }
-
-    @Override
-    public ForProject absentUser(Account.Id id) {
-      return user(identifiedUserFactory.create(id));
     }
 
     @Override

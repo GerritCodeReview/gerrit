@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "eeea202e_c53142de",
+        "filename": "java/com/google/gerrit/server/api/config/KeyManager.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2018-05-16T20:33:53Z",
+      "side": 1,
+      "message": "I am sure Hugo will tell you that a test for this class is missing :-)",
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "080bb890_d6c786c1",
         "filename": "java/com/google/gerrit/server/api/config/StringEncryptor.java",
         "patchSetId": 13

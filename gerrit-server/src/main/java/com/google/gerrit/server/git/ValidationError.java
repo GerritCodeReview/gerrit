@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git;
 
-import org.slf4j.Logger;
+import java.util.Objects;
 
 /** Indicates a problem with Git based data. */
 public class ValidationError {
@@ -45,12 +45,20 @@ public class ValidationError {
     void error(ValidationError error);
   }
 
-  public static Sink createLoggerSink(final String message, final Logger log) {
-    return new ValidationError.Sink() {
-      @Override
-      public void error(ValidationError error) {
-        log.error(message + error.getMessage());
-      }
-    };
+  @Override
+  public boolean equals(Object o) {
+    if (o == this) {
+      return true;
+    }
+    if (o instanceof ValidationError) {
+      ValidationError that = (ValidationError) o;
+      return Objects.equals(this.message, that.message);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(message);
   }
 }

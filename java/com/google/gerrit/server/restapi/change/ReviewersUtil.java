@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -217,40 +218,45 @@ public class ReviewersUtil {
     }
     logger.atFine().log("Filtered recommendations: %s", filteredRecommendations);
 
-    List<SuggestedReviewerInfo> suggestedReviewers = loadAccounts(filteredRecommendations);
-    if (!excludeGroups && suggestedReviewers.size() < limit && !Strings.isNullOrEmpty(query)) {
+    List<SuggestedReviewerInfo> reviewerSuggestions = loadAccounts(filteredRecommendations);
+    if (!excludeGroups && reviewerSuggestions.size() < limit && !Strings.isNullOrEmpty(query)) {
       // Add groups at the end as individual accounts are usually more
       // important.
-      suggestedReviewers.addAll(
+      reviewerSuggestions.addAll(
           suggestAccountGroups(
               suggestReviewers,
               projectState,
               visibilityControl,
-              limit - suggestedReviewers.size()));
+              limit - reviewerSuggestions.size()));
     }
 
-    if (suggestedReviewers.size() > limit) {
-      suggestedReviewers = suggestedReviewers.subList(0, limit);
+    List<SuggestedReviewerInfo> suggestedReviewers;
+    if (reviewerSuggestions.size() > limit) {
+      suggestedReviewers = reviewerSuggestions.subList(0, limit);
       logger.atFine().log("Limited suggested reviewers to %d accounts.", limit);
+    } else {
+      suggestedReviewers = reviewerSuggestions;
     }
     logger
         .atFine()
         .log(
             "Suggested reviewers: %s",
-            suggestedReviewers
-                .stream()
-                .map(
-                    r -> {
-                      if (r.account != null) {
-                        return "a/" + r.account._accountId;
-                      } else if (r.group != null) {
-                        return "g/" + r.group.id;
-                      } else {
-                        return "";
-                      }
-                    })
-                .collect(toList()));
-    return suggestedReviewers;
+            lazy(
+                () ->
+                    suggestedReviewers
+                        .stream()
+                        .map(
+                            r -> {
+                              if (r.account != null) {
+                                return "a/" + r.account._accountId;
+                              } else if (r.group != null) {
+                                return "g/" + r.group.id;
+                              } else {
+                                return "";
+                              }
+                            })
+                        .collect(toList())));
+    return reviewerSuggestions;
   }
 
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers) throws OrmException {

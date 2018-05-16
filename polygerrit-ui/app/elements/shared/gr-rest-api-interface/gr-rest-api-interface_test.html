@@ -86,7 +86,7 @@ limitations under the License.
     test('cached promise', done => {
       const promise = Promise.reject('foo');
       element._cache['/foo'] = promise;
-      element._fetchSharedCacheURL('/foo').catch(p => {
+      element._fetchSharedCacheURL({url: '/foo'}).catch(p => {
         assert.equal(p, 'foo');
         done();
       });
@@ -514,7 +514,7 @@ limitations under the License.
           });
 
           element._cache[cacheKey] = 'fake cache';
-          stub.callArg(1);
+          stub.lastCall.args[0].errFn();
         });
 
     test('getAccount does not add to the cache when resp.status is 403',
@@ -529,7 +529,7 @@ limitations under the License.
             done();
           });
           element._cache[cacheKey] = 'fake cache';
-          stub.callArgWith(1, {status: 403});
+          stub.lastCall.args[0].errFn({status: 403});
         });
 
     test('getAccount when resp is successful', done => {
@@ -543,7 +543,8 @@ limitations under the License.
         done();
       });
       element._cache[cacheKey] = 'fake cache';
-      stub.callArg(1, {});
+
+      stub.lastCall.args[0].errFn({});
     });
 
     const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
@@ -885,37 +886,37 @@ limitations under the License.
     test('getRepos', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getRepos('test', 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=0&m=test'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=0&m=test');
 
       element.getRepos(null, 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=0'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=0');
 
       element.getRepos('test', 25, 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=25&m=test'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=25&m=test');
     });
 
     test('getRepos filter', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getRepos('test/test/test', 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=0&m=test%2Ftest%2Ftest'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=0&m=test%2Ftest%2Ftest');
     });
 
     test('getRepos filter regex', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getRepos('^test.*', 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/projects/?d&n=26&S=0&r=%5Etest.*'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/projects/?d&n=26&S=0&r=%5Etest.*');
     });
 
     test('getGroups filter regex', () => {
       sandbox.stub(element, '_fetchSharedCacheURL');
       element.getGroups('^test.*', 25);
-      assert.isTrue(element._fetchSharedCacheURL.lastCall
-          .calledWithExactly('/groups/?n=26&S=0&r=%5Etest.*'));
+      assert.equal(element._fetchSharedCacheURL.lastCall.args[0].url,
+          '/groups/?n=26&S=0&r=%5Etest.*');
     });
 
     test('gerrit auth is used', () => {
@@ -1252,7 +1253,7 @@ limitations under the License.
       element.getDashboard('gerrit/project', 'default:main');
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
-          fetchStub.lastCall.args[0],
+          fetchStub.lastCall.args[0].url,
           '/projects/gerrit%2Fproject/dashboards/default%3Amain');
     });
 

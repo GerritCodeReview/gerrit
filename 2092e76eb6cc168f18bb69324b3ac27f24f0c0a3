@@ -1,0 +1,74 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0221307_a445e525",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-16T20:49:35Z",
+      "side": 1,
+      "message": "I think this link is meant to be something like \u003c\u003cnote-db,NoteDb\u003e\u003e.\n\nAlternatively, I think the paragraph can be skipped altogether. Cc-ing dborowitz@ to find out whether H2 is needed after all (e.g. is it needed for the reviewed flag?).",
+      "range": {
+        "startLine": 5,
+        "startChar": 33,
+        "endLine": 5,
+        "endChar": 78
+      },
+      "revId": "2092e76eb6cc168f18bb69324b3ac27f24f0c0a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fa25ce4_ffb49d73",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-16T20:49:35Z",
+      "side": 1,
+      "message": "https://support.apple.com/kb/dl848 calls this \"Java for Mac OS X 10.5 Update 4\".",
+      "range": {
+        "startLine": 54,
+        "startChar": 23,
+        "endLine": 54,
+        "endChar": 51
+      },
+      "revId": "2092e76eb6cc168f18bb69324b3ac27f24f0c0a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e904ff78_e2c4cf0f",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-05-16T20:49:35Z",
+      "side": 1,
+      "message": "\u003e Found trailing space\n\nPlease Fix",
+      "parentUuid": "f470057c_32555ba9",
+      "range": {
+        "startLine": 150,
+        "startChar": 164,
+        "endLine": 150,
+        "endChar": 164
+      },
+      "revId": "2092e76eb6cc168f18bb69324b3ac27f24f0c0a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

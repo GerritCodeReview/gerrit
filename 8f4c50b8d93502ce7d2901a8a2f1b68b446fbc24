@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51551431_a1c85dfd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-16T12:19:47Z",
+      "side": 1,
+      "message": "Yes, there are several subclasses of CurrentUser, but I need to check if any of them can be reasonably compared.  If they can, then yes, equals should be implemented. Otherwise, I think it\u0027s correct to let this one be used and we\u0027ll catch any unexpected usages.",
+      "parentUuid": "8bef81b7_26174ecf",
+      "range": {
+        "startLine": 163,
+        "startChar": 17,
+        "endLine": 163,
+        "endChar": 23
+      },
+      "revId": "8f4c50b8d93502ce7d2901a8a2f1b68b446fbc24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc395e34_07ad7775",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-11T07:21:21Z",
       "side": 1,
       "message": "A bit smelly :-(",
+      "range": {
+        "startLine": 163,
+        "startChar": 9,
+        "endLine": 163,
+        "endChar": 39
+      },
+      "revId": "8f4c50b8d93502ce7d2901a8a2f1b68b446fbc24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47aee82c_e8fc1ac8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/project/ChangeControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-16T12:19:47Z",
+      "side": 1,
+      "message": "True :(\n\nI\u0027m open to alternative suggestions...",
+      "parentUuid": "cc395e34_07ad7775",
       "range": {
         "startLine": 163,
         "startChar": 9,

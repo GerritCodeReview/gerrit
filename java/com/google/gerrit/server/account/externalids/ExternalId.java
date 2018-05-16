@@ -118,6 +118,8 @@ public abstract class ExternalId implements Serializable {
    * AuthType#HTTP_LDAP}, and {@link AuthType#LDAP_BIND} usernames.
    *
    * <p>The name {@code gerrit:} was a very poor choice.
+   *
+   * <p>Scheme names must not contain colons (':').
    */
   public static final String SCHEME_GERRIT = "gerrit";
 
@@ -140,6 +142,13 @@ public abstract class ExternalId implements Serializable {
   public abstract static class Key implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Creates an external ID key.
+     *
+     * @param scheme the scheme name, must not contain colons (':'), can be {@code null}
+     * @param id the external ID, must not contain colons (':')
+     * @return the created external ID key
+     */
     public static Key create(@Nullable String scheme, String id) {
       return new AutoValue_ExternalId_Key(Strings.emptyToNull(scheme), id);
     }
@@ -198,10 +207,28 @@ public abstract class ExternalId implements Serializable {
     }
   }
 
+  /**
+   * Creates an external ID.
+   *
+   * @param scheme the scheme name, must not contain colons (':')
+   * @param id the external ID, must not contain colons (':')
+   * @param accountId the ID of the account to which the external ID belongs
+   * @return the created external ID
+   */
   public static ExternalId create(String scheme, String id, Account.Id accountId) {
     return create(Key.create(scheme, id), accountId, null, null);
   }
 
+  /**
+   * Creates an external ID.
+   *
+   * @param scheme the scheme name, must not contain colons (':')
+   * @param id the external ID, must not contain colons (':')
+   * @param accountId the ID of the account to which the external ID belongs
+   * @param email the email of the external ID, may be {@code null}
+   * @param hashedPassword the hashed password of the external ID, may be {@code null}
+   * @return the created external ID
+   */
   public static ExternalId create(
       String scheme,
       String id,
@@ -229,11 +256,28 @@ public abstract class ExternalId implements Serializable {
     return create(key, accountId, email, hashedPassword);
   }
 
+  /**
+   * Create a external ID for a username (scheme "username").
+   *
+   * @param id the external ID, must not contain colons (':')
+   * @param accountId the ID of the account to which the external ID belongs
+   * @param plainPassword the plain HTTP password, may be {@code null}
+   * @return the created external ID
+   */
   public static ExternalId createUsername(
       String id, Account.Id accountId, @Nullable String plainPassword) {
     return createWithPassword(Key.create(SCHEME_USERNAME, id), accountId, null, plainPassword);
   }
 
+  /**
+   * Creates an external ID with an email.
+   *
+   * @param scheme the scheme name, must not contain colons (':')
+   * @param id the external ID, must not contain colons (':')
+   * @param accountId the ID of the account to which the external ID belongs
+   * @param email the email of the external ID, may be {@code null}
+   * @return the created external ID
+   */
   public static ExternalId createWithEmail(
       String scheme, String id, Account.Id accountId, @Nullable String email) {
     return createWithEmail(Key.create(scheme, id), accountId, email);

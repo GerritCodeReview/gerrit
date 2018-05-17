@@ -300,7 +300,7 @@ public class Daemon extends SiteProgram {
       return 0;
     } catch (Throwable err) {
       log.error("Unable to start daemon", err);
-      return 1;
+      throw err;
     }
   }
 

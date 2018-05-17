@@ -160,7 +160,7 @@ def fetch_admin_group():
 def generate_random_text():
   return " ".join([random.choice("lorem ipsum "
                                  "doleret delendam "
-                                 "\n esse".split(" ")) for _ in xrange(1, 100)])
+                                 "\n esse".split(" ")) for _ in range(1, 100)])
 
 
 def set_up():
@@ -299,7 +299,7 @@ def main():
   project_names = create_gerrit_projects(group_names)
 
   for idx, u in enumerate(gerrit_users):
-    for _ in xrange(random.randint(1, 5)):
+    for _ in range(random.randint(1, 5)):
       create_change(u, project_names[4 * idx / len(gerrit_users)])
 
 main()

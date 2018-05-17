@@ -101,9 +101,9 @@ def _main():
         summary = summary + "."
 
     data = {
-         "version": Version(options.version),
-         "previous": options.previous,
-         "summary": summary
+        "version": Version(options.version),
+        "previous": options.previous,
+        "summary": summary
     }
 
     war = os.path.join(

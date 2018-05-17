@@ -38,7 +38,7 @@ limitations under the License.
 
     setup(() => {
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({}); },
+        getConfig() { return Promise.resolve({plugin: {has_avatars: true}}); },
       });
       element = fixture('basic');
     });
@@ -97,23 +97,36 @@ limitations under the License.
     });
 
     test('dom for existing account', () => {
-      assert.isTrue(element.hasAttribute('hidden'),
-          'element not hidden initially');
-      element.hidden = false;
+      assert.isFalse(element.hasAttribute('hidden'));
       element.imageSize = 64;
       element.account = {
         _account_id: 123,
       };
-      assert.isFalse(element.hasAttribute('hidden'), 'element hidden');
-      assert.isTrue(
-          element.style.backgroundImage.includes('/accounts/123/avatar?s=64'));
+      assert.strictEqual(element.style.backgroundImage, '');
+      // Emulate plugins loaded.
+      Gerrit._setPluginsPending([]);
+      return Promise.all([
+        element.$.restAPI.getConfig(),
+        Gerrit.awaitPluginsLoaded(),
+      ]).then(() => {
+        assert.isFalse(element.hasAttribute('hidden'));
+        assert.isTrue(
+            element.style.backgroundImage.includes('/accounts/123/avatar?s=64'));
+      });
     });
 
     test('dom for non available account', () => {
-      assert.isTrue(element.hasAttribute('hidden'),
-          'element not hidden initially');
-      element.account = undefined;
-      assert.isTrue(element.hasAttribute('hidden'), 'element not hidden');
+      assert.isFalse(element.hasAttribute('hidden'));
+      element.account = null;
+      assert.isFalse(element.hasAttribute('hidden'));
+      // Emulate plugins loaded.
+      Gerrit._setPluginsPending([]);
+      return Promise.all([
+        element.$.restAPI.getConfig(),
+        Gerrit.awaitPluginsLoaded(),
+      ]).then(() => {
+        assert.isTrue(element.hasAttribute('hidden'));
+      });
     });
   });
 </script>

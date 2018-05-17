@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b324eb00_cf45be5a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 5055,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-17T21:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "720aba04_47054c3f",
+      "range": {
+        "startLine": 5055,
+        "startChar": 23,
+        "endLine": 5055,
+        "endChar": 26
+      },
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58236662_3f110421",
         "filename": "java/com/google/gerrit/server/api/config/EncryptionConfig.java",
         "patchSetId": 13
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "343ae120_3fa5b8b0",
+        "filename": "java/com/google/gerrit/server/api/config/EncryptionConfig.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-17T21:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58236662_3f110421",
+      "range": {
+        "startLine": 31,
+        "startChar": 51,
+        "endLine": 31,
+        "endChar": 54
+      },
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eeea202e_c53142de",
         "filename": "java/com/google/gerrit/server/api/config/KeyManager.java",
         "patchSetId": 13
@@ -62,6 +110,24 @@
       "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e5f299e_fabb5a35",
+        "filename": "java/com/google/gerrit/server/api/config/KeyManager.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-17T21:06:53Z",
+      "side": 1,
+      "message": "I had written the test for the same but could not really find a way to test the key creation as the method is private and did not think it would be right to make the method public just for the testing purposes. Found a different way to test now. Done.",
+      "parentUuid": "eeea202e_c53142de",
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "7f189e99_6265df54",
+        "filename": "java/com/google/gerrit/server/api/config/StringEncryptor.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-17T21:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "080bb890_d6c786c1",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 16
+      },
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d9001b2_55d66709",
         "filename": "java/com/google/gerrit/server/api/config/StringEncryptor.java",
         "patchSetId": 13
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "901463fd_cabbdd81",
+        "filename": "java/com/google/gerrit/server/api/config/StringEncryptor.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-17T21:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d9001b2_55d66709",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 16
+      },
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39c8e420_a8aa129a",
         "filename": "javatests/com/google/gerrit/server/api/config/StringEncryptorTest.java",
         "patchSetId": 13
@@ -122,6 +236,24 @@
       "writtenOn": "2018-05-16T20:30:54Z",
       "side": 1,
       "message": "Do you also want to test error conditions, where encrypt/decrypt methods fail?",
+      "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fac06b7a_575977db",
+        "filename": "javatests/com/google/gerrit/server/api/config/StringEncryptorTest.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-17T21:06:53Z",
+      "side": 1,
+      "message": "Yes, actually I thought about the test cases where encrypt/decrypt would fail, but testing them is a bit difficult. As the only possible scenario of failing these is when the algorithm is not available which is hard to replicate. If you think there is any corner case that I am missing , please suggest and I will create test cases accordingly :)",
+      "parentUuid": "39c8e420_a8aa129a",
       "revId": "0d4a3d20cd1fd279f1e3507326b274ec34e63beb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -52,9 +52,13 @@ import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class Helper {
+  private static final Logger log = LoggerFactory.getLogger(Helper.class);
+
   static final String LDAP_UUID = "ldap:";
 
   private final Cache<String, ImmutableSet<String>> parentGroups;
@@ -151,7 +155,7 @@ class Helper {
     } catch (PrivilegedActionException e) {
       Throwables.throwIfInstanceOf(e.getException(), NamingException.class);
       Throwables.throwIfInstanceOf(e.getException(), RuntimeException.class);
-      LdapRealm.log.warn("Internal error", e.getException());
+      log.warn("Internal error", e.getException());
       return null;
     } finally {
       ctx.logout();
@@ -297,7 +301,7 @@ class Helper {
             }
           }
         } catch (NamingException e) {
-          LdapRealm.log.warn("Could not find group " + groupDN, e);
+          log.warn("Could not find group {}", groupDN, e);
         }
         cachedParentsDNs = dns.build();
         parentGroups.put(groupDN, cachedParentsDNs);
@@ -430,10 +434,10 @@ class Helper {
       try {
         return LdapType.guessType(ctx);
       } catch (NamingException e) {
-        LdapRealm.log.warn(
-            "Cannot discover type of LDAP server at "
-                + server
-                + ", assuming the server is RFC 2307 compliant.",
+        log.warn(
+            "Cannot discover type of LDAP server at {},"
+                + " assuming the server is RFC 2307 compliant.",
+            server,
             e);
         return LdapType.RFC_2307;
       }

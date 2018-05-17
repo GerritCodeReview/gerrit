@@ -59,7 +59,8 @@ import org.slf4j.LoggerFactory;
 
 @Singleton
 class LdapRealm extends AbstractRealm {
-  static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
+  private static final Logger log = LoggerFactory.getLogger(LdapRealm.class);
+
   static final String LDAP = "com.sun.jndi.ldap.LdapCtxFactory";
   static final String USERNAME = "username";
 

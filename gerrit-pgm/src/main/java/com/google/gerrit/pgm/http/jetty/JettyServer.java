@@ -69,13 +69,9 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class JettyServer {
-  private static final Logger log = LoggerFactory.getLogger(JettyServer.class);
-
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
     private final Config cfg;
@@ -425,9 +421,8 @@ public class JettyServer {
             "/*",
             EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
       } catch (Throwable e) {
-        String errorMessage = "Unable to instantiate front-end HTTP Filter " + filterClassName;
-        log.error(errorMessage, e);
-        throw new IllegalArgumentException(errorMessage, e);
+        throw new IllegalArgumentException(
+            "Unable to instantiate front-end HTTP Filter " + filterClassName, e);
       }
     }
 

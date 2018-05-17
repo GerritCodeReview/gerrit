@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Joiner;
 import com.google.common.escape.Escaper;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
@@ -62,7 +63,8 @@ public class BazelBuild {
     try {
       status = rebuild.waitFor();
     } catch (InterruptedException e) {
-      throw new InterruptedIOException("interrupted waiting for " + proc.toString());
+      throw new InterruptedIOException(
+          "interrupted waiting for: " + Joiner.on(' ').join(proc.command()));
     }
     if (status != 0) {
       log.warn("build failed: " + new String(out, UTF_8));

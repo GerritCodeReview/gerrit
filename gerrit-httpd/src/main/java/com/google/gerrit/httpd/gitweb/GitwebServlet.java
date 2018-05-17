@@ -643,7 +643,7 @@ class GitwebServlet extends HttpServlet {
                   dst.close();
                 }
               } catch (IOException e) {
-                log.debug("Unexpected error copying input to CGI", e);
+                log.error("Unexpected error copying input to CGI", e);
               }
             },
             "Gitweb-InputFeeder")
@@ -653,14 +653,19 @@ class GitwebServlet extends HttpServlet {
   private void copyStderrToLog(InputStream in) {
     new Thread(
             () -> {
+              StringBuilder b = new StringBuilder();
               try (BufferedReader br =
                   new BufferedReader(new InputStreamReader(in, ISO_8859_1.name()))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                  log.error("CGI: " + line);
+                  if (b.length() > 0) {
+                    b.append('\n');
+                  }
+                  b.append("CGI: ").append(line);
                 }
+                log.error(b.toString());
               } catch (IOException e) {
-                log.debug("Unexpected error copying stderr from CGI", e);
+                log.error("Unexpected error copying stderr from CGI", e);
               }
             },
             "Gitweb-ErrorLogger")

@@ -69,10 +69,6 @@ public class VersionedAccountDestinations extends VersionedMetaData {
     }
   }
 
-  public ValidationError.Sink createSink(String file) {
-    return ValidationError.createLoggerSink(file, log);
-  }
-
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
     throw new UnsupportedOperationException("Cannot yet save destinations");

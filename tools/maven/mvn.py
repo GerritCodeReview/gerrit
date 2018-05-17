@@ -56,7 +56,8 @@ else:
 for spec in args.s:
     artifact, packaging_type, src = spec.split(':')
     exe = cmd + [
-        '-DpomFile=%s' % path.join(root, 'tools', 'maven', '%s_pom.xml' % artifact),
+        '-DpomFile=%s' % path.join(root, 'tools', 'maven',
+                                   '%s_pom.xml' % artifact),
         '-Dpackaging=%s' % packaging_type,
         '-Dfile=%s' % src,
     ]

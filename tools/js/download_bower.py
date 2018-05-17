@@ -39,7 +39,8 @@ def bower_info(bower, name, package, version):
     cmd = bower_cmd(bower, '-l=error', '-j',
                     'info', '%s#%s' % (package, version))
     try:
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
     except:
         sys.stderr.write("error executing: %s\n" % ' '.join(cmd))
         raise
@@ -54,14 +55,15 @@ def bower_info(bower, name, package, version):
         raise ValueError('invalid JSON from %s:\n%s' % (" ".join(cmd), out))
     info_name = info.get('name')
     if info_name != name:
-        raise ValueError('expected package name %s, got: %s' % (name, info_name))
+        raise ValueError(
+            'expected package name %s, got: %s' % (name, info_name))
     return info
 
 
 def ignore_deps(info):
-    # Tell bower to ignore dependencies so we just download this component. This
-    # is just an optimization, since we only pick out the component we need, but
-    # it's important when downloading sizable dependency trees.
+    # Tell bower to ignore dependencies so we just download this component.
+    # This is just an optimization, since we only pick out the component we
+    # need, but it's important when downloading sizable dependency trees.
     #
     # As of 1.6.5 I don't think ignoredDependencies can be specified on the
     # command line with --config, so we have to create .bowerrc.
@@ -99,7 +101,8 @@ def main(args):
         info = bower_info(opts.b, opts.n, opts.p, opts.v)
         ignore_deps(info)
         subprocess.check_call(
-            bower_cmd(opts.b, '--quiet', 'install', '%s#%s' % (opts.p, opts.v)))
+            bower_cmd(
+                opts.b, '--quiet', 'install', '%s#%s' % (opts.p, opts.v)))
         bc = os.path.join(cwd, 'bower_components')
         subprocess.check_call(
             ['zip', '-q', '--exclude', '.bower.json', '-r', cached, opts.n],
@@ -107,17 +110,20 @@ def main(args):
 
         if opts.s:
             path = os.path.join(bc, opts.n)
-            sha1 = bowerutil.hash_bower_component(hashlib.sha1(), path).hexdigest()
+            sha1 = bowerutil.hash_bower_component(
+                hashlib.sha1(), path).hexdigest()
             if opts.s != sha1:
                 print((
                     '%s#%s:\n'
                     'expected %s\n'
-                    'received %s\n') % (opts.p, opts.v, opts.s, sha1), file=sys.stderr)
+                    'received %s\n') % (opts.p, opts.v, opts.s, sha1),
+                    file=sys.stderr)
                 try:
                     os.remove(cached)
                 except OSError as err:
                     if path.exists(cached):
-                        print('error removing %s: %s' % (cached, err), file=sys.stderr)
+                        print('error removing %s: %s' % (cached, err),
+                              file=sys.stderr)
                 return 1
 
     shutil.copyfile(cached, outzip)

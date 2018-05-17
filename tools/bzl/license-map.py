@@ -51,9 +51,8 @@ if len(graph[DO_NOT_DISTRIBUTE]):
     exit(1)
 
 if args.asciidoctor:
-    print(
-# We don't want any blank line before "= Gerrit Code Review - Licenses"
-"""= Gerrit Code Review - Licenses
+    # We don't want any blank line before "= Gerrit Code Review - Licenses"
+    print("""= Gerrit Code Review - Licenses
 
 Gerrit open source software is licensed under the <<Apache2_0,Apache
 License 2.0>>.  Executable distributions also include other software
@@ -125,8 +124,7 @@ for n in sorted(graph.keys()):
     print()
 
 if args.asciidoctor:
-    print(
-"""
+    print("""
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

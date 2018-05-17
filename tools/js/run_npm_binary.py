@@ -54,8 +54,8 @@ def extract(path, outdir, bin):
         for mem in tar.getmembers():
             if mem.name != bin:
                 extract_one(mem)
-        # Extract bin last so other processes only short circuit when extraction is
-        # finished.
+        # Extract bin last so other processes only short circuit when
+        # extraction is finished.
         extract_one(tar.getmember(bin))
 
 
@@ -72,7 +72,8 @@ def main(args):
 
     name, _ = parts
 
-    # Avoid importing from gerrit because we don't want to depend on the right CWD.
+    # Avoid importing from gerrit because we don't want to depend on the right
+    # working directory
     sha1 = hashlib.sha1(open(path, 'rb').read()).hexdigest()
     outdir = '%s-%s' % (path[:-len(suffix)], sha1)
     rel_bin = os.path.join('package', 'bin', name)

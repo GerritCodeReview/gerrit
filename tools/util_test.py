@@ -24,7 +24,8 @@ class TestResolveUrl(unittest.TestCase):
 
     def testKnown(self):
         url = resolve_url('GERRIT:foo.jar', {})
-        self.assertEqual(url, 'http://gerrit-maven.storage.googleapis.com/foo.jar')
+        self.assertEqual(url,
+                         'http://gerrit-maven.storage.googleapis.com/foo.jar')
 
     def testKnownRedirect(self):
         url = resolve_url('MAVEN_CENTRAL:foo.jar',
@@ -37,7 +38,8 @@ class TestResolveUrl(unittest.TestCase):
 
     def testCustomRedirect(self):
         url = resolve_url('MAVEN_EXAMPLE:foo.jar',
-                          {'MAVEN_EXAMPLE': 'http://maven.example.com/release'})
+                          {'MAVEN_EXAMPLE':
+                           'http://maven.example.com/release'})
         self.assertEqual(url, 'http://maven.example.com/release/foo.jar')
 
 

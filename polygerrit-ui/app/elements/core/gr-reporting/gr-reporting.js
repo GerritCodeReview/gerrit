@@ -148,8 +148,12 @@
       return window.performance.now();
     },
 
+    _arePluginsLoaded() {
+      return !this._baselines.hasOwnProperty(TIMER.PLUGINS_LOADED);
+    },
+
     reporter(...args) {
-      const report = (Gerrit._arePluginsLoaded() && !pending.length) ?
+      const report = (this._arePluginsLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
       report.apply(this, args);
     },
@@ -174,7 +178,7 @@
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       }
-      if (Gerrit._arePluginsLoaded()) {
+      if (this._arePluginsLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
             this.reporter(...args);

@@ -1,0 +1,100 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5a9b89e_bc955bab",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-17T20:09:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "907cb415_e8745367",
+      "range": {
+        "startLine": 5,
+        "startChar": 55,
+        "endLine": 5,
+        "endChar": 55
+      },
+      "revId": "955f4607a822b8064206623b8ec5450d12cd8f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e5e168c_f6ef9805",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-17T20:09:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c604107c_f3861b9e",
+      "range": {
+        "startLine": 36,
+        "startChar": 98,
+        "endLine": 36,
+        "endChar": 98
+      },
+      "revId": "955f4607a822b8064206623b8ec5450d12cd8f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24c6c439_895236bc",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-17T20:09:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23a90129_ec55e6e6",
+      "range": {
+        "startLine": 154,
+        "startChar": 115,
+        "endLine": 154,
+        "endChar": 115
+      },
+      "revId": "955f4607a822b8064206623b8ec5450d12cd8f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0da3b04e_642f0979",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-17T20:09:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6492baa_0c6b2936",
+      "range": {
+        "startLine": 68,
+        "startChar": 34,
+        "endLine": 68,
+        "endChar": 34
+      },
+      "revId": "955f4607a822b8064206623b8ec5450d12cd8f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

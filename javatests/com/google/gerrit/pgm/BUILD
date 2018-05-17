@@ -5,11 +5,13 @@ junit_tests(
     name = "pgm_tests",
     srcs = glob(["**/*.java"]),
     deps = [
+        "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/pgm",
         "//java/com/google/gerrit/pgm/http",
         "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/pgm/init/api",
+        "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:junit",

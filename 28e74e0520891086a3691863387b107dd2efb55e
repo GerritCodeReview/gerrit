@@ -17,6 +17,24 @@
       "revId": "28e74e0520891086a3691863387b107dd2efb55e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f22e991_fc93918d",
+        "filename": "java/com/google/gerrit/metrics/proc/OperatingSystemMXBeanProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:04:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccccad5d_6d319632",
+      "revId": "28e74e0520891086a3691863387b107dd2efb55e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

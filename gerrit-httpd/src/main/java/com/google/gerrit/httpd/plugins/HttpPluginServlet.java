@@ -87,6 +87,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -477,7 +478,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       try (BufferedReader reader = new BufferedReader(isr)) {
         String line;
         while ((line = reader.readLine()) != null) {
-          line = line.trim();
+          line = StringUtils.stripEnd(line, null);
           if (line.isEmpty()) {
             aboutContent.append("\n");
           } else {

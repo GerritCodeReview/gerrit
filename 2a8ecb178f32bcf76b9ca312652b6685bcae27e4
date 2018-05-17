@@ -47,6 +47,30 @@
       "revId": "2a8ecb178f32bcf76b9ca312652b6685bcae27e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c39f1be2_75b37a23",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:37:39Z",
+      "side": 1,
+      "message": "\u003e I would like to avoid having to set it in gerrit.config if at all possible.\nMe too, this is how I came to this code here :)\n\n\u003e What if we set the property at the top of main() in Main.java?\n\u003e That class is guaranteed to be loaded before any FluentLogger is initialized,\n\u003e because it hasn\u0027t yet created the ClassLoader that will load the flogger code\n\u003e from a jar embedded in the war.\nSGTM, this sounds pretty safe. Will give it a try.\n\n\u003e That won\u0027t work for tests, but for tests I don\u0027t think we need to respect\n\u003e any log4j properties so we might be ok with the default Flogger backend.\nFor tests we want to write logs to the console. This is configured by the errorOnlyConsole() method above. But I guess we can make this work somehow.",
+      "parentUuid": "7278ea43_f0c14135",
+      "range": {
+        "startLine": 105,
+        "startChar": 3,
+        "endLine": 106,
+        "endChar": 88
+      },
+      "revId": "2a8ecb178f32bcf76b9ca312652b6685bcae27e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e68e97c_3b316c86",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-17T01:33:57Z",
+      "side": 1,
+      "message": "warning?\n\nerror means admin must do something about that and they can\u0027t",
+      "range": {
+        "startLine": 214,
+        "startChar": 14,
+        "endLine": 214,
+        "endChar": 19
+      },
+      "revId": "e2ec68810d8d8b0993b628e059d146cfdb051a6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

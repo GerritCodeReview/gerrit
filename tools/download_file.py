@@ -106,7 +106,8 @@ if not path.exists(cache_ent):
     try:
         check_call(['curl', '--proxy-anyauth', '-ksSfLo', cache_ent, src_url])
     except OSError as err:
-        print('could not invoke curl: %s\nis curl installed?' % err, file=stderr)
+        print('could not invoke curl: %s\nis curl installed?' % err,
+              file=stderr)
         exit(1)
     except CalledProcessError as err:
         print('error using curl: %s' % err, file=stderr)

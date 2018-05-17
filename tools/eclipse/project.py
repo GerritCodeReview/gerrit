@@ -184,7 +184,8 @@ def gen_classpath(ext):
         else:
             # Don't mess up with Bazel internal test runner dependencies.
             # When we use Eclipse we rely on it for running the tests
-            if p.endswith("external/bazel_tools/tools/jdk/TestRunner_deploy.jar"):
+            if p.endswith(
+               "external/bazel_tools/tools/jdk/TestRunner_deploy.jar"):
                 continue
             if p.startswith("external"):
                 p = path.join(ext, p)
@@ -239,9 +240,10 @@ def gen_classpath(ext):
             if args.plugins:
                 classpathentry('lib', j, s, exported=True)
             else:
-                # Filter out the source JARs that we pull through transitive closure of
-                # GWT plugin API (we add source directories themself).  Exception is
-                # libEdit-src.jar, that is needed for GWT SDM to work.
+                # Filter out the source JARs that we pull through transitive
+                # closure of GWT plugin API (we add source directories
+                # themselves).  Exception is libEdit-src.jar, that is needed
+                # for GWT SDM to work.
                 m = java_library.match(j)
                 if m:
                     if m.group(1).startswith("gerrit-") and \
@@ -279,7 +281,8 @@ def gen_classpath(ext):
 
 
 def gen_factorypath(ext):
-    doc = minidom.getDOMImplementation().createDocument(None, 'factorypath', None)
+    doc = minidom.getDOMImplementation().createDocument(None, 'factorypath',
+                                                        None)
     for jar in _query_classpath(AUTO):
         e = doc.createElement('factorypathentry')
         e.setAttribute('kind', 'EXTJAR')
@@ -306,7 +309,8 @@ try:
         makedirs(path.join(ROOT, gwt_working_dir))
 
     try:
-        check_call(_build_bazel_cmd('build', MAIN, GWT, '//java/org/eclipse/jgit:libEdit-src.jar'))
+        check_call(_build_bazel_cmd('build', MAIN, GWT,
+                                    '//java/org/eclipse/jgit:libEdit-src.jar'))
     except CalledProcessError:
         exit(1)
 except KeyboardInterrupt:

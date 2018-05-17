@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1526478106 +0200\nnonce ACQuaLAmSTvCFqLJ3nMGwdsaEKCC8hIC9gYujvq/JPDj7EhCZkb3OHYS5nsRD3xP6/Op9Da8claT\n\n0000000000000000000000000000000000000000 f3c2dd5e94608a5615dab1721aa53716b525f1c5 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlr8NRoACgkQUbX9l6DQ\n71FwNAgAqRDlYTbAbHVI+juEWrunfRqWefD8FZeW+yz9W07TB5ihG7C/ZriXkurV\niMPvjgifKLxDoWzGfBSPI0UjhYjYXyJHcPA0s4wKKJiG1Akrv3oBSHxpyHF1UiFs\nGqfSeUG9GBUbjg9KFxuOyjIAA/MmLo6dXLCoX3g0upZtwDtc8VOYkRkLoEgtpxOo\ntkYByUM9yGgX5jLGYylcv2dj5u3ZaTlGOVNBmGAzofOTdfk6vg7w0OKI4BgltxZU\nN78+QcZ8G+p+neVGBEOUw6ZSXAffpiw59jpoZYjoXzit5mU/fkIth/u/ljPKeTKV\npHeVzyrAqw7FA9+l8XkaLOkb47sbgQ\u003d\u003d\n\u003dnSvG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "559e97ab_4e3181d1",
+        "filename": "java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-17T01:30:32Z",
+      "side": 1,
+      "message": "Use the logger\u0027s built-in string formatting instead of concatenation.\n\nSame in other places in this change.",
+      "range": {
+        "startLine": 68,
+        "startChar": 42,
+        "endLine": 68,
+        "endChar": 74
+      },
+      "revId": "f3c2dd5e94608a5615dab1721aa53716b525f1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

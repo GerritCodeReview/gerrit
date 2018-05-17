@@ -46,6 +46,30 @@
       "revId": "6853b5a996ecd93f2b30a10741f9ccd9fe6ba9a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df4de2f6_d81ed9bd",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-17T06:31:09Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/179151",
+      "parentUuid": "58c5d6ef_6adee81d",
+      "range": {
+        "startLine": 381,
+        "startChar": 20,
+        "endLine": 381,
+        "endChar": 27
+      },
+      "revId": "6853b5a996ecd93f2b30a10741f9ccd9fe6ba9a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

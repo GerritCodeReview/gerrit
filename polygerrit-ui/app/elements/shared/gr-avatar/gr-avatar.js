@@ -29,37 +29,40 @@
         type: Number,
         value: 16,
       },
+      _hasAvatars: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
     ],
 
-    created() {
-      this.hidden = true;
-    },
-
     attached() {
-      this.$.restAPI.getConfig().then(cfg => {
-        const hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
-        if (hasAvatars) {
-          this.hidden = false;
+      Promise.all([
+        this.$.restAPI.getConfig(),
+        Gerrit.awaitPluginsLoaded(),
+      ]).then(([cfg]) => {
+        this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
+        if (this._hasAvatars && this.account) {
           // src needs to be set if avatar becomes visible
-          this._updateAvatarURL(this.account);
+          this._updateAvatarURL();
+        } else {
+          this.hidden = true;
         }
       });
     },
 
     _accountChanged(account) {
-      this._updateAvatarURL(account);
+      this._updateAvatarURL();
     },
 
-    _updateAvatarURL(account) {
-      if (!this.hidden && account) {
-        const url = this._buildAvatarURL(this.account);
-        if (url) {
-          this.style.backgroundImage = 'url("' + url + '")';
-        }
+    _updateAvatarURL() {
+      if (this.hidden || !this._hasAvatars) { return; }
+      const url = this._buildAvatarURL(this.account);
+      if (url) {
+        this.style.backgroundImage = 'url("' + url + '")';
       }
     },
 

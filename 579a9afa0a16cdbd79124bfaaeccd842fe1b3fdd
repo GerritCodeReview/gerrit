@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "8f887de4_dabb11b7",
+        "filename": "java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:06:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e3c9e2b_644e7519",
+      "range": {
+        "startLine": 133,
+        "startChar": 15,
+        "endLine": 133,
+        "endChar": 29
+      },
+      "revId": "579a9afa0a16cdbd79124bfaaeccd842fe1b3fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "076cd3a5_63d09bc4",
         "filename": "java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
         "patchSetId": 1
@@ -40,6 +64,24 @@
       "revId": "579a9afa0a16cdbd79124bfaaeccd842fe1b3fdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e1917b2_23a22122",
+        "filename": "java/com/google/gerrit/httpd/auth/ldap/LdapLoginServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:06:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "076cd3a5_63d09bc4",
+      "revId": "579a9afa0a16cdbd79124bfaaeccd842fe1b3fdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

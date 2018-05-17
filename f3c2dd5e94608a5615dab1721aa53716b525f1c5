@@ -23,6 +23,30 @@
       "revId": "f3c2dd5e94608a5615dab1721aa53716b525f1c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0d04efe_e86e9efc",
+        "filename": "java/com/google/gerrit/pgm/init/api/AllProjectsConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:10:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "559e97ab_4e3181d1",
+      "range": {
+        "startLine": 68,
+        "startChar": 42,
+        "endLine": 68,
+        "endChar": 74
+      },
+      "revId": "f3c2dd5e94608a5615dab1721aa53716b525f1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

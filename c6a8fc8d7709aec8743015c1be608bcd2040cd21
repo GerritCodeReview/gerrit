@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "ac765d4a_e4f82be4",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:32:56Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/179170",
+      "parentUuid": "240d47c7_7667e06c",
+      "range": {
+        "startLine": 198,
+        "startChar": 6,
+        "endLine": 198,
+        "endChar": 15
+      },
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa96cc1a_8bf9c60c",
         "filename": "java/com/google/gerrit/server/config/TrackingFootersProvider.java",
         "patchSetId": 8
@@ -60,6 +84,24 @@
       "writtenOn": "2018-05-16T22:47:15Z",
       "side": 1,
       "message": "Not a requirement for this change, but it would be neat if Flogger could do this for us, i.e. a method like .withCauseAtFineOrHigher(error) or .atWarningIgnoringCauses(error). (With a less silly name perhaps, but you get the idea.)",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4f405cc_be784640",
+        "filename": "java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:32:56Z",
+      "side": 1,
+      "message": "Yeah, would be nice if there was a shortcut for this. I can ask David from Flogger if he has any thoughts on this.",
+      "parentUuid": "30d85ce4_aa762748",
       "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

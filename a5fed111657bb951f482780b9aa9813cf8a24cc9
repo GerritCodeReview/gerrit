@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e5a0bea_c133861b",
+        "filename": "java/com/google/gerrit/server/config/AdministrateServerGroupsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:32:56Z",
+      "side": 0,
+      "message": "Should we rather fail hard here?",
+      "parentUuid": "2ee5083c_64458501",
+      "range": {
+        "startLine": 51,
+        "startChar": 59,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9df0884_fbdd3d14",
         "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2018-05-16T22:47:15Z",
       "side": 0,
       "message": "Are we no longer logging to this separate logger? I don\u0027t see how this functionality is being replicated on the Flogger side.",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c65b599_de7a234d",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:32:56Z",
+      "side": 0,
+      "message": "Ah, I still wanted to extract this into an own change.\n\nWith Flogger the logger name must match the class name. So we can\u0027t keep this logger here.\n\nThe intention with this logger is to have a separate log file for the gc. I\u0027m doing this now by adding the appenders for this log file directly to the loggers of the classes that should write to that file (see https://gerrit-review.googlesource.com/c/gerrit/+/176151/8/java/com/google/gerrit/server/git/GarbageCollectionLogFile.java). But I didn\u0027t test this yet.",
+      "parentUuid": "c9df0884_fbdd3d14",
       "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -155,6 +197,24 @@
       "writtenOn": "2018-05-16T22:47:15Z",
       "side": 0,
       "message": "I\u0027m really looking forward to getting support in the Flogger API for request ID prefixing :)",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44dd6a0a_d7844759",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-17T06:32:56Z",
+      "side": 0,
+      "message": "Me too :)",
+      "parentUuid": "0d95f1d8_caf74511",
       "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

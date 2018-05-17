@@ -3,13 +3,18 @@ load("//tools/bzl:license.bzl", "license_test")
 
 junit_tests(
     name = "pgm_tests",
+    size = "small",
     srcs = glob(["**/*.java"]),
+    tags = [
+        "slow",
+    ],
     deps = [
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/pgm",
         "//java/com/google/gerrit/pgm/http",
         "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/pgm/init/api",
+        "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:junit",

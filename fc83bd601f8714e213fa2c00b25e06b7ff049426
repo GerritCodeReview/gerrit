@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79555de1_82fc5cf0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 5053,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-05-17T22:30:24Z",
+      "side": 1,
+      "message": "AFAIK NoPadding is ok for GCM mode but not for CBC, AFAIK the other modes aren\u0027t really recommended\n\nsee e.g.\nhttps://docs.oracle.com/javase/10/security/java-cryptography-architecture-jca-reference-guide.htm#JSSEC-GUID-2BCFDD85-D533-4E6C-8CE9-29990DEB0190\nhttps://www.veracode.com/blog/research/encryption-and-decryption-java-cryptography\nhttps://crypto.stackexchange.com/questions/26783/ciphertext-and-tag-size-and-iv-transmission-with-aes-in-gcm-mode\nhttps://stackoverflow.com/questions/1205135/how-to-encrypt-string-in-java",
+      "revId": "fc83bd601f8714e213fa2c00b25e06b7ff049426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

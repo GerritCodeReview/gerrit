@@ -183,7 +183,8 @@ LINK_SCRIPT = """
           element.insertBefore(a, element.firstChild);
 
           // remove the link icon when the mouse is moved away,
-          // but keep it shown if the mouse is over the element, the link or the icon
+          // but keep it shown if the mouse is over the element, the link or
+          // the icon
           hide = function(evt) {
             if (document.elementFromPoint(evt.clientX, evt.clientY) != element
                 && document.elementFromPoint(evt.clientX, evt.clientY) != a

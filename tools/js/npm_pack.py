@@ -56,7 +56,7 @@ def main(args):
     filename = '%s-%s.tgz' % (name, version)
     url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
 
-    tmpdir = tempfile.mkdtemp();
+    tmpdir = tempfile.mkdtemp()
     tgz = os.path.join(tmpdir, filename)
     atexit.register(lambda: shutil.rmtree(tmpdir))
 

@@ -10,7 +10,9 @@ import sys
 SSH_USER = 'bot'
 SSH_HOST = 'localhost'
 SSH_PORT = 29418
-SSH_COMMAND = 'ssh %s@%s -p %d gerrit approve ' % (SSH_USER, SSH_HOST, SSH_PORT)
+SSH_COMMAND = 'ssh %s@%s -p %d gerrit approve ' % (SSH_USER,
+                                                   SSH_HOST,
+                                                   SSH_PORT)
 FAILURE_SCORE = '--code-review=-2'
 FAILURE_MESSAGE = 'This commit message does not match the standard.' \
         + '  Please correct the commit message and upload a replacement patch.'
@@ -26,8 +28,9 @@ def main():
     patchset = None
 
     try:
-        opts, _args = getopt.getopt(sys.argv[1:], '', \
-            ['change=', 'project=', 'branch=', 'commit=', 'patchset='])
+        opts, _args = getopt.getopt(sys.argv[1:], '',
+                                    ['change=', 'project=', 'branch=',
+                                     'commit=', 'patchset='])
     except getopt.GetoptError as err:
         print('Error: %s' % (err))
         usage()
@@ -49,8 +52,7 @@ def main():
             usage()
             sys.exit(-1)
 
-    if change == None or project == None or branch == None \
-       or commit == None or patchset == None:
+    if all(p is None for p in [change, project, branch, commit, patchset]):
         usage()
         sys.exit(-1)
 
@@ -58,7 +60,7 @@ def main():
     status, output = subprocess.getstatusoutput(command)
 
     if status != 0:
-        print('Error running \'%s\'. status: %s, output:\n\n%s' % \
+        print('Error running \'%s\'. status: %s, output:\n\n%s' %
               (command, status, output))
         sys.exit(-1)
 
@@ -66,7 +68,7 @@ def main():
     commitLines = commitMessage.split('\n')
 
     if len(commitLines) > 1 and len(commitLines[1]) != 0:
-        fail(commit, 'Invalid commit summary.  The summary must be ' \
+        fail(commit, 'Invalid commit summary.  The summary must be '
              + 'one line followed by a blank line.')
 
     i = 0
@@ -80,7 +82,7 @@ def main():
 
 def usage():
     print('Usage:\n')
-    print(sys.argv[0] + ' --change <change id> --project <project name> ' \
+    print(sys.argv[0] + ' --change <change id> --project <project name> '
           + '--branch <branch> --commit <sha1> --patchset <patchset id>')
 
 

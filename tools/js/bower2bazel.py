@@ -13,9 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Suggested call sequence:
+"""
+Suggested call sequence:
 
-python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl -b lib/js/bower_components.bzl
+python tools/js/bower2bazel.py -w lib/js/bower_archives.bzl \
+  -b lib/js/bower_components.bzl
 """
 
 from __future__ import print_function
@@ -31,7 +33,7 @@ import tempfile
 import glob
 import bowerutil
 
-# list of licenses for packages that don't specify one in their bower.json file.
+# list of licenses for packages that don't specify one in their bower.json file
 package_licenses = {
     "codemirror-minified": "codemirror-minified",
     "es6-promise": "es6-promise",
@@ -90,15 +92,18 @@ def build_bower_json(version_targets, seeds):
     bower_json = collections.OrderedDict()
     bower_json['name'] = 'bower2bazel-output'
     bower_json['version'] = '0.0.0'
-    bower_json['description'] = 'Auto-generated bower.json for dependency management'
+    bower_json['description'] = 'Auto-generated bower.json for dependency ' + \
+                                'management'
     bower_json['private'] = True
     bower_json['dependencies'] = {}
 
     seeds = set(seeds)
     for v in version_targets:
-        path = os.path.join("bazel-out/*-fastbuild/bin", v.lstrip("/").replace(":", "/"))
+        path = os.path.join("bazel-out/*-fastbuild/bin",
+                            v.lstrip("/").replace(":", "/"))
         fs = glob.glob(path)
-        assert len(fs) == 1, '%s: file not found or multiple files found: %s' % (path, fs)
+        err_msg = '%s: file not found or multiple files found: %s' % (path, fs)
+        assert len(fs) == 1, err_msg
         with open(fs[0]) as f:
             j = json.load(f)
             if "" in j:
@@ -130,8 +135,10 @@ def bower_command(args):
     base = subprocess.check_output(["bazel", "info", "output_base"]).strip()
     exp = os.path.join(decode(base), "external", "bower", "*npm_binary.tgz")
     fs = sorted(glob.glob(exp))
-    assert len(fs) == 1, "bower tarball not found or have multiple versions %s" % fs
-    return ["python", os.getcwd() + "/tools/js/run_npm_binary.py", sorted(fs)[0]] + args
+    err_msg = "bower tarball not found or have multiple versions %s" % fs
+    assert len(fs) == 1, err_msg
+    return ["python",
+            os.getcwd() + "/tools/js/run_npm_binary.py", sorted(fs)[0]] + args
 
 
 def main(args):
@@ -142,8 +149,9 @@ def main(args):
 
     target_str = subprocess.check_output([
         "bazel", "query", "kind(bower_component_bundle, //polygerrit-ui/...)"])
-    seed_str = subprocess.check_output([
-        "bazel", "query", "attr(seed, 1, kind(bower_component, deps(//polygerrit-ui/...)))"])
+    seed_str = subprocess.check_output(
+        ["bazel", "query",
+         "attr(seed, 1, kind(bower_component, deps(//polygerrit-ui/...)))"])
     targets = [s for s in decode(target_str).split('\n') if s]
     seeds = [s for s in decode(seed_str).split('\n') if s]
     prefix = "//lib/js:"
@@ -227,7 +235,8 @@ def dump_build(data, seeds, out):
 
 
 def interpret_bower_json(seeds, ws_out, build_out):
-    out = subprocess.check_output(["find", "bower_components/", "-name", ".bower.json"])
+    out = subprocess.check_output(["find", "bower_components/", "-name",
+                                   ".bower.json"])
 
     data = []
     for f in sorted(decode(out).split('\n')):

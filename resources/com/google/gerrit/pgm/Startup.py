@@ -22,7 +22,7 @@ import sys
 
 def print_help():
     for (n, v) in vars(sys.modules['__main__']).items():
-        if not n.startswith("__") and not n in ['help', 'reload'] \
+        if not n.startswith("__") and n not in ['help', 'reload'] \
            and str(type(v)) != "<type 'javapackage'>"             \
            and not str(v).startswith("<module"):
             print("\"%s\" is \"%s\"" % (n, v))

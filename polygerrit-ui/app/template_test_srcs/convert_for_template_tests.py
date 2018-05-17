@@ -1,5 +1,6 @@
-import os, re, json
-from shutil import copyfile, rmtree
+import json
+import os
+import re
 
 polymerRegex = r"Polymer\({"
 polymerCompiledRegex = re.compile(polymerRegex)
@@ -22,8 +23,9 @@ def replaceBehaviorLikeHTML(fileIn, fileOut):
     with _open(fileIn) as f:
         file_str = f.read()
         match = behaviorCompiledRegex.search(file_str)
-        if (match):
-            with _open("polygerrit-ui/temp/behaviors/" + fileOut.replace("html", "js"), "w+") as f:
+        if match:
+            with _open("polygerrit-ui/temp/behaviors/" +
+                       fileOut.replace("html", "js"), "w+") as f:
                 f.write(match.group(1))
 
 
@@ -35,7 +37,8 @@ def replaceBehaviorLikeJS(fileIn, fileOut):
 
 
 def generateStubBehavior(behaviorName):
-    with _open("polygerrit-ui/temp/behaviors/" + behaviorName + ".js", "w+") as f:
+    with _open("polygerrit-ui/temp/behaviors/" +
+               behaviorName + ".js", "w+") as f:
         f.write("/** @polymerBehavior **/\n" + behaviorName + "= {};")
 
 
@@ -50,12 +53,16 @@ def replacePolymerElement(fileIn, fileOut, root):
             package = root.replace("/", ".") + "." + fileOut
 
             with _open("polygerrit-ui/temp/" + fileOut, "w+") as f:
-                mainFileContents = re.sub(polymerCompiledRegex, "exports = Polymer({", file_str_no_fn.group(1)).replace("'use strict';", "")
-                f.write("/** \n" \
-                    "* @fileoverview \n" \
-                    "* @suppress {missingProperties} \n" \
-                    "*/ \n\n" \
-                    "goog.module('polygerrit." + package + "')\n\n" + mainFileContents)
+                mainFileContents = re.sub(
+                    polymerCompiledRegex,
+                    "exports = Polymer({",
+                    file_str_no_fn.group(1)).replace("'use strict';", "")
+                f.write("/** \n"
+                        "* @fileoverview \n"
+                        "* @suppress {missingProperties} \n"
+                        "*/ \n\n"
+                        "goog.module('polygerrit." + package + "')\n\n" +
+                        mainFileContents)
 
             # Add package and javascript to files object.
             elements[key]["js"] = "polygerrit-ui/temp/" + fileOut
@@ -63,17 +70,20 @@ def replacePolymerElement(fileIn, fileOut, root):
 
 
 def writeTempFile(file, root):
-    # This is included in an extern because it is directly on the window object.
+    # This is included in an extern because it is directly on the window object
     # (for now at least).
     if "gr-reporting" in file:
         return
     key = file.split('.')[0]
-    if not key in elements:
+    if key not in elements:
         # gr-app doesn't have an additional level
-        elements[key] = {"directory": 'gr-app' if len(root.split("/")) < 4 else root.split("/")[3]}
+        elements[key] = {
+            "directory":
+                'gr-app' if len(root.split("/")) < 4 else root.split("/")[3]
+        }
     if file.endswith(".html") and not file.endswith("_test.html"):
-        # gr-navigation is treated like a behavior rather than a standard element
-        # because of the way it added to the Gerrit object.
+        # gr-navigation is treated like a behavior rather than a standard
+        # element because of the way it added to the Gerrit object.
         if file.endswith("gr-navigation.html"):
             replaceBehaviorLikeHTML(os.path.join(root, file), file)
         else:
@@ -105,7 +115,8 @@ if __name__ == "__main__":
     generateStubBehavior("Polymer.IronOverlayBehavior")
     generateStubBehavior("Polymer.IronFitBehavior")
 
-    #TODO figure out something to do with iron-overlay-behavior. it is hard-coded reformatted.
+    # TODO figure out something to do with iron-overlay-behavior.
+    # it is hard-coded reformatted.
 
     with _open("polygerrit-ui/temp/map.json", "w+") as f:
         f.write(json.dumps(elements))

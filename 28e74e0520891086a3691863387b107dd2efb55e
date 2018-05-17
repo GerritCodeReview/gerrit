@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1526480776 +0200\nnonce ACQuaLDlNnrZZ35akbMAS6oPv7LIH4ZOuZlKdM1xjGOzycUHNiig4LTHv46r5CWmvjAvWfRppWdU\n\n0000000000000000000000000000000000000000 28e74e0520891086a3691863387b107dd2efb55e refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlr8P4gACgkQUbX9l6DQ\n71FnBQgAmMjPrm2I0X7JNts7qi2DvazyQYRE32bu6e4an9MZtlkcQcfK3EUSCWSY\ngy4vR/kiQ/6CAntVauLOGDbxIAEIfqxirBr102b1l4VXMkBVPlrAg5aawO8SmPVo\nck0cjv4ovx8BAbj6ebNUqxWuU8o3edbx/5bGvzjuKK9VUckcelZd9HD7CLlp6Qr1\nOfhoUVbrG4klYWd4zxTdWP/BtVc3sl86yUwTSBUBqMCb5wnTnc0A2leZaCp04gpk\nr3rgn3Aep/r3ILjunodGzFnicZHuxITNqZUwwe7e3RqByPIHwz1yLtNlsLAVp2uv\nZVK3ikmj1sN+ns7EvonxwOvLyg4Z/g\u003d\u003d\n\u003dW4s8\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccccad5d_6d319632",
+        "filename": "java/com/google/gerrit/metrics/proc/OperatingSystemMXBeanProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-17T01:31:29Z",
+      "side": 1,
+      "message": "Convert this to use the logger\u0027s built in string formatting.",
+      "revId": "28e74e0520891086a3691863387b107dd2efb55e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

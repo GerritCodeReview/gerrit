@@ -9,9 +9,10 @@ junit_tests(
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/index:query_parser",
+        "//lib:guava",
         "//lib:junit",
-        "//lib:truth",
         "//lib/antlr:java_runtime",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/truth",
     ],
 )

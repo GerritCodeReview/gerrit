@@ -29,9 +29,10 @@ java_library(
         "//java/com/google/gerrit/server/cache/mem",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//lib:guava",
         "//lib:gwtorm",
         "//lib:h2",
-        "//lib:truth",
+        "//lib:junit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/guice",
@@ -39,5 +40,6 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/log:api",
+        "//lib/truth",
     ],
 )

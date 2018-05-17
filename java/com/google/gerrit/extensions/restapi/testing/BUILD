@@ -6,6 +6,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/truth",
-        "//lib:truth",
+        "//lib/truth",
     ],
 )

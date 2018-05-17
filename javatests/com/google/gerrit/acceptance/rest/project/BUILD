@@ -18,7 +18,8 @@ java_library(
     ],
     deps = [
         "//java/com/google/gerrit/extensions:api",
-        "//lib:truth",
+        "//lib:guava",
+        "//lib/truth",
     ],
 )
 
@@ -31,8 +32,9 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//lib:guava",
         "//lib:gwtorm",
-        "//lib:truth",
+        "//lib/truth",
     ],
 )
 

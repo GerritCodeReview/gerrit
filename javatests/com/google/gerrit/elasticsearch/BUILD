@@ -14,10 +14,10 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:junit",
-        "//lib:truth",
         "//lib/elasticsearch",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/truth",
     ],
 )
 

@@ -129,7 +129,7 @@ limitations under the License.
         <div class='{style.toggle}'/>
       </g:Button>
     </div>
-    <table class='{style.header}'>
+    <table id='commit_box_headerTable' class='{style.header}'>
       <tr>
         <th><ui:msg>Author</ui:msg></th>
         <td>

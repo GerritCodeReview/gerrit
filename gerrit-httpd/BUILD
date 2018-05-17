@@ -40,6 +40,7 @@ java_library(
         "//lib:soy",
         "//lib/auto:auto-value",
         "//lib/commons:codec",
+        "//lib/commons:lang",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",

@@ -46,6 +46,30 @@
       "revId": "ac2e1157a883e2686ee996eb6785c2e34d28f7b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6be5b03a_b714154c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-17T02:53:15Z",
+      "side": 1,
+      "message": "\u003e \u003e The exception we are catching here is our own thrown in\n \u003e DropWizardMetricMaker.\n \u003e \n \u003e Actually in this case it isn\u0027t.  It\u0027s an exception thrown from\n \u003e inside the dropwizard implementation.\n \u003e \n \u003e When a callBackMetric is created (L222 for example) it doesn\u0027t go\n \u003e through the path that includes the call to define(name, desc) which\n \u003e throws this:\n \u003e \n \u003e throw new IllegalStateException(String.format(\"metric \u0027%s\u0027 already\n \u003e defined\", name));\n \u003e \n \u003e and instead ends up failing with an exception thrown from inside\n \u003e the dropwizard implementation:\n \u003e \n \u003e A metric named queue/forwardcacheevictionevent/max_pool_size\n \u003e already exists\n \u003e \n \u003e That\u0027s why at L213 the check is only for the string \"already\"\n \u003e rather than the full message, so that it works for both.\n\n\nok, I understand now.\n\n \u003e \u003e should we add a method which does not fail if metric already\n \u003e exist and use that method here in the WorkQueue?\n \u003e \n \u003e That would be a better solution, but I thought it would be too\n \u003e risky to mess around with the metrics implementation on the stable\n \u003e branch.\n\nI would prefer to go with that approach. I understand why we might not want to do this here  on stable-2.14 so maybe we should revert the WorkQueue metric change and do it the proper way on master?",
+      "parentUuid": "2ca81b91_65e72e84",
+      "range": {
+        "startLine": 210,
+        "startChar": 5,
+        "endLine": 218,
+        "endChar": 7
+      },
+      "revId": "ac2e1157a883e2686ee996eb6785c2e34d28f7b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

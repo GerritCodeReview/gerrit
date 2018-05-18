@@ -166,6 +166,30 @@
       "revId": "4795f75c46bed688d818b9576c3e74e22f358d79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7c3719d_17a7cae2",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-18T15:32:19Z",
+      "side": 1,
+      "message": "Understood, I\u0027ll consider ways to improve this in a followup.",
+      "parentUuid": "c12b9c33_0d70ec19",
+      "range": {
+        "startLine": 933,
+        "startChar": 17,
+        "endLine": 933,
+        "endChar": 33
+      },
+      "revId": "4795f75c46bed688d818b9576c3e74e22f358d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

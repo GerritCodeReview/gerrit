@@ -1018,6 +1018,30 @@
     },
     {
       "key": {
+        "uuid": "5bcdaa94_14a04ff1",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-18T15:32:19Z",
+      "side": 1,
+      "message": "\u003e I thought that for open-source hosts, it\u0027s still possible to run on ReviewDb\n\nCorrect.\n\n\u003e As config-gerrit.txt now says \"change_notes: disk storage is disabled by default\", I would expect that some admins decide to switch on disk storage. If the host is still on ReviewDb, wouldn\u0027t that cause some issues?\n\nIt shouldn\u0027t cause problems. It will cause the cache database files to get created at startup time, but nothing actually goes into the cache unless something calls ChangeNotesCache#get, and calling #get when NoteDb is disabled is programmer error.\n\nI mean, I could explain what I just said in the previous paragraph in config-gerrit.txt, but I\u0027d be worried that would cause more confusion than it would solve.",
+      "parentUuid": "757032fc_e7f8042c",
+      "range": {
+        "startLine": 81,
+        "startChar": 49,
+        "endLine": 82,
+        "endChar": 74
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf7aec3_3d8322fe",
         "filename": "proto/cache.proto",
         "patchSetId": 2

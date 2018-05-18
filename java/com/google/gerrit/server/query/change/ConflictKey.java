@@ -17,10 +17,16 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.io.Serializable;
 import java.util.Objects;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 public class ConflictKey implements Serializable {
   private static final long serialVersionUID = 2L;
+
+  public static ConflictKey create(
+      AnyObjectId commit, AnyObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
+    return new ConflictKey(commit.copy(), otherCommit.copy(), submitType, contentMerge);
+  }
 
   private final ObjectId commit;
   private final ObjectId otherCommit;

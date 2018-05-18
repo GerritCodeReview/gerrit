@@ -115,10 +115,10 @@ public abstract class MetricMaker {
    * @param desc description of the metric.
    * @param trigger function to compute the value of the metric.
    */
-  public <V> void newCallbackMetric(
+  public <V> RegistrationHandle newCallbackMetric(
       String name, Class<V> valueClass, Description desc, final Supplier<V> trigger) {
     final CallbackMetric0<V> metric = newCallbackMetric(name, valueClass, desc);
-    newTrigger(
+    return newTrigger(
         metric,
         new Runnable() {
           @Override

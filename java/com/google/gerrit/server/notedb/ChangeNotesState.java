@@ -552,13 +552,8 @@ public abstract class ChangeNotesState {
 
     @Override
     public ChangeNotesState deserialize(byte[] in) {
-      ChangeNotesStateProto proto;
-      try {
-        proto = ChangeNotesStateProto.parseFrom(in);
-      } catch (IOException e) {
-        throw new IllegalArgumentException(
-            "Failed to deserialize " + ChangeNotesState.class.getName());
-      }
+      ChangeNotesStateProto proto =
+          ProtoCacheSerializers.parseUnchecked(ChangeNotesStateProto.parser(), in);
       Change.Id changeId = new Change.Id(proto.getChangeId());
 
       ChangeNotesState.Builder b =

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "92d10645_689d935b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T02:14:09Z",
+      "side": 1,
+      "message": "ChangeQueryBuilder: Allow ownerin predicate to be evaluated by the index",
+      "revId": "0c24122f1316c4397c67f164f7618015e1082900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d189f88_bbba88fc",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 1

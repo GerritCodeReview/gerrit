@@ -52,6 +52,24 @@
       "revId": "ce523fa74a5430fb6b98ca9976ae04e072590edb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfac8f87_e6286a01",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-18T19:42:45Z",
+      "side": 1,
+      "message": "For sure! I\u0027m going to phrase the task more generically, though, to actually be \"Standardize theme setting in PolyGerrit\" or something like that. This information will need to be available to plugins, too, so there\u0027s some thought that needs to go into this.\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9042",
+      "parentUuid": "d3835f3e_c3f5b8d3",
+      "revId": "ce523fa74a5430fb6b98ca9976ae04e072590edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

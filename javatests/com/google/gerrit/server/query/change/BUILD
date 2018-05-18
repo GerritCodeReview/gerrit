@@ -62,10 +62,13 @@ junit_tests(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cache/testing",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
+        "//lib/truth:truth-proto-extension",
+        "//proto:cache_java_proto",
     ],
 )

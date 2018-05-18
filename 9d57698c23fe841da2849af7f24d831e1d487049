@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34785aca_b07abf33",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-18T13:02:43Z",
+      "side": 1,
+      "message": "Change.Id is enough here and passing around a unique identifier is preferred to passing around a complete entity. Please document the new parameter in the JavaDoc.",
+      "revId": "9d57698c23fe841da2849af7f24d831e1d487049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13e35593_1f260a48",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-18T13:02:43Z",
+      "side": 1,
+      "message": "Please add a comment here to why it is OK to ignore this and also add a short comment to the JavaDoc to specify that the current change is not considered.",
+      "revId": "9d57698c23fe841da2849af7f24d831e1d487049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4db3291_73300971",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-18T13:02:43Z",
+      "side": 1,
+      "message": "It might be easier to just create a new ChangeSet here that does not contain the current change and add a short comment why the filtering is done. This saves you from commenting in the other method and also from adding a new parameter that needs comments as well.",
+      "revId": "9d57698c23fe841da2849af7f24d831e1d487049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

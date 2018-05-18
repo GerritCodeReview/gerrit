@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24e4ad14_f7b1e82f",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-18T20:47:39Z",
+      "side": 1,
+      "message": "Shoulden\u0027t this use the base url?\n\nso this.baseUrl() + /styles/themes/dark-theme.html ?",
+      "range": {
+        "startLine": 131,
+        "startChar": 24,
+        "endLine": 131,
+        "endChar": 58
+      },
+      "revId": "61aff034a073764485a1eb45d8801d9856cc923e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

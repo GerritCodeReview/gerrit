@@ -249,12 +249,16 @@ public class Submit
    * @param user the user who is checking to submit
    * @return a reason why any of the changes is not submittable or null
    */
-  private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
+  private String problemsForSubmittingChangeset(
+      Change currentChange, ChangeData cd, ChangeSet cs, CurrentUser user) {
     try {
       if (cs.furtherHiddenChanges()) {
         return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
       }
       for (ChangeData c : cs.changes()) {
+        if (currentChange.getId().equals(c.getId())) {
+          continue;
+        }
         Set<ChangePermission> can =
             permissionBackend
                 .user(user)
@@ -307,6 +311,7 @@ public class Submit
   public UiAction.Description getDescription(RevisionResource resource) {
     Change change = resource.getChange();
     if (!change.getStatus().isOpen()
+        || change.isWorkInProgress()
         || !resource.isCurrent()
         || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {
       return null; // submit not visible
@@ -347,7 +352,7 @@ public class Submit
     }
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 
-    String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
+    String submitProblems = problemsForSubmittingChangeset(change, cd, cs, resource.getUser());
 
     Boolean enabled;
     try {

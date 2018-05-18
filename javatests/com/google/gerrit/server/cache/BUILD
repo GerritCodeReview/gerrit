@@ -14,5 +14,7 @@ junit_tests(
         "//lib/auto:auto-value-annotations",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
+        "//lib/truth:truth-proto-extension",
+        "//proto:cache_java_proto",
     ],
 )

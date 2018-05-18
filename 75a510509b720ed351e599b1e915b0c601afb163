@@ -17,6 +17,93 @@
       "revId": "75a510509b720ed351e599b1e915b0c601afb163",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f33edbb_3f0a61f6",
+        "filename": "java/com/google/gerrit/server/cache/ProtoCacheSerializers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T15:20:31Z",
+      "side": 1,
+      "message": "What about ObjectIdConverter?",
+      "parentUuid": "0b0075e0_5866f088",
+      "revId": "75a510509b720ed351e599b1e915b0c601afb163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ea2d146_c2c8bd40",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T15:20:31Z",
+      "side": 1,
+      "message": "What about here?",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 170,
+        "endChar": 46
+      },
+      "revId": "75a510509b720ed351e599b1e915b0c601afb163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c63b1ca_b232cf38",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T15:20:31Z",
+      "side": 1,
+      "message": "optional: If we used a static factory method instead of a constructor, the code would be a bit nicer here.\n\n ObjectIdHelper.create().toByteString(object.id())",
+      "range": {
+        "startLine": 89,
+        "startChar": 23,
+        "endLine": 89,
+        "endChar": 43
+      },
+      "revId": "75a510509b720ed351e599b1e915b0c601afb163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d140fc10_10c884b4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T15:20:31Z",
+      "side": 1,
+      "message": "What about here?",
+      "range": {
+        "startLine": 579,
+        "startChar": 22,
+        "endLine": 579,
+        "endChar": 71
+      },
+      "revId": "75a510509b720ed351e599b1e915b0c601afb163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

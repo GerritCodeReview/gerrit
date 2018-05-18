@@ -103,6 +103,30 @@
     },
     {
       "key": {
+        "uuid": "baf4badb_24abe44b",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-18T16:31:27Z",
+      "side": 1,
+      "message": "(I hardly need say that this kind of error is a very strong argument in favor of using helper methods!)",
+      "parentUuid": "4bd83b59_4beb9a67",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 170,
+        "endChar": 46
+      },
+      "revId": "75a510509b720ed351e599b1e915b0c601afb163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c63b1ca_b232cf38",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
         "patchSetId": 1

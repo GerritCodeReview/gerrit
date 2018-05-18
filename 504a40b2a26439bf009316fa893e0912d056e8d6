@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70877cfe_4e4c4387",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-18T12:58:36Z",
+      "side": 1,
+      "message": "ParameterizedString makes the code much harder to read I think. Most of these messages are only used once (twice at most) so inlining the String seems reasonable.\n\nreturn \"You don\u0027t have permission to submit change\" + c.getId().get();\n\nIn the more complex case, you can use String.format (or just + as well)",
+      "range": {
+        "startLine": 268,
+        "startChar": 9,
+        "endLine": 268,
+        "endChar": 93
+      },
+      "revId": "504a40b2a26439bf009316fa893e0912d056e8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "848eefbb_51a955a8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-18T12:58:36Z",
+      "side": 1,
+      "message": "optional: You know the change ID here, so the test would be more accurate if it would check for the specific ID.",
+      "range": {
+        "startLine": 116,
+        "startChar": 45,
+        "endLine": 116,
+        "endChar": 53
+      },
+      "revId": "504a40b2a26439bf009316fa893e0912d056e8d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45ec4376_2760f8f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T01:46:17Z",
+      "side": 1,
+      "message": "\"that is currently using\" or \"that currently uses\"",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f0f4b74_1874bf52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T01:46:17Z",
+      "side": 1,
+      "message": "tight",
+      "range": {
+        "startLine": 26,
+        "startChar": 61,
+        "endLine": 26,
+        "endChar": 68
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46f5e201_af8ca503",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T01:46:17Z",
+      "side": 1,
+      "message": "Maybe better to do in this change, or at least provide the follow-up change now so that we don\u0027t forget about removing them.",
+      "range": {
+        "startLine": 37,
+        "startChar": 7,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff8b6999_f3d24c63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T01:46:17Z",
+      "side": 1,
+      "message": "based",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab30a547_2f784c78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T01:46:17Z",
+      "side": 1,
+      "message": "I see that the CI is failing due to missing docker environment.\n\nHow about using Truth\u0027s \u0027assume\u0027 feature to test if docker is available and skip the tests when it is not?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3343b87_be6d4998",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T01:46:17Z",
+      "side": 1,
+      "message": "Testcontainer",
+      "range": {
+        "startLine": 56,
+        "startChar": 31,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

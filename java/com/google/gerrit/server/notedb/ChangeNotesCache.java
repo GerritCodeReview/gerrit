@@ -134,7 +134,7 @@ public class ChangeNotesCache {
           + T // readOnlyUntil
           + 1 // isPrivate
           + 1 // workInProgress
-          + 1; // hasReviewStarted
+          + 1; // reviewStarted
     }
 
     private static int ptr(Object o, int size) {

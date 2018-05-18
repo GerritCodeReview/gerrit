@@ -23,8 +23,8 @@ public class ProtoCacheSerializers {
   /**
    * Serializes a proto to a byte array.
    *
-   * <p>Guarantees deterministic serialization and thus is suitable for use as a persistent cache
-   * key. Should be used in preference to {@link MessageLite#toByteArray()}, which is not guaranteed
+   * <p>Guarantees deterministic serialization and thus is suitable for use in persistent caches.
+   * Should be used in preference to {@link MessageLite#toByteArray()}, which is not guaranteed
    * deterministic.
    *
    * @param message the proto message to serialize.
@@ -39,7 +39,7 @@ public class ProtoCacheSerializers {
       cout.checkNoSpaceLeft();
       return bytes;
     } catch (IOException e) {
-      throw new IllegalStateException("exception writing to byte array");
+      throw new IllegalStateException("exception writing to byte array", e);
     }
   }
 

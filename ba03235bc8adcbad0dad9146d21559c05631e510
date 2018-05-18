@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "36a06ee8_36437783",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-18T04:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45ec4376_2760f8f3",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f0f4b74_1874bf52",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-18T01:46:17Z",
       "side": 1,
       "message": "tight",
+      "range": {
+        "startLine": 26,
+        "startChar": 61,
+        "endLine": 26,
+        "endChar": 68
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19f1f1eb_6171977e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-18T04:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f0f4b74_1874bf52",
       "range": {
         "startLine": 26,
         "startChar": 61,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "e21df8a4_4f8c418d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-18T04:59:13Z",
+      "side": 1,
+      "message": "Will do that in follow-up change to simplify the review. We could squash them later if we want.",
+      "parentUuid": "46f5e201_af8ca503",
+      "range": {
+        "startLine": 37,
+        "startChar": 7,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff8b6999_f3d24c63",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2018-05-18T01:46:17Z",
       "side": 1,
       "message": "based",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 11
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a86592fa_393e2b69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-18T04:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff8b6999_f3d24c63",
       "range": {
         "startLine": 39,
         "startChar": 7,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e9271eef_cb9e59c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-18T04:59:13Z",
+      "side": 1,
+      "message": "Thanks, Done. Testcontainers doesn\u0027t support this natively:[1], but there is a fork: [2].\n\n* [1] https://github.com/testcontainers/testcontainers-java/issues/343\n* [2] https://github.com/npetzall/testcontainers-java/commit/572a40cf4647ecc8e1e52510ef8f780dc1d2d31f",
+      "parentUuid": "ab30a547_2f784c78",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3343b87_be6d4998",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2018-05-18T01:46:17Z",
       "side": 1,
       "message": "Testcontainer",
+      "range": {
+        "startLine": 56,
+        "startChar": 31,
+        "endLine": 56,
+        "endChar": 43
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "421512b2_8f73ec1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-18T04:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3343b87_be6d4998",
       "range": {
         "startLine": 56,
         "startChar": 31,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9932a57b_39329f62",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-18T08:59:34Z",
+      "side": 1,
+      "message": "I decided to keep it as simple as possible for now. Also note, that Tescontainers library already provide out of the box \"well known docker images\", for example for PostgreSQL server: [1], or MariaDB Server: [2].\n\nSo, should we decide to support persistent caches with external persistence option, we could easily add integration tests using existing Docker Testcontainers implementations.\n\n* [1] https://github.com/testcontainers/testcontainers-java/blob/master/modules/postgresql/src/main/java/org/testcontainers/containers/PostgreSQLContainer.java\n* [2] https://github.com/testcontainers/testcontainers-java/blob/master/modules/mariadb/src/main/java/org/testcontainers/containers/MariaDBContainer.java",
+      "parentUuid": "0c6055a7_b762d15c",
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "08f6e6c0_68a402d9",
         "filename": "javatests/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
         "patchSetId": 3

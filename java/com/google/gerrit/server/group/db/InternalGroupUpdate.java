@@ -142,8 +142,8 @@ public abstract class InternalGroupUpdate {
      * InternalGroupUpdate}.
      *
      * <p>This modification can be tweaked further and passed to {@link
-     * #setMemberModification(MemberModification)} in order to combine multiple member additions,
-     * deletions, or other modifications into one update.
+     * #setMemberModification(InternalGroupUpdate.MemberModification)} in order to combine multiple
+     * member additions, deletions, or other modifications into one update.
      */
     public abstract MemberModification getMemberModification();
 
@@ -155,8 +155,8 @@ public abstract class InternalGroupUpdate {
      * InternalGroupUpdate}.
      *
      * <p>This modification can be tweaked further and passed to {@link
-     * #setSubgroupModification(SubgroupModification)} in order to combine multiple subgroup
-     * additions, deletions, or other modifications into one update.
+     * #setSubgroupModification(InternalGroupUpdate.SubgroupModification)} in order to combine
+     * multiple subgroup additions, deletions, or other modifications into one update.
      */
     public abstract SubgroupModification getSubgroupModification();
 

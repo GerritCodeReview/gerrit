@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.cache.Cache;
+import com.google.gerrit.server.cache.BooleanCacheSerializer;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -29,7 +30,11 @@ public class ConflictsCacheImpl implements ConflictsCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        persist(NAME, ConflictKey.class, Boolean.class).maximumWeight(37400);
+        persist(NAME, ConflictKey.class, Boolean.class)
+            .version(1)
+            .keySerializer(ConflictKey.Serializer.INSTANCE)
+            .valueSerializer(BooleanCacheSerializer.INSTANCE)
+            .maximumWeight(37400);
         bind(ConflictsCache.class).to(ConflictsCacheImpl.class);
       }
     };
@@ -43,7 +48,7 @@ public class ConflictsCacheImpl implements ConflictsCache {
   }
 
   @Override
-  public void put(ConflictKey key, Boolean value) {
+  public void put(ConflictKey key, boolean value) {
     conflictsCache.put(key, value);
   }
 

@@ -28,13 +28,12 @@ java_library(
     ],
 )
 
+LUCENE_QUERY_TEST = ["LuceneQueryChangesTest.java"]
+
 junit_tests(
     name = "lucene_query_test",
     size = "large",
-    srcs = glob(
-        ["*.java"],
-        exclude = ABSTRACT_QUERY_TEST,
-    ),
+    srcs = LUCENE_QUERY_TEST,
     visibility = ["//visibility:public"],
     deps = [
         ":abstract_query_tests",
@@ -48,5 +47,28 @@ junit_tests(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
+    ],
+)
+
+junit_tests(
+    name = "small_tests",
+    size = "small",
+    srcs = glob(
+        ["*.java"],
+        exclude = ABSTRACT_QUERY_TEST + LUCENE_QUERY_TEST,
+    ),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cache/testing",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//lib:guava",
+        "//lib:gwtorm",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/truth",
+        "//lib/truth:truth-proto-extension",
+        "//proto:cache_java_proto",
     ],
 )

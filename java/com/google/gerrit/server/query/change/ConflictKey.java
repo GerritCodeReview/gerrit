@@ -14,62 +14,63 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.auto.value.AutoValue;
+import com.google.common.base.Converter;
+import com.google.common.base.Enums;
 import com.google.gerrit.extensions.client.SubmitType;
-import java.io.Serializable;
-import java.util.Objects;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdHelper;
+import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ConflictKey implements Serializable {
-  private static final long serialVersionUID = 2L;
-
-  private final ObjectId commit;
-  private final ObjectId otherCommit;
-  private final SubmitType submitType;
-  private final boolean contentMerge;
-
-  public ConflictKey(
+@AutoValue
+public abstract class ConflictKey {
+  public static ConflictKey create(
       ObjectId commit, ObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(submitType) || commit.compareTo(otherCommit) < 0) {
-      this.commit = commit;
-      this.otherCommit = otherCommit;
-    } else {
-      this.commit = otherCommit;
-      this.otherCommit = commit;
+    return new AutoValue_ConflictKey(
+        checkNotNull(commit, "commit").copy(),
+        checkNotNull(otherCommit, "otherCommit").copy(),
+        submitType,
+        contentMerge);
+  }
+
+  public abstract ObjectId commit();
+
+  public abstract ObjectId otherCommit();
+
+  public abstract SubmitType submitType();
+
+  public abstract boolean isContentMerge();
+
+  public static enum Serializer implements CacheSerializer<ConflictKey> {
+    INSTANCE;
+
+    private static final Converter<String, SubmitType> SUBMIT_TYPE_CONVERTER =
+        Enums.stringConverter(SubmitType.class);
+
+    @Override
+    public byte[] serialize(ConflictKey object) {
+      ObjectIdHelper idHelper = new ObjectIdHelper();
+      return ProtoCacheSerializers.toByteArray(
+          ConflictKeyProto.newBuilder()
+              .setCommit(idHelper.toByteString(object.commit()))
+              .setOtherCommit(idHelper.toByteString(object.otherCommit()))
+              .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.submitType()))
+              .setIsContentMerge(object.isContentMerge())
+              .build());
     }
-    this.submitType = submitType;
-    this.contentMerge = contentMerge;
-  }
 
-  public ObjectId getCommit() {
-    return commit;
-  }
-
-  public ObjectId getOtherCommit() {
-    return otherCommit;
-  }
-
-  public SubmitType getSubmitType() {
-    return submitType;
-  }
-
-  public boolean isContentMerge() {
-    return contentMerge;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof ConflictKey)) {
-      return false;
+    @Override
+    public ConflictKey deserialize(byte[] in) {
+      ConflictKeyProto proto = ProtoCacheSerializers.parseUnchecked(ConflictKeyProto.parser(), in);
+      return create(
+          ObjectIdHelper.fromByteString(proto.getCommit()),
+          ObjectIdHelper.fromByteString(proto.getOtherCommit()),
+          SUBMIT_TYPE_CONVERTER.convert(proto.getSubmitType()),
+          proto.getIsContentMerge());
     }
-    ConflictKey other = (ConflictKey) o;
-    return commit.equals(other.commit)
-        && otherCommit.equals(other.otherCommit)
-        && submitType.equals(other.submitType)
-        && contentMerge == other.contentMerge;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(commit, otherCommit, submitType, contentMerge);
   }
 }

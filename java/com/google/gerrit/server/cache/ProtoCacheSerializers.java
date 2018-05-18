@@ -19,6 +19,8 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Static utilities for writing protobuf-based {@link CacheSerializer} implementations. */
 public class ProtoCacheSerializers {
@@ -64,6 +66,26 @@ public class ProtoCacheSerializers {
       return bout.toByteString();
     } catch (IOException e) {
       throw new IllegalStateException("exception writing to ByteString", e);
+    }
+  }
+
+  /**
+   * Helper for serializing {@link ObjectId} instances to/from protobuf fields.
+   *
+   * <p>For serializing, reuse a single instance's {@link #toByteString(ObjectId)} to minimize the
+   * number of temporary buffers. For deserializing, simply use the static {@link
+   * #fromByteString(ByteString)} method.
+   */
+  public static class ObjectIdHelper {
+    public static ObjectId fromByteString(ByteString in) {
+      return ObjectId.fromRaw(in.toByteArray());
+    }
+
+    private final byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
+
+    public ByteString toByteString(ObjectId id) {
+      id.copyRawTo(buf, 0);
+      return ByteString.copyFrom(buf);
     }
   }
 

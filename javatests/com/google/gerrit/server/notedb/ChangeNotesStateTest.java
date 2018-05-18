@@ -39,6 +39,7 @@ import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdHelper;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
@@ -55,7 +56,6 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -68,7 +68,7 @@ public class ChangeNotesStateTest {
   private static final Change.Id ID = new Change.Id(123);
   private static final ObjectId SHA =
       ObjectId.fromString("1234567812345678123456781234567812345678");
-  private static final ByteString SHA_BYTES = toByteString(SHA);
+  private static final ByteString SHA_BYTES = new ObjectIdHelper().toByteString(SHA);
   private static final String CHANGE_KEY = "Iabcdabcdabcdabcdabcdabcdabcdabcdabcdabcd";
 
   private ChangeColumns cols;
@@ -940,11 +940,5 @@ public class ChangeNotesStateTest {
     // into account all fields. Return the actual deserialized instance so that callers can perform
     // additional assertions if necessary.
     return actual;
-  }
-
-  private static ByteString toByteString(ObjectId id) {
-    byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
-    id.copyRawTo(buf, 0);
-    return ByteString.copyFrom(buf);
   }
 }

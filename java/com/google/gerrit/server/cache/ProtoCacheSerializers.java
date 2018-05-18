@@ -14,11 +14,15 @@
 
 package com.google.gerrit.server.cache;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.eclipse.jgit.lib.Constants.OBJECT_ID_LENGTH;
+
 import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
+import org.eclipse.jgit.lib.ObjectId;
 
 /** Static utilities for writing protobuf-based {@link CacheSerializer} implementations. */
 public class ProtoCacheSerializers {
@@ -65,6 +69,41 @@ public class ProtoCacheSerializers {
       return bout.toByteString();
     } catch (IOException e) {
       throw new IllegalStateException("exception writing to ByteString", e);
+    }
+  }
+
+  /**
+   * Helper for serializing {@link ObjectId} instances to/from protobuf fields.
+   *
+   * <p>Reuse a single instance's {@link #toByteString(ObjectId)} and {@link
+   * #fromByteString(ByteString)} within a single {@link CacheSerializer#serialize} or {@link
+   * CacheSerializer#deserialize} method body to minimize allocation of temporary buffers.
+   *
+   * <p><strong>Note:</strong> This class is not threadsafe. Instances must not be stored in {@link
+   * CacheSerializer} fields if the serializer instances will be used from multiple threads.
+   */
+  public static class ObjectIdConverter {
+    public static ObjectIdConverter create() {
+      return new ObjectIdConverter();
+    }
+
+    private final byte[] buf = new byte[OBJECT_ID_LENGTH];
+
+    private ObjectIdConverter() {}
+
+    public ByteString toByteString(ObjectId id) {
+      id.copyRawTo(buf, 0);
+      return ByteString.copyFrom(buf);
+    }
+
+    public ObjectId fromByteString(ByteString in) {
+      checkArgument(
+          in.size() == OBJECT_ID_LENGTH,
+          "expected ByteString of length %s: %s",
+          OBJECT_ID_LENGTH,
+          in);
+      in.copyTo(buf, 0);
+      return ObjectId.fromRaw(buf);
     }
   }
 

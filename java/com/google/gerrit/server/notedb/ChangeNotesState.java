@@ -54,6 +54,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
@@ -63,13 +64,11 @@ import com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gson.Gson;
-import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -447,9 +446,7 @@ public abstract class ChangeNotesState {
       checkArgument(object.columns() != null, "ChangeColumns is required in: %s", object);
       ChangeNotesStateProto.Builder b = ChangeNotesStateProto.newBuilder();
 
-      byte[] idBuf = new byte[Constants.OBJECT_ID_LENGTH];
-      object.metaId().copyRawTo(idBuf, 0);
-      b.setMetaId(ByteString.copyFrom(idBuf))
+      b.setMetaId(ObjectIdConverter.create().toByteString(object.metaId()))
           .setChangeId(object.changeId().get())
           .setColumns(toChangeColumnsProto(object.columns()));
 
@@ -566,7 +563,7 @@ public abstract class ChangeNotesState {
 
       ChangeNotesState.Builder b =
           builder()
-              .metaId(ObjectId.fromRaw(proto.getMetaId().toByteArray()))
+              .metaId(ObjectIdConverter.create().fromByteString(proto.getMetaId()))
               .changeId(changeId)
               .columns(toChangeColumns(changeId, proto.getColumns()))
               .pastAssignees(

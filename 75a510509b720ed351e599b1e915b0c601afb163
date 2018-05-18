@@ -127,6 +127,30 @@
     },
     {
       "key": {
+        "uuid": "2f33be4d_cc1deafe",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-18T16:32:44Z",
+      "side": 1,
+      "message": "Turns out that this code is not live in production for us yet, which explains the lack of AIOOBEs, but not the tests passing.",
+      "parentUuid": "baf4badb_24abe44b",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 170,
+        "endChar": 46
+      },
+      "revId": "75a510509b720ed351e599b1e915b0c601afb163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c63b1ca_b232cf38",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
         "patchSetId": 1

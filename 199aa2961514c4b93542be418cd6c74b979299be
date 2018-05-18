@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2b03b28_5942aa91",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-18T13:51:49Z",
+      "side": 1,
+      "message": "lower case",
+      "range": {
+        "startLine": 241,
+        "startChar": 58,
+        "endLine": 241,
+        "endChar": 59
+      },
+      "revId": "199aa2961514c4b93542be418cd6c74b979299be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fba7a1ab_6b99d4af",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-18T13:51:49Z",
+      "side": 1,
+      "message": "I think the API of this method is not great: Returning a String, or null for problems smells like an anti-pattern.\n\nThere might also be more than a single problem (e.g. when two changes in the CS are not submittable). Would you mind creating a small follow-up change to change the method signature to return a Collection\u003cString\u003e and return all the problems (or an empty collection)?",
+      "revId": "199aa2961514c4b93542be418cd6c74b979299be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

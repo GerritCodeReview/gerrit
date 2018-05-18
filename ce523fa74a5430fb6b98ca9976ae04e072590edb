@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f38aba0a_776ddbb9",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-18T00:06:29Z",
+      "side": 1,
+      "message": "Not a huge deal, but since all the other ways we currently interact with localStorage is via gr-storage, I tend to think that this should too. Something like\n\n this.$.storage.getUseDarkTheme();\n this.$.storage.setUseDarkTheme(bool);\n\nThat way, we don\u0027t need to synchronize the \u0027dark-theme` key in multiple places (this file and gr-app.js).",
+      "revId": "ce523fa74a5430fb6b98ca9976ae04e072590edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

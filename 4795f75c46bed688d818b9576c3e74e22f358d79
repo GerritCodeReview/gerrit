@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22fd0065_a598a0dd",
+        "filename": "java/com/google/gerrit/server/cache/ProtoCacheSerializers.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T14:45:20Z",
+      "side": 1,
+      "message": "Isn\u0027t this missing in toByteString()?",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 41
+      },
+      "revId": "4795f75c46bed688d818b9576c3e74e22f358d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0236ba87_fb24675b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T14:45:20Z",
+      "side": 1,
+      "message": "Is there any reason to keep this method and to not directly use toByteString()?\n\nDid you notice that the order of the parameters of both methods is different?",
+      "range": {
+        "startLine": 537,
+        "startChar": 26,
+        "endLine": 537,
+        "endChar": 44
+      },
+      "revId": "4795f75c46bed688d818b9576c3e74e22f358d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d39e6781_ee26fd11",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T14:45:20Z",
+      "side": 1,
+      "message": "optional: Iterables.getOnlyElement(ccs) would be nicer.",
+      "range": {
+        "startLine": 497,
+        "startChar": 22,
+        "endLine": 497,
+        "endChar": 43
+      },
+      "revId": "4795f75c46bed688d818b9576c3e74e22f358d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c12b9c33_0d70ec19",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T14:45:20Z",
+      "side": 1,
+      "message": "optional: With this return value which doesn\u0027t make it obvious what exactly is returned (the original one, a modified one, or something else?), I am even less a fan of this assertion method. Ideally, I would have preferred to have a method serializeAndDeserialize() and have most of the code of this method in the individual tests. That would mean a bit of code duplication but increase the clarity of what the tests actually do and test (as assertRoundTrip currently asserts more than just the pure round trip). I\u0027m not asking to change this now. When we write similar tests, I just would appreciate if we favored the clarity of the tests a bit more.",
+      "range": {
+        "startLine": 933,
+        "startChar": 17,
+        "endLine": 933,
+        "endChar": 33
+      },
+      "revId": "4795f75c46bed688d818b9576c3e74e22f358d79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

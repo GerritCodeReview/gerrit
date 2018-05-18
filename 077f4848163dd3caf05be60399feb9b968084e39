@@ -994,6 +994,30 @@
     },
     {
       "key": {
+        "uuid": "757032fc_e7f8042c",
+        "filename": "proto/cache.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T14:45:20Z",
+      "side": 1,
+      "message": "I thought that for open-source hosts, it\u0027s still possible to run on ReviewDb (but I might have a wrong timeline in my mind). As config-gerrit.txt now says \"change_notes: disk storage is disabled by default\", I would expect that some admins decide to switch on disk storage. If the host is still on ReviewDb, wouldn\u0027t that cause some issues?",
+      "parentUuid": "ed8e959a_f9e56c81",
+      "range": {
+        "startLine": 81,
+        "startChar": 49,
+        "endLine": 82,
+        "endChar": 74
+      },
+      "revId": "077f4848163dd3caf05be60399feb9b968084e39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf7aec3_3d8322fe",
         "filename": "proto/cache.proto",
         "patchSetId": 2

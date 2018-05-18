@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe9fbb46_9bc71726",
+        "filename": "contrib/check-valid-commit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T03:44:23Z",
+      "side": 1,
+      "message": "Should this be \u0027any\u0027?  In the original version the condition uses \u0027or\u0027, but \u0027all\u0027 implies \u0027and\u0027.",
+      "range": {
+        "startLine": 55,
+        "startChar": 7,
+        "endLine": 55,
+        "endChar": 10
+      },
+      "revId": "302e63a8f0357640c957a13ee5c704906c78030b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

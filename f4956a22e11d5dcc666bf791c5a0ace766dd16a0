@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0c6055a7_b762d15c",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T07:43:22Z",
+      "side": 1,
+      "message": "Can this be abstracted further so that it will be possible to create a container with any given image?  For example this would be useful if in future we want to test some other feature that requires a different service in a container.",
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "08f6e6c0_68a402d9",
         "filename": "javatests/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
         "patchSetId": 3

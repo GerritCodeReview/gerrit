@@ -42,7 +42,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
-import com.google.protobuf.InvalidProtocolBufferException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -188,16 +187,13 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
 
       @Override
       public Key deserialize(byte[] in) {
-        try {
-          ChangeKindKeyProto proto = ChangeKindKeyProto.parseFrom(in);
-          ObjectIdConverter idConverter = ObjectIdConverter.create();
-          return new Key(
-              idConverter.fromByteString(proto.getPrior()),
-              idConverter.fromByteString(proto.getNext()),
-              proto.getStrategyName());
-        } catch (InvalidProtocolBufferException e) {
-          throw new IllegalArgumentException("Failed to deserialize object", e);
-        }
+        ChangeKindKeyProto proto =
+            ProtoCacheSerializers.parseUnchecked(ChangeKindKeyProto.parser(), in);
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return new Key(
+            idConverter.fromByteString(proto.getPrior()),
+            idConverter.fromByteString(proto.getNext()),
+            proto.getStrategyName());
       }
     }
   }

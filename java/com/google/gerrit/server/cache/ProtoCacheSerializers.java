@@ -21,6 +21,7 @@ import com.google.gwtorm.protobuf.ProtobufCodec;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.CodedOutputStream;
 import com.google.protobuf.MessageLite;
+import com.google.protobuf.Parser;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -69,6 +70,21 @@ public class ProtoCacheSerializers {
       return bout.toByteString();
     } catch (IOException e) {
       throw new IllegalStateException("exception writing to ByteString", e);
+    }
+  }
+
+  /**
+   * Parses a byte array to a protobuf message.
+   *
+   * @param parser parser for the proto type.
+   * @param in byte array with the message contents.
+   * @return parsed proto.
+   */
+  public static <M extends MessageLite> M parseUnchecked(Parser<M> parser, byte[] in) {
+    try {
+      return parser.parseFrom(in);
+    } catch (IOException e) {
+      throw new IllegalArgumentException("exception parsing byte array to proto", e);
     }
   }
 

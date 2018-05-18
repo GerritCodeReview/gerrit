@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
 
 public class TabFile {
   public interface Parser {
@@ -144,9 +143,5 @@ public class TabFile {
       r.append(' ');
     }
     return r.toString();
-  }
-
-  public static ValidationError.Sink createLoggerSink(String file, Logger log) {
-    return ValidationError.createLoggerSink("Error parsing file " + file + ": ", log);
   }
 }

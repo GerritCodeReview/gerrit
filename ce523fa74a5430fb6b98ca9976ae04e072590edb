@@ -16,6 +16,24 @@
       "revId": "ce523fa74a5430fb6b98ca9976ae04e072590edb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8c84bb5_44edf5f5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-18T00:28:08Z",
+      "side": 1,
+      "message": "I agree with you! \n\nJust one question -- do we think that this strategy of storing theme preference in localStorage is a good one, medium to long term? If we implement theming more extensively, and add some sort of per-user preference for it, this isn\u0027t all that important and I\u0027d rather not do the work of standardizing the interface. If we don\u0027t think more themes are coming beyond dark, and/or don\u0027t anticipate adding a user preference to have this persist between devices, that\u0027s another story.\n\nWhat do you think?",
+      "parentUuid": "f38aba0a_776ddbb9",
+      "revId": "ce523fa74a5430fb6b98ca9976ae04e072590edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

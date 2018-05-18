@@ -27,6 +27,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.notedb.AbstractChangeNotes.Args;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -34,7 +35,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +42,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
@@ -83,13 +82,11 @@ public class ChangeNotesCache {
 
       @Override
       public byte[] serialize(Key object) {
-        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
-        object.id().copyRawTo(buf, 0);
         return ProtoCacheSerializers.toByteArray(
             ChangeNotesKeyProto.newBuilder()
                 .setProject(object.project().get())
                 .setChangeId(object.changeId().get())
-                .setId(ByteString.copyFrom(buf))
+                .setId(ObjectIdConverter.create().toByteString(object.id()))
                 .build());
       }
 
@@ -104,7 +101,7 @@ public class ChangeNotesCache {
         return Key.create(
             new Project.NameKey(proto.getProject()),
             new Change.Id(proto.getChangeId()),
-            ObjectId.fromRaw(proto.getId().toByteArray()));
+            ObjectIdConverter.create().fromByteString(proto.getId()));
       }
     }
   }

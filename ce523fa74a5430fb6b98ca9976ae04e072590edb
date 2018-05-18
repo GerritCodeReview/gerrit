@@ -34,6 +34,24 @@
       "revId": "ce523fa74a5430fb6b98ca9976ae04e072590edb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3835f3e_c3f5b8d3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-18T17:26:26Z",
+      "side": 1,
+      "message": "\u003e I\u0027d rather not do the work of standardizing the interface\n\nTo me, it\u0027s no big deal to constantly change the interface of gr-storage. That doesn\u0027t say \"standardize\" to me.\n\nIMO, the main benefit of gr-storage is having all the keys are in one place: you only have to read one file to find out whether a new localstorage key will conflict with any others.\n\n... well... That benefit, and also hiding the string logic for local draft keys -- but that doesn\u0027t apply here.\n\nAgain, not a big deal. Would you maybe think of this as a follow-up task?",
+      "parentUuid": "d8c84bb5_44edf5f5",
+      "revId": "ce523fa74a5430fb6b98ca9976ae04e072590edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

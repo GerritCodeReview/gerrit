@@ -29,6 +29,7 @@ import com.google.gerrit.server.cache.BooleanCacheSerializer;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdHelper;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -37,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
@@ -145,15 +145,14 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
       @Override
       public byte[] serialize(EntryKey object) {
-        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
-        MergeabilityKeyProto.Builder b = MergeabilityKeyProto.newBuilder();
-        object.getCommit().copyRawTo(buf, 0);
-        b.setCommit(ByteString.copyFrom(buf));
-        object.getInto().copyRawTo(buf, 0);
-        b.setInto(ByteString.copyFrom(buf));
-        b.setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.getSubmitType()));
-        b.setMergeStrategy(object.getMergeStrategy());
-        return ProtoCacheSerializers.toByteArray(b.build());
+        ObjectIdHelper idHelper = new ObjectIdHelper();
+        return ProtoCacheSerializers.toByteArray(
+            MergeabilityKeyProto.newBuilder()
+                .setCommit(idHelper.toByteString(object.getCommit()))
+                .setInto(idHelper.toByteString(object.getInto()))
+                .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.getSubmitType()))
+                .setMergeStrategy(object.getMergeStrategy())
+                .build());
       }
 
       @Override

@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "fdc09180_267a2a79",
+        "filename": "java/com/google/gerrit/server/cache/ProtoCacheSerializers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-18T16:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f33edbb_3f0a61f6",
+      "revId": "75a510509b720ed351e599b1e915b0c601afb163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ea2d146_c2c8bd40",
         "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
         "patchSetId": 1
@@ -49,6 +67,30 @@
       "writtenOn": "2018-05-18T15:20:31Z",
       "side": 1,
       "message": "What about here?",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 170,
+        "endChar": 46
+      },
+      "revId": "75a510509b720ed351e599b1e915b0c601afb163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bd83b59_4beb9a67",
+        "filename": "java/com/google/gerrit/server/change/MergeabilityCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-18T16:30:51Z",
+      "side": 1,
+      "message": "I missed this because I searched for all instances of copyRawTo, but this is using copyTo. That seems bad, since copyRawTo is binary and copyTo is hex.\n\nWhich actually makes me wonder how this is working at all, but the tests pass and our logs aren\u0027t full of ArrayIndexOutOfBoundsExceptions, so I need to do some more digging.",
+      "parentUuid": "1ea2d146_c2c8bd40",
       "range": {
         "startLine": 166,
         "startChar": 8,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08f6e6c0_68a402d9",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T06:33:07Z",
+      "side": 1,
+      "message": "It would be better to move this to a common place instead of repeating it in each test class.\n\nThen when TestContainers supports the assumption violation, we only need to change it once.",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 85
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

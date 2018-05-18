@@ -208,7 +208,7 @@ public class WorkQueue {
               );
       queueName = prefix;
       try {
-        buildMetrics(queueName, metrics);
+        buildMetrics(queueName);
       } catch (IllegalArgumentException e) {
         if (e.getMessage().contains("already")) {
           log.warn("Not creating metrics for queue '{}': already exists", queueName);
@@ -218,8 +218,8 @@ public class WorkQueue {
       }
     }
 
-    private void buildMetrics(String queueName, MetricMaker metric) {
-      metric.newCallbackMetric(
+    private void buildMetrics(String queueName) {
+      metrics.newCallbackMetric(
           getMetricName(queueName, "max_pool_size"),
           Long.class,
           new Description("Maximum allowed number of threads in the pool")
@@ -231,7 +231,7 @@ public class WorkQueue {
               return (long) getMaximumPoolSize();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "pool_size"),
           Long.class,
           new Description("Current number of threads in the pool").setGauge().setUnit("threads"),
@@ -241,7 +241,7 @@ public class WorkQueue {
               return (long) getPoolSize();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "active_threads"),
           Long.class,
           new Description("Number number of threads that are actively executing tasks")
@@ -253,7 +253,7 @@ public class WorkQueue {
               return (long) getActiveCount();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "scheduled_tasks"),
           Integer.class,
           new Description("Number of scheduled tasks in the queue").setGauge().setUnit("tasks"),
@@ -263,7 +263,7 @@ public class WorkQueue {
               return getQueue().size();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "total_scheduled_tasks_count"),
           Long.class,
           new Description("Total number of tasks that have been scheduled for execution")
@@ -275,7 +275,7 @@ public class WorkQueue {
               return (long) getTaskCount();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "total_completed_tasks_count"),
           Long.class,
           new Description("Total number of tasks that have completed execution")

@@ -209,8 +209,7 @@
     _handleDeleteItemConfirm() {
       this.$.overlay.close();
       if (this.detailType === DETAIL_TYPES.BRANCHES) {
-        return this.$.restAPI.deleteRepoBranches(this._repo,
-            this._refName)
+        return this.$.restAPI.deleteRepoBranches(this._repo, this._refName)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this._getItems(
@@ -219,8 +218,7 @@
               }
             });
       } else if (this.detailType === DETAIL_TYPES.TAGS) {
-        return this.$.restAPI.deleteRepoTags(this._repo,
-            this._refName)
+        return this.$.restAPI.deleteRepoTags(this._repo, this._refName)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this._getItems(

@@ -106,7 +106,8 @@ import org.eclipse.jgit.lib.Repository;
  *   <li>binding {@link GitReferenceUpdated#DISABLED} and
  *   <li>passing an {@link
  *       com.google.gerrit.server.account.externalids.ExternalIdNotes.FactoryNoReindex} factory as
- *       parameter of {@link AccountsUpdate.Factory#create(IdentifiedUser, ExternalIdNotesLoader)}
+ *       parameter of {@link AccountsUpdate.Factory#create(IdentifiedUser,
+ *       ExternalIdNotes.ExternalIdNotesLoader)}
  * </ul>
  *
  * <p>If there are concurrent account updates updating the user branch in NoteDb may fail with

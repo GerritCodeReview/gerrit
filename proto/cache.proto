@@ -184,3 +184,12 @@ message ChangeNotesStateProto {
   int64 read_only_until = 17;
   bool has_read_only_until = 18;
 }
+
+
+// Serialized form of com.google.gerrit.server.query.change.ConflictKey
+message ConflictKeyProto {
+  bytes commit = 1;
+  bytes other_commit = 2;
+  string submit_type = 3;
+  bool is_content_merge = 4;
+}

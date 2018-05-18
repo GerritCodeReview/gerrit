@@ -17,6 +17,24 @@
       "revId": "deacb5b2af37a7bbd8f74c5e5af24956adffb550",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39fc55eb_185959b5",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-18T15:30:32Z",
+      "side": 1,
+      "message": "Thanks for the notice.",
+      "parentUuid": "454a8541_7128141e",
+      "revId": "deacb5b2af37a7bbd8f74c5e5af24956adffb550",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

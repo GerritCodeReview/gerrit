@@ -281,6 +281,29 @@
       "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddba3675_b571eb40",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-05-18T06:28:48Z",
+      "side": 1,
+      "message": "how about extracting ElasticNodeInfo creation to dedicated class? I can see it being copy-pasted through all Elastic*Tests...\nIt would naturally contain stop() method that will be called from stopElasticsearchServer() ;)",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 85
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

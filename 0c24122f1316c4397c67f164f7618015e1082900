@@ -22,6 +22,30 @@
       "revId": "0c24122f1316c4397c67f164f7618015e1082900",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48bd414e_80282112",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-18T02:13:42Z",
+      "side": 1,
+      "message": "Actually, looking at this again maybe this instanceof check is better.  AccountGroup.isInternalGroup does a regex match which I guess would be slower.",
+      "parentUuid": "0d189f88_bbba88fc",
+      "range": {
+        "startLine": 920,
+        "startChar": 8,
+        "endLine": 920,
+        "endChar": 65
+      },
+      "revId": "0c24122f1316c4397c67f164f7618015e1082900",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

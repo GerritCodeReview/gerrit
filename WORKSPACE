@@ -476,39 +476,10 @@ maven_jar(
 )
 
 maven_jar(
-    name = "lucene_highlighter",
-    artifact = "org.apache.lucene:lucene-highlighter:" + LUCENE_VERS,
-    sha1 = "433f53f03f1b14337c08d54e507a5410905376fa",
-)
-
-maven_jar(
-    name = "lucene_join",
-    artifact = "org.apache.lucene:lucene-join:" + LUCENE_VERS,
-    sha1 = "23f9a909a244ed3b28b37c5bb21a6e33e6c0a339",
-)
-
-maven_jar(
-    name = "lucene_memory",
-    artifact = "org.apache.lucene:lucene-memory:" + LUCENE_VERS,
-    sha1 = "4dbdc2e1a24837722294762a9edb479f79092ab9",
-)
-
-maven_jar(
-    name = "lucene_spatial",
-    artifact = "org.apache.lucene:lucene-spatial:" + LUCENE_VERS,
-    sha1 = "0217d302dc0ef4d9b8b475ffe327d83c1e0ceba5",
-)
-
-maven_jar(
     name = "lucene_suggest",
+    testonly = 1,
     artifact = "org.apache.lucene:lucene-suggest:" + LUCENE_VERS,
     sha1 = "0f46dbb3229eed62dff10d008172c885e0e028c8",
-)
-
-maven_jar(
-    name = "lucene_queries",
-    artifact = "org.apache.lucene:lucene-queries:" + LUCENE_VERS,
-    sha1 = "f915357b8b4b43742ab48f1401dedcaa12dfa37a",
 )
 
 maven_jar(
@@ -516,6 +487,30 @@ maven_jar(
     artifact = "eu.medsea.mimeutil:mime-util:2.1.3",
     attach_source = False,
     sha1 = "0c9cfae15c74f62491d4f28def0dff1dabe52a47",
+)
+
+maven_jar(
+    name = "jsr166e",
+    artifact = "com.twitter:jsr166e:1.1.0",
+    sha1 = "233098147123ee5ddcd39ffc57ff648be4b7e5b2",
+)
+
+maven_jar(
+    name = "hppc",
+    artifact = "com.carrotsearch:hppc:0.7.1",
+    sha1 = "8b5057f74ea378c0150a1860874a3ebdcb713767",
+)
+
+maven_jar(
+    name = "netty",
+    artifact = "io.netty:netty:3.10.0.Final",
+    sha1 = "ad61cd1bba067e6634ddd3e160edf0727391ac30",
+)
+
+maven_jar(
+    name = "t_digest",
+    artifact = "com.tdunning:t-digest:3.0",
+    sha1 = "84ccf145ac2215e6bfa63baa3101c0af41017cfc",
 )
 
 PROLOG_VERS = "1.4.3"
@@ -939,54 +934,12 @@ maven_jar(
     sha1 = "675642ac208e0b741bc9118dcbcae44c271b992a",
 )
 
-maven_jar(
-    name = "compress_lzf",
-    artifact = "com.ning:compress-lzf:1.0.2",
-    sha1 = "62896e6fca184c79cc01a14d143f3ae2b4f4b4ae",
-)
-
-maven_jar(
-    name = "hppc",
-    artifact = "com.carrotsearch:hppc:0.7.1",
-    sha1 = "8b5057f74ea378c0150a1860874a3ebdcb713767",
-)
-
-maven_jar(
-    name = "jsr166e",
-    artifact = "com.twitter:jsr166e:1.1.0",
-    sha1 = "233098147123ee5ddcd39ffc57ff648be4b7e5b2",
-)
-
-maven_jar(
-    name = "netty",
-    artifact = "io.netty:netty:3.10.0.Final",
-    sha1 = "ad61cd1bba067e6634ddd3e160edf0727391ac30",
-)
-
-maven_jar(
-    name = "t_digest",
-    artifact = "com.tdunning:t-digest:3.0",
-    sha1 = "84ccf145ac2215e6bfa63baa3101c0af41017cfc",
-)
-
 JACKSON_VERSION = "2.8.9"
 
 maven_jar(
     name = "jackson_core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "569b1752705da98f49aabe2911cc956ff7d8ed9d",
-)
-
-maven_jar(
-    name = "jackson_dataformat_cbor",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:" + JACKSON_VERSION,
-    sha1 = "93242092324cad33d777e06c0515e40a6b862659",
-)
-
-maven_jar(
-    name = "jackson_dataformat_smile",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:" + JACKSON_VERSION,
-    sha1 = "d36cbae6b06ac12fca16fda403759e479316141b",
 )
 
 maven_jar(

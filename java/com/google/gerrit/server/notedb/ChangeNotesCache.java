@@ -92,12 +92,8 @@ public class ChangeNotesCache {
 
       @Override
       public Key deserialize(byte[] in) {
-        ChangeNotesKeyProto proto;
-        try {
-          proto = ChangeNotesKeyProto.parseFrom(in);
-        } catch (IOException e) {
-          throw new IllegalArgumentException("Failed to deserialize " + Key.class.getName());
-        }
+        ChangeNotesKeyProto proto =
+            ProtoCacheSerializers.parseUnchecked(ChangeNotesKeyProto.parser(), in);
         return Key.create(
             new Project.NameKey(proto.getProject()),
             new Change.Id(proto.getChangeId()),

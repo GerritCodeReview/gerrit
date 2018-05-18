@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
@@ -157,12 +156,8 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
       @Override
       public EntryKey deserialize(byte[] in) {
-        MergeabilityKeyProto proto;
-        try {
-          proto = MergeabilityKeyProto.parseFrom(in);
-        } catch (IOException e) {
-          throw new IllegalArgumentException("Failed to deserialize mergeability cache key");
-        }
+        MergeabilityKeyProto proto =
+            ProtoCacheSerializers.parseUnchecked(MergeabilityKeyProto.parser(), in);
         byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
         proto.getCommit().copyTo(buf, 0);
         ObjectId commit = ObjectId.fromRaw(buf);

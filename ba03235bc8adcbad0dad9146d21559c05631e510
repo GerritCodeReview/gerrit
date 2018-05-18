@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "2a25812f_17ae59b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-18T07:41:18Z",
+      "side": 1,
+      "message": "I have uploaded the clean-up change as follow-up. Done.",
+      "parentUuid": "e21df8a4_4f8c418d",
+      "range": {
+        "startLine": 37,
+        "startChar": 7,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "ba03235bc8adcbad0dad9146d21559c05631e510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff8b6999_f3d24c63",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

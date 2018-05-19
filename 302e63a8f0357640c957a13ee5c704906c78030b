@@ -22,6 +22,30 @@
       "revId": "302e63a8f0357640c957a13ee5c704906c78030b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93894e5b_4a01a66e",
+        "filename": "contrib/check-valid-commit.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1010813
+      },
+      "writtenOn": "2018-05-19T15:34:17Z",
+      "side": 1,
+      "message": "You\u0027re right, good catch. I did have any() at some point, but must\u0027ve just had a brain fart and changed it. Will amend",
+      "parentUuid": "fe9fbb46_9bc71726",
+      "range": {
+        "startLine": 55,
+        "startChar": 7,
+        "endLine": 55,
+        "endChar": 10
+      },
+      "revId": "302e63a8f0357640c957a13ee5c704906c78030b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "949241b3_a50082ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-20T14:46:20Z",
+      "side": 1,
+      "message": "they were all",
+      "range": {
+        "startLine": 35,
+        "startChar": 52,
+        "endLine": 35,
+        "endChar": 60
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "167a4839_dcc5c755",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-20T14:46:20Z",
+      "side": 1,
+      "message": "Could consider using ES\u0027s own high-level api rather than jest, as the former evolves more than the latter -which looks like slowing down... Could be a next step though. But then, are the tests still depending on a fixed dependency stack, as they\u0027d stick to jest or potential high-level APIs? If so, follow-up change(s) could make them use the ES rest client instead, so they can start testing Gerrit integration with more than just one ES (server) version. The open change [1] currently aims at introducing such rest (ES low-level) client usage, here for the production code.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/179710",
+      "range": {
+        "startLine": 47,
+        "startChar": 40,
+        "endLine": 47,
+        "endChar": 57
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fabf1e52_9e77e252",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-20T14:46:20Z",
+      "side": 1,
+      "message": "due to this",
+      "range": {
+        "startLine": 52,
+        "startChar": 37,
+        "endLine": 52,
+        "endChar": 45
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83879ed5_fa4119ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-20T14:46:20Z",
+      "side": 1,
+      "message": "Bazel",
+      "range": {
+        "startLine": 53,
+        "startChar": 53,
+        "endLine": 53,
+        "endChar": 57
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c6055a7_b762d15c",
         "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
         "patchSetId": 3

@@ -92,7 +92,7 @@ public class GroupCacheImpl implements GroupCache {
       Optional<AccountGroup> g = byId.get(groupId);
       return g.isPresent() ? g.get() : missing(groupId);
     } catch (ExecutionException e) {
-      log.warn("Cannot load group " + groupId, e);
+      log.warn("Cannot load group {}", groupId, e);
       return missing(groupId);
     }
   }
@@ -131,7 +131,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byName.get(name.get()).orElse(null);
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup group %s by name", name.get()), e);
+      log.warn("Cannot lookup group {} by name", name.get(), e);
       return null;
     }
   }
@@ -144,7 +144,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byUUID.get(uuid.get()).orElse(null);
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup group %s by uuid", uuid.get()), e);
+      log.warn("Cannot lookup group {} by uuid", uuid.get(), e);
       return null;
     }
   }

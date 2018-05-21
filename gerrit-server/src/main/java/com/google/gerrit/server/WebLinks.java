@@ -49,7 +49,7 @@ public class WebLinks {
         if (link == null) {
           return false;
         } else if (Strings.isNullOrEmpty(link.name) || Strings.isNullOrEmpty(link.url)) {
-          log.warn(String.format("%s is missing name and/or url", link.getClass().getName()));
+          log.warn("{} is missing name and/or url", link.getClass().getName());
           return false;
         }
         return true;
@@ -60,7 +60,7 @@ public class WebLinks {
         if (link == null) {
           return false;
         } else if (Strings.isNullOrEmpty(link.name) || Strings.isNullOrEmpty(link.url)) {
-          log.warn(String.format("%s is missing name and/or url", link.getClass().getName()));
+          log.warn("{} is missing name and/or url", link.getClass().getName());
           return false;
         }
         return true;

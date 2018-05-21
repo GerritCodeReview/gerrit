@@ -23,6 +23,30 @@
       "revId": "f7c0bc4e7db62e572f87febf9d6a23c472d7a89e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6121d054_73977eb4",
+        "filename": "javatests/com/google/gerrit/server/cache/ProtoCacheSerializersTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-21T12:02:32Z",
+      "side": 1,
+      "message": "Our Java team recently started strongly discouraging usage of ExpectedException due to its known pitfalls:\n\n* might catch an exception earlier than you think\n* code after the exception is never executed\n* can\u0027t assert anything about object state after the exception\n* have to write Hamcrest matchers to check exception details\n\nUnfortunately the recommended \"solution\" is to wait for JUnit 4.13, which is several years delayed at this point, so here we are.",
+      "parentUuid": "d8a47928_87a2dc0d",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "f7c0bc4e7db62e572f87febf9d6a23c472d7a89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

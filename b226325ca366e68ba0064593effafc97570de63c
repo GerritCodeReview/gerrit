@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70e5d835_6c8f9a3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-21T16:21:08Z",
+      "side": 1,
+      "message": "Since these are three independent fixes, I\u0027d rather see them as three changes. That way we have a better sense for the extent to which how each part improves performance.\n\nAlso, just as a general rule, if one of the three causes problems and needs to be reverted, we don\u0027t have to revert the other two.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "b226325ca366e68ba0064593effafc97570de63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7be21c73_e05ad32a",
+        "filename": "polygerrit-ui/app/behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-21T16:21:08Z",
+      "side": 1,
+      "message": "Very nice.",
+      "revId": "b226325ca366e68ba0064593effafc97570de63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ac659d_c8a07776",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-21T16:21:08Z",
+      "side": 1,
+      "message": "All of the Polymer docs I\u0027ve found for this feature recommend using the `setPassiveTouchGestures` rather than set it this way. Is there a reason you do it this way rather than the method?\n\nhttps://www.polymer-project.org/2.0/docs/api/#function-Polymer.setPassiveTouchGestures",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 33
+      },
+      "revId": "b226325ca366e68ba0064593effafc97570de63c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

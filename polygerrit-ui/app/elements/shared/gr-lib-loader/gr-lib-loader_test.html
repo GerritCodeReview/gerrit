@@ -46,7 +46,7 @@ limitations under the License.
       );
 
       // Assert preconditions:
-      assert.isFalse(element._state.loading);
+      assert.isFalse(element._hljsState.loading);
     });
 
     teardown(() => {
@@ -56,9 +56,9 @@ limitations under the License.
       loadStub.restore();
 
       // Because the element state is a singleton, clean it up.
-      element._state.configured = false;
-      element._state.loading = false;
-      element._state.callbacks = [];
+      element._hljsState.configured = false;
+      element._hljsState.loading = false;
+      element._hljsState.callbacks = [];
     });
 
     test('only load once', done => {
@@ -67,14 +67,14 @@ limitations under the License.
 
       // It should now be in the loading state.
       assert.isTrue(loadStub.called);
-      assert.isTrue(element._state.loading);
+      assert.isTrue(element._hljsState.loading);
       assert.isFalse(firstCallHandler.called);
 
       const secondCallHandler = sinon.stub();
       element.get().then(secondCallHandler);
 
       // No change in state.
-      assert.isTrue(element._state.loading);
+      assert.isTrue(element._hljsState.loading);
       assert.isFalse(firstCallHandler.called);
       assert.isFalse(secondCallHandler.called);
 
@@ -82,7 +82,7 @@ limitations under the License.
       resolveLoad();
       flush(() => {
         // The state should be loaded and both handlers called.
-        assert.isFalse(element._state.loading);
+        assert.isFalse(element._hljsState.loading);
         assert.isTrue(firstCallHandler.called);
         assert.isTrue(secondCallHandler.called);
         done();

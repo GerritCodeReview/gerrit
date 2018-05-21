@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e648a3b3_bdd040b8",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2018-05-21T05:29:08Z",
+      "side": 1,
+      "message": "hi,\n\nthis makes connection very slow, not always required.\n\nit also will fail when server does not support all.\n\nthe default \u0027auth\u0027 should be sufficient for what gerrit is trying to do, not sure where the issue of FreeIPA is.\n\nI wounder if a better way is to have this configured, most probably a generic configuration, something like:\n\n ldap.env.\u003ckey\u003e \u003d \u003cvalue\u003e\n\nin out case:\n\n ldap.env.javax.security.sasl.qop \u003d auth-conf,auth-int,auth\n\nthis will allow gerrit to support more options of static configuration and tweaks without modifying the code.\n\nalon",
+      "revId": "3809b913dee4f1646d75f72fd84a332530129aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

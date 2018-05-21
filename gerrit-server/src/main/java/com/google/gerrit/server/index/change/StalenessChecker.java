@@ -206,7 +206,7 @@ public class StalenessChecker {
       }
       return false;
     } catch (IOException e) {
-      log.warn(String.format("error checking staleness of %s in %s", id, project), e);
+      log.warn("error checking staleness of {} in {}", id, project, e);
       return true;
     }
   }

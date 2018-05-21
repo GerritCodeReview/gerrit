@@ -102,6 +102,10 @@
      * @return {string}
      */
     _getLibRoot() {
+      // TODO(wyatta): Remove the remainder of this method logic once the
+      // STATIC_RESOURCE_PATH variable is being provided generally.
+      if (window.STATIC_RESOURCE_PATH) { return window.STATIC_RESOURCE_PATH; }
+
       if (this._cachedLibRoot) { return this._cachedLibRoot; }
 
       const appLink = document.head

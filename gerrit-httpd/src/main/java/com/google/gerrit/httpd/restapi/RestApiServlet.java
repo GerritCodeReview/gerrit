@@ -1094,7 +1094,7 @@ public class RestApiServlet extends HttpServlet {
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + req.getQueryString();
     }
-    log.error(String.format("Error in %s %s", req.getMethod(), uri), err);
+    log.error("Error in {} {}", req.getMethod(), uri, err);
 
     if (!res.isCommitted()) {
       res.reset();

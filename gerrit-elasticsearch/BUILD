@@ -39,6 +39,7 @@ java_library(
         "//lib:gson",
         "//lib:truth",
         "//lib/elasticsearch",
+        "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )
@@ -54,6 +55,7 @@ junit_tests(
         ":elasticsearch",
         ":elasticsearch_test_utils",
         "//gerrit-server:query_tests_code",
+        "//gerrit-server:server",
         "//gerrit-server:testutil",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",

@@ -24,7 +24,6 @@ import com.google.inject.Injector;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -58,11 +57,10 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     return testName.getMethodName().toLowerCase() + "_";
   }
 
-  @After
-  public void cleanupIndex() {
-    if (nodeInfo != null) {
-      ElasticTestUtils.deleteAllIndexes(nodeInfo, testName());
-    }
+  @Override
+  protected void initAfterLifecycleStart() throws Exception {
+    super.initAfterLifecycleStart();
+    ElasticTestUtils.createAllIndexes(injector);
   }
 
   @Override
@@ -71,7 +69,6 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
     InMemoryModule.setDefaults(elasticsearchConfig);
     String indicesPrefix = testName();
     ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port, indicesPrefix);
-    ElasticTestUtils.createAllIndexes(nodeInfo, indicesPrefix);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }
 

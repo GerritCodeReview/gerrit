@@ -42,8 +42,6 @@ public class ReindexIT extends StandaloneSiteTest {
       elasticNodeInfo = ElasticTestUtils.startElasticsearchNode();
     }
     String indicesPrefix = UUID.randomUUID().toString();
-    ElasticTestUtils.createAllIndexes(elasticNodeInfo, indicesPrefix);
-
     Config cfg = new Config();
     ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);
     return cfg;
@@ -56,6 +54,9 @@ public class ReindexIT extends StandaloneSiteTest {
     Project.NameKey project = new Project.NameKey("project");
     String changeId;
     try (ServerContext ctx = startServer()) {
+      if (elasticNodeInfo != null) {
+        ElasticTestUtils.createAllIndexes(ctx.getInjector());
+      }
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       gApi.projects().create("project");
 

@@ -44,39 +44,3 @@ java_library(
     exports = ["@lucene_queryparser//jar"],
     runtime_deps = [":lucene-core-and-backward-codecs"],
 )
-
-java_library(
-    name = "lucene-highlighter",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@lucene_highlighter//jar"],
-)
-
-java_library(
-    name = "lucene-join",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@lucene_join//jar"],
-)
-
-java_library(
-    name = "lucene-memory",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@lucene_memory//jar"],
-)
-
-java_library(
-    name = "lucene-spatial",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@lucene_spatial//jar"],
-)
-
-java_library(
-    name = "lucene-suggest",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@lucene_suggest//jar"],
-)
-
-java_library(
-    name = "lucene-queries",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@lucene_queries//jar"],
-)

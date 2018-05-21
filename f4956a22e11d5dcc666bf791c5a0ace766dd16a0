@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8cbd268e_776b7acb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-21T22:23:52Z",
+      "side": 1,
+      "message": "I removed this part. Not applicable.",
+      "parentUuid": "949241b3_a50082ea",
+      "range": {
+        "startLine": 35,
+        "startChar": 52,
+        "endLine": 35,
+        "endChar": 60
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "167a4839_dcc5c755",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-20T14:46:20Z",
       "side": 1,
       "message": "Could consider using ES\u0027s own high-level api rather than jest, as the former evolves more than the latter -which looks like slowing down... Could be a next step though. But then, are the tests still depending on a fixed dependency stack, as they\u0027d stick to jest or potential high-level APIs? If so, follow-up change(s) could make them use the ES rest client instead, so they can start testing Gerrit integration with more than just one ES (server) version. The open change [1] currently aims at introducing such rest (ES low-level) client usage, here for the production code.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/179710",
+      "range": {
+        "startLine": 47,
+        "startChar": 40,
+        "endLine": 47,
+        "endChar": 57
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe4beeab_8b5a8e6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-21T22:23:52Z",
+      "side": 1,
+      "message": "Thanks. I adjusted this series and applied it on top of [1]. I removed this description.",
+      "parentUuid": "167a4839_dcc5c755",
       "range": {
         "startLine": 47,
         "startChar": 40,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "09563e72_55bf7d88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-21T22:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fabf1e52_9e77e252",
+      "range": {
+        "startLine": 52,
+        "startChar": 37,
+        "endLine": 52,
+        "endChar": 45
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83879ed5_fa4119ee",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2018-05-20T14:46:20Z",
       "side": 1,
       "message": "Bazel",
+      "range": {
+        "startLine": 53,
+        "startChar": 53,
+        "endLine": 53,
+        "endChar": 57
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b097a37b_22901a85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-21T22:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83879ed5_fa4119ee",
       "range": {
         "startLine": 53,
         "startChar": 53,
@@ -140,6 +236,30 @@
       "writtenOn": "2018-05-18T06:33:07Z",
       "side": 1,
       "message": "It would be better to move this to a common place instead of repeating it in each test class.\n\nThen when TestContainers supports the assumption violation, we only need to change it once.",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 85
+      },
+      "revId": "f4956a22e11d5dcc666bf791c5a0ace766dd16a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b3ddbd6_f1878569",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticQueryAccountsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-21T22:23:52Z",
+      "side": 1,
+      "message": "This code was simplified a bit.",
+      "parentUuid": "08f6e6c0_68a402d9",
       "range": {
         "startLine": 46,
         "startChar": 4,

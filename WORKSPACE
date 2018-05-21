@@ -245,6 +245,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "log_ext",
+    artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+    sha1 = "09a8f58c784c37525d2624062414358acf296717",
+)
+
+maven_jar(
     name = "impl_log4j",
     artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
     sha1 = "58f588119ffd1702c77ccab6acb54bfb41bed8bd",
@@ -474,42 +480,6 @@ maven_jar(
     name = "lucene_queryparser",
     artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
     sha1 = "8ac921563e744463605284c6d9d2d95e1be5b87c",
-)
-
-maven_jar(
-    name = "lucene_highlighter",
-    artifact = "org.apache.lucene:lucene-highlighter:" + LUCENE_VERS,
-    sha1 = "d127ac514e9df965ab0b57d92bbe0c68d3d145b8",
-)
-
-maven_jar(
-    name = "lucene_join",
-    artifact = "org.apache.lucene:lucene-join:" + LUCENE_VERS,
-    sha1 = "dac1b322508f3f2696ecc49a97311d34d8382054",
-)
-
-maven_jar(
-    name = "lucene_memory",
-    artifact = "org.apache.lucene:lucene-memory:" + LUCENE_VERS,
-    sha1 = "7409db9863d8fbc265c27793c6cc7511304182c2",
-)
-
-maven_jar(
-    name = "lucene_spatial",
-    artifact = "org.apache.lucene:lucene-spatial:" + LUCENE_VERS,
-    sha1 = "8ed7a9a43d78222038573dd1c295a61f3c0bb0db",
-)
-
-maven_jar(
-    name = "lucene_suggest",
-    artifact = "org.apache.lucene:lucene-suggest:" + LUCENE_VERS,
-    sha1 = "e8316b37dddcf2092a54dab2ce6aad0d5ad78585",
-)
-
-maven_jar(
-    name = "lucene_queries",
-    artifact = "org.apache.lucene:lucene-queries:" + LUCENE_VERS,
-    sha1 = "692f1ad887cf4e006a23f45019e6de30f3312d3f",
 )
 
 maven_jar(
@@ -902,45 +872,9 @@ maven_jar(
 )
 
 maven_jar(
-    name = "elasticsearch",
-    artifact = "org.elasticsearch:elasticsearch:2.4.4",
-    sha1 = "e69930bc794c539d34778e665d6f8ccbffd42c6f",
-)
-
-maven_jar(
     name = "elasticsearch-rest-client",
     artifact = "org.elasticsearch.client:elasticsearch-rest-client:5.6.9",
     sha1 = "895706412e2fba3f842fca82ec3dece1cb4ee7d1",
-)
-
-maven_jar(
-    name = "compress_lzf",
-    artifact = "com.ning:compress-lzf:1.0.2",
-    sha1 = "62896e6fca184c79cc01a14d143f3ae2b4f4b4ae",
-)
-
-maven_jar(
-    name = "hppc",
-    artifact = "com.carrotsearch:hppc:0.7.1",
-    sha1 = "8b5057f74ea378c0150a1860874a3ebdcb713767",
-)
-
-maven_jar(
-    name = "jsr166e",
-    artifact = "com.twitter:jsr166e:1.1.0",
-    sha1 = "233098147123ee5ddcd39ffc57ff648be4b7e5b2",
-)
-
-maven_jar(
-    name = "netty",
-    artifact = "io.netty:netty:3.10.0.Final",
-    sha1 = "ad61cd1bba067e6634ddd3e160edf0727391ac30",
-)
-
-maven_jar(
-    name = "t_digest",
-    artifact = "com.tdunning:t-digest:3.0",
-    sha1 = "84ccf145ac2215e6bfa63baa3101c0af41017cfc",
 )
 
 JACKSON_VERSION = "2.6.6"
@@ -949,18 +883,6 @@ maven_jar(
     name = "jackson_core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "02eb801df67aacaf5b1deb4ac626e1964508e47b",
-)
-
-maven_jar(
-    name = "jackson_dataformat_cbor",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:" + JACKSON_VERSION,
-    sha1 = "34c7b7ff495fc6b049612bdc9db0900a68e112f8",
-)
-
-maven_jar(
-    name = "jackson_dataformat_smile",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:" + JACKSON_VERSION,
-    sha1 = "ccbfc948748ed2754a58c1af9e0a02b5cc1aed69",
 )
 
 maven_jar(
@@ -973,6 +895,30 @@ maven_jar(
     name = "httpcore_nio",
     artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCOMP_VERS,
     sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
+)
+
+maven_jar(
+    name = "testcontainers",
+    artifact = "org.testcontainers:testcontainers:1.7.2",
+    sha1 = "fec8b360b6b613f6c9d3b8e7a9fa32d1a2bcb978",
+)
+
+maven_jar(
+    name = "duct_tape",
+    artifact = "org.rnorth.duct-tape:duct-tape:1.0.7",
+    sha1 = "a26b5d90d88c91321dc7a3734ea72d2fc019ebb6",
+)
+
+maven_jar(
+    name = "visible_assertions",
+    artifact = "org.rnorth.visible-assertions:visible-assertions:2.1.0",
+    sha1 = "f2fcff2862860828ac38a5e1f14d941787c06b13",
+)
+
+maven_jar(
+    name = "jna",
+    artifact = "net.java.dev.jna:jna:4.5.1",
+    sha1 = "65bd0cacc9c79a21c6ed8e9f588577cd3c2f85b9",
 )
 
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")

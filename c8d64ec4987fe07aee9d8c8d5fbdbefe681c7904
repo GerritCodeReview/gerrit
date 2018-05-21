@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "761f1d26_be2fea15",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-21T08:14:20Z",
+      "side": 1,
+      "message": "Dave Borowitz has already commented and suggested to not pursuing that route. I agree with him. We need only check account ids and not the full equality of instances or state.",
+      "parentUuid": "0c13e6e9_b45bf00e",
+      "revId": "c8d64ec4987fe07aee9d8c8d5fbdbefe681c7904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef2a6615_6c215f83",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
         "patchSetId": 1
@@ -56,6 +74,30 @@
       "revId": "c8d64ec4987fe07aee9d8c8d5fbdbefe681c7904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "479e8d71_3f109d97",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-21T08:14:20Z",
+      "side": 1,
+      "message": "Fixed: moved to IdentifiedUser and its subclasses.",
+      "parentUuid": "ef2a6615_6c215f83",
+      "range": {
+        "startLine": 151,
+        "startChar": 11,
+        "endLine": 151,
+        "endChar": 23
+      },
+      "revId": "c8d64ec4987fe07aee9d8c8d5fbdbefe681c7904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

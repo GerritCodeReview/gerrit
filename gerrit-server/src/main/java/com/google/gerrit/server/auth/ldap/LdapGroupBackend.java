@@ -126,7 +126,7 @@ public class LdapGroupBackend implements GroupBackend {
           return null;
         }
       } catch (ExecutionException e) {
-        log.warn(String.format("Cannot lookup group %s in LDAP", groupDn), e);
+        log.warn("Cannot lookup group {} in LDAP", groupDn, e);
         return null;
       }
     }

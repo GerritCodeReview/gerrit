@@ -96,7 +96,7 @@ public class AbandonUtil {
           log.error(msg.toString(), e);
         }
       }
-      log.info(String.format("Auto-Abandoned %d of %d changes.", count, changesToAbandon.size()));
+      log.info("Auto-Abandoned {} of {} changes.", count, changesToAbandon.size());
     } catch (QueryParseException | OrmException e) {
       log.error("Failed to query inactive open changes for auto-abandoning.", e);
     }

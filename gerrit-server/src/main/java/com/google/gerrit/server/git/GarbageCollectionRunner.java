@@ -52,7 +52,7 @@ public class GarbageCollectionRunner implements Runnable {
       if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
         log.info("Ignoring missing gc schedule configuration");
       } else if (delay < 0 || interval <= 0) {
-        log.warn(String.format("Ignoring invalid gc schedule configuration: %s", scheduleConfig));
+        log.warn("Ignoring invalid gc schedule configuration: {}", scheduleConfig);
       } else {
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError =

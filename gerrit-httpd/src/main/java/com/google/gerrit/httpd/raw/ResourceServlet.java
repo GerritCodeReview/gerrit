@@ -161,7 +161,7 @@ public abstract class ResourceServlet extends HttpServlet {
         r = cache.get(p, newLoader(p));
       }
     } catch (ExecutionException e) {
-      log.warn("Cannot load static resource " + req.getPathInfo(), e);
+      log.warn("Cannot load static resource {}", req.getPathInfo(), e);
       CacheHeaders.setNotCacheable(rsp);
       rsp.setStatus(SC_INTERNAL_SERVER_ERROR);
       return;
@@ -214,12 +214,12 @@ public abstract class ResourceServlet extends HttpServlet {
     try {
       Path p = getResourcePath(name);
       if (p == null) {
-        log.warn(String.format("Path doesn't exist %s", name));
+        log.warn("Path doesn't exist {}", name);
         return null;
       }
       return cache.get(p, newLoader(p));
     } catch (ExecutionException | IOException e) {
-      log.warn(String.format("Cannot load static resource %s", name), e);
+      log.warn("Cannot load static resource {}", name, e);
       return null;
     }
   }

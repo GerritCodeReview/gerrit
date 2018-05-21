@@ -190,7 +190,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       try {
         filter = plugin.getHttpInjector().getInstance(GuiceFilter.class);
       } catch (RuntimeException e) {
-        log.warn(String.format("Plugin %s cannot load GuiceFilter", name), e);
+        log.warn("Plugin {} cannot load GuiceFilter", name, e);
         return null;
       }
 
@@ -198,7 +198,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         ServletContext ctx = PluginServletContext.create(plugin, wrapper.getFullPath(name));
         filter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
-        log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
+        log.warn("Plugin {} failed to initialize HTTP", name, e);
         return null;
       }
 
@@ -429,10 +429,11 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
               && size.isPresent()) {
             if (size.get() <= 0 || size.get() > SMALL_RESOURCE) {
               log.warn(
-                  String.format(
-                      "Plugin %s: %s omitted from document index. "
-                          + "Size %d out of range (0,%d).",
-                      pluginName, name.substring(prefix.length()), size.get(), SMALL_RESOURCE));
+                  "Plugin {}: {} omitted from document index. " + "Size {} out of range (0,{}).",
+                  pluginName,
+                  name.substring(prefix.length()),
+                  size.get(),
+                  SMALL_RESOURCE);
               return false;
             }
             return true;
@@ -455,9 +456,9 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
           about = entry;
         } else {
           log.warn(
-              String.format(
-                  "Plugin %s: Multiple 'about' documents found; using %s",
-                  pluginName, about.getName().substring(prefix.length())));
+              "Plugin {}: Multiple 'about' documents found; using {}",
+              pluginName,
+              about.getName().substring(prefix.length()));
         }
       } else {
         docs.add(entry);
@@ -731,9 +732,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         }
         return def;
       } catch (IOException e) {
-        log.warn(
-            String.format("Error getting %s for plugin %s, using default", attr, plugin.getName()),
-            e);
+        log.warn("Error getting {} for plugin {}, using default", attr, plugin.getName(), e);
         return null;
       }
     }

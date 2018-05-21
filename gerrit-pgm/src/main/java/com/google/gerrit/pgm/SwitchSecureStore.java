@@ -68,7 +68,7 @@ public class SwitchSecureStore extends SiteProgram {
     SitePaths sitePaths = new SitePaths(getSitePath());
     Path newSecureStorePath = Paths.get(newSecureStoreLib);
     if (!Files.exists(newSecureStorePath)) {
-      log.error(String.format("File %s doesn't exist", newSecureStorePath.toAbsolutePath()));
+      log.error("File {} doesn't exist", newSecureStorePath.toAbsolutePath());
       return -1;
     }
 
@@ -77,8 +77,7 @@ public class SwitchSecureStore extends SiteProgram {
 
     if (currentSecureStoreName.equals(newSecureStore)) {
       log.error(
-          "Old and new SecureStore implementation names "
-              + "are the same. Migration will not work");
+          "Old and new SecureStore implementation names are the same. Migration will not work");
       return -1;
     }
 

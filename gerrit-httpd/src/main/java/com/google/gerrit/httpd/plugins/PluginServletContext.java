@@ -155,7 +155,7 @@ class PluginServletContext {
 
     @Override
     public void log(String msg, Throwable reason) {
-      log.warn(String.format("[plugin %s] %s", plugin.getName(), msg), reason);
+      log.warn("[plugin {}] {}", plugin.getName(), msg, reason);
     }
 
     @Override

@@ -186,7 +186,7 @@ public class Schema<T> {
                 try {
                   v = f.get(obj, fillArgs);
                 } catch (OrmException e) {
-                  log.error(String.format("error getting field %s of %s", f.getName(), obj), e);
+                  log.error("error getting field {} of {}", f.getName(), obj, e);
                   return null;
                 }
                 if (v == null) {

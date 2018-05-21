@@ -139,7 +139,7 @@ public class LfsPluginServlet extends HttpServlet
       try {
         guiceFilter = plugin.getHttpInjector().getInstance(GuiceFilter.class);
       } catch (RuntimeException e) {
-        log.warn(String.format("Plugin %s cannot load GuiceFilter", name), e);
+        log.warn("Plugin {} cannot load GuiceFilter", name, e);
         return null;
       }
 
@@ -147,7 +147,7 @@ public class LfsPluginServlet extends HttpServlet
         ServletContext ctx = PluginServletContext.create(plugin, "/");
         guiceFilter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
-        log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
+        log.warn("Plugin {} failed to initialize HTTP", name, e);
         return null;
       }
 

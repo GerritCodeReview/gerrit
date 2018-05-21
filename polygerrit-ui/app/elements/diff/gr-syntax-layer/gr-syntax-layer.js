@@ -442,7 +442,7 @@
     },
 
     _loadHLJS() {
-      return this.$.libLoader.get().then(hljs => {
+      return this.$.libLoader.getHLJS().then(hljs => {
         this._hljs = hljs;
       });
     },

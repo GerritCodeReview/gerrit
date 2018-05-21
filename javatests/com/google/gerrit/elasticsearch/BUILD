@@ -3,7 +3,11 @@ load("//tools/bzl:junit.bzl", "junit_tests")
 java_library(
     name = "elasticsearch_test_utils",
     testonly = 1,
-    srcs = ["ElasticTestUtils.java"],
+    srcs = [
+        "ElasticContainer.java",
+        "ElasticTestUtils.java",
+    ],
+    visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/extensions:api",
@@ -14,10 +18,11 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:junit",
-        "//lib/elasticsearch",
         "//lib/guice",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/testcontainers",
         "//lib/truth",
     ],
 )
@@ -44,7 +49,9 @@ ELASTICSEARCH_TESTS = {i: "ElasticQuery" + i.capitalize() + "sTest.java" for i i
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//javatests/com/google/gerrit/server/query/%s:abstract_query_tests" % name,
         "//lib/guice",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/testcontainers",
     ],
 ) for name, src in ELASTICSEARCH_TESTS.items()]

@@ -16,7 +16,6 @@ java_library(
         "//lib:protobuf",
         "//lib/commons:codec",
         "//lib/commons:lang",
-        "//lib/elasticsearch:joda-time",
         "//lib/elasticsearch-rest-client",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

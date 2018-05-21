@@ -181,7 +181,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   private String systemTimeZone;
 
-  protected abstract Injector createInjector();
+  protected abstract Injector createInjector() throws Exception;
 
   @Before
   public void setUpInjector() throws Exception {
@@ -190,6 +190,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
+    initAfterLifecycleStart();
     setUpDatabase();
   }
 
@@ -198,6 +199,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     lifecycle.stop();
     db.close();
   }
+
+  protected void initAfterLifecycleStart() throws Exception {}
 
   protected void setUpDatabase() throws Exception {
     db = schemaFactory.open();

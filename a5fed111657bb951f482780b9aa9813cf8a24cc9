@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c8909f98_979b258a",
+        "filename": "java/com/google/gerrit/server/config/AdministrateServerGroupsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-21T18:31:57Z",
+      "side": 0,
+      "message": "Sorry, I should have been more specific. I was reacting to calling LoggerFactory.getLogger() inline here. What you have on the RHS is fine.",
+      "parentUuid": "0e5a0bea_c133861b",
+      "range": {
+        "startLine": 51,
+        "startChar": 59,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9df0884_fbdd3d14",
         "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
         "patchSetId": 8
@@ -78,6 +102,24 @@
       "side": 0,
       "message": "Ah, I still wanted to extract this into an own change.\n\nWith Flogger the logger name must match the class name. So we can\u0027t keep this logger here.\n\nThe intention with this logger is to have a separate log file for the gc. I\u0027m doing this now by adding the appenders for this log file directly to the loggers of the classes that should write to that file (see https://gerrit-review.googlesource.com/c/gerrit/+/176151/8/java/com/google/gerrit/server/git/GarbageCollectionLogFile.java). But I didn\u0027t test this yet.",
       "parentUuid": "c9df0884_fbdd3d14",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e65e7f_794f5a41",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-21T18:31:57Z",
+      "side": 0,
+      "message": "+1 to doing this in its own change, I vaguely remember seeing that, but it was practically lost among all the mechanical transformations.",
+      "parentUuid": "7c65b599_de7a234d",
       "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

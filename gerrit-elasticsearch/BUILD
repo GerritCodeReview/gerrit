@@ -41,9 +41,10 @@ java_library(
         "//gerrit-server:server",
         "//lib:gson",
         "//lib:truth",
-        "//lib/elasticsearch",
         "//lib/guice",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/testcontainers",
     ],
 )
 
@@ -61,7 +62,9 @@ junit_tests(
         "//gerrit-server:server",
         "//gerrit-server:testutil",
         "//lib/guice",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/testcontainers",
     ],
 )

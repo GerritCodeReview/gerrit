@@ -21,7 +21,7 @@
   const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({
-    is: 'gr-syntax-lib-loader',
+    is: 'gr-lib-loader',
 
     properties: {
       _state: {
@@ -36,7 +36,7 @@
       },
     },
 
-    get() {
+    getHLJS() {
       return new Promise((resolve, reject) => {
         // If the lib is totally loaded, resolve immediately.
         if (this._getHighlightLib()) {
@@ -47,7 +47,8 @@
         // If the library is not currently being loaded, then start loading it.
         if (!this._state.loading) {
           this._state.loading = true;
-          this._loadHLJS().then(this._onLibLoaded.bind(this)).catch(reject);
+          this._loadScript(this._getHLJSUrl())
+              .then(this._onLibLoaded.bind(this)).catch(reject);
         }
 
         this._state.callbacks.push(resolve);
@@ -87,13 +88,12 @@
     },
     _cachedLibRoot: null,
 
-    _loadHLJS() {
+    _loadScript(src) {
       return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        const src = this._getHLJSUrl();
 
         if (!src) {
-          reject(new Error('Unable to load blank HLJS url.'));
+          reject(new Error('Unable to load blank script url.'));
           return;
         }
 

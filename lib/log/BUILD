@@ -14,6 +14,13 @@ java_library(
 )
 
 java_library(
+    name = "ext",
+    data = ["//lib:LICENSE-slf4j"],
+    visibility = ["//visibility:public"],
+    exports = ["@log_ext//jar"],
+)
+
+java_library(
     name = "impl_log4j",
     data = ["//lib:LICENSE-slf4j"],
     visibility = ["//visibility:public"],

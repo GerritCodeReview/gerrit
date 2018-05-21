@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c063f58_6ad7b928",
+        "filename": "gerrit-gpg/src/main/java/com/google/gerrit/gpg/server/GpgKeys.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-21T08:21:07Z",
+      "side": 1,
+      "message": "hasSameAccountId",
+      "range": {
+        "startLine": 222,
+        "startChar": 20,
+        "endLine": 222,
+        "endChar": 35
+      },
+      "revId": "72f79d2792784bcff9c2e4298080e1012e12f39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b69d20ef_ad5e064b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GetOAuthToken.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-21T08:21:07Z",
+      "side": 1,
+      "message": "hasSameAccountId",
+      "range": {
+        "startLine": 53,
+        "startChar": 20,
+        "endLine": 53,
+        "endChar": 35
+      },
+      "revId": "72f79d2792784bcff9c2e4298080e1012e12f39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a87d4c6_233430a7",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/PutAgreement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-21T08:21:07Z",
+      "side": 1,
+      "message": "hasSameAccountId",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 35
+      },
+      "revId": "72f79d2792784bcff9c2e4298080e1012e12f39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

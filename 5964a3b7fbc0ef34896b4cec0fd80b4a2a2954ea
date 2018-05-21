@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1526454504 +0200\nnonce ACQuaLBfcvdnbS7mqaSUVsciMILd3Rk7nfM9rVIow27ZjMAeA+N/sxHrbOWyQhjslrF1N4qr/XDK\n\n0000000000000000000000000000000000000000 e8fde3f31592a214fb68dbc7a57a74aca3eb367a refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlr72OkACgkQUbX9l6DQ\n71GHAQf9Es0/HVovjYWDfJniaaz9i1lPYEnDITIy0h7j6cs5qb0e0zLl8shkAR9q\n+bUQqQZXcRAOsz5hLgWBhBz7z36TQKGf6AX1uCpv8xKUDZr7AkJv0qGkufhy9nqN\nzh4v/eW54OFSzBaC3Y1FMNW1rKWgGv/WTVWIlS2kgLbEbVjArH2dq8ApzVcQOZKe\nb5whrjC9cDbKzn8EK++FxkWqN/ruQAY3aX6zucI9IqvYshgWhfzxcpHHoDxDLVsL\nt2ZXc6aW2UQE8LX03K8ylxUxuqax6m8+Zmp4snvdie4UHGCa1ga/mQOXPZFrEckW\nJWcnxbBFKUB/9pEmZDQ3S9isxWbrZQ\u003d\u003d\n\u003dbwQ1\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5901deac_10b58ec7",
+        "filename": "java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-21T18:53:13Z",
+      "side": 1,
+      "message": "Mixed feelings on this. keyIdToString just does String.format(\"%08X\", (int) id), so maybe we could push that formatting into the log string. On the other hand, it would be nice to reuse the logic.\n\nI guess we could also continue using keyIdToString but make it lazy, but that seems unlikely to be a win in this particular case.\n\nOf the three options, I slightly prefer what you have here. Any thoughts?",
+      "range": {
+        "startLine": 139,
+        "startChar": 56,
+        "endLine": 139,
+        "endChar": 86
+      },
+      "revId": "5964a3b7fbc0ef34896b4cec0fd80b4a2a2954ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acdda970_83641908",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-21T18:53:13Z",
+      "side": 1,
+      "message": "Lazy?",
+      "revId": "5964a3b7fbc0ef34896b4cec0fd80b4a2a2954ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

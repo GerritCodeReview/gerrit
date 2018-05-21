@@ -194,8 +194,8 @@ maven_jar(
 
 maven_jar(
     name = "protobuf",
-    artifact = "com.google.protobuf:protobuf-java:3.4.0",
-    sha1 = "b32aba0cbe737a4ca953f71688725972e3ee927c",
+    artifact = "com.google.protobuf:protobuf-java:3.5.1",
+    sha1 = "8c3492f7662fa1cbf8ca76a0f5eb1146f7725acd",
 )
 
 load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1")

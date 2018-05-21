@@ -650,7 +650,7 @@ public class ReceiveCommits {
           try {
             repo.setGitwebDescription(ps.getProject().getDescription());
           } catch (IOException e) {
-            log.warn("cannot update description of " + project.getName(), e);
+            log.warn("cannot update description of {}", project.getName(), e);
           }
         }
 

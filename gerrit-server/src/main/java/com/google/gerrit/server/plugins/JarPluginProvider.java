@@ -131,7 +131,7 @@ public class JarPluginProvider implements ServerPluginProvider {
       if (overlay != null) {
         Path classes = Paths.get(overlay).resolve(name).resolve("main");
         if (Files.isDirectory(classes)) {
-          log.info(String.format("plugin %s: including %s", name, classes));
+          log.info("plugin {}: including {}", name, classes);
           urls.add(classes.toUri().toURL());
         }
       }

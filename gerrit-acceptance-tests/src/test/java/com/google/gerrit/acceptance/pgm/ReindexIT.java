@@ -20,6 +20,7 @@ import com.google.common.io.MoreFiles;
 import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
+import com.google.gerrit.elasticsearch.testing.ElasticContainer;
 import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
 import com.google.gerrit.elasticsearch.testing.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -28,18 +29,25 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testutil.ConfigSuite;
 import java.nio.file.Files;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.Test;
+import org.junit.internal.AssumptionViolatedException;
 
 @NoHttpd
 public class ReindexIT extends StandaloneSiteTest {
 
   @ConfigSuite.Config
-  public static Config elasticsearch() throws InterruptedException, ExecutionException {
+  public static Config elasticsearch() {
     if (elasticNodeInfo == null) {
-      elasticNodeInfo = ElasticTestUtils.startElasticsearchNode();
+      try {
+        container = new ElasticContainer<>();
+        container.start();
+      } catch (Throwable t) {
+        throw new AssumptionViolatedException("Unable to start container[might be docker related]");
+      }
+
+      elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     }
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
@@ -48,6 +56,7 @@ public class ReindexIT extends StandaloneSiteTest {
   }
 
   private static ElasticNodeInfo elasticNodeInfo;
+  private static ElasticContainer<?> container;
 
   @Test
   public void reindexFromScratch() throws Exception {
@@ -83,10 +92,8 @@ public class ReindexIT extends StandaloneSiteTest {
 
   @AfterClass
   public static void stopElasticServer() {
-    if (elasticNodeInfo != null) {
-      elasticNodeInfo.node.close();
-      elasticNodeInfo.elasticDir.delete();
-      elasticNodeInfo = null;
+    if (container != null) {
+      container.stop();
     }
   }
 }

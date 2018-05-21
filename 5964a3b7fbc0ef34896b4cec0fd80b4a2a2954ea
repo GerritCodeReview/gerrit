@@ -40,6 +40,24 @@
       "revId": "5964a3b7fbc0ef34896b4cec0fd80b4a2a2954ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65a01659_a6ce6e95",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-21T18:55:38Z",
+      "side": 1,
+      "message": "I see this one was done later in the series.",
+      "parentUuid": "acdda970_83641908",
+      "revId": "5964a3b7fbc0ef34896b4cec0fd80b4a2a2954ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

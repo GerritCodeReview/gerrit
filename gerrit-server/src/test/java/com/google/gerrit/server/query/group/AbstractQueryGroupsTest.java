@@ -97,6 +97,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
   @Inject protected GroupCache groupCache;
 
+  protected Injector injector;
   protected LifecycleManager lifecycle;
   protected ReviewDb db;
   protected AccountInfo currentUserInfo;
@@ -107,11 +108,11 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Before
   public void setUpInjector() throws Exception {
     lifecycle = new LifecycleManager();
-    Injector injector = createInjector();
+    injector = createInjector();
     lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
-
+    initAfterLifecycleStart();
     db = schemaFactory.open();
     schemaCreator.create(db);
 
@@ -126,6 +127,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     lifecycle.stop();
     db.close();
   }
+
+  protected void initAfterLifecycleStart() throws Exception {}
 
   protected RequestContext newRequestContext(Account.Id requestUserId) {
     final CurrentUser requestUser = userFactory.create(requestUserId);

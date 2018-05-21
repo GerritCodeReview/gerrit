@@ -51,7 +51,6 @@
 
     detached() {
       this._handleHideTooltip();
-      this.unlisten(window, 'scroll', '_handleWindowScroll');
     },
 
     _setupTooltipListeners() {
@@ -59,9 +58,6 @@
       this._hasSetupTooltipListeners = true;
 
       this.addEventListener('mouseenter', this._handleShowTooltip.bind(this));
-      this.addEventListener('mouseleave', this._handleHideTooltip.bind(this));
-      this.addEventListener('tap', this._handleHideTooltip.bind(this));
-      this.listen(window, 'scroll', '_handleWindowScroll');
     },
 
     _handleShowTooltip(e) {
@@ -91,6 +87,9 @@
       tooltip.style.visibility = null;
 
       this._tooltip = tooltip;
+      this.listen(window, 'scroll', '_handleWindowScroll');
+      this.listen(this, 'mouseleave', '_handleHideTooltip');
+      this.listen(this, 'tap', '_handleHideTooltip');
     },
 
     _handleHideTooltip(e) {
@@ -100,6 +99,9 @@
         return;
       }
 
+      this.unlisten(window, 'scroll', '_handleWindowScroll');
+      this.unlisten(this, 'mouseleave', '_handleHideTooltip');
+      this.unlisten(this, 'tap', '_handleHideTooltip');
       this.setAttribute('title', this._titleText);
       if (this._tooltip && this._tooltip.parentNode) {
         this._tooltip.parentNode.removeChild(this._tooltip);

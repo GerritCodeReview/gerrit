@@ -22,6 +22,30 @@
       "revId": "e60796ac6f53e9af4ed1d44c5614194c4e36c69f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf976062_2e832a6d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-22T16:58:38Z",
+      "side": 1,
+      "message": "When the other half of this change is deployed, since that\u0027s part of the server release cycle (i.e. a matter of a few days).\n\nI typically just keep track of these by checking in on the backend releases daily.",
+      "parentUuid": "029aa1c0_f8192742",
+      "range": {
+        "startLine": 105,
+        "startChar": 6,
+        "endLine": 106,
+        "endChar": 67
+      },
+      "revId": "e60796ac6f53e9af4ed1d44c5614194c4e36c69f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

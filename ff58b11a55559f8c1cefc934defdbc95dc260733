@@ -1,0 +1,308 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79475618_97eb2270",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "Here and below: we generally wrap lines for ease of reading in a text editor. One example of ease of reading: when you look at this change in Gerrit, for example at line 32 below, long lines may be wrapped in the middle of words.\n\nIn the docs I don\u0027t think we\u0027re super consistent on the number of columns in a line. Anything from 70-80 is probably fine. If you have no opinions, pick 80.",
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0866dd8_6f3d7c60",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "Not directly related to this change, but this whole section is kind of absurd. The supported way to switch between branches is `git checkout --recurse-submodules`, and this section could just be one sentence, saying exactly that. But instead, we have all this rigmarole about how to get yourself *out* of this situation if you did something other than the supported thing.\n\nMaybe there is a place for that kind of troubleshooting documentation, but maybe not in one of the top 3 sections of the introductory developer documentation.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 83
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6889f293_a49565a1",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "I suppose this got moved up so the warning comes before the potentially-destructive command, but now it reads a bit oddly that the thing immediately after \"Run the following:\" is not the command. Would it be reasonable to move \"Run the following\" after the warning? Or to reword it in some other way that doesn\u0027t make me expect the next thing to be a command?",
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "736a2014_2422c5ea",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "Stray space.",
+      "range": {
+        "startLine": 52,
+        "startChar": 66,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49432549_0be16027",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "Our header capitalization is...inconsistent. Lines 1 and 5 are definitely Title Case. You have changed this to Sentence case. Line 96 is back to Title Case.\n\nI don\u0027t mind coming up with one standard for all our docs, but we should be explicit about the decision.",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 22
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6c2889_875cf6a1",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "Should we replace \"integration\" with \"acceptance\" here and below? We more or less use the terms interchangeably in the project, but looking just at this section of the docs, it\u0027s a little weird that \"acceptance\" is used in the section header and then not defined or mentioned at all in the section text.",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb4c85a8_12b24919",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "Why this change? Is this to say that when you see the term \"Inspector\" later in the section, it refers to the \"Gerrit Inspector\"? Is it really the case that someone reading line 162 might not understand what \"the Inspector\" is referring to?",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 28
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2efc53ec_b89496f7",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "These sections are extremely out of date. The majority of current Gerrit maintainers do not like GWT at all :)",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 109
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68c22bec_d9c5ee36",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "The other item in this section (the JRE) is a prerequisite: something you need to install outside of Gerrit before you can use Gerrit at all. The database does not fall into this category, because if you do nothing, it will still work (using NoteDb).\n\nI think it is probably fine to mention the possibility of using an external database pretty early on in this document, but I think it could be clearer that this is not strictly speaking a prerequisite.\n\n(BTW: would it be worth renaming this section from \"Requirements\" to \"Prerequisites\"? :)",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70b5b12b_c2d16503",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "Software",
+      "range": {
+        "startLine": 17,
+        "startChar": 62,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f1bbadb_575df362",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "I wonder if we should also explicitly list macOS here? Technically it\u0027s a BSD derivative but not everybody knows that.",
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5d14a96_b8c6461f",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "switch",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ed976c6_0492338d",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "I\u0027m not sure \"implement\" is the best word choice here. As a developer, \"implement\" has a specific meaning about writing code that conforms to some interface.",
+      "range": {
+        "startLine": 78,
+        "startChar": 3,
+        "endLine": 78,
+        "endChar": 12
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5df99f23_daa8dd76",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T19:42:13Z",
+      "side": 1,
+      "message": "Above, we listed some OSes besides Linux that are supported, so maybe remove \"Linux\"?",
+      "range": {
+        "startLine": 94,
+        "startChar": 61,
+        "endLine": 94,
+        "endChar": 66
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

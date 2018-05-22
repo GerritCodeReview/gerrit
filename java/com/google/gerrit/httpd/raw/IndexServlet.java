@@ -37,7 +37,11 @@ public class IndexServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
   protected final byte[] indexSource;
 
-  IndexServlet(String canonicalURL, @Nullable String cdnPath, @Nullable String faviconPath)
+  IndexServlet(
+      String canonicalURL,
+      @Nullable String cdnPath,
+      @Nullable String faviconPath,
+      @Nullable Boolean deprecateGwtUi)
       throws URISyntaxException {
     String resourcePath = "com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy";
     SoyFileSet.Builder builder = SoyFileSet.builder();
@@ -48,7 +52,7 @@ public class IndexServlet extends HttpServlet {
             .compileToTofu()
             .newRenderer("com.google.gerrit.httpd.raw.Index")
             .setContentKind(SanitizedContent.ContentKind.HTML)
-            .setData(getTemplateData(canonicalURL, cdnPath, faviconPath));
+            .setData(getTemplateData(canonicalURL, cdnPath, faviconPath, deprecateGwtUi));
     indexSource = renderer.render().getBytes(UTF_8);
   }
 
@@ -73,7 +77,8 @@ public class IndexServlet extends HttpServlet {
     return uri.getPath().replaceAll("/$", "");
   }
 
-  static SoyMapData getTemplateData(String canonicalURL, String cdnPath, String faviconPath)
+  static SoyMapData getTemplateData(
+      String canonicalURL, String cdnPath, String faviconPath, Boolean deprecateGwtUi)
       throws URISyntaxException {
     String canonicalPath = computeCanonicalPath(canonicalURL);
 
@@ -93,6 +98,7 @@ public class IndexServlet extends HttpServlet {
     return new SoyMapData(
         "canonicalPath", canonicalPath,
         "staticResourcePath", sanitizedStaticPath,
-        "faviconPath", faviconPath);
+        "faviconPath", faviconPath,
+        "deprecateGwtUi", deprecateGwtUi);
   }
 }

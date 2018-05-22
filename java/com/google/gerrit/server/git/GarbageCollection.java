@@ -41,9 +41,6 @@ import org.slf4j.LoggerFactory;
 public class GarbageCollection {
   private static final Logger log = LoggerFactory.getLogger(GarbageCollection.class);
 
-  public static final String LOG_NAME = "gc_log";
-  private static final Logger gcLog = LoggerFactory.getLogger(LOG_NAME);
-
   private final GitRepositoryManager repoManager;
   private final GarbageCollectionQueue gcQueue;
   private final GcConfig gcConfig;
@@ -142,7 +139,7 @@ public class GarbageCollection {
       }
       b.append(s);
     }
-    gcLog.info(b.toString());
+    log.info(b.toString());
   }
 
   private static void logGcConfiguration(
@@ -182,7 +179,6 @@ public class GarbageCollection {
     print(writer, "failed.\n\n");
     StringBuilder b = new StringBuilder();
     b.append("[").append(projectName.get()).append("]");
-    gcLog.error(b.toString(), e);
     log.error(b.toString(), e);
   }
 

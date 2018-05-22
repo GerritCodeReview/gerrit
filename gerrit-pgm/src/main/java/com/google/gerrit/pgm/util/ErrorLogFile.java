@@ -72,18 +72,19 @@ public class ErrorLogFile {
     final Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();
 
+    String logDir = config.getString("log", logdir.toString(), "logDir");
     boolean json = config.getBoolean("log", "jsonLogging", false);
     boolean text = config.getBoolean("log", "textLogging", true) || !json;
 
     if (text) {
       root.addAppender(
           SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n")));
+              logDir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n")));
     }
 
     if (json) {
       root.addAppender(
-          SystemLog.createAppender(logdir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1()));
+          SystemLog.createAppender(logDir, LOG_NAME + JSON_SUFFIX, new JSONEventLayoutV1()));
     }
   }
 }

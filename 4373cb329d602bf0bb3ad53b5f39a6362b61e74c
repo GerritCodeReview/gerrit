@@ -16,6 +16,46 @@
       "revId": "4373cb329d602bf0bb3ad53b5f39a6362b61e74c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d32bf4c_31ec0812",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T10:59:11Z",
+      "side": 1,
+      "message": "I would prefer if this could be in the existing \u0027site\u0027 section (instead of introducing yet another section), but then of course you can\u0027t make use of subsections.\n\nMaybe at least call it \u0027siteFooters\u0027 or similar to make more clear which footers are meant here.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 28
+      },
+      "revId": "4373cb329d602bf0bb3ad53b5f39a6362b61e74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96bc03ce_369aeac7",
+        "filename": "java/com/google/gerrit/extensions/common/ServerInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T10:59:11Z",
+      "side": 1,
+      "message": "Move this up to keep fields sorted alphabetically.",
+      "revId": "4373cb329d602bf0bb3ad53b5f39a6362b61e74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

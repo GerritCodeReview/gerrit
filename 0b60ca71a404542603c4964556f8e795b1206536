@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1526995391 +0200\nnonce ACQuaLDTeojBT48BESHnEYs5q0zu1vhYMEGW6G6ttVuJt2WEX6v84xmwDEdyPP/JvU89b8eeXoXr\n\n0000000000000000000000000000000000000000 0b60ca71a404542603c4964556f8e795b1206536 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlsEGb8ACgkQUbX9l6DQ\n71EK8wf+KCXnTqJ0rrXwrJjLnEoOcdoK0hhnUSRWTftKun2z4goSxrVgacigxMXh\nulpMTjDqJHnQdXGjXfqs4YlJ0jvErZy3k2tbm1VZTYlz+q87dIPVJGu2FaFrdz/r\nJLttP+rd934Sb2Py3YH0orm0DmN4ojeIo3+Wfl145PIOAv7EtsYrfFtLrLgSS3iV\nwELc6mCjJ1xgGRzFuMYo+YcUJqiin10JySzhn2q76Mes/MbwJtx5LOCP9ddyCf1C\nsEzZ/0TST8cMEjO6oRdKsk+KDb0FV27hklo3/KIc2pPBpFCSOcjKKANwe/xmGCfO\nJmMfnzFoCWEl2n5va3BDIAdCC1UJoQ\u003d\u003d\n\u003dF4zb\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "8343b33a_91218185",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T14:40:56Z",
+      "side": 1,
+      "message": "I see you did this so that the local var used by the lambda is effectively final. But if you\u0027re going to have two locals with different names, the names have to be more distinctive. To me, \"reviewer suggestions\" and \"suggested reviewers\" sound 100% synonymous.\n\nI would suggest factoring out lines 221-239 into a method that returns a List\u003cSuggestedReviewerInfo\u003e.",
+      "revId": "0b60ca71a404542603c4964556f8e795b1206536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "542c3deb_6e79e4c2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T14:40:56Z",
+      "side": 1,
+      "message": "While we\u0027re factoring things out to improve the clarity of this method, this would make a good static method.",
+      "range": {
+        "startLine": 250,
+        "startChar": 30,
+        "endLine": 256,
+        "endChar": 31
+      },
+      "revId": "0b60ca71a404542603c4964556f8e795b1206536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

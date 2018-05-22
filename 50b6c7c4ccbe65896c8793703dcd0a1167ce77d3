@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa73bbfe_a2936418",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "Use a StringBuilder?",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 22
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "224e0d43_f9f35f1a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "inline this on the next line?",
+      "range": {
+        "startLine": 160,
+        "startChar": 30,
+        "endLine": 160,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb09805_5b88b8da",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "StringBuilder",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 65
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6809d4a_ae5eaddf",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "Inline below",
+      "range": {
+        "startLine": 213,
+        "startChar": 30,
+        "endLine": 213,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b51baa14_e246176e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "StringBuilder",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93e7e309_ff1b1903",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "Inline below",
+      "range": {
+        "startLine": 157,
+        "startChar": 30,
+        "endLine": 157,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be02eb9_cfbad86f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/RestClientBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "This initialization could be moved into the constructor, and then it\u0027s not necessary to maintain a reference to the config.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 71
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb1d6ca5_e677fca7",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/ExistsQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46dd016f_dc27904c",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/XContentBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T06:39:31Z",
+      "side": 1,
+      "message": "Can this be modified to use the Java 8 date/time API?\n\nUsage of joda was previously removed in the rest of the code base.  The only reason the dependency still exists is because ES depends on it.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0ca533a_163357e1",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-22T14:29:07Z",
+      "side": 0,
+      "message": "Is this used anymore?",
+      "revId": "dc2c7991a2f565c6c1616b5ae45e14adad3eea70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8dd2bb1_2595a8b5",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-22T12:58:28Z",
+      "side": 1,
+      "message": "Should be !config \u0026\u0026 !config.additional_footers\n\nunless this returns a undefined value?",
+      "range": {
+        "startLine": 202,
+        "startChar": 5,
+        "endLine": 202,
+        "endChar": 54
+      },
+      "revId": "1b406ef98c7ad062f89e6da16aad5a82d1e92f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02b8bc4_9f318bbe",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-22T12:58:28Z",
+      "side": 1,
+      "message": "Could be return; or return \u0027\u0027;",
+      "range": {
+        "startLine": 203,
+        "startChar": 15,
+        "endLine": 203,
+        "endChar": 18
+      },
+      "revId": "1b406ef98c7ad062f89e6da16aad5a82d1e92f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

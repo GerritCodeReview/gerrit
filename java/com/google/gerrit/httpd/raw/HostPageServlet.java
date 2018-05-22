@@ -32,12 +32,14 @@ import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.GetDiffPreferences;
+import com.google.gerrit.server.restapi.config.GetServerInfo;
 import com.google.gwtexpui.server.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
@@ -52,6 +54,7 @@ import java.io.StringWriter;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -89,6 +92,7 @@ public class HostPageServlet extends HttpServlet {
   private final Integer pluginsLoadTimeout;
   private final boolean canLoadInIFrame;
   private final GetDiffPreferences getDiff;
+  private final Map<String, String> additionalFooters;
   private volatile Page page;
 
   @Inject
@@ -102,7 +106,8 @@ public class HostPageServlet extends HttpServlet {
       @GerritServerConfig Config cfg,
       SiteStaticDirectoryServlet ss,
       NotesMigration migration,
-      GetDiffPreferences diffPref)
+      GetDiffPreferences diffPref,
+      GetServerInfo getServerInfo)
       throws IOException, ServletException {
     currentUser = cu;
     plugins = webUiPlugins;
@@ -116,6 +121,7 @@ public class HostPageServlet extends HttpServlet {
     pluginsLoadTimeout = getPluginsLoadTimeout(cfg);
     canLoadInIFrame = cfg.getBoolean("gerrit", "canLoadInIFrame", false);
     getDiff = diffPref;
+    additionalFooters = getServerInfo.apply(new ConfigResource()).additionalFooters;
 
     String pageName = "HostPage.html";
     template = HtmlDomUtil.parseFile(getClass(), pageName);
@@ -321,6 +327,7 @@ public class HostPageServlet extends HttpServlet {
       pageData.isNoteDbEnabled = isNoteDbEnabled;
       pageData.pluginsLoadTimeout = pluginsLoadTimeout;
       pageData.canLoadInIFrame = canLoadInIFrame;
+      pageData.additionalFooters = additionalFooters;
 
       StringWriter w = new StringWriter();
       w.write("var " + HPD_ID + "=");

@@ -583,6 +583,15 @@ public class Gerrit implements EntryPoint {
 
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
 
+    if (hpd.additionalFooters != null) {
+      for (Map.Entry<String, String> additionalFooter : hpd.additionalFooters.entrySet()) {
+        btmmenu.add(new InlineLabel(" | "));
+        Anchor anchor = new Anchor(additionalFooter.getKey(), additionalFooter.getValue());
+        anchor.setTarget("_blank");
+        btmmenu.add(anchor);
+      }
+    }
+
     if (info().gerrit().webUis().contains(UiType.POLYGERRIT)) {
       btmmenu.add(new InlineLabel(" | "));
       uiSwitcherLink = new Anchor(C.newUi(), getUiSwitcherUrl(History.getToken()));

@@ -22,6 +22,30 @@
       "revId": "c3c21f39f1c028922cf2689d0f08b3ccd06d1458",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec559925_65e281a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T08:43:22Z",
+      "side": 1,
+      "message": "Sorry, this is my mistake.  There was a conflict because of the changed message, but it\u0027s not related to the change to use logger\u0027s formatting.  I\u0027ll fix this in the next PS.",
+      "parentUuid": "0cdb4abf_60bebcca",
+      "range": {
+        "startLine": 141,
+        "startChar": 37,
+        "endLine": 141,
+        "endChar": 39
+      },
+      "revId": "c3c21f39f1c028922cf2689d0f08b3ccd06d1458",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

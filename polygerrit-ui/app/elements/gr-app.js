@@ -197,7 +197,8 @@
     },
 
     _computeShowGwtUiLink(config) {
-      return config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
+      return window.DEPRECATE_GWT_UI === undefined &&
+        config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },
 
     _handlePageError(e) {

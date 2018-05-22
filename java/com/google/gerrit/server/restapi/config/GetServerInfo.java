@@ -78,6 +78,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private static final String URL_ALIAS = "urlAlias";
   private static final String KEY_MATCH = "match";
   private static final String KEY_TOKEN = "token";
+  private static final String ADDITIONAL_FOOTER = "additionalFooter";
+  private static final String KEY_URL = "url";
 
   private final Config config;
   private final AccountVisibilityProvider accountVisibilityProvider;
@@ -166,6 +168,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
     Map<String, String> urlAliases = getUrlAliasesInfo(config);
     info.urlAliases = !urlAliases.isEmpty() ? urlAliases : null;
+
+    Map<String, String> additionalFooters = getAdditionalFooters(config);
+    info.additionalFooters = !additionalFooters.isEmpty() ? additionalFooters : null;
 
     info.user = getUserInfo(anonymousCowardName);
     info.receive = getReceiveInfo();
@@ -360,6 +365,14 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
           cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
     }
     return urlAliases;
+  }
+
+  private Map<String, String> getAdditionalFooters(Config cfg) {
+    Map<String, String> additionalFooters = new HashMap<>();
+    for (String subsection : cfg.getSubsections(ADDITIONAL_FOOTER)) {
+      additionalFooters.put(subsection, cfg.getString(ADDITIONAL_FOOTER, subsection, KEY_URL));
+    }
+    return additionalFooters;
   }
 
   private SshdInfo getSshdInfo(Config cfg) {

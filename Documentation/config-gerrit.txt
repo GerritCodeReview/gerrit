@@ -120,6 +120,31 @@ If `NONE`, no users other than the current user are visible.
 +
 Default is `ALL`.
 
+[[additionalFooter]]
+=== Section additionalFooter
+
+Additional footers define a list of captions and URLs that are displayed
+in Gerrit's footer in addition to Gerrit's default ones.
+
+Each additional footer must be specified in its own subsection. The subsection
+name must be unique and will be used as the link caption.
+
+The additional footers are displayed in the order in which they appear in the
+config.
+
+Example:
+
+----
+[additionalFooter "Privacy"]
+  url = "https://company.com/privacy"
+[additionalFooter "Imprint"]
+  url = "https://company.com/imprint"
+----
+
+[[additionalFooter.caption]]additionalFooter.caption::
++
+The target URL to link to. All links are rendered using `target='_blank'`.
+
 [[addreviewer]]
 === Section addreviewer
 

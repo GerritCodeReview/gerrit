@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.config;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.Version;
 import org.junit.Test;
@@ -26,5 +27,27 @@ public class ServerIT extends AbstractDaemonTest {
   @Test
   public void getVersion() throws Exception {
     assertThat(gApi.config().server().getVersion()).isEqualTo(Version.getVersion());
+  }
+
+  @Test
+  public void noAdditionalFooter() throws Exception {
+    assertThat(gApi.config().server().getInfo().additionalFooters).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "additionalFooter.Privacy.url", value = "https://company.com/privacy")
+  public void singleAdditionalFooter() throws Exception {
+    assertThat(gApi.config().server().getInfo().additionalFooters)
+        .containsExactly("Privacy", "https://company.com/privacy");
+  }
+
+  @Test
+  @GerritConfig(name = "additionalFooter.Privacy.url", value = "https://company.com/privacy")
+  @GerritConfig(name = "additionalFooter.Imprint.url", value = "https://company.com/imprint")
+  public void multipleAdditionalFooters() throws Exception {
+    assertThat(gApi.config().server().getInfo().additionalFooters)
+        .containsExactly(
+            "Privacy", "https://company.com/privacy", "Imprint", "https://company.com/imprint")
+        .inOrder();
   }
 }

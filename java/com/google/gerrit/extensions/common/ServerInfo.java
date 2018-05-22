@@ -30,4 +30,5 @@ public class ServerInfo {
   public UserConfigInfo user;
   public ReceiveInfo receive;
   public String defaultTheme;
+  public Map<String, String> additionalFooters;
 }

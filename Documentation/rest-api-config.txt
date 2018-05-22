@@ -1910,6 +1910,9 @@ the Gerrit server.
 Information about the configuration from the
 link:config-gerrit.html#accounts[accounts] section as
 link:#accounts-config-info[AccountsConfigInfo] entity.
+|`additional_footers`      |optional|
+A map of additional footers to be displayed in Gerrit's footer.
+The map contains entries in the format of 'caption' => 'url'.
 |`auth`                    ||
 Information about the authentication configuration as
 link:#auth-info[AuthInfo] entity.

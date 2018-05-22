@@ -17,64 +17,67 @@ limitations under the License.
 -->
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-syntax-lib-loader</title>
+<title>gr-lib-loader</title>
 
 <script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 <script src="../../../bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
-<link rel="import" href="gr-syntax-lib-loader.html">
+<link rel="import" href="gr-lib-loader.html">
 
 <script>void(0);</script>
 
 <test-fixture id="basic">
   <template>
-    <gr-syntax-lib-loader></gr-syntax-lib-loader>
+    <gr-lib-loader></gr-lib-loader>
   </template>
 </test-fixture>
 
 <script>
-  suite('gr-syntax-lib-loader tests', () => {
+  suite('gr-lib-loader tests', () => {
+    let sandbox;
     let element;
     let resolveLoad;
     let loadStub;
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
 
-      loadStub = sinon.stub(element, '_loadHLJS', () =>
+      loadStub = sandbox.stub(element, '_loadScript', () =>
         new Promise(resolve => resolveLoad = resolve)
       );
 
       // Assert preconditions:
-      assert.isFalse(element._state.loading);
+      assert.isFalse(element._hljsState.loading);
     });
 
     teardown(() => {
       if (window.hljs) {
         delete window.hljs;
       }
-      loadStub.restore();
+      sandbox.restore();
 
       // Because the element state is a singleton, clean it up.
-      element._state.configured = false;
-      element._state.loading = false;
-      element._state.callbacks = [];
+      element._hljsState.configured = false;
+      element._hljsState.loading = false;
+      element._hljsState.callbacks = [];
     });
 
     test('only load once', done => {
+      sandbox.stub(element, '_getHLJSUrl').returns('');
       const firstCallHandler = sinon.stub();
-      element.get().then(firstCallHandler);
+      element.getHLJS().then(firstCallHandler);
 
       // It should now be in the loading state.
       assert.isTrue(loadStub.called);
-      assert.isTrue(element._state.loading);
+      assert.isTrue(element._hljsState.loading);
       assert.isFalse(firstCallHandler.called);
 
       const secondCallHandler = sinon.stub();
-      element.get().then(secondCallHandler);
+      element.getHLJS().then(secondCallHandler);
 
       // No change in state.
-      assert.isTrue(element._state.loading);
+      assert.isTrue(element._hljsState.loading);
       assert.isFalse(firstCallHandler.called);
       assert.isFalse(secondCallHandler.called);
 
@@ -82,7 +85,7 @@ limitations under the License.
       resolveLoad();
       flush(() => {
         // The state should be loaded and both handlers called.
-        assert.isFalse(element._state.loading);
+        assert.isFalse(element._hljsState.loading);
         assert.isTrue(firstCallHandler.called);
         assert.isTrue(secondCallHandler.called);
         done();
@@ -105,7 +108,7 @@ limitations under the License.
 
       test('returns hljs', done => {
         const firstCallHandler = sinon.stub();
-        element.get().then(firstCallHandler);
+        element.getHLJS().then(firstCallHandler);
         flush(() => {
           assert.isTrue(firstCallHandler.called);
           assert.isTrue(firstCallHandler.calledWith(hljsStub));
@@ -114,7 +117,7 @@ limitations under the License.
       });
 
       test('configures hljs', done => {
-        element.get().then(() => {
+        element.getHLJS().then(() => {
           assert.isTrue(window.hljs.configure.calledOnce);
           done();
         });
@@ -123,15 +126,10 @@ limitations under the License.
 
     suite('_getHLJSUrl', () => {
       suite('checking _getLibRoot', () => {
-        let libRootStub;
         let root;
 
         setup(() => {
-          libRootStub = sinon.stub(element, '_getLibRoot', () => root);
-        });
-
-        teardown(() => {
-          libRootStub.restore();
+          sandbox.stub(element, '_getLibRoot', () => root);
         });
 
         test('with no root', () => {

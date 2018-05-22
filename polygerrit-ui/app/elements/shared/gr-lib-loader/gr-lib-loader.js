@@ -18,13 +18,14 @@
   'use strict';
 
   const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
+  const DARK_THEME_PATH = 'styles/themes/dark-theme.html';
   const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({
-    is: 'gr-syntax-lib-loader',
+    is: 'gr-lib-loader',
 
     properties: {
-      _state: {
+      _hljsState: {
         type: Object,
 
         // NOTE: intended singleton.
@@ -36,7 +37,13 @@
       },
     },
 
-    get() {
+    /**
+     * Get the HLJS library. Returns a promise that resolves with a reference to
+     * the library after it's been loaded. The promise resolves immediately if
+     * it's already been loaded.
+     * @return {!Promise<Object>}
+     */
+    getHLJS() {
       return new Promise((resolve, reject) => {
         // If the lib is totally loaded, resolve immediately.
         if (this._getHighlightLib()) {
@@ -45,55 +52,91 @@
         }
 
         // If the library is not currently being loaded, then start loading it.
-        if (!this._state.loading) {
-          this._state.loading = true;
-          this._loadHLJS().then(this._onLibLoaded.bind(this)).catch(reject);
+        if (!this._hljsState.loading) {
+          this._hljsState.loading = true;
+          this._loadScript(this._getHLJSUrl())
+              .then(this._onHLJSLibLoaded.bind(this)).catch(reject);
         }
 
-        this._state.callbacks.push(resolve);
+        this._hljsState.callbacks.push(resolve);
       });
     },
 
-    _onLibLoaded() {
-      const lib = this._getHighlightLib();
-      this._state.loading = false;
-      for (const cb of this._state.callbacks) {
-        cb(lib);
-      }
-      this._state.callbacks = [];
+    /**
+     * Load and apply the dark theme document.
+     */
+    loadDarkTheme() {
+      this.importHref(this._getLibRoot() + DARK_THEME_PATH);
     },
 
+    /**
+     * Execute callbacks awaiting the HLJS lib load.
+     */
+    _onHLJSLibLoaded() {
+      const lib = this._getHighlightLib();
+      this._hljsState.loading = false;
+      for (const cb of this._hljsState.callbacks) {
+        cb(lib);
+      }
+      this._hljsState.callbacks = [];
+    },
+
+    /**
+     * Get the HLJS library, assuming it has been loaded. Configure the library
+     * if it hasn't already been configured.
+     * @return {!Object}
+     */
     _getHighlightLib() {
       const lib = window.hljs;
-      if (lib && !this._state.configured) {
-        this._state.configured = true;
+      if (lib && !this._hljsState.configured) {
+        this._hljsState.configured = true;
 
         lib.configure({classPrefix: 'gr-diff gr-syntax gr-syntax-'});
       }
       return lib;
     },
 
+    /**
+     * Get the resource path used to load the application. If the application
+     * was loaded through a CDN, then this will be the path to CDN resources.
+     * @return {string}
+     */
     _getLibRoot() {
+      // TODO(wyatta): Remove the remainder of this method logic once the
+      // STATIC_RESOURCE_PATH variable is being provided generally.
+      if (window.STATIC_RESOURCE_PATH) { return window.STATIC_RESOURCE_PATH; }
+
       if (this._cachedLibRoot) { return this._cachedLibRoot; }
 
       const appLink = document.head
         .querySelector('link[rel=import][href$="gr-app.html"]');
 
-      if (!appLink) { return null; }
+      if (!appLink) { throw new Error('Could not find application link'); }
 
-      return this._cachedLibRoot = appLink
+      this._cachedLibRoot = appLink
           .href
           .match(LIB_ROOT_PATTERN)[1];
+
+      if (!this._cachedLibRoot) {
+        throw new Error('Could not extract lib root');
+      }
+
+      return this._cachedLibRoot;
     },
     _cachedLibRoot: null,
 
-    _loadHLJS() {
+    /**
+     * Load and execute a JS file from the lib root.
+     * @param {string} src The path to the JS file without the lib root.
+     * @return {Promise} a promise that resolves when the script's onload
+     *     executes.
+     */
+    _loadScript(src) {
       return new Promise((resolve, reject) => {
         const script = document.createElement('script');
-        const src = this._getHLJSUrl();
 
         if (!src) {
-          reject(new Error('Unable to load blank HLJS url.'));
+          reject(new Error('Unable to load blank script url.'));
           return;
         }
 

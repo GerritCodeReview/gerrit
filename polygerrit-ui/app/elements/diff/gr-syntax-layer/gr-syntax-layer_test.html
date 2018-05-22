@@ -185,7 +185,7 @@ limitations under the License.
 
       const mockHLJS = getMockHLJS();
       const highlightSpy = sinon.spy(mockHLJS, 'highlight');
-      sandbox.stub(element.$.libLoader, 'get',
+      sandbox.stub(element.$.libLoader, 'getHLJS',
           () => { return Promise.resolve(mockHLJS); });
       const processNextSpy = sandbox.spy(element, '_processNextLine');
       const processPromise = element.process();

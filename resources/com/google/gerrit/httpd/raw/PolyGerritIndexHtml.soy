@@ -33,6 +33,7 @@
     window.CLOSURE_NO_DEPS = true;
     {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
+    {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
   </script>{\n}
 
   {if $faviconPath}

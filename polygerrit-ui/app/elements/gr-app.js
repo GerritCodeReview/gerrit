@@ -128,7 +128,7 @@
       });
 
       if (window.localStorage.getItem('dark-theme')) {
-        this.importHref('../styles/themes/dark-theme.html');
+        this.$.libLoader.loadDarkTheme();
       }
 
       // Note: this is evaluated here to ensure that it only happens after the

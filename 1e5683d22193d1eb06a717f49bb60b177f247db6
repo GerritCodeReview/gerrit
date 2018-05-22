@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be5828a6_7b04adb7",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-22T23:31:43Z",
+      "side": 1,
+      "message": "Why not just !window.DEPRECATE_GWT_UI?",
+      "range": {
+        "startLine": 198,
+        "startChar": 6,
+        "endLine": 198,
+        "endChar": 50
+      },
+      "revId": "1e5683d22193d1eb06a717f49bb60b177f247db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

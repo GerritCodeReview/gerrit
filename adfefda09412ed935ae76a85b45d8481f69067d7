@@ -34,6 +34,24 @@
       "revId": "adfefda09412ed935ae76a85b45d8481f69067d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44567442_e58424cb",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteActive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-22T07:27:23Z",
+      "side": 1,
+      "message": "That\u0027s the all problem of how our tests are currently organized: they are more \"super-mocked-white-box\" tests, which depend on the implementation details rather than the API specs.\n\nPossibly a longer discussion we need to have as a Team at the next Gerrit User Summit?",
+      "parentUuid": "e18119e5_fad382e6",
+      "revId": "adfefda09412ed935ae76a85b45d8481f69067d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

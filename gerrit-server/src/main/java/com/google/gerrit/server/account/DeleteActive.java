@@ -53,7 +53,7 @@ public class DeleteActive implements RestModifyView<AccountResource, Input> {
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
       throws RestApiException, OrmException, IOException {
-    if (self.get() == rsrc.getUser()) {
+    if (self.get().hasSameAccountId(rsrc.getUser())) {
       throw new ResourceConflictException("cannot deactivate own account");
     }
 

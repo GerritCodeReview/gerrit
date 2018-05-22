@@ -16,6 +16,24 @@
       "revId": "adfefda09412ed935ae76a85b45d8481f69067d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e18119e5_fad382e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteActive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-22T07:25:14Z",
+      "side": 1,
+      "message": "Hmm.  Maybe we need to think about how we test the classes.  There is coverage for deactivating self in the AccountIT, but it uses the internal API rather than REST.",
+      "parentUuid": "faf061b3_6d0c5a58",
+      "revId": "adfefda09412ed935ae76a85b45d8481f69067d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

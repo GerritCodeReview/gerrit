@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0991dbcc_2772c1a9",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-22T08:23:47Z",
+      "side": 0,
+      "message": "Another approach is to borrow the nice Bulk.Builder approach from Jest or BulkRequest from High Level Rest API and create something similar in Gerrit core: [1] or: [2]. See also this answer: [3], how other solved this with low level client (basically implemented/forked Bulk Request layer): [4].\n\n* [1] https://github.com/searchbox-io/Jest/blob/master/jest-common/src/main/java/io/searchbox/core/Bulk.java\n* [2] https://www.elastic.co/guide/en/elasticsearch/client/java-rest/current/java-rest-high-document-bulk.html#java-rest-high-document-bulk-request\n* [3] https://discuss.elastic.co/t/lucene-dependencies-in-elasticsearch-high-level-client/107606\n* [4] https://github.com/dadoonet/fscrawler/tree/3b8f4d79c804dcceda8c36b1d7cce41b676474ed/src/main/java/fr/pilato/elasticsearch/crawler/fs/client",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 26
+      },
+      "revId": "8f708b8cc06fac3607ac13d522ac8e957a165735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

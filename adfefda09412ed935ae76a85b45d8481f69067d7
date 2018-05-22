@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faf061b3_6d0c5a58",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/DeleteActive.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-22T07:22:27Z",
+      "side": 1,
+      "message": "Yeah, thanks for catching this one as well.\n\nBecause of this bug, we had the strange behaviour that a user could deactivate himself through an SSH command but not via REST-API :-O\n\nWith this fix, it should now be consistent.",
+      "revId": "adfefda09412ed935ae76a85b45d8481f69067d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

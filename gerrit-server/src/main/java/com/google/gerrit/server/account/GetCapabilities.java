@@ -73,11 +73,11 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Object apply(AccountResource rsrc) throws AuthException, PermissionBackendException {
+  public Object apply(AccountResource resource) throws AuthException, PermissionBackendException {
     PermissionBackend.WithUser perm = permissionBackend.user(self);
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(resource.getUser())) {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      perm = permissionBackend.user(rsrc.getUser());
+      perm = permissionBackend.user(resource.getUser());
     }
 
     Map<String, Object> have = new LinkedHashMap<>();
@@ -85,7 +85,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
       have.put(p.permissionName(), true);
     }
 
-    AccountLimits limits = limitsFactory.create(rsrc.getUser());
+    AccountLimits limits = limitsFactory.create(resource.getUser());
     addRanges(have, limits);
     addPriority(have, limits);
 

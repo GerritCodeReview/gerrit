@@ -43,7 +43,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
   @Override
   public GeneralPreferencesInfo apply(AccountResource rsrc)
       throws AuthException, PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
     }
 

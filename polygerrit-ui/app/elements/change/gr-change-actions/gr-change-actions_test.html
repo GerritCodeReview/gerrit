@@ -1353,8 +1353,10 @@ limitations under the License.
               .then(() => {
                 assert.isFalse(onShowAlert.called);
                 assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', null,
-                    '/endpoint', payload));
+                assert.equal(sendStub.lastCall.args[0].changeNum, 42);
+                assert.equal(sendStub.lastCall.args[0].method, 'DELETE');
+                assert.equal(sendStub.lastCall.args[0].endpoint, '/endpoint');
+                assert.deepEqual(sendStub.lastCall.args[0].body, payload);
               });
         });
 
@@ -1363,8 +1365,11 @@ limitations under the License.
               .then(() => {
                 assert.isFalse(onShowAlert.called);
                 assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', 12, '/endpoint',
-                    payload));
+                assert.equal(sendStub.lastCall.args[0].changeNum, 42);
+                assert.equal(sendStub.lastCall.args[0].method, 'DELETE');
+                assert.equal(sendStub.lastCall.args[0].endpoint, '/endpoint');
+                assert.equal(sendStub.lastCall.args[0].patchNum, 12);
+                assert.deepEqual(sendStub.lastCall.args[0].body, payload);
               });
         });
       });
@@ -1389,8 +1394,8 @@ limitations under the License.
               .returns(Promise.resolve({isLatest: true}));
           const sendStub = sandbox.stub(element.$.restAPI,
               'getChangeURLAndSend',
-              (num, method, patchNum, endpoint, payload, onErr) => {
-                onErr();
+              req => {
+                req.errFn();
                 return Promise.resolve(null);
               });
           const handleErrorStub = sandbox.stub(element, '_handleResponseError');

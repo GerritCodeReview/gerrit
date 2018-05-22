@@ -134,7 +134,7 @@ public class StarredChanges
     @Override
     public Response<?> apply(AccountResource rsrc, EmptyInput in)
         throws RestApiException, OrmException, IOException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to add starred change");
       }
       try {
@@ -167,7 +167,7 @@ public class StarredChanges
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
         throws AuthException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed update starred changes");
       }
       return Response.none();
@@ -188,7 +188,7 @@ public class StarredChanges
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
         throws AuthException, OrmException, IOException, IllegalLabelException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
       }
       starredChangesUtil.star(

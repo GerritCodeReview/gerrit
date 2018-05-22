@@ -138,7 +138,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byUUID.get(groupUuid.get());
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
+      log.warn("Cannot look up group %s by uuid", groupUuid.get(), e);
       return Optional.empty();
     }
   }

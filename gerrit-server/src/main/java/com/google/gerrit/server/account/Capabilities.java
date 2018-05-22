@@ -60,7 +60,7 @@ class Capabilities implements ChildCollection<AccountResource, AccountResource.C
   public Capability parse(AccountResource parent, IdString id)
       throws ResourceNotFoundException, AuthException, PermissionBackendException {
     IdentifiedUser target = parent.getUser();
-    if (self.get() != target) {
+    if (!self.get().hasSameAccountId(target)) {
       permissionBackend.user(self).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 

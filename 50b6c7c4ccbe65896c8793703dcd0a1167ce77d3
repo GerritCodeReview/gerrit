@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "05355b20_a035c8f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-22T07:37:42Z",
+      "side": 1,
+      "message": "Not only this change removed ES dependency on Lucene, more importantly, this change removed dependency from Gerrit Core on ES itself. This important change should be made more prominently here.\n\nTheoretically, we could mark ES and all dependent libraries from the stack as Testonly \u003d True, to make sure they are only used for test and don\u0027t end up in release.war. OTOH, All ES stack is removed from Gerrit in follow-up change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa73bbfe_a2936418",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
         "patchSetId": 2
@@ -177,6 +200,23 @@
       "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6e35a1c_92ecd0fc",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/XContentBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-22T07:37:42Z",
+      "side": 1,
+      "message": "It looks like we are forking ES here. Yes, ES project still hasn\u0027t de-coupled common parts from ES Server code. However, in recent versions the ES project realized, the need for small independent libraries, like x.content: [1]. There is x-content library on master, that we entirely de-coupled from ES server code: [2].\n\nFor other parts of the forked code, I don\u0027t see any extraction.\n\nStill we shoudl mention in the commit message that we fork ES server code, and explain why. Moreover we should mention from what commit the fork was made, to simplify efforts to keep the fork up to date. Bonus points to point to the possibilty to remove the need for fork altogether (For example file issue upstream, to extract FooQueryBuilder code in independent library and link to this issue in the commit message).\n\n* [1] https://github.com/elastic/elasticsearch/issues/28504\n* [2] https://github.com/elastic/elasticsearch/tree/master/libs/x-content",
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

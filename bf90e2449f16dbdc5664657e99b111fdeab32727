@@ -17,6 +17,24 @@
       "revId": "bf90e2449f16dbdc5664657e99b111fdeab32727",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da63642a_c5418336",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:58Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/178832",
+      "parentUuid": "d4469a3b_fe20ce96",
+      "revId": "bf90e2449f16dbdc5664657e99b111fdeab32727",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

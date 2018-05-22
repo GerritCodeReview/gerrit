@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "12d337ee_577aba45",
+        "filename": "java/com/google/gerrit/gpg/GerritPublicKeyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:31:54Z",
+      "side": 1,
+      "message": "I have no particular preference here. Let\u0027s leave it as it is for now.",
+      "parentUuid": "5901deac_10b58ec7",
+      "range": {
+        "startLine": 139,
+        "startChar": 56,
+        "endLine": 139,
+        "endChar": 86
+      },
+      "revId": "5964a3b7fbc0ef34896b4cec0fd80b4a2a2954ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acdda970_83641908",
         "filename": "java/com/google/gerrit/gpg/PublicKeyChecker.java",
         "patchSetId": 6

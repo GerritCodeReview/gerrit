@@ -516,6 +516,30 @@
       "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae4ae54e_286f7d0b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/XContentBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-22T21:42:12Z",
+      "side": 1,
+      "message": "Well, the Joda to Java Time migration is still work in progress in ES: [1]. I can imagine, that we could get into troubles when upgrading to newer ES versions.\n\n* [1] https://github.com/elastic/elasticsearch/issues/27330",
+      "parentUuid": "46dd016f_dc27904c",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

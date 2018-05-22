@@ -55,7 +55,7 @@ public class SystemLog {
     return Strings.isNullOrEmpty(System.getProperty(LOG4J_CONFIGURATION));
   }
 
-  public static Appender createAppender(Path logdir, String name, Layout layout) {
+  public static Appender createAppender(String logdir, String name, Layout layout) {
     final DailyRollingFileAppender dst = new DailyRollingFileAppender();
     dst.setName(name);
     dst.setLayout(layout);
@@ -77,7 +77,8 @@ public class SystemLog {
     async.setLocationInfo(false);
 
     if (shouldConfigure()) {
-      async.addAppender(createAppender(site.logs_dir, name, layout));
+      String logDir = config.getString("log", null, "logDir") || site.logs_dir.toString();
+      async.addAppender(createAppender(logDir, name, layout));
     } else {
       Appender appender = LogManager.getLogger(name).getAppender(name);
       if (appender != null) {

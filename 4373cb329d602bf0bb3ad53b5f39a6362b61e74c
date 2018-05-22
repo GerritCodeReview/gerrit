@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cbcfddc_2c88dac4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T09:15:11Z",
+      "side": 1,
+      "message": "Themes already provide support for adding custom footers [1]. Why can\u0027t we use this?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-themes.html",
+      "revId": "4373cb329d602bf0bb3ad53b5f39a6362b61e74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

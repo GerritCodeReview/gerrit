@@ -64,7 +64,7 @@ public class SshKeys implements ChildCollection<AccountResource, AccountResource
   public AccountResource.SshKey parse(AccountResource rsrc, IdString id)
       throws ResourceNotFoundException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       try {
         permissionBackend.user(self).check(GlobalPermission.MODIFY_ACCOUNT);
       } catch (AuthException e) {

@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "ee2cd62f_308efa89",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T15:17:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8343b33a_91218185",
+      "revId": "0b60ca71a404542603c4964556f8e795b1206536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "542c3deb_6e79e4c2",
         "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
         "patchSetId": 2
@@ -40,6 +58,30 @@
       "revId": "0b60ca71a404542603c4964556f8e795b1206536",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf4b6d32_87390f9b",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T15:17:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "542c3deb_6e79e4c2",
+      "range": {
+        "startLine": 250,
+        "startChar": 30,
+        "endLine": 256,
+        "endChar": 31
+      },
+      "revId": "0b60ca71a404542603c4964556f8e795b1206536",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

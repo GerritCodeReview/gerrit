@@ -202,6 +202,10 @@ limitations under the License.
         Powered by <a href="https://www.gerritcodereview.com/" rel="noopener"
         target="_blank">Gerrit Code Review</a>
         ([[_version]])
+        <template is="dom-repeat" items="[[_computeAdditionalFooters(_serverConfig)]]">
+          |
+          <a href$="[[item.value]]" rel="external">[[item.key]]</a>
+        </template>
       </div>
       <div>
         <a class="feedback"

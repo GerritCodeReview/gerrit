@@ -198,6 +198,19 @@
       return config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },
 
+    _computeAdditionalFooters(config) {
+      if (config.additional_footers === 'undefined') {
+        return [];
+      }
+
+      var additionalFooters = [];
+      Object.keys(config.additional_footers).forEach(function(key) {
+        const entry = {'key' : key, 'value' : config.additional_footers[key]};
+        additionalFooters.push(entry);
+      });
+      return additionalFooters;
+    },
+
     _handlePageError(e) {
       const props = [
         '_showChangeListView',

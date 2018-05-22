@@ -1103,8 +1103,13 @@
     _setLabelValuesOnRevert(newChangeId) {
       const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
       if (!labels) { return Promise.resolve(); }
-      return this.$.restAPI.getChangeURLAndSend(newChangeId,
-          this.actions.revert.method, 'current', '/review', {labels});
+      return this.$.restAPI.getChangeURLAndSend({
+        changeNum: newChangeId,
+        method: this.actions.revert.method,
+        patchNum: 'current',
+        endpoint: '/review',
+        bpdy: {labels},
+      });
     },
 
     _handleResponse(action, response) {
@@ -1187,12 +1192,18 @@
               return Promise.resolve();
             }
             const patchNum = revisionAction ? this.latestPatchNum : null;
-            return this.$.restAPI.getChangeURLAndSend(this.changeNum, method,
-                patchNum, actionEndpoint, payload, handleError)
-                .then(response => {
-                  cleanupFn.call(this);
-                  return response;
-                });
+            const req = {
+              changeNum: this.changeNum,
+              method,
+              patchNum,
+              endpojnt: actionEndpoint,
+              body: payload,
+              errFn: handleError,
+            };
+            return this.$.restAPI.getChangeURLAndSend(req).then(response => {
+              cleanupFn.call(this);
+              return response;
+            });
           });
     },
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "de986923_988237d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Done for the first part. As for the second, will give test-only a try and get back to your good comment within this change -asap.",
+      "parentUuid": "05355b20_a035c8f3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa73bbfe_a2936418",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-05-22T06:39:31Z",
       "side": 1,
       "message": "Use a StringBuilder?",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 22
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa2d95e_0fbbc0c3",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "According to the warning I get in IntelliJ CE 2017.3.5, it is at least as efficient to use concatenation over StringBuilder here. If I replace the latter usage with concatenation, that warning goes away. When briefly searching for the same online, I stumbled upon threads saying the same; StringBuilder would be roughly more efficient when used in loops, as opposed to simpler concatenation cases like ours here.",
+      "parentUuid": "fa73bbfe_a2936418",
       "range": {
         "startLine": 91,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6c6f8cf8_417cc1ed",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "224e0d43_f9f35f1a",
+      "range": {
+        "startLine": 160,
+        "startChar": 30,
+        "endLine": 160,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cb09805_5b88b8da",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2018-05-22T06:39:31Z",
       "side": 1,
       "message": "StringBuilder",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 137,
+        "endChar": 65
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3c61df2_702fe9de",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Same considerations as for the first similar comment; please let me know if anything though.",
+      "parentUuid": "4cb09805_5b88b8da",
       "range": {
         "startLine": 135,
         "startChar": 4,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "830f2dc4_172dbfa1",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6809d4a_ae5eaddf",
+      "range": {
+        "startLine": 213,
+        "startChar": 30,
+        "endLine": 213,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b51baa14_e246176e",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
         "patchSetId": 2
@@ -128,6 +248,30 @@
       "writtenOn": "2018-05-22T06:39:31Z",
       "side": 1,
       "message": "StringBuilder",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0cfa372_5e5a8c6e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "(Same.)",
+      "parentUuid": "b51baa14_e246176e",
       "range": {
         "startLine": 88,
         "startChar": 0,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "a05c0e5b_2bd24ea0",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93e7e309_ff1b1903",
+      "range": {
+        "startLine": 157,
+        "startChar": 30,
+        "endLine": 157,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6be02eb9_cfbad86f",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/RestClientBuilder.java",
         "patchSetId": 2
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "fa47c8ac_18f05474",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/RestClientBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6be02eb9_cfbad86f",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 71
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb1d6ca5_e677fca7",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/ExistsQueryBuilder.java",
         "patchSetId": 2
@@ -200,6 +392,24 @@
       "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "173f4bff_83fbb1ec",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/ExistsQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb1d6ca5_e677fca7",
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -220,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "79242700_35458ddc",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/XContentBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6e35a1c_92ecd0fc",
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46dd016f_dc27904c",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/XContentBuilder.java",
         "patchSetId": 2
@@ -231,6 +459,30 @@
       "writtenOn": "2018-05-22T06:39:31Z",
       "side": 1,
       "message": "Can this be modified to use the Java 8 date/time API?\n\nUsage of joda was previously removed in the rest of the code base.  The only reason the dependency still exists is because ES depends on it.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8cd036e_4b532ad8",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/XContentBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-22T19:28:14Z",
+      "side": 1,
+      "message": "Will get back to this in a follow-up patch set; thx.",
+      "parentUuid": "46dd016f_dc27904c",
       "range": {
         "startLine": 26,
         "startChar": 0,

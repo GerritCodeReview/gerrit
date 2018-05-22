@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 /** Runnable to enable scheduling gc to run periodically */
 public class GarbageCollectionRunner implements Runnable {
-  private static final Logger gcLog = LoggerFactory.getLogger(GarbageCollection.LOG_NAME);
+  private static final Logger log = LoggerFactory.getLogger(GarbageCollectionRunner.class);
 
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
@@ -61,7 +61,7 @@ public class GarbageCollectionRunner implements Runnable {
 
   @Override
   public void run() {
-    gcLog.info("Triggering gc on all repositories");
+    log.info("Triggering gc on all repositories");
     garbageCollectionFactory.create().run(Lists.newArrayList(projectCache.all()));
   }
 

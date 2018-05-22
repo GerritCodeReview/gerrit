@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d4b5592a_5e1c7323",
+        "filename": "java/com/google/gerrit/server/config/TrackingFootersProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa96cc1a_8bf9c60c",
+      "range": {
+        "startLine": 69,
+        "startChar": 71,
+        "endLine": 69,
+        "endChar": 73
+      },
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30d85ce4_aa762748",
         "filename": "java/com/google/gerrit/server/extensions/events/EventUtil.java",
         "patchSetId": 8
@@ -108,6 +132,24 @@
     },
     {
       "key": {
+        "uuid": "b6089361_1bf0dca8",
+        "filename": "java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 1,
+      "message": "A simplified this according the suggestion I got from David.",
+      "parentUuid": "b4f405cc_be784640",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6d40736_aa794d1c",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 8
@@ -131,6 +173,30 @@
     },
     {
       "key": {
+        "uuid": "befcc1b8_4f3a5280",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6d40736_aa794d1c",
+      "range": {
+        "startLine": 3121,
+        "startChar": 45,
+        "endLine": 3121,
+        "endChar": 48
+      },
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21bc8b45_47753e27",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 8
@@ -145,6 +211,24 @@
       "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f106c98_15cde7c4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21bc8b45_47753e27",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -165,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "e7b741d4_b14663d4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3127,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9b3df20_89f0732f",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f01b9958_2f40547c",
         "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
         "patchSetId": 8
@@ -179,6 +281,24 @@
       "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4e5a5e5_b835d5e2",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f01b9958_2f40547c",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -205,6 +325,30 @@
     },
     {
       "key": {
+        "uuid": "8dc3711e_0eee4a95",
+        "filename": "java/com/google/gerrit/server/submit/GitModules.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bca8317a_e0115fcb",
+      "range": {
+        "startLine": 108,
+        "startChar": 48,
+        "endLine": 108,
+        "endChar": 51
+      },
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "082294c3_6d203721",
         "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
         "patchSetId": 8
@@ -219,6 +363,24 @@
       "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b240f7c_6dc367b7",
+        "filename": "java/com/google/gerrit/server/submit/LocalMergeSuperSetComputation.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "082294c3_6d203721",
+      "revId": "c6a8fc8d7709aec8743015c1be608bcd2040cd21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

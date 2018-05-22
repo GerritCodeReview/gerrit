@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a9bee173_e9b3beb0",
+        "filename": "java/com/google/gerrit/server/config/AdministrateServerGroupsProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 0,
+      "message": "Ah, OK :)",
+      "parentUuid": "c8909f98_979b258a",
+      "range": {
+        "startLine": 51,
+        "startChar": 59,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9df0884_fbdd3d14",
         "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
         "patchSetId": 8
@@ -126,6 +150,24 @@
     },
     {
       "key": {
+        "uuid": "db5b5195_d49cc4cd",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 0,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/179993",
+      "parentUuid": "88e65e7f_794f5a41",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d93fce5_8d48fa4b",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 8
@@ -140,6 +182,24 @@
       "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c295046c_f0c0b48e",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3d93fce5_8d48fa4b",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -160,6 +220,24 @@
     },
     {
       "key": {
+        "uuid": "af8fc7a2_60c37148",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3f9e0b02_69f30f8b",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93a5c752_9e75f316",
         "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
         "patchSetId": 8
@@ -174,6 +252,24 @@
       "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2466e44_ab10e447",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "93a5c752_9e75f316",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -194,6 +290,24 @@
     },
     {
       "key": {
+        "uuid": "66745d42_6f15e9d6",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "e5249eb9_923ede84",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9be92a74_77a82174",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 8
@@ -211,6 +325,24 @@
     },
     {
       "key": {
+        "uuid": "2af0ce55_fdd7ced9",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "9be92a74_77a82174",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09531192_10343e10",
         "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
         "patchSetId": 8
@@ -225,6 +357,24 @@
       "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a36b332c_3aed5d60",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-05-22T13:29:38Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "09531192_10343e10",
+      "revId": "a5fed111657bb951f482780b9aa9813cf8a24cc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

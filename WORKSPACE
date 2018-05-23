@@ -181,8 +181,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.2",
-    sha1 = "3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf",
+    artifact = "com.google.code.gson:gson:2.8.4",
+    sha1 = "d0de1ca9b69e69d1d497ee3c6009d015f64dad57",
 )
 
 maven_jar(
@@ -194,8 +194,8 @@ maven_jar(
 
 maven_jar(
     name = "protobuf",
-    artifact = "com.google.protobuf:protobuf-java:3.4.0",
-    sha1 = "b32aba0cbe737a4ca953f71688725972e3ee927c",
+    artifact = "com.google.protobuf:protobuf-java:3.5.1",
+    sha1 = "8c3492f7662fa1cbf8ca76a0f5eb1146f7725acd",
 )
 
 load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1")

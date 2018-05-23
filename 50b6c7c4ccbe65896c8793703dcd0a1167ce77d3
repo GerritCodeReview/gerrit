@@ -588,6 +588,30 @@
       "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbcdbeba_dd9fe3ee",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/XContentBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-23T16:56:35Z",
+      "side": 1,
+      "message": "I also verified some of the resulting strings and they were the same.",
+      "parentUuid": "40511d6a_076f1399",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

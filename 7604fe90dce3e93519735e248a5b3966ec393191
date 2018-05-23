@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "e88479b7_c86aa760",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-23T15:16:56Z",
+      "side": 1,
+      "message": "\u003e j/c/g/g/server contains stuff specific to running a code review server.\n\nI still think that the stuff outside of the server directory also means running a code review server, e.g. sshd, httpd, ReviewDb. As I wrote in my previous comment, the reason we have this separation is GWT heritage: client/shared/server. That heritage is ending very shortly. Another ambitious goal is to decompose giant server rule. I feel that separating the rules inside server package (that is basically the same as separating and moving parts outside of the server package) is less advantageous as the opposite. That why I started to extract config code, that tones of the code is depending on, and was trying to extract cache out of the server package (this series was staled, do you think it would make sense to rebase?).\n\nBut, of course, de-composing server package further inside server package is still way better, as keeping the status quo. Given we cannot agree on my proposal, I removing my negative vote and stay neutral here.",
+      "parentUuid": "59cd8472_75c22d7e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d19d7eb_12d3d3a1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
         "patchSetId": 6

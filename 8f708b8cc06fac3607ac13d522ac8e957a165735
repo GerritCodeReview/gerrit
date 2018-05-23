@@ -93,6 +93,30 @@
       "revId": "8f708b8cc06fac3607ac13d522ac8e957a165735",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21ad40dc_d7ae2cf9",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/JestClientBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-23T21:28:35Z",
+      "side": 0,
+      "message": "Done; thank you for noticing this unwanted removal.",
+      "parentUuid": "3e875b53_232fdea3",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "8f708b8cc06fac3607ac13d522ac8e957a165735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

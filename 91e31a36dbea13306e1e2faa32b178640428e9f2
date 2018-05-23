@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "00e48251_874062a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-23T13:43:26Z",
+      "side": 1,
+      "message": "input",
+      "range": {
+        "startLine": 13,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 56
+      },
+      "revId": "91e31a36dbea13306e1e2faa32b178640428e9f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cbeb2a3c_82c2b223",
         "filename": "java/com/google/gerrit/server/query/change/ConflictKey.java",
         "patchSetId": 5
@@ -17,6 +40,52 @@
       "revId": "91e31a36dbea13306e1e2faa32b178640428e9f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "427950df_ff52357b",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictKey.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-23T13:43:26Z",
+      "side": 1,
+      "message": "Here and for otherCommit: Maybe call copy() on it so that using this method erroneously outside of tests doesn\u0027t additionally introduce strange issues.",
+      "range": {
+        "startLine": 53,
+        "startChar": 37,
+        "endLine": 53,
+        "endChar": 43
+      },
+      "revId": "91e31a36dbea13306e1e2faa32b178640428e9f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de479d14_d47f32de",
+        "filename": "proto/cache.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-23T13:43:26Z",
+      "side": 1,
+      "message": "content_merge? The original field was only called contentMerge.",
+      "range": {
+        "startLine": 194,
+        "startChar": 7,
+        "endLine": 194,
+        "endChar": 23
+      },
+      "revId": "91e31a36dbea13306e1e2faa32b178640428e9f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1526663191 -0400\nnonce ACQuaLC8Jm+E+tc2i3EyjivhwC/1JHYw6Y1lwG8lreObXNv1mqGEG+AgJc8dk5Q95ukq1BsYmdKL\n\n0000000000000000000000000000000000000000 91e31a36dbea13306e1e2faa32b178640428e9f2 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlr/CBcVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMgG8QALFh8/24p1wC63sOETeKNb+r742U\nrqb6HvqOHfLTtQkJRZ490SWn0QA1JJFcCs1WQKrA//DoeIKQbGdaWs5/Yc6VT0nc\nKzbqyb9tFlNGRIq9/GkmrTFUZLsKQXXWIQSOx4qj5vCt8zNbHGKmpLsv5+NFiIl9\nCqFeRFfXpbY3mQU0KAVOza3FET9mGGwTnwhTtde9g+774XU+11gkV9gOeHiwf5Wb\nkwOdmxfDrINYHEfHpXphwkyrPuWBdwxAhHGWFW+/BygkYeBt+cBr6IPGvpH+Zc0I\nPSWuRimNhw0k2eoF1E2jYCjZ4JygRiDrmPuf15cg/2KSo/nPbH210CUWu748uhFm\ncy7q8hQ0NJhCPne2fCah+furuvov6QONJjz2X2hnX4/tKFPsr1t0QiG1+I2TQHe/\ncCp8/bsYxD1+MK/mFGUPFkszi2bmlQ+l9Nc6OlzB2YlAhqfe7TDIYJiqusLpceAg\nzVX5wgJ8TGJcfunabrPtY4pjHOJrYClo53bfzrJ0/FKCLVtlmSEAsWUSy7Vh2TLf\n01vNAVZiVXjOapEcjbgZfKq/Qia4SaG1lxEIqh1cf1Yz8mJ8dw7gJGH7xEsrPco6\nQFZfpZaSJ18YEXy4KFykXhLhcb6nQiZ1HrfxyJBBlWUacuPrldrjS/cggakAZb9F\nO5YJz+ZKyx8G1VqE\n\u003d7fTo\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9eaf311_359358d2",
+        "filename": "java/com/google/gerrit/server/cache/ProtoCacheSerializers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-23T12:13:59Z",
+      "side": 1,
+      "message": "This formulation makes me a bit worried that somebody might have the idea to initialize an ObjectIdConverter instance once in an instance field of a CacheSerializer and then use it both for serialization and deserialization (as we do with the enum converters). Could we please somehow make clear that this would result in issues?",
+      "range": {
+        "startLine": 78,
+        "startChar": 5,
+        "endLine": 79,
+        "endChar": 78
+      },
+      "revId": "861f462c797b1afcacec1b97d8dc6dea43bf41a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

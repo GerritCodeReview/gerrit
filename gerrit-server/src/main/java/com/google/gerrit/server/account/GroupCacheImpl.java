@@ -88,7 +88,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byId.get(groupId);
     } catch (ExecutionException e) {
-      log.warn("Cannot load group " + groupId, e);
+      log.warn("Cannot load group {}", groupId, e);
       return Optional.empty();
     }
   }
@@ -124,7 +124,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byName.get(name.get());
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot look up group %s by name", name.get()), e);
+      log.warn("Cannot look up group {} by name", name.get(), e);
       return Optional.empty();
     }
   }
@@ -138,7 +138,7 @@ public class GroupCacheImpl implements GroupCache {
     try {
       return byUUID.get(groupUuid.get());
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot look up group %s by uuid", groupUuid.get()), e);
+      log.warn("Cannot look up group {} by uuid", groupUuid.get(), e);
       return Optional.empty();
     }
   }

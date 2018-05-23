@@ -148,7 +148,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throw new NoSuchChangeException(changeId);
       }
       if (changes.size() != 1) {
-        log.error(String.format("Multiple changes found for %d", changeId.get()));
+        log.error("Multiple changes found for {}", changeId.get());
         throw new NoSuchChangeException(changeId);
       }
       return changes.get(0).notes();

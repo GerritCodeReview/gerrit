@@ -315,7 +315,7 @@ class LdapRealm extends AbstractRealm {
       Optional<Account.Id> id = usernameCache.get(accountName);
       return id != null ? id.orElse(null) : null;
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot lookup account %s in LDAP", accountName), e);
+      log.warn("Cannot lookup account {} in LDAP", accountName, e);
       return null;
     }
   }

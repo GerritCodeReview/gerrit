@@ -18,7 +18,7 @@
   'use strict';
 
   const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
-  const DARK_THEME_PATH = 'styles/themes/dark-theme.html';
+  const DARK_THEME_PATH = '/styles/themes/dark-theme.html';
   const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({

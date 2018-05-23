@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "40165b66_ace00aa5",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/plugins/HttpPluginServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-23T00:58:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29189dce_c38c196c",
+      "range": {
+        "startLine": 432,
+        "startChar": 62,
+        "endLine": 432,
+        "endChar": 67
+      },
+      "revId": "0c3517e155b963541c5da476809be364b3876fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f238d71_c5253f72",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4424cb52_83822359",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-23T00:58:46Z",
+      "side": 1,
+      "message": "It was long in the original too.  It looks like GJF doesn\u0027t automatically wrap long lines.",
+      "parentUuid": "5f238d71_c5253f72",
+      "revId": "0c3517e155b963541c5da476809be364b3876fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d75c7b7_25727fef",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2018-05-22T15:24:42Z",
       "side": 1,
       "message": "nit: long line",
+      "revId": "0c3517e155b963541c5da476809be364b3876fe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a93c6a8f_8284ba8c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-23T00:58:46Z",
+      "side": 1,
+      "message": "Same here.",
+      "parentUuid": "0d75c7b7_25727fef",
       "revId": "0c3517e155b963541c5da476809be364b3876fe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

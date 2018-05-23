@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b82ea49_95462a08",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 5059,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-23T15:27:55Z",
+      "side": 1,
+      "message": "Mention the default value, as it\u0027s done elsewhere in this file.",
+      "range": {
+        "startLine": 5058,
+        "startChar": 0,
+        "endLine": 5059,
+        "endChar": 12
+      },
+      "revId": "62456714d8c9a783553a4e5dc3163a68cbf3556c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "856dc2e0_162f102b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 5063,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-23T15:27:55Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 5063,
+        "startChar": 0,
+        "endLine": 5063,
+        "endChar": 58
+      },
+      "revId": "62456714d8c9a783553a4e5dc3163a68cbf3556c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "019f0a5e_8d537e99",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 5067,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-23T15:27:55Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 5067,
+        "startChar": 0,
+        "endLine": 5067,
+        "endChar": 47
+      },
+      "revId": "62456714d8c9a783553a4e5dc3163a68cbf3556c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

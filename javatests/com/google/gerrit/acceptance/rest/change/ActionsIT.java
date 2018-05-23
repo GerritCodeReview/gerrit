@@ -105,7 +105,9 @@ public class ActionsIT extends AbstractDaemonTest {
   public void revisionActionsTwoChangesInTopic() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     approve(changeId);
-    String changeId2 = createChangeWithTopic().getChangeId();
+    PushOneCommit.Result change2 = createChangeWithTopic();
+    int legacyId2 = change2.getChange().getId().get();
+    String changeId2 = change2.getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
     commonActionsAssertions(actions);
     if (isSubmitWholeTopicEnabled()) {
@@ -113,7 +115,7 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(info.enabled).isNull();
       assertThat(info.label).isEqualTo("Submit whole topic");
       assertThat(info.method).isEqualTo("POST");
-      assertThat(info.title).isEqualTo("This change depends on other changes which are not ready");
+      assertThat(info.title).matches("Change " + legacyId2 + " is not ready: needs Code-Review");
     } else {
       noSubmitWholeTopicAssertions(actions, 1);
 

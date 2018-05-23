@@ -168,7 +168,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           throw new ResourceConflictException(
               "Cannot update " + projectName + ": " + e.getCause().getMessage());
         }
-        log.warn(String.format("Failed to update config of project %s.", projectName), e);
+        log.warn("Failed to update config of project {}.", projectName, e);
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
@@ -202,9 +202,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         ProjectConfigEntry projectConfigEntry = pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {
           if (!isValidParameterName(v.getKey())) {
-            log.warn(
-                String.format(
-                    "Parameter name '%s' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey()));
+            log.warn("Parameter name '{}' must match '^[a-zA-Z0-9]+[a-zA-Z0-9-]*$'", v.getKey());
             continue;
           }
           String oldValue = cfg.getString(v.getKey());
@@ -253,9 +251,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                     break;
                   default:
                     log.warn(
-                        String.format(
-                            "The type '%s' of parameter '%s' is not supported.",
-                            projectConfigEntry.getType().name(), v.getKey()));
+                        "The type '{}' of parameter '{}' is not supported.",
+                        projectConfigEntry.getType().name(),
+                        v.getKey());
                 }
               } catch (NumberFormatException ex) {
                 throw new BadRequestException(

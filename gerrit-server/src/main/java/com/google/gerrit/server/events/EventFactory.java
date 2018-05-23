@@ -150,7 +150,7 @@ public class EventFactory {
     try {
       a.commitMessage = changeDataFactory.create(db, change).commitMessage();
     } catch (Exception e) {
-      log.error("Error while getting full commit message for change " + a.number, e);
+      log.error("Error while getting full commit message for change {}", a.number, e);
     }
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
@@ -498,9 +498,9 @@ public class EventFactory {
       }
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
     } catch (IOException e) {
-      log.error("Cannot load patch set data for " + patchSet.getId(), e);
+      log.error("Cannot load patch set data for {}", patchSet.getId(), e);
     } catch (PatchListNotAvailableException e) {
-      log.error(String.format("Cannot get size information for %s.", pId), e);
+      log.error("Cannot get size information for {}.", pId, e);
     }
     return p;
   }

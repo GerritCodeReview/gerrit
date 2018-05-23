@@ -321,7 +321,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     private static boolean isSameDeltaAndTree(RevCommit prior, RevCommit next) {
-      if (next.getTree() != prior.getTree()) {
+      if (!Objects.equals(next.getTree(), prior.getTree())) {
         return false;
       }
 
@@ -334,7 +334,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       // Make sure that the prior/next delta is the same - not just the tree.
       // This is done by making sure that the parent trees are equal.
       for (int i = 0; i < prior.getParentCount(); i++) {
-        if (next.getParent(i).getTree() != prior.getParent(i).getTree()) {
+        if (!Objects.equals(next.getParent(i).getTree(), prior.getParent(i).getTree())) {
           return false;
         }
       }

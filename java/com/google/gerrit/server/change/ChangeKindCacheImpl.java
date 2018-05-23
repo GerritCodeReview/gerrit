@@ -31,6 +31,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.EnumCacheSerializer;
 import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -41,8 +42,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -52,7 +51,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
@@ -178,27 +176,24 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     static class Serializer implements CacheSerializer<Key> {
       @Override
       public byte[] serialize(Key object) {
-        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
-        ChangeKindKeyProto.Builder b = ChangeKindKeyProto.newBuilder();
-        object.getPrior().copyRawTo(buf, 0);
-        b.setPrior(ByteString.copyFrom(buf));
-        object.getNext().copyRawTo(buf, 0);
-        b.setNext(ByteString.copyFrom(buf));
-        b.setStrategyName(object.getStrategyName());
-        return ProtoCacheSerializers.toByteArray(b.build());
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return ProtoCacheSerializers.toByteArray(
+            ChangeKindKeyProto.newBuilder()
+                .setPrior(idConverter.toByteString(object.getPrior()))
+                .setNext(idConverter.toByteString(object.getNext()))
+                .setStrategyName(object.getStrategyName())
+                .build());
       }
 
       @Override
       public Key deserialize(byte[] in) {
-        try {
-          ChangeKindKeyProto proto = ChangeKindKeyProto.parseFrom(in);
-          return new Key(
-              ObjectId.fromRaw(proto.getPrior().toByteArray()),
-              ObjectId.fromRaw(proto.getNext().toByteArray()),
-              proto.getStrategyName());
-        } catch (InvalidProtocolBufferException e) {
-          throw new IllegalArgumentException("Failed to deserialize object", e);
-        }
+        ChangeKindKeyProto proto =
+            ProtoCacheSerializers.parseUnchecked(ChangeKindKeyProto.parser(), in);
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return new Key(
+            idConverter.fromByteString(proto.getPrior()),
+            idConverter.fromByteString(proto.getNext()),
+            proto.getStrategyName());
       }
     }
   }

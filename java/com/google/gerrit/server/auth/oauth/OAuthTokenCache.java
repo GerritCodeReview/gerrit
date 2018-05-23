@@ -32,7 +32,6 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import java.io.IOException;
 
 @Singleton
 public class OAuthTokenCache {
@@ -70,12 +69,7 @@ public class OAuthTokenCache {
 
     @Override
     public OAuthToken deserialize(byte[] in) {
-      OAuthTokenProto proto;
-      try {
-        proto = OAuthTokenProto.parseFrom(in);
-      } catch (IOException e) {
-        throw new IllegalArgumentException("failed to deserialize OAuthToken");
-      }
+      OAuthTokenProto proto = ProtoCacheSerializers.parseUnchecked(OAuthTokenProto.parser(), in);
       return new OAuthToken(
           proto.getToken(),
           proto.getSecret(),

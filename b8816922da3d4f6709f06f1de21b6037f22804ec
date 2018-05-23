@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ec778c59_1368ecd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-23T17:39:07Z",
+      "side": 1,
+      "message": "\u003e Well, on second thought this is actually not true. We are not removing the dependency on ES, we are forking parts of the ES.\n\nMy next patch set removes the last, recently added sentence.\n\n\u003e Moreover, if you check the code of the forked classes on master, here one example: ExistsQueryBuilder.java [1], it would be clear, that this code depends on Lucene and on the rest of the ES server code.\n\nThat is why we are introducing a much simpler and focused fork here in this change, free of the conflicting dependencies.\n\n\u003e In the same time, the query constructions depend on the ES version, e.g.: [2]. So that the generated queries on the client side depend on the used server version (logically). IOW, we just can\u0027t guarantee, that the same Gerrit version, that is known to work with say ES 2.x, would work unchanged (!) against ES 5.x, ..., N. We would have to adjust the ES client code, meant to adjust Gerrit core to work against another ES version.\n\nTrue. We will need to make this dynamic solely on a need basis. As we add client support for more ES server versions in the near future, the ability of the code to cleanly switch between API versions shall unfold.\n\nNow: we could offer our help to contribute to evolving Elastic\u0027s high-level API for ES, as a sibling track to start with. Would you agree with that extra idea? If so, how would you see that initiated?\n\n(Replies for the other comments below coming up.)",
+      "parentUuid": "382d8c5b_85ddcca6",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 28
+      },
+      "revId": "b8816922da3d4f6709f06f1de21b6037f22804ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00fc59d3_2a370ba9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

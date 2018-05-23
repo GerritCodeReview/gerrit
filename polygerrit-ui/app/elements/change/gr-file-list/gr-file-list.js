@@ -103,8 +103,6 @@
       _filesByPath: Object,
       _files: {
         type: Array,
-        computed: '_computeFiles(_filesByPath, changeComments, patchRange, ' +
-            '_reviewed)',
         observer: '_filesChanged',
         value() { return []; },
       },
@@ -183,6 +181,8 @@
 
     observers: [
       '_expandedPathsChanged(_expandedFilePaths.splices)',
+      '_computeFiles(_filesByPath, changeComments, patchRange, _reviewed, ' +
+          '_loading)',
     ],
 
     keyBindings: {
@@ -782,13 +782,14 @@
           'gr-icons:expand-less' : 'gr-icons:expand-more';
     },
 
-    _computeFiles(filesByPath, changeComments, patchRange, reviewed) {
+    _computeFiles(filesByPath, changeComments, patchRange, reviewed, loading) {
+      // Await all promises resolving from reload. @See Issue 9057
+      if (loading) { return; }
+
       const commentedPaths = changeComments.getPaths(patchRange);
       const files = Object.assign({}, filesByPath);
       Object.keys(commentedPaths).forEach(commentedPath => {
-        if (files.hasOwnProperty(commentedPath)) {
-          return;
-        }
+        if (files.hasOwnProperty(commentedPath)) { return; }
         files[commentedPath] = {status: 'U'};
       });
       const reviewedSet = new Set(reviewed || []);
@@ -797,7 +798,7 @@
         files[filePath].isReviewed = reviewedSet.has(filePath);
       }
 
-      return this._normalizeChangeFilesResponse(files);
+      this._files = this._normalizeChangeFilesResponse(files);
     },
 
     _computeFilesShown(numFilesShown, files) {

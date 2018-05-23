@@ -60,9 +60,11 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
+        getDiffPreferences() { return Promise.resolve({}); },
         getDiffComments() { return Promise.resolve({}); },
         getDiffRobotComments() { return Promise.resolve({}); },
         getDiffDrafts() { return Promise.resolve({}); },
+        getAccountCapabilities() { return Promise.resolve({}); },
       });
       stub('gr-date-formatter', {
         _loadTimeFormat() { return Promise.resolve(''); },
@@ -85,6 +87,7 @@ limitations under the License.
             .returns({meta: {}, left: [], right: []});
         done();
       });
+      element._loading = false;
       element.diffPrefs = {};
       element.numFilesShown = 200;
       element.patchRange = {
@@ -1321,6 +1324,7 @@ limitations under the License.
             .returns({meta: {}, left: [], right: []});
         done();
       });
+      element._loading = false;
       element.numFilesShown = 75;
       element.selectedIndex = 0;
       element._filesByPath = {

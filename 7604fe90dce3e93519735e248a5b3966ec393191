@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "59cd8472_75c22d7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-23T13:39:46Z",
+      "side": 1,
+      "message": "FWIW, we\u0027ve done several refactorings to move things out of the server package since last November, and this is not the approach we\u0027ve taken. Instead, we have mostly done:\n\n* j/c/g/g/foo is a common library for dealing with \"foo\", used by different parts of Gerrit, but which does not contain functionality specific to running a code review server. Examples of \"foo\" include \"git\" for Git-related functionality, \"index\" for a Lucene index of Git repos, \"prettify\", \"truth\" for general custom Truth subjects, etc.\n* j/c/g/g/server contains stuff specific to running a code review server.\n* In particular, j/c/g/g/server/foo contains code-review-specific stuff which uses \"foo\", such as \"index\".\n\nI think it\u0027s reasonable to argue, as you\u0027ve done in this comment thread, that we should move g/foo to g/lib/foo and g/server/* to g/*. It\u0027s just not what we\u0027ve actually done thus far. And I\u0027m not sure I would want to switch gears in the middle of the process.\n\n(I landed on this change because Han-Wen pointed me here during review of https://gerrit-review.googlesource.com/c/gerrit/+/175412)",
+      "parentUuid": "c766dc87_396f8e5c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d19d7eb_12d3d3a1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
         "patchSetId": 6

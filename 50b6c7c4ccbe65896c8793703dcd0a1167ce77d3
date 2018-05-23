@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e3852e82_944d7757",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-23T16:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de986923_988237d6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa73bbfe_a2936418",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
         "patchSetId": 2

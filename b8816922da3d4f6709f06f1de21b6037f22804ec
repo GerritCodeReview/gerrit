@@ -93,6 +93,30 @@
       "revId": "b8816922da3d4f6709f06f1de21b6037f22804ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a96d41f_73111b9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-23T18:21:20Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure I understand this statement. Do you mean, that you could preserve the same client/queries construction code in say Gerrit 2.14.10 but bump ES from 2.4 to 5.x or even 6.x? This wouldn\u0027t work. Or do you mean to bump the Gerrit ES client/queries code in say 2.14.11 to work against ES 5.x or even 6.x, without changing Lucene release?\n\nI mean the latter and not the former. And the latter also comes with what we are discussing in the above comment thread. Meaning, with minimal yet potential client code switches required.\n\n\u003e After investigating the forked code, I have concerns, that we are on the wrong way here trying artificially de-couple stuff that is simply tightly coupled. See: [1]. And we would have to spend substantial efforts to upgrade our ES forked code (if this would work at all or we even end up forking the whole ES server code and not only dozen classes).\n\nThis change is proposing that we give that risk a try, yes.\n\n\u003e What if we give up on fork and de-coupling attempts and just accept, that ES and Lucene are depend on each other for now? We could still replace Jest with low level rest client (or even high level rest client), and just update the ES and Lucene in the same time? Just one example, in Gerrit 2.16 we upgrade ES to 5 and Lucene to 6, and in the Gerrit version after 2.16, we would update ES to 6.x and Lucene to 7.x. Wouldn\u0027t this be enough?\n\nReplacing jest with low-level as done in this change requires a builders layer. And replacing jest with high-level requires that we keep the locking lucene dependencies in our elasticsearch integration, indeed. At least for us in Ericsson, waiting for 2.16 (or even 2.15) -to deploy the more recent and stable versions of ES- is hardly an option, business-wise.\n\n\u003e Another approach that we havn\u0027t explored yet, is to remove both Lucene and ES index vendors as core modules and only left generic index interface java/com/google/gerrit/index package, and make different index vendors and version pluggable: both client/query code. That way, we could compose final gerrit verion as a combination of gerrit + index vendor with specific version: (...)\n\nThat is a very interesting candidate solution, which @Hugo and I happened to discuss a few weeks ago as well. I think that such an approach is longer-term and would require more development iterations, yes. Something to keep in mind for the near-or-so future of flexible indexing in Gerrit... How do you think this track should be properly driven?\n\nNow again: nothing prevents us from eventually replacing this builders fork with a proper, minimal dependencies high-level API from Elastic. In the meantime though, we shall keep that fork clean, minimal, and isolated. And the other tracks that we mention here and above should still be considered, alongside this change stack -or so I believe.\n\n\u003e (parallel comment) This should work without depending on the lucene version.\n\nAgreed, as per above.",
+      "parentUuid": "79a8e5c8_191c3fef",
+      "range": {
+        "startLine": 17,
+        "startChar": 67,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "b8816922da3d4f6709f06f1de21b6037f22804ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

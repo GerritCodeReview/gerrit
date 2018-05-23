@@ -45,6 +45,30 @@
       "revId": "b8816922da3d4f6709f06f1de21b6037f22804ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79a8e5c8_191c3fef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-23T12:06:31Z",
+      "side": 1,
+      "message": "This should work without depending on the lucene version. As I’m phabricator @mmodell implemented elasticsesrch support for es 5 (whilst keeping it compatible with es2) we are planning on doing it with es6.",
+      "parentUuid": "00fc59d3_2a370ba9",
+      "range": {
+        "startLine": 17,
+        "startChar": 67,
+        "endLine": 19,
+        "endChar": 38
+      },
+      "revId": "b8816922da3d4f6709f06f1de21b6037f22804ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

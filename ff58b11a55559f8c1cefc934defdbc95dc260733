@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "03dec919_6a1fc619",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "79475618_97eb2270",
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0866dd8_6f3d7c60",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 7
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "80e3ec67_1154503e",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Moved to bottom of page for now. Not sure where best to move it.",
+      "parentUuid": "b0866dd8_6f3d7c60",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 83
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6889f293_a49565a1",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 7
@@ -56,6 +98,24 @@
       "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8270ad88_f2d41c28",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6889f293_a49565a1",
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "3de1e7b1_45b65cfd",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "736a2014_2422c5ea",
+      "range": {
+        "startLine": 52,
+        "startChar": 66,
+        "endLine": 52,
+        "endChar": 68
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49432549_0be16027",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 7
@@ -102,6 +186,30 @@
       "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76c57452_c11f4f6e",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49432549_0be16027",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 22
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "a99c4eb2_973571a0",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c6c2889_875cf6a1",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb4c85a8_12b24919",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 7
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "e865773f_90ec8b34",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "This is a doc practice WRT new terms. Certainly OK to not use it here.",
+      "parentUuid": "bb4c85a8_12b24919",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 28
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2efc53ec_b89496f7",
         "filename": "Documentation/dev-readme.txt",
         "patchSetId": 7
@@ -162,6 +318,30 @@
       "writtenOn": "2018-05-22T19:42:13Z",
       "side": 1,
       "message": "These sections are extremely out of date. The majority of current Gerrit maintainers do not like GWT at all :)",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 109
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f0eb6b6_03b896a0",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "They\u0027re gone :)",
+      "parentUuid": "2efc53ec_b89496f7",
       "range": {
         "startLine": 207,
         "startChar": 0,
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "f3b4ecc2_0faf462b",
+        "filename": "Documentation/install.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68c22bec_d9c5ee36",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70b5b12b_c2d16503",
         "filename": "Documentation/linux-quickstart.txt",
         "patchSetId": 7
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "abb1b1a8_71d4ef74",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b5b12b_c2d16503",
+      "range": {
+        "startLine": 17,
+        "startChar": 62,
+        "endLine": 17,
+        "endChar": 69
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f1bbadb_575df362",
         "filename": "Documentation/linux-quickstart.txt",
         "patchSetId": 7
@@ -234,6 +462,24 @@
       "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7754eb5c_5aa66d89",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f1bbadb_575df362",
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -260,6 +506,30 @@
     },
     {
       "key": {
+        "uuid": "934e077a_e76f428a",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5d14a96_b8c6461f",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ed976c6_0492338d",
         "filename": "Documentation/linux-quickstart.txt",
         "patchSetId": 7
@@ -283,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "764eca7a_5483faff",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "I reverted this to the original wording.",
+      "parentUuid": "8ed976c6_0492338d",
+      "range": {
+        "startLine": 78,
+        "startChar": 3,
+        "endLine": 78,
+        "endChar": 12
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5df99f23_daa8dd76",
         "filename": "Documentation/linux-quickstart.txt",
         "patchSetId": 7
@@ -303,6 +597,30 @@
       "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c600728_93f6160e",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1063820
+      },
+      "writtenOn": "2018-05-23T19:13:10Z",
+      "side": 1,
+      "message": "Great catch.",
+      "parentUuid": "5df99f23_daa8dd76",
+      "range": {
+        "startLine": 94,
+        "startChar": 61,
+        "endLine": 94,
+        "endChar": 66
+      },
+      "revId": "ff58b11a55559f8c1cefc934defdbc95dc260733",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

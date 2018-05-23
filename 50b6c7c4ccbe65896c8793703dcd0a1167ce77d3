@@ -540,6 +540,30 @@
       "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40511d6a_076f1399",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/XContentBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-23T10:08:09Z",
+      "side": 1,
+      "message": "It\u0027s only used here to format the date string.  I don\u0027t think that should make any difference with regards to what date/time library ES is using internally.",
+      "parentUuid": "ae4ae54e_286f7d0b",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 46
+      },
+      "revId": "50b6c7c4ccbe65896c8793703dcd0a1167ce77d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

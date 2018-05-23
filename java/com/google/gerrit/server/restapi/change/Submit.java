@@ -236,6 +236,11 @@ public class Submit
   }
 
   /**
+   * Returns a message describing what prevents the current change from being submitted - or null.
+   * This method only considers parent changes, and changes in the same topic. The caller is
+   * responsible for making sure the current change to be submitted can indeed be submitted
+   * (permissions, submit rules, is not a WIP...)
+   *
    * @param cd the change the user is currently looking at
    * @param cs set of changes to be submitted at once
    * @param user the user who is checking to submit
@@ -247,6 +252,11 @@ public class Submit
         return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
       }
       for (ChangeData c : cs.changes()) {
+        if (cd.getId().equals(c.getId())) {
+          // We ignore the change about to be submitted, as these checks are already done in the
+          // #apply and #getDescription methods.
+          continue;
+        }
         Set<ChangePermission> can =
             permissionBackend
                 .user(user)
@@ -293,6 +303,7 @@ public class Submit
   public UiAction.Description getDescription(RevisionResource resource) {
     Change change = resource.getChange();
     if (!change.getStatus().isOpen()
+        || change.isWorkInProgress()
         || !resource.isCurrent()
         || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {
       return null; // submit not visible

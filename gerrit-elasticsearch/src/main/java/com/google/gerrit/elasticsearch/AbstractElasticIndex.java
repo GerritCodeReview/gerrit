@@ -16,23 +16,18 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
-import com.google.gerrit.elasticsearch.builders.XContentBuilder;
+import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.Schema.Values;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -64,9 +59,7 @@ import org.elasticsearch.client.RestClient;
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected static final String BULK = "_bulk";
-  protected static final String DELETE = "delete";
   protected static final String IGNORE_UNMAPPED = "ignore_unmapped";
-  protected static final String INDEX = "index";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
@@ -94,7 +87,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   private final Schema<V> schema;
-  private final FillArgs fillArgs;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
   private final RestClient client;
@@ -105,12 +97,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   AbstractElasticIndex(
       @GerritServerConfig Config cfg,
-      FillArgs fillArgs,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientBuilder clientBuilder,
       String indexName) {
-    this.fillArgs = fillArgs;
     this.sitePaths = sitePaths;
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -187,44 +177,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected String delete(String type, K c) {
     String id = c.toString();
-    return toAction(type, id, DELETE);
-  }
-
-  private static boolean shouldAddElement(Object element) {
-    return !(element instanceof String) || !((String) element).isEmpty();
-  }
-
-  protected String toDoc(V v) throws IOException {
-    try (XContentBuilder closeable = new XContentBuilder()) {
-      XContentBuilder builder = closeable.startObject();
-      for (Values<V> values : schema.buildFields(v, fillArgs)) {
-        String name = values.getField().getName();
-        if (values.getField().isRepeatable()) {
-          builder.field(
-              name,
-              Streams.stream(values.getValues())
-                  .filter(e -> shouldAddElement(e))
-                  .collect(toList()));
-        } else {
-          Object element = Iterables.getOnlyElement(values.getValues(), "");
-          if (shouldAddElement(element)) {
-            builder.field(name, element);
-          }
-        }
-      }
-      return builder.endObject().string() + System.lineSeparator();
-    }
-  }
-
-  protected String toAction(String type, String id, String action) {
-    JsonObject properties = new JsonObject();
-    properties.addProperty("_id", id);
-    properties.addProperty("_index", indexName);
-    properties.addProperty("_type", type);
-
-    JsonObject jsonAction = new JsonObject();
-    jsonAction.add(action, properties);
-    return jsonAction.toString() + System.lineSeparator();
+    return new DeleteRequest(id, indexNameRaw, type).toString();
   }
 
   protected void addNamedElement(String name, JsonObject element, JsonArray array) {

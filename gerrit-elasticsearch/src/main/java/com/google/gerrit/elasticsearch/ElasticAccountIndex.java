@@ -21,6 +21,9 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -72,6 +75,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
+  private final Schema<AccountState> schema;
 
   @AssistedInject
   ElasticAccountIndex(
@@ -81,18 +85,20 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       ElasticRestClientBuilder clientBuilder,
       @Assisted Schema<AccountState> schema) {
     // No parts of FillArgs are currently required, just use null.
-    super(cfg, null, sitePaths, schema, clientBuilder, ACCOUNTS);
+    super(cfg, sitePaths, schema, clientBuilder, ACCOUNTS);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
+    this.schema = schema;
   }
 
   @Override
   public void replace(AccountState as) throws IOException {
-    String bulk = toAction(ACCOUNTS, getId(as), INDEX);
-    bulk += toDoc(as);
+    BulkRequest bulk =
+        new IndexRequest(getId(as), indexName, ACCOUNTS).add(new UpdateRequest<>(schema, as));
 
     String uri = getURI(ACCOUNTS, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    Response response =
+        performRequest(HttpPost.METHOD_NAME, bulk.toString(), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(

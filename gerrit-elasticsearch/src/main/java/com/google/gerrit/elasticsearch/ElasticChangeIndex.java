@@ -32,6 +32,10 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
@@ -70,7 +74,6 @@ import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
-import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 import org.slf4j.Logger;
@@ -99,6 +102,8 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
+  private final FillArgs fillArgs;
+  private final Schema<ChangeData> schema;
 
   @AssistedInject
   ElasticChangeIndex(
@@ -109,9 +114,11 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       SitePaths sitePaths,
       ElasticRestClientBuilder clientBuilder,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, fillArgs, sitePaths, schema, clientBuilder, CHANGES);
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
+    this.fillArgs = fillArgs;
+    this.schema = schema;
     mapping = new ChangeMapping(schema);
   }
 
@@ -132,12 +139,13 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       throw new IOException(e);
     }
 
-    String bulk = toAction(insertIndex, getId(cd), INDEX);
-    bulk += toDoc(cd);
-    bulk += toAction(deleteIndex, cd.getId().toString(), DELETE);
+    BulkRequest bulk =
+        new IndexRequest(getId(cd), indexName, insertIndex)
+            .add(new UpdateRequest<>(fillArgs, schema, cd))
+            .add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex));
 
     String uri = getURI(CHANGES, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
@@ -205,8 +213,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       try {
         List<ChangeData> results = Collections.emptyList();
         String uri = getURI(types);
-        Response response =
-            performRequest(HttpPost.METHOD_NAME, search, uri, Collections.emptyMap());
+        Response response = postRequest(search, uri, Collections.emptyMap());
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
           String content = getContent(response);

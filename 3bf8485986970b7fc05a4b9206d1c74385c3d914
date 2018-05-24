@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eefcee7_739d19f8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:16:55Z",
+      "side": 1,
+      "message": "This change needs to be split into two:\n\n1) A change that makes it so that we don\u0027t use this field anymore (remove the deserialization)\n2) A follow-up that removes the index field and changes the logic of how we write to it in case it is still present.\n\nOtherwise, when we do a release and half of the fleet has the new version and half has the old one, we will read back wrong data from the index from tasks that still have the old logic but read newly written index data. This would also be problematic for roll-backs.",
+      "revId": "3bf8485986970b7fc05a4b9206d1c74385c3d914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cd95f29_6b5a2ee5",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:16:55Z",
+      "side": 1,
+      "message": "I kind of want to rename this to just \u0027full_submit_record\u0027, but I think it is not worth the effort.",
+      "range": {
+        "startLine": 726,
+        "startChar": 18,
+        "endLine": 726,
+        "endChar": 44
+      },
+      "revId": "3bf8485986970b7fc05a4b9206d1c74385c3d914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8cfe7f8_43892f09",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:16:55Z",
+      "side": 1,
+      "message": "Please move this down to the other non-final members.\n\nThe initial assignment to null can be removed as far as I can see.",
+      "range": {
+        "startLine": 357,
+        "startChar": 42,
+        "endLine": 357,
+        "endChar": 50
+      },
+      "revId": "3bf8485986970b7fc05a4b9206d1c74385c3d914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb9d94af_24683455",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:16:55Z",
+      "side": 1,
+      "message": "You didn\u0027t invent this, but lenient is not a very descriptive name for what this is. How about \u0027allowClosed\u0027?",
+      "range": {
+        "startLine": 948,
+        "startChar": 50,
+        "endLine": 948,
+        "endChar": 57
+      },
+      "revId": "3bf8485986970b7fc05a4b9206d1c74385c3d914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3d0a4b5_bc0e766d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:16:55Z",
+      "side": 1,
+      "message": "This is a behavioral change: submitRuleEvaluator would always evaluate the rule \u0027fresh\u0027 while ChangeData#submitRecords will use the value reconstructed from the index in case lazyLoad is false.\n\nI am not saying it is wrong, but changes like that (that went unnoticed) trouble in the past.",
+      "range": {
+        "startLine": 123,
+        "startChar": 30,
+        "endLine": 123,
+        "endChar": 53
+      },
+      "revId": "3bf8485986970b7fc05a4b9206d1c74385c3d914",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

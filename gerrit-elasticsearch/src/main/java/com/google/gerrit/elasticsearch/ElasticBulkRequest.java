@@ -59,7 +59,7 @@ class ElasticBulkRequest<V> {
     return jsonAction.toString() + System.lineSeparator();
   }
 
-  String toDoc(V v) throws IOException {
+  String updateRequest(V v) throws IOException {
     try (XContentBuilder closeable = new XContentBuilder()) {
       XContentBuilder builder = closeable.startObject();
       for (Values<V> values : schema.buildFields(v, fillArgs)) {

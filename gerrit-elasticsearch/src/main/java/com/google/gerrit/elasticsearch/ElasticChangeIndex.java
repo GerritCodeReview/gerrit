@@ -97,6 +97,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
   public static final String CLOSED_CHANGES = "closed_" + CHANGES;
 
   private final ChangeMapping mapping;
+  private final ElasticBulkRequest<ChangeData> bulkRequest;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
 
@@ -113,6 +114,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     mapping = new ChangeMapping(schema);
+    bulkRequest = new ElasticBulkRequest<>(fillArgs, indexName, schema);
   }
 
   @Override
@@ -132,9 +134,9 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       throw new IOException(e);
     }
 
-    String bulk = toAction(insertIndex, getId(cd), INDEX);
-    bulk += toDoc(cd);
-    bulk += toAction(deleteIndex, cd.getId().toString(), DELETE);
+    String bulk = bulkRequest.toAction(insertIndex, getId(cd), INDEX);
+    bulk += bulkRequest.toDoc(cd);
+    bulk += bulkRequest.toAction(deleteIndex, cd.getId().toString(), DELETE);
 
     String uri = getURI(CHANGES, BULK);
     Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());

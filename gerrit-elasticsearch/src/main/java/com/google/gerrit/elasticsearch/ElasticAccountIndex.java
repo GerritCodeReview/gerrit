@@ -71,6 +71,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   private static final Logger log = LoggerFactory.getLogger(ElasticAccountIndex.class);
 
   private final AccountMapping mapping;
+  private final ElasticBulkRequest<AccountState> bulkRequest;
   private final Provider<AccountCache> accountCache;
 
   @AssistedInject
@@ -84,12 +85,13 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     super(cfg, null, sitePaths, schema, clientBuilder, ACCOUNTS);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
+    bulkRequest = new ElasticBulkRequest<>(null, indexName, schema);
   }
 
   @Override
   public void replace(AccountState as) throws IOException {
-    String bulk = toAction(ACCOUNTS, getId(as), INDEX);
-    bulk += toDoc(as);
+    String bulk = bulkRequest.toAction(ACCOUNTS, getId(as), INDEX);
+    bulk += bulkRequest.toDoc(as);
 
     String uri = getURI(ACCOUNTS, BULK);
     Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());

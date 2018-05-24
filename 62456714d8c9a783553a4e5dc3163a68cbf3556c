@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e117e150_f90a7055",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 5059,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-24T14:09:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b82ea49_95462a08",
+      "range": {
+        "startLine": 5058,
+        "startChar": 0,
+        "endLine": 5059,
+        "endChar": 12
+      },
+      "revId": "62456714d8c9a783553a4e5dc3163a68cbf3556c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "856dc2e0_162f102b",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 15
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "280a525e_714beac6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 5063,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-24T14:09:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "856dc2e0_162f102b",
+      "range": {
+        "startLine": 5063,
+        "startChar": 0,
+        "endLine": 5063,
+        "endChar": 58
+      },
+      "revId": "62456714d8c9a783553a4e5dc3163a68cbf3556c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "019f0a5e_8d537e99",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 15
@@ -59,6 +107,30 @@
       "writtenOn": "2018-05-23T15:27:55Z",
       "side": 1,
       "message": "same here",
+      "range": {
+        "startLine": 5067,
+        "startChar": 0,
+        "endLine": 5067,
+        "endChar": 47
+      },
+      "revId": "62456714d8c9a783553a4e5dc3163a68cbf3556c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcbfbcdc_6796464b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 5067,
+      "author": {
+        "id": 1055597
+      },
+      "writtenOn": "2018-05-24T14:09:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "019f0a5e_8d537e99",
       "range": {
         "startLine": 5067,
         "startChar": 0,

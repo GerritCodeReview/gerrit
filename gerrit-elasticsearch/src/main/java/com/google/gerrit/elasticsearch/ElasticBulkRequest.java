@@ -41,22 +41,11 @@ class ElasticBulkRequest<V> {
   }
 
   String deleteRequest(String type, String id) {
-    return toAction(type, id, DELETE);
+    return actionRequest(type, id, DELETE);
   }
 
   String indexRequest(String type, String id) {
-    return toAction(type, id, INDEX);
-  }
-
-  private String toAction(String type, String id, String action) {
-    JsonObject properties = new JsonObject();
-    properties.addProperty("_id", id);
-    properties.addProperty("_index", index);
-    properties.addProperty("_type", type);
-
-    JsonObject jsonAction = new JsonObject();
-    jsonAction.add(action, properties);
-    return jsonAction.toString() + System.lineSeparator();
+    return actionRequest(type, id, INDEX);
   }
 
   String updateRequest(V v) throws IOException {
@@ -79,6 +68,17 @@ class ElasticBulkRequest<V> {
       }
       return builder.endObject().string() + System.lineSeparator();
     }
+  }
+
+  private String actionRequest(String type, String id, String action) {
+    JsonObject properties = new JsonObject();
+    properties.addProperty("_id", id);
+    properties.addProperty("_index", index);
+    properties.addProperty("_type", type);
+
+    JsonObject jsonAction = new JsonObject();
+    jsonAction.add(action, properties);
+    return jsonAction.toString() + System.lineSeparator();
   }
 
   private boolean shouldAddElement(Object element) {

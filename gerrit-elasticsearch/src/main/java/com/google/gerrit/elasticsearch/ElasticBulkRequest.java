@@ -27,6 +27,9 @@ import java.io.IOException;
 
 class ElasticBulkRequest<V> {
 
+  private static final String DELETE = "delete";
+  private static final String INDEX = "index";
+
   private final FillArgs fillArgs;
   private final String index;
   private final Schema<V> schema;
@@ -37,7 +40,15 @@ class ElasticBulkRequest<V> {
     this.schema = schema;
   }
 
-  String toAction(String type, String id, String action) {
+  String deleteRequest(String type, String id) {
+    return toAction(type, id, DELETE);
+  }
+
+  String indexRequest(String type, String id) {
+    return toAction(type, id, INDEX);
+  }
+
+  private String toAction(String type, String id, String action) {
     JsonObject properties = new JsonObject();
     properties.addProperty("_id", id);
     properties.addProperty("_index", index);

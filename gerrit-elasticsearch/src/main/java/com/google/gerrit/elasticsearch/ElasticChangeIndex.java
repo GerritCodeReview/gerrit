@@ -134,9 +134,9 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       throw new IOException(e);
     }
 
-    String bulk = bulkRequest.toAction(insertIndex, getId(cd), INDEX);
+    String bulk = bulkRequest.indexRequest(insertIndex, getId(cd));
     bulk += bulkRequest.toDoc(cd);
-    bulk += bulkRequest.toAction(deleteIndex, cd.getId().toString(), DELETE);
+    bulk += bulkRequest.deleteRequest(deleteIndex, cd.getId().toString());
 
     String uri = getURI(CHANGES, BULK);
     Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());

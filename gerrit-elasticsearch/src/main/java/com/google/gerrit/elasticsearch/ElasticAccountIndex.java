@@ -90,7 +90,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   @Override
   public void replace(AccountState as) throws IOException {
-    String bulk = bulkRequest.toAction(ACCOUNTS, getId(as), INDEX);
+    String bulk = bulkRequest.indexRequest(ACCOUNTS, getId(as));
     bulk += bulkRequest.toDoc(as);
 
     String uri = getURI(ACCOUNTS, BULK);

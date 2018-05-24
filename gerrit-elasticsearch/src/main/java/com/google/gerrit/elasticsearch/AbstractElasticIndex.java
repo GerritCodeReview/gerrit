@@ -59,9 +59,7 @@ import org.elasticsearch.client.RestClient;
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected static final String BULK = "_bulk";
-  protected static final String DELETE = "delete";
   protected static final String IGNORE_UNMAPPED = "ignore_unmapped";
-  protected static final String INDEX = "index";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
@@ -182,7 +180,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected String delete(String type, K c) {
     String id = c.toString();
-    return bulkRequest.toAction(type, id, DELETE);
+    return bulkRequest.deleteRequest(type, id);
   }
 
   protected void addNamedElement(String name, JsonObject element, JsonArray array) {

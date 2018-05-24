@@ -87,7 +87,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
 
   @Override
   public void replace(AccountGroup group) throws IOException {
-    String bulk = bulkRequest.toAction(GROUPS, getId(group), INDEX);
+    String bulk = bulkRequest.indexRequest(GROUPS, getId(group));
     bulk += bulkRequest.toDoc(group);
 
     String uri = getURI(GROUPS, BULK);

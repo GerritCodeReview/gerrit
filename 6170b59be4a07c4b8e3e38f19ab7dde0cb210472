@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e5a9223_81061a5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:31:18Z",
+      "side": 1,
+      "message": "This module is optional, right? Might be good to state this and say that the plugin just won\u0027t be loaded in BATCH mode if the module is absent.",
+      "revId": "6170b59be4a07c4b8e3e38f19ab7dde0cb210472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fef5e9fd_7201df91",
+        "filename": "java/com/google/gerrit/pgm/util/BatchProgramModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:31:18Z",
+      "side": 1,
+      "message": "nit: reformat so fill up line space",
+      "revId": "6170b59be4a07c4b8e3e38f19ab7dde0cb210472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acb7f55f_4c932b2e",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:31:18Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 115,
+        "startChar": 47,
+        "endLine": 115,
+        "endChar": 49
+      },
+      "revId": "6170b59be4a07c4b8e3e38f19ab7dde0cb210472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

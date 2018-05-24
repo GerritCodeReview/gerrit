@@ -14,21 +14,13 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static java.util.stream.Collectors.toList;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
-import com.google.gerrit.elasticsearch.builders.XContentBuilder;
+import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.Schema;
-import com.google.gerrit.server.index.Schema.Values;
-import com.google.gson.JsonObject;
-import java.io.IOException;
 
 class ElasticBulkRequest<V> {
-
-  private static final String DELETE = "delete";
-  private static final String INDEX = "index";
 
   private final FillArgs fillArgs;
   private final String index;
@@ -41,47 +33,14 @@ class ElasticBulkRequest<V> {
   }
 
   String deleteRequest(String type, String id) {
-    return actionRequest(type, id, DELETE);
+    return new DeleteRequest(id, index, type).getRequest();
   }
 
   String indexRequest(String type, String id) {
-    return actionRequest(type, id, INDEX);
+    return new IndexRequest(id, index, type).getRequest();
   }
 
-  String updateRequest(V v) throws IOException {
-    try (XContentBuilder closeable = new XContentBuilder()) {
-      XContentBuilder builder = closeable.startObject();
-      for (Values<V> values : schema.buildFields(v, fillArgs)) {
-        String name = values.getField().getName();
-        if (values.getField().isRepeatable()) {
-          builder.field(
-              name,
-              Streams.stream(values.getValues())
-                  .filter(e -> shouldAddElement(e))
-                  .collect(toList()));
-        } else {
-          Object element = Iterables.getOnlyElement(values.getValues(), "");
-          if (shouldAddElement(element)) {
-            builder.field(name, element);
-          }
-        }
-      }
-      return builder.endObject().string() + System.lineSeparator();
-    }
-  }
-
-  private String actionRequest(String type, String id, String action) {
-    JsonObject properties = new JsonObject();
-    properties.addProperty("_id", id);
-    properties.addProperty("_index", index);
-    properties.addProperty("_type", type);
-
-    JsonObject jsonAction = new JsonObject();
-    jsonAction.add(action, properties);
-    return jsonAction.toString() + System.lineSeparator();
-  }
-
-  private boolean shouldAddElement(Object element) {
-    return !(element instanceof String) || !((String) element).isEmpty();
+  String updateRequest(V v) {
+    return new UpdateRequest<>(fillArgs, schema, v).getRequest();
   }
 }

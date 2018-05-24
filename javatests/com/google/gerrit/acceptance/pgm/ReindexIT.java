@@ -80,6 +80,9 @@ public class ReindexIT extends StandaloneSiteTest {
                   .flatMap(g -> g.members.stream())
                   .map(a -> a._accountId))
           .containsExactly(adminId.get());
+      // Query project index
+      assertThat(gApi.projects().query(project.get()).get().stream().map(p -> p.name))
+          .containsExactly(project.get());
     }
   }
 
@@ -220,7 +223,7 @@ public class ReindexIT extends StandaloneSiteTest {
   }
 
   private void setUpChange() throws Exception {
-    project = new Project.NameKey("project");
+    project = new Project.NameKey("reindex-project-test");
     try (ServerContext ctx = startServer()) {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       gApi.projects().create(project.get());

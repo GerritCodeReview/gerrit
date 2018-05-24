@@ -155,6 +155,24 @@ limitations under the License.
           display: none;
         }
       }
+      .truncatedProject {
+        display: none;
+      }
+      @media only screen and (max-width: 90em) {
+        .assignee,
+        .branch,
+        .owner {
+          overflow: hidden;
+          max-width: 10rem;
+          text-overflow: ellipsis;
+        }
+        .truncatedProject {
+          display: inline-block;
+        }
+        .fullProject {
+          display: none;
+        }
+      }
       @media only screen and (max-width: 50em) {
         :host {
           font-size: var(--font-size-large);

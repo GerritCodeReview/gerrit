@@ -66,7 +66,7 @@ class Capabilities implements ChildCollection<AccountResource, AccountResource.C
       throws ResourceNotFoundException, AuthException, PermissionBackendException {
     permissionBackend.checkUsesDefaultCapabilities();
     IdentifiedUser target = parent.getUser();
-    if (self.get() != target) {
+    if (!self.get().hasSameAccountId(target)) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 

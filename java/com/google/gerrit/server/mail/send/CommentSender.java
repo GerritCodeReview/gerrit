@@ -228,9 +228,10 @@ public class CommentSender extends ReplyToChangeSender {
             currentGroup.fileData = new PatchFile(repo, patchList, c.key.filename);
           } catch (IOException e) {
             log.warn(
-                String.format(
-                    "Cannot load %s from %s in %s",
-                    c.key.filename, patchList.getNewId().name(), projectState.getName()),
+                "Cannot load {} from {} in {}",
+                c.key.filename,
+                patchList.getNewId().name(),
+                projectState.getName(),
                 e);
             currentGroup.fileData = null;
           }
@@ -321,7 +322,7 @@ public class CommentSender extends ReplyToChangeSender {
     try {
       return commentsUtil.getPublished(args.db.get(), changeData.notes(), key);
     } catch (OrmException e) {
-      log.warn("Could not find the parent of this comment: " + child.toString());
+      log.warn("Could not find the parent of this comment: {}", child.toString());
       return Optional.empty();
     }
   }
@@ -539,16 +540,16 @@ public class CommentSender extends ReplyToChangeSender {
       return fileInfo.getLine(side, lineNbr);
     } catch (IOException err) {
       // Default to the empty string if the file cannot be safely read.
-      log.warn(String.format("Failed to read file on side %d", side), err);
+      log.warn("Failed to read file on side {}", side, err);
       return "";
     } catch (IndexOutOfBoundsException err) {
       // Default to the empty string if the given line number does not appear
       // in the file.
-      log.debug(String.format("Failed to get line number of file on side %d", side), err);
+      log.debug("Failed to get line number of file on side {}", side, err);
       return "";
     } catch (NoSuchEntityException err) {
       // Default to the empty string if the side cannot be found.
-      log.warn(String.format("Side %d of file didn't exist", side), err);
+      log.warn("Side {} of file didn't exist", side, err);
       return "";
     }
   }

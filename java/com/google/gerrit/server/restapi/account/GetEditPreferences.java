@@ -50,7 +50,7 @@ public class GetEditPreferences implements RestReadView<AccountResource> {
   @Override
   public EditPreferencesInfo apply(AccountResource rsrc)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 

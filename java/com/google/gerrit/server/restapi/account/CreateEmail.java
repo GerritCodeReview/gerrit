@@ -95,7 +95,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       input = new EmailInput();
     }
 
-    if (self.get() != rsrc.getUser() || input.noConfirmation) {
+    if (!self.get().hasSameAccountId(rsrc.getUser()) || input.noConfirmation) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 

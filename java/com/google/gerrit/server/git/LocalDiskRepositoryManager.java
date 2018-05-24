@@ -98,7 +98,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         } else {
           desc = String.format("%d", limit);
         }
-        log.info(String.format("Defaulting core.streamFileThreshold to %s", desc));
+        log.info("Defaulting core.streamFileThreshold to {}", desc);
         cfg.setStreamFileThreshold(limit);
       }
       cfg.install();
@@ -193,9 +193,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       File metaConfigLog = new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
       if (!metaConfigLog.getParentFile().mkdirs() || !metaConfigLog.createNewFile()) {
-        log.error(
-            String.format(
-                "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name));
+        log.error("Failed to create ref log for {} in repository {}", RefNames.REFS_CONFIG, name);
       }
 
       return db;
@@ -248,7 +246,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           Integer.MAX_VALUE,
           visitor);
     } catch (IOException e) {
-      log.error("Error walking repository tree " + visitor.startFolder.toAbsolutePath(), e);
+      log.error("Error walking repository tree {}", visitor.startFolder.toAbsolutePath(), e);
     }
   }
 
@@ -303,7 +301,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       Project.NameKey nameKey = getProjectName(startFolder, p);
       if (getBasePath(nameKey).equals(startFolder)) {
         if (isUnreasonableName(nameKey)) {
-          log.warn("Ignoring unreasonably named repository " + p.toAbsolutePath());
+          log.warn("Ignoring unreasonably named repository {}", p.toAbsolutePath());
         } else {
           found.add(nameKey);
         }

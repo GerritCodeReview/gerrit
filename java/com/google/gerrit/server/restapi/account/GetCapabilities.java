@@ -79,12 +79,13 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Object apply(AccountResource rsrc) throws RestApiException, PermissionBackendException {
+  public Object apply(AccountResource resource)
+      throws RestApiException, PermissionBackendException {
     permissionBackend.checkUsesDefaultCapabilities();
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(resource.getUser())) {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      perm = permissionBackend.user(rsrc.getUser());
+      perm = permissionBackend.user(resource.getUser());
     }
 
     Map<String, Object> have = new LinkedHashMap<>();
@@ -92,7 +93,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
       have.put(globalOrPluginPermissionName(p), true);
     }
 
-    AccountLimits limits = limitsFactory.create(rsrc.getUser());
+    AccountLimits limits = limitsFactory.create(resource.getUser());
     addRanges(have, limits);
     addPriority(have, limits);
 

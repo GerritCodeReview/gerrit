@@ -770,7 +770,7 @@ Gerrit.get(url, callback)
 ----
 Gerrit.get('/changes/?q=status:open', function (open) {
   for (var i = 0; i < open.length; i++) {
-    console.log(open.get(i).change_id);
+    console.log(open[i].change_id);
   }
 });
 ----

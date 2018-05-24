@@ -146,9 +146,10 @@ public class MailProcessor {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
         log.warn(
-            String.format(
-                "Message %s filtered by plugin %s %s. Will delete message.",
-                message.id(), filter.getPluginName(), filter.getExportName()));
+            "Message {} filtered by plugin {} {}. Will delete message.",
+            message.id(),
+            filter.getPluginName(),
+            filter.getExportName());
         return;
       }
     }
@@ -157,9 +158,9 @@ public class MailProcessor {
 
     if (!metadata.hasRequiredFields()) {
       log.error(
-          String.format(
-              "Message %s is missing required metadata, have %s. Will delete message.",
-              message.id(), metadata));
+          "Message {} is missing required metadata, have {}. Will delete message.",
+          message.id(),
+          metadata);
       sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
       return;
     }
@@ -168,10 +169,10 @@ public class MailProcessor {
 
     if (accountIds.size() != 1) {
       log.error(
-          String.format(
-              "Address %s could not be matched to a unique account. It was matched to %s. Will delete message.",
-              metadata.author, accountIds));
-
+          "Address {} could not be matched to a unique account. It was matched to {}."
+              + " Will delete message.",
+          metadata.author,
+          accountIds);
       // We don't want to send an email if no accounts are linked to it.
       if (accountIds.size() > 1) {
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.UNKNOWN_ACCOUNT);
@@ -181,7 +182,7 @@ public class MailProcessor {
     Account.Id accountId = accountIds.iterator().next();
     Optional<AccountState> accountState = accountCache.get(accountId);
     if (!accountState.isPresent()) {
-      log.warn(String.format("Mail: Account %s doesn't exist. Will delete message.", accountId));
+      log.warn("Mail: Account {} doesn't exist. Will delete message.", accountId);
       return;
     }
     if (!accountState.get().getAccount().isActive()) {
@@ -211,17 +212,18 @@ public class MailProcessor {
           queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
       if (changeDataList.size() != 1) {
         log.error(
-            String.format(
-                "Message %s references unique change %s, but there are %d matching changes in the index. Will delete message.",
-                message.id(), metadata.changeNumber, changeDataList.size()));
+            "Message {} references unique change {}, but there are {} matching changes in "
+                + "the index. Will delete message.",
+            message.id(),
+            metadata.changeNumber,
+            changeDataList.size());
 
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
         return;
       }
       ChangeData cd = changeDataList.get(0);
       if (existingMessageIds(cd).contains(message.id())) {
-        log.info(
-            String.format("Message %s was already processed. Will delete message.", message.id()));
+        log.info("Message {} was already processed. Will delete message.", message.id());
         return;
       }
       // Get all comments; filter and sort them to get the original list of
@@ -244,9 +246,7 @@ public class MailProcessor {
       }
 
       if (parsedComments.isEmpty()) {
-        log.warn(
-            String.format(
-                "Could not parse any comments from %s. Will delete message.", message.id()));
+        log.warn("Could not parse any comments from {}. Will delete message.", message.id());
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
         return;
       }

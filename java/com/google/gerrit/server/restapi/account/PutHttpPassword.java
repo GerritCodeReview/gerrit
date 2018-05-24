@@ -76,7 +76,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   public Response<String> apply(AccountResource rsrc, HttpPasswordInput input)
       throws AuthException, ResourceNotFoundException, ResourceConflictException, OrmException,
           IOException, ConfigInvalidException, PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 

@@ -79,7 +79,7 @@ class HiddenErrorHandler extends ErrorHandler {
       if (!Strings.isNullOrEmpty(req.getQueryString())) {
         uri += "?" + req.getQueryString();
       }
-      log.error(String.format("Error in %s %s", req.getMethod(), uri), err);
+      log.error("Error in {} {}", req.getMethod(), uri, err);
     }
   }
 }

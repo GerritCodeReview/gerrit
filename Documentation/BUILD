@@ -71,13 +71,13 @@ genrule(
     name = "index",
     srcs = SRCS,
     outs = ["index.jar"],
-    cmd = "$(location //lib/asciidoctor:doc_indexer) " +
+    cmd = "$(location //java/com/google/gerrit/asciidoctor:doc_indexer) " +
           "-o $(OUTS) " +
           "--prefix \"%s/\" " % DOC_DIR +
           "--in-ext \".txt\" " +
           "--out-ext \".html\" " +
           "$(SRCS)",
-    tools = ["//lib/asciidoctor:doc_indexer"],
+    tools = ["//java/com/google/gerrit/asciidoctor:doc_indexer"],
 )
 
 # For the same srcs, we can have multiple genasciidoc_zip rules, but only one

@@ -53,6 +53,7 @@ package com.google.gerrit.server.tools.hooks;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,6 +71,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 
 @Ignore
+@UseLocalDisk
 public abstract class HookTestCase extends LocalDiskRepositoryTestCase {
   protected Repository repository;
   private final Map<String, File> hooks = new TreeMap<>();

@@ -25,6 +25,7 @@ import com.google.gerrit.server.index.Schema.Values;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 
+// TODO: WIP; make this class a usable appender with request objects.
 class ElasticBulkRequest<V> {
 
   private static final String DELETE = "delete";

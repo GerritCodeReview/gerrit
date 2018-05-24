@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1527190412 -0400\nnonce ACQuaLCABMZNcziC63yTJr+33NHs+ASakrRwVTkRjGrrkolUpJN7QI/bUTlLzTB6LHerpWNKzvzx\n\n0000000000000000000000000000000000000000 90135c1b884ac9c92da7d60ede162946db2eecd1 refs/for/master%r\u003ddavid.ostrovsky@gmail.com\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlsHE4wVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMZ10P/2J1z9AsnzHSgztvUjUB64RskuwD\nyBXJjrJY62MhO2PhZr/FB99e3KONGMbHq8Hu8wEzWF6kci8WEKju0OeZfICrR4BY\nUxaL/PIRAZqATF5ca1Iqa7hAK5p3HD4IBc+TolGJ7qEdBxwX0p6uWz+Zcr/e62bm\nvmuRyElMfOmPDtT+1xUQFNi3//udN+5KgWA0Si9btc8dNM3wplo8tYIhIoGM+D7S\nsnRFW/WLO8K4FdGjvtEW7rW8dma9vtt4lPGbkoPS09UY2woEaewmhLPsHzi9zy9Z\ndQdARMEugVmf4TKoCmOw5+m9sBo6MK5SsyCmWBYZFYKrmueglSvCAANOQCzgNvgw\ncQIOIz5rSoPMLvdRDHp/JlFiHVUwQqLcdj7fytSJGXL6RvIbsGQ16Rs/hI8oTd2V\nyA9rlz4mEH32lmU+9ml2VhH0byRw/UW3IVZDsIJO0FO1KUkz4lOTR+Wx1L7FWLbk\nlYvES1SOWDWi2F0/w/+QF5LqbFPKnx7woAvNWn9+oiq3PYVls9p2qhf1C8zSx84l\nYhV0K81Etyc2YeWlTK9TM8/N1i1dxy+PhB0sUXTjE5DmV4tfhB57tjaKjVTMa65P\n+gaTC81Cw6tRwvJ3qpn7xJnZBCcqK7vn42urIToAGokVWhnarT3yS+8jGeQrsJev\nUE/Xro3tS9i0YXNq\n\u003dfWWq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ade6e0d_9b160cf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-24T20:14:24Z",
+      "side": 1,
+      "message": "I guess Fishy\u0027s thinking back in 2013 when he added this here was: put those files to lib package, as they only used as tools for index and documentation generation.\n\nToday, we have already other non production code in java/... hierarchy, like testing.",
+      "revId": "90135c1b884ac9c92da7d60ede162946db2eecd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00f4298c_816b8013",
+        "filename": "java/com/google/gerrit/asciidoctor/AsciiDoctor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-24T20:14:24Z",
+      "side": 1,
+      "message": "Alternatively, if we would have more such tools specific java classes, that only used for generation as intermediate step and them self not included in the final artifact, we could hide them in tools package: c.g.g.tools.asciidoctor. That would also have a nice effect, that we wouldn\u0027t pollute much top level gerrit package. OTOS, we don\u0027t have any other candidates for tools package.",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "90135c1b884ac9c92da7d60ede162946db2eecd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

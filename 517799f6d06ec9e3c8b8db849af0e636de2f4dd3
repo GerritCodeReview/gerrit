@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4121a450_db3df91e",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:28:34Z",
+      "side": 1,
+      "message": "This (or its implementations) should be annotated with @UseLocalDisk so that they can be excluded from test setups that don\u0027t want to run (slow) tests using local disk.",
+      "revId": "517799f6d06ec9e3c8b8db849af0e636de2f4dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f22937d_b9bc0f22",
+        "filename": "javatests/com/google/gerrit/pgm/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-05-24T07:28:34Z",
+      "side": 1,
+      "message": "slow and small at the same time sounds wrong: The size defines the Bazel timeout on the test, small means 60 seconds. Is this sufficient?\n\nIIRC tags are used to filter out tests when needed. Do we use \u0027slow\u0027 to filter out slow tests in the CI?",
+      "revId": "517799f6d06ec9e3c8b8db849af0e636de2f4dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

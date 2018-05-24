@@ -67,6 +67,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
 
   private static final Logger log = LoggerFactory.getLogger(ElasticGroupIndex.class);
 
+  private final ElasticBulkRequest<AccountGroup> bulkRequest;
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;
 
@@ -81,12 +82,13 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
     super(cfg, null, sitePaths, schema, clientBuilder, GROUPS);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
+    bulkRequest = new ElasticBulkRequest<>(null, indexName, schema);
   }
 
   @Override
   public void replace(AccountGroup group) throws IOException {
-    String bulk = toAction(GROUPS, getId(group), INDEX);
-    bulk += toDoc(group);
+    String bulk = bulkRequest.toAction(GROUPS, getId(group), INDEX);
+    bulk += bulkRequest.toDoc(group);
 
     String uri = getURI(GROUPS, BULK);
     Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());

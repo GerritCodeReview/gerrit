@@ -14,12 +14,14 @@
 
 package com.google.gerrit.pgm.init;
 
+import com.google.gerrit.acceptance.UseLocalDisk;
 import java.io.IOException;
 import java.nio.file.Path;
 import org.eclipse.jgit.junit.LocalDiskRepositoryTestCase;
 import org.junit.Ignore;
 
 @Ignore
+@UseLocalDisk
 public abstract class InitTestCase extends LocalDiskRepositoryTestCase {
   protected Path newSitePath() throws IOException {
     return createWorkRepository().getWorkTree().toPath().resolve("test_site");

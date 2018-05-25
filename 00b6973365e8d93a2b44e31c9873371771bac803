@@ -118,6 +118,30 @@
       "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c125ba0_8c7e92e9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1014502
+      },
+      "writtenOn": "2018-05-25T16:56:59Z",
+      "side": 1,
+      "message": "I just came and found this review because I saw these strings in the UI for the first time just and and they are *very* confusing.\n\n\"Push: Allow some-group; Block all pushes, block force push only\" is inherently a contradictory statement. (https://screenshot.googleplex.com/L0NHesEytMN.png).\n\nWe\u0027re allowing pushes by some group. But we\u0027re blocking all pushes. But we\u0027re blocking force push only. What?\n\nI *think* this means that we\u0027re allowing pushes for some-group, blocking all pushes for everyone else, and still blocking force pushes for some-group. But even with years of dealing with gerrit permissions and knowing that\u0027s how it *should* work, I\u0027m not 100% sure I\u0027m right because this phrasing is so confusing.\n\nLet\u0027s please get something else here.",
+      "parentUuid": "42302e2d_c7b902b7",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 53
+      },
+      "revId": "00b6973365e8d93a2b44e31c9873371771bac803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

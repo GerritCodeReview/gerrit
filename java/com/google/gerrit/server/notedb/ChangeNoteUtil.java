@@ -29,7 +29,6 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.CommentRange;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.RevId;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -50,6 +49,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -99,11 +99,18 @@ public class ChangeNoteUtil {
   private static final String UNRESOLVED = "Unresolved";
   private static final String TAG = FOOTER_TAG.getName();
 
-  public static String formatTime(PersonIdent ident, Timestamp t) {
+  public static String formatTime(Timestamp t, TimeZone tz) {
+    // TODO(dborowitz): Creating a new GitDateFormatter per call creates a new SimpleDateFormat,
+    // which is not threadsafe, and potentially expensive to create. JGit should provide an
+    // interface using a more modern, faster API.
     GitDateFormatter dateFormatter = new GitDateFormatter(Format.DEFAULT);
-    // TODO(dborowitz): Use a ThreadLocal or use Joda.
-    PersonIdent newIdent = new PersonIdent(ident, t);
-    return dateFormatter.formatDate(newIdent);
+    // TODO(dborowitz): This is awkward and feels unsafe, although GitDateFormatter only ever
+    // touches the timestamp and timezone. Consider something like overriding PersonIdent to throw
+    // UnsupportedOperationException from getName/getEmailAddress, which would still be awkward, but
+    // at least less unsafe. A better solution is still probably to improve GitDateFormatter itself;
+    // see previous TODO.
+    PersonIdent fakeIdent = new PersonIdent("GERRIT INTERNAL", "GERRIT INTERNAL", t, tz);
+    return dateFormatter.formatDate(fakeIdent);
   }
 
   static Gson newGson() {
@@ -114,7 +121,7 @@ public class ChangeNoteUtil {
   }
 
   private final AccountCache accountCache;
-  private final PersonIdent serverIdent;
+  private final TimeZone tz;
   private final String serverId;
   private final Gson gson = newGson();
   private final boolean writeJson;
@@ -122,28 +129,27 @@ public class ChangeNoteUtil {
   @Inject
   public ChangeNoteUtil(
       AccountCache accountCache,
-      @GerritPersonIdent PersonIdent serverIdent,
+      TimeZone tz,
       @GerritServerId String serverId,
       @GerritServerConfig Config config) {
     this.accountCache = accountCache;
-    this.serverIdent = serverIdent;
+    this.tz = tz;
     this.serverId = serverId;
     this.writeJson = config.getBoolean("notedb", "writeJson", true);
   }
 
-  public PersonIdent newIdent(Account.Id authorId, Date when, PersonIdent serverIdent) {
+  public PersonIdent newIdent(Account.Id authorId, Date when, TimeZone tz) {
     Optional<Account> author = accountCache.get(authorId).map(AccountState::getAccount);
     return new PersonIdent(
         author.map(Account::getName).orElseGet(() -> Account.getName(authorId)),
         authorId.get() + "@" + serverId,
         when,
-        serverIdent.getTimeZone());
+        tz);
   }
 
   @VisibleForTesting
-  public PersonIdent newIdent(Account author, Date when, PersonIdent serverIdent) {
-    return new PersonIdent(
-        author.getName(), author.getId().get() + "@" + serverId, when, serverIdent.getTimeZone());
+  public PersonIdent newIdent(Account author, Date when, TimeZone tz) {
+    return new PersonIdent(author.getName(), author.getId().get() + "@" + serverId, when, tz);
   }
 
   public boolean getWriteJson() {
@@ -592,7 +598,7 @@ public class ChangeNoteUtil {
     }
     writer.print("\n");
 
-    writer.print(formatTime(serverIdent, c.writtenOn));
+    writer.print(formatTime(c.writtenOn, tz));
     writer.print("\n");
 
     appendIdent(writer, AUTHOR, c.author.getId(), c.writtenOn);
@@ -620,7 +626,7 @@ public class ChangeNoteUtil {
   }
 
   private void appendIdent(PrintWriter writer, String header, Account.Id id, Timestamp ts) {
-    PersonIdent ident = newIdent(id, ts, serverIdent);
+    PersonIdent ident = newIdent(id, ts, tz);
     StringBuilder name = new StringBuilder();
     PersonIdent.appendSanitized(name, ident.getName());
     name.append(" <");

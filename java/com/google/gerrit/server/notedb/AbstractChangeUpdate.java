@@ -24,12 +24,15 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdentFactory;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gwtorm.server.OrmException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.TimeZone;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -62,18 +65,19 @@ public abstract class AbstractChangeUpdate {
       NotesMigration migration,
       ChangeNotes notes,
       CurrentUser user,
-      PersonIdent serverIdent,
       ChangeNoteUtil noteUtil,
-      Date when) {
+      GerritServerIdent serverIdent,
+      Date when,
+      TimeZone tz) {
     this.migration = migration;
     this.noteUtil = noteUtil;
-    this.serverIdent = new PersonIdent(serverIdent, when);
+    this.serverIdent = new PersonIdent(serverIdent.name(), serverIdent.email(), when, tz);
     this.notes = notes;
     this.change = notes.getChange();
     this.accountId = accountId(user);
     Account.Id realAccountId = accountId(user.getRealUser());
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
-    this.authorIdent = ident(noteUtil, serverIdent, user, when);
+    this.authorIdent = ident(noteUtil, serverIdent, user, when, tz);
     this.when = when;
     this.readOnlySkewMs = NoteDbChangeState.getReadOnlySkew(cfg);
   }
@@ -82,19 +86,20 @@ public abstract class AbstractChangeUpdate {
       Config cfg,
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
-      PersonIdent serverIdent,
       @Nullable ChangeNotes notes,
       @Nullable Change change,
       Account.Id accountId,
       Account.Id realAccountId,
       PersonIdent authorIdent,
+      GerritServerIdent serverIdent,
+      TimeZone tz,
       Date when) {
     checkArgument(
         (notes != null && change == null) || (notes == null && change != null),
         "exactly one of notes or change required");
     this.migration = migration;
     this.noteUtil = noteUtil;
-    this.serverIdent = new PersonIdent(serverIdent, when);
+    this.serverIdent = new PersonIdent(serverIdent.name(), serverIdent.email(), when, tz);
     this.notes = notes;
     this.change = change != null ? change : notes.getChange();
     this.accountId = accountId;
@@ -117,12 +122,16 @@ public abstract class AbstractChangeUpdate {
   }
 
   private static PersonIdent ident(
-      ChangeNoteUtil noteUtil, PersonIdent serverIdent, CurrentUser u, Date when) {
+      ChangeNoteUtil noteUtil,
+      GerritServerIdent serverIdent,
+      CurrentUser u,
+      Date when,
+      TimeZone tz) {
     checkUserType(u);
     if (u instanceof IdentifiedUser) {
-      return noteUtil.newIdent(u.asIdentifiedUser().getAccount(), when, serverIdent);
+      return noteUtil.newIdent(u.asIdentifiedUser().getAccount(), when, tz);
     } else if (u instanceof InternalUser) {
-      return serverIdent;
+      return new PersonIdent(serverIdent.name(), serverIdent.email(), when, tz);
     }
     throw new IllegalStateException();
   }
@@ -175,7 +184,7 @@ public abstract class AbstractChangeUpdate {
   }
 
   protected PersonIdent newIdent(Account.Id authorId, Date when) {
-    return noteUtil.newIdent(authorId, when, serverIdent);
+    return noteUtil.newIdent(authorId, when, serverIdent.getTimeZone());
   }
 
   /** Whether no updates have been done. */

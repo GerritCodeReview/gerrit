@@ -24,7 +24,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.assistedinject.Assisted;
@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -75,7 +76,8 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
   @AssistedInject
   private RobotCommentUpdate(
       @GerritServerConfig Config cfg,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritServerIdent serverIdent,
+      TimeZone tz,
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
       @Assisted ChangeNotes notes,
@@ -87,19 +89,21 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
         cfg,
         migration,
         noteUtil,
-        serverIdent,
         notes,
         null,
         accountId,
         realAccountId,
         authorIdent,
+        serverIdent,
+        tz,
         when);
   }
 
   @AssistedInject
   private RobotCommentUpdate(
       @GerritServerConfig Config cfg,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritServerIdent serverIdent,
+      TimeZone tz,
       NotesMigration migration,
       ChangeNoteUtil noteUtil,
       @Assisted Change change,
@@ -111,12 +115,13 @@ public class RobotCommentUpdate extends AbstractChangeUpdate {
         cfg,
         migration,
         noteUtil,
-        serverIdent,
         null,
         change,
         accountId,
         realAccountId,
         authorIdent,
+        serverIdent,
+        tz,
         when);
   }
 

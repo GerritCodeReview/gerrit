@@ -49,7 +49,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -78,7 +78,6 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -100,7 +99,6 @@ import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
@@ -138,7 +136,7 @@ public class NoteDbMigrator implements AutoCloseable {
   public static class Builder {
     private final Config cfg;
     private final SitePaths sitePaths;
-    private final Provider<PersonIdent> serverIdent;
+    private final GerritPersonIdentFactory identFactory;
     private final AllUsersName allUsers;
     private final SchemaFactory<ReviewDb> schemaFactory;
     private final GitRepositoryManager repoManager;
@@ -167,7 +165,7 @@ public class NoteDbMigrator implements AutoCloseable {
     Builder(
         GerritServerConfigProvider configProvider,
         SitePaths sitePaths,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent,
+        GerritPersonIdentFactory identFactory,
         AllUsersName allUsers,
         SchemaFactory<ReviewDb> schemaFactory,
         GitRepositoryManager repoManager,
@@ -186,7 +184,7 @@ public class NoteDbMigrator implements AutoCloseable {
       // trial/autoMigrate get set correctly below.
       this.cfg = configProvider.loadConfig();
       this.sitePaths = sitePaths;
-      this.serverIdent = serverIdent;
+      this.identFactory = identFactory;
       this.allUsers = allUsers;
       this.schemaFactory = schemaFactory;
       this.repoManager = repoManager;
@@ -350,7 +348,7 @@ public class NoteDbMigrator implements AutoCloseable {
       return new NoteDbMigrator(
           sitePaths,
           schemaFactory,
-          serverIdent,
+          identFactory,
           allUsers,
           repoManager,
           updateManagerFactory,
@@ -379,7 +377,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final FileBasedConfig gerritConfig;
   private final FileBasedConfig noteDbConfig;
   private final SchemaFactory<ReviewDb> schemaFactory;
-  private final Provider<PersonIdent> serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final AllUsersName allUsers;
   private final GitRepositoryManager repoManager;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
@@ -405,7 +403,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private NoteDbMigrator(
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
-      Provider<PersonIdent> serverIdent,
+      GerritPersonIdentFactory identFactory,
       AllUsersName allUsers,
       GitRepositoryManager repoManager,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -435,7 +433,7 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     this.schemaFactory = schemaFactory;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.allUsers = allUsers;
     this.rebuilder = rebuilder;
     this.repoManager = repoManager;
@@ -966,7 +964,7 @@ public class NoteDbMigrator implements AutoCloseable {
     ins.flush();
     BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
     bru.setRefLogMessage("Migrate changes to NoteDb", false);
-    bru.setRefLogIdent(serverIdent.get());
+    bru.setRefLogIdent(identFactory.createAtCurrentTime());
     bru.setAtomic(false);
     bru.setAllowNonFastForwards(true);
     cmds.addTo(bru);

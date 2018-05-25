@@ -22,7 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -72,18 +72,18 @@ public class Schema_160 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final Provider<PersonIdent> serverIdent;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_160(
       Provider<Schema_159> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -92,10 +92,11 @@ public class Schema_160 extends SchemaVersion {
       try (Repository repo = repoManager.openRepository(allUsersName)) {
         ProgressMonitor pm = new TextProgressMonitor();
         pm.beginTask("Removing \"My Drafts\" menu items", ProgressMonitor.UNKNOWN);
+        PersonIdent serverIdent = identFactory.createAtCurrentTime();
         for (Account.Id id : (Iterable<Account.Id>) Accounts.readUserRefs(repo)::iterator) {
-          removeMyDrafts(repo, RefNames.refsUsers(id), pm);
+          removeMyDrafts(repo, RefNames.refsUsers(id), serverIdent, pm);
         }
-        removeMyDrafts(repo, RefNames.REFS_USERS_DEFAULT, pm);
+        removeMyDrafts(repo, RefNames.REFS_USERS_DEFAULT, serverIdent, pm);
         pm.endTask();
       }
     } catch (IOException | ConfigInvalidException e) {
@@ -103,10 +104,11 @@ public class Schema_160 extends SchemaVersion {
     }
   }
 
-  private void removeMyDrafts(Repository repo, String ref, ProgressMonitor pm)
+  private void removeMyDrafts(
+      Repository repo, String ref, PersonIdent serverIdent, ProgressMonitor pm)
       throws IOException, ConfigInvalidException {
     MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repo);
-    PersonIdent ident = serverIdent.get();
+    PersonIdent ident = serverIdent;
     md.getCommitBuilder().setAuthor(ident);
     md.getCommitBuilder().setCommitter(ident);
     Prefs prefs = new Prefs(ref);

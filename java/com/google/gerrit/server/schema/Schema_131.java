@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -38,16 +38,16 @@ public class Schema_131 extends SchemaVersion {
       "Rename 'Push Annotated/Signed Tag' permission to 'Create Annotated/Signed Tag'";
 
   private final GitRepositoryManager repoManager;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_131(
       Provider<Schema_130> prior,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -55,13 +55,14 @@ public class Schema_131 extends SchemaVersion {
     SortedSet<Project.NameKey> repoList = repoManager.list();
     SortedSet<Project.NameKey> repoUpgraded = new TreeSet<>();
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
+    PersonIdent serverIdent = identFactory.createAtCurrentTime();
     for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
         ProjectConfig config = ProjectConfig.read(md);
         if (config.hasLegacyPermissions()) {
-          md.getCommitBuilder().setAuthor(serverUser);
-          md.getCommitBuilder().setCommitter(serverUser);
+          md.getCommitBuilder().setAuthor(serverIdent);
+          md.getCommitBuilder().setCommitter(serverIdent);
           md.setMessage(COMMIT_MSG);
           config.commit(md);
           repoUpgraded.add(projectName);

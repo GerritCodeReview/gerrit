@@ -16,7 +16,7 @@ package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
@@ -42,18 +42,18 @@ public class Schema_144 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final PersonIdent serverIdent;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_144(
       Provider<Schema_143> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -84,6 +84,7 @@ public class Schema_144 extends SchemaVersion {
         extIdNotes.upsert(toAdd);
         try (MetaDataUpdate metaDataUpdate =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, repo)) {
+          PersonIdent serverIdent = identFactory.createAtCurrentTime();
           metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
           metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
           metaDataUpdate.getCommitBuilder().setMessage(COMMIT_MSG);

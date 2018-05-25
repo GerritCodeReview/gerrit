@@ -15,9 +15,10 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gwtorm.server.OrmException;
@@ -59,18 +60,18 @@ public class Schema_146 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final PersonIdent serverIdent;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_146(
       Provider<Schema_145> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverIdent) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -80,13 +81,14 @@ public class Schema_146 extends SchemaVersion {
         ObjectInserter oi = repo.newObjectInserter()) {
       ObjectId emptyTree = emptyTree(oi);
 
+      PersonIdent serverIdent = identFactory.createAtCurrentTime();
       for (Map.Entry<Account.Id, Timestamp> e : scanAccounts(db).entrySet()) {
         String refName = RefNames.refsUsers(e.getKey());
         Ref ref = repo.exactRef(refName);
         if (ref != null) {
-          rewriteUserBranch(repo, rw, oi, emptyTree, ref, e.getValue());
+          rewriteUserBranch(repo, rw, oi, emptyTree, ref, e.getValue(), serverIdent);
         } else {
-          createUserBranch(repo, oi, emptyTree, e.getKey(), e.getValue());
+          createUserBranch(repo, oi, emptyTree, e.getKey(), e.getValue(), serverIdent);
         }
       }
     } catch (IOException e) {
@@ -100,9 +102,10 @@ public class Schema_146 extends SchemaVersion {
       ObjectInserter oi,
       ObjectId emptyTree,
       Ref ref,
-      Timestamp registeredOn)
+      Timestamp registeredOn,
+      PersonIdent serverIdent)
       throws IOException {
-    ObjectId current = createInitialEmptyCommit(oi, emptyTree, registeredOn);
+    ObjectId current = createInitialEmptyCommit(oi, emptyTree, registeredOn, serverIdent);
 
     rw.reset();
     rw.sort(RevSort.TOPO);
@@ -144,10 +147,11 @@ public class Schema_146 extends SchemaVersion {
       Repository repo,
       ObjectInserter oi,
       ObjectId emptyTree,
-      Account.Id accountId,
-      Timestamp registeredOn)
+      Id accountId,
+      Timestamp registeredOn,
+      PersonIdent serverIdent)
       throws IOException {
-    ObjectId id = createInitialEmptyCommit(oi, emptyTree, registeredOn);
+    ObjectId id = createInitialEmptyCommit(oi, emptyTree, registeredOn, serverIdent);
 
     String refName = RefNames.refsUsers(accountId);
     RefUpdate ru = repo.updateRef(refName);
@@ -162,7 +166,8 @@ public class Schema_146 extends SchemaVersion {
   }
 
   private ObjectId createInitialEmptyCommit(
-      ObjectInserter oi, ObjectId emptyTree, Timestamp registrationDate) throws IOException {
+      ObjectInserter oi, ObjectId emptyTree, Timestamp registrationDate, PersonIdent serverIdent)
+      throws IOException {
     PersonIdent ident = new PersonIdent(serverIdent, registrationDate);
 
     CommitBuilder cb = new CommitBuilder();

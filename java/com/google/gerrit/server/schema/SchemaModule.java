@@ -28,7 +28,6 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
-import org.eclipse.jgit.lib.PersonIdent;
 
 /** Validate the schema and connect to Git. */
 public class SchemaModule extends FactoryModule {

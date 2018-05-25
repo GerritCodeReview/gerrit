@@ -25,7 +25,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -46,7 +46,7 @@ import org.eclipse.jgit.lib.Repository;
 public class AllUsersCreator {
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
   private final GroupReference registered;
 
   @Nullable private GroupReference admin;
@@ -56,10 +56,10 @@ public class AllUsersCreator {
       GitRepositoryManager mgr,
       AllUsersName allUsersName,
       SystemGroupBackend systemGroupBackend,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     this.mgr = mgr;
     this.allUsersName = allUsersName;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
     this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
   }
 
@@ -89,8 +89,9 @@ public class AllUsersCreator {
 
   private void initAllUsers(Repository git) throws IOException, ConfigInvalidException {
     try (MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
-      md.getCommitBuilder().setAuthor(serverUser);
-      md.getCommitBuilder().setCommitter(serverUser);
+      PersonIdent serverIdent = identFactory.createAtCurrentTime();
+      md.getCommitBuilder().setAuthor(serverIdent);
+      md.getCommitBuilder().setCommitter(serverIdent);
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
 
       ProjectConfig config = ProjectConfig.read(md);

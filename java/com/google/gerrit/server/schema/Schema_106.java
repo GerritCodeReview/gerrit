@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gwtorm.server.OrmException;
@@ -37,7 +37,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
 public class Schema_106 extends SchemaVersion {
@@ -45,16 +44,16 @@ public class Schema_106 extends SchemaVersion {
   // waiting for IO
   private static final int THREADS_PER_CPU = 4;
   private final GitRepositoryManager repoManager;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_106(
       Provider<Schema_105> prior,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -141,7 +140,7 @@ public class Schema_106 extends SchemaVersion {
             writer.print(" ");
             writer.print(metaConfigId.name());
             writer.print(" ");
-            writer.print(serverUser.toExternalString());
+            writer.print(identFactory.createAtCurrentTime().toExternalString());
             writer.print("\t");
             writer.print("create reflog");
             writer.println();

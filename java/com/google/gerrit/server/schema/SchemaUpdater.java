@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -41,7 +40,6 @@ import java.sql.SQLException;
 import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 
 /** Creates or updates the current database schema. */
 public class SchemaUpdater {
@@ -75,7 +73,6 @@ public class SchemaUpdater {
 
             for (Key<?> k :
                 new Key<?>[] {
-                  Key.get(PersonIdent.class, GerritPersonIdent.class),
                   Key.get(String.class, AnonymousCowardName.class),
                   Key.get(Config.class, GerritServerConfig.class),
                 }) {

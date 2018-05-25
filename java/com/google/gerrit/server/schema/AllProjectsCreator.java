@@ -40,7 +40,7 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -68,7 +68,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 public class AllProjectsCreator {
   private final GitRepositoryManager mgr;
   private final AllProjectsName allProjectsName;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
   private final NotesMigration notesMigration;
   private String message;
   private int firstChangeId = ReviewDb.FIRST_CHANGE_ID;
@@ -85,11 +85,11 @@ public class AllProjectsCreator {
       GitRepositoryManager mgr,
       AllProjectsName allProjectsName,
       SystemGroupBackend systemGroupBackend,
-      @GerritPersonIdent PersonIdent serverUser,
+      GerritPersonIdentFactory identFactory,
       NotesMigration notesMigration) {
     this.mgr = mgr;
     this.allProjectsName = allProjectsName;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
     this.notesMigration = notesMigration;
 
     this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
@@ -141,8 +141,9 @@ public class AllProjectsCreator {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {
-      md.getCommitBuilder().setAuthor(serverUser);
-      md.getCommitBuilder().setCommitter(serverUser);
+      PersonIdent serverIdent = identFactory.createAtCurrentTime();
+      md.getCommitBuilder().setAuthor(serverIdent);
+      md.getCommitBuilder().setCommitter(serverIdent);
       md.setMessage(
           MoreObjects.firstNonNull(
               Strings.emptyToNull(message),

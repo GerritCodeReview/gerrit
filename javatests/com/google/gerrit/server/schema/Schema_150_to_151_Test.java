@@ -23,7 +23,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.Id;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupUUID;
@@ -31,7 +31,6 @@ import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.gerrit.testing.TestUpdateUI;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +40,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneOffset;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -54,7 +52,7 @@ public class Schema_150_to_151_Test {
   @Inject private Schema_151 schema151;
   @Inject private ReviewDb db;
   @Inject private IdentifiedUser currentUser;
-  @Inject private @GerritPersonIdent Provider<PersonIdent> serverIdent;
+  @Inject private GerritPersonIdentFactory identFactory;
   @Inject private Sequences seq;
 
   private Connection connection;
@@ -156,7 +154,7 @@ public class Schema_150_to_151_Test {
         new AccountGroup(
             new AccountGroup.NameKey(name),
             new AccountGroup.Id(seq.nextGroupId()),
-            GroupUUID.make(name, serverIdent.get()),
+            GroupUUID.make(name, identFactory.createAtCurrentTime()),
             TimeUtil.nowTs());
     storeInReviewDb(group);
     addMembersInReviewDb(group.getId(), currentUser.getAccountId());

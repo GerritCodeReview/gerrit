@@ -21,7 +21,7 @@ import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.InternalAccountUpdate;
@@ -52,12 +52,15 @@ public class AccountsOnInit {
   private final InitFlags flags;
   private final SitePaths site;
   private final String allUsers;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
-  public AccountsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
+  public AccountsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers,
+      GerritPersonIdentFactory identFactory) {
     this.flags = flags;
     this.site = site;
     this.allUsers = allUsers.get();
+    this.identFactory = identFactory;
   }
 
   public void insert(Account account) throws IOException {
@@ -65,9 +68,7 @@ public class AccountsOnInit {
     if (path != null) {
       try (Repository repo = new FileRepository(path);
           ObjectInserter oi = repo.newObjectInserter()) {
-        PersonIdent ident =
-            new PersonIdent(
-                new GerritPersonIdentProvider(flags.cfg).get(), account.getRegisteredOn());
+        PersonIdent ident = identFactory.create(account.getRegisteredOn());
 
         Config accountConfig = new Config();
         AccountProperties.writeToAccountConfig(

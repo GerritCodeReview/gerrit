@@ -8,6 +8,7 @@ java_binary(
 java_library(
     name = "asciidoc_lib",
     srcs = ["AsciiDoctor.java"],
+    visibility = ["//tools/eclipse:__pkg__"],
     deps = [
         "//lib:args4j",
         "//lib:guava",
@@ -20,7 +21,7 @@ java_library(
 java_binary(
     name = "doc_indexer",
     main_class = "com.google.gerrit.asciidoctor.DocIndexer",
-    visibility = ["//visibility:public"],
+    visibility = ["//tools/eclipse:__pkg__"],
     runtime_deps = [":doc_indexer_lib"],
 )
 

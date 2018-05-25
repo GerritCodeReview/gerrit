@@ -27,7 +27,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -65,12 +65,18 @@ public class GroupsOnInit {
   private final InitFlags flags;
   private final SitePaths site;
   private final String allUsers;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
-  public GroupsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
+  public GroupsOnInit(
+      InitFlags flags,
+      SitePaths site,
+      AllUsersNameOnInitProvider allUsers,
+      GerritPersonIdentFactory identFactory) {
     this.flags = flags;
     this.site = site;
     this.allUsers = allUsers.get();
+    this.identFactory = identFactory;
   }
 
   /**
@@ -177,8 +183,7 @@ public class GroupsOnInit {
 
   private void commit(Repository repository, GroupConfig groupConfig, Timestamp groupCreatedOn)
       throws IOException {
-    PersonIdent personIdent =
-        new PersonIdent(new GerritPersonIdentProvider(flags.cfg).get(), groupCreatedOn);
+    PersonIdent personIdent = identFactory.create(groupCreatedOn);
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(repository, personIdent)) {
       groupConfig.commit(metaDataUpdate);
     }

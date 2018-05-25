@@ -35,6 +35,7 @@ import com.google.gerrit.pgm.init.index.elasticsearch.ElasticIndexModuleOnInit;
 import com.google.gerrit.pgm.init.index.lucene.LuceneIndexModuleOnInit;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.GerritServerIdentModule;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -256,6 +257,7 @@ public class BaseInit extends SiteProgram {
     }
 
     m.add(new GerritServerConfigModule());
+    m.add(new GerritServerIdentModule());
     m.add(new InitModule(standalone, initDb));
     m.add(
         new AbstractModule() {

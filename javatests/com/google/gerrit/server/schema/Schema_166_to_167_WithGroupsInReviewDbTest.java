@@ -45,7 +45,8 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupBackend;
@@ -83,10 +84,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -120,11 +121,13 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
   @Inject private GroupsConsistencyChecker consistencyChecker;
   @Inject private IdentifiedUser currentUser;
   @Inject private @GerritServerId String serverId;
-  @Inject private @GerritPersonIdent PersonIdent serverIdent;
+  @Inject private GerritPersonIdentFactory identFactory;
   @Inject private GroupBundle.Factory groupBundleFactory;
   @Inject private GroupBackend groupBackend;
   @Inject private DynamicSet<GroupBackend> backends;
   @Inject private Sequences seq;
+  @Inject private GerritServerIdent serverIdent;
+  @Inject private TimeZone tz;
 
   private JdbcSchema jdbcSchema;
 
@@ -446,10 +449,10 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
     // Verify commit that created the group
     assertThat(log.get(0)).message().isEqualTo("Create group");
-    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.getName());
-    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.getEmailAddress());
+    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.name());
+    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.email());
     assertThat(log.get(0)).author().date().isEqualTo(noteDbBundle.group().getCreatedOn());
-    assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.getTimeZoneOffset());
+    assertThat(log.get(0)).author().tz().isEqualTo(getOffsetInMinutes(tz));
     assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
 
     // Verify commit that the group creator as member
@@ -532,10 +535,10 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
     // Verify commit that created the group
     assertThat(log.get(0)).message().isEqualTo("Create group");
-    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.getName());
-    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.getEmailAddress());
+    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.name());
+    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.email());
     assertThat(log.get(0)).author().date().isEqualTo(noteDbBundle.group().getCreatedOn());
-    assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.getTimeZoneOffset());
+    assertThat(log.get(0)).author().tz().isEqualTo(getOffsetInMinutes(tz));
     assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
 
     // Verify commit that the group creator as member
@@ -600,10 +603,10 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
     // Verify commit that created the group
     assertThat(log.get(0)).message().isEqualTo("Create group");
-    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.getName());
-    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.getEmailAddress());
+    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.name());
+    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.email());
     assertThat(log.get(0)).author().date().isEqualTo(noteDbBundle.group().getCreatedOn());
-    assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.getTimeZoneOffset());
+    assertThat(log.get(0)).author().tz().isEqualTo(getOffsetInMinutes(tz));
     assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
 
     // Verify commit that the group creator as member
@@ -671,10 +674,10 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
 
     // Verify commit that created the group
     assertThat(log.get(0)).message().isEqualTo("Create group");
-    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.getName());
-    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.getEmailAddress());
+    assertThat(log.get(0)).author().name().isEqualTo(serverIdent.name());
+    assertThat(log.get(0)).author().email().isEqualTo(serverIdent.email());
     assertThat(log.get(0)).author().date().isEqualTo(noteDbBundle.group().getCreatedOn());
-    assertThat(log.get(0)).author().tz().isEqualTo(serverIdent.getTimeZoneOffset());
+    assertThat(log.get(0)).author().tz().isEqualTo(getOffsetInMinutes(tz));
     assertThat(log.get(0)).committer().isEqualTo(log.get(0).author);
 
     // Verify commit that the group creator as member
@@ -726,7 +729,7 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
         new AccountGroup(
             new AccountGroup.NameKey(groupName),
             new AccountGroup.Id(seq.nextGroupId()),
-            GroupUUID.make(groupName, serverIdent),
+            GroupUUID.make(groupName, identFactory.createAtCurrentTime()),
             TimeUtil.nowTs());
     storeInReviewDb(group);
     addMembersInReviewDb(group.getId(), currentUser.getAccountId());
@@ -1121,5 +1124,9 @@ public class Schema_166_to_167_WithGroupsInReviewDbTest {
     groupInfo.options = new GroupOptionsInfo();
     groupInfo.options.visibleToAll = group.isVisibleToAll() ? true : null;
     return groupInfo;
+  }
+
+  private static long getOffsetInMinutes(TimeZone tz) {
+    return TimeUnit.MILLISECONDS.toMinutes(tz.getRawOffset());
   }
 }

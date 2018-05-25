@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -47,7 +47,7 @@ public class Schema_161_to_162_Test {
   @Inject private GitRepositoryManager repoManager;
   @Inject private Schema_162 schema162;
   @Inject private ReviewDb db;
-  @Inject @GerritPersonIdent private PersonIdent serverUser;
+  @Inject private GerritPersonIdentFactory identFactory;
 
   @Test
   public void skipCorrectInheritance() throws Exception {
@@ -75,6 +75,7 @@ public class Schema_161_to_162_Test {
         MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git)) {
       ProjectConfig cfg = ProjectConfig.read(md);
       cfg.getProject().setParentName(testProject);
+      PersonIdent serverUser = identFactory.createAtCurrentTime();
       md.getCommitBuilder().setCommitter(serverUser);
       md.getCommitBuilder().setAuthor(serverUser);
       md.setMessage("Test");

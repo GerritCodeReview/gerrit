@@ -24,6 +24,7 @@ import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.GerritServerIdentModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -90,6 +91,7 @@ public class SchemaUpdaterTest {
                     bind(schemaFactory).to(NotesMigrationSchemaFactory.class);
                     bind(Key.get(schemaFactory, ReviewDbFactory.class)).toInstance(db);
                     bind(SitePaths.class).toInstance(paths);
+                    install(new GerritServerIdentModule());
 
                     Config cfg = new Config();
                     cfg.setString("user", null, "name", "Gerrit Code Review");

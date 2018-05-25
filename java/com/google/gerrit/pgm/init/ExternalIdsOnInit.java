@@ -17,7 +17,7 @@ package com.google.gerrit.pgm.init;
 import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.SitePaths;
@@ -40,12 +40,18 @@ public class ExternalIdsOnInit {
   private final InitFlags flags;
   private final SitePaths site;
   private final String allUsers;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
-  public ExternalIdsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
+  public ExternalIdsOnInit(
+      InitFlags flags,
+      SitePaths site,
+      AllUsersNameOnInitProvider allUsers,
+      GerritPersonIdentFactory identFactory) {
     this.flags = flags;
     this.site = site;
     this.allUsers = allUsers.get();
+    this.identFactory = identFactory;
   }
 
   public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
@@ -58,7 +64,7 @@ public class ExternalIdsOnInit {
         try (MetaDataUpdate metaDataUpdate =
             new MetaDataUpdate(
                 GitReferenceUpdated.DISABLED, new Project.NameKey(allUsers), allUsersRepo)) {
-          PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
+          PersonIdent serverIdent = identFactory.createAtCurrentTime();
           metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
           metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
           metaDataUpdate.getCommitBuilder().setMessage(commitMessage);

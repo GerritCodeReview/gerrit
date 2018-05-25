@@ -22,7 +22,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys.SimpleSshKeyCreator;
@@ -53,18 +53,18 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class Schema_124 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_124(
       Provider<Schema_123> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -94,6 +94,7 @@ public class Schema_124 extends SchemaVersion {
       return;
     }
 
+    PersonIdent serverIdent = identFactory.createAtCurrentTime();
     try (Repository git = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
@@ -101,8 +102,8 @@ public class Schema_124 extends SchemaVersion {
       for (Map.Entry<Account.Id, Collection<AccountSshKey>> e : imports.asMap().entrySet()) {
         try (MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
-          md.getCommitBuilder().setAuthor(serverUser);
-          md.getCommitBuilder().setCommitter(serverUser);
+          md.getCommitBuilder().setAuthor(serverIdent);
+          md.getCommitBuilder().setCommitter(serverIdent);
 
           VersionedAuthorizedKeys authorizedKeys =
               new VersionedAuthorizedKeys(new SimpleSshKeyCreator(), e.getKey());

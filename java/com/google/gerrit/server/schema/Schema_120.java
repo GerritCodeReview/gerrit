@@ -18,7 +18,7 @@ import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -42,27 +42,26 @@ import org.eclipse.jgit.transport.RefSpec;
 public class Schema_120 extends SchemaVersion {
 
   private final GitRepositoryManager mgr;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_120(
-      Provider<Schema_119> prior,
-      GitRepositoryManager mgr,
-      @GerritPersonIdent PersonIdent serverUser) {
+      Provider<Schema_119> prior, GitRepositoryManager mgr, GerritPersonIdentFactory identFactory) {
     super(prior);
     this.mgr = mgr;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   private void allowSubmoduleSubscription(Branch.NameKey subbranch, Branch.NameKey superBranch)
       throws OrmException {
+    PersonIdent serverIdent = identFactory.createAtCurrentTime();
     try (Repository git = mgr.openRepository(subbranch.getParentKey());
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       try (MetaDataUpdate md =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, subbranch.getParentKey(), git, bru)) {
-        md.getCommitBuilder().setAuthor(serverUser);
-        md.getCommitBuilder().setCommitter(serverUser);
+        md.getCommitBuilder().setAuthor(serverIdent);
+        md.getCommitBuilder().setCommitter(serverIdent);
         md.setMessage("Added superproject subscription during upgrade");
         ProjectConfig pc = ProjectConfig.read(md);
 

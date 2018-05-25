@@ -15,7 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -34,7 +34,7 @@ public class Schema_162 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_162(
@@ -42,12 +42,12 @@ public class Schema_162 extends SchemaVersion {
       GitRepositoryManager repoManager,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -59,8 +59,9 @@ public class Schema_162 extends SchemaVersion {
         return;
       }
       cfg.getProject().setParentName(allProjectsName);
-      md.getCommitBuilder().setAuthor(serverUser);
-      md.getCommitBuilder().setCommitter(serverUser);
+      PersonIdent serverIdent = identFactory.createAtCurrentTime();
+      md.getCommitBuilder().setAuthor(serverIdent);
+      md.getCommitBuilder().setCommitter(serverIdent);
       md.setMessage(
           String.format("Make %s inherit from %s", allUsersName.get(), allProjectsName.get()));
       cfg.commit(md);

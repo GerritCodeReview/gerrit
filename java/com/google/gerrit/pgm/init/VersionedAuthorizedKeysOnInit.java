@@ -22,6 +22,7 @@ import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.VersionedMetaDataOnInit;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AuthorizedKeys;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
@@ -47,8 +48,9 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
       AllUsersNameOnInitProvider allUsers,
       SitePaths site,
       InitFlags flags,
+      GerritPersonIdentFactory identFactory,
       @Assisted Account.Id accountId) {
-    super(flags, site, allUsers.get(), RefNames.refsUsers(accountId));
+    super(flags, site, identFactory, RefNames.refsUsers(accountId), allUsers.get());
     this.accountId = accountId;
   }
 

@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -40,16 +40,16 @@ public class Schema_130 extends SchemaVersion {
           + "supported.";
 
   private final GitRepositoryManager repoManager;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_130(
       Provider<Schema_129> prior,
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -57,6 +57,7 @@ public class Schema_130 extends SchemaVersion {
     SortedSet<Project.NameKey> repoList = repoManager.list();
     SortedSet<Project.NameKey> repoUpgraded = new TreeSet<>();
     ui.message("\tMigrating " + repoList.size() + " repositories ...");
+    PersonIdent serverIdent = identFactory.createAtCurrentTime();
     for (Project.NameKey projectName : repoList) {
       try (Repository git = repoManager.openRepository(projectName);
           MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, git)) {
@@ -65,7 +66,7 @@ public class Schema_130 extends SchemaVersion {
         if (cfg.isUpdated()) {
           repoUpgraded.add(projectName);
         }
-        cfg.save(serverUser, COMMIT_MSG);
+        cfg.save(serverIdent, COMMIT_MSG);
       } catch (ConfigInvalidException | IOException ex) {
         throw new OrmException("Cannot migrate project " + projectName, ex);
       }

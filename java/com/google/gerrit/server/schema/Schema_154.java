@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -61,18 +61,18 @@ public class Schema_154 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final Provider<PersonIdent> serverIdent;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_154(
       Provider<Schema_153> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -84,8 +84,9 @@ public class Schema_154 extends SchemaVersion {
         Set<Account> accounts = scanAccounts(db, pm);
         pm.endTask();
         pm.beginTask("Migrating accounts to NoteDb", accounts.size());
+        PersonIdent serverIdent = identFactory.createAtCurrentTime();
         for (Account account : accounts) {
-          updateAccountInNoteDb(repo, account);
+          updateAccountInNoteDb(repo, account, serverIdent);
           pm.update(1);
         }
         pm.endTask();
@@ -132,11 +133,10 @@ public class Schema_154 extends SchemaVersion {
         .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
-  private void updateAccountInNoteDb(Repository allUsersRepo, Account account)
+  private void updateAccountInNoteDb(Repository allUsersRepo, Account account, PersonIdent ident)
       throws IOException, ConfigInvalidException {
     MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo);
-    PersonIdent ident = serverIdent.get();
     md.getCommitBuilder().setAuthor(ident);
     md.getCommitBuilder().setCommitter(ident);
     new AccountConfig(account.getId(), allUsersRepo).load().setAccount(account).commit(md);

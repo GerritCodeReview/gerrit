@@ -22,8 +22,6 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.GerritServerIdentModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -51,7 +49,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -100,10 +97,6 @@ public class SchemaUpdaterTest {
                     bind(Config.class) //
                         .annotatedWith(GerritServerConfig.class) //
                         .toInstance(cfg);
-
-                    bind(PersonIdent.class) //
-                        .annotatedWith(GerritPersonIdent.class) //
-                        .toProvider(GerritPersonIdentProvider.class);
 
                     bind(String.class).annotatedWith(GerritServerId.class).toInstance("gerrit");
 

@@ -30,8 +30,6 @@ import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.FanOutExecutor;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.GerritServerIdentModule;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
@@ -110,7 +108,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 
 public class InMemoryModule extends FactoryModule {
   public static Config newDefaultConfig() {
@@ -185,9 +182,6 @@ public class InMemoryModule extends FactoryModule {
     bind(Path.class).annotatedWith(SitePath.class).toInstance(Paths.get("."));
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GerritOptions.class).toInstance(new GerritOptions(cfg, false, false, false));
-    bind(PersonIdent.class)
-        .annotatedWith(GerritPersonIdent.class)
-        .toProvider(GerritPersonIdentProvider.class);
     bind(String.class)
         .annotatedWith(AnonymousCowardName.class)
         .toProvider(AnonymousCowardNameProvider.class);

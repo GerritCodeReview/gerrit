@@ -138,16 +138,50 @@
     JSON_PREFIX,
 
     /**
+     * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
+     * with timing and logging.
+     * @param {string} url
+     * @param {Object=} opt_fetchOptions
+     */
+    _fetch(url, opt_fetchOptions) {
+      const start = Date.now();
+      const xhr = this._auth.fetch(url, opt_fetchOptions);
+
+      // Log the call after it completes.
+      xhr.then(res => this._logCall(url, opt_fetchOptions, start, res.status));
+
+      // Return the XHR directly (without the log).
+      return xhr;
+    },
+
+    /**
+     * Log information about a REST call. Because the elapsed time is determined
+     * by this method, it should be called immediately after the request
+     * finishes.
+     * @param {string} url
+     * @param {Object|undefined} fetchOptions
+     * @param {number} startTime the time that the request was started.
+     * @param {number} status the HTTP status of the response. The status value
+     *     is used here rather than the response object so there is no way this
+     *     method can read the body stream.
+     */
+    _logCall(url, fetchOptions, startTime, status) {
+      const method = (fetchOptions && fetchOptions.method) ?
+          fetchOptions.method : 'GET';
+      const elapsed = (Date.now() - startTime) + 'ms';
+      console.log(['HTTP', status, method, elapsed, url].join(' '));
+    },
+
+    /**
      * Fetch JSON from url provided.
      * Returns a Promise that resolves to a native Response.
      * Doesn't do error checking. Supports cancel condition. Performs auth.
      * Validates auth expiry errors.
      * @param {Defs.FetchJSONRequest} req
-     * @return {Promise}
      */
     _fetchRawJSON(req) {
       const urlWithParams = this._urlWithParams(req.url, req.params);
-      return this._auth.fetch(urlWithParams, req.fetchOptions).then(res => {
+      return this._fetch(urlWithParams, req.fetchOptions).then(res => {
         if (req.cancelCondition && req.cancelCondition()) {
           res.body.cancel();
           return;
@@ -1607,7 +1641,7 @@
       if (!url.startsWith('http')) {
         url = this.getBaseUrl() + url;
       }
-      return this._auth.fetch(url, options).then(response => {
+      return this._fetch(url, options).then(response => {
         if (!response.ok) {
           if (opt_errFn) {
             return opt_errFn.call(null, response);
@@ -1867,7 +1901,7 @@
     },
 
     _fetchB64File(url) {
-      return this._auth.fetch(this.getBaseUrl() + url)
+      return this._fetch(this.getBaseUrl() + url)
           .then(response => {
             if (!response.ok) { return Promise.reject(response.statusText); }
             const type = response.headers.get('X-FYI-Content-Type');

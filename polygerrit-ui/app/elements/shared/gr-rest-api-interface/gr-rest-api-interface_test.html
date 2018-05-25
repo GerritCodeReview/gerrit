@@ -1319,5 +1319,21 @@ limitations under the License.
         });
       });
     });
+
+    test('_fetch forwards request and logs', () => {
+      const logStub = sandbox.stub(element, '_logCall');
+      const response = {status: 404, text: sinon.stub()};
+      const url = 'my url';
+      const fetchOptions = {method: 'DELETE'};
+      sandbox.stub(element._auth, 'fetch').returns(Promise.resolve(response));
+      const startTime = 123;
+      sandbox.stub(Date, 'now').returns(startTime);
+      return element._fetch(url, fetchOptions).then(() => {
+        assert.isTrue(logStub.calledOnce);
+        assert.isTrue(logStub.calledWith(
+            url, fetchOptions, startTime, response.status));
+        assert.isFalse(response.text.called);
+      });
+    });
   });
 </script>

@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.Theme;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -53,18 +53,18 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class Schema_115 extends SchemaVersion {
   private final GitRepositoryManager mgr;
   private final AllUsersName allUsersName;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_115(
       Provider<Schema_114> prior,
       GitRepositoryManager mgr,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.mgr = mgr;
     this.allUsersName = allUsersName;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -146,14 +146,15 @@ public class Schema_115 extends SchemaVersion {
       return;
     }
 
+    PersonIdent serverIdent = identFactory.createAtCurrentTime();
     try (Repository git = mgr.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       for (Map.Entry<Account.Id, DiffPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
-          md.getCommitBuilder().setAuthor(serverUser);
-          md.getCommitBuilder().setCommitter(serverUser);
+          md.getCommitBuilder().setAuthor(serverIdent);
+          md.getCommitBuilder().setCommitter(serverIdent);
           VersionedAccountPreferences p = VersionedAccountPreferences.forUser(e.getKey());
           p.load(md);
           storeSection(

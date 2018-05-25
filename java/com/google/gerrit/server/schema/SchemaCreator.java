@@ -22,7 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.client.SystemConfig;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -83,7 +83,7 @@ public class SchemaCreator {
       AllProjectsCreator ap,
       AllUsersCreator auc,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent au,
+      GerritPersonIdentFactory identFactory,
       DataSourceType dst,
       GroupIndexCollection ic,
       @GerritServerId String serverId,
@@ -97,7 +97,7 @@ public class SchemaCreator {
         ap,
         auc,
         allUsersName,
-        au,
+        identFactory,
         dst,
         ic,
         serverId,
@@ -113,7 +113,7 @@ public class SchemaCreator {
       AllProjectsCreator ap,
       AllUsersCreator auc,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent au,
+      GerritPersonIdentFactory identFactory,
       DataSourceType dst,
       GroupIndexCollection ic,
       String serverId,
@@ -126,7 +126,7 @@ public class SchemaCreator {
     allProjectsCreator = ap;
     allUsersCreator = auc;
     this.allUsersName = allUsersName;
-    serverUser = au;
+    serverUser = identFactory.createAtCurrentTime();
     dataSourceType = dst;
     indexCollection = ic;
     this.serverId = serverId;

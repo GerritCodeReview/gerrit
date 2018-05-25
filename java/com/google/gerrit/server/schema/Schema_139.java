@@ -23,7 +23,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.InternalAccountUpdate;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
@@ -58,18 +58,18 @@ public class Schema_139 extends SchemaVersion {
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_139(
       Provider<Schema_138> prior,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -110,8 +110,9 @@ public class Schema_139 extends SchemaVersion {
 
     try (Repository git = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
+      PersonIdent serverIdent = identFactory.createAtCurrentTime();
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
-      bru.setRefLogIdent(serverUser);
+      bru.setRefLogIdent(serverIdent);
       bru.setRefLogMessage(MSG, false);
 
       for (Map.Entry<Account.Id, Collection<ProjectWatch>> e : imports.asMap().entrySet()) {
@@ -144,8 +145,8 @@ public class Schema_139 extends SchemaVersion {
 
         try (MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {
-          md.getCommitBuilder().setAuthor(serverUser);
-          md.getCommitBuilder().setCommitter(serverUser);
+          md.getCommitBuilder().setAuthor(serverIdent);
+          md.getCommitBuilder().setCommitter(serverIdent);
           md.setMessage(MSG);
 
           AccountConfig accountConfig = new AccountConfig(e.getKey(), git);

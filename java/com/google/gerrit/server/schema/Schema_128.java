@@ -21,7 +21,7 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -42,7 +42,7 @@ public class Schema_128 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllProjectsName allProjectsName;
   private final SystemGroupBackend systemGroupBackend;
-  private final PersonIdent serverUser;
+  private final GerritPersonIdentFactory identFactory;
 
   @Inject
   Schema_128(
@@ -50,12 +50,12 @@ public class Schema_128 extends SchemaVersion {
       GitRepositoryManager repoManager,
       AllProjectsName allProjectsName,
       SystemGroupBackend systemGroupBackend,
-      @GerritPersonIdent PersonIdent serverUser) {
+      GerritPersonIdentFactory identFactory) {
     super(prior);
     this.repoManager = repoManager;
     this.allProjectsName = allProjectsName;
     this.systemGroupBackend = systemGroupBackend;
-    this.serverUser = serverUser;
+    this.identFactory = identFactory;
   }
 
   @Override
@@ -69,8 +69,9 @@ public class Schema_128 extends SchemaVersion {
       AccessSection refsFor = config.getAccessSection("refs/for/*", true);
       grant(config, refsFor, Permission.ADD_PATCH_SET, false, false, registered);
 
-      md.getCommitBuilder().setAuthor(serverUser);
-      md.getCommitBuilder().setCommitter(serverUser);
+      PersonIdent serverIdent = identFactory.createAtCurrentTime();
+      md.getCommitBuilder().setAuthor(serverIdent);
+      md.getCommitBuilder().setCommitter(serverIdent);
       md.setMessage(COMMIT_MSG);
       config.commit(md);
     } catch (ConfigInvalidException | IOException ex) {

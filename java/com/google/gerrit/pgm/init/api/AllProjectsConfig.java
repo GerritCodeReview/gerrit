@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.init.api;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -36,8 +37,12 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
   private GroupList groupList;
 
   @Inject
-  AllProjectsConfig(AllProjectsNameOnInitProvider allProjects, SitePaths site, InitFlags flags) {
-    super(flags, site, allProjects.get(), RefNames.REFS_CONFIG);
+  AllProjectsConfig(
+      AllProjectsNameOnInitProvider allProjects,
+      SitePaths site,
+      InitFlags flags,
+      GerritPersonIdentFactory identFactory) {
+    super(flags, site, identFactory, RefNames.REFS_CONFIG, allProjects.get());
   }
 
   public Config getConfig() {

@@ -28,7 +28,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -68,7 +68,7 @@ public class Schema_167 extends SchemaVersion {
   private final AllUsersName allUsersName;
   private final Config gerritConfig;
   private final SitePaths sitePaths;
-  private final PersonIdent serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final SystemGroupBackend systemGroupBackend;
 
   @Inject
@@ -78,14 +78,14 @@ public class Schema_167 extends SchemaVersion {
       AllUsersName allUsersName,
       @GerritServerConfig Config gerritConfig,
       SitePaths sitePaths,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritPersonIdentFactory identFactory,
       SystemGroupBackend systemGroupBackend) {
     super(prior);
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.gerritConfig = gerritConfig;
     this.sitePaths = sitePaths;
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.systemGroupBackend = systemGroupBackend;
   }
 
@@ -100,9 +100,10 @@ public class Schema_167 extends SchemaVersion {
       List<GroupReference> allGroupReferences = readGroupReferencesFromReviewDb(db);
 
       BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
-      writeAllGroupNamesToNoteDb(allUsersRepo, allGroupReferences, batchRefUpdate);
+      PersonIdent serverIdent = identFactory.createAtCurrentTime();
+      writeAllGroupNamesToNoteDb(allUsersRepo, allGroupReferences, batchRefUpdate, serverIdent);
 
-      GroupRebuilder groupRebuilder = createGroupRebuilder(db, allUsersRepo);
+      GroupRebuilder groupRebuilder = createGroupRebuilder(db, allUsersRepo, serverIdent);
       for (GroupReference groupReference : allGroupReferences) {
         migrateOneGroupToNoteDb(
             db, allUsersRepo, groupRebuilder, groupReference.getUUID(), batchRefUpdate);
@@ -131,7 +132,8 @@ public class Schema_167 extends SchemaVersion {
   private void writeAllGroupNamesToNoteDb(
       Repository allUsersRepo,
       List<GroupReference> allGroupReferences,
-      BatchRefUpdate batchRefUpdate)
+      BatchRefUpdate batchRefUpdate,
+      PersonIdent serverIdent)
       throws IOException {
     try (ObjectInserter inserter = allUsersRepo.newObjectInserter()) {
       GroupNameNotes.updateAllGroups(
@@ -140,7 +142,8 @@ public class Schema_167 extends SchemaVersion {
     }
   }
 
-  private GroupRebuilder createGroupRebuilder(ReviewDb db, Repository allUsersRepo)
+  private GroupRebuilder createGroupRebuilder(
+      ReviewDb db, Repository allUsersRepo, PersonIdent serverIdent)
       throws IOException, ConfigInvalidException {
     AuditLogFormatter auditLogFormatter =
         createAuditLogFormatter(db, allUsersRepo, gerritConfig, sitePaths);

@@ -152,7 +152,8 @@ limitations under the License.
         '_handleBranchListFilterRoute',
         '_handleBranchListOffsetRoute',
         '_handleChangeNumberLegacyRoute',
-        '_handleChangeOrDiffRoute',
+        '_handleChangeRoute',
+        '_handleDiffRoute',
         '_handleDefaultRoute',
         '_handleChangeLegacyRoute',
         '_handleDiffLegacyRoute',
@@ -1267,7 +1268,57 @@ limitations under the License.
               '/c/1234/3..8/foo/bar#b123'));
         });
 
-        suite('_handleChangeOrDiffRoute', () => {
+        suite('_handleChangeRoute', () => {
+          let normalizeRangeStub;
+
+          function makeParams(path, hash) {
+            return {
+              params: [
+                'foo/bar', // 0 Project
+                1234, // 1 Change number
+                null, // 2 Unused
+                null, // 3 Unused
+                4, // 4 Base patch number
+                null, // 5 Unused
+                7, // 6 Patch number
+              ],
+            };
+          }
+
+          setup(() => {
+            normalizeRangeStub = sandbox.stub(element,
+                '_normalizePatchRangeParams');
+            sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+          });
+
+          test('needs redirect', () => {
+            normalizeRangeStub.returns(true);
+            sandbox.stub(element, '_generateUrl').returns('foo');
+            const ctx = makeParams(null, '');
+            element._handleChangeRoute(ctx);
+            assert.isTrue(normalizeRangeStub.called);
+            assert.isFalse(setParamsStub.called);
+            assert.isTrue(redirectStub.calledOnce);
+            assert.isTrue(redirectStub.calledWithExactly('foo'));
+          });
+
+          test('change view', () => {
+            normalizeRangeStub.returns(false);
+            sandbox.stub(element, '_generateUrl').returns('foo');
+            const ctx = makeParams(null, '');
+            assertDataToParams(ctx, '_handleChangeRoute', {
+              view: Gerrit.Nav.View.CHANGE,
+              project: 'foo/bar',
+              changeNum: 1234,
+              basePatchNum: 4,
+              patchNum: 7,
+            });
+            assert.isFalse(redirectStub.called);
+            assert.isTrue(normalizeRangeStub.called);
+          });
+        });
+
+        suite('_handleDiffRoute', () => {
           let normalizeRangeStub;
 
           function makeParams(path, hash) {
@@ -1297,40 +1348,18 @@ limitations under the License.
             normalizeRangeStub.returns(true);
             sandbox.stub(element, '_generateUrl').returns('foo');
             const ctx = makeParams(null, '');
-            element._handleChangeOrDiffRoute(ctx);
+            element._handleDiffRoute(ctx);
             assert.isTrue(normalizeRangeStub.called);
             assert.isFalse(setParamsStub.called);
             assert.isTrue(redirectStub.calledOnce);
             assert.isTrue(redirectStub.calledWithExactly('foo'));
           });
 
-          test('change view', () => {
-            normalizeRangeStub.returns(false);
-            sandbox.stub(element, '_generateUrl').returns('foo');
-            const ctx = makeParams(null, '');
-            assertDataToParams(ctx, '_handleChangeOrDiffRoute', {
-              view: Gerrit.Nav.View.CHANGE,
-              project: 'foo/bar',
-              changeNum: 1234,
-              basePatchNum: 4,
-              patchNum: 7,
-              path: null,
-            });
-            assert.isFalse(redirectStub.called);
-            assert.isTrue(normalizeRangeStub.called);
-          });
-
-          test('gr-reporting recognizes change page', () => {
-            const ctx = makeParams(null, '');
-            assert.equal(element._getPageName('_handleChangeOrDiffRoute', ctx),
-                Gerrit.Nav.View.CHANGE);
-          });
-
           test('diff view', () => {
             normalizeRangeStub.returns(false);
             sandbox.stub(element, '_generateUrl').returns('foo');
             const ctx = makeParams('foo/bar/baz', 'b44');
-            assertDataToParams(ctx, '_handleChangeOrDiffRoute', {
+            assertDataToParams(ctx, '_handleDiffRoute', {
               view: Gerrit.Nav.View.DIFF,
               project: 'foo/bar',
               changeNum: 1234,
@@ -1342,12 +1371,6 @@ limitations under the License.
             });
             assert.isFalse(redirectStub.called);
             assert.isTrue(normalizeRangeStub.called);
-          });
-
-          test('gr-reporting recognizes diff page', () => {
-            const ctx = makeParams('foo/bar/baz', 'b44');
-            assert.equal(element._getPageName('_handleChangeOrDiffRoute', ctx),
-                Gerrit.Nav.View.DIFF);
           });
         });
 

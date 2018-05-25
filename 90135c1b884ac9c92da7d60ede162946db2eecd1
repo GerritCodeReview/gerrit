@@ -20,6 +20,24 @@
     },
     {
       "key": {
+        "uuid": "62e39301_6d1fd54c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-25T00:59:31Z",
+      "side": 1,
+      "message": "Right. Another way of looking at it: if you want to know what goes into gerrit.war, the most correct way to do that is with a `blaze query`, not guessing based on directory names.",
+      "parentUuid": "6ade6e0d_9b160cf2",
+      "revId": "90135c1b884ac9c92da7d60ede162946db2eecd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00f4298c_816b8013",
         "filename": "java/com/google/gerrit/asciidoctor/AsciiDoctor.java",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2018-05-24T20:14:24Z",
       "side": 1,
       "message": "Alternatively, if we would have more such tools specific java classes, that only used for generation as intermediate step and them self not included in the final artifact, we could hide them in tools package: c.g.g.tools.asciidoctor. That would also have a nice effect, that we wouldn\u0027t pollute much top level gerrit package. OTOS, we don\u0027t have any other candidates for tools package.",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 37
+      },
+      "revId": "90135c1b884ac9c92da7d60ede162946db2eecd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2643a883_9699a800",
+        "filename": "java/com/google/gerrit/asciidoctor/AsciiDoctor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-05-25T00:59:31Z",
+      "side": 1,
+      "message": "Good suggestion, will keep that in mind for the future.",
+      "parentUuid": "00f4298c_816b8013",
       "range": {
         "startLine": 15,
         "startChar": 26,

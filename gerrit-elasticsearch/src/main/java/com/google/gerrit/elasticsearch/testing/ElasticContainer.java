@@ -17,6 +17,7 @@ package com.google.gerrit.elasticsearch.testing;
 import com.google.common.collect.ImmutableSet;
 import java.util.Set;
 import org.apache.http.HttpHost;
+import org.junit.internal.AssumptionViolatedException;
 import org.testcontainers.containers.GenericContainer;
 
 /* Helper class for running ES integration tests in docker container */
@@ -25,11 +26,23 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
   private static final String VERSION = "2.4.6-alpine";
   private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
-  public ElasticContainer() {
+  public static ElasticContainer<?> createAndStart() {
+    // Assumption violation is not natively supported by Testcontainers.
+    // See https://github.com/testcontainers/testcontainers-java/issues/343
+    try {
+      ElasticContainer<?> container = new ElasticContainer<>();
+      container.start();
+      return container;
+    } catch (Throwable t) {
+      throw new AssumptionViolatedException("Unable to start container[might be docker related]");
+    }
+  }
+
+  private ElasticContainer() {
     this(NAME + ":" + VERSION);
   }
 
-  public ElasticContainer(String dockerImageName) {
+  private ElasticContainer(String dockerImageName) {
     super(dockerImageName);
   }
 

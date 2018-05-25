@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b2f147b_811cc6de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-25T11:27:45Z",
+      "side": 1,
+      "message": "This should be stored using the JCA\u0027s methods:\n- JCE Provider\n- PKCS#11\n\nJCA already includes the ability to fetch and use keys, delegating the management of the keys to the Security Officer of the company.\n\nSecure keys should never ever stored in configuration files or, even worse, in cleartext.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "64d4792b021604d3ec92bc865dc7fd7a6f9564f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8ed2118_c95a46be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-25T11:27:45Z",
+      "side": 1,
+      "message": "Automatically managed in JCA, don\u0027t need to reinvent the wheel here.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 17
+      },
+      "revId": "64d4792b021604d3ec92bc865dc7fd7a6f9564f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fbea185_e7296a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-25T11:27:45Z",
+      "side": 1,
+      "message": "Where are the other encryption parameters?\n- mode\n- seed\n- IV\n- format\n\nIt would be a lot better just configure the cipher mode as string, so that it can be clearer what it is done and more opened to other application modes.",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "64d4792b021604d3ec92bc865dc7fd7a6f9564f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3be6977f_d0996a10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-25T12:12:39Z",
+      "side": 1,
+      "message": "I am referring to the Java Cryptography Architecture.\nhttps://goo.gl/YjLRq9\n\nThe management, generation and secure storage of keys are already supported out of the box by the JVM itself. You do not need any extra plugin for it.\n\nOf course we can reimplement everything in Gerrit, but if we do, we should have a valid argument and we should do properly IMHO.",
+      "parentUuid": "4eca775d_2862ceac",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "64d4792b021604d3ec92bc865dc7fd7a6f9564f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8ed2118_c95a46be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17

@@ -35,7 +35,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritPersonIdentFactory;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
@@ -47,7 +47,6 @@ import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gwtorm.server.OrmConcurrencyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
@@ -246,7 +245,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  private final Provider<PersonIdent> serverIdent;
+  private final GerritPersonIdentFactory identFactory;
   private final GitRepositoryManager repoManager;
   private final NotesMigration migration;
   private final AllUsersName allUsersName;
@@ -270,13 +269,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   @Inject
   NoteDbUpdateManager(
-      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      GerritPersonIdentFactory identFactory,
       GitRepositoryManager repoManager,
       NotesMigration migration,
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       @Assisted Project.NameKey projectName) {
-    this.serverIdent = serverIdent;
+    this.identFactory = identFactory;
     this.repoManager = repoManager;
     this.migration = migration;
     this.allUsersName = allUsersName;
@@ -640,7 +639,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     } else {
       bru.setRefLogMessage(firstNonNull(guessRestApiHandler(), "Update NoteDb refs"), false);
     }
-    bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
+    bru.setRefLogIdent(refLogIdent != null ? refLogIdent : identFactory.createAtCurrentTime());
     bru.setAtomic(atomicRefUpdates);
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);

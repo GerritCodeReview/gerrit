@@ -51,9 +51,11 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
+import com.google.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -65,6 +67,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CreateChangeIT extends AbstractDaemonTest {
+  @Inject private TimeZone tz;
+
   @BeforeClass
   public static void setTimeForTesting() {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
@@ -272,9 +276,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
       assertThat(commit.getShortMessage()).isEqualTo("Create change");
 
-      PersonIdent expectedAuthor =
-          changeNoteUtil.newIdent(
-              getAccount(admin.id), c.created, identFactory.createAtCurrentTime());
+      PersonIdent expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.created, tz);
       assertThat(commit.getAuthorIdent()).isEqualTo(expectedAuthor);
 
       assertThat(commit.getCommitterIdent())

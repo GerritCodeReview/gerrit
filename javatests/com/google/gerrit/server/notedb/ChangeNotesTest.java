@@ -1195,7 +1195,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                   + "File: a.txt\n"
                   + "\n"
                   + "1:2-3:4\n"
-                  + ChangeNoteUtil.formatTime(serverIdent, ts)
+                  + ChangeNoteUtil.formatTime(ts, TZ)
                   + "\n"
                   + "Author: Change Owner <1@gerrit>\n"
                   + "Unresolved: false\n"
@@ -1666,7 +1666,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file1\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time1)
+                    + ChangeNoteUtil.formatTime(time1, TZ)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1675,7 +1675,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "comment 1\n"
                     + "\n"
                     + "2:1-3:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time2)
+                    + ChangeNoteUtil.formatTime(time2, TZ)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1686,7 +1686,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file2\n"
                     + "\n"
                     + "3:0-4:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time3)
+                    + ChangeNoteUtil.formatTime(time3, TZ)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1766,7 +1766,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file1\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time1)
+                    + ChangeNoteUtil.formatTime(time1, TZ)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1775,7 +1775,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "comment 1\n"
                     + "\n"
                     + "2:1-3:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time2)
+                    + ChangeNoteUtil.formatTime(time2, TZ)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1854,7 +1854,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file1\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time1)
+                    + ChangeNoteUtil.formatTime(time1, TZ)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1863,7 +1863,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "comment 1\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time2)
+                    + ChangeNoteUtil.formatTime(time2, TZ)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Parent: uuid1\n"
@@ -1951,7 +1951,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
       byte[] bytes = walk.getObjectReader().open(note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
-      String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
+      String timeStr = ChangeNoteUtil.formatTime(time, TZ);
 
       if (!testJson()) {
         assertThat(noteString)
@@ -2048,7 +2048,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time)
+                    + ChangeNoteUtil.formatTime(time, TZ)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Real-author: Change Owner <1@gerrit>\n"
@@ -2103,7 +2103,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
       byte[] bytes = walk.getObjectReader().open(note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
-      String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
+      String timeStr = ChangeNoteUtil.formatTime(time, TZ);
 
       if (!testJson()) {
         assertThat(noteString)

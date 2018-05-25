@@ -159,6 +159,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -182,6 +183,8 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
 
   @Inject private AccountOperations accountOperations;
+
+  @Inject private TimeZone tz;
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;
@@ -2676,8 +2679,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
       PersonIdent serverIdent = identFactory.createAtCurrentTime();
-      PersonIdent expectedAuthor =
-          changeNoteUtil.newIdent(getAccount(admin.id), c.updated, serverIdent);
+      PersonIdent expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.updated, tz);
       assertThat(commitPatchSetCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitPatchSetCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent, c.updated));
@@ -2685,7 +2687,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       RevCommit commitChangeCreation = rw.parseCommit(commitPatchSetCreation.getParent(0));
       assertThat(commitChangeCreation.getShortMessage()).isEqualTo("Create change");
-      expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.created, serverIdent);
+      expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.created, tz);
       assertThat(commitChangeCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitChangeCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent, c.created));

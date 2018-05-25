@@ -63,6 +63,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
@@ -81,6 +82,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Inject private ChangeNoteUtil noteUtil;
   @Inject @AnonymousCowardName private String anonymousCowardName;
   @Inject private AllUsersName allUsersName;
+  @Inject private TimeZone tz;
 
   private AccountGroup.UUID admins;
   private AccountGroup.UUID nonInteractiveUsers;
@@ -432,8 +434,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
       if (notesMigration.commitChangeWrites()) {
         PersonIdent committer = identFactory.createAtCurrentTime();
-        PersonIdent author =
-            noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
+        PersonIdent author = noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), tz);
         tr.branch(RefNames.changeMetaRef(c3.getId()))
             .commit()
             .author(author)

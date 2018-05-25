@@ -62,6 +62,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.TimeZone;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -91,6 +92,8 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   @Inject @AnonymousCowardName private String anonymousCowardName;
 
   @Inject private Sequences sequences;
+
+  @Inject private TimeZone tz;
 
   private RevCommit tip;
   private Account.Id adminId;
@@ -901,8 +904,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
       return;
     }
     PersonIdent committer = identFactory.createAtCurrentTime();
-    PersonIdent author =
-        noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
+    PersonIdent author = noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), tz);
     serverSideTestRepo
         .branch(RefNames.changeMetaRef(id))
         .commit()

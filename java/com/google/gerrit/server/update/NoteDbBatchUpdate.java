@@ -28,7 +28,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
@@ -49,7 +48,6 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -272,7 +270,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
   @Inject
   NoteDbBatchUpdate(
       GitRepositoryManager repoManager,
-      @GerritPersonIdent PersonIdent serverIdent,
+      TimeZone tz,
       ChangeNotes.Factory changeNotesFactory,
       ChangeUpdate.Factory changeUpdateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
@@ -282,7 +280,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
-    super(repoManager, serverIdent, project, user, when);
+    super(repoManager, tz, project, user, when);
     this.changeNotesFactory = changeNotesFactory;
     this.changeUpdateFactory = changeUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;

@@ -51,6 +51,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -60,7 +61,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ProjectCache;
@@ -82,6 +83,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -123,6 +125,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         ChangeNotes notes, CurrentUser user, Date when, Comparator<String> labelNameComparator);
   }
 
+  private final TimeZone tz;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
@@ -164,7 +167,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @AssistedInject
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritServerIdent serverIdent,
+      TimeZone tz,
       NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -177,6 +181,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this(
         cfg,
         serverIdent,
+        tz,
         migration,
         updateManagerFactory,
         draftUpdateFactory,
@@ -185,14 +190,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         projectCache,
         notes,
         user,
-        serverIdent.getWhen(),
+        TimeUtil.nowTs(),
         noteUtil);
   }
 
   @AssistedInject
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritServerIdent serverIdent,
+      TimeZone tz,
       NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -206,6 +212,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this(
         cfg,
         serverIdent,
+        tz,
         migration,
         updateManagerFactory,
         draftUpdateFactory,
@@ -226,7 +233,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @AssistedInject
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritServerIdent serverIdent,
+      TimeZone tz,
       NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -237,7 +245,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       @Assisted Date when,
       @Assisted Comparator<String> labelNameComparator,
       ChangeNoteUtil noteUtil) {
-    super(cfg, migration, notes, user, serverIdent, noteUtil, when);
+    super(cfg, migration, notes, user, noteUtil, serverIdent, when, tz);
+    this.tz = tz;
     this.updateManagerFactory = updateManagerFactory;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
@@ -248,7 +257,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   @AssistedInject
   private ChangeUpdate(
       @GerritServerConfig Config cfg,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritServerIdent serverIdent,
+      TimeZone tz,
       NotesMigration migration,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeDraftUpdate.Factory draftUpdateFactory,
@@ -265,13 +275,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         cfg,
         migration,
         noteUtil,
-        serverIdent,
         null,
         change,
         accountId,
         realAccountId,
         authorIdent,
+        serverIdent,
+        tz,
         when);
+    this.tz = tz;
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
@@ -738,7 +750,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (readOnlyUntil != null) {
-      addFooter(msg, FOOTER_READ_ONLY_UNTIL, ChangeNoteUtil.formatTime(serverIdent, readOnlyUntil));
+      addFooter(msg, FOOTER_READ_ONLY_UNTIL, ChangeNoteUtil.formatTime(readOnlyUntil, tz));
     }
 
     if (isPrivate != null) {

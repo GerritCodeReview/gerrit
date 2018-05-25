@@ -74,6 +74,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -101,6 +102,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   @Inject private ChangeUpdate.Factory updateFactory;
   @Inject private InternalUser.Factory internalUserFactory;
   @Inject private RetryHelper retryHelper;
+  @Inject private TimeZone tz;
 
   private PrimaryStorageMigrator migrator;
 
@@ -473,9 +475,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
       RevCommit commit = rw.parseCommit(metaId);
       rw.parseBody(commit);
       assertThat(commit.getFullMessage())
-          .contains(
-              "Read-only-until: "
-                  + formatTime(identFactory.createAtCurrentTime(), new Timestamp(0)));
+          .contains("Read-only-until: " + formatTime(new Timestamp(0), tz));
     }
     NoteDbChangeState state = NoteDbChangeState.parse(db.changes().get(id));
     assertThat(state.getPrimaryStorage()).isEqualTo(PrimaryStorage.REVIEW_DB);

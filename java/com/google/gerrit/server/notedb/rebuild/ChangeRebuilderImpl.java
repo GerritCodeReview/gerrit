@@ -48,7 +48,7 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.CommentsUtil;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.notedb.ChangeBundle;
@@ -85,6 +85,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -121,7 +122,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration migration;
   private final PatchListCache patchListCache;
-  private final PersonIdent serverIdent;
+  private final GerritServerIdent serverIdent;
+  private final TimeZone tz;
   private final ProjectCache projectCache;
   private final String serverId;
   private final long skewMs;
@@ -139,7 +141,8 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
       NoteDbUpdateManager.Factory updateManagerFactory,
       NotesMigration migration,
       PatchListCache patchListCache,
-      @GerritPersonIdent PersonIdent serverIdent,
+      GerritServerIdent serverIdent,
+      TimeZone tz,
       @Nullable ProjectCache projectCache,
       @GerritServerId String serverId) {
     super(schemaFactory);
@@ -153,6 +156,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     this.migration = migration;
     this.patchListCache = patchListCache;
     this.serverIdent = serverIdent;
+    this.tz = tz;
     this.projectCache = projectCache;
     this.serverId = serverId;
     this.skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
@@ -544,9 +548,9 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
   private PersonIdent newAuthorIdent(EventList<?> events) {
     Account.Id id = events.getAccountId();
     if (id == null) {
-      return new PersonIdent(serverIdent, events.getWhen());
+      return new PersonIdent(serverIdent.name(), serverIdent.email(), events.getWhen(), tz);
     }
-    return changeNoteUtil.newIdent(id, events.getWhen(), serverIdent);
+    return changeNoteUtil.newIdent(id, events.getWhen(), tz);
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change, NoteDbUpdateManager manager)

@@ -31,7 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritServerIdentModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -96,7 +95,7 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
 
   @ConfigSuite.Parameter public Config testConfig;
 
-  private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
+  protected static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
 
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;
@@ -168,9 +167,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
                 bind(AccountCache.class).toInstance(accountCache);
                 install(new GerritServerIdentModule());
-                bind(PersonIdent.class)
-                    .annotatedWith(GerritPersonIdent.class)
-                    .toInstance(serverIdent);
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
                 bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(null));

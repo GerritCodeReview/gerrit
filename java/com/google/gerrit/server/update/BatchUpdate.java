@@ -57,7 +57,6 @@ import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
@@ -257,7 +256,7 @@ public abstract class BatchUpdate implements AutoCloseable {
 
   protected BatchUpdate(
       GitRepositoryManager repoManager,
-      PersonIdent serverIdent,
+      TimeZone tz,
       Project.NameKey project,
       CurrentUser user,
       Timestamp when) {
@@ -265,7 +264,7 @@ public abstract class BatchUpdate implements AutoCloseable {
     this.project = project;
     this.user = user;
     this.when = when;
-    tz = serverIdent.getTimeZone();
+    this.tz = tz;
     order = Order.REPO_BEFORE_DB;
   }
 

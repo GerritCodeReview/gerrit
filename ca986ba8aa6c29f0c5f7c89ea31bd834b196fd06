@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92c08c4e_8d2c32a4",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-25T09:27:00Z",
+      "side": 1,
+      "message": "One reason, why it still not supported upstream, is that because the maintainers try to avoid mixing Tescontainers logic with JUnit stuff. Yet we are dong here just that.\n\nBut I agree, it\u0027s better to keep code in one place.",
+      "revId": "ca986ba8aa6c29f0c5f7c89ea31bd834b196fd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

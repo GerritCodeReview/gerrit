@@ -22,6 +22,29 @@
       "revId": "8c464664169ea79ca9bd8342cb24cb4b7c117589",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e924162_85474f8f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-05-25T15:41:16Z",
+      "side": 1,
+      "message": "I wonder if we can do regex here so 5 matches 5.6\"",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "8c464664169ea79ca9bd8342cb24cb4b7c117589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

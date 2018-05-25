@@ -24,7 +24,6 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.internal.AssumptionViolatedException;
 
 public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
   private static ElasticNodeInfo nodeInfo;
@@ -37,13 +36,7 @@ public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
       return;
     }
 
-    try {
-      container = new ElasticContainer<>();
-      container.start();
-    } catch (Throwable t) {
-      throw new AssumptionViolatedException("Unable to start container[might be docker related]");
-    }
-
+    container = ElasticContainer.createAndStart();
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 

@@ -28,7 +28,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.internal.AssumptionViolatedException;
 import org.junit.rules.TestName;
 
 public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
@@ -44,13 +43,7 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
       return;
     }
 
-    try {
-      container = new ElasticContainer<>();
-      container.start();
-    } catch (Throwable t) {
-      throw new AssumptionViolatedException("Unable to start container[might be docker related]");
-    }
-
+    container = ElasticContainer.createAndStart();
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 

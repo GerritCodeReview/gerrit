@@ -42,13 +42,11 @@ public class ReindexIT extends StandaloneSiteTest {
     elasticsearchTest = true;
     if (elasticNodeInfo == null) {
       try {
-        container = new ElasticContainer<>();
-        container.start();
+        container = ElasticContainer.createAndStart();
+        elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
       } catch (Throwable t) {
         return null;
       }
-
-      elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     }
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();

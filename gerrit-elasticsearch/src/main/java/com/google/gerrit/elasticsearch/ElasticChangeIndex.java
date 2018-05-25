@@ -32,6 +32,10 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Change.Id;
@@ -97,9 +101,10 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
   public static final String CLOSED_CHANGES = "closed_" + CHANGES;
 
   private final ChangeMapping mapping;
-  private final ElasticBulkRequest<ChangeData> bulkRequest;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
+  private final FillArgs fillArgs;
+  private final Schema<ChangeData> schema;
 
   @AssistedInject
   ElasticChangeIndex(
@@ -110,11 +115,12 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       SitePaths sitePaths,
       ElasticRestClientBuilder clientBuilder,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, fillArgs, sitePaths, schema, clientBuilder, CHANGES);
+    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
+    this.fillArgs = fillArgs;
+    this.schema = schema;
     mapping = new ChangeMapping(schema);
-    bulkRequest = new ElasticBulkRequest<>(fillArgs, indexName, schema);
   }
 
   @Override
@@ -134,12 +140,13 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       throw new IOException(e);
     }
 
-    String bulk = bulkRequest.indexRequest(insertIndex, getId(cd));
-    bulk += bulkRequest.updateRequest(cd);
-    bulk += bulkRequest.deleteRequest(deleteIndex, cd.getId().toString());
+    BulkRequest bulk = new IndexRequest(getId(cd), indexName, insertIndex);
+    bulk.add(new UpdateRequest<>(fillArgs, schema, cd));
+    bulk.add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex));
 
     String uri = getURI(CHANGES, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    Response response =
+        performRequest(HttpPost.METHOD_NAME, bulk.toString(), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(

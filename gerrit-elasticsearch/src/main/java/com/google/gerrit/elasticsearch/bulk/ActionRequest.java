@@ -31,7 +31,7 @@ abstract class ActionRequest extends BulkRequest {
   }
 
   @Override
-  public String getRequest() {
+  protected String getRequest() {
     JsonObject properties = new JsonObject();
     properties.addProperty("_id", id);
     properties.addProperty("_index", index);

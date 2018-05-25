@@ -19,6 +19,9 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -67,9 +70,9 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
 
   private static final Logger log = LoggerFactory.getLogger(ElasticGroupIndex.class);
 
-  private final ElasticBulkRequest<AccountGroup> bulkRequest;
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;
+  private final Schema<AccountGroup> schema;
 
   @AssistedInject
   ElasticGroupIndex(
@@ -79,19 +82,20 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       ElasticRestClientBuilder clientBuilder,
       @Assisted Schema<AccountGroup> schema) {
     // No parts of FillArgs are currently required, just use null.
-    super(cfg, null, sitePaths, schema, clientBuilder, GROUPS);
+    super(cfg, sitePaths, schema, clientBuilder, GROUPS);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
-    bulkRequest = new ElasticBulkRequest<>(null, indexName, schema);
+    this.schema = schema;
   }
 
   @Override
   public void replace(AccountGroup group) throws IOException {
-    String bulk = bulkRequest.indexRequest(GROUPS, getId(group));
-    bulk += bulkRequest.updateRequest(group);
+    BulkRequest bulk = new IndexRequest(getId(group), indexName, GROUPS);
+    bulk.add(new UpdateRequest<>(schema, group));
 
     String uri = getURI(GROUPS, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    Response response =
+        performRequest(HttpPost.METHOD_NAME, bulk.toString(), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(

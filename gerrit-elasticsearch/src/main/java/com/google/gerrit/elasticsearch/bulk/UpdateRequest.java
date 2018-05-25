@@ -36,8 +36,12 @@ public class UpdateRequest<V> extends BulkRequest {
     this.v = v;
   }
 
+  public UpdateRequest(Schema<V> schema, V v) {
+    this(null, schema, v);
+  }
+
   @Override
-  public String getRequest() {
+  protected String getRequest() {
     try (XContentBuilder closeable = new XContentBuilder()) {
       XContentBuilder builder = closeable.startObject();
       for (Values<V> values : schema.buildFields(v, fillArgs)) {

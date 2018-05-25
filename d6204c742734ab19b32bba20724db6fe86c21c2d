@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a6585cfb_db5c9938",
+        "filename": "java/com/google/gerrit/asciidoctor/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-05-25T18:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "637757f6_50df7153",
+      "revId": "d6204c742734ab19b32bba20724db6fe86c21c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "266131e1_25c9b86b",
         "filename": "java/com/google/gerrit/asciidoctor/BUILD",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2018-05-25T18:43:07Z",
       "side": 1,
       "message": "And here: visibility \u003d [\"//tools/eclipse:__pkg__\"],",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "d6204c742734ab19b32bba20724db6fe86c21c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3420d3d7_e6fb7ca3",
+        "filename": "java/com/google/gerrit/asciidoctor/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-05-25T18:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "266131e1_25c9b86b",
       "range": {
         "startLine": 24,
         "startChar": 4,

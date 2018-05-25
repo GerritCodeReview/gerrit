@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 
-public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
+public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
   @Rule public final TestName testName = new TestName();
 
   private static ElasticNodeInfo nodeInfo;
@@ -40,7 +40,7 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
       return;
     }
 
-    container = ElasticContainer.createAndStart();
+    container = ElasticContainer.createAndStart(ElasticVersion.V5_6);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 

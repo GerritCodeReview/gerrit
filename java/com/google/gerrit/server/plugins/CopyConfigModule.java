@@ -15,8 +15,8 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.GerritPersonIdentFactory;
+import com.google.gerrit.server.GerritServerIdent;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
@@ -31,7 +31,6 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 
 /**
  * Copies critical objects from the {@code dbInjector} into a plugin.
@@ -95,12 +94,18 @@ class CopyConfigModule extends AbstractModule {
     return anonymousCowardName;
   }
 
-  @Inject private GerritPersonIdentProvider serverIdentProvider;
+  @Inject private GerritPersonIdentFactory identFactory;
 
   @Provides
-  @GerritPersonIdent
-  PersonIdent getServerIdent() {
-    return serverIdentProvider.get();
+  GerritPersonIdentFactory getGerritPersonIdentFactory() {
+    return identFactory;
+  }
+
+  @Inject private GerritServerIdent serverIdent;
+
+  @Provides
+  GerritServerIdent getGerritServerIdent() {
+    return serverIdent;
   }
 
   @Inject private SecureStore secureStore;

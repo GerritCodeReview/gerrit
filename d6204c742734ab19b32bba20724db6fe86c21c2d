@@ -81,6 +81,53 @@
       "revId": "d6204c742734ab19b32bba20724db6fe86c21c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d510ee9_2ad91ef2",
+        "filename": "java/com/google/gerrit/asciidoctor/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-25T18:57:37Z",
+      "side": 1,
+      "message": "Sorry my bad, I meant another one, java_library doc_indexer_lib below. Apologize. java_binary should be leaved public, as it is used from: Documentation package.\n\n $ bazel build :withdocs\n\nis failing now:\n\n  ERROR: /home/davido/projects/gerrit2/Documentation/BUILD:70:1: \n  target \u0027//java/com/google/gerrit/asciidoctor:doc_indexer\u0027 is not visible from target \u0027//Documentation:index\u0027.",
+      "parentUuid": "3420d3d7_e6fb7ca3",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "d6204c742734ab19b32bba20724db6fe86c21c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8626145e_468f11db",
+        "filename": "java/com/google/gerrit/asciidoctor/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-25T18:57:37Z",
+      "side": 1,
+      "message": "Here: visibility \u003d [\"//tools/eclipse:__pkg__\"],",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 41
+      },
+      "revId": "d6204c742734ab19b32bba20724db6fe86c21c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

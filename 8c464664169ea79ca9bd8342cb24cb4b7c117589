@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "684dcb89_a0fec882",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-25T15:28:53Z",
+      "side": 1,
+      "message": "I had a plan for that which does not need to specify the ES version. I do not know if this is feasible but still, I am sharing the idea.\n\nTo support multiple ES version, we will need multiple implementation of the ES client code, one per major ES version which break backward compatibility(So far we only have the code for [2.4.X,5.X[). The idea is Gerrit should connect to the configured ES server(this should be the same for all versions hopefully), query the ES server version and pick the right implementation. That way, we do not have to configure the ES version, it would be dynamic and we could also give a clear error message when ES server version is not supported.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "8c464664169ea79ca9bd8342cb24cb4b7c117589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

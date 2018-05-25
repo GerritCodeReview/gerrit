@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32b21a4e_eb3131b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-05-25T13:40:26Z",
+      "side": 1,
+      "message": "Have you thought about using the \"official\" Elastic Docker image instead?\n(more up-to-date and available on 6.2)",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "fcaf72de7f681951b1e2319357c7c3529725716b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "fcaf72de7f681951b1e2319357c7c3529725716b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b86c45f_c962898c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-25T13:49:48Z",
+      "side": 1,
+      "message": "Yes, we should consider to use official ES image: docker.elastic.co/elasticsearch/elasticsearch, see my comment here: [1].\n\n* https://gerrit-review.googlesource.com/#/c/gerrit/+/180651/1/gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java@28",
+      "parentUuid": "32b21a4e_eb3131b5",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "fcaf72de7f681951b1e2319357c7c3529725716b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

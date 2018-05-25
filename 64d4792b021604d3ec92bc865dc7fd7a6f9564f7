@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4eca775d_2862ceac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-05-25T12:05:35Z",
+      "side": 1,
+      "message": "I can\u0027t follow your arguments. Can you elaborate what you propose instead of this implementation ?\nDo you think this should not be implemented in Gerrit but we require another external service to provide storage of secrets ?\n\nWhat Inderjot implemented in StringEncryptor pretty much looks like what I can find in the JCA reference guide [1].\n\nWhere do you propose to store encryption keys if not in a file ?\n\n[1] https://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html#Cipher",
+      "parentUuid": "2b2f147b_811cc6de",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "64d4792b021604d3ec92bc865dc7fd7a6f9564f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8ed2118_c95a46be",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17

@@ -70,6 +70,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
+  protected final ElasticsearchVersion version;
+
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtobufCodec<T> codec) {
     JsonArray field = doc.getAsJsonArray(fieldName);
@@ -123,6 +125,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
             schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = clientBuilder.build();
+
+    ElasticsearchVersion cfgVersion =
+        ElasticsearchVersion.fromString(cfg.getString("elasticsearch", null, "version"));
+    version = cfgVersion != null ? cfgVersion : ElasticsearchVersion.V2_4;
   }
 
   @Override

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch.testing;
 
+import com.google.gerrit.elasticsearch.ElasticsearchVersion;
 import com.google.gerrit.server.index.IndexDefinition;
 import com.google.gerrit.server.index.IndexModule.IndexType;
 import com.google.inject.Injector;
@@ -32,13 +33,21 @@ public final class ElasticTestUtils {
     }
   }
 
-  public static void configure(Config config, int port, String prefix) {
+  public static void configure(
+      Config config, int port, String prefix, ElasticsearchVersion version) {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", "test", "protocol", "http");
     config.setString("elasticsearch", "test", "hostname", "localhost");
     config.setInt("elasticsearch", "test", "port", port);
     config.setString("elasticsearch", null, "prefix", prefix);
+    if (version != null) {
+      config.setString("elasticsearch", null, "version", version.toString());
+    }
     config.setString("index", null, "maxLimit", "10000");
+  }
+
+  public static void configure(Config config, int port, String prefix) {
+    configure(config, port, prefix, ElasticsearchVersion.V2_4);
   }
 
   public static void createAllIndexes(Injector injector) throws IOException {

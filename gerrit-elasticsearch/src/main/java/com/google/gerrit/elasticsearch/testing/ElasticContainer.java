@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch.testing;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.elasticsearch.ElasticsearchVersion;
 import java.util.Set;
 import org.apache.http.HttpHost;
 import org.junit.internal.AssumptionViolatedException;
@@ -22,15 +23,17 @@ import org.testcontainers.containers.GenericContainer;
 
 /* Helper class for running ES integration tests in docker container */
 public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends GenericContainer<SELF> {
-  private static final String NAME = "elasticsearch";
-  private static final String VERSION = "2.4.6-alpine";
   private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
   public static ElasticContainer<?> createAndStart() {
+    return createAndStart(ElasticsearchVersion.V2_4);
+  }
+
+  public static ElasticContainer<?> createAndStart(ElasticsearchVersion version) {
     // Assumption violation is not natively supported by Testcontainers.
     // See https://github.com/testcontainers/testcontainers-java/issues/343
     try {
-      ElasticContainer<?> container = new ElasticContainer<>();
+      ElasticContainer<?> container = new ElasticContainer<>(getDockerImageName(version));
       container.start();
       return container;
     } catch (Throwable t) {
@@ -38,8 +41,14 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
     }
   }
 
-  private ElasticContainer() {
-    this(NAME + ":" + VERSION);
+  private static String getDockerImageName(ElasticsearchVersion version) {
+    switch (version) {
+      case V2_4:
+        return "elasticsearch:2.4.6-alpine";
+      case V5_6:
+        return "elasticsearch:5.6.9-alpine";
+    }
+    throw new IllegalStateException("Unsupported Elasticsearch test version: " + version);
   }
 
   private ElasticContainer(String dockerImageName) {

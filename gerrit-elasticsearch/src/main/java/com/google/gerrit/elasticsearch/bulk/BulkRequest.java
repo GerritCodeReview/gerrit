@@ -14,7 +14,29 @@
 
 package com.google.gerrit.elasticsearch.bulk;
 
-abstract class BulkRequest {
+import java.util.ArrayList;
+import java.util.List;
 
-  public abstract String getRequest();
+public abstract class BulkRequest {
+
+  private final List<BulkRequest> requests = new ArrayList<>();
+
+  protected BulkRequest() {
+    add(this);
+  }
+
+  public void add(BulkRequest request) {
+    requests.add(request);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    for (BulkRequest request : requests) {
+      builder.append(request.getRequest());
+    }
+    return builder.toString();
+  }
+
+  protected abstract String getRequest();
 }

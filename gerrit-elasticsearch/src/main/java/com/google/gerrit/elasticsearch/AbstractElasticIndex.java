@@ -22,9 +22,9 @@ import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
+import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.FieldDef.FillArgs;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.Schema;
@@ -90,7 +90,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final SitePaths sitePaths;
   private final String indexNameRaw;
   private final RestClient client;
-  private final ElasticBulkRequest<V> bulkRequest;
 
   protected final String indexName;
   protected final Gson gson;
@@ -98,7 +97,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   AbstractElasticIndex(
       @GerritServerConfig Config cfg,
-      FillArgs fillArgs,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientBuilder clientBuilder,
@@ -115,7 +113,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
             schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = clientBuilder.build();
-    bulkRequest = new ElasticBulkRequest<>(fillArgs, indexNameRaw, schema);
   }
 
   @Override
@@ -180,7 +177,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected String delete(String type, K c) {
     String id = c.toString();
-    return bulkRequest.deleteRequest(type, id);
+    return new DeleteRequest(id, indexNameRaw, type).toString();
   }
 
   protected void addNamedElement(String name, JsonObject element, JsonArray array) {

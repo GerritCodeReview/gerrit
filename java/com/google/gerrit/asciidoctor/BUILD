@@ -8,6 +8,7 @@ java_binary(
 java_library(
     name = "asciidoc_lib",
     srcs = ["AsciiDoctor.java"],
+    visibility = ["//visibility:public"],
     deps = [
         "//lib:args4j",
         "//lib:guava",

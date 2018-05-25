@@ -34,7 +34,7 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
       container.start();
       return container;
     } catch (Throwable t) {
-      throw new AssumptionViolatedException("Unable to start container[might be docker related]");
+      throw new AssumptionViolatedException("Unable to start container", t);
     }
   }
 

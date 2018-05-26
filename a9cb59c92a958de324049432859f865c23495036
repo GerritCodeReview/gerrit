@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8113178e_8c5a05c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-26T12:02:41Z",
+      "side": 1,
+      "message": "Swap the order of changes then? First split, second add docker tag?",
+      "parentUuid": "b5c77de0_0ca8a392",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "a9cb59c92a958de324049432859f865c23495036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1de49669_4d6435ae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

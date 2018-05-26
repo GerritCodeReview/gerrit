@@ -16,6 +16,24 @@
       "revId": "2494b4ad6d842ffe3e8e2c98a5d1188ff4f13d13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2bdd495_03c41675",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-26T07:35:24Z",
+      "side": 1,
+      "message": "Per this [1] it is possible to use ES\u0027s own docker registry hostname in the image name.\n\n[1] https://github.com/testcontainers/testcontainers-java/issues/99\n\nI.e. like this:\n\n container \u003d ElasticContainer.createAndStart(\"docker.elastic.co/elasticsearch/elasticsearch:6.2.4\");\n\nI just tested it and it works (meaning it pulled the image; the test itself failed due to incompatibilities).",
+      "parentUuid": "279bad2f_7960e677",
+      "revId": "2494b4ad6d842ffe3e8e2c98a5d1188ff4f13d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

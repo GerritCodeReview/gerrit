@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "279bad2f_7960e677",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-26T06:26:45Z",
+      "side": 1,
+      "message": "As already discussed, recent ES images are only published on ES own docker registry. So we may want to allow to set base URL.",
+      "revId": "2494b4ad6d842ffe3e8e2c98a5d1188ff4f13d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

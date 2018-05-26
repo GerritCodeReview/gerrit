@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5602dcf5_6d538d2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-26T03:47:36Z",
+      "side": 1,
+      "message": "Yes, now I remember we discussed this at the hackathon.  I think this is a better approach.",
+      "parentUuid": "684dcb89_a0fec882",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "8c464664169ea79ca9bd8342cb24cb4b7c117589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e924162_85474f8f",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
         "patchSetId": 4

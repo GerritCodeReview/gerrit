@@ -22,15 +22,13 @@ import org.testcontainers.containers.GenericContainer;
 
 /* Helper class for running ES integration tests in docker container */
 public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends GenericContainer<SELF> {
-  private static final String NAME = "elasticsearch";
-  private static final String VERSION = "2.4.6-alpine";
   private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
-  public static ElasticContainer<?> createAndStart() {
+  public static ElasticContainer<?> createAndStart(String dockerImageName) {
     // Assumption violation is not natively supported by Testcontainers.
     // See https://github.com/testcontainers/testcontainers-java/issues/343
     try {
-      ElasticContainer<?> container = new ElasticContainer<>();
+      ElasticContainer<?> container = new ElasticContainer<>(dockerImageName);
       container.start();
       return container;
     } catch (Throwable t) {
@@ -38,8 +36,8 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
     }
   }
 
-  private ElasticContainer() {
-    this(NAME + ":" + VERSION);
+  public static ElasticContainer<?> createAndStart() {
+    return createAndStart("elasticsearch:2.4.6-alpine");
   }
 
   private ElasticContainer(String dockerImageName) {

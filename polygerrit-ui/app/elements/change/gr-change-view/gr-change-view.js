@@ -1294,6 +1294,7 @@
       this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
       Promise.all(allDataPromises).then(() => {
         this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+        this.$.reporting.changeFullyLoaded();
       });
 
       return coreDataPromise

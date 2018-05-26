@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3c5656d_f9b643b0",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-26T08:54:22Z",
+      "side": 0,
+      "message": "Moved this up to AbstractQueryChangesTest to avoid having to duplicate it in all the ES test classes.",
+      "revId": "a9cb59c92a958de324049432859f865c23495036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

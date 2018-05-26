@@ -14,91 +14,12 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
-
-import com.google.common.io.MoreFiles;
-import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.acceptance.StandaloneSiteTest;
-import com.google.gerrit.elasticsearch.testing.ElasticContainer;
-import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
-import com.google.gerrit.elasticsearch.testing.ElasticTestUtils.ElasticNodeInfo;
-import com.google.gerrit.extensions.api.GerritApi;
-import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.testutil.ConfigSuite;
-import java.nio.file.Files;
-import java.util.UUID;
-import org.eclipse.jgit.lib.Config;
-import org.junit.AfterClass;
-import org.junit.Test;
+import com.google.inject.Injector;
 
 @NoHttpd
-public class ReindexIT extends StandaloneSiteTest {
+public class ReindexIT extends AbstractReindexIT {
 
-  @ConfigSuite.Config
-  public static Config elasticsearch() {
-    elasticsearchTest = true;
-    if (elasticNodeInfo == null) {
-      try {
-        container = ElasticContainer.createAndStart();
-        elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
-      } catch (Throwable t) {
-        return null;
-      }
-    }
-    String indicesPrefix = UUID.randomUUID().toString();
-    Config cfg = new Config();
-    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);
-    return cfg;
-  }
-
-  private static ElasticNodeInfo elasticNodeInfo;
-  private static ElasticContainer<?> container;
-  // TODO(davido): Retrieve elasticsearch config from test description
-  private static boolean elasticsearchTest;
-
-  @Test
-  public void reindexFromScratch() throws Exception {
-    if (elasticsearchTest) {
-      assume().that(elasticNodeInfo != null).isTrue();
-    }
-    Project.NameKey project = new Project.NameKey("project");
-    String changeId;
-    try (ServerContext ctx = startServer()) {
-      if (elasticNodeInfo != null) {
-        ElasticTestUtils.createAllIndexes(ctx.getInjector());
-      }
-      GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
-      gApi.projects().create("project");
-
-      ChangeInput in = new ChangeInput();
-      in.project = project.get();
-      in.branch = "master";
-      in.subject = "Test change";
-      in.newBranch = true;
-      changeId = gApi.changes().create(in).info().changeId;
-    }
-
-    MoreFiles.deleteRecursively(sitePaths.index_dir, RecursiveDeleteOption.ALLOW_INSECURE);
-    Files.createDirectory(sitePaths.index_dir);
-    assertServerStartupFails();
-
-    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
-
-    try (ServerContext ctx = startServer()) {
-      GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
-      assertThat(gApi.changes().query("message:Test").get().stream().map(c -> c.changeId))
-          .containsExactly(changeId);
-    }
-  }
-
-  @AfterClass
-  public static void stopElasticServer() {
-    if (container != null) {
-      container.stop();
-      elasticsearchTest = false;
-    }
-  }
+  @Override
+  public void configureIndex(Injector injector) throws Exception {}
 }

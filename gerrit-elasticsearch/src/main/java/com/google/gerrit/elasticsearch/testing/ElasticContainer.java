@@ -22,15 +22,19 @@ import org.testcontainers.containers.GenericContainer;
 
 /* Helper class for running ES integration tests in docker container */
 public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends GenericContainer<SELF> {
-  private static final String NAME = "elasticsearch";
-  private static final String VERSION = "2.4.6-alpine";
   private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
-  public static ElasticContainer<?> createAndStart() {
+  public enum Version {
+    V2,
+    V5,
+    V6
+  }
+
+  public static ElasticContainer<?> createAndStart(Version version) {
     // Assumption violation is not natively supported by Testcontainers.
     // See https://github.com/testcontainers/testcontainers-java/issues/343
     try {
-      ElasticContainer<?> container = new ElasticContainer<>();
+      ElasticContainer<?> container = new ElasticContainer<>(version);
       container.start();
       return container;
     } catch (Throwable t) {
@@ -38,12 +42,24 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
     }
   }
 
-  private ElasticContainer() {
-    this(NAME + ":" + VERSION);
+  public static ElasticContainer<?> createAndStart() {
+    return createAndStart(Version.V2);
   }
 
-  private ElasticContainer(String dockerImageName) {
-    super(dockerImageName);
+  private static String getImageName(Version version) {
+    switch (version) {
+      case V2:
+        return "elasticsearch:2.4.6-alpine";
+      case V5:
+        return "elasticsearch:5.6.9-alpine";
+      case V6:
+        return "docker.elastic.co/elasticsearch/elasticsearch:6.2.4";
+    }
+    throw new IllegalStateException("Unsupported version: " + version.name());
+  }
+
+  private ElasticContainer(Version version) {
+    super(getImageName(version));
   }
 
   @Override

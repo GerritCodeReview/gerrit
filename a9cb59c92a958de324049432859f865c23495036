@@ -22,6 +22,64 @@
       "revId": "a9cb59c92a958de324049432859f865c23495036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f34b2390_3cb9b54e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-26T11:09:32Z",
+      "side": 1,
+      "message": "It was problematic to rebase the Config ReindexIT approach to master anyway? One approach would be ti just split the Reindex tests for ES. Then it would be a differenr Bazel rule with its own tag.",
+      "parentUuid": "dc17c369_25860bd9",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "a9cb59c92a958de324049432859f865c23495036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1de49669_4d6435ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-26T11:09:32Z",
+      "side": 1,
+      "message": "+1. PostgreSQL docker containers tests for alternative persistence caching implementation is the next candidate.",
+      "revId": "a9cb59c92a958de324049432859f865c23495036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e55d3e8e_4835b871",
+        "filename": "gerrit-elasticsearch/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-26T11:09:32Z",
+      "side": 1,
+      "message": "Should we try to find more specific tag name, e.g. docker-tests? docker tag could be  ambiguous, if we would produce gerrit own docker image and preform tests for it. If we don\u0027t then this it fine.",
+      "revId": "a9cb59c92a958de324049432859f865c23495036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

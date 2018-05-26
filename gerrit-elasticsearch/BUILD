@@ -52,6 +52,7 @@ junit_tests(
     size = "large",
     srcs = glob(["src/test/java/**/*Test.java"]),
     tags = [
+        "docker",
         "elastic",
     ],
     deps = [

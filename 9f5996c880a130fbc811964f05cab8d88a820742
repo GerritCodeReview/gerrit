@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81623cfc_82874cc8",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/plugins/AutoRegisterModules.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-27T09:09:18Z",
+      "side": 1,
+      "message": "Looks like there might be a few more instances of String.format in logs that were missed by the previous cleanup.",
+      "revId": "9f5996c880a130fbc811964f05cab8d88a820742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

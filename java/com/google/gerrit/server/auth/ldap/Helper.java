@@ -24,6 +24,7 @@ import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.util.ssl.BlindHostnameVerifier;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -139,6 +140,7 @@ class Helper {
       SSLSocketFactory sslfactory = null;
       if (!sslVerify) {
         sslfactory = (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
+        tls.setHostnameVerifier(BlindHostnameVerifier.getInstance());
       }
       tls.negotiate(sslfactory);
       ctx.addToEnvironment(STARTTLS_PROPERTY, tls);

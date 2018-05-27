@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f91e858d_573c4a0d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-27T08:58:13Z",
+      "side": 1,
+      "message": "Why we need to add/move tests in this change?",
+      "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

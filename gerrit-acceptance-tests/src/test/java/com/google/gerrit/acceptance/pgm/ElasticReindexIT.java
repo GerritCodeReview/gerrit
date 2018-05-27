@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.pgm;
 
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.elasticsearch.ElasticVersion;
 import com.google.gerrit.elasticsearch.testing.ElasticContainer;
 import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
 import com.google.gerrit.elasticsearch.testing.ElasticTestUtils.ElasticNodeInfo;
@@ -28,11 +29,10 @@ import org.junit.After;
 public class ElasticReindexIT extends AbstractReindexTests {
   private static ElasticContainer<?> container;
 
-  @ConfigSuite.Default
-  public static Config elasticsearch() {
+  private static Config getConfig(ElasticVersion version) {
     ElasticNodeInfo elasticNodeInfo;
     try {
-      container = ElasticContainer.createAndStart();
+      container = ElasticContainer.createAndStart(version);
       elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     } catch (Throwable t) {
       return null;
@@ -41,6 +41,16 @@ public class ElasticReindexIT extends AbstractReindexTests {
     Config cfg = new Config();
     ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);
     return cfg;
+  }
+
+  @ConfigSuite.Default
+  public static Config elasticsearchV2() {
+    return getConfig(ElasticVersion.V2_4);
+  }
+
+  @ConfigSuite.Config
+  public static Config elasticsearchV5() {
+    return getConfig(ElasticVersion.V5_6);
   }
 
   @Override

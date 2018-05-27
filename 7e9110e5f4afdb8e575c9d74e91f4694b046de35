@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "937a696b_996fc14d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-27T09:00:37Z",
+      "side": 1,
+      "message": "For later ES versions alpine is not the default any more.",
+      "revId": "7e9110e5f4afdb8e575c9d74e91f4694b046de35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "7e9110e5f4afdb8e575c9d74e91f4694b046de35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cd71dc7_5012665d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-27T09:10:51Z",
+      "side": 1,
+      "message": "Right, and for the later versions we use the appropriate one.  It only defaults to 2.4.6-alpine if no version is specified.  This is to avoid having to touch the places where create() is currently used (where we expect it to be 2.4.6).",
+      "parentUuid": "937a696b_996fc14d",
+      "revId": "7e9110e5f4afdb8e575c9d74e91f4694b046de35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -28,11 +28,10 @@ import org.junit.After;
 public class ElasticReindexIT extends AbstractReindexTests {
   private static ElasticContainer<?> container;
 
-  @ConfigSuite.Config
-  public static Config elasticsearch() {
+  private static Config getConfig(ElasticContainer.Version version) {
     ElasticNodeInfo elasticNodeInfo;
     try {
-      container = ElasticContainer.createAndStart();
+      container = ElasticContainer.createAndStart(version);
       elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     } catch (Throwable t) {
       return null;
@@ -41,6 +40,16 @@ public class ElasticReindexIT extends AbstractReindexTests {
     Config cfg = new Config();
     ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);
     return cfg;
+  }
+
+  @ConfigSuite.Default
+  public static Config elasticsearchV2() {
+    return getConfig(ElasticContainer.Version.V2);
+  }
+
+  @ConfigSuite.Config
+  public static Config elasticsearchV5() {
+    return getConfig(ElasticContainer.Version.V5);
   }
 
   @Override

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6eab06eb_a934adb3",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV5QueryAccountsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-27T09:22:18Z",
+      "side": 1,
+      "message": "Is this change actually ready? Don\u0027t we have compatibility issues with latest ES versions, as the client code hard coded assumes it\u0027s connecting against ES version 2 and doesn\u0027t perform dynamic ES version detection. IOW, should we add not yet working changes at the end of the series, and try to merge the working rest?",
+      "range": {
+        "startLine": 39,
+        "startChar": 48,
+        "endLine": 39,
+        "endChar": 75
+      },
+      "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f91e858d_573c4a0d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

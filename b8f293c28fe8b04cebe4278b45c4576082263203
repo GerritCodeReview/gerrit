@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02510f66_ddd83545",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-27T06:50:30Z",
+      "side": 1,
+      "message": "This wasn\u0027t done yet?",
+      "parentUuid": "a7f5a31c_85d99105",
+      "revId": "b8f293c28fe8b04cebe4278b45c4576082263203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43d7d93c_be318431",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/ElasticReindexIT.java",
         "patchSetId": 1

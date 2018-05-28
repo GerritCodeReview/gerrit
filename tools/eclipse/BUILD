@@ -8,6 +8,7 @@ load(
 )
 
 TEST_DEPS = [
+    "//gerrit-elasticsearch:elasticsearch_test_utils",
     "//gerrit-gpg:gpg_tests",
     "//gerrit-gwtui:ui_tests",
     "//gerrit-httpd:httpd_tests",

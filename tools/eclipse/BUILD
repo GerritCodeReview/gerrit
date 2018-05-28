@@ -15,6 +15,7 @@ TEST_DEPS = [
     "//gerrit-patch-jgit:jgit_patch_tests",
     "//gerrit-reviewdb:client_tests",
     "//gerrit-server:server_tests",
+    "//lib/testcontainers",
 ]
 
 DEPS = [

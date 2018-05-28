@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d7bb4dd_cd2c2642",
+        "filename": "WORKSPACE",
+        "patchSetId": 11
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-28T11:49:57Z",
+      "side": 0,
+      "message": "These should also have been removed from lib/jackson/BUILD\n\nDone in https://gerrit-review.googlesource.com/#/c/gerrit/+/181112",
+      "range": {
+        "startLine": 954,
+        "startChar": 0,
+        "endLine": 964,
+        "endChar": 1
+      },
+      "revId": "9b4b09ee61701914dbf64949a98c6d7a442ba7fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

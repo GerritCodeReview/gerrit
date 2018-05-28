@@ -71,8 +71,7 @@ public class RebaseUtil {
       return false;
     } catch (OrmException | IOException e) {
       log.warn(
-          String.format(
-              "Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest),
+              "Error checking if patch set {} on {} can be rebased", patchSet.getId(), dest,
           e);
       return false;
     }

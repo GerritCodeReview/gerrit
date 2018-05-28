@@ -262,9 +262,8 @@ public class ApprovalsUtil {
       return changeControlFactory.controlFor(notes, user).isVisible(db);
     } catch (OrmException e) {
       log.warn(
-          String.format(
-              "Failed to check if account %d can see change %d",
-              accountId.get(), notes.getChangeId().get()),
+              "Failed to check if account {} can see change {}",
+              accountId.get(), notes.getChangeId().get(),
           e);
       return false;
     }

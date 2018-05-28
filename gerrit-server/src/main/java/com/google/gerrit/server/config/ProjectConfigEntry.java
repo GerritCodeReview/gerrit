@@ -351,7 +351,7 @@ public class ProjectConfigEntry {
         }
       } catch (IOException | ConfigInvalidException e) {
         log.error(
-            String.format("Failed to check if plugin config of project %s was updated.", p.get()),
+            "Failed to check if plugin config of project {} was updated.", p.get(),
             e);
       }
     }

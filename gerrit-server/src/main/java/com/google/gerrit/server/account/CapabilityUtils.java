@@ -39,11 +39,10 @@ public class CapabilityUtils {
     RequiresAnyCapability rac = getClassAnnotation(clazz, RequiresAnyCapability.class);
     if (rc != null && rac != null) {
       log.error(
-          String.format(
-              "Class %s uses both @%s and @%s",
+              "Class {} uses both @{} and @{}",
               clazz.getName(),
               RequiresCapability.class.getSimpleName(),
-              RequiresAnyCapability.class.getSimpleName()));
+              RequiresAnyCapability.class.getSimpleName());
       throw new AuthException("cannot check capability");
     }
     CapabilityControl ctl = user.getCapabilities();
@@ -75,9 +74,8 @@ public class CapabilityUtils {
     }
     if (rac.value().length == 0) {
       log.error(
-          String.format(
-              "Class %s uses @%s with no capabilities listed",
-              clazz.getName(), RequiresAnyCapability.class.getSimpleName()));
+              "Class {} uses @{} with no capabilities listed",
+              clazz.getName(), RequiresAnyCapability.class.getSimpleName());
       throw new AuthException("cannot check capability");
     }
     for (String capability : rac.value()) {
@@ -101,11 +99,10 @@ public class CapabilityUtils {
       capability = String.format("%s-%s", pluginName, capability);
     } else if (scope == CapabilityScope.PLUGIN) {
       log.error(
-          String.format(
-              "Class %s uses @%s(scope=%s), but is not within a plugin",
+              "Class {} uses @{}(scope={}), but is not within a plugin",
               clazz.getName(),
               RequiresCapability.class.getSimpleName(),
-              CapabilityScope.PLUGIN.name()));
+              CapabilityScope.PLUGIN.name());
       throw new AuthException("cannot check capability");
     }
     return capability;

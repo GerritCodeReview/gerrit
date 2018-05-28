@@ -32,10 +32,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ListIncludedGroups implements RestReadView<GroupResource> {
-  private static final Logger log = org.slf4j.LoggerFactory.getLogger(ListIncludedGroups.class);
+  private static final Logger log = LoggerFactory.getLogger(ListIncludedGroups.class);
 
   private final GroupControl.Factory controlFactory;
   private final Provider<ReviewDb> dbProvider;
@@ -66,9 +67,8 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
         }
       } catch (NoSuchGroupException notFound) {
         log.warn(
-            String.format(
-                "Group %s no longer available, included into %s",
-                u.getIncludeUUID(), rsrc.getGroup().getName()));
+                "Group {} no longer available, included into {}",
+                u.getIncludeUUID(), rsrc.getGroup().getName());
         continue;
       }
     }

@@ -135,10 +135,9 @@ class AutoRegisterModules {
       }
     } catch (IOException e) {
       log.warn(
-          String.format(
-              "Cannot access %s from plugin %s: "
+              "Cannot access {} from plugin {}: "
                   + "JavaScript auto-discovered plugin will not be registered",
-              STATIC_INIT_JS, pluginName),
+              STATIC_INIT_JS, pluginName,
           e);
     }
   }
@@ -156,9 +155,8 @@ class AutoRegisterModules {
     Export export = clazz.getAnnotation(Export.class);
     if (export == null) {
       log.warn(
-          String.format(
-              "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
-              pluginName, clazz.getName(), def.annotationValue));
+              "In plugin {} asm incorrectly parsed {} with @Export(\"{}\")",
+              pluginName, clazz.getName(), def.annotationValue);
       return;
     }
 
@@ -193,8 +191,7 @@ class AutoRegisterModules {
       listen(clazz, clazz);
     } else {
       log.warn(
-          String.format(
-              "In plugin %s asm incorrectly parsed %s with @Listen", pluginName, clazz.getName()));
+              "In plugin {} asm incorrectly parsed {} with @Listen", pluginName, clazz.getName());
     }
   }
 

@@ -304,8 +304,7 @@ public class StarredChangesUtil {
           .contains(label);
     } catch (IOException e) {
       log.error(
-          String.format(
-              "Cannot query stars by account %d on change %d", accountId.get(), changeId.get()),
+              "Cannot query stars by account {} on change {}", accountId.get(), changeId.get(),
           e);
       return false;
     }
@@ -333,9 +332,8 @@ public class StarredChangesUtil {
       return ref != null ? ref.getObjectId() : ObjectId.zeroId();
     } catch (IOException e) {
       log.error(
-          String.format(
-              "Getting star object ID for account %d on change %d failed",
-              accountId.get(), changeId.get()),
+              "Getting star object ID for account {} on change {} failed",
+              accountId.get(), changeId.get(),
           e);
       return ObjectId.zeroId();
     }

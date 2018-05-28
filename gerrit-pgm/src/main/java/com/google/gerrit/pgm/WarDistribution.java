@@ -54,7 +54,7 @@ public class WarDistribution implements PluginsDistribution {
               processor.process(pluginName, in);
             } catch (IOException ioe) {
               log.error(
-                  String.format("Error opening plugin %s: %s", ze.getName(), ioe.getMessage()));
+                  "Error opening plugin {}: {}", ze.getName(), ioe.getMessage());
             }
           }
         }

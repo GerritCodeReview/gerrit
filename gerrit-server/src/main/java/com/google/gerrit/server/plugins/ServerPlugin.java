@@ -179,8 +179,7 @@ public class ServerPlugin extends Plugin {
       return false;
     } else {
       log.warn(
-          String.format(
-              "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart", getName(), v));
+              "Plugin {} has invalid Gerrit-ReloadMode {}; assuming restart", getName(), v);
       return false;
     }
   }

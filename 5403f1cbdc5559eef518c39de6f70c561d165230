@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7e3044b6_2335d4cf",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV5QueryAccountsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-28T04:55:36Z",
+      "side": 1,
+      "message": "I find it unusual to merge changes that are broken per design and never worked. But I will not object to do it, for reasons your provided.",
+      "parentUuid": "16829404_69d2b4aa",
+      "range": {
+        "startLine": 39,
+        "startChar": 48,
+        "endLine": 39,
+        "endChar": 75
+      },
+      "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f91e858d_573c4a0d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "See [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/180652/6/gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java#b76",
       "parentUuid": "f91e858d_573c4a0d",
+      "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a2d0d1c_85e715f3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2201,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-28T04:55:36Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "d5a7ebdd_811179b8",
       "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

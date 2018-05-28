@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcb01093_4ede7d82",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-28T04:50:38Z",
+      "side": 1,
+      "message": "This was a mistake to add it here in the original change: [1] (probably mismatch with line 231) below.\n\nWhat would be the right course of action? Merge it as is, fix it on 2tablle-2.14 and merge the fix, or fix it on stable-2.15 first and upload new version of this merge change?\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/179551/3/gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java@184",
+      "range": {
+        "startLine": 212,
+        "startChar": 47,
+        "endLine": 212,
+        "endChar": 63
+      },
+      "revId": "d5eb58c03a13765f17bc2bc6bb333058cfb376d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

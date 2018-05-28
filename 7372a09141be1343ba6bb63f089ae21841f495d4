@@ -16,6 +16,24 @@
       "revId": "7372a09141be1343ba6bb63f089ae21841f495d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fbdf092_1b5f5af5",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticTestUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-28T14:41:22Z",
+      "side": 1,
+      "message": "OK. Maybe it got lost in the conflict resolution in the merge commit. I\u0027ll check it.",
+      "parentUuid": "03006fa7_2178ae0f",
+      "revId": "7372a09141be1343ba6bb63f089ae21841f495d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16829404_69d2b4aa",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV5QueryAccountsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-28T01:27:46Z",
+      "side": 1,
+      "message": "Correct, if we run these tests they fail.\n\nWe can either:\n\n- Rebase this on top of the change(s) that fix the support for ES5 and ES6, or\n- Set the tests to @Ignore so that they don\u0027t run, and then enable them after fixing the ES5 and ES6 support.\n\nHowever, given that these tests are not being run on CI (due to docker being unavailable), and there\u0027s a change up for review to disable docker tests on CI anyway, maybe we can just leave it as it is.  The tests will only fail for anyone who\u0027s running these tests locally with docker, which at the moment is only likely to be anyone who\u0027s working on ES.",
+      "parentUuid": "6eab06eb_a934adb3",
+      "range": {
+        "startLine": 39,
+        "startChar": 48,
+        "endLine": 39,
+        "endChar": 75
+      },
+      "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f91e858d_573c4a0d",
         "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2018-05-27T08:58:13Z",
       "side": 1,
       "message": "Why we need to add/move tests in this change?",
+      "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5a7ebdd_811179b8",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2201,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-28T01:27:46Z",
+      "side": 1,
+      "message": "See [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/180652/6/gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticQueryChangesTest.java#b76",
+      "parentUuid": "f91e858d_573c4a0d",
       "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

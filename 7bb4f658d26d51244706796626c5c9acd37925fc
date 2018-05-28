@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d671bcb_f9cf0573",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-28T19:18:34Z",
+      "side": 1,
+      "message": "After investigating the reason it worked on stable-2.14 without the line 18 was needed, should we rather add here the root ES test util package?\n\n  //gerrit-elasticsearch:elasticsearch_test_utils\n  \ninstead of line 18 above (of course sorted). The advantage is that if we add further dependencis to ES test_util rule, we wouldn\u0027t need to add them here, (as they would be added automagically because of transitive dependency).",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "7bb4f658d26d51244706796626c5c9acd37925fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

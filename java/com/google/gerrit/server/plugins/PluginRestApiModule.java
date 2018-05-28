@@ -18,10 +18,13 @@ import static com.google.gerrit.server.plugins.PluginResource.PLUGIN_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.PluginUser;
+import com.google.inject.Key;
 
 public class PluginRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
+    requireBinding(Key.get(PluginUser.Factory.class));
     bind(PluginsCollection.class);
     DynamicMap.mapOf(binder(), PLUGIN_KIND);
     put(PLUGIN_KIND).to(InstallPlugin.Overwrite.class);

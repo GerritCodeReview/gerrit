@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.pgm.Daemon;
 import com.google.gerrit.pgm.Init;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
@@ -44,6 +45,7 @@ import com.google.gerrit.testing.NoteDbChecker;
 import com.google.gerrit.testing.NoteDbMode;
 import com.google.gerrit.testing.SshMode;
 import com.google.gerrit.testing.TempFileUtil;
+import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Module;
@@ -352,7 +354,13 @@ public class GerritServer implements AutoCloseable {
     daemon.setDatabaseForTesting(
         ImmutableList.<Module>of(
             new InMemoryTestingDatabaseModule(
-                cfg, site, inMemoryRepoManager, inMemoryDatabaseInstance)));
+                cfg, site, inMemoryRepoManager, inMemoryDatabaseInstance),
+            new AbstractModule() {
+              @Override
+              protected void configure() {
+                bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
+              }
+            }));
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
   }

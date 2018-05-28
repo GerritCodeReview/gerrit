@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.config.GerritRuntime;
 import java.nio.file.Path;
 
 public class TestServerPlugin extends ServerPlugin {
@@ -33,7 +34,17 @@ public class TestServerPlugin extends ServerPlugin {
       String sshName,
       Path dataDir)
       throws InvalidPluginException {
-    super(name, pluginCanonicalWebUrl, user, null, null, null, dataDir, classloader);
+    super(
+        name,
+        pluginCanonicalWebUrl,
+        user,
+        null,
+        null,
+        null,
+        dataDir,
+        classloader,
+        null,
+        GerritRuntime.DAEMON);
     this.classLoader = classloader;
     this.sysName = sysName;
     this.httpName = httpName;

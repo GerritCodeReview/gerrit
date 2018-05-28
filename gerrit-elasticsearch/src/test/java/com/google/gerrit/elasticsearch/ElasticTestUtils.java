@@ -38,6 +38,7 @@ public final class ElasticTestUtils {
     config.setString("elasticsearch", "test", "hostname", "localhost");
     config.setInt("elasticsearch", "test", "port", port);
     config.setString("elasticsearch", null, "prefix", prefix);
+    config.setInt("index", null, "maxLimit", 10000);
   }
 
   public static void createAllIndexes(Injector injector) throws IOException {

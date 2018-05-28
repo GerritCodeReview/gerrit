@@ -53,8 +53,7 @@ public class WarDistribution implements PluginsDistribution {
             try (InputStream in = zf.getInputStream(ze)) {
               processor.process(pluginName, in);
             } catch (IOException ioe) {
-              log.error(
-                  String.format("Error opening plugin %s: %s", ze.getName(), ioe.getMessage()));
+              log.error("Error opening plugin {}: {}", ze.getName(), ioe.getMessage());
             }
           }
         }

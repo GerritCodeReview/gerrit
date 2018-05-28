@@ -61,10 +61,8 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
     for (String pluginName : pluginCapabilities.plugins()) {
       if (!isPluginNameSane(pluginName)) {
         log.warn(
-            String.format(
-                "Plugin name %s must match [A-Za-z0-9-]+ to use capabilities;"
-                    + " rename the plugin",
-                pluginName));
+            "Plugin name {} must match [A-Za-z0-9-]+ to use capabilities;" + " rename the plugin",
+            pluginName);
         continue;
       }
       for (Map.Entry<String, Provider<CapabilityDefinition>> entry :

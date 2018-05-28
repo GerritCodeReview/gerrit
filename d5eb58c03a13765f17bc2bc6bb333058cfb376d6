@@ -22,6 +22,30 @@
       "revId": "d5eb58c03a13765f17bc2bc6bb333058cfb376d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e30dc5b0_651b9b5e",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-28T05:25:08Z",
+      "side": 1,
+      "message": "I\u0027ll upload a fix on stable-2.14. I need to reorder some of my changes there anyway.",
+      "parentUuid": "dcb01093_4ede7d82",
+      "range": {
+        "startLine": 212,
+        "startChar": 47,
+        "endLine": 212,
+        "endChar": 63
+      },
+      "revId": "d5eb58c03a13765f17bc2bc6bb333058cfb376d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

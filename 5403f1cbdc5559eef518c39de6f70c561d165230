@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "37980932_bfc566e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-28T20:45:47Z",
+      "side": 1,
+      "message": "How about inserting a link to Issue 6094 here, which is somewhat progressing also thx to this change and up? I just added a follow-up comment to that issue, so followers know about its recent progress.",
+      "revId": "5403f1cbdc5559eef518c39de6f70c561d165230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6eab06eb_a934adb3",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV5QueryAccountsTest.java",
         "patchSetId": 7

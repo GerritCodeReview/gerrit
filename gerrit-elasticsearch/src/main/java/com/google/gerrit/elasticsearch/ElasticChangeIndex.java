@@ -24,7 +24,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
@@ -32,6 +31,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.builders.QueryBuilder;
+import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.Predicate;
@@ -55,26 +56,24 @@ import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.ResultSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.Search;
-import io.searchbox.core.search.sort.Sort;
-import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.client.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,7 +107,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       SitePaths sitePaths,
-      JestClientBuilder clientBuilder,
+      ElasticRestClientBuilder clientBuilder,
       @Assisted Schema<ChangeData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, CHANGES);
     this.db = db;
@@ -133,20 +132,17 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       throw new IOException(e);
     }
 
-    Bulk bulk =
-        new Bulk.Builder()
-            .defaultIndex(indexName)
-            .defaultType(CHANGES)
-            .addAction(insert(insertIndex, cd))
-            .addAction(delete(deleteIndex, cd.getId()))
-            .refresh(true)
-            .build();
-    JestResult result = client.execute(bulk);
-    if (!result.isSucceeded()) {
+    String bulk = toAction(insertIndex, getId(cd), INDEX);
+    bulk += toDoc(cd);
+    bulk += toAction(deleteIndex, cd.getId().toString(), DELETE);
+
+    String uri = getURI(CHANGES, BULK);
+    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
           String.format(
-              "Failed to replace change %s in index %s: %s",
-              cd.getId(), indexName, result.getErrorMessage()));
+              "Failed to replace change %s in index %s: %s", cd.getId(), indexName, statusCode));
     }
   }
 
@@ -165,8 +161,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   }
 
   @Override
-  protected Builder addActions(Builder builder, Id c) {
-    return builder.addAction(delete(OPEN_CHANGES, c)).addAction(delete(OPEN_CHANGES, c));
+  protected String addActions(Id c) {
+    return delete(OPEN_CHANGES, c) + delete(CLOSED_CHANGES, c);
   }
 
   @Override
@@ -180,18 +176,12 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   }
 
   private class QuerySource implements ChangeDataSource {
-    private final Search search;
+    private final String search;
     private final Set<String> fields;
+    private final List<String> types;
 
     QuerySource(List<String> types, Predicate<ChangeData> p, QueryOptions opts)
         throws QueryParseException {
-      List<Sort> sorts =
-          ImmutableList.of(
-              new Sort(ChangeField.UPDATED.getName(), Sorting.DESC),
-              new Sort(ChangeField.LEGACY_ID.getName(), Sorting.DESC));
-      for (Sort sort : sorts) {
-        sort.setIgnoreUnmapped();
-      }
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.changeFields(opts);
       SearchSourceBuilder searchSource =
@@ -201,12 +191,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
               .size(opts.limit())
               .fields(Lists.newArrayList(fields));
 
-      search =
-          new Search.Builder(searchSource.toString())
-              .addType(types)
-              .addSort(sorts)
-              .addIndex(indexName)
-              .build();
+      search = getSearch(searchSource, getSortArray());
+      this.types = types;
     }
 
     @Override
@@ -218,9 +204,14 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     public ResultSet<ChangeData> read() throws OrmException {
       try {
         List<ChangeData> results = Collections.emptyList();
-        JestResult result = client.execute(search);
-        if (result.isSucceeded()) {
-          JsonObject obj = result.getJsonObject().getAsJsonObject("hits");
+        String uri = getURI(types);
+        Response response =
+            performRequest(HttpPost.METHOD_NAME, search, uri, Collections.emptyMap());
+        StatusLine statusLine = response.getStatusLine();
+        if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+          String content = getContent(response);
+          JsonObject obj =
+              new JsonParser().parse(content).getAsJsonObject().getAsJsonObject("hits");
           if (obj.get("hits") != null) {
             JsonArray json = obj.getAsJsonArray("hits");
             results = Lists.newArrayListWithCapacity(json.size());
@@ -229,7 +220,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
             }
           }
         } else {
-          log.error(result.getErrorMessage());
+          log.error(statusLine.getReasonPhrase());
         }
         final List<ChangeData> r = Collections.unmodifiableList(results);
         return new ResultSet<ChangeData>() {
@@ -256,11 +247,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     @Override
     public boolean hasChange() {
       return false;
-    }
-
-    @Override
-    public String toString() {
-      return search.toString();
     }
 
     private ChangeData toChangeData(JsonElement json) {
@@ -438,5 +424,21 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       }
       out.setUnresolvedCommentCount(count.getAsInt());
     }
+
+    private JsonArray getSortArray() {
+      JsonObject properties = new JsonObject();
+      properties.addProperty(ORDER, "desc");
+      properties.addProperty(IGNORE_UNMAPPED, true);
+
+      JsonArray sortArray = new JsonArray();
+      addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);
+      addNamedElement(ChangeField.LEGACY_ID.getName(), properties, sortArray);
+      return sortArray;
+    }
+  }
+
+  private String getURI(List<String> types) throws UnsupportedEncodingException {
+    String joinedTypes = String.join(",", types);
+    return getURI(joinedTypes, SEARCH);
   }
 }

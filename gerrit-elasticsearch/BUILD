@@ -12,14 +12,16 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib/commons:codec",
-        "//lib/elasticsearch",
+        "//lib/elasticsearch-rest-client",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "//lib/jest",
-        "//lib/jest:jest-common",
+        "//lib/httpcomponents:httpasyncclient",
+        "//lib/httpcomponents:httpclient",
+        "//lib/httpcomponents:httpcore",
+        "//lib/httpcomponents:httpcore-nio",
+        "//lib/jackson:jackson-core",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
-        "//lib/lucene:lucene-core",
     ],
 )
 
@@ -28,7 +30,10 @@ load("//tools/bzl:junit.bzl", "junit_tests")
 java_library(
     name = "elasticsearch_test_utils",
     testonly = 1,
-    srcs = glob(["src/test/java/**/ElasticTestUtils.java"]),
+    srcs = glob([
+        "src/test/java/**/ElasticTestUtils.java",
+        "src/test/java/**/ElasticContainer.java",
+    ]),
     deps = [
         ":elasticsearch",
         "//gerrit-index:index",
@@ -36,9 +41,10 @@ java_library(
         "//gerrit-server:server",
         "//lib:gson",
         "//lib:truth",
-        "//lib/elasticsearch",
         "//lib/guice",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/testcontainers",
     ],
 )
 
@@ -56,7 +62,9 @@ junit_tests(
         "//gerrit-server:server",
         "//gerrit-server:testutil",
         "//lib/guice",
+        "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/testcontainers",
     ],
 )

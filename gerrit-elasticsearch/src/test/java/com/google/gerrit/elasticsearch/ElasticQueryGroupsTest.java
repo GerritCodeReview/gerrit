@@ -19,29 +19,29 @@ import com.google.gerrit.server.query.group.AbstractQueryGroupsTest;
 import com.google.gerrit.testutil.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
   private static ElasticNodeInfo nodeInfo;
+  private static ElasticContainer<?> container;
 
   @BeforeClass
-  public static void startIndexService() throws InterruptedException, ExecutionException {
+  public static void startIndexService() {
     if (nodeInfo != null) {
       // do not start Elasticsearch twice
       return;
     }
-    nodeInfo = ElasticTestUtils.startElasticsearchNode();
+
+    container = ElasticContainer.createAndStart();
+    nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 
   @AfterClass
   public static void stopElasticsearchServer() {
-    if (nodeInfo != null) {
-      nodeInfo.node.close();
-      nodeInfo.elasticDir.delete();
-      nodeInfo = null;
+    if (container != null) {
+      container.stop();
     }
   }
 

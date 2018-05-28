@@ -17,8 +17,8 @@ package com.google.gerrit.elasticsearch.builders;
 import java.io.IOException;
 
 /**
- * A Query that matches documents containing a term. A trimmed down version of {@link
- * org.elasticsearch.index.query.TermQueryBuilder} for this very package.
+ * A Query that matches documents containing a term. A trimmed down version of
+ * org.elasticsearch.index.query.TermQueryBuilder for this very package.
  */
 class TermQueryBuilder extends QueryBuilder {
 

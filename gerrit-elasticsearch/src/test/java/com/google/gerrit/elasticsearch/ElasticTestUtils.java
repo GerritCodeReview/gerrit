@@ -15,30 +15,21 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.elasticsearch.ElasticAccountIndex.ACCOUNTS;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CLOSED_CHANGES;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.OPEN_CHANGES;
-import static com.google.gerrit.elasticsearch.ElasticGroupIndex.GROUPS;
 
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
-import com.google.gerrit.elasticsearch.ElasticAccountIndex.AccountMapping;
-import com.google.gerrit.elasticsearch.ElasticChangeIndex.ChangeMapping;
-import com.google.gerrit.elasticsearch.ElasticGroupIndex.GroupMapping;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
-import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
-import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -48,16 +39,11 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 
-final class ElasticTestUtils {
-  static final Gson gson =
-      new GsonBuilder()
-          .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-          .create();
-
-  static class ElasticNodeInfo {
-    final Node node;
-    final String port;
-    final File elasticDir;
+public final class ElasticTestUtils {
+  public static class ElasticNodeInfo {
+    public final Node node;
+    public final String port;
+    public final File elasticDir;
 
     private ElasticNodeInfo(Node node, File rootDir, String port) {
       this.node = node;
@@ -106,38 +92,6 @@ final class ElasticTestUtils {
     return new ElasticNodeInfo(node, elasticDir, getHttpPort(node));
   }
 
-  static void deleteAllIndexes(ElasticNodeInfo nodeInfo, String prefix) {
-    Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareDelete(String.format("%s%s_%04d", prefix, CHANGES, changeSchema.getVersion()))
-        .execute()
-        .actionGet();
-
-    Schema<AccountState> accountSchema = AccountSchemaDefinitions.INSTANCE.getLatest();
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareDelete(String.format("%s%s_%04d", prefix, ACCOUNTS, accountSchema.getVersion()))
-        .execute()
-        .actionGet();
-
-    Schema<InternalGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareDelete(String.format("%s%s_%04d", prefix, GROUPS, groupSchema.getVersion()))
-        .execute()
-        .actionGet();
-  }
-
   static class NodeInfo {
     String httpAddress;
   }
@@ -146,46 +100,12 @@ final class ElasticTestUtils {
     Map<String, NodeInfo> nodes;
   }
 
-  static void createAllIndexes(ElasticNodeInfo nodeInfo, String prefix) {
-    Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
-    ChangeMapping openChangesMapping = new ChangeMapping(changeSchema);
-    ChangeMapping closedChangesMapping = new ChangeMapping(changeSchema);
-    openChangesMapping.closedChanges = null;
-    closedChangesMapping.openChanges = null;
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(String.format("%s%s_%04d", prefix, CHANGES, changeSchema.getVersion()))
-        .addMapping(OPEN_CHANGES, gson.toJson(openChangesMapping))
-        .addMapping(CLOSED_CHANGES, gson.toJson(closedChangesMapping))
-        .execute()
-        .actionGet();
-
-    Schema<AccountState> accountSchema = AccountSchemaDefinitions.INSTANCE.getLatest();
-    AccountMapping accountMapping = new AccountMapping(accountSchema);
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(String.format("%s%s_%04d", prefix, ACCOUNTS, accountSchema.getVersion()))
-        .addMapping(ElasticAccountIndex.ACCOUNTS, gson.toJson(accountMapping))
-        .execute()
-        .actionGet();
-
-    Schema<InternalGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
-    GroupMapping groupMapping = new GroupMapping(groupSchema);
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(String.format("%s%s_%04d", prefix, GROUPS, groupSchema.getVersion()))
-        .addMapping(ElasticGroupIndex.GROUPS, gson.toJson(groupMapping))
-        .execute()
-        .actionGet();
+  public static void createAllIndexes(Injector injector) throws IOException {
+    Collection<IndexDefinition<?, ?, ?>> indexDefs =
+        injector.getInstance(Key.get(new TypeLiteral<Collection<IndexDefinition<?, ?, ?>>>() {}));
+    for (IndexDefinition<?, ?, ?> indexDef : indexDefs) {
+      indexDef.getIndexCollection().getSearchIndex().deleteAll();
+    }
   }
 
   private static String getHttpPort(Node node) throws InterruptedException, ExecutionException {

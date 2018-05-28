@@ -101,15 +101,15 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       try {
         Files.createDirectories(loc);
       } catch (IOException e) {
-        log.warn("Can't create disk cache: " + loc.toAbsolutePath());
+        log.warn("Can't create disk cache: {}", loc.toAbsolutePath());
         return null;
       }
     }
     if (!Files.isWritable(loc)) {
-      log.warn("Can't write to disk cache: " + loc.toAbsolutePath());
+      log.warn("Can't write to disk cache: {}", loc.toAbsolutePath());
       return null;
     }
-    log.info("Enabling disk cache " + loc.toAbsolutePath());
+    log.info("Enabling disk cache {}", loc.toAbsolutePath());
     return loc;
   }
 
@@ -134,7 +134,7 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         List<Runnable> pending = executor.shutdownNow();
         if (executor.awaitTermination(15, TimeUnit.MINUTES)) {
           if (pending != null && !pending.isEmpty()) {
-            log.info(String.format("Finishing %d disk cache updates", pending.size()));
+            log.info("Finishing {} disk cache updates", pending.size());
             for (Runnable update : pending) {
               update.run();
             }

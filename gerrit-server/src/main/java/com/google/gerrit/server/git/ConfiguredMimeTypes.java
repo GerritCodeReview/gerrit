@@ -46,9 +46,13 @@ public class ConfiguredMimeTypes {
             add(typeName, path);
           } catch (PatternSyntaxException | InvalidPatternException e) {
             log.warn(
-                String.format(
-                    "Ignoring invalid %s.%s.%s = %s in project %s: %s",
-                    MIMETYPE, typeName, KEY_PATH, path, projectName, e.getMessage()));
+                "Ignoring invalid {}.{}.{} = {} in project {}: {}",
+                MIMETYPE,
+                typeName,
+                KEY_PATH,
+                path,
+                projectName,
+                e.getMessage());
           }
         }
       }

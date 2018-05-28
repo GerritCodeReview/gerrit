@@ -56,10 +56,7 @@ public class UiActions {
               try {
                 view = e.getProvider().get();
               } catch (RuntimeException err) {
-                log.error(
-                    String.format(
-                        "error creating view %s.%s", e.getPluginName(), e.getExportName()),
-                    err);
+                log.error("error creating view {}.{}", e.getPluginName(), e.getExportName(), err);
                 return null;
               }
 

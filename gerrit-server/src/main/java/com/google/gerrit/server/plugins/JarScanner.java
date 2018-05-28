@@ -92,9 +92,10 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
         throw new InvalidPluginException("Cannot auto-register", err);
       } catch (RuntimeException err) {
         log.warn(
-            String.format(
-                "Plugin %s has invalid class file %s inside of %s",
-                pluginName, entry.getName(), jarFile.getName()),
+            "Plugin {} has invalid class file {} inside of {}",
+            pluginName,
+            entry.getName(),
+            jarFile.getName(),
             err);
         continue;
       }
@@ -104,9 +105,11 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
           rawMap.put(def.annotationName, def);
         } else {
           log.warn(
-              String.format(
-                  "Plugin %s tries to @%s(\"%s\") abstract class %s",
-                  pluginName, def.annotationName, def.annotationValue, def.className));
+              "Plugin {} tries to @{}(\"{}\") abstract class {}",
+              pluginName,
+              def.annotationName,
+              def.annotationValue,
+              def.className);
         }
       }
     }
@@ -151,9 +154,7 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       try {
         new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
       } catch (RuntimeException err) {
-        log.warn(
-            String.format("Jar %s has invalid class file %s", jarFile.getName(), entry.getName()),
-            err);
+        log.warn("Jar {} has invalid class file {}", jarFile.getName(), entry.getName(), err);
         continue;
       }
 

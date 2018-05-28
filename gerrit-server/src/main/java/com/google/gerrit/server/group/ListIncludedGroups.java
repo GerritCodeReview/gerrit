@@ -67,9 +67,9 @@ public class ListIncludedGroups implements RestReadView<GroupResource> {
         }
       } catch (NoSuchGroupException notFound) {
         log.warn(
-            String.format(
-                "Group %s no longer available, included into %s",
-                u.getIncludeUUID(), rsrc.getGroup().getName()));
+            "Group {} no longer available, included into {}",
+            u.getIncludeUUID(),
+            rsrc.getGroup().getName());
         continue;
       }
     }

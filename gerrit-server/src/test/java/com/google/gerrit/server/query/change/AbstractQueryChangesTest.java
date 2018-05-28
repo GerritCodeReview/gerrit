@@ -181,7 +181,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   private String systemTimeZone;
 
-  protected abstract Injector createInjector() throws Exception;
+  protected abstract Injector createInjector();
 
   @Before
   public void setUpInjector() throws Exception {

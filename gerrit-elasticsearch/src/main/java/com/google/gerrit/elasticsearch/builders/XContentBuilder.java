@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * A trimmed down and further altered version of {@link
- * org.elasticsearch.common.xcontent.XContentBuilder} for this very package.
+ * A trimmed down and further altered version of org.elasticsearch.common.xcontent.XContentBuilder
+ * for this very package.
  */
 public final class XContentBuilder implements Closeable {
 
@@ -38,7 +38,7 @@ public final class XContentBuilder implements Closeable {
 
   /**
    * Constructs a new builder. Make sure to call {@link #close()} when the builder is done with.
-   * Inspired from {@link org.elasticsearch.common.xcontent.json.JsonXContent} static block.
+   * Inspired from org.elasticsearch.common.xcontent.json.JsonXContent static block.
    */
   public XContentBuilder() throws IOException {
     JsonFactory jsonFactory = new JsonFactory();

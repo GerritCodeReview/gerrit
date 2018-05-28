@@ -18,7 +18,7 @@ import java.io.IOException;
 
 /**
  * Constructs a query that only match on documents that the field has a value in them. A trimmed
- * down version of {@link org.elasticsearch.index.query.ExistsQueryBuilder} for this very package.
+ * down version of org.elasticsearch.index.query.ExistsQueryBuilder for this very package.
  */
 class ExistsQueryBuilder extends QueryBuilder {
 

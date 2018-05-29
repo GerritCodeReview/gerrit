@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "571ace75_d5b55e3f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T03:34:29Z",
+      "side": 1,
+      "message": "This comment is no longer needed.",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "646bb5a9078f6b26a1018261fa4ca8799689b70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1c2c64_045e6f9f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T03:34:29Z",
+      "side": 1,
+      "message": "This is done in all the calls to performRequest.  Why not make AbstractElasticIndex.performRequest take a BulkRequest and do the toString there?",
+      "range": {
+        "startLine": 101,
+        "startChar": 45,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "646bb5a9078f6b26a1018261fa4ca8799689b70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33761e60_0621e31b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T03:34:29Z",
+      "side": 1,
+      "message": "No longer relevant",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 66
+      },
+      "revId": "646bb5a9078f6b26a1018261fa4ca8799689b70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

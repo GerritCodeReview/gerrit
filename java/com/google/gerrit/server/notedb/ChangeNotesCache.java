@@ -346,7 +346,13 @@ public class ChangeNotesCache {
     @Override
     public ChangeNotesState call() throws ConfigInvalidException, IOException {
       ChangeNotesParser parser =
-          new ChangeNotesParser(key.changeId(), key.id(), rw, args.noteUtil, args.metrics);
+          new ChangeNotesParser(
+              key.changeId(),
+              key.id(),
+              rw,
+              args.changeNoteJson,
+              args.legacyChangeNoteRead,
+              args.metrics);
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8840f90_4b4ea341",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-29T20:44:47Z",
+      "side": 1,
+      "message": "We already had this discussion, when ReindexIT test was extended to support ES index and this unusual dependency from acceptance-test to non-acceptance-utility class was added, see my answer here: [1].\n\nThis only works in this change, because gerrit-acceptance-tests:lib depends on //gerrit-elasticsearch:elasticsearch_test_utils (those are located in  source hierarchy right now and not under tests). And if you check the dependency of gerrit-acceptance-tests:lib, you will notice, that the only not source dependency from source on stable-2.14 is //gerrit-gpg:testutil. This was wrong, as I explained in my suggestion to Hugo, as we only accepts the dependency from source to source, and from test to source, but never from source to tests. I solved //gerrit-gpg:testutil issue during migration/dissolving of top-level directory, see [2].\n\nAnd if you check the content of gerrit/java/com/google/gerrit/acceptance/BUILD on master: [3], we don\u0027t have any dependency on test code there. And th e reference to the test code is inside java/... and not javatest/... hierarchy: [4].\n\nOn second thought, even if I said, that plugins shouldn\u0027t need ES stuff, now, that we actually stripped ES deps to absolute minimum, it\u0027s only low level REST client and Testcontainers, we could re-consider and move ES test utility stuff in gerrit-acceptance-framework, both classes ElasticContainer and ElasticTestUtils. Then we could make dependency from ES tests to acceptance-test-framework, and gerrit-acceptance-tests already depends on gerrit-acceptance-framework. But I havn\u0027t tried that yet.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/172713/#message-46556eceee8a0721adcbf7cb1e8727bb1e89dd5b\n* [2] https://gerrit-review.googlesource.com/#/c/gerrit/+/127550\n* [3] https://github.com/GerritCodeReview/gerrit/blob/master/java/com/google/gerrit/acceptance/BUILD#L11-L32\n* [4] https://github.com/GerritCodeReview/gerrit/blob/master/java/com/google/gerrit/acceptance/BUILD#L14-L17",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "c1a61cfd7d19d8a8aa3d8c1214b776be623736d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

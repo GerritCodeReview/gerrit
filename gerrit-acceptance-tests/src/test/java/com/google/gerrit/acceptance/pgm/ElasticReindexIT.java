@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.pgm;
 
 import com.google.gerrit.acceptance.NoHttpd;
-import com.google.gerrit.elasticsearch.testing.ElasticContainer;
-import com.google.gerrit.elasticsearch.testing.ElasticTestUtils;
-import com.google.gerrit.elasticsearch.testing.ElasticTestUtils.ElasticNodeInfo;
+import com.google.gerrit.elasticsearch.ElasticContainer;
+import com.google.gerrit.elasticsearch.ElasticTestUtils;
+import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Injector;
 import java.util.UUID;

@@ -2,7 +2,6 @@ java_library(
     name = "elasticsearch",
     srcs = glob(
         ["src/main/java/**/*.java"],
-        exclude = ["**/testing/**"],
     ),
     visibility = ["//visibility:public"],
     deps = [
@@ -32,7 +31,10 @@ load("//tools/bzl:junit.bzl", "junit_tests")
 java_library(
     name = "elasticsearch_test_utils",
     testonly = 1,
-    srcs = glob(["src/main/java/com/google/gerrit/elasticsearch/testing/*.java"]),
+    srcs = glob(
+        ["src/test/java/**/*.java"],
+        exclude = ["src/test/java/**/*Test.java"],
+    ),
     visibility = ["//visibility:public"],
     deps = [
         ":elasticsearch",

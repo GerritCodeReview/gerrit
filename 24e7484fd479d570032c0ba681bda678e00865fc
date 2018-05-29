@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24591eb8_fe887ddd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-29T07:20:16Z",
+      "side": 1,
+      "message": "On the second thought: one disadvantage for adding AbstractReindexIT.java in addition here and the fact this class is ending with \"IT\"-Suffix, caused that it was added already in acceptance_tests fpr pgm above. In the end this compilation unit is compiled twice. We already have the util hier. Can\u0027t this be added there and exculded in both rules. Even better we could rename the abstact class not to end on \"IT\"-suffix, may be just AbstractReindex or ReindexTestBase (or similar). That way we wouldn\u0027t even need to exclude it.\n\nWe could do it later though.",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 33
+      },
+      "revId": "24e7484fd479d570032c0ba681bda678e00865fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

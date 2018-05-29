@@ -140,9 +140,10 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       throw new IOException(e);
     }
 
-    BulkRequest bulk = new IndexRequest(getId(cd), indexName, insertIndex);
-    bulk.add(new UpdateRequest<>(fillArgs, schema, cd));
-    bulk.add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex));
+    BulkRequest bulk =
+        new IndexRequest(getId(cd), indexName, insertIndex)
+            .add(new UpdateRequest<>(fillArgs, schema, cd))
+            .add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex));
 
     String uri = getURI(CHANGES, BULK);
     Response response =

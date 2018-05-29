@@ -93,8 +93,8 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   @Override
   public void replace(AccountState as) throws IOException {
-    BulkRequest bulk = new IndexRequest(getId(as), indexName, ACCOUNTS);
-    bulk.add(new UpdateRequest<>(schema, as));
+    BulkRequest bulk =
+        new IndexRequest(getId(as), indexName, ACCOUNTS).add(new UpdateRequest<>(schema, as));
 
     String uri = getURI(ACCOUNTS, BULK);
     Response response =

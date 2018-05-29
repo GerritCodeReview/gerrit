@@ -25,8 +25,9 @@ public abstract class BulkRequest {
     add(this);
   }
 
-  public void add(BulkRequest request) {
+  public BulkRequest add(BulkRequest request) {
     requests.add(request);
+    return this;
   }
 
   @Override

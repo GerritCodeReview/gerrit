@@ -57,6 +57,30 @@
       "revId": "b564a52689163ed1875fcc77228544c1437b3630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c220df9_d9354154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-29T11:51:32Z",
+      "side": 1,
+      "message": "\u003e I wonder if it\u0027s better to omit this commit from the merge since it conflicts with Edwin\u0027s migration to Flogger?\n\nI think you can omit this commit if it make the merge easier.",
+      "parentUuid": "d3721929_d88a49e1",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 56
+      },
+      "revId": "b564a52689163ed1875fcc77228544c1437b3630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * A Query that matches documents matching boolean combinations of other queries. A trimmed down
- * version of {@link org.elasticsearch.index.query.BoolQueryBuilder} for this very package.
+ * version of org.elasticsearch.index.query.BoolQueryBuilder for this very package.
  */
 public class BoolQueryBuilder extends QueryBuilder {
 

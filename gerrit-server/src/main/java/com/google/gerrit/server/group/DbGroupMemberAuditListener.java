@@ -35,10 +35,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class DbGroupMemberAuditListener implements GroupMemberAuditListener {
-  private static final Logger log =
-      org.slf4j.LoggerFactory.getLogger(DbGroupMemberAuditListener.class);
+  private static final Logger log = LoggerFactory.getLogger(DbGroupMemberAuditListener.class);
 
   private final SchemaFactory<ReviewDb> schema;
   private final AccountCache accountCache;

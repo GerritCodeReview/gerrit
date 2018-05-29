@@ -555,7 +555,8 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     walk.reset();
-    ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
-    return new ChangeNotesParser(newChange().getId(), tip, walk, noteUtil, args.metrics);
+    ChangeNoteJson noteUtil = injector.getInstance(ChangeNoteJson.class);
+    LegacyChangeNoteRead reader = injector.getInstance(LegacyChangeNoteRead.class);
+    return new ChangeNotesParser(newChange().getId(), tip, walk, noteUtil, reader, args.metrics);
   }
 }

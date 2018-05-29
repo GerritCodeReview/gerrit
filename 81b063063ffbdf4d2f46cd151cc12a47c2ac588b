@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d36c96d_3d7b8d25",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T21:24:24Z",
+      "side": 1,
+      "message": "Done.\n\nComment at L34 is also done but for some reason I can\u0027t see it in the UI here.  Issue 9110.",
+      "parentUuid": "8841ebdf_7e62c1f9",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "81b063063ffbdf4d2f46cd151cc12a47c2ac588b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce68f730_52411f5e",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/BUILD",
         "patchSetId": 1

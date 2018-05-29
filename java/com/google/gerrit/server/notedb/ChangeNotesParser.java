@@ -124,7 +124,9 @@ class ChangeNotesParser {
   }
 
   // Private final members initialized in the constructor.
-  private final ChangeNoteUtil noteUtil;
+  private final ChangeNoteJson changeNoteJson;
+  private final LegacyChangeNoteRead legacyChangeNoteRead;
+
   private final NoteDbMetrics metrics;
   private final Change.Id id;
   private final ObjectId tip;
@@ -175,12 +177,14 @@ class ChangeNotesParser {
       Change.Id changeId,
       ObjectId tip,
       ChangeNotesRevWalk walk,
-      ChangeNoteUtil noteUtil,
+      ChangeNoteJson changeNoteJson,
+      LegacyChangeNoteRead legacyChangeNoteRead,
       NoteDbMetrics metrics) {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
-    this.noteUtil = noteUtil;
+    this.changeNoteJson = changeNoteJson;
+    this.legacyChangeNoteRead = legacyChangeNoteRead;
     this.metrics = metrics;
     approvals = new LinkedHashMap<>();
     bufferedApprovals = new ArrayList<>();
@@ -446,7 +450,7 @@ class ChangeNotesParser {
       return effectiveAccountId;
     }
     PersonIdent ident = RawParseUtils.parsePersonIdent(realUser);
-    return noteUtil.parseIdent(ident, id);
+    return legacyChangeNoteRead.parseIdent(ident, id);
   }
 
   private String parseTopic(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -581,7 +585,7 @@ class ChangeNotesParser {
         parsedAssignee = Optional.empty();
       } else {
         PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
-        parsedAssignee = Optional.ofNullable(noteUtil.parseIdent(ident, id));
+        parsedAssignee = Optional.ofNullable(legacyChangeNoteRead.parseIdent(ident, id));
       }
       if (assignee == null) {
         assignee = parsedAssignee;
@@ -749,7 +753,8 @@ class ChangeNotesParser {
     ChangeNotesCommit tipCommit = walk.parseCommit(tip);
     revisionNoteMap =
         RevisionNoteMap.parse(
-            noteUtil,
+            changeNoteJson,
+            legacyChangeNoteRead,
             id,
             reader,
             NoteMap.read(reader, tipCommit),
@@ -807,7 +812,7 @@ class ChangeNotesParser {
       labelVoteStr = line.substring(0, s);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
-      effectiveAccountId = noteUtil.parseIdent(ident, id);
+      effectiveAccountId = legacyChangeNoteRead.parseIdent(ident, id);
     } else {
       labelVoteStr = line;
       effectiveAccountId = committerId;
@@ -849,7 +854,7 @@ class ChangeNotesParser {
       label = line.substring(1, s);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
-      effectiveAccountId = noteUtil.parseIdent(ident, id);
+      effectiveAccountId = legacyChangeNoteRead.parseIdent(ident, id);
     } else {
       label = line.substring(1);
       effectiveAccountId = committerId;
@@ -913,7 +918,7 @@ class ChangeNotesParser {
           label.label = line.substring(c + 2, c2);
           PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(c2 + 2));
           checkFooter(ident != null, FOOTER_SUBMITTED_WITH, line);
-          label.appliedBy = noteUtil.parseIdent(ident, id);
+          label.appliedBy = legacyChangeNoteRead.parseIdent(ident, id);
         } else {
           label.label = line.substring(c + 2);
         }
@@ -929,7 +934,7 @@ class ChangeNotesParser {
     if (a.getName().equals(c.getName()) && a.getEmailAddress().equals(c.getEmailAddress())) {
       return null;
     }
-    return noteUtil.parseIdent(commit.getAuthorIdent(), id);
+    return legacyChangeNoteRead.parseIdent(commit.getAuthorIdent(), id);
   }
 
   private void parseReviewer(Timestamp ts, ReviewerStateInternal state, String line)
@@ -938,7 +943,7 @@ class ChangeNotesParser {
     if (ident == null) {
       throw invalidFooter(state.getFooterKey(), line);
     }
-    Account.Id accountId = noteUtil.parseIdent(ident, id);
+    Account.Id accountId = legacyChangeNoteRead.parseIdent(ident, id);
     reviewerUpdates.add(ReviewerStatusUpdate.create(ts, ownerId, accountId, state));
     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);

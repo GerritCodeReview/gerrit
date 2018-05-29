@@ -37,19 +37,22 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
   // See org.eclipse.jgit.transport.PushCertificateParser.END_SIGNATURE
   private static final byte[] END_SIGNATURE = "-----END PGP SIGNATURE-----\n".getBytes(UTF_8);
 
-  private final ChangeNoteUtil noteUtil;
+  private final ChangeNoteJson noteJson;
+  private final LegacyChangeNoteRead legacyChangeNoteRead;
   private final Change.Id changeId;
   private final PatchLineComment.Status status;
   private String pushCert;
 
   ChangeRevisionNote(
-      ChangeNoteUtil noteUtil,
+      ChangeNoteJson noteJson,
+      LegacyChangeNoteRead legacyChangeNoteRead,
       Change.Id changeId,
       ObjectReader reader,
       ObjectId noteId,
       PatchLineComment.Status status) {
     super(reader, noteId);
-    this.noteUtil = noteUtil;
+    this.legacyChangeNoteRead = legacyChangeNoteRead;
+    this.noteJson = noteJson;
     this.changeId = changeId;
     this.status = status;
   }
@@ -65,7 +68,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     p.value = offset;
 
     if (isJson(raw, p.value)) {
-      RevisionNoteData data = parseJson(noteUtil, raw, p.value);
+      RevisionNoteData data = parseJson(noteJson, raw, p.value);
       if (status == PatchLineComment.Status.PUBLISHED) {
         pushCert = data.pushCert;
       } else {
@@ -80,7 +83,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     } else {
       pushCert = null;
     }
-    List<Comment> comments = noteUtil.parseNote(raw, p, changeId);
+    List<Comment> comments = legacyChangeNoteRead.parseNote(raw, p, changeId);
     comments.forEach(c -> c.legacyFormat = true);
     return comments;
   }
@@ -89,7 +92,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     return raw[offset] == '{' || raw[offset] == '[';
   }
 
-  private RevisionNoteData parseJson(ChangeNoteUtil noteUtil, byte[] raw, int offset)
+  private RevisionNoteData parseJson(ChangeNoteJson noteUtil, byte[] raw, int offset)
       throws IOException {
     try (InputStream is = new ByteArrayInputStream(raw, offset, raw.length - offset);
         Reader r = new InputStreamReader(is, UTF_8)) {

@@ -155,7 +155,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap =
         RevisionNoteMap.parse(
-            args.noteUtil,
+            args.changeNoteJson,
+            args.legacyChangeNoteRead,
             getChangeId(),
             reader,
             NoteMap.read(reader, tipCommit),

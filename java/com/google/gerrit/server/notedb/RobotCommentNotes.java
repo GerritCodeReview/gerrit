@@ -89,7 +89,8 @@ public class RobotCommentNotes extends AbstractChangeNotes<RobotCommentNotes> {
     RevCommit tipCommit = handle.walk().parseCommit(metaId);
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap =
-        RevisionNoteMap.parseRobotComments(args.noteUtil, reader, NoteMap.read(reader, tipCommit));
+        RevisionNoteMap.parseRobotComments(
+            args.changeNoteJson, reader, NoteMap.read(reader, tipCommit));
     ListMultimap<RevId, RobotComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (RobotCommentsRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (RobotComment c : rn.getComments()) {

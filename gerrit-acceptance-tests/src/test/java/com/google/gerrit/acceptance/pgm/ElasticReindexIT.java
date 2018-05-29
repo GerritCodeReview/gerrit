@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 
 @NoHttpd
-public class ElasticReindexIT extends AbstractReindexIT {
+public class ElasticReindexIT extends AbstractReindexTests {
   private static ElasticContainer<?> container;
 
   @ConfigSuite.Default

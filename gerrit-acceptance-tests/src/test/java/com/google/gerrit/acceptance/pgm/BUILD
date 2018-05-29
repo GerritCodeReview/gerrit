@@ -7,11 +7,11 @@ acceptance_tests(
     ),
     group = "pgm",
     labels = ["pgm"],
+    deps = [":util"],
 )
 
 acceptance_tests(
     srcs = [
-        "AbstractReindexIT.java",
         "ElasticReindexIT.java",
     ],
     group = "elastic",
@@ -20,4 +20,12 @@ acceptance_tests(
         "elastic",
         "pgm",
     ],
+    deps = [":util"],
+)
+
+java_library(
+    name = "util",
+    testonly = 1,
+    srcs = ["AbstractReindexTests.java"],
+    deps = ["//gerrit-acceptance-tests:lib"],
 )

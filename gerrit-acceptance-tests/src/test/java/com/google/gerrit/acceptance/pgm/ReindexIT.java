@@ -18,7 +18,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.inject.Injector;
 
 @NoHttpd
-public class ReindexIT extends AbstractReindexIT {
+public class ReindexIT extends AbstractReindexTests {
 
   @Override
   public void configureIndex(Injector injector) throws Exception {}

@@ -105,6 +105,30 @@
       "revId": "b564a52689163ed1875fcc77228544c1437b3630",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8100d07_4f41752f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-05-29T12:03:10Z",
+      "side": 1,
+      "message": "the merge is already done so let\u0027s get this one in and Edwin\u0027s series will need to be rebased",
+      "parentUuid": "35739c8c_cd1e1abd",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 56
+      },
+      "revId": "b564a52689163ed1875fcc77228544c1437b3630",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -15,8 +15,8 @@
 package com.google.gerrit.elasticsearch.builders;
 
 /**
- * A static factory for simple "import static" usage. A trimmed down version of {@link
- * org.elasticsearch.index.query.QueryBuilders} for this very package.
+ * A static factory for simple "import static" usage. A trimmed down version of
+ * org.elasticsearch.index.query.QueryBuilders for this very package.
  */
 public abstract class QueryBuilders {
 

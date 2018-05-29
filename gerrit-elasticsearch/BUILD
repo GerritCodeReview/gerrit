@@ -34,7 +34,7 @@ java_library(
         "src/test/java/**/ElasticTestUtils.java",
         "src/test/java/**/ElasticContainer.java",
     ]),
-    visibility = ["//tools/eclipse:__pkg__"],
+    visibility = ["//visibility:public"],
     deps = [
         ":elasticsearch",
         "//gerrit-index:index",
@@ -54,6 +54,7 @@ junit_tests(
     size = "large",
     srcs = glob(["src/test/java/**/*Test.java"]),
     tags = [
+        "docker",
         "elastic",
     ],
     deps = [

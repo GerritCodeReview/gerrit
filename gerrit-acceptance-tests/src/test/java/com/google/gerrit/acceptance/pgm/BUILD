@@ -1,7 +1,10 @@
 load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
-    srcs = glob(["*IT.java"]),
+    srcs = glob(
+        ["*IT.java"],
+        exclude = ["ElasticReindexIT.java"],
+    ),
     group = "pgm",
     labels = ["pgm"],
     vm_args = ["-Xmx512m"],
@@ -13,4 +16,21 @@ java_library(
     testonly = 1,
     srcs = ["IndexUpgradeController.java"],
     deps = ["//gerrit-acceptance-tests:lib"],
+)
+
+acceptance_tests(
+    srcs = [
+        "AbstractReindexIT.java",
+        "ElasticReindexIT.java",
+    ],
+    group = "elastic",
+    labels = [
+        "docker",
+        "elastic",
+        "pgm",
+    ],
+    deps = [
+        ":util",
+        "//gerrit-elasticsearch:elasticsearch_test_utils",
+    ],
 )

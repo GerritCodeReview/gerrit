@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bdc3c0f_1fb16cbd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-29T21:42:14Z",
+      "side": 1,
+      "message": "I wonder if this could/should be rolled into reporting.changeFullyLoaded()",
+      "revId": "cb733778a68e916b0737ec5703f08e96c416e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

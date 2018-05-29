@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aeb3207_87d5d19a",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T12:26:21Z",
+      "side": 1,
+      "message": "This isn\u0027t actually used by the class, and causes warnings in Eclipse.  It looks like the usage is  added in [1] which is not submitted yet.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/178633",
+      "range": {
+        "startLine": 48,
+        "startChar": 30,
+        "endLine": 48,
+        "endChar": 43
+      },
+      "revId": "304e5db4528b8e6fc841afb479944f33c86d1132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

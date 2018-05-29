@@ -151,7 +151,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
-          String.format("Failed to delete change %s in index %s: %s", c, indexName, statusCode));
+          String.format("Failed to delete %s from index %s: %s", c, indexName, statusCode));
     }
   }
 

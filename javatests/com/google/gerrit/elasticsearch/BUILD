@@ -15,6 +15,7 @@ java_library(
         "//lib:guava",
         "//lib:junit",
         "//lib/elasticsearch",
+        "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",

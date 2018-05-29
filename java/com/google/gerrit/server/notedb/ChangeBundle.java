@@ -505,11 +505,11 @@ public class ChangeBundle {
     if (rn >= 0) {
       s = s.substring(0, rn);
     }
-    return ChangeNoteUtil.sanitizeFooter(s);
+    return NoteDbUtil.sanitizeFooter(s);
   }
 
   private static String cleanNoteDbSubject(String s) {
-    return ChangeNoteUtil.sanitizeFooter(s);
+    return NoteDbUtil.sanitizeFooter(s);
   }
 
   /**

@@ -133,9 +133,14 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    */
   @VisibleForTesting
   public static Map<String, Comment> getPublishedComments(
-      ChangeNoteUtil noteUtil, Change.Id changeId, ObjectReader reader, NoteMap noteMap)
+      ChangeNoteJson changeNoteJson,
+      LegacyChangeNoteRead legacyChangeNoteRead,
+      Change.Id changeId,
+      ObjectReader reader,
+      NoteMap noteMap)
       throws IOException, ConfigInvalidException {
-    return RevisionNoteMap.parse(noteUtil, changeId, reader, noteMap, PUBLISHED)
+    return RevisionNoteMap.parse(
+            changeNoteJson, legacyChangeNoteRead, changeId, reader, noteMap, PUBLISHED)
         .revisionNotes
         .values()
         .stream()
@@ -143,6 +148,16 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
         .collect(toMap(c -> c.key.uuid, Function.identity()));
   }
 
+  public static Map<String, Comment> getPublishedComments(
+      ChangeNoteUtil noteUtil, Change.Id changeId, ObjectReader reader, NoteMap noteMap)
+      throws IOException, ConfigInvalidException {
+    return getPublishedComments(
+        noteUtil.getChangeNoteJson(),
+        noteUtil.getLegacyChangeNoteRead(),
+        changeId,
+        reader,
+        noteMap);
+  }
   /**
    * Gets the comments put in by the current commit. The message of the target comment will be
    * replaced by the new message.
@@ -205,7 +220,12 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
       throws IOException, ConfigInvalidException {
     RevisionNoteMap<ChangeRevisionNote> revNotesMap =
         RevisionNoteMap.parse(
-            noteUtil, changeId, reader, NoteMap.read(reader, parentCommit), PUBLISHED);
+            noteUtil.getChangeNoteJson(),
+            noteUtil.getLegacyChangeNoteRead(),
+            changeId,
+            reader,
+            NoteMap.read(reader, parentCommit),
+            PUBLISHED);
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(revNotesMap);
 
     for (Comment c : putInComments) {
@@ -219,7 +239,13 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
     Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
     for (Map.Entry<RevId, RevisionNoteBuilder> entry : builders.entrySet()) {
       ObjectId objectId = ObjectId.fromString(entry.getKey().get());
-      byte[] data = entry.getValue().build(noteUtil, noteUtil.getWriteJson());
+      byte[] data =
+          entry
+              .getValue()
+              .build(
+                  noteUtil.getChangeNoteJson(),
+                  noteUtil.getLegacyChangeNoteWrite(),
+                  noteUtil.getChangeNoteJson().getWriteJson());
       if (data.length == 0) {
         revNotesMap.noteMap.remove(objectId);
       } else {

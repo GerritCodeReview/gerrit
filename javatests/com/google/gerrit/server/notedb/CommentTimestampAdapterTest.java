@@ -68,7 +68,7 @@ public class CommentTimestampAdapterTest {
 
     // Match ChangeNoteUtil#gson as of 4e1f02db913d91f2988f559048e513e6093a1bce
     legacyGson = new GsonBuilder().setPrettyPrinting().create();
-    gson = ChangeNoteUtil.newGson();
+    gson = ChangeNoteJson.newGson();
   }
 
   @After

@@ -32,7 +32,8 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
   final ImmutableMap<RevId, T> revisionNotes;
 
   static RevisionNoteMap<ChangeRevisionNote> parse(
-      ChangeNoteUtil noteUtil,
+      ChangeNoteJson noteJson,
+      LegacyChangeNoteRead legacyChangeNoteRead,
       Change.Id changeId,
       ObjectReader reader,
       NoteMap noteMap,
@@ -41,7 +42,8 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
     Map<RevId, ChangeRevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {
       ChangeRevisionNote rn =
-          new ChangeRevisionNote(noteUtil, changeId, reader, note.getData(), status);
+          new ChangeRevisionNote(
+              noteJson, legacyChangeNoteRead, changeId, reader, note.getData(), status);
       rn.parse();
       result.put(new RevId(note.name()), rn);
     }
@@ -49,12 +51,12 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
   }
 
   static RevisionNoteMap<RobotCommentsRevisionNote> parseRobotComments(
-      ChangeNoteUtil noteUtil, ObjectReader reader, NoteMap noteMap)
+      ChangeNoteJson changeNoteJson, ObjectReader reader, NoteMap noteMap)
       throws ConfigInvalidException, IOException {
     Map<RevId, RobotCommentsRevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {
       RobotCommentsRevisionNote rn =
-          new RobotCommentsRevisionNote(noteUtil, reader, note.getData());
+          new RobotCommentsRevisionNote(changeNoteJson, reader, note.getData());
       rn.parse();
       result.put(new RevId(note.name()), rn);
     }

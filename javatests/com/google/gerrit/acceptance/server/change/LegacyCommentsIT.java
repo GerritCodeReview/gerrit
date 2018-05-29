@@ -53,7 +53,7 @@ public class LegacyCommentsIT extends AbstractDaemonTest {
   @Test
   public void legacyCommentHasLegacyFormatTrue() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
-    assertThat(noteUtil.getWriteJson()).isFalse();
+    assertThat(noteUtil.getChangeNoteJson().getWriteJson()).isFalse();
 
     PushOneCommit.Result result = createChange();
     Change.Id changeId = result.getChange().getId();

@@ -546,7 +546,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     if (id == null) {
       return new PersonIdent(serverIdent, events.getWhen());
     }
-    return changeNoteUtil.newIdent(id, events.getWhen(), serverIdent);
+    return changeNoteUtil.getLegacyChangeNoteWrite().newIdent(id, events.getWhen(), serverIdent);
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change, NoteDbUpdateManager manager)
@@ -564,7 +564,10 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     for (RevCommit commit : rw) {
       Account.Id authorId;
       try {
-        authorId = changeNoteUtil.parseIdent(commit.getAuthorIdent(), change.getId());
+        authorId =
+            changeNoteUtil
+                .getLegacyChangeNoteRead()
+                .parseIdent(commit.getAuthorIdent(), change.getId());
       } catch (ConfigInvalidException e) {
         continue; // Corrupt data, no valid hashtags in this commit.
       }

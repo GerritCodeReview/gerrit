@@ -1,5 +1,14 @@
 load("//gerrit-acceptance-tests:tests.bzl", "acceptance_tests")
 
+java_library(
+    name = "reindex_tests",
+    testonly = 1,
+    srcs = ["AbstractReindexTests.java"],
+    deps = [
+        "//gerrit-acceptance-tests:lib",
+    ],
+)
+
 acceptance_tests(
     srcs = glob(
         ["*IT.java"],
@@ -7,11 +16,11 @@ acceptance_tests(
     ),
     group = "pgm",
     labels = ["pgm"],
+    deps = [":reindex_tests"],
 )
 
 acceptance_tests(
     srcs = [
-        "AbstractReindexIT.java",
         "ElasticReindexIT.java",
     ],
     group = "elastic",
@@ -20,4 +29,5 @@ acceptance_tests(
         "elastic",
         "pgm",
     ],
+    deps = [":reindex_tests"],
 )

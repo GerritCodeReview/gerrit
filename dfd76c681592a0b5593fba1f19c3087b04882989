@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ad29d4da_ca5c7a1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T12:58:45Z",
+      "side": 1,
+      "message": "The commit message should be expanded a bit to better describe what has been changed, and why.",
+      "revId": "dfd76c681592a0b5593fba1f19c3087b04882989",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "29ca02f7_76e197af",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 2

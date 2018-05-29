@@ -74,7 +74,7 @@ public class AddSshKey implements RestModifyView<AccountResource, SshKeyInput> {
   public Response<SshKeyInfo> apply(AccountResource rsrc, SshKeyInput input)
       throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
     return apply(rsrc.getUser(), input);

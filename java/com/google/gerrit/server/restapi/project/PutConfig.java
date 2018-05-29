@@ -164,7 +164,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           throw new ResourceConflictException(
               "Cannot update " + projectName + ": " + e.getCause().getMessage());
         }
-        log.warn(String.format("Failed to update config of project %s.", projectName), e);
+        log.warn("Failed to update config of project {}.", projectName, e);
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
@@ -253,9 +253,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                     break;
                   default:
                     log.warn(
-                        String.format(
-                            "The type '%s' of parameter '%s' is not supported.",
-                            projectConfigEntry.getType().name(), v.getKey()));
+                        "The type '{}' of parameter '{}' is not supported.",
+                        projectConfigEntry.getType().name(),
+                        v.getKey());
                 }
               } catch (NumberFormatException ex) {
                 throw new BadRequestException(

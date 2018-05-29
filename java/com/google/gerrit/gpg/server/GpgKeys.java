@@ -207,7 +207,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     if (!BouncyCastleUtil.havePGP()) {
       throw new ResourceNotFoundException("GPG not enabled");
     }
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       throw new ResourceNotFoundException();
     }
   }

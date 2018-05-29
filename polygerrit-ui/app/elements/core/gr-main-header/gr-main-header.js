@@ -74,6 +74,14 @@
         type: String,
         notify: true,
       },
+      loggedIn: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
+      loading: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
 
       /** @type {?Object} */
       _account: Object,
@@ -192,6 +200,7 @@
     },
 
     _loadAccount() {
+      this.loading = true;
       const promises = [
         this.$.restAPI.getAccount(),
         Gerrit.awaitPluginsLoaded(),
@@ -200,8 +209,8 @@
       return Promise.all(promises).then(result => {
         const account = result[0];
         this._account = account;
-        this.$.accountContainer.classList.toggle('loggedIn', account != null);
-        this.$.accountContainer.classList.toggle('loggedOut', account == null);
+        this.loggedIn = !!account;
+        this.loading = false;
 
         return this.getAdminLinks(account,
             this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
@@ -253,6 +262,10 @@
     _isSupportedLink(linkObj) {
       // Groups are not yet supported.
       return !linkObj.url.startsWith('/groups');
+    },
+
+    _generateSettingsLink() {
+      return this.getBaseUrl() + '/settings/';
     },
   });
 })();

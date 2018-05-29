@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8841ebdf_7e62c1f9",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-29T21:04:59Z",
+      "side": 1,
+      "message": "We usually call this just util. The \"tests\"-suffix should be only used for java_test rules, or acceptance_tests Skylark rule, that are extended to java_test rules. Otherwise user could be confused and try run bazel test against those rules, and that wouldn\u0027t work because it is java_library rules:\n\n  $ davido@wizball:~/projects/gerrit (stable-2.14 %\u003e)$ bazel test gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm:reindex_tests\n  INFO: Analysed 0 targets (0 packages loaded).\n  INFO: Found 0 test targets...\n  INFO: Elapsed time: 0.351s, Critical Path: 0.16s\n  INFO: 0 processes.\n  INFO: Build completed successfully, 1 total action\n  ERROR: No test targets were found, yet testing was requested\n\nAnother advantage of calling this just \"util\" would be less conflicts when this will be merged to master, as this is already there:\n\n  java_library(\n      name \u003d \"util\",\n      testonly \u003d 1,\n      srcs \u003d [\"IndexUpgradeController.java\"],\n      deps \u003d [\"//java/com/google/gerrit/acceptance:lib\"],\n  )",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "81b063063ffbdf4d2f46cd151cc12a47c2ac588b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce68f730_52411f5e",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-29T21:04:59Z",
+      "side": 1,
+      "message": "Optional: This is personal preference (not all Gerrit maintainers share this opinion): I prefer to order the build rule in dependent order:\n\n  rule(\n      name \u003d \"foo\",\n      deps \u003d [\"bar\"],\n      [...]\n  )\n\n  rule(\n      name \u003d \"bar\",\n      deps \u003d [\"baz\"],\n      [...]\n  )\n\nSo that you read it from top to bottom. This would mean, to move the new utility rule to the bottom of this file and not in the beginning, basically how it\u0027s done on master: java_library \"util\" is the last rule there.",
+      "revId": "81b063063ffbdf4d2f46cd151cc12a47c2ac588b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

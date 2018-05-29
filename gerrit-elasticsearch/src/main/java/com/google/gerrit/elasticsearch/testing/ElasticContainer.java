@@ -48,7 +48,7 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
       case V5_6:
         return "elasticsearch:5.6.9-alpine";
       case V6_2:
-        return "docker.elastic.co/elasticsearch/elasticsearch:6.2.4";
+        return "docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.4";
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }

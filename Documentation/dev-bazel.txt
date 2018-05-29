@@ -269,6 +269,15 @@ The following values are currently supported for the group name:
 * server
 * ssh
 
+[[elasticsearch]]
+=== Elasticsearch
+
+Successfully running the elasticsearch tests may require setting the local
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html[virtual memory].
+
+Bazel link:https://github.com/bazelbuild/bazel/issues/3476[does not currently make container failures visible],
+if any.
+
 == Dependencies
 
 Dependency JARs are normally downloaded as needed, but you can

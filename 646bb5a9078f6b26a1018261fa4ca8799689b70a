@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bf84aa11_18e7078f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T05:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "571ace75_d5b55e3f",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "646bb5a9078f6b26a1018261fa4ca8799689b70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1c2c64_045e6f9f",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0439048c_8c091fd5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T05:09:14Z",
+      "side": 1,
+      "message": "Refactored the performRequest method to reduce repeated bits.",
+      "parentUuid": "1a1c2c64_045e6f9f",
+      "range": {
+        "startLine": 101,
+        "startChar": 45,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "646bb5a9078f6b26a1018261fa4ca8799689b70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33761e60_0621e31b",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "646bb5a9078f6b26a1018261fa4ca8799689b70a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364fbccd_de257302",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticGroupIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-29T05:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33761e60_0621e31b",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 66
+      },
+      "revId": "646bb5a9078f6b26a1018261fa4ca8799689b70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

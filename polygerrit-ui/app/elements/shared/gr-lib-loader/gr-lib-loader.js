@@ -19,7 +19,6 @@
 
   const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
   const DARK_THEME_PATH = 'styles/themes/dark-theme.html';
-  const LIB_ROOT_PATTERN = /(.+\/)elements\/gr-app\.html/;
 
   Polymer({
     is: 'gr-lib-loader',
@@ -110,30 +109,11 @@
      * @return {string}
      */
     _getLibRoot() {
-      // TODO(wyatta): Remove the remainder of this method logic once the
-      // STATIC_RESOURCE_PATH variable is being provided generally.
       if (window.STATIC_RESOURCE_PATH) {
         return window.STATIC_RESOURCE_PATH + '/';
       }
-
-      if (this._cachedLibRoot) { return this._cachedLibRoot; }
-
-      const appLink = document.head
-        .querySelector('link[rel=import][href$="gr-app.html"]');
-
-      if (!appLink) { throw new Error('Could not find application link'); }
-
-      this._cachedLibRoot = appLink
-          .href
-          .match(LIB_ROOT_PATTERN)[1];
-
-      if (!this._cachedLibRoot) {
-        throw new Error('Could not extract lib root');
-      }
-
-      return this._cachedLibRoot;
+      return '/';
     },
-    _cachedLibRoot: null,
 
     /**
      * Load and execute a JS file from the lib root.

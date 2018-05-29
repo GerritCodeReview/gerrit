@@ -112,7 +112,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     try {
       return groupsWithMember.get(memberId);
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot load groups containing %d as member", memberId.get()));
+      log.warn("Cannot load groups containing {} as member", memberId.get());
       return ImmutableSet.of();
     }
   }

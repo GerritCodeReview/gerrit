@@ -64,9 +64,7 @@ public class ChangeCleanupRunner implements Runnable {
       if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
         log.info("Ignoring missing changeCleanup schedule configuration");
       } else if (delay < 0 || interval <= 0) {
-        log.warn(
-            String.format(
-                "Ignoring invalid changeCleanup schedule configuration: %s", scheduleConfig));
+        log.warn("Ignoring invalid changeCleanup schedule configuration: {}", scheduleConfig);
       } else {
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError =

@@ -116,7 +116,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
           return true;
         }
       } catch (OrmException e) {
-        log.error("Cannot look up change for commit " + commit.name() + " in " + project, e);
+        log.error("Cannot look up change for commit {} in {}", commit.name(), project, e);
       }
     }
 
@@ -130,9 +130,9 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       return IncludedInResolver.includedInAny(repo, rw, commit, refs.values());
     } catch (IOException e) {
       log.error(
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), state.getNameKey()),
+          "Cannot verify permissions to commit object {} in repository {}",
+          commit.name(),
+          state.getNameKey(),
           e);
       return false;
     }

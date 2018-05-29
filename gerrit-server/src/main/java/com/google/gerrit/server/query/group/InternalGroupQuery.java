@@ -76,7 +76,7 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup> {
 
     ImmutableList<AccountGroup.UUID> groupUuids =
         groups.stream().map(InternalGroup::getGroupUUID).collect(toImmutableList());
-    log.warn(String.format("Ambiguous %s for groups %s.", groupDescription, groupUuids));
+    log.warn("Ambiguous {} for groups {}.", groupDescription, groupUuids);
     return Optional.empty();
   }
 }

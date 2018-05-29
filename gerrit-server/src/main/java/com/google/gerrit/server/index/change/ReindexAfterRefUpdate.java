@@ -92,7 +92,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
         try {
           accountCache.evict(accountId);
         } catch (IOException e) {
-          log.error(String.format("Reindex account %s failed.", accountId), e);
+          log.error("Reindex account {} failed.", accountId, e);
         }
       }
     }

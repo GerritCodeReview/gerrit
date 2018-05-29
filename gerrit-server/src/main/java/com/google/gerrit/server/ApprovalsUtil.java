@@ -266,9 +266,9 @@ public class ApprovalsUtil {
       return permissionBackend.user(user).change(notes).database(db).test(ChangePermission.READ);
     } catch (PermissionBackendException e) {
       log.warn(
-          String.format(
-              "Failed to check if account %d can see change %d",
-              accountId.get(), notes.getChangeId().get()),
+          "Failed to check if account {} can see change {}",
+          accountId.get(),
+          notes.getChangeId().get(),
           e);
       return false;
     }

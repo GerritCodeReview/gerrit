@@ -651,12 +651,6 @@ maven_jar(
 # Test-only dependencies below.
 
 maven_jar(
-    name = "elasticsearch",
-    artifact = "org.elasticsearch:elasticsearch:2.4.4",
-    sha1 = "e69930bc794c539d34778e665d6f8ccbffd42c6f",
-)
-
-maven_jar(
     name = "jimfs",
     artifact = "com.google.jimfs:jimfs:1.1",
     sha1 = "8fbd0579dc68aba6186935cc1bee21d2f3e7ec1c",

@@ -94,8 +94,7 @@ public class AccountState {
         try {
           return HashedPassword.decode(hashedStr).checkPassword(password);
         } catch (DecoderException e) {
-          logger.error(
-              String.format("DecoderException for user %s: %s ", username, e.getMessage()));
+          logger.error("DecoderException for user {}: {}", username, e.getMessage());
           return false;
         }
       }

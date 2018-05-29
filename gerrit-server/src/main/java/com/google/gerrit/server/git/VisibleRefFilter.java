@@ -359,9 +359,9 @@ public class VisibleRefFilter extends AbstractAdvertiseRefsHook {
       return false;
     } catch (PermissionBackendException e) {
       log.error(
-          String.format(
-              "Can't check permission for user %s on project %s",
-              user.get(), projectState.getName()),
+          "Can't check permission for user {} on project {}",
+          user.get(),
+          projectState.getName(),
           e);
       return false;
     }

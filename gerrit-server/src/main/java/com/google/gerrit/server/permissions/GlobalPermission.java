@@ -83,11 +83,10 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
     RequiresAnyCapability rac = findAnnotation(clazz, RequiresAnyCapability.class);
     if (rc != null && rac != null) {
       log.error(
-          String.format(
-              "Class %s uses both @%s and @%s",
-              clazz.getName(),
-              RequiresCapability.class.getSimpleName(),
-              RequiresAnyCapability.class.getSimpleName()));
+          "Class {} uses both @{} and @{}",
+          clazz.getName(),
+          RequiresCapability.class.getSimpleName(),
+          RequiresAnyCapability.class.getSimpleName());
       throw new PermissionBackendException("cannot extract permission");
     } else if (rc != null) {
       return Collections.singleton(
@@ -154,16 +153,16 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
 
     if (scope == CapabilityScope.PLUGIN) {
       log.error(
-          String.format(
-              "Class %s uses @%s(scope=%s), but is not within a plugin",
-              clazz.getName(), annotationClass.getSimpleName(), scope.name()));
+          "Class {} uses @{}(scope={}), but is not within a plugin",
+          clazz.getName(),
+          annotationClass.getSimpleName(),
+          scope.name());
       throw new PermissionBackendException("cannot extract permission");
     }
 
     GlobalPermission perm = byName(capability);
     if (perm == null) {
-      log.error(
-          String.format("Class %s requires unknown capability %s", clazz.getName(), capability));
+      log.error("Class {} requires unknown capability {}", clazz.getName(), capability);
       throw new PermissionBackendException("cannot extract permission");
     }
     return perm;

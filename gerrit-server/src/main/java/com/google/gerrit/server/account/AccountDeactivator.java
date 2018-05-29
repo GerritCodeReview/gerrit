@@ -67,9 +67,7 @@ public class AccountDeactivator implements Runnable {
       if (delay == MISSING_CONFIG && interval == MISSING_CONFIG) {
         log.info("Ignoring missing accountDeactivator schedule configuration");
       } else if (delay < 0 || interval <= 0) {
-        log.warn(
-            String.format(
-                "Ignoring invalid accountDeactivator schedule configuration: %s", scheduleConfig));
+        log.warn("Ignoring invalid accountDeactivator schedule configuration: {}", scheduleConfig);
       } else {
         queue
             .getDefaultQueue()

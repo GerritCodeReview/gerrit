@@ -382,9 +382,9 @@ public class ProjectControl {
       return commits.isReachableFrom(state, repo, commit, refs);
     } catch (IOException e) {
       log.error(
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), getProject().getNameKey()),
+          "Cannot verify permissions to commit object {} in repository {}",
+          commit.name(),
+          getProject().getNameKey(),
           e);
       return false;
     }

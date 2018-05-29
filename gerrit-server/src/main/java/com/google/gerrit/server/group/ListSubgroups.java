@@ -67,9 +67,7 @@ public class ListSubgroups implements RestReadView<GroupResource> {
           included.add(json.format(i.getGroup()));
         }
       } catch (NoSuchGroupException notFound) {
-        log.warn(
-            String.format(
-                "Group %s no longer available, subgroup of %s", subgroupUuid, group.getName()));
+        log.warn("Group {} no longer available, subgroup of {}", subgroupUuid, group.getName());
         continue;
       }
     }

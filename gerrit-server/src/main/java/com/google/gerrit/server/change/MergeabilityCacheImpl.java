@@ -217,9 +217,10 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
           });
     } catch (ExecutionException | UncheckedExecutionException e) {
       log.error(
-          String.format(
-              "Error checking mergeability of %s into %s (%s)",
-              key.commit.name(), key.into.name(), key.submitType.name()),
+          "Error checking mergeability of {} into {} ({})",
+          key.commit.name(),
+          key.into.name(),
+          key.submitType.name(),
           e.getCause());
       return false;
     }

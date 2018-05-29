@@ -140,7 +140,7 @@ public class ExternalIdReader {
         try {
           extIds.add(ExternalId.parse(note.getName(), raw, note.getData()));
         } catch (Exception e) {
-          log.error(String.format("Ignoring invalid external ID note %s", note.getName()), e);
+          log.error("Ignoring invalid external ID note {}", note.getName(), e);
         }
       }
       return extIds;

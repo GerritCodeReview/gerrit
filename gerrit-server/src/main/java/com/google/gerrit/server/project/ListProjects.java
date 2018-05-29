@@ -505,9 +505,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
           if (projectCache.get(parent) != null) {
             parents.add(parent);
           } else {
-            log.warn(
-                String.format(
-                    "parent project %s of project %s not found", parent.get(), ps.getName()));
+            log.warn("parent project {} of project {} not found", parent.get(), ps.getName());
           }
         }
       }

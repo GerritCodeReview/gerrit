@@ -69,10 +69,7 @@ public class RebaseUtil {
     } catch (RestApiException e) {
       return false;
     } catch (OrmException | IOException e) {
-      log.warn(
-          String.format(
-              "Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest),
-          e);
+      log.warn("Error checking if patch set {} on {} can be rebased", patchSet.getId(), dest, e);
       return false;
     }
   }

@@ -186,7 +186,7 @@ public class ChangeResource implements RestResource, HasETag {
     try {
       projectStateTree = projectCache.checkedGet(getProject()).tree();
     } catch (IOException e) {
-      log.error(String.format("could not load project %s while computing etag", getProject()));
+      log.error("could not load project {} while computing etag", getProject());
       projectStateTree = ImmutableList.of();
     }
 

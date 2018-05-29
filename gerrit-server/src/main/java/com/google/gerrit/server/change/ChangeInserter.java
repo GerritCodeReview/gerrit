@@ -473,9 +473,9 @@ public class ChangeInserter implements InsertChangeOp {
                     .test(ChangePermission.READ);
               } catch (PermissionBackendException e) {
                 log.warn(
-                    String.format(
-                        "Failed to check if account %d can see change %d",
-                        accountId.get(), notes.getChangeId().get()),
+                    "Failed to check if account {} can see change {}",
+                    accountId.get(),
+                    notes.getChangeId().get(),
                     e);
                 return false;
               }
@@ -501,7 +501,7 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.addExtraCC(extraCC);
                 cm.send();
               } catch (Exception e) {
-                log.error("Cannot send email for new change " + change.getId(), e);
+                log.error("Cannot send email for new change {}", change.getId(), e);
               }
             }
 

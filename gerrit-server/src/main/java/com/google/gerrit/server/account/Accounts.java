@@ -86,7 +86,7 @@ public class Accounts {
         try {
           accounts.add(read(repo, accountId));
         } catch (Exception e) {
-          log.error(String.format("Ignoring invalid account %s", accountId.get()), e);
+          log.error("Ignoring invalid account {}", accountId.get(), e);
         }
       }
     }

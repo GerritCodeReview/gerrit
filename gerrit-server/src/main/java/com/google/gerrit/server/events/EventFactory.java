@@ -504,7 +504,7 @@ public class EventFactory {
     } catch (IOException | OrmException e) {
       log.error("Cannot load patch set data for {}", patchSet.getId(), e);
     } catch (PatchListObjectTooLargeException e) {
-      log.warn(String.format("Cannot get size information for %s: %s", pId, e.getMessage()));
+      log.warn("Cannot get size information for {}: {}", pId, e.getMessage());
     } catch (PatchListNotAvailableException e) {
       log.error("Cannot get size information for {}.", pId, e);
     }

@@ -52,6 +52,11 @@ public class ElasticReindexIT extends AbstractReindexTests {
     return getConfig(ElasticContainer.Version.V5);
   }
 
+  @ConfigSuite.Config
+  public static Config elasticsearchV6() {
+    return getConfig(ElasticContainer.Version.V6);
+  }
+
   @Override
   public void configureIndex(Injector injector) throws Exception {
     ElasticTestUtils.createAllIndexes(injector);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2067233_6b0ac007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-05-29T20:34:56Z",
+      "side": 1,
+      "message": "For this change and the one based on it, I propose to focus on version 5 solely, removing support for 6 -for now. (The latter being doable using other /future changes instead.)\n\nAs I\u0027m currently working on adapting the client code for 5, we were planning to tackle 6 in another (next) iteration. It would then be useful for that work if it could benefit from this very change and the one based on it, for 5 that is.\n\nOur goal is for the client code to get the ES server version it talks to (easy) -and switch its api usage accordingly (dynamically, no configs required). The iteration I\u0027m currently working on would do so for 2.4 and 5.\n\nI\u0027m already starting to use this change and the one on top to develop these client adaptations for 5. More thoughts on this comment overall?",
+      "range": {
+        "startLine": 7,
+        "startChar": 45,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "ab11f8a575a719d320d6e9dd40ee4bc491598eb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

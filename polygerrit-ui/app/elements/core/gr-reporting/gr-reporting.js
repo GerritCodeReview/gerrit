@@ -295,6 +295,26 @@
       delete this._baselines[name];
     },
 
+    /**
+     * Reports just line timeEnd, but additionally reports an average given a
+     * denominator and a separate reporiting name for the average.
+     * @param {string} name Timing name.
+     * @param {string} averageName Average timing name.
+     * @param {number} denominator Number by which to divide the total to
+     *     compute the average.
+     */
+    timeEndWithAverage(name, averageName, denominator) {
+      if (!this._baselines.hasOwnProperty(name)) { return; }
+      const baseTime = this._baselines[name];
+      this.timeEnd(name);
+
+      // Guard against division by zero.
+      if (!denominator) { return; }
+      const time = Math.round(this.now() - baseTime);
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY, averageName,
+          Math.round(time / denominator));
+    },
+
     reportInteraction(eventName, opt_msg) {
       this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
     },

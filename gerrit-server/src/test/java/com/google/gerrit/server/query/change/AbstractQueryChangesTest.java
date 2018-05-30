@@ -2205,6 +2205,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("owner: \"" + nameEmail + "\"\\");
   }
 
+  @Test
+  public void RemoveChangeFromIndex() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChangeWithTopic(repo, "myTopic"));
+
+    assertQuery("topic:myTopic", change);
+    indexer.delete(change.getId());
+
+    assertQuery("topic:myTopic");
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null);
   }

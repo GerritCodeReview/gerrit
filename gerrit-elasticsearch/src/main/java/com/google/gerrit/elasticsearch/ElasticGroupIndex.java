@@ -19,6 +19,9 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -49,7 +52,6 @@ import java.util.Optional;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
-import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 import org.slf4j.Logger;
@@ -71,6 +73,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
 
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;
+  private final Schema<InternalGroup> schema;
 
   @AssistedInject
   ElasticGroupIndex(
@@ -82,15 +85,16 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     super(cfg, sitePaths, schema, clientBuilder, GROUPS);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
+    this.schema = schema;
   }
 
   @Override
   public void replace(InternalGroup group) throws IOException {
-    String bulk = toAction(GROUPS, getId(group), INDEX);
-    bulk += toDoc(group);
+    BulkRequest bulk =
+        new IndexRequest(getId(group), indexName, GROUPS).add(new UpdateRequest<>(schema, group));
 
     String uri = getURI(GROUPS, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
@@ -150,8 +154,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
       try {
         List<InternalGroup> results = Collections.emptyList();
         String uri = getURI(GROUPS, SEARCH);
-        Response response =
-            performRequest(HttpPost.METHOD_NAME, search, uri, Collections.emptyMap());
+        Response response = postRequest(search, uri, Collections.emptyMap());
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
           String content = getContent(response);

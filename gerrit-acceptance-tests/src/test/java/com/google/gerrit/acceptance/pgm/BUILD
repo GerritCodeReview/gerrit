@@ -11,16 +11,8 @@ acceptance_tests(
     deps = [":util"],
 )
 
-java_library(
-    name = "util",
-    testonly = 1,
-    srcs = ["IndexUpgradeController.java"],
-    deps = ["//gerrit-acceptance-tests:lib"],
-)
-
 acceptance_tests(
     srcs = [
-        "AbstractReindexIT.java",
         "ElasticReindexIT.java",
     ],
     group = "elastic",
@@ -33,4 +25,14 @@ acceptance_tests(
         ":util",
         "//gerrit-elasticsearch:elasticsearch_test_utils",
     ],
+)
+
+java_library(
+    name = "util",
+    testonly = 1,
+    srcs = [
+        "AbstractReindexTests.java",
+        "IndexUpgradeController.java",
+    ],
+    deps = ["//gerrit-acceptance-tests:lib"],
 )

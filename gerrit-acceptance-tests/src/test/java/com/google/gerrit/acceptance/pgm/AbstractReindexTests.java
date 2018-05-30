@@ -44,7 +44,7 @@ import org.junit.Test;
 
 @NoHttpd
 @Ignore
-public abstract class AbstractReindexIT extends StandaloneSiteTest {
+public abstract class AbstractReindexTests extends StandaloneSiteTest {
   /** @param injector injector */
   public abstract void configureIndex(Injector injector) throws Exception;
 

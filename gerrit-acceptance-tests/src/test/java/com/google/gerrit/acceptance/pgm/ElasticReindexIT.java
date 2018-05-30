@@ -27,7 +27,7 @@ import org.junit.Ignore;
 
 @NoHttpd
 @Ignore
-public class ElasticReindexIT extends AbstractReindexIT {
+public class ElasticReindexIT extends AbstractReindexTests {
   private static ElasticContainer<?> container;
 
   @ConfigSuite.Default

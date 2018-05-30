@@ -11,12 +11,11 @@ http_archive(
     urls = ["https://github.com/bazelbuild/bazel-skylib/archive/2169ae1c374aab4a09aa90e65efe1a3aad4e279b.tar.gz"],
 )
 
-# davido's fork with https://github.com/bazelbuild/rules_closure/pull/235 included
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "314e4eb701696e267cb911609e2e333e321fe641981a33144f460068ff4e1af3",
-    strip_prefix = "rules_closure-0.11.0",
-    url = "https://github.com/davido/rules_closure/archive/0.11.0.tar.gz",
+    sha256 = "a80acb69c63d5f6437b099c111480a4493bad4592015af2127a2f49fb7512d8d",
+    strip_prefix = "rules_closure-0.7.0",
+    url = "https://github.com/bazelbuild/rules_closure/archive/0.7.0.tar.gz",
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be

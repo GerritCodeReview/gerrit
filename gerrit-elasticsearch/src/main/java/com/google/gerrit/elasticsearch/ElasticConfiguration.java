@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -31,6 +32,8 @@ class ElasticConfiguration {
   private static final String DEFAULT_HOST = "localhost";
   private static final String DEFAULT_PORT = "9200";
   private static final String DEFAULT_PROTOCOL = "http";
+
+  private final String prefix;
 
   final List<HttpHost> urls;
   final String username;
@@ -55,6 +58,7 @@ class ElasticConfiguration {
     this.maxTotalConnection = cfg.getInt("elasticsearch", null, "maxTotalConnection", 1);
     this.readTimeout =
         (int) cfg.getTimeUnit("elasticsearch", null, "readTimeout", 3000, TimeUnit.MICROSECONDS);
+    this.prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
 
     Set<String> subsections = cfg.getSubsections("elasticsearch");
     if (subsections.isEmpty()) {
@@ -72,6 +76,10 @@ class ElasticConfiguration {
         this.urls.add(httpHost);
       }
     }
+  }
+
+  public String getIndexName(String name, int schemaVersion) {
+    return String.format("%s%s_%04d", prefix, name, schemaVersion);
   }
 
   private String getString(Config cfg, String subsection, String name, String defaultValue) {

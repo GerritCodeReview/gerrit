@@ -27,7 +27,6 @@ import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.QueryOptions;
@@ -53,7 +52,6 @@ import java.util.List;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
-import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +76,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   @AssistedInject
   ElasticAccountIndex(
-      @GerritServerConfig Config cfg,
+      ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
       ElasticRestClientBuilder clientBuilder,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "787d12e6_964b25a5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-30T08:18:14Z",
+      "side": 1,
+      "message": "I found this is a bit confusing to have both cfg and indexCfg. cfg is used in parent class to access inline reindex option.",
+      "revId": "a32a8aa7ccdbac3ac4426ed178213260349c167b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,556 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4a04285_9d11b12f",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Using abstract classes for tests is a bad practice and introduces many issues (remember my talk about AbstractDaemonTest ;-) ). We do have such abstract test classes within Gerrit but I am actually trying to get rid of them. For this reason, I\u0027m not very excited if we introduce another abstract test class with this change.\n\nIsn\u0027t there a way to rewrite this class to be a JUnit rule? We probably can\u0027t use LocalDiskRepositoryTestCase then but there should be another way to achieve the same.",
+      "range": {
+        "startLine": 34,
+        "startChar": 22,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b109d5ad_4f872c04",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "I know that other Gerrit developers prefer to use single-letter variable names but it\u0027s actually discouraged in Java (in general and also in our internal best practices for most cases - there are some valid exception but this isn\u0027t one of them).",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 10
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c1346f8_c21f1ae8",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "This assertion doesn\u0027t do anything. Is maybe an isTrue() or isFalse() missing?",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 65
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6549dd9_9de3c84f",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Isn\u0027t the save() call missing here?",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 71
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09ac794f_b57c80af",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "It\u0027s a bit confusing to have this method. As we both use site.site_path and site.site_path.toString() in tests, it\u0027s not obvious what this method returns. By the way, I don\u0027t think we need this method. There are only a few usages and they could easily just inline site.site_path.toString(). ReindexIT currently even has some usages of site.site_path.toString() and those occurrences don\u0027t negatively affect readability in my opinion.",
+      "range": {
+        "startLine": 51,
+        "startChar": 19,
+        "endLine": 51,
+        "endChar": 32
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12a146ad_5432e8ce",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "To be honest, I see no reason for having this method (and the class ConfigBuilder) in this class. It\u0027s a different concern than the setup of the test environment. Hence, I would move ConfigBuilder outside of this class and make it a top-level class.\n\nIf we simply do so, I currently see not much benefit of having it compared to directly using FileBasedConfig. Maybe we should change the constructor to accept an object of type SitePaths instead. Thus, the class would facilitate the modification of the Gerrit config of a site in general. (If we do so, we should probably also reconsider the name of the class.)\n\nOn the other hand, the class ConfigBuilder has the disadvantage that it only allows to set string values and hides all additional methods available on FileBasedConfig. The more I think about it, the more I think that we should use FileBasedConfig directly. If the construction of the FileBasedConfig turns out to negatively impact readability, we can introduce a helper (outside of this class) which returns a FileBasedConfig for a SitePaths instance.",
+      "range": {
+        "startLine": 55,
+        "startChar": 25,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59aeb18c_db7228be",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Why do we need an assertion here?",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 66
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3812dfc_b90dff37",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "ConfigBuilder",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fd94af2_3374acb8",
+        "filename": "javatests/com/google/gerrit/pgm/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "What do we need this dependency for?",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 44
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbe19965_116ee89a",
+        "filename": "javatests/com/google/gerrit/pgm/DaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "It\u0027s creative to stop the infinite execution by throwing an exception but having the necessity to run RuntimeShutdown.manualShutdown() is a bit too much insider knowledge for my tastes. In addition, using exceptions for flow control isn\u0027t ideal either.\n\nMy suggestion would be to start the daemon in another thread and to stop it with --stop-only. Thus, we can also retrieve the exit code from the main() method (e.g. pack it in a CompletableFuture) and really verify that the daemon was started successfully. To be absolutely on the safe side, we could additionally stop the daemon with --stop-only in a tearDown() method.",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 87
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "181c10ed_808720a0",
+        "filename": "javatests/com/google/gerrit/pgm/DaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Isn\u0027t it a bit risky that we rely on the implementation of Daemon to work correctly? If the implementation didn\u0027t die as we expect, we would have an infinite execution here which is only stopped by Bazel due to a timeout after quite some time. My suggestion above (with the --stop-only option) would ensure that we always stop the daemon but can still verify whether the exit code is the expected one.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 66
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "842be578_156d9712",
+        "filename": "javatests/com/google/gerrit/pgm/InitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Without the ConfigBuilder#save in AbstractProgramTest#setUpSiteData, this file is not created at the moment. In general, I think it might be a good idea to have two different setup variants. If AbstractProgramTest was a JUnit rule as I suggested, we could have two different factory methods: one which sets up the etc directory and gerrit_config file and one which doesn\u0027t.",
+      "range": {
+        "startLine": 26,
+        "startChar": 87,
+        "endLine": 26,
+        "endChar": 100
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f832efd1_724a1c98",
+        "filename": "javatests/com/google/gerrit/pgm/InitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "This test tests two different aspects:\n1) running init succeeds\n2) init creates the directories/files\n\nIn my opinion, we should have different tests for those aspects.\n\nActually, each of the checks for the creation of the directories/files would also be a separate test, either written by hand or as part of a ParameterizedTest.",
+      "range": {
+        "startLine": 30,
+        "startChar": 14,
+        "endLine": 30,
+        "endChar": 34
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69ac5286_1d763b86",
+        "filename": "javatests/com/google/gerrit/pgm/InitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Why not use ImmutableList here?",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 14
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97282efb_91da35b5",
+        "filename": "javatests/com/google/gerrit/pgm/InitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Wouldn\u0027t ImmutableList#of be clearer here?",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "349d5a77_e1ce1a02",
+        "filename": "javatests/com/google/gerrit/pgm/InitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Here, below, and in other files: Why not use Files#exists instead of converting to the old API?",
+      "range": {
+        "startLine": 48,
+        "startChar": 17,
+        "endLine": 48,
+        "endChar": 39
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7a5da01_2fa1c213",
+        "filename": "javatests/com/google/gerrit/pgm/InitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Here and below: Path#getFileName() only takes the last element in the path. Hence, relativization of the path is wasted effort.",
+      "range": {
+        "startLine": 49,
+        "startChar": 17,
+        "endLine": 49,
+        "endChar": 62
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dce98ba5_90110a18",
+        "filename": "javatests/com/google/gerrit/pgm/InitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Copy-paste typo?",
+      "range": {
+        "startLine": 53,
+        "startChar": 9,
+        "endLine": 53,
+        "endChar": 11
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40a1e100_27fc8e09",
+        "filename": "javatests/com/google/gerrit/pgm/InitTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Here and in AbstractProgramTest: Using \u0027--batch\u0027 would be more readable in my opinion.",
+      "range": {
+        "startLine": 54,
+        "startChar": 42,
+        "endLine": 54,
+        "endChar": 44
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9e6eb43_7340c274",
+        "filename": "javatests/com/google/gerrit/pgm/LsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Here and in other files: In the past, we decided to drop \u0027test\u0027 from such test methods. Ideally, they would describe what they are testing and what the expectation is (e.g. like RevisionDiffIT#modifiedBinaryFileIsIncludedInDiff). For test methods, it\u0027s acceptable if their name is longer but more descriptive.",
+      "range": {
+        "startLine": 23,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d0b4472_153ea931",
+        "filename": "javatests/com/google/gerrit/pgm/LsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "A lot of the new tests verify exit codes. Would it make sense to introduce a Truth subject for them?",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 60
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd951562_9215d42f",
+        "filename": "javatests/com/google/gerrit/pgm/PasswdTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "This tests two aspects:\n1) Passwd succeeds\n2) password is stored\n\nWe should have two separate tests.",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 37
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ff3bbe9_4fdeec3e",
+        "filename": "javatests/com/google/gerrit/pgm/PasswdTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Why cat?",
+      "range": {
+        "startLine": 25,
+        "startChar": 11,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1768ee21_d506d2be",
+        "filename": "javatests/com/google/gerrit/pgm/PasswdTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "--site-path might be more readable.",
+      "range": {
+        "startLine": 26,
+        "startChar": 43,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "f61fc7f410c48b4145a0f654be11a3d7a77b9e9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

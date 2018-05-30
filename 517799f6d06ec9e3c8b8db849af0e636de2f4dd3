@@ -38,6 +38,24 @@
     },
     {
       "key": {
+        "uuid": "b8995fa8_1ac4f62b",
+        "filename": "javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-05-30T15:21:18Z",
+      "side": 1,
+      "message": "Patrick, I\u0027m curious: Where do we have such a mechanism? Is it a property of Bazel?",
+      "parentUuid": "511b9d14_f3557cc3",
+      "revId": "517799f6d06ec9e3c8b8db849af0e636de2f4dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f22937d_b9bc0f22",
         "filename": "javatests/com/google/gerrit/pgm/BUILD",
         "patchSetId": 2

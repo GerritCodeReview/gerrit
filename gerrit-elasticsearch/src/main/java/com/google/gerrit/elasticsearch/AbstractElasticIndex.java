@@ -47,7 +47,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Response;
-import org.elasticsearch.client.RestClient;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String BULK = "_bulk";
@@ -81,7 +80,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
-  private final RestClient client;
+  private final ElasticRestClientProvider client;
 
   protected final String indexName;
   protected final Gson gson;
@@ -91,7 +90,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       ElasticConfiguration cfg,
       SitePaths sitePaths,
       Schema<V> schema,
-      ElasticRestClientBuilder clientBuilder,
+      ElasticRestClientProvider client,
       String indexName) {
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -99,7 +98,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.queryBuilder = new ElasticQueryBuilder();
     this.indexName = cfg.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
-    this.client = clientBuilder.build();
+    this.client = client;
   }
 
   @Override
@@ -109,11 +108,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   @Override
   public void close() {
-    try {
-      client.close();
-    } catch (IOException e) {
-      // Ignored.
-    }
+    // Do nothing. Client is closed by the provider.
   }
 
   @Override
@@ -135,10 +130,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
-    Response response = client.performRequest("HEAD", indexName);
+    Response response = client.get().performRequest("HEAD", indexName);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
-      response = client.performRequest("DELETE", indexName);
+      response = client.get().performRequest("DELETE", indexName);
       statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
         throw new IOException(
@@ -209,6 +204,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       String method, Object payload, String uri, Map<String, String> params) throws IOException {
     String payloadStr = payload instanceof String ? (String) payload : payload.toString();
     HttpEntity entity = new NStringEntity(payloadStr, ContentType.APPLICATION_JSON);
-    return client.performRequest(method, uri, params, entity);
+    return client.get().performRequest(method, uri, params, entity);
   }
 }

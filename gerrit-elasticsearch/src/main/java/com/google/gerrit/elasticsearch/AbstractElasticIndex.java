@@ -18,12 +18,10 @@ import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.FluentIterable;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.Index;
 import com.google.gerrit.server.index.IndexUtils;
@@ -48,7 +46,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
-import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 
@@ -91,7 +88,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected final ElasticQueryBuilder queryBuilder;
 
   AbstractElasticIndex(
-      @GerritServerConfig Config cfg,
+      ElasticConfiguration cfg,
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientBuilder clientBuilder,
@@ -100,12 +97,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     this.queryBuilder = new ElasticQueryBuilder();
-    this.indexName =
-        String.format(
-            "%s%s_%04d",
-            Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix")),
-            indexName,
-            schema.getVersion());
+    this.indexName = cfg.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = clientBuilder.build();
   }

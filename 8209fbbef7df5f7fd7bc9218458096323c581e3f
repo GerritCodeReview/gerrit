@@ -22,6 +22,30 @@
       "revId": "8209fbbef7df5f7fd7bc9218458096323c581e3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34da199d_7cf6431b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticIndexVersionDiscovery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-30T04:45:01Z",
+      "side": 1,
+      "message": "Or even eliminate further locals:\n\n  if (statusCode \u003d\u003d HttpStatus.SC_OK) {\n      return new JsonParser()\n          .parse(AbstractElasticIndex.getContent(response))\n          .getAsJsonObject()\n          .entrySet()\n          .stream()\n          .map(e -\u003e e.getKey().replace(name, \"\"))\n          .collect(toList());\n    }",
+      "parentUuid": "7fce516d_14c63c61",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "8209fbbef7df5f7fd7bc9218458096323c581e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

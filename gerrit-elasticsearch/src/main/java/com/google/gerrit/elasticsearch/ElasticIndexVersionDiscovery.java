@@ -47,11 +47,13 @@ class ElasticIndexVersionDiscovery {
       String content = AbstractElasticIndex.getContent(response);
       JsonObject object = new JsonParser().parse(content).getAsJsonObject();
 
-      List<String> versions = new ArrayList<>(object.size());
-      for (Entry<String, JsonElement> entry : object.entrySet()) {
-        versions.add(entry.getKey().replace(name, ""));
+      if (object.size() > 0) {
+        List<String> versions = new ArrayList<>(object.size());
+        for (Entry<String, JsonElement> entry : object.entrySet()) {
+          versions.add(entry.getKey().replace(name, ""));
+        }
+        return versions;
       }
-      return versions;
     }
     return Collections.emptyList();
   }

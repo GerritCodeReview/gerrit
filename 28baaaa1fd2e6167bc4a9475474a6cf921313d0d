@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f546cea_8f581549",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-30T02:34:04Z",
+      "side": 1,
+      "message": "This issue is related to ES 5. I guess we should use a different issue for ES 6.",
+      "range": {
+        "startLine": 17,
+        "startChar": 5,
+        "endLine": 17,
+        "endChar": 15
+      },
+      "revId": "28baaaa1fd2e6167bc4a9475474a6cf921313d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

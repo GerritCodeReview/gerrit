@@ -5,6 +5,13 @@ load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 http_archive(
+    name = "bazel_skylib",
+    sha256 = "bbccf674aa441c266df9894182d80de104cabd19be98be002f6d478aaa31574d",
+    strip_prefix = "bazel-skylib-2169ae1c374aab4a09aa90e65efe1a3aad4e279b",
+    urls = ["https://github.com/bazelbuild/bazel-skylib/archive/2169ae1c374aab4a09aa90e65efe1a3aad4e279b.tar.gz"],
+)
+
+http_archive(
     name = "io_bazel_rules_closure",
     sha256 = "6691c58a2cd30a86776dd9bb34898b041e37136f2dc7e24cadaeaf599c95c657",
     strip_prefix = "rules_closure-08039ba8ca59f64248bb3b6ae016460fe9c9914f",
@@ -19,6 +26,10 @@ http_file(
     sha256 = "5a589bdba674e1fec7188e9251c8624ebf2d4d969beb6635f9148f420d1e08b1",
     url = "https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js",
 )
+
+load("@bazel_skylib//:lib.bzl", "versions")
+
+versions.check(minimum_bazel_version = "0.7.0")
 
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 

@@ -53,7 +53,21 @@ objects needing finalization.
 * `query/query_latency`: Successful query latency, accumulated over the life
 of the process.
 
-=== Work Queue
+=== Core Queues
+
+The following queues support metrics:
+
+* default `WorkQueue`
+* index batch
+* index interactive
+* receive commits
+* send email
+* ssh batch worker
+* ssh command start
+* ssh interactive worker
+* ssh stream worker
+
+Each queue provides the following metrics:
 
 * `queue/work_queue/pool_size`: Current number of threads in the pool
 * `queue/work_queue/max_pool_size`: Maximum allowed number of threads in the pool

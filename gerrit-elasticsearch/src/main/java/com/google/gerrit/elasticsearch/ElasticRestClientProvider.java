@@ -14,20 +14,28 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class ElasticRestClientProvider implements Provider<RestClient> {
+  private static final Logger log = LoggerFactory.getLogger(ElasticRestClientProvider.class);
 
   private final HttpHost[] hosts;
   private final String username;
@@ -48,10 +56,44 @@ class ElasticRestClientProvider implements Provider<RestClient> {
       synchronized (this) {
         if (client == null) {
           client = build();
+          String version = getVersion();
+          log.info("Connected to Elasticsearch version {}", version);
         }
       }
     }
     return client;
+  }
+
+  public static class ElasticRestClientException extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+    private static final String MESSAGE = "Failed to get Elasticsearch version";
+
+    ElasticRestClientException(StatusLine status) {
+      super(String.format("%s: %d %s", MESSAGE, status.getStatusCode(), status.getReasonPhrase()));
+    }
+
+    ElasticRestClientException(Throwable cause) {
+      super(MESSAGE, cause);
+    }
+  }
+
+  private String getVersion() throws ElasticRestClientException {
+    try {
+      Response response = client.performRequest("GET", "");
+      StatusLine statusLine = response.getStatusLine();
+      if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
+        throw new ElasticRestClientException(statusLine);
+      }
+      return new JsonParser()
+          .parse(AbstractElasticIndex.getContent(response))
+          .getAsJsonObject()
+          .get("version")
+          .getAsJsonObject()
+          .get("number")
+          .getAsString();
+    } catch (IOException e) {
+      throw new ElasticRestClientException(e);
+    }
   }
 
   private RestClient build() {

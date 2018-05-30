@@ -23,7 +23,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
-import org.junit.AssumptionViolatedException;
 import org.junit.BeforeClass;
 
 public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
@@ -42,15 +41,7 @@ public class ElasticQueryGroupsTest extends AbstractQueryGroupsTest {
       return;
     }
 
-    // Assumption violation is not natively supported by Testcontainers.
-    // See https://github.com/testcontainers/testcontainers-java/issues/343
-    try {
-      container = new ElasticContainer<>();
-      container.start();
-    } catch (Throwable t) {
-      throw new AssumptionViolatedException("Unable to start container[might be docker related]");
-    }
-
+    container = ElasticContainer.createAndStart();
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 

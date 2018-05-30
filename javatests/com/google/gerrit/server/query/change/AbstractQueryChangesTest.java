@@ -216,6 +216,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
+    initAfterLifecycleStart();
     setUpDatabase();
   }
 
@@ -224,6 +225,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     lifecycle.stop();
     db.close();
   }
+
+  protected void initAfterLifecycleStart() throws Exception {}
 
   protected void setUpDatabase() throws Exception {
     try (ReviewDb underlyingDb = inMemoryDatabase.getDatabase().open()) {

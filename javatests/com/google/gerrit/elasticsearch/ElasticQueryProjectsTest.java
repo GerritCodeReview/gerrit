@@ -23,7 +23,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
@@ -57,11 +56,10 @@ public class ElasticQueryProjectsTest extends AbstractQueryProjectsTest {
     return testName.getMethodName().toLowerCase() + "_";
   }
 
-  @After
-  public void cleanupIndex() {
-    if (nodeInfo != null) {
-      ElasticTestUtils.deleteAllIndexes(nodeInfo, testName());
-    }
+  @Override
+  protected void initAfterLifecycleStart() throws Exception {
+    super.initAfterLifecycleStart();
+    ElasticTestUtils.createAllIndexes(injector);
   }
 
   @Override
@@ -70,7 +68,6 @@ public class ElasticQueryProjectsTest extends AbstractQueryProjectsTest {
     InMemoryModule.setDefaults(elasticsearchConfig);
     String indicesPrefix = testName();
     ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port, indicesPrefix);
-    ElasticTestUtils.createAllIndexes(nodeInfo, indicesPrefix);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }
 }

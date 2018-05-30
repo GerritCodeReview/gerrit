@@ -119,6 +119,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     lifecycle.add(injector);
     injector.injectMembers(this);
     lifecycle.start();
+    initAfterLifecycleStart();
     setUpDatabase();
   }
 
@@ -138,6 +139,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     requestContext.setContext(newRequestContext(userId));
     currentUserInfo = gApi.accounts().id(userId.get()).get();
   }
+
+  protected void initAfterLifecycleStart() throws Exception {}
 
   protected RequestContext newRequestContext(Account.Id requestUserId) {
     final CurrentUser requestUser = userFactory.create(requestUserId);

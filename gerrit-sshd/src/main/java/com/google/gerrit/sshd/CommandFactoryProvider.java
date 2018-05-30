@@ -76,7 +76,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     createCommandInterceptor = i;
 
     int threads = cfg.getInt("sshd", "commandStartThreads", 2);
-    startExecutor = workQueue.createQueue(threads, "SshCommandStart");
+    startExecutor = workQueue.createQueueWithMetrics(threads, "SshCommandStart");
     destroyExecutor =
         Executors.newSingleThreadExecutor(
             new ThreadFactoryBuilder()

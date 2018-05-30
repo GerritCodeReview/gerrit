@@ -36,7 +36,7 @@ class StreamCommandExecutorProvider implements Provider<WorkQueue.Executor> {
   public WorkQueue.Executor get() {
     final WorkQueue.Executor executor;
 
-    executor = queues.createQueue(poolSize, "SSH-Stream-Worker");
+    executor = queues.createQueueWithMetrics(poolSize, "SSH-Stream-Worker");
 
     final ThreadFactory parent = executor.getThreadFactory();
     executor.setThreadFactory(

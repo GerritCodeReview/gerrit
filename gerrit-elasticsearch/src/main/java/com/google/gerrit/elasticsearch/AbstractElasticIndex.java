@@ -157,7 +157,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected abstract String getId(V v);
 
   protected String delete(String type, K id) {
-    return new DeleteRequest(id.toString(), indexNameRaw, type).toString();
+    return new DeleteRequest(id.toString(), indexName, type).toString();
   }
 
   protected void addNamedElement(String name, JsonObject element, JsonArray array) {

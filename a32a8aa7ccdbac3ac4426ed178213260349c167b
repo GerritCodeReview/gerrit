@@ -34,6 +34,24 @@
       "revId": "a32a8aa7ccdbac3ac4426ed178213260349c167b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "032a4ddf_b65a739e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-30T10:53:39Z",
+      "side": 1,
+      "message": "I made it so the ElasticConfiguration can provide the Config, and thus only ElasticConfiguration needs to be injected here.",
+      "parentUuid": "8afa373f_32e07d00",
+      "revId": "a32a8aa7ccdbac3ac4426ed178213260349c167b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

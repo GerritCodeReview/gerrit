@@ -14,8 +14,12 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -26,20 +30,57 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 
 @Singleton
-class ElasticRestClientBuilder {
+class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListener {
 
   private final HttpHost[] hosts;
   private final String username;
   private final String password;
 
+  private RestClient client;
+
   @Inject
-  ElasticRestClientBuilder(ElasticConfiguration cfg) {
+  ElasticRestClientProvider(ElasticConfiguration cfg) {
     hosts = cfg.urls.toArray(new HttpHost[cfg.urls.size()]);
     username = cfg.username;
     password = cfg.password;
   }
 
-  RestClient build() {
+  public static LifecycleModule module() {
+    return new LifecycleModule() {
+      @Override
+      protected void configure() {
+        listener().to(ElasticRestClientProvider.class);
+      }
+    };
+  }
+
+  @Override
+  public RestClient get() {
+    if (client == null) {
+      synchronized (this) {
+        if (client == null) {
+          client = build();
+        }
+      }
+    }
+    return client;
+  }
+
+  @Override
+  public void start() {}
+
+  @Override
+  public void stop() {
+    if (client != null) {
+      try {
+        client.close();
+      } catch (IOException e) {
+        // Ignore. We can't do anything about it.
+      }
+    }
+  }
+
+  private RestClient build() {
     RestClientBuilder builder = RestClient.builder(hosts);
     setConfiguredCredentialsIfAny(builder);
     return builder.build();

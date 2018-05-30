@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46caf72f_21f6fcd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-30T07:33:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "759bb690_e86b77b5",
+      "range": {
+        "startLine": 13,
+        "startChar": 15,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "fdb34eecf4f58099d2329fc277ee94a453c11c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cdcfc9b8_b6460c39",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a1fd2b62_5d95d376",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-30T07:33:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdcfc9b8_b6460c39",
+      "range": {
+        "startLine": 375,
+        "startChar": 17,
+        "endLine": 375,
+        "endChar": 20
+      },
+      "revId": "fdb34eecf4f58099d2329fc277ee94a453c11c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "018b0326_55928b8e",
         "filename": "WORKSPACE",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2018-05-30T07:28:25Z",
       "side": 1,
       "message": "Can we bump this to an earlier (already released version) independent of the cache change?",
+      "revId": "fdb34eecf4f58099d2329fc277ee94a453c11c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c08a6fc_390411f0",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-30T07:33:02Z",
+      "side": 1,
+      "message": "Yes, we could do that, however, we would need to bump bazel CI version anyway. I just updated Palaodx change: [1] to bump Bazel to required 0.14.0 version. Beside that, Bazel 0.14.0 should be released today.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit-ci-scripts/+/157271/",
+      "parentUuid": "018b0326_55928b8e",
       "revId": "fdb34eecf4f58099d2329fc277ee94a453c11c83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

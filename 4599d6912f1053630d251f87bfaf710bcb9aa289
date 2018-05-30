@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f437e569_1527d8bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-30T06:52:58Z",
+      "side": 1,
+      "message": "I consider to rather cherry-pick \"that\" change, but it was re-factored and changed many time, so it wasn\u0027t clear what change to cherry-pick (or many). So I preferred just pick the latest version.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "4599d6912f1053630d251f87bfaf710bcb9aa289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

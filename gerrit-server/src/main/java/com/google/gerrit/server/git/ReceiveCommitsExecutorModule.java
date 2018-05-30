@@ -41,7 +41,7 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
     int poolSize =
         config.getInt(
             "receive", null, "threadPoolSize", Runtime.getRuntime().availableProcessors());
-    return queues.createQueue(poolSize, "ReceiveCommits");
+    return queues.createQueue(poolSize, "ReceiveCommits", true);
   }
 
   @Provides
@@ -53,7 +53,7 @@ public class ReceiveCommitsExecutorModule extends AbstractModule {
     if (poolSize == 0) {
       return MoreExecutors.newDirectExecutorService();
     }
-    return queues.createQueue(poolSize, "SendEmail");
+    return queues.createQueue(poolSize, "SendEmail", true);
   }
 
   @Provides

@@ -110,9 +110,9 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
       SitePaths sitePaths,
-      ElasticRestClientBuilder clientBuilder,
+      ElasticRestClientProvider client,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, CHANGES);
+    super(cfg, sitePaths, schema, client, CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.fillArgs = fillArgs;

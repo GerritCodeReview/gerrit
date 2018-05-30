@@ -76,9 +76,9 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
-      ElasticRestClientBuilder clientBuilder,
+      ElasticRestClientProvider client,
       @Assisted Schema<AccountGroup> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, GROUPS);
+    super(cfg, sitePaths, schema, client, GROUPS);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
     this.schema = schema;

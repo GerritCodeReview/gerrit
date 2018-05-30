@@ -37,6 +37,12 @@ public class ElasticIndexModule extends AbstractIndexModule {
   }
 
   @Override
+  public void configure() {
+    super.configure();
+    install(ElasticRestClientProvider.module());
+  }
+
+  @Override
   protected Class<? extends AccountIndex> getAccountIndex() {
     return ElasticAccountIndex.class;
   }

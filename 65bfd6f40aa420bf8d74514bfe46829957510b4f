@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "513e67e9_cd78ffb0",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-30T05:45:15Z",
+      "side": 1,
+      "message": "\"these lines to\"",
+      "range": {
+        "startLine": 369,
+        "startChar": 39,
+        "endLine": 369,
+        "endChar": 51
+      },
+      "revId": "65bfd6f40aa420bf8d74514bfe46829957510b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

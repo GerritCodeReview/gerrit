@@ -16,6 +16,24 @@
       "revId": "0689c9abba21c41085f9b6f7f60b00f112ee5981",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a701dae_c80d7136",
+        "filename": "tools/eclipse/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-30T23:06:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68c53263_d48f076b",
+      "revId": "0689c9abba21c41085f9b6f7f60b00f112ee5981",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

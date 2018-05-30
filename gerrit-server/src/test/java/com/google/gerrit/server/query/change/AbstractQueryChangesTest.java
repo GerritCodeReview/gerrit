@@ -34,6 +34,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.truth.ThrowableSubject;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
@@ -2203,6 +2204,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     insert(repo, newChange(repo), userId);
     String nameEmail = user.asIdentifiedUser().getNameEmail();
     assertQuery("owner: \"" + nameEmail + "\"\\");
+  }
+
+  @Test
+  public void RemoveChangeFromIndex() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChangeWithTopic(repo, "myTopic"));
+
+    assertQuery("topic:myTopic", change);
+    indexer.delete(change.getId());
+
+    assertQuery("topic:myTopic");
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

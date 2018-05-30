@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -43,12 +42,13 @@ public class ElasticVersionManager extends AbstractVersionManager implements Lif
   @Inject
   ElasticVersionManager(
       @GerritServerConfig Config cfg,
+      ElasticConfiguration indexCfg,
       SitePaths sitePaths,
       Collection<IndexDefinition<?, ?, ?>> defs,
       ElasticIndexVersionDiscovery versionDiscovery) {
     super(cfg, sitePaths, defs);
     this.versionDiscovery = versionDiscovery;
-    prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
+    prefix = indexCfg.prefix;
   }
 
   @Override

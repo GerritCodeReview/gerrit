@@ -83,6 +83,9 @@ limitations under the License.
         getProjectConfig() { return Promise.resolve({}); },
       });
 
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+
       element = fixture('basic');
       element.change = {};
       element.changeNum = '42';
@@ -95,7 +98,6 @@ limitations under the License.
           enabled: true,
         },
       };
-      sandbox = sinon.sandbox.create();
       sandbox.stub(element.$.confirmCherrypick.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));
       sandbox.stub(element.$.confirmMove.$.restAPI,

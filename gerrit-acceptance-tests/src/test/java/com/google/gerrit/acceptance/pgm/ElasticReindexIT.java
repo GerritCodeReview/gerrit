@@ -28,7 +28,7 @@ import org.junit.After;
 public class ElasticReindexIT extends AbstractReindexIT {
   private static ElasticContainer<?> container;
 
-  @ConfigSuite.Config
+  @ConfigSuite.Default
   public static Config elasticsearch() {
     ElasticNodeInfo elasticNodeInfo;
     try {

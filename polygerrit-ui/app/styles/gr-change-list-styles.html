@@ -139,37 +139,26 @@ limitations under the License.
       .truncatedProject {
         display: none;
       }
+      @media only screen and (max-width: 150em) {
+        .assignee,
+        .branch,
+        .owner {
+          overflow: hidden;
+          max-width: 18rem;
+          text-overflow: ellipsis;
+        }
+        .truncatedProject {
+          display: inline-block;
+        }
+        .fullProject {
+          display: none;
+        }
+      }
       @media only screen and (max-width: 100em) {
         .assignee,
         .branch,
         .owner {
-          overflow: hidden;
           max-width: 10rem;
-          text-overflow: ellipsis;
-        }
-        .truncatedProject {
-          display: inline-block;
-        }
-        .fullProject {
-          display: none;
-        }
-      }
-      .truncatedProject {
-        display: none;
-      }
-      @media only screen and (max-width: 90em) {
-        .assignee,
-        .branch,
-        .owner {
-          overflow: hidden;
-          max-width: 10rem;
-          text-overflow: ellipsis;
-        }
-        .truncatedProject {
-          display: inline-block;
-        }
-        .fullProject {
-          display: none;
         }
       }
       @media only screen and (max-width: 50em) {

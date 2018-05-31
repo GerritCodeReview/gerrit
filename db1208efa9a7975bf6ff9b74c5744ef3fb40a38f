@@ -70,6 +70,24 @@
       "revId": "db1208efa9a7975bf6ff9b74c5744ef3fb40a38f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33b652f0_37fdd846",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T05:17:11Z",
+      "side": 1,
+      "message": "Thanks for the confirmation.  In that case we can go ahead with upgrading Gerrit to a different version than used in JGit, as long as Google is OK with that version.\n\nMaybe we can go ahead and merge this one, since it already has Library-Compliance, and then do a follow-up change to upgrade to 9.4.10.",
+      "parentUuid": "c5c0eccf_3e279b88",
+      "revId": "db1208efa9a7975bf6ff9b74c5744ef3fb40a38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

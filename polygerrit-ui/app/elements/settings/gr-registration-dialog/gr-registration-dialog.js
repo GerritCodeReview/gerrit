@@ -43,22 +43,42 @@
           return {email: null, name: null, username: null};
         },
       },
+      _usernameMutable: {
+        type: Boolean,
+        computed: '_computeUsernameMutable(_serverConfig, _account.username)',
+      },
+      _loading: {
+        type: Boolean,
+        value: true,
+        observer: '_loadingChanged',
+      },
       _saving: {
         type: Boolean,
         value: false,
       },
+      _serverConfig: Object,
     },
 
     hostAttributes: {
       role: 'dialog',
     },
 
-    attached() {
-      this.$.restAPI.getAccount().then(account => {
+    loadData() {
+      this._loading = true;
+
+      const loadAccount = this.$.restAPI.getAccount().then(account => {
         // Using Object.assign here allows preservation of the default values
         // supplied in the value generating function of this._account, unless
         // they are overridden by properties in the account from the response.
         this._account = Object.assign({}, this._account, account);
+      });
+
+      const loadConfig = this.$.restAPI.getConfig().then(config => {
+        this._serverConfig = config;
+      });
+
+      return Promise.all([loadAccount, loadConfig]).then(() => {
+        this._loading = false;
       });
     },
 
@@ -66,9 +86,13 @@
       this._saving = true;
       const promises = [
         this.$.restAPI.setAccountName(this.$.name.value),
-        this.$.restAPI.setAccountUsername(this.$.username.value),
         this.$.restAPI.setPreferredAccountEmail(this.$.email.value || ''),
       ];
+
+      if (this._usernameMutable) {
+        promises.push(this.$.restAPI.setAccountUsername(this.$.username.value));
+      }
+
       return Promise.all(promises).then(() => {
         this._saving = false;
         this.fire('account-detail-update');
@@ -90,8 +114,21 @@
       this.fire('close');
     },
 
-    _computeSaveDisabled(name, username, email, saving) {
-      return !name || !username || !email || saving;
+    _computeSaveDisabled(name, email, saving) {
+      return !name || !email || saving;
+    },
+
+    _computeUsernameMutable(config, username) {
+      return config.auth.editable_account_fields.includes('USER_NAME') &&
+          !username;
+    },
+
+    _computeUsernameClass(usernameMutable) {
+      return usernameMutable ? '' : 'hide';
+    },
+
+    _loadingChanged() {
+      this.classList.toggle('loading', this._loading);
     },
   });
 })();

@@ -191,7 +191,10 @@
         this.async(() => this.set('_showPluginScreen', true), 1);
       }
       if (this.params.justRegistered) {
-        this.$.registration.open();
+        this.$.registrationOverlay.open();
+        this.$.registrationDialog.loadData().then(() => {
+          this.$.registrationOverlay.refit();
+        });
       }
       this.$.header.unfloat();
     },
@@ -272,7 +275,7 @@
 
     _handleRegistrationDialogClose(e) {
       this.params.justRegistered = false;
-      this.$.registration.close();
+      this.$.registrationOverlay.close();
     },
 
     _computeShadowClass(isShadowDom) {

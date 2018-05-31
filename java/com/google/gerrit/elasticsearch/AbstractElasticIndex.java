@@ -17,26 +17,22 @@ package com.google.gerrit.elasticsearch;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
 import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Streams;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
-import com.google.gerrit.elasticsearch.builders.XContentBuilder;
+import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.Schema.Values;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
@@ -71,10 +67,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpHead;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.eclipse.jgit.lib.Config;
@@ -87,9 +80,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private static final Logger log = LoggerFactory.getLogger(AbstractElasticIndex.class);
 
   protected static final String BULK = "_bulk";
-  protected static final String DELETE = "delete";
   protected static final String IGNORE_UNMAPPED = "ignore_unmapped";
-  protected static final String INDEX = "index";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
@@ -167,7 +158,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void delete(K c) throws IOException {
     String uri = getURI(indexNameRaw, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, addActions(c), uri, getRefreshParam());
+    Response response = postRequest(addActions(c), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
@@ -178,10 +169,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
-    Response response = client.performRequest(HttpHead.METHOD_NAME, indexName);
+    Response response = client.performRequest("HEAD", indexName);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
-      response = client.performRequest(HttpDelete.METHOD_NAME, indexName);
+      response = client.performRequest("DELETE", indexName);
       statusCode = response.getStatusLine().getStatusCode();
       if (statusCode != HttpStatus.SC_OK) {
         throw new IOException(
@@ -190,8 +181,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
 
     // Recreate the index.
-    response =
-        performRequest(HttpPut.METHOD_NAME, getMappings(), indexName, Collections.emptyMap());
+    response = performRequest("PUT", getMappings(), indexName, Collections.emptyMap());
     statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       String error = String.format("Failed to create index %s: %s", indexName, statusCode);
@@ -207,33 +197,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected String delete(String type, K c) {
     String id = c.toString();
-    return toAction(type, id, DELETE);
-  }
-
-  private static boolean shouldAddElement(Object element) {
-    return !(element instanceof String) || !((String) element).isEmpty();
-  }
-
-  protected String toDoc(V v) throws IOException {
-    try (XContentBuilder closeable = new XContentBuilder()) {
-      XContentBuilder builder = closeable.startObject();
-      for (Values<V> values : schema.buildFields(v)) {
-        String name = values.getField().getName();
-        if (values.getField().isRepeatable()) {
-          builder.field(
-              name,
-              Streams.stream(values.getValues())
-                  .filter(AbstractElasticIndex::shouldAddElement)
-                  .collect(toList()));
-        } else {
-          Object element = Iterables.getOnlyElement(values.getValues(), "");
-          if (shouldAddElement(element)) {
-            builder.field(name, element);
-          }
-        }
-      }
-      return builder.endObject().string() + System.lineSeparator();
-    }
+    return new DeleteRequest(id, indexNameRaw, type).toString();
   }
 
   protected abstract V fromDocument(JsonObject doc, Set<String> fields);
@@ -313,9 +277,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return encodedIndexName + "/" + encodedType + "/" + request;
   }
 
-  protected Response performRequest(
-      String method, String payload, String uri, Map<String, String> params) throws IOException {
-    HttpEntity entity = new NStringEntity(payload, ContentType.APPLICATION_JSON);
+  protected Response postRequest(Object payload, String uri, Map<String, String> params)
+      throws IOException {
+    return performRequest("POST", payload, uri, params);
+  }
+
+  private Response performRequest(
+      String method, Object payload, String uri, Map<String, String> params) throws IOException {
+    String payloadStr = payload instanceof String ? (String) payload : payload.toString();
+    HttpEntity entity = new NStringEntity(payloadStr, ContentType.APPLICATION_JSON);
     return client.performRequest(method, uri, params, entity);
   }
 

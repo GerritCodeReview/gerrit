@@ -32,6 +32,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -67,7 +71,6 @@ import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 
@@ -92,6 +95,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
+  private final Schema<ChangeData> schema;
 
   @Inject
   ElasticChangeIndex(
@@ -104,6 +108,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     super(cfg, sitePaths, schema, clientBuilder, CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
+    this.schema = schema;
     mapping = new ChangeMapping(schema);
   }
 
@@ -124,12 +129,13 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       throw new IOException(e);
     }
 
-    String bulk = toAction(insertIndex, getId(cd), INDEX);
-    bulk += toDoc(cd);
-    bulk += toAction(deleteIndex, cd.getId().toString(), DELETE);
+    BulkRequest bulk =
+        new IndexRequest(getId(cd), indexName, insertIndex)
+            .add(new UpdateRequest<>(schema, cd))
+            .add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex));
 
     String uri = getURI(CHANGES, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(

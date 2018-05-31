@@ -18,6 +18,9 @@ import static com.google.gerrit.server.index.account.AccountField.ID;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -40,7 +43,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Set;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 
@@ -58,6 +60,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
+  private final Schema<AccountState> schema;
 
   @Inject
   ElasticAccountIndex(
@@ -69,15 +72,16 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     super(cfg, sitePaths, schema, clientBuilder, ACCOUNTS);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
+    this.schema = schema;
   }
 
   @Override
   public void replace(AccountState as) throws IOException {
-    String bulk = toAction(ACCOUNTS, getId(as), INDEX);
-    bulk += toDoc(as);
+    BulkRequest bulk =
+        new IndexRequest(getId(as), indexName, ACCOUNTS).add(new UpdateRequest<>(schema, as));
 
     String uri = getURI(ACCOUNTS, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(

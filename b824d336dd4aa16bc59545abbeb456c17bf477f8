@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9f2a424_b604b467",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/annotation/UseGerritConfigAnnotationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-31T04:51:32Z",
+      "side": 1,
+      "message": "Should we mention in the commit message, what changed? Seems like indentation in Annotation was changed to 4 instead 2 spaces?",
+      "revId": "b824d336dd4aa16bc59545abbeb456c17bf477f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

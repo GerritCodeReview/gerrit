@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,7 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-class ElasticRestClientProvider implements Provider<RestClient> {
+public class ElasticRestClientProvider implements Provider<RestClient> {
   private static final Logger log = LoggerFactory.getLogger(ElasticRestClientProvider.class);
 
   private final HttpHost[] hosts;
@@ -56,8 +57,8 @@ class ElasticRestClientProvider implements Provider<RestClient> {
       synchronized (this) {
         if (client == null) {
           client = build();
-          String version = getVersion();
-          log.info("Connected to Elasticsearch version {}", version);
+          ElasticsearchVersion version = getVersion();
+          log.info("Elasticsearch integration version {}", version);
         }
       }
     }
@@ -89,20 +90,58 @@ class ElasticRestClientProvider implements Provider<RestClient> {
     }
   }
 
-  private String getVersion() throws ElasticVersionException {
+  public static class InvalidVersion extends ElasticVersionException {
+    private static final long serialVersionUID = 1L;
+
+    InvalidVersion(String version) {
+      super(String.format("Invalid version: %s", version));
+    }
+  }
+
+  public enum ElasticsearchVersion {
+    V2_4("2.4"),
+    V5_6("5.6"),
+    V6_2("6.2");
+
+    private final String version;
+
+    private ElasticsearchVersion(String version) {
+      this.version = version;
+    }
+
+    @VisibleForTesting
+    public static ElasticsearchVersion forVersion(String version) throws InvalidVersion {
+      for (ElasticsearchVersion value : ElasticsearchVersion.values()) {
+        if (version.startsWith(value.toString())) {
+          return value;
+        }
+      }
+      throw new InvalidVersion(version);
+    }
+
+    @Override
+    public String toString() {
+      return version;
+    }
+  }
+
+  private ElasticsearchVersion getVersion() throws ElasticVersionException {
     try {
       Response response = client.performRequest("GET", "");
       StatusLine statusLine = response.getStatusLine();
       if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
         throw new FailedToGetVersion(statusLine);
       }
-      return new JsonParser()
-          .parse(AbstractElasticIndex.getContent(response))
-          .getAsJsonObject()
-          .get("version")
-          .getAsJsonObject()
-          .get("number")
-          .getAsString();
+      String version =
+          new JsonParser()
+              .parse(AbstractElasticIndex.getContent(response))
+              .getAsJsonObject()
+              .get("version")
+              .getAsJsonObject()
+              .get("number")
+              .getAsString();
+      log.info("Connected to Elasticsearch version {}", version);
+      return ElasticsearchVersion.forVersion(version);
     } catch (IOException e) {
       throw new FailedToGetVersion(e);
     }

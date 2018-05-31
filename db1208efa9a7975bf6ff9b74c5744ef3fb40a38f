@@ -52,6 +52,24 @@
       "revId": "db1208efa9a7975bf6ff9b74c5744ef3fb40a38f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5c0eccf_3e279b88",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-05-31T05:15:09Z",
+      "side": 1,
+      "message": "JGit uses Jetty in\n* tests in org.eclipse.jgit.http.test\n* test helper classes in org.eclipse.jgit.junit.http\n* LfsStore in org.eclipse.jgit.pgm to implemment a test LFS server\n\nI think Gerrit does not depend on any of these libraries",
+      "parentUuid": "a474caa0_7f60444c",
+      "revId": "db1208efa9a7975bf6ff9b74c5744ef3fb40a38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,7 +1,10 @@
 = Gerrit Code Review - IntelliJ Setup
 
 == Prerequisites
-You need an installation of IntelliJ of version 2016.2.
+You need an installation of IntelliJ version 2016.2 or later. The latest version
+might not yet be in-sync with the Bazel plugin for IntelliJ. It usually becomes
+so quite quickly after new IDEA versions get released, though. It should then be
+possible to use the fairly latest IntelliJ release with an updated Bazel plugin.
 
 In addition, Java 8 must be specified on your path or via `JAVA_HOME` so that
 building with Bazel via the Bazel plugin is possible.

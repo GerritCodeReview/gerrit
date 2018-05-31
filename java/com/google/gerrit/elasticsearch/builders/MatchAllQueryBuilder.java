@@ -17,8 +17,8 @@ package com.google.gerrit.elasticsearch.builders;
 import java.io.IOException;
 
 /**
- * A query that matches on all documents. A trimmed down version of {@link
- * org.elasticsearch.index.query.MatchAllQueryBuilder} for this very package.
+ * A query that matches on all documents. A trimmed down version of
+ * org.elasticsearch.index.query.MatchAllQueryBuilder for this very package.
  */
 class MatchAllQueryBuilder extends QueryBuilder {
 

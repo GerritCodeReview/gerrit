@@ -17,8 +17,8 @@ package com.google.gerrit.elasticsearch.builders;
 import java.io.IOException;
 
 /**
- * A Query that does fuzzy matching for a specific value. A trimmed down version of {@link
- * org.elasticsearch.index.query.RegexpQueryBuilder} for this very package.
+ * A Query that does fuzzy matching for a specific value. A trimmed down version of
+ * org.elasticsearch.index.query.RegexpQueryBuilder for this very package.
  */
 class RegexpQueryBuilder extends QueryBuilder {
 

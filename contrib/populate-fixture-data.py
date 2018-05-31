@@ -275,40 +275,6 @@ def clean_up():
 
 
 def main():
-<<<<<<< HEAD
-  p = optparse.OptionParser()
-  p.add_option("-u", "--user_count", action="store",
-               default=100,
-               type='int',
-               help="number of users to generate")
-  p.add_option("-p", "--port", action="store",
-               default=8080,
-               type='int',
-               help="port of server")
-  (options, _) = p.parse_args()
-  global BASE_URL
-  BASE_URL = BASE_URL % options.port
-  print(BASE_URL)
-
-  set_up()
-  gerrit_users = get_random_users(options.user_count)
-
-  group_names = create_gerrit_groups()
-  for idx, u in enumerate(gerrit_users):
-    u["groups"].append(group_names[idx % len(group_names)])
-    if idx % 5 == 0:
-      # Also add to security group
-      u["groups"].append(group_names[4])
-
-  generate_ssh_keys(gerrit_users)
-  create_gerrit_users(gerrit_users)
-
-  project_names = create_gerrit_projects(group_names)
-
-  for idx, u in enumerate(gerrit_users):
-    for _ in range(random.randint(1, 5)):
-      create_change(u, project_names[4 * idx / len(gerrit_users)])
-=======
     p = optparse.OptionParser()
     p.add_option("-u", "--user_count", action="store",
                  default=100,
@@ -341,7 +307,5 @@ def main():
     for idx, u in enumerate(gerrit_users):
         for _ in xrange(random.randint(1, 5)):
             create_change(u, project_names[4 * idx / len(gerrit_users)])
-
->>>>>>> 730efd14f4... Python cleanups, round 1: whitespace
 
 main()

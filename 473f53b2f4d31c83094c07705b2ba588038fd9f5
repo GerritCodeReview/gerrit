@@ -46,6 +46,30 @@
       "revId": "473f53b2f4d31c83094c07705b2ba588038fd9f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7e66e97_7cd52044",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2018-05-31T20:44:30Z",
+      "side": 1,
+      "message": "While it is true that it is a prefix to thread name, I still think it is better to call it queueName. See line 201.",
+      "parentUuid": "a09c921e_f63d0865",
+      "range": {
+        "startLine": 189,
+        "startChar": 14,
+        "endLine": 189,
+        "endChar": 65
+      },
+      "revId": "473f53b2f4d31c83094c07705b2ba588038fd9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d184eab_1e6e22c1",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T20:22:36Z",
+      "side": 1,
+      "message": "Move all these methods into the ElasticRestClientProvider?",
+      "revId": "377b6407848484e7b75245bddb3f9d0f95909263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2907c415_b0fa812b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T20:22:36Z",
+      "side": 1,
+      "message": "There\u0027s a Version enum in ElasticContainer.  It would be better to consolidate these into a single enum here.",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 16
+      },
+      "revId": "377b6407848484e7b75245bddb3f9d0f95909263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08c71996_9fca2021",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T20:22:36Z",
+      "side": 1,
+      "message": "This means we will only support exact minor versions.\n\nWould it be possible to make it only check the major version?  Or did ES introduce compatibility changes within minor versions?",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 9
+      },
+      "revId": "377b6407848484e7b75245bddb3f9d0f95909263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "343c0057_cc33922e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T20:22:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t really need to be a constant; it\u0027s only used once.\n\nSame goes for MESSAGE, actually.  That can be fixed in the change that introduces it.",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 82
+      },
+      "revId": "377b6407848484e7b75245bddb3f9d0f95909263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a8c8bb_33b8c99a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T20:22:36Z",
+      "side": 1,
+      "message": "Use Joiner.on(...) ?",
+      "range": {
+        "startLine": 145,
+        "startChar": 5,
+        "endLine": 148,
+        "endChar": 5
+      },
+      "revId": "377b6407848484e7b75245bddb3f9d0f95909263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

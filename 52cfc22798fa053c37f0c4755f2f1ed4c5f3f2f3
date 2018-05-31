@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "cf3a034e_74111d52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-05-31T10:26:02Z",
+      "side": 1,
+      "message": "Is this the right issue? It is not public it seems and this change makes me think it should be.\n\n You do not have permission to view the requested page.\n\n Reason: User is not allowed to view this issue",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "52cfc22798fa053c37f0c4755f2f1ed4c5f3f2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8400d76c_ce1b56fc",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 2

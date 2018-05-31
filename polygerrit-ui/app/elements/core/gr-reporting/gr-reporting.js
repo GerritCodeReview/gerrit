@@ -70,11 +70,13 @@
 
   const TIMER = {
     CHANGE_DISPLAYED: 'ChangeDisplayed',
+    CHANGE_LOAD_FULL: 'ChangeFullyLoaded',
     DASHBOARD_DISPLAYED: 'DashboardDisplayed',
     DIFF_VIEW_DISPLAYED: 'DiffViewDisplayed',
     FILE_LIST_DISPLAYED: 'FileListDisplayed',
     PLUGINS_LOADED: 'PluginsLoaded',
     STARTUP_CHANGE_DISPLAYED: 'StartupChangeDisplayed',
+    STARTUP_CHANGE_LOAD_FULL: 'StartupChangeFullyLoaded',
     STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
     STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
     STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
@@ -84,6 +86,7 @@
   const STARTUP_TIMERS = {};
   STARTUP_TIMERS[TIMER.PLUGINS_LOADED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_CHANGE_LOAD_FULL] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
@@ -225,6 +228,7 @@
         delete this._baselines[prop];
       }
       this.time(TIMER.CHANGE_DISPLAYED);
+      this.time(TIMER.CHANGE_LOAD_FULL);
       this.time(TIMER.DASHBOARD_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
       this.time(TIMER.FILE_LIST_DISPLAYED);
@@ -248,6 +252,14 @@
         this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED);
       } else {
         this.timeEnd(TIMER.CHANGE_DISPLAYED);
+      }
+    },
+
+    changeFullyLoaded() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_LOAD_FULL)) {
+        this.timeEnd(TIMER.STARTUP_CHANGE_LOAD_FULL);
+      } else {
+        this.timeEnd(TIMER.CHANGE_LOAD_FULL);
       }
     },
 

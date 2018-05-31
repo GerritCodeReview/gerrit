@@ -34,6 +34,24 @@
       "revId": "db1208efa9a7975bf6ff9b74c5744ef3fb40a38f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a474caa0_7f60444c",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T01:12:02Z",
+      "side": 1,
+      "message": "We should wait for confirmation that Google is OK with 9.4.10\n\nAlso, Matthias, do you know if Gerrit needs to use the same version of jetty that JGit uses?  I seem to remember that previously someone (maybe you?) said we don\u0027t, but I can\u0027t find where that was written.",
+      "parentUuid": "7ca0c81d_b50dbd7c",
+      "revId": "db1208efa9a7975bf6ff9b74c5744ef3fb40a38f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

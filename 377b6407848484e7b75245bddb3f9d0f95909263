@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "16fcea04_4bee3543",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T22:52:00Z",
+      "side": 1,
+      "message": "OK, if they did that, then we will need to have specific checks.\n\nThat said, it would be good if we can do things like \"if version is X.Y.Z or higher\".\n\nMaybe worth looking into the semantic versioning library again.  There\u0027s a previous change from me (abandoned) that tried to introduce it for sorting of tags.",
+      "parentUuid": "55579b9f_2bc36ed6",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 9
+      },
+      "revId": "377b6407848484e7b75245bddb3f9d0f95909263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "343c0057_cc33922e",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
         "patchSetId": 1
@@ -166,6 +190,30 @@
       "side": 1,
       "message": "Java forbids variables right before calls to super(), as in the below related methods. So I liked the constants idea even if used only once, as it seems more readable than inlined string values -within the below super() calls. What would be your preference then?",
       "parentUuid": "343c0057_cc33922e",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 82
+      },
+      "revId": "377b6407848484e7b75245bddb3f9d0f95909263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee0da90f_2cded17b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T22:52:00Z",
+      "side": 1,
+      "message": "I would just inline the string in the String.format call below.  I\u0027ll do the same for MESSAGE in a new PS on my previous change.",
+      "parentUuid": "a11924db_4171c0ed",
       "range": {
         "startLine": 104,
         "startChar": 4,

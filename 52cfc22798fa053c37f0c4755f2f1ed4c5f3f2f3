@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8400d76c_ce1b56fc",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T02:39:10Z",
+      "side": 1,
+      "message": "Why is this last in the row? In the linked issue, it says this should go between the .accountContainer and #search.",
+      "range": {
+        "startLine": 196,
+        "startChar": 10,
+        "endLine": 201,
+        "endChar": 14
+      },
+      "revId": "52cfc22798fa053c37f0c4755f2f1ed4c5f3f2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "874a6c56_81b6c927",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T02:39:10Z",
+      "side": 1,
+      "message": "Can this use\n\n Gerrit.Nav.getUrlForSettings();\n\ninstead?",
+      "range": {
+        "startLine": 268,
+        "startChar": 13,
+        "endLine": 268,
+        "endChar": 46
+      },
+      "revId": "52cfc22798fa053c37f0c4755f2f1ed4c5f3f2f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

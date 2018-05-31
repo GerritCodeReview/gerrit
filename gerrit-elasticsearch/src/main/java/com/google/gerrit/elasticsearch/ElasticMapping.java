@@ -18,16 +18,17 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
 import com.google.gerrit.server.index.Schema;
+import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import java.util.Map;
 
 class ElasticMapping {
-  static MappingProperties createMapping(Schema<?> schema) {
+  static MappingProperties createMapping(Schema<?> schema, ElasticRestClientAdapter adapter) {
     ElasticMapping.Builder mapping = new ElasticMapping.Builder();
     for (FieldDef<?, ?> field : schema.getFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
       if (fieldType == FieldType.EXACT) {
-        mapping.addExactField(name);
+        mapping.addExactField(name, adapter);
       } else if (fieldType == FieldType.TIMESTAMP) {
         mapping.addTimestamp(name);
       } else if (fieldType == FieldType.INTEGER
@@ -55,10 +56,15 @@ class ElasticMapping {
       return properties;
     }
 
-    Builder addExactField(String name) {
+    Builder addExactField(String name, ElasticRestClientAdapter adapter) {
       FieldProperties key = new FieldProperties("string");
       key.index = "not_analyzed";
-      FieldProperties properties = new FieldProperties("string");
+      FieldProperties properties;
+      if (name.equals(GroupQueryBuilder.FIELD_UUID)) {
+        properties = new FieldProperties(adapter.getUuidFieldType());
+      } else {
+        properties = new FieldProperties("string");
+      }
       properties.fields = ImmutableMap.of("key", key);
       fields.put(name, properties);
       return this;

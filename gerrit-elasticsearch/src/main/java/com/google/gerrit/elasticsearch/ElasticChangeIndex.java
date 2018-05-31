@@ -82,12 +82,12 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
     implements ChangeIndex {
   private static final Logger log = LoggerFactory.getLogger(ElasticChangeIndex.class);
 
-  public static class ChangeMapping {
+  public class ChangeMapping {
     public MappingProperties openChanges;
     public MappingProperties closedChanges;
 
     public ChangeMapping(Schema<ChangeData> schema) {
-      MappingProperties mapping = ElasticMapping.createMapping(schema);
+      MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
       this.openChanges = mapping;
       this.closedChanges = mapping;
     }
@@ -110,9 +110,10 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       ChangeData.Factory changeDataFactory,
       FillArgs fillArgs,
       SitePaths sitePaths,
+      ElasticRestClientAdapter adapter,
       ElasticRestClientProvider client,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, client, CHANGES);
+    super(cfg, sitePaths, schema, adapter, client, CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.fillArgs = fillArgs;
@@ -191,7 +192,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.changeFields(opts);
       SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+          new SearchSourceBuilder(adapter)
               .query(qb)
               .from(opts.start())
               .size(opts.limit())
@@ -404,7 +405,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
     private JsonArray getSortArray() {
       JsonObject properties = new JsonObject();
       properties.addProperty(ORDER, "desc");
-      properties.addProperty(IGNORE_UNMAPPED, true);
+      adapter.setIgnoreUnmapped(properties);
 
       JsonArray sortArray = new JsonArray();
       addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);

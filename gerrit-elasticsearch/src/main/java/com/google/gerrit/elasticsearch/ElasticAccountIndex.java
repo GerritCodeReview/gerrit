@@ -58,11 +58,11 @@ import org.slf4j.LoggerFactory;
 
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
     implements AccountIndex {
-  public static class AccountMapping {
+  public class AccountMapping {
     MappingProperties accounts;
 
     public AccountMapping(Schema<AccountState> schema) {
-      this.accounts = ElasticMapping.createMapping(schema);
+      this.accounts = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
@@ -79,9 +79,10 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
+      ElasticRestClientAdapter adapter,
       ElasticRestClientProvider client,
       @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, client, ACCOUNTS);
+    super(cfg, sitePaths, schema, adapter, client, ACCOUNTS);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
     this.schema = schema;
@@ -133,7 +134,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.accountFields(opts);
       SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+          new SearchSourceBuilder(adapter)
               .query(qb)
               .from(opts.start())
               .size(opts.limit())

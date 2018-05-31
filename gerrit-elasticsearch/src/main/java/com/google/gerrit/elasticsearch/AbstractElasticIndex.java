@@ -50,7 +50,6 @@ import org.elasticsearch.client.Response;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String BULK = "_bulk";
-  protected static final String IGNORE_UNMAPPED = "ignore_unmapped";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
@@ -82,6 +81,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final String indexNameRaw;
   private final ElasticRestClientProvider client;
 
+  protected final ElasticRestClientAdapter adapter;
   protected final String indexName;
   protected final Gson gson;
   protected final ElasticQueryBuilder queryBuilder;
@@ -90,6 +90,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       ElasticConfiguration cfg,
       SitePaths sitePaths,
       Schema<V> schema,
+      ElasticRestClientAdapter adapter,
       ElasticRestClientProvider client,
       String indexName) {
     this.sitePaths = sitePaths;
@@ -98,6 +99,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.queryBuilder = new ElasticQueryBuilder();
     this.indexName = cfg.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
+    this.adapter = adapter;
     this.client = client;
   }
 
@@ -128,7 +130,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
-    Response response = client.get().performRequest("HEAD", indexName);
+    String endpoint = indexName + adapter.getIndicesExistParameter();
+    Response response = client.get().performRequest("HEAD", endpoint);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
       response = client.get().performRequest("DELETE", indexName);
@@ -180,7 +183,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected JsonArray getSortArray(String idFieldName) {
     JsonObject properties = new JsonObject();
     properties.addProperty(ORDER, "asc");
-    properties.addProperty(IGNORE_UNMAPPED, true);
+    adapter.setIgnoreUnmapped(properties);
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(idFieldName, properties, sortArray);

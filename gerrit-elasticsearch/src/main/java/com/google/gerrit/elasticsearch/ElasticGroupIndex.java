@@ -55,11 +55,11 @@ import org.slf4j.LoggerFactory;
 
 public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, AccountGroup>
     implements GroupIndex {
-  public static class GroupMapping {
+  public class GroupMapping {
     MappingProperties groups;
 
     public GroupMapping(Schema<AccountGroup> schema) {
-      this.groups = ElasticMapping.createMapping(schema);
+      this.groups = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
@@ -76,9 +76,10 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
+      ElasticRestClientAdapter adapter,
       ElasticRestClientProvider client,
       @Assisted Schema<AccountGroup> schema) {
-    super(cfg, sitePaths, schema, client, GROUPS);
+    super(cfg, sitePaths, schema, adapter, client, GROUPS);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
     this.schema = schema;
@@ -130,7 +131,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.groupFields(opts);
       SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+          new SearchSourceBuilder(adapter)
               .query(qb)
               .from(opts.start())
               .size(opts.limit())

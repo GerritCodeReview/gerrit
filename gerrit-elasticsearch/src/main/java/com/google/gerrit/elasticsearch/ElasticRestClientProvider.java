@@ -37,11 +37,36 @@ import org.slf4j.LoggerFactory;
 class ElasticRestClientProvider implements Provider<RestClient> {
   private static final Logger log = LoggerFactory.getLogger(ElasticRestClientProvider.class);
 
+  enum SupportedVersion {
+    V2("2.4.6"),
+    V5("5.6.9");
+
+    private final String version;
+
+    SupportedVersion(String version) {
+      this.version = version;
+    }
+
+    String getVersion() {
+      return version;
+    }
+
+    private static boolean isSupported(String version) {
+      for (SupportedVersion supported : SupportedVersion.values()) {
+        if (version.equals(supported.version)) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
   private final HttpHost[] hosts;
   private final String username;
   private final String password;
 
   private RestClient client;
+  private String version = "";
 
   @Inject
   ElasticRestClientProvider(ElasticConfiguration cfg) {
@@ -52,24 +77,38 @@ class ElasticRestClientProvider implements Provider<RestClient> {
 
   @Override
   public RestClient get() {
+    initGetVersion();
+    return client;
+  }
+
+  String initGetVersion() {
     if (client == null) {
       synchronized (this) {
         if (client == null) {
           client = build();
-          String version = getVersion();
+          version = getVersion();
+          if (!SupportedVersion.isSupported(version)) {
+            throw new ElasticRestClientException(version);
+          }
           log.info("Connected to Elasticsearch version {}", version);
         }
       }
     }
-    return client;
+    return version;
   }
 
-  public static class ElasticRestClientException extends RuntimeException {
+  public class ElasticRestClientException extends RuntimeException {
     private static final long serialVersionUID = 1L;
+
     private static final String MESSAGE = "Failed to get Elasticsearch version";
+    private static final String UNSUPPORTED = "Unsupported Elasticsearch version";
 
     ElasticRestClientException(StatusLine status) {
       super(String.format("%s: %d %s", MESSAGE, status.getStatusCode(), status.getReasonPhrase()));
+    }
+
+    ElasticRestClientException(String version) {
+      super(String.format("%s %s; supported: %s", UNSUPPORTED, version, getSupportedVersions()));
     }
 
     ElasticRestClientException(Throwable cause) {
@@ -100,6 +139,14 @@ class ElasticRestClientProvider implements Provider<RestClient> {
     RestClientBuilder builder = RestClient.builder(hosts);
     setConfiguredCredentialsIfAny(builder);
     return builder.build();
+  }
+
+  private StringBuilder getSupportedVersions() {
+    StringBuilder versions = new StringBuilder();
+    for (SupportedVersion supported : SupportedVersion.values()) {
+      versions.append(supported.version).append(" ");
+    }
+    return versions;
   }
 
   private void setConfiguredCredentialsIfAny(RestClientBuilder builder) {

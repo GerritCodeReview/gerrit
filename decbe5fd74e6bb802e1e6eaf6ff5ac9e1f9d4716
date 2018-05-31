@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07a93431_a841b5cb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-05-31T21:27:41Z",
+      "side": 1,
+      "message": "Why this change? Looks like a rename.",
+      "revId": "decbe5fd74e6bb802e1e6eaf6ff5ac9e1f9d4716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

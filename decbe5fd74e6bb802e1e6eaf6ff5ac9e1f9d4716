@@ -16,6 +16,24 @@
       "revId": "decbe5fd74e6bb802e1e6eaf6ff5ac9e1f9d4716",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "312e97a4_629632c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-05-31T22:13:34Z",
+      "side": 1,
+      "message": "Yep. The builder is no longer just rendering images, hence the change.",
+      "parentUuid": "07a93431_a841b5cb",
+      "revId": "decbe5fd74e6bb802e1e6eaf6ff5ac9e1f9d4716",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

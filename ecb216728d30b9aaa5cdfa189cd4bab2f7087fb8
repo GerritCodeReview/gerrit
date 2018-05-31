@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "897fd3fb_37b23bfe",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T02:32:30Z",
+      "side": 1,
+      "message": "Why is this being changed?\n\nDoes `Gerrit._arePluginsLoaded` not work for this in some way?\n\nI don\u0027t understand how this is related to avatars. The avatar plugin is a totally server-side plugin, isn\u0027t it?",
+      "revId": "ecb216728d30b9aaa5cdfa189cd4bab2f7087fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1c9dfed_1dfbdc16",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
         "patchSetId": 7
@@ -19,6 +36,47 @@
         "endLine": 32,
         "endChar": 17
       },
+      "revId": "ecb216728d30b9aaa5cdfa189cd4bab2f7087fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41a2c495_7fb7f9da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T02:32:30Z",
+      "side": 1,
+      "message": "I think it\u0027s plural because the plugin config uses plural, and really it means that the app overall has avatars.\n\nSee https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#plugin-config-info",
+      "parentUuid": "c1c9dfed_1dfbdc16",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 17
+      },
+      "revId": "ecb216728d30b9aaa5cdfa189cd4bab2f7087fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fea22afe_99b2f6cd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T02:32:30Z",
+      "side": 1,
+      "message": "Like I was asking above, aren\u0027t avatars a server-side plugin? How does this relate to the Gerrit.awaitPluginsLoaded method?",
       "revId": "ecb216728d30b9aaa5cdfa189cd4bab2f7087fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

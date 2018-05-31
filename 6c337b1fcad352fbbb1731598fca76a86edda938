@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20e8e766_36dded88",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T00:18:28Z",
+      "side": 1,
+      "message": "I think it would be better to leave this public, and have the new createQueue call it as it does at L142.  Then we don\u0027t need the separate createQueueWithMetrics method. It should be enough to add Javadoc here to explain the parameter.",
+      "revId": "6c337b1fcad352fbbb1731598fca76a86edda938",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

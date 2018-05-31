@@ -22,6 +22,30 @@
       "revId": "0f4cd2e89dbbd5c3685e0bece60cf234a40bf782",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6c7f8d3_e985bd97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-31T05:59:30Z",
+      "side": 1,
+      "message": "Right. On master, I\u0027m also seeing multiple ES javadoc relatd warnings: [1].\n\n* [1] https://imgur.com/a/2UigZbG",
+      "parentUuid": "45389a24_c091eadb",
+      "range": {
+        "startLine": 18,
+        "startChar": 24,
+        "endLine": 18,
+        "endChar": 70
+      },
+      "revId": "0f4cd2e89dbbd5c3685e0bece60cf234a40bf782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

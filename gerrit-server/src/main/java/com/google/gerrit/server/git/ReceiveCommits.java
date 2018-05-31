@@ -1275,10 +1275,9 @@ public class ReceiveCommits {
     boolean draft;
 
     @Option(
-      name = "--edit",
-      aliases = {"-e"},
-      usage = "upload as change edit"
-    )
+        name = "--edit",
+        aliases = {"-e"},
+        usage = "upload as change edit")
     boolean edit;
 
     @Option(name = "--submit", usage = "immediately submit the change")
@@ -1288,12 +1287,11 @@ public class ReceiveCommits {
     boolean merged;
 
     @Option(
-      name = "--notify",
-      usage =
-          "Notify handling that defines to whom email notifications "
-              + "should be sent. Allowed values are NONE, OWNER, "
-              + "OWNER_REVIEWERS, ALL. If not set, the default is ALL."
-    )
+        name = "--notify",
+        usage =
+            "Notify handling that defines to whom email notifications "
+                + "should be sent. Allowed values are NONE, OWNER, "
+                + "OWNER_REVIEWERS, ALL. If not set, the default is ALL.")
     NotifyHandling notify = NotifyHandling.ALL;
 
     @Option(name = "--notify-to", metaVar = "USER", usage = "user that should be notified")
@@ -1306,11 +1304,10 @@ public class ReceiveCommits {
     List<Account.Id> bccs = new ArrayList<>();
 
     @Option(
-      name = "--reviewer",
-      aliases = {"-r"},
-      metaVar = "EMAIL",
-      usage = "add reviewer to changes"
-    )
+        name = "--reviewer",
+        aliases = {"-r"},
+        metaVar = "EMAIL",
+        usage = "add reviewer to changes")
     void reviewer(Account.Id id) {
       reviewer.add(id);
     }
@@ -1326,11 +1323,10 @@ public class ReceiveCommits {
     }
 
     @Option(
-      name = "--label",
-      aliases = {"-l"},
-      metaVar = "LABEL+VALUE",
-      usage = "label(s) to assign (defaults to +1 if no value provided"
-    )
+        name = "--label",
+        aliases = {"-l"},
+        metaVar = "LABEL+VALUE",
+        usage = "label(s) to assign (defaults to +1 if no value provided")
     void addLabel(String token) throws CmdLineException {
       LabelVote v = LabelVote.parse(token);
       try {
@@ -1343,22 +1339,20 @@ public class ReceiveCommits {
     }
 
     @Option(
-      name = "--message",
-      aliases = {"-m"},
-      metaVar = "MESSAGE",
-      usage = "Comment message to apply to the review"
-    )
+        name = "--message",
+        aliases = {"-m"},
+        metaVar = "MESSAGE",
+        usage = "Comment message to apply to the review")
     void addMessage(final String token) {
       // git push does not allow spaces in refs.
       message = token.replace("_", " ");
     }
 
     @Option(
-      name = "--hashtag",
-      aliases = {"-t"},
-      metaVar = "HASHTAG",
-      usage = "add hashtag to changes"
-    )
+        name = "--hashtag",
+        aliases = {"-t"},
+        metaVar = "HASHTAG",
+        usage = "add hashtag to changes")
     void addHashtag(String token) throws CmdLineException {
       if (!notesMigration.readChanges()) {
         throw clp.reject("cannot add hashtags; noteDb is disabled");

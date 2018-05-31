@@ -22,6 +22,30 @@
       "revId": "d52f3f1300861a9d18d9597abc631116bc9bf4b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e251fed8_423e2c76",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T04:57:49Z",
+      "side": 1,
+      "message": "It\u0027s to avoid unnecessary synchronization when it was already initialized.  Because the outer check is not synchronized, the inner one is synchronized to avoid a race on actual initialization.",
+      "parentUuid": "98aaecea_ac4eef1a",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 25
+      },
+      "revId": "d52f3f1300861a9d18d9597abc631116bc9bf4b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

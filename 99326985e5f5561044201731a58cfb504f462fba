@@ -16,6 +16,24 @@
       "revId": "99326985e5f5561044201731a58cfb504f462fba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29a1a44_a167ac6a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T05:02:49Z",
+      "side": 1,
+      "message": "Doing it here was was the motivation for converting this class to a provider.  If this is a standalone method on the client, we will end up with the check being performed three times: once for each index implementation (accounts, changes, groups) and four time (plus the projects index) when merged up to master.\n\nThe other way to do it would be to perform that check somewhere else before all the index implementations are created, but that likely requires more refactoring.",
+      "parentUuid": "91407b42_85800b42",
+      "revId": "99326985e5f5561044201731a58cfb504f462fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

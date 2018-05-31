@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91407b42_85800b42",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-31T04:56:45Z",
+      "side": 1,
+      "message": "This is lost and not used (for now). May be add this method as standalone method in the client, and avoid doing it during provider resolution (even once)?",
+      "revId": "99326985e5f5561044201731a58cfb504f462fba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

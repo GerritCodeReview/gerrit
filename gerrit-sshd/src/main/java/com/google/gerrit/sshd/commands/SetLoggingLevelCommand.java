@@ -33,10 +33,9 @@ import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "set-level",
-  description = "Change the level of loggers",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "set-level",
+    description = "Change the level of loggers",
+    runsAt = MASTER_OR_SLAVE)
 public class SetLoggingLevelCommand extends SshCommand {
   private static final String LOG_CONFIGURATION = "log4j.properties";
   private static final String JAVA_OPTIONS_LOG_CONFIG = "log4j.configuration";

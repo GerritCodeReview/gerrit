@@ -44,10 +44,9 @@ import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "ls-user-refs",
-  description = "List refs visible to a specific user",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "ls-user-refs",
+    description = "List refs visible to a specific user",
+    runsAt = MASTER_OR_SLAVE)
 public class LsUserRefs extends SshCommand {
   @Inject private AccountResolver accountResolver;
 
@@ -62,21 +61,19 @@ public class LsUserRefs extends SshCommand {
   @Inject @Nullable private SearchingChangeCacheImpl changeCache;
 
   @Option(
-    name = "--project",
-    aliases = {"-p"},
-    metaVar = "PROJECT",
-    required = true,
-    usage = "project for which the refs should be listed"
-  )
+      name = "--project",
+      aliases = {"-p"},
+      metaVar = "PROJECT",
+      required = true,
+      usage = "project for which the refs should be listed")
   private ProjectControl projectControl;
 
   @Option(
-    name = "--user",
-    aliases = {"-u"},
-    metaVar = "USER",
-    required = true,
-    usage = "user for which the groups should be listed"
-  )
+      name = "--user",
+      aliases = {"-u"},
+      metaVar = "USER",
+      required = true,
+      usage = "user for which the groups should be listed")
   private String userName;
 
   @Option(name = "--only-refs-heads", usage = "list only refs under refs/heads")

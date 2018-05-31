@@ -40,10 +40,9 @@ import org.slf4j.LoggerFactory;
 @AdminHighPriorityCommand
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "close-connection",
-  description = "Close the specified SSH connection",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "close-connection",
+    description = "Close the specified SSH connection",
+    runsAt = MASTER_OR_SLAVE)
 final class CloseConnection extends SshCommand {
 
   private static final Logger log = LoggerFactory.getLogger(CloseConnection.class);
@@ -51,12 +50,11 @@ final class CloseConnection extends SshCommand {
   @Inject private SshDaemon sshDaemon;
 
   @Argument(
-    index = 0,
-    multiValued = true,
-    required = true,
-    metaVar = "SESSION_ID",
-    usage = "List of SSH session IDs to be closed"
-  )
+      index = 0,
+      multiValued = true,
+      required = true,
+      metaVar = "SESSION_ID",
+      usage = "List of SSH session IDs to be closed")
   private final List<String> sessionIds = new ArrayList<>();
 
   @Option(name = "--wait", usage = "wait for connection to close before exiting")

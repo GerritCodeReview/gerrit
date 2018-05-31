@@ -96,9 +96,8 @@ public class RebuildNoteDb extends SiteProgram {
   private List<String> projects = new ArrayList<>();
 
   @Option(
-    name = "--change",
-    usage = "Individual change numbers to rebuild; recommended for debugging only"
-  )
+      name = "--change",
+      usage = "Individual change numbers to rebuild; recommended for debugging only")
   private List<Integer> changes = new ArrayList<>();
 
   private Injector dbInjector;

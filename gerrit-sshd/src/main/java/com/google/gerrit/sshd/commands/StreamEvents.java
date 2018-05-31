@@ -60,11 +60,10 @@ final class StreamEvents extends BaseCommand {
   private static final int BATCH_SIZE = 32;
 
   @Option(
-    name = "--subscribe",
-    aliases = {"-s"},
-    metaVar = "SUBSCRIBE",
-    usage = "subscribe to specific stream-events"
-  )
+      name = "--subscribe",
+      aliases = {"-s"},
+      metaVar = "SUBSCRIBE",
+      usage = "subscribe to specific stream-events")
   private List<String> subscribedToEvents = new ArrayList<>();
 
   @Inject private IdentifiedUser currentUser;

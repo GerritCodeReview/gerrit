@@ -450,7 +450,6 @@ maven_jar(
     sha1 = "18a9a2ce6abf32ea1b5fd31dae5210ad93f4e5e3",
 )
 
-# When upgrading Lucene, make sure it's compatible with Elasticsearch
 LUCENE_VERS = "5.5.4"
 
 maven_jar(
@@ -877,7 +876,6 @@ maven_jar(
     sha1 = "8903bf42272062e87a7cbc1d98919e0729a9939f",
 )
 
-# When upgrading Elasticsearch, make sure it's compatible with Lucene
 maven_jar(
     name = "elasticsearch-rest-client",
     artifact = "org.elasticsearch.client:elasticsearch-rest-client:5.6.9",

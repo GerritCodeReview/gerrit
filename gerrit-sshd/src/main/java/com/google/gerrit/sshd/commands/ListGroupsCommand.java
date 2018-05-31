@@ -39,10 +39,9 @@ import java.io.PrintWriter;
 import org.kohsuke.args4j.Option;
 
 @CommandMetaData(
-  name = "ls-groups",
-  description = "List groups visible to the caller",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "ls-groups",
+    description = "List groups visible to the caller",
+    runsAt = MASTER_OR_SLAVE)
 public class ListGroupsCommand extends SshCommand {
   @Inject private MyListGroups impl;
 
@@ -61,13 +60,12 @@ public class ListGroupsCommand extends SshCommand {
 
   private static class MyListGroups extends ListGroups {
     @Option(
-      name = "--verbose",
-      aliases = {"-v"},
-      usage =
-          "verbose output format with tab-separated columns for the "
-              + "group name, UUID, description, owner group name, "
-              + "owner group UUID, and whether the group is visible to all"
-    )
+        name = "--verbose",
+        aliases = {"-v"},
+        usage =
+            "verbose output format with tab-separated columns for the "
+                + "group name, UUID, description, owner group name, "
+                + "owner group UUID, and whether the group is visible to all")
     private boolean verboseOutput;
 
     @Inject

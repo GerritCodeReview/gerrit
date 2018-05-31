@@ -37,10 +37,9 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(name = "install", description = "Install/Add a plugin", runsAt = MASTER_OR_SLAVE)
 final class PluginInstallCommand extends SshCommand {
   @Option(
-    name = "--name",
-    aliases = {"-n"},
-    usage = "install under name"
-  )
+      name = "--name",
+      aliases = {"-n"},
+      usage = "install under name")
   private String name;
 
   @Option(name = "-")

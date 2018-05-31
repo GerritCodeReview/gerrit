@@ -34,6 +34,24 @@
       "revId": "390c042ab4deb35304aea69a0e64911e94e46807",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f86116a_107ec907",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T05:05:21Z",
+      "side": 0,
+      "message": "The client doesn\u0027t get closed; it\u0027s shared by all the index classes.\n\nI\u0027m not sure if we even need it here.  Doesn\u0027t this only get called when the server shuts down?",
+      "parentUuid": "e3a29308_7a52e108",
+      "revId": "390c042ab4deb35304aea69a0e64911e94e46807",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

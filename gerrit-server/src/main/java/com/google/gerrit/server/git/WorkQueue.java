@@ -104,8 +104,8 @@ public class WorkQueue {
   }
 
   /** Create a new executor queue. */
-  public Executor createQueue(int poolsize, String prefix) {
-    final Executor r = new Executor(poolsize, prefix);
+  public Executor createQueue(int poolsize, String queueName) {
+    final Executor r = new Executor(poolsize, queueName);
     r.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     r.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
     queues.add(r);
@@ -176,7 +176,7 @@ public class WorkQueue {
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
 
-    Executor(int corePoolSize, final String prefix) {
+    Executor(int corePoolSize, final String queueName) {
       super(
           corePoolSize,
           new ThreadFactory() {
@@ -186,7 +186,7 @@ public class WorkQueue {
             @Override
             public Thread newThread(final Runnable task) {
               final Thread t = parent.newThread(task);
-              t.setName(prefix + "-" + tid.getAndIncrement());
+              t.setName(queueName + "-" + tid.getAndIncrement());
               t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
               return t;
             }
@@ -198,7 +198,7 @@ public class WorkQueue {
               0.75f, // load factor
               corePoolSize + 4 // concurrency level
               );
-      queueName = prefix;
+      this.queueName = queueName;
     }
 
     public void unregisterWorkQueue() {

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65ef3c5c_c1fea9a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T18:35:50Z",
+      "side": 1,
+      "message": "Nitpick: don\u0027t.",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "95e9922367b57440a8df897ca11c0994174e3837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "156b730a_bd1ba4fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T18:35:50Z",
+      "side": 1,
+      "message": "Nitpick: these lines should be wrapped to 72 characters\n\n* This fixes support for the singleusergroup plugin, by using id instead\n  of name when saving included groups. Similar to what becky did for\n  members [1] and same for when deleting included group.\n\n* Adds more tests to make sure we don\u0027t have problems saving / deleting\n  included groups.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 89
+      },
+      "revId": "95e9922367b57440a8df897ca11c0994174e3837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de2164c5_d6101a9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T18:35:50Z",
+      "side": 1,
+      "message": "This looks a bit dangerous. Why are you using the decoded string here?",
+      "range": {
+        "startLine": 497,
+        "startChar": 34,
+        "endLine": 497,
+        "endChar": 52
+      },
+      "revId": "95e9922367b57440a8df897ca11c0994174e3837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ae9abe0_da992c5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T02:49:39Z",
+      "side": 1,
+      "message": "Nitpick: these two are out of order.",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 68,
+        "endChar": 23
+      },
+      "revId": "5b5f18955d7411473205c7ae5917e7b1efc9f27b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

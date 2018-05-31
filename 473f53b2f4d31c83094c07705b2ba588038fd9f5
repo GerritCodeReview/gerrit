@@ -22,6 +22,30 @@
       "revId": "473f53b2f4d31c83094c07705b2ba588038fd9f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a09c921e_f63d0865",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-05-31T12:20:37Z",
+      "side": 1,
+      "message": "It seems so. The queue name is queue prefix appended by sequence number. So may be queuePrefix?",
+      "parentUuid": "17130bd0_331d8228",
+      "range": {
+        "startLine": 189,
+        "startChar": 14,
+        "endLine": 189,
+        "endChar": 65
+      },
+      "revId": "473f53b2f4d31c83094c07705b2ba588038fd9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

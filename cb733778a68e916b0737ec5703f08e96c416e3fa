@@ -16,6 +16,24 @@
       "revId": "cb733778a68e916b0737ec5703f08e96c416e3fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "063a7ab4_7f06482b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-05-31T03:01:04Z",
+      "side": 1,
+      "message": "Because these two are different measurements -- sharing only the endpoint -- I\u0027m not sure I see a clean way to do so.\n\nI am certainly open to suggestions though, if you have an idea.",
+      "parentUuid": "6bdc3c0f_1fb16cbd",
+      "revId": "cb733778a68e916b0737ec5703f08e96c416e3fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,8 +19,7 @@ import java.util.List;
 
 /**
  * A search source builder allowing to easily build search source. A trimmed down and further
- * altered version of {@link org.elasticsearch.search.builder.SearchSourceBuilder} for this very
- * package.
+ * altered version of org.elasticsearch.search.builder.SearchSourceBuilder for this very package.
  */
 public class SearchSourceBuilder {
 

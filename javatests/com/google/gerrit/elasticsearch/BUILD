@@ -39,6 +39,7 @@ ELASTICSEARCH_TESTS = {i: "ElasticQuery" + i.capitalize() + "sTest.java" for i i
     size = "large",
     srcs = [src],
     tags = [
+        "docker",
         "elastic",
     ],
     deps = [

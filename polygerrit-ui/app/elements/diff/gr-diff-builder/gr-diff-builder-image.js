@@ -34,13 +34,31 @@
       GrDiffBuilderSideBySide.prototype);
   GrDiffBuilderImage.prototype.constructor = GrDiffBuilderImage;
 
-  GrDiffBuilderImage.prototype.renderDiffImages = function() {
+  GrDiffBuilderImage.prototype.renderDiff = function() {
     const section = this._createElement('tbody', 'image-diff');
 
     this._emitImagePair(section);
     this._emitImageLabels(section);
 
     this._outputEl.appendChild(section);
+    this._outputEl.appendChild(this._createEndpoint());
+  };
+
+  GrDiffBuilderImage.prototype._createEndpoint = function() {
+    const endpoint = this._createElement('gr-endpoint-decorator');
+    endpoint.setAttribute('name', 'imageDiff');
+    endpoint.appendChild(
+        this._createEndpointParam('baseImage', this._baseImage));
+    endpoint.appendChild(
+        this._createEndpointParam('revisionImage', this._revisionImage));
+    return endpoint;
+  };
+
+  GrDiffBuilderImage.prototype._createEndpointParam = function(name, value) {
+    const endpointParam = this._createElement('gr-endpoint-param');
+    endpointParam.setAttribute('name', name);
+    endpointParam.value = value;
+    return endpointParam;
   };
 
   GrDiffBuilderImage.prototype._emitImagePair = function(section) {

@@ -16,6 +16,9 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.project.ProjectData;
@@ -38,7 +41,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Set;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpPost;
 import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 
@@ -56,6 +58,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
 
   private final ProjectMapping mapping;
   private final Provider<ProjectCache> projectCache;
+  private final Schema<ProjectData> schema;
 
   @Inject
   ElasticProjectIndex(
@@ -66,16 +69,18 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       @Assisted Schema<ProjectData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, PROJECTS);
     this.projectCache = projectCache;
+    this.schema = schema;
     this.mapping = new ProjectMapping(schema);
   }
 
   @Override
   public void replace(ProjectData projectState) throws IOException {
-    String bulk = toAction(PROJECTS, getId(projectState), INDEX);
-    bulk += toDoc(projectState);
+    BulkRequest bulk =
+        new IndexRequest(projectState.getProject().getName(), indexName, PROJECTS)
+            .add(new UpdateRequest<>(schema, projectState));
 
     String uri = getURI(PROJECTS, BULK);
-    Response response = performRequest(HttpPost.METHOD_NAME, bulk, uri, getRefreshParam());
+    Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(

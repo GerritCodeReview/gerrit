@@ -14,7 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
@@ -50,7 +50,7 @@ public class ElasticVersionManager extends VersionManager {
       ElasticIndexVersionDiscovery versionDiscovery) {
     super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg));
     this.versionDiscovery = versionDiscovery;
-    prefix = MoreObjects.firstNonNull(cfg.getString("index", null, "prefix"), "gerrit");
+    prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
   }
 
   @Override

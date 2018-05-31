@@ -14,16 +14,14 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import static java.util.stream.Collectors.toList;
+
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.elasticsearch.client.Response;
@@ -42,16 +40,14 @@ class ElasticIndexVersionDiscovery {
     String name = prefix + indexName + "_";
     Response response = client.performRequest(HttpGet.METHOD_NAME, name + "*/_aliases");
 
-    int statusCode = response.getStatusLine().getStatusCode();
-    if (statusCode == HttpStatus.SC_OK) {
-      String content = AbstractElasticIndex.getContent(response);
-      JsonObject object = new JsonParser().parse(content).getAsJsonObject();
-
-      List<String> versions = new ArrayList<>(object.size());
-      for (Entry<String, JsonElement> entry : object.entrySet()) {
-        versions.add(entry.getKey().replace(name, ""));
-      }
-      return versions;
+    if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+      return new JsonParser()
+          .parse(AbstractElasticIndex.getContent(response))
+          .getAsJsonObject()
+          .entrySet()
+          .stream()
+          .map(e -> e.getKey().replace(name, ""))
+          .collect(toList());
     }
     return Collections.emptyList();
   }

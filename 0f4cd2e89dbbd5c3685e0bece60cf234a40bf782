@@ -46,6 +46,30 @@
       "revId": "0f4cd2e89dbbd5c3685e0bece60cf234a40bf782",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d26cccee_7d0faead",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-05-31T06:27:48Z",
+      "side": 1,
+      "message": "Those were already fixed on stable-2.14 by [1], which also got merged up to stable-2.15 but hasn\u0027t made it to master yet.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/181331",
+      "parentUuid": "b6c7f8d3_e985bd97",
+      "range": {
+        "startLine": 18,
+        "startChar": 24,
+        "endLine": 18,
+        "endChar": 70
+      },
+      "revId": "0f4cd2e89dbbd5c3685e0bece60cf234a40bf782",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

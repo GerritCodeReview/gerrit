@@ -31,14 +31,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class ElasticVersionManager extends AbstractVersionManager implements LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(ElasticVersionManager.class);
+public class ElasticIndexVersionManager extends AbstractVersionManager
+    implements LifecycleListener {
+  private static final Logger log = LoggerFactory.getLogger(ElasticIndexVersionManager.class);
 
   private final String prefix;
   private final ElasticIndexVersionDiscovery versionDiscovery;
 
   @Inject
-  ElasticVersionManager(
+  ElasticIndexVersionManager(
       ElasticConfiguration cfg,
       SitePaths sitePaths,
       Collection<IndexDefinition<?, ?, ?>> defs,

@@ -17,6 +17,8 @@
 
 'use strict';
 
+const URL_SCHEME_PATTERN = /^(https?:\/\/|mailto:)/;
+
 function GrLinkTextParser(linkConfig, callback, opt_removeZeroWidthSpace) {
   this.linkConfig = linkConfig;
   this.callback = callback;
@@ -138,7 +140,10 @@ GrLinkTextParser.prototype.parseChunk = function(text, href) {
     text = text.replace(/^(CC|R)=\u200B/gm, '$1=');
   }
 
-  if (href) {
+  // If the href is providedm then ba-linkify has recognized it as a URL. If the
+  // source text does not include a scheme, the scheme will be added by
+  // ba-linkify. Create the link if the scheem
+  if (href && URL_SCHEME_PATTERN.test(href)) {
     this.addText(text, href);
   } else {
     this.parseLinks(text, this.linkConfig);

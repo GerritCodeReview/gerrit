@@ -2486,7 +2486,7 @@ class ReceiveCommits {
         return false;
       }
 
-      for (Ref r : rp.getRepository().getRefDatabase().getRefs("refs/changes").values()) {
+      for (Ref r : rp.getRepository().getRefDatabase().getRefsByPrefix("refs/changes")) {
         if (r.getObjectId().equals(newCommit)) {
           reject(inputCommand, "commit already exists (in the project)");
           return false;

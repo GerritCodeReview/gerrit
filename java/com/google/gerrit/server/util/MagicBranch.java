@@ -17,7 +17,7 @@ package com.google.gerrit.server.util;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.slf4j.Logger;
@@ -90,9 +90,9 @@ public final class MagicBranch {
   }
 
   private static Capable checkMagicBranchRef(String branchName, Repository repo, Project project) {
-    Map<String, Ref> blockingFors;
+    List<Ref> blockingFors;
     try {
-      blockingFors = repo.getRefDatabase().getRefs(branchName);
+      blockingFors = repo.getRefDatabase().getRefsByPrefix(branchName);
     } catch (IOException err) {
       String projName = project.getName();
       log.warn("Cannot scan refs in '" + projName + "'", err);
@@ -104,7 +104,7 @@ public final class MagicBranch {
           "Repository '"
               + projName
               + "' needs the following refs removed to receive changes: "
-              + blockingFors.keySet());
+              + blockingFors);
       return new Capable("One or more " + branchName + " names blocks change upload");
     }
 

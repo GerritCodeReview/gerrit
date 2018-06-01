@@ -201,6 +201,31 @@ limitations under the License.
       assert.equal(element.$.output.innerHTML.match(/(CC=<a)/g).length, 1);
     });
 
+    test('only {http,https,mailto} protocols are linkified', function() {
+      element.content = 'xx mailto:test@google.com yy';
+      let links = element.$.output.querySelectorAll('a');
+      assert.equal(links.length, 1);
+      assert.equal(links[0].getAttribute('href'), 'mailto:test@google.com');
+
+      element.content = 'xx http://google.com yy';
+      links = element.$.output.querySelectorAll('a');
+      assert.equal(links.length, 1);
+      assert.equal(links[0].getAttribute('href'), 'http://google.com');
+
+      element.content = 'xx https://google.com yy';
+      links = element.$.output.querySelectorAll('a');
+      assert.equal(links.length, 1);
+      assert.equal(links[0].getAttribute('href'), 'https://google.com');
+
+      element.content = 'xx ssh://google.com yy';
+      links = element.$.output.querySelectorAll('a');
+      assert.equal(links.length, 0);
+
+      element.content = 'xx ftp://google.com yy';
+      links = element.$.output.querySelectorAll('a');
+      assert.equal(links.length, 0);
+    });
+
     test('overlapping links', function() {
       element.config = {
         b1: {

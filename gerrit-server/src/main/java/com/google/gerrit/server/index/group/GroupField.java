@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.group;
 import static com.google.gerrit.server.index.FieldDef.exact;
 import static com.google.gerrit.server.index.FieldDef.fullText;
 import static com.google.gerrit.server.index.FieldDef.integer;
+import static com.google.gerrit.server.index.FieldDef.keyword;
 import static com.google.gerrit.server.index.FieldDef.prefix;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -31,11 +32,11 @@ public class GroupField {
 
   /** Group UUID. */
   public static final FieldDef<AccountGroup, String> UUID =
-      exact("uuid").stored().build(g -> g.getGroupUUID().get());
+      keyword("uuid").stored().build(g -> g.getGroupUUID().get());
 
   /** Group owner UUID. */
   public static final FieldDef<AccountGroup, String> OWNER_UUID =
-      exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
+      keyword("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
 
   /** Group name. */
   public static final FieldDef<AccountGroup, String> NAME =

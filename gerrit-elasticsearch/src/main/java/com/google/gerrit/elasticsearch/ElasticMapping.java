@@ -21,13 +21,13 @@ import com.google.gerrit.server.index.Schema;
 import java.util.Map;
 
 class ElasticMapping {
-  static MappingProperties createMapping(Schema<?> schema) {
-    ElasticMapping.Builder mapping = new ElasticMapping.Builder();
+  static MappingProperties createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
+    ElasticMapping.Builder mapping = new ElasticMapping.Builder(adapter);
     for (FieldDef<?, ?> field : schema.getFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
-      if (fieldType == FieldType.EXACT) {
-        mapping.addExactField(name);
+      if (fieldType == FieldType.EXACT || fieldType == FieldType.KEYWORD) {
+        mapping.addExactField(name, fieldType);
       } else if (fieldType == FieldType.TIMESTAMP) {
         mapping.addTimestamp(name);
       } else if (fieldType == FieldType.INTEGER
@@ -46,8 +46,13 @@ class ElasticMapping {
   }
 
   static class Builder {
+    private final ElasticQueryAdapter adapter;
     private final ImmutableMap.Builder<String, FieldProperties> fields =
         new ImmutableMap.Builder<>();
+
+    Builder(ElasticQueryAdapter adapter) {
+      this.adapter = adapter;
+    }
 
     MappingProperties build() {
       MappingProperties properties = new MappingProperties();
@@ -55,10 +60,15 @@ class ElasticMapping {
       return properties;
     }
 
-    Builder addExactField(String name) {
-      FieldProperties key = new FieldProperties("string");
-      key.index = "not_analyzed";
-      FieldProperties properties = new FieldProperties("string");
+    Builder addExactField(String name, FieldType<?> fieldType) {
+      FieldProperties key = new FieldProperties(adapter.keywordFieldType());
+      key.index = adapter.indexProperty();
+      FieldProperties properties;
+      if (fieldType == FieldType.KEYWORD) {
+        properties = new FieldProperties(adapter.keywordFieldType());
+      } else {
+        properties = new FieldProperties(adapter.stringFieldType());
+      }
       properties.fields = ImmutableMap.of("key", key);
       fields.put(name, properties);
       return this;
@@ -78,7 +88,7 @@ class ElasticMapping {
     }
 
     Builder addString(String name) {
-      fields.put(name, new FieldProperties("string"));
+      fields.put(name, new FieldProperties(adapter.stringFieldType()));
       return this;
     }
 

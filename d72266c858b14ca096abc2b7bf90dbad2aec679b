@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f0bcfd4_114c0692",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T21:15:07Z",
+      "side": 1,
+      "message": "Would remove if to be incomplete.",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 33
+      },
+      "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f13966_70113e3f",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T21:15:07Z",
+      "side": 1,
+      "message": "Would remove this blank line.",
+      "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b3810ae_555ea340",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T21:15:07Z",
+      "side": 1,
+      "message": "Are we missing similar coverage for the other index commands, namely activate, start, and project?\n\nThe latter (project) is especially similar to this case here, I\u0027d think. Could/should we add it to this change or a follow-up one, if not done or covered yet?",
+      "range": {
+        "startLine": 55,
+        "startChar": 37,
+        "endLine": 55,
+        "endChar": 65
+      },
+      "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf76c11d_6eadf558",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticIndexChangesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T21:15:07Z",
+      "side": 1,
+      "message": "Is this normal practice in similar classes in Gerrit?",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

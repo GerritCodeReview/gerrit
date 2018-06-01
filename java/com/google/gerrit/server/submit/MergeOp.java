@@ -693,7 +693,7 @@ public class MergeOp implements AutoCloseable {
     }
 
     try {
-      for (Ref r : or.repo.getRefDatabase().getRefs(Constants.R_HEADS).values()) {
+      for (Ref r : or.repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS)) {
         try {
           CodeReviewCommit aac = or.rw.parseCommit(r.getObjectId());
           if (!commitStatus.commits.values().contains(aac)) {

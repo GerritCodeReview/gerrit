@@ -71,7 +71,7 @@ public class RefUtil {
       RefDatabase refDb = repo.getRefDatabase();
       Iterable<Ref> refs =
           Iterables.concat(
-              refDb.getRefs(Constants.R_HEADS).values(), refDb.getRefs(Constants.R_TAGS).values());
+              refDb.getRefsByPrefix(Constants.R_HEADS), refDb.getRefsByPrefix(Constants.R_TAGS));
       Ref rc = refDb.exactRef(RefNames.REFS_CONFIG);
       if (rc != null) {
         refs = Iterables.concat(refs, Collections.singleton(rc));

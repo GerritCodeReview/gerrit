@@ -247,7 +247,7 @@ public class StalenessChecker {
     }
 
     private boolean match(Repository repo, Set<RefState> expected) throws IOException {
-      for (Ref r : repo.getRefDatabase().getRefs(prefix()).values()) {
+      for (Ref r : repo.getRefDatabase().getRefsByPrefix(prefix())) {
         if (!match(r.getName())) {
           continue;
         }

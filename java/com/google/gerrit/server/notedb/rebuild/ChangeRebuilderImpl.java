@@ -620,8 +620,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         allUsersRepo
             .repo
             .getRefDatabase()
-            .getRefs(RefNames.refsDraftCommentsPrefix(change.getId()))
-            .values()) {
+            .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(change.getId()))) {
       allUsersRepo.cmds.add(new ReceiveCommand(r.getObjectId(), ObjectId.zeroId(), r.getName()));
     }
   }

@@ -63,8 +63,8 @@ public class SubmitDryRun {
 
   public static Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
     return Streams.concat(
-            repo.getRefDatabase().getRefs(Constants.R_HEADS).values().stream(),
-            repo.getRefDatabase().getRefs(Constants.R_TAGS).values().stream())
+            repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS).stream(),
+            repo.getRefDatabase().getRefsByPrefix(Constants.R_TAGS).stream())
         .map(Ref::getObjectId)
         .filter(Objects::nonNull)
         .collect(toSet());

@@ -137,7 +137,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       // We say access is okay if there are no refs, but this warrants a warning,
       // as access denied looks the same as no branches to the user.
       try (Repository repo = gitRepositoryManager.openRepository(rsrc.getNameKey())) {
-        if (repo.getRefDatabase().getRefs(REFS_HEADS).isEmpty()) {
+        if (repo.getRefDatabase().getRefsByPrefix(REFS_HEADS).isEmpty()) {
           info.message = "access is OK, but repository has no branches under refs/heads/";
         }
       }

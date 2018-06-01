@@ -85,8 +85,8 @@ public class IncludedInResolver {
 
   private Result resolve() throws IOException {
     RefDatabase refDb = repo.getRefDatabase();
-    Collection<Ref> tags = refDb.getRefs(Constants.R_TAGS).values();
-    Collection<Ref> branches = refDb.getRefs(Constants.R_HEADS).values();
+    Collection<Ref> tags = refDb.getRefsByPrefix(Constants.R_TAGS);
+    Collection<Ref> branches = refDb.getRefsByPrefix(Constants.R_HEADS);
     List<Ref> allTagsAndBranches = Lists.newArrayListWithCapacity(tags.size() + branches.size());
     allTagsAndBranches.addAll(tags);
     allTagsAndBranches.addAll(branches);

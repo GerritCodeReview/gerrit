@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch.builders;
 
+import com.google.gerrit.elasticsearch.ElasticQueryAdapter;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
  * altered version of org.elasticsearch.search.builder.SearchSourceBuilder for this very package.
  */
 public class SearchSourceBuilder {
+  private final ElasticQueryAdapter adapter;
 
   private QuerySourceBuilder querySourceBuilder;
 
@@ -32,7 +34,9 @@ public class SearchSourceBuilder {
   private List<String> fieldNames;
 
   /** Constructs a new search source builder. */
-  public SearchSourceBuilder() {}
+  public SearchSourceBuilder(ElasticQueryAdapter adapter) {
+    this.adapter = adapter;
+  }
 
   /** Constructs a new search source builder with a search query. */
   public SearchSourceBuilder query(QueryBuilder query) {
@@ -94,9 +98,9 @@ public class SearchSourceBuilder {
 
     if (fieldNames != null) {
       if (fieldNames.size() == 1) {
-        builder.field("fields", fieldNames.get(0));
+        builder.field(adapter.searchFilteringName(), fieldNames.get(0));
       } else {
-        builder.startArray("fields");
+        builder.startArray(adapter.searchFilteringName());
         for (String fieldName : fieldNames) {
           builder.value(fieldName);
         }

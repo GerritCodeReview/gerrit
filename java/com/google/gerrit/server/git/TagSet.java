@@ -164,7 +164,11 @@ class TagSet {
 
         } else if (isTag(ref)) {
           // For a tag, remember where it points to.
-          addTag(rw, git.peel(ref));
+          try {
+            addTag(rw, git.getRefDatabase().peel(ref));
+          } catch (IOException e) {
+            addTag(rw, ref);
+          }
 
         } else {
           // New reference to include in the set.

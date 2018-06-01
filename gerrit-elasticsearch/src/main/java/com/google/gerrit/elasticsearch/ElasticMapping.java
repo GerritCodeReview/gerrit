@@ -14,6 +14,8 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.gerrit.server.query.group.GroupQueryBuilder.FIELD_UUID;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
@@ -21,8 +23,8 @@ import com.google.gerrit.server.index.Schema;
 import java.util.Map;
 
 class ElasticMapping {
-  static MappingProperties createMapping(Schema<?> schema) {
-    ElasticMapping.Builder mapping = new ElasticMapping.Builder();
+  static MappingProperties createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
+    ElasticMapping.Builder mapping = new ElasticMapping.Builder(adapter);
     for (FieldDef<?, ?> field : schema.getFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
@@ -46,8 +48,13 @@ class ElasticMapping {
   }
 
   static class Builder {
+    private final ElasticQueryAdapter adapter;
     private final ImmutableMap.Builder<String, FieldProperties> fields =
         new ImmutableMap.Builder<>();
+
+    Builder(ElasticQueryAdapter adapter) {
+      this.adapter = adapter;
+    }
 
     MappingProperties build() {
       MappingProperties properties = new MappingProperties();
@@ -56,9 +63,13 @@ class ElasticMapping {
     }
 
     Builder addExactField(String name) {
-      FieldProperties key = new FieldProperties("string");
-      key.index = "not_analyzed";
-      FieldProperties properties = new FieldProperties("string");
+      FieldProperties key = adapter.keyProperty();
+      FieldProperties properties;
+      if (name.equals(FIELD_UUID)) {
+        properties = new FieldProperties(adapter.uuidFieldType());
+      } else {
+        properties = new FieldProperties(adapter.stringFieldType());
+      }
       properties.fields = ImmutableMap.of("key", key);
       fields.put(name, properties);
       return this;
@@ -78,7 +89,7 @@ class ElasticMapping {
     }
 
     Builder addString(String name) {
-      fields.put(name, new FieldProperties("string"));
+      fields.put(name, new FieldProperties(adapter.stringFieldType()));
       return this;
     }
 

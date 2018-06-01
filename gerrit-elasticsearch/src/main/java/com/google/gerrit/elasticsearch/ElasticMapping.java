@@ -14,6 +14,8 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.gerrit.server.query.group.GroupQueryBuilder.FIELD_UUID;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.index.FieldDef;
 import com.google.gerrit.server.index.FieldType;
@@ -21,13 +23,13 @@ import com.google.gerrit.server.index.Schema;
 import java.util.Map;
 
 class ElasticMapping {
-  static MappingProperties createMapping(Schema<?> schema) {
+  static MappingProperties createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
     ElasticMapping.Builder mapping = new ElasticMapping.Builder();
     for (FieldDef<?, ?> field : schema.getFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
       if (fieldType == FieldType.EXACT) {
-        mapping.addExactField(name);
+        mapping.addExactField(name, adapter);
       } else if (fieldType == FieldType.TIMESTAMP) {
         mapping.addTimestamp(name);
       } else if (fieldType == FieldType.INTEGER
@@ -37,7 +39,7 @@ class ElasticMapping {
       } else if (fieldType == FieldType.PREFIX
           || fieldType == FieldType.FULL_TEXT
           || fieldType == FieldType.STORED_ONLY) {
-        mapping.addString(name);
+        mapping.addString(name, adapter);
       } else {
         throw new IllegalStateException("Unsupported field type: " + fieldType.getName());
       }
@@ -55,10 +57,14 @@ class ElasticMapping {
       return properties;
     }
 
-    Builder addExactField(String name) {
-      FieldProperties key = new FieldProperties("string");
-      key.index = "not_analyzed";
-      FieldProperties properties = new FieldProperties("string");
+    Builder addExactField(String name, ElasticQueryAdapter adapter) {
+      FieldProperties key = adapter.keyProperty();
+      FieldProperties properties;
+      if (name.equals(FIELD_UUID)) {
+        properties = new FieldProperties(adapter.uuidFieldType());
+      } else {
+        properties = new FieldProperties(adapter.stringFieldType());
+      }
       properties.fields = ImmutableMap.of("key", key);
       fields.put(name, properties);
       return this;
@@ -77,8 +83,8 @@ class ElasticMapping {
       return this;
     }
 
-    Builder addString(String name) {
-      fields.put(name, new FieldProperties("string"));
+    Builder addString(String name, ElasticQueryAdapter adapter) {
+      fields.put(name, new FieldProperties(adapter.stringFieldType()));
       return this;
     }
 

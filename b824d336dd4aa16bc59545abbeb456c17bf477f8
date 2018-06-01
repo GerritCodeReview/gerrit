@@ -16,6 +16,23 @@
       "revId": "b824d336dd4aa16bc59545abbeb456c17bf477f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eea0f20_1974a46c",
+        "filename": "tools/setup_gjf.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-01T22:24:19Z",
+      "side": 1,
+      "message": "Shall we decouple this single change and merge it with the gerrit-ci-script one?\nWe will then have the *ability* to format with any 1.3/1.5 and 1.6 versions ... and we can then review and merge the reformat of all the code.",
+      "revId": "b824d336dd4aa16bc59545abbeb456c17bf477f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d403e23c_5e1b6a31",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryAdapter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T16:02:19Z",
+      "side": 1,
+      "message": "searchFilteringName",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 35
+      },
+      "revId": "5069afb1f04a0a0d9b5d5ae8ee9cfe6b70b68bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23d93515_f21f10c5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryAdapter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T16:02:19Z",
+      "side": 1,
+      "message": "Only the above method needs to be public technically. The below ones could become package-private.",
+      "revId": "5069afb1f04a0a0d9b5d5ae8ee9cfe6b70b68bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe290ef3_db90587b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T16:02:19Z",
+      "side": 1,
+      "message": "Should we make this method package-private, also to explicitly show its intended usage scope?",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 8
+      },
+      "revId": "5069afb1f04a0a0d9b5d5ae8ee9cfe6b70b68bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1042,12 +1042,11 @@ public class ChangeData {
       editsByUser = new HashMap<>();
       Change.Id id = checkNotNull(change.getId());
       try (Repository repo = repoManager.openRepository(project())) {
-        for (Map.Entry<String, Ref> e :
-            repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
-          if (id.equals(Change.Id.fromEditRefPart(e.getKey()))) {
-            Account.Id accountId = Account.Id.fromRefPart(e.getKey());
+        for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_USERS)) {
+          if (id.equals(Change.Id.fromEditRefPart(ref.getName()))) {
+            Account.Id accountId = Account.Id.fromRefPart(ref.getName());
             if (accountId != null) {
-              editsByUser.put(accountId, e.getValue());
+              editsByUser.put(accountId, ref);
             }
           }
         }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "752e45f9_2416ba48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T21:33:00Z",
+      "side": 1,
+      "message": "AbstractElasticIndex",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "a40380ed90f18d0f57061e10cb40a3c52cc042b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05c7a3dc_95121ce6",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T21:33:00Z",
+      "side": 1,
+      "message": "In this class\u0027 constructor, indexName is no longer the original (indexNameRaw) but gets appended with prefix and version. (ElasticConfiguration.getIndexName does this.) -Are you sure this is the format that is required by ES for successful deletion?\n\nIn the other delete method of this class, indexNameRaw is still the one used to build the ES request uri for the equivalent bulk action. Is this still in line with the above change?",
+      "range": {
+        "startLine": 161,
+        "startChar": 33,
+        "endLine": 161,
+        "endChar": 42
+      },
+      "revId": "a40380ed90f18d0f57061e10cb40a3c52cc042b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       "revId": "a304afffb88cccbfc605c87e88a0d009d61c0124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ecb322a_21f6fb38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-01T20:28:02Z",
+      "side": 1,
+      "message": "\u003e \u003e IMHO the right fix is to reintroduce the strictLabels field into\n \u003e PostReview.\n \u003e \n \u003e I wasn\u0027t clear enough here. We can reintroduce strictLabels and\n \u003e just have it control whether or not to silently ignore completely\n \u003e nonexistent labels. \n\nI don\u0027t see why this differentiation in PostReview is needed.",
+      "parentUuid": "8ee7eb32_1d0a38f0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "a304afffb88cccbfc605c87e88a0d009d61c0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.git.TagSet.Tag;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collection;
@@ -51,7 +52,11 @@ public class TagMatcher {
   }
 
   public boolean isReachable(Ref tagRef) {
-    tagRef = db.peel(tagRef);
+    try {
+      tagRef = db.getRefDatabase().peel(tagRef);
+    } catch (IOException e) {
+      // Ignore
+    }
 
     ObjectId tagObj = tagRef.getPeeledObjectId();
     if (tagObj == null) {

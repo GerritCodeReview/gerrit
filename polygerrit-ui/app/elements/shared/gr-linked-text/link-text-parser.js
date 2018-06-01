@@ -17,6 +17,8 @@
 
 'use strict';
 
+const URL_PROTOCOL_PATTERN = /^(https?:\/\/|mailto:)/;
+
 function GrLinkTextParser(linkConfig, callback, opt_removeZeroWidthSpace) {
   this.linkConfig = linkConfig;
   this.callback = callback;
@@ -138,7 +140,11 @@ GrLinkTextParser.prototype.parseChunk = function(text, href) {
     text = text.replace(/^(CC|R)=\u200B/gm, '$1=');
   }
 
-  if (href) {
+  // If the href is providedm then ba-linkify has recognized it as a URL. If the
+  // source text does not include a protocol, the protocol will be added by
+  // ba-linkify. Create the link if the href is provided and its protocol
+  // matches the expected pattern.
+  if (href && URL_PROTOCOL_PATTERN.test(href)) {
     this.addText(text, href);
   } else {
     this.parseLinks(text, this.linkConfig);

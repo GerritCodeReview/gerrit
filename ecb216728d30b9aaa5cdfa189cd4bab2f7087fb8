@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8529bd72_f2b4a8be",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-01T20:21:45Z",
+      "side": 1,
+      "message": "tl;dr: to break a circular reference\n\ngr-reporting depends on gr-js-api-interface, and gr-js-api-interface depends on gr-reporting.\nWhile working fine minified etc it caused weird test failures.\n\n\u003e how this is related to avatars\n\nIt\u0027s not related, really. The point of this change is to defer setting avatar across the site, and plugins loaded seems a good candidate, since we already doing similar things in other places.\n\nAn alternative would be to create a global mechanism that would track page loading and fire events/callbacks when primary loading is complete.",
+      "parentUuid": "897fd3fb_37b23bfe",
+      "revId": "ecb216728d30b9aaa5cdfa189cd4bab2f7087fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1c9dfed_1dfbdc16",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
         "patchSetId": 7
@@ -83,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "48ed3130_368d3142",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-01T20:21:45Z",
+      "side": 1,
+      "message": "Ack, replied above.",
+      "parentUuid": "fea22afe_99b2f6cd",
+      "revId": "ecb216728d30b9aaa5cdfa189cd4bab2f7087fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1c948ce_c2692bdf",
         "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
         "patchSetId": 7
@@ -103,6 +139,30 @@
       "revId": "ecb216728d30b9aaa5cdfa189cd4bab2f7087fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c252b30_4d1eb6dd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-01T20:21:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1c948ce_c2692bdf",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 7
+      },
+      "revId": "ecb216728d30b9aaa5cdfa189cd4bab2f7087fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

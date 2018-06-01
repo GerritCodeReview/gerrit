@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c53bdf30_58fe31e1",
+        "filename": "Documentation/linux-quickstart.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-06-01T15:18:17Z",
+      "side": 1,
+      "message": "no need to update now, can wait for a followup change: connections don\u0027t contact --- clients do. Similar text to the dev-readme should work here, too:\n\n To ensure your new Gerrit instance is not externally accessible (strongly recommended),\n\nPerhaps with addition of a word like \"directly\" since it\u0027s common to use this kind of setup in combination with an externally accessible reverse proxy. Since https://gerrit-review.googlesource.com/Documentation/config-reverseproxy.html already covers that, it\u0027s not necessary, though.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 46
+      },
+      "revId": "0c1a621540cee8a1f95d6bd3b6c976aeca1ca2e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

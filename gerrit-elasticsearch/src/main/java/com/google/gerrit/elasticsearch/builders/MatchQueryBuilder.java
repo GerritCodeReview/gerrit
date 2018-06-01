@@ -27,9 +27,14 @@ class MatchQueryBuilder extends QueryBuilder {
 
   enum Type {
     /** The text is analyzed and used as a phrase query. */
-    PHRASE,
+    MATCH_PHRASE,
     /** The text is analyzed and used in a phrase query, with the last term acting as a prefix. */
-    PHRASE_PREFIX
+    MATCH_PHRASE_PREFIX;
+
+    @Override
+    public String toString() {
+      return name().toLowerCase(Locale.US);
+    }
   }
 
   private final String name;
@@ -52,14 +57,6 @@ class MatchQueryBuilder extends QueryBuilder {
 
   @Override
   protected void doXContent(XContentBuilder builder) throws IOException {
-    builder.startObject("match");
-    builder.startObject(name);
-
-    builder.field("query", text);
-    if (type != null) {
-      builder.field("type", type.toString().toLowerCase(Locale.ENGLISH));
-    }
-    builder.endObject();
-    builder.endObject();
+    builder.startObject(type.toString()).field(name, text).endObject();
   }
 }

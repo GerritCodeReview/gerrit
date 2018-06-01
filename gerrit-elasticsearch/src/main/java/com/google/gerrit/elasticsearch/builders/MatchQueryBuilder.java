@@ -15,7 +15,6 @@
 package com.google.gerrit.elasticsearch.builders;
 
 import java.io.IOException;
-import java.util.Locale;
 
 /**
  * Match query is a query that analyzes the text and constructs a query as the result of the
@@ -51,14 +50,15 @@ class MatchQueryBuilder extends QueryBuilder {
 
   @Override
   protected void doXContent(XContentBuilder builder) throws IOException {
-    builder.startObject("match");
-    builder.startObject(name);
-
-    builder.field("query", text);
-    if (type != null) {
-      builder.field("type", type.toString().toLowerCase(Locale.ENGLISH));
+    switch (type) {
+      case PHRASE_PREFIX:
+        builder.startObject("match_phrase_prefix");
+        break;
+      case PHRASE:
+      default:
+        builder.startObject("match_phrase");
     }
-    builder.endObject();
+    builder.field(name, text);
     builder.endObject();
   }
 }

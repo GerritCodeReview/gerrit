@@ -22,6 +22,30 @@
       "revId": "d2b73a6f5cff75cdf6453a99763eb4080a32542a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a55730be_a65002f9",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-01T02:15:36Z",
+      "side": 1,
+      "message": "Good idea.  This would then resolve the comment that David O raised earlier:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/181673/2/gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java#b113",
+      "parentUuid": "878e30b2_8abb6201",
+      "range": {
+        "startLine": 30,
+        "startChar": 32,
+        "endLine": 30,
+        "endChar": 42
+      },
+      "revId": "d2b73a6f5cff75cdf6453a99763eb4080a32542a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

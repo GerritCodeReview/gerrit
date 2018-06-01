@@ -22,6 +22,30 @@
       "revId": "a304afffb88cccbfc605c87e88a0d009d61c0124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ee7eb32_1d0a38f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-01T19:17:01Z",
+      "side": 1,
+      "message": "\u003e IMHO the right fix is to reintroduce the strictLabels field into PostReview.\n\nI wasn\u0027t clear enough here. We can reintroduce strictLabels and just have it control whether or not to silently ignore completely nonexistent labels. I am not proposing we go back to silently squashing votes outside of the allowed range.",
+      "parentUuid": "e096ccdb_858077fa",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "a304afffb88cccbfc605c87e88a0d009d61c0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

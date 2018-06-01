@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e096ccdb_858077fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-01T19:15:17Z",
+      "side": 1,
+      "message": "I\u0027m a little confused here. It seems to me like this change is introducing a new behavior change, not reverting to an old behavior.\n\nIcb9dfafea started ignoring the value of input.strictLabels and always throwing when encountering an unknown label: https://gerrit-review.googlesource.com/c/gerrit/+/115070/6/gerrit-server/src/main/java/com/google/gerrit/server/change/PostReview.java#441\n\nBut at this point in time, the default value for strictLabels was true: \nhttps://gerrit.googlesource.com/gerrit/+/372855ef96d23ccfed670b7717f3aa1f0564c8cd/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/api/changes/ReviewInput.java#45\n\nThis means that *both* prior to Icb9dfafea and after that change, passing an unknown label in the ReviewInput would result in 400. However, with *this* change, passing an unknown label in the ReviewInput is silently ignored (unless you set the server-wide config to a non-default value).\n\nIIUC the bug was complaining that strict_Labels: false is no longer respected (and there is no other way to get the behavior), which is a fair argument. I think the root of the problem is that Icb9dfafea was supposed to be primarily about what to do when someone tries to vote outside their allowed range. We didn\u0027t think about the fact that \"strict\" has a secondary meaning about what to do when the label doesn\u0027t exist at all. IMHO the right fix is to reintroduce the strictLabels field into PostReview.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "a304afffb88cccbfc605c87e88a0d009d61c0124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

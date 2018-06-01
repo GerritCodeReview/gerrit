@@ -58,8 +58,8 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
   public static class GroupMapping {
     MappingProperties groups;
 
-    public GroupMapping(Schema<AccountGroup> schema) {
-      this.groups = ElasticMapping.createMapping(schema);
+    public GroupMapping(Schema<AccountGroup> schema, ElasticQueryAdapter adapter) {
+      this.groups = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
@@ -80,7 +80,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       @Assisted Schema<AccountGroup> schema) {
     super(cfg, sitePaths, schema, client, GROUPS);
     this.groupCache = groupCache;
-    this.mapping = new GroupMapping(schema);
+    this.mapping = new GroupMapping(schema, client.adapter());
     this.schema = schema;
   }
 
@@ -130,7 +130,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.groupFields(opts);
       SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+          new SearchSourceBuilder(client.adapter())
               .query(qb)
               .from(opts.start())
               .size(opts.limit())

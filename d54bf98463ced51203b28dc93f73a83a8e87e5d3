@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b3cf25a_ca31e7ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T15:35:16Z",
+      "side": 1,
+      "message": "encapsulated",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "d54bf98463ced51203b28dc93f73a83a8e87e5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3a3659f_2d8d1b4c",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersion.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T15:35:16Z",
+      "side": 1,
+      "message": "This considers valid theoretical yet potential versions such as 2.40, 5.61, 6.22 (e.g.). How about adding a trailing dot to this locally used enum value for the comparison?\n\nThis assumes a.b.0 always, i.e., no a.b-straight ever possible. That is the case so far AFAIK.",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "d54bf98463ced51203b28dc93f73a83a8e87e5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f83df9e_fe29ad19",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-01T15:35:16Z",
+      "side": 1,
+      "message": "Would then add the corresponding /missing testing to this class (cf. my related comment in sibling changed class).",
+      "revId": "d54bf98463ced51203b28dc93f73a83a8e87e5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

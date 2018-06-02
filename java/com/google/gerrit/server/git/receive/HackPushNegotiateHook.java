@@ -74,11 +74,14 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
     throw new UnsupportedOperationException("HackPushNegotiateHook cannot be used for UploadPack");
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
     Map<String, Ref> r = rp.getAdvertisedRefs();
     if (r == null) {
       try {
+        // TODO(dpursehouse) replace getRefs when alternative BaseReceivePack#setAdvertisedRefs
+        // is available.
         r = rp.getRepository().getRefDatabase().getRefs(ALL);
       } catch (ServiceMayNotContinueException e) {
         throw e;

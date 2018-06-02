@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -371,6 +372,19 @@ public abstract class PermissionBackend {
      */
     public abstract Map<String, Ref> filter(
         Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException;
+
+    /**
+     * Filter a list of references by visibility.
+     *
+     * @param refs a list of references to filter.
+     * @param repo an open {@link Repository} handle for this instance's project
+     * @param opts further options for filtering.
+     * @return a partition of the provided refs that are visible to the user that this instance is
+     *     scoped to.
+     * @throws PermissionBackendException if failure consulting backend configuration.
+     */
+    public abstract List<Ref> filter(List<Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException;
   }
 

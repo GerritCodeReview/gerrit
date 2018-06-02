@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
-import static org.eclipse.jgit.lib.RefDatabase.ALL;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
@@ -35,7 +34,7 @@ import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
@@ -90,15 +89,16 @@ public class LsUserRefs extends SshCommand {
     try (Repository repo = repoManager.openRepository(projectName);
         ManualRequestContext ctx = requestContext.openAs(userAccount.getId())) {
       try {
-        Map<String, Ref> refsMap =
+        List<Ref> refs =
             permissionBackend
                 .user(user)
                 .project(projectName)
-                .filter(repo.getRefDatabase().getRefs(ALL), repo, RefFilterOptions.defaults());
+                .filter(repo.getRefDatabase().getRefs(), repo, RefFilterOptions.defaults());
 
-        for (String ref : refsMap.keySet()) {
-          if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
-            stdout.println(ref);
+        for (Ref ref : refs) {
+          String refName = ref.getName();
+          if (!onlyRefsHeads || refName.startsWith(RefNames.REFS_HEADS)) {
+            stdout.println(refName);
           }
         }
       } catch (IOException | PermissionBackendException e) {

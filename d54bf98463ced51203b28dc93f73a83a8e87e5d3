@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d74b576b_2dbe5338",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-02T00:32:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b3cf25a_ca31e7ea",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "d54bf98463ced51203b28dc93f73a83a8e87e5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3a3659f_2d8d1b4c",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersion.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "53eee9d5_ef9eb86b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersion.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-02T00:32:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3a3659f_2d8d1b4c",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 21
+      },
+      "revId": "d54bf98463ced51203b28dc93f73a83a8e87e5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f83df9e_fe29ad19",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
         "patchSetId": 5
@@ -62,6 +110,24 @@
       "revId": "d54bf98463ced51203b28dc93f73a83a8e87e5d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ada62ad6_e5509b74",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticVersionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-02T00:32:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f83df9e_fe29ad19",
+      "revId": "d54bf98463ced51203b28dc93f73a83a8e87e5d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

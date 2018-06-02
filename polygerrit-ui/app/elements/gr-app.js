@@ -88,6 +88,11 @@
         computed: '_computePluginScreenName(params)',
       },
       _settingsUrl: String,
+      _feedbackUrl: {
+        type: String,
+        value: 'https://bugs.chromium.org/p/gerrit/issues/entry' +
+          '?template=PolyGerrit%20Issue',
+      },
     },
 
     listeners: {
@@ -125,6 +130,7 @@
       });
       this.$.restAPI.getVersion().then(version => {
         this._version = version;
+        this._logWelcome();
       });
 
       if (window.localStorage.getItem('dark-theme')) {
@@ -312,6 +318,39 @@
 
     _computePluginScreenName({plugin, screen}) {
       return Gerrit._getPluginScreenName(plugin, screen);
+    },
+
+    _logWelcome() {
+      const lines = [
+        'Gerrit UI (PolyGerrit)',
+        `Gerrit Server Version: ${this._version}`,
+      ];
+
+      if (window.VERSION_INFO) {
+        lines.push(`UI Version Info: ${window.VERSION_INFO}`);
+      }
+
+      if (window.performance && window.performance.timing &&
+          window.performance.timing.loadEventStart) {
+        const renderTime = new Date(window.performance.timing.loadEventStart);
+        lines.push(`Document loaded at: ${renderTime}`);
+      }
+
+      lines.push(`Please file bugs and feedback at:`);
+      lines.push('    ' + this._feedbackUrl);
+
+      const maxLength = Math.max(...lines.map(l => l.length));
+      const hr = (new Array(maxLength + 3)).join('━');
+      console.log(`┏${hr}┓`);
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const pad = (new Array(maxLength - line.length + 1)).join(' ');
+        console.log(`┃ ${line}${pad} ┃`);
+        if (i === 0) {
+          console.log(`┣${hr}┫`);
+        }
+      }
+      console.log(`┗${hr}┛`);
     },
   });
 })();

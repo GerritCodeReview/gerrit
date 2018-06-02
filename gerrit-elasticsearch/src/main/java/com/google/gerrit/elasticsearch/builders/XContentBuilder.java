@@ -26,10 +26,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.util.Date;
 
-/**
- * A trimmed down and further altered version of org.elasticsearch.common.xcontent.XContentBuilder
- * for this very package.
- */
+/** A trimmed down and modified version of org.elasticsearch.common.xcontent.XContentBuilder. */
 public final class XContentBuilder implements Closeable {
 
   private final JsonGenerator generator;

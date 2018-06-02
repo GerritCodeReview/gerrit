@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Query that matches documents matching boolean combinations of other queries. A trimmed down
- * version of org.elasticsearch.index.query.BoolQueryBuilder for this very package.
+ * A Query that matches documents matching boolean combinations of other queries.
+ *
+ * <p>A trimmed down version of org.elasticsearch.index.query.BoolQueryBuilder.
  */
 public class BoolQueryBuilder extends QueryBuilder {
 

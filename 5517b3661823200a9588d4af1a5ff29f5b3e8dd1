@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aecbc122_0b9c6496",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-02T19:12:40Z",
+      "side": 1,
+      "message": "Would add a link to the corresponding Feature: Issue 7856",
+      "revId": "5517b3661823200a9588d4af1a5ff29f5b3e8dd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,12 +16,11 @@ package com.google.gerrit.server.update;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.toMap;
 
-import com.google.common.collect.Maps;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
@@ -133,14 +132,15 @@ public class RepoView {
    *
    * @param prefix ref prefix; must end in '/' or else be empty.
    * @return a map of ref suffixes to SHA-1s. The refs are all under {@code prefix} and have the
-   *     prefix stripped; this matches the behavior of {@link
-   *     org.eclipse.jgit.lib.RefDatabase#getRefs(String)}.
+   *     prefix stripped.
    * @throws IOException if an error occurred.
    */
   public Map<String, ObjectId> getRefs(String prefix) throws IOException {
     Map<String, ObjectId> result =
-        new HashMap<>(
-            Maps.transformValues(repo.getRefDatabase().getRefs(prefix), Ref::getObjectId));
+        repo.getRefDatabase()
+            .getRefsByPrefix(prefix)
+            .stream()
+            .collect(toMap(r -> r.getName().substring(prefix.length()), Ref::getObjectId));
 
     // First, overwrite any cached reads from the underlying RepoRefCache. If any of these differ,
     // it's because a ref was updated after the RepoRefCache read it. It feels a little odd to

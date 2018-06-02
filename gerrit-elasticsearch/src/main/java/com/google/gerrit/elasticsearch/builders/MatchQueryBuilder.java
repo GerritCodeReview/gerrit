@@ -19,8 +19,9 @@ import java.util.Locale;
 
 /**
  * Match query is a query that analyzes the text and constructs a query as the result of the
- * analysis. It can construct different queries based on the type provided. A trimmed down version
- * of org.elasticsearch.index.query.MatchQueryBuilder for this very package.
+ * analysis. It can construct different queries based on the type provided.
+ *
+ * <p>A trimmed down version of org.elasticsearch.index.query.MatchQueryBuilder.
  */
 class MatchQueryBuilder extends QueryBuilder {
 

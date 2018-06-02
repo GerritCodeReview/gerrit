@@ -17,8 +17,9 @@ package com.google.gerrit.elasticsearch.builders;
 import java.io.IOException;
 
 /**
- * A Query that matches documents within an range of terms. A trimmed down version of
- * org.elasticsearch.index.query.RangeQueryBuilder for this very package.
+ * A Query that matches documents within an range of terms.
+ *
+ * <p>A trimmed down version of org.elasticsearch.index.query.RangeQueryBuilder.
  */
 public class RangeQueryBuilder extends QueryBuilder {
 

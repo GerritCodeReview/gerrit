@@ -1,5 +1,6 @@
 workspace(name = "gerrit")
 
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
@@ -13,6 +14,8 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
+    build_file_content = "exports_files([\"0001-Replace-native-http-git-_archive-with-Skylark-rules.patch\"])",
+    patches = ["//:0001-Replace-native-http-git-_archive-with-Skylark-rules.patch"],
     sha256 = "a80acb69c63d5f6437b099c111480a4493bad4592015af2127a2f49fb7512d8d",
     strip_prefix = "rules_closure-0.7.0",
     url = "https://github.com/bazelbuild/rules_closure/archive/0.7.0.tar.gz",
@@ -24,7 +27,7 @@ http_archive(
 http_file(
     name = "polymer_closure",
     sha256 = "5a589bdba674e1fec7188e9251c8624ebf2d4d969beb6635f9148f420d1e08b1",
-    url = "https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js",
+    urls = ["https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js"],
 )
 
 load("@bazel_skylib//:lib.bzl", "versions")

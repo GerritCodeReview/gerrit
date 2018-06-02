@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efe3052d_d1c8b4d3",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-02T04:26:00Z",
+      "side": 1,
+      "message": "I don\u0027t see the point of making this an abstract class when there\u0027s only one subclass of it.  It could all go in ElasticIndexChangesIT.\n\nOr was the intention to make this also usable by the Lucene tests?  In that case, the class should be moved to the same package as AbstractQueryChangesTest and renamed to not have \"Elastic\" in the name.\n\nOr maybe just put these tests in the ReindexIT class?",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "6e03c87bda2457fc0c684f672a54d74d0adb4c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

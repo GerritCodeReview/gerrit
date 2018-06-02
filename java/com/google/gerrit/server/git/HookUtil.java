@@ -31,6 +31,7 @@ public class HookUtil {
    * @return map of refs that were advertised.
    * @throws ServiceMayNotContinueException if a problem occurred.
    */
+  @SuppressWarnings("deprecation")
   public static Map<String, Ref> ensureAllRefsAdvertised(BaseReceivePack rp)
       throws ServiceMayNotContinueException {
     Map<String, Ref> refs = rp.getAdvertisedRefs();
@@ -38,6 +39,8 @@ public class HookUtil {
       return refs;
     }
     try {
+      // TODO(dpursehouse) replace getRefs when alternative BaseReceivePack#setAdvertisedRefs
+      // is available.
       refs = rp.getRepository().getRefDatabase().getRefs(RefDatabase.ALL);
     } catch (ServiceMayNotContinueException e) {
       throw e;

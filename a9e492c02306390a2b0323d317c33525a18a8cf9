@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1509f364_14514b92",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/builders/QueryBuilders.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-02T18:51:15Z",
+      "side": 1,
+      "message": "usage.",
+      "range": {
+        "startLine": 18,
+        "startChar": 47,
+        "endLine": 18,
+        "endChar": 52
+      },
+      "revId": "a9e492c02306390a2b0323d317c33525a18a8cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "284e72e9_dd20f72e",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryAdapter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-02T00:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d403e23c_5e1b6a31",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 35
+      },
+      "revId": "5069afb1f04a0a0d9b5d5ae8ee9cfe6b70b68bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23d93515_f21f10c5",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryAdapter.java",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "5069afb1f04a0a0d9b5d5ae8ee9cfe6b70b68bd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8d350df_b8955478",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryAdapter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-02T00:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23d93515_f21f10c5",
+      "revId": "5069afb1f04a0a0d9b5d5ae8ee9cfe6b70b68bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "5069afb1f04a0a0d9b5d5ae8ee9cfe6b70b68bd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77c2aa16_18a4073a",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticRestClientProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-02T00:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe290ef3_db90587b",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 8
+      },
+      "revId": "5069afb1f04a0a0d9b5d5ae8ee9cfe6b70b68bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

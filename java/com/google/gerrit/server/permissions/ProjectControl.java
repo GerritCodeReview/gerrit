@@ -15,6 +15,8 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
@@ -401,6 +403,15 @@ class ProjectControl {
         refFilter = refFilterFactory.create(ProjectControl.this);
       }
       return refFilter.filter(refs, repo, opts);
+    }
+
+    @Override
+    public List<Ref> filter(List<Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException {
+      return filter(refs.stream().collect(toMap(Ref::getName, ref -> ref)), repo, opts)
+          .values()
+          .stream()
+          .collect(toList());
     }
 
     private boolean can(ProjectPermission perm) throws PermissionBackendException {

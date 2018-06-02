@@ -30,6 +30,7 @@ import com.google.gerrit.server.permissions.PermissionBackendCondition;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.easymock.EasyMock;
@@ -101,6 +102,12 @@ public class UiActionsTest {
 
     @Override
     public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException {
+      throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
+    public List<Ref> filter(List<Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
       throw new UnsupportedOperationException("not implemented");
     }

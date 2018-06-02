@@ -88,6 +88,11 @@
         computed: '_computePluginScreenName(params)',
       },
       _settingsUrl: String,
+      _feedbackUrl: {
+        type: String,
+        value: 'https://bugs.chromium.org/p/gerrit/issues/entry' +
+          '?template=PolyGerrit%20Issue',
+      },
     },
 
     listeners: {
@@ -125,6 +130,7 @@
       });
       this.$.restAPI.getVersion().then(version => {
         this._version = version;
+        this._logWelcome();
       });
 
       if (window.localStorage.getItem('dark-theme')) {
@@ -312,6 +318,22 @@
 
     _computePluginScreenName({plugin, screen}) {
       return Gerrit._getPluginScreenName(plugin, screen);
+    },
+
+    _logWelcome() {
+      console.group('Runtime Info');
+      console.log('Gerrit UI (PolyGerrit)');
+      console.log(`Gerrit Server Version: ${this._version}`);
+      if (window.VERSION_INFO) {
+        console.log(`UI Version Info: ${window.VERSION_INFO}`);
+      }
+      if (window.performance && window.performance.timing &&
+          window.performance.timing.loadEventStart) {
+        const renderTime = new Date(window.performance.timing.loadEventStart);
+        console.log(`Document loaded at: ${renderTime}`);
+      }
+      console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      console.groupEnd();
     },
   });
 })();

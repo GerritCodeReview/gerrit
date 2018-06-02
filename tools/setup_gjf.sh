@@ -17,7 +17,7 @@
 set -eu
 
 # Keep this version in sync with dev-contributing.txt.
-VERSION=${1:-1.5}
+VERSION=${1:-1.6}
 
 case "$VERSION" in
 1.3)
@@ -25,6 +25,9 @@ case "$VERSION" in
     ;;
 1.5)
     SHA1="b1f79e4d39a3c501f07c0ce7e8b03ac6964ed1f1"
+    ;;
+1.6)
+    SHA1="6e9661a8a29ea1cf32edb83f685a73a77a39a58b"
     ;;
 *)
     echo "unknown google-java-format version: $VERSION"

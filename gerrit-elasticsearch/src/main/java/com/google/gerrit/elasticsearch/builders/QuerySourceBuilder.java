@@ -16,10 +16,7 @@ package com.google.gerrit.elasticsearch.builders;
 
 import java.io.IOException;
 
-/**
- * A trimmed down and further altered version of org.elasticsearch.action.support.QuerySourceBuilder
- * for this very package.
- */
+/** A trimmed down and modified version of org.elasticsearch.action.support.QuerySourceBuilder. */
 class QuerySourceBuilder {
 
   private final QueryBuilder queryBuilder;

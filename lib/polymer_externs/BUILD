@@ -18,9 +18,16 @@ package(
 
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library")
 
+genrule(
+    name = "polymer_closure.js",
+    srcs = ["@polymer_closure//file"],
+    cmd = "cp $< > $@",
+    outs = ["polymer_closure.js"],
+)
+
 closure_js_library(
     name = "polymer_closure",
-    srcs = ["@polymer_closure//file"],
+    srcs = [":polymer_closure.js"],
     data = ["//lib:LICENSE-Apache2.0"],
     no_closure_library = True,
 )

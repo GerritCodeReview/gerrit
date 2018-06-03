@@ -29,7 +29,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupCache;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.IndexUtils;
@@ -52,7 +51,6 @@ import java.util.Optional;
 import java.util.Set;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
-import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,12 +75,12 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
 
   @AssistedInject
   ElasticGroupIndex(
-      @GerritServerConfig Config cfg,
+      ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<GroupCache> groupCache,
-      ElasticRestClientBuilder clientBuilder,
+      ElasticRestClientProvider client,
       @Assisted Schema<InternalGroup> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, GROUPS);
+    super(cfg, sitePaths, schema, client, GROUPS);
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema);
     this.schema = schema;

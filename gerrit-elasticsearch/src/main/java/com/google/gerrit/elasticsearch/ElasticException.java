@@ -1,4 +1,4 @@
-// Copyright (C) 2018 The Android Open Source Project, 2009-2015 Elasticsearch
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.elasticsearch.builders;
+package com.google.gerrit.elasticsearch;
 
-import java.io.IOException;
+class ElasticException extends RuntimeException {
+  private static final long serialVersionUID = 1L;
 
-/** A trimmed down and modified version of org.elasticsearch.action.support.QuerySourceBuilder. */
-class QuerySourceBuilder {
-
-  private final QueryBuilder queryBuilder;
-
-  QuerySourceBuilder(QueryBuilder queryBuilder) {
-    this.queryBuilder = queryBuilder;
+  ElasticException(String message) {
+    super(message);
   }
 
-  void innerToXContent(XContentBuilder builder) throws IOException {
-    builder.field("query");
-    queryBuilder.toXContent(builder);
+  ElasticException(String message, Throwable cause) {
+    super(message, cause);
   }
 }

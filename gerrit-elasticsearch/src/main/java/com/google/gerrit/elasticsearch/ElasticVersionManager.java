@@ -14,13 +14,11 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.base.Strings;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.Schema;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.OnlineUpgradeListener;
@@ -30,7 +28,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeMap;
-import org.eclipse.jgit.lib.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,14 +40,14 @@ public class ElasticVersionManager extends VersionManager {
 
   @Inject
   ElasticVersionManager(
-      @GerritServerConfig Config cfg,
+      ElasticConfiguration cfg,
       SitePaths sitePaths,
       DynamicSet<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs,
       ElasticIndexVersionDiscovery versionDiscovery) {
-    super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg));
+    super(sitePaths, listeners, defs, VersionManager.getOnlineUpgrade(cfg.getConfig()));
     this.versionDiscovery = versionDiscovery;
-    prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
+    prefix = cfg.prefix;
   }
 
   @Override

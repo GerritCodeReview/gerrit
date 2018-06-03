@@ -25,20 +25,19 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.elasticsearch.client.Response;
-import org.elasticsearch.client.RestClient;
 
 @Singleton
 class ElasticIndexVersionDiscovery {
-  private final RestClient client;
+  private final ElasticRestClientProvider client;
 
   @Inject
-  ElasticIndexVersionDiscovery(ElasticRestClientBuilder clientBuilder) {
-    this.client = clientBuilder.build();
+  ElasticIndexVersionDiscovery(ElasticRestClientProvider client) {
+    this.client = client;
   }
 
   List<String> discover(String prefix, String indexName) throws IOException {
     String name = prefix + indexName + "_";
-    Response response = client.performRequest(HttpGet.METHOD_NAME, name + "*/_aliases");
+    Response response = client.get().performRequest(HttpGet.METHOD_NAME, name + "*/_aliases");
 
     if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
       return new JsonParser()

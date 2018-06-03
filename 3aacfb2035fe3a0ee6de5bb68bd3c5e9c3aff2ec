@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c0f80c2_c668f8b2",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-03T21:42:04Z",
+      "side": 1,
+      "message": "This looks like a hack to me, to compare in this very generic place, that serves as a base for all current and future index types to the hard coded name of field  GroupQueryBuilder.FIELD_UUID constants and switch the type from string to keyword depending on the comparison outcome.\n\nThe correct way to adapt Gerrit index machinery code to reflect this move in ES upstream: [1], is to extend the type system with new type: KEYWORD, that would reflect just that:\nrepresentation of not_analyzed string compared to EXACT, which are analyzed.\n\nOne side effect would be, that Lucene based code is not aware of KEYWORD type and thus must be still mapped to string. ut, well, that is the consequence of supporting two different index types backends.\n\nI added keyword type to gerrit index type syste, and uploaded this CL as previous change to this one, and adapted this change to use new keyword type: [2]. I havn\u0027t tested it, though.\n\n* [1] https://www.elastic.co/blog/strings-are-dead-long-live-strings\n* [2] http://paste.openstack.org/show/722614/",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 72,
+        "endChar": 7
+      },
+      "revId": "3aacfb2035fe3a0ee6de5bb68bd3c5e9c3aff2ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05640dc9_61cd6cea",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticQueryAdapter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-03T21:42:04Z",
+      "side": 1,
+      "message": "This is wrong. UUID is not a type, but just arbitrary index field name. Future index type may introduce new field with the name foo, bar, baz from type Keyword and with current approach you would need to proliferate the conversion semantic on the field name base: fooFieldType(), etc. The correct adapter conversion implementation must be type-based and not name-based. There should be one single method:\n\n  String keywordFieldType() {\n    return keywordFieldType;\n  }",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 3
+      },
+      "revId": "3aacfb2035fe3a0ee6de5bb68bd3c5e9c3aff2ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

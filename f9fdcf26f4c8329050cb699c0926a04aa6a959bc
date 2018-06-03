@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e2d417f_e5a1759b",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticVersion.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-03T20:53:44Z",
+      "side": 1,
+      "message": "This is double inefficient. For one pattern could be an instance variable or a static map\u003cEnum, Pattern\u003e that is built only once. For another, we are here inside a loop, over all versions, and the compilation of string to pattern happens N times in the worst case per function invocation. One way to fix it is adding instance variable pattern and assign it in ctor, something like that: [1].\n\n* [1] http://paste.openstack.org/show/722606",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 43
+      },
+      "revId": "f9fdcf26f4c8329050cb699c0926a04aa6a959bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

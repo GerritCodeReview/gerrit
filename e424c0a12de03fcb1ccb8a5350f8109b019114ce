@@ -16,6 +16,24 @@
       "revId": "e424c0a12de03fcb1ccb8a5350f8109b019114ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bcc1d6f_19e7132f",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticV5QueryGroupsTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-04T10:32:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8d1f034_bb266479",
+      "revId": "e424c0a12de03fcb1ccb8a5350f8109b019114ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

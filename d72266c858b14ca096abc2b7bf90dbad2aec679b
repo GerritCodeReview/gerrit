@@ -151,6 +151,30 @@
       "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c8069a7_710576cc",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticIndexChangesIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T14:30:55Z",
+      "side": 1,
+      "message": "I think it is, because I followed the same pattern as is shown in AbstractReindexTests",
+      "parentUuid": "cf76c11d_6eadf558",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

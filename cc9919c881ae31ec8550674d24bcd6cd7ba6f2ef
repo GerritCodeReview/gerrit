@@ -70,6 +70,24 @@
       "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa3cd2b_2d7aa0b6",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T14:44:20Z",
+      "side": 1,
+      "message": "We do now this:\n go get github.com/bazelbuild/buildtools/buildifier\n\nWouldn\u0027t this also work:\n go get https://github.com/bazelbuild/buildtools/tree/405641a50b8583dc9fe254b7a22ebc2002722d17/buildifier",
+      "parentUuid": "94420b60_afc5db36",
+      "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

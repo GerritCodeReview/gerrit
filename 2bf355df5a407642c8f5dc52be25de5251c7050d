@@ -106,6 +106,24 @@
       "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec00f804_d2170cd9",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T14:08:40Z",
+      "side": 1,
+      "message": "The same way we do it during Docker build: [1]. That explains, why we have now newer version and the CI will fail every build, that changed WORKSPACE or other BUILD files with load directivies.\n\nWe should upload emergency Fix for stable-2.14 and merge this change to stable-2.15 and master.\n\n* [1] https://gerrit.googlesource.com/gerrit-ci-scripts/+/27ce5122a8bb2b9f04cda5d2e4019226829c440c/jenkins-docker/slave-bazel/Dockerfile#14",
+      "parentUuid": "14225684_7f3b97ed",
+      "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

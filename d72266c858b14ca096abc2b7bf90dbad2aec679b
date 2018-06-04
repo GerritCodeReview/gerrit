@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ff734260_8ec5ef95",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T15:48:22Z",
+      "side": 1,
+      "message": "It is in patchset 4.",
+      "parentUuid": "3bd2af7e_214688c7",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 33
+      },
+      "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08f13966_70113e3f",
         "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
         "patchSetId": 2
@@ -120,6 +144,24 @@
       "side": 1,
       "message": "Same question as above.",
       "parentUuid": "84e01569_bf30aec2",
+      "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe795f7f_b7931aa1",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T15:48:22Z",
+      "side": 1,
+      "message": "It is in patchset 4.",
+      "parentUuid": "303437e1_39e2907e",
       "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -185,6 +227,30 @@
       "side": 1,
       "message": "Please do not start that work now; need to focus on sprint end. However, yes you should back-log these by means of Monorail issues. We also need tracking for the latter in our internal backlog.",
       "parentUuid": "3aff2ab9_ace7a63b",
+      "range": {
+        "startLine": 55,
+        "startChar": 37,
+        "endLine": 55,
+        "endChar": 65
+      },
+      "revId": "d72266c858b14ca096abc2b7bf90dbad2aec679b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94be9488_cd1c265b",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T15:48:22Z",
+      "side": 1,
+      "message": "OK I will back-log these issues.",
+      "parentUuid": "a3eb2f90_c0e3e9a3",
       "range": {
         "startLine": 55,
         "startChar": 37,

@@ -52,6 +52,24 @@
       "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94420b60_afc5db36",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-04T14:35:48Z",
+      "side": 1,
+      "message": "If it\u0027s building from source with bazel, just clone the repo and check out the tag?\n\nOr if we want to still install with go, use the \"dep\" tool?",
+      "parentUuid": "08244f95_97ca34c4",
+      "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

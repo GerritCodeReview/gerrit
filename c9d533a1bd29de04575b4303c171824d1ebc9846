@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36527ae4_451db9db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T20:10:17Z",
+      "side": 1,
+      "message": "Elasticsearch: Refactor for unused addActions in ElasticGroupIndex",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "c9d533a1bd29de04575b4303c171824d1ebc9846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c119584_b92aa8c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T20:10:17Z",
+      "side": 1,
+      "message": "Many typos and to rewrite overall, maybe once the other comments are addressed.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "c9d533a1bd29de04575b4303c171824d1ebc9846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fef71a9_70267fa6",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T20:10:17Z",
+      "side": 1,
+      "message": "Before, this class did not require such an implementation for this method. How come it does now, as per this change?",
+      "range": {
+        "startLine": 153,
+        "startChar": 34,
+        "endLine": 155,
+        "endChar": 3
+      },
+      "revId": "c9d533a1bd29de04575b4303c171824d1ebc9846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

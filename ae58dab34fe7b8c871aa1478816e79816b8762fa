@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c5c03d2_3dd5f0bf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 0,
+      "message": "[optional] This code seems to be not specific to writing legacy change notes. This is why I would prefer if it is not moved into LegacyChangeNoteWrite. Could this become a static method in NoteDbUtil?",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 35
+      },
+      "revId": "ae58dab34fe7b8c871aa1478816e79816b8762fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91a9c03d_fc74e74d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 0,
+      "message": "[optional] same here",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 98
+      },
+      "revId": "ae58dab34fe7b8c871aa1478816e79816b8762fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "274f2375_0d404db4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 0,
+      "message": "[optional] Make this a method in NoteDbUtil?",
+      "range": {
+        "startLine": 163,
+        "startChar": 3,
+        "endLine": 170,
+        "endChar": 46
+      },
+      "revId": "ae58dab34fe7b8c871aa1478816e79816b8762fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

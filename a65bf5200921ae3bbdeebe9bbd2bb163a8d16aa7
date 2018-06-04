@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "131fe6a7_5ad725d3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to make this a singleton. At least Gson should be thread-safe [1].\n\n[1] https://groups.google.com/forum/#!topic/google-gson/Vju1HuJJUIE",
+      "revId": "a65bf5200921ae3bbdeebe9bbd2bb163a8d16aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c022ccd_9f657835",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 1,
+      "message": "Use the method from ChangeNoteUtil instead of copying this method.",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "a65bf5200921ae3bbdeebe9bbd2bb163a8d16aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2929d2aa_6fef74fe",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 1,
+      "message": "nit: unused parameter",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 39
+      },
+      "revId": "a65bf5200921ae3bbdeebe9bbd2bb163a8d16aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24106cb1_11e70ea7",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 1,
+      "message": "unused method",
+      "revId": "a65bf5200921ae3bbdeebe9bbd2bb163a8d16aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd27d2c9_de0b7b40",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 1,
+      "message": "Use the sanitizeFooter method from ChangeNoteUtil instead of copying this code.",
+      "range": {
+        "startLine": 238,
+        "startChar": 2,
+        "endLine": 249,
+        "endChar": 3
+      },
+      "revId": "a65bf5200921ae3bbdeebe9bbd2bb163a8d16aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750c3ba0_a66c6a3b",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteMap.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 1,
+      "message": "nit: unused parameter",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 48
+      },
+      "revId": "a65bf5200921ae3bbdeebe9bbd2bb163a8d16aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18e1b3c4_fcb0de38",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T13:00:07Z",
+      "side": 1,
+      "message": "[optional] rename this to changeNoteJson",
+      "range": {
+        "startLine": 558,
+        "startChar": 19,
+        "endLine": 558,
+        "endChar": 27
+      },
+      "revId": "a65bf5200921ae3bbdeebe9bbd2bb163a8d16aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

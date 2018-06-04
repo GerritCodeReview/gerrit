@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f30abcc_b5edede8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T20:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36527ae4_451db9db",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "c9d533a1bd29de04575b4303c171824d1ebc9846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c119584_b92aa8c7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "54b38505_e5f1cd08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T20:44:44Z",
+      "side": 1,
+      "message": "I rewrote the commit message. Please let me know if it needs further reworking :)",
+      "parentUuid": "3c119584_b92aa8c7",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "c9d533a1bd29de04575b4303c171824d1ebc9846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fef71a9_70267fa6",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2018-06-04T20:10:17Z",
       "side": 1,
       "message": "Before, this class did not require such an implementation for this method. How come it does now, as per this change?",
+      "range": {
+        "startLine": 153,
+        "startChar": 34,
+        "endLine": 155,
+        "endChar": 3
+      },
+      "revId": "c9d533a1bd29de04575b4303c171824d1ebc9846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b047ff9e_b2d65b64",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T20:44:44Z",
+      "side": 1,
+      "message": "I implemented the default version of this method in this way because I thought it would make more sense to make it similar with the previous implementations by the subclasses (ElasticAccountIndex, ElasticGroupIndex, and ElasticChangeIndex). \n\nPreviously this abstract method was implemented by returning the delete request with the index type and the id of the item to be indexed. As for this abstract class, the index type is stored in the indexNameRaw, which is why I used it here. \n\nAfter all, this is a default implementation which is not likely to be used. The ElasticAccountIndex and the ElasticChangeIndex would not be affected by this change since they override this method. The addActions method for ElasticGroupIndex is never used.\n\nPlease correct me if I made any mistakes here or if you have any concerns :)",
+      "parentUuid": "2fef71a9_70267fa6",
       "range": {
         "startLine": 153,
         "startChar": 34,

@@ -107,11 +107,6 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
   }
 
   @Override
-  protected String addActions(AccountGroup.UUID c) {
-    return delete(GROUPS, c);
-  }
-
-  @Override
   protected String getMappings() {
     ImmutableMap<String, GroupMapping> mappings = ImmutableMap.of("mappings", mapping);
     return gson.toJson(mappings);

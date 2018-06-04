@@ -34,6 +34,24 @@
       "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfde2d98_8ecece3f",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T13:48:52Z",
+      "side": 1,
+      "message": "Ah right! Probably, this is a side effect of rebuilding docker CI image! Who cares, we should upload a WORKSPACE formatting change. My buildifier version also proposed this change. Can you uplaod the fix and rebase this change on top of it? I don\u0027t have access to my laptop right now.",
+      "parentUuid": "cd917d48_5140a0bf",
+      "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

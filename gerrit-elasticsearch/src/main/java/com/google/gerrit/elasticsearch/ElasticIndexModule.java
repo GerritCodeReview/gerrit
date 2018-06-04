@@ -64,6 +64,6 @@ public class ElasticIndexModule extends AbstractIndexModule {
 
   @Override
   protected Class<? extends VersionManager> getVersionManager() {
-    return ElasticVersionManager.class;
+    return ElasticIndexVersionManager.class;
   }
 }

@@ -54,6 +54,8 @@
 
   const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 
+  const SEND_REPLY_TIMING_LABEL = 'SendReply';
+
   Polymer({
     is: 'gr-reply-dialog',
 
@@ -429,6 +431,7 @@
     },
 
     send(includeComments, startReview) {
+      this.$.reporting.time(SEND_REPLY_TIMING_LABEL);
       const labels = this.$.labelScores.getLabelValues();
 
       const obj = {

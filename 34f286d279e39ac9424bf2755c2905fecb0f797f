@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "571b1df5_22912684",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T21:07:56Z",
+      "side": 1,
+      "message": "abstraction",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "34f286d279e39ac9424bf2755c2905fecb0f797f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c86cd2e4_a8f0c041",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T21:07:56Z",
+      "side": 1,
+      "message": "Would add a short paragraph about the hereby added default implementation, no matter the choice of it (see related comment).",
+      "revId": "34f286d279e39ac9424bf2755c2905fecb0f797f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c23fc85b_731af6a2",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T21:07:56Z",
+      "side": 1,
+      "message": "Either this or we throw an UnsupportedOperationException, unless another reviewer has a better idea. I still think that implementing something that is not used is not clean, on top of being untested.",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 35
+      },
+      "revId": "34f286d279e39ac9424bf2755c2905fecb0f797f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6dfcddb_dad5d197",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T04:52:45Z",
+      "side": 1,
+      "message": "You could pass just field, as it already has both: name and fieldType, but see my other comment.",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 45
+      },
+      "revId": "54535c0921793503a383a84dba3f122750d390a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8fe4e72b_1db412eb",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticMapping.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T04:52:45Z",
+      "side": 1,
+      "message": "To simplify mental model I would rather split this in its own method, instead of passing they type in this method and performing condition in the code. keyword is not exact type, exactly in the same way, as it is not a timestamp below, with its own method. To consequent do it this way, you could replace addTypeField with one single method addField(name, fieldType) and then the condition on type would be in one place.",
+      "revId": "54535c0921793503a383a84dba3f122750d390a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702d40b8_dd69ae6b",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-04T14:26:18Z",
+      "side": 1,
+      "message": "I don\u0027t think we should tell *how* to install it, but *which version* to install.  And that\u0027s what this document does.\n\nDevs can install from source if they want, but they should make sure to build the correct version.\n\nIn my case I prefer to install using homebrew.",
+      "parentUuid": "ddc621af_1805b682",
+      "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

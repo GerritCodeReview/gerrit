@@ -61,6 +61,7 @@ import org.eclipse.jgit.lib.Config;
  * Jetty's HTTP parser to crash, so we instead block the SSH execution queue thread and ask Jetty to
  * resume processing on the web service thread.
  */
+@SuppressWarnings("deprecation")
 @Singleton
 public class ProjectQoSFilter implements Filter {
   private static final String ATT_SPACE = ProjectQoSFilter.class.getName();

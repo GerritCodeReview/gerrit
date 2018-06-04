@@ -88,6 +88,24 @@
       "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14225684_7f3b97ed",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T14:05:14Z",
+      "side": 1,
+      "message": "I installed it from the souce, according to: [1].\n\n* [1] https://github.com/bazelbuild/buildtools/blob/master/buildifier/README.md",
+      "parentUuid": "3b735160_e25bfbc8",
+      "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

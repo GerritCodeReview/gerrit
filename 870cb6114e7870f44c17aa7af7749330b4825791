@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd77956b_0a46abc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-04T17:24:26Z",
+      "side": 1,
+      "message": "tl;dr: |undefined considered harmful.\n\nBecause it\u0027s basically an arbitrary hashmap, so you get all strong-typing downsides applied, while none of the upsides.\nAnd the root cause is that in fact none of the fields are optional, and only become optional as a result of generalisation.\n\nFor example, if body isn\u0027t specified for a post request, this probably shouldn\u0027t even compile. Practically though, you\u0027ll get either run-time exception, or a silent failure.\n\nHere\u0027s another great example of the same behavior:\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info\n\nThe data structure basically tells you nothing, except that you need to ensure the fields you need are set on ad-hoc basis.",
+      "revId": "870cb6114e7870f44c17aa7af7749330b4825791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

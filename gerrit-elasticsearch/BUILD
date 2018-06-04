@@ -63,6 +63,7 @@ junit_tests(
         "//gerrit-server:query_tests_code",
         "//gerrit-server:server",
         "//gerrit-server:testutil",
+        "//lib:truth",
         "//lib/guice",
         "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",

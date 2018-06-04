@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.primitives.Ints;
+import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
@@ -32,14 +33,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class ElasticVersionManager extends VersionManager {
-  private static final Logger log = LoggerFactory.getLogger(ElasticVersionManager.class);
+public class ElasticIndexVersionManager extends VersionManager implements LifecycleListener {
+  private static final Logger log = LoggerFactory.getLogger(ElasticIndexVersionManager.class);
 
   private final String prefix;
   private final ElasticIndexVersionDiscovery versionDiscovery;
 
   @Inject
-  ElasticVersionManager(
+  ElasticIndexVersionManager(
       ElasticConfiguration cfg,
       SitePaths sitePaths,
       DynamicSet<OnlineUpgradeListener> listeners,

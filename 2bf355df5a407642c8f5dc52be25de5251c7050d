@@ -124,6 +124,24 @@
       "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "294fd439_6b77dd6a",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-04T14:13:24Z",
+      "side": 1,
+      "message": "Confirmed, if I build it from source I get the same diff.  However, if I install it from brew I get the released 0.11.1 version that does not change the format.\n\nI think we should tie the CI to a specific version.\n\nNote that we specify the version of buildifer to use in the dev-contributing document.  There it says we use 0.6.0.",
+      "parentUuid": "ec00f804_d2170cd9",
+      "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

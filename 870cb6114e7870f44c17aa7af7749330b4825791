@@ -16,6 +16,24 @@
       "revId": "870cb6114e7870f44c17aa7af7749330b4825791",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce4473cd_8ff2cd84",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-04T18:14:29Z",
+      "side": 1,
+      "message": "One of the options might be to use standard Request:\nhttps://developer.mozilla.org/en-US/docs/Web/API/Request",
+      "parentUuid": "dd77956b_0a46abc3",
+      "revId": "870cb6114e7870f44c17aa7af7749330b4825791",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

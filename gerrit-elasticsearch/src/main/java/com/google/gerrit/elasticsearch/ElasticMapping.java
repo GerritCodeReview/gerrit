@@ -26,7 +26,7 @@ class ElasticMapping {
     for (FieldDef<?, ?> field : schema.getFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
-      if (fieldType == FieldType.EXACT) {
+      if (fieldType == FieldType.EXACT || fieldType == FieldType.KEYWORD) {
         mapping.addExactField(name);
       } else if (fieldType == FieldType.TIMESTAMP) {
         mapping.addTimestamp(name);

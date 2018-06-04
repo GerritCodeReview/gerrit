@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddc621af_1805b682",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T14:21:52Z",
+      "side": 1,
+      "message": "Or we just say to install it from the source what the CI (and some devs, including /me) is doing?",
+      "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

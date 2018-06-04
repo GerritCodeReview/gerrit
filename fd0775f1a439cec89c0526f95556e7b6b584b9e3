@@ -22,6 +22,30 @@
       "revId": "fd0775f1a439cec89c0526f95556e7b6b584b9e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bf48c29_a728f18f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T19:37:56Z",
+      "side": 1,
+      "message": "The onlyway it worked to install 0.11.1 is to checkout and build locally with this command:\n\n  $ bazel build --workspace_status_command\u003d`pwd`/status.sh //buildifier\n  $ cp bazel-bin/buildifier/linux_amd64_stripped/buildifier ~/bin\n\nor similar final destination. Should we mention that? Otherwise chance is high, that the wrong (master) version will be installed, that deviates from used 0.11.1 version (like it happened to me).",
+      "parentUuid": "361831f0_ecb39a6b",
+      "range": {
+        "startLine": 157,
+        "startChar": 5,
+        "endLine": 157,
+        "endChar": 68
+      },
+      "revId": "fd0775f1a439cec89c0526f95556e7b6b584b9e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

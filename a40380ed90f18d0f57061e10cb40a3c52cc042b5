@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1461fe8c_2a8b60e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T18:40:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "752e45f9_2416ba48",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "a40380ed90f18d0f57061e10cb40a3c52cc042b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05c7a3dc_95121ce6",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-01T21:33:00Z",
       "side": 1,
       "message": "In this class\u0027 constructor, indexName is no longer the original (indexNameRaw) but gets appended with prefix and version. (ElasticConfiguration.getIndexName does this.) -Are you sure this is the format that is required by ES for successful deletion?\n\nIn the other delete method of this class, indexNameRaw is still the one used to build the ES request uri for the equivalent bulk action. Is this still in line with the above change?",
+      "range": {
+        "startLine": 161,
+        "startChar": 33,
+        "endLine": 161,
+        "endChar": 42
+      },
+      "revId": "a40380ed90f18d0f57061e10cb40a3c52cc042b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba7fa91f_71ebf9b6",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T18:40:49Z",
+      "side": 1,
+      "message": "As I investigated this issue, the \"indexName\" is the correct index name in this delete method. Let\u0027s use the change index as an example. \n\nThis delete method is meant to return a delete request used by the bulk action. Previously this delete method returned a deletion request like this:\n\n{\"delete\":{\"_id\":changeid,\"_index\":\"changes\",\"_type\":\"open_changes\"}}\n{\"delete\":{\"_id\":changeid,\"_index\":\"changes\",\"_type\":\"closed_changes\"}}\n\nHowever, the \"changes\" held by indexNameRaw is not a valid index type name that exists in the elasticsearch index. Instead it should be the value held by the indexName. \n \nAs for the other usage of indexNameRaw in the other delete method, I think there is an issue with the getURI method. I will propose a new sibling change regarding this.",
+      "parentUuid": "05c7a3dc_95121ce6",
       "range": {
         "startLine": 161,
         "startChar": 33,

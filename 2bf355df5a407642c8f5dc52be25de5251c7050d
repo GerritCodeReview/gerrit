@@ -52,6 +52,24 @@
       "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d223ae16_a2e55abe",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-04T13:51:41Z",
+      "side": 1,
+      "message": "What version do you have?  I have the latest (0.11.1) on OSX and it does not propose this change.",
+      "parentUuid": "dfde2d98_8ecece3f",
+      "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -238,6 +238,12 @@ maven_jar(
 )
 
 maven_jar(
+    name = "log_ext",
+    artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+    sha1 = "09a8f58c784c37525d2624062414358acf296717",
+)
+
+maven_jar(
     name = "impl_log4j",
     artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
     sha1 = "58f588119ffd1702c77ccab6acb54bfb41bed8bd",
@@ -435,7 +441,6 @@ maven_jar(
     sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
 )
 
-# When upgrading Lucene, make sure it's compatible with Elasticsearch
 LUCENE_VERS = "5.5.4"
 
 maven_jar(
@@ -466,42 +471,6 @@ maven_jar(
     name = "lucene_queryparser",
     artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
     sha1 = "8a06fad4675473d98d93b61fea529e3f464bf69e",
-)
-
-maven_jar(
-    name = "lucene_highlighter",
-    artifact = "org.apache.lucene:lucene-highlighter:" + LUCENE_VERS,
-    sha1 = "433f53f03f1b14337c08d54e507a5410905376fa",
-)
-
-maven_jar(
-    name = "lucene_join",
-    artifact = "org.apache.lucene:lucene-join:" + LUCENE_VERS,
-    sha1 = "23f9a909a244ed3b28b37c5bb21a6e33e6c0a339",
-)
-
-maven_jar(
-    name = "lucene_memory",
-    artifact = "org.apache.lucene:lucene-memory:" + LUCENE_VERS,
-    sha1 = "4dbdc2e1a24837722294762a9edb479f79092ab9",
-)
-
-maven_jar(
-    name = "lucene_spatial",
-    artifact = "org.apache.lucene:lucene-spatial:" + LUCENE_VERS,
-    sha1 = "0217d302dc0ef4d9b8b475ffe327d83c1e0ceba5",
-)
-
-maven_jar(
-    name = "lucene_suggest",
-    artifact = "org.apache.lucene:lucene-suggest:" + LUCENE_VERS,
-    sha1 = "0f46dbb3229eed62dff10d008172c885e0e028c8",
-)
-
-maven_jar(
-    name = "lucene_queries",
-    artifact = "org.apache.lucene:lucene-queries:" + LUCENE_VERS,
-    sha1 = "f915357b8b4b43742ab48f1401dedcaa12dfa37a",
 )
 
 maven_jar(
@@ -910,68 +879,10 @@ maven_jar(
     sha1 = "8903bf42272062e87a7cbc1d98919e0729a9939f",
 )
 
-# When upgrading Elasticsearch, make sure it's compatible with Lucene
 maven_jar(
-    name = "elasticsearch",
-    artifact = "org.elasticsearch:elasticsearch:2.4.6",
-    sha1 = "d2954e1173a608a9711f132d1768a676a8b1fb81",
-)
-
-# Java REST client for Elasticsearch.
-JEST_VERSION = "2.4.0"
-
-maven_jar(
-    name = "jest_common",
-    artifact = "io.searchbox:jest-common:" + JEST_VERSION,
-    sha1 = "ea779ebe7c438a53dce431f85b0d4e1d8faee2ac",
-)
-
-maven_jar(
-    name = "jest",
-    artifact = "io.searchbox:jest:" + JEST_VERSION,
-    sha1 = "e2a604a584e6633545ac6b1fe99ef888ab96dae9",
-)
-
-maven_jar(
-    name = "joda_time",
-    artifact = "joda-time:joda-time:2.9.9",
-    sha1 = "f7b520c458572890807d143670c9b24f4de90897",
-)
-
-maven_jar(
-    name = "joda_convert",
-    artifact = "org.joda:joda-convert:1.8.1",
-    sha1 = "675642ac208e0b741bc9118dcbcae44c271b992a",
-)
-
-maven_jar(
-    name = "compress_lzf",
-    artifact = "com.ning:compress-lzf:1.0.2",
-    sha1 = "62896e6fca184c79cc01a14d143f3ae2b4f4b4ae",
-)
-
-maven_jar(
-    name = "hppc",
-    artifact = "com.carrotsearch:hppc:0.7.1",
-    sha1 = "8b5057f74ea378c0150a1860874a3ebdcb713767",
-)
-
-maven_jar(
-    name = "jsr166e",
-    artifact = "com.twitter:jsr166e:1.1.0",
-    sha1 = "233098147123ee5ddcd39ffc57ff648be4b7e5b2",
-)
-
-maven_jar(
-    name = "netty",
-    artifact = "io.netty:netty:3.10.0.Final",
-    sha1 = "ad61cd1bba067e6634ddd3e160edf0727391ac30",
-)
-
-maven_jar(
-    name = "t_digest",
-    artifact = "com.tdunning:t-digest:3.0",
-    sha1 = "84ccf145ac2215e6bfa63baa3101c0af41017cfc",
+    name = "elasticsearch-rest-client",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:5.6.9",
+    sha1 = "895706412e2fba3f842fca82ec3dece1cb4ee7d1",
 )
 
 JACKSON_VERSION = "2.8.9"
@@ -980,18 +891,6 @@ maven_jar(
     name = "jackson_core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "569b1752705da98f49aabe2911cc956ff7d8ed9d",
-)
-
-maven_jar(
-    name = "jackson_dataformat_cbor",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:" + JACKSON_VERSION,
-    sha1 = "93242092324cad33d777e06c0515e40a6b862659",
-)
-
-maven_jar(
-    name = "jackson_dataformat_smile",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:" + JACKSON_VERSION,
-    sha1 = "d36cbae6b06ac12fca16fda403759e479316141b",
 )
 
 maven_jar(
@@ -1004,6 +903,30 @@ maven_jar(
     name = "httpcore_nio",
     artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCOMP_VERS,
     sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
+)
+
+maven_jar(
+    name = "testcontainers",
+    artifact = "org.testcontainers:testcontainers:1.7.2",
+    sha1 = "fec8b360b6b613f6c9d3b8e7a9fa32d1a2bcb978",
+)
+
+maven_jar(
+    name = "duct_tape",
+    artifact = "org.rnorth.duct-tape:duct-tape:1.0.7",
+    sha1 = "a26b5d90d88c91321dc7a3734ea72d2fc019ebb6",
+)
+
+maven_jar(
+    name = "visible_assertions",
+    artifact = "org.rnorth.visible-assertions:visible-assertions:2.1.0",
+    sha1 = "f2fcff2862860828ac38a5e1f14d941787c06b13",
+)
+
+maven_jar(
+    name = "jna",
+    artifact = "net.java.dev.jna:jna:4.5.1",
+    sha1 = "65bd0cacc9c79a21c6ed8e9f588577cd3c2f85b9",
 )
 
 load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")

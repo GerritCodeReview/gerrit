@@ -14,90 +14,31 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.common.truth.Truth.assertThat;
-
-import com.google.common.base.Strings;
-import com.google.common.io.Files;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.action.admin.cluster.node.info.NodesInfoRequest;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
 
 public final class ElasticTestUtils {
   public static class ElasticNodeInfo {
-    public final Node node;
-    public final String port;
-    public final File elasticDir;
+    public final int port;
 
-    private ElasticNodeInfo(Node node, File rootDir, String port) {
-      this.node = node;
+    public ElasticNodeInfo(int port) {
       this.port = port;
-      this.elasticDir = rootDir;
     }
   }
 
-  static void configure(Config config, String port, String prefix) {
+  public static void configure(Config config, int port, String prefix) {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", "test", "protocol", "http");
     config.setString("elasticsearch", "test", "hostname", "localhost");
-    config.setString("elasticsearch", "test", "port", port);
+    config.setInt("elasticsearch", "test", "port", port);
     config.setString("elasticsearch", null, "prefix", prefix);
-  }
-
-  static ElasticNodeInfo startElasticsearchNode() throws InterruptedException, ExecutionException {
-    File elasticDir = Files.createTempDir();
-    Path elasticDirPath = elasticDir.toPath();
-    Settings settings =
-        Settings.settingsBuilder()
-            .put("cluster.name", "gerrit")
-            .put("node.name", "Gerrit Elasticsearch Test Node")
-            .put("node.local", true)
-            .put("discovery.zen.ping.multicast.enabled", false)
-            .put("index.store.fs.memory.enabled", true)
-            .put("index.gateway.type", "none")
-            .put("index.max_result_window", Integer.MAX_VALUE)
-            .put("gateway.type", "default")
-            .put("http.port", 0)
-            .put("discovery.zen.ping.unicast.hosts", "[\"localhost\"]")
-            .put("path.home", elasticDirPath.toAbsolutePath())
-            .put("path.data", elasticDirPath.resolve("data").toAbsolutePath())
-            .put("path.work", elasticDirPath.resolve("work").toAbsolutePath())
-            .put("path.logs", elasticDirPath.resolve("logs").toAbsolutePath())
-            .put("transport.tcp.connect_timeout", "60s")
-            .build();
-
-    // Start the node
-    Node node = NodeBuilder.nodeBuilder().settings(settings).node();
-
-    // Wait for it to be ready
-    node.client().admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-
-    assertThat(node.isClosed()).isFalse();
-    return new ElasticNodeInfo(node, elasticDir, getHttpPort(node));
-  }
-
-  static class NodeInfo {
-    String httpAddress;
-  }
-
-  static class Info {
-    Map<String, NodeInfo> nodes;
+    config.setString("index", null, "maxLimit", "10000");
   }
 
   public static void createAllIndexes(Injector injector) throws IOException {
@@ -106,28 +47,6 @@ public final class ElasticTestUtils {
     for (IndexDefinition<?, ?, ?> indexDef : indexDefs) {
       indexDef.getIndexCollection().getSearchIndex().deleteAll();
     }
-  }
-
-  private static String getHttpPort(Node node) throws InterruptedException, ExecutionException {
-    String nodes =
-        node.client().admin().cluster().nodesInfo(new NodesInfoRequest("*")).get().toString();
-    Gson gson =
-        new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create();
-    Info info = gson.fromJson(nodes, Info.class);
-    if (info.nodes == null || info.nodes.size() != 1) {
-      throw new RuntimeException("Cannot extract local Elasticsearch http port");
-    }
-    Iterator<NodeInfo> values = info.nodes.values().iterator();
-    String httpAddress = values.next().httpAddress;
-    if (Strings.isNullOrEmpty(httpAddress)) {
-      throw new RuntimeException("Cannot extract local Elasticsearch http port");
-    }
-    if (httpAddress.indexOf(':') < 0) {
-      throw new RuntimeException("Seems that port is not included in Elasticsearch http_address");
-    }
-    return httpAddress.substring(httpAddress.indexOf(':') + 1, httpAddress.length());
   }
 
   private ElasticTestUtils() {

@@ -106,6 +106,24 @@
       "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3c45fe3_6dbc968f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T19:51:25Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/#/c/gerrit-ci-scripts/+/182810",
+      "parentUuid": "721a7ab1_fb85d5c5",
+      "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

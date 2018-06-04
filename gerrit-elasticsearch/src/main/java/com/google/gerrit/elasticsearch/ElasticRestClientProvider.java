@@ -67,8 +67,8 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
       synchronized (this) {
         if (client == null) {
           client = build();
-          String version = getVersion();
-          log.info("Connected to Elasticsearch version {}", version);
+          ElasticVersion version = getVersion();
+          log.info("Elasticsearch integration version {}", version);
         }
       }
     }
@@ -102,20 +102,23 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
     }
   }
 
-  private String getVersion() throws ElasticException {
+  private ElasticVersion getVersion() throws ElasticException {
     try {
       Response response = client.performRequest("GET", "");
       StatusLine statusLine = response.getStatusLine();
       if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
         throw new FailedToGetVersion(statusLine);
       }
-      return new JsonParser()
-          .parse(AbstractElasticIndex.getContent(response))
-          .getAsJsonObject()
-          .get("version")
-          .getAsJsonObject()
-          .get("number")
-          .getAsString();
+      String version =
+          new JsonParser()
+              .parse(AbstractElasticIndex.getContent(response))
+              .getAsJsonObject()
+              .get("version")
+              .getAsJsonObject()
+              .get("number")
+              .getAsString();
+      log.info("Connected to Elasticsearch version {}", version);
+      return ElasticVersion.forVersion(version);
     } catch (IOException e) {
       throw new FailedToGetVersion(e);
     }

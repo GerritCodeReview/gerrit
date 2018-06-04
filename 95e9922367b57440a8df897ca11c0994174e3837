@@ -68,6 +68,30 @@
       "revId": "95e9922367b57440a8df897ca11c0994174e3837",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ee1a274_fae05b4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-04T16:38:34Z",
+      "side": 1,
+      "message": "When i use encode for this i get this error \"Group may not exist, or you may not have permission to add it\".\n\nWhen i use decode it works.",
+      "parentUuid": "de2164c5_d6101a9a",
+      "range": {
+        "startLine": 497,
+        "startChar": 34,
+        "endLine": 497,
+        "endChar": 52
+      },
+      "revId": "95e9922367b57440a8df897ca11c0994174e3837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "6e03c87bda2457fc0c684f672a54d74d0adb4c17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "258c3df6_3285a80a",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/AbstractElasticIndexTests.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-04T14:29:20Z",
+      "side": 1,
+      "message": "I think it also makes sense to make this test used by Lucene tests. I agree to move this to the same package as AbstractQueryChangesTest and rename it to \"AbstractIndexTests\".",
+      "parentUuid": "efe3052d_d1c8b4d3",
+      "range": {
+        "startLine": 36,
+        "startChar": 22,
+        "endLine": 36,
+        "endChar": 47
+      },
+      "revId": "6e03c87bda2457fc0c684f672a54d74d0adb4c17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

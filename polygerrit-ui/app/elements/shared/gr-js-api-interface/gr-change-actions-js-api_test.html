@@ -144,9 +144,12 @@ breaking changes to gr-change-actions won’t be noticed.
           assert.isNotOk(button.disabled);
           changeActions.setLabel(key, 'Yo');
           changeActions.setEnabled(key, false);
+          changeActions.setIcon(key, 'pupper');
           flush(() => {
             assert.equal(button.getAttribute('data-label'), 'Yo');
             assert.isTrue(button.disabled);
+            assert.equal(Polymer.dom(button).querySelector('iron-icon').icon,
+                'gr-icons:pupper');
             done();
           });
         });

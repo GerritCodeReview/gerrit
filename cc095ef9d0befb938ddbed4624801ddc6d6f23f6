@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0997812_4b5d2ef6",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractIndexTests.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T16:00:57Z",
+      "side": 1,
+      "message": "Usually the license header is at the very top of file.",
+      "revId": "cc095ef9d0befb938ddbed4624801ddc6d6f23f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

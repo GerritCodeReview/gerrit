@@ -142,6 +142,24 @@
       "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c1d6292_4e59e4c7",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T20:06:48Z",
+      "side": 1,
+      "message": "I fixed buildifier installation and pinned it to 0.11.1 in slave-bazel image, in: [1]. Luca would need to re-build the slave-bazel image again.\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit-ci-scripts/+/182810",
+      "parentUuid": "294fd439_6b77dd6a",
+      "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

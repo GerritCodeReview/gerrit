@@ -150,7 +150,9 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
   }
 
-  protected abstract String addActions(K c);
+  protected String addActions(K c) {
+    return delete(indexNameRaw, c);
+  }
 
   protected abstract String getMappings();
 

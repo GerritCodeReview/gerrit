@@ -34,6 +34,24 @@
       "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08244f95_97ca34c4",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-04T14:33:53Z",
+      "side": 1,
+      "message": "Well, CI is on Linux, Debian. if we don\u0027t install from source, we would have to find out, how to install specific released version of buildifier: [1]. Then we would need to merge that change and re-build the CI. Sounds also doable to me.\n\n* [1] https://github.com/bazelbuild/buildtools/releases/tag/0.11.1",
+      "parentUuid": "702d40b8_dd69ae6b",
+      "revId": "cc9919c881ae31ec8550674d24bcd6cd7ba6f2ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

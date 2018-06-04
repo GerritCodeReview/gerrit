@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08869beb_5983a164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T19:53:33Z",
+      "side": 1,
+      "message": "AbstractQueryChangesTest: Add removeChangeFromIndex test for higher coverage",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 50
+      },
+      "revId": "c1f5357d4668ee026eaa189bb53ee77b6c66d93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34863811_007f77d0",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2209,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-04T19:53:33Z",
+      "side": 1,
+      "message": "removeChangeFromIndex",
+      "range": {
+        "startLine": 2209,
+        "startChar": 14,
+        "endLine": 2209,
+        "endChar": 35
+      },
+      "revId": "c1f5357d4668ee026eaa189bb53ee77b6c66d93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

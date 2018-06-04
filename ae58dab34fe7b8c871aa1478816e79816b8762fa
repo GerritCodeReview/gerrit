@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "845e9237_98bdfe5f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-04T14:13:51Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "927d67b1_5fb93d26",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 35
+      },
+      "revId": "ae58dab34fe7b8c871aa1478816e79816b8762fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91a9c03d_fc74e74d",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 4

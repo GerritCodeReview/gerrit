@@ -16,6 +16,24 @@
       "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd917d48_5140a0bf",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-04T13:46:07Z",
+      "side": 1,
+      "message": "It\u0027s not this line.  It\u0027s showing diffs on the order of arguments to the load() calls on L3-5.\n\n 3c3\n \u003c load(\"//tools/bzl:maven_jar.bzl\", \"maven_jar\", \"GERRIT\", \"MAVEN_LOCAL\")\n ---\n \u003e load(\"//tools/bzl:maven_jar.bzl\", \"GERRIT\", \"MAVEN_LOCAL\", \"maven_jar\")\n 218c218\n \u003c load(\"//lib:guava.bzl\", \"GUAVA_VERSION\", \"GUAVA_BIN_SHA1\")\n ---\n \u003e load(\"//lib:guava.bzl\", \"GUAVA_BIN_SHA1\", \"GUAVA_VERSION\")\n 935c935\n \u003c load(\"//tools/bzl:js.bzl\", \"npm_binary\", \"bower_archive\")\n ---\n \u003e load(\"//tools/bzl:js.bzl\", \"bower_archive\", \"npm_binary\")",
+      "parentUuid": "81edb596_22f6f631",
+      "revId": "2bf355df5a407642c8f5dc52be25de5251c7050d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

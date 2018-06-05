@@ -44,10 +44,9 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   private OutputFormat format = OutputFormat.TEXT;
 
   @Option(
-    name = "--all",
-    aliases = {"-a"},
-    usage = "List all plugins, including disabled plugins"
-  )
+      name = "--all",
+      aliases = {"-a"},
+      usage = "List all plugins, including disabled plugins")
   private boolean all;
 
   @Inject

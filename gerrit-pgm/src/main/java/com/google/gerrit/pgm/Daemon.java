@@ -154,10 +154,9 @@ public class Daemon extends SiteProgram {
   private boolean polyGerritDev;
 
   @Option(
-    name = "--init",
-    aliases = {"-i"},
-    usage = "Init site before starting the daemon"
-  )
+      name = "--init",
+      aliases = {"-i"},
+      usage = "Init site before starting the daemon")
   private boolean doInit;
 
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)

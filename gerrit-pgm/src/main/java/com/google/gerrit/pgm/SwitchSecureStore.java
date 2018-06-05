@@ -57,10 +57,9 @@ public class SwitchSecureStore extends SiteProgram {
   private static final Logger log = LoggerFactory.getLogger(SwitchSecureStore.class);
 
   @Option(
-    name = "--new-secure-store-lib",
-    usage = "Path to new SecureStore implementation",
-    required = true
-  )
+      name = "--new-secure-store-lib",
+      usage = "Path to new SecureStore implementation",
+      required = true)
   private String newSecureStoreLib;
 
   @Override

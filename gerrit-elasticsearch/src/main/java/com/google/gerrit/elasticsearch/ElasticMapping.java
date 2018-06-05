@@ -28,8 +28,6 @@ class ElasticMapping {
       FieldType<?> fieldType = field.getType();
       if (fieldType == FieldType.EXACT) {
         mapping.addExactField(name);
-      } else if (fieldType == FieldType.KEYWORD) {
-        mapping.addKeywordField(name);
       } else if (fieldType == FieldType.TIMESTAMP) {
         mapping.addTimestamp(name);
       } else if (fieldType == FieldType.INTEGER
@@ -63,20 +61,10 @@ class ElasticMapping {
     }
 
     Builder addExactField(String name) {
-      FieldProperties key = new FieldProperties(adapter.keywordFieldType());
+      FieldProperties key = new FieldProperties(adapter.exactFieldType());
       key.index = adapter.indexProperty();
       FieldProperties properties;
-      properties = new FieldProperties(adapter.stringFieldType());
-      properties.fields = ImmutableMap.of("key", key);
-      fields.put(name, properties);
-      return this;
-    }
-
-    Builder addKeywordField(String name) {
-      FieldProperties key = new FieldProperties(adapter.keywordFieldType());
-      key.index = adapter.indexProperty();
-      FieldProperties properties;
-      properties = new FieldProperties(adapter.keywordFieldType());
+      properties = new FieldProperties(adapter.exactFieldType());
       properties.fields = ImmutableMap.of("key", key);
       fields.put(name, properties);
       return this;

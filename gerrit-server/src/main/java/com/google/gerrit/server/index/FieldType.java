@@ -33,9 +33,6 @@ public class FieldType<T> {
   /** A string field searched using exact-match semantics. */
   public static final FieldType<String> EXACT = new FieldType<>("EXACT");
 
-  /** A Keyword field searched using non-analyzed-match semantics. */
-  public static final FieldType<String> KEYWORD = new FieldType<>("KEYWORD");
-
   /** A string field searched using prefix. */
   public static final FieldType<String> PREFIX = new FieldType<>("PREFIX");
 

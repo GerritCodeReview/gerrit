@@ -58,6 +58,7 @@
   };
 
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
+  const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
   Polymer({
     is: 'gr-change-view',
@@ -552,7 +553,9 @@
 
     _handleReplySent(e) {
       this.$.replyOverlay.close();
-      this._reload();
+      this._reload().then(() => {
+        this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+      });
     },
 
     _handleReplyCancel(e) {

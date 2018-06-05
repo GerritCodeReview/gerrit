@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "227d7d51_b9d4994b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-05T09:39:46Z",
+      "side": 1,
+      "message": "Right, we missed to remove it as we separated the rules.",
+      "revId": "852e5ac7ac25aa558f1ead5ec541cde5aba364e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

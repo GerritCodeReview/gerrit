@@ -22,6 +22,30 @@
       "revId": "506125e71a786f31573e6ba1b1983a4c48cc1dbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9c02af8_653c44f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-05T18:58:53Z",
+      "side": 1,
+      "message": "Done: [1].\n\n* [1] https://gerrit-review.googlesource.com/#/c/gerrit/+/183050",
+      "parentUuid": "28ea8f93_7270129d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 67
+      },
+      "revId": "506125e71a786f31573e6ba1b1983a4c48cc1dbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

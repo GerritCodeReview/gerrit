@@ -311,7 +311,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       for (Object value : values.getValues()) {
         doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
       }
-    } else if (type == FieldType.KEYWORD || type == FieldType.EXACT || type == FieldType.PREFIX) {
+    } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
       for (Object value : values.getValues()) {
         doc.add(new StringField(name, (String) value, store));
       }

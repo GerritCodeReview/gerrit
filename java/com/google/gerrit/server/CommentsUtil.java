@@ -374,31 +374,6 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  @Deprecated // To be used only by HasDraftByLegacyPredicate.
-  public List<Change.Id> changesWithDraftsByAuthor(ReviewDb db, Account.Id author)
-      throws OrmException {
-    if (!migration.readChanges()) {
-      return FluentIterable.from(db.patchComments().draftByAuthor(author))
-          .transform(plc -> plc.getPatchSetId().getParentKey())
-          .toList();
-    }
-
-    List<Change.Id> changes = new ArrayList<>();
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      for (String refName : repo.getRefDatabase().getRefs(RefNames.REFS_DRAFT_COMMENTS).keySet()) {
-        Account.Id accountId = Account.Id.fromRefSuffix(refName);
-        Change.Id changeId = Change.Id.fromRefPart(refName);
-        if (accountId == null || changeId == null) {
-          continue;
-        }
-        changes.add(changeId);
-      }
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-    return changes;
-  }
-
   public void putComments(
       ReviewDb db, ChangeUpdate update, PatchLineComment.Status status, Iterable<Comment> comments)
       throws OrmException {

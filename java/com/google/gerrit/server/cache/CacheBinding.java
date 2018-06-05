@@ -16,7 +16,7 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 /** Configure a cache declared within a {@link CacheModule} instance. */
 public interface CacheBinding<K, V> {
@@ -24,7 +24,7 @@ public interface CacheBinding<K, V> {
   CacheBinding<K, V> maximumWeight(long weight);
 
   /** Set the time an element lives before being expired. */
-  CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits);
+  CacheBinding<K, V> expireAfterWrite(Duration duration);
 
   /** Populate the cache with items from the CacheLoader. */
   CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);

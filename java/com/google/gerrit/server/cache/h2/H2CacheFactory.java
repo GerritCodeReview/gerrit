@@ -215,7 +215,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     if (h2AutoServer) {
       url.append(";AUTO_SERVER=TRUE");
     }
-    Long expireAfterWrite = def.expireAfterWrite(TimeUnit.SECONDS);
     return new SqlStore<>(
         url.toString(),
         def.keyType(),
@@ -223,6 +222,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         def.valueSerializer(),
         def.version(),
         maxSize,
-        expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
+        def.expireAfterWrite());
   }
 }

@@ -247,8 +247,6 @@ public class ChangeIndexer {
    */
   public void index(ReviewDb db, Change change) throws IOException, OrmException {
     index(newChangeData(db, change));
-    // See comment in #index(ChangeData).
-    autoReindexIfStale(change.getProject(), change.getId());
   }
 
   /**
@@ -260,10 +258,7 @@ public class ChangeIndexer {
    */
   public void index(ReviewDb db, Project.NameKey project, Change.Id changeId)
       throws IOException, OrmException {
-    ChangeData cd = newChangeData(db, project, changeId);
-    index(cd);
-    // See comment in #index(ChangeData).
-    autoReindexIfStale(cd);
+    index(newChangeData(db, project, changeId));
   }
 
   /**

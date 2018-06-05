@@ -546,7 +546,7 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     if (id == null) {
       return new PersonIdent(serverIdent, events.getWhen());
     }
-    return changeNoteUtil.getLegacyChangeNoteWrite().newIdent(id, events.getWhen(), serverIdent);
+    return changeNoteUtil.newIdent(id, events.getWhen(), serverIdent);
   }
 
   private List<HashtagsEvent> getHashtagsEvents(Change change, NoteDbUpdateManager manager)

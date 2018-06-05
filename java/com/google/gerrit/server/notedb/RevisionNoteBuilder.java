@@ -82,19 +82,13 @@ class RevisionNoteBuilder {
     delete = new HashSet<>();
   }
 
-  public byte[] build(ChangeNoteUtil noteUtil, boolean writeJson) throws IOException {
-    return build(noteUtil.getChangeNoteJson(), noteUtil.getLegacyChangeNoteWrite(), writeJson);
+  public byte[] build(ChangeNoteUtil noteUtil) throws IOException {
+    return build(noteUtil.getChangeNoteJson());
   }
 
-  public byte[] build(
-      ChangeNoteJson changeNoteJson, LegacyChangeNoteWrite legacyChangeNoteWrite, boolean writeJson)
-      throws IOException {
+  public byte[] build(ChangeNoteJson changeNoteJson) throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    if (writeJson) {
-      buildNoteJson(changeNoteJson, out);
-    } else {
-      buildNoteLegacy(legacyChangeNoteWrite, out);
-    }
+    buildNoteJson(changeNoteJson, out);
     return out.toByteArray();
   }
 
@@ -141,23 +135,5 @@ class RevisionNoteBuilder {
     try (OutputStreamWriter osw = new OutputStreamWriter(out, UTF_8)) {
       noteUtil.getGson().toJson(data, osw);
     }
-  }
-
-  private void buildNoteLegacy(LegacyChangeNoteWrite noteUtil, OutputStream out)
-      throws IOException {
-    if (pushCert != null) {
-      byte[] certBytes = pushCert.getBytes(UTF_8);
-      out.write(certBytes, 0, trimTrailingNewlines(certBytes));
-      out.write('\n');
-    }
-    noteUtil.buildNote(buildCommentMap(), out);
-  }
-
-  private static int trimTrailingNewlines(byte[] bytes) {
-    int p = bytes.length;
-    while (p > 1 && bytes[p - 1] == '\n') {
-      p--;
-    }
-    return p;
   }
 }

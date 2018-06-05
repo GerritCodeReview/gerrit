@@ -433,9 +433,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       if (notesMigration.commitChangeWrites()) {
         PersonIdent committer = serverIdent.get();
         PersonIdent author =
-            noteUtil
-                .getLegacyChangeNoteWrite()
-                .newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
+            noteUtil.newIdent(getAccount(admin.getId()), committer.getWhen(), committer);
         tr.branch(RefNames.changeMetaRef(c3.getId()))
             .commit()
             .author(author)

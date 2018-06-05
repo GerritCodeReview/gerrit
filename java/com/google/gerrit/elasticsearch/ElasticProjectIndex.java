@@ -28,7 +28,6 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.project.ProjectCache;
@@ -41,7 +40,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Set;
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 
 public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, ProjectData>
@@ -62,10 +60,10 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
 
   @Inject
   ElasticProjectIndex(
-      @GerritServerConfig Config cfg,
+      ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
-      ElasticRestClientBuilder clientBuilder,
+      ElasticRestClientProvider clientBuilder,
       @Assisted Schema<ProjectData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, PROJECTS);
     this.projectCache = projectCache;

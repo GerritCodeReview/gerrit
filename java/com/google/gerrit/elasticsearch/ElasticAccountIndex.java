@@ -29,7 +29,6 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountField;
@@ -43,7 +42,6 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Set;
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
@@ -64,12 +62,12 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   @Inject
   ElasticAccountIndex(
-      @GerritServerConfig Config cfg,
+      ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
-      ElasticRestClientBuilder clientBuilder,
+      ElasticRestClientProvider client,
       @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, ACCOUNTS);
+    super(cfg, sitePaths, schema, client, ACCOUNTS);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema);
     this.schema = schema;

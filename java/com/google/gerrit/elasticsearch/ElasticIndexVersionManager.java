@@ -35,14 +35,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-public class ElasticVersionManager extends VersionManager {
-  private static final Logger log = LoggerFactory.getLogger(ElasticVersionManager.class);
+public class ElasticIndexVersionManager extends VersionManager {
+  private static final Logger log = LoggerFactory.getLogger(ElasticIndexVersionManager.class);
 
   private final String prefix;
   private final ElasticIndexVersionDiscovery versionDiscovery;
 
   @Inject
-  ElasticVersionManager(
+  ElasticIndexVersionManager(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
       DynamicSet<OnlineUpgradeListener> listeners,

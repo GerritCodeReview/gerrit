@@ -762,6 +762,16 @@ Default is 1024 for most caches, except:
 If set to 0 the cache is disabled. Entries are removed immediately
 after being stored by the cache. This is primarily useful for testing.
 
+[[cache.name.expireFromMemoryAfterAccess]]cache.<name>.expireFromMemoryAfterAccess::
++
+Time after last access to automatically expire entries from an in-memory
+cache. If 0 or not specified, entries are never expired in this manner.
+Values may use unit suffixes as in link:#cache.name.maxAge[maxAge].
++
+This option only applies to in-memory caches; persistent cache values are
+not expired in this manner, and are only pruned via
+link:#cache.name.diskLimit[diskLimit].
+
 [[cache.name.diskLimit]]cache.<name>.diskLimit::
 +
 Total size in bytes of the keys and values stored on disk. Caches that

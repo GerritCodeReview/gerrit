@@ -167,7 +167,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
   }
 
   @Override
-  protected String addActions(Id c) {
+  protected String getDeleteActions(Id c) {
     return delete(OPEN_CHANGES, c) + delete(CLOSED_CHANGES, c);
   }
 

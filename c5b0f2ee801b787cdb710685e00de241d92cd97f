@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b77217c0_e3ae0d54",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/IndexChangesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-05T14:23:28Z",
+      "side": 1,
+      "message": "Hello David:\n\nI tried to put this class under the same package as AbstractQueryChangesTest (com.google.gerrit.server.query.change). However, CI voted for -1 for this change, saying it did not have access to the package of AbstractDaemonTest. That\u0027s why I put this class under this ssh folder of gerrit-acceptance-tests. I checked the other test classes under the com.google.gerrit.server.query.change package but none of them use AbstractDaemonTest.\n\nI agree to move this test under com.google.gerrit.server.query.change package. Can you please give me a small hint to make this test work with AbstractDaemonTest under this package? Or should I add the code I need from the AbstractDaemonTest into this class? Thank you :)",
+      "parentUuid": "0c00ffee_be2d1e14",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "c5b0f2ee801b787cdb710685e00de241d92cd97f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "123c01de_b4c68f94",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/IndexChangesIT.java",
         "patchSetId": 7
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Javadoc isn\u0027t needed here anyway.",
       "parentUuid": "123c01de_b4c68f94",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 24
+      },
+      "revId": "c5b0f2ee801b787cdb710685e00de241d92cd97f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff5c590c_5417f94f",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/IndexChangesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-05T14:23:28Z",
+      "side": 1,
+      "message": "I added the Javadoc here to avoid the warning message of not using the injector parameter for this method. I will remove this javadoc after I move this test.",
+      "parentUuid": "32d3d555_f666e909",
       "range": {
         "startLine": 39,
         "startChar": 2,

@@ -36,6 +36,8 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.index.group.GroupIndex;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -92,6 +94,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Inject protected AllProjectsName allProjects;
 
   @Inject protected GroupCache groupCache;
+
+  @Inject private GroupIndexCollection groupIndexes;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -307,6 +311,21 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     gApi.groups().id(group1.id).index();
     assertQuery("description:" + group1.description);
     assertQuery("description:" + newDescription, group1);
+  }
+
+  @Test
+  public void byDeletedGroup() throws Exception {
+    GroupInfo group1 = createGroup(name("group"));
+    String query = "uuid:" + group1.id;
+    assertQuery(query, group1);
+
+    AccountGroup group = db.accountGroups().get(new AccountGroup.Id(group1.groupId));
+
+    for (GroupIndex i : groupIndexes.getWriteIndexes()) {
+      i.delete(group.getGroupUUID());
+    }
+
+    assertQuery(query);
   }
 
   private Account.Id createAccount(String username, String fullName, String email, boolean active)

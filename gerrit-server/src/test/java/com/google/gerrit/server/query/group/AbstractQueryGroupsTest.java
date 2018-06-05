@@ -58,9 +58,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestName;
 
 @Ignore
 public abstract class AbstractQueryGroupsTest extends GerritServerTests {
@@ -70,8 +68,6 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     cfg.setInt("index", null, "maxPages", 10);
     return cfg;
   }
-
-  @Rule public final TestName testName = new TestName();
 
   @Inject protected AccountCache accountCache;
 

@@ -19,6 +19,7 @@ import com.google.gwtorm.server.StandardKeyEncoder;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TestName;
 
 @Ignore
 public abstract class GerritBaseTests {
@@ -27,4 +28,5 @@ public abstract class GerritBaseTests {
   }
 
   @Rule public ExpectedException exception = ExpectedException.none();
+  @Rule public final TestName testName = new TestName();
 }

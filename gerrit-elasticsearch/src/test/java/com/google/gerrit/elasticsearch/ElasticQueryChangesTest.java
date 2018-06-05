@@ -24,12 +24,8 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.rules.TestName;
 
 public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
-  @Rule public final TestName testName = new TestName();
-
   private static ElasticNodeInfo nodeInfo;
   private static ElasticContainer<?> container;
 

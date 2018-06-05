@@ -33,6 +33,24 @@
       "revId": "a408f214b29dcab1e5f23cbc9ba531763a79d24e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9a03768_55d0546d",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/AbstractReindexTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-05T05:54:27Z",
+      "side": 1,
+      "message": "Actually I didn\u0027t look at the master implementation when doing this, so was not aware it was already done.\n\nI\u0027ll redo this to make it the same as master (minus the project index).",
+      "parentUuid": "5043d245_91ec90d7",
+      "revId": "a408f214b29dcab1e5f23cbc9ba531763a79d24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

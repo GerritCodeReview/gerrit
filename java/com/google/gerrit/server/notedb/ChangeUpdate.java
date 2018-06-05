@@ -402,6 +402,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       if (notes != null) {
         draftUpdate = draftUpdateFactory.create(notes, accountId, realAccountId, authorIdent, when);
       } else {
+        // writeJson isn't passed in this case. It's only set to something other than the value in
+        // ChangeNoteUtil in tests; tests will always take the notes != null path above.
         draftUpdate =
             draftUpdateFactory.create(getChange(), accountId, realAccountId, authorIdent, when);
       }
@@ -526,14 +528,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     checkComments(rnm.revisionNotes, builders);
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
-      ObjectId data =
-          inserter.insert(
-              OBJ_BLOB,
-              e.getValue()
-                  .build(
-                      noteUtil.getChangeNoteJson(),
-                      noteUtil.getLegacyChangeNoteWrite(),
-                      noteUtil.getChangeNoteJson().getWriteJson()));
+      ObjectId data = inserter.insert(OBJ_BLOB, e.getValue().build(noteUtil.getChangeNoteJson()));
       rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 

@@ -34,6 +34,10 @@ public final class FieldDef<I, T> {
     return new FieldDef.Builder<>(FieldType.EXACT, name);
   }
 
+  public static FieldDef.Builder<String> keyword(String name) {
+    return new FieldDef.Builder<>(FieldType.KEYWORD, name);
+  }
+
   public static FieldDef.Builder<String> fullText(String name) {
     return new FieldDef.Builder<>(FieldType.FULL_TEXT, name);
   }

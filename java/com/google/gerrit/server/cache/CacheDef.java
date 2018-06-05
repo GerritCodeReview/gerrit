@@ -48,6 +48,9 @@ public interface CacheDef<K, V> {
   Duration expireAfterWrite();
 
   @Nullable
+  Duration expireFromMemoryAfterAccess();
+
+  @Nullable
   Weigher<K, V> weigher();
 
   @Nullable

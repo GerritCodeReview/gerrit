@@ -23,8 +23,11 @@ public interface CacheBinding<K, V> {
   /** Set the total size of the cache. */
   CacheBinding<K, V> maximumWeight(long weight);
 
-  /** Set the time an element lives before being expired. */
+  /** Set the time an element lives after last write before being expired. */
   CacheBinding<K, V> expireAfterWrite(Duration duration);
+
+  /** Set the time an element lives after last access before being expired. */
+  CacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration);
 
   /** Populate the cache with items from the CacheLoader. */
   CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);

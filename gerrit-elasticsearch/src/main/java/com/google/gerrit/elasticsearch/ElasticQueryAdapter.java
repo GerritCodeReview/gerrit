@@ -20,7 +20,7 @@ public class ElasticQueryAdapter {
   private final boolean ignoreUnmapped;
   private final String searchFilteringName;
   private final String indicesExistParam;
-  private final String keywordFieldType;
+  private final String exactFieldType;
   private final String stringFieldType;
   private final String indexProperty;
 
@@ -31,7 +31,7 @@ public class ElasticQueryAdapter {
       case V6_2:
         this.searchFilteringName = "_source";
         this.indicesExistParam = "?allow_no_indices=false";
-        this.keywordFieldType = "keyword";
+        this.exactFieldType = "keyword";
         this.stringFieldType = "text";
         this.indexProperty = "true";
         break;
@@ -39,7 +39,7 @@ public class ElasticQueryAdapter {
       default:
         this.searchFilteringName = "fields";
         this.indicesExistParam = "";
-        this.keywordFieldType = "string";
+        this.exactFieldType = "string";
         this.stringFieldType = "string";
         this.indexProperty = "not_analyzed";
         break;
@@ -60,8 +60,8 @@ public class ElasticQueryAdapter {
     return indicesExistParam;
   }
 
-  String keywordFieldType() {
-    return keywordFieldType;
+  String exactFieldType() {
+    return exactFieldType;
   }
 
   String stringFieldType() {

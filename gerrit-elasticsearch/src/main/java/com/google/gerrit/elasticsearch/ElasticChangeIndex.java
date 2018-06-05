@@ -87,8 +87,8 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     MappingProperties openChanges;
     MappingProperties closedChanges;
 
-    ChangeMapping(Schema<ChangeData> schema) {
-      MappingProperties mapping = ElasticMapping.createMapping(schema);
+    ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
+      MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
       this.openChanges = mapping;
       this.closedChanges = mapping;
     }
@@ -115,7 +115,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
-    mapping = new ChangeMapping(schema);
+    this.mapping = new ChangeMapping(schema, client.adapter());
   }
 
   @Override
@@ -189,7 +189,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       fields = IndexUtils.changeFields(opts);
       SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+          new SearchSourceBuilder(client.adapter())
               .query(qb)
               .from(opts.start())
               .size(opts.limit())
@@ -431,7 +431,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     private JsonArray getSortArray() {
       JsonObject properties = new JsonObject();
       properties.addProperty(ORDER, "desc");
-      properties.addProperty(IGNORE_UNMAPPED, true);
+      client.adapter().setIgnoreUnmapped(properties);
 
       JsonArray sortArray = new JsonArray();
       addNamedElement(ChangeField.UPDATED.getName(), properties, sortArray);

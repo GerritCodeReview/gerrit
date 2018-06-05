@@ -15,7 +15,6 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.elasticsearch.ElasticVersion;
 import java.util.Set;
 import org.apache.http.HttpHost;
 import org.junit.internal.AssumptionViolatedException;

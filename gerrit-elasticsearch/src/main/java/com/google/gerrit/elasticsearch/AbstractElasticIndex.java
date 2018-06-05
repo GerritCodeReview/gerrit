@@ -50,7 +50,6 @@ import org.elasticsearch.client.Response;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String BULK = "_bulk";
-  protected static final String IGNORE_UNMAPPED = "ignore_unmapped";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
@@ -80,8 +79,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
-  private final ElasticRestClientProvider client;
 
+  protected final ElasticRestClientProvider client;
   protected final String indexName;
   protected final Gson gson;
   protected final ElasticQueryBuilder queryBuilder;
@@ -130,7 +129,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   @Override
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
-    Response response = client.get().performRequest("HEAD", indexName);
+    String endpoint = indexName + client.adapter().indicesExistParam();
+    Response response = client.get().performRequest("HEAD", endpoint);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
       response = client.get().performRequest("DELETE", indexName);
@@ -182,7 +182,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected JsonArray getSortArray(String idFieldName) {
     JsonObject properties = new JsonObject();
     properties.addProperty(ORDER, "asc");
-    properties.addProperty(IGNORE_UNMAPPED, true);
+    client.adapter().setIgnoreUnmapped(properties);
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(idFieldName, properties, sortArray);

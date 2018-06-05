@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0c00ffee_be2d1e14",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/IndexChangesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-05T08:13:06Z",
+      "side": 1,
+      "message": "This should not be named with IT suffix.  Instead it should be named something like AbstractIndexTests and should not be included in the sources of the tests rule, but rather in the test utils that are a dependency of the test rule.\n\nAlso I don\u0027t think it needs the @Ignore annotation if it\u0027s not in the test sources.",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "c5b0f2ee801b787cdb710685e00de241d92cd97f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "123c01de_b4c68f94",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/IndexChangesIT.java",
         "patchSetId": 7
@@ -13,6 +36,30 @@
       "writtenOn": "2018-06-04T20:50:19Z",
       "side": 1,
       "message": "Came back? -To remove if to leave empty.",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 24
+      },
+      "revId": "c5b0f2ee801b787cdb710685e00de241d92cd97f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32d3d555_f666e909",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/IndexChangesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-05T08:13:06Z",
+      "side": 1,
+      "message": "Javadoc isn\u0027t needed here anyway.",
+      "parentUuid": "123c01de_b4c68f94",
       "range": {
         "startLine": 39,
         "startChar": 2,

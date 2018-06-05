@@ -36,12 +36,12 @@ public class GroupField {
       integer("id").build(g -> g.getId().get());
 
   /** Group UUID. */
-  public static final FieldDef<InternalGroup, String> UUID =
-      keyword("uuid").stored().build(g -> g.getGroupUUID().get());
+  public static final FieldDef<AccountGroup, String> UUID =
+      exact("uuid").stored().build(g -> g.getGroupUUID().get());
 
   /** Group owner UUID. */
-  public static final FieldDef<InternalGroup, String> OWNER_UUID =
-      keyword("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
+  public static final FieldDef<AccountGroup, String> OWNER_UUID =
+      exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
 
   /** Timestamp indicating when this group was created. */
   public static final FieldDef<InternalGroup, Timestamp> CREATED_ON =

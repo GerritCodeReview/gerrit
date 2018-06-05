@@ -19,17 +19,21 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertNotNull;
 
+import com.google.gerrit.pgm.SiteRule;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Provider;
-import java.nio.file.Paths;
 import java.util.Collections;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class LibrariesTest {
+  @Rule public SiteRule siteRule = new SiteRule();
+
   @Test
-  public void create() throws Exception {
-    final SitePaths site = new SitePaths(Paths.get("."));
+  public void create() {
+    SitePaths site = siteRule.getSitePaths();
+
     final ConsoleUI ui = createStrictMock(ConsoleUI.class);
     final StaleLibraryRemover remover = createStrictMock(StaleLibraryRemover.class);
 

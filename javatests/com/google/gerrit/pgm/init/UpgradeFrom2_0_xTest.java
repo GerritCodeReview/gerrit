@@ -26,7 +26,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.io.ByteStreams;
-import com.google.gerrit.common.FileUtil;
+import com.google.gerrit.pgm.SiteRule;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.Section;
@@ -42,16 +42,16 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.junit.Rule;
 import org.junit.Test;
 
-public class UpgradeFrom2_0_xTest extends InitTestCase {
+public class UpgradeFrom2_0_xTest {
+  @Rule public SiteRule siteRule = new SiteRule();
 
   @Test
   public void upgrade() throws IOException, ConfigInvalidException {
-    final Path p = newSitePath();
-    final SitePaths site = new SitePaths(p);
-    assertTrue(site.isNew);
-    FileUtil.mkdirsOrDie(site.etc_dir, "Failed to create");
+    SitePaths site = siteRule.getSitePaths();
+    Path p = site.site_path;
 
     for (String n : UpgradeFrom2_0_x.etcFiles) {
       Files.write(p.resolve(n), ("# " + n + "\n").getBytes(UTF_8));

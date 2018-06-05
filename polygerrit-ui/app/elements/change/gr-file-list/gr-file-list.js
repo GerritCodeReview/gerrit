@@ -26,8 +26,10 @@
   const SIZE_BAR_GAP_WIDTH = 1;
   const SIZE_BAR_MIN_WIDTH = 1.5;
 
-  const RENDER_TIME = 'FileListRenderTime';
-  const RENDER_TIME_AVERAGE = 'FileListRenderTimePerFile';
+  const RENDER_TIMING_LABEL = 'FileListRenderTime';
+  const RENDER_AVG_TIMING_LABEL = 'FileListRenderTimePerFile';
+  const EXPAND_ALL_TIMING_LABEL = 'ExpandAllDiffs';
+  const EXPAND_ALL_AVG_TIMING_LABEL = 'ExpandAllPerDiff';
 
   const FileStatus = {
     A: 'Added',
@@ -338,10 +340,9 @@
     _updateDiffPreferences() {
       if (!this.diffs.length) { return; }
       // Re-render all expanded diffs sequentially.
-      const timerName = 'Update ' + this._expandedFilePaths.length +
-          ' diffs with new prefs';
+      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
       this._renderInOrder(this._expandedFilePaths, this.diffs,
-          this._expandedFilePaths.length, timerName);
+          this._expandedFilePaths.length);
     },
 
     _forEachDiff(fn) {
@@ -819,7 +820,7 @@
       // Start the timer for the rendering work hwere because this is where the
       // _shownFiles property is being set, and _shownFiles is used in the
       // dom-repeat binding.
-      this.$.reporting.time(RENDER_TIME);
+      this.$.reporting.time(RENDER_TIMING_LABEL);
 
       // How many more files are being shown (if it's an increase).
       this._reportinShownFilesIncrement =
@@ -934,13 +935,12 @@
           })
           .reduce((acc, paths) => { return acc.concat(paths); }, []);
 
-      const timerName = 'Expand ' + newPaths.length + ' diffs';
-      this.$.reporting.time(timerName);
+      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
 
       // Required so that the newly created diff view is included in this.diffs.
       Polymer.dom.flush();
 
-      this._renderInOrder(newPaths, this.diffs, newPaths.length, timerName);
+      this._renderInOrder(newPaths, this.diffs, newPaths.length);
       this._updateDiffCursor();
       this.$.diffCursor.handleDiffUpdate();
     },
@@ -960,11 +960,9 @@
      * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
      * @param  {number} initialCount The total number of paths in the pass. This
      *   is used to generate log messages.
-     * @param {string} timerName the timer to stop after the render has
-     *   completed
      * @return {!Promise}
      */
-    _renderInOrder(paths, diffElements, initialCount, timerName) {
+    _renderInOrder(paths, diffElements, initialCount) {
       let iter = 0;
 
       return (new Promise(resolve => {
@@ -988,7 +986,8 @@
           this._cancelForEachDiff = null;
           this._nextRenderParams = null;
           console.log('Finished expanding', initialCount, 'diff(s)');
-          this.$.reporting.timeEnd(timerName);
+          this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
+              EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
           this.$.diffCursor.handleDiffUpdate();
         });
       });
@@ -1214,8 +1213,8 @@
     _reportRenderedRow(index) {
       if (index === this._shownFiles.length - 1) {
         this.async(() => {
-          this.$.reporting.timeEndWithAverage(RENDER_TIME, RENDER_TIME_AVERAGE,
-              this._reportinShownFilesIncrement);
+          this.$.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
+              RENDER_AVG_TIMING_LABEL, this._reportinShownFilesIncrement);
         }, 1);
       }
       return '';

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.elasticsearch.ElasticContainer;
 import com.google.gerrit.elasticsearch.ElasticTestUtils;
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
@@ -23,10 +22,7 @@ import com.google.inject.Injector;
 import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
-import org.junit.Ignore;
 
-@NoHttpd
-@Ignore
 public class ElasticReindexIT extends AbstractReindexTests {
   private static ElasticContainer<?> container;
 

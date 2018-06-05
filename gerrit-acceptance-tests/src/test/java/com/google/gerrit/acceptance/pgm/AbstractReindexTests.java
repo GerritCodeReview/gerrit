@@ -39,11 +39,9 @@ import java.nio.file.Files;
 import java.util.Set;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
-@Ignore
 public abstract class AbstractReindexTests extends StandaloneSiteTest {
   /** @param injector injector */
   public abstract void configureIndex(Injector injector) throws Exception;

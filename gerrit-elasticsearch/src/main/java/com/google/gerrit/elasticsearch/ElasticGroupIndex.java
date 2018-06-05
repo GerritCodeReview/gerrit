@@ -109,8 +109,8 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   }
 
   @Override
-  protected String addActions(AccountGroup.UUID c) {
-    return delete(GROUPS, c);
+  protected String getDeleteActions(AccountGroup.UUID g) {
+    return delete(GROUPS, g);
   }
 
   @Override

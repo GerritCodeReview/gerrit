@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.integer;
+import static com.google.gerrit.index.FieldDef.keyword;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
@@ -40,11 +41,11 @@ public class GroupField {
 
   /** Group UUID. */
   public static final FieldDef<InternalGroup, String> UUID =
-      exact("uuid").stored().build(g -> g.getGroupUUID().get());
+      keyword("uuid").stored().build(g -> g.getGroupUUID().get());
 
   /** Group owner UUID. */
   public static final FieldDef<InternalGroup, String> OWNER_UUID =
-      exact("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
+      keyword("owner_uuid").build(g -> g.getOwnerGroupUUID().get());
 
   /** Timestamp indicating when this group was created. */
   public static final FieldDef<InternalGroup, Timestamp> CREATED_ON =

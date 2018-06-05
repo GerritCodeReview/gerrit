@@ -24,13 +24,7 @@ import org.testcontainers.containers.GenericContainer;
 public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends GenericContainer<SELF> {
   private static final int ELASTICSEARCH_DEFAULT_PORT = 9200;
 
-  public enum Version {
-    V2,
-    V5,
-    V6
-  }
-
-  public static ElasticContainer<?> createAndStart(Version version) {
+  public static ElasticContainer<?> createAndStart(ElasticVersion version) {
     // Assumption violation is not natively supported by Testcontainers.
     // See https://github.com/testcontainers/testcontainers-java/issues/343
     try {
@@ -43,22 +37,22 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
   }
 
   public static ElasticContainer<?> createAndStart() {
-    return createAndStart(Version.V2);
+    return createAndStart(ElasticVersion.V2_4);
   }
 
-  private static String getImageName(Version version) {
+  private static String getImageName(ElasticVersion version) {
     switch (version) {
-      case V2:
+      case V2_4:
         return "elasticsearch:2.4.6-alpine";
-      case V5:
+      case V5_6:
         return "elasticsearch:5.6.9-alpine";
-      case V6:
+      case V6_2:
         return "docker.elastic.co/elasticsearch/elasticsearch:6.2.4";
     }
-    throw new IllegalStateException("Unsupported version: " + version.name());
+    throw new IllegalStateException("No tests for version: " + version.name());
   }
 
-  private ElasticContainer(Version version) {
+  private ElasticContainer(ElasticVersion version) {
     super(getImageName(version));
   }
 

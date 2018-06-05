@@ -3520,9 +3520,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void setRevertOfOnChildCommitFails() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setRevertOf(newChange().getId().get());
     exception.expect(OrmException.class);
     exception.expectMessage("Given ChangeUpdate is only allowed on initial commit");
-    update.setRevertOf(newChange().getId().get());
     update.commit();
   }
 

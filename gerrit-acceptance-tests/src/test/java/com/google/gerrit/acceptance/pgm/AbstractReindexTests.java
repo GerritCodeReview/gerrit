@@ -26,11 +26,9 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Injector;
 import java.nio.file.Files;
-import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
-@Ignore
 public abstract class AbstractReindexTests extends StandaloneSiteTest {
   /** @param injector injector */
   public abstract void configureIndex(Injector injector) throws Exception;

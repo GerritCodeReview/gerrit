@@ -110,8 +110,8 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   }
 
   @Override
-  protected String addActions(Account.Id c) {
-    return delete(ACCOUNTS, c);
+  protected String getDeleteActions(Account.Id a) {
+    return delete(ACCOUNTS, a);
   }
 
   @Override

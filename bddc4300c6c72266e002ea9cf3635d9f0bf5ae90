@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d7ddf38_f28da478",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-06-05T20:57:19Z",
+      "side": 1,
+      "message": "Maybe this is hair splitting but why this argument is added at the beginning? Don\u0027t we add new argument last typically?",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 33
+      },
+      "revId": "bddc4300c6c72266e002ea9cf3635d9f0bf5ae90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

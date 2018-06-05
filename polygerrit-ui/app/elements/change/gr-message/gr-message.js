@@ -251,5 +251,14 @@
         this._projectConfig = config;
       });
     },
+
+    _computeExpandToggleIcon(expanded) {
+      return expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
+    },
+
+    _toggleExpanded(e) {
+      e.stopPropagation();
+      this.set('message.expanded', !this.message.expanded);
+    },
   });
 })();

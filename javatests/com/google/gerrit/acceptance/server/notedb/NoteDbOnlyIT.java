@@ -64,7 +64,7 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
   public static Config defaultConfig() {
     Config cfg = new Config();
     // Avoid spurious timeouts during intentional retries due to overloaded test machines.
-    cfg.setString("noteDb", null, "retryTimeout", Integer.MAX_VALUE + "s");
+    cfg.setString("retry", null, "timeout", Integer.MAX_VALUE + "s");
     return cfg;
   }
 

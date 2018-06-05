@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e41a054f_25c4b069",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-05T12:58:06Z",
+      "side": 1,
+      "message": "I will abandon this change and make a new one to add the coverage for addActions method of ElasticGroupIndex instead.",
+      "parentUuid": "571b1df5_22912684",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "34f286d279e39ac9424bf2755c2905fecb0f797f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c86cd2e4_a8f0c041",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2018-06-04T21:07:56Z",
       "side": 1,
       "message": "Would add a short paragraph about the hereby added default implementation, no matter the choice of it (see related comment).",
+      "revId": "34f286d279e39ac9424bf2755c2905fecb0f797f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68f5949c_b0d9d33b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-05T12:58:06Z",
+      "side": 1,
+      "message": "Same as above",
+      "parentUuid": "c86cd2e4_a8f0c041",
       "revId": "34f286d279e39ac9424bf2755c2905fecb0f797f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
@@ -127,12 +128,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Run SSH daemon portions of Gerrit. */
 public class Daemon extends SiteProgram {
-  private static final Logger log = LoggerFactory.getLogger(Daemon.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(name = "--enable-httpd", usage = "Enable the internal HTTP daemon")
   private Boolean httpd;
@@ -249,7 +248,7 @@ public class Daemon extends SiteProgram {
         new UncaughtExceptionHandler() {
           @Override
           public void uncaughtException(Thread t, Throwable e) {
-            log.error("Thread " + t.getName() + " threw exception", e);
+            logger.atSevere().withCause(e).log("Thread %s threw exception", t.getName());
           }
         });
 
@@ -269,17 +268,17 @@ public class Daemon extends SiteProgram {
       start();
       RuntimeShutdown.add(
           () -> {
-            log.info("caught shutdown, cleaning up");
+            logger.atInfo().log("caught shutdown, cleaning up");
             stop();
           });
 
-      log.info("Gerrit Code Review " + myVersion() + " ready");
+      logger.atInfo().log("Gerrit Code Review %s ready", myVersion());
       if (runId != null) {
         try {
           Files.write(runFile, (runId + "\n").getBytes(UTF_8));
           runFile.toFile().setReadable(true, false);
         } catch (IOException err) {
-          log.warn("Cannot write --run-id to " + runFile, err);
+          logger.atWarning().withCause(err).log("Cannot write --run-id to %s", runFile);
         }
       }
 
@@ -299,7 +298,7 @@ public class Daemon extends SiteProgram {
       }
       return 0;
     } catch (Throwable err) {
-      log.error("Unable to start daemon", err);
+      logger.atSevere().withCause(err).log("Unable to start daemon");
       return 1;
     }
   }
@@ -366,7 +365,7 @@ public class Daemon extends SiteProgram {
       try {
         Files.delete(runFile);
       } catch (IOException err) {
-        log.warn("failed to delete " + runFile, err);
+        logger.atWarning().withCause(err).log("failed to delete %s", runFile);
       }
     }
     manager.stop();

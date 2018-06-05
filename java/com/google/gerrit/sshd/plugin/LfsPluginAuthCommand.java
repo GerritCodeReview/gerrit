@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.plugin;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -24,11 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Argument;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LfsPluginAuthCommand extends SshCommand {
-  private static final Logger log = LoggerFactory.getLogger(LfsPluginAuthCommand.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String CONFIGURATION_ERROR =
       "Server configuration error: LFS auth over SSH is not properly configured.";
 
@@ -67,7 +67,7 @@ public class LfsPluginAuthCommand extends SshCommand {
   protected void run() throws UnloggedFailure, Exception {
     LfsSshPluginAuth pluginAuth = auth.get();
     if (pluginAuth == null) {
-      log.warn(CONFIGURATION_ERROR);
+      logger.atWarning().log(CONFIGURATION_ERROR);
       throw new UnloggedFailure(1, CONFIGURATION_ERROR);
     }
 

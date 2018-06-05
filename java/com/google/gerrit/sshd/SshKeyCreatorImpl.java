@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountSshKey;
@@ -21,11 +22,9 @@ import com.google.gerrit.server.ssh.SshKeyCreator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SshKeyCreatorImpl implements SshKeyCreator {
-  private static final Logger log = LoggerFactory.getLogger(SshKeyCreatorImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   public AccountSshKey create(Account.Id accountId, int seq, String encoded)
@@ -38,7 +37,7 @@ public class SshKeyCreatorImpl implements SshKeyCreator {
       throw new InvalidSshKeyException();
 
     } catch (NoSuchProviderException e) {
-      log.error("Cannot parse SSH key", e);
+      logger.atSevere().withCause(e).log("Cannot parse SSH key");
       throw new InvalidSshKeyException();
     }
   }

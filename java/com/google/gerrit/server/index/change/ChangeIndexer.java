@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.change;
 import static com.google.gerrit.server.extensions.events.EventUtil.logEventListenerError;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -56,8 +57,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Helper for (re)indexing a change document.
@@ -66,7 +65,7 @@ import org.slf4j.LoggerFactory;
  * fields and/or update the index.
  */
 public class ChangeIndexer {
-  private static final Logger log = LoggerFactory.getLogger(ChangeIndexer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     ChangeIndexer create(ListeningExecutorService executor, ChangeIndex index);
@@ -374,7 +373,7 @@ public class ChangeIndexer {
           }
         }
       } catch (Exception e) {
-        log.error("Failed to execute " + this, e);
+        logger.atSevere().withCause(e).log("Failed to execute %s", this);
         throw e;
       }
     }
@@ -414,7 +413,7 @@ public class ChangeIndexer {
       for (ChangeIndex i : getWriteIndexes()) {
         i.delete(id);
       }
-      log.info("Deleted change {} from index.", id.get());
+      logger.atInfo().log("Deleted change %s from index.", id.get());
       fireChangeDeletedFromIndexEvent(id.get());
       return null;
     }
@@ -433,15 +432,16 @@ public class ChangeIndexer {
           return true;
         }
       } catch (NoSuchChangeException nsce) {
-        log.debug("Change {} was deleted, aborting reindexing the change.", id.get());
+        logger.atFine().log("Change %s was deleted, aborting reindexing the change.", id.get());
       } catch (Exception e) {
         if (!isCausedByRepositoryNotFoundException(e)) {
           throw e;
         }
-        log.debug(
-            "Change {} belongs to deleted project {}, aborting reindexing the change.",
-            id.get(),
-            project.get());
+        logger
+            .atFine()
+            .log(
+                "Change %s belongs to deleted project %s, aborting reindexing the change.",
+                id.get(), project.get());
       }
       return false;
     }

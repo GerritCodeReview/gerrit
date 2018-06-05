@@ -15,6 +15,7 @@
 package com.google.gerrit.elasticsearch;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.Index;
@@ -31,12 +32,10 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ElasticIndexVersionManager extends VersionManager {
-  private static final Logger log = LoggerFactory.getLogger(ElasticIndexVersionManager.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final String prefix;
   private final ElasticIndexVersionDiscovery versionDiscovery;
@@ -61,13 +60,13 @@ public class ElasticIndexVersionManager extends VersionManager {
       for (String version : versionDiscovery.discover(prefix, def.getName())) {
         Integer v = Ints.tryParse(version);
         if (v == null || version.length() != 4) {
-          log.warn("Unrecognized version in index {}: {}", def.getName(), version);
+          logger.atWarning().log("Unrecognized version in index %s: %s", def.getName(), version);
           continue;
         }
         versions.put(v, new Version<V>(null, v, true, cfg.getReady(def.getName(), v)));
       }
     } catch (IOException e) {
-      log.error("Error scanning index: " + def.getName(), e);
+      logger.atSevere().withCause(e).log("Error scanning index: %s", def.getName());
     }
 
     for (Schema<V> schema : def.getSchemas().values()) {

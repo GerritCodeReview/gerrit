@@ -21,6 +21,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
@@ -66,12 +67,10 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Cached information on a project. */
 public class ProjectState {
-  private static final Logger log = LoggerFactory.getLogger(ProjectState.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     ProjectState create(ProjectConfig config);
@@ -226,7 +225,7 @@ public class ProjectState {
     try (Repository git = gitMgr.openRepository(getNameKey())) {
       cfg.load(git, config.getRevision());
     } catch (IOException | ConfigInvalidException e) {
-      log.warn("Failed to load " + fileName + " for " + getName(), e);
+      logger.atWarning().withCause(e).log("Failed to load %s for %s", fileName, getName());
     }
 
     configs.put(fileName, cfg);
@@ -517,7 +516,7 @@ public class ProjectState {
     if (!Files.exists(dir)) {
       return ThemeInfo.INHERIT;
     } else if (!Files.isDirectory(dir)) {
-      log.warn("Bad theme for {}: not a directory", name);
+      logger.atWarning().log("Bad theme for %s: not a directory", name);
       return ThemeInfo.INHERIT;
     }
     try {
@@ -526,7 +525,7 @@ public class ProjectState {
           readFile(dir.resolve(SitePaths.HEADER_FILENAME)),
           readFile(dir.resolve(SitePaths.FOOTER_FILENAME)));
     } catch (IOException e) {
-      log.error("Error reading theme for " + name, e);
+      logger.atSevere().withCause(e).log("Error reading theme for %s", name);
       return ThemeInfo.INHERIT;
     }
   }

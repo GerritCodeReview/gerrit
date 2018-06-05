@@ -16,6 +16,7 @@ package com.google.gerrit.lifecycle;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.inject.Binding;
@@ -24,10 +25,11 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Providers;
 import java.util.List;
-import org.slf4j.LoggerFactory;
 
 /** Tracks and executes registered {@link LifecycleListener}s. */
 public class LifecycleManager {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final List<Provider<LifecycleListener>> listeners = newList();
   private final List<RegistrationHandle> handles = newList();
 
@@ -105,7 +107,7 @@ public class LifecycleManager {
       try {
         obj.stop();
       } catch (Throwable err) {
-        LoggerFactory.getLogger(obj.getClass()).warn("Failed to stop", err);
+        logger.atWarning().withCause(err).log("Failed to stop %s", obj.getClass());
       }
       startedIndex = i - 1;
     }

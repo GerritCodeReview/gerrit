@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -70,8 +71,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Files implements ChildCollection<RevisionResource, FileResource> {
@@ -100,7 +99,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
   }
 
   public static final class ListFiles implements ETagView<RevisionResource> {
-    private static final Logger log = LoggerFactory.getLogger(ListFiles.class);
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
     @Option(name = "--base", metaVar = "revision-id")
     String base;
@@ -248,9 +247,9 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         try {
           return copy(res.files(), res.patchSetId(), resource, userId);
         } catch (PatchListObjectTooLargeException e) {
-          log.warn("Cannot copy patch review flags: " + e.getMessage());
+          logger.atWarning().log("Cannot copy patch review flags: %s", e.getMessage());
         } catch (IOException | PatchListNotAvailableException e) {
-          log.warn("Cannot copy patch review flags", e);
+          logger.atWarning().withCause(e).log("Cannot copy patch review flags");
         }
       }
 

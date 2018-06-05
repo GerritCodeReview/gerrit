@@ -23,6 +23,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
@@ -69,11 +70,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
-  private static final Logger log = LoggerFactory.getLogger(AbstractElasticIndex.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static final String BULK = "_bulk";
   protected static final String IGNORE_UNMAPPED = "ignore_unmapped";
@@ -332,7 +331,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
             }
           }
         } else {
-          log.error(statusLine.getReasonPhrase());
+          logger.atSevere().log(statusLine.getReasonPhrase());
         }
         final List<T> r = Collections.unmodifiableList(results);
         return new ResultSet<T>() {

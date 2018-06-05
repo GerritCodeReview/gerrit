@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -49,11 +50,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.TemporaryBuffer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AutoMerger {
-  private static final Logger log = LoggerFactory.getLogger(AutoMerger.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static boolean cacheAutomerge(Config cfg) {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
@@ -119,7 +118,7 @@ public class AutoMerger {
       // an exception most likely means that the merge tree was not created
       // and m.getMergeResults() is empty. This would mean that all paths are
       // unmerged and Gerrit UI would show all paths in the patch list.
-      log.warn("Error attempting automerge " + refName, e);
+      logger.atWarning().withCause(e).log("Error attempting automerge %s", refName);
       return null;
     }
 

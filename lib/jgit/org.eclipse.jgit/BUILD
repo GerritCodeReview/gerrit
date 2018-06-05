@@ -5,7 +5,10 @@ java_library(
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
     exports = [jgit_dep("@jgit_lib//jar")],
-    runtime_deps = [":javaewah"],
+    runtime_deps = [
+        ":javaewah",
+        "//lib/log:api",
+    ],
 )
 
 alias(

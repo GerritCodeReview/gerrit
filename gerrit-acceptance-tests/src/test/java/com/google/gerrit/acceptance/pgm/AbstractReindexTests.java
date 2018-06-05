@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.pgm;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.io.MoreFiles;
@@ -23,6 +24,7 @@ import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.inject.Injector;
 import java.nio.file.Files;
 import org.junit.Ignore;
@@ -58,7 +60,10 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
     runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
 
     try (ServerContext ctx = startServer()) {
-      GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
+      Injector injector = ctx.getInjector();
+      GerritApi gApi = injector.getInstance(GerritApi.class);
+      InternalAccountQuery accountQuery = injector.getInstance(InternalAccountQuery.class);
+      assertThat(accountQuery.byEmailPrefix("admin")).isNotEmpty();
       assertThat(gApi.changes().query("message:Test").get().stream().map(c -> c.changeId))
           .containsExactly(changeId);
     }

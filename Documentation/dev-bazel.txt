@@ -366,15 +366,16 @@ JGit repository.
 
 [[bazel-local-caches]]
 
-To accelerate builds, number of caches are activated per default:
+To accelerate builds, several caches are activated per default:
 
 * ~/.gerritcodereview/bazel-cache/downloaded-artifacts
 * ~/.gerritcodereview/bazel-cache/repository
 * ~/.gerritcodereview/bazel-cache/cas
 
-All these caches currently don't have max. size limit,
-link:https://github.com/bazelbuild/bazel/issues/5139[see this pending issue],
-The users should watch their size and clean them manually if needed.
+Currently none of these caches have a maximum size limit. See
+link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue] for
+details. Users should watch the cache sizes and clean them manually if
+necessary.
 
 GERRIT
 ------

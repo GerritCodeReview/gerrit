@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "960267da_3919963f",
+        "filename": "polygerrit-ui/app/behaviors/gr-hovercard-behavior/gr-hovercard-behavior.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-05T18:33:07Z",
+      "side": 1,
+      "message": "I don\u0027t understand the reason for this behavior; why not put this logic in gr-hovercard?",
+      "revId": "b52b169ed24ddbd4bd86842da7682cca0db10117",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96290cb2_46608746",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.js",
         "patchSetId": 2

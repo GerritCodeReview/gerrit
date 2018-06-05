@@ -183,15 +183,12 @@ public class ChangeIndexer {
   }
 
   /**
-   * Synchronously index a change.
+   * Synchronously index a change, then check if the index is stale due to a race condition.
    *
    * @param cd change to index.
    */
   public void index(ChangeData cd) throws IOException {
-    for (Index<?, ChangeData> i : getWriteIndexes()) {
-      i.replace(cd);
-    }
-    fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
+    indexImpl(cd);
 
     // Always double-check whether the change might be stale immediately after
     // interactively indexing it. This fixes up the case where two writers write
@@ -212,6 +209,13 @@ public class ChangeIndexer {
     // reindexIfStale calls actually execute in; we are guaranteed that at least
     // one of them will execute after the second index write, (4).
     autoReindexIfStale(cd);
+  }
+
+  private void indexImpl(ChangeData cd) throws IOException {
+    for (Index<?, ChangeData> i : getWriteIndexes()) {
+      i.replace(cd);
+    }
+    fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
   }
 
   private void fireChangeIndexedEvent(String projectName, int id) {
@@ -428,7 +432,7 @@ public class ChangeIndexer {
     public Boolean callImpl(Provider<ReviewDb> db) throws Exception {
       try {
         if (stalenessChecker.isStale(id)) {
-          index(newChangeData(db.get(), project, id));
+          indexImpl(newChangeData(db.get(), project, id));
           return true;
         }
       } catch (NoSuchChangeException nsce) {

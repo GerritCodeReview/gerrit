@@ -152,8 +152,7 @@ public class JarPluginProvider implements ServerPluginProvider {
               jarScanner,
               description.dataDir,
               pluginLoader,
-              pluginConfig.getString("metricsPrefix", null),
-              description.gerritRuntime);
+              pluginConfig.getString("metricsPrefix", null));
       plugin.setCleanupHandle(new CleanupHandle(tmp, jarFile));
       keep = true;
       return plugin;

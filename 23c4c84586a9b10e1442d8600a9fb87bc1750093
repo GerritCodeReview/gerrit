@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7aeff76f_694ed401",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-05T17:37:23Z",
+      "side": 1,
+      "message": "This works but includedGroups cannot use encode for deleting.",
+      "parentUuid": "09f17865_8a2c9d1a",
+      "range": {
+        "startLine": 509,
+        "startChar": 27,
+        "endLine": 509,
+        "endChar": 45
+      },
+      "revId": "23c4c84586a9b10e1442d8600a9fb87bc1750093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f304bd2_de0575ee",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 17
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-04T23:14:25Z",
       "side": 1,
       "message": "And this one.",
+      "range": {
+        "startLine": 516,
+        "startChar": 34,
+        "endLine": 516,
+        "endChar": 52
+      },
+      "revId": "23c4c84586a9b10e1442d8600a9fb87bc1750093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e29dfc_45df3df0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-05T17:37:23Z",
+      "side": 1,
+      "message": "Fails with \"Server error: user%3Aadmin\" when switching this to encode.",
+      "parentUuid": "8f304bd2_de0575ee",
       "range": {
         "startLine": 516,
         "startChar": 34,

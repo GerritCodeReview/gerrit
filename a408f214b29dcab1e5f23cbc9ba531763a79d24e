@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ba42d8b_fc6fed37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-05T05:52:21Z",
+      "side": 1,
+      "message": "Mention, that the code is borrowed from master?",
+      "revId": "a408f214b29dcab1e5f23cbc9ba531763a79d24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5043d245_91ec90d7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/pgm/AbstractReindexTests.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-05T05:52:21Z",
+      "side": 1,
+      "message": "I remember adding it on master for all 4 indices. Project index doesn\u0027t exist on stable-2.14, so may be add all three verifications, that reindex did work, quoting the relevant part of the code from master. Or are you planning to add another 2 changes to verify change and group index work after reindexing?\n\n      // Query change index\n      assertThat(gApi.changes().query(\"message:Test\").get().stream().map(c -\u003e c.changeId))\n          .containsExactly(changeId);\n      // Query account index\n      assertThat(gApi.accounts().query(\"admin\").get().stream().map(a -\u003e a._accountId))\n          .containsExactly(adminId.get());\n      // Query group index\n      assertThat(\n              gApi.groups()\n                  .query(\"Group\")\n                  .withOption(MEMBERS)\n                  .get()\n                  .stream()\n                  .flatMap(g -\u003e g.members.stream())\n                  .map(a -\u003e a._accountId))\n          .containsExactly(adminId.get());",
+      "revId": "a408f214b29dcab1e5f23cbc9ba531763a79d24e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

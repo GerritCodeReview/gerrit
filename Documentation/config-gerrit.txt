@@ -753,6 +753,7 @@ Default is 1024 for most caches, except:
 * `"diff"`: default is `10m` (10 MiB of memory)
 * `"diff_intraline"`: default is `10m` (10 MiB of memory)
 * `"diff_summary"`: default is `10m` (10 MiB of memory)
+* `"external_ids_map"`: default is `1` and should not be changed
 * `"groups"`: default is unlimited
 * `"groups_byname"`: default is unlimited
 * `"groups_byuuid"`: default is unlimited
@@ -853,6 +854,14 @@ of paths of changed files.
 Ideally, disk limit of this cache is large enough to cover all changes.
 This should significantly speed up change reindexing, especially
 full offline reindexing.
+
+cache `"external_ids_map"`::
++
+A singleton cache whose sole entry is a map of the parsed representation
+of link:config-accounts.html#external-ids[all current external IDs].
++
+It is not recommended to change the attributes of this cache away from
+the defaults.
 
 cache `"git_tags"`::
 +

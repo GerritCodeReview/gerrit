@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "330b867a_d11d499c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-05T05:15:13Z",
+      "side": 1,
+      "message": "Where is your node installed on your OSX system? In my case it\u0027s:\n\n  $ which node\n  /usr/bin/node\n\nand all just works. What you could do, is pass --action_env\u003dPATH\u003dfoo:bar:baz and this should fix I think. Now to not pass this option all the time, just add this line to ~/.bazelrc file, like this:\n\n  build --action_env\u003dPATH\u003dfoo:bar:baz\n\nIf this works, we could add this to dev-bazel.txt document and that should be fine?",
+      "revId": "ca1c2854f9fdf1d16976258a705d55fcc6512c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

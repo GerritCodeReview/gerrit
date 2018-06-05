@@ -18,8 +18,9 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * A search source builder allowing to easily build search source. A trimmed down and further
- * altered version of org.elasticsearch.search.builder.SearchSourceBuilder for this very package.
+ * A search source builder allowing to easily build search source.
+ *
+ * <p>A trimmed down and modified version of org.elasticsearch.search.builder.SearchSourceBuilder.
  */
 public class SearchSourceBuilder {
 

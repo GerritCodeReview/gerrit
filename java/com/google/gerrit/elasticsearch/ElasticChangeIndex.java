@@ -49,7 +49,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -71,7 +70,6 @@ import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpStatus;
-import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 
 /** Secondary index implementation using Elasticsearch. */
@@ -99,11 +97,11 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   @Inject
   ElasticChangeIndex(
-      @GerritServerConfig Config cfg,
+      ElasticConfiguration cfg,
       Provider<ReviewDb> db,
       ChangeData.Factory changeDataFactory,
       SitePaths sitePaths,
-      ElasticRestClientBuilder clientBuilder,
+      ElasticRestClientProvider clientBuilder,
       @Assisted Schema<ChangeData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, CHANGES);
     this.db = db;

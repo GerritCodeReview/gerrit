@@ -332,7 +332,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       for (Object value : values.getValues()) {
         doc.add(new LongField(name, ((Timestamp) value).getTime(), store));
       }
-    } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
+    } else if (type == FieldType.KEYWORD || type == FieldType.EXACT || type == FieldType.PREFIX) {
       for (Object value : values.getValues()) {
         doc.add(new StringField(name, (String) value, store));
       }
@@ -355,7 +355,10 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     for (IndexableField field : doc.getFields()) {
       checkArgument(allFields.containsKey(field.name()), "Unrecognized field " + field.name());
       FieldType<?> type = allFields.get(field.name()).getType();
-      if (type == FieldType.EXACT || type == FieldType.FULL_TEXT || type == FieldType.PREFIX) {
+      if (type == FieldType.EXACT
+          || type == FieldType.FULL_TEXT
+          || type == FieldType.PREFIX
+          || type == FieldType.KEYWORD) {
         rawFields.put(field.name(), field.stringValue());
       } else if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
         rawFields.put(field.name(), field.numericValue().intValue());

@@ -116,13 +116,13 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   @Override
-  public void delete(K c) throws IOException {
+  public void delete(K id) throws IOException {
     String uri = getURI(indexNameRaw, BULK);
-    Response response = postRequest(addActions(c), uri, getRefreshParam());
+    Response response = postRequest(getDeleteActions(id), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
-          String.format("Failed to delete %s from index %s: %s", c, indexName, statusCode));
+          String.format("Failed to delete %s from index %s: %s", id, indexName, statusCode));
     }
   }
 
@@ -150,15 +150,14 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
   }
 
-  protected abstract String addActions(K c);
+  protected abstract String getDeleteActions(K id);
 
   protected abstract String getMappings();
 
   protected abstract String getId(V v);
 
-  protected String delete(String type, K c) {
-    String id = c.toString();
-    return new DeleteRequest(id, indexNameRaw, type).toString();
+  protected String delete(String type, K id) {
+    return new DeleteRequest(id.toString(), indexNameRaw, type).toString();
   }
 
   protected void addNamedElement(String name, JsonObject element, JsonArray array) {

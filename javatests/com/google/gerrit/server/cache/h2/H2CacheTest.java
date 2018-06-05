@@ -47,7 +47,7 @@ public class H2CacheTest {
             StringSerializer.INSTANCE,
             version,
             1 << 20,
-            0);
+            null);
     return new H2CacheImpl<>(MoreExecutors.directExecutor(), store, KEY_TYPE, mem);
   }
 

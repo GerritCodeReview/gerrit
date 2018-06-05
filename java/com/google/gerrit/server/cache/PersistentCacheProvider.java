@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     implements Provider<Cache<K, V>>, PersistentCacheBinding<K, V>, PersistentCacheDef<K, V> {
@@ -53,8 +53,8 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   }
 
   @Override
-  public PersistentCacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits) {
-    return (PersistentCacheBinding<K, V>) super.expireAfterWrite(duration, durationUnits);
+  public PersistentCacheBinding<K, V> expireAfterWrite(Duration duration) {
+    return (PersistentCacheBinding<K, V>) super.expireAfterWrite(duration);
   }
 
   @Override

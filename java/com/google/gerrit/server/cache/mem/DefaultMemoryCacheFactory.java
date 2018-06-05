@@ -26,6 +26,7 @@ import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -66,14 +67,19 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
     }
     builder.weigher(weigher);
 
-    Long age = def.expireAfterWrite(TimeUnit.SECONDS);
+    Duration age = def.expireAfterWrite();
     if (has(def.configKey(), "maxAge")) {
       builder.expireAfterWrite(
           ConfigUtil.getTimeUnit(
-              cfg, "cache", def.configKey(), "maxAge", age != null ? age : 0, TimeUnit.SECONDS),
+              cfg,
+              "cache",
+              def.configKey(),
+              "maxAge",
+              age != null ? age.getSeconds() : 0,
+              TimeUnit.SECONDS),
           TimeUnit.SECONDS);
     } else if (age != null) {
-      builder.expireAfterWrite(age, TimeUnit.SECONDS);
+      builder.expireAfterWrite(age.toNanos(), TimeUnit.NANOSECONDS);
     }
 
     return builder;

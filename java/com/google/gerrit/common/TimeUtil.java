@@ -17,6 +17,7 @@ package com.google.gerrit.common;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.function.LongSupplier;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
@@ -34,6 +35,10 @@ public class TimeUtil {
     // We should rather use Instant.now(Clock).toEpochMilli() instead but this would require some
     // changes in our testing code as we wouldn't have clock steps anymore.
     return currentMillisSupplier.getAsLong();
+  }
+
+  public static Instant now() {
+    return Instant.ofEpochMilli(nowMs());
   }
 
   public static Timestamp nowTs() {

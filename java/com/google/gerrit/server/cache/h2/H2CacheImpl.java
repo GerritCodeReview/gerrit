@@ -23,6 +23,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.BloomFilter;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.PersistentCache;
@@ -35,6 +36,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -254,7 +256,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final CacheSerializer<V> valueSerializer;
     private final int version;
     private final long maxSize;
-    private final long expireAfterWrite;
+    @Nullable private final Duration expireAfterWrite;
     private final BlockingQueue<SqlHandle> handles;
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
@@ -268,7 +270,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         CacheSerializer<V> valueSerializer,
         int version,
         long maxSize,
-        long expireAfterWrite) {
+        @Nullable Duration expireAfterWrite) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
@@ -423,11 +425,11 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private boolean expired(Timestamp created) {
-      if (expireAfterWrite == 0) {
+      if (expireAfterWrite == null) {
         return false;
       }
-      long age = TimeUtil.nowMs() - created.getTime();
-      return 1000 * expireAfterWrite < age;
+      Duration age = Duration.between(created.toInstant(), TimeUtil.now());
+      return age.compareTo(expireAfterWrite) > 0;
     }
 
     private void touch(SqlHandle c, K key) throws IOException, SQLException {

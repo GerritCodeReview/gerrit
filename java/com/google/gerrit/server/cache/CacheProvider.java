@@ -16,7 +16,6 @@ package com.google.gerrit.server.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
@@ -27,7 +26,7 @@ import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, CacheDef<K, V> {
   private final CacheModule module;
@@ -36,7 +35,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   private final TypeLiteral<V> valType;
   private String configKey;
   private long maximumWeight;
-  private Long expireAfterWrite;
+  private Duration expireAfterWrite;
   private Provider<CacheLoader<K, V>> loader;
   private Provider<Weigher<K, V>> weigher;
 
@@ -69,9 +68,9 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
-  public CacheBinding<K, V> expireAfterWrite(long duration, TimeUnit unit) {
+  public CacheBinding<K, V> expireAfterWrite(Duration duration) {
     checkNotFrozen();
-    expireAfterWrite = SECONDS.convert(duration, unit);
+    expireAfterWrite = duration;
     return this;
   }
 
@@ -126,8 +125,8 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
 
   @Override
   @Nullable
-  public Long expireAfterWrite(TimeUnit unit) {
-    return expireAfterWrite != null ? unit.convert(expireAfterWrite, SECONDS) : null;
+  public Duration expireAfterWrite() {
+    return expireAfterWrite;
   }
 
   @Override

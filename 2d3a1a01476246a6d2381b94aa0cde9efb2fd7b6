@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb106299_56beeba8",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1061517
+      },
+      "writtenOn": "2018-06-05T16:15:10Z",
+      "side": 1,
+      "message": "Alice said: \"Why do we need an assertion here?\"\n\nI said:\nThe assertion is not needed, but I prefer to check the exit code: if a test depends on this method, it\u0027s good to know what can be expected. I think I\u0027ve seen other helper methods do this\n\nDo you think I should remove the assertion?\n\nFrom\nhttps://gerrit-review.googlesource.com/c/gerrit/+/179290/4/javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 58
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

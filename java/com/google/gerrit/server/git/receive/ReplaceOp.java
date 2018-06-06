@@ -41,6 +41,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -107,6 +108,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
   private final CommentsUtil commentsUtil;
+  private final PublishCommentUtil publishCommentUtil;
   private final EmailReviewComments.Factory emailCommentsFactory;
   private final ExecutorService sendEmailExecutor;
   private final RevisionCreated revisionCreated;
@@ -150,6 +152,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
       CommentsUtil commentsUtil,
+      PublishCommentUtil publishCommentUtil,
       EmailReviewComments.Factory emailCommentsFactory,
       RevisionCreated revisionCreated,
       CommentAdded commentAdded,
@@ -176,6 +179,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
     this.commentsUtil = commentsUtil;
+    this.publishCommentUtil = publishCommentUtil;
     this.emailCommentsFactory = emailCommentsFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
@@ -446,7 +450,7 @@ public class ReplaceOp implements BatchUpdateOp {
       throws OrmException {
     List<Comment> comments =
         commentsUtil.draftByChangeAuthor(ctx.getDb(), ctx.getNotes(), ctx.getUser().getAccountId());
-    commentsUtil.publish(
+    publishCommentUtil.publish(
         ctx, patchSetId, comments, ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
     return comments;
   }

@@ -47,8 +47,8 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   static class GroupMapping {
     MappingProperties groups;
 
-    GroupMapping(Schema<InternalGroup> schema) {
-      this.groups = ElasticMapping.createMapping(schema);
+    GroupMapping(Schema<InternalGroup> schema, ElasticQueryAdapter adapter) {
+      this.groups = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
@@ -67,7 +67,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
       @Assisted Schema<InternalGroup> schema) {
     super(cfg, sitePaths, schema, client, GROUPS);
     this.groupCache = groupCache;
-    this.mapping = new GroupMapping(schema);
+    this.mapping = new GroupMapping(schema, client.adapter());
     this.schema = schema;
   }
 
@@ -95,8 +95,8 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   }
 
   @Override
-  protected String addActions(AccountGroup.UUID c) {
-    return delete(GROUPS, c);
+  protected String getDeleteActions(AccountGroup.UUID g) {
+    return delete(GROUPS, g);
   }
 
   @Override

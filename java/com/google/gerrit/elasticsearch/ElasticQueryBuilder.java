@@ -94,7 +94,7 @@ public class ElasticQueryBuilder {
       return intRangeQuery(p);
     } else if (type == FieldType.TIMESTAMP) {
       return timestampQuery(p);
-    } else if (type == FieldType.EXACT || type == FieldType.KEYWORD) {
+    } else if (type == FieldType.EXACT) {
       return exactQuery(p);
     } else if (type == FieldType.PREFIX) {
       return QueryBuilders.matchPhrasePrefixQuery(name, value);

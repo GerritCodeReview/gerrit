@@ -14,9 +14,7 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import com.google.gerrit.acceptance.NoHttpd;
 import org.junit.Ignore;
 
-@NoHttpd
 @Ignore
 public class ElasticReindexIT extends AbstractReindexTests {}

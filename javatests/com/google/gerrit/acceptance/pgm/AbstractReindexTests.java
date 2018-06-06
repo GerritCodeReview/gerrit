@@ -42,11 +42,9 @@ import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
-@Ignore
 public abstract class AbstractReindexTests extends StandaloneSiteTest {
   private static final String CHANGES = ChangeSchemaDefinitions.NAME;
 

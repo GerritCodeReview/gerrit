@@ -17,7 +17,11 @@ package com.google.gerrit.elasticsearch;
 import com.google.gson.JsonObject;
 
 public class ElasticQueryAdapter {
+  static final String POST_V5_TYPE = "_doc";
+
   private final boolean ignoreUnmapped;
+  private final boolean usePostV5Type;
+
   private final String searchFilteringName;
   private final String indicesExistParam;
   private final String exactFieldType;
@@ -26,6 +30,8 @@ public class ElasticQueryAdapter {
 
   ElasticQueryAdapter(ElasticVersion version) {
     this.ignoreUnmapped = version == ElasticVersion.V2_4;
+    this.usePostV5Type = version == ElasticVersion.V6_2;
+
     switch (version) {
       case V5_6:
       case V6_2:
@@ -52,6 +58,12 @@ public class ElasticQueryAdapter {
     }
   }
 
+  public void setType(JsonObject properties, String type) {
+    if (!usePostV5Type) {
+      properties.addProperty("_type", type);
+    }
+  }
+
   public String searchFilteringName() {
     return searchFilteringName;
   }
@@ -70,5 +82,13 @@ public class ElasticQueryAdapter {
 
   String indexProperty() {
     return indexProperty;
+  }
+
+  boolean usePostV5Type() {
+    return usePostV5Type;
+  }
+
+  String getType(String preV6Type) {
+    return usePostV5Type() ? POST_V5_TYPE : preV6Type;
   }
 }

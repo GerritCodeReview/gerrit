@@ -14,9 +14,11 @@
 
 package com.google.gerrit.elasticsearch.bulk;
 
+import com.google.gerrit.elasticsearch.ElasticRestClientProvider;
+
 public class IndexRequest extends ActionRequest {
 
-  public IndexRequest(String id, String index, String type) {
-    super("index", id, index, type);
+  public IndexRequest(String id, String index, String type, ElasticRestClientProvider client) {
+    super("index", id, index, type, client);
   }
 }

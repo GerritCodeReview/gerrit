@@ -36,7 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Singleton
-class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListener {
+public class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(ElasticRestClientProvider.class);
 
   private final HttpHost[] hosts;
@@ -91,7 +91,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
     }
   }
 
-  ElasticQueryAdapter adapter() {
+  public ElasticQueryAdapter adapter() {
     get(); // Make sure we're connected
     return adapter;
   }

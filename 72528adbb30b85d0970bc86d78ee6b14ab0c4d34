@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c7e9b83_38b67ef6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-06T18:08:46Z",
+      "side": 1,
+      "message": "The diff algorithm didn\u0027t do a great job with this one. Really all that\u0027s changed is I added ..\n\n (function() {\n\n.. to the beginning, and ..\n\n   window.GrLinkTextParser \u003d GrLinkTextParser;\n })();\n\n.. and indented everything in-between. It gets confused on ..\n\n  var fragment \u003d document.createDocumentFragment();\n\n.. because that line appears twice at different levels of indentation.",
+      "revId": "72528adbb30b85d0970bc86d78ee6b14ab0c4d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

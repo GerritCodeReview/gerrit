@@ -93,7 +93,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName) {
+      String indexName,
+      String indexType) {
     this.sitePaths = sitePaths;
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
@@ -101,7 +102,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = cfg.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
-    this.type = client.adapter().getType(indexName);
+    this.type = client.adapter().getType(indexType);
   }
 
   @Override

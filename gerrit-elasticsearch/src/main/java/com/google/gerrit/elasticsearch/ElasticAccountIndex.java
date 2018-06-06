@@ -80,7 +80,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       Provider<AccountCache> accountCache,
       ElasticRestClientProvider client,
       @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, client, ACCOUNTS);
+    super(cfg, sitePaths, schema, client, ACCOUNTS, ACCOUNTS);
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema, client.adapter());
     this.schema = schema;

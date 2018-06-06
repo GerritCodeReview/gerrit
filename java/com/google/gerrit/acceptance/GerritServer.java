@@ -73,6 +73,8 @@ import org.eclipse.jgit.lib.RepositoryCache;
 import org.eclipse.jgit.util.FS;
 
 public class GerritServer implements AutoCloseable {
+  private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
+
   public static class StartupException extends Exception {
     private static final long serialVersionUID = 1L;
 
@@ -307,6 +309,9 @@ public class GerritServer implements AutoCloseable {
       throws Exception {
     checkArgument(site != null, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
+    System.setProperty(
+        FLOGGER_BACKEND_PROPERTY,
+        "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
     Logger.getLogger("com.google.gerrit").setLevel(Level.DEBUG);
     CyclicBarrier serverStarted = new CyclicBarrier(2);
     Daemon daemon =

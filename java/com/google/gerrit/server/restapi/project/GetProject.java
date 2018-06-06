@@ -22,7 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class GetProject implements RestReadView<ProjectResource> {
+public class GetProject implements RestReadView<ProjectResource> {
 
   private final ProjectJson json;
 

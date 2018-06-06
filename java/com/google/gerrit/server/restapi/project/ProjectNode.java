@@ -23,8 +23,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /** Node of a Project in a tree formatted by {@link ListProjects}. */
-class ProjectNode implements TreeNode, Comparable<ProjectNode> {
-  interface Factory {
+public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
+  public interface Factory {
     ProjectNode create(Project project, boolean isVisible);
   }
 

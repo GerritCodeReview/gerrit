@@ -69,9 +69,8 @@ public class AsciiDoctor {
   private List<String> attributes = new ArrayList<>();
 
   @Option(
-    name = "--bazel",
-    usage = "bazel mode: generate multiple output files instead of a single zip file"
-  )
+      name = "--bazel",
+      usage = "bazel mode: generate multiple output files instead of a single zip file")
   private boolean bazel;
 
   @Option(name = "--revnumber-file", usage = "the file contains revnumber string")

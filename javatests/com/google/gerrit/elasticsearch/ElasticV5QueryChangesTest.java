@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
+public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {
     return IndexConfig.createForElasticsearch();
@@ -41,7 +41,7 @@ public class ElasticQueryChangesTest extends AbstractQueryChangesTest {
       return;
     }
 
-    container = ElasticContainer.createAndStart();
+    container = ElasticContainer.createAndStart(ElasticVersion.V5_6);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 

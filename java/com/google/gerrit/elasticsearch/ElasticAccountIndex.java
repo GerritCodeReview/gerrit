@@ -49,8 +49,8 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   static class AccountMapping {
     MappingProperties accounts;
 
-    AccountMapping(Schema<AccountState> schema) {
-      this.accounts = ElasticMapping.createMapping(schema);
+    AccountMapping(Schema<AccountState> schema, ElasticQueryAdapter adapter) {
+      this.accounts = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
@@ -69,7 +69,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       @Assisted Schema<AccountState> schema) {
     super(cfg, sitePaths, schema, client, ACCOUNTS);
     this.accountCache = accountCache;
-    this.mapping = new AccountMapping(schema);
+    this.mapping = new AccountMapping(schema, client.adapter());
     this.schema = schema;
   }
 
@@ -98,8 +98,8 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   }
 
   @Override
-  protected String addActions(Account.Id c) {
-    return delete(ACCOUNTS, c);
+  protected String getDeleteActions(Account.Id a) {
+    return delete(ACCOUNTS, a);
   }
 
   @Override

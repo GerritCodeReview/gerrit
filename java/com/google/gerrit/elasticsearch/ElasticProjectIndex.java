@@ -47,8 +47,8 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   static class ProjectMapping {
     MappingProperties projects;
 
-    ProjectMapping(Schema<ProjectData> schema) {
-      this.projects = ElasticMapping.createMapping(schema);
+    ProjectMapping(Schema<ProjectData> schema, ElasticQueryAdapter adapter) {
+      this.projects = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
@@ -63,12 +63,12 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
       ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<ProjectCache> projectCache,
-      ElasticRestClientProvider clientBuilder,
+      ElasticRestClientProvider client,
       @Assisted Schema<ProjectData> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, PROJECTS);
+    super(cfg, sitePaths, schema, client, PROJECTS);
     this.projectCache = projectCache;
     this.schema = schema;
-    this.mapping = new ProjectMapping(schema);
+    this.mapping = new ProjectMapping(schema, client.adapter());
   }
 
   @Override
@@ -97,7 +97,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   }
 
   @Override
-  protected String addActions(Project.NameKey nameKey) {
+  protected String getDeleteActions(Project.NameKey nameKey) {
     return delete(PROJECTS, nameKey);
   }
 

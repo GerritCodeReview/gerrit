@@ -33,7 +33,7 @@ public abstract class QueryBuilders {
    * @param text The query text (to be analyzed).
    */
   public static MatchQueryBuilder matchPhraseQuery(String name, Object text) {
-    return new MatchQueryBuilder(name, text).type(MatchQueryBuilder.Type.PHRASE);
+    return new MatchQueryBuilder(name, text).type(MatchQueryBuilder.Type.MATCH_PHRASE);
   }
 
   /**
@@ -43,7 +43,7 @@ public abstract class QueryBuilders {
    * @param text The query text (to be analyzed).
    */
   public static MatchQueryBuilder matchPhrasePrefixQuery(String name, Object text) {
-    return new MatchQueryBuilder(name, text).type(MatchQueryBuilder.Type.PHRASE_PREFIX);
+    return new MatchQueryBuilder(name, text).type(MatchQueryBuilder.Type.MATCH_PHRASE_PREFIX);
   }
 
   /**

@@ -14,7 +14,4 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import com.google.gerrit.acceptance.NoHttpd;
-
-@NoHttpd
 public class ReindexIT extends AbstractReindexTests {}

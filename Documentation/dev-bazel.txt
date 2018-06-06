@@ -369,36 +369,27 @@ To consume the JGit dependency from the development tree, edit
 `lib/jgit/jgit.bzl` setting LOCAL_JGIT_REPO to a directory holding a
 JGit repository.
 
-[[local-action-cache]]
+[[bazel-local-caches]]
 
-To accelerate builds, local action cache can be activated.
-To activate the local action cache add these lines to your `~/.bazelrc` file:
+To accelerate builds, several caches are activated per default:
 
-----
-build --disk_cache=~/.gerritcodereview/bazel-cache/cas
-build --experimental_strict_action_env
-build --action_env=PATH
-----
+* ~/.gerritcodereview/bazel-cache/downloaded-artifacts
+* ~/.gerritcodereview/bazel-cache/repository
+* ~/.gerritcodereview/bazel-cache/cas
 
-[[repository_cache]]
+Currently none of these caches have a maximum size limit. See
+link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue] for
+details. Users should watch the cache sizes and clean them manually if
+necessary.
 
-To accelerate fetches, local repository cache is activated per default in Bazel.
-This cache is only used for rules_closure external repository and transitive
-dependendcies. That's because rules_closure uses standard Bazel download facility.
-For all other gerrit dependencies, the download_artifacts repository cache is used
-already.
-
-To change the default local repository cache directry, create accessible cache
-directory:
+Due to the `--experimental_strict_action_env` option used in `bazelrc`
+it is possible that some commands required by the build are not found
+on the PATH, causing the build to fail. In this case the PATH used in
+the build can be overridden with the `--action_env=PATH` directive in
+the user's `~/.bazelrc` file, for example:
 
 ----
- mkdir -p ~/.gerritcodereview/bazel-cache/repository
-----
-
-and add this line to your `~/.bazelrc` file:
-
-----
-build --repository_cache=/home/<user>/.gerritcodereview/bazel-cache/repository
+  build --action_env=PATH=/usr/local/opt/coreutils/libexec/gnubin/:/usr/local/bin/:/usr/bin/
 ----
 
 GERRIT

@@ -43,6 +43,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
   private final String password;
 
   private RestClient client;
+  private ElasticQueryAdapter adapter;
 
   @Inject
   ElasticRestClientProvider(ElasticConfiguration cfg) {
@@ -68,6 +69,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
           client = build();
           ElasticVersion version = getVersion();
           logger.atInfo().log("Elasticsearch integration version %s", version);
+          adapter = new ElasticQueryAdapter(version);
         }
       }
     }
@@ -86,6 +88,11 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
         // Ignore. We can't do anything about it.
       }
     }
+  }
+
+  ElasticQueryAdapter adapter() {
+    get(); // Make sure we're connected
+    return adapter;
   }
 
   public static class FailedToGetVersion extends ElasticException {

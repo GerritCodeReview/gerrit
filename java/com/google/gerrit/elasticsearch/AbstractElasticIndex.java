@@ -75,7 +75,6 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static final String BULK = "_bulk";
-  protected static final String IGNORE_UNMAPPED = "ignore_unmapped";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
@@ -105,8 +104,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
-  private final ElasticRestClientProvider client;
 
+  protected final ElasticRestClientProvider client;
   protected final String indexName;
   protected final Gson gson;
   protected final ElasticQueryBuilder queryBuilder;
@@ -142,20 +141,21 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   @Override
-  public void delete(K c) throws IOException {
+  public void delete(K id) throws IOException {
     String uri = getURI(indexNameRaw, BULK);
-    Response response = postRequest(addActions(c), uri, getRefreshParam());
+    Response response = postRequest(getDeleteActions(id), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
-          String.format("Failed to delete %s from index %s: %s", c, indexName, statusCode));
+          String.format("Failed to delete %s from index %s: %s", id, indexName, statusCode));
     }
   }
 
   @Override
   public void deleteAll() throws IOException {
     // Delete the index, if it exists.
-    Response response = client.get().performRequest("HEAD", indexName);
+    String endpoint = indexName + client.adapter().indicesExistParam();
+    Response response = client.get().performRequest("HEAD", endpoint);
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode == HttpStatus.SC_OK) {
       response = client.get().performRequest("DELETE", indexName);
@@ -175,15 +175,14 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
   }
 
-  protected abstract String addActions(K c);
+  protected abstract String getDeleteActions(K id);
 
   protected abstract String getMappings();
 
   protected abstract String getId(V v);
 
-  protected String delete(String type, K c) {
-    String id = c.toString();
-    return new DeleteRequest(id, indexNameRaw, type).toString();
+  protected String delete(String type, K id) {
+    return new DeleteRequest(id.toString(), indexNameRaw, type).toString();
   }
 
   protected abstract V fromDocument(JsonObject doc, Set<String> fields);
@@ -250,7 +249,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected JsonArray getSortArray(String idFieldName) {
     JsonObject properties = new JsonObject();
     properties.addProperty(ORDER, "asc");
-    properties.addProperty(IGNORE_UNMAPPED, true);
+    client.adapter().setIgnoreUnmapped(properties);
 
     JsonArray sortArray = new JsonArray();
     addNamedElement(idFieldName, properties, sortArray);
@@ -286,7 +285,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       this.index = index;
       QueryBuilder qb = queryBuilder.toQueryBuilder(p);
       SearchSourceBuilder searchSource =
-          new SearchSourceBuilder()
+          new SearchSourceBuilder(client.adapter())
               .query(qb)
               .from(opts.start())
               .size(opts.limit())

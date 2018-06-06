@@ -30,7 +30,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Singleton
-class GetOAuthToken implements RestReadView<AccountResource> {
+public class GetOAuthToken implements RestReadView<AccountResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String BEARER_TYPE = "bearer";

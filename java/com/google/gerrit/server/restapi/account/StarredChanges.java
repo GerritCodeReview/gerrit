@@ -156,7 +156,7 @@ public class StarredChanges
   }
 
   @Singleton
-  static class Put implements RestModifyView<AccountResource.StarredChange, EmptyInput> {
+  public static class Put implements RestModifyView<AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;
 
     @Inject

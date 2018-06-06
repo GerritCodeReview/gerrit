@@ -38,7 +38,7 @@ import com.google.inject.Singleton;
 import java.util.Optional;
 
 @Singleton
-class Capabilities implements ChildCollection<AccountResource, AccountResource.Capability> {
+public class Capabilities implements ChildCollection<AccountResource, AccountResource.Capability> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final DynamicMap<RestView<AccountResource.Capability>> views;

@@ -34,6 +34,6 @@ class StreamCommandExecutorProvider implements Provider<ScheduledThreadPoolExecu
 
   @Override
   public ScheduledThreadPoolExecutor get() {
-    return queues.createQueue(poolSize, "SSH-Stream-Worker", Thread.MIN_PRIORITY);
+    return queues.createQueue(poolSize, "SSH-Stream-Worker", Thread.MIN_PRIORITY, true);
   }
 }

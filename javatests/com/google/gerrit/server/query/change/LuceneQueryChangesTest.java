@@ -70,6 +70,7 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   }
 
   @Test
+  @Override
   public void byOwnerInvalidQuery() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change change1 = insert(repo, newChange(repo), userId);

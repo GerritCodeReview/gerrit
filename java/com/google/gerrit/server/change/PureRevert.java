@@ -41,6 +41,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
 public class PureRevert {
   private final MergeUtil.Factory mergeUtilFactory;
@@ -49,6 +50,13 @@ public class PureRevert {
   private final ChangeNotes.Factory notesFactory;
   private final Provider<ReviewDb> dbProvider;
   private final PatchSetUtil psUtil;
+
+  @Option(
+      name = "--claimed-original",
+      aliases = {"-o"},
+      usage = "SHA1 (40 digit hex) of the original commit")
+  @Nullable
+  private String claimedOriginal;
 
   @Inject
   PureRevert(

@@ -16,6 +16,24 @@
       "revId": "aafa4790ff462c3618ea52bbefa412deb3b0c275",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d49df512_c1088cd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-06T03:46:52Z",
+      "side": 1,
+      "message": "Because the test that exposed it is not on the stable branches. I\u0027ll need to check if it should be backported, but it might not be needed if the index there doesn\u0027t use raw fields.",
+      "parentUuid": "f1e6f506_fb132ae9",
+      "revId": "aafa4790ff462c3618ea52bbefa412deb3b0c275",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

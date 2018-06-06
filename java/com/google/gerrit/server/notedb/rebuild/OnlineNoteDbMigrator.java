@@ -80,9 +80,8 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   private void migrate() {
     logger.atInfo().log("Starting online NoteDb migration");
     if (upgradeIndex) {
-      logger
-          .atInfo()
-          .log("Online index schema upgrades will be deferred until NoteDb migration is complete");
+      logger.atInfo().log(
+          "Online index schema upgrades will be deferred until NoteDb migration is complete");
     }
     Stopwatch sw = Stopwatch.createStarted();
     // TODO(dborowitz): Tune threads, maybe expose a progress monitor somewhere.

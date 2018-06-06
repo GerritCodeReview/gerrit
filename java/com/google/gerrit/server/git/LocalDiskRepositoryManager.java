@@ -192,9 +192,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       File metaConfigLog = new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
       if (!metaConfigLog.getParentFile().mkdirs() || !metaConfigLog.createNewFile()) {
-        logger
-            .atSevere()
-            .log("Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name);
+        logger.atSevere().log(
+            "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name);
       }
 
       return db;
@@ -247,10 +246,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           Integer.MAX_VALUE,
           visitor);
     } catch (IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Error walking repository tree %s", visitor.startFolder.toAbsolutePath());
+      logger.atSevere().withCause(e).log(
+          "Error walking repository tree %s", visitor.startFolder.toAbsolutePath());
     }
   }
 

@@ -30,11 +30,8 @@ public class AutoReplyMailFilter implements MailFilter {
         String prec = header.substring(MailHeader.PRECEDENCE.fieldWithDelimiter().length()).trim();
 
         if (prec.equals("list") || prec.equals("junk") || prec.equals("bulk")) {
-          logger
-              .atSevere()
-              .log(
-                  "Message %s has a Precedence header. Will ignore and delete message.",
-                  message.id());
+          logger.atSevere().log(
+              "Message %s has a Precedence header. Will ignore and delete message.", message.id());
           return false;
         }
 
@@ -43,11 +40,9 @@ public class AutoReplyMailFilter implements MailFilter {
             header.substring(MailHeader.AUTO_SUBMITTED.fieldWithDelimiter().length()).trim();
 
         if (!autoSubmitted.equals("no")) {
-          logger
-              .atSevere()
-              .log(
-                  "Message %s has an Auto-Submitted header. Will ignore and delete message.",
-                  message.id());
+          logger.atSevere().log(
+              "Message %s has an Auto-Submitted header. Will ignore and delete message.",
+              message.id());
           return false;
         }
       }

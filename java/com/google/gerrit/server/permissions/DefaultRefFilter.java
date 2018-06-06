@@ -285,10 +285,8 @@ class DefaultRefFilter {
       } catch (AuthException e) {
         return false;
       } catch (PermissionBackendException e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log("Failed to check permission for %s in %s", id, projectState.getName());
+        logger.atSevere().withCause(e).log(
+            "Failed to check permission for %s in %s", id, projectState.getName());
         return false;
       }
     }
@@ -308,10 +306,8 @@ class DefaultRefFilter {
       }
       return visibleChanges;
     } catch (OrmException | PermissionBackendException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Cannot load changes for project %s, assuming no changes are visible", project);
+      logger.atSevere().withCause(e).log(
+          "Cannot load changes for project %s, assuming no changes are visible", project);
       return Collections.emptyMap();
     }
   }
@@ -322,10 +318,8 @@ class DefaultRefFilter {
     try {
       s = changeNotesFactory.scan(repo, db.get(), p);
     } catch (IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Cannot load changes for project %s, assuming no changes are visible", p);
+      logger.atSevere().withCause(e).log(
+          "Cannot load changes for project %s, assuming no changes are visible", p);
       return Collections.emptyMap();
     }
     return s.map(this::toNotes)
@@ -336,10 +330,8 @@ class DefaultRefFilter {
   @Nullable
   private ChangeNotes toNotes(ChangeNotesResult r) {
     if (r.error().isPresent()) {
-      logger
-          .atWarning()
-          .withCause(r.error().get())
-          .log("Failed to load change %s in %s", r.id(), projectState.getName());
+      logger.atWarning().withCause(r.error().get()).log(
+          "Failed to load change %s in %s", r.id(), projectState.getName());
       return null;
     }
     try {
@@ -348,10 +340,8 @@ class DefaultRefFilter {
         return r.notes();
       }
     } catch (PermissionBackendException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to check permission for %s in %s", r.id(), projectState.getName());
+      logger.atSevere().withCause(e).log(
+          "Failed to check permission for %s in %s", r.id(), projectState.getName());
     }
     return null;
   }
@@ -387,10 +377,8 @@ class DefaultRefFilter {
     } catch (AuthException e) {
       return false;
     } catch (PermissionBackendException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Can't check permission for user %s on project %s", user, projectState.getName());
+      logger.atSevere().withCause(e).log(
+          "Can't check permission for user %s on project %s", user, projectState.getName());
       return false;
     }
     return true;

@@ -107,10 +107,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         Key key = Key.create(prior, next, useRecursiveMerge);
         return new Loader(key, repoManager, project, rw, repoConfig).call();
       } catch (IOException e) {
-        logger
-            .atWarning()
-            .withCause(e)
-            .log("Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
+        logger.atWarning().withCause(e).log(
+            "Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
         return ChangeKind.REWORK;
       }
     }
@@ -346,10 +344,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       Key key = Key.create(prior, next, useRecursiveMerge);
       return cache.get(key, new Loader(key, repoManager, project, rw, repoConfig));
     } catch (ExecutionException e) {
-      logger
-          .atWarning()
-          .withCause(e)
-          .log("Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
+      logger.atWarning().withCause(e).log(
+          "Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
       return ChangeKind.REWORK;
     }
   }
@@ -401,12 +397,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         }
       } catch (OrmException e) {
         // Do nothing; assume we have a complex change
-        logger
-            .atWarning()
-            .withCause(e)
-            .log(
-                "Unable to get change kind for patchSet %s of change %s",
-                patch.getPatchSetId(), change.getId());
+        logger.atWarning().withCause(e).log(
+            "Unable to get change kind for patchSet %s of change %s",
+            patch.getPatchSetId(), change.getId());
       }
     }
     return kind;
@@ -431,12 +424,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
                 cache, rw, repo.getConfig(), changeDataFactory.create(db, change), patch);
       } catch (IOException e) {
         // Do nothing; assume we have a complex change
-        logger
-            .atWarning()
-            .withCause(e)
-            .log(
-                "Unable to get change kind for patchSet %s of change %s",
-                patch.getPatchSetId(), change.getChangeId());
+        logger.atWarning().withCause(e).log(
+            "Unable to get change kind for patchSet %s of change %s",
+            patch.getPatchSetId(), change.getChangeId());
       }
     }
     return kind;

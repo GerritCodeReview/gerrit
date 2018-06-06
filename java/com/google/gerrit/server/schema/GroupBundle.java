@@ -413,11 +413,9 @@ abstract class GroupBundle {
       // corrupt, and it's not clear if we can programmatically repair it. For migrating to NoteDb,
       // we'll try our best to recreate it, but no guarantees it will match the real sequence of
       // attempted operations, which is in any case lost in the mists of time.
-      logger
-          .atWarning()
-          .log(
-              "group %s in %s has duplicate %s entities: %s",
-              uuid, source, clazz.getSimpleName(), iterable);
+      logger.atWarning().log(
+          "group %s in %s has duplicate %s entities: %s",
+          uuid, source, clazz.getSimpleName(), iterable);
     }
     return set;
   }

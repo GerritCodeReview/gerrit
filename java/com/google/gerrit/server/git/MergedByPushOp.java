@@ -180,10 +180,8 @@ public class MergedByPushOp implements BatchUpdateOp {
                       cm.setPatchSet(patchSet, info);
                       cm.send();
                     } catch (Exception e) {
-                      logger
-                          .atSevere()
-                          .withCause(e)
-                          .log("Cannot send email for submitted patch set %s", psId);
+                      logger.atSevere().withCause(e).log(
+                          "Cannot send email for submitted patch set %s", psId);
                     }
                   }
 

@@ -441,11 +441,9 @@ public class ChangeIndexer {
         if (!isCausedByRepositoryNotFoundException(e)) {
           throw e;
         }
-        logger
-            .atFine()
-            .log(
-                "Change %s belongs to deleted project %s, aborting reindexing the change.",
-                id.get(), project.get());
+        logger.atFine().log(
+            "Change %s belongs to deleted project %s, aborting reindexing the change.",
+            id.get(), project.get());
       }
       return false;
     }

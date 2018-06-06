@@ -448,17 +448,15 @@ public class PatchListLoader implements Callable<PatchList> {
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
-      logger
-          .atWarning()
-          .log(
-              "%s ms timeout reached for Diff loader in project %s"
-                  + " on commit %s on path %s comparing %s..%s",
-              timeoutMillis,
-              project,
-              commitB.name(),
-              diffEntry.getNewPath(),
-              diffEntry.getOldId().name(),
-              diffEntry.getNewId().name());
+      logger.atWarning().log(
+          "%s ms timeout reached for Diff loader in project %s"
+              + " on commit %s on path %s comparing %s..%s",
+          timeoutMillis,
+          project,
+          commitB.name(),
+          diffEntry.getNewPath(),
+          diffEntry.getOldId().name(),
+          diffEntry.getNewId().name());
       result.cancel(true);
       synchronized (diffEntry) {
         return toFileHeaderWithoutMyersDiff(diffFormatter, diffEntry);

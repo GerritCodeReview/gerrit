@@ -150,13 +150,10 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
                   try {
                     autoCommitWriter.close();
                   } catch (IOException e2) {
-                    logger
-                        .atSevere()
-                        .withCause(e)
-                        .log(
-                            "SEVERE: Error closing %s Lucene index after OOM;"
-                                + " index may be corrupted.",
-                            index);
+                    logger.atSevere().withCause(e).log(
+                        "SEVERE: Error closing %s Lucene index after OOM;"
+                            + " index may be corrupted.",
+                        index);
                   }
                 }
               },
@@ -230,10 +227,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
         logger.atWarning().log("shutting down %s index with pending Lucene writes", name);
       }
     } catch (InterruptedException e) {
-      logger
-          .atWarning()
-          .withCause(e)
-          .log("interrupted waiting for pending Lucene writes of %s index", name);
+      logger.atWarning().withCause(e).log(
+          "interrupted waiting for pending Lucene writes of %s index", name);
     }
     reopenThread.close();
 

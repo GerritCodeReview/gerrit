@@ -34,11 +34,10 @@ import org.kohsuke.args4j.Option;
 public class ListAccess implements RestReadView<TopLevelResource> {
 
   @Option(
-    name = "--project",
-    aliases = {"-p"},
-    metaVar = "PROJECT",
-    usage = "projects for which the access rights should be returned"
-  )
+      name = "--project",
+      aliases = {"-p"},
+      metaVar = "PROJECT",
+      usage = "projects for which the access rights should be returned")
   private List<String> projects = new ArrayList<>();
 
   private final GetAccess getAccess;

@@ -270,12 +270,9 @@ public class ApprovalsUtil {
               .database(db)
               .test(ChangePermission.READ);
     } catch (IOException | PermissionBackendException e) {
-      logger
-          .atWarning()
-          .withCause(e)
-          .log(
-              "Failed to check if account %d can see change %d",
-              accountId.get(), notes.getChangeId().get());
+      logger.atWarning().withCause(e).log(
+          "Failed to check if account %d can see change %d",
+          accountId.get(), notes.getChangeId().get());
       return false;
     }
   }

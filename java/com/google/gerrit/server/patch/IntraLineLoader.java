@@ -83,17 +83,15 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
-      logger
-          .atWarning()
-          .log(
-              "%s ms timeout reached for IntraLineDiff"
-                  + " in project %s on commit %s for path %s comparing %s..%s",
-              timeoutMillis,
-              args.project(),
-              args.commit().name(),
-              args.path(),
-              key.getBlobA().name(),
-              key.getBlobB().name());
+      logger.atWarning().log(
+          "%s ms timeout reached for IntraLineDiff"
+              + " in project %s on commit %s for path %s comparing %s..%s",
+          timeoutMillis,
+          args.project(),
+          args.commit().name(),
+          args.path(),
+          key.getBlobA().name(),
+          key.getBlobB().name());
       result.cancel(true);
       return new IntraLineDiff(IntraLineDiff.Status.TIMEOUT);
     } catch (ExecutionException e) {

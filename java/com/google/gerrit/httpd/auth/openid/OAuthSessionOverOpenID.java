@@ -151,13 +151,11 @@ class OAuthSessionOverOpenID {
             // This is (for now) a fatal error. There are two records
             // for what might be the same user. The admin would have to
             // link the accounts manually.
-            logger
-                .atFine()
-                .log(
-                    "OAuth accounts disagree over user identity:\n"
-                        + "  Claimed ID: %s is %s\n"
-                        + "  Delgate ID: %s is %s",
-                    claimedId.get(), claimedIdentifier, actualId.get(), user.getExternalId());
+            logger.atFine().log(
+                "OAuth accounts disagree over user identity:\n"
+                    + "  Claimed ID: %s is %s\n"
+                    + "  Delgate ID: %s is %s",
+                claimedId.get(), claimedIdentifier, actualId.get(), user.getExternalId());
             rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
           }
@@ -167,11 +165,9 @@ class OAuthSessionOverOpenID {
           try {
             accountManager.link(claimedId.get(), areq);
           } catch (OrmException | ConfigInvalidException e) {
-            logger
-                .atSevere()
-                .log(
-                    "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
-                    user.getExternalId(), claimedId.get(), claimedIdentifier);
+            logger.atSevere().log(
+                "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
+                user.getExternalId(), claimedId.get(), claimedIdentifier);
             rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
           }
@@ -183,9 +179,8 @@ class OAuthSessionOverOpenID {
           logger.atFine().log("Linking \"%s\" to \"%s\"", user.getExternalId(), accountId);
           accountManager.link(accountId, areq);
         } catch (OrmException | ConfigInvalidException e) {
-          logger
-              .atSevere()
-              .log("Cannot link: %s to user identity: %s", user.getExternalId(), accountId);
+          logger.atSevere().log(
+              "Cannot link: %s to user identity: %s", user.getExternalId(), accountId);
           rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
           return;
         } finally {

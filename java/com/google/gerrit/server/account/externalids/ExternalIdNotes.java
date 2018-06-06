@@ -357,10 +357,8 @@ public class ExternalIdNotes extends VersionedMetaData {
         try {
           b.add(ExternalId.parse(note.getName(), raw, note.getData()));
         } catch (ConfigInvalidException | RuntimeException e) {
-          logger
-              .atSevere()
-              .withCause(e)
-              .log("Ignoring invalid external ID note %s", note.getName());
+          logger.atSevere().withCause(e).log(
+              "Ignoring invalid external ID note %s", note.getName());
         }
       }
       return b.build();

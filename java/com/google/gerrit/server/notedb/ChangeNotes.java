@@ -364,19 +364,16 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         if (defaultStorage == PrimaryStorage.REVIEW_DB) {
           // If changes should exist in ReviewDb, it's worth warning about a meta ref with
           // no corresponding ReviewDb data.
-          logger
-              .atWarning()
-              .log("skipping change %s found in project %s but not in ReviewDb", id, project);
+          logger.atWarning().log(
+              "skipping change %s found in project %s but not in ReviewDb", id, project);
           return null;
         }
         // TODO(dborowitz): See discussion in NoteDbBatchUpdate#newChangeContext.
         change = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
       } else if (!change.getProject().equals(project)) {
-        logger
-            .atSevere()
-            .log(
-                "skipping change %s found in project %s because ReviewDb change has project %s",
-                id, project, change.getProject());
+        logger.atSevere().log(
+            "skipping change %s found in project %s because ReviewDb change has project %s",
+            id, project, change.getProject());
         return null;
       }
       logger.atFine().log("adding change %s found in project %s", id, project);
@@ -779,13 +776,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     } catch (OrmException e) {
       throw new IOException(e);
     } finally {
-      logger
-          .atFine()
-          .log(
-              "Rebuilt change %s in project %s in %s ms",
-              getChangeId(),
-              getProjectName(),
-              TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
+      logger.atFine().log(
+          "Rebuilt change %s in project %s in %s ms",
+          getChangeId(),
+          getProjectName(),
+          TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
     }
   }
 }

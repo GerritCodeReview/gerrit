@@ -1091,9 +1091,8 @@ class ChangeNotesParser {
             approvals.values(), PatchSetApproval::getPatchSetId, missing);
 
     if (!missing.isEmpty()) {
-      logger
-          .atWarning()
-          .log("ignoring %s additional entities due to missing patch sets: %s", pruned, missing);
+      logger.atWarning().log(
+          "ignoring %s additional entities due to missing patch sets: %s", pruned, missing);
     }
   }
 

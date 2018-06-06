@@ -222,10 +222,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         return description;
       }
     } catch (IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to check if project state permits write: %s", rsrc.getProject());
+      logger.atSevere().withCause(e).log(
+          "Failed to check if project state permits write: %s", rsrc.getProject());
       return description;
     }
 
@@ -234,10 +232,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         return description;
       }
     } catch (OrmException | IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to check if the current patch set of change %s is locked", change.getId());
+      logger.atSevere().withCause(e).log(
+          "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;
     }
 
@@ -248,10 +244,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         enabled = rebaseUtil.canRebase(rsrc.getPatchSet(), change.getDest(), repo, rw);
       }
     } catch (IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to check if patch set can be rebased: %s", rsrc.getPatchSet());
+      logger.atSevere().withCause(e).log(
+          "Failed to check if patch set can be rebased: %s", rsrc.getPatchSet());
       return description;
     }
 

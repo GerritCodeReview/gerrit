@@ -90,11 +90,8 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
     }
     int idx = order.lastIndexOf(parentName.get());
     order.add(parentName.get());
-    logger
-        .atWarning()
-        .log(
-            "Cycle detected in projects: %s",
-            Joiner.on(" -> ").join(order.subList(idx, order.size())));
+    logger.atWarning().log(
+        "Cycle detected in projects: %s", Joiner.on(" -> ").join(order.subList(idx, order.size())));
     return false;
   }
 

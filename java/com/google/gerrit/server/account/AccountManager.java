@@ -143,11 +143,9 @@ public class AccountManager {
             // An inconsistency is detected in the database, having a record for scheme "username:"
             // but no record for scheme "gerrit:". Try to recover by linking
             // "gerrit:" identity to the existing account.
-            logger
-                .atWarning()
-                .log(
-                    "User %s already has an account; link new identity to the existing account.",
-                    who.getUserName());
+            logger.atWarning().log(
+                "User %s already has an account; link new identity to the existing account.",
+                who.getUserName());
             return link(existingId.get().accountId(), who);
           }
         }
@@ -159,11 +157,9 @@ public class AccountManager {
       ExternalId extId = optionalExtId.get();
       Optional<AccountState> accountState = byIdCache.get(extId.accountId());
       if (!accountState.isPresent()) {
-        logger
-            .atSevere()
-            .log(
-                "Authentication with external ID %s failed. Account %s doesn't exist.",
-                extId.key().get(), extId.accountId().get());
+        logger.atSevere().log(
+            "Authentication with external ID %s failed. Account %s doesn't exist.",
+            extId.key().get(), extId.accountId().get());
         throw new AccountException("Authentication error, account not found");
       }
 
@@ -197,14 +193,11 @@ public class AccountManager {
       }
       setInactiveFlag.deactivate(extId.get().accountId());
     } catch (Exception e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log(
-              "Unable to deactivate account %s",
-              authRequest
-                  .getUserName()
-                  .orElse(" for external ID key " + authRequest.getExternalIdKey().get()));
+      logger.atSevere().withCause(e).log(
+          "Unable to deactivate account %s",
+          authRequest
+              .getUserName()
+              .orElse(" for external ID key " + authRequest.getExternalIdKey().get()));
     }
   }
 
@@ -265,11 +258,9 @@ public class AccountManager {
         && who.getUserName().isPresent()
         && !who.getUserName().equals(user.getUserName())) {
       if (user.getUserName().isPresent()) {
-        logger
-            .atWarning()
-            .log(
-                "Not changing already set username %s to %s",
-                user.getUserName().get(), who.getUserName().get());
+        logger.atWarning().log(
+            "Not changing already set username %s to %s",
+            user.getUserName().get(), who.getUserName().get());
       } else {
         logger.atWarning().log("Not setting username to %s", who.getUserName().get());
       }
@@ -381,15 +372,13 @@ public class AccountManager {
       return;
     }
 
-    logger
-        .atWarning()
-        .log(
-            "Email %s is already assigned to account %s;"
-                + " cannot create external ID %s with the same email for account %s.",
-            email,
-            existingExtIdsWithEmail.iterator().next().accountId().get(),
-            extIdToBeCreated.key().get(),
-            extIdToBeCreated.accountId().get());
+    logger.atWarning().log(
+        "Email %s is already assigned to account %s;"
+            + " cannot create external ID %s with the same email for account %s.",
+        email,
+        existingExtIdsWithEmail.iterator().next().accountId().get(),
+        extIdToBeCreated.key().get(),
+        extIdToBeCreated.accountId().get());
     throw new AccountException("Email '" + email + "' in use by another account");
   }
 

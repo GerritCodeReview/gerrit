@@ -264,10 +264,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     try {
       projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
     } catch (IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to check if project state permits write: %s", rsrc.getProject());
+      logger.atSevere().withCause(e).log(
+          "Failed to check if project state permits write: %s", rsrc.getProject());
     }
     return new UiAction.Description()
         .setLabel("Revert")
@@ -308,10 +306,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         cm.setAccountsToNotify(accountsToNotify);
         cm.send();
       } catch (Exception err) {
-        logger
-            .atSevere()
-            .withCause(err)
-            .log("Cannot send email for revert change %s", change.getId());
+        logger.atSevere().withCause(err).log(
+            "Cannot send email for revert change %s", change.getId());
       }
     }
   }

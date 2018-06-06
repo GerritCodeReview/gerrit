@@ -85,12 +85,10 @@ class HttpLoginServlet extends HttpServlet {
     CacheHeaders.setNotCacheable(rsp);
     final String user = authFilter.getRemoteUser(req);
     if (user == null || "".equals(user)) {
-      logger
-          .atSevere()
-          .log(
-              "Unable to authenticate user by %s request header."
-                  + " Check container or server configuration.",
-              authFilter.getLoginHeader());
+      logger.atSevere().log(
+          "Unable to authenticate user by %s request header."
+              + " Check container or server configuration.",
+          authFilter.getLoginHeader());
 
       final Document doc =
           HtmlDomUtil.parseFile( //
@@ -127,17 +125,12 @@ class HttpLoginServlet extends HttpServlet {
     String remoteExternalId = authFilter.getRemoteExternalIdToken(req);
     if (remoteExternalId != null) {
       try {
-        logger
-            .atFine()
-            .log("Associating external identity \"%s\" to user \"%s\"", remoteExternalId, user);
+        logger.atFine().log(
+            "Associating external identity \"%s\" to user \"%s\"", remoteExternalId, user);
         updateRemoteExternalId(arsp, remoteExternalId);
       } catch (AccountException | OrmException | ConfigInvalidException e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log(
-                "Unable to associate external identity \"%s\" to user \"%s\"",
-                remoteExternalId, user);
+        logger.atSevere().withCause(e).log(
+            "Unable to associate external identity \"%s\" to user \"%s\"", remoteExternalId, user);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return;
       }

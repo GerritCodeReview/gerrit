@@ -56,9 +56,8 @@ public class UploadArchiveIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(
-    name = "download.archive",
-    values = {"tar", "tbz2", "tgz", "txz"}
-  )
+      name = "download.archive",
+      values = {"tar", "tbz2", "tgz", "txz"})
   public void zipFormatDisabled() throws Exception {
     assertArchiveNotPermitted();
   }

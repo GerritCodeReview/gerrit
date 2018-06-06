@@ -224,9 +224,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
           repo.scanForRepoChanges();
         } catch (OrmException | IOException e) {
           // See ChangeNotes#rebuildAndOpen.
-          logger
-              .atFine()
-              .log("Rebuilding change %s via drafts failed: %s", getChangeId(), e.getMessage());
+          logger.atFine().log(
+              "Rebuilding change %s via drafts failed: %s", getChangeId(), e.getMessage());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
           checkNotNull(r.staged());
           return LoadHandle.create(
@@ -239,13 +238,11 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     } catch (OrmException e) {
       throw new IOException(e);
     } finally {
-      logger
-          .atFine()
-          .log(
-              "Rebuilt change %s in %s in %s ms via drafts",
-              getChangeId(),
-              change != null ? "project " + change.getProject() : "unknown project",
-              TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
+      logger.atFine().log(
+          "Rebuilt change %s in %s in %s ms via drafts",
+          getChangeId(),
+          change != null ? "project " + change.getProject() : "unknown project",
+          TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));
     }
   }
 

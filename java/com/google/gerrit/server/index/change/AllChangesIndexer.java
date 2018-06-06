@@ -186,11 +186,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     int nTotal = nFailed + nDone;
     double pctFailed = ((double) nFailed) / nTotal * 100;
     if (pctFailed > 10) {
-      logger
-          .atSevere()
-          .log(
-              "Failed %s/%s changes (%s%%); not marking new index as ready",
-              nFailed, nTotal, Math.round(pctFailed));
+      logger.atSevere().log(
+          "Failed %s/%s changes (%s%%); not marking new index as ready",
+          nFailed, nTotal, Math.round(pctFailed));
       ok.set(false);
     }
     return new Result(sw, ok.get(), nDone, nFailed);

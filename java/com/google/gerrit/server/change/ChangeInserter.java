@@ -467,12 +467,9 @@ public class ChangeInserter implements InsertChangeOp {
                         .test(ChangePermission.READ)
                     && projectState.statePermitsRead();
               } catch (PermissionBackendException e) {
-                logger
-                    .atWarning()
-                    .withCause(e)
-                    .log(
-                        "Failed to check if account %d can see change %d",
-                        accountId.get(), notes.getChangeId().get());
+                logger.atWarning().withCause(e).log(
+                    "Failed to check if account %d can see change %d",
+                    accountId.get(), notes.getChangeId().get());
                 return false;
               }
             })
@@ -497,10 +494,8 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.addExtraCC(extraCC);
                 cm.send();
               } catch (Exception e) {
-                logger
-                    .atSevere()
-                    .withCause(e)
-                    .log("Cannot send email for new change %s", change.getId());
+                logger.atSevere().withCause(e).log(
+                    "Cannot send email for new change %s", change.getId());
               }
             }
 

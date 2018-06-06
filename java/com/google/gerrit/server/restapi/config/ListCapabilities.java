@@ -62,11 +62,9 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
     Map<String, CapabilityInfo> output = new HashMap<>();
     for (String pluginName : pluginCapabilities.plugins()) {
       if (!PLUGIN_NAME_PATTERN.matcher(pluginName).matches()) {
-        logger
-            .atWarning()
-            .log(
-                "Plugin name '%s' must match '%s' to use capabilities; rename the plugin",
-                pluginName, PLUGIN_NAME_PATTERN.pattern());
+        logger.atWarning().log(
+            "Plugin name '%s' must match '%s' to use capabilities; rename the plugin",
+            pluginName, PLUGIN_NAME_PATTERN.pattern());
         continue;
       }
       for (Map.Entry<String, Provider<CapabilityDefinition>> entry :

@@ -776,10 +776,8 @@ public class ConsistencyChecker {
   }
 
   private void warn(Throwable t) {
-    logger
-        .atWarning()
-        .withCause(t)
-        .log("Error in consistency check of change %s", notes.getChangeId());
+    logger.atWarning().withCause(t).log(
+        "Error in consistency check of change %s", notes.getChangeId());
   }
 
   private Result result() {

@@ -236,10 +236,8 @@ public class WalkSorter {
         RevCommit c = rw.parseCommit(id);
         byCommit.put(c, PatchSetData.create(cd, maxPs, c));
       } catch (MissingObjectException | IncorrectObjectTypeException e) {
-        logger
-            .atWarning()
-            .withCause(e)
-            .log("missing commit %s for patch set %s", id.name(), maxPs.getId());
+        logger.atWarning().withCause(e).log(
+            "missing commit %s for patch set %s", id.name(), maxPs.getId());
       }
     }
     return byCommit;

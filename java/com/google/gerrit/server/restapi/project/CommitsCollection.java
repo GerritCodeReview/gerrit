@@ -117,10 +117,8 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
           return true;
         }
       } catch (OrmException e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log("Cannot look up change for commit %s in %s", commit.name(), project);
+        logger.atSevere().withCause(e).log(
+            "Cannot look up change for commit %s in %s", commit.name(), project);
       }
     }
 

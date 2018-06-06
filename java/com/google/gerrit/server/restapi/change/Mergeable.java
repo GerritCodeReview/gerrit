@@ -57,10 +57,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(
-    name = "--other-branches",
-    aliases = {"-o"},
-    usage = "test mergeability for other branches too"
-  )
+      name = "--other-branches",
+      aliases = {"-o"},
+      usage = "test mergeability for other branches too")
   private boolean otherBranches;
 
   private final GitRepositoryManager gitManager;

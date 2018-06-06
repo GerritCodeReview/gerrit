@@ -423,12 +423,9 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
               && (name.endsWith(".md") || name.endsWith(".html"))
               && size.isPresent()) {
             if (size.get() <= 0 || size.get() > SMALL_RESOURCE) {
-              logger
-                  .atWarning()
-                  .log(
-                      "Plugin %s: %s omitted from document index. "
-                          + "Size %d out of range (0,%d).",
-                      pluginName, name.substring(prefix.length()), size.get(), SMALL_RESOURCE);
+              logger.atWarning().log(
+                  "Plugin %s: %s omitted from document index. " + "Size %d out of range (0,%d).",
+                  pluginName, name.substring(prefix.length()), size.get(), SMALL_RESOURCE);
               return false;
             }
             return true;
@@ -450,11 +447,9 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         if (about == null) {
           about = entry;
         } else {
-          logger
-              .atWarning()
-              .log(
-                  "Plugin %s: Multiple 'about' documents found; using %s",
-                  pluginName, about.getName().substring(prefix.length()));
+          logger.atWarning().log(
+              "Plugin %s: Multiple 'about' documents found; using %s",
+              pluginName, about.getName().substring(prefix.length()));
         }
       } else {
         docs.add(entry);
@@ -732,10 +727,8 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         }
         return def;
       } catch (IOException e) {
-        logger
-            .atWarning()
-            .withCause(e)
-            .log("Error getting %s for plugin %s, using default", attr, plugin.getName());
+        logger.atWarning().withCause(e).log(
+            "Error getting %s for plugin %s, using default", attr, plugin.getName());
         return null;
       }
     }

@@ -195,13 +195,10 @@ public class Schema_167 extends SchemaVersion {
         AccountConfig accountConfig = new AccountConfig(accountId, allUsersRepo).load();
         return accountConfig.getLoadedAccount();
       } catch (IOException | ConfigInvalidException ignored) {
-        logger
-            .atWarning()
-            .withCause(ignored)
-            .log(
-                "Failed to load account %s."
-                    + " Cannot get account name for group audit log commit messages.",
-                accountId.get());
+        logger.atWarning().withCause(ignored).log(
+            "Failed to load account %s."
+                + " Cannot get account name for group audit log commit messages.",
+            accountId.get());
         return Optional.empty();
       }
     }
@@ -249,13 +246,10 @@ public class Schema_167 extends SchemaVersion {
         }
         return groupDescriptions;
       } catch (SQLException ignored) {
-        logger
-            .atWarning()
-            .withCause(ignored)
-            .log(
-                "Failed to load group %s."
-                    + " Cannot get group name for group audit log commit messages.",
-                groupUuid.get());
+        logger.atWarning().withCause(ignored).log(
+            "Failed to load group %s."
+                + " Cannot get group name for group audit log commit messages.",
+            groupUuid.get());
         return ImmutableList.of();
       }
     }

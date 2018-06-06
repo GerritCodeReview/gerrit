@@ -47,9 +47,8 @@ public class ListMailFilterIT extends AbstractMailIT {
   @Test
   @GerritConfig(name = "receiveemail.filter.mode", value = "WHITELIST")
   @GerritConfig(
-    name = "receiveemail.filter.patterns",
-    values = {".+ser@example\\.com", "a@b\\.com"}
-  )
+      name = "receiveemail.filter.patterns",
+      values = {".+ser@example\\.com", "a@b\\.com"})
   public void listFilterWhitelistDoesNotFilterListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted
@@ -60,9 +59,8 @@ public class ListMailFilterIT extends AbstractMailIT {
   @Test
   @GerritConfig(name = "receiveemail.filter.mode", value = "WHITELIST")
   @GerritConfig(
-    name = "receiveemail.filter.patterns",
-    values = {".+@gerritcodereview\\.com", "a@b\\.com"}
-  )
+      name = "receiveemail.filter.patterns",
+      values = {".+@gerritcodereview\\.com", "a@b\\.com"})
   public void listFilterWhitelistFiltersNotListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have NOT been persisted
@@ -76,9 +74,8 @@ public class ListMailFilterIT extends AbstractMailIT {
   @Test
   @GerritConfig(name = "receiveemail.filter.mode", value = "BLACKLIST")
   @GerritConfig(
-    name = "receiveemail.filter.patterns",
-    values = {".+@gerritcodereview\\.com", "a@b\\.com"}
-  )
+      name = "receiveemail.filter.patterns",
+      values = {".+@gerritcodereview\\.com", "a@b\\.com"})
   public void listFilterBlacklistDoesNotFilterNotListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted
@@ -89,9 +86,8 @@ public class ListMailFilterIT extends AbstractMailIT {
   @Test
   @GerritConfig(name = "receiveemail.filter.mode", value = "BLACKLIST")
   @GerritConfig(
-    name = "receiveemail.filter.patterns",
-    values = {".+@example\\.com", "a@b\\.com"}
-  )
+      name = "receiveemail.filter.patterns",
+      values = {".+@example\\.com", "a@b\\.com"})
   public void listFilterBlacklistFiltersListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted

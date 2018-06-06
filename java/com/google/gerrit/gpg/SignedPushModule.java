@@ -92,13 +92,11 @@ class SignedPushModule extends AbstractModule {
         rp.setSignedPushConfig(null);
         return;
       } else if (signedPushConfig == null) {
-        logger
-            .atSevere()
-            .log(
-                "receive.enableSignedPush is true for project %s but"
-                    + " false in gerrit.config, so signed push verification is"
-                    + " disabled",
-                project.get());
+        logger.atSevere().log(
+            "receive.enableSignedPush is true for project %s but"
+                + " false in gerrit.config, so signed push verification is"
+                + " disabled",
+            project.get());
         rp.setSignedPushConfig(null);
         return;
       }

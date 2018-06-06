@@ -63,10 +63,8 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
                 reindex();
                 ok = true;
               } catch (IOException e) {
-                logger
-                    .atSevere()
-                    .withCause(e)
-                    .log("Online reindex of %s schema version %s failed", name, version(index));
+                logger.atSevere().withCause(e).log(
+                    "Online reindex of %s schema version %s failed", name, version(index));
               } finally {
                 running.set(false);
                 if (!ok) {
@@ -105,23 +103,19 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
             "not an active write schema version: %s %s",
             name,
             newVersion);
-    logger
-        .atInfo()
-        .log(
-            "Starting online reindex of %s from schema version %s to %s",
-            name, version(indexes.getSearchIndex()), version(index));
+    logger.atInfo().log(
+        "Starting online reindex of %s from schema version %s to %s",
+        name, version(indexes.getSearchIndex()), version(index));
 
     if (oldVersion != newVersion) {
       index.deleteAll();
     }
     SiteIndexer.Result result = batchIndexer.indexAll(index);
     if (!result.success()) {
-      logger
-          .atSevere()
-          .log(
-              "Online reindex of %s schema version %s failed. Successfully"
-                  + " indexed %s, failed to index %s",
-              name, version(index), result.doneCount(), result.failedCount());
+      logger.atSevere().log(
+          "Online reindex of %s schema version %s failed. Successfully"
+              + " indexed %s, failed to index %s",
+          name, version(index), result.doneCount(), result.failedCount());
       return;
     }
     logger.atInfo().log("Reindex %s to version %s complete", name, version(index));

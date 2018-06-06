@@ -50,32 +50,27 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
 
       if (footers.isEmpty()) {
         configValid = false;
-        logger
-            .atSevere()
-            .log("Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, FOOTER_TAG);
+        logger.atSevere().log(
+            "Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, FOOTER_TAG);
       }
 
       String system = cfg.getString(TRACKING_ID_TAG, name, SYSTEM_TAG);
       if (system == null || system.isEmpty()) {
         configValid = false;
-        logger
-            .atSevere()
-            .log("Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, SYSTEM_TAG);
+        logger.atSevere().log(
+            "Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, SYSTEM_TAG);
       } else if (system.length() > TrackingId.TRACKING_SYSTEM_MAX_CHAR) {
         configValid = false;
-        logger
-            .atSevere()
-            .log(
-                "String too long \"%s\" in gerrit.config %s.%s.%s (max %d char)",
-                system, TRACKING_ID_TAG, name, SYSTEM_TAG, TrackingId.TRACKING_SYSTEM_MAX_CHAR);
+        logger.atSevere().log(
+            "String too long \"%s\" in gerrit.config %s.%s.%s (max %d char)",
+            system, TRACKING_ID_TAG, name, SYSTEM_TAG, TrackingId.TRACKING_SYSTEM_MAX_CHAR);
       }
 
       String match = cfg.getString(TRACKING_ID_TAG, name, REGEX_TAG);
       if (match == null || match.isEmpty()) {
         configValid = false;
-        logger
-            .atSevere()
-            .log("Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, REGEX_TAG);
+        logger.atSevere().log(
+            "Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, REGEX_TAG);
       }
 
       if (configValid) {
@@ -84,11 +79,9 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
             trackingFooters.add(new TrackingFooter(footer, match, system));
           }
         } catch (PatternSyntaxException e) {
-          logger
-              .atSevere()
-              .log(
-                  "Invalid pattern \"%s\" in gerrit.config %s.%s.%s: %s",
-                  match, TRACKING_ID_TAG, name, REGEX_TAG, e.getMessage());
+          logger.atSevere().log(
+              "Invalid pattern \"%s\" in gerrit.config %s.%s.%s: %s",
+              match, TRACKING_ID_TAG, name, REGEX_TAG, e.getMessage());
         }
       }
     }

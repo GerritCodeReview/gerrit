@@ -161,20 +161,16 @@ public abstract class ScheduleConfig {
     }
 
     if (interval == MISSING_CONFIG) {
-      logger
-          .atSevere()
-          .log(
-              "Incomplete schedule configuration for \"%s\" is ignored. Missing value for \"%s\".",
-              key, key + "." + keyInterval());
+      logger.atSevere().log(
+          "Incomplete schedule configuration for \"%s\" is ignored. Missing value for \"%s\".",
+          key, key + "." + keyInterval());
       return true;
     }
 
     if (initialDelay == MISSING_CONFIG) {
-      logger
-          .atSevere()
-          .log(
-              "Incomplete schedule configuration for \"%s\" is ignored. Missing value for \"%s\".",
-              key, key + "." + keyStartTime());
+      logger.atSevere().log(
+          "Incomplete schedule configuration for \"%s\" is ignored. Missing value for \"%s\".",
+          key, key + "." + keyStartTime());
       return true;
     }
 

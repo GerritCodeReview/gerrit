@@ -46,41 +46,36 @@ import org.kohsuke.args4j.Option;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "set-project-parent",
-  description = "Change the project permissions are inherited from"
-)
+    name = "set-project-parent",
+    description = "Change the project permissions are inherited from")
 final class AdminSetParent extends SshCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(
-    name = "--parent",
-    aliases = {"-p"},
-    metaVar = "NAME",
-    usage = "new parent project"
-  )
+      name = "--parent",
+      aliases = {"-p"},
+      metaVar = "NAME",
+      usage = "new parent project")
   private ProjectState newParent;
 
   @Option(
-    name = "--children-of",
-    metaVar = "NAME",
-    usage = "parent project for which the child projects should be reparented"
-  )
+      name = "--children-of",
+      metaVar = "NAME",
+      usage = "parent project for which the child projects should be reparented")
   private ProjectState oldParent;
 
   @Option(
-    name = "--exclude",
-    metaVar = "NAME",
-    usage = "child project of old parent project which should not be reparented"
-  )
+      name = "--exclude",
+      metaVar = "NAME",
+      usage = "child project of old parent project which should not be reparented")
   private List<ProjectState> excludedChildren = new ArrayList<>();
 
   @Argument(
-    index = 0,
-    required = false,
-    multiValued = true,
-    metaVar = "NAME",
-    usage = "projects to modify"
-  )
+      index = 0,
+      required = false,
+      multiValued = true,
+      metaVar = "NAME",
+      usage = "projects to modify")
   private List<ProjectState> children = new ArrayList<>();
 
   @Inject private ProjectCache projectCache;

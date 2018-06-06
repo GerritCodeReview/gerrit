@@ -183,10 +183,8 @@ public class Schema<T> {
                 try {
                   v = f.get(obj);
                 } catch (OrmException e) {
-                  logger
-                      .atSevere()
-                      .withCause(e)
-                      .log("error getting field %s of %s", f.getName(), obj);
+                  logger.atSevere().withCause(e).log(
+                      "error getting field %s of %s", f.getName(), obj);
                   return null;
                 }
                 if (v == null) {

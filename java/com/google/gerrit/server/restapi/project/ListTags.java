@@ -60,41 +60,37 @@ public class ListTags implements RestReadView<ProjectResource> {
   private final WebLinks links;
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of tags to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of tags to list")
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S", "-s"},
-    metaVar = "CNT",
-    usage = "number of tags to skip"
-  )
+      name = "--start",
+      aliases = {"-S", "-s"},
+      metaVar = "CNT",
+      usage = "number of tags to skip")
   public void setStart(int start) {
     this.start = start;
   }
 
   @Option(
-    name = "--match",
-    aliases = {"-m"},
-    metaVar = "MATCH",
-    usage = "match tags substring"
-  )
+      name = "--match",
+      aliases = {"-m"},
+      metaVar = "MATCH",
+      usage = "match tags substring")
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
   }
 
   @Option(
-    name = "--regex",
-    aliases = {"-r"},
-    metaVar = "REGEX",
-    usage = "match tags regex"
-  )
+      name = "--regex",
+      aliases = {"-r"},
+      metaVar = "REGEX",
+      usage = "match tags regex")
   public void setMatchRegex(String matchRegex) {
     this.matchRegex = matchRegex;
   }

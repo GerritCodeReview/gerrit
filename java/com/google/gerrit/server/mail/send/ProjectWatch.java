@@ -101,11 +101,9 @@ public class ProjectWatch {
           try {
             add(matching, nc);
           } catch (QueryParseException e) {
-            logger
-                .atWarning()
-                .log(
-                    "Project %s has invalid notify %s filter \"%s\": %s",
-                    state.getName(), nc.getName(), nc.getFilter(), e.getMessage());
+            logger.atWarning().log(
+                "Project %s has invalid notify %s filter \"%s\": %s",
+                state.getName(), nc.getName(), nc.getFilter(), e.getMessage());
           }
         }
       }

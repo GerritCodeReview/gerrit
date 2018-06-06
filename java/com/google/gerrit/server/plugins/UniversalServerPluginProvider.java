@@ -81,11 +81,9 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
     List<ServerPluginProvider> providers = new ArrayList<>();
     for (ServerPluginProvider serverPluginProvider : serverPluginProviders) {
       boolean handles = serverPluginProvider.handles(srcPath);
-      logger
-          .atFine()
-          .log(
-              "File %s handled by %s ? => %s",
-              srcPath, serverPluginProvider.getProviderPluginName(), handles);
+      logger.atFine().log(
+          "File %s handled by %s ? => %s",
+          srcPath, serverPluginProvider.getProviderPluginName(), handles);
       if (handles) {
         providers.add(serverPluginProvider);
       }

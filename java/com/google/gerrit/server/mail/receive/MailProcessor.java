@@ -144,11 +144,9 @@ public class MailProcessor {
       throws OrmException, UpdateException, RestApiException, IOException {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
-        logger
-            .atWarning()
-            .log(
-                "Message %s filtered by plugin %s %s. Will delete message.",
-                message.id(), filter.getPluginName(), filter.getExportName());
+        logger.atWarning().log(
+            "Message %s filtered by plugin %s %s. Will delete message.",
+            message.id(), filter.getPluginName(), filter.getExportName());
         return;
       }
     }
@@ -156,11 +154,9 @@ public class MailProcessor {
     MailMetadata metadata = MailHeaderParser.parse(message);
 
     if (!metadata.hasRequiredFields()) {
-      logger
-          .atSevere()
-          .log(
-              "Message %s is missing required metadata, have %s. Will delete message.",
-              message.id(), metadata);
+      logger.atSevere().log(
+          "Message %s is missing required metadata, have %s. Will delete message.",
+          message.id(), metadata);
       sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
       return;
     }
@@ -168,12 +164,10 @@ public class MailProcessor {
     Set<Account.Id> accountIds = emails.getAccountFor(metadata.author);
 
     if (accountIds.size() != 1) {
-      logger
-          .atSevere()
-          .log(
-              "Address %s could not be matched to a unique account. It was matched to %s."
-                  + " Will delete message.",
-              metadata.author, accountIds);
+      logger.atSevere().log(
+          "Address %s could not be matched to a unique account. It was matched to %s."
+              + " Will delete message.",
+          metadata.author, accountIds);
 
       // We don't want to send an email if no accounts are linked to it.
       if (accountIds.size() > 1) {
@@ -213,13 +207,11 @@ public class MailProcessor {
       List<ChangeData> changeDataList =
           queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
       if (changeDataList.size() != 1) {
-        logger
-            .atSevere()
-            .log(
-                "Message %s references unique change %s,"
-                    + " but there are %d matching changes in the index."
-                    + " Will delete message.",
-                message.id(), metadata.changeNumber, changeDataList.size());
+        logger.atSevere().log(
+            "Message %s references unique change %s,"
+                + " but there are %d matching changes in the index."
+                + " Will delete message.",
+            message.id(), metadata.changeNumber, changeDataList.size());
 
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
         return;
@@ -249,9 +241,8 @@ public class MailProcessor {
       }
 
       if (parsedComments.isEmpty()) {
-        logger
-            .atWarning()
-            .log("Could not parse any comments from %s. Will delete message.", message.id());
+        logger.atWarning().log(
+            "Could not parse any comments from %s. Will delete message.", message.id());
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
         return;
       }

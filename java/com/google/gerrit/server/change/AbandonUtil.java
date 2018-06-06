@@ -97,10 +97,8 @@ public class AbandonUtil {
       }
       logger.atInfo().log("Auto-Abandoned %d of %d changes.", count, changesToAbandon.size());
     } catch (QueryParseException | OrmException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to query inactive open changes for auto-abandoning.");
+      logger.atSevere().withCause(e).log(
+          "Failed to query inactive open changes for auto-abandoning.");
     }
   }
 
@@ -118,12 +116,10 @@ public class AbandonUtil {
       if (!changesToAbandon.isEmpty()) {
         validChanges.add(cd);
       } else {
-        logger
-            .atFine()
-            .log(
-                "Change data with id \"%s\" does not satisfy the query \"%s\""
-                    + " any more, hence skipping it in clean up",
-                cd.getId(), query);
+        logger.atFine().log(
+            "Change data with id \"%s\" does not satisfy the query \"%s\""
+                + " any more, hence skipping it in clean up",
+            cd.getId(), query);
       }
     }
     return validChanges;

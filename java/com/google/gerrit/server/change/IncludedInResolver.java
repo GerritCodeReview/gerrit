@@ -204,11 +204,9 @@ public class IncludedInResolver {
       } catch (MissingObjectException notHere) {
         // Log the problem with this branch, but keep processing.
         //
-        logger
-            .atWarning()
-            .log(
-                "Reference %s in %s points to dangling object %s",
-                ref.getName(), repo.getDirectory(), ref.getObjectId());
+        logger.atWarning().log(
+            "Reference %s in %s points to dangling object %s",
+            ref.getName(), repo.getDirectory(), ref.getObjectId());
         continue;
       }
       commitToRef.put(commit, ref.getName());

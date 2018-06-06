@@ -34,12 +34,11 @@ final class IndexProjectCommand extends SshCommand {
   @Inject private Index index;
 
   @Argument(
-    index = 0,
-    required = true,
-    multiValued = true,
-    metaVar = "PROJECT",
-    usage = "projects for which the changes should be indexed"
-  )
+      index = 0,
+      required = true,
+      multiValued = true,
+      metaVar = "PROJECT",
+      usage = "projects for which the changes should be indexed")
   private List<ProjectState> projects = new ArrayList<>();
 
   @Override

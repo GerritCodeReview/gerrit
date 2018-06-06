@@ -91,16 +91,11 @@ public class AccountDeactivator implements Runnable {
           numberOfAccountsDeactivated++;
         }
       }
-      logger
-          .atInfo()
-          .log(
-              "Deactivations complete, %d account(s) were deactivated",
-              numberOfAccountsDeactivated);
+      logger.atInfo().log(
+          "Deactivations complete, %d account(s) were deactivated", numberOfAccountsDeactivated);
     } catch (Exception e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to complete deactivation of accounts: %s", e.getMessage());
+      logger.atSevere().withCause(e).log(
+          "Failed to complete deactivation of accounts: %s", e.getMessage());
     }
   }
 
@@ -120,12 +115,9 @@ public class AccountDeactivator implements Runnable {
     } catch (ResourceConflictException e) {
       logger.atInfo().log("Account %s already deactivated, continuing...", userName);
     } catch (Exception e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log(
-              "Error deactivating account: %s (%s) %s",
-              userName, accountState.getAccount().getId(), e.getMessage());
+      logger.atSevere().withCause(e).log(
+          "Error deactivating account: %s (%s) %s",
+          userName, accountState.getAccount().getId(), e.getMessage());
     }
     return false;
   }

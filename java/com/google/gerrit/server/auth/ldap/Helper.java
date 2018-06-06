@@ -475,13 +475,10 @@ class Helper {
       try {
         return LdapType.guessType(ctx);
       } catch (NamingException e) {
-        logger
-            .atWarning()
-            .withCause(e)
-            .log(
-                "Cannot discover type of LDAP server at %s,"
-                    + " assuming the server is RFC 2307 compliant.",
-                server);
+        logger.atWarning().withCause(e).log(
+            "Cannot discover type of LDAP server at %s,"
+                + " assuming the server is RFC 2307 compliant.",
+            server);
         return LdapType.RFC_2307;
       }
     }

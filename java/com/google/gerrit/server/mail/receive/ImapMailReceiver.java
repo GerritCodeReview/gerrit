@@ -108,9 +108,8 @@ public class ImapMailReceiver extends MailReceiver {
                 if (imap.store(i + ":" + i, "+FLAGS", "(\\Deleted)")) {
                   pendingDeletion.remove(mailMessage.id());
                 } else {
-                  logger
-                      .atSevere()
-                      .log("Could not mark mail message as deleted: %s", mailMessage.id());
+                  logger.atSevere().log(
+                      "Could not mark mail message as deleted: %s", mailMessage.id());
                 }
               } else {
                 mailMessages.add(mailMessage);

@@ -99,11 +99,9 @@ public final class MagicBranch {
     }
     if (!blockingFors.isEmpty()) {
       String projName = project.getName();
-      logger
-          .atSevere()
-          .log(
-              "Repository '%s' needs the following refs removed to receive changes: %s",
-              projName, blockingFors.keySet());
+      logger.atSevere().log(
+          "Repository '%s' needs the following refs removed to receive changes: %s",
+          projName, blockingFors.keySet());
       return new Capable("One or more " + branchName + " names blocks change upload");
     }
 

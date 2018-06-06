@@ -249,12 +249,10 @@ class OpenIdServiceImpl {
       if ("Nonce verification failed.".equals(result.getStatusMsg())) {
         // We might be suffering from clock skew on this system.
         //
-        logger
-            .atSevere()
-            .log(
-                "OpenID failure: %s  Likely caused by clock skew on this server,"
-                    + " install/configure NTP.",
-                result.getStatusMsg());
+        logger.atSevere().log(
+            "OpenID failure: %s  Likely caused by clock skew on this server,"
+                + " install/configure NTP.",
+            result.getStatusMsg());
         cancelWithError(req, rsp, result.getStatusMsg());
 
       } else if (result.getStatusMsg() != null) {
@@ -376,13 +374,11 @@ class OpenIdServiceImpl {
           // This is (for now) a fatal error. There are two records
           // for what might be the same user.
           //
-          logger
-              .atSevere()
-              .log(
-                  "OpenID accounts disagree over user identity:\n"
-                      + "  Claimed ID: %s is %s\n"
-                      + "  Delgate ID: %s is %s",
-                  claimedId.get(), claimedIdentifier, actualId.get(), areq.getExternalIdKey());
+          logger.atSevere().log(
+              "OpenID accounts disagree over user identity:\n"
+                  + "  Claimed ID: %s is %s\n"
+                  + "  Delgate ID: %s is %s",
+              claimedId.get(), claimedIdentifier, actualId.get(), areq.getExternalIdKey());
           cancelWithError(req, rsp, "Contact site administrator");
           return;
         }

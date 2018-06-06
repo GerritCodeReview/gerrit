@@ -116,17 +116,15 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
                         externalIds.byEmail(preferredEmail);
                     if (!existingExtIdsWithThisEmail.isEmpty()) {
                       // but the email is already assigned to another account
-                      logger
-                          .atWarning()
-                          .log(
-                              "Cannot set preferred email %s for account %s because it is owned"
-                                  + " by the following account(s): %s",
-                              preferredEmail,
-                              user.getAccountId(),
-                              existingExtIdsWithThisEmail
-                                  .stream()
-                                  .map(ExternalId::accountId)
-                                  .collect(toList()));
+                      logger.atWarning().log(
+                          "Cannot set preferred email %s for account %s because it is owned"
+                              + " by the following account(s): %s",
+                          preferredEmail,
+                          user.getAccountId(),
+                          existingExtIdsWithThisEmail
+                              .stream()
+                              .map(ExternalId::accountId)
+                              .collect(toList()));
                       exception.set(
                           Optional.of(
                               new ResourceConflictException("email in use by another account")));

@@ -50,19 +50,17 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(name = "create-group", description = "Create a new account group")
 final class CreateGroupCommand extends SshCommand {
   @Option(
-    name = "--owner",
-    aliases = {"-o"},
-    metaVar = "GROUP",
-    usage = "owning group, if not specified the group will be self-owning"
-  )
+      name = "--owner",
+      aliases = {"-o"},
+      metaVar = "GROUP",
+      usage = "owning group, if not specified the group will be self-owning")
   private AccountGroup.Id ownerGroupId;
 
   @Option(
-    name = "--description",
-    aliases = {"-d"},
-    metaVar = "DESC",
-    usage = "description of group"
-  )
+      name = "--description",
+      aliases = {"-d"},
+      metaVar = "DESC",
+      usage = "description of group")
   private String groupDescription = "";
 
   @Argument(index = 0, required = true, metaVar = "GROUP", usage = "name of group to be created")
@@ -71,11 +69,10 @@ final class CreateGroupCommand extends SshCommand {
   private final Set<Account.Id> initialMembers = new HashSet<>();
 
   @Option(
-    name = "--member",
-    aliases = {"-m"},
-    metaVar = "USERNAME",
-    usage = "initial set of users to become members of the group"
-  )
+      name = "--member",
+      aliases = {"-m"},
+      metaVar = "USERNAME",
+      usage = "initial set of users to become members of the group")
   void addMember(Account.Id id) {
     initialMembers.add(id);
   }
@@ -86,11 +83,10 @@ final class CreateGroupCommand extends SshCommand {
   private final Set<AccountGroup.UUID> initialGroups = new HashSet<>();
 
   @Option(
-    name = "--group",
-    aliases = "-g",
-    metaVar = "GROUP",
-    usage = "initial set of groups to be included in the group"
-  )
+      name = "--group",
+      aliases = "-g",
+      metaVar = "GROUP",
+      usage = "initial set of groups to be included in the group")
   void addGroup(AccountGroup.UUID id) {
     initialGroups.add(id);
   }

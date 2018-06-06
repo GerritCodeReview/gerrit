@@ -84,10 +84,8 @@ public class CreateRefControl {
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log("RevWalk(%s) parsing %s:", branch.getParentKey(), tag.name());
+        logger.atSevere().withCause(e).log(
+            "RevWalk(%s) parsing %s:", branch.getParentKey(), tag.name());
         throw e;
       }
 

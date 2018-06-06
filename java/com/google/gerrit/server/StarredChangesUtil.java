@@ -304,12 +304,9 @@ public class StarredChangesUtil {
       Ref ref = repo.exactRef(RefNames.refsStarredChanges(changeId, accountId));
       return ref != null ? ref.getObjectId() : ObjectId.zeroId();
     } catch (IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log(
-              "Getting star object ID for account %d on change %d failed",
-              accountId.get(), changeId.get());
+      logger.atSevere().withCause(e).log(
+          "Getting star object ID for account %d on change %d failed",
+          accountId.get(), changeId.get());
       return ObjectId.zeroId();
     }
   }

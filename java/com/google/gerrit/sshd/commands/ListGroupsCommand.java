@@ -33,23 +33,21 @@ import java.util.Optional;
 import org.kohsuke.args4j.Option;
 
 @CommandMetaData(
-  name = "ls-groups",
-  description = "List groups visible to the caller",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "ls-groups",
+    description = "List groups visible to the caller",
+    runsAt = MASTER_OR_SLAVE)
 public class ListGroupsCommand extends SshCommand {
   @Inject private GroupCache groupCache;
 
   @Inject @Options public ListGroups listGroups;
 
   @Option(
-    name = "--verbose",
-    aliases = {"-v"},
-    usage =
-        "verbose output format with tab-separated columns for the "
-            + "group name, UUID, description, owner group name, "
-            + "owner group UUID, and whether the group is visible to all"
-  )
+      name = "--verbose",
+      aliases = {"-v"},
+      usage =
+          "verbose output format with tab-separated columns for the "
+              + "group name, UUID, description, owner group name, "
+              + "owner group UUID, and whether the group is visible to all")
   private boolean verboseOutput;
 
   @Override

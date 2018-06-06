@@ -64,12 +64,10 @@ class DraftCommentEvent extends Event {
       try {
         setCommentRevId(c, cache, change, ps);
       } catch (PatchListNotAvailableException e) {
-        logger
-            .atWarning()
-            .log(
-                "Unable to determine parent commit of patch set %s (%s);"
-                    + " omitting draft inline comment %s",
-                ps.getId(), ps.getRevision(), c);
+        logger.atWarning().log(
+            "Unable to determine parent commit of patch set %s (%s);"
+                + " omitting draft inline comment %s",
+            ps.getId(), ps.getRevision(), c);
         return;
       }
     }

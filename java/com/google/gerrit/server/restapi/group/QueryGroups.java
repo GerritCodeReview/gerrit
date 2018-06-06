@@ -49,30 +49,27 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
   // removed we want to rename --query2 to --query here.
   /** --query (-q) is already used by {@link ListGroups} */
   @Option(
-    name = "--query2",
-    aliases = {"-q2"},
-    usage = "group query"
-  )
+      name = "--query2",
+      aliases = {"-q2"},
+      usage = "group query")
   public void setQuery(String query) {
     this.query = query;
   }
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of groups to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of groups to list")
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    metaVar = "CNT",
-    usage = "number of groups to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      metaVar = "CNT",
+      usage = "number of groups to skip")
   public void setStart(int start) {
     this.start = start;
   }

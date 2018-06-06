@@ -127,12 +127,9 @@ class RenameGroupOp extends DefaultQueueOp {
         projectCache.evict(config.getProject());
         success = true;
       } catch (IOException e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log(
-                "Could not commit rename of group %s to %s in %s",
-                oldName, newName, md.getProjectName().get());
+        logger.atSevere().withCause(e).log(
+            "Could not commit rename of group %s to %s in %s",
+            oldName, newName, md.getProjectName().get());
         try {
           Thread.sleep(25 /* milliseconds */);
         } catch (InterruptedException wakeUp) {
@@ -143,11 +140,8 @@ class RenameGroupOp extends DefaultQueueOp {
 
     if (!success) {
       if (tryingAgain) {
-        logger
-            .atWarning()
-            .log(
-                "Could not rename group %s to %s in %s",
-                oldName, newName, md.getProjectName().get());
+        logger.atWarning().log(
+            "Could not rename group %s to %s in %s", oldName, newName, md.getProjectName().get());
       } else {
         retryOn.add(md.getProjectName());
       }

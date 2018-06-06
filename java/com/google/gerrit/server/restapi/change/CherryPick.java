@@ -120,10 +120,8 @@ public class CherryPick
     try {
       projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
     } catch (IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to check if project state permits write: %s", rsrc.getProject());
+      logger.atSevere().withCause(e).log(
+          "Failed to check if project state permits write: %s", rsrc.getProject());
     }
     return new UiAction.Description()
         .setLabel("Cherry Pick")

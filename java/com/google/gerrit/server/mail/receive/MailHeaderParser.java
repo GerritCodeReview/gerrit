@@ -46,10 +46,8 @@ public class MailHeaderParser {
         try {
           metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
         } catch (DateTimeParseException e) {
-          logger
-              .atSevere()
-              .withCause(e)
-              .log("Mail: Error while parsing timestamp from header of message %s", m.id());
+          logger.atSevere().withCause(e).log(
+              "Mail: Error while parsing timestamp from header of message %s", m.id());
         }
       } else if (header.startsWith(MailHeader.MESSAGE_TYPE.fieldWithDelimiter())) {
         metadata.messageType =
@@ -95,10 +93,8 @@ public class MailHeaderParser {
         try {
           metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
         } catch (DateTimeParseException e) {
-          logger
-              .atSevere()
-              .withCause(e)
-              .log("Mail: Error while parsing timestamp from footer of message %s", m.id());
+          logger.atSevere().withCause(e).log(
+              "Mail: Error while parsing timestamp from footer of message %s", m.id());
         }
       } else if (metadata.messageType == null && line.contains(MailHeader.MESSAGE_TYPE.getName())) {
         metadata.messageType = extractFooter(MailHeader.MESSAGE_TYPE.withDelimiter(), line);

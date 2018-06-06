@@ -394,9 +394,8 @@ public class CreateProjectIT extends AbstractDaemonTest {
   @SuppressWarnings("deprecation")
   @Test
   @GerritConfig(
-    name = "repository.testinheritedsubmittype/*.defaultSubmitType",
-    value = "CHERRY_PICK"
-  )
+      name = "repository.testinheritedsubmittype/*.defaultSubmitType",
+      value = "CHERRY_PICK")
   public void repositoryConfigTakesPrecedenceOverInheritedSubmitType() throws Exception {
     // Can't use name() since we need to specify this project name in gerrit.config prior to
     // startup. Pick something reasonably unique instead.

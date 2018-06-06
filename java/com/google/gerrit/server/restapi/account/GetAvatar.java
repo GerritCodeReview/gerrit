@@ -32,10 +32,9 @@ public class GetAvatar implements RestReadView<AccountResource> {
   private int size;
 
   @Option(
-    name = "--size",
-    aliases = {"-s"},
-    usage = "recommended size in pixels, height and width"
-  )
+      name = "--size",
+      aliases = {"-s"},
+      usage = "recommended size in pixels, height and width")
   public void setSize(int s) {
     size = s;
   }

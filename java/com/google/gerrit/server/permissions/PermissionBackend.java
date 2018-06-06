@@ -282,10 +282,8 @@ public abstract class PermissionBackend {
           // Do not include this project in allowed.
         } catch (PermissionBackendException e) {
           if (e.getCause() instanceof RepositoryNotFoundException) {
-            logger
-                .atWarning()
-                .withCause(e)
-                .log("Could not find repository of the project %s", project.get());
+            logger.atWarning().withCause(e).log(
+                "Could not find repository of the project %s", project.get());
             // Do not include this project because doesn't exist
           } else {
             throw e;

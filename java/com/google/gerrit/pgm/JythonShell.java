@@ -188,11 +188,8 @@ public class JythonShell {
             new Class<?>[] {String.class},
             new Object[] {script.getAbsolutePath()});
       } else {
-        logger
-            .atInfo()
-            .log(
-                "User initialization file %s is not found or not executable",
-                script.getAbsolutePath());
+        logger.atInfo().log(
+            "User initialization file %s is not found or not executable", script.getAbsolutePath());
       }
     } catch (InvocationTargetException e) {
       logger.atSevere().withCause(e).log("Exception occurred while loading file %s", p);

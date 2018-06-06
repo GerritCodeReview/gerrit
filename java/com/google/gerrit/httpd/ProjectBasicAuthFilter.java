@@ -130,11 +130,8 @@ class ProjectBasicAuthFilter implements Filter {
     Optional<AccountState> accountState =
         accountCache.getByUsername(username).filter(a -> a.getAccount().isActive());
     if (!accountState.isPresent()) {
-      logger
-          .atWarning()
-          .log(
-              "Authentication failed for %s: account inactive or not provisioned in Gerrit",
-              username);
+      logger.atWarning().log(
+          "Authentication failed for %s: account inactive or not provisioned in Gerrit", username);
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
@@ -186,11 +183,9 @@ class ProjectBasicAuthFilter implements Filter {
 
   private boolean failAuthentication(Response rsp, String username, HttpServletRequest req)
       throws IOException {
-    logger
-        .atWarning()
-        .log(
-            authenticationFailedMsg(username, req)
-                + ": password does not match the one stored in Gerrit");
+    logger.atWarning().log(
+        authenticationFailedMsg(username, req)
+            + ": password does not match the one stored in Gerrit");
     rsp.sendError(SC_UNAUTHORIZED);
     return false;
   }

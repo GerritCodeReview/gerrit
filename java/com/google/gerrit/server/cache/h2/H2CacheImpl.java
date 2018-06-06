@@ -346,12 +346,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             // most likely bumping serialVersionUID rather than using the new versioning in the
             // CacheBinding.  That's ok; we'll continue to support both for now.
             // TODO(dborowitz): Remove this case when Java serialization is no longer used.
-            logger
-                .atWarning()
-                .log(
-                    "Entries cached for %s have an incompatible class and can't be deserialized. "
-                        + "Cache is flushed.",
-                    url);
+            logger.atWarning().log(
+                "Entries cached for %s have an incompatible class and can't be deserialized. "
+                    + "Cache is flushed.",
+                url);
             invalidateAll();
           } else {
             throw e;
@@ -531,11 +529,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         try (PreparedStatement ps = c.conn.prepareStatement("DELETE FROM data WHERE version!=?")) {
           ps.setInt(1, version);
           int oldEntries = ps.executeUpdate();
-          logger
-              .atInfo()
-              .log(
-                  "Pruned %d entries not matching version %d from cache %s",
-                  oldEntries, version, url);
+          logger.atInfo().log(
+              "Pruned %d entries not matching version %d from cache %s", oldEntries, version, url);
         }
         try (Statement s = c.conn.createStatement()) {
           // Compute size without restricting to version (although obsolete data was just pruned

@@ -515,10 +515,8 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.addExtraCC(recipients.getCcOnly());
         cm.send();
       } catch (Exception e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log("Cannot send email for new patch set %s", newPatchSet.getId());
+        logger.atSevere().withCause(e).log(
+            "Cannot send email for new patch set %s", newPatchSet.getId());
       }
     }
 

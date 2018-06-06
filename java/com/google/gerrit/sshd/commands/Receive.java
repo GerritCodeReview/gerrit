@@ -45,9 +45,8 @@ import org.kohsuke.args4j.Option;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 @CommandMetaData(
-  name = "receive-pack",
-  description = "Standard Git server side command for client side git push"
-)
+    name = "receive-pack",
+    description = "Standard Git server side command for client side git push")
 final class Receive extends AbstractGitCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -60,21 +59,19 @@ final class Receive extends AbstractGitCommand {
       MultimapBuilder.hashKeys(2).hashSetValues().build();
 
   @Option(
-    name = "--reviewer",
-    aliases = {"--re"},
-    metaVar = "EMAIL",
-    usage = "request reviewer for change(s)"
-  )
+      name = "--reviewer",
+      aliases = {"--re"},
+      metaVar = "EMAIL",
+      usage = "request reviewer for change(s)")
   void addReviewer(Account.Id id) {
     reviewers.put(ReviewerStateInternal.REVIEWER, id);
   }
 
   @Option(
-    name = "--cc",
-    aliases = {},
-    metaVar = "EMAIL",
-    usage = "CC user on change(s)"
-  )
+      name = "--cc",
+      aliases = {},
+      metaVar = "EMAIL",
+      usage = "CC user on change(s)")
   void addCC(Account.Id id) {
     reviewers.put(ReviewerStateInternal.CC, id);
   }

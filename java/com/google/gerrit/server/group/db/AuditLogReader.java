@@ -183,11 +183,9 @@ public class AuditLogReader {
   }
 
   private static void logInvalid(AccountGroup.UUID uuid, RevCommit c, FooterLine line) {
-    logger
-        .atFine()
-        .log(
-            "Invalid footer line in commit %s while parsing audit log for group %s: %s",
-            c.name(), uuid, line);
+    logger.atFine().log(
+        "Invalid footer line in commit %s while parsing audit log for group %s: %s",
+        c.name(), uuid, line);
   }
 
   private ImmutableList<ParsedCommit> parseCommits(Repository repo, AccountGroup.UUID uuid)

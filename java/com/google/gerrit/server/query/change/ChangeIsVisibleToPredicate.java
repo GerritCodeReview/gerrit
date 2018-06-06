@@ -93,12 +93,8 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     } catch (PermissionBackendException e) {
       Throwable cause = e.getCause();
       if (cause instanceof RepositoryNotFoundException) {
-        logger
-            .atWarning()
-            .withCause(e)
-            .log(
-                "Skipping change %s because the corresponding repository was not found",
-                cd.getId());
+        logger.atWarning().withCause(e).log(
+            "Skipping change %s because the corresponding repository was not found", cd.getId());
         return false;
       }
       throw new OrmException("unable to check permissions on change " + cd.getId(), e);

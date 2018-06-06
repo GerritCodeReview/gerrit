@@ -174,13 +174,11 @@ class OAuthSession {
         // This is (for now) a fatal error. There are two records
         // for what might be the same user.
         //
-        logger
-            .atSevere()
-            .log(
-                "OAuth accounts disagree over user identity:\n"
-                    + "  Claimed ID: %s is %s\n"
-                    + "  Delgate ID: %s is %s",
-                claimedId.get(), claimedIdentifier, actualId.get(), user.getExternalId());
+        logger.atSevere().log(
+            "OAuth accounts disagree over user identity:\n"
+                + "  Claimed ID: %s is %s\n"
+                + "  Delgate ID: %s is %s",
+            claimedId.get(), claimedIdentifier, actualId.get(), user.getExternalId());
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return false;
       }
@@ -191,11 +189,9 @@ class OAuthSession {
       try {
         accountManager.link(claimedId.get(), req);
       } catch (OrmException | ConfigInvalidException e) {
-        logger
-            .atSevere()
-            .log(
-                "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
-                user.getExternalId(), claimedId.get(), claimedIdentifier);
+        logger.atSevere().log(
+            "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
+            user.getExternalId(), claimedId.get(), claimedIdentifier);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return false;
       }
@@ -208,11 +204,9 @@ class OAuthSession {
     try {
       accountManager.link(identifiedUser.get().getAccountId(), areq);
     } catch (OrmException | ConfigInvalidException e) {
-      logger
-          .atSevere()
-          .log(
-              "Cannot link: %s to user identity: %s",
-              user.getExternalId(), identifiedUser.get().getAccountId());
+      logger.atSevere().log(
+          "Cannot link: %s to user identity: %s",
+          user.getExternalId(), identifiedUser.get().getAccountId());
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
       return false;
     } finally {

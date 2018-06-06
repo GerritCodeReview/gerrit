@@ -266,9 +266,8 @@ public class ChangeField {
 
       int i = v.indexOf(',');
       if (i < 0) {
-        logger
-            .atWarning()
-            .log("Invalid value for reviewer field from change %s: %s", changeId.get(), v);
+        logger.atWarning().log(
+            "Invalid value for reviewer field from change %s: %s", changeId.get(), v);
         continue;
       }
 
@@ -286,31 +285,23 @@ public class ChangeField {
       com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
           Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
-        logger
-            .atWarning()
-            .log(
-                "Failed to parse reviewer state of reviewer field from change %s: %s",
-                changeId.get(), v);
+        logger.atWarning().log(
+            "Failed to parse reviewer state of reviewer field from change %s: %s",
+            changeId.get(), v);
         continue;
       }
 
       Optional<Account.Id> accountId = Account.Id.tryParse(v.substring(i + 1, i2));
       if (!accountId.isPresent()) {
-        logger
-            .atWarning()
-            .log(
-                "Failed to parse account ID of reviewer field from change %s: %s",
-                changeId.get(), v);
+        logger.atWarning().log(
+            "Failed to parse account ID of reviewer field from change %s: %s", changeId.get(), v);
         continue;
       }
 
       Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
       if (l == null) {
-        logger
-            .atWarning()
-            .log(
-                "Failed to parse timestamp of reviewer field from change %s: %s",
-                changeId.get(), v);
+        logger.atWarning().log(
+            "Failed to parse timestamp of reviewer field from change %s: %s", changeId.get(), v);
         continue;
       }
       Timestamp timestamp = new Timestamp(l);
@@ -326,9 +317,8 @@ public class ChangeField {
     for (String v : values) {
       int i = v.indexOf(',');
       if (i < 0) {
-        logger
-            .atWarning()
-            .log("Invalid value for reviewer by email field from change %s: %s", changeId.get(), v);
+        logger.atWarning().log(
+            "Invalid value for reviewer by email field from change %s: %s", changeId.get(), v);
         continue;
       }
 
@@ -347,31 +337,25 @@ public class ChangeField {
       com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
           Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
-        logger
-            .atWarning()
-            .log(
-                "Failed to parse reviewer state of reviewer by email field from change %s: %s",
-                changeId.get(), v);
+        logger.atWarning().log(
+            "Failed to parse reviewer state of reviewer by email field from change %s: %s",
+            changeId.get(), v);
         continue;
       }
 
       Address address = Address.tryParse(v.substring(i + 1, i2));
       if (address == null) {
-        logger
-            .atWarning()
-            .log(
-                "Failed to parse address of reviewer by email field from change %s: %s",
-                changeId.get(), v);
+        logger.atWarning().log(
+            "Failed to parse address of reviewer by email field from change %s: %s",
+            changeId.get(), v);
         continue;
       }
 
       Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
       if (l == null) {
-        logger
-            .atWarning()
-            .log(
-                "Failed to parse timestamp of reviewer by email field from change %s: %s",
-                changeId.get(), v);
+        logger.atWarning().log(
+            "Failed to parse timestamp of reviewer by email field from change %s: %s",
+            changeId.get(), v);
         continue;
       }
       Timestamp timestamp = new Timestamp(l);

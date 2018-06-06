@@ -349,10 +349,8 @@ public class ProjectConfigEntry {
           }
         }
       } catch (IOException | ConfigInvalidException e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log("Failed to check if plugin config of project %s was updated.", p.get());
+        logger.atSevere().withCause(e).log(
+            "Failed to check if plugin config of project %s was updated.", p.get());
       }
     }
 

@@ -57,9 +57,8 @@ public class Reindex extends SiteProgram {
   private int threads = Runtime.getRuntime().availableProcessors();
 
   @Option(
-    name = "--changes-schema-version",
-    usage = "Schema version to reindex, for changes; default is most recent version"
-  )
+      name = "--changes-schema-version",
+      usage = "Schema version to reindex, for changes; default is most recent version")
   private Integer changesVersion;
 
   @Option(name = "--verbose", usage = "Output debug information for each change")

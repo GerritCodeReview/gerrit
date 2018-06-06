@@ -214,11 +214,9 @@ public class MultiProgressMonitor {
                 String.format(
                     "(timeout %sms, cancelled)",
                     TimeUnit.MILLISECONDS.convert(now - deadline, NANOSECONDS));
-            logger
-                .atWarning()
-                .log(
-                    "MultiProgressMonitor worker killed after %sms: %s",
-                    TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS), detailMessage);
+            logger.atWarning().log(
+                "MultiProgressMonitor worker killed after %sms: %s",
+                TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS), detailMessage);
           }
           break;
         }

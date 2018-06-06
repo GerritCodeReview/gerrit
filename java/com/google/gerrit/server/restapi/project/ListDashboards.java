@@ -138,11 +138,9 @@ public class ListDashboards implements RestReadView<ProjectResource> {
                     project,
                     setDefault));
           } catch (ConfigInvalidException e) {
-            logger
-                .atWarning()
-                .log(
-                    "Cannot parse dashboard %s:%s:%s: %s",
-                    definingProject.getName(), ref.getName(), tw.getPathString(), e.getMessage());
+            logger.atWarning().log(
+                "Cannot parse dashboard %s:%s:%s: %s",
+                definingProject.getName(), ref.getName(), tw.getPathString(), e.getMessage());
           }
         }
       }

@@ -57,11 +57,9 @@ class PluginCleanerTask implements Runnable {
 
       if (0 < left) {
         long waiting = TimeUtil.nowMs() - start;
-        logger
-            .atWarning()
-            .log(
-                "%d plugins still waiting to be reclaimed after %d minutes",
-                pending, TimeUnit.MILLISECONDS.toMinutes(waiting));
+        logger.atWarning().log(
+            "%d plugins still waiting to be reclaimed after %d minutes",
+            pending, TimeUnit.MILLISECONDS.toMinutes(waiting));
         attempts = Math.min(attempts + 1, 15);
         ensureScheduled();
       } else {

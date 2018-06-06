@@ -95,37 +95,33 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private String ownedBy;
 
   @Option(
-    name = "--project",
-    aliases = {"-p"},
-    usage = "projects for which the groups should be listed"
-  )
+      name = "--project",
+      aliases = {"-p"},
+      usage = "projects for which the groups should be listed")
   public void addProject(ProjectState project) {
     projects.add(project);
   }
 
   @Option(
-    name = "--visible-to-all",
-    usage = "to list only groups that are visible to all registered users"
-  )
+      name = "--visible-to-all",
+      usage = "to list only groups that are visible to all registered users")
   public void setVisibleToAll(boolean visibleToAll) {
     this.visibleToAll = visibleToAll;
   }
 
   @Option(
-    name = "--user",
-    aliases = {"-u"},
-    usage = "user for which the groups should be listed"
-  )
+      name = "--user",
+      aliases = {"-u"},
+      usage = "user for which the groups should be listed")
   public void setUser(Account.Id user) {
     this.user = user;
   }
 
   @Option(
-    name = "--owned",
-    usage =
-        "to list only groups that are owned by the"
-            + " specified user or by the calling user if no user was specifed"
-  )
+      name = "--owned",
+      usage =
+          "to list only groups that are owned by the"
+              + " specified user or by the calling user if no user was specifed")
   public void setOwned(boolean owned) {
     this.owned = owned;
   }
@@ -138,68 +134,61 @@ public class ListGroups implements RestReadView<TopLevelResource> {
    */
   @Deprecated
   @Option(
-    name = "--query",
-    aliases = {"-q"},
-    usage = "group to inspect (deprecated: use --group/-g instead)"
-  )
+      name = "--query",
+      aliases = {"-q"},
+      usage = "group to inspect (deprecated: use --group/-g instead)")
   void addGroup_Deprecated(AccountGroup.UUID uuid) {
     addGroup(uuid);
   }
 
   @Option(
-    name = "--group",
-    aliases = {"-g"},
-    usage = "group to inspect"
-  )
+      name = "--group",
+      aliases = {"-g"},
+      usage = "group to inspect")
   public void addGroup(AccountGroup.UUID uuid) {
     groupsToInspect.add(uuid);
   }
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of groups to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of groups to list")
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    metaVar = "CNT",
-    usage = "number of groups to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      metaVar = "CNT",
+      usage = "number of groups to skip")
   public void setStart(int start) {
     this.start = start;
   }
 
   @Option(
-    name = "--match",
-    aliases = {"-m"},
-    metaVar = "MATCH",
-    usage = "match group substring"
-  )
+      name = "--match",
+      aliases = {"-m"},
+      metaVar = "MATCH",
+      usage = "match group substring")
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
   }
 
   @Option(
-    name = "--regex",
-    aliases = {"-r"},
-    metaVar = "REGEX",
-    usage = "match group regex"
-  )
+      name = "--regex",
+      aliases = {"-r"},
+      metaVar = "REGEX",
+      usage = "match group regex")
   public void setMatchRegex(String matchRegex) {
     this.matchRegex = matchRegex;
   }
 
   @Option(
-    name = "--suggest",
-    aliases = {"-s"},
-    usage = "to get a suggestion of groups"
-  )
+      name = "--suggest",
+      aliases = {"-s"},
+      usage = "to get a suggestion of groups")
   public void setSuggest(String suggest) {
     this.suggest = suggest;
   }

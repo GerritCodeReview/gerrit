@@ -46,50 +46,44 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 @CommandMetaData(
-  name = "set-members",
-  description = "Modify members of specific group or number of groups"
-)
+    name = "set-members",
+    description = "Modify members of specific group or number of groups")
 public class SetMembersCommand extends SshCommand {
 
   @Option(
-    name = "--add",
-    aliases = {"-a"},
-    metaVar = "USER",
-    usage = "users that should be added as group member"
-  )
+      name = "--add",
+      aliases = {"-a"},
+      metaVar = "USER",
+      usage = "users that should be added as group member")
   private List<Account.Id> accountsToAdd = new ArrayList<>();
 
   @Option(
-    name = "--remove",
-    aliases = {"-r"},
-    metaVar = "USER",
-    usage = "users that should be removed from the group"
-  )
+      name = "--remove",
+      aliases = {"-r"},
+      metaVar = "USER",
+      usage = "users that should be removed from the group")
   private List<Account.Id> accountsToRemove = new ArrayList<>();
 
   @Option(
-    name = "--include",
-    aliases = {"-i"},
-    metaVar = "GROUP",
-    usage = "group that should be included as group member"
-  )
+      name = "--include",
+      aliases = {"-i"},
+      metaVar = "GROUP",
+      usage = "group that should be included as group member")
   private List<AccountGroup.UUID> groupsToInclude = new ArrayList<>();
 
   @Option(
-    name = "--exclude",
-    aliases = {"-e"},
-    metaVar = "GROUP",
-    usage = "group that should be excluded from the group"
-  )
+      name = "--exclude",
+      aliases = {"-e"},
+      metaVar = "GROUP",
+      usage = "group that should be excluded from the group")
   private List<AccountGroup.UUID> groupsToRemove = new ArrayList<>();
 
   @Argument(
-    index = 0,
-    required = true,
-    multiValued = true,
-    metaVar = "GROUP",
-    usage = "groups to modify"
-  )
+      index = 0,
+      required = true,
+      multiValued = true,
+      metaVar = "GROUP",
+      usage = "groups to modify")
   private List<AccountGroup.UUID> groups = new ArrayList<>();
 
   @Inject private AddMembers addMembers;

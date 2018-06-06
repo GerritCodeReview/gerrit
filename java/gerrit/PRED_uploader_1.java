@@ -44,11 +44,9 @@ public class PRED_uploader_1 extends Predicate.P1 {
 
     PatchSet patchSet = StoredValues.getPatchSet(engine);
     if (patchSet == null) {
-      logger
-          .atSevere()
-          .log(
-              "Failed to load current patch set of change %s",
-              StoredValues.getChange(engine).getChangeId());
+      logger.atSevere().log(
+          "Failed to load current patch set of change %s",
+          StoredValues.getChange(engine).getChangeId());
       return engine.fail();
     }
 

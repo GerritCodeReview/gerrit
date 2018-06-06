@@ -124,9 +124,8 @@ public class ChangeIdIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(
-    name = "change.api.allowedIdentifier",
-    values = {"PROJECT_NUMERIC_ID", "NUMERIC_ID"}
-  )
+      name = "change.api.allowedIdentifier",
+      values = {"PROJECT_NUMERIC_ID", "NUMERIC_ID"})
   public void deprecatedChangeIdReturnsBadRequest() throws Exception {
     // project~changeNumber still works
     ChangeApi cApi1 = gApi.changes().id(project.get(), changeInfo._number);

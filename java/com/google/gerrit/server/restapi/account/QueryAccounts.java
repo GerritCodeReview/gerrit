@@ -73,11 +73,10 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   }
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of users to return"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of users to return")
   public void setLimit(int n) {
     queryProcessor.setUserProvidedLimit(n);
 
@@ -101,21 +100,19 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   }
 
   @Option(
-    name = "--query",
-    aliases = {"-q"},
-    metaVar = "QUERY",
-    usage = "match users"
-  )
+      name = "--query",
+      aliases = {"-q"},
+      metaVar = "QUERY",
+      usage = "match users")
   public void setQuery(String query) {
     this.query = query;
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    metaVar = "CNT",
-    usage = "Number of accounts to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      metaVar = "CNT",
+      usage = "Number of accounts to skip")
   public void setStart(int start) {
     this.start = start;
   }

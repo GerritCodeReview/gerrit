@@ -300,10 +300,8 @@ public class PatchSetInserter implements BatchUpdateOp {
         cm.setAccountsToNotify(accountsToNotify);
         cm.send();
       } catch (Exception err) {
-        logger
-            .atSevere()
-            .withCause(err)
-            .log("Cannot send email for new patch set on change %s", change.getId());
+        logger.atSevere().withCause(err).log(
+            "Cannot send email for new patch set on change %s", change.getId());
       }
     }
 

@@ -69,11 +69,10 @@ import org.kohsuke.args4j.Option;
 final class SetAccountCommand extends SshCommand {
 
   @Argument(
-    index = 0,
-    required = true,
-    metaVar = "USER",
-    usage = "full name, email-address, ssh username or account id"
-  )
+      index = 0,
+      required = true,
+      metaVar = "USER",
+      usage = "full name, email-address, ssh username or account id")
   private Account.Id id;
 
   @Option(name = "--full-name", metaVar = "NAME", usage = "display name of the account")
@@ -89,34 +88,30 @@ final class SetAccountCommand extends SshCommand {
   private List<String> addEmails = new ArrayList<>();
 
   @Option(
-    name = "--delete-email",
-    metaVar = "EMAIL",
-    usage = "email addresses to delete from the account"
-  )
+      name = "--delete-email",
+      metaVar = "EMAIL",
+      usage = "email addresses to delete from the account")
   private List<String> deleteEmails = new ArrayList<>();
 
   @Option(
-    name = "--preferred-email",
-    metaVar = "EMAIL",
-    usage = "a registered email address from the account"
-  )
+      name = "--preferred-email",
+      metaVar = "EMAIL",
+      usage = "a registered email address from the account")
   private String preferredEmail;
 
   @Option(name = "--add-ssh-key", metaVar = "-|KEY", usage = "public keys to add to the account")
   private List<String> addSshKeys = new ArrayList<>();
 
   @Option(
-    name = "--delete-ssh-key",
-    metaVar = "-|KEY",
-    usage = "public keys to delete from the account"
-  )
+      name = "--delete-ssh-key",
+      metaVar = "-|KEY",
+      usage = "public keys to delete from the account")
   private List<String> deleteSshKeys = new ArrayList<>();
 
   @Option(
-    name = "--http-password",
-    metaVar = "PASSWORD",
-    usage = "password for HTTP authentication for the account"
-  )
+      name = "--http-password",
+      metaVar = "PASSWORD",
+      usage = "password for HTTP authentication for the account")
   private String httpPassword;
 
   @Option(name = "--clear-http-password", usage = "clear HTTP password for the account")

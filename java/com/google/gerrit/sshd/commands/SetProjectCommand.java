@@ -35,18 +35,16 @@ final class SetProjectCommand extends SshCommand {
   private ProjectState projectState;
 
   @Option(
-    name = "--description",
-    aliases = {"-d"},
-    metaVar = "DESCRIPTION",
-    usage = "description of project"
-  )
+      name = "--description",
+      aliases = {"-d"},
+      metaVar = "DESCRIPTION",
+      usage = "description of project")
   private String projectDescription;
 
   @Option(
-    name = "--submit-type",
-    aliases = {"-t"},
-    usage = "project submit type\n(default: MERGE_IF_NECESSARY)"
-  )
+      name = "--submit-type",
+      aliases = {"-t"},
+      usage = "project submit type\n(default: MERGE_IF_NECESSARY)")
   private SubmitType submitType;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
@@ -62,37 +60,33 @@ final class SetProjectCommand extends SshCommand {
   private InheritableBoolean requireChangeID;
 
   @Option(
-    name = "--use-contributor-agreements",
-    aliases = {"--ca"},
-    usage = "if contributor agreement is required"
-  )
+      name = "--use-contributor-agreements",
+      aliases = {"--ca"},
+      usage = "if contributor agreement is required")
   void setUseContributorArgreements(@SuppressWarnings("unused") boolean on) {
     contributorAgreements = InheritableBoolean.TRUE;
   }
 
   @Option(
-    name = "--no-contributor-agreements",
-    aliases = {"--nca"},
-    usage = "if contributor agreement is not required"
-  )
+      name = "--no-contributor-agreements",
+      aliases = {"--nca"},
+      usage = "if contributor agreement is not required")
   void setNoContributorArgreements(@SuppressWarnings("unused") boolean on) {
     contributorAgreements = InheritableBoolean.FALSE;
   }
 
   @Option(
-    name = "--use-signed-off-by",
-    aliases = {"--so"},
-    usage = "if signed-off-by is required"
-  )
+      name = "--use-signed-off-by",
+      aliases = {"--so"},
+      usage = "if signed-off-by is required")
   void setUseSignedOffBy(@SuppressWarnings("unused") boolean on) {
     signedOffBy = InheritableBoolean.TRUE;
   }
 
   @Option(
-    name = "--no-signed-off-by",
-    aliases = {"--nso"},
-    usage = "if signed-off-by is not required"
-  )
+      name = "--no-signed-off-by",
+      aliases = {"--nso"},
+      usage = "if signed-off-by is not required")
   void setNoSignedOffBy(@SuppressWarnings("unused") boolean on) {
     signedOffBy = InheritableBoolean.FALSE;
   }
@@ -103,36 +97,32 @@ final class SetProjectCommand extends SshCommand {
   }
 
   @Option(
-    name = "--no-content-merge",
-    usage = "don't allow automatic conflict resolving within files"
-  )
+      name = "--no-content-merge",
+      usage = "don't allow automatic conflict resolving within files")
   void setNoContentMerge(@SuppressWarnings("unused") boolean on) {
     contentMerge = InheritableBoolean.FALSE;
   }
 
   @Option(
-    name = "--require-change-id",
-    aliases = {"--id"},
-    usage = "if change-id is required"
-  )
+      name = "--require-change-id",
+      aliases = {"--id"},
+      usage = "if change-id is required")
   void setRequireChangeId(@SuppressWarnings("unused") boolean on) {
     requireChangeID = InheritableBoolean.TRUE;
   }
 
   @Option(
-    name = "--no-change-id",
-    aliases = {"--nid"},
-    usage = "if change-id is not required"
-  )
+      name = "--no-change-id",
+      aliases = {"--nid"},
+      usage = "if change-id is not required")
   void setNoChangeId(@SuppressWarnings("unused") boolean on) {
     requireChangeID = InheritableBoolean.FALSE;
   }
 
   @Option(
-    name = "--project-state",
-    aliases = {"--ps"},
-    usage = "project's visibility state"
-  )
+      name = "--project-state",
+      aliases = {"--ps"},
+      usage = "project's visibility state")
   private ProjectState state;
 
   @Option(name = "--max-object-size-limit", usage = "max Git object size for this project")

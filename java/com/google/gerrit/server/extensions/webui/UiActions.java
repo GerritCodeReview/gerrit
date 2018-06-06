@@ -130,10 +130,8 @@ public class UiActions {
     try {
       view = e.getProvider().get();
     } catch (RuntimeException err) {
-      logger
-          .atSevere()
-          .withCause(err)
-          .log("error creating view %s.%s", e.getPluginName(), e.getExportName());
+      logger.atSevere().withCause(err).log(
+          "error creating view %s.%s", e.getPluginName(), e.getExportName());
       return null;
     }
 
@@ -155,10 +153,8 @@ public class UiActions {
     try {
       globalRequired = GlobalPermission.fromAnnotation(e.getPluginName(), view.getClass());
     } catch (PermissionBackendException err) {
-      logger
-          .atSevere()
-          .withCause(err)
-          .log("exception testing view %s.%s", e.getPluginName(), e.getExportName());
+      logger.atSevere().withCause(err).log(
+          "exception testing view %s.%s", e.getPluginName(), e.getExportName());
       return null;
     }
     if (!globalRequired.isEmpty()) {

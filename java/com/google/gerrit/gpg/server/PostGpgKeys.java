@@ -223,12 +223,9 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
           try {
             addKeyFactory.create(rsrc.getUser(), addedKeys).send();
           } catch (EmailException e) {
-            logger
-                .atSevere()
-                .withCause(e)
-                .log(
-                    "Cannot send GPG key added message to %s",
-                    rsrc.getUser().getAccount().getPreferredEmail());
+            logger.atSevere().withCause(e).log(
+                "Cannot send GPG key added message to %s",
+                rsrc.getUser().getAccount().getPreferredEmail());
           }
           break;
         case NO_CHANGE:

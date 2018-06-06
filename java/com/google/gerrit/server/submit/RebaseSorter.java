@@ -109,11 +109,8 @@ public class RebaseSorter {
       // check if the commit is merged in other branches
       for (RevCommit accepted : alreadyAccepted) {
         if (mirw.isMergedInto(mirw.parseCommit(commit), mirw.parseCommit(accepted))) {
-          logger
-              .atFine()
-              .log(
-                  "Dependency %s merged into branch head %s.",
-                  commit.getName(), accepted.getName());
+          logger.atFine().log(
+              "Dependency %s merged into branch head %s.", commit.getName(), accepted.getName());
           return true;
         }
       }
@@ -123,11 +120,8 @@ public class RebaseSorter {
       for (ChangeData change : changes) {
         if (change.change().getStatus() == Status.MERGED
             && change.change().getDest().equals(dest)) {
-          logger
-              .atFine()
-              .log(
-                  "Dependency %s associated with merged change %s.",
-                  commit.getName(), change.getId());
+          logger.atFine().log(
+              "Dependency %s associated with merged change %s.", commit.getName(), change.getId());
           return true;
         }
       }

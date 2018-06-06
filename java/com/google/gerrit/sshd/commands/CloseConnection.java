@@ -39,22 +39,20 @@ import org.kohsuke.args4j.Option;
 @AdminHighPriorityCommand
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "close-connection",
-  description = "Close the specified SSH connection",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "close-connection",
+    description = "Close the specified SSH connection",
+    runsAt = MASTER_OR_SLAVE)
 final class CloseConnection extends SshCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject private SshDaemon sshDaemon;
 
   @Argument(
-    index = 0,
-    multiValued = true,
-    required = true,
-    metaVar = "SESSION_ID",
-    usage = "List of SSH session IDs to be closed"
-  )
+      index = 0,
+      multiValued = true,
+      required = true,
+      metaVar = "SESSION_ID",
+      usage = "List of SSH session IDs to be closed")
   private final List<String> sessionIds = new ArrayList<>();
 
   @Option(name = "--wait", usage = "wait for connection to close before exiting")
@@ -82,9 +80,8 @@ final class CloseConnection extends SshCommand {
               future.await();
               stdout.println("closed connection " + sessionId);
             } catch (IOException e) {
-              logger
-                  .atWarning()
-                  .log("Wait for connection to close interrupted: %s", e.getMessage());
+              logger.atWarning().log(
+                  "Wait for connection to close interrupted: %s", e.getMessage());
             }
           }
           break;

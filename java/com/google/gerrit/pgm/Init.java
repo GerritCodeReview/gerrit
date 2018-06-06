@@ -44,10 +44,9 @@ import org.kohsuke.args4j.Option;
 /** Initialize a new Gerrit installation. */
 public class Init extends BaseInit {
   @Option(
-    name = "--batch",
-    aliases = {"-b"},
-    usage = "Batch mode; skip interactive prompting"
-  )
+      name = "--batch",
+      aliases = {"-b"},
+      usage = "Batch mode; skip interactive prompting")
   private boolean batchMode;
 
   @Option(name = "--delete-caches", usage = "Delete all persistent caches without asking")
@@ -69,9 +68,8 @@ public class Init extends BaseInit {
   private boolean installAllPlugins;
 
   @Option(
-    name = "--secure-store-lib",
-    usage = "Path to jar providing SecureStore implementation class"
-  )
+      name = "--secure-store-lib",
+      usage = "Path to jar providing SecureStore implementation class")
   private String secureStoreLib;
 
   @Option(name = "--dev", usage = "Setup site with default options suitable for developers")

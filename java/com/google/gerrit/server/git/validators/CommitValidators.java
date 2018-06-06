@@ -226,10 +226,8 @@ public class CommitValidators {
         messages.addAll(commitValidator.onCommitReceived(receiveEvent));
       }
     } catch (CommitValidationException e) {
-      logger
-          .atFine()
-          .withCause(e)
-          .log("CommitValidationException occurred: %s", e.getFullMessage());
+      logger.atFine().withCause(e).log(
+          "CommitValidationException occurred: %s", e.getFullMessage());
       // Keep the old messages (and their order) in case of an exception
       messages.addAll(e.getMessages());
       throw new CommitValidationException(e.getMessage(), messages);
@@ -445,14 +443,11 @@ public class CommitValidators {
             throw new ConfigInvalidException("invalid project configuration");
           }
         } catch (ConfigInvalidException | IOException e) {
-          logger
-              .atSevere()
-              .withCause(e)
-              .log(
-                  "User %s tried to push an invalid project configuration %s for project %s",
-                  user.getLoggableName(),
-                  receiveEvent.command.getNewId().name(),
-                  receiveEvent.project.getName());
+          logger.atSevere().withCause(e).log(
+              "User %s tried to push an invalid project configuration %s for project %s",
+              user.getLoggableName(),
+              receiveEvent.command.getNewId().name(),
+              receiveEvent.project.getName());
           throw new CommitValidationException("invalid project configuration", messages);
         }
       }

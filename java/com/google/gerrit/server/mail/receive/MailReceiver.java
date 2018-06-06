@@ -140,10 +140,8 @@ public abstract class MailReceiver implements LifecycleListener {
                         mailProcessor.process(m);
                         requestDeletion(m.id());
                       } catch (RestApiException | UpdateException e) {
-                        logger
-                            .atSevere()
-                            .withCause(e)
-                            .log("Mail: Can't process message %s . Won't delete.", m.id());
+                        logger.atSevere().withCause(e).log(
+                            "Mail: Can't process message %s . Won't delete.", m.id());
                       }
                     });
       } else {

@@ -33,34 +33,30 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 @CommandMetaData(
-  name = "ban-commit",
-  description = "Ban a commit from a project's repository",
-  runsAt = MASTER
-)
+    name = "ban-commit",
+    description = "Ban a commit from a project's repository",
+    runsAt = MASTER)
 public class BanCommitCommand extends SshCommand {
   @Option(
-    name = "--reason",
-    aliases = {"-r"},
-    metaVar = "REASON",
-    usage = "reason for banning the commit"
-  )
+      name = "--reason",
+      aliases = {"-r"},
+      metaVar = "REASON",
+      usage = "reason for banning the commit")
   private String reason;
 
   @Argument(
-    index = 0,
-    required = true,
-    metaVar = "PROJECT",
-    usage = "name of the project for which the commit should be banned"
-  )
+      index = 0,
+      required = true,
+      metaVar = "PROJECT",
+      usage = "name of the project for which the commit should be banned")
   private ProjectState projectState;
 
   @Argument(
-    index = 1,
-    required = true,
-    multiValued = true,
-    metaVar = "COMMIT",
-    usage = "commit(s) that should be banned"
-  )
+      index = 1,
+      required = true,
+      multiValued = true,
+      metaVar = "COMMIT",
+      usage = "commit(s) that should be banned")
   private List<ObjectId> commitsToBan = new ArrayList<>();
 
   @Inject private BanCommit banCommit;

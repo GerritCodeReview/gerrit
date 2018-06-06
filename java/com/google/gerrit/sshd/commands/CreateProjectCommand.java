@@ -42,50 +42,44 @@ import org.kohsuke.args4j.Option;
 /** Create a new project. * */
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 @CommandMetaData(
-  name = "create-project",
-  description = "Create a new project and associated Git repository"
-)
+    name = "create-project",
+    description = "Create a new project and associated Git repository")
 final class CreateProjectCommand extends SshCommand {
   @Option(
-    name = "--suggest-parents",
-    aliases = {"-S"},
-    usage =
-        "suggest parent candidates, "
-            + "if this option is used all other options and arguments are ignored"
-  )
+      name = "--suggest-parents",
+      aliases = {"-S"},
+      usage =
+          "suggest parent candidates, "
+              + "if this option is used all other options and arguments are ignored")
   private boolean suggestParent;
 
   @Option(
-    name = "--owner",
-    aliases = {"-o"},
-    usage = "owner(s) of project"
-  )
+      name = "--owner",
+      aliases = {"-o"},
+      usage = "owner(s) of project")
   private List<AccountGroup.UUID> ownerIds;
 
   @Option(
-    name = "--parent",
-    aliases = {"-p"},
-    metaVar = "NAME",
-    usage = "parent project"
-  )
+      name = "--parent",
+      aliases = {"-p"},
+      metaVar = "NAME",
+      usage = "parent project")
   private ProjectState newParent;
 
   @Option(name = "--permissions-only", usage = "create project for use only as parent")
   private boolean permissionsOnly;
 
   @Option(
-    name = "--description",
-    aliases = {"-d"},
-    metaVar = "DESCRIPTION",
-    usage = "description of project"
-  )
+      name = "--description",
+      aliases = {"-d"},
+      metaVar = "DESCRIPTION",
+      usage = "description of project")
   private String projectDescription = "";
 
   @Option(
-    name = "--submit-type",
-    aliases = {"-t"},
-    usage = "project submit type"
-  )
+      name = "--submit-type",
+      aliases = {"-t"},
+      usage = "project submit type")
   private SubmitType submitType;
 
   @Option(name = "--contributor-agreements", usage = "if contributor agreement is required")
@@ -104,25 +98,22 @@ final class CreateProjectCommand extends SshCommand {
   private InheritableBoolean rejectEmptyCommit = InheritableBoolean.INHERIT;
 
   @Option(
-    name = "--new-change-for-all-not-in-target",
-    usage = "if a new change will be created for every commit not in target branch"
-  )
+      name = "--new-change-for-all-not-in-target",
+      usage = "if a new change will be created for every commit not in target branch")
   private InheritableBoolean createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
 
   @Option(
-    name = "--use-contributor-agreements",
-    aliases = {"--ca"},
-    usage = "if contributor agreement is required"
-  )
+      name = "--use-contributor-agreements",
+      aliases = {"--ca"},
+      usage = "if contributor agreement is required")
   void setUseContributorArgreements(@SuppressWarnings("unused") boolean on) {
     contributorAgreements = InheritableBoolean.TRUE;
   }
 
   @Option(
-    name = "--use-signed-off-by",
-    aliases = {"--so"},
-    usage = "if signed-off-by is required"
-  )
+      name = "--use-signed-off-by",
+      aliases = {"--so"},
+      usage = "if signed-off-by is required")
   void setUseSignedOffBy(@SuppressWarnings("unused") boolean on) {
     signedOffBy = InheritableBoolean.TRUE;
   }
@@ -133,29 +124,26 @@ final class CreateProjectCommand extends SshCommand {
   }
 
   @Option(
-    name = "--require-change-id",
-    aliases = {"--id"},
-    usage = "if change-id is required"
-  )
+      name = "--require-change-id",
+      aliases = {"--id"},
+      usage = "if change-id is required")
   void setRequireChangeId(@SuppressWarnings("unused") boolean on) {
     requireChangeID = InheritableBoolean.TRUE;
   }
 
   @Option(
-    name = "--create-new-change-for-all-not-in-target",
-    aliases = {"--ncfa"},
-    usage = "if a new change will be created for every commit not in target branch"
-  )
+      name = "--create-new-change-for-all-not-in-target",
+      aliases = {"--ncfa"},
+      usage = "if a new change will be created for every commit not in target branch")
   void setNewChangeForAllNotInTarget(@SuppressWarnings("unused") boolean on) {
     createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
   }
 
   @Option(
-    name = "--branch",
-    aliases = {"-b"},
-    metaVar = "BRANCH",
-    usage = "initial branch name\n(default: master)"
-  )
+      name = "--branch",
+      aliases = {"-b"},
+      metaVar = "BRANCH",
+      usage = "initial branch name\n(default: master)")
   private List<String> branch;
 
   @Option(name = "--empty-commit", usage = "to create initial empty commit")
@@ -165,9 +153,8 @@ final class CreateProjectCommand extends SshCommand {
   private String maxObjectSizeLimit;
 
   @Option(
-    name = "--plugin-config",
-    usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'"
-  )
+      name = "--plugin-config",
+      usage = "plugin configuration parameter with format '<plugin-name>.<parameter-name>=<value>'")
   private List<String> pluginConfigValues;
 
   @Argument(index = 0, metaVar = "NAME", usage = "name of project to be created")

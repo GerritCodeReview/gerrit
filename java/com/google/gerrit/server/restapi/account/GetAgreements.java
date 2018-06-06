@@ -84,11 +84,9 @@ public class GetAgreements implements RestReadView<AccountResource> {
           if (rule.getGroup().getUUID() != null) {
             groupIds.add(rule.getGroup().getUUID());
           } else {
-            logger
-                .atWarning()
-                .log(
-                    "group \"%s\" does not exist, referenced in CLA \"%s\"",
-                    rule.getGroup().getName(), ca.getName());
+            logger.atWarning().log(
+                "group \"%s\" does not exist, referenced in CLA \"%s\"",
+                rule.getGroup().getName(), ca.getName());
           }
         }
       }

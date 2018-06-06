@@ -60,12 +60,8 @@ public class Reachable {
               .filter(refs, repo, RefFilterOptions.builder().setFilterTagsSeparately(true).build());
       return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
     } catch (IOException | PermissionBackendException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), project);
+      logger.atSevere().withCause(e).log(
+          "Cannot verify permissions to commit object %s in repository %s", commit.name(), project);
       return false;
     }
   }
@@ -82,12 +78,8 @@ public class Reachable {
       }
       return fromRefs(project, repo, commit, refs);
     } catch (IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), project);
+      logger.atSevere().withCause(e).log(
+          "Cannot verify permissions to commit object %s in repository %s", commit.name(), project);
       return false;
     }
   }

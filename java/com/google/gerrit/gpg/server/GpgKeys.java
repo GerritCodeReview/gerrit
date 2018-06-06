@@ -163,9 +163,8 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
             }
           }
           if (!found) {
-            logger
-                .atWarning()
-                .log("No public key stored for fingerprint %s", Fingerprint.toString(fp));
+            logger.atWarning().log(
+                "No public key stored for fingerprint %s", Fingerprint.toString(fp));
           }
         }
       }

@@ -271,12 +271,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       w.progress.waitFor(
           executor.submit(scopePropagator.wrap(w)), timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
-      logger
-          .atWarning()
-          .withCause(e)
-          .log(
-              "Error in ReceiveCommits while processing changes for project %s",
-              projectState.getName());
+      logger.atWarning().withCause(e).log(
+          "Error in ReceiveCommits while processing changes for project %s",
+          projectState.getName());
       rp.sendError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this
       // point is very bad.

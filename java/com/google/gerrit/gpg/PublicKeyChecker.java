@@ -294,12 +294,10 @@ public class PublicKeyChecker {
         // Revoker is authorized and there is a revocation signature by this
         // revoker, but the key is not in the store so we can't verify the
         // signature.
-        logger
-            .atInfo()
-            .log(
-                "Key %s is revoked by %s, which is not in the store. Assuming revocation is valid.",
-                lazy(() -> Fingerprint.toString(key.getFingerprint())),
-                lazy(() -> Fingerprint.toString(rfp)));
+        logger.atInfo().log(
+            "Key %s is revoked by %s, which is not in the store. Assuming revocation is valid.",
+            lazy(() -> Fingerprint.toString(key.getFingerprint())),
+            lazy(() -> Fingerprint.toString(rfp)));
         problems.add(reasonToString(getRevocationReason(revocation)));
         continue;
       }

@@ -154,11 +154,9 @@ class ProjectOAuthFilter implements Filter {
     Optional<AccountState> who =
         accountCache.getByUsername(authInfo.username).filter(a -> a.getAccount().isActive());
     if (!who.isPresent()) {
-      logger
-          .atWarning()
-          .log(
-              authenticationFailedMsg(authInfo.username, req)
-                  + ": account inactive or not provisioned in Gerrit");
+      logger.atWarning().log(
+          authenticationFailedMsg(authInfo.username, req)
+              + ": account inactive or not provisioned in Gerrit");
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }

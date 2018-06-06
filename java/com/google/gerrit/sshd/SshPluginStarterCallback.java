@@ -64,12 +64,9 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
         return plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
         if (!providesDynamicOptions(plugin)) {
-          logger
-              .atWarning()
-              .withCause(err)
-              .log(
-                  "Plugin %s did not define its top-level command nor any DynamicOptions",
-                  plugin.getName());
+          logger.atWarning().withCause(err).log(
+              "Plugin %s did not define its top-level command nor any DynamicOptions",
+              plugin.getName());
         }
       }
     }

@@ -399,9 +399,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         try {
           r.add(new HostKey(addr, keyBin));
         } catch (JSchException e) {
-          logger
-              .atWarning()
-              .log("Cannot format SSHD host key [%s]: %s", pub.getAlgorithm(), e.getMessage());
+          logger.atWarning().log(
+              "Cannot format SSHD host key [%s]: %s", pub.getAlgorithm(), e.getMessage());
         }
       }
     }
@@ -532,11 +531,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         final byte[] iv = new byte[c.getIVSize()];
         c.init(Cipher.Mode.Encrypt, key, iv);
       } catch (InvalidKeyException e) {
-        logger
-            .atWarning()
-            .log(
-                "Disabling cipher %s: %s; try installing unlimited cryptography extension",
-                f.getName(), e.getMessage());
+        logger.atWarning().log(
+            "Disabling cipher %s: %s; try installing unlimited cryptography extension",
+            f.getName(), e.getMessage());
         i.remove();
       } catch (Exception e) {
         logger.atWarning().log("Disabling cipher %s: %s", f.getName(), e.getMessage());
@@ -670,11 +667,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       authFactories.add(UserAuthGSSFactory.INSTANCE);
       logger.atInfo().log("Enabling kerberos with keytab %s", kerberosKeytab);
       if (!new File(kerberosKeytab).canRead()) {
-        logger
-            .atSevere()
-            .log(
-                "Keytab %s does not exist or is not readable; further errors are possible",
-                kerberosKeytab);
+        logger.atSevere().log(
+            "Keytab %s does not exist or is not readable; further errors are possible",
+            kerberosKeytab);
       }
       kerberosAuthenticator.setKeytabFile(kerberosKeytab);
       if (kerberosPrincipal == null) {
@@ -686,11 +681,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       }
       logger.atInfo().log("Using kerberos principal %s", kerberosPrincipal);
       if (!kerberosPrincipal.startsWith("host/")) {
-        logger
-            .atWarning()
-            .log(
-                "Host principal does not start with host/ "
-                    + "which most SSH clients will supply automatically");
+        logger.atWarning().log(
+            "Host principal does not start with host/ "
+                + "which most SSH clients will supply automatically");
       }
       kerberosAuthenticator.setServicePrincipalName(kerberosPrincipal);
       setGSSAuthenticator(kerberosAuthenticator);

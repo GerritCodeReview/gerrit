@@ -71,9 +71,8 @@ class GetOAuthToken implements RestReadView<AccountResource> {
 
   private static String getHostName(String canonicalWebUrl) {
     if (canonicalWebUrl == null) {
-      logger
-          .atSevere()
-          .log("No canonicalWebUrl defined in gerrit.config, OAuth may not work properly");
+      logger.atSevere().log(
+          "No canonicalWebUrl defined in gerrit.config, OAuth may not work properly");
       return null;
     }
 

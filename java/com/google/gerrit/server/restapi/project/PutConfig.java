@@ -201,11 +201,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         if (projectConfigEntry != null) {
           if (!PARAMETER_NAME_PATTERN.matcher(v.getKey()).matches()) {
             // TODO check why we have this restriction
-            logger
-                .atWarning()
-                .log(
-                    "Parameter name '%s' must match '%s'",
-                    v.getKey(), PARAMETER_NAME_PATTERN.pattern());
+            logger.atWarning().log(
+                "Parameter name '%s' must match '%s'",
+                v.getKey(), PARAMETER_NAME_PATTERN.pattern());
             continue;
           }
           String oldValue = cfg.getString(v.getKey());
@@ -253,11 +251,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                     cfg.setStringList(v.getKey(), v.getValue().values);
                     break;
                   default:
-                    logger
-                        .atWarning()
-                        .log(
-                            "The type '%s' of parameter '%s' is not supported.",
-                            projectConfigEntry.getType().name(), v.getKey());
+                    logger.atWarning().log(
+                        "The type '%s' of parameter '%s' is not supported.",
+                        projectConfigEntry.getType().name(), v.getKey());
                 }
               } catch (NumberFormatException ex) {
                 throw new BadRequestException(

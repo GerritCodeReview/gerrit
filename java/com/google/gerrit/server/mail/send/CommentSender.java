@@ -226,12 +226,9 @@ public class CommentSender extends ReplyToChangeSender {
           try {
             currentGroup.fileData = new PatchFile(repo, patchList, c.key.filename);
           } catch (IOException e) {
-            logger
-                .atWarning()
-                .withCause(e)
-                .log(
-                    "Cannot load %s from %s in %s",
-                    c.key.filename, patchList.getNewId().name(), projectState.getName());
+            logger.atWarning().withCause(e).log(
+                "Cannot load %s from %s in %s",
+                c.key.filename, patchList.getNewId().name(), projectState.getName());
             currentGroup.fileData = null;
           }
         }

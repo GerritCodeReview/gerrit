@@ -261,10 +261,8 @@ public class PostReviewersOp implements BatchUpdateOp {
       cm.addExtraCCByEmail(copiedByEmail);
       cm.send();
     } catch (Exception err) {
-      logger
-          .atSevere()
-          .withCause(err)
-          .log("Cannot send email to new reviewers of change %s", change.getId());
+      logger.atSevere().withCause(err).log(
+          "Cannot send email to new reviewers of change %s", change.getId());
     }
   }
 

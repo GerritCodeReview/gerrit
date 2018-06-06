@@ -165,12 +165,9 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
                   try {
                     onStart();
                   } catch (Exception e) {
-                    logger
-                        .atWarning()
-                        .withCause(e)
-                        .log(
-                            "Cannot start command \"%s\" for user %s",
-                            ctx.getCommandLine(), ctx.getSession().getUsername());
+                    logger.atWarning().withCause(e).log(
+                        "Cannot start command \"%s\" for user %s",
+                        ctx.getCommandLine(), ctx.getSession().getUsername());
                   }
                 }
 

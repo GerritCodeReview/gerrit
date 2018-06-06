@@ -501,10 +501,8 @@ public class ChangeJson {
                 ensureLoaded(Collections.singleton(cd));
                 return Optional.of(format(cd, Optional.empty(), false));
               } catch (OrmException | RuntimeException e) {
-                logger
-                    .atWarning()
-                    .withCause(e)
-                    .log("Omitting corrupt change %s from results", cd.getId());
+                logger.atWarning().withCause(e).log(
+                    "Omitting corrupt change %s from results", cd.getId());
                 return Optional.empty();
               }
             });

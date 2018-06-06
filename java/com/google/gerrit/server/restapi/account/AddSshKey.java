@@ -103,10 +103,8 @@ public class AddSshKey implements RestModifyView<AccountResource, SshKeyInput> {
       try {
         addKeyFactory.create(user, sshKey).send();
       } catch (EmailException e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log("Cannot send SSH key added message to %s", user.getAccount().getPreferredEmail());
+        logger.atSevere().withCause(e).log(
+            "Cannot send SSH key added message to %s", user.getAccount().getPreferredEmail());
       }
 
       user.getUserName().ifPresent(sshKeyCache::evict);

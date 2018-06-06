@@ -159,10 +159,8 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
         return description;
       }
     } catch (OrmException | IOException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Failed to check if the current patch set of change %s is locked", change.getId());
+      logger.atSevere().withCause(e).log(
+          "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;
     }
 

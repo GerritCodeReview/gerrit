@@ -68,10 +68,8 @@ public class RebaseUtil {
     } catch (RestApiException e) {
       return false;
     } catch (OrmException | IOException e) {
-      logger
-          .atWarning()
-          .withCause(e)
-          .log("Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest);
+      logger.atWarning().withCause(e).log(
+          "Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest);
       return false;
     }
   }

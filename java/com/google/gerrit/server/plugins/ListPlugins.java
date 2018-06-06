@@ -47,50 +47,45 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   private String matchRegex;
 
   @Option(
-    name = "--all",
-    aliases = {"-a"},
-    usage = "List all plugins, including disabled plugins"
-  )
+      name = "--all",
+      aliases = {"-a"},
+      usage = "List all plugins, including disabled plugins")
   public void setAll(boolean all) {
     this.all = all;
   }
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of plugins to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of plugins to list")
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    metaVar = "CNT",
-    usage = "number of plugins to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      metaVar = "CNT",
+      usage = "number of plugins to skip")
   public void setStart(int start) {
     this.start = start;
   }
 
   @Option(
-    name = "--prefix",
-    aliases = {"-p"},
-    metaVar = "PREFIX",
-    usage = "match plugin prefix"
-  )
+      name = "--prefix",
+      aliases = {"-p"},
+      metaVar = "PREFIX",
+      usage = "match plugin prefix")
   public void setMatchPrefix(String matchPrefix) {
     this.matchPrefix = matchPrefix;
   }
 
   @Option(
-    name = "--match",
-    aliases = {"-m"},
-    metaVar = "MATCH",
-    usage = "match plugin substring"
-  )
+      name = "--match",
+      aliases = {"-m"},
+      metaVar = "MATCH",
+      usage = "match plugin substring")
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
   }

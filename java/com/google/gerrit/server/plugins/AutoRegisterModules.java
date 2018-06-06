@@ -133,13 +133,10 @@ class AutoRegisterModules {
         initJs = STATIC_INIT_JS;
       }
     } catch (IOException e) {
-      logger
-          .atWarning()
-          .withCause(e)
-          .log(
-              "Cannot access %s from plugin %s: "
-                  + "JavaScript auto-discovered plugin will not be registered",
-              STATIC_INIT_JS, pluginName);
+      logger.atWarning().withCause(e).log(
+          "Cannot access %s from plugin %s: "
+              + "JavaScript auto-discovered plugin will not be registered",
+          STATIC_INIT_JS, pluginName);
     }
   }
 
@@ -155,11 +152,9 @@ class AutoRegisterModules {
 
     Export export = clazz.getAnnotation(Export.class);
     if (export == null) {
-      logger
-          .atWarning()
-          .log(
-              "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
-              pluginName, clazz.getName(), def.annotationValue);
+      logger.atWarning().log(
+          "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
+          pluginName, clazz.getName(), def.annotationValue);
       return;
     }
 
@@ -193,9 +188,8 @@ class AutoRegisterModules {
     if (listen != null) {
       listen(clazz, clazz);
     } else {
-      logger
-          .atWarning()
-          .log("In plugin %s asm incorrectly parsed %s with @Listen", pluginName, clazz.getName());
+      logger.atWarning().log(
+          "In plugin %s asm incorrectly parsed %s with @Listen", pluginName, clazz.getName());
     }
   }
 

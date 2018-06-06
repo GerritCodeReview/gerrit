@@ -153,21 +153,19 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private OutputFormat format = OutputFormat.TEXT;
 
   @Option(
-    name = "--show-branch",
-    aliases = {"-b"},
-    usage = "displays the sha of each project in the specified branch"
-  )
+      name = "--show-branch",
+      aliases = {"-b"},
+      usage = "displays the sha of each project in the specified branch")
   public void addShowBranch(String branch) {
     showBranch.add(branch);
   }
 
   @Option(
-    name = "--tree",
-    aliases = {"-t"},
-    usage =
-        "displays project inheritance in a tree-like format\n"
-            + "this option does not work together with the show-branch option"
-  )
+      name = "--tree",
+      aliases = {"-t"},
+      usage =
+          "displays project inheritance in a tree-like format\n"
+              + "this option does not work together with the show-branch option")
   public void setShowTree(boolean showTree) {
     this.showTree = showTree;
   }
@@ -178,10 +176,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   @Option(
-    name = "--description",
-    aliases = {"-d"},
-    usage = "include description of project in list"
-  )
+      name = "--description",
+      aliases = {"-d"},
+      usage = "include description of project in list")
   public void setShowDescription(boolean showDescription) {
     this.showDescription = showDescription;
   }
@@ -192,50 +189,45 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   @Option(
-    name = "--state",
-    aliases = {"-s"},
-    usage = "filter by project state"
-  )
+      name = "--state",
+      aliases = {"-s"},
+      usage = "filter by project state")
   public void setState(com.google.gerrit.extensions.client.ProjectState state) {
     this.state = state;
   }
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of projects to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of projects to list")
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    metaVar = "CNT",
-    usage = "number of projects to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      metaVar = "CNT",
+      usage = "number of projects to skip")
   public void setStart(int start) {
     this.start = start;
   }
 
   @Option(
-    name = "--prefix",
-    aliases = {"-p"},
-    metaVar = "PREFIX",
-    usage = "match project prefix"
-  )
+      name = "--prefix",
+      aliases = {"-p"},
+      metaVar = "PREFIX",
+      usage = "match project prefix")
   public void setMatchPrefix(String matchPrefix) {
     this.matchPrefix = matchPrefix;
   }
 
   @Option(
-    name = "--match",
-    aliases = {"-m"},
-    metaVar = "MATCH",
-    usage = "match project substring"
-  )
+      name = "--match",
+      aliases = {"-m"},
+      metaVar = "MATCH",
+      usage = "match project substring")
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
   }
@@ -246,10 +238,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   @Option(
-    name = "--has-acl-for",
-    metaVar = "GROUP",
-    usage = "displays only projects on which access rights for this group are directly assigned"
-  )
+      name = "--has-acl-for",
+      metaVar = "GROUP",
+      usage = "displays only projects on which access rights for this group are directly assigned")
   public void setGroupUuid(AccountGroup.UUID groupUuid) {
     this.groupUuid = groupUuid;
   }
@@ -556,9 +547,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
                   if (projectCache.get(parent) != null) {
                     return parent;
                   }
-                  logger
-                      .atWarning()
-                      .log("parent project %s of project %s not found", parent.get(), ps.getName());
+                  logger.atWarning().log(
+                      "parent project %s of project %s not found", parent.get(), ps.getName());
                 }
               }
               return null;

@@ -44,10 +44,9 @@ public class SuggestChangeReviewers extends SuggestReviewers
     implements RestReadView<ChangeResource> {
 
   @Option(
-    name = "--exclude-groups",
-    aliases = {"-e"},
-    usage = "exclude groups from query"
-  )
+      name = "--exclude-groups",
+      aliases = {"-e"},
+      usage = "exclude groups from query")
   boolean excludeGroups;
 
   private final PermissionBackend permissionBackend;

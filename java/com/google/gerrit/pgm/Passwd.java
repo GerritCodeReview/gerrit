@@ -39,11 +39,10 @@ public class Passwd extends SiteProgram {
   private String key;
 
   @Argument(
-    metaVar = "SECTION.KEY",
-    index = 0,
-    required = true,
-    usage = "Section and key separated by a dot of the password to set"
-  )
+      metaVar = "SECTION.KEY",
+      index = 0,
+      required = true,
+      usage = "Section and key separated by a dot of the password to set")
   private String sectionAndKey;
 
   @Argument(metaVar = "PASSWORD", index = 1, required = false, usage = "Password to set")

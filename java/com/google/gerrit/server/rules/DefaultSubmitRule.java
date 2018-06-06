@@ -81,10 +81,8 @@ public final class DefaultSubmitRule implements SubmitRule {
       labelTypes = cd.getLabelTypes().getLabelTypes();
       approvals = cd.currentApprovals();
     } catch (OrmException e) {
-      logger
-          .atSevere()
-          .withCause(e)
-          .log("Unable to fetch labels and approvals for change %s", cd.getId());
+      logger.atSevere().withCause(e).log(
+          "Unable to fetch labels and approvals for change %s", cd.getId());
 
       submitRecord.errorMessage = "Unable to fetch labels and approvals for the change";
       submitRecord.status = SubmitRecord.Status.RULE_ERROR;
@@ -96,11 +94,8 @@ public final class DefaultSubmitRule implements SubmitRule {
     for (LabelType t : labelTypes) {
       LabelFunction labelFunction = t.getFunction();
       if (labelFunction == null) {
-        logger
-            .atSevere()
-            .log(
-                "Unable to find the LabelFunction for label %s, change %s",
-                t.getName(), cd.getId());
+        logger.atSevere().log(
+            "Unable to find the LabelFunction for label %s, change %s", t.getName(), cd.getId());
 
         submitRecord.errorMessage = "Unable to find the LabelFunction for label " + t.getName();
         submitRecord.status = SubmitRecord.Status.RULE_ERROR;

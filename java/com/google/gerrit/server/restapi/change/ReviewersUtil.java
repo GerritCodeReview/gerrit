@@ -170,17 +170,13 @@ public class ReviewersUtil {
       throws IOException, OrmException, ConfigInvalidException, PermissionBackendException {
     CurrentUser currentUser = self.get();
     if (changeNotes != null) {
-      logger
-          .atFine()
-          .log(
-              "Suggesting reviewers for change %s to user %s.",
-              changeNotes.getChangeId().get(), currentUser.getLoggableName());
+      logger.atFine().log(
+          "Suggesting reviewers for change %s to user %s.",
+          changeNotes.getChangeId().get(), currentUser.getLoggableName());
     } else {
-      logger
-          .atFine()
-          .log(
-              "Suggesting default reviewers for project %s to user %s.",
-              projectState.getName(), currentUser.getLoggableName());
+      logger.atFine().log(
+          "Suggesting default reviewers for project %s to user %s.",
+          projectState.getName(), currentUser.getLoggableName());
     }
 
     String query = suggestReviewers.getQuery();
@@ -225,9 +221,8 @@ public class ReviewersUtil {
             visibilityControl,
             excludeGroups,
             filteredRecommendations);
-    logger
-        .atFine()
-        .log("Suggested reviewers: %s", lazy(() -> formatSuggestedReviewers(suggestedReviewers)));
+    logger.atFine().log(
+        "Suggested reviewers: %s", lazy(() -> formatSuggestedReviewers(suggestedReviewers)));
     return suggestedReviewers;
   }
 

@@ -138,10 +138,8 @@ public class SshKeyCacheImpl implements SshKeyCache {
         logger.atInfo().log("Flagging SSH key %d of account %s invalid", k.seq(), k.accountId());
         authorizedKeys.markKeyInvalid(k.accountId(), k.seq());
       } catch (IOException | ConfigInvalidException e) {
-        logger
-            .atSevere()
-            .withCause(e)
-            .log("Failed to mark SSH key %d of account %s invalid", k.seq(), k.accountId());
+        logger.atSevere().withCause(e).log(
+            "Failed to mark SSH key %d of account %s invalid", k.seq(), k.accountId());
       }
     }
   }

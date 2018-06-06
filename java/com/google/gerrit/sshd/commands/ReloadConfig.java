@@ -30,10 +30,9 @@ import java.util.stream.Collectors;
 /** Issues a reload of gerrit.config. */
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "reload-config",
-  description = "Reloads the Gerrit configuration",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "reload-config",
+    description = "Reloads the Gerrit configuration",
+    runsAt = MASTER_OR_SLAVE)
 public class ReloadConfig extends SshCommand {
 
   @Inject private GerritServerConfigReloader gerritServerConfigReloader;

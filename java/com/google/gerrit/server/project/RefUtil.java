@@ -50,10 +50,8 @@ public class RefUtil {
       }
       return revid;
     } catch (IOException err) {
-      logger
-          .atSevere()
-          .withCause(err)
-          .log("Cannot resolve \"%s\" in project \"%s\"", baseRevision, projectName.get());
+      logger.atSevere().withCause(err).log(
+          "Cannot resolve \"%s\" in project \"%s\"", baseRevision, projectName.get());
       throw new InvalidRevisionException();
     } catch (RevisionSyntaxException err) {
       logger.atSevere().withCause(err).log("Invalid revision syntax \"%s\"", baseRevision);
@@ -90,10 +88,8 @@ public class RefUtil {
     } catch (IncorrectObjectTypeException | MissingObjectException err) {
       throw new InvalidRevisionException();
     } catch (IOException err) {
-      logger
-          .atSevere()
-          .withCause(err)
-          .log("Repository \"%s\" may be corrupt; suggest running git fsck", repo.getDirectory());
+      logger.atSevere().withCause(err).log(
+          "Repository \"%s\" may be corrupt; suggest running git fsck", repo.getDirectory());
       throw new InvalidRevisionException();
     }
   }

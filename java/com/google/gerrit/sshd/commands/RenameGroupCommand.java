@@ -31,11 +31,10 @@ import org.kohsuke.args4j.Argument;
 @CommandMetaData(name = "rename-group", description = "Rename an account group")
 public class RenameGroupCommand extends SshCommand {
   @Argument(
-    index = 0,
-    required = true,
-    metaVar = "GROUP",
-    usage = "name of the group to be renamed"
-  )
+      index = 0,
+      required = true,
+      metaVar = "GROUP",
+      usage = "name of the group to be renamed")
   private String groupName;
 
   @Argument(index = 1, required = true, metaVar = "NEWNAME", usage = "new name of the group")

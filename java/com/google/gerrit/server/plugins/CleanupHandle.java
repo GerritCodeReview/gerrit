@@ -41,12 +41,9 @@ class CleanupHandle {
       Files.deleteIfExists(tmp);
       logger.atInfo().log("Cleaned plugin %s", tmp.getFileName());
     } catch (IOException e) {
-      logger
-          .atWarning()
-          .withCause(e)
-          .log(
-              "Cannot delete %s, retrying to delete it on termination of the virtual machine",
-              tmp.toAbsolutePath());
+      logger.atWarning().withCause(e).log(
+          "Cannot delete %s, retrying to delete it on termination of the virtual machine",
+          tmp.toAbsolutePath());
       tmp.toFile().deleteOnExit();
     }
   }

@@ -479,9 +479,8 @@ public class WorkQueue {
           }
         }
       } catch (ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
-        logger
-            .atFine()
-            .log("Cannot get a proper name for TrustedListenableFutureTask: %s", e.getMessage());
+        logger.atFine().log(
+            "Cannot get a proper name for TrustedListenableFutureTask: %s", e.getMessage());
       }
       return runnable.toString();
     }

@@ -276,9 +276,8 @@ public class PrimaryStorageMigrator {
     // the primary storage to NoteDb.
 
     setPrimaryStorageNoteDb(id, rebuiltState);
-    logger
-        .atFine()
-        .log("Migrated change %s to NoteDb primary in %sms", id, sw.elapsed(MILLISECONDS));
+    logger.atFine().log(
+        "Migrated change %s to NoteDb primary in %sms", id, sw.elapsed(MILLISECONDS));
   }
 
   private Change setReadOnlyInReviewDb(Change.Id id) throws OrmException {
@@ -414,9 +413,8 @@ public class PrimaryStorageMigrator {
     rebuilder.rebuildReviewDb(db(), project, id);
     setPrimaryStorageReviewDb(id, newMetaId);
     releaseReadOnlyLeaseInNoteDb(project, id);
-    logger
-        .atFine()
-        .log("Migrated change %s to ReviewDb primary in %sms", id, sw.elapsed(MILLISECONDS));
+    logger.atFine().log(
+        "Migrated change %s to ReviewDb primary in %sms", id, sw.elapsed(MILLISECONDS));
   }
 
   private ObjectId setReadOnlyInNoteDb(Project.NameKey project, Change.Id id)

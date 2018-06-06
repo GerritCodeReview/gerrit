@@ -212,12 +212,9 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
             }
           });
     } catch (ExecutionException | UncheckedExecutionException e) {
-      logger
-          .atSevere()
-          .withCause(e.getCause())
-          .log(
-              "Error checking mergeability of %s into %s (%s)",
-              key.commit.name(), key.into.name(), key.submitType.name());
+      logger.atSevere().withCause(e.getCause()).log(
+          "Error checking mergeability of %s into %s (%s)",
+          key.commit.name(), key.into.name(), key.submitType.name());
       return false;
     }
   }

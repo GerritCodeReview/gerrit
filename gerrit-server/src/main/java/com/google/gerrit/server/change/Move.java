@@ -259,7 +259,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
         // Only keep veto votes, defined as votes where:
         // 1- the label function allows minimum values to block submission.
         // 2- the vote holds the minimum value.
-        if (type.isMaxNegative(psa) && type.getFunction().isBlock()) {
+        if (type == null || (type.isMaxNegative(psa) && type.getFunction().isBlock())) {
           continue;
         }
 

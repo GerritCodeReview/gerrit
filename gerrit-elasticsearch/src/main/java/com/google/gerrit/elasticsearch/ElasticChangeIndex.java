@@ -96,6 +96,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
   public static final String CHANGES = "changes";
   public static final String OPEN_CHANGES = "open_" + CHANGES;
   public static final String CLOSED_CHANGES = "closed_" + CHANGES;
+  public static final String ALL_CHANGES = OPEN_CHANGES + "," + CLOSED_CHANGES;
 
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
@@ -112,7 +113,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       SitePaths sitePaths,
       ElasticRestClientProvider client,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, client, CHANGES);
+    super(cfg, sitePaths, schema, client, CHANGES, ALL_CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.fillArgs = fillArgs;
@@ -142,7 +143,7 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
             .add(new UpdateRequest<>(fillArgs, schema, cd))
             .add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex));
 
-    String uri = getURI(CHANGES, BULK);
+    String uri = getURI(ALL_CHANGES, BULK);
     Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {

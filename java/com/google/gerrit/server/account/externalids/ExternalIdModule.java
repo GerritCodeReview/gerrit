@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.gerrit.server.account.externalids.ExternalIdCacheImpl.AllExternalIds;
 import com.google.gerrit.server.account.externalids.ExternalIdCacheImpl.Loader;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.inject.TypeLiteral;

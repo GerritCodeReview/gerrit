@@ -99,6 +99,8 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
   public static final String OPEN_CHANGES = "open_" + CHANGES;
   public static final String CLOSED_CHANGES = "closed_" + CHANGES;
 
+  private static final String ALL_CHANGES = OPEN_CHANGES + "," + CLOSED_CHANGES;
+
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
@@ -114,7 +116,14 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
       SitePaths sitePaths,
       ElasticRestClientProvider client,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, client, CHANGES);
+
+    super(
+        cfg,
+        sitePaths,
+        schema,
+        client,
+        CHANGES,
+        client.adapter().usePostV5Type() ? ElasticQueryAdapter.POST_V5_TYPE : ALL_CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.fillArgs = fillArgs;

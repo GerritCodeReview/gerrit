@@ -79,6 +79,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
+  private final String indexType;
 
   protected final ElasticRestClientProvider client;
   protected final String indexName;
@@ -90,13 +91,15 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName) {
+      String indexName,
+      String indexType) {
     this.sitePaths = sitePaths;
     this.schema = schema;
     this.gson = new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();
     this.queryBuilder = new ElasticQueryBuilder();
     this.indexName = cfg.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
+    this.indexType = indexType;
     this.client = client;
   }
 
@@ -117,7 +120,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   @Override
   public void delete(K id) throws IOException {
-    String uri = getURI(indexNameRaw, BULK);
+    String uri = getURI(indexType, BULK);
     Response response = postRequest(getDeleteActions(id), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {

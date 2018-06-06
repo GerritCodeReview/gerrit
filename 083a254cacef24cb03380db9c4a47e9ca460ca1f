@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a01a3e6_4cd92365",
+        "filename": "javatests/com/google/gerrit/pgm/DaemonTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:41:44Z",
+      "side": 1,
+      "message": "Here, below, and in other files: I think that ExitCodeSubject.assertThat(exitCode) would be more readable.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 42
+      },
+      "revId": "083a254cacef24cb03380db9c4a47e9ca460ca1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f7a0525_8bfd5059",
+        "filename": "javatests/com/google/gerrit/pgm/DaemonTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:41:44Z",
+      "side": 1,
+      "message": "Please don\u0027t use final for local variables.",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 9
+      },
+      "revId": "083a254cacef24cb03380db9c4a47e9ca460ca1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc0e1110_44489c60",
+        "filename": "javatests/com/google/gerrit/pgm/PasswdTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:41:44Z",
+      "side": 1,
+      "message": "Extracting this into a local variable might make the code of this test more readable.",
+      "range": {
+        "startLine": 49,
+        "startChar": 10,
+        "endLine": 49,
+        "endChar": 33
+      },
+      "revId": "083a254cacef24cb03380db9c4a47e9ca460ca1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

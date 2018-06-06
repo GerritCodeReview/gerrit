@@ -23,6 +23,7 @@ public class ElasticQueryAdapter {
   private final String exactFieldType;
   private final String stringFieldType;
   private final String indexProperty;
+  private final String rawFieldsKey;
 
   ElasticQueryAdapter(ElasticVersion version) {
     this.ignoreUnmapped = version == ElasticVersion.V2_4;
@@ -34,6 +35,7 @@ public class ElasticQueryAdapter {
         this.exactFieldType = "keyword";
         this.stringFieldType = "text";
         this.indexProperty = "true";
+        this.rawFieldsKey = "_source";
         break;
       case V2_4:
       default:
@@ -42,6 +44,7 @@ public class ElasticQueryAdapter {
         this.exactFieldType = "string";
         this.stringFieldType = "string";
         this.indexProperty = "not_analyzed";
+        this.rawFieldsKey = "fields";
         break;
     }
   }
@@ -70,5 +73,9 @@ public class ElasticQueryAdapter {
 
   String indexProperty() {
     return indexProperty;
+  }
+
+  String rawFieldsKey() {
+    return rawFieldsKey;
   }
 }

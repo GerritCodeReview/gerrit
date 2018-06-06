@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19f94c43_d8aa4895",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-06T21:06:10Z",
+      "side": 1,
+      "message": "I see errors coming from these lines when I try running this with the Shadow DOM enabled.",
+      "revId": "1b032fd9f3cce437668f9d20264775294bb5f5c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

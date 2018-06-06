@@ -190,7 +190,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected FieldBundle toFieldBundle(JsonObject doc) {
     Map<String, FieldDef<V, ?>> allFields = getSchema().getFields();
     ListMultimap<String, Object> rawFields = ArrayListMultimap.create();
-    for (Map.Entry<String, JsonElement> element : doc.get("fields").getAsJsonObject().entrySet()) {
+    for (Map.Entry<String, JsonElement> element :
+        doc.get(client.adapter().rawFieldsKey()).getAsJsonObject().entrySet()) {
       checkArgument(
           allFields.containsKey(element.getKey()), "Unrecognized field " + element.getKey());
       FieldType<?> type = allFields.get(element.getKey()).getType();

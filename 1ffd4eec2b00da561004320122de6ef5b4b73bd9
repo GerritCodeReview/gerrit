@@ -22,6 +22,30 @@
       "revId": "1ffd4eec2b00da561004320122de6ef5b4b73bd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8b99a32_5724eda6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-06T13:22:27Z",
+      "side": 1,
+      "message": "Hello David:\n\nIf you apply this test change [1] without this fix, the test would fail because the test change does not get deleted from the index. The index type for the delete request does not exist in the index. \n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/182412",
+      "parentUuid": "53517d35_94405d8d",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "1ffd4eec2b00da561004320122de6ef5b4b73bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

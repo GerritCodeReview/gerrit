@@ -89,10 +89,8 @@ import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
-import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
@@ -438,8 +436,6 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new RestApiModule());
-    modules.add(new PluginRestApiModule());
-    modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
     modules.add(new GerritInstanceNameModule());

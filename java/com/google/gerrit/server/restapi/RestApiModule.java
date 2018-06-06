@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi;
 
+import com.google.gerrit.server.plugins.PluginRestApiModule;
+import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.inject.AbstractModule;
 
 public class RestApiModule extends AbstractModule {
@@ -23,7 +25,9 @@ public class RestApiModule extends AbstractModule {
     install(new com.google.gerrit.server.restapi.account.Module());
     install(new com.google.gerrit.server.restapi.change.Module());
     install(new com.google.gerrit.server.restapi.config.Module());
+    install(new RestCacheAdminModule());
     install(new com.google.gerrit.server.restapi.group.Module());
+    install(new PluginRestApiModule());
     install(new com.google.gerrit.server.restapi.project.Module());
   }
 }

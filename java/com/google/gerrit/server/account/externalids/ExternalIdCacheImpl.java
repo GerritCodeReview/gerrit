@@ -14,15 +14,12 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.auto.value.AutoValue;
-import com.google.common.base.Strings;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
@@ -163,32 +160,5 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       }
       return AllExternalIds.create(extIdsByAccount);
     }
-  }
-
-  /**
-   * Cache value containing all external IDs.
-   *
-   * <p>All returned fields are unmodifiable.
-   */
-  @AutoValue
-  abstract static class AllExternalIds {
-    static AllExternalIds create(Multimap<Account.Id, ExternalId> byAccount) {
-      SetMultimap<String, ExternalId> byEmailCopy =
-          MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(1).build();
-      byAccount
-          .values()
-          .stream()
-          .filter(e -> !Strings.isNullOrEmpty(e.email()))
-          .forEach(e -> byEmailCopy.put(e.email(), e));
-
-      return new AutoValue_ExternalIdCacheImpl_AllExternalIds(
-          Multimaps.unmodifiableSetMultimap(
-              MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(5).build(byAccount)),
-          byEmailCopy);
-    }
-
-    public abstract SetMultimap<Account.Id, ExternalId> byAccount();
-
-    public abstract SetMultimap<String, ExternalId> byEmail();
   }
 }

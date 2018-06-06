@@ -2,6 +2,305 @@
   "comments": [
     {
       "key": {
+        "uuid": "78a1e86c_abec69ae",
+        "filename": "java/com/google/gerrit/truth/ExitCodeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "We only use this package for Truth subjects which don\u0027t have any relation to our code. Exit codes are general in nature but this subject is especially meant for the exit codes of SitePrograms. I would suggest to move this class to the same package as SiteRule.",
+      "range": {
+        "startLine": 1,
+        "startChar": 8,
+        "endLine": 1,
+        "endChar": 31
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b454cd8_482299ac",
+        "filename": "java/com/google/gerrit/truth/ExitCodeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "I don\u0027t think we typically include links in Javadoc when referring to one of the libraries we use.",
+      "range": {
+        "startLine": 8,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 48
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13b4b020_ce44306c",
+        "filename": "java/com/google/gerrit/truth/ExitCodeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "There\u0027s no reason to have this constant. We could simply inline it for exitCode() and refer to exitCode() in assertThat().",
+      "range": {
+        "startLine": 21,
+        "startChar": 65,
+        "endLine": 21,
+        "endChar": 90
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e6c051c_2a29edf4",
+        "filename": "java/com/google/gerrit/truth/ExitCodeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "It would be helpful to include the actual error code in case of failure.",
+      "range": {
+        "startLine": 30,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 16
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10730863_019c3665",
+        "filename": "java/com/google/gerrit/truth/ExitCodeSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "successfully",
+      "range": {
+        "startLine": 31,
+        "startChar": 59,
+        "endLine": 31,
+        "endChar": 70
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66524290_9e783540",
+        "filename": "javatests/com/google/gerrit/pgm/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "This is too broad and only works as this target exports the necessary one. Using //java/com/google/gerrit/testing:gerrit-test-util directly here would be much better.",
+      "range": {
+        "startLine": 8,
+        "startChar": 9,
+        "endLine": 8,
+        "endChar": 48
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "274174aa_c55034a1",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be necessary on a TestRule.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0854e47b_a98d61ba",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "JUnit test rules don\u0027t necessarily need to be called XxxRule. For instance, the rules provided by Junit don\u0027t contain \u0027rule\u0027 in their name. We also decided to use the term InMemoryTestEnvironment for one of our own JUnit rules.\n\nCould you try to come up a name without \u0027rule\u0027? Maybe TestSite?",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3ee3475_ec972e47",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "Can\u0027t tests simply call siteRule.getSitePaths().site_path? Most of them will store SitePaths in a variable anyway, so this would simply be:\n\n SitePaths site \u003d siteRule.getSitePaths();\n ...\n doSomething(site.site_path);\n\nThis is exactly what UpgradeFrom2_0_xTest already does right now.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 3
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a322a1e4_43eac37e",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "We typically don\u0027t use final for method parameters. (See https://gerrit-review.googlesource.com/Documentation/dev-contributing.html#style)",
+      "range": {
+        "startLine": 30,
+        "startChar": 25,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a36add4_78ecf526",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "Do we need this?",
+      "range": {
+        "startLine": 36,
+        "startChar": 8,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d570b92_bb925224",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "This should be in a finally block.",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c7088eb_71d2ce65",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "This seems to be required only by UpgradeFrom2_0_xTest. Could we execute it only in that class?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 59
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb106299_56beeba8",
         "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
         "patchSetId": 1
@@ -13,6 +312,30 @@
       "writtenOn": "2018-06-05T16:15:10Z",
       "side": 1,
       "message": "Alice said: \"Why do we need an assertion here?\"\n\nI said:\nThe assertion is not needed, but I prefer to check the exit code: if a test depends on this method, it\u0027s good to know what can be expected. I think I\u0027ve seen other helper methods do this\n\nDo you think I should remove the assertion?\n\nFrom\nhttps://gerrit-review.googlesource.com/c/gerrit/+/179290/4/javatests/com/google/gerrit/pgm/AbstractProgramTest.java",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 58
+      },
+      "revId": "2d3a1a01476246a6d2381b94aa0cde9efb2fd7b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "490f12ec_ac4a2c7c",
+        "filename": "javatests/com/google/gerrit/pgm/SiteRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-06T14:39:36Z",
+      "side": 1,
+      "message": "\u003e The assertion is not needed, but I prefer to check the exit code: if a test depends on this method, it\u0027s good to know what can be expected.\n\nIt\u0027s a reasonable argument but the wrong hammer for the nail. ;-)\n\nInstead of those assertions which are evaluated in each and every test which uses this method (and hence in totally unrelated contexts), we should rather have dedicated tests for helper classes such as this one. Those tests should ensure that the test helper behave correctly.\n\nSome months ago we decided to switch to a different package and class structure: test helper classes should go into a \u0027testing\u0027 package right below the real code package (under the *java* top-level package). Thus, we can put the tests for those helpers in a corresponding package under the *javatests* top-level package.\n\n\u003e I think I\u0027ve seen other helper methods do this\n\nYes, unfortunately. I still hope we can do better in our case.\n\n\u003e Do you think I should remove the assertion?\n\nYes, see my suggestion above.",
+      "parentUuid": "bb106299_56beeba8",
       "range": {
         "startLine": 53,
         "startChar": 4,

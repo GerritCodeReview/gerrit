@@ -62,9 +62,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
   // download
   @GerritConfig(
-    name = "download.archive",
-    values = {"tar", "tbz2", "tgz", "txz"}
-  )
+      name = "download.archive",
+      values = {"tar", "tbz2", "tgz", "txz"})
 
   // gerrit
   @GerritConfig(name = "gerrit.allProjects", value = "Root")

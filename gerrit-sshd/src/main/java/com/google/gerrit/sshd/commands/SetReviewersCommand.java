@@ -49,30 +49,27 @@ public class SetReviewersCommand extends SshCommand {
   private ProjectControl projectControl;
 
   @Option(
-    name = "--add",
-    aliases = {"-a"},
-    metaVar = "REVIEWER",
-    usage = "user or group that should be added as reviewer"
-  )
+      name = "--add",
+      aliases = {"-a"},
+      metaVar = "REVIEWER",
+      usage = "user or group that should be added as reviewer")
   private List<String> toAdd = new ArrayList<>();
 
   @Option(
-    name = "--remove",
-    aliases = {"-r"},
-    metaVar = "REVIEWER",
-    usage = "user that should be removed from the reviewer list"
-  )
+      name = "--remove",
+      aliases = {"-r"},
+      metaVar = "REVIEWER",
+      usage = "user that should be removed from the reviewer list")
   void optionRemove(Account.Id who) {
     toRemove.add(who);
   }
 
   @Argument(
-    index = 0,
-    required = true,
-    multiValued = true,
-    metaVar = "CHANGE",
-    usage = "changes to modify"
-  )
+      index = 0,
+      required = true,
+      multiValued = true,
+      metaVar = "CHANGE",
+      usage = "changes to modify")
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, projectControl);

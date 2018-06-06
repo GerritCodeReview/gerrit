@@ -37,10 +37,9 @@ import org.kohsuke.args4j.Argument;
 
 /** Implements a command that allows the user to see the members of a group. */
 @CommandMetaData(
-  name = "ls-members",
-  description = "List the members of a given group",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "ls-members",
+    description = "List the members of a given group",
+    runsAt = MASTER_OR_SLAVE)
 public class ListMembersCommand extends SshCommand {
   @Inject ListMembersCommandImpl impl;
 

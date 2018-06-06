@@ -42,19 +42,17 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private EnumSet<ListChangesOption> options;
 
   @Option(
-    name = "--query",
-    aliases = {"-q"},
-    metaVar = "QUERY",
-    usage = "Query string"
-  )
+      name = "--query",
+      aliases = {"-q"},
+      metaVar = "QUERY",
+      usage = "Query string")
   private List<String> queries;
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "Maximum number of results to return"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "Maximum number of results to return")
   public void setLimit(int limit) {
     imp.setUserProvidedLimit(limit);
   }
@@ -70,11 +68,10 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    metaVar = "CNT",
-    usage = "Number of changes to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      metaVar = "CNT",
+      usage = "Number of changes to skip")
   public void setStart(int start) {
     imp.setStart(start);
   }

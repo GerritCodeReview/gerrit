@@ -54,10 +54,9 @@ public class GetPureRevert implements RestReadView<ChangeResource> {
   private final PatchSetUtil psUtil;
 
   @Option(
-    name = "--claimed-original",
-    aliases = {"-o"},
-    usage = "SHA1 (40 digit hex) of the original commit"
-  )
+      name = "--claimed-original",
+      aliases = {"-o"},
+      usage = "SHA1 (40 digit hex) of the original commit")
   @Nullable
   private String claimedOriginal;
 

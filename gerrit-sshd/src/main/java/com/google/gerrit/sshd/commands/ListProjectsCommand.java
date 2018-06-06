@@ -24,10 +24,9 @@ import com.google.inject.Inject;
 import java.util.List;
 
 @CommandMetaData(
-  name = "ls-projects",
-  description = "List projects visible to the caller",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "ls-projects",
+    description = "List projects visible to the caller",
+    runsAt = MASTER_OR_SLAVE)
 public class ListProjectsCommand extends SshCommand {
   @Inject @Options public ListProjects impl;
 

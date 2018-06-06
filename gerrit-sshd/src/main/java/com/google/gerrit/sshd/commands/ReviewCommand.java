@@ -73,12 +73,11 @@ public class ReviewCommand extends SshCommand {
   private final Set<PatchSet> patchSets = new HashSet<>();
 
   @Argument(
-    index = 0,
-    required = true,
-    multiValued = true,
-    metaVar = "{COMMIT | CHANGE,PATCHSET}",
-    usage = "list of commits or patch sets to review"
-  )
+      index = 0,
+      required = true,
+      multiValued = true,
+      metaVar = "{COMMIT | CHANGE,PATCHSET}",
+      usage = "list of commits or patch sets to review")
   void addPatchSetId(String token) {
     try {
       PatchSet ps = psParser.parsePatchSet(token, projectControl, branch);
@@ -91,29 +90,26 @@ public class ReviewCommand extends SshCommand {
   }
 
   @Option(
-    name = "--project",
-    aliases = "-p",
-    usage = "project containing the specified patch set(s)"
-  )
+      name = "--project",
+      aliases = "-p",
+      usage = "project containing the specified patch set(s)")
   private ProjectControl projectControl;
 
   @Option(name = "--branch", aliases = "-b", usage = "branch containing the specified patch set(s)")
   private String branch;
 
   @Option(
-    name = "--message",
-    aliases = "-m",
-    usage = "cover message to publish on change(s)",
-    metaVar = "MESSAGE"
-  )
+      name = "--message",
+      aliases = "-m",
+      usage = "cover message to publish on change(s)",
+      metaVar = "MESSAGE")
   private String changeComment;
 
   @Option(
-    name = "--notify",
-    aliases = "-n",
-    usage = "Who to send email notifications to after the review is stored.",
-    metaVar = "NOTIFYHANDLING"
-  )
+      name = "--notify",
+      aliases = "-n",
+      usage = "Who to send email notifications to after the review is stored.",
+      metaVar = "NOTIFYHANDLING")
   private NotifyHandling notify;
 
   @Option(name = "--abandon", usage = "abandon the specified change(s)")
@@ -135,19 +131,17 @@ public class ReviewCommand extends SshCommand {
   private boolean json;
 
   @Option(
-    name = "--tag",
-    aliases = "-t",
-    usage = "applies a tag to the given review",
-    metaVar = "TAG"
-  )
+      name = "--tag",
+      aliases = "-t",
+      usage = "applies a tag to the given review",
+      metaVar = "TAG")
   private String changeTag;
 
   @Option(
-    name = "--label",
-    aliases = "-l",
-    usage = "custom label(s) to assign",
-    metaVar = "LABEL=VALUE"
-  )
+      name = "--label",
+      aliases = "-l",
+      usage = "custom label(s) to assign",
+      metaVar = "LABEL=VALUE")
   void addLabel(String token) {
     LabelVote v = LabelVote.parseWithEquals(token);
     LabelType.checkName(v.label()); // Disallow SUBM.

@@ -59,12 +59,11 @@ public class GetBlame implements RestReadView<FileResource> {
   private final AutoMerger autoMerger;
 
   @Option(
-    name = "--base",
-    aliases = {"-b"},
-    usage =
-        "whether to load the blame of the base revision (the direct"
-            + " parent of the change) instead of the change"
-  )
+      name = "--base",
+      aliases = {"-b"},
+      usage =
+          "whether to load the blame of the base revision (the direct"
+              + " parent of the change) instead of the change")
   private boolean base;
 
   @Inject

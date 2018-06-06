@@ -42,37 +42,34 @@ public class GetReflog implements RestReadView<BranchResource> {
   private final GitRepositoryManager repoManager;
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of reflog entries to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of reflog entries to list")
   public GetReflog setLimit(int limit) {
     this.limit = limit;
     return this;
   }
 
   @Option(
-    name = "--from",
-    metaVar = "TIMESTAMP",
-    usage =
-        "timestamp from which the reflog entries should be listed (UTC, format: "
-            + TimestampHandler.TIMESTAMP_FORMAT
-            + ")"
-  )
+      name = "--from",
+      metaVar = "TIMESTAMP",
+      usage =
+          "timestamp from which the reflog entries should be listed (UTC, format: "
+              + TimestampHandler.TIMESTAMP_FORMAT
+              + ")")
   public GetReflog setFrom(Timestamp from) {
     this.from = from;
     return this;
   }
 
   @Option(
-    name = "--to",
-    metaVar = "TIMESTAMP",
-    usage =
-        "timestamp until which the reflog entries should be listed (UTC, format: "
-            + TimestampHandler.TIMESTAMP_FORMAT
-            + ")"
-  )
+      name = "--to",
+      metaVar = "TIMESTAMP",
+      usage =
+          "timestamp until which the reflog entries should be listed (UTC, format: "
+              + TimestampHandler.TIMESTAMP_FORMAT
+              + ")")
   public GetReflog setTo(Timestamp to) {
     this.to = to;
     return this;

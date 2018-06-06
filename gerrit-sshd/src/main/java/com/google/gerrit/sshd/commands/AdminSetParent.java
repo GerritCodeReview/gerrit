@@ -45,41 +45,36 @@ import org.slf4j.LoggerFactory;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "set-project-parent",
-  description = "Change the project permissions are inherited from"
-)
+    name = "set-project-parent",
+    description = "Change the project permissions are inherited from")
 final class AdminSetParent extends SshCommand {
   private static final Logger log = LoggerFactory.getLogger(AdminSetParent.class);
 
   @Option(
-    name = "--parent",
-    aliases = {"-p"},
-    metaVar = "NAME",
-    usage = "new parent project"
-  )
+      name = "--parent",
+      aliases = {"-p"},
+      metaVar = "NAME",
+      usage = "new parent project")
   private ProjectControl newParent;
 
   @Option(
-    name = "--children-of",
-    metaVar = "NAME",
-    usage = "parent project for which the child projects should be reparented"
-  )
+      name = "--children-of",
+      metaVar = "NAME",
+      usage = "parent project for which the child projects should be reparented")
   private ProjectControl oldParent;
 
   @Option(
-    name = "--exclude",
-    metaVar = "NAME",
-    usage = "child project of old parent project which should not be reparented"
-  )
+      name = "--exclude",
+      metaVar = "NAME",
+      usage = "child project of old parent project which should not be reparented")
   private List<ProjectControl> excludedChildren = new ArrayList<>();
 
   @Argument(
-    index = 0,
-    required = false,
-    multiValued = true,
-    metaVar = "NAME",
-    usage = "projects to modify"
-  )
+      index = 0,
+      required = false,
+      multiValued = true,
+      metaVar = "NAME",
+      usage = "projects to modify")
   private List<ProjectControl> children = new ArrayList<>();
 
   @Inject private ProjectCache projectCache;

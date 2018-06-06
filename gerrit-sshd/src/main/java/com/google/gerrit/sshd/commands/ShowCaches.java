@@ -57,10 +57,9 @@ import org.kohsuke.args4j.Option;
 /** Show the current cache states. */
 @RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
 @CommandMetaData(
-  name = "show-caches",
-  description = "Display current cache statistics",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "show-caches",
+    description = "Display current cache statistics",
+    runsAt = MASTER_OR_SLAVE)
 final class ShowCaches extends SshCommand {
   private static volatile long serverStarted;
 
@@ -90,11 +89,10 @@ final class ShowCaches extends SshCommand {
   @Inject private PermissionBackend permissionBackend;
 
   @Option(
-    name = "--width",
-    aliases = {"-w"},
-    metaVar = "COLS",
-    usage = "width of output table"
-  )
+      name = "--width",
+      aliases = {"-w"},
+      metaVar = "COLS",
+      usage = "width of output table")
   private int columns = 80;
 
   private int nw;

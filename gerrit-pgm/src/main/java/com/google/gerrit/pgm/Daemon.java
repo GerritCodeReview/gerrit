@@ -162,20 +162,18 @@ public class Daemon extends SiteProgram {
   private boolean polyGerritDev;
 
   @Option(
-    name = "--init",
-    aliases = {"-i"},
-    usage = "Init site before starting the daemon"
-  )
+      name = "--init",
+      aliases = {"-i"},
+      usage = "Init site before starting the daemon")
   private boolean doInit;
 
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
   private boolean stopOnly;
 
   @Option(
-    name = "--migrate-to-note-db",
-    usage = "Automatically migrate changes to NoteDb",
-    handler = ExplicitBooleanOptionHandler.class
-  )
+      name = "--migrate-to-note-db",
+      usage = "Automatically migrate changes to NoteDb",
+      handler = ExplicitBooleanOptionHandler.class)
   private boolean migrateToNoteDb;
 
   @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)

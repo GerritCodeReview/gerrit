@@ -64,10 +64,9 @@ import org.kohsuke.args4j.Option;
 
 public abstract class SiteProgram extends AbstractProgram {
   @Option(
-    name = "--site-path",
-    aliases = {"-d"},
-    usage = "Local directory containing site data"
-  )
+      name = "--site-path",
+      aliases = {"-d"},
+      usage = "Local directory containing site data")
   private void setSitePath(String path) {
     sitePath = Paths.get(path);
   }

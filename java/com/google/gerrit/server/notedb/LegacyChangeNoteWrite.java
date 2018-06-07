@@ -27,6 +27,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -39,6 +40,7 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.QuotedString;
 
+@Singleton
 public class LegacyChangeNoteWrite {
 
   private final AccountCache accountCache;

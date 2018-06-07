@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
 
-class GetCapabilities implements RestReadView<AccountResource> {
+public class GetCapabilities implements RestReadView<AccountResource> {
   @Option(name = "-q", metaVar = "CAP", usage = "Capability to inspect")
   void addQuery(String name) {
     if (query == null) {
@@ -163,7 +163,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Singleton
-  static class CheckOne implements RestReadView<AccountResource.Capability> {
+  public static class CheckOne implements RestReadView<AccountResource.Capability> {
     private final PermissionBackend permissionBackend;
 
     @Inject

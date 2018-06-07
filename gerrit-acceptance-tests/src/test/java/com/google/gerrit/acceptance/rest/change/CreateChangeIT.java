@@ -90,6 +90,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createNewChange_InvalidCommitMessage() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "#12345 Test";
+    assertCreateFails(ci, BadRequestException.class, "commit message must be non-empty");
+  }
+
+  @Test
   public void createEmptyChange_InvalidStatus() throws Exception {
     ChangeInput ci = newChangeInput(ChangeStatus.MERGED);
     assertCreateFails(ci, BadRequestException.class, "unsupported change status");

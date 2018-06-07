@@ -156,7 +156,8 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
       throw new BadRequestException("branch must be non-empty");
     }
 
-    if (Strings.isNullOrEmpty(input.subject)) {
+    String subject = clean(Strings.nullToEmpty(input.subject));
+    if (Strings.isNullOrEmpty(subject)) {
       throw new BadRequestException("commit message must be non-empty");
     }
 
@@ -229,7 +230,7 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
       GeneralPreferencesInfo info = account.getAccount().getGeneralPreferencesInfo();
 
       // Add a Change-Id line if there isn't already one
-      String commitMessage = input.subject;
+      String commitMessage = subject;
       if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
         ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
         ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, commitMessage);
@@ -346,5 +347,21 @@ public class CreateChange implements RestModifyView<TopLevelResource, ChangeInpu
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
     return inserter.insert(new TreeFormatter());
+  }
+
+  /**
+   * Clean a commit message string.
+   *
+   * @see org.eclipse.jgit.util.ChangeIdUtil#clean
+   * @param msg
+   * @return cleaned message
+   */
+  private String clean(String msg) {
+    return msg.replaceAll("(?i)(?m)^Signed-off-by:.*$\n?", "")
+        .replaceAll("(?m)^#.*$\n?", "")
+        .replaceAll("(?m)\n\n\n+", "\\\n")
+        .replaceAll("\\n*$", "")
+        .replaceAll("(?s)\ndiff --git.*", "")
+        .trim();
   }
 }

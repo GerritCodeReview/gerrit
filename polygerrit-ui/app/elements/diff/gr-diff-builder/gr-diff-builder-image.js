@@ -45,13 +45,24 @@
   };
 
   GrDiffBuilderImage.prototype._createEndpoint = function() {
+    const tbody = this._createElement('tbody');
+    const tr = this._createElement('tr');
+    const td = this._createElement('td');
+
+    // TODO(kaspern): Support blame for image diffs and remove the hardcoded 4
+    // column limit.
+    td.setAttribute('colspan', '4');
+
     const endpoint = this._createElement('gr-endpoint-decorator');
-    endpoint.setAttribute('name', 'imageDiff');
+    endpoint.setAttribute('name', 'image-diff');
     endpoint.appendChild(
         this._createEndpointParam('baseImage', this._baseImage));
     endpoint.appendChild(
         this._createEndpointParam('revisionImage', this._revisionImage));
-    return endpoint;
+    td.appendChild(endpoint);
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return tbody;
   };
 
   GrDiffBuilderImage.prototype._createEndpointParam = function(name, value) {

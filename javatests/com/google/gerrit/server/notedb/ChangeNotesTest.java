@@ -691,7 +691,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(update.getResult());
       rw.parseBody(commit);
-      String strIdent = otherUser.getName() + " <" + otherUserId + "@" + serverId + ">";
+      String strIdent = otherUserId + " <" + otherUserId + "@" + serverId + ">";
       assertThat(commit.getFullMessage()).contains("Assignee: " + strIdent);
     }
   }

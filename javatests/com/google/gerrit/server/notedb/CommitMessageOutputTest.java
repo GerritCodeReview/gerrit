@@ -185,7 +185,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertThat(author.getName()).isEqualTo("Change Owner");
+    assertThat(author.getName()).isEqualTo("1");
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
     assertThat(author.getWhen()).isEqualTo(new Date(c.getCreatedOn().getTime() + 2000));
     assertThat(author.getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
@@ -210,7 +210,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n\nComment on the change.\n\nPatch-set: 1\n", commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertThat(author.getName()).isEqualTo("GerritAccount #3");
+    assertThat(author.getName()).isEqualTo("3");
     assertThat(author.getEmailAddress()).isEqualTo("3@gerrit");
   }
 

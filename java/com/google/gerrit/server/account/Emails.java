@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Streams;
@@ -23,6 +24,9 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.Action;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -34,11 +38,16 @@ import java.io.IOException;
 public class Emails {
   private final ExternalIds externalIds;
   private final Provider<InternalAccountQuery> queryProvider;
+  private final RetryHelper retryHelper;
 
   @Inject
-  public Emails(ExternalIds externalIds, Provider<InternalAccountQuery> queryProvider) {
+  public Emails(
+      ExternalIds externalIds,
+      Provider<InternalAccountQuery> queryProvider,
+      RetryHelper retryHelper) {
     this.externalIds = externalIds;
     this.queryProvider = queryProvider;
+    this.retryHelper = retryHelper;
   }
 
   /**
@@ -63,7 +72,8 @@ public class Emails {
   public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException, OrmException {
     return Streams.concat(
             externalIds.byEmail(email).stream().map(ExternalId::accountId),
-            queryProvider.get().byPreferredEmail(email).stream().map(a -> a.getAccount().getId()))
+            executeIndexQuery(() -> queryProvider.get().byPreferredEmail(email).stream())
+                .map(a -> a.getAccount().getId()))
         .collect(toImmutableSet());
   }
 
@@ -80,12 +90,18 @@ public class Emails {
         .entries()
         .stream()
         .forEach(e -> builder.put(e.getKey(), e.getValue().accountId()));
-    queryProvider
-        .get()
-        .byPreferredEmail(emails)
-        .entries()
-        .stream()
+    executeIndexQuery(() -> queryProvider.get().byPreferredEmail(emails).entries().stream())
         .forEach(e -> builder.put(e.getKey(), e.getValue().getAccount().getId()));
     return builder.build();
+  }
+
+  private <T> T executeIndexQuery(Action<T> action) throws OrmException {
+    try {
+      return retryHelper.execute(ActionType.INDEX_QUERY, action, OrmException.class::isInstance);
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, OrmException.class);
+      throw new OrmException(e);
+    }
   }
 }

@@ -56,7 +56,9 @@ public class WebModule extends LifecycleModule {
     installAuthModule();
     if (options.enableMasterFeatures()) {
       install(new UrlModule(options, authConfig));
-      install(new UiRpcModule());
+      if (options.enableGwtUi()) {
+        install(new UiRpcModule());
+      }
     }
     install(new GerritRequestModule());
     install(new GitOverHttpServlet.Module(options.enableMasterFeatures()));

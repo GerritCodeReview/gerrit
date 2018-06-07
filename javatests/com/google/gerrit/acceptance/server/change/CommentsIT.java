@@ -950,8 +950,6 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void jsonCommentHasLegacyFormatFalse() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
-    assertThat(noteUtil.getChangeNoteJson().getWriteJson()).isTrue();
-
     PushOneCommit.Result result = createChange();
     Change.Id changeId = result.getChange().getId();
     addComment(result.getChangeId(), "comment");

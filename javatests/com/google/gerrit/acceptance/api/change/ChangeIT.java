@@ -2676,9 +2676,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
       PersonIdent expectedAuthor =
-          changeNoteUtil
-              .getLegacyChangeNoteWrite()
-              .newIdent(getAccount(admin.id), c.updated, serverIdent.get());
+          changeNoteUtil.newIdent(getAccount(admin.id), c.updated, serverIdent.get());
       assertThat(commitPatchSetCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitPatchSetCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.updated));
@@ -2686,10 +2684,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       RevCommit commitChangeCreation = rw.parseCommit(commitPatchSetCreation.getParent(0));
       assertThat(commitChangeCreation.getShortMessage()).isEqualTo("Create change");
-      expectedAuthor =
-          changeNoteUtil
-              .getLegacyChangeNoteWrite()
-              .newIdent(getAccount(admin.id), c.created, serverIdent.get());
+      expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.created, serverIdent.get());
       assertThat(commitChangeCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitChangeCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.created));

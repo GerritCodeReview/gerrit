@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "791ee13b_c1439e3f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-07T16:53:46Z",
+      "side": 1,
+      "message": "I should have remembered when reviewing the earlier change that originally added this: whenever the plugin endpoints are changed, we should update the list in docs in the same commit:\n\n Documentation/pg-plugin-endpoints.txt\n\nThat way we can keep the docs in sync.\n\nNow at least we can add it to the docs with it\u0027s new, hyphenated name. 😊",
+      "range": {
+        "startLine": 57,
+        "startChar": 35,
+        "endLine": 57,
+        "endChar": 45
+      },
+      "revId": "9635449f519bdb37534c7d02855c824abfa96f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

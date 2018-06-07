@@ -212,7 +212,7 @@ public class SubmoduleOp {
       LinkedHashSet<Branch.NameKey> currentVisited,
       LinkedHashSet<Branch.NameKey> allVisited)
       throws SubmoduleException {
-    logDebug("Now processing " + current);
+    logDebug("Now processing %s", current);
 
     if (currentVisited.contains(current)) {
       throw new SubmoduleException(
@@ -274,9 +274,9 @@ public class SubmoduleOp {
   private Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src, SubscribeSection s)
       throws IOException {
     Collection<Branch.NameKey> ret = new HashSet<>();
-    logDebug("Inspecting SubscribeSection " + s);
+    logDebug("Inspecting SubscribeSection %s", s);
     for (RefSpec r : s.getMatchingRefSpecs()) {
-      logDebug("Inspecting [matching] ref " + r);
+      logDebug("Inspecting [matching] ref %s", r);
       if (!r.matchSource(src.get())) {
         continue;
       }
@@ -294,7 +294,7 @@ public class SubmoduleOp {
     }
 
     for (RefSpec r : s.getMultiMatchRefSpecs()) {
-      logDebug("Inspecting [all] ref " + r);
+      logDebug("Inspecting [all] ref %s", r);
       if (!r.matchSource(src.get())) {
         continue;
       }
@@ -318,17 +318,17 @@ public class SubmoduleOp {
         }
       }
     }
-    logDebug("Returning possible branches: " + ret + "for project " + s.getProject());
+    logDebug("Returning possible branches: %s for project %s", ret, s.getProject());
     return ret;
   }
 
   public Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
       Branch.NameKey srcBranch) throws IOException {
-    logDebug("Calculating possible superprojects for " + srcBranch);
+    logDebug("Calculating possible superprojects for %s", srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey srcProject = srcBranch.getParentKey();
     for (SubscribeSection s : projectCache.get(srcProject).getSubscribeSections(srcBranch)) {
-      logDebug("Checking subscribe section " + s);
+      logDebug("Checking subscribe section %s", s);
       Collection<Branch.NameKey> branches = getDestinationBranches(srcBranch, s);
       for (Branch.NameKey targetBranch : branches) {
         Project.NameKey targetProject = targetBranch.getParentKey();
@@ -336,11 +336,11 @@ public class SubmoduleOp {
           OpenRepo or = orm.getRepo(targetProject);
           ObjectId id = or.repo.resolve(targetBranch.get());
           if (id == null) {
-            logDebug("The branch " + targetBranch + " doesn't exist.");
+            logDebug("The branch %s doesn't exist.", targetBranch);
             continue;
           }
         } catch (NoSuchProjectException e) {
-          logDebug("The project " + targetProject + " doesn't exist");
+          logDebug("The project %s doesn't exist", targetProject);
           continue;
         }
 
@@ -352,7 +352,7 @@ public class SubmoduleOp {
         ret.addAll(m.subscribedTo(srcBranch));
       }
     }
-    logDebug("Calculated superprojects for " + srcBranch + " are " + ret);
+    logDebug("Calculated superprojects for %s are %s", srcBranch, ret);
     return ret;
   }
 

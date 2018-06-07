@@ -102,7 +102,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   @Override
   public final void updateRepo(RepoContext ctx) throws Exception {
-    logDebug("{}#updateRepo for change {}", getClass().getSimpleName(), toMerge.change().getId());
+    logDebug("%s#updateRepo for change %s", getClass().getSimpleName(), toMerge.change().getId());
     checkState(
         ctx.getRevWalk() == args.rw,
         "SubmitStrategyOp requires callers to call BatchUpdate#setRepository with exactly the same"
@@ -116,7 +116,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     if (alreadyMergedCommit == null) {
       updateRepoImpl(ctx);
     } else {
-      logDebug("Already merged as {}", alreadyMergedCommit.name());
+      logDebug("Already merged as %s", alreadyMergedCommit.name());
     }
     CodeReviewCommit tipAfter = args.mergeTip.getCurrentTip();
 
@@ -127,7 +127,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       logDebug("No merge tip, no update to perform");
       return;
     }
-    logDebug("Moved tip from {} to {}", tipBefore, tipAfter);
+    logDebug("Moved tip from %s to %s", tipBefore, tipAfter);
 
     checkProjectConfig(ctx, tipAfter);
 
@@ -143,7 +143,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       throws IntegrationException {
     String refName = getDest().get();
     if (RefNames.REFS_CONFIG.equals(refName)) {
-      logDebug("Loading new configuration from {}", RefNames.REFS_CONFIG);
+      logDebug("Loading new configuration from %s", RefNames.REFS_CONFIG);
       try {
         ProjectConfig cfg = new ProjectConfig(getProject());
         cfg.load(ctx.getRevWalk(), commit);
@@ -215,7 +215,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   @Override
   public final boolean updateChange(ChangeContext ctx) throws Exception {
-    logDebug("{}#updateChange for change {}", getClass().getSimpleName(), toMerge.change().getId());
+    logDebug("%s#updateChange for change %s", getClass().getSimpleName(), toMerge.change().getId());
     toMerge.setNotes(ctx.getNotes()); // Update change and notes from ctx.
     PatchSet.Id oldPsId = checkNotNull(toMerge.getPatchsetId());
     PatchSet.Id newPsId;
@@ -226,7 +226,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       if (alreadyMergedCommit == null) {
         logDebug(
             "Change is already merged according to its status, but we were unable to find it"
-                + " merged into the current tip ({})",
+                + " merged into the current tip (%s)",
             args.mergeTip.getCurrentTip().name());
       } else {
         logDebug("Change is already merged");
@@ -275,7 +275,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     checkNotNull(commit, "missing commit for change " + id);
     CommitMergeStatus s = commit.getStatusCode();
     checkNotNull(s, "status not set for change " + id + " expected to previously fail fast");
-    logDebug("Status of change {} ({}) on {}: {}", id, commit.name(), c.getDest(), s);
+    logDebug("Status of change %s (%s) on %s: %s", id, commit.name(), c.getDest(), s);
     setApproval(ctx, args.caller);
 
     mergeResultRev =
@@ -301,7 +301,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx)
       throws IOException, OrmException {
     PatchSet.Id psId = alreadyMergedCommit.getPatchsetId();
-    logDebug("Fixing up already-merged patch set {}", psId);
+    logDebug("Fixing up already-merged patch set %s", psId);
     PatchSet prevPs = args.psUtil.current(ctx.getDb(), ctx.getNotes());
     ctx.getRevWalk().parseBody(alreadyMergedCommit);
     ctx.getChange()
@@ -335,7 +335,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     PatchSet.Id oldPsId = toMerge.getPatchsetId();
     PatchSet.Id newPsId = ctx.getChange().currentPatchSetId();
 
-    logDebug("Add approval for " + id);
+    logDebug("Add approval for %s", id);
     ChangeUpdate origPsUpdate = ctx.getUpdate(oldPsId);
     origPsUpdate.putReviewer(user.getAccountId(), REVIEWER);
     LabelNormalizer.Result normalized = approve(ctx, origPsUpdate);
@@ -401,7 +401,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // change happened.
     for (PatchSetApproval psa : normalized.unchanged()) {
       if (includeUnchanged || psa.isLegacySubmit()) {
-        logDebug("Adding submit label " + psa);
+        logDebug("Adding submit label %s", psa);
         update.putApprovalFor(psa.getAccountId(), psa.getLabel(), psa.getValue());
       }
     }
@@ -492,7 +492,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   private void setMerged(ChangeContext ctx, ChangeMessage msg) throws OrmException {
     Change c = ctx.getChange();
     ReviewDb db = ctx.getDb();
-    logDebug("Setting change {} merged", c.getId());
+    logDebug("Setting change %s merged", c.getId());
     c.setStatus(Change.Status.MERGED);
     c.setSubmissionId(args.submissionId.toStringForStorage());
 
@@ -515,7 +515,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // If we naively execute postUpdate even if the change is already merged when updateChange
       // being, then we are subject to a race where postUpdate steps are run twice if two submit
       // processes run at the same time.
-      logDebug("Skipping post-update steps for change {}", getId());
+      logDebug("Skipping post-update steps for change %s", getId());
       return;
     }
     postUpdateImpl(ctx);

@@ -62,7 +62,7 @@ public class GitModules {
       throws IOException {
     this.submissionId = orm.getSubmissionId();
     Project.NameKey project = branch.getParentKey();
-    logDebug("Loading .gitmodules of {} for project {}", branch, project);
+    logDebug("Loading .gitmodules of %s for project %s", branch, project);
     try {
       OpenRepo or = orm.getRepo(project);
       ObjectId id = or.repo.resolve(branch.get());
@@ -74,7 +74,7 @@ public class GitModules {
       try (TreeWalk tw = TreeWalk.forPath(or.repo, GIT_MODULES, commit.getTree())) {
         if (tw == null || (tw.getRawMode(0) & FileMode.TYPE_MASK) != FileMode.TYPE_FILE) {
           subscriptions = Collections.emptySet();
-          logDebug("The .gitmodules file doesn't exist in " + branch);
+          logDebug("The .gitmodules file doesn't exist in %s", branch);
           return;
         }
       }
@@ -92,11 +92,11 @@ public class GitModules {
   }
 
   public Collection<SubmoduleSubscription> subscribedTo(Branch.NameKey src) {
-    logDebug("Checking for a subscription of " + src);
+    logDebug("Checking for a subscription of %s", src);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     for (SubmoduleSubscription s : subscriptions) {
       if (s.getSubmodule().equals(src)) {
-        logDebug("Found " + s);
+        logDebug("Found %s", s);
         ret.add(s);
       }
     }

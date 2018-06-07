@@ -303,13 +303,13 @@ public class NoteDbBatchUpdate extends BatchUpdate {
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {
     try {
-      logDebug("Executing updateRepo on {} ops", ops.size());
+      logDebug("Executing updateRepo on %d ops", ops.size());
       RepoContextImpl ctx = new RepoContextImpl();
       for (BatchUpdateOp op : ops.values()) {
         op.updateRepo(ctx);
       }
 
-      logDebug("Executing updateRepo on {} RepoOnlyOps", repoOnlyOps.size());
+      logDebug("Executing updateRepo on %d RepoOnlyOps", repoOnlyOps.size());
       for (RepoOnlyOp op : repoOnlyOps) {
         op.updateRepo(ctx);
       }
@@ -358,7 +358,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       if (dryrun) {
         return ImmutableList.of();
       }
-      logDebug("Reindexing {} changes", results.size());
+      logDebug("Reindexing %d changes", results.size());
       List<com.google.common.util.concurrent.CheckedFuture<?, IOException>> indexFutures =
           new ArrayList<>(results.size());
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
@@ -405,7 +405,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       Change.Id id = e.getKey();
       ChangeContextImpl ctx = newChangeContext(id);
       boolean dirty = false;
-      logDebug("Applying {} ops for change {}", e.getValue().size(), id);
+      logDebug("Applying %d ops for change %s", e.getValue().size(), id);
       for (BatchUpdateOp op : e.getValue()) {
         dirty |= op.updateChange(ctx);
       }
@@ -418,7 +418,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
         handle.manager.add(u);
       }
       if (ctx.deleted) {
-        logDebug("Change {} was deleted", id);
+        logDebug("Change %s was deleted", id);
         handle.manager.deleteChange(id);
         handle.setResult(id, ChangeResult.DELETED);
       } else {
@@ -429,7 +429,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
   }
 
   private ChangeContextImpl newChangeContext(Change.Id id) throws OrmException {
-    logDebug("Opening change {} for update", id);
+    logDebug("Opening change %s for update", id);
     Change c = newChanges.get(id);
     boolean isNew = c != null;
     if (!isNew) {
@@ -438,7 +438,7 @@ public class NoteDbBatchUpdate extends BatchUpdate {
       // TODO(dborowitz): This dance made more sense when using Reviewdb; consider a nicer way.
       c = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
     } else {
-      logDebug("Change {} is new", id);
+      logDebug("Change %s is new", id);
     }
     ChangeNotes notes = changeNotesFactory.createForBatchUpdate(c, !isNew);
     return new ChangeContextImpl(notes);

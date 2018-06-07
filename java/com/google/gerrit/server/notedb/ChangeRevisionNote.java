@@ -88,7 +88,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
     return comments;
   }
 
-  private static boolean isJson(byte[] raw, int offset) {
+  static boolean isJson(byte[] raw, int offset) {
     return raw[offset] == '{' || raw[offset] == '[';
   }
 

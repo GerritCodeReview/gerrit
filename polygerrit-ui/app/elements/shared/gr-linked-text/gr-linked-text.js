@@ -43,7 +43,7 @@
       '_contentOrConfigChanged(content, config)',
     ],
 
-    _contentChanged: function(content) {
+    _contentChanged(content) {
       // In the case where the config may not be set (perhaps due to the
       // request for it still being in flight), set the content anyway to
       // prevent waiting on the config to display the text.
@@ -51,22 +51,19 @@
       this.$.output.textContent = content;
     },
 
-    _contentOrConfigChanged: function(content, config) {
+    /**
+     * Because either the source text or the linkification config has changed,
+     * the content should be re-parsed.
+     * @param {string|null|undefined} content The raw, un-linkified source
+     *     string to parse.
+     * @param {Object|null|undefined} config The server config specifying
+     *     commentLink patterns
+     */
+    _contentOrConfigChanged(content, config) {
       var output = Polymer.dom(this.$.output);
       output.textContent = '';
-      var parser = new GrLinkTextParser(
-          config, function(text, href, fragment) {
-        if (href) {
-          var a = document.createElement('a');
-          a.href = href;
-          a.textContent = text;
-          a.target = '_blank';
-          a.rel = 'noopener';
-          output.appendChild(a);
-        } else if (fragment) {
-          output.appendChild(fragment);
-        }
-      }, this.removeZeroWidthSpace);
+      var parser = new GrLinkTextParser(config,
+          this._handleParseResult.bind(this), this.removeZeroWidthSpace);
       parser.parse(content);
 
       // Ensure that links originating from HTML commentlink configs open in a
@@ -75,6 +72,32 @@
         anchor.setAttribute('target', '_blank');
         anchor.setAttribute('rel', 'noopener');
       });
+    },
+
+    /**
+     * This method is called when the GrLikTextParser emits a partial result
+     * (used as the "callback" parameter). It will be called in either of two
+     * ways:
+     * - To create a link: when called with `text` and `href` arguments, a link
+     *   element should be created and attached to the resulting DOM.
+     * - To attach an arbitrary fragment: when called with only the `fragment`
+     *   argument, the fragment should be attached to the resulting DOM as is.
+     * @param {string|null} text
+     * @param {string|null} href
+     * @param  {DocumentFragment|undefined} fragment
+     */
+    _handleParseResult(text, href, fragment) {
+      var output = Polymer.dom(this.$.output);
+      if (href) {
+        var a = document.createElement('a');
+        a.href = href;
+        a.textContent = text;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        output.appendChild(a);
+      } else if (fragment) {
+        output.appendChild(fragment);
+      }
     },
   });
 })();

@@ -210,6 +210,8 @@ public class Comment {
   public String parentUuid;
   public Range range;
   public String tag;
+
+  // Hex commit SHA1 of the commit of the patchset to which this comment applies.
   public String revId;
   public String serverId;
   public boolean unresolved;

@@ -22,6 +22,30 @@
       "revId": "9635449f519bdb37534c7d02855c824abfa96f8e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c37766fa_2485c467",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-07T18:31:57Z",
+      "side": 1,
+      "message": "As this is blocking the interns\u0027 progress, I\u0027ve filed it as follow-up work here: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9198",
+      "parentUuid": "791ee13b_c1439e3f",
+      "range": {
+        "startLine": 57,
+        "startChar": 35,
+        "endLine": 57,
+        "endChar": 45
+      },
+      "revId": "9635449f519bdb37534c7d02855c824abfa96f8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

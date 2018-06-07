@@ -16,6 +16,47 @@
       "revId": "108525262cf20093c653ccdc0133e3addee27023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cbbb6b4_598938e6",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-07T06:19:23Z",
+      "side": 1,
+      "message": "Yes, we had a similar discussion last time :)",
+      "parentUuid": "3d0bcbd3_df7b084e",
+      "revId": "108525262cf20093c653ccdc0133e3addee27023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "506c0b01_edc72f4c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-07T06:19:23Z",
+      "side": 1,
+      "message": "I wonder if we really need to do all of this?  Would it be enough to only strip out the comment lines and multiple blank lines?\n\nRemoving the Signed-off by lines might not be wanted, and I\u0027m not sure in what cases someone would write a commit message with the \"diff --git\" lines in it.",
+      "range": {
+        "startLine": 360,
+        "startChar": 4,
+        "endLine": 365,
+        "endChar": 16
+      },
+      "revId": "108525262cf20093c653ccdc0133e3addee27023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

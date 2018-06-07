@@ -14,9 +14,15 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker.sanitizeMetricName;
+
+import com.google.common.base.CaseFormat;
+import com.google.common.base.Supplier;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
@@ -86,18 +92,20 @@ public class WorkQueue {
 
   private final ScheduledExecutorService defaultQueue;
   private final IdGenerator idGenerator;
+  private final MetricMaker metrics;
   private final CopyOnWriteArrayList<Executor> queues;
 
   @Inject
-  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg) {
-    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1));
+  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
+    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1), metrics);
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */
-  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize) {
+  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize, MetricMaker metrics) {
     this.idGenerator = idGenerator;
+    this.metrics = metrics;
     this.queues = new CopyOnWriteArrayList<>();
-    this.defaultQueue = createQueue(defaultThreadPoolSize, "WorkQueue");
+    this.defaultQueue = createQueue(defaultThreadPoolSize, "WorkQueue", true);
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
@@ -105,14 +113,54 @@ public class WorkQueue {
     return defaultQueue;
   }
 
-  /** Create a new executor queue. */
-  public ScheduledExecutorService createQueue(int poolsize, String queueName) {
-    return createQueue(poolsize, queueName, Thread.NORM_PRIORITY);
+  /**
+   * Create a new executor queue.
+   *
+   * <p>Creates a new executor queue without associated metrics. This method is suitable for use by
+   * plugins.
+   *
+   * <p>If metrics are needed, use {@link #createQueue(int, String, int, boolean)} instead.
+   *
+   * @param poolsize the size of the pool.
+   * @param queueName the name of the queue.
+   */
+  public ScheduledThreadPoolExecutor createQueue(int poolsize, String queueName) {
+    return createQueue(poolsize, queueName, Thread.NORM_PRIORITY, false);
   }
 
+  /**
+   * Create a new executor queue, with default priority, optionally with metrics.
+   *
+   * <p>Creates a new executor queue, optionally with associated metrics. Metrics should not be
+   * requested for queues created by plugins.
+   *
+   * @param poolsize the size of the pool.
+   * @param queueName the name of the queue.
+   * @param withMetrics whether to create metrics.
+   */
   public ScheduledThreadPoolExecutor createQueue(
-      int poolsize, String queueName, int threadPriority) {
+      int poolsize, String queueName, boolean withMetrics) {
+    return createQueue(poolsize, queueName, Thread.NORM_PRIORITY, withMetrics);
+  }
+
+  /**
+   * Create a new executor queue, optionally with metrics.
+   *
+   * <p>Creates a new executor queue, optionally with associated metrics. Metrics should not be
+   * requested for queues created by plugins.
+   *
+   * @param poolsize the size of the pool.
+   * @param queueName the name of the queue.
+   * @param threadPriority thread priority.
+   * @param withMetrics whether to create metrics.
+   */
+  public ScheduledThreadPoolExecutor createQueue(
+      int poolsize, String queueName, int threadPriority, boolean withMetrics) {
     Executor executor = new Executor(poolsize, queueName);
+    if (withMetrics) {
+      logger.atInfo().log("Adding metrics for '%d' queue", queueName);
+      executor.buildMetrics(queueName);
+    }
     executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     executor.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
     queues.add(executor);
@@ -231,6 +279,85 @@ public class WorkQueue {
     protected void terminated() {
       super.terminated();
       queues.remove(this);
+    }
+
+    private void buildMetrics(String queueName) {
+      metrics.newCallbackMetric(
+          getMetricName(queueName, "max_pool_size"),
+          Long.class,
+          new Description("Maximum allowed number of threads in the pool")
+              .setGauge()
+              .setUnit("threads"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getMaximumPoolSize();
+            }
+          });
+      metrics.newCallbackMetric(
+          getMetricName(queueName, "pool_size"),
+          Long.class,
+          new Description("Current number of threads in the pool").setGauge().setUnit("threads"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getPoolSize();
+            }
+          });
+      metrics.newCallbackMetric(
+          getMetricName(queueName, "active_threads"),
+          Long.class,
+          new Description("Number number of threads that are actively executing tasks")
+              .setGauge()
+              .setUnit("threads"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getActiveCount();
+            }
+          });
+      metrics.newCallbackMetric(
+          getMetricName(queueName, "scheduled_tasks"),
+          Integer.class,
+          new Description("Number of scheduled tasks in the queue").setGauge().setUnit("tasks"),
+          new Supplier<Integer>() {
+            @Override
+            public Integer get() {
+              return getQueue().size();
+            }
+          });
+      metrics.newCallbackMetric(
+          getMetricName(queueName, "total_scheduled_tasks_count"),
+          Long.class,
+          new Description("Total number of tasks that have been scheduled for execution")
+              .setCumulative()
+              .setUnit("tasks"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getTaskCount();
+            }
+          });
+      metrics.newCallbackMetric(
+          getMetricName(queueName, "total_completed_tasks_count"),
+          Long.class,
+          new Description("Total number of tasks that have completed execution")
+              .setCumulative()
+              .setUnit("tasks"),
+          new Supplier<Long>() {
+            @Override
+            public Long get() {
+              return (long) getCompletedTaskCount();
+            }
+          });
+    }
+
+    private String getMetricName(String queueName, String metricName) {
+      String name =
+          CaseFormat.UPPER_CAMEL.to(
+              CaseFormat.LOWER_UNDERSCORE,
+              queueName.replaceFirst("SSH", "Ssh").replaceAll("-", ""));
+      return sanitizeMetricName(String.format("queue/%s/%s", name, metricName));
     }
 
     @Override

@@ -178,12 +178,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedRevs.add(e.getKey());
       ObjectId id = ObjectId.fromString(e.getKey().get());
-      byte[] data =
-          e.getValue()
-              .build(
-                  noteUtil.getChangeNoteJson(),
-                  noteUtil.getLegacyChangeNoteWrite(),
-                  noteUtil.getChangeNoteJson().getWriteJson());
+      byte[] data = e.getValue().build(noteUtil.getChangeNoteJson());
       if (!Arrays.equals(data, e.getValue().baseRaw)) {
         touchedAnyRevs = true;
       }

@@ -30,6 +30,7 @@ junit_tests(
     visibility = ["//visibility:public"],
     runtime_deps = [
         "//lib/bouncycastle:bcprov",
+        "//prolog:gerrit-prolog-common",
     ],
     deps = [
         ":custom-truth-subjects",

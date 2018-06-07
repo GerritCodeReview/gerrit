@@ -16,6 +16,24 @@
       "revId": "1b032fd9f3cce437668f9d20264775294bb5f5c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa90ad1_0276bcec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-07T17:38:35Z",
+      "side": 1,
+      "message": "I think that all that\u0027s needed is to replace line 95 with\n\nif (!this._target) {\n  this._target \u003d this.target;\n}\n\nThere are two ways that attached is called: once when the element is initialized and also every time that the card is shown (since it gets moved to the getRootElement). The error is only generated in the second kind of call, when the target won\u0027t be accessible by its ID in Shadow DOM.",
+      "parentUuid": "19f94c43_d8aa4895",
+      "revId": "1b032fd9f3cce437668f9d20264775294bb5f5c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

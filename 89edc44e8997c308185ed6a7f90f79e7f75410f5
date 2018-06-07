@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bca0419_292ff66f",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-07T05:14:01Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we pass deleteIndex here?",
+      "range": {
+        "startLine": 144,
+        "startChar": 58,
+        "endLine": 144,
+        "endChar": 67
+      },
+      "revId": "89edc44e8997c308185ed6a7f90f79e7f75410f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

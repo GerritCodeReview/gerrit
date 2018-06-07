@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d0bcbd3_df7b084e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/CreateChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-07T05:59:56Z",
+      "side": 1,
+      "message": "Well, instead of copying it, we could try to make that method public in addition to ChangeIdUtil#computeChangeId. At least on master this should be doable.",
+      "revId": "108525262cf20093c653ccdc0133e3addee27023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

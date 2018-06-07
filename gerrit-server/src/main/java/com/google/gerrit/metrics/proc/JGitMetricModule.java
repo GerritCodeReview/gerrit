@@ -18,6 +18,7 @@ import com.google.common.base.Supplier;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.MetricModule;
 import org.eclipse.jgit.internal.storage.file.WindowCacheStatAccessor;
 
 public class JGitMetricModule extends MetricModule {

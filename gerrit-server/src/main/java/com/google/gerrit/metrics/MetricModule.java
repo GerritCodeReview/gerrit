@@ -12,17 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.metrics.proc;
+package com.google.gerrit.metrics;
 
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.inject.Inject;
 
 /** Guice module to configure metrics on server startup. */
 public abstract class MetricModule extends LifecycleModule {
   /** Configure metrics during server startup. */
   protected abstract void configure(MetricMaker metrics);
+
+  public static RestApiModule apiModule() {
+    return DropWizardMetricMaker.apiModule();
+  }
+
+  public static RestApiModule restModule() {
+    return DropWizardMetricMaker.restModule();
+  }
 
   @Override
   protected void configure() {

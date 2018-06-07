@@ -29,7 +29,7 @@ import com.google.gerrit.httpd.raw.StaticModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.lucene.LuceneIndexModule;
-import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.metrics.MetricModule;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.ModuleOverloader;
@@ -294,7 +294,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     }
     modules.add(new DatabaseModule());
     modules.add(new ConfigNotesMigration.Module());
-    modules.add(new DropWizardMetricMaker.ApiModule());
+    modules.add(MetricModule.apiModule());
     return Guice.createInjector(PRODUCTION, modules);
   }
 
@@ -308,7 +308,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
   private Injector createSysInjector() {
     final List<Module> modules = new ArrayList<>();
-    modules.add(new DropWizardMetricMaker.RestModule());
+    modules.add(MetricModule.restModule());
     modules.add(new LogFileCompressor.Module());
     modules.add(new EventBroker.Module());
     modules.add(new JdbcAccountPatchReviewStore.Module(config));

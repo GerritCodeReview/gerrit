@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.metrics.MetricModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -122,7 +122,7 @@ public abstract class SiteProgram extends AbstractProgram {
     modules.add(sitePathModule);
 
     if (enableMetrics) {
-      modules.add(new DropWizardMetricMaker.ApiModule());
+      modules.add(MetricModule.apiModule());
     } else {
       modules.add(
           new AbstractModule() {

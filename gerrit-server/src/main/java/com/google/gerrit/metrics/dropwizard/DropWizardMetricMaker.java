@@ -64,26 +64,30 @@ import java.util.regex.Pattern;
  */
 @Singleton
 public class DropWizardMetricMaker extends MetricMaker {
-  public static class ApiModule extends RestApiModule {
-    @Override
-    protected void configure() {
-      bind(MetricRegistry.class).in(Scopes.SINGLETON);
-      bind(DropWizardMetricMaker.class).in(Scopes.SINGLETON);
-      bind(MetricMaker.class).to(DropWizardMetricMaker.class);
+  public static RestApiModule apiModule() {
+    return new RestApiModule() {
+      @Override
+      protected void configure() {
+        bind(MetricRegistry.class).in(Scopes.SINGLETON);
+        bind(DropWizardMetricMaker.class).in(Scopes.SINGLETON);
+        bind(MetricMaker.class).to(DropWizardMetricMaker.class);
 
-      install(new ProcMetricModule());
-      install(new JGitMetricModule());
-    }
+        install(new ProcMetricModule());
+        install(new JGitMetricModule());
+      }
+    };
   }
 
-  public static class RestModule extends RestApiModule {
-    @Override
-    protected void configure() {
-      DynamicMap.mapOf(binder(), METRIC_KIND);
-      child(CONFIG_KIND, "metrics").to(MetricsCollection.class);
-      get(METRIC_KIND).to(GetMetric.class);
-      bind(CacheMetrics.class);
-    }
+  public static RestApiModule restModule() {
+    return new RestApiModule() {
+      @Override
+      protected void configure() {
+        DynamicMap.mapOf(binder(), METRIC_KIND);
+        child(CONFIG_KIND, "metrics").to(MetricsCollection.class);
+        get(METRIC_KIND).to(GetMetric.class);
+        bind(CacheMetrics.class);
+      }
+    };
   }
 
   private final MetricRegistry registry;

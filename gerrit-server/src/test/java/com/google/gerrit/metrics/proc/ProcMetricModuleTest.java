@@ -29,7 +29,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.FieldOrdering;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.metrics.MetricModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -180,7 +180,7 @@ public class ProcMetricModuleTest {
 
   @Before
   public void setup() {
-    Injector injector = Guice.createInjector(new DropWizardMetricMaker.ApiModule());
+    Injector injector = Guice.createInjector(MetricModule.apiModule());
 
     LifecycleManager mgr = new LifecycleManager();
     mgr.add(injector);

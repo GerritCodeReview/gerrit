@@ -18,7 +18,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.TypeLiteral;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public interface CacheDef<K, V> {
   /**
@@ -45,7 +45,10 @@ public interface CacheDef<K, V> {
   long maximumWeight();
 
   @Nullable
-  Long expireAfterWrite(TimeUnit unit);
+  Duration expireAfterWrite();
+
+  @Nullable
+  Duration expireFromMemoryAfterAccess();
 
   @Nullable
   Weigher<K, V> weigher();

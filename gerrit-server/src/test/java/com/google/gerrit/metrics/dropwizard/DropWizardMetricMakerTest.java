@@ -15,28 +15,30 @@
 package com.google.gerrit.metrics.dropwizard;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker.sanitizeMetricName;
 
 import org.junit.Test;
 
 public class DropWizardMetricMakerTest {
+  DropWizardMetricMaker metrics =
+      new DropWizardMetricMaker(null /* MetricRegistry unused in tests */);
+
   @Test
   public void shouldSanitizeUnwantedChars() throws Exception {
-    assertThat(sanitizeMetricName("very+confusing$long#metric@net/name^1"))
+    assertThat(metrics.sanitizeMetricName("very+confusing$long#metric@net/name^1"))
         .isEqualTo("very_confusing_long_metric_net/name_1");
-    assertThat(sanitizeMetricName("/metric/submetric")).isEqualTo("_metric/submetric");
+    assertThat(metrics.sanitizeMetricName("/metric/submetric")).isEqualTo("_metric/submetric");
   }
 
   @Test
   public void shouldReduceConsecutiveSlashesToOne() throws Exception {
-    assertThat(sanitizeMetricName("/metric//submetric1///submetric2/submetric3"))
+    assertThat(metrics.sanitizeMetricName("/metric//submetric1///submetric2/submetric3"))
         .isEqualTo("_metric/submetric1/submetric2/submetric3");
   }
 
   @Test
   public void shouldNotFinishWithSlash() throws Exception {
-    assertThat(sanitizeMetricName("metric/")).isEqualTo("metric");
-    assertThat(sanitizeMetricName("metric//")).isEqualTo("metric");
-    assertThat(sanitizeMetricName("metric/submetric/")).isEqualTo("metric/submetric");
+    assertThat(metrics.sanitizeMetricName("metric/")).isEqualTo("metric");
+    assertThat(metrics.sanitizeMetricName("metric//")).isEqualTo("metric");
+    assertThat(metrics.sanitizeMetricName("metric/submetric/")).isEqualTo("metric/submetric");
   }
 }

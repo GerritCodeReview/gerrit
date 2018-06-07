@@ -344,17 +344,18 @@ public class DropWizardMetricMaker extends MetricMaker {
         METRIC_NAME_PATTERN.pattern());
   }
 
-  public static String sanitizeMetricName(String input) {
-    if (METRIC_NAME_PATTERN.matcher(input).matches()) {
-      return input;
+  @Override
+  public String sanitizeMetricName(String name) {
+    if (METRIC_NAME_PATTERN.matcher(name).matches()) {
+      return name;
     }
 
-    String first = input.substring(0, 1).replaceFirst("[^\\w-]", "_");
-    if (input.length() == 1) {
+    String first = name.substring(0, 1).replaceFirst("[^\\w-]", "_");
+    if (name.length() == 1) {
       return first;
     }
 
-    String result = first + input.substring(1).replaceAll("/[/]+", "/").replaceAll("[^\\w-/]", "_");
+    String result = first + name.substring(1).replaceAll("/[/]+", "/").replaceAll("[^\\w-/]", "_");
 
     if (result.endsWith("/")) {
       result = result.substring(0, result.length() - 1);

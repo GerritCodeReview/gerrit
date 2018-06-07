@@ -14,7 +14,15 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
+import java.util.Date;
+import java.util.Optional;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 
 public class ChangeNoteUtil {
@@ -56,17 +64,21 @@ public class ChangeNoteUtil {
   static final String TAG = FOOTER_TAG.getName();
 
   private final LegacyChangeNoteRead legacyChangeNoteRead;
-  private final LegacyChangeNoteWrite legacyChangeNoteWrite;
   private final ChangeNoteJson changeNoteJson;
+
+  private final AccountCache accountCache;
+  private final String serverId;
 
   @Inject
   public ChangeNoteUtil(
       ChangeNoteJson changeNoteJson,
       LegacyChangeNoteRead legacyChangeNoteRead,
-      LegacyChangeNoteWrite legacyChangeNoteWrite) {
+      AccountCache accountCache,
+      @GerritServerId String serverId) {
+    this.accountCache = accountCache;
+    this.serverId = serverId;
     this.changeNoteJson = changeNoteJson;
     this.legacyChangeNoteRead = legacyChangeNoteRead;
-    this.legacyChangeNoteWrite = legacyChangeNoteWrite;
   }
 
   public LegacyChangeNoteRead getLegacyChangeNoteRead() {
@@ -77,7 +89,18 @@ public class ChangeNoteUtil {
     return changeNoteJson;
   }
 
-  public LegacyChangeNoteWrite getLegacyChangeNoteWrite() {
-    return legacyChangeNoteWrite;
+  public PersonIdent newIdent(Account.Id authorId, Date when, PersonIdent serverIdent) {
+    Optional<Account> author = accountCache.get(authorId).map(AccountState::getAccount);
+    return new PersonIdent(
+        author.map(Account::getName).orElseGet(() -> Account.getName(authorId)),
+        authorId.get() + "@" + serverId,
+        when,
+        serverIdent.getTimeZone());
+  }
+
+  @VisibleForTesting
+  public PersonIdent newIdent(Account author, Date when, PersonIdent serverIdent) {
+    return new PersonIdent(
+        author.getName(), author.getId().get() + "@" + serverId, when, serverIdent.getTimeZone());
   }
 }

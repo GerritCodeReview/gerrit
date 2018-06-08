@@ -90,6 +90,9 @@ public class GlobalCapability {
   /** Default result limit per executed query. */
   public static final int DEFAULT_MAX_QUERY_LIMIT = 500;
 
+  /** Can impersonate any user to see which refs they can read. */
+  public static final String READ_AS = "readAs";
+
   /** Ability to impersonate another user. */
   public static final String RUN_AS = "runAs";
 
@@ -138,6 +141,7 @@ public class GlobalCapability {
     NAMES_ALL.add(MODIFY_ACCOUNT);
     NAMES_ALL.add(PRIORITY);
     NAMES_ALL.add(QUERY_LIMIT);
+    NAMES_ALL.add(READ_AS);
     NAMES_ALL.add(RUN_AS);
     NAMES_ALL.add(RUN_GC);
     NAMES_ALL.add(STREAM_EVENTS);

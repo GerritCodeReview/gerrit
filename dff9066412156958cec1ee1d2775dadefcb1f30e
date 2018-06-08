@@ -23,6 +23,30 @@
       "revId": "dff9066412156958cec1ee1d2775dadefcb1f30e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2601de00_2547b387",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-08T10:49:19Z",
+      "side": 1,
+      "message": "If they are removed from this declaration won\u0027t the javadoc have warnings/errors?",
+      "parentUuid": "d3140dec_202f2a1b",
+      "range": {
+        "startLine": 72,
+        "startChar": 28,
+        "endLine": 72,
+        "endChar": 68
+      },
+      "revId": "dff9066412156958cec1ee1d2775dadefcb1f30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

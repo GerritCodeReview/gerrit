@@ -67,8 +67,9 @@ public interface RestCollection<P extends RestResource, R extends RestResource> 
    * @return view to list the collection.
    * @throws ResourceNotFoundException if the collection cannot be listed.
    * @throws AuthException if the collection requires authentication.
+   * @throws RestApiException if the collection cannot be listed.
    */
-  RestView<P> list() throws ResourceNotFoundException, AuthException;
+  RestView<P> list() throws ResourceNotFoundException, AuthException, RestApiException;
 
   /**
    * Parse a path component into a resource handle.

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1528452422 +0200\nnonce ADrMV7ZaRtS8bHDFH3NHzHtj4u7WFGg+sdt/+sl5+MQlH7S6OzL0zhWHJ9SQDAhVTkojFjx5Q/VH\n\n0000000000000000000000000000000000000000 dff9066412156958cec1ee1d2775dadefcb1f30e refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlsaVUYACgkQUbX9l6DQ\n71EAeAgAwp+aerrEd4vEhj+Y2hnj6isoKTdS3CLoxjaWO//cr6dTYWY0Vy2cbOm6\n2IteYqpjFLowG7+nxG0JVAEJfMNNTtf9X0qyUZ4R0ndBRonByjsoAdl6bEcHbqQd\nJLwpw2JwloNUMscydydDyvx1anenNQOrnNQnAlvsgHtDdyH/6halEEB9/feLrw0T\nF/JlGs6OVb00ZbP+uQ5zE6sPNRBcyA1bwIvIJgX6hjq5s80pmAOjBZ4tFZaSiiHc\nh0QzJfjUn0MJ0IQ5sSveQMxleGIgUqFpZI1izPPoy7WZ4RuI9nO8uAGoX2LfQJAh\nGSi+uOFIdNS2LuK3WJ09t28YOm5aWQ\u003d\u003d\n\u003dtt/n\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3140dec_202f2a1b",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-06-08T10:10:09Z",
+      "side": 1,
+      "message": "These are both ResourceNotFoundException, so they can be removed.",
+      "range": {
+        "startLine": 72,
+        "startChar": 28,
+        "endLine": 72,
+        "endChar": 68
+      },
+      "revId": "dff9066412156958cec1ee1d2775dadefcb1f30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

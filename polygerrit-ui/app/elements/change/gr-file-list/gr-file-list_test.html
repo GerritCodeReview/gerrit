@@ -883,7 +883,7 @@ limitations under the License.
       flushAsynchronousOperations();
 
       assert.equal(element.$$('iron-icon').icon, 'gr-icons:expand-more');
-      assert.equal(renderSpy.callCount, 2);
+      assert.equal(renderSpy.callCount, 1);
       assert.notInclude(element._expandedFilePaths, path);
       assert.equal(collapseStub.lastCall.args[0].length, 1);
     });

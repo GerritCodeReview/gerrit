@@ -831,7 +831,6 @@
 
     _updateDiffCursor() {
       const diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
-
       // Overwrite the cursor's list of diffs:
       this.$.diffCursor.splice(
           ...['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
@@ -922,25 +921,26 @@
           this._expandedFilePaths.indexOf(diff.path) === -1);
       this._clearCollapsedDiffs(collapsedDiffs);
 
-      if (!record) { return; }
+      if (!record) { return; } // Happens after "Collapse all" clicked.
 
       this.filesExpanded = this._computeExpandedFiles(
           this._expandedFilePaths.length, this._files.length);
 
       // Find the paths introduced by the new index splices:
       const newPaths = record.indexSplices
-          .map(splice => {
-            return splice.object.slice(splice.index,
-                splice.index + splice.addedCount);
-          })
-          .reduce((acc, paths) => { return acc.concat(paths); }, []);
-
-      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+            .map(splice => splice.object.slice(
+                splice.index, splice.index + splice.addedCount))
+            .reduce((acc, paths) => acc.concat(paths), []);
 
       // Required so that the newly created diff view is included in this.diffs.
       Polymer.dom.flush();
 
-      this._renderInOrder(newPaths, this.diffs, newPaths.length);
+      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+
+      if (newPaths.length) {
+        this._renderInOrder(newPaths, this.diffs, newPaths.length);
+      }
+
       this._updateDiffCursor();
       this.$.diffCursor.handleDiffUpdate();
     },

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1528447645 +0200\nnonce ADrMV7bpbtrO4JqhNyGank9B/0MrNJxNEk4kdOED8b9bdi1HqXmv96Ip28qyICrRZuCBYTge0vaX\n\n0000000000000000000000000000000000000000 bf734b9d77ba5dcffd881ba6d13cf8af02abb723 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlsaQp0ACgkQUbX9l6DQ\n71FqNwgAkt+SqOZa+haUZBUUB2BhdfEo3XuMhUVqJT/qJx0aGHmvF5YrRZQavo72\ns4aiAfbpZVrKbMHBdEMY6T2qApSM4YKnEz9rZxggCNGR3LygYbKqLSplk6gTYcrf\ns9NCk+rbfusWId0sLDzZdRf5/sJKiRQ7uGa7Bjo54yXhTs3B+Tf3d6H4GQoSY4lt\nrsWgigMTTufZU/WJd0gXUdPN1wdS1QfR/Cb9BM3BzwkfMrH66KgbjlmDa9wBlntu\nlnhK25TeFVDVCNAv/XuWnW3vGqw0W/JVSGZ12GXAkk+alE/jsxl/JRWcMLKOfBN8\nWzuOJOlrVTJvXKIFkUrRARq+mAr3aw\u003d\u003d\n\u003d+xWx\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e46416f_3e43514b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3099,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-06-08T09:01:07Z",
+      "side": 1,
+      "message": "Regarding performance: I quickly eyeballed this class and it seems we log at most two parameters.\n\nTherefore I would not use logVarargs at all, but have two methods here, that call Flogger\u0027s:\n\n  void log(String var1, @Nullable Object var2);\n\n  void log(String var1, @Nullable Object var2, @Nullable Object var3);\n\nDirectly instead. This is also inline with Floggers best practice of avoiding varargs entirely: https://google.github.io/flogger/anatomy\n\nThat will avoid quite some instantiation cost.",
+      "range": {
+        "startLine": 3099,
+        "startChar": 36,
+        "endLine": 3099,
+        "endChar": 50
+      },
+      "revId": "bf734b9d77ba5dcffd881ba6d13cf8af02abb723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

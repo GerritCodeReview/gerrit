@@ -23,21 +23,23 @@
     properties: {
       /** @type {?} */
       change: Object,
-      requirements: {
+      account: Object,
+      mutable: Boolean,
+      _requirements: {
         type: Array,
         computed: '_computeRequirements(change)',
       },
-      labels: {
+      _requiredLabels: {
         type: Array,
-        computed: '_computeLabels(change)',
+        value: () => [],
+      },
+      _optionalLabels: {
+        type: Array,
+        value: () => [],
       },
       _showWip: {
         type: Boolean,
         computed: '_computeShowWip(change)',
-      },
-      _showLabels: {
-        type: Boolean,
-        computed: '_computeShowLabelStatus(change)',
       },
     },
 
@@ -45,9 +47,9 @@
       Gerrit.RESTClientBehavior,
     ],
 
-    _computeShowLabelStatus(change) {
-      return change.status === this.ChangeStatus.NEW;
-    },
+    observers: [
+      '_computeLabels(change.labels.*)',
+    ],
 
     _computeShowWip(change) {
       return change.work_in_progress;
@@ -62,41 +64,67 @@
           _requirements.push(requirement);
         }
       }
+      if (change.work_in_progress) {
+        _requirements.push({
+          fallback_text: 'WIP',
+          tooltip: 'Change must not be in \'Work in Progress\' state.',
+        });
+      }
 
       return _requirements;
     },
 
-    _computeLabels(change) {
-      const labels = change.labels;
-      const _labels = [];
-
-      for (const label in labels) {
-        if (!labels.hasOwnProperty(label)) { continue; }
-        const obj = labels[label];
-        if (obj.optional) { continue; }
-
-        const icon = this._computeRequirementIcon(obj.approved);
-        const style = this._computeRequirementClass(obj.approved);
-        _labels.push({label, icon, style});
-      }
-
-      return _labels;
-    },
-
     _computeRequirementClass(requirementStatus) {
-      if (requirementStatus) {
-        return 'satisfied';
-      } else {
-        return 'unsatisfied';
-      }
+      return requirementStatus ? 'positive' : 'neutral';
     },
 
     _computeRequirementIcon(requirementStatus) {
-      if (requirementStatus) {
-        return 'gr-icons:check';
-      } else {
-        return 'gr-icons:hourglass';
+      return requirementStatus ? 'gr-icons:check' : 'gr-icons:hourglass';
+    },
+
+    _computeLabels(labelsRecord) {
+      const labels = labelsRecord.base;
+      this._optionalLabels = [];
+      this._requiredLabels = [];
+
+      for (const label in labels) {
+        if (!labels.hasOwnProperty(label)) { continue; }
+
+        const labelInfo = labels[label];
+        const icon = this._computeLabelIcon(labelInfo);
+        const style = this._computeLabelClass(labelInfo);
+        const path = labelInfo.optional ? '_optionalLabels' : '_requiredLabels';
+
+        this.push(path, {label, icon, style, labelInfo});
       }
+    },
+
+    /**
+     * @param {Object} labelInfo
+     */
+    _computeLabelIcon(labelInfo) {
+      if (labelInfo.approved) { return 'gr-icons:check'; }
+      if (labelInfo.rejected) { return 'gr-icons:close'; }
+      if (!labelInfo.value) { return 'gr-icons:hourglass'; }
+      return;
+    },
+
+    /**
+     * @param {Object} labelInfo
+     */
+    _computeLabelClass(labelInfo) {
+      const value = labelInfo.value || 0;
+      if (value > 0 || labelInfo.approved) { return 'positive'; }
+      if (value < 0 || labelInfo.rejected) { return 'negative'; }
+      return 'neutral';
+    },
+
+    _computeLabelShortcut(label) {
+      return label.split('-').reduce((a, i) => a + i[0].toUpperCase(), '');
+    },
+
+    _computeShowOptional(optionalFieldsRecord) {
+      return optionalFieldsRecord.base.length ? '' : 'hidden';
     },
   });
 })();

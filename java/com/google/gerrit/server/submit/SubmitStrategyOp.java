@@ -601,9 +601,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   }
 
   protected final void logDebug(String msg, Object... args) {
-    if (logger.atFine().isEnabled()) {
-      logger.atFine().logVarargs(this.args.submissionId + msg, args);
-    }
+    logger.atFine().logVarargs(this.args.submissionId + msg, args);
   }
 
   protected final void logWarn(String msg, Throwable t) {

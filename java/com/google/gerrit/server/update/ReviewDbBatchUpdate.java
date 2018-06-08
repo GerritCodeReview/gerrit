@@ -824,15 +824,11 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     private void logDebug(String msg, Throwable t) {
-      if (logger.atFine().isEnabled()) {
-        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, t);
-      }
+      ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, t);
     }
 
     private void logDebug(String msg, Object... args) {
-      if (logger.atFine().isEnabled()) {
-        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, args);
-      }
+      ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, args);
     }
   }
 

@@ -677,8 +677,6 @@ public class SubmoduleOp {
   }
 
   private void logDebug(String msg, Object... args) {
-    if (logger.atFine().isEnabled()) {
-      logger.atFine().logVarargs(orm.getSubmissionId() + " " + msg, args);
-    }
+    logger.atFine().logVarargs(orm.getSubmissionId() + " " + msg, args);
   }
 }

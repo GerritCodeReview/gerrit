@@ -3097,9 +3097,7 @@ class ReceiveCommits {
   }
 
   private void logDebug(String msg, Object... args) {
-    if (logger.atFine().isEnabled()) {
-      logger.atFine().logVarargs(receiveId + msg, args);
-    }
+    logger.atFine().logVarargs(receiveId + msg, args);
   }
 
   private void logWarn(String msg, Throwable t) {

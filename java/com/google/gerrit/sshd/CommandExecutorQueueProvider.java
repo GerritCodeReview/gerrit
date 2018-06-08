@@ -44,9 +44,10 @@ public class CommandExecutorQueueProvider implements QueueProvider {
     }
     int interactiveThreads = Math.max(1, poolSize - batchThreads);
     interactiveExecutor =
-        queues.createQueue(interactiveThreads, "SSH-Interactive-Worker", Thread.MIN_PRIORITY);
+        queues.createQueue(interactiveThreads, "SSH-Interactive-Worker", Thread.MIN_PRIORITY, true);
     if (batchThreads != 0) {
-      batchExecutor = queues.createQueue(batchThreads, "SSH-Batch-Worker", Thread.MIN_PRIORITY);
+      batchExecutor =
+          queues.createQueue(batchThreads, "SSH-Batch-Worker", Thread.MIN_PRIORITY, true);
     } else {
       batchExecutor = interactiveExecutor;
     }

@@ -4,7 +4,7 @@ java_library(
     name = "fluent-hc",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@fluent_hc//jar"],
+    exports = ["@fluent-hc//jar"],
     runtime_deps = [":httpclient"],
 )
 
@@ -43,5 +43,5 @@ java_library(
 java_library(
     name = "httpcore-nio",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@httpcore_nio//jar"],
+    exports = ["@httpcore-nio//jar"],
 )

@@ -23,7 +23,7 @@ def jgit_repos():
 
 def jgit_maven_repos():
     maven_jar(
-        name = "jgit_lib",
+        name = "jgit-lib",
         artifact = "org.eclipse.jgit:org.eclipse.jgit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
         sha1 = "0023aa574d6ea984e770af60da94da366a0109d2",
@@ -31,20 +31,20 @@ def jgit_maven_repos():
         unsign = True,
     )
     maven_jar(
-        name = "jgit_servlet",
+        name = "jgit-servlet",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.http.server:" + _JGIT_VERS,
         repository = _JGIT_REPO,
         sha1 = "0bacf02e5c9c587f8a6e680278d2b4b7fc8df96d",
         unsign = True,
     )
     maven_jar(
-        name = "jgit_archive",
+        name = "jgit-archive",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.archive:" + _JGIT_VERS,
         repository = _JGIT_REPO,
         sha1 = "83c22720f1b00b4b5e321b9c8b089b91c1d78893",
     )
     maven_jar(
-        name = "jgit_junit",
+        name = "jgit-junit",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.junit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
         sha1 = "5a3f2d6cf33e88f3436acfd22a129bc7e2d2655b",
@@ -53,11 +53,11 @@ def jgit_maven_repos():
 
 def jgit_dep(name):
   mapping = {
-      "@jgit_junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
-      "@jgit_lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
-      "@jgit_lib//jar": "@jgit//org.eclipse.jgit:jgit",
-      "@jgit_servlet//jar":"@jgit//org.eclipse.jgit.http.server:jgit-servlet",
-      "@jgit_archive//jar": "@jgit//org.eclipse.jgit.archive:jgit-archive",
+      "@jgit-junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
+      "@jgit-lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
+      "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
+      "@jgit-servlet//jar":"@jgit//org.eclipse.jgit.http.server:jgit-servlet",
+      "@jgit-archive//jar": "@jgit//org.eclipse.jgit.archive:jgit-archive",
   }
 
   if LOCAL_JGIT_REPO:

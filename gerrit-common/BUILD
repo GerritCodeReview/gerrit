@@ -25,7 +25,7 @@ gwt_module(
         "//gerrit-extension-api:api",
         "//gerrit-prettify:client",
         "//lib:guava",
-        "//lib:gwtorm_client",
+        "//lib:gwtorm-client",
         "//lib:servlet-api-3_1",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/joda:joda-time",

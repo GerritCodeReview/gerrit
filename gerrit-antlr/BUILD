@@ -30,6 +30,6 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         ":query_exception",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
     ],
 )

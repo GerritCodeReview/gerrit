@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d4141cf_b03dc7ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-08T14:44:19Z",
+      "side": 1,
+      "message": "I just created a new Issue 9212 to track this work (or related tasks) further on.",
+      "range": {
+        "startLine": 18,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 51
+      },
+      "revId": "82e4e12e140a36c73204428eedf0a17f6b1e4ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

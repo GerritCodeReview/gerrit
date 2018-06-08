@@ -71,6 +71,30 @@
       "revId": "dff9066412156958cec1ee1d2775dadefcb1f30e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a159f90d_e9e1d094",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T11:03:04Z",
+      "side": 1,
+      "message": "Yeah, I was a bit unsure what\u0027s best here. \nI wanted to preserve the JavaDoc for ResourceNotFoundException and AuthException since these are the most common cases.",
+      "parentUuid": "2601de00_2547b387",
+      "range": {
+        "startLine": 72,
+        "startChar": 28,
+        "endLine": 72,
+        "endChar": 68
+      },
+      "revId": "dff9066412156958cec1ee1d2775dadefcb1f30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

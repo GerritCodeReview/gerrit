@@ -47,6 +47,30 @@
       "revId": "bf734b9d77ba5dcffd881ba6d13cf8af02abb723",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72fd20c3_bef69015",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3099,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-06-08T09:04:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2cc019a5_e89fa690",
+      "range": {
+        "startLine": 3099,
+        "startChar": 36,
+        "endLine": 3099,
+        "endChar": 50
+      },
+      "revId": "bf734b9d77ba5dcffd881ba6d13cf8af02abb723",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

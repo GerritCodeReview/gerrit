@@ -28,6 +28,7 @@ class CapabilityInfo {
   public boolean modifyAccount;
   public boolean priority;
   public QueryLimit queryLimit;
+  public boolean readAs;
   public boolean runAs;
   public boolean runGC;
   public boolean streamEvents;

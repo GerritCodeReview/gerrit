@@ -48,6 +48,7 @@ public class CapabilityCollection {
   public final ImmutableList<PermissionRule> batchChangesLimit;
   public final ImmutableList<PermissionRule> emailReviewers;
   public final ImmutableList<PermissionRule> priority;
+  public final ImmutableList<PermissionRule> readAs;
   public final ImmutableList<PermissionRule> queryLimit;
   public final ImmutableList<PermissionRule> createGroup;
 
@@ -97,6 +98,7 @@ public class CapabilityCollection {
     batchChangesLimit = getPermission(GlobalCapability.BATCH_CHANGES_LIMIT);
     emailReviewers = getPermission(GlobalCapability.EMAIL_REVIEWERS);
     priority = getPermission(GlobalCapability.PRIORITY);
+    readAs = getPermission(GlobalCapability.READ_AS);
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
     createGroup = getPermission(GlobalCapability.CREATE_GROUP);
   }

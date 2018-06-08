@@ -22,6 +22,30 @@
       "revId": "89edc44e8997c308185ed6a7f90f79e7f75410f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "938f6a8e_462fb609",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-08T15:38:03Z",
+      "side": 1,
+      "message": "I think the parameters of a DeleteRequest object are: String id, String index, String type in order, so the deleteIndex should be passed as the third parameter. \n\nPlease let me know if I miss something :)",
+      "parentUuid": "1bca0419_292ff66f",
+      "range": {
+        "startLine": 144,
+        "startChar": 58,
+        "endLine": 144,
+        "endChar": 67
+      },
+      "revId": "89edc44e8997c308185ed6a7f90f79e7f75410f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

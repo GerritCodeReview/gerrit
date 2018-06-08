@@ -3096,8 +3096,30 @@ class ReceiveCommits {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
   }
 
-  private void logDebug(String msg, Object... args) {
-    logger.atFine().logVarargs(receiveId + msg, args);
+  private void logDebug(String msg) {
+    logger.atFine().log(receiveId + msg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(receiveId + msg, arg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
+    logger.atFine().log(receiveId + msg, arg1, arg2);
+  }
+
+  private void logDebug(
+      String msg, @Nullable Object arg1, @Nullable Object arg2, @Nullable Object arg3) {
+    logger.atFine().log(receiveId + msg, arg1, arg2, arg3);
+  }
+
+  private void logDebug(
+      String msg,
+      @Nullable Object arg1,
+      @Nullable Object arg2,
+      @Nullable Object arg3,
+      @Nullable Object arg4) {
+    logger.atFine().log(receiveId + msg, arg1, arg2, arg3, arg4);
   }
 
   private void logWarn(String msg, Throwable t) {

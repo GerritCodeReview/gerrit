@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -600,8 +601,25 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
   }
 
-  protected final void logDebug(String msg, Object... args) {
-    logger.atFine().logVarargs(this.args.submissionId + msg, args);
+  protected final void logDebug(String msg) {
+    logger.atFine().log(this.args.submissionId + msg);
+  }
+
+  protected final void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(this.args.submissionId + msg, arg);
+  }
+
+  protected final void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
+    logger.atFine().log(this.args.submissionId + msg, arg1, arg2);
+  }
+
+  protected final void logDebug(
+      String msg,
+      @Nullable Object arg1,
+      @Nullable Object arg2,
+      @Nullable Object arg3,
+      @Nullable Object arg4) {
+    logger.atFine().log(this.args.submissionId + msg, arg1, arg2, arg3, arg4);
   }
 
   protected final void logWarn(String msg, Throwable t) {

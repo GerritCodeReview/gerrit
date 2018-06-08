@@ -936,8 +936,12 @@ public class MergeOp implements AutoCloseable {
         + " failed";
   }
 
-  private void logDebug(String msg, Object... args) {
-    logger.atFine().logVarargs(submissionId + msg, args);
+  private void logDebug(String msg) {
+    logger.atFine().log(submissionId + msg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(submissionId + msg, arg);
   }
 
   private void logWarn(String msg, Throwable t) {

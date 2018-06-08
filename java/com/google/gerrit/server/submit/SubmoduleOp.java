@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -676,7 +677,15 @@ public class SubmoduleOp {
     bu.addRepoOnlyOp(new GitlinkOp(branch));
   }
 
-  private void logDebug(String msg, Object... args) {
-    logger.atFine().logVarargs(orm.getSubmissionId() + " " + msg, args);
+  private void logDebug(String msg) {
+    logger.atFine().log(orm.getSubmissionId() + " " + msg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(orm.getSubmissionId() + " " + msg, arg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
+    logger.atFine().log(orm.getSubmissionId() + " " + msg, arg1, arg2);
   }
 }

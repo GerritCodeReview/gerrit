@@ -15,6 +15,7 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -49,7 +50,7 @@ class TestHelperOp implements BatchUpdateOp {
     }
   }
 
-  private void logDebug(String msg, Object... args) {
-    logger.atFine().logVarargs(submissionId + msg, args);
+  private void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(submissionId + msg, arg);
   }
 }

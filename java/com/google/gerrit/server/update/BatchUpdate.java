@@ -385,17 +385,38 @@ public abstract class BatchUpdate implements AutoCloseable {
   }
 
   protected void logDebug(String msg, Throwable t) {
+    // Only log if there is a requestId assigned, since those are the
+    // expensive/complicated requests like MergeOp. Doing it every time would be
+    // noisy.
     if (requestId != null) {
       logger.atFine().withCause(t).log(requestId + "%s", msg);
     }
   }
 
-  protected void logDebug(String msg, Object... args) {
+  protected void logDebug(String msg) {
     // Only log if there is a requestId assigned, since those are the
     // expensive/complicated requests like MergeOp. Doing it every time would be
     // noisy.
     if (requestId != null) {
-      logger.atFine().logVarargs(requestId + msg, args);
+      logger.atFine().log(requestId + msg);
+    }
+  }
+
+  protected void logDebug(String msg, @Nullable Object arg) {
+    // Only log if there is a requestId assigned, since those are the
+    // expensive/complicated requests like MergeOp. Doing it every time would be
+    // noisy.
+    if (requestId != null) {
+      logger.atFine().log(requestId + msg, arg);
+    }
+  }
+
+  protected void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
+    // Only log if there is a requestId assigned, since those are the
+    // expensive/complicated requests like MergeOp. Doing it every time would be
+    // noisy.
+    if (requestId != null) {
+      logger.atFine().log(requestId + msg, arg1, arg2);
     }
   }
 }

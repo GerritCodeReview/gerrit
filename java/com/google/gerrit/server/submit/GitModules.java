@@ -103,7 +103,11 @@ public class GitModules {
     return ret;
   }
 
-  private void logDebug(String msg, Object... args) {
-    logger.atFine().logVarargs(submissionId + msg, args);
+  private void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(submissionId + msg, arg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
+    logger.atFine().log(submissionId + msg, arg1, arg2);
   }
 }

@@ -20,7 +20,7 @@ java_library(
     ],
     deps = [
         ":query_exception",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
     ],
 )
 
@@ -40,7 +40,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",

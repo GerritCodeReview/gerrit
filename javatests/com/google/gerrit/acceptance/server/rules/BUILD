@@ -5,6 +5,6 @@ acceptance_tests(
     group = "server_rules",
     labels = ["server"],
     deps = [
-        "@prolog_runtime//jar",
+        "@prolog-runtime//jar",
     ],
 )

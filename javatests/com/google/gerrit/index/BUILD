@@ -11,7 +11,7 @@ junit_tests(
         "//java/com/google/gerrit/index:query_parser",
         "//lib:guava",
         "//lib:junit",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
     ],

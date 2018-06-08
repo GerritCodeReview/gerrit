@@ -4,7 +4,7 @@ java_library(
     name = "jgit",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
-    exports = [jgit_dep("@jgit_lib//jar")],
+    exports = [jgit_dep("@jgit-lib//jar")],
     runtime_deps = [
         ":javaewah",
         "//lib/log:api",
@@ -13,7 +13,7 @@ java_library(
 
 alias(
     name = "jgit-source",
-    actual = jgit_dep("@jgit_lib//jar:src"),
+    actual = jgit_dep("@jgit-lib//jar:src"),
     visibility = ["//visibility:public"],
 )
 

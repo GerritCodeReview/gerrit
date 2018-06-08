@@ -10,8 +10,8 @@ gwt_module(
     gwt_xml = "ReviewDB.gwt.xml",
     deps = [
         "//java/com/google/gerrit/extensions:client",
-        "//lib:gwtorm_client",
-        "//lib:gwtorm_client_src",
+        "//lib:gwtorm-client",
+        "//lib:gwtorm-client_src",
     ],
 )
 

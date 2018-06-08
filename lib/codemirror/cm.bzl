@@ -310,13 +310,13 @@ def pkg_cm():
           "echo '/** @license' >>$@",
           "echo 'LICENSE-Apache2.0' >>$@",
           "echo '*/' >>$@",
-          'unzip -p $(location @diff_match_patch//jar) %s/diff_match_patch.js >>$@' % DIFF_MATCH_PATCH_TOP,
+          'unzip -p $(location @diff-match-patch//jar) %s/diff_match_patch.js >>$@' % DIFF_MATCH_PATCH_TOP,
           "echo ';' >> $@",
           'unzip -p $(location %s) %s/addon/merge/merge.js >>$@' % (archive, top)
         ]
       ),
       tools = [
-        '@diff_match_patch//jar',
+        '@diff-match-patch//jar',
         # dependency just for license tracking.
         ':diff-match-patch',
         archive,

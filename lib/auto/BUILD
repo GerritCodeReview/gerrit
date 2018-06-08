@@ -2,8 +2,8 @@ java_plugin(
     name = "auto-annotation-plugin",
     processor_class = "com.google.auto.value.processor.AutoAnnotationProcessor",
     deps = [
-        "@auto_value//jar",
-        "@auto_value_annotations//jar",
+        "@auto-value-annotations//jar",
+        "@auto-value//jar",
     ],
 )
 
@@ -11,8 +11,8 @@ java_plugin(
     name = "auto-value-plugin",
     processor_class = "com.google.auto.value.processor.AutoValueProcessor",
     deps = [
-        "@auto_value//jar",
-        "@auto_value_annotations//jar",
+        "@auto-value-annotations//jar",
+        "@auto-value//jar",
     ],
 )
 
@@ -24,7 +24,7 @@ java_library(
         ":auto-value-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto_value//jar"],
+    exports = ["@auto-value//jar"],
 )
 
 java_library(
@@ -35,5 +35,5 @@ java_library(
         ":auto-value-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto_value_annotations//jar"],
+    exports = ["@auto-value-annotations//jar"],
 )

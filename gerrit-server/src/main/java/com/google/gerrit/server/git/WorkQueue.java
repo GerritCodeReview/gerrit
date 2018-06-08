@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker.sanitizeMetricName;
-
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Supplier;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -347,7 +345,7 @@ public class WorkQueue {
           CaseFormat.UPPER_CAMEL.to(
               CaseFormat.LOWER_UNDERSCORE,
               queueName.replaceFirst("SSH", "Ssh").replaceAll("-", ""));
-      return sanitizeMetricName(String.format("queue/%s/%s", name, metricName));
+      return metrics.sanitizeMetricName(String.format("queue/%s/%s", name, metricName));
     }
 
     @Override

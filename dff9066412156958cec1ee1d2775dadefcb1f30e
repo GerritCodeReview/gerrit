@@ -47,6 +47,30 @@
       "revId": "dff9066412156958cec1ee1d2775dadefcb1f30e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfe4011b_f41a8d21",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-06-08T11:02:33Z",
+      "side": 1,
+      "message": "Sure, I was thinking we remove them there, too.\n\nBut maybe it is just better to keep them for the sake of having a more precise JavaDoc.",
+      "parentUuid": "2601de00_2547b387",
+      "range": {
+        "startLine": 72,
+        "startChar": 28,
+        "endLine": 72,
+        "endChar": 68
+      },
+      "revId": "dff9066412156958cec1ee1d2775dadefcb1f30e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

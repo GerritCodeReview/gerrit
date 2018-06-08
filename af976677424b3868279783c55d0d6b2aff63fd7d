@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f9bccb8_61c085e3",
+        "filename": "tools/bazel.rc",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-08T22:52:35Z",
+      "side": 1,
+      "message": "The goal is to fix path errors we\u0027ve been seeing while building on OSX. This new flag tells bazel to use the PATH as it\u0027s configured in the system. When combined with the ..\n\n --experimental_strict_action_env\n\n.. on the previous line, I\u0027m assuming this means that PATH is the /only/ environment variable we\u0027re passing through.\n\nAlternatively, instead of adding this new flag, we could just remove the experimental flag on line 4. That also fixes the problem.\n\nArguably, either approach harms build hermeticity, since changes in the PATH variable can alter the nature of the build. I\u0027m don\u0027t know how important this quality is.",
+      "revId": "af976677424b3868279783c55d0d6b2aff63fd7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

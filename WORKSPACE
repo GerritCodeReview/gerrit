@@ -316,12 +316,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "commons_lang3",
-    artifact = "org.apache.commons:commons-lang3:3.6",
-    sha1 = "9d28a6b23650e8a7e9063c04588ace6cf7012c17",
-)
-
-maven_jar(
     name = "commons_dbcp",
     artifact = "commons-dbcp:commons-dbcp:1.4",
     sha1 = "30be73c965cc990b153a100aaaaafcf239f82d39",

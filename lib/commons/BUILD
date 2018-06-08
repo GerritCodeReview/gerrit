@@ -22,12 +22,6 @@ java_library(
 )
 
 java_library(
-    name = "lang3",
-    data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@commons_lang3//jar"],
-)
-
-java_library(
     name = "net",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

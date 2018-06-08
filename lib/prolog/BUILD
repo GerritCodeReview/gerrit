@@ -2,21 +2,21 @@ java_library(
     name = "runtime",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@prolog_runtime//jar"],
+    exports = ["@prolog-runtime//jar"],
 )
 
 java_library(
     name = "runtime-neverlink",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@prolog_runtime//jar:neverlink"],
+    exports = ["@prolog-runtime//jar:neverlink"],
 )
 
 java_library(
     name = "compiler",
     data = ["//lib:LICENSE-prologcafe"],
     visibility = ["//visibility:public"],
-    exports = ["@prolog_compiler//jar"],
+    exports = ["@prolog-compiler//jar"],
     runtime_deps = [
         ":io",
         ":runtime",
@@ -26,7 +26,7 @@ java_library(
 java_library(
     name = "io",
     data = ["//lib:LICENSE-prologcafe"],
-    exports = ["@prolog_io//jar"],
+    exports = ["@prolog-io//jar"],
 )
 
 java_library(
@@ -41,14 +41,14 @@ java_library(
 )
 
 java_binary(
-    name = "compiler_bin",
+    name = "compiler-bin",
     main_class = "BuckPrologCompiler",
     visibility = ["//visibility:public"],
-    runtime_deps = [":compiler_lib"],
+    runtime_deps = [":compiler-lib"],
 )
 
 java_library(
-    name = "compiler_lib",
+    name = "compiler-lib",
     srcs = ["java/BuckPrologCompiler.java"],
     visibility = ["//visibility:public"],
     deps = [

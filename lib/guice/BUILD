@@ -3,17 +3,17 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        ":guice_library",
+        ":guice-library",
         ":javax-inject",
         ":multibindings",
     ],
 )
 
 java_library(
-    name = "guice_library",
+    name = "guice-library",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guice_library//jar"],
+    exports = ["@guice-library//jar"],
     runtime_deps = ["aopalliance"],
 )
 
@@ -21,7 +21,7 @@ java_library(
     name = "guice-assistedinject",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guice_assistedinject//jar"],
+    exports = ["@guice-assistedinject//jar"],
     runtime_deps = [":guice"],
 )
 
@@ -29,7 +29,7 @@ java_library(
     name = "guice-servlet",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guice_servlet//jar"],
+    exports = ["@guice-servlet//jar"],
     runtime_deps = [":guice"],
 )
 

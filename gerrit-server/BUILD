@@ -53,7 +53,7 @@ java_library(
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib:velocity",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",
         "//lib/bouncycastle:bcpkix-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
@@ -105,7 +105,7 @@ TESTUTIL_DEPS = [
     "//lib/jgit/org.eclipse.jgit.junit:junit",
     "//lib/joda:joda-time",
     "//lib/log:api",
-    "//lib/log:impl_log4j",
+    "//lib/log:impl-log4j",
     "//lib/log:log4j",
 ]
 
@@ -191,7 +191,7 @@ java_library(
         "//gerrit-antlr:query_exception",
         "//gerrit-antlr:query_parser",
         "//gerrit-server/src/main/prolog:common",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
     ],
 )
 
@@ -205,7 +205,7 @@ junit_tests(
         "//gerrit-antlr:query_exception",
         "//gerrit-antlr:query_parser",
         "//gerrit-server/src/main/prolog:common",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
     ],
 )
 

@@ -13,7 +13,7 @@ java_library(
     name = "cglib-3_2",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@cglib_3_2//jar"],
+    exports = ["@cglib-3_2//jar"],
 )
 
 java_library(

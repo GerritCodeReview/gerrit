@@ -235,4 +235,9 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     assertThat(persistedWatchedProjects).doesNotContain(pwi);
     assertThat(persistedWatchedProjects).containsAllIn(projectsToWatch);
   }
+
+  @Test
+  public void postWithoutBody() throws Exception {
+    adminRestSession.post("/accounts/" + admin.username + "/watched.projects").assertOK();
+  }
 }

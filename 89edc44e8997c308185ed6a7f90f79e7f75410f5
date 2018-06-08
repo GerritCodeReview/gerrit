@@ -46,6 +46,30 @@
       "revId": "89edc44e8997c308185ed6a7f90f79e7f75410f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f9f42bf_feb18555",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-08T23:22:33Z",
+      "side": 1,
+      "message": "Sorry, my mistake :)",
+      "parentUuid": "938f6a8e_462fb609",
+      "range": {
+        "startLine": 144,
+        "startChar": 58,
+        "endLine": 144,
+        "endChar": 67
+      },
+      "revId": "89edc44e8997c308185ed6a7f90f79e7f75410f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

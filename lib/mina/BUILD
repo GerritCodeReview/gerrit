@@ -22,5 +22,5 @@ java_library(
     name = "core",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mina_core//jar"],
+    exports = ["@mina-core//jar"],
 )

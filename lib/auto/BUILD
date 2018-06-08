@@ -1,13 +1,13 @@
 java_plugin(
     name = "auto-annotation-plugin",
     processor_class = "com.google.auto.value.processor.AutoAnnotationProcessor",
-    deps = ["@auto_value//jar"],
+    deps = ["@auto-value//jar"],
 )
 
 java_plugin(
     name = "auto-value-plugin",
     processor_class = "com.google.auto.value.processor.AutoValueProcessor",
-    deps = ["@auto_value//jar"],
+    deps = ["@auto-value//jar"],
 )
 
 java_library(
@@ -18,5 +18,5 @@ java_library(
         ":auto-value-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@auto_value//jar"],
+    exports = ["@auto-value//jar"],
 )

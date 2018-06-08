@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5d87cf6_64b27308",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "I guess those comments can be removed now.",
+      "range": {
+        "startLine": 47,
+        "startChar": 1,
+        "endLine": 59,
+        "endChar": 7
+      },
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9256a647_f0b41847",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "nit: this parameter is no longer used and should be removed",
+      "range": {
+        "startLine": 82,
+        "startChar": 29,
+        "endLine": 82,
+        "endChar": 48
+      },
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df95ef30_c5a83a1e",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "I think this check is not needed, since this the migration will just skip projects that don\u0027t have NoteDb content and it\u0027s good to migrate any NoteDb content that exists.",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 6
+      },
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd558620_90c4bfca",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "Seems this bug is fixed by now so that newPackInserter can be used.",
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62d66dac_ed0bf8f1",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "You mean from gerrit.config?\nI think this is \"nice-to-have\" but not required, so I would only do this if the effort for this is low.",
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7913863_633a1604",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "Removes this, since we have this code block twice.",
+      "range": {
+        "startLine": 130,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 5
+      },
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f6e1347_5a35bebe",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "nit: this variable is no longer used and should be removed",
+      "range": {
+        "startLine": 1151,
+        "startChar": 11,
+        "endLine": 1151,
+        "endChar": 15
+      },
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7faac8fb_a7f18500",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1650,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "nit: this variable is no longer used and should be removed",
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c86646c_cf1c683d",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "nit: this variable is no longer used and should be removed",
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0406b813_43dc9466",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommentJsonMigratorTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-08T08:08:15Z",
+      "side": 1,
+      "message": "Wrong import",
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,11 +1,14 @@
 = PolyGerrit - GUI
 
-[IMPORTANT]
-PolyGerrit is still a beta feature. Some features may be missing.
-
 == Configuring
 
 By default both GWT and PolyGerrit UI are available to users.
+
+To make PolyGerrit the default UI but keep GWT as a secondary UI:
+----
+[gerrit]
+        ui = POLYGERRIT
+----
 
 To disable GWT but not PolyGerrit:
 ----

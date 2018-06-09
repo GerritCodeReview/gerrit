@@ -118,10 +118,26 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createNewChange_InvalidCommentInCommitMessage() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "#12345 Test";
+    assertCreateFails(ci, BadRequestException.class, "commit message must be non-empty");
+  }
+
+  @Test
   public void createNewChange() throws Exception {
     ChangeInfo info = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     assertThat(info.revisions.get(info.currentRevision).commit.message)
         .contains("Change-Id: " + info.changeId);
+  }
+
+  @Test
+  public void createNewChangeWithCommentsInCommitMessage() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject += "\n# Comment line";
+    ChangeInfo info = gApi.changes().create(ci).get();
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .doesNotContain("# Comment line");
   }
 
   @Test

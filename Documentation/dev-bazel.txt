@@ -377,16 +377,6 @@ link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue] for
 details. Users should watch the cache sizes and clean them manually if
 necessary.
 
-Due to the `--experimental_strict_action_env` option used in `bazelrc`
-it is possible that some commands required by the build are not found
-on the PATH, causing the build to fail. In this case the PATH used in
-the build can be overridden with the `--action_env=PATH` directive in
-the user's `~/.bazelrc` file, for example:
-
-----
-  build --action_env=PATH=/usr/local/opt/coreutils/libexec/gnubin/:/usr/local/bin/:/usr/bin/
-----
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -22,6 +22,30 @@
       "revId": "304e5db4528b8e6fc841afb479944f33c86d1132",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b1df834_4e9de0a4",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-09T05:49:59Z",
+      "side": 1,
+      "message": "Yes, I also seeing these Eclipse Warnings. According to our contributor guides every single change must not produce any Eclipse warnings and be warnings free: [1]. IOW, this change should haven not been submitted in this form. Should we upload a revert, a lá: [2]?\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/Documentation/dev-contributing.txt#L150-L159\n* [2] http://paste.openstack.org/show/723016",
+      "parentUuid": "2aeb3207_87d5d19a",
+      "range": {
+        "startLine": 48,
+        "startChar": 30,
+        "endLine": 48,
+        "endChar": 43
+      },
+      "revId": "304e5db4528b8e6fc841afb479944f33c86d1132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

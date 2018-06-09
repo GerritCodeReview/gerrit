@@ -32,6 +32,8 @@ import com.google.gerrit.server.change.WorkInProgressOp.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectControl;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -39,6 +41,7 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 
 @Singleton
 public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
@@ -47,6 +50,7 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
+  private final ProjectControl.GenericFactory projectControlFactory;
 
   @Inject
   SetWorkInProgress(
@@ -54,21 +58,25 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
       RetryHelper retryHelper,
       Provider<ReviewDb> db,
       Provider<CurrentUser> self,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ProjectControl.GenericFactory projectControlFactory) {
     super(retryHelper);
     this.opFactory = opFactory;
     this.db = db;
     this.self = self;
     this.permissionBackend = permissionBackend;
+    this.projectControlFactory = projectControlFactory;
   }
 
   @Override
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException, PermissionBackendException {
+      throws RestApiException, UpdateException, PermissionBackendException, NoSuchProjectException,
+          IOException {
     Change change = rsrc.getChange();
     if (!rsrc.isUserOwner()
-        && !permissionBackend.user(self).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        && !permissionBackend.user(rsrc.getUser()).test(GlobalPermission.ADMINISTRATE_SERVER)
+        && !projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()).isOwner()) {
       throw new AuthException("not allowed to set work in progress");
     }
 

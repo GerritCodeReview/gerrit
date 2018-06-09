@@ -22,7 +22,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
 import static com.google.gerrit.server.change.HashtagsUtil.cleanupHashtag;
 import static com.google.gerrit.server.git.MultiProgressMonitor.UNKNOWN;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.COMMAND_REJECTION_MESSAGE_FOOTER;
-import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_OWNER_CAN_MODIFY_WIP;
+import static com.google.gerrit.server.git.receive.ReceiveConstants.ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.SAME_CHANGE_ID_IN_MULTIPLE_CHANGES;
 import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
@@ -2439,8 +2439,10 @@ class ReceiveCommits {
       if (magicBranch != null
           && (magicBranch.workInProgress || magicBranch.ready)
           && magicBranch.workInProgress != change.isWorkInProgress()
-          && !user.getAccountId().equals(change.getOwner())) {
-        reject(inputCommand, ONLY_OWNER_CAN_MODIFY_WIP);
+          && (!user.getAccountId().equals(change.getOwner())
+              && !permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER)
+              && !projectControl.isOwner())) {
+        reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
         return false;
       }
 

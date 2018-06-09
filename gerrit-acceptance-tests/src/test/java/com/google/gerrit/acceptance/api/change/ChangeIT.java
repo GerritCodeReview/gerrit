@@ -416,6 +416,19 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setWorkInProgressAllowedAsProjectOwner() throws Exception {
+    setApiUser(user);
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+
+    com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
+    grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
+    setApiUser(user2);
+    gApi.changes().id(changeId).setWorkInProgress();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
+  }
+
+  @Test
   public void setReadyForReviewNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result rready = createChange();
     String changeId = rready.getChangeId();

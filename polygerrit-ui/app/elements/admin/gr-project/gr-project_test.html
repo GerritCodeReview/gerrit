@@ -37,6 +37,56 @@ limitations under the License.
     let sandbox;
     const PROJECT = 'test-project';
     const SCHEMES = {http: {}, repo: {}, ssh: {}};
+    let projectStub;
+    const projectConf = {
+      description: 'Access inherited by all other projects.',
+      use_contributor_agreements: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      use_content_merge: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      use_signed_off_by: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      create_new_change_for_all_not_in_target: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      require_change_id: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      enable_signed_push: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      require_signed_push: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      reject_implicit_merges: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      private_by_default: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      match_author_to_committer_date: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      enable_reviewer_by_email: {
+        value: false,
+        configured_value: 'FALSE',
+      },
+      max_object_size_limit: {},
+      submit_type: 'MERGE_IF_NECESSARY',
+    };
 
     function getFormFields() {
       const selects = Polymer.dom(element.root).querySelectorAll('select');
@@ -50,62 +100,14 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
-        getProjectConfig() {
-          return Promise.resolve({
-            description: 'Access inherited by all other projects.',
-            use_contributor_agreements: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            use_content_merge: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            use_signed_off_by: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            create_new_change_for_all_not_in_target: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            require_change_id: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            enable_signed_push: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            require_signed_push: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            reject_implicit_merges: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            private_by_default: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            match_author_to_committer_date: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            enable_reviewer_by_email: {
-              value: false,
-              configured_value: 'FALSE',
-            },
-            max_object_size_limit: {},
-            submit_type: 'MERGE_IF_NECESSARY',
-          });
-        },
         getConfig() {
           return Promise.resolve({download: {}});
         },
       });
       element = fixture('basic');
+      projectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig', () => {
+        return Promise.resolve(projectConf);
+      });
     });
 
     teardown(() => {
@@ -204,6 +206,24 @@ limitations under the License.
           value: 'FALSE',
         },
       ]);
+    });
+
+    test('fires page-error', done => {
+      projectStub.restore();
+
+      element.project = 'test';
+
+      const response = {status: 404};
+      sandbox.stub(
+          element.$.restAPI, 'getProjectConfig', (project, errFn) => {
+            errFn(response);
+          });
+      element.addEventListener('page-error', e => {
+        assert.deepEqual(e.detail.response, response);
+        done();
+      });
+
+      element._loadProject();
     });
 
     suite('admin', () => {

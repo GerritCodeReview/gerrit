@@ -194,5 +194,21 @@ limitations under the License.
       assert.isOk(Polymer.dom(element.root).querySelector('#inheritsFrom'));
       assert.isTrue(element._computeParentHref.called);
     });
+
+    test('fires page-error', done => {
+      const response = {status: 404};
+
+      sandbox.stub(
+          element.$.restAPI, 'getProjectAccessRights', (projectName, errFn) => {
+            errFn(response);
+          });
+
+      element.addEventListener('page-error', e => {
+        assert.deepEqual(e.detail.response, response);
+        done();
+      });
+
+      element.project = 'test';
+    });
   });
 </script>

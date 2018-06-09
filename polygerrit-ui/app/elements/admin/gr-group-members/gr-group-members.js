@@ -75,9 +75,13 @@
 
       const promises = [];
 
-      return this.$.restAPI.getGroupConfig(this.groupId).then(
-          config => {
-            if (!config.name) { return; }
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
+
+      return this.$.restAPI.getGroupConfig(this.groupId, errFn)
+          .then(config => {
+            if (!config || !config.name) { return Promise.resolve(); }
 
             this._groupName = config.name;
 

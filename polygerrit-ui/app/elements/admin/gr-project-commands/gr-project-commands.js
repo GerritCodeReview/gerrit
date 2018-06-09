@@ -40,8 +40,14 @@
     _loadProject() {
       if (!this.project) { return Promise.resolve(); }
 
-      return this.$.restAPI.getProjectConfig(this.project).then(
-          config => {
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
+
+      return this.$.restAPI.getProjectConfig(this.project, errFn)
+          .then(config => {
+            if (!config) { return Promise.resolve(); }
+
             this._projectConfig = config;
             this._loading = false;
           });

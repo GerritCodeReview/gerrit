@@ -117,18 +117,28 @@
       if (!this.project) { return Promise.resolve(); }
 
       const promises = [];
+
+
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
+
       promises.push(this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
         if (loggedIn) {
           this.$.restAPI.getProjectAccess(this.project).then(access => {
+            if (!access) { return Promise.resolve(); }
+
             // If the user is not an owner, is_owner is not a property.
             this._readOnly = !access[this.project].is_owner;
           });
         }
       }));
 
-      promises.push(this.$.restAPI.getProjectConfig(this.project).then(
-          config => {
+      promises.push(this.$.restAPI.getProjectConfig(this.project, errFn)
+          .then(config => {
+            if (!config) { return Promise.resolve(); }
+
             if (!config.state) {
               config.state = STATES.active.value;
             }
@@ -137,6 +147,8 @@
           }));
 
       promises.push(this.$.restAPI.getConfig().then(config => {
+        if (!config) { return Promise.resolve(); }
+
         this._schemesObj = config.download.schemes;
         this._noteDbEnabled = !!config.note_db_enabled;
       }));

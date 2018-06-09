@@ -5809,7 +5809,8 @@ The `ChangeInput` entity contains information about creating a new change.
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
 |`subject`            ||
-The subject of the change (header line of the commit message).
+The commit message of the change. Comment lines (beginning with `#`) will
+be removed.
 |`topic`              |optional|The topic to which this change belongs.
 |`status`             |optional, default to `NEW`|
 The status of the change (only `NEW` accepted here).

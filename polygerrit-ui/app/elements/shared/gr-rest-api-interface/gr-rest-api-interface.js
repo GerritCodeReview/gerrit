@@ -224,14 +224,14 @@
       return this._fetchSharedCacheURL('/config/server/info');
     },
 
-    getProject(project) {
+    getProject(project, opt_errFn) {
       return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(project));
+          '/projects/' + encodeURIComponent(project), opt_errFn);
     },
 
-    getProjectConfig(project) {
+    getProjectConfig(project, opt_errFn) {
       return this._fetchSharedCacheURL(
-          '/projects/' + encodeURIComponent(project) + '/config');
+          '/projects/' + encodeURIComponent(project) + '/config', opt_errFn);
     },
 
     getProjectAccess(project) {
@@ -278,9 +278,9 @@
           opt_ctx);
     },
 
-    getGroupConfig(group) {
+    getGroupConfig(group, opt_errFn) {
       const encodeName = encodeURIComponent(group);
-      return this.fetchJSON(`/groups/${encodeName}/detail`);
+      return this.fetchJSON(`/groups/${encodeName}/detail`, opt_errFn);
     },
 
     /**
@@ -358,9 +358,9 @@
           .then(configs => configs.hasOwnProperty(groupName));
     },
 
-    getGroupMembers(groupName) {
+    getGroupMembers(groupName, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
-      return this.send('GET', `/groups/${encodeName}/members/`)
+      return this.send('GET', `/groups/${encodeName}/members/`, null, opt_errFn)
           .then(response => this.getResponseObject(response));
     },
 
@@ -391,8 +391,9 @@
       return this.send('PUT', `/groups/${encodeId}/options`, options);
     },
 
-    getGroupAuditLog(group) {
-      return this._fetchSharedCacheURL('/groups/' + group + '/log.audit');
+    getGroupAuditLog(group, opt_errFn) {
+      return this._fetchSharedCacheURL(
+          '/groups/' + group + '/log.audit', opt_errFn);
     },
 
     saveGroupMembers(groupName, groupMembers) {
@@ -1052,15 +1053,18 @@
      * @param {string} project
      * @param {number} projectsBranchesPerPage
      * @param {number=} opt_offset
+     * @param {?function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>}
      */
-    getProjectBranches(filter, project, projectsBranchesPerPage, opt_offset) {
+    getProjectBranches(
+        filter, project, projectsBranchesPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
 
       return this.fetchJSON(
           `/projects/${encodeURIComponent(project)}/branches` +
           `?n=${projectsBranchesPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
+          this._computeFilter(filter),
+          opt_errFn
       );
     },
 
@@ -1069,15 +1073,18 @@
      * @param {string} project
      * @param {number} projectsTagsPerPage
      * @param {number=} opt_offset
+     * @param {?function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>}
      */
-    getProjectTags(filter, project, projectsTagsPerPage, opt_offset) {
+    getProjectTags(
+        filter, project, projectsTagsPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
 
       return this.fetchJSON(
           `/projects/${encodeURIComponent(project)}/tags` +
           `?n=${projectsTagsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
+          this._computeFilter(filter),
+          opt_errFn
       );
     },
 
@@ -1085,20 +1092,23 @@
      * @param {string} filter
      * @param {number} pluginsPerPage
      * @param {number=} opt_offset
+     * @param {?function(?Response, string=)=} opt_errFn
      * @return {!Promise<?Object>}
      */
-    getPlugins(filter, pluginsPerPage, opt_offset) {
+    getPlugins(filter, pluginsPerPage, opt_offset, opt_errFn) {
       const offset = opt_offset || 0;
 
       return this.fetchJSON(
           `/plugins/?all&n=${pluginsPerPage + 1}&S=${offset}` +
-          this._computeFilter(filter)
+          this._computeFilter(filter),
+          opt_errFn
       );
     },
 
-    getProjectAccessRights(projectName) {
+    getProjectAccessRights(projectName, opt_errFn) {
       return this._fetchSharedCacheURL(
-          `/projects/${encodeURIComponent(projectName)}/access`);
+          `/projects/${encodeURIComponent(projectName)}/access`,
+          opt_errFn);
     },
 
     setProjectAccessRights(projectName, projectInfo) {
@@ -1777,8 +1787,8 @@
           });
     },
 
-    getCapabilities(token) {
-      return this.fetchJSON('/config/server/capabilities');
+    getCapabilities(token, opt_errFn) {
+      return this.fetchJSON('/config/server/capabilities', opt_errFn);
     },
 
     setAssignee(changeNum, assignee) {

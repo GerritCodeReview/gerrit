@@ -39,17 +39,21 @@
     },
 
     _getAuditLogs() {
-      if (!this.groupId) {
-        return '';
-      }
-      return this.$.restAPI.getGroupAuditLog(this.groupId).then(auditLog => {
-        if (!auditLog) {
-          this._auditLog = [];
-          return;
-        }
-        this._auditLog = auditLog;
-        this._loading = false;
-      });
+      if (!this.groupId) { return ''; }
+
+      const errFn = response => {
+        this.fire('page-error', {response});
+      };
+
+      return this.$.restAPI.getGroupAuditLog(this.groupId, errFn)
+          .then(auditLog => {
+            if (!auditLog) {
+              this._auditLog = [];
+              return;
+            }
+            this._auditLog = auditLog;
+            this._loading = false;
+          });
     },
 
     _status(item) {
@@ -57,9 +61,7 @@
     },
 
     _computeGroupUrl(id) {
-      if (!id) {
-        return '';
-      }
+      if (!id) { return ''; }
       return this.getBaseUrl() + '/admin/groups/' + id;
     },
 

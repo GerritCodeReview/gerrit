@@ -36,10 +36,14 @@ limitations under the License.
   suite('gr-project-commands tests', () => {
     let element;
     let sandbox;
+    let projectStub;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      projectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig', () => {
+        return Promise.resolve({});
+      });
     });
 
     teardown(() => {
@@ -63,6 +67,26 @@ limitations under the License.
         sandbox.stub(element, '_handleCloseCreateChange');
         element.$.createChangeDialog.fire('cancel');
         assert.isTrue(element._handleCloseCreateChange.called);
+      });
+    });
+
+    suite('404', () => {
+      test('fires page-error', done => {
+        projectStub.restore();
+
+        element.project = 'test';
+
+        const response = {status: 404};
+        sandbox.stub(
+            element.$.restAPI, 'getProjectConfig', (project, errFn) => {
+              errFn(response);
+            });
+        element.addEventListener('page-error', e => {
+          assert.deepEqual(e.detail.response, response);
+          done();
+        });
+
+        element._loadProject();
       });
     });
   });

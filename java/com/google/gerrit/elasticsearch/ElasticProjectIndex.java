@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
@@ -74,10 +73,10 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   @Override
   public void replace(ProjectData projectState) throws IOException {
     BulkRequest bulk =
-        new IndexRequest(projectState.getProject().getName(), indexName, PROJECTS)
+        new IndexRequest(projectState.getProject().getName(), indexName, type, client.adapter())
             .add(new UpdateRequest<>(schema, projectState));
 
-    String uri = getURI(PROJECTS, BULK);
+    String uri = getURI(type, BULK);
     Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -92,19 +91,17 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   public DataSource<ProjectData> getSource(Predicate<ProjectData> p, QueryOptions opts)
       throws QueryParseException {
     JsonArray sortArray = getSortArray(ProjectField.NAME.getName());
-    return new ElasticQuerySource(
-        p, opts.filterFields(IndexUtils::projectFields), PROJECTS, sortArray);
+    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::projectFields), type, sortArray);
   }
 
   @Override
   protected String getDeleteActions(Project.NameKey nameKey) {
-    return delete(PROJECTS, nameKey);
+    return delete(type, nameKey);
   }
 
   @Override
   protected String getMappings() {
-    ImmutableMap<String, ProjectMapping> mappings = ImmutableMap.of("mappings", mapping);
-    return gson.toJson(mappings);
+    return getMappingsForSingleType(PROJECTS, mapping.projects);
   }
 
   @Override

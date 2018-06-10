@@ -25,6 +25,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
+import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
@@ -75,6 +76,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected static final String BULK = "_bulk";
+  protected static final String MAPPINGS = "mappings";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
@@ -105,6 +107,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final SitePaths sitePaths;
   private final String indexNameRaw;
 
+  protected final String type;
   protected final ElasticRestClientProvider client;
   protected final String indexName;
   protected final Gson gson;
@@ -123,6 +126,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = cfg.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
+    this.type = client.adapter().getType(indexName);
   }
 
   @Override
@@ -142,7 +146,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   @Override
   public void delete(K id) throws IOException {
-    String uri = getURI(indexNameRaw, BULK);
+    String uri = getURI(type, BULK);
     Response response = postRequest(getDeleteActions(id), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -181,8 +185,20 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected abstract String getId(V v);
 
+  protected String getMappingsForSingleType(String candidateType, MappingProperties properties) {
+    return getMappingsFor(client.adapter().getType(candidateType), properties);
+  }
+
+  protected String getMappingsFor(String type, MappingProperties properties) {
+    JsonObject mappingType = new JsonObject();
+    mappingType.add(type, gson.toJsonTree(properties));
+    JsonObject mappings = new JsonObject();
+    mappings.add(MAPPINGS, gson.toJsonTree(mappingType));
+    return gson.toJson(mappings);
+  }
+
   protected String delete(String type, K id) {
-    return new DeleteRequest(id.toString(), indexName, type).toString();
+    return new DeleteRequest(id.toString(), indexName, type, client.adapter()).toString();
   }
 
   protected abstract V fromDocument(JsonObject doc, Set<String> fields);

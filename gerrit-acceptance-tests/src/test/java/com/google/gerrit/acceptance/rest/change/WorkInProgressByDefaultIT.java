@@ -19,12 +19,14 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.reviewdb.client.Project;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,6 +38,14 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   public void setUp() throws Exception {
     project1 = createProject("project-1");
     project2 = createProject("project-2", project1);
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    setApiUser(admin);
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    prefs.workInProgressByDefault = false;
+    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
   }
 
   @Test
@@ -53,8 +63,23 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeWithWorkInProgressByDefaultForUserEnabled() throws Exception {
+    setWorkInProgressByDefaultForUser();
+    ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
+    assertThat(gApi.changes().create(input).get().workInProgress).isTrue();
+  }
+
+  @Test
   public void createChangeBypassWorkInProgressByDefaultForProjectEnabled() throws Exception {
     setWorkInProgressByDefaultForProject(project2);
+    ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
+    input.workInProgress = false;
+    assertThat(gApi.changes().create(input).get().workInProgress).isNull();
+  }
+
+  @Test
+  public void createChangeBypassWorkInProgressByDefaultForUserEnabled() throws Exception {
+    setWorkInProgressByDefaultForUser();
     ChangeInput input = new ChangeInput(project2.get(), "master", "empty change");
     input.workInProgress = false;
     assertThat(gApi.changes().create(input).get().workInProgress).isNull();
@@ -75,8 +100,22 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithWorkInProgressByDefaultForUserEnabled() throws Exception {
+    setWorkInProgressByDefaultForUser();
+    assertThat(createChange(project2).getChange().change().isWorkInProgress()).isTrue();
+  }
+
+  @Test
   public void pushBypassWorkInProgressByDefaultForProjectEnabled() throws Exception {
     setWorkInProgressByDefaultForProject(project2);
+    assertThat(
+            createChange(project2, "refs/for/master%ready").getChange().change().isWorkInProgress())
+        .isFalse();
+  }
+
+  @Test
+  public void pushBypassWorkInProgressByDefaultForUserEnabled() throws Exception {
+    setWorkInProgressByDefaultForUser();
     assertThat(
             createChange(project2, "refs/for/master%ready").getChange().change().isWorkInProgress())
         .isFalse();
@@ -97,6 +136,12 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
     ConfigInput input = new ConfigInput();
     input.workInProgressByDefault = InheritableBoolean.TRUE;
     gApi.projects().name(p.get()).config(input);
+  }
+
+  private void setWorkInProgressByDefaultForUser() throws Exception {
+    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id.get()).getPreferences();
+    prefs.workInProgressByDefault = true;
+    gApi.accounts().id(admin.id.get()).setPreferences(prefs);
   }
 
   private PushOneCommit.Result createChange(Project.NameKey p) throws Exception {

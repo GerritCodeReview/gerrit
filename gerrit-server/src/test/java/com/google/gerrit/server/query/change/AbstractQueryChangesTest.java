@@ -590,7 +590,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ChangeInserter ins4 = newChangeWithTopic(repo, "feature2-fixup");
     Change change4 = insert(repo, ins4);
 
-    Change change5 = insert(repo, newChange(repo));
+    ChangeInserter ins5 = newChangeWithTopic(repo, "https://gerrit.local");
+    Change change5 = insert(repo, ins5);
+
+    ChangeInserter ins6 = newChangeWithTopic(repo, "git_gerrit_training");
+    Change change6 = insert(repo, ins6);
+
+    Change change_no_topic = insert(repo, newChange(repo));
 
     assertQuery("intopic:foo");
     assertQuery("intopic:feature1", change1);
@@ -598,10 +604,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("topic:feature2", change2);
     assertQuery("intopic:feature2", change4, change3, change2);
     assertQuery("intopic:fixup", change4);
-    assertQuery("topic:\"\"", change5);
-    assertQuery("intopic:\"\"", change5);
     assertQuery("intopic:^feature2.*", change4, change2);
     assertQuery("intopic:{^.*feature2$}", change3, change2);
+    assertQuery("intopic:gerrit", change6, change5);
+
+    assertQuery("topic:\"\"", change_no_topic);
+    assertQuery("intopic:\"\"", change_no_topic);
   }
 
   @Test

@@ -2154,7 +2154,9 @@ class ReceiveCommits {
         return;
       }
       magicBranch.workInProgress =
-          projectCache.get(project.getNameKey()).isWorkInProgressByDefault();
+          projectCache.get(project.getNameKey()).isWorkInProgressByDefault()
+              || firstNonNull(
+                  user.getAccount().getGeneralPreferencesInfo().workInProgressByDefault, false);
     }
 
     private void addOps(BatchUpdate bu) throws RestApiException {

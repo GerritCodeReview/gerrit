@@ -22,6 +22,7 @@
     'diff_view',
     'expand_inline_diffs',
     'publish_comments_on_push',
+    'work_in_progress_by_default',
     'signed_off_by',
     'email_format',
   ];
@@ -263,6 +264,11 @@
     _handlePublishCommentsOnPushChanged() {
       this.set('_localPrefs.publish_comments_on_push',
           this.$.publishCommentsOnPush.checked);
+    },
+
+    _handleWorkInProgressByDefault() {
+      this.set('_localPrefs.work_in_progress_by_default',
+          this.$.workInProgressByDefault.checked);
     },
 
     _handleInsertSignedOff() {

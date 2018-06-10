@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -948,6 +949,30 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedPreChange spc = stagePreChange("refs/for/master");
     Truth.assertThat(gApi.changes().id(spc.changeId).get().workInProgress).isTrue();
     assertThat(sender).notSent();
+  }
+
+  @Test
+  public void createWipChangeWithWorkInProgressByDefaultForUser() throws Exception {
+    // Make sure owner user is created
+    StagedChange sc = stageReviewableChange();
+    // All was cleaned already
+    assertThat(sender).notSent();
+
+    // Toggle workInProgress flag for owner
+    GeneralPreferencesInfo prefs = gApi.accounts().id(sc.owner.id.get()).getPreferences();
+    prefs.workInProgressByDefault = true;
+    gApi.accounts().id(sc.owner.id.get()).setPreferences(prefs);
+
+    // Create another change without notification that should be wip
+    StagedPreChange spc = stagePreChange("refs/for/master");
+    Truth.assertThat(gApi.changes().id(spc.changeId).get().workInProgress).isTrue();
+    assertThat(sender).notSent();
+
+    // Clean up workInProgressByDefault by owner
+    prefs = gApi.accounts().id(sc.owner.id.get()).getPreferences();
+    Truth.assertThat(prefs.workInProgressByDefault).isTrue();
+    prefs.workInProgressByDefault = false;
+    gApi.accounts().id(sc.owner.id.get()).setPreferences(prefs);
   }
 
   @Test

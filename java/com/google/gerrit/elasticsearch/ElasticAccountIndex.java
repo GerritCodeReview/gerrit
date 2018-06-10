@@ -16,7 +16,6 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.gerrit.server.index.account.AccountField.ID;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
@@ -59,6 +58,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
   private final Schema<AccountState> schema;
+  private final String type;
 
   @Inject
   ElasticAccountIndex(
@@ -71,14 +71,16 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema, client.adapter());
     this.schema = schema;
+    this.type = client.adapter().getType(ACCOUNTS);
   }
 
   @Override
   public void replace(AccountState as) throws IOException {
     BulkRequest bulk =
-        new IndexRequest(getId(as), indexName, ACCOUNTS).add(new UpdateRequest<>(schema, as));
+        new IndexRequest(getId(as), indexName, type, client.adapter())
+            .add(new UpdateRequest<>(schema, as));
 
-    String uri = getURI(ACCOUNTS, BULK);
+    String uri = getURI(type, BULK);
     Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -99,13 +101,12 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   @Override
   protected String getDeleteActions(Account.Id a) {
-    return delete(ACCOUNTS, a);
+    return delete(type, a);
   }
 
   @Override
   protected String getMappings() {
-    ImmutableMap<String, AccountMapping> mappings = ImmutableMap.of("mappings", mapping);
-    return gson.toJson(mappings);
+    return getMappingsForSingleType(ACCOUNTS, mapping.accounts);
   }
 
   @Override

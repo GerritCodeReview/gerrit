@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
@@ -57,6 +56,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;
   private final Schema<InternalGroup> schema;
+  private final String type;
 
   @Inject
   ElasticGroupIndex(
@@ -69,14 +69,16 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema, client.adapter());
     this.schema = schema;
+    this.type = client.adapter().getType(GROUPS);
   }
 
   @Override
   public void replace(InternalGroup group) throws IOException {
     BulkRequest bulk =
-        new IndexRequest(getId(group), indexName, GROUPS).add(new UpdateRequest<>(schema, group));
+        new IndexRequest(getId(group), indexName, type, client.adapter())
+            .add(new UpdateRequest<>(schema, group));
 
-    String uri = getURI(GROUPS, BULK);
+    String uri = getURI(type, BULK);
     Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -91,18 +93,17 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   public DataSource<InternalGroup> getSource(Predicate<InternalGroup> p, QueryOptions opts)
       throws QueryParseException {
     JsonArray sortArray = getSortArray(GroupField.UUID.getName());
-    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::groupFields), GROUPS, sortArray);
+    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::groupFields), type, sortArray);
   }
 
   @Override
   protected String getDeleteActions(AccountGroup.UUID g) {
-    return delete(GROUPS, g);
+    return delete(type, g);
   }
 
   @Override
   protected String getMappings() {
-    ImmutableMap<String, GroupMapping> mappings = ImmutableMap.of("mappings", mapping);
-    return gson.toJson(mappings);
+    return getMappingsForSingleType(GROUPS, mapping.groups);
   }
 
   @Override

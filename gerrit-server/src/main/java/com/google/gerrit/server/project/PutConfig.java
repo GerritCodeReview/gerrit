@@ -151,6 +151,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         p.setPrivateByDefault(input.privateByDefault);
       }
 
+      if (input.workInProgressByDefault != null) {
+        p.setWorkInProgressByDefault(input.workInProgressByDefault);
+      }
+
       if (input.maxObjectSizeLimit != null) {
         p.setMaxObjectSizeLimit(input.maxObjectSizeLimit);
       }

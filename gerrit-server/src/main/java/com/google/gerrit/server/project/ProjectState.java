@@ -411,6 +411,10 @@ public class ProjectState {
     return getInheritableBoolean(Project::getPrivateByDefault);
   }
 
+  public boolean isWorkInProgressByDefault() {
+    return getInheritableBoolean(Project::getWorkInProgressByDefault);
+  }
+
   public boolean isEnableReviewerByEmail() {
     return getInheritableBoolean(Project::getEnableReviewerByEmail);
   }

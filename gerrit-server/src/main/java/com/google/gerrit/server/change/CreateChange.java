@@ -188,6 +188,11 @@ public class CreateChange
       throw new MethodNotAllowedException("private changes are disabled");
     }
 
+    boolean isWorkInProgress =
+        input.workInProgress == null
+            ? rsrc.getProjectState().isWorkInProgressByDefault()
+            : input.workInProgress;
+
     contributorAgreements.check(rsrc.getNameKey(), rsrc.getUser());
 
     Project.NameKey project = rsrc.getNameKey();
@@ -280,7 +285,7 @@ public class CreateChange
       }
       ins.setTopic(topic);
       ins.setPrivate(isPrivate);
-      ins.setWorkInProgress(input.workInProgress != null && input.workInProgress);
+      ins.setWorkInProgress(isWorkInProgress);
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));

@@ -59,6 +59,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     InheritedBooleanInfo requireSignedPush = new InheritedBooleanInfo();
     InheritedBooleanInfo rejectImplicitMerges = new InheritedBooleanInfo();
     InheritedBooleanInfo privateByDefault = new InheritedBooleanInfo();
+    InheritedBooleanInfo workInProgressByDefault = new InheritedBooleanInfo();
     InheritedBooleanInfo enableReviewerByEmail = new InheritedBooleanInfo();
     InheritedBooleanInfo matchAuthorToCommitterDate = new InheritedBooleanInfo();
 
@@ -77,6 +78,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     requireSignedPush.configuredValue = p.getRequireSignedPush();
     rejectImplicitMerges.configuredValue = p.getRejectImplicitMerges();
     privateByDefault.configuredValue = p.getPrivateByDefault();
+    workInProgressByDefault.configuredValue = p.getWorkInProgressByDefault();
     enableReviewerByEmail.configuredValue = p.getEnableReviewerByEmail();
     matchAuthorToCommitterDate.configuredValue = p.getMatchAuthorToCommitterDate();
 
@@ -91,6 +93,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       enableSignedPush.inheritedValue = projectState.isEnableSignedPush();
       requireSignedPush.inheritedValue = projectState.isRequireSignedPush();
       privateByDefault.inheritedValue = projectState.isPrivateByDefault();
+      workInProgressByDefault.inheritedValue = projectState.isWorkInProgressByDefault();
       rejectImplicitMerges.inheritedValue = projectState.isRejectImplicitMerges();
       enableReviewerByEmail.inheritedValue = projectState.isEnableReviewerByEmail();
       matchAuthorToCommitterDate.inheritedValue = projectState.isMatchAuthorToCommitterDate();
@@ -109,6 +112,7 @@ public class ConfigInfoImpl extends ConfigInfo {
       this.requireSignedPush = requireSignedPush;
     }
     this.privateByDefault = privateByDefault;
+    this.workInProgressByDefault = workInProgressByDefault;
 
     MaxObjectSizeLimitInfo maxObjectSizeLimit = new MaxObjectSizeLimitInfo();
     maxObjectSizeLimit.value =

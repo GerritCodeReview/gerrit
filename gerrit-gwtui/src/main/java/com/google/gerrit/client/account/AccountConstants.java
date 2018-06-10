@@ -69,6 +69,8 @@ public interface AccountConstants extends Constants {
 
   String publishCommentsOnPush();
 
+  String workInProgressByDefault();
+
   String myMenu();
 
   String myMenuInfo();

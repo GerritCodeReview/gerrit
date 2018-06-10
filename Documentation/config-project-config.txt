@@ -217,6 +217,19 @@ the Git push.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
+[[change.workInProgressByDefault]]change.workInProgressByDefault::
++
+Controls whether all new changes in the project are set as WIP by default.
++
+Note that a new change will be ready if the `workInProgress` field in
+link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
+when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
+or the `ready` link:user-upload.html#wip[PushOption] is used during
+the Git push.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
 [[submit-section]]
 === Submit section
 

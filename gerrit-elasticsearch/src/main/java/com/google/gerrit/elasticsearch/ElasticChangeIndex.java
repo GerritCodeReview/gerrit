@@ -84,11 +84,13 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private static final Logger log = LoggerFactory.getLogger(ElasticChangeIndex.class);
 
   static class ChangeMapping {
-    MappingProperties openChanges;
-    MappingProperties closedChanges;
+    public MappingProperties changes;
+    public MappingProperties openChanges;
+    public MappingProperties closedChanges;
 
     ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
       MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
+      this.changes = mapping;
       this.openChanges = mapping;
       this.closedChanges = mapping;
     }
@@ -102,6 +104,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
+  private final String type;
 
   @Inject
   ElasticChangeIndex(
@@ -116,6 +119,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
+    this.type = client.adapter().getType(CHANGES);
   }
 
   @Override
@@ -135,12 +139,15 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       throw new IOException(e);
     }
 
+    ElasticQueryAdapter adapter = client.adapter();
     BulkRequest bulk =
-        new IndexRequest(getId(cd), indexName, insertIndex)
-            .add(new UpdateRequest<>(schema, cd))
-            .add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex));
+        new IndexRequest(getId(cd), indexName, adapter.getType(insertIndex), adapter)
+            .add(new UpdateRequest<>(schema, cd));
+    if (!adapter.usePostV5Type()) {
+      bulk.add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex, adapter));
+    }
 
-    String uri = getURI(CHANGES, BULK);
+    String uri = getURI(type, BULK);
     Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -155,23 +162,36 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       throws QueryParseException {
     Set<Change.Status> statuses = ChangeIndexRewriter.getPossibleStatus(p);
     List<String> indexes = Lists.newArrayListWithCapacity(2);
-    if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
-      indexes.add(OPEN_CHANGES);
-    }
-    if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
-      indexes.add(CLOSED_CHANGES);
+    if (client.adapter().usePostV5Type()) {
+      if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()
+          || !Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
+        indexes.add(ElasticQueryAdapter.POST_V5_TYPE);
+      }
+    } else {
+      if (!Sets.intersection(statuses, OPEN_STATUSES).isEmpty()) {
+        indexes.add(OPEN_CHANGES);
+      }
+      if (!Sets.intersection(statuses, CLOSED_STATUSES).isEmpty()) {
+        indexes.add(CLOSED_CHANGES);
+      }
     }
     return new QuerySource(indexes, p, opts);
   }
 
   @Override
   protected String getDeleteActions(Id c) {
+    if (client.adapter().usePostV5Type()) {
+      return delete(ElasticQueryAdapter.POST_V5_TYPE, c);
+    }
     return delete(OPEN_CHANGES, c) + delete(CLOSED_CHANGES, c);
   }
 
   @Override
   protected String getMappings() {
-    return gson.toJson(ImmutableMap.of("mappings", mapping));
+    if (client.adapter().usePostV5Type()) {
+      return getMappingsFor(ElasticQueryAdapter.POST_V5_TYPE, mapping.changes);
+    }
+    return gson.toJson(ImmutableMap.of(MAPPINGS, mapping));
   }
 
   @Override

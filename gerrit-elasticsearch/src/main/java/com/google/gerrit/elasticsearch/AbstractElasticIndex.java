@@ -20,6 +20,7 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.io.CharStreams;
+import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.SearchSourceBuilder;
 import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.index.Index;
@@ -50,6 +51,7 @@ import org.elasticsearch.client.Response;
 
 abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String BULK = "_bulk";
+  protected static final String MAPPINGS = "mappings";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
 
@@ -79,6 +81,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
+  private final String type;
 
   protected final ElasticRestClientProvider client;
   protected final String indexName;
@@ -98,6 +101,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = cfg.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
+    this.type = client.adapter().getType(indexName);
   }
 
   @Override
@@ -117,7 +121,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   @Override
   public void delete(K id) throws IOException {
-    String uri = getURI(indexNameRaw, BULK);
+    String uri = getURI(type, BULK);
     Response response = postRequest(getDeleteActions(id), uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -156,8 +160,20 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected abstract String getId(V v);
 
+  protected String getMappingsForSingleType(String candidateType, MappingProperties properties) {
+    return getMappingsFor(client.adapter().getType(candidateType), properties);
+  }
+
+  protected String getMappingsFor(String type, MappingProperties properties) {
+    JsonObject mappingType = new JsonObject();
+    mappingType.add(type, gson.toJsonTree(properties));
+    JsonObject mappings = new JsonObject();
+    mappings.add(MAPPINGS, gson.toJsonTree(mappingType));
+    return gson.toJson(mappings);
+  }
+
   protected String delete(String type, K id) {
-    return new DeleteRequest(id.toString(), indexName, type).toString();
+    return new DeleteRequest(id.toString(), indexName, type, client.adapter()).toString();
   }
 
   protected void addNamedElement(String name, JsonObject element, JsonArray array) {

@@ -33,6 +33,12 @@ public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     return Guice.createInjector(new InMemoryModule(luceneConfig, notesMigration));
   }
 
+  @Override
+  @Test
+  public void byTopic() throws Exception {
+    super.byTopic();
+  }
+
   @Test
   public void fullTextWithSpecialChars() throws Exception {
     TestRepository<Repo> repo = createProject("repo");

@@ -381,14 +381,17 @@
      * Computes a string with the number of comments and unresolved comments.
      *
      * @param {!Object} changeComments
-     * @param {number} patchNum
+     * @param {!Object} patchRange
      * @param {string} path
      * @return {string}
      */
-    _computeCommentsString(changeComments, patchNum, path) {
-      const unresolvedCount = changeComments.computeUnresolvedNum(patchNum,
-          path);
-      const commentCount = changeComments.computeCommentCount(patchNum, path);
+    _computeCommentsString(changeComments, patchRange, path) {
+      const unresolvedCount =
+          changeComments.computeUnresolvedNum(patchRange.basePatchNum, path) +
+          changeComments.computeUnresolvedNum(patchRange.patchNum, path);
+      const commentCount =
+          changeComments.computeCommentCount(patchRange.basePatchNum, path) +
+          changeComments.computeCommentCount(patchRange.patchNum, path);
       const commentString = GrCountStringFormatter.computePluralString(
           commentCount, 'comment');
       const unresolvedString = GrCountStringFormatter.computeString(
@@ -405,12 +408,14 @@
      * Computes a string with the number of drafts.
      *
      * @param {!Object} changeComments
-     * @param {number} patchNum
+     * @param {!Object} patchRange
      * @param {string} path
      * @return {string}
      */
-    _computeDraftsString(changeComments, patchNum, path) {
-      const draftCount = changeComments.computeDraftCount(patchNum, path);
+    _computeDraftsString(changeComments, patchRange, path) {
+      const draftCount =
+          changeComments.computeDraftCount(patchRange.basePatchNum, path) +
+          changeComments.computeDraftCount(patchRange.patchNum, path);
       return GrCountStringFormatter.computePluralString(draftCount, 'draft');
     },
 
@@ -418,12 +423,14 @@
      * Computes a shortened string with the number of drafts.
      *
      * @param {!Object} changeComments
-     * @param {number} patchNum
+     * @param {!Object} patchRange
      * @param {string} path
      * @return {string}
      */
-    _computeDraftsStringMobile(changeComments, patchNum, path) {
-      const draftCount = changeComments.computeDraftCount(patchNum, path);
+    _computeDraftsStringMobile(changeComments, patchRange, path) {
+      const draftCount =
+          changeComments.computeDraftCount(patchRange.basePatchNum, path) +
+          changeComments.computeDraftCount(patchRange.patchNum, path);
       return GrCountStringFormatter.computeShortString(draftCount, 'd');
     },
 
@@ -431,12 +438,14 @@
      * Computes a shortened string with the number of comments.
      *
      * @param {!Object} changeComments
-     * @param {number} patchNum
+     * @param {!Object} patchRange
      * @param {string} path
      * @return {string}
      */
-    _computeCommentsStringMobile(changeComments, patchNum, path) {
-      const commentCount = changeComments.computeCommentCount(patchNum, path);
+    _computeCommentsStringMobile(changeComments, patchRange, path) {
+      const commentCount =
+          changeComments.computeCommentCount(patchRange.basePatchNum, path) +
+          changeComments.computeCommentCount(patchRange.patchNum, path);
       return GrCountStringFormatter.computeShortString(commentCount, 'c');
     },
 

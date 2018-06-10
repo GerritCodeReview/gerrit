@@ -2127,6 +2127,8 @@ class ReceiveCommits {
     }
 
     private void setChangeId(int id) {
+      boolean workInProgressByDefault =
+          projectCache.get(project.getNameKey()).isWorkInProgressByDefault();
 
       changeId = new Change.Id(id);
       ins =
@@ -2134,7 +2136,8 @@ class ReceiveCommits {
               .create(changeId, commit, refName)
               .setTopic(magicBranch.topic)
               .setPrivate(setChangeAsPrivate)
-              .setWorkInProgress(magicBranch.workInProgress)
+              .setWorkInProgress(
+                  magicBranch.workInProgress || (workInProgressByDefault && !magicBranch.ready))
               // Changes already validated in validateNewCommits.
               .setValidate(false);
 

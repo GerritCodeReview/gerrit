@@ -104,7 +104,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
-  private final String type;
 
   @Inject
   ElasticChangeIndex(
@@ -119,7 +118,6 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
     this.mapping = new ChangeMapping(schema, client.adapter());
-    this.type = client.adapter().getType(CHANGES);
   }
 
   @Override

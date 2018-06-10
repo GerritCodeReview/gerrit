@@ -81,8 +81,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   private final Schema<V> schema;
   private final SitePaths sitePaths;
   private final String indexNameRaw;
-  private final String type;
 
+  protected final String type;
   protected final ElasticRestClientProvider client;
   protected final String indexName;
   protected final Gson gson;

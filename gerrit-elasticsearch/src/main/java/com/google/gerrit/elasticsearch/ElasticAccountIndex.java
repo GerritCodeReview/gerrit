@@ -72,7 +72,6 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
   private final Schema<AccountState> schema;
-  private final String type;
 
   @AssistedInject
   ElasticAccountIndex(
@@ -85,7 +84,6 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     this.accountCache = accountCache;
     this.mapping = new AccountMapping(schema, client.adapter());
     this.schema = schema;
-    this.type = client.adapter().getType(ACCOUNTS);
   }
 
   @Override

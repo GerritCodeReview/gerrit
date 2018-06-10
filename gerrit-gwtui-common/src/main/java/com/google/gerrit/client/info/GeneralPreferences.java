@@ -151,6 +151,9 @@ public class GeneralPreferences extends JavaScriptObject {
   public final native boolean
       publishCommentsOnPush() /*-{ return this.publish_comments_on_push || false }-*/;
 
+  public final native boolean
+      workInProgressByDefault() /*-{ return this.work_in_progress_by_default || false }-*/;
+
   public final native JsArray<TopMenuItem> my() /*-{ return this.my; }-*/;
 
   public final native void changesPerPage(int n) /*-{ this.changes_per_page = n }-*/;
@@ -229,6 +232,9 @@ public class GeneralPreferences extends JavaScriptObject {
 
   public final native void publishCommentsOnPush(
       boolean p) /*-{ this.publish_comments_on_push = p }-*/;
+
+  public final native void workInProgressByDefault(
+      boolean p) /*-{ this.work_in_progress_by_default = p }-*/;
 
   public final void setMyMenus(List<TopMenuItem> myMenus) {
     initMy();

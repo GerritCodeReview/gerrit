@@ -188,11 +188,6 @@ public class CreateChange
       throw new MethodNotAllowedException("private changes are disabled");
     }
 
-    boolean isWorkInProgress =
-        input.workInProgress == null
-            ? rsrc.getProjectState().isWorkInProgressByDefault()
-            : input.workInProgress;
-
     contributorAgreements.check(rsrc.getNameKey(), rsrc.getUser());
 
     Project.NameKey project = rsrc.getNameKey();
@@ -242,6 +237,12 @@ public class CreateChange
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
       AccountState account = accountCache.get(me.getAccountId());
       GeneralPreferencesInfo info = account.getAccount().getGeneralPreferencesInfo();
+
+      boolean isWorkInProgress =
+          input.workInProgress == null
+              ? rsrc.getProjectState().isWorkInProgressByDefault()
+                  || MoreObjects.firstNonNull(info.workInProgressByDefault, false)
+              : input.workInProgress;
 
       // Add a Change-Id line if there isn't already one
       String commitMessage = subject;

@@ -2892,10 +2892,13 @@ Sample Lucene index configuration:
 === Section elasticsearch
 
 WARNING: The Elasticsearch support has only been tested with Elasticsearch
-version 2.4.x. Support for other versions is not guaranteed.
+versions 2.4, 5.6 and 6.2. Support for other versions is not guaranteed.
 
-Open and closed changes are indexed in a single index, separated
-into types `open_changes` and `closed_changes` respectively.
+Open and closed changes are indexed in a single index, separated into types
+`open_changes` and `closed_changes` respectively, if using Elasticsearch
+versions 2.4 or 5.6. Open and closed changes are merged into the default `_doc`
+type otherwise. The latter is also used for accounts and groups indices starting
+with Elasticsearch 6.2.
 
 [[elasticsearch.prefix]]elasticsearch.prefix::
 +

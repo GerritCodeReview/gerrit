@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.builders.QueryBuilder;
@@ -72,6 +71,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;
   private final Schema<InternalGroup> schema;
+  private final String type;
 
   @AssistedInject
   ElasticGroupIndex(
@@ -84,14 +84,16 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     this.groupCache = groupCache;
     this.mapping = new GroupMapping(schema, client.adapter());
     this.schema = schema;
+    this.type = client.adapter().getType(GROUPS);
   }
 
   @Override
   public void replace(InternalGroup group) throws IOException {
     BulkRequest bulk =
-        new IndexRequest(getId(group), indexName, GROUPS).add(new UpdateRequest<>(schema, group));
+        new IndexRequest(getId(group), indexName, type, client.adapter())
+            .add(new UpdateRequest<>(schema, group));
 
-    String uri = getURI(GROUPS, BULK);
+    String uri = getURI(type, BULK);
     Response response = postRequest(bulk, uri, getRefreshParam());
     int statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
@@ -110,13 +112,12 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
 
   @Override
   protected String getDeleteActions(AccountGroup.UUID g) {
-    return delete(GROUPS, g);
+    return delete(type, g);
   }
 
   @Override
   protected String getMappings() {
-    ImmutableMap<String, GroupMapping> mappings = ImmutableMap.of("mappings", mapping);
-    return gson.toJson(mappings);
+    return getMappingsForSingleType(GROUPS, mapping.groups);
   }
 
   @Override
@@ -151,7 +152,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
     public ResultSet<InternalGroup> read() throws OrmException {
       try {
         List<InternalGroup> results = Collections.emptyList();
-        String uri = getURI(GROUPS, SEARCH);
+        String uri = getURI(type, SEARCH);
         Response response = postRequest(search, uri, Collections.emptyMap());
         StatusLine statusLine = response.getStatusLine();
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {

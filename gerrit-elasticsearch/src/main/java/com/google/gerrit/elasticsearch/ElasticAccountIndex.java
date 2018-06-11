@@ -65,8 +65,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     }
   }
 
-  public static final String ACCOUNTS = "accounts";
-
+  private static final String ACCOUNTS = "accounts";
   private static final Logger log = LoggerFactory.getLogger(ElasticAccountIndex.class);
 
   private final AccountMapping mapping;

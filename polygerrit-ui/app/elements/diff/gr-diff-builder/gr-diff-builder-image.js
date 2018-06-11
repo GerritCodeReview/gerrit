@@ -55,20 +55,19 @@
 
     const endpoint = this._createElement('gr-endpoint-decorator');
     endpoint.setAttribute('name', 'image-diff');
+    endpoint.appendChild(this._createEndpointParam('baseImage', '_baseImage'));
     endpoint.appendChild(
-        this._createEndpointParam('baseImage', this._baseImage));
-    endpoint.appendChild(
-        this._createEndpointParam('revisionImage', this._revisionImage));
+        this._createEndpointParam('revisionImage', '_revisionImage'));
     td.appendChild(endpoint);
     tr.appendChild(td);
     tbody.appendChild(tr);
     return tbody;
   };
 
-  GrDiffBuilderImage.prototype._createEndpointParam = function(name, value) {
+  GrDiffBuilderImage.prototype._createEndpointParam = function(name, prop) {
     const endpointParam = this._createElement('gr-endpoint-param');
     endpointParam.setAttribute('name', name);
-    endpointParam.value = value;
+    endpointParam.value = `[[${prop}]]`;
     return endpointParam;
   };
 

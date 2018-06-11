@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "11eab9e3_20b6b267",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-11T06:09:40Z",
+      "side": 1,
+      "message": "Done in: [1].\n\n[1] https://gerrit-review.googlesource.com/#/c/gerrit/+/184030",
+      "parentUuid": "109fa07d_3b514ada",
+      "revId": "44242452c17521aafca50a10df1d148eac39d619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "05dd3b81_652b3b66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "44242452c17521aafca50a10df1d148eac39d619",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15f2a745_1d419f76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-11T06:09:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05dd3b81_652b3b66",
+      "revId": "44242452c17521aafca50a10df1d148eac39d619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,12 +52,12 @@
     // TODO(kaspern): Support blame for image diffs and remove the hardcoded 4
     // column limit.
     td.setAttribute('colspan', '4');
-
     const endpoint = this._createElement('gr-endpoint-decorator');
-    endpoint.setAttribute('name', 'image-diff');
-    endpoint.appendChild(
+    const endpointDomApi = Polymer.dom(endpoint);
+    endpointDomApi.setAttribute('name', 'image-diff');
+    endpointDomApi.appendChild(
         this._createEndpointParam('baseImage', this._baseImage));
-    endpoint.appendChild(
+    endpointDomApi.appendChild(
         this._createEndpointParam('revisionImage', this._revisionImage));
     td.appendChild(endpoint);
     tr.appendChild(td);

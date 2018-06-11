@@ -2942,14 +2942,19 @@ class ReceiveCommits {
 
                 for (Ref ref : byCommit.get(c.copy())) {
                   PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-                  Optional<ChangeData> cd =
-                      executeIndexQuery(() -> byLegacyId(psId.getParentKey()));
-                  if (cd.isPresent() && cd.get().change().getDest().equals(branch)) {
-                    existingPatchSets++;
-                    bu.addOp(
-                        psId.getParentKey(),
-                        mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
-                    continue COMMIT;
+
+                  try {
+                    ChangeNotes notes =
+                        notesFactory.createChecked(db, project.getNameKey(), psId.getParentKey());
+                    if (notes.getChange().getDest().equals(branch)) {
+                      existingPatchSets++;
+                      bu.addOp(
+                          psId.getParentKey(),
+                          mergedByPushOpFactory.create(requestScopePropagator, psId, refName));
+                      continue COMMIT;
+                    }
+                  } catch (NoSuchChangeException e) {
+                    // Ignored
                   }
                 }
 
@@ -3067,14 +3072,6 @@ class ReceiveCommits {
       }
     }
     return r;
-  }
-
-  private Optional<ChangeData> byLegacyId(Change.Id legacyId) throws OrmException {
-    List<ChangeData> res = queryProvider.get().byLegacyChangeId(legacyId);
-    if (res.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(res.get(0));
   }
 
   private Map<String, Ref> allRefs() {

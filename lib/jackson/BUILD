@@ -5,5 +5,5 @@ VERSION = "2.6.6"
 java_library(
     name = "jackson-core",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@jackson_core//jar"],
+    exports = ["@jackson-core//jar"],
 )

@@ -33,7 +33,7 @@ java_library(
     visibility = ["//gerrit-plugin-api:__pkg__"],
     deps = [
         ":query_exception",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
     ],
 )
 
@@ -53,7 +53,7 @@ java_library(
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/log:api",
@@ -71,7 +71,7 @@ junit_tests(
         ":query_parser",
         "//lib:junit",
         "//lib:truth",
-        "//lib/antlr:java_runtime",
+        "//lib/antlr:java-runtime",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

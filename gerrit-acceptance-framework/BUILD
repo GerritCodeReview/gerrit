@@ -58,7 +58,7 @@ java_library2(
         "//lib/httpcomponents:httpcore",
         "//lib/jetty:servlet",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/log:impl_log4j",
+        "//lib/log:impl-log4j",
         "//lib/log:log4j",
     ],
     visibility = ["//visibility:public"],

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b2e265de_7c783e52",
+        "filename": "Documentation/images/intro-quick-reviewing-the-change.png",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-06-11T08:41:54Z",
+      "side": 1,
+      "message": "Can we let this slide and pretend that English is not Hannah\u0027s first language?",
+      "parentUuid": "bd020117_38af25ba",
+      "revId": "59e39fd25d70ef85efa21869c30cee0a0ebc186c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e42fe8c_2ef0d4b4",
         "filename": "Documentation/images/intro-quick-verifying.png",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "59e39fd25d70ef85efa21869c30cee0a0ebc186c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5999c44e_08ad0140",
+        "filename": "Documentation/images/intro-quick-verifying.png",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-06-11T08:41:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e42fe8c_2ef0d4b4",
+      "revId": "59e39fd25d70ef85efa21869c30cee0a0ebc186c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

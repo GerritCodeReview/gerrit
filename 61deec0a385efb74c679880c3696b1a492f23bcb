@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "563906e9_9c096e5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T20:56:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "159e5534_2a30c8cd",
+      "range": {
+        "startLine": 16,
+        "startChar": 16,
+        "endLine": 16,
+        "endChar": 62
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3773dd4b_05584cde",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
         "patchSetId": 6

@@ -46,6 +46,30 @@
       "revId": "6d7f54ceb4eeb8923eaacdf2109f3c22a7cfed30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8275ccf_abb8cec7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2948,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-11T08:38:00Z",
+      "side": 1,
+      "message": "Good point, we should catch and ignore it.\n\nDone.",
+      "parentUuid": "70b0e7b8_879c44e3",
+      "range": {
+        "startLine": 2946,
+        "startChar": 17,
+        "endLine": 2948,
+        "endChar": 67
+      },
+      "revId": "6d7f54ceb4eeb8923eaacdf2109f3c22a7cfed30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

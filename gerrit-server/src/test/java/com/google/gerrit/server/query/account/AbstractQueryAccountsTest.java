@@ -50,6 +50,8 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.index.account.AccountIndex;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -104,6 +106,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject protected InternalAccountQuery internalAccountQuery;
 
   @Inject protected AllProjectsName allProjects;
+
+  @Inject protected AccountIndexCollection accountIndexes;
 
   protected Injector injector;
   protected LifecycleManager lifecycle;
@@ -320,6 +324,18 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     assertAccounts(internalAccountQuery.byWatchedProject(p), user1, user2);
     assertAccounts(internalAccountQuery.byWatchedProject(p2), user3);
     assertAccounts(internalAccountQuery.byWatchedProject(allProjects), user3);
+  }
+
+  @Test
+  public void byDeletedAccount() throws Exception {
+    AccountInfo user = newAccountWithFullName("jdoe", "John Doe");
+    Account.Id userId = Account.Id.parse(user._accountId.toString());
+    assertQuery("John", user);
+
+    for (AccountIndex index : accountIndexes.getWriteIndexes()) {
+      index.delete(userId);
+    }
+    assertQuery("John");
   }
 
   @Test

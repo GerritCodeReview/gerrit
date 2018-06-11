@@ -16,6 +16,24 @@
       "revId": "2066418a5bd56e0303b53a131f14a938009ac92f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c79a08e_5f4084b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T07:31:16Z",
+      "side": 1,
+      "message": "That is the intention.  Do you prefer that the commit message explicitly states it?",
+      "parentUuid": "dd3caa1b_37ea4569",
+      "revId": "2066418a5bd56e0303b53a131f14a938009ac92f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

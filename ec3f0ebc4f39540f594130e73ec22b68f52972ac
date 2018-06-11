@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2730fb7_f7be7028",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T07:13:03Z",
+      "side": 1,
+      "message": "failed",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "ec3f0ebc4f39540f594130e73ec22b68f52972ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c92d5b88_f78fd69f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T07:13:03Z",
+      "side": 1,
+      "message": "owner",
+      "range": {
+        "startLine": 110,
+        "startChar": 41,
+        "endLine": 110,
+        "endChar": 44
+      },
+      "revId": "ec3f0ebc4f39540f594130e73ec22b68f52972ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74f19759_7141368b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T07:13:03Z",
+      "side": 1,
+      "message": "owner",
+      "range": {
+        "startLine": 110,
+        "startChar": 41,
+        "endLine": 110,
+        "endChar": 44
+      },
+      "revId": "ec3f0ebc4f39540f594130e73ec22b68f52972ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -17,6 +17,24 @@
       "revId": "9e76b136e12326c084b303d2efae8cbf95983636",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f233bac4_aee418a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-11T08:19:20Z",
+      "side": 1,
+      "message": "Also for PUT.\n\nDo we have any REST endpoint that is invoked by PUT and expects a list or map in the request body? I can\u0027t find one, so not sure what to test.",
+      "parentUuid": "34bcc59d_6b7bf3df",
+      "revId": "9e76b136e12326c084b303d2efae8cbf95983636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

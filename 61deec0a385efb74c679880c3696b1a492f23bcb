@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "22282430_1c085640",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:12:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2d81e9_df5ea2ba",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55fb0883_29d877b6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-11T19:11:20Z",
       "side": 1,
       "message": "are also valid for indexing requests",
+      "range": {
+        "startLine": 16,
+        "startChar": 16,
+        "endLine": 16,
+        "endChar": 62
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "159e5534_2a30c8cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:12:12Z",
+      "side": 1,
+      "message": "I changed this to \"are valid for indexing or deleting requests for accounts \nand groups\". What do you think?",
+      "parentUuid": "55fb0883_29d877b6",
       "range": {
         "startLine": 16,
         "startChar": 16,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "76568ebd_72930082",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:12:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3773dd4b_05584cde",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 0
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ab60305_2817b70c",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 6
@@ -85,6 +157,24 @@
       "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56dafd88_7460e2b5",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:12:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ab60305_2817b70c",
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +198,30 @@
       "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65d6f650_28fd8b41",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:12:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66bfc0d8_d7245d77",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 78
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

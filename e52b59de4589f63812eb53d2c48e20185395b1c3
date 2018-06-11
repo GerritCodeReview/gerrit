@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d5466b57_9dcf8664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:12:12Z",
+      "side": 1,
+      "message": "I still think that changing the \"type\" field of AbstractElasticIndex class does not affect non-bulk searches for indexed changes (the \"type\" fields for indexed accounts and groups were not changed anyway, still \"accounts\" and \"groups\"). The non-bulk searches are only used by the class QuerySource inside ElastiChangeIndex which also has a \"type\" field. This \"type\" field is not the same as the \"type\" field of AbstractElasticIndex. \n\nAnd sorry about missing the your comment. It would be handled in patch set 7.",
+      "parentUuid": "129d4d80_d40429bf",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91749481_305d8049",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

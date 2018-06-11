@@ -476,6 +476,11 @@ public class StarredChangesUtil {
 
   private void deleteRef(Repository repo, String refName, ObjectId oldObjectId)
       throws IOException, OrmException {
+    if (ObjectId.zeroId().equals(oldObjectId)) {
+      // ref doesn't exist
+      return;
+    }
+
     RefUpdate u = repo.updateRef(refName);
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(oldObjectId);

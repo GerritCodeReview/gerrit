@@ -728,6 +728,17 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteStarLabelsFromChangeWithoutStarLabels() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String triplet = project.get() + "~master~" + r.getChangeId();
+    assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
+
+    gApi.accounts().self().setStars(triplet, new StarsInput());
+
+    assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
+  }
+
+  @Test
   public void starWithDefaultAndIgnoreLabel() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1528706252 +0200\nnonce ADrMV7ZuFdUBWs7qE4Eg1OGPTkTur6BSs+Z+mMHIPwMZsXSfPxUjIyQlb3osWcdwaXpBrC2YlMOC\n\n0000000000000000000000000000000000000000 88e7b81424fc6f7de987391cfacfc907d3f738b9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlseNMwACgkQUbX9l6DQ\n71HeZwf/dPbKG7lGfO2F2mQcHSJb8vjNFPFd0+Tj+pXn2uKbjzSOxzQOIKHlaU1O\nlgHzgBFDGJGHqbdXXlAtqjnBCn6kjF2QJaFvlkKnKfdMpiR8il5b6PERXfFm4kQo\nqzWnmXuEhXJHsAGtWQcPPN9jIs9qXj7gnIS50EXb8IazqwbAhiSMsL+wetUYJfc5\nL8Hfzia99TXpk7Qd+qtfaVufb5DuID07qA4phxerQH9wvhKQiIodFhXZVz6PR1L7\noFF/IcKrxKhx5KF+LFAvEHLOhBwYjuk3mrLkiPyIXcWxsYi2FfwB0jQFf93pXWR4\nJzJpXowhzvhTfosmLsrWht71neDMzA\u003d\u003d\n\u003dc1od\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "6344becd_c6c5102d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2958,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-06-11T08:54:02Z",
+      "side": 1,
+      "message": "optional: I think the preferred pattern is to only have the code in a try block that can throw:\n\nChangeNotes notes;\n  try {\n       notes \u003d notesFactory.createChecked(db, project.getNameKey(), psId.getParentKey());\n  } catch (NoSuchChangeException e) {\n    // ignored\n    notes \u003d null;\n}\n\nif (notes !\u003d null \u0026\u0026 notes.getChange().getDest().equals(branch)) {\n  existingPatchSets++;\n  bu.addOp(\n    psId.getParentKey(),\n      mergedByPushOpFactory.create(requestScopePropagator, psId, refName));\n  continue COMMIT;\n}\n\nIn this case I can certainly see why you put it all in the try block though.",
+      "range": {
+        "startLine": 2946,
+        "startChar": 17,
+        "endLine": 2958,
+        "endChar": 19
+      },
+      "revId": "88e7b81424fc6f7de987391cfacfc907d3f738b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
 }

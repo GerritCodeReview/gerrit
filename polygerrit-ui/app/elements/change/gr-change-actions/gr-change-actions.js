@@ -1119,8 +1119,7 @@
     _setLabelValuesOnRevert(newChangeId) {
       const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
       if (!labels) { return Promise.resolve(); }
-      return this.$.restAPI.getChangeURLAndSend(newChangeId,
-          this.actions.revert.method, 'current', '/review', {labels});
+      return this.$.restAPI.saveChangeReview(newChangeId, 'current', {labels});
     },
 
     _handleResponse(action, response) {

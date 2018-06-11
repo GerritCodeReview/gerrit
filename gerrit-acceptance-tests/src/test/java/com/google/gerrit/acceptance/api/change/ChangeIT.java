@@ -453,6 +453,20 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setReadyForReviewAllowedAsProjectOwner() throws Exception {
+    setApiUser(user);
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+    gApi.changes().id(changeId).setWorkInProgress();
+
+    com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
+    grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
+    setApiUser(user2);
+    gApi.changes().id(changeId).setReadyForReview();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
+  }
+
+  @Test
   public void hasReviewStarted() throws Exception {
     PushOneCommit.Result r = createWorkInProgressChange();
     String changeId = r.getChangeId();

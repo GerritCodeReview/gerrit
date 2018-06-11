@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd3caa1b_37ea4569",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-11T07:30:26Z",
+      "side": 1,
+      "message": "And could be extended to indices as well in follow-up changes?",
+      "revId": "2066418a5bd56e0303b53a131f14a938009ac92f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

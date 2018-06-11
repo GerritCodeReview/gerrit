@@ -276,7 +276,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void output() throws Exception {
-    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/";
+    String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/";
     ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
     PushOneCommit.Result r1 = pushTo("refs/for/master");
     Change.Id id1 = r1.getChange().getId();
@@ -328,7 +328,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pushHead(testRepo, master, false), master);
 
     // Attempt to push amended commit to same change
-    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
+    String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/" + r.getChange().getId();
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertErrorStatus("change " + url + " closed");
 
@@ -354,7 +354,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pushHead(testRepo, master, false), master);
 
     // Attempt to push amended commit to same change
-    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
+    String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/" + r.getChange().getId();
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertErrorStatus("change " + url + " closed");
 
@@ -700,7 +700,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertMessage(
         "Updated Changes:\n  "
             + canonicalWebUrl.get()
-            + "#/c/"
+            + "c/"
             + project.get()
             + "/+/"
             + r.getChange().getId()

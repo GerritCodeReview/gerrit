@@ -42,10 +42,13 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
     implements UiAction<ChangeResource> {
+  private static final Logger log = LoggerFactory.getLogger(SetWorkInProgress.class);
   private final WorkInProgressOp.Factory opFactory;
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> self;
@@ -98,6 +101,14 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
 
   @Override
   public Description getDescription(ChangeResource rsrc) {
+    boolean isProjectOwner;
+    try {
+      isProjectOwner =
+          projectControlFactory.controlFor(rsrc.getProject(), rsrc.getUser()).isOwner();
+    } catch (IOException | NoSuchProjectException e) {
+      isProjectOwner = false;
+      log.error("Cannot retrieve project owner ACL", e);
+    }
     return new Description()
         .setLabel("WIP")
         .setTitle("Set Work In Progress")
@@ -106,6 +117,10 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
                 rsrc.getChange().getStatus() == Status.NEW && !rsrc.getChange().isWorkInProgress(),
                 or(
                     rsrc.isUserOwner(),
-                    permissionBackend.user(self).testCond(GlobalPermission.ADMINISTRATE_SERVER))));
+                    or(
+                        isProjectOwner,
+                        permissionBackend
+                            .user(self)
+                            .testCond(GlobalPermission.ADMINISTRATE_SERVER)))));
   }
 }

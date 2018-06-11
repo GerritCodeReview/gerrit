@@ -3,7 +3,7 @@ java_library(
     testonly = 1,
     data = ["//lib:LICENSE-testcontainers"],
     visibility = ["//visibility:public"],
-    exports = ["@duct_tape//jar"],
+    exports = ["@duct-tape//jar"],
 )
 
 java_library(
@@ -11,7 +11,7 @@ java_library(
     testonly = 1,
     data = ["//lib:LICENSE-testcontainers"],
     visibility = ["//visibility:public"],
-    exports = ["@visible_assertions//jar"],
+    exports = ["@visible-assertions//jar"],
 )
 
 java_library(

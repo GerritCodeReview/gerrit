@@ -184,7 +184,7 @@ TESTUTIL_DEPS = [
     "//lib/jgit/org.eclipse.jgit.junit:junit",
     "//lib/joda:joda-time",
     "//lib/log:api",
-    "//lib/log:impl_log4j",
+    "//lib/log:impl-log4j",
     "//lib/log:log4j",
 ]
 

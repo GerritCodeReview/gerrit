@@ -5,7 +5,7 @@ java_library(
     exports = [
         ":powermock-module-junit4-common",
         "//lib:junit",
-        "@powermock_module_junit4//jar",
+        "@powermock-module-junit4//jar",
     ],
 )
 
@@ -16,7 +16,7 @@ java_library(
     exports = [
         ":powermock-reflect",
         "//lib:junit",
-        "@powermock_module_junit4_common//jar",
+        "@powermock-module-junit4-common//jar",
     ],
 )
 
@@ -27,7 +27,7 @@ java_library(
     exports = [
         "//lib:junit",
         "//lib/easymock:objenesis",
-        "@powermock_reflect//jar",
+        "@powermock-reflect//jar",
     ],
 )
 
@@ -38,7 +38,7 @@ java_library(
     exports = [
         ":powermock-api-support",
         "//lib/easymock",
-        "@powermock_api_easymock//jar",
+        "@powermock-api-easymock//jar",
     ],
 )
 
@@ -50,7 +50,7 @@ java_library(
         ":powermock-core",
         ":powermock-reflect",
         "//lib:junit",
-        "@powermock_api_support//jar",
+        "@powermock-api-support//jar",
     ],
 )
 
@@ -62,6 +62,6 @@ java_library(
         ":powermock-reflect",
         "//lib:javassist",
         "//lib:junit",
-        "@powermock_core//jar",
+        "@powermock-core//jar",
     ],
 )

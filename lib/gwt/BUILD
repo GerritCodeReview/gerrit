@@ -2,7 +2,7 @@
     name = n,
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@%s//jar" % n.replace("-", "_")],
+    exports = ["@%s//jar" % n],
 ) for n in [
     "ant",
     "colt",
@@ -34,12 +34,12 @@ java_library(
     name = "javax-validation_src",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@javax_validation//jar:src"],
+    exports = ["@javax-validation//jar:src"],
 )
 
 java_library(
     name = "jsinterop-annotations_src",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jsinterop_annotations//jar:src"],
+    exports = ["@jsinterop-annotations//jar:src"],
 )

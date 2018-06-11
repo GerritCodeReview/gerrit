@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a1e46ba_089a844a",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T23:30:54Z",
+      "side": 1,
+      "message": "Isn\u0027t polygerrit already the default on master?",
+      "revId": "1510af5d3803595e88258c27a84d0189841418b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6e16b23_4735b264",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T23:30:54Z",
+      "side": 1,
+      "message": "keep",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "1510af5d3803595e88258c27a84d0189841418b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b03d2c60_3002b2dc",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T23:30:54Z",
+      "side": 1,
+      "message": "UI",
+      "range": {
+        "startLine": 7,
+        "startChar": 67,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "1510af5d3803595e88258c27a84d0189841418b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c6d27e1_0449e6ad",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T23:30:54Z",
+      "side": 1,
+      "message": "GWT",
+      "range": {
+        "startLine": 7,
+        "startChar": 46,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "1510af5d3803595e88258c27a84d0189841418b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

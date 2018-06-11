@@ -70,6 +70,30 @@
       "revId": "8d07033fee6cd8692fd6f08f92ef222f3168222b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec4848f9_5885fcac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T18:52:00Z",
+      "side": 1,
+      "message": "I think you can work on a follow-up change right away. Unless this is more complex or costly? If so, would back-log it as an extra task. But I\u0027d personally prefer to do it now, given us all being warmed up on the topic.",
+      "parentUuid": "ccc1c876_19a1bd7d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "8d07033fee6cd8692fd6f08f92ef222f3168222b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

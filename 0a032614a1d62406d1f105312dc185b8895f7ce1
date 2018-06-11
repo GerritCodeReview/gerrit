@@ -234,6 +234,30 @@
       "revId": "0a032614a1d62406d1f105312dc185b8895f7ce1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d5a3344_d048d9a2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T18:52:00Z",
+      "side": 1,
+      "message": "I was proposing to rename \u0027i\u0027 to \u0027index\u0027; done in which patch set?",
+      "parentUuid": "76473e2c_26fcaf03",
+      "range": {
+        "startLine": 324,
+        "startChar": 20,
+        "endLine": 324,
+        "endChar": 21
+      },
+      "revId": "0a032614a1d62406d1f105312dc185b8895f7ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

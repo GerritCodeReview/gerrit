@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a6c4e3_05fe3f18",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/IndexChangesIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T05:22:40Z",
+      "side": 1,
+      "message": "Can we name this IndexCommandIT and have it test all the variants, i.e. include indexing of groups, accounts, and later on master projects?\n\nAlso, it would be better to add an extra Abstract class here, similar to AbstractReindexTests, so that we can separate the build targets for lucene and elasticsearch tests allowing to skip ES/docker tests.",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 27
+      },
+      "revId": "f4d57f0eabf5afa54a2e27f33659046826e179bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d3dbaa0_882ae019",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticIndexChangesIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T05:22:40Z",
+      "side": 1,
+      "message": "Should be in the same package as the IndexChangesIT class.  See how it\u0027s done for ElasticReindexChangesIT.",
+      "revId": "f4d57f0eabf5afa54a2e27f33659046826e179bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

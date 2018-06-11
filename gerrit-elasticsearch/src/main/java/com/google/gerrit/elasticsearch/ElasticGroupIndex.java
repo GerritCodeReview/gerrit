@@ -54,6 +54,8 @@ import org.slf4j.LoggerFactory;
 
 public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, AccountGroup>
     implements GroupIndex {
+  private static final Logger log = LoggerFactory.getLogger(ElasticGroupIndex.class);
+
   static class GroupMapping {
     final MappingProperties groups;
 
@@ -63,7 +65,6 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, A
   }
 
   private static final String GROUPS = "groups";
-  private static final Logger log = LoggerFactory.getLogger(ElasticGroupIndex.class);
 
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;

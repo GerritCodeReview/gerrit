@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "109fa07d_3b514ada",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-11T05:18:23Z",
+      "side": 1,
+      "message": "SetReadyForReview.java should have been extended as well to toggle the change from WIP to ready.",
+      "revId": "44242452c17521aafca50a10df1d148eac39d619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05dd3b81_652b3b66",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/SetWorkInProgress.java",
         "patchSetId": 5

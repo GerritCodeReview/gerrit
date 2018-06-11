@@ -22,6 +22,30 @@
       "revId": "8d07033fee6cd8692fd6f08f92ef222f3168222b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36f2867a_9a6464ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T16:07:29Z",
+      "side": 1,
+      "message": "I think so yes; would cover accounts just like changes and groups have been covered or considered up until now. Were you planning on doing it?",
+      "parentUuid": "543d2dd6_b680c6c7",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "8d07033fee6cd8692fd6f08f92ef222f3168222b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

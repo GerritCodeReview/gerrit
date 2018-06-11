@@ -579,24 +579,24 @@ maven_jar(
 )
 
 # When updading Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.57"
+BC_VERS = "1.59"
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BC_VERS,
-    sha1 = "f66a135611d42c992e5745788c3f94eb06464537",
+    sha1 = "2507204241ab450456bdb8e8c0a8f986e418bd99",
 )
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BC_VERS,
-    sha1 = "7b2d587f5e3780b79e1d35af3e84d00634e9420b",
+    sha1 = "ee93e5376bb6cf0a15c027b5f5e4393f2738e709",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BC_VERS,
-    sha1 = "5c96e34bc9bd4cd6870e6d193a99438f1e274ca7",
+    sha1 = "9cef0aab8a4bb849a8476c058ce3ff302aba3fff",
 )
 
 # TODO(davido): Remove exlusion of file system provider, when this issue is fixed:

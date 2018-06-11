@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "99fc55e9_8b5816c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T18:35:23Z",
+      "side": 1,
+      "message": "I think that the non-bulk searches for indexed changes, however, has been properly handled inside the ElasticChangeIndex class. The change type is specified with \"open_changes\" and/or \"closed_changes\" for V2, 5 and \"_doc\" for V6, which are valid index types. Therefore, I think this change does not need to have an impact on non-bulk searches. \n\nPlease let me know if I miss anything :)",
+      "parentUuid": "98021650_aceabdd0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91749481_305d8049",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7f5f0b_3ed1ecbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T18:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91749481_305d8049",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b0a68225_8140baea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T18:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9968d7ca_1c5e5618",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "300d0cf4_bf7c8f1f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "01483ca7_0f07eccf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T18:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "300d0cf4_bf7c8f1f",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 16
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16c9d581_31eb8f4a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -108,6 +204,24 @@
       "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74c0c4fe_351cb82f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T18:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16c9d581_31eb8f4a",
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "6674eb9a_0cdffc5c",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticAccountIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T18:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "513a34a3_b51e5bcf",
+      "range": {
+        "startLine": 83,
+        "startChar": 42,
+        "endLine": 83,
+        "endChar": 60
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ac9f11b_e327390b",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 4
@@ -154,6 +292,30 @@
       "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eb96b01_d1b58a1c",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T18:35:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ac9f11b_e327390b",
+      "range": {
+        "startLine": 101,
+        "startChar": 2,
+        "endLine": 101,
+        "endChar": 8
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

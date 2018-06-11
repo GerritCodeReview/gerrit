@@ -57,10 +57,10 @@ import org.slf4j.LoggerFactory;
 
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
     implements AccountIndex {
-  public static class AccountMapping {
-    MappingProperties accounts;
+  static class AccountMapping {
+    final MappingProperties accounts;
 
-    public AccountMapping(Schema<AccountState> schema, ElasticQueryAdapter adapter) {
+    AccountMapping(Schema<AccountState> schema, ElasticQueryAdapter adapter) {
       this.accounts = ElasticMapping.createMapping(schema, adapter);
     }
   }

@@ -54,10 +54,10 @@ import org.slf4j.LoggerFactory;
 
 public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, AccountGroup>
     implements GroupIndex {
-  public static class GroupMapping {
-    MappingProperties groups;
+  static class GroupMapping {
+    final MappingProperties groups;
 
-    public GroupMapping(Schema<AccountGroup> schema, ElasticQueryAdapter adapter) {
+    GroupMapping(Schema<AccountGroup> schema, ElasticQueryAdapter adapter) {
       this.groups = ElasticMapping.createMapping(schema, adapter);
     }
   }

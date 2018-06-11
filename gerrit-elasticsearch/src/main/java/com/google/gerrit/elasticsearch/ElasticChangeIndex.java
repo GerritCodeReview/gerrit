@@ -82,12 +82,12 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
     implements ChangeIndex {
   private static final Logger log = LoggerFactory.getLogger(ElasticChangeIndex.class);
 
-  public static class ChangeMapping {
-    public MappingProperties changes;
-    public MappingProperties openChanges;
-    public MappingProperties closedChanges;
+  static class ChangeMapping {
+    final MappingProperties changes;
+    final MappingProperties openChanges;
+    final MappingProperties closedChanges;
 
-    public ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
+    ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
       MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
       this.changes = mapping;
       this.openChanges = mapping;

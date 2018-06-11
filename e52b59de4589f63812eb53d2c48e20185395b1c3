@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "129d4d80_d40429bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T19:11:20Z",
+      "side": 1,
+      "message": "In this change, you are changing the behaviour or setting of the \u0027type\u0027 member in AbstractElasticIndex. That member is used also for non-bulk requests. Also, I think you forgot my second comment paragraph above.",
+      "parentUuid": "99fc55e9_8b5816c3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91749481_305d8049",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

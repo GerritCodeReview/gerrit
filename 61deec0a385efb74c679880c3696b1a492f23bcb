@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c2d81e9_df5ea2ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T19:11:20Z",
+      "side": 1,
+      "message": "V5, and",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 48
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55fb0883_29d877b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T19:11:20Z",
+      "side": 1,
+      "message": "are also valid for indexing requests",
+      "range": {
+        "startLine": 16,
+        "startChar": 16,
+        "endLine": 16,
+        "endChar": 62
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3773dd4b_05584cde",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/AbstractElasticIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T19:11:20Z",
+      "side": 1,
+      "message": "AbstractElasticIndex(\n      ElasticConfiguration cfg,\n      SitePaths sitePaths,\n      Schema\u003cV\u003e schema,\n      ElasticRestClientProvider client,\n      String indexName,\n      String indexType) {\n    this.sitePaths \u003d sitePaths;\n    this.schema \u003d schema;\n    this.gson \u003d new GsonBuilder().setFieldNamingPolicy(LOWER_CASE_WITH_UNDERSCORES).create();\n    this.queryBuilder \u003d new ElasticQueryBuilder();\n    this.indexName \u003d cfg.getIndexName(indexName, schema.getVersion());\n    this.indexNameRaw \u003d indexName;\n    this.client \u003d client;\n    this.type \u003d client.adapter().getType(indexType);\n  }\n\n  AbstractElasticIndex(\n      ElasticConfiguration cfg,\n      SitePaths sitePaths,\n      Schema\u003cV\u003e schema,\n      ElasticRestClientProvider client,\n      String indexName) {\n    this(cfg, sitePaths, schema, client, indexName, indexName);\n  }",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 0
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab60305_2817b70c",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T19:11:20Z",
+      "side": 1,
+      "message": "Would remove this extra blank line just added.",
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66bfc0d8_d7245d77",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-11T19:11:20Z",
+      "side": 1,
+      "message": "Already done in/by super(...).",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 78
+      },
+      "revId": "61deec0a385efb74c679880c3696b1a492f23bcb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

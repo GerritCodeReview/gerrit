@@ -94,6 +94,30 @@
       "revId": "8d07033fee6cd8692fd6f08f92ef222f3168222b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f4281c9_43023450",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:13:47Z",
+      "side": 1,
+      "message": "Done. Please check the following change. \nhttps://gerrit-review.googlesource.com/c/gerrit/+/184157",
+      "parentUuid": "ec4848f9_5885fcac",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "8d07033fee6cd8692fd6f08f92ef222f3168222b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

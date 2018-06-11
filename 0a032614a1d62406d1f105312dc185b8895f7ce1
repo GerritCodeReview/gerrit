@@ -258,6 +258,30 @@
       "revId": "0a032614a1d62406d1f105312dc185b8895f7ce1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21854995_26aab04d",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:13:47Z",
+      "side": 1,
+      "message": "I am sorry this one was missed. It would be handled in the later patch set.",
+      "parentUuid": "3d5a3344_d048d9a2",
+      "range": {
+        "startLine": 324,
+        "startChar": 20,
+        "endLine": 324,
+        "endChar": 21
+      },
+      "revId": "0a032614a1d62406d1f105312dc185b8895f7ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -8,10 +8,10 @@
 ]]
 
 java_library(
-    name = "java_runtime",
+    name = "java-runtime",
     data = ["//lib:LICENSE-antlr"],
     visibility = ["//visibility:public"],
-    exports = ["@java_runtime//jar"],
+    exports = ["@java-runtime//jar"],
 )
 
 java_binary(
@@ -24,10 +24,10 @@ java_binary(
 java_library(
     name = "tool",
     data = ["//lib:LICENSE-antlr"],
-    exports = ["@org_antlr//jar"],
+    exports = ["@org-antlr//jar"],
     runtime_deps = [
         ":antlr27",
-        ":java_runtime",
+        ":java-runtime",
         ":stringtemplate",
     ],
 )

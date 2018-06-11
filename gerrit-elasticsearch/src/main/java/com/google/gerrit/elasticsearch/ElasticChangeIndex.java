@@ -95,10 +95,9 @@ public class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeDa
     }
   }
 
-  public static final String CHANGES = "changes";
-  public static final String OPEN_CHANGES = "open_" + CHANGES;
-  public static final String CLOSED_CHANGES = "closed_" + CHANGES;
-
+  private static final String CHANGES = "changes";
+  private static final String OPEN_CHANGES = "open_" + CHANGES;
+  private static final String CLOSED_CHANGES = "closed_" + CHANGES;
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;

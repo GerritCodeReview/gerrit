@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1528465141 +0200\nnonce ADrMV7azCytsW5ZYXETuVg/uYdG6yreoj9eEHtmgTxO6PqSP3uyYqSbd8vGjAuQPVHbZxI64BNwj\n\n0000000000000000000000000000000000000000 9e76b136e12326c084b303d2efae8cbf95983636 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlsahvUACgkQUbX9l6DQ\n71GEsgf8Cry7KAxNqTxsW7qjd9BlBEBVh18YF8dNsXwUdht/jjL6R1jfS3lIHBZZ\nZSJOvaMgBBhbU1wxaumP1DLU2nCGEssopeI+yQIBGkSgtRsM1zaxLX4CrrtkZ82S\n18R/TreSRq808UDodY8wfpV36/t1o5SDeF7lfpHBkK1j61Iwk9Zblq9U1Y46BQvC\nyPDtryugYI9wN9WQ1KPc+AN11Ms/77D9OTTX+4NydocNYT1Zyp1LHsV467b0MK1i\nYO/b6E2ZUych/8tKHa9jNEvXBNllTVTQBrKN3ghNZ13mgHlEIY9RPLRMjJ0fFuL/\nVDcdjvDmEzNuPgQF2HtEtZWifmjZ/g\u003d\u003d\n\u003d3INP\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "34bcc59d_6b7bf3df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-11T07:50:11Z",
+      "side": 1,
+      "message": "Is this intended to work only for POST requests, or also PUT requests?\n\nAdd a test for the PUT case too?",
+      "revId": "9e76b136e12326c084b303d2efae8cbf95983636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

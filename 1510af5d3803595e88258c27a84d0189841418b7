@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d36314da_068544d3",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-11T23:33:42Z",
+      "side": 1,
+      "message": "Nope, it is the default on gerrit-review though. (https://gerrit-review.googlesource.com/)\n\nI didn\u0027t know the syntax to set the default ui (had to go looking).\n\nI am setting polygerrit as the default ui on wmf gerrit next week\n\nhttps://gerrit.wikimedia.org/r/c/operations/puppet/+/439444/",
+      "parentUuid": "8a1e46ba_089a844a",
+      "revId": "1510af5d3803595e88258c27a84d0189841418b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6e16b23_4735b264",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 2
@@ -85,6 +103,78 @@
       "revId": "1510af5d3803595e88258c27a84d0189841418b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ff3a326_8fdcc9d4",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-11T23:33:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5c6d27e1_0449e6ad",
+      "range": {
+        "startLine": 7,
+        "startChar": 46,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "1510af5d3803595e88258c27a84d0189841418b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d4c19d8_70fe00cb",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-11T23:33:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f6e16b23_4735b264",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "1510af5d3803595e88258c27a84d0189841418b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6093713_fd6ad7d6",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-11T23:33:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "b03d2c60_3002b2dc",
+      "range": {
+        "startLine": 7,
+        "startChar": 67,
+        "endLine": 7,
+        "endChar": 69
+      },
+      "revId": "1510af5d3803595e88258c27a84d0189841418b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

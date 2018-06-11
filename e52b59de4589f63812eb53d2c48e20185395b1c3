@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "80d5ead7_063b00e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1060002
+      },
+      "writtenOn": "2018-06-11T20:53:41Z",
+      "side": 1,
+      "message": "Hello,\n\nI am sorry that I misread your comment. This change modifies the way that \"type\" field is assigned in AbstractElasticIndex class, which is also used for non-bulk searches by ElasticAccountIndex and ElasticGroupIndex. However, this change does not have a real impact on the non-bulk searches for these two classes, because the actual values for the index types are still \"accounts\" and \"groups\" respectively for V2, 5, and \"_doc\" for V6. In the end, this change only affects the bulk calls for indexing and deleting changes.\n\nPlease let me know if I still miss anything, thanks :)",
+      "parentUuid": "d5466b57_9dcf8664",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "e52b59de4589f63812eb53d2c48e20185395b1c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91749481_305d8049",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

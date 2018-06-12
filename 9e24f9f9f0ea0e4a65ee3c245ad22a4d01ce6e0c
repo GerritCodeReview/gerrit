@@ -46,6 +46,30 @@
       "revId": "9e24f9f9f0ea0e4a65ee3c245ad22a4d01ce6e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5cb8697_5344c514",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-12T07:21:06Z",
+      "side": 1,
+      "message": "If I merge the original change and resolve the conflict, it will end up the same on both branches.\n\nI\u0027m just wondering if it\u0027s necessary to create the change notes if we already have the change.",
+      "parentUuid": "3130eefe_af5e71de",
+      "range": {
+        "startLine": 100,
+        "startChar": 28,
+        "endLine": 100,
+        "endChar": 78
+      },
+      "revId": "9e24f9f9f0ea0e4a65ee3c245ad22a4d01ce6e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

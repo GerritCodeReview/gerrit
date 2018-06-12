@@ -34,7 +34,7 @@ import java.time.Instant;
 
 public class ElasticQueryBuilder {
 
-  protected <T> QueryBuilder toQueryBuilder(Predicate<T> p) throws QueryParseException {
+  <T> QueryBuilder toQueryBuilder(Predicate<T> p) throws QueryParseException {
     if (p instanceof AndPredicate) {
       return and(p);
     } else if (p instanceof OrPredicate) {

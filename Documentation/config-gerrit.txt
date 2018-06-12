@@ -2237,8 +2237,7 @@ or cookie.
 A sanity check during startup is performed that the value of
 gerrit.ui is an enabled UI.
 +
-Defaults to GWT (if GWT is enabled) or POLYGERRIT (if POLYGERRIT is
-enabled and GWT is disabled)
+Defaults to POLYGERRIT
 
 [[gerrit.serverId]]gerrit.serverId::
 +

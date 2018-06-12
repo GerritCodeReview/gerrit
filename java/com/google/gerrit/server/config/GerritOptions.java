@@ -36,7 +36,7 @@ public class GerritOptions {
     this.forcePolyGerritDev = forcePolyGerritDev;
     this.headless = headless || (!enableGwtUi && !enablePolyGerrit);
 
-    UiType defaultUi = enablePolyGerrit && !enableGwtUi ? UiType.POLYGERRIT : UiType.GWT;
+    UiType defaultUi = enablePolyGerrit ? UiType.POLYGERRIT : UiType.GWT;
     String uiStr = firstNonNull(cfg.getString("gerrit", null, "ui"), defaultUi.name());
     this.defaultUi = firstNonNull(UiType.parse(uiStr), UiType.NONE);
 

@@ -84,9 +84,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private static final Logger log = LoggerFactory.getLogger(ElasticChangeIndex.class);
 
   static class ChangeMapping {
-    public MappingProperties changes;
-    public MappingProperties openChanges;
-    public MappingProperties closedChanges;
+    final MappingProperties changes;
+    final MappingProperties openChanges;
+    final MappingProperties closedChanges;
 
     ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
       MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
@@ -96,10 +96,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
   }
 
-  static final String CHANGES = "changes";
-  static final String OPEN_CHANGES = "open_" + CHANGES;
-  static final String CLOSED_CHANGES = "closed_" + CHANGES;
-
+  private static final String CHANGES = "changes";
+  private static final String OPEN_CHANGES = "open_" + CHANGES;
+  private static final String CLOSED_CHANGES = "closed_" + CHANGES;
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;

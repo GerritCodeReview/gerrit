@@ -66,7 +66,7 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
   }
 
   @Override
-  protected Set<Integer> getLivenessCheckPorts() {
+  public Set<Integer> getLivenessCheckPortNumbers() {
     return ImmutableSet.of(getMappedPort(ELASTICSEARCH_DEFAULT_PORT));
   }
 

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93ea4a03_b651e37e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T20:06:48Z",
+      "side": 1,
+      "message": "Can you explain, why this change and why this change now? The plan is:\n\n* to cut the next release in the next weeks/months\n* drop GWT UI, in which case PG will remain the only supported UI provided by Gerrit core",
+      "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c81f7f2d_0c8a6304",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T20:06:48Z",
+      "side": 1,
+      "message": "I don\u0027t think, this would work. Note that currently, you could have this combination:\n\n  gerrit.enablePolyGerrit \u003d false\n  gerrit.enableGwtUi \u003d true",
+      "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8453e3b_67e88a9d",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T20:06:48Z",
+      "side": 1,
+      "message": "I would expect this statement would report error now, with configuration example above.",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 96
+      },
+      "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

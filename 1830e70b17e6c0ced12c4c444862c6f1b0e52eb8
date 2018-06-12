@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2c70abe_a01d8ec2",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-12T02:07:44Z",
+      "side": 1,
+      "message": "Should be \"intopic\".\n\n(I have it locally and is what I tested with, but missed to commit it)",
+      "range": {
+        "startLine": 609,
+        "startChar": 17,
+        "endLine": 609,
+        "endChar": 22
+      },
+      "revId": "1830e70b17e6c0ced12c4c444862c6f1b0e52eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

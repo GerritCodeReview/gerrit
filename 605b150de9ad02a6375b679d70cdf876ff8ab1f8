@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e7c4e8bb_c3bbcb5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T20:49:32Z",
+      "side": 1,
+      "message": "Why don\u0027t you elaborate on your own and add background/explanation for your change at the right place: Commit message?\n\n\u003e to have the final gerrit release that supports gwtui have polygerrit as the default ui [...]\n\nThis is a valid point, but wrong implementation. The correct implementation of this approach would be:\n\n* 1. Remove gerrit.enablePolyGerrit option. It shouldn\u0027t be possible to disable PG UI, only GWT UI could be disabled.\n* 2. Set up PG as default UI.",
+      "parentUuid": "a9446eb5_1ded4092",
+      "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c81f7f2d_0c8a6304",
         "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
         "patchSetId": 4

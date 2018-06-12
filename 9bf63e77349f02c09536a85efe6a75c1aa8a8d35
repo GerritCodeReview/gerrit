@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e005d3f3_20e3e05c",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T23:22:49Z",
+      "side": 1,
+      "message": "This was deleted.",
+      "range": {
+        "startLine": 35,
+        "startChar": 49,
+        "endLine": 35,
+        "endChar": 66
+      },
+      "revId": "9bf63e77349f02c09536a85efe6a75c1aa8a8d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66656302_5137283d",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T23:22:49Z",
+      "side": 1,
+      "message": "See my another comment, this can be just:\n\n  this.defaultUi \u003d UiType.POLYGERRIT;\n\nAnother question to check is whether or not this.defaultUi at all needed?",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 68
+      },
+      "revId": "9bf63e77349f02c09536a85efe6a75c1aa8a8d35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

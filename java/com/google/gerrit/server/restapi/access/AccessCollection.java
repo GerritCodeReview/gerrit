@@ -30,7 +30,7 @@ public class AccessCollection implements RestCollection<TopLevelResource, Access
   private final DynamicMap<RestView<AccessResource>> views;
 
   @Inject
-  AccessCollection(Provider<ListAccess> list, DynamicMap<RestView<AccessResource>> views) {
+  public AccessCollection(Provider<ListAccess> list, DynamicMap<RestView<AccessResource>> views) {
     this.list = list;
     this.views = views;
   }

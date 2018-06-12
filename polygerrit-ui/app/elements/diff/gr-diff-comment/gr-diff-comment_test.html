@@ -667,7 +667,6 @@ limitations under the License.
             __commentSide: 'right',
             __draft: true,
             __draftID: 'temp_draft_id',
-            __editing: false,
             id: 'baf0414d_40572e03',
             line: 5,
             message: 'saved!',
@@ -787,23 +786,6 @@ limitations under the License.
         assert.isTrue(updateStub.calledThrice);
         assert.equal(updateStub.lastCall.args[0], 0);
         assert.equal(element._numPendingDraftRequests.number, 0);
-      });
-    });
-
-    suite('saving progress indicators', () => {
-      setup(() => {
-        sandbox.stub(element, '_deleteDraft').returns(Promise.resolve());
-        element._savingMessage = '';
-      });
-
-      test('saving', () => {
-        element._saveDraft({});
-        assert.equal(element._savingMessage, 'Saving draft...');
-      });
-
-      test('discarding', () => {
-        element._discardDraft();
-        assert.equal(element._savingMessage, 'Discarding draft...');
       });
     });
 

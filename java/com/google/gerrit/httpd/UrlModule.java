@@ -55,8 +55,7 @@ class UrlModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    filter("/*").through(Key.get(GwtCacheControlFilter.class));
-    bind(Key.get(GwtCacheControlFilter.class)).in(SINGLETON);
+    filter("/*").through(GwtCacheControlFilter.class);
 
     if (options.enableGwtUi()) {
       filter("/").through(XsrfCookieFilter.class);

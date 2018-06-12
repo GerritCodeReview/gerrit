@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gwtexpui.server.CacheHeaders;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.Filter;
@@ -47,6 +48,7 @@ import javax.servlet.http.HttpServletResponse;
  *   &lt;/filter-mapping&gt;
  * </pre>
  */
+@Singleton
 class GwtCacheControlFilter implements Filter {
   @Override
   public void init(FilterConfig config) {}

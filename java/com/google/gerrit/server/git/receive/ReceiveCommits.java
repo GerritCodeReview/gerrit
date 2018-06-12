@@ -2942,9 +2942,8 @@ class ReceiveCommits {
 
                 for (Ref ref : byCommit.get(c.copy())) {
                   PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-                  Optional<ChangeData> cd =
-                      executeIndexQuery(() -> byLegacyId(psId.getParentKey()));
-                  if (cd.isPresent() && cd.get().change().getDest().equals(branch)) {
+                  Optional<ChangeNotes> notes = getChangeNotes(psId.getParentKey());
+                  if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
                     existingPatchSets++;
                     bu.addOp(
                         psId.getParentKey(),
@@ -3004,6 +3003,14 @@ class ReceiveCommits {
       logError("Can't insert patchset", e);
     } catch (UpdateException e) {
       logError("Failed to auto-close changes", e);
+    }
+  }
+
+  private Optional<ChangeNotes> getChangeNotes(Change.Id changeId) throws OrmException {
+    try {
+      return Optional.of(notesFactory.createChecked(db, project.getNameKey(), changeId));
+    } catch (NoSuchChangeException e) {
+      return Optional.empty();
     }
   }
 
@@ -3067,14 +3074,6 @@ class ReceiveCommits {
       }
     }
     return r;
-  }
-
-  private Optional<ChangeData> byLegacyId(Change.Id legacyId) throws OrmException {
-    List<ChangeData> res = queryProvider.get().byLegacyChangeId(legacyId);
-    if (res.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(res.get(0));
   }
 
   private Map<String, Ref> allRefs() {

@@ -18,7 +18,6 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/util/cli",
         "//java/com/google/gerrit/util/http",
-        "//java/com/google/gwtexpui/linker:server",
         "//java/org/eclipse/jgit:server",
         "//lib:args4j",
         "//lib:gson",

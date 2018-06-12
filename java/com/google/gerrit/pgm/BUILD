@@ -43,7 +43,6 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/util/http",
-        "//java/com/google/gwtexpui/linker:server",
         "//lib:args4j",
         "//lib:guava",
         "//lib:gwtorm",

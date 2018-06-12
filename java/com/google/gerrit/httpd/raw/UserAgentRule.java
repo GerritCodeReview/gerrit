@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gwtexpui.linker.server;
+package com.google.gerrit.httpd.raw;
 
 import static java.util.regex.Pattern.compile;
 
@@ -28,15 +28,15 @@ import javax.servlet.http.HttpServletRequest;
  *
  * <p>Ported from JavaScript in {@code com.google.gwt.user.UserAgent.gwt.xml}.
  */
-public class UserAgentRule {
+class UserAgentRule {
   private static final Pattern msie = compile(".*msie ([0-11]+)\\.([0-11]+).*");
   private static final Pattern gecko = compile(".*rv:([0-9]+)\\.([0-9]+).*");
 
-  public String getName() {
+  String getName() {
     return "user.agent";
   }
 
-  public String select(HttpServletRequest req) {
+  String select(HttpServletRequest req) {
     String ua = req.getHeader("User-Agent");
     if (ua == null) {
       return null;

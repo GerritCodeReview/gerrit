@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd.raw;
 
-import com.google.gwtexpui.linker.server.UserAgentRule;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;

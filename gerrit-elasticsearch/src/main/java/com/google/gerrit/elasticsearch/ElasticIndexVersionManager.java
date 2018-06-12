@@ -61,7 +61,7 @@ public class ElasticIndexVersionManager extends VersionManager {
           log.warn("Unrecognized version in index {}: {}", def.getName(), version);
           continue;
         }
-        versions.put(v, new Version<V>(null, v, true, cfg.getReady(def.getName(), v)));
+        versions.put(v, new Version<>(null, v, true, cfg.getReady(def.getName(), v)));
       }
     } catch (IOException e) {
       log.error("Error scanning index: " + def.getName(), e);

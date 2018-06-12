@@ -881,6 +881,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byMessageMixedCase() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().message("Hello gerrit").create());
+    Change change1 = insert(repo, newChangeForCommit(repo, commit1));
+    RevCommit commit2 = repo.parseBody(repo.commit().message("Hello Gerrit").create());
+    Change change2 = insert(repo, newChangeForCommit(repo, commit2));
+
+    assertQuery("message:gerrit", change2, change1);
+    assertQuery("message:Gerrit", change2, change1);
+  }
+
+  @Test
   public void byLabel() throws Exception {
     accountManager.authenticate(AuthRequest.forUser("anotheruser"));
     TestRepository<Repo> repo = createProject("repo");

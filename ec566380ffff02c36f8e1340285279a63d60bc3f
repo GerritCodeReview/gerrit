@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "17b6541a_55762bca",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T23:38:50Z",
+      "side": 0,
+      "message": "Re added, done.",
+      "parentUuid": "c835a3ff_ee757977",
+      "range": {
+        "startLine": 500,
+        "startChar": 6,
+        "endLine": 503,
+        "endChar": 35
+      },
+      "revId": "ec566380ffff02c36f8e1340285279a63d60bc3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b61a051_80db1980",
         "filename": "java/com/google/gerrit/pgm/init/InitExperimental.java",
         "patchSetId": 15

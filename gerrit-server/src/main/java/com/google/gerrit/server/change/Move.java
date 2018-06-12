@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -91,15 +90,14 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
       throw new AuthException("Move not permitted");
     }
 
-    Op op = new Op(input);
     try (BatchUpdate u =
         batchUpdateFactory.create(
             dbProvider.get(), req.getChange().getProject(), control.getUser(), TimeUtil.nowTs())) {
-      u.addOp(req.getChange().getId(), op);
+      u.addOp(req.getChange().getId(), new Op(input));
       u.execute();
     }
 
-    return json.noOptions().format(op.getChange());
+    return json.noOptions().format(req.getChange().getProject(), req.getId());
   }
 
   private class Op implements BatchUpdateOp {
@@ -110,11 +108,6 @@ public class Move implements RestModifyView<ChangeResource, MoveInput> {
 
     Op(MoveInput input) {
       this.input = input;
-    }
-
-    @Nullable
-    public Change getChange() {
-      return change;
     }
 
     @Override

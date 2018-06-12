@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1835ba67_a4d92ffe",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2230,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T22:11:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "830b1557_e3e03f54",
+      "range": {
+        "startLine": 2229,
+        "startChar": 0,
+        "endLine": 2230,
+        "endChar": 1
+      },
+      "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38238d60_994df34d",
         "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8db2730_53349a49",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T22:11:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "38238d60_994df34d",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 45
+      },
+      "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "038e450d_b9ffab00",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T22:11:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e8c209ef_7b4e48e8",
+      "range": {
+        "startLine": 38,
+        "startChar": 32,
+        "endLine": 38,
+        "endChar": 81
+      },
+      "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f2f9d9d_4a107eac",
         "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
         "patchSetId": 7
@@ -91,6 +163,30 @@
       "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90b77f9b_e38de59c",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T22:11:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6f2f9d9d_4a107eac",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

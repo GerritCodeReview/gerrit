@@ -77,14 +77,17 @@ limitations under the License.
       assert.isFalse(element.$.dropdown.opened);
       assert.isTrue(label.classList.contains('editable'));
       assert.equal(label.textContent, 'value text');
+      const focusSpy = sandbox.spy(element.$.input.$.input, 'focus');
+      const showSpy = sandbox.spy(element, '_showDropdown');
 
       MockInteractions.tap(label);
 
-      Polymer.dom.flush();
-
-      // The dropdown is open (which covers up the label):
-      assert.isTrue(element.$.dropdown.opened);
-      assert.equal(input.value, 'value text');
+      return showSpy.lastCall.returnValue.then(() => {
+        // The dropdown is open (which covers up the label):
+        assert.isTrue(element.$.dropdown.opened);
+        assert.isTrue(focusSpy.called);
+        assert.equal(input.value, 'value text');
+      });
     });
 
     test('title with placeholder', done => {

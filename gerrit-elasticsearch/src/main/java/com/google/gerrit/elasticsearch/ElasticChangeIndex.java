@@ -99,6 +99,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private static final String CHANGES = "changes";
   private static final String OPEN_CHANGES = "open_" + CHANGES;
   private static final String CLOSED_CHANGES = "closed_" + CHANGES;
+  private static final String ALL_CHANGES = OPEN_CHANGES + "," + CLOSED_CHANGES;
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
@@ -112,7 +113,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       ElasticRestClientProvider client,
       @Assisted Schema<ChangeData> schema) {
-    super(cfg, sitePaths, schema, client, CHANGES);
+    super(cfg, sitePaths, schema, client, CHANGES, ALL_CHANGES);
     this.db = db;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;

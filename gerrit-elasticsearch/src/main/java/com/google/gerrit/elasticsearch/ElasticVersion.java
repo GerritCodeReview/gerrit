@@ -25,7 +25,7 @@ public enum ElasticVersion {
   private final String version;
   private final Pattern pattern;
 
-  private ElasticVersion(String version) {
+  ElasticVersion(String version) {
     this.version = version;
     this.pattern = Pattern.compile(version);
   }

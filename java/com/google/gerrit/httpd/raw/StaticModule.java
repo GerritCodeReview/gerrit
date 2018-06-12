@@ -134,9 +134,9 @@ public class StaticModule extends ServletModule {
     if (!options.headless()) {
       install(new CoreStaticModule());
     }
-    if (options.enablePolyGerrit()) {
-      install(new PolyGerritModule());
-    }
+
+    install(new PolyGerritModule());
+
     if (options.enableGwtUi()) {
       install(new GwtUiModule());
     }
@@ -430,8 +430,6 @@ public class StaticModule extends ServletModule {
       this.polygerritUI = polygerritUI;
       this.bowerComponentServlet = bowerComponentServlet;
       this.fontServlet = fontServlet;
-      checkState(
-          options.enablePolyGerrit(), "can't install PolyGerritFilter when PolyGerrit is disabled");
     }
 
     @Override

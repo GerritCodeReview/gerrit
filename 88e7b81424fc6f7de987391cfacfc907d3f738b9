@@ -47,6 +47,30 @@
       "revId": "88e7b81424fc6f7de987391cfacfc907d3f738b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dfb0174_c13b62ba",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2958,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-12T13:00:02Z",
+      "side": 1,
+      "message": "Alternatively, factor out a method that returns Optional\u003cChangeNotes\u003e.",
+      "parentUuid": "1e5c2670_854d1d6f",
+      "range": {
+        "startLine": 2946,
+        "startChar": 17,
+        "endLine": 2958,
+        "endChar": 19
+      },
+      "revId": "88e7b81424fc6f7de987391cfacfc907d3f738b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

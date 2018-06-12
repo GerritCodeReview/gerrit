@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

@@ -11,7 +11,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/reviewdb:server",
-        "//java/com/google/gwtexpui/server",
+        "//java/com/google/gerrit/util/http",
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:gwtorm",

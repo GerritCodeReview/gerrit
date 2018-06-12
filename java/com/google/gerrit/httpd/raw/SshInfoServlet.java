@@ -17,7 +17,7 @@ package com.google.gerrit.httpd.raw;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.jcraft.jsch.HostKey;

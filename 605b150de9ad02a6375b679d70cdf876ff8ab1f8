@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a9446eb5_1ded4092",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T20:10:07Z",
+      "side": 1,
+      "message": "Woulden\u0027t it be best to have the final gerrit release that supports gwtui have polygerrit as the default ui so users get use to the new ui?",
+      "parentUuid": "93ea4a03_b651e37e",
+      "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c81f7f2d_0c8a6304",
         "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-06-12T20:06:48Z",
       "side": 1,
       "message": "I don\u0027t think, this would work. Note that currently, you could have this combination:\n\n  gerrit.enablePolyGerrit \u003d false\n  gerrit.enableGwtUi \u003d true",
+      "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5a9703b_71327960",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T20:10:07Z",
+      "side": 1,
+      "message": "Fixed now.",
+      "parentUuid": "c81f7f2d_0c8a6304",
       "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -56,6 +92,30 @@
       "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cdb520d_48e3a23f",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T20:10:07Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "d8453e3b_67e88a9d",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 96
+      },
+      "revId": "605b150de9ad02a6375b679d70cdf876ff8ab1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

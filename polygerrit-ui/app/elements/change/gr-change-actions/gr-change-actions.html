@@ -71,29 +71,30 @@ limitations under the License.
       #moreActions iron-icon {
         margin: 0;
       }
+      #moreMessage,
       .hidden {
         display: none;
       }
       @media screen and (max-width: 50em) {
-        #mainContent,
-        section,
-        gr-button,
-        gr-dropdown {
-          display: block;
-          flex: 1;
+        #mainContent {
+          flex-wrap: wrap;
+        }
+        gr-button {
+          --gr-button: {
+            padding: .5em;
+            white-space: nowrap;
+          }
         }
         gr-button,
         gr-dropdown {
-          /* px because don't have the same font size */
-          margin: 0 0 6px 0;
+          margin: 0;
         }
         #actionLoadingMessage {
-          display: block;
           margin: .5em;
           text-align: center;
         }
-        #mainContent.mobileOverlayOpened {
-          display: none;
+        #moreMessage {
+          display: inline;
         }
       }
     </style>
@@ -154,6 +155,7 @@ limitations under the License.
           disabled-ids="[[_disabledMenuActions]]"
           items="[[_menuActions]]">
           <iron-icon icon="gr-icons:more-vert"></iron-icon>
+          <span id="moreMessage">More</span>
         </gr-dropdown>
     </div>
     <gr-overlay id="overlay" with-backdrop>

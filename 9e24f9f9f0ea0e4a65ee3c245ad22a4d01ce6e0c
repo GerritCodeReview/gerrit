@@ -22,6 +22,30 @@
       "revId": "9e24f9f9f0ea0e4a65ee3c245ad22a4d01ce6e0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3130eefe_af5e71de",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-12T07:18:53Z",
+      "side": 1,
+      "message": "I think both options are good. Maybe having the code the same in both branches is a little better.",
+      "parentUuid": "a535283c_cb7b402e",
+      "range": {
+        "startLine": 100,
+        "startChar": 28,
+        "endLine": 100,
+        "endChar": 78
+      },
+      "revId": "9e24f9f9f0ea0e4a65ee3c245ad22a4d01ce6e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

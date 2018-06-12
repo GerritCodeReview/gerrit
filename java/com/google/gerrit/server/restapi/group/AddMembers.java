@@ -211,12 +211,12 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
-  static class PutMember implements RestModifyView<GroupResource, Input> {
+  public static class PutMember implements RestModifyView<GroupResource, Input> {
 
     private final AddMembers put;
     private final String id;
 
-    PutMember(AddMembers put, String id) {
+    public PutMember(AddMembers put, String id) {
       this.put = put;
       this.id = id;
     }
@@ -240,11 +240,11 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   }
 
   @Singleton
-  static class UpdateMember implements RestModifyView<MemberResource, Input> {
+  public static class UpdateMember implements RestModifyView<MemberResource, Input> {
     private final GetMember get;
 
     @Inject
-    UpdateMember(GetMember get) {
+    public UpdateMember(GetMember get) {
       this.get = get;
     }
 

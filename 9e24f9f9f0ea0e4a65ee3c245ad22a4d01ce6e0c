@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a535283c_cb7b402e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/Move.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-12T07:13:57Z",
+      "side": 1,
+      "message": "The difference with this is that it creates a ChangeNotes and then formats from that:\n\n  public ChangeInfo format(Project.NameKey project, Change.Id id) throws OrmException {\n    ChangeNotes notes;\n    try {\n      notes \u003d notesFactory.createChecked(db.get(), project, id);\n    } catch (OrmException e) {\n      if (!has(CHECK)) {\n        throw e;\n      }\n      return checkOnly(changeDataFactory.create(db.get(), project, id));\n    }\n    return format(changeDataFactory.create(db.get(), notes));\n  }\n\nwhereas the one used before just formats directly with the given change:\n\n  public ChangeInfo format(Change change) throws OrmException {\n    return format(changeDataFactory.create(db.get(), change));\n  }\n\nIs it better to leave the fix that I\u0027ve done on stable-2.14 and use it (i.e. resolve the conflict) on stable-2.15 too?",
+      "range": {
+        "startLine": 100,
+        "startChar": 28,
+        "endLine": 100,
+        "endChar": 78
+      },
+      "revId": "9e24f9f9f0ea0e4a65ee3c245ad22a4d01ce6e0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

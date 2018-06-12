@@ -503,6 +503,11 @@ limitations under the License.
 
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+        element.change = {status: 'MERGED'};
+        flushAsynchronousOperations();
+
+        assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        element.change = {status: 'NEW'};
         element.set('editMode', false);
         flushAsynchronousOperations();
 

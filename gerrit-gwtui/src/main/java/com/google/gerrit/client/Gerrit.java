@@ -583,12 +583,10 @@ public class Gerrit implements EntryPoint {
 
     btmmenu.add(new InlineHTML(M.poweredBy(vs)));
 
-    if (info().gerrit().webUis().contains(UiType.POLYGERRIT)) {
-      btmmenu.add(new InlineLabel(" | "));
-      uiSwitcherLink = new Anchor(C.newUi(), getUiSwitcherUrl(History.getToken()));
-      uiSwitcherLink.setStyleName("");
-      btmmenu.add(uiSwitcherLink);
-    }
+    btmmenu.add(new InlineLabel(" | "));
+    uiSwitcherLink = new Anchor(C.newUi(), getUiSwitcherUrl(History.getToken()));
+    uiSwitcherLink.setStyleName("");
+    btmmenu.add(uiSwitcherLink);
 
     String reportBugUrl = info().gerrit().reportBugUrl();
     if (reportBugUrl != null) {

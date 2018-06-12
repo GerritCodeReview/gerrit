@@ -317,9 +317,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     if (gerritOptions.enableGwtUi()) {
       info.webUis.add(UiType.GWT);
     }
-    if (gerritOptions.enablePolyGerrit()) {
-      info.webUis.add(UiType.POLYGERRIT);
-    }
     return info;
   }
 

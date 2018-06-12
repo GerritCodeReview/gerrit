@@ -127,6 +127,8 @@ public interface AccountConstants extends Constants {
 
   String buttonGeneratePassword();
 
+  String revokePassword();
+
   String linkObtainPassword();
 
   String linkEditFullName();

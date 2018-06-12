@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "830b1557_e3e03f54",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2230,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T22:07:21Z",
+      "side": 1,
+      "message": "Remove all this section.",
+      "range": {
+        "startLine": 2229,
+        "startChar": 0,
+        "endLine": 2230,
+        "endChar": 1
+      },
+      "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38238d60_994df34d",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T22:07:21Z",
+      "side": 1,
+      "message": "But PG UI is always activem so that headless is only on if explicitly requested:\n\n  this.headless \u003d headless;",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 45
+      },
+      "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8c209ef_7b4e48e8",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T22:07:21Z",
+      "side": 1,
+      "message": "I don\u0027t think, it is needed now, remove. PG is always there and is the default UI. The only option, user can choose, is to say:\n\n  gerrit.enableGwtUi \u003d false\n\nand nothing else. Personally, I don\u0027t think, that anyone would pro-actively remove GWT UI, unless it is gone.",
+      "range": {
+        "startLine": 38,
+        "startChar": 32,
+        "endLine": 38,
+        "endChar": 81
+      },
+      "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f2f9d9d_4a107eac",
+        "filename": "java/com/google/gerrit/server/config/GerritOptions.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-12T22:07:21Z",
+      "side": 1,
+      "message": "Remove all this check now.",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 5
+      },
+      "revId": "10dbb73f588574dd8a4e8577d58e5e48356ec5f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

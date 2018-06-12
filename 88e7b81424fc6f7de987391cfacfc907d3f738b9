@@ -23,6 +23,30 @@
       "revId": "88e7b81424fc6f7de987391cfacfc907d3f738b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e5c2670_854d1d6f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2958,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-12T06:46:43Z",
+      "side": 1,
+      "message": "I don\u0027t mind much, but little prefer the current code since it\u0027s better readable.",
+      "parentUuid": "6344becd_c6c5102d",
+      "range": {
+        "startLine": 2946,
+        "startChar": 17,
+        "endLine": 2958,
+        "endChar": 19
+      },
+      "revId": "88e7b81424fc6f7de987391cfacfc907d3f738b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

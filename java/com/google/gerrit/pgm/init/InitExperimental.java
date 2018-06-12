@@ -39,16 +39,5 @@ class InitExperimental implements InitStep {
     if (!ui.yesno(false, "Enable any experimental features")) {
       return;
     }
-
-    initUis();
-  }
-
-  private void initUis() {
-    boolean pg = ui.yesno(true, "Default to PolyGerrit UI");
-    UiType uiType = pg ? UiType.POLYGERRIT : UiType.GWT;
-    gerrit.set("ui", uiType.name().toLowerCase(Locale.US));
-    if (pg) {
-      gerrit.set("enableGwtUi", Boolean.toString(ui.yesno(true, "Enable GWT UI")));
-    }
   }
 }

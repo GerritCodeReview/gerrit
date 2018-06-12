@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cc18f793_bc5e5eef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T13:53:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8b5f5c1b_8770bda0",
+      "revId": "f8cc8b3d8a3fac6190390c7fa9de45122dc8bb9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be7859b7_0ce90b32",
         "filename": "Documentation/dev-polygerrit.txt",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "f8cc8b3d8a3fac6190390c7fa9de45122dc8bb9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "158c555b_8deaa805",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T13:53:42Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "be7859b7_0ce90b32",
+      "revId": "f8cc8b3d8a3fac6190390c7fa9de45122dc8bb9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

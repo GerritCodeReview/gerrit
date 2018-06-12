@@ -55,11 +55,14 @@ CM_THEMES = [
     "eclipse",
     "elegant",
     "erlang-dark",
+    "gruvbox-dark",
     "hopscotch",
     "icecoder",
+    "idea",
     "isotope",
     "lesser-dark",
     "liquibyte",
+    "lucario",
     "material",
     "mbo",
     "mdn-like",
@@ -75,6 +78,7 @@ CM_THEMES = [
     "rubyblue",
     "seti",
     "solarized",
+    "ssms",
     "the-matrix",
     "tomorrow-night-bright",
     "tomorrow-night-eighties",
@@ -214,7 +218,7 @@ CM_MODES = [
     "z80",
 ]
 
-CM_VERSION = "5.25.0"
+CM_VERSION = "5.37.0"
 
 TOP = "META-INF/resources/webjars/codemirror/%s" % CM_VERSION
 

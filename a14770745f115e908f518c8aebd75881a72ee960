@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab59d3c6_37be22bd",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-12T23:35:19Z",
+      "side": 1,
+      "message": "Do we want to keep this?",
+      "range": {
+        "startLine": 498,
+        "startChar": 0,
+        "endLine": 500,
+        "endChar": 24
+      },
+      "revId": "a14770745f115e908f518c8aebd75881a72ee960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

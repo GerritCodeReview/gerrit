@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
 
@@ -134,9 +133,9 @@ public class StaticModule extends ServletModule {
     if (!options.headless()) {
       install(new CoreStaticModule());
     }
-    if (options.enablePolyGerrit()) {
-      install(new PolyGerritModule());
-    }
+
+    install(new PolyGerritModule());
+
     if (options.enableGwtUi()) {
       install(new GwtUiModule());
     }
@@ -430,8 +429,6 @@ public class StaticModule extends ServletModule {
       this.polygerritUI = polygerritUI;
       this.bowerComponentServlet = bowerComponentServlet;
       this.fontServlet = fontServlet;
-      checkState(
-          options.enablePolyGerrit(), "can't install PolyGerritFilter when PolyGerrit is disabled");
     }
 
     @Override
@@ -520,7 +517,7 @@ public class StaticModule extends ServletModule {
     }
 
     private boolean isPolyGerritCookie(HttpServletRequest req) {
-      UiType type = options.defaultUi();
+      UiType type = UiType.POLYGERRIT;
       Cookie[] all = req.getCookies();
       if (all != null) {
         for (Cookie c : all) {
@@ -537,10 +534,10 @@ public class StaticModule extends ServletModule {
     }
 
     private void setPolyGerritCookie(HttpServletRequest req, HttpServletResponse res, UiType pref) {
-      // Only actually set a cookie if both UIs are enabled in the server;
+      // Only actually set a cookie if GWT UI is enabled in addition to default PG UI;
       // otherwise clear it.
       Cookie cookie = new Cookie(GERRIT_UI_COOKIE, pref.name());
-      if (options.enablePolyGerrit() && options.enableGwtUi()) {
+      if (options.enableGwtUi()) {
         cookie.setPath("/");
         cookie.setSecure(isSecure(req));
         cookie.setMaxAge(GERRIT_UI_COOKIE_MAX_AGE);

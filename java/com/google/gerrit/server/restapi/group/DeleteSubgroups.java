@@ -96,12 +96,12 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
   }
 
   @Singleton
-  static class DeleteSubgroup implements RestModifyView<SubgroupResource, Input> {
+  public static class DeleteSubgroup implements RestModifyView<SubgroupResource, Input> {
 
     private final Provider<DeleteSubgroups> delete;
 
     @Inject
-    DeleteSubgroup(Provider<DeleteSubgroups> delete) {
+    public DeleteSubgroup(Provider<DeleteSubgroups> delete) {
       this.delete = delete;
     }
 

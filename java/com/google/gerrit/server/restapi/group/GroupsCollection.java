@@ -58,7 +58,7 @@ public class GroupsCollection
   private boolean hasQuery2;
 
   @Inject
-  GroupsCollection(
+  public GroupsCollection(
       DynamicMap<RestView<GroupResource>> views,
       Provider<ListGroups> list,
       Provider<QueryGroups> queryGroups,

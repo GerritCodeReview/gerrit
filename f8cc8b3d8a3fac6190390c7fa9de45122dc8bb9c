@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b5f5c1b_8770bda0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2018-06-12T13:22:19Z",
+      "side": 1,
+      "message": "The change has been amended to keep that beta notice, so you should drop that line in the commit message.\n\nNitpick: you can probably rephrase the first line to state it is mentionning gerrit.ui \u003d polygerrit",
+      "revId": "f8cc8b3d8a3fac6190390c7fa9de45122dc8bb9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7859b7_0ce90b32",
+        "filename": "Documentation/dev-polygerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2018-06-12T13:22:19Z",
+      "side": 1,
+      "message": "Note config-gerrit.txt for gerrit.ui indicates the value is all uppercase: POLYGERRIT\n\nUiType ignore the cases when comparising, so any case works, but you might want to be consistent with the doc for gerrit.ui.",
+      "revId": "f8cc8b3d8a3fac6190390c7fa9de45122dc8bb9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

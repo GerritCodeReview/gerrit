@@ -36,20 +36,16 @@ public class GerritOptions {
     this.forcePolyGerritDev = forcePolyGerritDev;
     this.headless = headless || (!enableGwtUi && !enablePolyGerrit);
 
-    UiType defaultUi = enablePolyGerrit && !enableGwtUi ? UiType.POLYGERRIT : UiType.GWT;
-    String uiStr = firstNonNull(cfg.getString("gerrit", null, "ui"), defaultUi.name());
+    UiType defaultUi = UiType.POLYGERRIT;
+    String uiStr = firstNonNull(cfg.getString("gerrit", null, "ui"), "polygerrit");
     this.defaultUi = firstNonNull(UiType.parse(uiStr), UiType.NONE);
 
     switch (defaultUi) {
       case GWT:
         checkArgument(enableGwtUi, "gerrit.ui = %s but GWT UI is disabled", defaultUi);
         break;
-      case POLYGERRIT:
-        checkArgument(enablePolyGerrit, "gerrit.ui = %s but PolyGerrit is disabled", defaultUi);
-        break;
-      case NONE:
       default:
-        throw new IllegalArgumentException("invalid gerrit.ui: " + uiStr);
+        break;
     }
   }
 

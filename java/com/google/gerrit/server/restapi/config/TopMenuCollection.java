@@ -25,7 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-class TopMenuCollection implements ChildCollection<ConfigResource, TopMenuResource> {
+public class TopMenuCollection implements ChildCollection<ConfigResource, TopMenuResource> {
   private final DynamicMap<RestView<TopMenuResource>> views;
   private final ListTopMenus list;
 

@@ -50,7 +50,7 @@ public class AccountsCollection
   private final CreateAccount.Factory createAccountFactory;
 
   @Inject
-  AccountsCollection(
+  public AccountsCollection(
       Provider<CurrentUser> self,
       AccountResolver resolver,
       AccountControl.Factory accountControlFactory,

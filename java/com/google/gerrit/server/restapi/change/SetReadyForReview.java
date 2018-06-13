@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.change.WorkInProgressOp.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -44,6 +46,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, Input, Response<?>>
     implements UiAction<ChangeResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final WorkInProgressOp.Factory opFactory;
   private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
@@ -66,7 +70,11 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
       throws RestApiException, UpdateException, PermissionBackendException {
     Change change = rsrc.getChange();
     if (!rsrc.isUserOwner()
-        && !permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        && !permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)
+        && !permissionBackend
+            .currentUser()
+            .project(rsrc.getProject())
+            .test(ProjectPermission.WRITE_CONFIG)) {
       throw new AuthException("not allowed to set ready for review");
     }
 
@@ -88,6 +96,17 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
 
   @Override
   public Description getDescription(ChangeResource rsrc) {
+    boolean isProjectOwner;
+    try {
+      isProjectOwner =
+          permissionBackend
+              .currentUser()
+              .project(rsrc.getProject())
+              .test(ProjectPermission.WRITE_CONFIG);
+    } catch (PermissionBackendException e) {
+      isProjectOwner = false;
+      logger.atSevere().withCause(e).log("Cannot retrieve project owner ACL");
+    }
     return new Description()
         .setLabel("Start Review")
         .setTitle("Set Ready For Review")
@@ -96,8 +115,10 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
                 rsrc.getChange().getStatus() == Status.NEW && rsrc.getChange().isWorkInProgress(),
                 or(
                     rsrc.isUserOwner(),
-                    permissionBackend
-                        .currentUser()
-                        .testCond(GlobalPermission.ADMINISTRATE_SERVER))));
+                    or(
+                        isProjectOwner,
+                        permissionBackend
+                            .currentUser()
+                            .testCond(GlobalPermission.ADMINISTRATE_SERVER)))));
   }
 }

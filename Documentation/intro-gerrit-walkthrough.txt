@@ -4,7 +4,7 @@ To understand how Gerrit works, let's follow a change through its entire
 life cycle. This example uses a Gerrit server configured as follows:
 
 * *Hostname*: gerrithost
-* *HTTP interface port*: 8080
+* *HTTP interface port*: 80
 * *SSH interface port*: 29418
 
 In this walkthrough, we'll follow two developers, Max and Hannah, as they make
@@ -52,19 +52,20 @@ follows:
 ----
 $ <work>
 $ git commit
-[master 9651f22] Change to a proper, yeast based pizza dough.
- 1 files changed, 3 insertions(+), 2 deletions(-)
+[master 3cc9e62] Change to a proper, yeast based pizza dough.
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 $ git push origin HEAD:refs/for/master
-Counting objects: 5, done.
+Counting objects: 3, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (2/2), done.
-Writing objects: 100% (3/3), 542 bytes, done.
+Writing objects: 100% (3/3), 532 bytes | 0 bytes/s, done.
 Total 3 (delta 0), reused 0 (delta 0)
+remote: Processing changes: new: 1, done
 remote:
 remote: New Changes:
-remote:   http://gerrithost:8080/68
+remote:   http://gerrithost/#/c/RecipeBook/+/702 Change to a proper, yeast based pizza dough.
 remote:
-To ssh://gerrithost:29418/RecipeBook.git
+To ssh://gerrithost:29418/RecipeBook
  * [new branch]      HEAD -> refs/for/master
 ----
 
@@ -79,7 +80,7 @@ review this commit. Clicking on that link takes him to a screen similar to
 the following.
 
 .Gerrit Code Review Screen
-image::images/intro-quick-new-review.jpg[Gerrit Review Screen]
+image::images/intro-quick-new-review.png[Gerrit Review Screen]
 
 This is the Gerrit code review screen, where other contributors can review
 his change. Max can also perform tasks such as:
@@ -109,14 +110,12 @@ offers other ways for reviewers to find changes, including:
 Because Max added Hannah as a reviewer, she receives an email telling her about
 his change. She opens up the Gerrit code review screen and selects Max's change.
 
-.Gerrit Code Review Screen
-image::images/intro-quick-new-review.jpg[Gerrit Review Screen]
-
-Notice the two "Need" lines:
+Notice the *Label status* section above:
 
 ----
-* Need Verified
-* Need Code-Review
+Label Status Needs label:
+             * Code-Review
+             * Verified
 ----
 
 These two lines indicate what checks must be completed before the change is
@@ -147,13 +146,13 @@ link:user-review-ui.html#reply[summary] comments.
 Hannah opts to view the change using Gerrit's side-by-side view:
 
 .Side By Side Patch View
-image::images/intro-quick-review-line-comment.jpg[Adding a Comment]
+image::images/intro-quick-review-line-comment.png[Adding a Comment]
 
 Hannah reviews the change and is ready to provide her feedback. She clicks the
-*Review* button on the change screen. This allows her to vote on the change.
+*REPLY* button on the change screen. This allows her to vote on the change.
 
 .Reviewing the Change
-image::images/intro-quick-reviewing-the-change.jpg[Reviewing the Change]
+image::images/intro-quick-reviewing-the-change.png[Reviewing the Change]
 
 For Hannah and Max's team, a code review vote is a numerical score between -2
 and 2. The possible options are:
@@ -175,7 +174,7 @@ link:config-project-config.html[Project Configuration File Format] topic.
 Hannah notices a possible issue with Max's change, so she selects a `-1` vote.
 She uses the *Cover Message* text box to provide Max with some additional
 feedback. When she is satisfied with her review, Hannah clicks the
-*Publish Comments* button. At this point, her vote and cover message become
+*SEND* button. At this point, her vote and cover message become
 visible to to all users.
 
 == Reworking the Change
@@ -193,18 +192,21 @@ workflow for updating a commit:
 $ <checkout first commit>
 $ <rework>
 $ git commit --amend
+[master 30a6f44] Change to a proper, yeast based pizza dough.
+ Date: Fri Jun 8 16:28:23 2018 +0200
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 $ git push origin HEAD:refs/for/master
-Counting objects: 5, done.
+Counting objects: 3, done.
 Delta compression using up to 8 threads.
 Compressing objects: 100% (2/2), done.
-Writing objects: 100% (3/3), 546 bytes, done.
+Writing objects: 100% (3/3), 528 bytes | 0 bytes/s, done.
 Total 3 (delta 0), reused 0 (delta 0)
 remote: Processing changes: updated: 1, done
 remote:
 remote: Updated Changes:
-remote:   http://gerrithost:8080/68
+remote:   http://gerrithost/#/c/RecipeBook/+/702 Change to a proper, yeast based pizza dough.
 remote:
-To ssh://gerrithost:29418/RecipeBook.git
+To ssh://gerrithost:29418/RecipeBook
  * [new branch]      HEAD -> refs/for/master
 ----
 
@@ -212,13 +214,10 @@ Notice that the output of this command is slightly different from Max's first
 commit. This time, the output verifies that the change was updated.
 
 Having uploaded the reworked commit, Max can go back to the Gerrit web
-interface and look at his change.
-
-.Reviewing the Rework
-image::images/intro-quick-review-2-patches.jpg[Reviewing the Rework]
-
-Notice that there are now two patch sets associated with this change: the
-initial submission and the rework.
+interface, look at his change and diff the first patch set with his rework in
+the second one. Once he has verified that the rework follows Hannahs
+recommendation he presses the *DONE* button to let Hannah know that she can
+review the changes.
 
 When Hannah next looks at Max's change, she sees that he incorporated her
 feedback. The change looks good to her, so she changes her vote to a `+2`.
@@ -254,7 +253,7 @@ NOTE: The Verifier can be the same person as the code reviewer or a
 different person entirely.
 
 .Verifying the Change
-image::images/intro-quick-verifying.jpg[Verifying the Change]
+image::images/intro-quick-verifying.png[Verifying the Change]
 
 Unlike the code review check, the verify check is pass/fail. Hannah can provide
 a score of either `+1` or `-1`. A change must have at least one `+1` and no
@@ -266,7 +265,7 @@ submitted.
 == Submitting the Change
 
 Max is now ready to submit his change. He opens up the change in the Code Review
-screen and clicks the *Publish and Submit* button.
+screen and clicks the *SUBMIT* button.
 
 At this point, Max's change is merged into the repository's master branch and
 becomes an accepted part of the project.

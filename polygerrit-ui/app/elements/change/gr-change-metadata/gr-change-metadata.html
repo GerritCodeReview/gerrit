@@ -38,20 +38,28 @@ limitations under the License.
 <dom-module id="gr-change-metadata">
   <template>
     <style include="shared-styles">
-      .hideDisplay {
-        display: none;
+      :host {
+        display: table;
+      }
+      section {
+        display: table-row;
+      }
+      section:not(:first-of-type) .title,
+      section:not(:first-of-type) .value {
+        padding-top: .5em;
       }
       section:not(:first-of-type) {
         margin-top: 1em;
       }
       .title,
       .value {
-        display: block;
+        display: table-cell;
       }
       .title {
         color: var(--deemphasized-text-color);
         font-family: var(--font-family-bold);
         max-width: 20em;
+        padding-right: .5em;
         word-break: break-word;
       }
       gr-account-link {
@@ -95,6 +103,7 @@ limitations under the License.
       .parentList gr-commit-info {
         display: inline-block;
       }
+      .hideDisplay,
       #parentNotCurrentMessage {
         display: none;
       }
@@ -106,25 +115,6 @@ limitations under the License.
         border-top: 1px solid var(--border-color);
         margin-top: .5em;
         padding-top: .5em;
-      }
-      @media screen and (max-width: 50em), screen and (min-width: 75em) {
-        :host {
-          display: table;
-        }
-        section {
-          display: table-row;
-        }
-        section:not(:first-of-type) .title,
-        section:not(:first-of-type) .value {
-          padding-top: .5em;
-        }
-        .title,
-        .value {
-          display: table-cell;
-        }
-        .title {
-          padding-right: .5em;
-        }
       }
     </style>
     <gr-external-style id="externalStyle" name="change-metadata">

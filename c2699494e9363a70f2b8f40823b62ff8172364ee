@@ -95,6 +95,30 @@
       "revId": "c2699494e9363a70f2b8f40823b62ff8172364ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27f92eb8_f030210b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T21:26:33Z",
+      "side": 1,
+      "message": "At least I\u0027m not able to do this with a screenreader.",
+      "parentUuid": "96a02cb3_965f5c2a",
+      "range": {
+        "startLine": 116,
+        "startChar": 12,
+        "endLine": 124,
+        "endChar": 24
+      },
+      "revId": "c2699494e9363a70f2b8f40823b62ff8172364ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

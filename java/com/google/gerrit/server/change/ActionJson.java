@@ -139,6 +139,7 @@ public class ActionJson {
     copy.stars = changeInfo.stars;
     copy.submitted = changeInfo.submitted;
     copy.submitter = changeInfo.submitter;
+    copy.workInProgress = changeInfo.workInProgress;
     copy.id = changeInfo.id;
     return copy;
   }

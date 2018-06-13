@@ -44,14 +44,14 @@ import org.elasticsearch.client.Response;
 public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, InternalGroup>
     implements GroupIndex {
   static class GroupMapping {
-    MappingProperties groups;
+    final MappingProperties groups;
 
     GroupMapping(Schema<InternalGroup> schema, ElasticQueryAdapter adapter) {
       this.groups = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
-  static final String GROUPS = "groups";
+  private static final String GROUPS = "groups";
 
   private final GroupMapping mapping;
   private final Provider<GroupCache> groupCache;

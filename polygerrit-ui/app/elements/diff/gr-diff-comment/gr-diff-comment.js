@@ -456,10 +456,9 @@
       if (this.disabled) { return; }
       const timingLabel = this.comment.id ?
           REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
-      this.$.reporting.time(timingLabel);
+      const timer = this.$.reporting.getTimer(timingLabel);
       this.set('comment.__editing', false);
-      return this.save()
-          .then(() => { this.$.reporting.timeEnd(timingLabel); });
+      return this.save().then(() => { timer.end(); });
     },
 
     _handleCancel(e) {
@@ -492,10 +491,9 @@
 
     _handleConfirmDiscard(e) {
       e.preventDefault();
-      this.$.reporting.time(REPORT_DISCARD_DRAFT);
+      const timer = this.$.reporting.getTimer(REPORT_DISCARD_DRAFT);
       this._closeConfirmDiscardOverlay();
-      return this._discardDraft()
-          .then(() => { this.$.reporting.timeEnd(REPORT_DISCARD_DRAFT); });
+      return this._discardDraft().then(() => { timer.end(); });
     },
 
     _discardDraft() {

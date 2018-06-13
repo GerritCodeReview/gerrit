@@ -300,10 +300,3 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@postgresql//jar"],
 )
-
-java_library(
-    name = "commons-io",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@commons-io//jar"],
-)

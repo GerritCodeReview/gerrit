@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "451f8241_959b78d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-13T23:32:50Z",
+      "side": 1,
+      "message": "https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9259",
+      "parentUuid": "3ace72b5_6b22efb0",
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "464f899e_2e5e449f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
         "patchSetId": 3

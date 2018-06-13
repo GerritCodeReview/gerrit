@@ -281,7 +281,8 @@ limitations under the License.
     });
 
     suite('draft update reporting', () => {
-      let timeEndStub;
+      let endStub;
+      let getTimerStub;
       let mockEvent;
 
       setup(() => {
@@ -290,22 +291,26 @@ limitations under the License.
             .returns(Promise.resolve({}));
         sandbox.stub(element, '_discardDraft')
             .returns(Promise.resolve({}));
-        timeEndStub = sandbox.stub(element.$.reporting, 'timeEnd');
+        endStub = sinon.stub();
+        getTimerStub = sandbox.stub(element.$.reporting, 'getTimer')
+            .returns({end: endStub});
       });
 
       test('create', () => {
         element.comment = {};
         return element._handleSave(mockEvent).then(() => {
-          assert.isTrue(timeEndStub.calledOnce);
-          assert.equal(timeEndStub.lastCall.args[0], 'CreateDraftComment');
+          assert.isTrue(endStub.calledOnce);
+          assert.isTrue(getTimerStub.calledOnce);
+          assert.equal(getTimerStub.lastCall.args[0], 'CreateDraftComment');
         });
       });
 
       test('update', () => {
         element.comment = {id: 'abc_123'};
         return element._handleSave(mockEvent).then(() => {
-          assert.isTrue(timeEndStub.calledOnce);
-          assert.equal(timeEndStub.lastCall.args[0], 'UpdateDraftComment');
+          assert.isTrue(endStub.calledOnce);
+          assert.isTrue(getTimerStub.calledOnce);
+          assert.equal(getTimerStub.lastCall.args[0], 'UpdateDraftComment');
         });
       });
 
@@ -313,8 +318,9 @@ limitations under the License.
         element.comment = {id: 'abc_123'};
         sandbox.stub(element, '_closeConfirmDiscardOverlay');
         return element._handleConfirmDiscard(mockEvent).then(() => {
-          assert.isTrue(timeEndStub.calledOnce);
-          assert.equal(timeEndStub.lastCall.args[0], 'DiscardDraftComment');
+          assert.isTrue(endStub.calledOnce);
+          assert.isTrue(getTimerStub.calledOnce);
+          assert.equal(getTimerStub.lastCall.args[0], 'DiscardDraftComment');
         });
       });
     });

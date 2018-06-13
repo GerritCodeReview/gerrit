@@ -39,7 +39,9 @@
   {/if}
 
   {for $group in $commentFiles}
-    {$group.link}{\n}
+    // Insert a space before the newline so that Gmail does not mistakenly link
+    // the following line with the file link. See issue 9201.
+    {$group.link}{sp}{\n}
     {$group.title}:{\n}
     {\n}
 

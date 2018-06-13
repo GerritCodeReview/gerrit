@@ -235,8 +235,8 @@ DIFF_MATCH_PATCH_TOP = ("META-INF/resources/webjars/google-diff-match-patch/%s" 
 
 def pkg_cm():
   for archive, suffix, top, license in [
-      ('@codemirror_original//jar', '', TOP, LICENSE),
-      ('@codemirror_minified//jar', '_r', TOP_MINIFIED, LICENSE_MINIFIED)
+      ('@codemirror-original-gwt//jar', '', TOP, LICENSE),
+      ('@codemirror-minified-gwt//jar', '_r', TOP_MINIFIED, LICENSE_MINIFIED)
   ]:
     # Main JavaScript and addons
     genrule2(

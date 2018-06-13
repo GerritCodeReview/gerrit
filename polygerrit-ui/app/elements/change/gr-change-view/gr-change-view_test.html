@@ -1321,7 +1321,7 @@ limitations under the License.
         sandbox.stub(element, '_getOffsetHeight', () => 50);
         sandbox.stub(element, '_getLineHeight', () => 12);
         sandbox.stub(window, 'matchMedia', () => {
-          if (window.matchMedia.lastCall.args[0] === '(max-width: 60em)') {
+          if (window.matchMedia.lastCall.args[0] === '(max-width: 75em)') {
             return {matches: true};
           } else {
             return {matches: false};

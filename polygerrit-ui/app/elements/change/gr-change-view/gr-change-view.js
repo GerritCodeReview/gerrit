@@ -32,7 +32,7 @@
   // These are the same as the breakpoint set in CSS. Make sure both are changed
   // together.
   const BREAKPOINT_RELATED_SMALL = '50em';
-  const BREAKPOINT_RELATED_MED = '60em';
+  const BREAKPOINT_RELATED_MED = '75em';
 
   // In the event that the related changes medium width calculation is too close
   // to zero, provide some height.

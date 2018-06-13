@@ -80,11 +80,11 @@ class ElasticConfiguration {
     }
   }
 
-  public Config getConfig() {
+  Config getConfig() {
     return cfg;
   }
 
-  public String getIndexName(String name, int schemaVersion) {
+  String getIndexName(String name, int schemaVersion) {
     return String.format("%s%s_%04d", prefix, name, schemaVersion);
   }
 

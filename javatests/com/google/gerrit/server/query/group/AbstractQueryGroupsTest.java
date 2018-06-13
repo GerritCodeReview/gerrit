@@ -50,6 +50,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.index.group.GroupField;
+import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -103,6 +104,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Inject @ServerInitiated protected Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Inject protected GroupIndexCollection indexes;
+
+  @Inject private GroupIndexCollection groupIndexes;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -390,6 +393,19 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
 
     assertThat(rawFields).isPresent();
     assertThat(rawFields.get().getValue(GroupField.UUID)).isEqualTo(uuid.get());
+  }
+
+  @Test
+  public void byDeletedGroup() throws Exception {
+    GroupInfo group = createGroup(name("group"));
+    AccountGroup.UUID uuid = new AccountGroup.UUID(group.id);
+    String query = "uuid:" + uuid;
+    assertQuery(query, group);
+
+    for (GroupIndex index : groupIndexes.getWriteIndexes()) {
+      index.delete(uuid);
+    }
+    assertQuery(query);
   }
 
   private Account.Id createAccountOutsideRequestContext(

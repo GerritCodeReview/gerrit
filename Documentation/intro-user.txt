@@ -548,6 +548,9 @@ request.
 ----
 Alternatively, click *Ready* from the Change screen.
 
+Only change owners, project owners and site administrators can mark changes as
+`work-in-progress` and `ready`.
+
 [[wip-polygerrit]]
 In the new PolyGerrit UI, you can mark a change as WIP, by selecting *WIP* from
 the *More* menu. The Change screen updates with a yellow header, indicating that

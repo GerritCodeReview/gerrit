@@ -39,7 +39,6 @@ EXPORTS = [
     "//java/com/google/gerrit/util/http",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
-    "//lib/commons:lang3",
     "//lib/dropwizard:dropwizard-core",
     "//lib/flogger:api",
     "//lib/guice:guice",

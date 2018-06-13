@@ -46,14 +46,14 @@ import org.elasticsearch.client.Response;
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
     implements AccountIndex {
   static class AccountMapping {
-    MappingProperties accounts;
+    final MappingProperties accounts;
 
     AccountMapping(Schema<AccountState> schema, ElasticQueryAdapter adapter) {
       this.accounts = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
-  static final String ACCOUNTS = "accounts";
+  private static final String ACCOUNTS = "accounts";
 
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;

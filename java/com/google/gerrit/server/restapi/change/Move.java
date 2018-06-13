@@ -21,6 +21,7 @@ import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.MoveInput;
@@ -145,12 +146,13 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     }
     projectCache.checkedGet(project).checkStatePermitsWrite();
 
+    Op op = new Op(input);
     try (BatchUpdate u =
         updateFactory.create(dbProvider.get(), project, caller, TimeUtil.nowTs())) {
-      u.addOp(change.getId(), new Op(input));
+      u.addOp(change.getId(), op);
       u.execute();
     }
-    return json.noOptions().format(project, rsrc.getId());
+    return json.noOptions().format(op.getChange());
   }
 
   private class Op implements BatchUpdateOp {
@@ -161,6 +163,11 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
 
     Op(MoveInput input) {
       this.input = input;
+    }
+
+    @Nullable
+    public Change getChange() {
+      return change;
     }
 
     @Override

@@ -76,9 +76,9 @@ import org.elasticsearch.client.Response;
 class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     implements ChangeIndex {
   static class ChangeMapping {
-    MappingProperties changes;
-    MappingProperties openChanges;
-    MappingProperties closedChanges;
+    final MappingProperties changes;
+    final MappingProperties openChanges;
+    final MappingProperties closedChanges;
 
     ChangeMapping(Schema<ChangeData> schema, ElasticQueryAdapter adapter) {
       MappingProperties mapping = ElasticMapping.createMapping(schema, adapter);
@@ -88,9 +88,9 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
   }
 
-  static final String CHANGES = "changes";
-  static final String OPEN_CHANGES = "open_" + CHANGES;
-  static final String CLOSED_CHANGES = "closed_" + CHANGES;
+  private static final String CHANGES = "changes";
+  private static final String OPEN_CHANGES = "open_" + CHANGES;
+  private static final String CLOSED_CHANGES = "closed_" + CHANGES;
 
   private final ChangeMapping mapping;
   private final Provider<ReviewDb> db;

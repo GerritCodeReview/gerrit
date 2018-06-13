@@ -306,6 +306,9 @@ flag from a change on push, explicitly specify the `ready` option:
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%ready
 ----
 
+Only change owners, project owners and site administrators can specify
+`work-in-progress` and `ready` options on push.
+
 [[message]]
 ==== Message
 

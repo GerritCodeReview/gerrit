@@ -1,0 +1,132 @@
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../../styles/gr-voting-styles.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../gr-account-label/gr-account-label.html">
+<link rel="import" href="../gr-button/gr-button.html">
+<link rel="import" href="../gr-icons/gr-icons.html">
+<link rel="import" href="../gr-label/gr-label.html">
+<link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
+
+<dom-module id="gr-label-info">
+  <template strip-whitespace>
+    <style include="gr-voting-styles"></style>
+    <style include="shared-styles">
+      .title {
+        font-size: var(--font-size-large);
+        font-weight: bold;
+      }
+      .placeholder {
+        color: var(--deemphasized-text-color);
+        padding-top: .5em;
+      }
+      .hidden {
+        display: none;
+      }
+      .voteChip {
+        display: flex;
+        justify-content: center;
+        margin-right: .3em;
+        padding: .2em .85em;
+        @apply --vote-chip-styles;
+      }
+      .max {
+        background-color: var(--vote-color-approved);
+      }
+      .min {
+        background-color: var(--vote-color-rejected);
+      }
+      .positive {
+        background-color: var(--vote-color-recommended);
+      }
+      .negative {
+        background-color: var(--vote-color-disliked);
+      }
+      .hidden {
+        display: none;
+      }
+      td {
+        vertical-align: middle;
+      }
+      tr {
+        min-height: 2.25em;
+      }
+      tr td {
+        padding-top: .35em;
+      }
+      tr.currentUser td {
+        padding-bottom: .5em;
+      }
+      tr.currentUser + tr td {
+        border-top: 1px solid var(--border-color);
+        padding-top: .5em;
+      }
+      gr-button {
+        --gr-button: {
+          height: 2em;
+          padding: 0;
+          width: 2em;
+        }
+      }
+      gr-account-chip {
+        margin-right: 1.5em;
+      }
+    </style>
+    <p class="title">[[label]]</p>
+    <p class$="placeholder [[_computeShowPlaceholder(labelInfo, change.labels.*)]]">
+      No votes for this label.
+    </p>
+    <table>
+      <template
+          is="dom-repeat"
+          items="[[_mapLabelInfo(labelInfo, account, change.labels.*)]]"
+          as="mappedLabel">
+        <tr class$="labelValueContainer [[_computeLabelContainerClass(mappedLabel)]]">
+          <td>
+            <gr-account-chip
+                account="[[mappedLabel.account]]"
+                transparent-background></gr-account-chip>
+          </td>
+          <td>
+            <gr-label
+                has-tooltip
+                title="[[_computeValueTooltip(labelInfo, mappedLabel.value)]]"
+                class$="[[mappedLabel.className]] voteChip">
+              [[mappedLabel.value]]
+            </gr-label>
+          </td>
+          <td>
+            <gr-button
+                link
+                aria-label="Remove"
+                on-tap="_onDeleteVote"
+                tooltip="Remove vote"
+                data-account-id$="[[mappedLabel.account._account_id]]"
+                class$="deleteBtn [[_computeDeleteClass(mappedLabel.account, mutable, change)]]">
+              <iron-icon icon="gr-icons:delete"></iron-icon>
+            </gr-button>
+          </td>
+        </tr>
+      </template>
+    </table>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  </template>
+  <script src="gr-label-info.js"></script>
+</dom-module>

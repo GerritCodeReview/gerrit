@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d83a01cd_f692419d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T01:31:29Z",
+      "side": 1,
+      "message": "If this test doesn\u0027t use the MockInteractions, it\u0027s less of an integration test, isn\u0027t it?",
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "464f899e_2e5e449f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T01:31:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be in ems?",
+      "range": {
+        "startLine": 50,
+        "startChar": 23,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95ddfa49_8917b62e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T01:31:29Z",
+      "side": 1,
+      "message": "If I understand right, this should return undefined when no icon should be used. Is that right? Can this type also say ..\n\n @returns {string|undefined} The icon name, or undefined if no icon should be used.\n\n..?",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 32
+      },
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec2d3dd4_85fb5115",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T01:31:29Z",
+      "side": 1,
+      "message": "It looks like the icon is supposed to be falsy when the vote is not a maximum or minimum, but this returns an icon in situations where there\u0027s a +1 out of a possible +2.\n\nIn other words, it never shows the +1 or -1, it always shows an icon.",
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df481d24_0c9a88ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T01:31:29Z",
+      "side": 1,
+      "message": "Nit, can this please return null or undefined? Just to make the intent clear.",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 13
+      },
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

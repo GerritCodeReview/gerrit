@@ -70,6 +70,30 @@
       "revId": "e1359a35e1ab875ae3445652370948b14ca548b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e0f2d77_2b6a5a6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-13T05:11:56Z",
+      "side": 1,
+      "message": "Thanks.  I\u0027d prefer to do that in a follow-up change since I\u0027ve already done the merge from stable-2.15 (which included a lot of conflict resolution) on top of this commit and I\u0027d rather not have to rebase it.",
+      "parentUuid": "b6ac9ef6_fb919876",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "e1359a35e1ab875ae3445652370948b14ca548b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

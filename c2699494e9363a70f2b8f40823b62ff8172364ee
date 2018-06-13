@@ -119,6 +119,30 @@
       "revId": "c2699494e9363a70f2b8f40823b62ff8172364ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "776db90b_4362b35a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-13T23:19:09Z",
+      "side": 1,
+      "message": "Navigating into the hovercard and the accessibility of this specific element are two separate issues. This element should already be perfectly navigable (one could test this by just adding the element to the DOM, instead of placing it inside the hovercard).\n\nI\u0027ve filed the former as a Monorail issue here: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9258",
+      "parentUuid": "27f92eb8_f030210b",
+      "range": {
+        "startLine": 116,
+        "startChar": 12,
+        "endLine": 124,
+        "endChar": 24
+      },
+      "revId": "c2699494e9363a70f2b8f40823b62ff8172364ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

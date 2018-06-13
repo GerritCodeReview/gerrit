@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0d75512_8e4ed9e2",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T05:45:47Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 5
+      },
+      "revId": "7ba9ee0ed7c5ff9f3436739a5ae3f9975b70ede7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f08acea3_16607073",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetWorkInProgress.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T05:45:47Z",
+      "side": 1,
+      "message": "Make it inline, using ForProject#testCond method, that doesn\u0027t throw PermissionBackendException:\n\n  return new Description()\n        .setLabel(\"WIP\")\n        .setTitle(\"Set Work In Progress\")\n        .setVisible(\n            and(\n                rsrc.getChange().getStatus() \u003d\u003d Status.NEW \u0026\u0026 !rsrc.getChange().isWorkInProgress(),\n                or(\n                    rsrc.isUserOwner(),\n                    or(\n                        permissionBackend\n                            .currentUser()\n                            .project(rsrc.getProject())\n                            .testCond(ProjectPermission.WRITE_CONFIG),\n                        permissionBackend\n                            .currentUser()\n                            .testCond(GlobalPermission.ADMINISTRATE_SERVER)))));",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 5
+      },
+      "revId": "7ba9ee0ed7c5ff9f3436739a5ae3f9975b70ede7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

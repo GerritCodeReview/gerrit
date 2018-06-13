@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "262ce6db_a04f39af",
+        "filename": "polygerrit-ui/app/test/common-test-setup.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T01:35:21Z",
+      "side": 1,
+      "message": "I question whether this needs to be in common test setup. It only test for one of the (many) ways an element can be hidden, and it\u0027s only useful for one of them.",
+      "revId": "c4239e4a94619648fdea94c3579595b95b33c778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

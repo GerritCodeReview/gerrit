@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85695065_fe2c1ef9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T01:35:21Z",
+      "side": 1,
+      "message": "Nit: sort.",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "c2699494e9363a70f2b8f40823b62ff8172364ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e20a22d3_d0c6a37d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T01:35:21Z",
+      "side": 1,
+      "message": "How does a screenreader get to this button?",
+      "range": {
+        "startLine": 116,
+        "startChar": 12,
+        "endLine": 124,
+        "endChar": 24
+      },
+      "revId": "c2699494e9363a70f2b8f40823b62ff8172364ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

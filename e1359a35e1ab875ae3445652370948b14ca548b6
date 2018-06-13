@@ -22,6 +22,30 @@
       "revId": "e1359a35e1ab875ae3445652370948b14ca548b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "416ddb56_754e918b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T05:05:27Z",
+      "side": 1,
+      "message": "The reason for the breakage is the collision with bower_component, that is also called bower-component. I tried to rename it to codemirror-minified-component, but it failed with: [1]. Should we rename codemirror-minified used for GWT with codemirror-minified-gwt and codemirror-original-gwt instead? The big advantage of that approach: we would disambiguate and avoid potential collisions for two external repositories:\n\n* codemirror_minified used for GWT\n* codemirror-minified bower component used for codemirror-editor plugin\n\nthat currently only differs with hyphen. This diff fixed it: [2].\n\n* [1] http://paste.openstack.org/show/723365\n* [2] http://paste.openstack.org/show/723366",
+      "parentUuid": "bf7980ca_d0a4a64c",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 46
+      },
+      "revId": "e1359a35e1ab875ae3445652370948b14ca548b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

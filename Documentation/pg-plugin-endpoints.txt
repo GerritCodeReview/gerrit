@@ -124,3 +124,34 @@ This endpoint decorator wraps the voting buttons in the reply dialog.
 
 === header-title
 This endpoint wraps the title-text in the application header.
+
+=== image-diff
+This endpoint provides an area to extend image diffs.
+
+In addition to default parameters, the following are available:
+
+* `baseImage`
++
+The diff response for the base image (left-hand side).
+
+* `revisionImage`
++
+The diff response for the revision image (right-hand side).
+
+=== editor
+This endpoint wraps the default editor included in gr-editor-view.
+
+In addition to default parameters, the following are available:
+
+* `fileContent`
++
+The contents of the current file.
+
+* `prefs`
++
+The edit preferences of the current user, an instance of
+link:rest-api-accounts.html#edit-preferences-info[EditPreferencesInfo]
+
+* `fileType`
++
+The type of the current file.

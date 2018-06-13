@@ -16,14 +16,14 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@servlet_api_3_1//jar"],
+    exports = ["@servlet-api-3_1//jar"],
 )
 
 java_library(
     name = "servlet-api-3_1-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@servlet_api_3_1//jar"],
+    exports = ["@servlet-api-3_1//jar"],
 )
 
 java_library(
@@ -48,17 +48,17 @@ java_library(
 )
 
 java_library(
-    name = "gwtorm_client",
+    name = "gwtorm-client",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gwtorm_client//jar"],
+    exports = ["@gwtorm-client//jar"],
 )
 
 java_library(
-    name = "gwtorm_client_src",
+    name = "gwtorm-client_src",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gwtorm_client//jar:src"],
+    exports = ["@gwtorm-client//jar:src"],
 )
 
 java_library(
@@ -71,7 +71,7 @@ java_library(
 java_library(
     name = "gwtorm",
     visibility = ["//visibility:public"],
-    exports = [":gwtorm_client"],
+    exports = [":gwtorm-client"],
     runtime_deps = [":protobuf"],
 )
 
@@ -151,21 +151,21 @@ java_library(
     name = "tukaani-xz",
     data = ["//lib:LICENSE-xz"],
     visibility = ["//visibility:public"],
-    exports = ["@tukaani_xz//jar"],
+    exports = ["@tukaani-xz//jar"],
 )
 
 java_library(
     name = "mime-util",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mime_util//jar"],
+    exports = ["@mime-util//jar"],
 )
 
 java_library(
     name = "guava-retrying",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava_retrying//jar"],
+    exports = ["@guava-retrying//jar"],
     runtime_deps = [":jsr305"],
 )
 
@@ -180,7 +180,7 @@ java_library(
     name = "blame-cache",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@blame_cache//jar"],
+    exports = ["@blame-cache//jar"],
 )
 
 java_library(
@@ -213,7 +213,7 @@ java_library(
     name = "hamcrest-core",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@hamcrest_core//jar"],
+    exports = ["@hamcrest-core//jar"],
 )
 
 java_library(
@@ -245,7 +245,7 @@ java_library(
         ":protobuf",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "//lib/guice:javax-inject",
+        "//lib/guice:javax_inject",
         "//lib/ow2:ow2-asm",
         "//lib/ow2:ow2-asm-analysis",
         "//lib/ow2:ow2-asm-commons",
@@ -257,7 +257,7 @@ java_library(
     name = "html-types",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@html_types//jar"],
+    exports = ["@html-types//jar"],
 )
 
 java_library(

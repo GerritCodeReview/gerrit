@@ -20,7 +20,7 @@ gwt_module(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/prettify:client",
         "//lib:guava",
-        "//lib:gwtorm_client",
+        "//lib:gwtorm-client",
         "//lib:servlet-api-3_1",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

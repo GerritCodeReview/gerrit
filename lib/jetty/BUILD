@@ -2,7 +2,7 @@ java_library(
     name = "servlet",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jetty_servlet//jar"],
+    exports = ["@jetty-servlet//jar"],
     runtime_deps = [":security"],
 )
 
@@ -10,7 +10,7 @@ java_library(
     name = "security",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jetty_security//jar"],
+    exports = ["@jetty-security//jar"],
     runtime_deps = [":server"],
 )
 
@@ -18,7 +18,7 @@ java_library(
     name = "servlets",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jetty_servlets//jar"],
+    exports = ["@jetty-servlets//jar"],
 )
 
 java_library(
@@ -28,7 +28,7 @@ java_library(
     exports = [
         ":continuation",
         ":http",
-        "@jetty_server//jar",
+        "@jetty-server//jar",
     ],
 )
 
@@ -39,7 +39,7 @@ java_library(
     exports = [
         ":continuation",
         ":http",
-        "@jetty_jmx//jar",
+        "@jetty-jmx//jar",
     ],
 )
 
@@ -47,7 +47,7 @@ java_library(
     name = "continuation",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jetty_continuation//jar"],
+    exports = ["@jetty-continuation//jar"],
 )
 
 java_library(
@@ -56,7 +56,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":io",
-        "@jetty_http//jar",
+        "@jetty-http//jar",
     ],
 )
 
@@ -65,12 +65,12 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     exports = [
         ":util",
-        "@jetty_io//jar",
+        "@jetty-io//jar",
     ],
 )
 
 java_library(
     name = "util",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@jetty_util//jar"],
+    exports = ["@jetty-util//jar"],
 )

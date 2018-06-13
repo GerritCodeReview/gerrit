@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6bfc7f3_921cb8b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T06:28:40Z",
+      "side": 1,
+      "message": "Expand the commit message, about the background of this change.",
+      "revId": "233e47b419dca29ee102cc9c64d03bc81432f3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

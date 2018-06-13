@@ -796,7 +796,7 @@ remove_verified_category([H|T], [H|R]) :- remove_verified_category(T, R).
 
 === Example 10: Combine examples 8 and 9
 In this example we want to both remove the verified and have the four eyes
-principle.  This means we want a combination of examples 7 and 8.
+principle.  This means we want a combination of examples 8 and 9.
 
 `rules.pl`
 [source,prolog]

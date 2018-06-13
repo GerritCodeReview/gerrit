@@ -16,6 +16,24 @@
       "revId": "d6387cc78b34f7a32e5e152c5f690c9595b72ee5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a9039fe_82c15620",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T06:30:36Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "133aa438_d60a584d",
+      "revId": "d6387cc78b34f7a32e5e152c5f690c9595b72ee5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

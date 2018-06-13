@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e271e0da_17cb98cb",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T06:51:03Z",
+      "side": 1,
+      "message": "I\u0027m not happy, that I need to call stageReviewableChange() and below stagePreChange(\"refs/for/master\"), so to say twice in this change. The first call is needed to ensure, that the owner instance is actually created. I havn\u0027t found another way to achieve that, as class StagedPreChange is derived from StagedUsers. So that an instance of StagedUsers cannot be created in advance (mutate owner instance and set workInProgressByDefault \u003d true for it) prior to creating StagedPreChange instance.\n\nI considered to avoid inheritance in the first place and use delegation instead, but it sounds like too intrusive change to achieve what I want. Another option I considered as alternative to the current approach is to rely on JUnit\u0027s stable method order feature that was added in JUnit 4.11 (we use 4.12): [1], and would rely on the fact, that StagedUsers is cached and the createWipChangeWithWorkInProgressByDefaultForUser() test wouldn\u0027t be the first test method invocation in this suite. Then we could drop the first StagedChange sc \u003d stageReviewableChange(); statement, and just start with amending owner:\n\n  GeneralPreferencesInfo prefs \u003d gApi.accounts().id(sc.owner.id.get()).getPreferences();\n  prefs.workInProgressByDefault \u003d true;\n  gApi.accounts().id(getOwnerId()).setPreferences(prefs);\n\nBut even then we would need to figure out owner id to amend.\n\nAnother approach would be to extract owner instance from StagedUsers class and put it in setUp method, like it already done for some other users instances. The advantage would be, that it would be easy to reset the owner instance in tearDown methodm instead doing it in this test method to unset previously set workInProgressByDefault \u003d true option.\n\n* [1] https://stackoverflow.com/a/13540131",
+      "range": {
+        "startLine": 956,
+        "startChar": 4,
+        "endLine": 964,
+        "endChar": 64
+      },
+      "revId": "6695d37e3c43b2dfaf08932541cb2c7e2f2c7ffd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

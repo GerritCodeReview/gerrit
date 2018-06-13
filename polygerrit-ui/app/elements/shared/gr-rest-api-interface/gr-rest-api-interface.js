@@ -1593,7 +1593,7 @@
     saveFileReviewed(changeNum, patchNum, path, reviewed, opt_errFn) {
       const method = reviewed ? 'PUT' : 'DELETE';
       const endpoint = `/files/${encodeURIComponent(path)}/reviewed`;
-      return this.getChangeURLAndSend(changeNum, method, patchNum, endpoint,
+      return this._getChangeURLAndSend(changeNum, method, patchNum, endpoint,
           null, opt_errFn);
     },
 
@@ -1697,7 +1697,7 @@
     _getFileInRevision(changeNum, path, patchNum, opt_errFn) {
       const e = `/files/${encodeURIComponent(path)}/content`;
       const headers = {Accept: 'application/json'};
-      return this.getChangeURLAndSend(changeNum, 'GET', patchNum, e, null,
+      return this._getChangeURLAndSend(changeNum, 'GET', patchNum, e, null,
           opt_errFn, null, headers);
     },
 
@@ -1709,54 +1709,54 @@
     _getFileInChangeEdit(changeNum, path) {
       const e = '/edit/' + encodeURIComponent(path);
       const headers = {Accept: 'application/json'};
-      return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
+      return this._getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
           null, headers);
     },
 
     rebaseChangeEdit(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit:rebase');
+      return this._getChangeURLAndSend(changeNum, 'POST', null, '/edit:rebase');
     },
 
     deleteChangeEdit(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'DELETE', null, '/edit');
+      return this._getChangeURLAndSend(changeNum, 'DELETE', null, '/edit');
     },
 
     restoreFileInChangeEdit(changeNum, restore_path) {
       const p = {restore_path};
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit', p);
+      return this._getChangeURLAndSend(changeNum, 'POST', null, '/edit', p);
     },
 
     renameFileInChangeEdit(changeNum, old_path, new_path) {
       const p = {old_path, new_path};
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/edit', p);
+      return this._getChangeURLAndSend(changeNum, 'POST', null, '/edit', p);
     },
 
     deleteFileInChangeEdit(changeNum, path) {
       const e = '/edit/' + encodeURIComponent(path);
-      return this.getChangeURLAndSend(changeNum, 'DELETE', null, e);
+      return this._getChangeURLAndSend(changeNum, 'DELETE', null, e);
     },
 
     saveChangeEdit(changeNum, path, contents) {
       const e = '/edit/' + encodeURIComponent(path);
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, e, contents, null,
-          'text/plain');
+      return this._getChangeURLAndSend(changeNum, 'PUT', null, e, contents,
+          null, 'text/plain');
     },
 
     // Deprecated, prefer to use putChangeCommitMessage instead.
     saveChangeCommitMessageEdit(changeNum, message) {
       const p = {message};
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/edit:message',
+      return this._getChangeURLAndSend(changeNum, 'PUT', null, '/edit:message',
           p);
     },
 
     publishChangeEdit(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'POST', null,
+      return this._getChangeURLAndSend(changeNum, 'POST', null,
           '/edit:publish');
     },
 
     putChangeCommitMessage(changeNum, message) {
       const p = {message};
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/message', p);
+      return this._getChangeURLAndSend(changeNum, 'PUT', null, '/message', p);
     },
 
     saveChangeStarred(changeNum, starred) {
@@ -2059,7 +2059,7 @@
         this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
       }
 
-      const promise = this.getChangeURLAndSend(changeNum, method, patchNum,
+      const promise = this._getChangeURLAndSend(changeNum, method, patchNum,
           endpoint, body);
       this._pendingRequests[Requests.SEND_DIFF_DRAFT].push(promise);
 
@@ -2174,7 +2174,7 @@
      */
     setChangeTopic(changeNum, topic) {
       const p = {topic};
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/topic', p)
+      return this._getChangeURLAndSend(changeNum, 'PUT', null, '/topic', p)
           .then(this.getResponseObject.bind(this));
     },
 
@@ -2184,7 +2184,7 @@
      * parameter.
      */
     setChangeHashtag(changeNum, hashtag) {
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/hashtags',
+      return this._getChangeURLAndSend(changeNum, 'POST', null, '/hashtags',
           hashtag).then(this.getResponseObject.bind(this));
     },
 
@@ -2268,12 +2268,12 @@
 
     deleteVote(changeNum, account, label) {
       const e = `/reviewers/${account}/votes/${encodeURIComponent(label)}`;
-      return this.getChangeURLAndSend(changeNum, 'DELETE', null, e);
+      return this._getChangeURLAndSend(changeNum, 'DELETE', null, e);
     },
 
     setDescription(changeNum, patchNum, desc) {
       const p = {description: desc};
-      return this.getChangeURLAndSend(changeNum, 'PUT', patchNum,
+      return this._getChangeURLAndSend(changeNum, 'PUT', patchNum,
           '/description', p);
     },
 
@@ -2300,11 +2300,11 @@
 
     setAssignee(changeNum, assignee) {
       const p = {assignee};
-      return this.getChangeURLAndSend(changeNum, 'PUT', null, '/assignee', p);
+      return this._getChangeURLAndSend(changeNum, 'PUT', null, '/assignee', p);
     },
 
     deleteAssignee(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'DELETE', null, '/assignee');
+      return this._getChangeURLAndSend(changeNum, 'DELETE', null, '/assignee');
     },
 
     probePath(path) {
@@ -2323,7 +2323,7 @@
       if (opt_message) {
         payload.message = opt_message;
       }
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/wip', payload)
+      return this._getChangeURLAndSend(changeNum, 'POST', null, '/wip', payload)
           .then(response => {
             if (response.status === 204) {
               return 'Change marked as Work In Progress.';
@@ -2337,7 +2337,7 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     startReview(changeNum, opt_body, opt_errFn) {
-      return this.getChangeURLAndSend(changeNum, 'POST', null, '/ready',
+      return this._getChangeURLAndSend(changeNum, 'POST', null, '/ready',
           opt_body, opt_errFn);
     },
 
@@ -2349,7 +2349,7 @@
     deleteComment(changeNum, patchNum, commentID, reason) {
       const endpoint = `/comments/${commentID}/delete`;
       const payload = {reason};
-      return this.getChangeURLAndSend(changeNum, 'POST', patchNum, endpoint,
+      return this._getChangeURLAndSend(changeNum, 'POST', patchNum, endpoint,
           payload).then(this.getResponseObject.bind(this));
     },
 
@@ -2422,7 +2422,7 @@
      * @param {Object=} opt_headers
      * @return {!Promise<!Object>}
      */
-    getChangeURLAndSend(changeNum, method, patchNum, endpoint, opt_payload,
+    _getChangeURLAndSend(changeNum, method, patchNum, endpoint, opt_payload,
         opt_errFn, opt_contentType, opt_headers) {
       return this._changeBaseURL(changeNum, patchNum).then(url => {
         return this._send({
@@ -2451,6 +2451,22 @@
           fetchOptions: req.fetchOptions,
         });
       });
+    },
+
+    /**
+     * Execute a change action or revision action on a change.
+     * @param {number} changeNum
+     * @param {string} method
+     * @param {string} endpoint
+     * @param {string|number|null|undefined} opt_patchNum
+     * @param {Object=} opt_payload
+     * @param {?function(?Response, string=)=} opt_errFn
+     * @return {Promise}
+     */
+    executeChangeAction(changeNum, method, endpoint, opt_patchNum, opt_payload,
+        opt_errFn) {
+      return this._getChangeURLAndSend(changeNum, method, opt_patchNum || null,
+          endpoint, opt_payload, opt_errFn);
     },
 
     /**
@@ -2517,7 +2533,7 @@
     },
 
     getMergeable(changeNum) {
-      return this.getChangeURLAndSend(changeNum, 'GET', null,
+      return this._getChangeURLAndSend(changeNum, 'GET', null,
           '/revisions/current/mergeable')
           .then(this.getResponseObject.bind(this));
     },

@@ -1359,7 +1359,7 @@ limitations under the License.
         setup(() => {
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
-          sendStub = sandbox.stub(element.$.restAPI, 'getChangeURLAndSend')
+          sendStub = sandbox.stub(element.$.restAPI, 'executeChangeAction')
               .returns(Promise.resolve({}));
         });
 
@@ -1368,8 +1368,8 @@ limitations under the License.
               .then(() => {
                 assert.isFalse(onShowAlert.called);
                 assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', null,
-                    '/endpoint', payload));
+                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+                    payload, null));
               });
         });
 
@@ -1378,8 +1378,8 @@ limitations under the License.
               .then(() => {
                 assert.isFalse(onShowAlert.called);
                 assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', 12, '/endpoint',
-                    payload));
+                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+                    payload, 12));
               });
         });
       });
@@ -1389,7 +1389,7 @@ limitations under the License.
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: false}));
           const sendStub = sandbox.stub(element.$.restAPI,
-              'getChangeURLAndSend');
+              'executeChangeAction');
 
           return element._send('DELETE', payload, '/endpoint', true, cleanup)
               .then(() => {
@@ -1403,7 +1403,7 @@ limitations under the License.
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
           const sendStub = sandbox.stub(element.$.restAPI,
-              'getChangeURLAndSend',
+              'executeChangeAction',
               (num, method, patchNum, endpoint, payload, onErr) => {
                 onErr();
                 return Promise.resolve(null);

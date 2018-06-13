@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61a8fcca_dada7370",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T06:57:54Z",
+      "side": 1,
+      "message": "Can we preserve the same evaluation order, as it is done in applyImpl method? First check for administrator and only second for project owner? Apologize, that my code proposal missed that.",
+      "revId": "8ebad181928fdbab32ff7e560b6c57555b346c54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dde23e76_5de06c73",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetWorkInProgress.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-13T06:57:54Z",
+      "side": 1,
+      "message": "Same here, consistent comparison order compared to applyImpl method.",
+      "revId": "8ebad181928fdbab32ff7e560b6c57555b346c54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

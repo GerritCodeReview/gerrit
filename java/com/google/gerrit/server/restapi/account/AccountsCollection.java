@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -160,7 +161,7 @@ public class AccountsCollection
   }
 
   @Override
-  public CreateAccount create(TopLevelResource parent, IdString username) {
+  public CreateAccount create(TopLevelResource parent, IdString username) throws RestApiException {
     return createAccountFactory.create(username.get());
   }
 }

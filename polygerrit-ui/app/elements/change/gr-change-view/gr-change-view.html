@@ -116,13 +116,12 @@ limitations under the License.
         font-family: var(--font-family);
         margin-top: 1em;
       }
-      .changeInfo-column:not(:last-of-type) {
-        margin-right: 1em;
-        padding-right: 1em;
+      .changeInfo-column {
+        padding: 0 1em;
       }
       .changeMetadata {
         border-right: 1px solid var(--border-color);
-        font-size: .95rem;
+        font-size: var(--font-size-small);
         padding: 1em 0;
       }
       /* Prevent plugin text from overflowing. */
@@ -191,7 +190,7 @@ limitations under the License.
         overflow: hidden;
       }
       #relatedChanges {
-        font-size: .9rem;
+        font-size: var(--font-size-small);
       }
       #relatedChanges.collapsed {
         margin-bottom: 1.1em;
@@ -257,7 +256,14 @@ limitations under the License.
       }
       /* NOTE: If you update this breakpoint, also update the
       BREAKPOINT_RELATED_MED in the JS */
-      @media screen and (max-width: 60em) {
+      @media screen and (max-width: 75em) {
+        .relatedChanges {
+          padding: 0;
+        }
+        #relatedChanges {
+          border-top: 1px solid var(--border-color);
+          padding-top: 1em;
+        }
         #commitAndRelated {
           flex-direction: column;
           flex-wrap: nowrap;

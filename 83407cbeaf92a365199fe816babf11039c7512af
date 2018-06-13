@@ -1,4 +1,39 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1518518657 +0100\nnonce AFD2Vu21HZu7k0D10UYou+KjUFrDpnhrnShSqlgYRfES7UwHOKiZDeZm7oPvZltkzEHmk0eK9dA0\n\n0000000000000000000000000000000000000000 83407cbeaf92a365199fe816babf11039c7512af refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCAAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlqCwYEACgkQUbX9l6DQ\n71G6Ywf/VW4460GHBJgDVhTtknKLXoPMJLC/qG6R/WJDV0BZHWhEf1m7iVEiXnNs\n0OKJLBep21L45pbPqBqmn2TGKI6PbEzoqLLXz2Eu8QQOs4d0+znwDdMSG+2kBzti\nGgMRG07c/5WLRn3/VpTpKP36IgMn9OUJsI4zO9LNFr+cjHVli0O5ql+tyHDyaJXx\ngIPe88JWMc5a2CYSdd3q0LzRhQ8tjV6SZao0Yp92JvrUHpNfpKbTVHcvssWFQNMb\nFuwsl0fW9ZycPSV3BaDPhNc1B2igHKAqv/U9BFxkdLgLBAssyjfNY4c9R7nmUxKW\njZ4/ir2jLfwPV88rW8F+hW2DXg4zYQ\u003d\u003d\n\u003dpmTQ\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "627e6f76_5bef482b",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CheckProjectInput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-13T15:24:59Z",
+      "side": 1,
+      "message": "I would suggest an int field in the input which specifies the maximum number of commits per branch to walk.",
+      "revId": "83407cbeaf92a365199fe816babf11039c7512af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54fbd76d_1f9b0623",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-13T15:24:59Z",
+      "side": 1,
+      "message": "As mentioned in the other thread on an earlier patch set, I would much rather have a single large OR query requesting PATCH_SET, then use the commit SHA-1 to look up the Change-Id footer in the commit.",
+      "revId": "83407cbeaf92a365199fe816babf11039c7512af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

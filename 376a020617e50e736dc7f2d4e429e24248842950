@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ee9162f_b6b252d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-13T18:30:49Z",
+      "side": 1,
+      "message": "I guess so -- but deleting labels is no longer a function of the change metadata. Should this test be moved to the regular suite?",
+      "parentUuid": "d83a01cd_f692419d",
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "464f899e_2e5e449f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "376a020617e50e736dc7f2d4e429e24248842950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91e782e3_10af6edb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-13T18:30:49Z",
+      "side": 1,
+      "message": "This is the same style as the vote chips. If we want to use relative units, we should change both. What do you think?",
+      "parentUuid": "464f899e_2e5e449f",
+      "range": {
+        "startLine": 50,
+        "startChar": 23,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +118,24 @@
       "writtenOn": "2018-06-13T01:31:29Z",
       "side": 1,
       "message": "It looks like the icon is supposed to be falsy when the vote is not a maximum or minimum, but this returns an icon in situations where there\u0027s a +1 out of a possible +2.\n\nIn other words, it never shows the +1 or -1, it always shows an icon.",
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3dbbcb5_b9c6dd4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-13T18:30:49Z",
+      "side": 1,
+      "message": "That\u0027s false. It shows the hourglass icon only when there\u0027s no vote on the label. If there\u0027s an intermediate vote on a label, then \u0027value\u0027 is set.\n\nClearly this needs some documentation, though.",
+      "parentUuid": "ec2d3dd4_85fb5115",
       "revId": "376a020617e50e736dc7f2d4e429e24248842950",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -339,6 +339,24 @@
     },
     {
       "key": {
+        "uuid": "ed0681fa_35d8cd19",
+        "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-13T15:14:11Z",
+      "side": 1,
+      "message": "\u003e I\u0027m confused. We cannot have one query with lots of OR-conditions because then we cannot map back from the result to the query, e.g. know which change was found for which commit.\n\nSure you can, just request the PATCH_SET field",
+      "parentUuid": "7a18cdf9_2e3a93ec",
+      "revId": "e21f539f155c302003c8f765797cfec12ec753fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f900ef5_0e533979",
         "filename": "java/com/google/gerrit/server/project/ProjectsConsistencyChecker.java",
         "patchSetId": 6

@@ -307,8 +307,7 @@
     timeEnd(name) {
       if (!this._baselines.hasOwnProperty(name)) { return; }
       const baseTime = this._baselines[name];
-      const time = Math.round(this.now() - baseTime);
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
+      this._reportTiming(name, this.now() - baseTime);
       delete this._baselines[name];
     },
 
@@ -328,8 +327,25 @@
       // Guard against division by zero.
       if (!denominator) { return; }
       const time = Math.round(this.now() - baseTime);
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY, averageName,
-          Math.round(time / denominator));
+      this._reportTiming(averageName, time / denominator);
+    },
+
+    /**
+     * Send a timing report with an arbitrary time value.
+     * @param {string} name Timing name.
+     * @param {number} time The time to report as an integer of milliseconds.
+     */
+    _reportTiming(name, time) {
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, Math.round(time));
+    },
+
+    getTimer(name) {
+      const start = this.now();
+      return {
+        end: () => {
+          this._reportTiming(name, this.now() - start);
+        },
+      };
     },
 
     reportInteraction(eventName, opt_msg) {

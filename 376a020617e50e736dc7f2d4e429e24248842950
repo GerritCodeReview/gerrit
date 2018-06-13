@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "288ddd73_3c6af198",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-13T21:02:20Z",
+      "side": 1,
+      "message": "But I couldn\u0027t get it to show a +1 or a -1.",
+      "parentUuid": "d3dbbcb5_b9c6dd4d",
+      "revId": "376a020617e50e736dc7f2d4e429e24248842950",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df481d24_0c9a88ad",
         "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.js",
         "patchSetId": 3

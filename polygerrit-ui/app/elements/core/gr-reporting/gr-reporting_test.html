@@ -178,6 +178,25 @@ limitations under the License.
       ));
     });
 
+    test('timer object', () => {
+      const nowStub = sandbox.stub(element, 'now').returns(100);
+      const timer = element.getTimer('foo-bar');
+      nowStub.returns(150);
+      timer.end();
+      assert.isTrue(element.reporter.calledWithExactly(
+          'timing-report', 'UI Latency', 'foo-bar', 50));
+    });
+
+    test('timer object double call', () => {
+      const timer = element.getTimer('foo-bar');
+      timer.end();
+      assert.isTrue(element.reporter.calledOnce);
+      assert.throws(() => {
+        timer.end();
+        done();
+      }, 'Timer for "foo-bar" already ended.');
+    });
+
     test('timeEndWithAverage', () => {
       const nowStub = sandbox.stub(element, 'now').returns(0);
       nowStub.returns(1000);

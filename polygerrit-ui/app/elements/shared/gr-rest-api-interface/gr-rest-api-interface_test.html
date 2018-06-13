@@ -725,7 +725,7 @@ limitations under the License.
     suite('draft comments', () => {
       test('_sendDiffDraftRequest pending requests tracked', () => {
         const obj = element._pendingRequests;
-        sandbox.stub(element, 'getChangeURLAndSend', () => mockPromise());
+        sandbox.stub(element, '_getChangeURLAndSend', () => mockPromise());
         assert.notOk(element.hasPendingDiffDrafts());
 
         element._sendDiffDraftRequest(null, null, null, {});
@@ -747,7 +747,7 @@ limitations under the License.
       suite('_failForCreate200', () => {
         test('_sendDiffDraftRequest checks for 200 on create', () => {
           const sendPromise = Promise.resolve();
-          sandbox.stub(element, 'getChangeURLAndSend').returns(sendPromise);
+          sandbox.stub(element, '_getChangeURLAndSend').returns(sendPromise);
           const failStub = sandbox.stub(element, '_failForCreate200')
               .returns(Promise.resolve());
           return element._sendDiffDraftRequest('PUT', 123, 4, {}).then(() => {
@@ -757,7 +757,7 @@ limitations under the License.
         });
 
         test('_sendDiffDraftRequest no checks for 200 on non create', () => {
-          sandbox.stub(element, 'getChangeURLAndSend')
+          sandbox.stub(element, '_getChangeURLAndSend')
               .returns(Promise.resolve());
           const failStub = sandbox.stub(element, '_failForCreate200')
               .returns(Promise.resolve());
@@ -841,33 +841,33 @@ limitations under the License.
     });
 
     test('startWorkInProgress', () => {
-      sandbox.stub(element, 'getChangeURLAndSend')
+      sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve('ok'));
       element.startWorkInProgress('42');
-      assert.isTrue(element.getChangeURLAndSend.calledWith(
+      assert.isTrue(element._getChangeURLAndSend.calledWith(
           '42', 'POST', null, '/wip', {}));
       element.startWorkInProgress('42', 'revising...');
-      assert.isTrue(element.getChangeURLAndSend.calledWith(
+      assert.isTrue(element._getChangeURLAndSend.calledWith(
           '42', 'POST', null, '/wip', {message: 'revising...'}));
     });
 
     test('startReview', () => {
-      sandbox.stub(element, 'getChangeURLAndSend')
+      sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve({}));
       element.startReview('42', {message: 'Please review.'});
-      assert.isTrue(element.getChangeURLAndSend.calledWith(
+      assert.isTrue(element._getChangeURLAndSend.calledWith(
           '42', 'POST', null, '/ready', {message: 'Please review.'}));
     });
 
     test('deleteComment', done => {
-      sandbox.stub(element, 'getChangeURLAndSend').returns(Promise.resolve());
+      sandbox.stub(element, '_getChangeURLAndSend').returns(Promise.resolve());
       sandbox.stub(element, 'getResponseObject').returns('some response');
       element.deleteComment('foo', 'bar', '01234', 'removal reason')
           .then(response => {
             assert.equal(response, 'some response');
             done();
           });
-      assert.isTrue(element.getChangeURLAndSend.calledWith(
+      assert.isTrue(element._getChangeURLAndSend.calledWith(
           'foo', 'POST', 'bar', '/comments/01234/delete',
           {reason: 'removal reason'}));
     });
@@ -1129,11 +1129,11 @@ limitations under the License.
       });
     });
 
-    test('getChangeURLAndSend', () => {
+    test('_getChangeURLAndSend', () => {
       element._projectLookup = {1: 'test'};
       const sendStub = sandbox.stub(element, '_send')
           .returns(Promise.resolve());
-      return element.getChangeURLAndSend(1, 'POST', 1, '/test').then(() => {
+      return element._getChangeURLAndSend(1, 'POST', 1, '/test').then(() => {
         assert.isTrue(sendStub.calledOnce);
         assert.equal(sendStub.lastCall.args[0].method, 'POST');
         assert.equal(sendStub.lastCall.args[0].url,
@@ -1161,7 +1161,7 @@ limitations under the License.
     });
 
     test('setChangeTopic', () => {
-      const sendSpy = sandbox.spy(element, 'getChangeURLAndSend');
+      const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
       return element.setChangeTopic(123, 'foo-bar').then(() => {
         assert.isTrue(sendSpy.calledOnce);
         assert.deepEqual(sendSpy.lastCall.args[4], {topic: 'foo-bar'});
@@ -1169,7 +1169,7 @@ limitations under the License.
     });
 
     test('setChangeHashtag', () => {
-      const sendSpy = sandbox.spy(element, 'getChangeURLAndSend');
+      const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
       return element.setChangeHashtag(123, 'foo-bar').then(() => {
         assert.isTrue(sendSpy.calledOnce);
         assert.equal(sendSpy.lastCall.args[4], 'foo-bar');
@@ -1271,7 +1271,7 @@ limitations under the License.
     });
 
     test('getFileContent', () => {
-      sandbox.stub(element, 'getChangeURLAndSend')
+      sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve({
             ok: 'true',
             headers: {

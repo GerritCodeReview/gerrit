@@ -92,7 +92,7 @@ limitations under the License.
       .headerTitle .headerSubject {
         font-family: var(--font-family-bold);
       }
-      .replyContainer {
+      #replyBtn {
         margin-bottom: 1em;
       }
       gr-change-star {
@@ -256,6 +256,7 @@ limitations under the License.
       }
       #metadata {
         padding-right: 1em;
+        width: 100%;
       }
       /* NOTE: If you update this breakpoint, also update the
       BREAKPOINT_RELATED_MED in the JS */
@@ -317,15 +318,24 @@ limitations under the License.
           flex-direction: column;
           flex-wrap: nowrap;
         }
+        .commitContainer {
+          border-top: 1px solid var(--border-color);
+          margin: 0;
+          padding: 1em 0;
+        }
         .relatedChanges,
         .changeMetadata {
           font-size: var(--font-size-normal);
         }
         .changeMetadata {
           border-right: none;
-          margin-bottom: 1em;
           margin-top: .25em;
           max-width: none;
+          padding: 1em 0;
+        }
+        #metadata,
+        .mainChangeInfo {
+          padding: 0;
         }
         .commitActions {
           display: block;
@@ -334,7 +344,7 @@ limitations under the License.
         }
         .commitMessage {
           flex: initial;
-          margin-right: 0;
+          margin: 0;
         }
         /* Change actions are the only thing thant need to remain visible due
         to the fact that they may have the currently visible overlay open. */
@@ -418,18 +428,15 @@ limitations under the License.
           <div id="change_plugins"></div>
         </div>
         <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
-          <hr class="mobile">
           <div id="commitAndRelated" class="hideOnMobileOverlay">
             <div class="commitContainer">
-              <div class="replyContainer">
-                  <gr-button
-                      id="replyBtn"
-                      class="reply"
-                      hidden$="[[!_loggedIn]]"
-                      primary
-                      disabled="[[_replyDisabled]]"
-                      on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
-              </div>
+              <gr-button
+                  id="replyBtn"
+                  class="reply"
+                  hidden$="[[!_loggedIn]]"
+                  primary
+                  disabled="[[_replyDisabled]]"
+                  on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
               <div
                   id="commitMessage"
                   class$="commitMessage [[_computeCommitClass(_commitCollapsed, _latestCommitMessage)]]">

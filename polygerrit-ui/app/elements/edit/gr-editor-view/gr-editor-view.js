@@ -155,7 +155,8 @@
 
       return this.$.restAPI.getFileContent(changeNum, path, patchNum)
           .then(res => {
-            if (storedContent && storedContent.message) {
+            if (storedContent && storedContent.message &&
+                storedContent.message !== res.content) {
               this.dispatchEvent(new CustomEvent('show-alert',
                   {detail: {message: RESTORED_MESSAGE}, bubbles: true}));
 

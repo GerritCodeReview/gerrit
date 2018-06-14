@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "097a3a11_5360bc62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-14T23:43:02Z",
+      "side": 1,
+      "message": "Is this reverting a previous commit?  It seems to be the same commit subject as this one.\n\nIf this is actually reverting something else, please add a \"This reverts commit ...\" line in the commit message.",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "7c63ce53e232ac9b9aa9fe3245642c1e5f269b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ca5183d_10e56137",
+        "filename": "Documentation/config-mail.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-14T23:43:02Z",
+      "side": 1,
+      "message": "The commit message should explain this.",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 10
+      },
+      "revId": "7c63ce53e232ac9b9aa9fe3245642c1e5f269b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b699f9_0d049066",
+        "filename": "resources/com/google/gerrit/server/mail/ChangeSubject.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-14T23:43:02Z",
+      "side": 1,
+      "message": "The commit message should also mention that the template is changed.",
+      "revId": "7c63ce53e232ac9b9aa9fe3245642c1e5f269b73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -15,6 +15,13 @@ java_library(
 )
 
 java_library(
+    name = "io",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@commons-io//jar"],
+)
+
+java_library(
     name = "lang",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

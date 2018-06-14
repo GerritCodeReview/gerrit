@@ -1,7 +1,7 @@
 workspace(name = "gerrit")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
-load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
+load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
@@ -218,7 +218,7 @@ maven_jar(
     sha1 = "675642ac208e0b741bc9118dcbcae44c271b992a",
 )
 
-load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1")
+load("//lib:guava.bzl", "GUAVA_BIN_SHA1", "GUAVA_VERSION")
 
 maven_jar(
     name = "guava",
@@ -934,7 +934,7 @@ maven_jar(
     sha1 = "65bd0cacc9c79a21c6ed8e9f588577cd3c2f85b9",
 )
 
-load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
+load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")
 
 npm_binary(
     name = "bower",

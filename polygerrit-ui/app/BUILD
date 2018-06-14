@@ -4,13 +4,13 @@ package(
 
 load(":rules.bzl", "polygerrit_bundle")
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library", "closure_js_binary")
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
 load(
     "//tools/bzl:js.bzl",
-    "bower_component_bundle",
-    "vulcanize",
     "bower_component",
+    "bower_component_bundle",
     "js_component",
+    "vulcanize",
 )
 
 polygerrit_bundle(

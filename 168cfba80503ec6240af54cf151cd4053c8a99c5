@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70e591a7_52ac2ac9",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-14T17:51:00Z",
+      "side": 1,
+      "message": "Please describe or link the data structure",
+      "revId": "168cfba80503ec6240af54cf151cd4053c8a99c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c3172a5_19285ce2",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-14T17:51:00Z",
+      "side": 1,
+      "message": "Please describe or link the data structure",
+      "revId": "168cfba80503ec6240af54cf151cd4053c8a99c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b32534_e59c1896",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-14T17:51:00Z",
+      "side": 1,
+      "message": "Please describe or link the data structure",
+      "revId": "168cfba80503ec6240af54cf151cd4053c8a99c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc606e39_d9c04452",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-14T17:51:00Z",
+      "side": 1,
+      "message": "Could you please provide an example?",
+      "revId": "168cfba80503ec6240af54cf151cd4053c8a99c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

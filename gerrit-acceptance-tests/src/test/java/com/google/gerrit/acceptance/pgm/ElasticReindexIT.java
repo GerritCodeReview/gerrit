@@ -29,12 +29,8 @@ public class ElasticReindexIT extends AbstractReindexTests {
   @ConfigSuite.Default
   public static Config elasticsearch() {
     ElasticNodeInfo elasticNodeInfo;
-    try {
-      container = ElasticContainer.createAndStart();
-      elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
-    } catch (Throwable t) {
-      return null;
-    }
+    container = ElasticContainer.createAndStart();
+    elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
     ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);

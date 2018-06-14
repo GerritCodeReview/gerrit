@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9df8574_968c94cf",
+        "filename": "java/com/google/gerrit/server/project/Module.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-14T11:05:47Z",
+      "side": 0,
+      "message": "The binding for the cherry-pick commit REST endpoint somehow got lost in this change and didn\u0027t make it into the new com.google.gerrit.server.restapi.project.Module class [1]. I\u0027m fixing this in [2].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/148032/17/java/com/google/gerrit/server/restapi/project/Module.java\n[2] https://gerrit-review.googlesource.com/185018",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 63
+      },
+      "revId": "7a223792d9d68fda8df273285b2fc891d46ba0d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

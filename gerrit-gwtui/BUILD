@@ -1,7 +1,7 @@
 load(
     "//tools/bzl:gwt.bzl",
-    "gwt_genrule",
     "gen_ui_module",
+    "gwt_genrule",
     "gwt_user_agent_permutations",
 )
 load("//tools/bzl:license.bzl", "license_test")

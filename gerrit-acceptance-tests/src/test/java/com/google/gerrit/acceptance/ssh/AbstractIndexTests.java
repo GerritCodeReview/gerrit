@@ -45,20 +45,24 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     disableChangeIndexWrites();
     amendChange(changeId, "second test", "test2.txt", "test2");
 
-    assertQuery("message:second", change.getChange(), false);
+    assertChangeQuery("message:second", change.getChange(), false);
     enableChangeIndexWrites();
 
     String cmd = Joiner.on(" ").join("gerrit", "index", "changes", changeLegacyId);
     adminSshSession.exec(cmd);
 
-    assertQuery("message:second", change.getChange(), true);
+    assertChangeQuery("message:second", change.getChange(), true);
   }
 
-  protected void assertQuery(String q, ChangeData change, Boolean assertTrue) throws Exception {
+  protected void assertChangeQuery(String q, ChangeData change, Boolean assertTrue)
+      throws Exception {
     List<ChangeInfo> result = query(q);
     Iterable<Integer> ids = ids(result);
-    if (assertTrue) assertThat(ids).contains(change.getId().get());
-    else assertThat(ids).doesNotContain(change.getId().get());
+    if (assertTrue) {
+      assertThat(ids).contains(change.getId().get());
+    } else {
+      assertThat(ids).doesNotContain(change.getId().get());
+    }
   }
 
   protected static Iterable<Integer> ids(Iterable<ChangeInfo> changes) {

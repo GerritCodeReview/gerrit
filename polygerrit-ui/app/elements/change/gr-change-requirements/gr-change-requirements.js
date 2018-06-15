@@ -17,6 +17,8 @@
 (function() {
   'use strict';
 
+  const VALID_SELECTOR_REGEX = /[^A-Za-z0-9\-]/g;
+
   Polymer({
     is: 'gr-change-requirements',
 
@@ -133,6 +135,10 @@
 
     _computeLabelValue(value) {
       return (value > 0 ? '+' : '') + value;
+    },
+
+    _removeInvalidChars(text) {
+      return text.replace(VALID_SELECTOR_REGEX, '');
     },
   });
 })();

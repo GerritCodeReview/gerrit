@@ -189,6 +189,69 @@
     },
     {
       "key": {
+        "uuid": "1b8e66cf_b6f59e75",
+        "filename": "java/com/google/gerrit/extensions/api/changes/DeleteChangeMessageInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-15T12:55:47Z",
+      "side": 1,
+      "message": "This sounds like a user-visible string, which would belong in Javadoc.",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71fa74bf_0a27c1ca",
+        "filename": "java/com/google/gerrit/extensions/api/changes/DeleteChangeMessageInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-15T12:55:47Z",
+      "side": 1,
+      "message": "Most other REST API inputs also treat null and empty as the same, but allow storing null in the fields. Is there a reason this one needs to be different?",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f366476_3a17c0fd",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-15T12:55:47Z",
+      "side": 1,
+      "message": "This method name seems a little inaccurate:\n\n* It\u0027s not deleting the message, it is simply taking newMessage and stamping it into the message field. It\u0027s up to the caller to pass an appropriate newMessage saying \"this message was deleted\"; from the perspective of this method, there is no deletion at all. A caller could just as easily pass in a message that fixes a typo.\n* In the ReviewDb case, it doesn\u0027t rewrite history at all.\n\nHow about just something like \"replaceChangeMessage\"?",
+      "range": {
+        "startLine": 140,
+        "startChar": 33,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fca4ada_dbd067c4",
         "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 2
@@ -233,6 +296,86 @@
       "revId": "59518529af0436b19cce9e14e29d3381508b100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19455fba_16159257",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-15T12:55:47Z",
+      "side": 1,
+      "message": "Please don\u0027t make this class public. If you just want a static utility, put it in ChangeNoteUtil or NoteDbUtil or something.",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70bd60b2_796ed3e2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-15T12:55:47Z",
+      "side": 1,
+      "message": "\"Range\" is a very general term, whereas this class is describing something specific: the structure of a single Git commit message. Can we give it a more specific name?",
+      "range": {
+        "startLine": 128,
+        "startChar": 31,
+        "endLine": 128,
+        "endChar": 36
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "118a76ed_d83788b5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-15T12:55:47Z",
+      "side": 1,
+      "message": "Is it valid to have both types of rewriters in one update?",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8702a6c_8c09c4ff",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-15T12:55:47Z",
+      "side": 1,
+      "message": "There are no automatically-injected arguments in this constructor, so you don\u0027t need a factory, you can just use a public constructor.. Are you planning to add more arguments later, or something?",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 62
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

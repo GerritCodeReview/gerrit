@@ -20,9 +20,9 @@ import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
 import org.apache.http.client.methods.HttpGet;
 import org.elasticsearch.client.Response;
 
@@ -37,17 +37,25 @@ class ElasticIndexVersionDiscovery {
 
   List<String> discover(String prefix, String indexName) throws IOException {
     String name = prefix + indexName + "_";
-    Response response = client.get().performRequest(HttpGet.METHOD_NAME, name + "*/_aliases");
+    Response response =
+        client
+            .get()
+            .performRequest(HttpGet.METHOD_NAME, client.adapter().getVersionDiscoveryUrl(name));
 
-    if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-      return new JsonParser()
-          .parse(AbstractElasticIndex.getContent(response))
-          .getAsJsonObject()
-          .entrySet()
-          .stream()
-          .map(e -> e.getKey().replace(name, ""))
-          .collect(toList());
+    StatusLine statusLine = response.getStatusLine();
+    if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
+      throw new IOException(
+          String.format(
+              "Failed to discover index versions for %s: %d: %s",
+              name, statusLine.getStatusCode(), statusLine.getReasonPhrase()));
     }
-    return Collections.emptyList();
+
+    return new JsonParser()
+        .parse(AbstractElasticIndex.getContent(response))
+        .getAsJsonObject()
+        .entrySet()
+        .stream()
+        .map(e -> e.getKey().replace(name, ""))
+        .collect(toList());
   }
 }

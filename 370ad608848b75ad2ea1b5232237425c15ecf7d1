@@ -75,6 +75,24 @@
       "revId": "370ad608848b75ad2ea1b5232237425c15ecf7d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef0e8783_5d132abc",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-15T15:30:49Z",
+      "side": 1,
+      "message": "Did we ever think about rewriting configs (e.g. automatically migrating a config value during an upgrade)?",
+      "parentUuid": "6aa9f91e_1414cc47",
+      "revId": "370ad608848b75ad2ea1b5232237425c15ecf7d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

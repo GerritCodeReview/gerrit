@@ -1424,6 +1424,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         values.add(value.format());
       }
       rc.setStringList(LABEL, name, KEY_VALUE, values);
+
+      List<String> refPatterns = label.getRefPatterns();
+      if (refPatterns != null && !refPatterns.isEmpty()) {
+        rc.setStringList(LABEL, name, KEY_BRANCH, refPatterns);
+      }
     }
 
     for (String name : toUnset) {

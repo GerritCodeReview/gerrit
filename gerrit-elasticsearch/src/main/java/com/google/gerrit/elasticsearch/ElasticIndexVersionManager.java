@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +56,9 @@ public class ElasticIndexVersionManager extends VersionManager {
       IndexDefinition<K, V, I> def, GerritIndexStatus cfg) {
     TreeMap<Integer, Version<V>> versions = new TreeMap<>();
     try {
-      for (String version : versionDiscovery.discover(prefix, def.getName())) {
+      List<String> discovered = versionDiscovery.discover(prefix, def.getName());
+      log.debug("Discovered versions for {}: {}", def.getName(), discovered);
+      for (String version : discovered) {
         Integer v = Ints.tryParse(version);
         if (v == null || version.length() != 4) {
           log.warn("Unrecognized version in index {}: {}", def.getName(), version);

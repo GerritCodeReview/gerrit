@@ -912,8 +912,8 @@ maven_jar(
 
 maven_jar(
     name = "testcontainers",
-    artifact = "org.testcontainers:testcontainers:1.7.2",
-    sha1 = "fec8b360b6b613f6c9d3b8e7a9fa32d1a2bcb978",
+    artifact = "org.testcontainers:testcontainers:1.8.0",
+    sha1 = "bc413912f7044f9f12aa0782853aef0a067ee52a",
 )
 
 maven_jar(

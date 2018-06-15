@@ -1413,16 +1413,32 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void configLabel(String label, LabelFunction func) throws Exception {
-    configLabel(
-        project, label, func, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+    configLabel(label, func, ImmutableList.of());
   }
 
-  protected void configLabel(
-      Project.NameKey project, String label, LabelFunction func, LabelValue... value)
+  protected void configLabel(String label, LabelFunction func, List<String> refPatterns)
+      throws Exception {
+    configLabel(
+        project,
+        label,
+        func,
+        refPatterns,
+        value(1, "Passes"),
+        value(0, "No score"),
+        value(-1, "Failed"));
+  }
+
+  private void configLabel(
+      Project.NameKey project,
+      String label,
+      LabelFunction func,
+      List<String> refPatterns,
+      LabelValue... value)
       throws Exception {
     ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
     LabelType labelType = category(label, value);
     labelType.setFunction(func);
+    labelType.setRefPatterns(refPatterns);
     cfg.getLabelSections().put(labelType.getName(), labelType);
     saveProjectConfig(project, cfg);
   }

@@ -36,6 +36,7 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.Util;
+import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -280,6 +281,39 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
     assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
         .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
+  }
+
+  @Test
+  public void moveToBranchWithoutLabel() throws Exception {
+    createBranch(new Branch.NameKey(project, "foo"));
+    String testLabelA = "Label-A";
+    configLabel(testLabelA, LabelFunction.MAX_WITH_BLOCK, Arrays.asList("refs/heads/master"));
+
+    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    Util.allow(cfg, Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/master");
+    saveProjectConfig(cfg);
+
+    String changeId = createChange().getChangeId();
+
+    ReviewInput input = new ReviewInput();
+    input.label(testLabelA, -1);
+    gApi.changes().id(changeId).current().review(input);
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+        .containsExactly(testLabelA);
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -1);
+
+    move(changeId, "foo");
+
+    // assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+    //    .isEmpty();
+    // move(changeId, "master");
+    // assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+    //    .containsExactly(testLabelA);
+    // assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+    //    .containsExactly((short) -1);
   }
 
   private void move(int changeNum, String destination) throws RestApiException {

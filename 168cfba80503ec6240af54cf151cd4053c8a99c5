@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "43c2c156_51260d54",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-15T15:40:35Z",
+      "side": 1,
+      "message": "It\u0027s not just a simple link to an object from the API -- how am I supposed to document the structure of a custom object in this file? Like a JSDoc? Do you have an example?",
+      "parentUuid": "70e591a7_52ac2ac9",
+      "revId": "168cfba80503ec6240af54cf151cd4053c8a99c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c3172a5_19285ce2",
         "filename": "Documentation/pg-plugin-endpoints.txt",
         "patchSetId": 1

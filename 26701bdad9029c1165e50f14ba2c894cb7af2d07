@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6bcb50de_8cf0f1f7",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-15T13:40:30Z",
+      "side": 1,
+      "message": "I didn\u0027t look at this in details, but the label is configured with range -1..+1.\nIf you vote with -2, then this is outside of the valid range and PostReview ignores the vote (it would only fail if the strictLabels option is set). \nNow PostReview.updateLabels finds that no labels should be updated/deleted, but it thinks that the caller should be added as reviewer. To do this it calls forceCallerAsReviewer which adds a 0 vote on a random label (ReviewDb-way of adding a reviewer).",
+      "parentUuid": "6e7a8dcd_61193b1e",
+      "range": {
+        "startLine": 294,
+        "startChar": 4,
+        "endLine": 307,
+        "endChar": 0
+      },
+      "revId": "26701bdad9029c1165e50f14ba2c894cb7af2d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e84b36ed_5aa7420f",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
         "patchSetId": 1

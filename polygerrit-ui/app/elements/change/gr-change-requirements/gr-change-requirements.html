@@ -87,7 +87,7 @@ limitations under the License.
             items="[[_requiredLabels]]">
           <gr-label
               tabindex="0"
-              id$="[[item.label]]"
+              id$="[[_removeWhitespace(item.label)]]"
               class$="requirement [[item.style]]">
             <span class="labelName">[[_computeLabelShortcut(item.label)]]</span>
             <span class="status">
@@ -99,7 +99,7 @@ limitations under the License.
               </template>
             </span>
           </gr-label>
-          <gr-hovercard position="top" for="[[item.label]]">
+          <gr-hovercard position="top" for="[[_removeWhitespace(item.label)]]">
             <gr-label-info
                 change="{{change}}"
                 account="[[account]]"
@@ -131,7 +131,7 @@ limitations under the License.
             items="[[_optionalLabels]]">
           <gr-label
               tabindex="0"
-              id$="[[item.label]]"
+              id$="[[_removeWhitespace(item.label)]]"
               class$="requirement [[item.style]]">
             <span class="labelName">[[_computeLabelShortcut(item.label)]]</span>
             <span class="status">
@@ -143,7 +143,7 @@ limitations under the License.
                 </template>
               </span>
           </gr-label>
-          <gr-hovercard position="top" for="[[item.label]]">
+          <gr-hovercard position="top" for="[[_removeWhitespace(item.label)]]">
             <gr-label-info
                 change="{{change}}"
                 account="[[account]]"

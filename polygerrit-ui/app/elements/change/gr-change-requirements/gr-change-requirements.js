@@ -134,5 +134,9 @@
     _computeLabelValue(value) {
       return (value > 0 ? '+' : '') + value;
     },
+
+    _removeWhitespace(text) {
+      return text.replace(/\s/g, '');
+    },
   });
 })();

@@ -76,6 +76,9 @@ limitations under the License.
       assert.equal(element._computeLabelValue(1), '+1');
       assert.equal(element._computeLabelValue(-1), '-1');
       assert.equal(element._computeLabelValue(0), '0');
+
+      assert.equal(element._removeWhitespace('test'), 'test');
+      assert.equal(element._removeWhitespace('test test'), 'testtest');
     });
 
     test('_computeLabels', () => {

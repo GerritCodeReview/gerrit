@@ -114,6 +114,11 @@
     this._el.setActionButtonProp(key, 'label', text);
   };
 
+  GrChangeActionsInterface.prototype.setTitle = function(key, text) {
+    ensureEl(this);
+    this._el.setActionButtonProp(key, 'title', text);
+  };
+
   GrChangeActionsInterface.prototype.setEnabled = function(key, enabled) {
     ensureEl(this);
     this._el.setActionButtonProp(key, 'enabled', enabled);

@@ -91,7 +91,7 @@ final class CreateGroupCommand extends SshCommand {
     initialGroups.add(id);
   }
 
-  @Inject private CreateGroup.Factory createGroupFactory;
+  @Inject private CreateGroup createGroup;
 
   @Inject private GroupsCollection groups;
 
@@ -126,7 +126,8 @@ final class CreateGroupCommand extends SshCommand {
       input.ownerId = String.valueOf(ownerGroupId.get());
     }
 
-    GroupInfo group = createGroupFactory.create(groupName).apply(TopLevelResource.INSTANCE, input);
+    GroupInfo group =
+        createGroup.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(groupName), input);
     return groups.parse(TopLevelResource.INSTANCE, IdString.fromUrl(group.id));
   }
 

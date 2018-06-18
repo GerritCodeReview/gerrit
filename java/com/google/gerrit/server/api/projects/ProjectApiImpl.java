@@ -88,7 +88,7 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   private final PermissionBackend permissionBackend;
-  private final CreateProject.Factory createProjectFactory;
+  private final CreateProject createProject;
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
   private final GetDescription getDescription;
@@ -122,7 +122,7 @@ public class ProjectApiImpl implements ProjectApi {
   @AssistedInject
   ProjectApiImpl(
       PermissionBackend permissionBackend,
-      CreateProject.Factory createProjectFactory,
+      CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -153,7 +153,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
-        createProjectFactory,
+        createProject,
         projectApi,
         projects,
         getDescription,
@@ -188,7 +188,7 @@ public class ProjectApiImpl implements ProjectApi {
   @AssistedInject
   ProjectApiImpl(
       PermissionBackend permissionBackend,
-      CreateProject.Factory createProjectFactory,
+      CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -219,7 +219,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Assisted String name) {
     this(
         permissionBackend,
-        createProjectFactory,
+        createProject,
         projectApi,
         projects,
         getDescription,
@@ -253,7 +253,7 @@ public class ProjectApiImpl implements ProjectApi {
 
   private ProjectApiImpl(
       PermissionBackend permissionBackend,
-      CreateProject.Factory createProjectFactory,
+      CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -284,7 +284,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       String name) {
     this.permissionBackend = permissionBackend;
-    this.createProjectFactory = createProjectFactory;
+    this.createProject = createProject;
     this.projectApi = projectApi;
     this.projects = projects;
     this.getDescription = getDescription;
@@ -330,9 +330,10 @@ public class ProjectApiImpl implements ProjectApi {
       if (in.name != null && !name.equals(in.name)) {
         throw new BadRequestException("name must match input.name");
       }
-      CreateProject impl = createProjectFactory.create(name);
-      permissionBackend.currentUser().checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
-      impl.apply(TopLevelResource.INSTANCE, in);
+      permissionBackend
+          .currentUser()
+          .checkAny(GlobalPermission.fromAnnotation(createProject.getClass()));
+      createProject.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(name), in);
       return projectApi.create(projects.parse(name));
     } catch (Exception e) {
       throw asRestApiException("Cannot create project: " + e.getMessage(), e);

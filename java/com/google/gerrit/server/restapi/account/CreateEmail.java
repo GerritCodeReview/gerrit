@@ -22,11 +22,12 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
@@ -43,16 +44,12 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-public class CreateEmail implements RestModifyView<AccountResource, EmailInput> {
+public class CreateEmail
+    implements RestCreateView<AccountResource, AccountResource.Email, EmailInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public interface Factory {
-    CreateEmail create(String email);
-  }
 
   private final Provider<CurrentUser> self;
   private final Realm realm;
@@ -61,7 +58,6 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final PutPreferred putPreferred;
   private final OutgoingEmailValidator validator;
-  private final String email;
   private final boolean isDevMode;
 
   @Inject
@@ -73,8 +69,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
       PutPreferred putPreferred,
-      OutgoingEmailValidator validator,
-      @Assisted String email) {
+      OutgoingEmailValidator validator) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
@@ -82,12 +77,11 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.putPreferred = putPreferred;
     this.validator = validator;
-    this.email = email != null ? email.trim() : null;
     this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
   }
 
   @Override
-  public Response<EmailInfo> apply(AccountResource rsrc, EmailInput input)
+  public Response<EmailInfo> apply(AccountResource rsrc, IdString id, EmailInput input)
       throws RestApiException, OrmException, EmailException, MethodNotAllowedException, IOException,
           ConfigInvalidException, PermissionBackendException {
     if (input == null) {
@@ -102,13 +96,15 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       throw new MethodNotAllowedException("realm does not allow adding emails");
     }
 
-    return apply(rsrc.getUser(), input);
+    return apply(rsrc.getUser(), id, input);
   }
 
   /** To be used from plugins that want to create emails without permission checks. */
-  public Response<EmailInfo> apply(IdentifiedUser user, EmailInput input)
+  public Response<EmailInfo> apply(IdentifiedUser user, IdString id, EmailInput input)
       throws RestApiException, OrmException, EmailException, MethodNotAllowedException, IOException,
           ConfigInvalidException, PermissionBackendException {
+    String email = id.get().trim();
+
     if (input == null) {
       input = new EmailInput();
     }

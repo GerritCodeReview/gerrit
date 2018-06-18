@@ -23,8 +23,10 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -211,22 +213,20 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
-  public static class PutMember implements RestModifyView<GroupResource, Input> {
-
+  public static class CreateMember implements RestCreateView<GroupResource, MemberResource, Input> {
     private final AddMembers put;
-    private final String id;
 
-    public PutMember(AddMembers put, String id) {
+    @Inject
+    public CreateMember(AddMembers put) {
       this.put = put;
-      this.id = id;
     }
 
     @Override
-    public AccountInfo apply(GroupResource resource, Input input)
+    public AccountInfo apply(GroupResource resource, IdString id, Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
             IOException, ConfigInvalidException {
       AddMembers.Input in = new AddMembers.Input();
-      in._oneMember = id;
+      in._oneMember = id.get();
       try {
         List<AccountInfo> list = put.apply(resource, in);
         if (list.size() == 1) {

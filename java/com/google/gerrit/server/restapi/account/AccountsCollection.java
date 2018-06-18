@@ -16,11 +16,9 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -40,15 +38,13 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class AccountsCollection
-    implements RestCollection<TopLevelResource, AccountResource>, AcceptsCreate<TopLevelResource> {
+public class AccountsCollection implements RestCollection<TopLevelResource, AccountResource> {
   private final Provider<CurrentUser> self;
   private final AccountResolver resolver;
   private final AccountControl.Factory accountControlFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<QueryAccounts> list;
   private final DynamicMap<RestView<AccountResource>> views;
-  private final CreateAccount.Factory createAccountFactory;
 
   @Inject
   public AccountsCollection(
@@ -57,15 +53,13 @@ public class AccountsCollection
       AccountControl.Factory accountControlFactory,
       IdentifiedUser.GenericFactory userFactory,
       Provider<QueryAccounts> list,
-      DynamicMap<RestView<AccountResource>> views,
-      CreateAccount.Factory createAccountFactory) {
+      DynamicMap<RestView<AccountResource>> views) {
     this.self = self;
     this.resolver = resolver;
     this.accountControlFactory = accountControlFactory;
     this.userFactory = userFactory;
     this.list = list;
     this.views = views;
-    this.createAccountFactory = createAccountFactory;
   }
 
   @Override
@@ -158,10 +152,5 @@ public class AccountsCollection
   @Override
   public DynamicMap<RestView<AccountResource>> views() {
     return views;
-  }
-
-  @Override
-  public CreateAccount create(TopLevelResource parent, IdString username) throws RestApiException {
-    return createAccountFactory.create(username.get());
   }
 }

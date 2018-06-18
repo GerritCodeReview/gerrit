@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -27,7 +26,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.MemberResource;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
-import com.google.gerrit.server.restapi.group.AddMembers.PutMember;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -36,23 +34,19 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class MembersCollection
-    implements ChildCollection<GroupResource, MemberResource>, AcceptsCreate<GroupResource> {
+public class MembersCollection implements ChildCollection<GroupResource, MemberResource> {
   private final DynamicMap<RestView<MemberResource>> views;
   private final Provider<ListMembers> list;
   private final AccountsCollection accounts;
-  private final AddMembers put;
 
   @Inject
   MembersCollection(
       DynamicMap<RestView<MemberResource>> views,
       Provider<ListMembers> list,
-      AccountsCollection accounts,
-      AddMembers put) {
+      AccountsCollection accounts) {
     this.views = views;
     this.list = list;
     this.accounts = accounts;
-    this.put = put;
   }
 
   @Override
@@ -76,11 +70,6 @@ public class MembersCollection
 
   private static boolean isMember(GroupDescription.Internal group, IdentifiedUser user) {
     return group.getMembers().contains(user.getAccountId());
-  }
-
-  @Override
-  public PutMember create(GroupResource group, IdString id) {
-    return new PutMember(put, id.get());
   }
 
   @Override

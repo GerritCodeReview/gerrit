@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -30,20 +29,14 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class TagsCollection
-    implements ChildCollection<ProjectResource, TagResource>, AcceptsCreate<ProjectResource> {
+public class TagsCollection implements ChildCollection<ProjectResource, TagResource> {
   private final DynamicMap<RestView<TagResource>> views;
   private final Provider<ListTags> list;
-  private final CreateTag.Factory createTagFactory;
 
   @Inject
-  public TagsCollection(
-      DynamicMap<RestView<TagResource>> views,
-      Provider<ListTags> list,
-      CreateTag.Factory createTagFactory) {
+  public TagsCollection(DynamicMap<RestView<TagResource>> views, Provider<ListTags> list) {
     this.views = views;
     this.list = list;
-    this.createTagFactory = createTagFactory;
   }
 
   @Override
@@ -61,10 +54,5 @@ public class TagsCollection
   @Override
   public DynamicMap<RestView<TagResource>> views() {
     return views;
-  }
-
-  @Override
-  public CreateTag create(ProjectResource resource, IdString name) {
-    return createTagFactory.create(name.get());
   }
 }

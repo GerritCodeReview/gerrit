@@ -15,12 +15,14 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.reviewdb.client.RefNames.REFS_HEADS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
@@ -35,13 +37,25 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
 public class CreateBranchIT extends AbstractDaemonTest {
   private Branch.NameKey testBranch;
 
   @Before
   public void setUp() throws Exception {
     testBranch = new Branch.NameKey(project, "test");
+  }
+
+  @Test
+  public void createBranchRestApi() throws Exception {
+    BranchInput input = new BranchInput();
+    input.ref = "foo";
+    assertThat(gApi.projects().name(project.get()).branches().get().stream().map(i -> i.ref))
+        .doesNotContain(REFS_HEADS + input.ref);
+    RestResponse r =
+        adminRestSession.put("/projects/" + project.get() + "/branches/" + input.ref, input);
+    r.assertCreated();
+    assertThat(gApi.projects().name(project.get()).branches().get().stream().map(i -> i.ref))
+        .contains(REFS_HEADS + input.ref);
   }
 
   @Test

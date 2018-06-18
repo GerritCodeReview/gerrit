@@ -27,6 +27,7 @@ public class PluginRestApiModule extends RestApiModule {
     requireBinding(Key.get(PluginUser.Factory.class));
     bind(PluginsCollection.class);
     DynamicMap.mapOf(binder(), PLUGIN_KIND);
+    create(PLUGIN_KIND).to(InstallPlugin.Create.class);
     put(PLUGIN_KIND).to(InstallPlugin.Overwrite.class);
     delete(PLUGIN_KIND).to(DisablePlugin.class);
     get(PLUGIN_KIND, "status").to(GetStatus.class);

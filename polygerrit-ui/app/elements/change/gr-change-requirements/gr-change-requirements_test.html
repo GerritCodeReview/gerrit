@@ -76,6 +76,12 @@ limitations under the License.
       assert.equal(element._computeLabelValue(1), '+1');
       assert.equal(element._computeLabelValue(-1), '-1');
       assert.equal(element._computeLabelValue(0), '0');
+
+      assert.equal(element._removeInvalidChars('test'), 'test');
+      assert.equal(element._removeInvalidChars('test test'), 'testtest');
+      assert.equal(element._removeInvalidChars(
+          'Bug ID must be specified for changes in this branch, b/35267372'),
+          'BugIDmustbespecifiedforchangesinthisbranchb35267372');
     });
 
     test('_computeLabels', () => {

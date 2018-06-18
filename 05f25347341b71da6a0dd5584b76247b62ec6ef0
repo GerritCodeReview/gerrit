@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ecf129a_5361d4d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-18T14:13:30Z",
+      "side": 1,
+      "message": "What would the shortcut be for this label? \"BID\"? I think that\u0027s...actually pretty reasonable.",
+      "revId": "05f25347341b71da6a0dd5584b76247b62ec6ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

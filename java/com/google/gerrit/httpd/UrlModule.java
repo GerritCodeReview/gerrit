@@ -263,8 +263,6 @@ class UrlModule extends ServletModule {
       throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());
-    url.append('/');
-    url.append('#');
     url.append(target);
     rsp.sendRedirect(url.toString());
   }

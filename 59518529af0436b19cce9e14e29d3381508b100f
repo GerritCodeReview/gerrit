@@ -212,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "d96ef294_a4def857",
+        "filename": "java/com/google/gerrit/extensions/api/changes/DeleteChangeMessageInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-06-18T17:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b8e66cf_b6f59e75",
+      "range": {
+        "startLine": 23,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71fa74bf_0a27c1ca",
         "filename": "java/com/google/gerrit/extensions/api/changes/DeleteChangeMessageInput.java",
         "patchSetId": 2
@@ -226,6 +250,24 @@
       "revId": "59518529af0436b19cce9e14e29d3381508b100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "471c604c_43a0876e",
+        "filename": "java/com/google/gerrit/extensions/api/changes/DeleteChangeMessageInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-06-18T17:17:54Z",
+      "side": 1,
+      "message": "We don\u0027t need to have this convert here because it\u0027s already checked in the endpoint. DeleteChangeMessage#114",
+      "parentUuid": "71fa74bf_0a27c1ca",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -249,6 +291,30 @@
       "revId": "59518529af0436b19cce9e14e29d3381508b100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fd8159d_64e002f3",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-06-18T17:17:54Z",
+      "side": 1,
+      "message": "\u003e This method name seems a little inaccurate:\n\u003e \n\u003e * It\u0027s not deleting the message, it is simply taking newMessage and stamping it into the message field. It\u0027s up to the caller to pass an appropriate newMessage saying \"this message was deleted\"; from the perspective of this method, there is no deletion at all. A caller could just as easily pass in a message that fixes a typo.\n\u003e * In the ReviewDb case, it doesn\u0027t rewrite history at all.\n\u003e \n\u003e How about just something like \"replaceChangeMessage\"?",
+      "parentUuid": "9f366476_3a17c0fd",
+      "range": {
+        "startLine": 140,
+        "startChar": 33,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -316,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "f41dea5c_bd66935c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-06-18T17:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19455fba_16159257",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70bd60b2_796ed3e2",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 2
@@ -339,6 +423,30 @@
     },
     {
       "key": {
+        "uuid": "8cfce11a_a3a876bc",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-06-18T17:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70bd60b2_796ed3e2",
+      "range": {
+        "startLine": 128,
+        "startChar": 31,
+        "endLine": 128,
+        "endChar": 36
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "118a76ed_d83788b5",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -353,6 +461,24 @@
       "revId": "59518529af0436b19cce9e14e29d3381508b100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1169d38_6f790f05",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-06-18T17:17:54Z",
+      "side": 1,
+      "message": "I would avoid having both of them in one BatchUpdate because they are rewritting the same branch. It could work, but we don\u0027t have usecase for that yet.",
+      "parentUuid": "118a76ed_d83788b5",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -376,6 +502,30 @@
       "revId": "59518529af0436b19cce9e14e29d3381508b100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad76592f_b188424b",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-06-18T17:17:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8702a6c_8c09c4ff",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 62
+      },
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -45,7 +45,7 @@ public class AccountsImpl implements Accounts {
   private final AccountApiImpl.Factory api;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> self;
-  private final CreateAccount.Factory createAccount;
+  private final CreateAccount createAccount;
   private final Provider<QueryAccounts> queryAccountsProvider;
 
   @Inject
@@ -54,7 +54,7 @@ public class AccountsImpl implements Accounts {
       AccountApiImpl.Factory api,
       PermissionBackend permissionBackend,
       Provider<CurrentUser> self,
-      CreateAccount.Factory createAccount,
+      CreateAccount createAccount,
       Provider<QueryAccounts> queryAccountsProvider) {
     this.accounts = accounts;
     this.api = api;
@@ -99,9 +99,13 @@ public class AccountsImpl implements Accounts {
       throw new BadRequestException("AccountInput must specify username");
     }
     try {
-      CreateAccount impl = createAccount.create(in.username);
-      permissionBackend.currentUser().checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
-      AccountInfo info = impl.apply(TopLevelResource.INSTANCE, in).value();
+      permissionBackend
+          .currentUser()
+          .checkAny(GlobalPermission.fromAnnotation(createAccount.getClass()));
+      AccountInfo info =
+          createAccount
+              .apply(TopLevelResource.INSTANCE, IdString.fromDecoded(in.username), in)
+              .value();
       return id(info._accountId);
     } catch (Exception e) {
       throw asRestApiException("Cannot create account " + in.username, e);

@@ -88,6 +88,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -323,13 +324,25 @@ public class RestApiServlet extends HttpServlet {
             checkPreconditions(req);
           }
         } catch (ResourceNotFoundException e) {
-          if (rc instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
+          if (!path.isEmpty() || (!isPost(req) && !isPut(req))) {
+            throw e;
+          }
+
+          if (rc instanceof AcceptsCreate) {
+            // TODO(ekempin): Remove support for AcceptsCreate
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
             viewData = new ViewData(null, ac.create(rsrc, id));
             status = SC_CREATED;
           } else {
-            throw e;
+            RestView<RestResource> createView = rc.views().get("gerrit", "CREATE./");
+            if (createView != null) {
+              viewData = new ViewData(null, createView);
+              status = SC_CREATED;
+              path.add(id);
+            } else {
+              throw e;
+            }
           }
         }
         if (viewData.view == null) {
@@ -365,6 +378,7 @@ public class RestApiServlet extends HttpServlet {
           checkPreconditions(req);
           viewData = new ViewData(null, null);
         } catch (ResourceNotFoundException e) {
+          // TODO(ekempin): handle resource creation by RestCreateView for child collections
           if (c instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
             @SuppressWarnings("unchecked")
             AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
@@ -404,6 +418,19 @@ public class RestApiServlet extends HttpServlet {
         Type type = inputType(m);
         inputRequestBody = parseRequest(req, type);
         result = m.apply(rsrc, inputRequestBody);
+        if (inputRequestBody instanceof RawInput) {
+          try (InputStream is = req.getInputStream()) {
+            ServletUtils.consumeRequestBody(is);
+          }
+        }
+      } else if (viewData.view instanceof RestCreateView<?, ?, ?>) {
+        @SuppressWarnings("unchecked")
+        RestCreateView<RestResource, RestResource, Object> m =
+            (RestCreateView<RestResource, RestResource, Object>) viewData.view;
+
+        Type type = inputType(m);
+        inputRequestBody = parseRequest(req, type);
+        result = m.apply(rsrc, path.get(0), inputRequestBody);
         if (inputRequestBody instanceof RawInput) {
           try (InputStream is = req.getInputStream()) {
             ServletUtils.consumeRequestBody(is);
@@ -733,6 +760,24 @@ public class RestApiServlet extends HttpServlet {
         typeLiteral,
         supertypeLiteral);
     return ((ParameterizedType) supertype).getActualTypeArguments()[1];
+  }
+
+  private static Type inputType(RestCreateView<RestResource, RestResource, Object> m) {
+    // MyCreateView implements RestCreateView<SomeResource, SomeResource, MyInput>
+    TypeLiteral<?> typeLiteral = TypeLiteral.get(m.getClass());
+
+    // RestCreateView<SomeResource, SomeResource, MyInput>
+    // This is smart enough to resolve even when there are intervening subclasses, even if they have
+    // reordered type arguments.
+    TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestCreateView.class);
+
+    Type supertype = supertypeLiteral.getType();
+    checkState(
+        supertype instanceof ParameterizedType,
+        "supertype of %s is not parameterized: %s",
+        typeLiteral,
+        supertypeLiteral);
+    return ((ParameterizedType) supertype).getActualTypeArguments()[2];
   }
 
   private Object parseRequest(HttpServletRequest req, Type type)

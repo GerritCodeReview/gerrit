@@ -28,6 +28,7 @@ public abstract class RestApiModule extends FactoryModule {
   protected static final String PUT = "PUT";
   protected static final String DELETE = "DELETE";
   protected static final String POST = "POST";
+  protected static final String CREATE = "CREATE";
 
   protected <R extends RestResource> ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
     return new ReadViewBinder<>(view(viewType, GET, "/"));
@@ -43,6 +44,11 @@ public abstract class RestApiModule extends FactoryModule {
 
   protected <R extends RestResource> ModifyViewBinder<R> delete(TypeLiteral<RestView<R>> viewType) {
     return new ModifyViewBinder<>(view(viewType, DELETE, "/"));
+  }
+
+  protected <P extends RestResource, R extends RestResource> CreateViewBinder<R> create(
+      TypeLiteral<RestView<R>> viewType) {
+    return new CreateViewBinder<>(createView(viewType, CREATE, "/"));
   }
 
   protected <R extends RestResource> ReadViewBinder<R> get(
@@ -72,6 +78,12 @@ public abstract class RestApiModule extends FactoryModule {
 
   protected <R extends RestResource> LinkedBindingBuilder<RestView<R>> view(
       TypeLiteral<RestView<R>> viewType, String method, String name) {
+    return bind(viewType).annotatedWith(export(method, name));
+  }
+
+  protected <P extends RestResource, R extends RestResource>
+      LinkedBindingBuilder<RestView<R>> createView(
+          TypeLiteral<RestView<R>> viewType, String method, String name) {
     return bind(viewType).annotatedWith(export(method, name));
   }
 
@@ -133,6 +145,33 @@ public abstract class RestApiModule extends FactoryModule {
 
     public <T extends RestModifyView<P, ?>> ScopedBindingBuilder toProvider(
         Provider<? extends T> provider) {
+      return binder.toProvider(provider);
+    }
+  }
+
+  public static class CreateViewBinder<C extends RestResource> {
+    private final LinkedBindingBuilder<RestView<C>> binder;
+
+    private CreateViewBinder(LinkedBindingBuilder<RestView<C>> binder) {
+      this.binder = binder;
+    }
+
+    public <P extends RestResource, T extends RestCreateView<P, C, ?>> ScopedBindingBuilder to(
+        Class<T> impl) {
+      return binder.to(impl);
+    }
+
+    public <P extends RestResource, T extends RestCreateView<P, C, ?>> void toInstance(T impl) {
+      binder.toInstance(impl);
+    }
+
+    public <P extends RestResource, T extends RestCreateView<P, C, ?>>
+        ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
+      return binder.toProvider(providerType);
+    }
+
+    public <P extends RestResource, T extends RestCreateView<P, C, ?>>
+        ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
     }
   }

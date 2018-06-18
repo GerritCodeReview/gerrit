@@ -29,9 +29,10 @@ import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
@@ -52,7 +54,6 @@ import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,7 +62,8 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
-public class CreateAccount implements RestModifyView<TopLevelResource, AccountInput> {
+public class CreateAccount
+    implements RestCreateView<TopLevelResource, AccountResource, AccountInput> {
   public interface Factory {
     CreateAccount create(String username);
   }
@@ -75,7 +77,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
-  private final String username;
 
   @Inject
   CreateAccount(
@@ -87,8 +88,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
-      OutgoingEmailValidator validator,
-      @Assisted String username) {
+      OutgoingEmailValidator validator) {
     this.seq = seq;
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
@@ -98,23 +98,30 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.externalIdCreators = externalIdCreators;
     this.groupsUpdate = groupsUpdate;
     this.validator = validator;
-    this.username = username;
   }
 
   @Override
-  public Response<AccountInfo> apply(TopLevelResource rsrc, @Nullable AccountInput input)
+  public Response<AccountInfo> apply(
+      TopLevelResource rsrc, IdString id, @Nullable AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
           OrmException, IOException, ConfigInvalidException {
-    return apply(input != null ? input : new AccountInput());
+    if (input == null) {
+      input = new AccountInput();
+    }
+    if (input.username != null && !id.get().equals(input.username)) {
+      throw new BadRequestException("username must match URL");
+    }
+    input.username = id.get();
+    return apply(input);
   }
 
   public Response<AccountInfo> apply(AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
           OrmException, IOException, ConfigInvalidException {
-    if (input.username != null && !username.equals(input.username)) {
-      throw new BadRequestException("username must match URL");
+    String username = input.username;
+    if (username == null) {
+      throw new BadRequestException("username is required");
     }
-
     if (!ExternalId.isValidUsername(username)) {
       throw new BadRequestException(
           "Username '" + username + "' must contain only letters, numbers, _, - or .");

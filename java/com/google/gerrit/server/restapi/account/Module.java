@@ -43,6 +43,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
     DynamicMap.mapOf(binder(), STAR_KIND);
 
+    create(ACCOUNT_KIND).to(CreateAccount.class);
     put(ACCOUNT_KIND).to(PutAccount.class);
     get(ACCOUNT_KIND).to(GetAccount.class);
     get(ACCOUNT_KIND, "detail").to(GetDetail.class);
@@ -58,6 +59,7 @@ public class Module extends RestApiModule {
     put(ACCOUNT_KIND, "active").to(PutActive.class);
     delete(ACCOUNT_KIND, "active").to(DeleteActive.class);
     child(ACCOUNT_KIND, "emails").to(EmailsCollection.class);
+    create(EMAIL_KIND).to(CreateEmail.class);
     get(EMAIL_KIND).to(GetEmail.class);
     put(EMAIL_KIND).to(PutEmail.class);
     delete(EMAIL_KIND).to(DeleteEmail.class);
@@ -93,6 +95,7 @@ public class Module extends RestApiModule {
     put(ACCOUNT_KIND, "agreements").to(PutAgreement.class);
 
     child(ACCOUNT_KIND, "starred.changes").to(StarredChanges.class);
+    create(STARRED_CHANGE_KIND).to(StarredChanges.Create.class);
     put(STARRED_CHANGE_KIND).to(StarredChanges.Put.class);
     delete(STARRED_CHANGE_KIND).to(StarredChanges.Delete.class);
     bind(StarredChanges.Create.class);
@@ -104,8 +107,6 @@ public class Module extends RestApiModule {
     get(ACCOUNT_KIND, "external.ids").to(GetExternalIds.class);
     post(ACCOUNT_KIND, "external.ids:delete").to(DeleteExternalIds.class);
 
-    factory(CreateAccount.Factory.class);
-    factory(CreateEmail.Factory.class);
     factory(AccountsUpdate.Factory.class);
   }
 

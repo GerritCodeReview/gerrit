@@ -111,7 +111,7 @@ public class AccountApiImpl implements AccountApi {
   private final Stars.Get starsGet;
   private final Stars.Post starsPost;
   private final GetEmails getEmails;
-  private final CreateEmail.Factory createEmailFactory;
+  private final CreateEmail createEmail;
   private final DeleteEmail deleteEmail;
   private final GpgApiAdapter gpgApiAdapter;
   private final GetSshKeys getSshKeys;
@@ -151,7 +151,7 @@ public class AccountApiImpl implements AccountApi {
       Stars.Get starsGet,
       Stars.Post starsPost,
       GetEmails getEmails,
-      CreateEmail.Factory createEmailFactory,
+      CreateEmail createEmail,
       DeleteEmail deleteEmail,
       GpgApiAdapter gpgApiAdapter,
       GetSshKeys getSshKeys,
@@ -190,7 +190,7 @@ public class AccountApiImpl implements AccountApi {
     this.starsGet = starsGet;
     this.starsPost = starsPost;
     this.getEmails = getEmails;
-    this.createEmailFactory = createEmailFactory;
+    this.createEmail = createEmail;
     this.deleteEmail = deleteEmail;
     this.getSshKeys = getSshKeys;
     this.addSshKey = addSshKey;
@@ -341,9 +341,8 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void starChange(String changeId) throws RestApiException {
     try {
-      ChangeResource rsrc = changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
-      starredChangesCreate.setChange(rsrc);
-      starredChangesCreate.apply(account, new StarredChanges.EmptyInput());
+      starredChangesCreate.apply(
+          account, IdString.fromUrl(changeId), new StarredChanges.EmptyInput());
     } catch (Exception e) {
       throw asRestApiException("Cannot star change", e);
     }
@@ -412,7 +411,7 @@ public class AccountApiImpl implements AccountApi {
   public void addEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
-      createEmailFactory.create(input.email).apply(rsrc, input);
+      createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot add email", e);
     }
@@ -432,7 +431,7 @@ public class AccountApiImpl implements AccountApi {
   public EmailApi createEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
-      createEmailFactory.create(input.email).apply(rsrc, input);
+      createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
       return email(rsrc.getEmail());
     } catch (Exception e) {
       throw asRestApiException("Cannot create email", e);

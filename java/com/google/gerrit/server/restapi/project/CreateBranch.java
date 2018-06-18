@@ -21,8 +21,9 @@ import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
@@ -39,7 +41,6 @@ import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.lib.Constants;
@@ -50,12 +51,8 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class CreateBranch implements RestModifyView<ProjectResource, BranchInput> {
+public class CreateBranch implements RestCreateView<ProjectResource, BranchResource, BranchInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public interface Factory {
-    CreateBranch create(String ref);
-  }
 
   private final Provider<IdentifiedUser> identifiedUser;
   private final PermissionBackend permissionBackend;
@@ -63,7 +60,6 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refCreationValidator;
   private final CreateRefControl createRefControl;
-  private String ref;
 
   @Inject
   CreateBranch(
@@ -72,21 +68,20 @@ public class CreateBranch implements RestModifyView<ProjectResource, BranchInput
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
-      CreateRefControl createRefControl,
-      @Assisted String ref) {
+      CreateRefControl createRefControl) {
     this.identifiedUser = identifiedUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
     this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
     this.createRefControl = createRefControl;
-    this.ref = ref;
   }
 
   @Override
-  public BranchInfo apply(ProjectResource rsrc, BranchInput input)
+  public BranchInfo apply(ProjectResource rsrc, IdString id, BranchInput input)
       throws BadRequestException, AuthException, ResourceConflictException, IOException,
           PermissionBackendException, NoSuchProjectException {
+    String ref = id.get();
     if (input == null) {
       input = new BranchInput();
     }

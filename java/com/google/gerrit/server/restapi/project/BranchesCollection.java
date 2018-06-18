@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -39,26 +38,22 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class BranchesCollection
-    implements ChildCollection<ProjectResource, BranchResource>, AcceptsCreate<ProjectResource> {
+public class BranchesCollection implements ChildCollection<ProjectResource, BranchResource> {
   private final DynamicMap<RestView<BranchResource>> views;
   private final Provider<ListBranches> list;
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
-  private final CreateBranch.Factory createBranchFactory;
 
   @Inject
   BranchesCollection(
       DynamicMap<RestView<BranchResource>> views,
       Provider<ListBranches> list,
       PermissionBackend permissionBackend,
-      GitRepositoryManager repoManager,
-      CreateBranch.Factory createBranchFactory) {
+      GitRepositoryManager repoManager) {
     this.views = views;
     this.list = list;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
-    this.createBranchFactory = createBranchFactory;
   }
 
   @Override
@@ -97,10 +92,5 @@ public class BranchesCollection
   @Override
   public DynamicMap<RestView<BranchResource>> views() {
     return views;
-  }
-
-  @Override
-  public CreateBranch create(ProjectResource parent, IdString name) {
-    return createBranchFactory.create(name.get());
   }
 }

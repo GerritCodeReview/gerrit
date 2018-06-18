@@ -19,7 +19,6 @@ import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsDelete;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -33,6 +32,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -72,11 +72,9 @@ import org.kohsuke.args4j.Option;
 @Singleton
 public class ChangeEdits
     implements ChildCollection<ChangeResource, ChangeEditResource>,
-        AcceptsCreate<ChangeResource>,
         AcceptsPost<ChangeResource>,
         AcceptsDelete<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
-  private final Create.Factory createFactory;
   private final DeleteFile.Factory deleteFileFactory;
   private final Provider<Detail> detail;
   private final ChangeEditUtil editUtil;
@@ -85,13 +83,11 @@ public class ChangeEdits
   @Inject
   ChangeEdits(
       DynamicMap<RestView<ChangeEditResource>> views,
-      Create.Factory createFactory,
       Provider<Detail> detail,
       ChangeEditUtil editUtil,
       Post post,
       DeleteFile.Factory deleteFileFactory) {
     this.views = views;
-    this.createFactory = createFactory;
     this.detail = detail;
     this.editUtil = editUtil;
     this.post = post;
@@ -119,11 +115,6 @@ public class ChangeEdits
   }
 
   @Override
-  public Create create(ChangeResource parent, IdString id) throws RestApiException {
-    return createFactory.create(id.get());
-  }
-
-  @Override
   public Post post(ChangeResource parent) throws RestApiException {
     return post;
   }
@@ -141,26 +132,20 @@ public class ChangeEdits
     return deleteFileFactory.create(id.get());
   }
 
-  public static class Create implements RestModifyView<ChangeResource, Put.Input> {
-
-    interface Factory {
-      Create create(String path);
-    }
-
+  public static class Create
+      implements RestCreateView<ChangeResource, ChangeEditResource, Put.Input> {
     private final Put putEdit;
-    private final String path;
 
     @Inject
-    Create(Put putEdit, @Assisted String path) {
+    Create(Put putEdit) {
       this.putEdit = putEdit;
-      this.path = path;
     }
 
     @Override
-    public Response<?> apply(ChangeResource resource, Put.Input input)
+    public Response<?> apply(ChangeResource resource, IdString id, Put.Input input)
         throws AuthException, ResourceConflictException, IOException, OrmException,
             PermissionBackendException {
-      putEdit.apply(resource, path, input.content);
+      putEdit.apply(resource, id.get(), input.content);
       return Response.none();
     }
   }

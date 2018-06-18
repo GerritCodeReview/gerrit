@@ -165,6 +165,7 @@ public class Module extends RestApiModule {
     get(FILE_KIND, "blame").to(GetBlame.class);
 
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
+    create(CHANGE_EDIT_KIND).to(ChangeEdits.Create.class);
     delete(CHANGE_KIND, "edit").to(DeleteChangeEdit.class);
     child(CHANGE_KIND, "edit:publish").to(PublishChangeEdit.class);
     child(CHANGE_KIND, "edit:rebase").to(RebaseChangeEdit.class);
@@ -180,7 +181,6 @@ public class Module extends RestApiModule {
     get(CHANGE_MESSAGE_KIND).to(GetChangeMessage.class);
 
     factory(AccountLoader.Factory.class);
-    factory(ChangeEdits.Create.Factory.class);
     factory(ChangeEdits.DeleteFile.Factory.class);
     factory(ChangeInserter.Factory.class);
     factory(ChangeResource.Factory.class);

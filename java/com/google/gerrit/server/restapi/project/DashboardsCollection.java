@@ -25,14 +25,12 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.DashboardSectionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.Project;
@@ -60,14 +58,12 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class DashboardsCollection
-    implements ChildCollection<ProjectResource, DashboardResource>, AcceptsCreate<ProjectResource> {
+public class DashboardsCollection implements ChildCollection<ProjectResource, DashboardResource> {
   public static final String DEFAULT_DASHBOARD_NAME = "default";
 
   private final GitRepositoryManager gitManager;
   private final DynamicMap<RestView<DashboardResource>> views;
   private final Provider<ListDashboards> list;
-  private final Provider<SetDefaultDashboard.CreateDefault> createDefault;
   private final PermissionBackend permissionBackend;
 
   @Inject
@@ -75,12 +71,10 @@ public class DashboardsCollection
       GitRepositoryManager gitManager,
       DynamicMap<RestView<DashboardResource>> views,
       Provider<ListDashboards> list,
-      Provider<SetDefaultDashboard.CreateDefault> createDefault,
       PermissionBackend permissionBackend) {
     this.gitManager = gitManager;
     this.views = views;
     this.list = list;
-    this.createDefault = createDefault;
     this.permissionBackend = permissionBackend;
   }
 
@@ -95,16 +89,6 @@ public class DashboardsCollection
   @Override
   public RestView<ProjectResource> list() throws ResourceNotFoundException {
     return list.get();
-  }
-
-  @Override
-  public RestModifyView<ProjectResource, ?> create(ProjectResource parent, IdString id)
-      throws RestApiException {
-    parent.getProjectState().checkStatePermitsWrite();
-    if (isDefaultDashboard(id)) {
-      return createDefault.get();
-    }
-    throw new ResourceNotFoundException(id);
   }
 
   @Override

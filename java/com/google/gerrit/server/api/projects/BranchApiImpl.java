@@ -46,7 +46,7 @@ public class BranchApiImpl implements BranchApi {
   }
 
   private final BranchesCollection branches;
-  private final CreateBranch.Factory createBranchFactory;
+  private final CreateBranch createBranch;
   private final DeleteBranch deleteBranch;
   private final FilesCollection filesCollection;
   private final GetBranch getBranch;
@@ -58,7 +58,7 @@ public class BranchApiImpl implements BranchApi {
   @Inject
   BranchApiImpl(
       BranchesCollection branches,
-      CreateBranch.Factory createBranchFactory,
+      CreateBranch createBranch,
       DeleteBranch deleteBranch,
       FilesCollection filesCollection,
       GetBranch getBranch,
@@ -67,7 +67,7 @@ public class BranchApiImpl implements BranchApi {
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.branches = branches;
-    this.createBranchFactory = createBranchFactory;
+    this.createBranch = createBranch;
     this.deleteBranch = deleteBranch;
     this.filesCollection = filesCollection;
     this.getBranch = getBranch;
@@ -80,7 +80,7 @@ public class BranchApiImpl implements BranchApi {
   @Override
   public BranchApi create(BranchInput input) throws RestApiException {
     try {
-      createBranchFactory.create(ref).apply(project, input);
+      createBranch.apply(project, IdString.fromDecoded(ref), input);
       return this;
     } catch (Exception e) {
       throw asRestApiException("Cannot create branch", e);

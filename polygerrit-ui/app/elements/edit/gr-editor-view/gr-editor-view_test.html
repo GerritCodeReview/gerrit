@@ -376,6 +376,29 @@ suite('gr-editor-view tests', () => {
       });
     });
 
+    test('local edit exists, is same as remote edit', () => {
+      sandbox.stub(element.$.storage, 'getEditableContentItem')
+          .returns({message: 'pending edit'});
+      sandbox.stub(element.$.restAPI, 'getFileContent')
+          .returns(Promise.resolve({
+            ok: true,
+            type: 'text/javascript',
+            content: 'pending edit',
+          }));
+
+      const alertStub = sandbox.stub();
+      element.addEventListener('show-alert', alertStub);
+
+      return element._getFileData(1, 'test', 1).then(() => {
+        flushAsynchronousOperations();
+
+        assert.isFalse(alertStub.called);
+        assert.equal(element._newContent, 'pending edit');
+        assert.equal(element._content, 'pending edit');
+        assert.equal(element._type, 'text/javascript');
+      });
+    });
+
     test('storage key computation', () => {
       element._changeNum = 1;
       element._patchNum = 1;

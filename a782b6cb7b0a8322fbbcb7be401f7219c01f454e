@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "64893448_06857b37",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-18T15:19:17Z",
+      "side": 1,
+      "message": "After starting to rewrite this code, I realized I want to scale back this change to just support the ProjectCache. Safely supporting refreshAfterWrite requires an asynchronous implementation of CacheLoader#reload[1], and the only implementation of #reload that we have at all (much less async) is in ProjectCacheImpl.\n\nLong term, it may be feasible to use CacheLoader#asyncReloading on other caches, passing the FanOutExecutor. But I don\u0027t see a pressing need for that now, and as we can see from this change, it\u0027s quite a bit of ugliness to make it work for other caches. So for now I\u0027d prefer to keep it simple.\n\n[1] https://google.github.io/guava/releases/25.1-jre/api/docs/com/google/common/cache/CacheLoader.html#reload-K-V-",
+      "parentUuid": "ae24f9c5_098ea3f3",
+      "range": {
+        "startLine": 106,
+        "startChar": 14,
+        "endLine": 106,
+        "endChar": 82
+      },
+      "revId": "a782b6cb7b0a8322fbbcb7be401f7219c01f454e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "14fcd4ad_fcb5ebb4",
         "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
         "patchSetId": 2

@@ -43,8 +43,10 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.inject.Inject;
+import java.util.Arrays;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -332,6 +334,14 @@ public class CustomLabelIT extends AbstractDaemonTest {
     // Verify the change is still submittable.
     assertThat(gApi.changes().id(changeId).get().submittable).isTrue();
     gApi.changes().id(changeId).current().submit();
+  }
+
+  @Test
+  public void customLabel_withBranch() throws Exception {
+    label.setRefPatterns(Arrays.asList("master"));
+    saveLabelConfig();
+    ProjectConfig cfg = projectCache.checkedGet(project).getConfig();
+    assertThat(cfg.getLabelSections().get(label.getName()).getRefPatterns()).contains("master");
   }
 
   private void assertLabelStatus(String changeId, String testLabel) throws Exception {

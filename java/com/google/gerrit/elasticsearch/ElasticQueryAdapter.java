@@ -28,10 +28,13 @@ public class ElasticQueryAdapter {
   private final String stringFieldType;
   private final String indexProperty;
   private final String rawFieldsKey;
+  private final String versionDiscoveryUrl;
 
   ElasticQueryAdapter(ElasticVersion version) {
     this.ignoreUnmapped = version == ElasticVersion.V2_4;
     this.usePostV5Type = version == ElasticVersion.V6_2;
+
+    this.versionDiscoveryUrl = version == ElasticVersion.V6_2 ? "%s*" : "%s*/_aliases";
 
     switch (version) {
       case V5_6:
@@ -97,5 +100,9 @@ public class ElasticQueryAdapter {
 
   String getType(String preV6Type) {
     return usePostV5Type() ? POST_V5_TYPE : preV6Type;
+  }
+
+  String getVersionDiscoveryUrl(String name) {
+    return String.format(versionDiscoveryUrl, name);
   }
 }

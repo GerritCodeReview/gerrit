@@ -28,12 +28,8 @@ public class ElasticIndexIT extends AbstractIndexTests {
 
   private static Config getConfig(ElasticVersion version) {
     ElasticNodeInfo elasticNodeInfo;
-    try {
-      container = ElasticContainer.createAndStart(version);
-      elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
-    } catch (Throwable t) {
-      return null;
-    }
+    container = ElasticContainer.createAndStart(version);
+    elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
     ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);

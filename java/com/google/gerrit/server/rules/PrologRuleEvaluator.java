@@ -18,7 +18,10 @@ import static com.google.gerrit.server.project.SubmitRuleEvaluator.createRuleErr
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.defaultRuleError;
 import static com.google.gerrit.server.project.SubmitRuleEvaluator.defaultTypeError;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.CharMatcher;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -58,6 +61,15 @@ import java.util.List;
  */
 public class PrologRuleEvaluator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  /**
+   * List of characters to allow in the label name, when an invalid name is used. Dash is allowed as
+   * it can't be the first character: we use a prefix.
+   */
+  private static final CharMatcher VALID_LABEL_MATCHER =
+      CharMatcher.is('-')
+          .or(CharMatcher.inRange('a', 'z'))
+          .or(CharMatcher.inRange('A', 'Z'))
+          .or(CharMatcher.inRange('0', '9'));
 
   public interface Factory {
     /** Returns a new {@link PrologRuleEvaluator} with the specified options */
@@ -106,6 +118,7 @@ public class PrologRuleEvaluator {
 
     this.projectState = projectCache.get(cd.project());
   }
+
 
   private static Term toListTerm(List<Term> terms) {
     Term list = Prolog.Nil;
@@ -231,7 +244,7 @@ public class PrologRuleEvaluator {
         SubmitRecord.Label lbl = new SubmitRecord.Label();
         rec.labels.add(lbl);
 
-        lbl.label = state.arg(0).name();
+        lbl.label = checkLabelName(state.arg(0).name());
         Term status = state.arg(1);
 
         try {
@@ -278,6 +291,19 @@ public class PrologRuleEvaluator {
     }
 
     return out;
+  }
+
+  @VisibleForTesting
+  static String checkLabelName(String name) {
+    try {
+      return LabelType.checkName(name);
+    } catch (IllegalArgumentException e) {
+      return LabelType.checkName("Invalid-Prolog-Rules-Label-Name--" + sanitizeLabelName(name));
+    }
+  }
+
+  private static String sanitizeLabelName(String name) {
+    return VALID_LABEL_MATCHER.retainFrom(name);
   }
 
   private List<SubmitRecord> invalidResult(Term rule, Term record, String reason) {
@@ -521,4 +547,5 @@ public class PrologRuleEvaluator {
       }
     }
   }
+
 }

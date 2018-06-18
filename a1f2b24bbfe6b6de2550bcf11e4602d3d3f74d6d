@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1529334644 +0200\nnonce ADrMV7a4MVApcjQNVwn7qjLFrM9k7VgD71HlDm0pThDWb+J9z2QaOrKk5BIGC6a+a2mg9SPdOukQ\n\n0000000000000000000000000000000000000000 a1f2b24bbfe6b6de2550bcf11e4602d3d3f74d6d refs/for/master%private\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlsny3QACgkQUbX9l6DQ\n71G7TggAhASm3Pkad+6Ugn4iAYuNGBMsFp6hIQAva5P1CfgTUni7DSo6Vr31IxdF\nqMLXBq4kd0Kl2xBYuxnW5fbVfXKmPYBExdXLg26kj3h95yKkSaSKI6+4yabxwsXx\npgXFsZP+YxdnQWEtYJCERpVXdCrMDZ2rMa0922d4RJioKn4+leQjNNpm8k3Aa5h4\nibdDRGiBMtePOfYmed+wbTDLtle4pFqDwEcmXSsi01Hx3fLSapzhLEqRYLwU+GLi\nD4vBTAD1D4RmKBvyX+HDBijfqy/LGKEJVgUT2+wkLS3arEu5KCKu/ROGQLvma7yN\nxnhxy3QfBsrdwXnSU8db6G/+N8BJ0Q\u003d\u003d\n\u003deIjp\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "790e43f3_64ff72fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-18T16:46:07Z",
+      "side": 1,
+      "message": "Big +1 to this idea; haven\u0027t dug too much into your implementation but it looks sane.\n\nI think this would also improve readability of the code: after this, we know exactly what REST operations are supported on the resource just by reading the Module class. I have definitely gotten stuck for a few minutes trying to remember exactly where resource creation is implemented.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 70
+      },
+      "revId": "a1f2b24bbfe6b6de2550bcf11e4602d3d3f74d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

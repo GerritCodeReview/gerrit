@@ -49,6 +49,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
 
     String cmd = Joiner.on(" ").join("gerrit", "index", "changes", changeLegacyId);
     adminSshSession.exec(cmd);
+    adminSshSession.assertSuccess();
 
     assertChangeQuery("message:second", change.getChange(), true);
   }
@@ -66,8 +67,9 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     assertChangeQuery("message:second", change.getChange(), false);
     enableChangeIndexWrites();
 
-    String cmd = Joiner.on(" ").join("gerrit", "index", "projects", project.get());
+    String cmd = Joiner.on(" ").join("gerrit", "index", "project", project.get());
     adminSshSession.exec(cmd);
+    adminSshSession.assertSuccess();
 
     assertChangeQuery("message:second", change.getChange(), true);
   }

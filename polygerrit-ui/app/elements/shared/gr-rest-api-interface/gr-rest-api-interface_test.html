@@ -711,11 +711,10 @@ limitations under the License.
       sandbox.spy(element, '_send');
       element.confirmEmail('foo');
       assert.isTrue(element._send.calledOnce);
-      assert.deepEqual(element._send.lastCall.args[0], {
-        method: 'PUT',
-        url: '/config/server/email.confirm',
-        body: {token: 'foo'},
-      });
+      assert.equal(element._send.lastCall.args[0].method, 'PUT');
+      assert.equal(element._send.lastCall.args[0].url,
+          '/config/server/email.confirm');
+      assert.deepEqual(element._send.lastCall.args[0].body, {token: 'foo'});
     });
 
     test('GrReviewerUpdatesParser.parse is used', () => {
@@ -924,11 +923,10 @@ limitations under the License.
       const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
-        assert.deepEqual(fetchStub.lastCall.args[0], {
-          changeNum: '42',
-          endpoint: '/files?q=test%2Fpath.js',
-          patchNum: 'edit',
-        });
+        assert.equal(fetchStub.lastCall.args[0].changeNum, '42');
+        assert.equal(fetchStub.lastCall.args[0].endpoint,
+            '/files?q=test%2Fpath.js');
+        assert.equal(fetchStub.lastCall.args[0].patchNum, 'edit');
       });
     });
 
@@ -1387,10 +1385,10 @@ limitations under the License.
       sandbox.stub(element._auth, 'fetch').returns(Promise.resolve(response));
       const startTime = 123;
       sandbox.stub(Date, 'now').returns(startTime);
-      return element._fetch(url, fetchOptions).then(() => {
+      const req = {url, fetchOptions};
+      return element._fetch(req).then(() => {
         assert.isTrue(logStub.calledOnce);
-        assert.isTrue(logStub.calledWith(
-            url, fetchOptions, startTime, response.status));
+        assert.isTrue(logStub.calledWith(req, startTime, response.status));
         assert.isFalse(response.text.called);
       });
     });

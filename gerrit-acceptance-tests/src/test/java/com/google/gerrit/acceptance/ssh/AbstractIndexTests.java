@@ -108,7 +108,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
 
     boolean indexing = true;
     while (indexing) {
-      String out = adminSshSession.exec("gerrit show-queue");
+      String out = adminSshSession.exec("gerrit show-queue --wide");
       adminSshSession.assertSuccess();
       indexing = out.contains("Index all changes of project " + project.get());
     }

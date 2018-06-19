@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ba1e668_25751570",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T22:24:18Z",
+      "side": 1,
+      "message": "I wonder how it managed to get in a state where there\u0027s a change with a null account.  Do you have any more details about this change?",
+      "revId": "79deb922ad2d16431e14c0fc56d1f59cc9e5b172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a753353e_13b84b76",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T22:24:18Z",
+      "side": 1,
+      "message": "Per the Javadoc, should we just return the Anonymous Coward name if accountId is null?",
+      "revId": "79deb922ad2d16431e14c0fc56d1f59cc9e5b172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

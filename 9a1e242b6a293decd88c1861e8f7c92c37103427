@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1529340541 -0400\nnonce ADrMV7Yl/bDQ2Gpt1GdnlaHgVwyIaTKhY57IQXWw4/bNMRDF/ejPDpVtM4meqh4rI3d8LbiZXZiR\n\n0000000000000000000000000000000000000000 9a1e242b6a293decd88c1861e8f7c92c37103427 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAlsn4n0VHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMZgIP/RJR0/nm0LGjOgxoVCVKIoPxzQh9\npmuTZwfbjyK9DmmqlzeAHArVN88hoa2sZEsRHH66ETdR6CQwHqcTTP1powJ5bD51\nKJenEZ6i/WrO1kDZ3FpEWLcFTfLyxr0CBQu1iXoBgmhzXwdmdd8OVA4+dYWRU25A\nMyGSKrznaGKu8XkBOyj+K2GcK1L5/XzcG4TIzUxYk4YEyH8nfgA+rTz1L2tTy7+p\nwkZYjpjsSq7VLsL9nl4GZwSiZSZ560OcHSbGzpXQ1Z0lcBHaWA9SPX2Xjnk7lT5z\n/iVuE7VQworlq9UhqmVY9sPXa11Q1XkQ7TQ/4gHnaebe7/KNFsBuzhb9L4g/RlqI\n0rWLotwpFI35j3K10huiPcUNdYBFvDDI8NBn1yTRl6fMLpbXKGB/fVew10608gh7\n0u3i1VWVRBvfEvYrsLWD5mtb5wU2twLPedD85kPfJF3hio14a5skvHLQBzMWwZwL\nJg0J6TeGzWURpa2f4svgnBvutHgeguYcOpraVhQWffDfUc8T92Z2nuNvwL3L0vQC\nBoJg+H6g4tverHFtQRKLkGoPyoLzF9D9ecRZa2BiYlVSvhRNt5deUklJawGur7ij\nM/4yamulWwnkDbKGk3iKYt4NNDibh39rFzt4kTzyTIhnkRsj72bcG7HyvUAGmvyg\nkEQLczmRKnY5cULr\n\u003db4RG\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a5dae8f_797d3e3a",
+        "filename": "java/com/google/gerrit/server/cache/CacheProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-19T09:45:48Z",
+      "side": 1,
+      "message": "Can we use ProjectCacheImpl.CACHE_NAME?",
+      "range": {
+        "startLine": 92,
+        "startChar": 27,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "9a1e242b6a293decd88c1861e8f7c92c37103427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf327a9c_c84b090f",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-19T09:45:48Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 109,
+        "startChar": 33,
+        "endLine": 109,
+        "endChar": 43
+      },
+      "revId": "9a1e242b6a293decd88c1861e8f7c92c37103427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

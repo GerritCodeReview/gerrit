@@ -70,6 +70,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -645,17 +646,17 @@ class GitwebServlet extends HttpServlet {
   private void copyStderrToLog(final InputStream in) {
     new Thread(
             () -> {
-              StringBuilder b = new StringBuilder();
               try (BufferedReader br =
                   new BufferedReader(new InputStreamReader(in, ISO_8859_1.name()))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                  if (b.length() > 0) {
-                    b.append('\n');
-                  }
-                  b.append("CGI: ").append(line);
+                String err =
+                    br.lines()
+                        .filter(s -> !s.isEmpty())
+                        .map(s -> "CGI: " + s)
+                        .collect(Collectors.joining("\n"))
+                        .trim();
+                if (!err.isEmpty()) {
+                  log.error(err);
                 }
-                log.error(b.toString());
               } catch (IOException e) {
                 log.error("Unexpected error copying stderr from CGI", e);
               }

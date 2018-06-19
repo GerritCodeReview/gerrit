@@ -51,6 +51,30 @@
     },
     {
       "key": {
+        "uuid": "c030f926_5006045b",
+        "filename": "java/com/google/gerrit/server/cache/CacheProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-19T15:03:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "82859891_e19ab825",
+      "range": {
+        "startLine": 92,
+        "startChar": 27,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "9a1e242b6a293decd88c1861e8f7c92c37103427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "325c9a90_6b1cc948",
         "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
         "patchSetId": 4

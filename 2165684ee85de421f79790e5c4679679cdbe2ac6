@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "50e8543e_c55813fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T02:30:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23e51489_6cee9e24",
+      "range": {
+        "startLine": 18,
+        "startChar": 48,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "2165684ee85de421f79790e5c4679679cdbe2ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3494b7b0_e628c4e8",
         "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-06-19T02:10:30Z",
       "side": 1,
       "message": "Update ElasticIndexIT and ElasticReindexIT to use V6_3 and remove this?",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 73
+      },
+      "revId": "2165684ee85de421f79790e5c4679679cdbe2ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f3cc97_f15414a7",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T02:30:31Z",
+      "side": 1,
+      "message": "I intentionally left this in case we run into any issues and need to test against both 6.2 and 6.3 later. I considered adding explicit tests for 6.3 in addition to 6.2 but I thought it would be too much.",
+      "parentUuid": "3494b7b0_e628c4e8",
       "range": {
         "startLine": 50,
         "startChar": 6,

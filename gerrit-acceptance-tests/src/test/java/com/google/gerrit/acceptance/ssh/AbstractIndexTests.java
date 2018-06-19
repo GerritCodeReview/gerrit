@@ -19,27 +19,56 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ChangeIndexedCounter;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.List;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 @UseSsh
 public abstract class AbstractIndexTests extends AbstractDaemonTest {
+  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+
+  private ChangeIndexedCounter changeIndexedCounter;
+  private RegistrationHandle changeIndexedCounterHandle;
+
   /** @param injector injector */
   public abstract void configureIndex(Injector injector) throws Exception;
 
+  @Before
+  public void addChangeIndexedCounter() {
+    changeIndexedCounter = new ChangeIndexedCounter();
+    changeIndexedCounterHandle = changeIndexedListeners.add(changeIndexedCounter);
+  }
+
+  @After
+  public void removeChangeIndexedCounter() {
+    if (changeIndexedCounterHandle != null) {
+      changeIndexedCounterHandle.remove();
+    }
+  }
+
   @Test
+  @GerritConfig(name = "index.autoReindexIfStale", value = "false")
   public void indexChange() throws Exception {
     configureIndex(server.getTestInjector());
 
     PushOneCommit.Result change = createChange("first change", "test1.txt", "test1");
     String changeId = change.getChangeId();
     String changeLegacyId = change.getChange().getId().toString();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
 
     disableChangeIndexWrites();
     amendChange(changeId, "second test", "test2.txt", "test2");
@@ -47,19 +76,24 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     assertChangeQuery("message:second", change.getChange(), false);
     enableChangeIndexWrites();
 
+    changeIndexedCounter.clear();
     String cmd = Joiner.on(" ").join("gerrit", "index", "changes", changeLegacyId);
     adminSshSession.exec(cmd);
     adminSshSession.assertSuccess();
+
+    changeIndexedCounter.assertReindexOf(changeInfo, 1);
 
     assertChangeQuery("message:second", change.getChange(), true);
   }
 
   @Test
+  @GerritConfig(name = "index.autoReindexIfStale", value = "false")
   public void indexProject() throws Exception {
     configureIndex(server.getTestInjector());
 
     PushOneCommit.Result change = createChange("first change", "test1.txt", "test1");
     String changeId = change.getChangeId();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
 
     disableChangeIndexWrites();
     amendChange(changeId, "second test", "test2.txt", "test2");
@@ -67,9 +101,12 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     assertChangeQuery("message:second", change.getChange(), false);
     enableChangeIndexWrites();
 
+    changeIndexedCounter.clear();
     String cmd = Joiner.on(" ").join("gerrit", "index", "project", project.get());
     adminSshSession.exec(cmd);
     adminSshSession.assertSuccess();
+
+    changeIndexedCounter.assertReindexOf(changeInfo, 1);
 
     assertChangeQuery("message:second", change.getChange(), true);
   }

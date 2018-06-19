@@ -1192,8 +1192,8 @@
               return Promise.resolve();
             }
             const patchNum = revisionAction ? this.latestPatchNum : null;
-            return this.$.restAPI.getChangeURLAndSend(this.changeNum, method,
-                patchNum, actionEndpoint, payload, handleError)
+            return this.$.restAPI.executeChangeAction(this.changeNum, method,
+                actionEndpoint, patchNum, payload, handleError)
                 .then(response => {
                   cleanupFn.call(this);
                   return response;

@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -62,10 +61,7 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
       command.append(" --message ").append(message);
     }
     String response = adminSshSession.exec(command.toString());
-    assert_()
-        .withFailureMessage(adminSshSession.getError())
-        .that(adminSshSession.hasError())
-        .isFalse();
+    adminSshSession.assertSuccess();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
   }
 

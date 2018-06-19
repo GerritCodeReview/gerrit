@@ -58,6 +58,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.InternalContextAdapterImpl;
 import org.apache.velocity.runtime.RuntimeInstance;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -366,9 +367,16 @@ public abstract class OutgoingEmail {
    * @return name/email of account, or Anonymous Coward if unset.
    */
   public String getNameEmailFor(Account.Id accountId) {
-    AccountState who = args.accountCache.get(accountId);
-    String name = who.getAccount().getFullName();
-    String email = who.getAccount().getPreferredEmail();
+    String name, email;
+    if (accountId == null) {
+      PersonIdent serverIdent = args.gerritPersonIdent;
+      name = serverIdent.getName();
+      email = serverIdent.getEmailAddress();
+    } else {
+      Account who = args.accountCache.get(accountId).getAccount();
+      name = who.getFullName();
+      email = who.getPreferredEmail();
+    }
 
     if (name != null && email != null) {
       return name + " <" + email + ">";

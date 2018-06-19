@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23e51489_6cee9e24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-06-19T02:10:30Z",
+      "side": 1,
+      "message": "Not true yet, see my comment in ElasticContainer",
+      "range": {
+        "startLine": 18,
+        "startChar": 48,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "2165684ee85de421f79790e5c4679679cdbe2ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3494b7b0_e628c4e8",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-06-19T02:10:30Z",
+      "side": 1,
+      "message": "Update ElasticIndexIT and ElasticReindexIT to use V6_3 and remove this?",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 73
+      },
+      "revId": "2165684ee85de421f79790e5c4679679cdbe2ac6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

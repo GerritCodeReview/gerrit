@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e356ee0_346697f2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-19T22:55:57Z",
+      "side": 1,
+      "message": "Nitpick: Please remove the two spaces inside these parentheses.",
+      "range": {
+        "startLine": 226,
+        "startChar": 36,
+        "endLine": 226,
+        "endChar": 37
+      },
+      "revId": "5208a93fcbc53c6319ea04ec70a15426fb44f79f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8031b865_5ce8f921",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-19T22:55:57Z",
+      "side": 1,
+      "message": "Why decode the name? If you check the group-info documentation, the name is not URL-encoded, so this doesn\u0027t look necessary.",
+      "range": {
+        "startLine": 227,
+        "startChar": 19,
+        "endLine": 227,
+        "endChar": 37
+      },
+      "revId": "5208a93fcbc53c6319ea04ec70a15426fb44f79f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

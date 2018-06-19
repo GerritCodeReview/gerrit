@@ -24,14 +24,14 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 
-public class ReadOnlyChangeIndex implements ChangeIndex {
+class ReadOnlyChangeIndex implements ChangeIndex {
   private final ChangeIndex index;
 
-  public ReadOnlyChangeIndex(ChangeIndex index) {
+  ReadOnlyChangeIndex(ChangeIndex index) {
     this.index = index;
   }
 
-  public ChangeIndex unwrap() {
+  ChangeIndex unwrap() {
     return index;
   }
 

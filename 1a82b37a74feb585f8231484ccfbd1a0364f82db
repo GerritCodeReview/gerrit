@@ -16,6 +16,24 @@
       "revId": "1a82b37a74feb585f8231484ccfbd1a0364f82db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48622e8b_25012080",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2801,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T11:59:55Z",
+      "side": 1,
+      "message": "We\u0027re typically a bit less strict about line length in the documentation.\n\nIn this case the lines don\u0027t exceed the margin on my diff view, which is set at 100 columns according to the most recent Java coding style.",
+      "parentUuid": "2b020271_c91e470c",
+      "revId": "1a82b37a74feb585f8231484ccfbd1a0364f82db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

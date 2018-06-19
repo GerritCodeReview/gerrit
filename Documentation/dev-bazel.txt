@@ -261,7 +261,9 @@ The following values are currently supported for the group name:
 
 * annotation
 * api
+* docker
 * edit
+* elastic
 * git
 * notedb
 * pgm

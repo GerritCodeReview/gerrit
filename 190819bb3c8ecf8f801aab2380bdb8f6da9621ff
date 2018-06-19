@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ad65a88_76176dfb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 892,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-19T13:19:21Z",
+      "side": 1,
+      "message": "topic",
+      "range": {
+        "startLine": 892,
+        "startChar": 60,
+        "endLine": 892,
+        "endChar": 64
+      },
+      "revId": "190819bb3c8ecf8f801aab2380bdb8f6da9621ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c140f61_715923b7",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutTopic.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-19T13:19:21Z",
+      "side": 1,
+      "message": "Normally we only trim leading and trailing whitespace.\nRemoving whitespace also from the middle of the string may be unexpected. Would it be better to reject topics that contain whitespace in the middle as Bad Request and only trim leading/trailing whitespace?",
+      "revId": "190819bb3c8ecf8f801aab2380bdb8f6da9621ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b020271_c91e470c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2801,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-19T11:57:23Z",
+      "side": 1,
+      "message": "I suppose that the above line wraps exceeding the right margin here in the diff view are ok.",
+      "revId": "1a82b37a74feb585f8231484ccfbd1a0364f82db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

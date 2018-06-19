@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c5df1b1_1dec05c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T00:56:45Z",
+      "side": 1,
+      "message": "Please be more specific about which error(s) are being fixed.  As I mentioned on the previous PS, I still see errors in the console when going to a non-existing project as mentioned in the next sentence.\n\nIdeally, please file a bug report and include a log of the console errors. Then it will be easier to compare behavior with what I\u0027m seeing locally.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "df7365f1501ff4f5057cfcce90da023f9e2d3a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

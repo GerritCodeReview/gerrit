@@ -20,7 +20,8 @@ import java.util.regex.Pattern;
 public enum ElasticVersion {
   V2_4("2.4.*"),
   V5_6("5.6.*"),
-  V6_2("6.2.*");
+  V6_2("6.2.*"),
+  V6_3("6.3.*");
 
   private final String version;
   private final Pattern pattern;

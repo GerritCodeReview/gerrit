@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7bdd032_47949b51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T15:14:39Z",
+      "side": 1,
+      "message": "If I set a breakpoint in IndexProjectCommand#index and wait a few seconds after stepping over the call to index.apply, then continue the test, it passes because the index task had time to complete.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 68
+      },
+      "revId": "9cf11ec358ff3f08f19981a45b99e104c5c83823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

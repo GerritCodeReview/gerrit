@@ -655,7 +655,10 @@ class GitwebServlet extends HttpServlet {
                   }
                   b.append("CGI: ").append(line);
                 }
-                log.error(b.toString());
+                String err = b.toString();
+                if (!err.isEmpty()) {
+                  log.error(err);
+                }
               } catch (IOException e) {
                 log.error("Unexpected error copying stderr from CGI", e);
               }

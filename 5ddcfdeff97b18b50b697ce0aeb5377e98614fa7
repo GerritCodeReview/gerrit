@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f4a1418_42239b27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T15:37:36Z",
+      "side": 1,
+      "message": "This seems to not be the case on CI, but I suspect this will be flaky.  It fails consistently on my laptop without the workaround that I added in the latest PS.",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 28,
+        "endChar": 68
+      },
+      "revId": "5ddcfdeff97b18b50b697ce0aeb5377e98614fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

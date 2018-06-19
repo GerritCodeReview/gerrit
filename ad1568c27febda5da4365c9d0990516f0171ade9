@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32511006_1bae77ae",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-19T21:06:45Z",
+      "side": 1,
+      "message": "Just like before, because of [1], the ID property on the group info is already URL encoded. To save the ID in this variable, this can become\n\n const id \u003d decodeURIComponent(e.model.get(\u0027item.id\u0027));\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info",
+      "range": {
+        "startLine": 226,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 40
+      },
+      "revId": "ad1568c27febda5da4365c9d0990516f0171ade9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

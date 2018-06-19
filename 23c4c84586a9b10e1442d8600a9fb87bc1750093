@@ -117,6 +117,30 @@
       "revId": "23c4c84586a9b10e1442d8600a9fb87bc1750093",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "324da8fa_5ffc67c6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-19T21:06:45Z",
+      "side": 1,
+      "message": "This is the same problem as before, the group info models send the encoded ID. This should be changed to an \"encode\" and the ID should be decoded before it\u0027s passed into `deleteIncludedGroup`. See my comment in gr-group-members.js line 226.",
+      "parentUuid": "98e29dfc_45df3df0",
+      "range": {
+        "startLine": 516,
+        "startChar": 34,
+        "endLine": 516,
+        "endChar": 52
+      },
+      "revId": "23c4c84586a9b10e1442d8600a9fb87bc1750093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

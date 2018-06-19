@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98756753_35017877",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-19T23:35:19Z",
+      "side": 1,
+      "message": "Need to remove this.  The output of the show-queue command gets truncated, so the entire project name is not included.\n\nIt was just chance that it was passing before; most likely the delay caused by executing the command gave enough time for the indexing to complete.",
+      "range": {
+        "startLine": 113,
+        "startChar": 61,
+        "endLine": 113,
+        "endChar": 77
+      },
+      "revId": "ba6125a747bfc832fca64b1795e7a9cd89473c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

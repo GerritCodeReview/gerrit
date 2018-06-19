@@ -70,6 +70,30 @@
       "revId": "df7365f1501ff4f5057cfcce90da023f9e2d3a1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20d17664_b3bfeacc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-19T13:31:15Z",
+      "side": 1,
+      "message": "It says \"Server error: wrong Change-Id footer\" when i try to change it, but i also did a new change as there were too many conflicts for me to go threw, it was easier to do a new change then to fix conflicts.",
+      "parentUuid": "2c43f638_15450b6f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "df7365f1501ff4f5057cfcce90da023f9e2d3a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

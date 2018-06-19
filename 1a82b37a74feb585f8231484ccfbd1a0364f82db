@@ -34,6 +34,24 @@
       "revId": "1a82b37a74feb585f8231484ccfbd1a0364f82db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f25f72bd_53c823ad",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2801,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-06-19T12:07:55Z",
+      "side": 1,
+      "message": "Ack. And I just fixed my setting accordingly (about time...); thx.",
+      "parentUuid": "48622e8b_25012080",
+      "revId": "1a82b37a74feb585f8231484ccfbd1a0364f82db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

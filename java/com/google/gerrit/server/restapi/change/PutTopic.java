@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.TopicInput;
@@ -75,7 +76,12 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput,
           String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
     }
 
-    Op op = new Op(input != null ? input : new TopicInput());
+    TopicInput sanitizedInput = input == null ? new TopicInput() : input;
+    if (sanitizedInput.topic != null) {
+      sanitizedInput.topic = CharMatcher.whitespace().removeFrom(sanitizedInput.topic);
+    }
+
+    Op op = new Op(sanitizedInput);
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {

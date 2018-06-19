@@ -889,7 +889,8 @@ If the change does not have a topic an empty string is returned.
 Sets the topic of a change.
 
 The new topic must be provided in the request body inside a
-link:#topic-input[TopicInput] entity.
+link:#topic-input[TopicInput] entity. Any whitespace in the tpic name
+will be removed.
 
 .Request
 ----

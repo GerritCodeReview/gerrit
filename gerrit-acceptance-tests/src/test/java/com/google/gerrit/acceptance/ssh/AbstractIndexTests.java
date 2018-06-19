@@ -53,6 +53,25 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     assertChangeQuery("message:second", change.getChange(), true);
   }
 
+  @Test
+  public void indexProject() throws Exception {
+    configureIndex(server.getTestInjector());
+
+    PushOneCommit.Result change = createChange("first change", "test1.txt", "test1");
+    String changeId = change.getChangeId();
+
+    disableChangeIndexWrites();
+    amendChange(changeId, "second test", "test2.txt", "test2");
+
+    assertChangeQuery("message:second", change.getChange(), false);
+    enableChangeIndexWrites();
+
+    String cmd = Joiner.on(" ").join("gerrit", "index", "projects", project.get());
+    adminSshSession.exec(cmd);
+
+    assertChangeQuery("message:second", change.getChange(), true);
+  }
+
   protected void assertChangeQuery(String q, ChangeData change, boolean assertTrue)
       throws Exception {
     List<Integer> ids = query(q).stream().map(c -> c._number).collect(toList());

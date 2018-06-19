@@ -23,6 +23,30 @@
       "revId": "a1f2b24bbfe6b6de2550bcf11e4602d3d3f74d6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b8aa4bf_7653e69f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-19T14:35:01Z",
+      "side": 1,
+      "message": "Nice. I\u0027ve added the point about improving the readability to the commit message and addressed all the TODO\u0027s.",
+      "parentUuid": "790e43f3_64ff72fe",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 70
+      },
+      "revId": "a1f2b24bbfe6b6de2550bcf11e4602d3d3f74d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

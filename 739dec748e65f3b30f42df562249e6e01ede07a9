@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b099e58_a30af43f",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-19T10:01:26Z",
+      "side": 1,
+      "message": "nit: unneeded addition of blank line",
+      "revId": "739dec748e65f3b30f42df562249e6e01ede07a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af0ac10_b19d1d8d",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-19T10:01:26Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "739dec748e65f3b30f42df562249e6e01ede07a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

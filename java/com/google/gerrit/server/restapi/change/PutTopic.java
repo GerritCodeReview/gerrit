@@ -75,7 +75,12 @@ public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput,
           String.format("topic length exceeds the limit (%s)", ChangeUtil.TOPIC_MAX_LENGTH));
     }
 
-    Op op = new Op(input != null ? input : new TopicInput());
+    TopicInput sanitizedInput = input == null ? new TopicInput() : input;
+    if (sanitizedInput.topic != null) {
+      sanitizedInput.topic = sanitizedInput.topic.trim();
+    }
+
+    Op op = new Op(sanitizedInput);
     try (BatchUpdate u =
         updateFactory.create(
             dbProvider.get(), req.getChange().getProject(), req.getUser(), TimeUtil.nowTs())) {

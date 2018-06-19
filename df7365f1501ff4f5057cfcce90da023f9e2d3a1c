@@ -22,6 +22,30 @@
       "revId": "df7365f1501ff4f5057cfcce90da023f9e2d3a1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab34ec83_97f9b233",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2018-06-19T01:00:25Z",
+      "side": 1,
+      "message": "This is a backport from the master branch https://gerrit-review.googlesource.com/c/gerrit/+/160132",
+      "parentUuid": "8c5df1b1_1dec05c3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "df7365f1501ff4f5057cfcce90da023f9e2d3a1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

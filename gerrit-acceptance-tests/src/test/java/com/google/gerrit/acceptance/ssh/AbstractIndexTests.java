@@ -15,14 +15,13 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.FluentIterable;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseSsh;
-import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Injector;
 import java.util.List;
@@ -54,18 +53,32 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     assertChangeQuery("message:second", change.getChange(), true);
   }
 
-  protected void assertChangeQuery(String q, ChangeData change, Boolean assertTrue)
+  @Test
+  public void indexProject() throws Exception {
+    configureIndex(server.getTestInjector());
+
+    PushOneCommit.Result change = createChange("first change", "test1.txt", "test1");
+    String changeId = change.getChangeId();
+
+    disableChangeIndexWrites();
+    amendChange(changeId, "second test", "test2.txt", "test2");
+
+    assertChangeQuery("message:second", change.getChange(), false);
+    enableChangeIndexWrites();
+
+    String cmd = Joiner.on(" ").join("gerrit", "index", "projects", project.get());
+    adminSshSession.exec(cmd);
+
+    assertChangeQuery("message:second", change.getChange(), true);
+  }
+
+  protected void assertChangeQuery(String q, ChangeData change, boolean assertTrue)
       throws Exception {
-    List<ChangeInfo> result = query(q);
-    Iterable<Integer> ids = ids(result);
+    List<Integer> ids = query(q).stream().map(c -> c._number).collect(toList());
     if (assertTrue) {
       assertThat(ids).contains(change.getId().get());
     } else {
       assertThat(ids).doesNotContain(change.getId().get());
     }
-  }
-
-  protected static Iterable<Integer> ids(Iterable<ChangeInfo> changes) {
-    return FluentIterable.from(changes).transform(in -> in._number);
   }
 }

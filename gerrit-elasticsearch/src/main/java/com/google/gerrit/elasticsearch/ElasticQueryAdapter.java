@@ -31,13 +31,13 @@ public class ElasticQueryAdapter {
 
   ElasticQueryAdapter(ElasticVersion version) {
     this.ignoreUnmapped = version == ElasticVersion.V2_4;
-    this.usePostV5Type = version == ElasticVersion.V6_2;
-
-    this.versionDiscoveryUrl = version == ElasticVersion.V6_2 ? "%s*" : "%s*/_aliases";
+    this.usePostV5Type = isV6(version);
+    this.versionDiscoveryUrl = isV6(version) ? "%s*" : "%s*/_aliases";
 
     switch (version) {
       case V5_6:
       case V6_2:
+      case V6_3:
         this.searchFilteringName = "_source";
         this.indicesExistParam = "?allow_no_indices=false";
         this.exactFieldType = "keyword";
@@ -53,6 +53,10 @@ public class ElasticQueryAdapter {
         this.indexProperty = "not_analyzed";
         break;
     }
+  }
+
+  private boolean isV6(ElasticVersion version) {
+    return version == ElasticVersion.V6_2 || version == ElasticVersion.V6_3;
   }
 
   void setIgnoreUnmapped(JsonObject properties) {

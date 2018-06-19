@@ -25,23 +25,21 @@
     properties: {
       /** @type {?} */
       change: Object,
-      account: Object,
-      mutable: Boolean,
-      _requirements: {
+      requirements: {
         type: Array,
         computed: '_computeRequirements(change)',
       },
-      _requiredLabels: {
+      labels: {
         type: Array,
-        value: () => [],
-      },
-      _optionalLabels: {
-        type: Array,
-        value: () => [],
+        computed: '_computeLabels(change)',
       },
       _showWip: {
         type: Boolean,
         computed: '_computeShowWip(change)',
+      },
+      _showLabels: {
+        type: Boolean,
+        computed: '_computeShowLabelStatus(change)',
       },
     },
 
@@ -49,9 +47,9 @@
       Gerrit.RESTClientBehavior,
     ],
 
-    observers: [
-      '_computeLabels(change.labels.*)',
-    ],
+    _computeShowLabelStatus(change) {
+      return change.status === this.ChangeStatus.NEW;
+    },
 
     _computeShowWip(change) {
       return change.work_in_progress;
@@ -66,75 +64,41 @@
           _requirements.push(requirement);
         }
       }
-      if (change.work_in_progress) {
-        _requirements.push({
-          fallback_text: 'WIP',
-          tooltip: 'Change must not be in \'Work in Progress\' state.',
-        });
-      }
 
       return _requirements;
     },
 
-    _computeRequirementClass(requirementStatus) {
-      return requirementStatus ? 'positive' : 'neutral';
-    },
-
-    _computeRequirementIcon(requirementStatus) {
-      return requirementStatus ? 'gr-icons:check' : 'gr-icons:hourglass';
-    },
-
-    _computeLabels(labelsRecord) {
-      const labels = labelsRecord.base;
-      this._optionalLabels = [];
-      this._requiredLabels = [];
+    _computeLabels(change) {
+      const labels = change.labels;
+      const _labels = [];
 
       for (const label in labels) {
         if (!labels.hasOwnProperty(label)) { continue; }
+        const obj = labels[label];
+        if (obj.optional) { continue; }
 
-        const labelInfo = labels[label];
-        const icon = this._computeLabelIcon(labelInfo);
-        const style = this._computeLabelClass(labelInfo);
-        const path = labelInfo.optional ? '_optionalLabels' : '_requiredLabels';
+        const icon = this._computeRequirementIcon(obj.approved);
+        const style = this._computeRequirementClass(obj.approved);
+        _labels.push({label, icon, style});
+      }
 
-        this.push(path, {label, icon, style, labelInfo});
+      return _labels;
+    },
+
+    _computeRequirementClass(requirementStatus) {
+      if (requirementStatus) {
+        return 'satisfied';
+      } else {
+        return 'unsatisfied';
       }
     },
 
-    /**
-     * @param {Object} labelInfo
-     * @return {string|undefined} The icon name, or undefined if no icon should
-     *     be used.
-     */
-    _computeLabelIcon(labelInfo) {
-      if (labelInfo.approved) { return 'gr-icons:check'; }
-      if (labelInfo.rejected) { return 'gr-icons:close'; }
-      // If there is an intermediate vote (e.g. +1 on a label with max value
-      // +2), the value field will be populated.
-      if (!labelInfo.value) { return 'gr-icons:hourglass'; }
-      return undefined;
-    },
-
-    /**
-     * @param {Object} labelInfo
-     */
-    _computeLabelClass(labelInfo) {
-      const value = labelInfo.value || 0;
-      if (value > 0 || labelInfo.approved) { return 'positive'; }
-      if (value < 0 || labelInfo.rejected) { return 'negative'; }
-      return 'neutral';
-    },
-
-    _computeLabelShortcut(label) {
-      return label.split('-').reduce((a, i) => a + i[0].toUpperCase(), '');
-    },
-
-    _computeShowOptional(optionalFieldsRecord) {
-      return optionalFieldsRecord.base.length ? '' : 'hidden';
-    },
-
-    _computeLabelValue(value) {
-      return (value > 0 ? '+' : '') + value;
+    _computeRequirementIcon(requirementStatus) {
+      if (requirementStatus) {
+        return 'gr-icons:check';
+      } else {
+        return 'gr-icons:hourglass';
+      }
     },
 
     _removeInvalidChars(text) {

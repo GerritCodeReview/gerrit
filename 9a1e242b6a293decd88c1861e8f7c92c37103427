@@ -26,6 +26,29 @@
     },
     {
       "key": {
+        "uuid": "325c9a90_6b1cc948",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-19T11:13:36Z",
+      "side": 1,
+      "message": "Good idea to introduce a method. In the future, we should do this for the above code blocks, too.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 24
+      },
+      "revId": "9a1e242b6a293decd88c1861e8f7c92c37103427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf327a9c_c84b090f",
         "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
         "patchSetId": 4
@@ -42,6 +65,52 @@
         "startChar": 33,
         "endLine": 109,
         "endChar": 43
+      },
+      "revId": "9a1e242b6a293decd88c1861e8f7c92c37103427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f63241ef_b213b0d7",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-19T11:13:36Z",
+      "side": 1,
+      "message": "Since we now use ConfigUtil#getTimeUnit with different parameters, the behavior is slightly different when negative values are specified in the config file. Previously, we threw an exception. Now, we take the default value. Considering that the behavior of both ConfigUtil#getTimeUnit methods isn\u0027t consistent regarding that aspect (e.g. \"foo\" would be converted to the default value but \"1 foo\" would throw an exception), I think we can ignore that change of behavior.",
+      "range": {
+        "startLine": 121,
+        "startChar": 29,
+        "endLine": 121,
+        "endChar": 51
+      },
+      "revId": "9a1e242b6a293decd88c1861e8f7c92c37103427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fb6e516_238b6891",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-06-19T11:13:36Z",
+      "side": 1,
+      "message": "Are you sure this is background work? By calling invalidate(), we presumably remove the old value contained in the cache. Refresh calls CacheLoader#load (and not reload) if the old value isn\u0027t present. Although the implementation of LoadingCache#refresh in LocalCache internally calls a method called loadAsync() at some point, I don\u0027t see any code adding asynchronism for the CacheLoader#load case. The Javadoc of LoadingCache#refresh seems to support that assessment.\n\nIf refresh is a synchronous load call, do we still want to call it here?",
+      "range": {
+        "startLine": 183,
+        "startChar": 9,
+        "endLine": 183,
+        "endChar": 24
       },
       "revId": "9a1e242b6a293decd88c1861e8f7c92c37103427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

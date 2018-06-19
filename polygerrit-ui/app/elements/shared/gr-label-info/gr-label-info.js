@@ -177,9 +177,7 @@
     _computeShowPlaceholder(labelInfo, changeLabelsRecord) {
       if (labelInfo.all) {
         for (const label of labelInfo.all) {
-          if (label.value && label.value != labelInfo.default_value) {
-            return 'hidden';
-          }
+          if (label.value) { return 'hidden'; }
         }
       }
       return '';

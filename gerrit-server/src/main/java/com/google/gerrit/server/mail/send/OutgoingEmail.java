@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -342,46 +343,33 @@ public abstract class OutgoingEmail {
     }
   }
 
-  /** Lookup a human readable name for an account, usually the "full name". */
-  protected String getNameFor(Account.Id accountId) {
+  /**
+   * Gets the human readable name for an account, usually the "full name".
+   *
+   * @param accountId user to fetch.
+   * @return name of the account, or the server identity name if null.
+   */
+  protected String getNameFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
       return args.gerritPersonIdent.getName();
     }
 
-    final Account userAccount = args.accountCache.get(accountId).getAccount();
-    String name = userAccount.getFullName();
-    if (name == null) {
-      name = userAccount.getPreferredEmail();
-    }
-    if (name == null) {
-      name = args.anonymousCowardName + " #" + accountId;
-    }
-    return name;
+    return args.accountCache.get(accountId).getAccount().getName(args.anonymousCowardName);
   }
 
   /**
-   * Gets the human readable name and email for an account; if neither are available, returns the
-   * Anonymous Coward name.
+   * Gets the human readable name and email for an account.
    *
    * @param accountId user to fetch.
-   * @return name/email of account, or Anonymous Coward if unset.
+   * @return name/email of account; Anonymous Coward if unset or the server identity if null.
    */
-  public String getNameEmailFor(Account.Id accountId) {
-    AccountState who = args.accountCache.get(accountId);
-    String name = who.getAccount().getFullName();
-    String email = who.getAccount().getPreferredEmail();
-
-    if (name != null && email != null) {
-      return name + " <" + email + ">";
-
-    } else if (name != null) {
-      return name;
-    } else if (email != null) {
-      return email;
-
-    } else /* (name == null && email == null) */ {
-      return args.anonymousCowardName + " #" + accountId;
+  protected String getNameEmailFor(@Nullable Account.Id accountId) {
+    if (accountId == null) {
+      return String.format(
+          "%s <%s>", args.gerritPersonIdent.getName(), args.gerritPersonIdent.getEmailAddress());
     }
+
+    return args.accountCache.get(accountId).getAccount().getNameEmail(args.anonymousCowardName);
   }
 
   /**
@@ -391,7 +379,11 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, username, or null if unset.
    */
-  public String getUserNameEmailFor(Account.Id accountId) {
+  @Nullable
+  protected String getUserNameEmailFor(@Nullable Account.Id accountId) {
+    if (accountId == null) {
+      return null;
+    }
     AccountState who = args.accountCache.get(accountId);
     String name = who.getAccount().getFullName();
     String email = who.getAccount().getPreferredEmail();
@@ -623,28 +615,6 @@ public abstract class OutgoingEmail {
     return soyTextTemplate(name);
   }
 
-  public String joinStrings(Iterable<Object> in, String joiner) {
-    return joinStrings(in.iterator(), joiner);
-  }
-
-  public String joinStrings(Iterator<Object> in, String joiner) {
-    if (!in.hasNext()) {
-      return "";
-    }
-
-    Object first = in.next();
-    if (!in.hasNext()) {
-      return safeToString(first);
-    }
-
-    StringBuilder r = new StringBuilder();
-    r.append(safeToString(first));
-    while (in.hasNext()) {
-      r.append(joiner).append(safeToString(in.next()));
-    }
-    return r.toString();
-  }
-
   protected void removeUser(Account user) {
     String fromEmail = user.getPreferredEmail();
     for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext(); ) {
@@ -658,10 +628,6 @@ public abstract class OutgoingEmail {
         ((AddressList) entry.getValue()).remove(fromEmail);
       }
     }
-  }
-
-  private static String safeToString(Object obj) {
-    return obj != null ? obj.toString() : "";
   }
 
   protected final boolean useHtml() {

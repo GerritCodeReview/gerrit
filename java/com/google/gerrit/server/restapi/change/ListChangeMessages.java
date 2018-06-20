@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,7 +48,8 @@ public class ListChangeMessages implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public List<ChangeMessageInfo> apply(ChangeResource resource) throws OrmException {
+  public List<ChangeMessageInfo> apply(ChangeResource resource)
+      throws OrmException, PermissionBackendException {
     List<ChangeMessage> messages =
         changeMessagesUtil.byChange(dbProvider.get(), resource.getNotes());
     List<ChangeMessageInfo> messageInfos =

@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -42,7 +43,8 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Map<String, List<RobotCommentInfo>> apply(RevisionResource rsrc) throws OrmException {
+  public Map<String, List<RobotCommentInfo>> apply(RevisionResource rsrc)
+      throws OrmException, PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(true)
@@ -50,7 +52,8 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
         .format(listComments(rsrc));
   }
 
-  public List<RobotCommentInfo> getComments(RevisionResource rsrc) throws OrmException {
+  public List<RobotCommentInfo> getComments(RevisionResource rsrc)
+      throws OrmException, PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(true)

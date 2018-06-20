@@ -79,7 +79,6 @@ import com.google.gerrit.server.restapi.account.SshKeys;
 import com.google.gerrit.server.restapi.account.StarredChanges;
 import com.google.gerrit.server.restapi.account.Stars;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
@@ -393,7 +392,7 @@ public class AccountApiImpl implements AccountApi {
   public List<GroupInfo> getGroups() throws RestApiException {
     try {
       return getGroups.apply(account);
-    } catch (OrmException e) {
+    } catch (Exception e) {
       throw asRestApiException("Cannot get groups", e);
     }
   }
@@ -518,7 +517,11 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public List<AgreementInfo> listAgreements() throws RestApiException {
-    return getAgreements.apply(account);
+    try {
+      return getAgreements.apply(account);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get agreements", e);
+    }
   }
 
   @Override

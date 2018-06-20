@@ -28,6 +28,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.config.AgreementJson;
 import com.google.inject.Inject;
@@ -60,7 +61,8 @@ public class GetAgreements implements RestReadView<AccountResource> {
   }
 
   @Override
-  public List<AgreementInfo> apply(AccountResource resource) throws RestApiException {
+  public List<AgreementInfo> apply(AccountResource resource)
+      throws RestApiException, PermissionBackendException {
     if (!agreementsEnabled) {
       throw new MethodNotAllowedException("contributor agreements disabled");
     }

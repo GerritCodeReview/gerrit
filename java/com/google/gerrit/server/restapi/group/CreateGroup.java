@@ -50,6 +50,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
@@ -121,7 +122,7 @@ public class CreateGroup implements RestCreateView<TopLevelResource, GroupResour
   public GroupInfo apply(TopLevelResource resource, IdString id, GroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
           ResourceConflictException, OrmException, IOException, ConfigInvalidException,
-          ResourceNotFoundException {
+          ResourceNotFoundException, PermissionBackendException {
     String name = id.get();
     if (input == null) {
       input = new GroupInput();

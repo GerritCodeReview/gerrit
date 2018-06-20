@@ -46,6 +46,7 @@ import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.MemberResource;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.group.AddMembers.Input;
 import com.google.gwtorm.server.OrmException;
@@ -116,7 +117,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
   @Override
   public List<AccountInfo> apply(GroupResource resource, Input input)
       throws AuthException, NotInternalGroupException, UnprocessableEntityException, OrmException,
-          IOException, ConfigInvalidException, ResourceNotFoundException {
+          IOException, ConfigInvalidException, ResourceNotFoundException,
+          PermissionBackendException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     input = Input.init(input);
@@ -203,7 +205,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds) {
+  private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds)
+      throws PermissionBackendException {
     List<AccountInfo> result = new ArrayList<>();
     AccountLoader loader = infoFactory.create(true);
     for (Account.Id accId : accountIds) {
@@ -224,7 +227,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     @Override
     public AccountInfo apply(GroupResource resource, IdString id, Input input)
         throws AuthException, MethodNotAllowedException, ResourceNotFoundException, OrmException,
-            IOException, ConfigInvalidException {
+            IOException, ConfigInvalidException, PermissionBackendException {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id.get();
       try {
@@ -249,7 +252,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
 
     @Override
-    public AccountInfo apply(MemberResource resource, Input input) throws OrmException {
+    public AccountInfo apply(MemberResource resource, Input input)
+        throws OrmException, PermissionBackendException {
       // Do nothing, the user is already a member.
       return get.apply(resource);
     }

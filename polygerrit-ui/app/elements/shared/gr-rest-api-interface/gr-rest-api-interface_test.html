@@ -841,35 +841,54 @@ limitations under the License.
     });
 
     test('startWorkInProgress', () => {
-      sandbox.stub(element, '_getChangeURLAndSend')
+      const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve('ok'));
       element.startWorkInProgress('42');
-      assert.isTrue(element._getChangeURLAndSend.calledWith(
-          '42', 'POST', null, '/wip', {}));
+      assert.isTrue(sendStub.calledOnce);
+      assert.equal(sendStub.lastCall.args[0].changeNum, '42');
+      assert.equal(sendStub.lastCall.args[0].method, 'POST');
+      assert.isNotOk(sendStub.lastCall.args[0].patchNum);
+      assert.equal(sendStub.lastCall.args[0].endpoint, '/wip');
+      assert.deepEqual(sendStub.lastCall.args[0].body, {});
+
       element.startWorkInProgress('42', 'revising...');
-      assert.isTrue(element._getChangeURLAndSend.calledWith(
-          '42', 'POST', null, '/wip', {message: 'revising...'}));
+      assert.isTrue(sendStub.calledTwice);
+      assert.equal(sendStub.lastCall.args[0].changeNum, '42');
+      assert.equal(sendStub.lastCall.args[0].method, 'POST');
+      assert.isNotOk(sendStub.lastCall.args[0].patchNum);
+      assert.equal(sendStub.lastCall.args[0].endpoint, '/wip');
+      assert.deepEqual(sendStub.lastCall.args[0].body,
+          {message: 'revising...'});
     });
 
     test('startReview', () => {
-      sandbox.stub(element, '_getChangeURLAndSend')
+      const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve({}));
       element.startReview('42', {message: 'Please review.'});
-      assert.isTrue(element._getChangeURLAndSend.calledWith(
-          '42', 'POST', null, '/ready', {message: 'Please review.'}));
+      assert.isTrue(sendStub.calledOnce);
+      assert.equal(sendStub.lastCall.args[0].changeNum, '42');
+      assert.equal(sendStub.lastCall.args[0].method, 'POST');
+      assert.isNotOk(sendStub.lastCall.args[0].patchNum);
+      assert.equal(sendStub.lastCall.args[0].endpoint, '/ready');
+      assert.deepEqual(sendStub.lastCall.args[0].body,
+          {message: 'Please review.'});
     });
 
-    test('deleteComment', done => {
-      sandbox.stub(element, '_getChangeURLAndSend').returns(Promise.resolve());
-      sandbox.stub(element, 'getResponseObject').returns('some response');
-      element.deleteComment('foo', 'bar', '01234', 'removal reason')
+    test('deleteComment', () => {
+      const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
+          .returns(Promise.resolve('some response'));
+      return element.deleteComment('foo', 'bar', '01234', 'removal reason')
           .then(response => {
             assert.equal(response, 'some response');
-            done();
+            assert.isTrue(sendStub.calledOnce);
+            assert.equal(sendStub.lastCall.args[0].changeNum, 'foo');
+            assert.equal(sendStub.lastCall.args[0].method, 'POST');
+            assert.equal(sendStub.lastCall.args[0].patchNum, 'bar');
+            assert.equal(sendStub.lastCall.args[0].endpoint,
+                '/comments/01234/delete');
+            assert.deepEqual(sendStub.lastCall.args[0].body,
+                {reason: 'removal reason'});
           });
-      assert.isTrue(element._getChangeURLAndSend.calledWith(
-          'foo', 'POST', 'bar', '/comments/01234/delete',
-          {reason: 'removal reason'}));
     });
 
     test('createRepo encodes name', () => {
@@ -1133,7 +1152,14 @@ limitations under the License.
       element._projectLookup = {1: 'test'};
       const sendStub = sandbox.stub(element, '_send')
           .returns(Promise.resolve());
-      return element._getChangeURLAndSend(1, 'POST', 1, '/test').then(() => {
+
+      const req = {
+        changeNum: 1,
+        method: 'POST',
+        patchNum: 1,
+        endpoint: '/test',
+      };
+      return element._getChangeURLAndSend(req).then(() => {
         assert.isTrue(sendStub.calledOnce);
         assert.equal(sendStub.lastCall.args[0].method, 'POST');
         assert.equal(sendStub.lastCall.args[0].url,
@@ -1164,7 +1190,7 @@ limitations under the License.
       const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
       return element.setChangeTopic(123, 'foo-bar').then(() => {
         assert.isTrue(sendSpy.calledOnce);
-        assert.deepEqual(sendSpy.lastCall.args[4], {topic: 'foo-bar'});
+        assert.deepEqual(sendSpy.lastCall.args[0].body, {topic: 'foo-bar'});
       });
     });
 
@@ -1172,7 +1198,7 @@ limitations under the License.
       const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
       return element.setChangeHashtag(123, 'foo-bar').then(() => {
         assert.isTrue(sendSpy.calledOnce);
-        assert.equal(sendSpy.lastCall.args[4], 'foo-bar');
+        assert.equal(sendSpy.lastCall.args[0].body, 'foo-bar');
       });
     });
 

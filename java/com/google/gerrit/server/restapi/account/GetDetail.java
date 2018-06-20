@@ -14,35 +14,55 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.InternalAccountDirectory;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Set;
 
 @Singleton
 public class GetDetail implements RestReadView<AccountResource> {
-
+  private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
   private final InternalAccountDirectory directory;
 
   @Inject
-  public GetDetail(InternalAccountDirectory directory) {
+  public GetDetail(
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend,
+      InternalAccountDirectory directory) {
+    this.self = self;
+    this.permissionBackend = permissionBackend;
     this.directory = directory;
   }
 
   @Override
-  public AccountDetailInfo apply(AccountResource rsrc) throws OrmException {
+  public AccountDetailInfo apply(AccountResource rsrc)
+      throws OrmException, PermissionBackendException {
     Account a = rsrc.getUser().getAccount();
     AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
     info.registeredOn = a.getRegisteredOn();
     info.inactive = !a.isActive() ? true : null;
-    directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
+    Set<FillOptions> fillOptions =
+        self.get().hasSameAccountId(rsrc.getUser())
+                || permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)
+            ? EnumSet.allOf(FillOptions.class)
+            : Sets.difference(
+                EnumSet.allOf(FillOptions.class), EnumSet.of(FillOptions.SECONDARY_EMAILS));
+    directory.fillAccountInfo(Collections.singleton(info), fillOptions);
     return info;
   }
 }

@@ -820,7 +820,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getDetail() throws Exception {
+  public void getOwnDetail() throws Exception {
     String email = "preferred@example.com";
     String name = "Foo";
     String username = name("foo");
@@ -843,6 +843,32 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(detail.registeredOn).isEqualTo(getAccount(foo.getId()).getRegisteredOn());
     assertThat(detail.inactive).isNull();
     assertThat(detail._moreAccounts).isNull();
+  }
+
+  @Test
+  public void detailOfOtherAccountDoesntIncludeSecondaryEmailsWithoutModifyAccount()
+      throws Exception {
+    String email = "preferred@example.com";
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(foo.id.get()).addEmail(input);
+
+    setApiUser(user);
+    AccountDetailInfo detail = gApi.accounts().id(foo.id.get()).detail();
+    assertThat(detail.secondaryEmails).isNull();
+  }
+
+  @Test
+  public void detailOfOtherAccountIncludeSecondaryEmailsWithModifyAccount() throws Exception {
+    String email = "preferred@example.com";
+    TestAccount foo = accountCreator.create(name("foo"), email, "Foo");
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(foo.id.get()).addEmail(input);
+
+    AccountDetailInfo detail = gApi.accounts().id(foo.id.get()).detail();
+    assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
   }
 
   @Test

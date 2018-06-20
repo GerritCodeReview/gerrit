@@ -266,7 +266,9 @@ The following values are currently supported for the group name:
 
 * annotation
 * api
+* docker
 * edit
+* elastic
 * git
 * notedb
 * pgm
@@ -277,11 +279,13 @@ The following values are currently supported for the group name:
 [[elasticsearch]]
 === Elasticsearch
 
-Successfully running the elasticsearch tests may require setting the local
+Successfully running the Elasticsearch tests requires Docker, and
+may require setting the local
 link:https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html[virtual memory].
 
-Bazel link:https://github.com/bazelbuild/bazel/issues/3476[does not currently make container failures visible],
-if any.
+If Docker is not available, the Elasticsearch tests will be skipped.
+Note that Bazel currently does not show
+link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests].
 
 == Dependencies
 

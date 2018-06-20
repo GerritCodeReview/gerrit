@@ -30,9 +30,13 @@ public class ElasticVersionTest {
 
     assertThat(ElasticVersion.forVersion("5.6.0")).isEqualTo(ElasticVersion.V5_6);
     assertThat(ElasticVersion.forVersion("5.6.9")).isEqualTo(ElasticVersion.V5_6);
+    assertThat(ElasticVersion.forVersion("5.6.10")).isEqualTo(ElasticVersion.V5_6);
 
     assertThat(ElasticVersion.forVersion("6.2.0")).isEqualTo(ElasticVersion.V6_2);
     assertThat(ElasticVersion.forVersion("6.2.4")).isEqualTo(ElasticVersion.V6_2);
+
+    assertThat(ElasticVersion.forVersion("6.3.0")).isEqualTo(ElasticVersion.V6_3);
+    assertThat(ElasticVersion.forVersion("6.3.1")).isEqualTo(ElasticVersion.V6_3);
   }
 
   @Test

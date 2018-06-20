@@ -341,7 +341,12 @@ public abstract class OutgoingEmail {
     }
   }
 
-  /** Lookup a human readable name for an account, usually the "full name". */
+  /**
+   * Gets the human readable name for an account, usually the "full name".
+   *
+   * @param accountId user to fetch.
+   * @return name of the account, or the server identity name if null.
+   */
   protected String getNameFor(final Account.Id accountId) {
     if (accountId == null) {
       return args.gerritPersonIdent.getName();
@@ -351,13 +356,16 @@ public abstract class OutgoingEmail {
   }
 
   /**
-   * Gets the human readable name and email for an account; if neither are available, returns the
-   * Anonymous Coward name.
+   * Gets the human readable name and email for an account.
    *
    * @param accountId user to fetch.
-   * @return name/email of account, or Anonymous Coward if unset.
+   * @return name/email of account; Anonymous Coward if unset or the server identity if null.
    */
   public String getNameEmailFor(Account.Id accountId) {
+    if (accountId == null) {
+      return args.gerritPersonIdent.toExternalString();
+    }
+
     return args.accountCache.get(accountId).getAccount().getNameEmail(args.anonymousCowardName);
   }
 

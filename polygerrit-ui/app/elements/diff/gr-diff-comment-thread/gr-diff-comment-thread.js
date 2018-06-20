@@ -241,6 +241,7 @@
 
     _createReplyComment(parent, content, opt_isEditing,
         opt_unresolved) {
+      this.$.reporting.recordDraftInteraction();
       const reply = this._newReply(
           this._orderedComments[this._orderedComments.length - 1].id,
           parent.line,

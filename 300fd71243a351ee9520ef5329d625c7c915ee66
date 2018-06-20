@@ -22,6 +22,30 @@
       "revId": "300fd71243a351ee9520ef5329d625c7c915ee66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "004770cf_a6e539ed",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-06-20T19:39:16Z",
+      "side": 1,
+      "message": "\u003e This merge conflict resolution was wrong. It changed the method signature from\n\u003e \n\u003e ScheduledExecutorService createQueue(int, String)\n\u003e \n\u003e to\n\u003e \n\u003e ScheduledThreadPoolExecutor createQueue(int, String)\n\nSorry about the noise, yes the method signature changed but this is not a breaking change as ScheduledThreadPoolExecutor implements ScheduledExecutorService",
+      "parentUuid": "1261fd75_d12b16bc",
+      "range": {
+        "startLine": 126,
+        "startChar": 9,
+        "endLine": 126,
+        "endChar": 36
+      },
+      "revId": "300fd71243a351ee9520ef5329d625c7c915ee66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

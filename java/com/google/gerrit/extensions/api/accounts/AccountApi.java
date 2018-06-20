@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
@@ -35,6 +36,8 @@ import java.util.SortedSet;
 
 public interface AccountApi {
   AccountInfo get() throws RestApiException;
+
+  AccountDetailInfo detail() throws RestApiException;
 
   boolean getActive() throws RestApiException;
 
@@ -113,6 +116,11 @@ public interface AccountApi {
   class NotImplemented implements AccountApi {
     @Override
     public AccountInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public AccountDetailInfo detail() throws RestApiException {
       throw new NotImplementedException();
     }
 

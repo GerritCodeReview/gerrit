@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
@@ -57,6 +58,7 @@ import com.google.gerrit.server.restapi.account.DeleteWatchedProjects;
 import com.google.gerrit.server.restapi.account.GetActive;
 import com.google.gerrit.server.restapi.account.GetAgreements;
 import com.google.gerrit.server.restapi.account.GetAvatar;
+import com.google.gerrit.server.restapi.account.GetDetail;
 import com.google.gerrit.server.restapi.account.GetDiffPreferences;
 import com.google.gerrit.server.restapi.account.GetEditPreferences;
 import com.google.gerrit.server.restapi.account.GetEmails;
@@ -92,6 +94,7 @@ public class AccountApiImpl implements AccountApi {
   private final AccountResource account;
   private final ChangesCollection changes;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final GetDetail getDetail;
   private final GetAvatar getAvatar;
   private final GetPreferences getPreferences;
   private final SetPreferences setPreferences;
@@ -131,6 +134,7 @@ public class AccountApiImpl implements AccountApi {
   AccountApiImpl(
       AccountLoader.Factory ailf,
       ChangesCollection changes,
+      GetDetail getDetail,
       GetAvatar getAvatar,
       GetPreferences getPreferences,
       SetPreferences setPreferences,
@@ -169,6 +173,7 @@ public class AccountApiImpl implements AccountApi {
     this.account = account;
     this.accountLoaderFactory = ailf;
     this.changes = changes;
+    this.getDetail = getDetail;
     this.getAvatar = getAvatar;
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
@@ -214,6 +219,15 @@ public class AccountApiImpl implements AccountApi {
       return ai;
     } catch (Exception e) {
       throw asRestApiException("Cannot parse change", e);
+    }
+  }
+
+  @Override
+  public AccountDetailInfo detail() throws RestApiException {
+    try {
+      return getDetail.apply(account);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get detail", e);
     }
   }
 

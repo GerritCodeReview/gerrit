@@ -46,6 +46,54 @@
       "revId": "cf4f8c760dcbbdc425a8548780e75b5df805813d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f35c2bc4_d056a083",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-20T13:58:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a76f4c67_08449279",
+      "range": {
+        "startLine": 64,
+        "startChar": 14,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "cf4f8c760dcbbdc425a8548780e75b5df805813d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff8d6642_862ed102",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-20T13:58:27Z",
+      "side": 1,
+      "message": "Makes sense. I will look into this, but maybe it can be a follow-up change so that we can submit this fix sooner.",
+      "parentUuid": "38c3b4d2_21d06628",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "cf4f8c760dcbbdc425a8548780e75b5df805813d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

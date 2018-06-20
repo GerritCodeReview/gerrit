@@ -347,15 +347,7 @@ public abstract class OutgoingEmail {
       return args.gerritPersonIdent.getName();
     }
 
-    final Account userAccount = args.accountCache.get(accountId).getAccount();
-    String name = userAccount.getFullName();
-    if (name == null) {
-      name = userAccount.getPreferredEmail();
-    }
-    if (name == null) {
-      name = args.anonymousCowardName + " #" + accountId;
-    }
-    return name;
+    return args.accountCache.get(accountId).getAccount().getName(args.anonymousCowardName);
   }
 
   /**
@@ -366,21 +358,7 @@ public abstract class OutgoingEmail {
    * @return name/email of account, or Anonymous Coward if unset.
    */
   public String getNameEmailFor(Account.Id accountId) {
-    AccountState who = args.accountCache.get(accountId);
-    String name = who.getAccount().getFullName();
-    String email = who.getAccount().getPreferredEmail();
-
-    if (name != null && email != null) {
-      return name + " <" + email + ">";
-
-    } else if (name != null) {
-      return name;
-    } else if (email != null) {
-      return email;
-
-    } else /* (name == null && email == null) */ {
-      return args.anonymousCowardName + " #" + accountId;
-    }
+    return args.accountCache.get(accountId).getAccount().getNameEmail(args.anonymousCowardName);
   }
 
   /**

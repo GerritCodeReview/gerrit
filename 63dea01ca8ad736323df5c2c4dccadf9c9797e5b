@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d9fcf82_a4acaeec",
+        "filename": "java/com/google/gerrit/httpd/raw/AuthorizationCheckServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-20T15:44:43Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "63dea01ca8ad736323df5c2c4dccadf9c9797e5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

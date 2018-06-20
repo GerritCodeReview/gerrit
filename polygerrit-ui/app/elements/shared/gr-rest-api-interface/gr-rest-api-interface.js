@@ -90,8 +90,6 @@
   const MAX_PROJECT_RESULTS = 25;
   const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   const PARENT_PATCH_NUM = 'PARENT';
-  const CHECK_SIGN_IN_DEBOUNCE_MS = 3 * 1000;
-  const CHECK_SIGN_IN_DEBOUNCER_NAME = 'checkCredentials';
   const FAILED_TO_FETCH_ERROR = 'Failed to fetch';
 
   const Requests = {
@@ -134,6 +132,9 @@
       _cache: {
         type: Object,
         value: {}, // Intentional to share the object across instances.
+      },
+      _checkingCredentials: {
+        type: Boolean,
       },
       _sharedFetchPromises: {
         type: Object,
@@ -214,12 +215,9 @@
         return res;
       }).catch(err => {
         const isLoggedIn = !!this._cache['/accounts/self/detail'];
-        if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
-          if (!this.isDebouncerActive(CHECK_SIGN_IN_DEBOUNCER_NAME)) {
-            this.checkCredentials();
-          }
-          this.debounce(CHECK_SIGN_IN_DEBOUNCER_NAME, this.checkCredentials,
-              CHECK_SIGN_IN_DEBOUNCE_MS);
+        if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR
+            && !this._checkingCredentials) {
+          this.checkCredentials();
           return;
         }
         if (req.errFn) {
@@ -920,6 +918,10 @@
     },
 
     checkCredentials() {
+      if (this._checkingCredentials) {
+        return;
+      }
+      this._checkingCredentials = true;
       // Skip the REST response cache.
       return this._fetchRawJSON({url: '/accounts/self/detail'}).then(res => {
         if (!res) { return; }
@@ -930,10 +932,13 @@
           return this.getResponseObject(res);
         }
       }).then(res => {
+        this._checkingCredentials = false;
         if (res) {
           this._cache['/accounts/self/detail'] = res;
         }
         return res;
+      }).catch(err => {
+        this._checkingCredentials = false;
       });
     },
 

@@ -485,6 +485,20 @@ limitations under the License.
       });
     });
 
+    test('checkCredentials promise rejection', () => {
+      window.fetch.restore();
+      element._cache['/accounts/self/detail'] = true;
+      sandbox.spy(element, 'checkCredentials');
+      sandbox.stub(window, 'fetch', url => {
+        return Promise.reject({message: 'Failed to fetch'});
+      });
+      return element.getConfig(true)
+          .catch()
+          .then(() => {
+            assert.isTrue(element.checkCredentials.calledOnce);
+          });
+    });
+
     test('legacy n,z key in change url is replaced', () => {
       const stub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve([]));

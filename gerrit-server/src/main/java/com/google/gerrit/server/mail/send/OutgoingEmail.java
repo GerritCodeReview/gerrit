@@ -577,28 +577,6 @@ public abstract class OutgoingEmail {
     return soyTextTemplate(name);
   }
 
-  public String joinStrings(Iterable<Object> in, String joiner) {
-    return joinStrings(in.iterator(), joiner);
-  }
-
-  public String joinStrings(Iterator<Object> in, String joiner) {
-    if (!in.hasNext()) {
-      return "";
-    }
-
-    Object first = in.next();
-    if (!in.hasNext()) {
-      return safeToString(first);
-    }
-
-    StringBuilder r = new StringBuilder();
-    r.append(safeToString(first));
-    while (in.hasNext()) {
-      r.append(joiner).append(safeToString(in.next()));
-    }
-    return r.toString();
-  }
-
   protected void removeUser(Account user) {
     String fromEmail = user.getPreferredEmail();
     for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext(); ) {
@@ -612,10 +590,6 @@ public abstract class OutgoingEmail {
         ((AddressList) entry.getValue()).remove(fromEmail);
       }
     }
-  }
-
-  private static String safeToString(Object obj) {
-    return obj != null ? obj.toString() : "";
   }
 
   protected final boolean useHtml() {

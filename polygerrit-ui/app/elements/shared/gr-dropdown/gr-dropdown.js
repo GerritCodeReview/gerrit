@@ -78,6 +78,10 @@
       },
     },
 
+    listeners: {
+      tap: '_handleTap',
+    },
+
     behaviors: [
       Gerrit.BaseUrlBehavior,
       Gerrit.KeyboardShortcutBehavior,
@@ -289,6 +293,11 @@
 
     _computeIsDownload(link) {
       return !!link.download;
+    },
+
+    _handleTap(e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
     },
   });
 })();

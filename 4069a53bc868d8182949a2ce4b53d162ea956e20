@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8b53dc1d_76d40ce3",
+        "filename": "Documentation/js-api.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-20T19:43:26Z",
+      "side": 1,
+      "message": "\u003e In either case, the documentation should have a brief explanation [..]\n\nI\u0027ve added some more context. Let me know if this clears it up.\n\n\u003e If plugin blocks submit, the confirm dialog shouldn\u0027t be shown and would require additional click. Am I wrong about what\u0027s happening in fact?\n\nYou\u0027re correct. If the plugin blocks submission, the confirmation dialog wouldn\u0027t appear in the first place. The additional check is really just for safety.\n\nI\u0027d be happy to just remove the second check and leave this documentation unchanged, if that seems better to you.",
+      "parentUuid": "a3ede74f_32bf65a3",
+      "range": {
+        "startLine": 178,
+        "startChar": 23,
+        "endLine": 178,
+        "endChar": 65
+      },
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b406db23_378522d6",
         "filename": "Documentation/pg-plugin-endpoints.txt",
         "patchSetId": 5
@@ -234,6 +258,30 @@
       "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ab1290f_3395f1b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-20T19:43:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68df103e_9d1b1358",
+      "range": {
+        "startLine": 45,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 82
+      },
+      "revId": "4069a53bc868d8182949a2ce4b53d162ea956e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -94,6 +94,30 @@
       "revId": "cf4f8c760dcbbdc425a8548780e75b5df805813d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6078d191_bc73f3ef",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDetail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-20T14:54:26Z",
+      "side": 1,
+      "message": "Done in:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/185953",
+      "parentUuid": "ff8d6642_862ed102",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "cf4f8c760dcbbdc425a8548780e75b5df805813d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

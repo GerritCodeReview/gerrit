@@ -324,6 +324,19 @@ limitations under the License.
         });
       });
     });
+
+    test('edit reports interaction', () => {
+      const reportStub = sandbox.stub(element.$.reporting, 'draftInteraction');
+      MockInteractions.tap(element.$$('.edit'));
+      assert.isTrue(reportStub.calledOnce);
+    });
+
+    test('discard reports interaction', () => {
+      const reportStub = sandbox.stub(element.$.reporting, 'draftInteraction');
+      element.draft = true;
+      MockInteractions.tap(element.$$('.discard'));
+      assert.isTrue(reportStub.calledOnce);
+    });
   });
 
   suite('gr-diff-comment draft tests', () => {

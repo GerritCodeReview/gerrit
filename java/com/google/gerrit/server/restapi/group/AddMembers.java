@@ -201,7 +201,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     }
   }
 
-  private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds) throws OrmException {
+  private List<AccountInfo> toAccountInfoList(Set<Account.Id> accountIds) {
     List<AccountInfo> result = new ArrayList<>();
     AccountLoader loader = infoFactory.create(true);
     for (Account.Id accId : accountIds) {

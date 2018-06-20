@@ -47,17 +47,6 @@ public abstract class AccountDirectory {
     STATUS
   }
 
-  public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
-      throws DirectoryException;
-
-  @SuppressWarnings("serial")
-  public static class DirectoryException extends Exception {
-    public DirectoryException(String message, Throwable why) {
-      super(message, why);
-    }
-
-    public DirectoryException(Throwable why) {
-      super(why);
-    }
-  }
+  public abstract void fillAccountInfo(
+      Iterable<? extends AccountInfo> in, Set<FillOptions> options);
 }

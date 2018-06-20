@@ -14,11 +14,9 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.common.base.Throwables;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.InternalAccountDirectory;
@@ -45,12 +43,7 @@ public class GetDetail implements RestReadView<AccountResource> {
     AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
     info.registeredOn = a.getRegisteredOn();
     info.inactive = !a.isActive() ? true : null;
-    try {
-      directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
-    } catch (DirectoryException e) {
-      Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
-      throw new OrmException(e);
-    }
+    directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
     return info;
   }
 

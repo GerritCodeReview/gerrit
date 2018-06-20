@@ -16,6 +16,24 @@
       "revId": "ddf27f44c8798ef810386a138c5dda9ecdc7d42c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5473337e_ac5f4d35",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-20T03:26:13Z",
+      "side": 1,
+      "message": "There is no equivalent method in Account.  This will need to be done separately.",
+      "parentUuid": "13d00017_93e14b50",
+      "revId": "ddf27f44c8798ef810386a138c5dda9ecdc7d42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

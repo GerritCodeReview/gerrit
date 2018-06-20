@@ -891,7 +891,9 @@ class ReceiveCommits {
         continue;
       }
 
-      if (RefNames.isNoteDbMetaRef(cmd.getRefName())) {
+      if (!projectState.isAllProjects()
+          && !projectState.isAllUsers()
+          && RefNames.isNoteDbMetaRef(cmd.getRefName())) {
         // Reject pushes to NoteDb refs without a special option and permission. Note that this
         // prohibition doesn't depend on NoteDb being enabled in any way, since all sites will
         // migrate to NoteDb eventually, and we don't want garbage data waiting there when the

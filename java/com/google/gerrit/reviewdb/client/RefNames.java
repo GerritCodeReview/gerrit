@@ -123,15 +123,10 @@ public class RefNames {
     return shard(id.get(), r).append(ROBOT_COMMENTS_SUFFIX).toString();
   }
 
+  /** Whether the ref is a NoteDb meta ref in a regular repository. */
   public static boolean isNoteDbMetaRef(String ref) {
-    if (ref.startsWith(REFS_CHANGES)
-        && (ref.endsWith(META_SUFFIX) || ref.endsWith(ROBOT_COMMENTS_SUFFIX))) {
-      return true;
-    }
-    if (ref.startsWith(REFS_DRAFT_COMMENTS) || ref.startsWith(REFS_STARRED_CHANGES)) {
-      return true;
-    }
-    return false;
+    return (ref.startsWith(REFS_CHANGES)
+        && (ref.endsWith(META_SUFFIX) || ref.endsWith(ROBOT_COMMENTS_SUFFIX)));
   }
 
   public static String refsGroups(AccountGroup.UUID groupUuid) {

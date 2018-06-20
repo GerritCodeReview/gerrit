@@ -46,6 +46,30 @@
       "revId": "0c5e61333f6ba24a0c9b99e95d05ba3fc817ca80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a268033b_7edbaa7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2018-06-20T07:00:47Z",
+      "side": 1,
+      "message": "Even after they are merged? Ok then.",
+      "parentUuid": "6fea6fff_e25892b0",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "0c5e61333f6ba24a0c9b99e95d05ba3fc817ca80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

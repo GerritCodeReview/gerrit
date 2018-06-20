@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d061dc58_d2cb6c52",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-20T21:26:59Z",
+      "side": 1,
+      "message": "Because this is a value type, the property is scoped to single instances, unlike, for example, the `_cache` or `_sharedFetchPromises` properties. (Because they\u0027re statically initialized reference types.)\n\nI suspect we want to test whether a credential check is in flight originating from any instance, otherwise, we might, in principle, still be dispatching simultaneous requests.\n\nPerhaps the simplest way to share this value would be to nest the boolean in a reference type ..\n\n_credentialCheck: {\n  type: Object,\n  value: {checking: false}, // Intentional to share the object across instances.\n},\n\n.. And below refer to it as ..\n\n this._credentialCheck.checking\n\n.. or some similar name.",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 26
+      },
+      "revId": "766e78f8cd0c7acbf07b0d12e800221371bb3072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c910057a_6fe9934d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-20T21:26:59Z",
+      "side": 1,
+      "message": "This appears to be redundant to the check on l.921. Is that intentional?",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 41
+      },
+      "revId": "766e78f8cd0c7acbf07b0d12e800221371bb3072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aed075a4_cbfefd33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-20T21:26:59Z",
+      "side": 1,
+      "message": "I\u0027ve never seen this style of the catch method. I may be misunderstanding, but I believe an argument is normally required for `.catch(..)`, isn\u0027t it?\n\nShould this be ..\n\n.catch(() \u003d\u003e {\n  assert.isTrue(element.checkCredentials.calledOnce);\n  done();\n});\n\n.. without the `.then(..)` and with a new `done` argument?\n\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch",
+      "range": {
+        "startLine": 496,
+        "startChar": 10,
+        "endLine": 496,
+        "endChar": 18
+      },
+      "revId": "766e78f8cd0c7acbf07b0d12e800221371bb3072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

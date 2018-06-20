@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86b71858_b11c9e99",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-06-20T03:34:31Z",
+      "side": 1,
+      "message": "Is this returning the Anonymous Coward name as documented in the javadoc?",
+      "range": {
+        "startLine": 362,
+        "startChar": 6,
+        "endLine": 362,
+        "endChar": 54
+      },
+      "revId": "b101d825b01bca88511cde518c2d5d539a5625f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

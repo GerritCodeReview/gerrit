@@ -63,8 +63,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   }
 
   @Override
-  public void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
-      throws DirectoryException {
+  public void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options) {
     if (options.equals(ID_ONLY)) {
       return;
     }

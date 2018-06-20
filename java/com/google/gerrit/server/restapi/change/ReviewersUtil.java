@@ -299,7 +299,7 @@ public class ReviewersUtil {
   }
 
   private List<SuggestedReviewerInfo> loadAccounts(List<Account.Id> accountIds)
-      throws OrmException, PermissionBackendException {
+      throws PermissionBackendException {
     Set<FillOptions> fillOptions =
         permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)
             ? EnumSet.of(FillOptions.SECONDARY_EMAILS)

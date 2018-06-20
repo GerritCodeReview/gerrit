@@ -75,7 +75,7 @@ public class ListMembers implements RestReadView<GroupResource> {
     return getDirectMembers(group, resource.getControl());
   }
 
-  public List<AccountInfo> getTransitiveMembers(AccountGroup.UUID groupUuid) throws OrmException {
+  public List<AccountInfo> getTransitiveMembers(AccountGroup.UUID groupUuid) {
     Optional<InternalGroup> group = groupCache.get(groupUuid);
     if (group.isPresent()) {
       InternalGroupDescription internalGroup = new InternalGroupDescription(group.get());
@@ -86,7 +86,7 @@ public class ListMembers implements RestReadView<GroupResource> {
   }
 
   private List<AccountInfo> getTransitiveMembers(
-      GroupDescription.Internal group, GroupControl groupControl) throws OrmException {
+      GroupDescription.Internal group, GroupControl groupControl) {
     checkSameGroup(group, groupControl);
     Set<Account.Id> members =
         getTransitiveMemberIds(
@@ -94,19 +94,19 @@ public class ListMembers implements RestReadView<GroupResource> {
     return toAccountInfos(members);
   }
 
-  public List<AccountInfo> getDirectMembers(InternalGroup group) throws OrmException {
+  public List<AccountInfo> getDirectMembers(InternalGroup group) {
     InternalGroupDescription internalGroup = new InternalGroupDescription(group);
     return getDirectMembers(internalGroup, groupControlFactory.controlFor(internalGroup));
   }
 
   public List<AccountInfo> getDirectMembers(
-      GroupDescription.Internal group, GroupControl groupControl) throws OrmException {
+      GroupDescription.Internal group, GroupControl groupControl) {
     checkSameGroup(group, groupControl);
     Set<Account.Id> directMembers = getDirectMemberIds(group, groupControl);
     return toAccountInfos(directMembers);
   }
 
-  private List<AccountInfo> toAccountInfos(Set<Account.Id> members) throws OrmException {
+  private List<AccountInfo> toAccountInfos(Set<Account.Id> members) {
     List<AccountInfo> memberInfos = new ArrayList<>(members.size());
     for (Account.Id member : members) {
       memberInfos.add(accountLoader.get(member));

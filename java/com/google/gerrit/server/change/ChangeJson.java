@@ -415,8 +415,7 @@ public class ChangeJson {
     return format(cd, Optional.of(rsrc.getPatchSet().getId()), true);
   }
 
-  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
-      throws OrmException {
+  public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in) {
     try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
       List<List<ChangeInfo>> res = new ArrayList<>(in.size());

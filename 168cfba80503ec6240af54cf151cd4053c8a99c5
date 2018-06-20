@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "64b9af68_ad6963c7",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-06-20T18:13:41Z",
+      "side": 1,
+      "message": "\u003e how am I supposed to document the structure of a custom object in this file\n\nIn any form, that\u0027s readable, I suppose. \nI suggest looking at other pieces of documentation for inspiration.",
+      "parentUuid": "43c2c156_51260d54",
+      "revId": "168cfba80503ec6240af54cf151cd4053c8a99c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c3172a5_19285ce2",
         "filename": "Documentation/pg-plugin-endpoints.txt",
         "patchSetId": 1

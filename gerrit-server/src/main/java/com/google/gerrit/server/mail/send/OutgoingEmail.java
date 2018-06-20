@@ -358,6 +358,10 @@ public abstract class OutgoingEmail {
    * @return name/email of account, or Anonymous Coward if unset.
    */
   public String getNameEmailFor(Account.Id accountId) {
+    if (accountId == null) {
+      return args.gerritPersonIdent.toExternalString();
+    }
+
     return args.accountCache.get(accountId).getAccount().getNameEmail(args.anonymousCowardName);
   }
 

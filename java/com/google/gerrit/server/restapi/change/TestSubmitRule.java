@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -63,7 +64,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
 
   @Override
   public List<Record> apply(RevisionResource rsrc, TestSubmitRuleInput input)
-      throws AuthException, OrmException {
+      throws AuthException, OrmException, PermissionBackendException {
     if (input == null) {
       input = new TestSubmitRuleInput();
     }

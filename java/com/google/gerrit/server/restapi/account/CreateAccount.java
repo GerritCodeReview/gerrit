@@ -47,6 +47,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
@@ -104,13 +105,13 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   @Override
   public Response<AccountInfo> apply(TopLevelResource rsrc, @Nullable AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          OrmException, IOException, ConfigInvalidException {
+          OrmException, IOException, ConfigInvalidException, PermissionBackendException {
     return apply(input != null ? input : new AccountInput());
   }
 
   public Response<AccountInfo> apply(AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          OrmException, IOException, ConfigInvalidException {
+          OrmException, IOException, ConfigInvalidException, PermissionBackendException {
     if (input.username != null && !username.equals(input.username)) {
       throw new BadRequestException("username must match URL");
     }

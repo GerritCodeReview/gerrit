@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.CommentResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -33,7 +34,7 @@ public class GetComment implements RestReadView<CommentResource> {
   }
 
   @Override
-  public CommentInfo apply(CommentResource rsrc) throws OrmException {
+  public CommentInfo apply(CommentResource rsrc) throws OrmException, PermissionBackendException {
     return commentJson.get().newCommentFormatter().format(rsrc.getComment());
   }
 }

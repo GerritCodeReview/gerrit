@@ -17,6 +17,7 @@ package com.google.gerrit.server.index.change;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -47,11 +48,9 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
-  private static final Logger log = LoggerFactory.getLogger(ReindexAfterRefUpdate.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final OneOffRequestContext requestContext;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -97,7 +96,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
           accountCache.evict(accountId);
           indexer.get().index(accountId);
         } catch (IOException e) {
-          log.error(String.format("Reindex account %s failed.", accountId), e);
+          logger.atSevere().withCause(e).log("Reindex account %s failed.", accountId);
         }
       }
     }
@@ -140,7 +139,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       try (ManualRequestContext ctx = requestContext.open()) {
         return impl(ctx);
       } catch (Exception e) {
-        log.error("Failed to reindex changes after " + event, e);
+        logger.atSevere().withCause(e).log("Failed to reindex changes after %s", event);
         throw e;
       }
     }

@@ -38,6 +38,7 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
@@ -85,8 +86,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Fields indexed on change documents.
@@ -99,7 +98,7 @@ import org.slf4j.LoggerFactory;
  * unambiguous derived field names containing other characters.
  */
 public class ChangeField {
-  private static final Logger log = LoggerFactory.getLogger(ChangeField.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final int NO_ASSIGNEE = -1;
 
@@ -267,7 +266,8 @@ public class ChangeField {
 
       int i = v.indexOf(',');
       if (i < 0) {
-        log.warn("Invalid value for reviewer field from change {}: {}", changeId.get(), v);
+        logger.atWarning().log(
+            "Invalid value for reviewer field from change %s: %s", changeId.get(), v);
         continue;
       }
 
@@ -285,24 +285,23 @@ public class ChangeField {
       com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
           Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
-        log.warn(
-            "Failed to parse reviewer state of reviewer field from change {}: {}",
-            changeId.get(),
-            v);
+        logger.atWarning().log(
+            "Failed to parse reviewer state of reviewer field from change %s: %s",
+            changeId.get(), v);
         continue;
       }
 
       Optional<Account.Id> accountId = Account.Id.tryParse(v.substring(i + 1, i2));
       if (!accountId.isPresent()) {
-        log.warn(
-            "Failed to parse account ID of reviewer field from change {}: {}", changeId.get(), v);
+        logger.atWarning().log(
+            "Failed to parse account ID of reviewer field from change %s: %s", changeId.get(), v);
         continue;
       }
 
       Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
       if (l == null) {
-        log.warn(
-            "Failed to parse timestamp of reviewer field from change {}: {}", changeId.get(), v);
+        logger.atWarning().log(
+            "Failed to parse timestamp of reviewer field from change %s: %s", changeId.get(), v);
         continue;
       }
       Timestamp timestamp = new Timestamp(l);
@@ -318,7 +317,8 @@ public class ChangeField {
     for (String v : values) {
       int i = v.indexOf(',');
       if (i < 0) {
-        log.warn("Invalid value for reviewer by email field from change {}: {}", changeId.get(), v);
+        logger.atWarning().log(
+            "Invalid value for reviewer by email field from change %s: %s", changeId.get(), v);
         continue;
       }
 
@@ -337,28 +337,25 @@ public class ChangeField {
       com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
           Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
       if (!reviewerState.isPresent()) {
-        log.warn(
-            "Failed to parse reviewer state of reviewer by email field from change {}: {}",
-            changeId.get(),
-            v);
+        logger.atWarning().log(
+            "Failed to parse reviewer state of reviewer by email field from change %s: %s",
+            changeId.get(), v);
         continue;
       }
 
       Address address = Address.tryParse(v.substring(i + 1, i2));
       if (address == null) {
-        log.warn(
-            "Failed to parse address of reviewer by email field from change {}: {}",
-            changeId.get(),
-            v);
+        logger.atWarning().log(
+            "Failed to parse address of reviewer by email field from change %s: %s",
+            changeId.get(), v);
         continue;
       }
 
       Long l = Longs.tryParse(v.substring(i2 + 1, v.length()));
       if (l == null) {
-        log.warn(
-            "Failed to parse timestamp of reviewer by email field from change {}: {}",
-            changeId.get(),
-            v);
+        logger.atWarning().log(
+            "Failed to parse timestamp of reviewer by email field from change %s: %s",
+            changeId.get(), v);
         continue;
       }
       Timestamp timestamp = new Timestamp(l);
@@ -643,7 +640,7 @@ public class ChangeField {
    * <p>Stored fields need to use a stable format over a long period; this type insulates the index
    * from implementation changes in SubmitRecord itself.
    */
-  static class StoredSubmitRecord {
+  public static class StoredSubmitRecord {
     static class StoredLabel {
       String label;
       SubmitRecord.Label.Status status;
@@ -661,7 +658,7 @@ public class ChangeField {
     List<StoredRequirement> requirements;
     String errorMessage;
 
-    StoredSubmitRecord(SubmitRecord rec) {
+    public StoredSubmitRecord(SubmitRecord rec) {
       this.status = rec.status;
       this.errorMessage = rec.errorMessage;
       if (rec.labels != null) {
@@ -686,7 +683,7 @@ public class ChangeField {
       }
     }
 
-    private SubmitRecord toSubmitRecord() {
+    public SubmitRecord toSubmitRecord() {
       SubmitRecord rec = new SubmitRecord();
       rec.status = status;
       rec.errorMessage = errorMessage;

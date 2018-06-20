@@ -14,17 +14,16 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class MagicBranch {
-  private static final Logger log = LoggerFactory.getLogger(MagicBranch.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String NEW_CHANGE = "refs/for/";
   // TODO(xchangcheng): remove after 'repo' supports private/wip changes.
@@ -95,16 +94,14 @@ public final class MagicBranch {
       blockingFors = repo.getRefDatabase().getRefs(branchName);
     } catch (IOException err) {
       String projName = project.getName();
-      log.warn("Cannot scan refs in '" + projName + "'", err);
+      logger.atWarning().withCause(err).log("Cannot scan refs in '%s'", projName);
       return new Capable("Server process cannot read '" + projName + "'");
     }
     if (!blockingFors.isEmpty()) {
       String projName = project.getName();
-      log.error(
-          "Repository '"
-              + projName
-              + "' needs the following refs removed to receive changes: "
-              + blockingFors.keySet());
+      logger.atSevere().log(
+          "Repository '%s' needs the following refs removed to receive changes: %s",
+          projName, blockingFors.keySet());
       return new Capable("One or more " + branchName + " names blocks change upload");
     }
 

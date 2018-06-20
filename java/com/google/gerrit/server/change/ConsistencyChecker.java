@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
@@ -80,8 +81,6 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Checks changes for various kinds of inconsistency and corruption.
@@ -89,7 +88,7 @@ import org.slf4j.LoggerFactory;
  * <p>A single instance may be reused for checking multiple changes, but not concurrently.
  */
 public class ConsistencyChecker {
-  private static final Logger log = LoggerFactory.getLogger(ConsistencyChecker.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @AutoValue
   public abstract static class Result {
@@ -202,7 +201,7 @@ public class ConsistencyChecker {
   }
 
   private Result logAndReturnOneProblem(Exception e, ChangeNotes notes, String problem) {
-    log.warn("Error checking change " + notes.getChangeId(), e);
+    logger.atWarning().withCause(e).log("Error checking change %s", notes.getChangeId());
     return Result.create(notes, ImmutableList.of(problem(problem)));
   }
 
@@ -582,7 +581,7 @@ public class ConsistencyChecker {
       bu.addOp(notes.getChangeId(), new FixMergedOp(p));
       bu.execute();
     } catch (UpdateException | RestApiException e) {
-      log.warn("Error marking " + notes.getChangeId() + "as merged", e);
+      logger.atWarning().withCause(e).log("Error marking %s as merged", notes.getChangeId());
       p.status = Status.FIX_FAILED;
       p.outcome = "Error updating status to merged";
     }
@@ -623,7 +622,7 @@ public class ConsistencyChecker {
       }
     } catch (IOException e) {
       String msg = "Error fixing patch set ref";
-      log.warn(msg + ' ' + ps.getId().toRefName(), e);
+      logger.atWarning().withCause(e).log("%s %s", msg, ps.getId().toRefName());
       p.status = Status.FIX_FAILED;
       p.outcome = msg;
     }
@@ -645,7 +644,7 @@ public class ConsistencyChecker {
       }
     } catch (UpdateException | RestApiException e) {
       String msg = "Error deleting patch set";
-      log.warn(msg + " of change " + ops.get(0).psId.getParentKey(), e);
+      logger.atWarning().withCause(e).log("%s of change %s", msg, ops.get(0).psId.getParentKey());
       for (DeletePatchSetFromDbOp op : ops) {
         // Overwrite existing statuses that were set before the transaction was
         // rolled back.
@@ -777,7 +776,8 @@ public class ConsistencyChecker {
   }
 
   private void warn(Throwable t) {
-    log.warn("Error in consistency check of change " + notes.getChangeId(), t);
+    logger.atWarning().withCause(t).log(
+        "Error in consistency check of change %s", notes.getChangeId());
   }
 
   private Result result() {

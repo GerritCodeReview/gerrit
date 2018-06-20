@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.validators;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicMap.Entry;
@@ -49,11 +50,9 @@ import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MergeValidators {
-  private static final Logger log = LoggerFactory.getLogger(MergeValidators.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicSet<MergeValidationListener> mergeValidationListeners;
   private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
@@ -168,7 +167,7 @@ public class MergeValidators {
               } catch (AuthException e) {
                 throw new MergeValidationException(SET_BY_ADMIN);
               } catch (PermissionBackendException e) {
-                log.warn("Cannot check ADMINISTRATE_SERVER", e);
+                logger.atWarning().withCause(e).log("Cannot check ADMINISTRATE_SERVER");
                 throw new MergeValidationException("validation unavailable");
               }
               if (allUsersName.equals(destProject.getNameKey())
@@ -280,7 +279,7 @@ public class MergeValidators {
           return;
         }
       } catch (IOException | OrmException e) {
-        log.error("Cannot validate account update", e);
+        logger.atSevere().withCause(e).log("Cannot validate account update");
         throw new MergeValidationException("account validation unavailable");
       }
 
@@ -291,7 +290,7 @@ public class MergeValidators {
               "invalid account configuration: " + Joiner.on("; ").join(errorMessages));
         }
       } catch (IOException e) {
-        log.error("Cannot validate account update", e);
+        logger.atSevere().withCause(e).log("Cannot validate account update");
         throw new MergeValidationException("account validation unavailable");
       }
     }

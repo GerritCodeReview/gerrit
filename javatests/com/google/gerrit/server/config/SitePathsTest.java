@@ -15,8 +15,8 @@
 package com.google.gerrit.server.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 
-import com.google.gerrit.extensions.common.testing.PathSubject;
 import com.google.gerrit.server.util.HostPlatform;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
@@ -32,8 +32,8 @@ public class SitePathsTest extends GerritBaseTests {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
     assertThat(site.isNew).isTrue();
-    PathSubject.assertThat(site.site_path).isEqualTo(root);
-    PathSubject.assertThat(site.etc_dir).isEqualTo(root.resolve("etc"));
+    assertThat(site.site_path).isEqualTo(root);
+    assertThat(site.etc_dir).isEqualTo(root.resolve("etc"));
   }
 
   @Test
@@ -44,7 +44,7 @@ public class SitePathsTest extends GerritBaseTests {
 
       final SitePaths site = new SitePaths(root);
       assertThat(site.isNew).isTrue();
-      PathSubject.assertThat(site.site_path).isEqualTo(root);
+      assertThat(site.site_path).isEqualTo(root);
     } finally {
       Files.delete(root);
     }
@@ -60,7 +60,7 @@ public class SitePathsTest extends GerritBaseTests {
 
       final SitePaths site = new SitePaths(root);
       assertThat(site.isNew).isFalse();
-      PathSubject.assertThat(site.site_path).isEqualTo(root);
+      assertThat(site.site_path).isEqualTo(root);
     } finally {
       Files.delete(txt);
       Files.delete(root);
@@ -84,16 +84,15 @@ public class SitePathsTest extends GerritBaseTests {
     final Path root = random();
     final SitePaths site = new SitePaths(root);
 
-    PathSubject.assertThat(site.resolve(null)).isNull();
-    PathSubject.assertThat(site.resolve("")).isNull();
+    assertThat(site.resolve(null)).isNull();
+    assertThat(site.resolve("")).isNull();
 
-    PathSubject.assertThat(site.resolve("a")).isNotNull();
-    PathSubject.assertThat(site.resolve("a"))
-        .isEqualTo(root.resolve("a").toAbsolutePath().normalize());
+    assertThat(site.resolve("a")).isNotNull();
+    assertThat(site.resolve("a")).isEqualTo(root.resolve("a").toAbsolutePath().normalize());
 
     final String pfx = HostPlatform.isWin32() ? "C:/" : "/";
-    PathSubject.assertThat(site.resolve(pfx + "a")).isNotNull();
-    PathSubject.assertThat(site.resolve(pfx + "a")).isEqualTo(Paths.get(pfx + "a"));
+    assertThat(site.resolve(pfx + "a")).isNotNull();
+    assertThat(site.resolve(pfx + "a")).isEqualTo(Paths.get(pfx + "a"));
   }
 
   private static Path random() throws IOException {

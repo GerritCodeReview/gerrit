@@ -20,7 +20,10 @@ genrule(
     visibility = ["//visibility:public"],
 )
 
-pkg_war(name = "gerrit")
+pkg_war(
+    name = "gerrit",
+    ui = "polygerrit",
+)
 
 pkg_war(
     name = "headless",

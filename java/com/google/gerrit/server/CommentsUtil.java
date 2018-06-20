@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.PatchLineComment.Status.PUBLISHED;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
@@ -62,7 +61,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -130,8 +128,6 @@ public class CommentsUtil {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final NotesMigration migration;
-  private final PatchListCache patchListCache;
-  private final PatchSetUtil psUtil;
   private final String serverId;
 
   @Inject
@@ -139,14 +135,10 @@ public class CommentsUtil {
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       NotesMigration migration,
-      PatchListCache patchListCache,
-      PatchSetUtil psUtil,
       @GerritServerId String serverId) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.migration = migration;
-    this.patchListCache = patchListCache;
-    this.psUtil = psUtil;
     this.serverId = serverId;
   }
 
@@ -374,31 +366,6 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  @Deprecated // To be used only by HasDraftByLegacyPredicate.
-  public List<Change.Id> changesWithDraftsByAuthor(ReviewDb db, Account.Id author)
-      throws OrmException {
-    if (!migration.readChanges()) {
-      return FluentIterable.from(db.patchComments().draftByAuthor(author))
-          .transform(plc -> plc.getPatchSetId().getParentKey())
-          .toList();
-    }
-
-    List<Change.Id> changes = new ArrayList<>();
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      for (String refName : repo.getRefDatabase().getRefs(RefNames.REFS_DRAFT_COMMENTS).keySet()) {
-        Account.Id accountId = Account.Id.fromRefSuffix(refName);
-        Change.Id changeId = Change.Id.fromRefPart(refName);
-        if (accountId == null || changeId == null) {
-          continue;
-        }
-        changes.add(changeId);
-      }
-    } catch (IOException e) {
-      throw new OrmException(e);
-    }
-    return changes;
-  }
-
   public void putComments(
       ReviewDb db, ChangeUpdate update, PatchLineComment.Status status, Iterable<Comment> comments)
       throws OrmException {
@@ -548,40 +515,5 @@ public class CommentsUtil {
       final String serverId, Iterable<PatchLineComment> comments) {
     return COMMENT_ORDER.sortedCopy(
         FluentIterable.from(comments).transform(plc -> plc.asComment(serverId)));
-  }
-
-  public void publish(
-      ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag)
-      throws OrmException {
-    ChangeNotes notes = ctx.getNotes();
-    checkArgument(notes != null);
-    if (drafts.isEmpty()) {
-      return;
-    }
-
-    Map<PatchSet.Id, PatchSet> patchSets =
-        psUtil.getAsMap(
-            ctx.getDb(), notes, drafts.stream().map(d -> psId(notes, d)).collect(toSet()));
-    for (Comment d : drafts) {
-      PatchSet ps = patchSets.get(psId(notes, d));
-      if (ps == null) {
-        throw new OrmException("patch set " + ps + " not found");
-      }
-      d.writtenOn = ctx.getWhen();
-      d.tag = tag;
-      // Draft may have been created by a different real user; copy the current real user. (Only
-      // applies to X-Gerrit-RunAs, since modifying drafts via on_behalf_of is not allowed.)
-      ctx.getUser().updateRealAccountId(d::setRealAuthor);
-      try {
-        setCommentRevId(d, patchListCache, notes.getChange(), ps);
-      } catch (PatchListNotAvailableException e) {
-        throw new OrmException(e);
-      }
-    }
-    putComments(ctx.getDb(), ctx.getUpdate(psId), PUBLISHED, drafts);
-  }
-
-  private static PatchSet.Id psId(ChangeNotes notes, Comment c) {
-    return new PatchSet.Id(notes.getChangeId(), c.key.patchSetId);
   }
 }

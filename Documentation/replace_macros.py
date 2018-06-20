@@ -183,7 +183,8 @@ LINK_SCRIPT = """
           element.insertBefore(a, element.firstChild);
 
           // remove the link icon when the mouse is moved away,
-          // but keep it shown if the mouse is over the element, the link or the icon
+          // but keep it shown if the mouse is over the element, the link or
+          // the icon
           hide = function(evt) {
             if (document.elementFromPoint(evt.clientX, evt.clientY) != element
                 && document.elementFromPoint(evt.clientX, evt.clientY) != a
@@ -229,54 +230,54 @@ opts.add_option('--no-searchbox', action="store_false", dest='searchbox',
 options, _ = opts.parse_args()
 
 try:
-  try:
-    out_file = open(options.out, 'w', errors='ignore')
-    src_file = open(options.src, 'r', errors='ignore')
-  except TypeError:
-    out_file = open(options.out, 'w')
-    src_file = open(options.src, 'r')
-  last_line = ''
-  ignore_next_line = False
-  last_title = ''
-  for line in src_file:
-    if PAT_GERRIT.match(last_line):
-      # Case of "GERRIT\n------" at the footer
-      out_file.write(GERRIT_UPLINK)
-      last_line = ''
-    elif PAT_SEARCHBOX.match(last_line):
-      # Case of 'SEARCHBOX\n---------'
-      if options.searchbox:
-        out_file.write(SEARCH_BOX)
-      last_line = ''
-    elif PAT_INCLUDE.match(line):
-      # Case of 'include::<filename>'
-      match = PAT_INCLUDE.match(line)
-      out_file.write(last_line)
-      last_line = match.group(1) + options.suffix + match.group(2) + '\n'
-    elif PAT_STARS.match(line):
-      if PAT_TITLE.match(last_line):
-        # Case of the title in '.<title>\n****\nget::<url>\n****'
-        match = PAT_TITLE.match(last_line)
-        last_title = GET_TITLE % match.group(1)
-      else:
-        out_file.write(last_line)
-        last_title = ''
-    elif PAT_GET.match(line):
-      # Case of '****\nget::<url>\n****' in rest api
-      url = PAT_GET.match(line).group(1)
-      out_file.write(GET_MACRO.format(url) % last_title)
-      ignore_next_line = True
-    elif ignore_next_line:
-      # Handle the trailing '****' of the 'get::' case
-      last_line = ''
-      ignore_next_line = False
-    else:
-      out_file.write(last_line)
-      last_line = line
-  out_file.write(last_line)
-  out_file.write(LINK_SCRIPT)
-  out_file.close()
+    try:
+        out_file = open(options.out, 'w', errors='ignore')
+        src_file = open(options.src, 'r', errors='ignore')
+    except TypeError:
+        out_file = open(options.out, 'w')
+        src_file = open(options.src, 'r')
+    last_line = ''
+    ignore_next_line = False
+    last_title = ''
+    for line in src_file:
+        if PAT_GERRIT.match(last_line):
+            # Case of "GERRIT\n------" at the footer
+            out_file.write(GERRIT_UPLINK)
+            last_line = ''
+        elif PAT_SEARCHBOX.match(last_line):
+            # Case of 'SEARCHBOX\n---------'
+            if options.searchbox:
+                out_file.write(SEARCH_BOX)
+            last_line = ''
+        elif PAT_INCLUDE.match(line):
+            # Case of 'include::<filename>'
+            match = PAT_INCLUDE.match(line)
+            out_file.write(last_line)
+            last_line = match.group(1) + options.suffix + match.group(2) + '\n'
+        elif PAT_STARS.match(line):
+            if PAT_TITLE.match(last_line):
+                # Case of the title in '.<title>\n****\nget::<url>\n****'
+                match = PAT_TITLE.match(last_line)
+                last_title = GET_TITLE % match.group(1)
+            else:
+                out_file.write(last_line)
+                last_title = ''
+        elif PAT_GET.match(line):
+            # Case of '****\nget::<url>\n****' in rest api
+            url = PAT_GET.match(line).group(1)
+            out_file.write(GET_MACRO.format(url) % last_title)
+            ignore_next_line = True
+        elif ignore_next_line:
+            # Handle the trailing '****' of the 'get::' case
+            last_line = ''
+            ignore_next_line = False
+        else:
+            out_file.write(last_line)
+            last_line = line
+    out_file.write(last_line)
+    out_file.write(LINK_SCRIPT)
+    out_file.close()
 except IOError as err:
-  sys.stderr.write(
-      "error while expanding %s to %s: %s" % (options.src, options.out, err))
-  exit(1)
+    sys.stderr.write(
+        "error while expanding %s to %s: %s" % (options.src, options.out, err))
+    exit(1)

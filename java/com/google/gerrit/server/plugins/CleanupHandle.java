@@ -14,15 +14,14 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.jar.JarFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class CleanupHandle {
-  private static final Logger log = LoggerFactory.getLogger(CleanupHandle.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Path tmp;
   private final JarFile jarFile;
@@ -36,17 +35,15 @@ class CleanupHandle {
     try {
       jarFile.close();
     } catch (IOException err) {
-      log.error("Cannot close " + jarFile.getName(), err);
+      logger.atSevere().withCause(err).log("Cannot close %s", jarFile.getName());
     }
     try {
       Files.deleteIfExists(tmp);
-      log.info("Cleaned plugin " + tmp.getFileName());
+      logger.atInfo().log("Cleaned plugin %s", tmp.getFileName());
     } catch (IOException e) {
-      log.warn(
-          "Cannot delete "
-              + tmp.toAbsolutePath()
-              + ", retrying to delete it on termination of the virtual machine",
-          e);
+      logger.atWarning().withCause(e).log(
+          "Cannot delete %s, retrying to delete it on termination of the virtual machine",
+          tmp.toAbsolutePath());
       tmp.toFile().deleteOnExit();
     }
   }

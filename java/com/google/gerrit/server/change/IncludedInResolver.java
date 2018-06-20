@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,13 +35,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Resolve in which tags and branches a commit is included. */
 public class IncludedInResolver {
-
-  private static final Logger log = LoggerFactory.getLogger(IncludedInResolver.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static Result resolve(Repository repo, RevWalk rw, RevCommit commit) throws IOException {
     RevFlag flag = newFlag(rw);
@@ -206,13 +204,9 @@ public class IncludedInResolver {
       } catch (MissingObjectException notHere) {
         // Log the problem with this branch, but keep processing.
         //
-        log.warn(
-            "Reference "
-                + ref.getName()
-                + " in "
-                + repo.getDirectory()
-                + " points to dangling object "
-                + ref.getObjectId());
+        logger.atWarning().log(
+            "Reference %s in %s points to dangling object %s",
+            ref.getName(), repo.getDirectory(), ref.getObjectId());
         continue;
       }
       commitToRef.put(commit, ref.getName());

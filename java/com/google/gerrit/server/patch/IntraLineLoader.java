@@ -18,6 +18,7 @@ package com.google.gerrit.server.patch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -35,11 +36,9 @@ import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.diff.MyersDiff;
 import org.eclipse.jgit.diff.ReplaceEdit;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class IntraLineLoader implements Callable<IntraLineDiff> {
-  static final Logger log = LoggerFactory.getLogger(IntraLineLoader.class);
+  static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   interface Factory {
     IntraLineLoader create(IntraLineDiffKey key, IntraLineDiffArgs args);
@@ -84,19 +83,15 @@ class IntraLineLoader implements Callable<IntraLineDiff> {
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
-      log.warn(
-          timeoutMillis
-              + " ms timeout reached for IntraLineDiff"
-              + " in project "
-              + args.project()
-              + " on commit "
-              + args.commit().name()
-              + " for path "
-              + args.path()
-              + " comparing "
-              + key.getBlobA().name()
-              + ".."
-              + key.getBlobB().name());
+      logger.atWarning().log(
+          "%s ms timeout reached for IntraLineDiff"
+              + " in project %s on commit %s for path %s comparing %s..%s",
+          timeoutMillis,
+          args.project(),
+          args.commit().name(),
+          args.path(),
+          key.getBlobA().name(),
+          key.getBlobB().name());
       result.cancel(true);
       return new IntraLineDiff(IntraLineDiff.Status.TIMEOUT);
     } catch (ExecutionException e) {

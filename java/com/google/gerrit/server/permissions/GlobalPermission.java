@@ -16,6 +16,7 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.globalPermission;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.CapabilityScope;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
@@ -28,8 +29,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Global server permissions built into Gerrit. */
 public enum GlobalPermission implements GlobalOrPluginPermission {
@@ -53,7 +52,7 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
   VIEW_QUEUE,
   VIEW_ACCESS;
 
-  private static final Logger log = LoggerFactory.getLogger(GlobalPermission.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /**
    * Extracts the {@code @RequiresCapability} or {@code @RequiresAnyCapability} annotation.
@@ -70,12 +69,11 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
     RequiresCapability rc = findAnnotation(clazz, RequiresCapability.class);
     RequiresAnyCapability rac = findAnnotation(clazz, RequiresAnyCapability.class);
     if (rc != null && rac != null) {
-      log.error(
-          String.format(
-              "Class %s uses both @%s and @%s",
-              clazz.getName(),
-              RequiresCapability.class.getSimpleName(),
-              RequiresAnyCapability.class.getSimpleName()));
+      logger.atSevere().log(
+          "Class %s uses both @%s and @%s",
+          clazz.getName(),
+          RequiresCapability.class.getSimpleName(),
+          RequiresAnyCapability.class.getSimpleName());
       throw new PermissionBackendException("cannot extract permission");
     } else if (rc != null) {
       return Collections.singleton(
@@ -124,17 +122,15 @@ public enum GlobalPermission implements GlobalOrPluginPermission {
     }
 
     if (scope == CapabilityScope.PLUGIN) {
-      log.error(
-          String.format(
-              "Class %s uses @%s(scope=%s), but is not within a plugin",
-              clazz.getName(), annotationClass.getSimpleName(), scope.name()));
+      logger.atSevere().log(
+          "Class %s uses @%s(scope=%s), but is not within a plugin",
+          clazz.getName(), annotationClass.getSimpleName(), scope.name());
       throw new PermissionBackendException("cannot extract permission");
     }
 
     Optional<GlobalPermission> perm = globalPermission(capability);
     if (!perm.isPresent()) {
-      log.error(
-          String.format("Class %s requires unknown capability %s", clazz.getName(), capability));
+      logger.atSevere().log("Class %s requires unknown capability %s", clazz.getName(), capability);
       throw new PermissionBackendException("cannot extract permission");
     }
     return perm.get();

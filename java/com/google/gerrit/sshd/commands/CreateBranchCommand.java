@@ -34,11 +34,10 @@ public final class CreateBranchCommand extends SshCommand {
   private String name;
 
   @Argument(
-    index = 2,
-    required = true,
-    metaVar = "REVISION",
-    usage = "base revision of the new branch"
-  )
+      index = 2,
+      required = true,
+      metaVar = "REVISION",
+      usage = "base revision of the new branch")
   private String revision;
 
   @Inject GerritApi gApi;

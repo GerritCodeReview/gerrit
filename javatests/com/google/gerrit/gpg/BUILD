@@ -24,11 +24,11 @@ junit_tests(
         "//lib/bouncycastle:bcpg-neverlink",
         "//lib/bouncycastle:bcprov",
         "//lib/bouncycastle:bcprov-neverlink",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/log:api",
         "//lib/truth",
     ],
 )

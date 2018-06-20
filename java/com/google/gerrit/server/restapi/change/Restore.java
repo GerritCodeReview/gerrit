@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.RestoreInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -50,13 +51,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput, ChangeInfo>
     implements UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Restore.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final RestoredSender.Factory restoredSenderFactory;
   private final Provider<ReviewDb> dbProvider;
@@ -153,7 +152,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
         cm.setChangeMessage(message.getMessage(), ctx.getWhen());
         cm.send();
       } catch (Exception e) {
-        log.error("Cannot email update for change " + change.getId(), e);
+        logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
       changeRestored.fire(
           change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
@@ -178,7 +177,8 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
         return description;
       }
     } catch (IOException e) {
-      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check if project state permits write: %s", rsrc.getProject());
       return description;
     }
 
@@ -187,10 +187,8 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
         return description;
       }
     } catch (OrmException | IOException e) {
-      log.error(
-          String.format(
-              "Failed to check if the current patch set of change %s is locked", change.getId()),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;
     }
 

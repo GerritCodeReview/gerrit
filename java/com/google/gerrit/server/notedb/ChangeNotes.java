@@ -36,6 +36,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.metrics.Timer1;
@@ -83,12 +84,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
-  private static final Logger log = LoggerFactory.getLogger(ChangeNotes.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final Ordering<PatchSetApproval> PSA_BY_TIME =
       Ordering.from(comparing(PatchSetApproval::getGranted));
@@ -148,7 +147,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         throw new NoSuchChangeException(changeId);
       }
       if (changes.size() != 1) {
-        log.error(String.format("Multiple changes found for %d", changeId.get()));
+        logger.atSevere().log("Multiple changes found for %d", changeId.get());
         throw new NoSuchChangeException(changeId);
       }
       return changes.get(0).notes();
@@ -365,20 +364,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         if (defaultStorage == PrimaryStorage.REVIEW_DB) {
           // If changes should exist in ReviewDb, it's worth warning about a meta ref with
           // no corresponding ReviewDb data.
-          log.warn("skipping change {} found in project {} but not in ReviewDb", id, project);
+          logger.atWarning().log(
+              "skipping change %s found in project %s but not in ReviewDb", id, project);
           return null;
         }
         // TODO(dborowitz): See discussion in NoteDbBatchUpdate#newChangeContext.
         change = ChangeNotes.Factory.newNoteDbOnlyChange(project, id);
       } else if (!change.getProject().equals(project)) {
-        log.error(
-            "skipping change {} found in project {} because ReviewDb change has" + " project {}",
-            id,
-            project,
-            change.getProject());
+        logger.atSevere().log(
+            "skipping change %s found in project %s because ReviewDb change has project %s",
+            id, project, change.getProject());
         return null;
       }
-      log.debug("adding change {} found in project {}", id, project);
+      logger.atFine().log("adding change %s found in project %s", id, project);
       return toResult(change);
     }
 
@@ -761,7 +759,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           //
           // Parse notes from the staged result so we can return something useful
           // to the caller instead of throwing.
-          log.debug("Rebuilding change {} failed: {}", getChangeId(), e.getMessage());
+          logger.atFine().log("Rebuilding change %s failed: %s", getChangeId(), e.getMessage());
           args.metrics.autoRebuildFailureCount.increment(CHANGES);
           rebuildResult = checkNotNull(r);
           checkNotNull(r.newState());
@@ -778,8 +776,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     } catch (OrmException e) {
       throw new IOException(e);
     } finally {
-      log.debug(
-          "Rebuilt change {} in project {} in {} ms",
+      logger.atFine().log(
+          "Rebuilt change %s in project %s in %s ms",
           getChangeId(),
           getProjectName(),
           TimeUnit.MILLISECONDS.convert(timer.stop(), TimeUnit.NANOSECONDS));

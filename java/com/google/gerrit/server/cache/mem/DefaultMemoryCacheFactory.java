@@ -14,19 +14,23 @@
 
 package com.google.gerrit.server.cache.mem;
 
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 import org.eclipse.jgit.lib.Config;
 
 class DefaultMemoryCacheFactory implements MemoryCacheFactory {
@@ -66,17 +70,36 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
     }
     builder.weigher(weigher);
 
-    Long age = def.expireAfterWrite(TimeUnit.SECONDS);
+    Duration expireAfterWrite = def.expireAfterWrite();
     if (has(def.configKey(), "maxAge")) {
       builder.expireAfterWrite(
           ConfigUtil.getTimeUnit(
-              cfg, "cache", def.configKey(), "maxAge", age != null ? age : 0, TimeUnit.SECONDS),
-          TimeUnit.SECONDS);
-    } else if (age != null) {
-      builder.expireAfterWrite(age, TimeUnit.SECONDS);
+              cfg, "cache", def.configKey(), "maxAge", toSeconds(expireAfterWrite), SECONDS),
+          SECONDS);
+    } else if (expireAfterWrite != null) {
+      builder.expireAfterWrite(expireAfterWrite.toNanos(), NANOSECONDS);
+    }
+
+    Duration expireAfterAccess = def.expireFromMemoryAfterAccess();
+    if (has(def.configKey(), "expireFromMemoryAfterAccess")) {
+      builder.expireAfterAccess(
+          ConfigUtil.getTimeUnit(
+              cfg,
+              "cache",
+              def.configKey(),
+              "expireFromMemoryAfterAccess",
+              toSeconds(expireAfterAccess),
+              SECONDS),
+          SECONDS);
+    } else if (expireAfterAccess != null) {
+      builder.expireAfterAccess(expireAfterAccess.toNanos(), NANOSECONDS);
     }
 
     return builder;
+  }
+
+  private static long toSeconds(@Nullable Duration duration) {
+    return duration != null ? duration.getSeconds() : 0;
   }
 
   private boolean has(String name, String var) {

@@ -23,6 +23,7 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -92,8 +93,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility methods used during the merge process.
@@ -104,7 +103,7 @@ import org.slf4j.LoggerFactory;
  * {@code BatchUpdate}.
  */
 public class MergeUtil {
-  private static final Logger log = LoggerFactory.getLogger(MergeUtil.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static class PluggableCommitMessageGenerator {
     private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
@@ -466,7 +465,7 @@ public class MergeUtil {
     try {
       return approvalsUtil.byPatchSet(db.get(), notes, user, psId, null, null);
     } catch (OrmException e) {
-      log.error("Can't read approval records for " + psId, e);
+      logger.atSevere().withCause(e).log("Can't read approval records for %s", psId);
       return Collections.emptyList();
     }
   }
@@ -499,7 +498,7 @@ public class MergeUtil {
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
       return newThreeWayMerger(ins, repo.getConfig()).merge(new AnyObjectId[] {mergeTip, toMerge});
     } catch (LargeObjectException e) {
-      log.warn("Cannot merge due to LargeObjectException: " + toMerge.name());
+      logger.atWarning().log("Cannot merge due to LargeObjectException: %s", toMerge.name());
       return false;
     } catch (NoMergeBaseException e) {
       return false;

@@ -14,9 +14,9 @@ java_library(
         "//lib:gwtorm",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

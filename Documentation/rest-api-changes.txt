@@ -2145,7 +2145,8 @@ Only the change owner, a project owner, or an administrator may fix changes.
 'POST /changes/link:#change-id[\{change-id\}]/wip'
 --
 
-Marks the change as not ready for review yet.
+Marks the change as not ready for review yet. Changes may only be marked not
+ready by the owner, project owners or site administrators.
 
 The request body does not need to include a
 link:#work-in-progress-input[WorkInProgressInput] entity if no review comment
@@ -2173,7 +2174,8 @@ notifying *OWNER* instead of *ALL*.
 'POST /changes/link:#change-id[\{change-id\}]/ready'
 --
 
-Marks the change as ready for review (set WIP property to false).
+Marks the change as ready for review (set WIP property to false). Changes may
+only be marked ready by the owner, project owners or site administrators.
 
 Activates notifications of reviewer. The request body does not need
 to include a link:#work-in-progress-input[WorkInProgressInput] entity
@@ -5809,7 +5811,8 @@ The `ChangeInput` entity contains information about creating a new change.
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
 |`subject`            ||
-The subject of the change (header line of the commit message).
+The commit message of the change. Comment lines (beginning with `#`) will
+be removed.
 |`topic`              |optional|The topic to which this change belongs.
 |`status`             |optional, default to `NEW`|
 The status of the change (only `NEW` accepted here).

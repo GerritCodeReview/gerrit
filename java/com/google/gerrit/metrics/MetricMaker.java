@@ -153,4 +153,14 @@ public abstract class MetricMaker {
   }
 
   public abstract RegistrationHandle newTrigger(Set<CallbackMetric<?>> metrics, Runnable trigger);
+
+  /**
+   * Sanitize the given metric name.
+   *
+   * @param name the name to sanitize.
+   * @return sanitized version of the name.
+   */
+  public String sanitizeMetricName(String name) {
+    return name;
+  }
 }

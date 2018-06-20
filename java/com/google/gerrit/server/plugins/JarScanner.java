@@ -23,6 +23,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
@@ -50,11 +51,10 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class JarScanner implements PluginContentScanner, AutoCloseable {
-  private static final Logger log = LoggerFactory.getLogger(JarScanner.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final int SKIP_ALL =
       ClassReader.SKIP_CODE | ClassReader.SKIP_DEBUG | ClassReader.SKIP_FRAMES;
   private final JarFile jarFile;
@@ -91,11 +91,9 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       } catch (IOException err) {
         throw new InvalidPluginException("Cannot auto-register", err);
       } catch (RuntimeException err) {
-        log.warn(
-            String.format(
-                "Plugin %s has invalid class file %s inside of %s",
-                pluginName, entry.getName(), jarFile.getName()),
-            err);
+        logger.atWarning().withCause(err).log(
+            "Plugin %s has invalid class file %s inside of %s",
+            pluginName, entry.getName(), jarFile.getName());
         continue;
       }
 
@@ -103,10 +101,9 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
         if (def.isConcrete()) {
           rawMap.put(def.annotationName, def);
         } else {
-          log.warn(
-              String.format(
-                  "Plugin %s tries to @%s(\"%s\") abstract class %s",
-                  pluginName, def.annotationName, def.annotationValue, def.className));
+          logger.atWarning().log(
+              "Plugin %s tries to @%s(\"%s\") abstract class %s",
+              pluginName, def.annotationName, def.annotationValue, def.className);
         }
       }
     }
@@ -151,9 +148,8 @@ public class JarScanner implements PluginContentScanner, AutoCloseable {
       try {
         new ClassReader(read(jarFile, entry)).accept(def, SKIP_ALL);
       } catch (RuntimeException err) {
-        log.warn(
-            String.format("Jar %s has invalid class file %s", jarFile.getName(), entry.getName()),
-            err);
+        logger.atWarning().withCause(err).log(
+            "Jar %s has invalid class file %s", jarFile.getName(), entry.getName());
         continue;
       }
 

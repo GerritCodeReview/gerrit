@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.args4j;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,11 +33,9 @@ import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ProjectHandler extends OptionHandler<ProjectState> {
-  private static final Logger log = LoggerFactory.getLogger(ProjectHandler.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
@@ -89,7 +88,7 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
     } catch (AuthException e) {
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     } catch (PermissionBackendException | IOException e) {
-      log.warn("Cannot load project " + nameWithoutSuffix, e);
+      logger.atWarning().withCause(e).log("Cannot load project %s", nameWithoutSuffix);
       throw new CmdLineException(owner, new NoSuchProjectException(nameKey).getMessage());
     }
 

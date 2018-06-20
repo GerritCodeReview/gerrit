@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.MergeableInfo;
@@ -51,17 +52,14 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class Mergeable implements RestReadView<RevisionResource> {
-  private static final Logger log = LoggerFactory.getLogger(Mergeable.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(
-    name = "--other-branches",
-    aliases = {"-o"},
-    usage = "test mergeability for other branches too"
-  )
+      name = "--other-branches",
+      aliases = {"-o"},
+      usage = "test mergeability for other branches too")
   private boolean otherBranches;
 
   private final GitRepositoryManager gitManager;
@@ -176,7 +174,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     try {
       return ObjectId.fromString(ps.getRevision().get());
     } catch (IllegalArgumentException e) {
-      log.error("Invalid revision on patch set " + ps);
+      logger.atSevere().log("Invalid revision on patch set %s", ps);
       return null;
     }
   }

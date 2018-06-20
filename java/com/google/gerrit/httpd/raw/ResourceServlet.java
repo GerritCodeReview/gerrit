@@ -30,10 +30,11 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -47,8 +48,6 @@ import java.util.zip.GZIPOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Base class for serving static resources.
@@ -58,7 +57,7 @@ import org.slf4j.LoggerFactory;
 public abstract class ResourceServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
-  private static final Logger log = LoggerFactory.getLogger(ResourceServlet.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final int CACHE_FILE_SIZE_LIMIT_BYTES = 100 << 10;
 
@@ -161,7 +160,7 @@ public abstract class ResourceServlet extends HttpServlet {
         r = cache.get(p, newLoader(p));
       }
     } catch (ExecutionException e) {
-      log.warn("Cannot load static resource " + req.getPathInfo(), e);
+      logger.atWarning().withCause(e).log("Cannot load static resource %s", req.getPathInfo());
       CacheHeaders.setNotCacheable(rsp);
       rsp.setStatus(SC_INTERNAL_SERVER_ERROR);
       return;
@@ -214,12 +213,12 @@ public abstract class ResourceServlet extends HttpServlet {
     try {
       Path p = getResourcePath(name);
       if (p == null) {
-        log.warn(String.format("Path doesn't exist %s", name));
+        logger.atWarning().log("Path doesn't exist %s", name);
         return null;
       }
       return cache.get(p, newLoader(p));
     } catch (ExecutionException | IOException e) {
-      log.warn(String.format("Cannot load static resource %s", name), e);
+      logger.atWarning().withCause(e).log("Cannot load static resource %s", name);
       return null;
     }
   }

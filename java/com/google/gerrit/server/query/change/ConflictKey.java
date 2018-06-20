@@ -14,62 +14,80 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Converter;
+import com.google.common.base.Enums;
+import com.google.common.collect.Ordering;
 import com.google.gerrit.extensions.client.SubmitType;
-import java.io.Serializable;
-import java.util.Objects;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
+import com.google.gerrit.server.cache.proto.Cache.ConflictKeyProto;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ConflictKey implements Serializable {
-  private static final long serialVersionUID = 2L;
-
-  private final ObjectId commit;
-  private final ObjectId otherCommit;
-  private final SubmitType submitType;
-  private final boolean contentMerge;
-
-  public ConflictKey(
-      ObjectId commit, ObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
-    if (SubmitType.FAST_FORWARD_ONLY.equals(submitType) || commit.compareTo(otherCommit) < 0) {
-      this.commit = commit;
-      this.otherCommit = otherCommit;
-    } else {
-      this.commit = otherCommit;
-      this.otherCommit = commit;
+@AutoValue
+public abstract class ConflictKey {
+  public static ConflictKey create(
+      AnyObjectId commit, AnyObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
+    ObjectId commitCopy = commit.copy();
+    ObjectId otherCommitCopy = otherCommit.copy();
+    if (submitType == SubmitType.FAST_FORWARD_ONLY) {
+      // The conflict check for FF-only is non-symmetrical, and we need to treat (X, Y) differently
+      // from (Y, X). Store the commits in the input order.
+      return new AutoValue_ConflictKey(commitCopy, otherCommitCopy, submitType, contentMerge);
     }
-    this.submitType = submitType;
-    this.contentMerge = contentMerge;
+    // Otherwise, the check is symmetrical; sort commit/otherCommit before storing, so the actual
+    // key is independent of the order in which they are passed to this method.
+    return new AutoValue_ConflictKey(
+        Ordering.natural().min(commitCopy, otherCommitCopy),
+        Ordering.natural().max(commitCopy, otherCommitCopy),
+        submitType,
+        contentMerge);
   }
 
-  public ObjectId getCommit() {
-    return commit;
+  @VisibleForTesting
+  static ConflictKey createWithoutNormalization(
+      AnyObjectId commit, AnyObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
+    return new AutoValue_ConflictKey(commit.copy(), otherCommit.copy(), submitType, contentMerge);
   }
 
-  public ObjectId getOtherCommit() {
-    return otherCommit;
-  }
+  public abstract ObjectId commit();
 
-  public SubmitType getSubmitType() {
-    return submitType;
-  }
+  public abstract ObjectId otherCommit();
 
-  public boolean isContentMerge() {
-    return contentMerge;
-  }
+  public abstract SubmitType submitType();
 
-  @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof ConflictKey)) {
-      return false;
+  public abstract boolean contentMerge();
+
+  public static enum Serializer implements CacheSerializer<ConflictKey> {
+    INSTANCE;
+
+    private static final Converter<String, SubmitType> SUBMIT_TYPE_CONVERTER =
+        Enums.stringConverter(SubmitType.class);
+
+    @Override
+    public byte[] serialize(ConflictKey object) {
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      return ProtoCacheSerializers.toByteArray(
+          ConflictKeyProto.newBuilder()
+              .setCommit(idConverter.toByteString(object.commit()))
+              .setOtherCommit(idConverter.toByteString(object.otherCommit()))
+              .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.submitType()))
+              .setContentMerge(object.contentMerge())
+              .build());
     }
-    ConflictKey other = (ConflictKey) o;
-    return commit.equals(other.commit)
-        && otherCommit.equals(other.otherCommit)
-        && submitType.equals(other.submitType)
-        && contentMerge == other.contentMerge;
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(commit, otherCommit, submitType, contentMerge);
+    @Override
+    public ConflictKey deserialize(byte[] in) {
+      ConflictKeyProto proto = ProtoCacheSerializers.parseUnchecked(ConflictKeyProto.parser(), in);
+      ObjectIdConverter idConverter = ObjectIdConverter.create();
+      return create(
+          idConverter.fromByteString(proto.getCommit()),
+          idConverter.fromByteString(proto.getOtherCommit()),
+          SUBMIT_TYPE_CONVERTER.convert(proto.getSubmitType()),
+          proto.getContentMerge());
+    }
   }
 }

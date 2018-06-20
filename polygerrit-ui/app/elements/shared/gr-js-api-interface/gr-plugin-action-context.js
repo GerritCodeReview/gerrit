@@ -93,7 +93,14 @@
     }
     this.plugin.restApi()
         .send(this.action.method, this.action.__url, payload)
-        .then(onSuccess);
+        .then(onSuccess)
+        .catch(error => {
+          document.dispatchEvent(new CustomEvent('show-alert', {
+            detail: {
+              message: `Plugin network error: ${error}`,
+            },
+          }));
+        });
   };
 
   window.GrPluginActionContext = GrPluginActionContext;

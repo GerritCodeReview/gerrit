@@ -22,6 +22,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -63,11 +64,9 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PatchSetInserter implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(PatchSetInserter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     PatchSetInserter create(ChangeNotes notes, PatchSet.Id psId, ObjectId commitId);
@@ -301,7 +300,8 @@ public class PatchSetInserter implements BatchUpdateOp {
         cm.setAccountsToNotify(accountsToNotify);
         cm.send();
       } catch (Exception err) {
-        log.error("Cannot send email for new patch set on change " + change.getId(), err);
+        logger.atSevere().withCause(err).log(
+            "Cannot send email for new patch set on change %s", change.getId());
       }
     }
 

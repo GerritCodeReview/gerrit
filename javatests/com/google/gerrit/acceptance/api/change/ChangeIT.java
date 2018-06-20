@@ -433,6 +433,19 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setWorkInProgressAllowedAsProjectOwner() throws Exception {
+    setApiUser(user);
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+
+    com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
+    grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
+    setApiUser(user2);
+    gApi.changes().id(changeId).setWorkInProgress();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
+  }
+
+  @Test
   public void setReadyForReviewNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result rready = createChange();
     String changeId = rready.getChangeId();
@@ -452,6 +465,20 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).setWorkInProgress();
 
     setApiUser(admin);
+    gApi.changes().id(changeId).setReadyForReview();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
+  }
+
+  @Test
+  public void setReadyForReviewAllowedAsProjectOwner() throws Exception {
+    setApiUser(user);
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+    gApi.changes().id(changeId).setWorkInProgress();
+
+    com.google.gerrit.acceptance.TestAccount user2 = accountCreator.user2();
+    grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
+    setApiUser(user2);
     gApi.changes().id(changeId).setReadyForReview();
     assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
   }
@@ -2676,7 +2703,9 @@ public class ChangeIT extends AbstractDaemonTest {
 
       assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
       PersonIdent expectedAuthor =
-          changeNoteUtil.newIdent(getAccount(admin.id), c.updated, serverIdent.get());
+          changeNoteUtil
+              .getLegacyChangeNoteWrite()
+              .newIdent(getAccount(admin.id), c.updated, serverIdent.get());
       assertThat(commitPatchSetCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitPatchSetCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.updated));
@@ -2684,7 +2713,10 @@ public class ChangeIT extends AbstractDaemonTest {
 
       RevCommit commitChangeCreation = rw.parseCommit(commitPatchSetCreation.getParent(0));
       assertThat(commitChangeCreation.getShortMessage()).isEqualTo("Create change");
-      expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.created, serverIdent.get());
+      expectedAuthor =
+          changeNoteUtil
+              .getLegacyChangeNoteWrite()
+              .newIdent(getAccount(admin.id), c.created, serverIdent.get());
       assertThat(commitChangeCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitChangeCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.created));

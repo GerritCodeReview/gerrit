@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.readWithoutMarker;
 import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -38,11 +39,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class TagSet {
-  private static final Logger log = LoggerFactory.getLogger(TagSet.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Project.NameKey projectName;
   private final Map<String, CachedRef> refs;
@@ -141,7 +140,7 @@ class TagSet {
         } catch (IOException err) {
           // Defer a cache update until later. No conclusion can be made
           // based on an exception reading from the repository storage.
-          log.warn("Error checking tags of " + projectName, err);
+          logger.atWarning().withCause(err).log("Error checking tags of %s", projectName);
         }
       }
     } finally {
@@ -185,7 +184,7 @@ class TagSet {
         }
       }
     } catch (IOException e) {
-      log.warn("Error building tags for repository " + projectName, e);
+      logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
     }
   }
 
@@ -302,7 +301,7 @@ class TagSet {
       } catch (IncorrectObjectTypeException notCommit) {
         flags = new BitSet();
       } catch (IOException e) {
-        log.warn("Error on " + ref.getName() + " of " + projectName, e);
+        logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
         flags = new BitSet();
       }
       tags.add(new Tag(id, flags));
@@ -323,7 +322,7 @@ class TagSet {
       // For instance, refs from refs/cache-automerge
       // will often end up here.
     } catch (IOException e) {
-      log.warn("Error on " + ref.getName() + " of " + projectName, e);
+      logger.atWarning().withCause(e).log("Error on %s of %s", ref.getName(), projectName);
     }
   }
 

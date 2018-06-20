@@ -77,6 +77,8 @@ import org.junit.Test;
 public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Inject private DraftCommentNotes.Factory draftNotesFactory;
 
+  @Inject private ChangeNoteJson changeNoteJson;
+  @Inject private LegacyChangeNoteRead legacyChangeNoteRead;
   @Inject private ChangeNoteUtil noteUtil;
 
   @Inject private @GerritServerId String serverId;
@@ -1195,7 +1197,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                   + "File: a.txt\n"
                   + "\n"
                   + "1:2-3:4\n"
-                  + ChangeNoteUtil.formatTime(serverIdent, ts)
+                  + NoteDbUtil.formatTime(serverIdent, ts)
                   + "\n"
                   + "Author: Change Owner <1@gerrit>\n"
                   + "Unresolved: false\n"
@@ -1288,7 +1290,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithComments =
-          new ChangeNotesParser(c.getId(), commitWithComments.copy(), rw, noteUtil, args.metrics);
+          new ChangeNotesParser(
+              c.getId(),
+              commitWithComments.copy(),
+              rw,
+              changeNoteJson,
+              legacyChangeNoteRead,
+              args.metrics);
       ChangeNotesState state = notesWithComments.parseAll();
       assertThat(state.approvals()).isEmpty();
       assertThat(state.publishedComments()).hasSize(1);
@@ -1296,7 +1304,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithApprovals =
-          new ChangeNotesParser(c.getId(), commitWithApprovals.copy(), rw, noteUtil, args.metrics);
+          new ChangeNotesParser(
+              c.getId(),
+              commitWithApprovals.copy(),
+              rw,
+              changeNoteJson,
+              legacyChangeNoteRead,
+              args.metrics);
+
       ChangeNotesState state = notesWithApprovals.parseAll();
       assertThat(state.approvals()).hasSize(1);
       assertThat(state.publishedComments()).hasSize(1);
@@ -1666,7 +1681,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file1\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time1)
+                    + NoteDbUtil.formatTime(serverIdent, time1)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1675,7 +1690,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "comment 1\n"
                     + "\n"
                     + "2:1-3:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time2)
+                    + NoteDbUtil.formatTime(serverIdent, time2)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1686,7 +1701,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file2\n"
                     + "\n"
                     + "3:0-4:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time3)
+                    + NoteDbUtil.formatTime(serverIdent, time3)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1766,7 +1781,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file1\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time1)
+                    + NoteDbUtil.formatTime(serverIdent, time1)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1775,7 +1790,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "comment 1\n"
                     + "\n"
                     + "2:1-3:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time2)
+                    + NoteDbUtil.formatTime(serverIdent, time2)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1854,7 +1869,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file1\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time1)
+                    + NoteDbUtil.formatTime(serverIdent, time1)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Unresolved: false\n"
@@ -1863,7 +1878,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "comment 1\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time2)
+                    + NoteDbUtil.formatTime(serverIdent, time2)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Parent: uuid1\n"
@@ -1951,7 +1966,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
       byte[] bytes = walk.getObjectReader().open(note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
-      String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
+      String timeStr = NoteDbUtil.formatTime(serverIdent, time);
 
       if (!testJson()) {
         assertThat(noteString)
@@ -2048,7 +2063,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                     + "File: file\n"
                     + "\n"
                     + "1:1-2:1\n"
-                    + ChangeNoteUtil.formatTime(serverIdent, time)
+                    + NoteDbUtil.formatTime(serverIdent, time)
                     + "\n"
                     + "Author: Other Account <2@gerrit>\n"
                     + "Real-author: Change Owner <1@gerrit>\n"
@@ -2103,7 +2118,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
       byte[] bytes = walk.getObjectReader().open(note.getData(), Constants.OBJ_BLOB).getBytes();
       String noteString = new String(bytes, UTF_8);
-      String timeStr = ChangeNoteUtil.formatTime(serverIdent, time);
+      String timeStr = NoteDbUtil.formatTime(serverIdent, time);
 
       if (!testJson()) {
         assertThat(noteString)
@@ -3504,14 +3519,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   public void setRevertOfOnChildCommitFails() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setRevertOf(newChange().getId().get());
     exception.expect(OrmException.class);
     exception.expectMessage("Given ChangeUpdate is only allowed on initial commit");
-    update.setRevertOf(newChange().getId().get());
     update.commit();
   }
 
   private boolean testJson() {
-    return noteUtil.getWriteJson();
+    return noteUtil.getChangeNoteJson().getWriteJson();
   }
 
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {

@@ -4,6 +4,7 @@
 
 directories:
   .
+  -bin
   -eclipse-out
   -contrib
   -gerrit-package-plugins

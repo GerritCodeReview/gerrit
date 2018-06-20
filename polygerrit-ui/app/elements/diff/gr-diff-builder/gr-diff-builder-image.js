@@ -34,13 +34,42 @@
       GrDiffBuilderSideBySide.prototype);
   GrDiffBuilderImage.prototype.constructor = GrDiffBuilderImage;
 
-  GrDiffBuilderImage.prototype.renderDiffImages = function() {
+  GrDiffBuilderImage.prototype.renderDiff = function() {
     const section = this._createElement('tbody', 'image-diff');
 
     this._emitImagePair(section);
     this._emitImageLabels(section);
 
     this._outputEl.appendChild(section);
+    this._outputEl.appendChild(this._createEndpoint());
+  };
+
+  GrDiffBuilderImage.prototype._createEndpoint = function() {
+    const tbody = this._createElement('tbody');
+    const tr = this._createElement('tr');
+    const td = this._createElement('td');
+
+    // TODO(kaspern): Support blame for image diffs and remove the hardcoded 4
+    // column limit.
+    td.setAttribute('colspan', '4');
+    const endpoint = this._createElement('gr-endpoint-decorator');
+    const endpointDomApi = Polymer.dom(endpoint);
+    endpointDomApi.setAttribute('name', 'image-diff');
+    endpointDomApi.appendChild(
+        this._createEndpointParam('baseImage', this._baseImage));
+    endpointDomApi.appendChild(
+        this._createEndpointParam('revisionImage', this._revisionImage));
+    td.appendChild(endpoint);
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return tbody;
+  };
+
+  GrDiffBuilderImage.prototype._createEndpointParam = function(name, value) {
+    const endpointParam = this._createElement('gr-endpoint-param');
+    endpointParam.setAttribute('name', name);
+    endpointParam.value = value;
+    return endpointParam;
   };
 
   GrDiffBuilderImage.prototype._emitImagePair = function(section) {

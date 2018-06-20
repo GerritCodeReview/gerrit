@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -44,12 +45,11 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Migrate accounts to NoteDb. */
 public class Schema_154 extends SchemaVersion {
-  private static final Logger log = LoggerFactory.getLogger(Schema_154.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String TABLE = "accounts";
   private static final ImmutableMap<String, AccountSetter> ACCOUNT_FIELDS_MAP =
       ImmutableMap.<String, AccountSetter>builder()
@@ -98,7 +98,7 @@ public class Schema_154 extends SchemaVersion {
   private Set<Account> scanAccounts(ReviewDb db, ProgressMonitor pm) throws SQLException {
     Map<String, AccountSetter> fields = getFields(db);
     if (fields.isEmpty()) {
-      log.warn("Only account_id and registered_on fields are migrated for accounts");
+      logger.atWarning().log("Only account_id and registered_on fields are migrated for accounts");
     }
 
     List<String> queryFields = new ArrayList<>();

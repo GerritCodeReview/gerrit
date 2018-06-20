@@ -1,6 +1,7 @@
 workspace(name = "gerrit")
 
-load("//tools/bzl:maven_jar.bzl", "maven_jar", "GERRIT", "MAVEN_LOCAL")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
+load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
@@ -11,12 +12,13 @@ http_archive(
     urls = ["https://github.com/bazelbuild/bazel-skylib/archive/2169ae1c374aab4a09aa90e65efe1a3aad4e279b.tar.gz"],
 )
 
-# davido's fork with https://github.com/bazelbuild/rules_closure/pull/235 included
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "314e4eb701696e267cb911609e2e333e321fe641981a33144f460068ff4e1af3",
-    strip_prefix = "rules_closure-0.11.0",
-    url = "https://github.com/davido/rules_closure/archive/0.11.0.tar.gz",
+    build_file_content = "exports_files([\"0001-Replace-native-http-git-_archive-with-Skylark-rules.patch\"])",
+    patches = ["//:0001-Replace-native-http-git-_archive-with-Skylark-rules.patch"],
+    sha256 = "a80acb69c63d5f6437b099c111480a4493bad4592015af2127a2f49fb7512d8d",
+    strip_prefix = "rules_closure-0.7.0",
+    url = "https://github.com/bazelbuild/rules_closure/archive/0.7.0.tar.gz",
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -25,12 +27,12 @@ http_archive(
 http_file(
     name = "polymer_closure",
     sha256 = "5a589bdba674e1fec7188e9251c8624ebf2d4d969beb6635f9148f420d1e08b1",
-    url = "https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js",
+    urls = ["https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js"],
 )
 
 load("@bazel_skylib//:lib.bzl", "versions")
 
-versions.check(minimum_bazel_version = "0.7.0")
+versions.check(minimum_bazel_version = "0.14.0")
 
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
@@ -44,7 +46,7 @@ closure_repositories(
 ANTLR_VERS = "3.5.2"
 
 maven_jar(
-    name = "java_runtime",
+    name = "java-runtime",
     artifact = "org.antlr:antlr-runtime:" + ANTLR_VERS,
     sha1 = "cd9cd41361c155f3af0f653009dcecb08d8b4afd",
 )
@@ -56,7 +58,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "org_antlr",
+    name = "org-antlr",
     artifact = "org.antlr:antlr:" + ANTLR_VERS,
     sha1 = "c4a65c950bfc3e7d04309c515b2177c00baf7764",
 )
@@ -71,19 +73,19 @@ maven_jar(
 GUICE_VERS = "4.2.0"
 
 maven_jar(
-    name = "guice_library",
+    name = "guice-library",
     artifact = "com.google.inject:guice:" + GUICE_VERS,
     sha1 = "25e1f4c1d528a1cffabcca0d432f634f3132f6c8",
 )
 
 maven_jar(
-    name = "guice_assistedinject",
+    name = "guice-assistedinject",
     artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
     sha1 = "e7270305960ad7db56f7e30cb9df6be9ff1cfb45",
 )
 
 maven_jar(
-    name = "guice_servlet",
+    name = "guice-servlet",
     artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
     sha1 = "f57581625c36c148f088d9f52a568d5bdf12c61d",
 )
@@ -101,7 +103,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "servlet_api_3_1",
+    name = "servlet-api-3_1",
     artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
     sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
 )
@@ -121,14 +123,14 @@ maven_jar(
 )
 
 maven_jar(
-    name = "javax_validation",
+    name = "javax-validation",
     artifact = "javax.validation:validation-api:1.0.0.GA",
     sha1 = "b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e",
     src_sha1 = "7a561191db2203550fbfa40d534d4997624cd369",
 )
 
 maven_jar(
-    name = "jsinterop_annotations",
+    name = "jsinterop-annotations",
     artifact = "com.google.jsinterop:jsinterop-annotations:1.0.2",
     sha1 = "abd7319f53d018e11108a88f599bd16492448dd2",
     src_sha1 = "33716f8aef043f2f02b78ab4a1acda6cd90a7602",
@@ -156,7 +158,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "w3c_css_sac",
+    name = "w3c-css-sac",
     artifact = "org.w3c.css:sac:1.3",
     sha1 = "cdb2dcb4e22b83d6b32b93095f644c3462739e82",
 )
@@ -172,6 +174,26 @@ maven_jar(
     sha1 = "94ad16d728b374d65bd897625f3fbb3da223a2b6",
 )
 
+FLOGGER_VERS = "0.2"
+
+maven_jar(
+    name = "flogger",
+    artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
+    sha1 = "a22d04ed3b84bae8ecf8aa6d4430ad000bcdf7b4",
+)
+
+maven_jar(
+    name = "flogger-log4j-backend",
+    artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
+    sha1 = "d5085e3996bddc4b105d53b886190cc9a8811a9e",
+)
+
+maven_jar(
+    name = "flogger-system-backend",
+    artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
+    sha1 = "b995c84b8443d6cfbd011a55719b63494b974c3a",
+)
+
 maven_jar(
     name = "gwtjsonrpc",
     artifact = "com.google.gerrit:gwtjsonrpc:1.11",
@@ -181,12 +203,12 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.2",
-    sha1 = "3edcfe49d2c6053a70a2a47e4e1c2f94998a49cf",
+    artifact = "com.google.code.gson:gson:2.8.4",
+    sha1 = "d0de1ca9b69e69d1d497ee3c6009d015f64dad57",
 )
 
 maven_jar(
-    name = "gwtorm_client",
+    name = "gwtorm-client",
     artifact = "com.google.gerrit:gwtorm:1.18",
     sha1 = "f326dec463439a92ccb32f05b38345e21d0b5ecf",
     src_sha1 = "e0b973d5cafef3d145fa80cdf032fcead1186d29",
@@ -194,11 +216,11 @@ maven_jar(
 
 maven_jar(
     name = "protobuf",
-    artifact = "com.google.protobuf:protobuf-java:3.4.0",
-    sha1 = "b32aba0cbe737a4ca953f71688725972e3ee927c",
+    artifact = "com.google.protobuf:protobuf-java:3.5.1",
+    sha1 = "8c3492f7662fa1cbf8ca76a0f5eb1146f7725acd",
 )
 
-load("//lib:guava.bzl", "GUAVA_VERSION", "GUAVA_BIN_SHA1")
+load("//lib:guava.bzl", "GUAVA_BIN_SHA1", "GUAVA_VERSION")
 
 maven_jar(
     name = "guava",
@@ -227,25 +249,25 @@ maven_jar(
 SLF4J_VERS = "1.7.7"
 
 maven_jar(
-    name = "log_api",
+    name = "log-api",
     artifact = "org.slf4j:slf4j-api:" + SLF4J_VERS,
     sha1 = "2b8019b6249bb05d81d3a3094e468753e2b21311",
 )
 
 maven_jar(
-    name = "log_nop",
-    artifact = "org.slf4j:slf4j-nop:" + SLF4J_VERS,
-    sha1 = "6cca9a3b999ff28b7a35ca762b3197cd7e4c2ad1",
+    name = "log-ext",
+    artifact = "org.slf4j:slf4j-ext:" + SLF4J_VERS,
+    sha1 = "09a8f58c784c37525d2624062414358acf296717",
 )
 
 maven_jar(
-    name = "impl_log4j",
+    name = "impl-log4j",
     artifact = "org.slf4j:slf4j-log4j12:" + SLF4J_VERS,
     sha1 = "58f588119ffd1702c77ccab6acb54bfb41bed8bd",
 )
 
 maven_jar(
-    name = "jcl_over_slf4j",
+    name = "jcl-over-slf4j",
     artifact = "org.slf4j:jcl-over-slf4j:" + SLF4J_VERS,
     sha1 = "56003dcd0a31deea6391b9e2ef2f2dc90b205a92",
 )
@@ -257,13 +279,13 @@ maven_jar(
 )
 
 maven_jar(
-    name = "jsonevent_layout",
+    name = "jsonevent-layout",
     artifact = "net.logstash.log4j:jsonevent-layout:1.7",
     sha1 = "507713504f0ddb75ba512f62763519c43cf46fde",
 )
 
 maven_jar(
-    name = "json_smart",
+    name = "json-smart",
     artifact = "net.minidev:json-smart:1.1.1",
     sha1 = "24a2f903d25e004de30ac602c5b47f2d4e420a59",
 )
@@ -275,50 +297,50 @@ maven_jar(
 )
 
 maven_jar(
-    name = "commons_codec",
+    name = "commons-codec",
     artifact = "commons-codec:commons-codec:1.10",
     sha1 = "4b95f4897fa13f2cd904aee711aeafc0c5295cd8",
 )
 
 # When upgrading commons-compress, also upgrade tukaani-xz
 maven_jar(
-    name = "commons_compress",
+    name = "commons-compress",
     artifact = "org.apache.commons:commons-compress:1.15",
     sha1 = "b686cd04abaef1ea7bc5e143c080563668eec17e",
 )
 
 maven_jar(
-    name = "commons_lang",
+    name = "commons-lang",
     artifact = "commons-lang:commons-lang:2.6",
     sha1 = "0ce1edb914c94ebc388f086c6827e8bdeec71ac2",
 )
 
 maven_jar(
-    name = "commons_lang3",
+    name = "commons-lang3",
     artifact = "org.apache.commons:commons-lang3:3.6",
     sha1 = "9d28a6b23650e8a7e9063c04588ace6cf7012c17",
 )
 
 maven_jar(
-    name = "commons_dbcp",
+    name = "commons-dbcp",
     artifact = "commons-dbcp:commons-dbcp:1.4",
     sha1 = "30be73c965cc990b153a100aaaaafcf239f82d39",
 )
 
 maven_jar(
-    name = "commons_pool",
+    name = "commons-pool",
     artifact = "commons-pool:commons-pool:1.5.5",
     sha1 = "7d8ffbdc47aa0c5a8afe5dc2aaf512f369f1d19b",
 )
 
 maven_jar(
-    name = "commons_net",
+    name = "commons-net",
     artifact = "commons-net:commons-net:3.6",
     sha1 = "b71de00508dcb078d2b24b5fa7e538636de9b3da",
 )
 
 maven_jar(
-    name = "commons_validator",
+    name = "commons-validator",
     artifact = "commons-validator:commons-validator:1.6",
     sha1 = "e989d1e87cdd60575df0765ed5bac65c905d7908",
 )
@@ -366,13 +388,13 @@ maven_jar(
 MIME4J_VERS = "0.8.1"
 
 maven_jar(
-    name = "mime4j_core",
+    name = "mime4j-core",
     artifact = "org.apache.james:apache-mime4j-core:" + MIME4J_VERS,
     sha1 = "c62dfe18a3b827a2c626ade0ffba44562ddf3f61",
 )
 
 maven_jar(
-    name = "mime4j_dom",
+    name = "mime4j-dom",
     artifact = "org.apache.james:apache-mime4j-dom:" + MIME4J_VERS,
     sha1 = "f2d653c617004193f3350330d907f77b60c88c56",
 )
@@ -386,31 +408,31 @@ maven_jar(
 OW2_VERS = "6.0"
 
 maven_jar(
-    name = "ow2_asm",
+    name = "ow2-asm",
     artifact = "org.ow2.asm:asm:" + OW2_VERS,
     sha1 = "bc6fa6b19424bb9592fe43bbc20178f92d403105",
 )
 
 maven_jar(
-    name = "ow2_asm_analysis",
+    name = "ow2-asm-analysis",
     artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
     sha1 = "dd1cc1381a970800268160203aae2d3784da779b",
 )
 
 maven_jar(
-    name = "ow2_asm_commons",
+    name = "ow2-asm-commons",
     artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
     sha1 = "f256fd215d8dd5a4fa2ab3201bf653de266ed4ec",
 )
 
 maven_jar(
-    name = "ow2_asm_tree",
+    name = "ow2-asm-tree",
     artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
     sha1 = "a624f1a6e4e428dcd680a01bab2d4c56b35b18f0",
 )
 
 maven_jar(
-    name = "ow2_asm_util",
+    name = "ow2-asm-util",
     artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
     sha1 = "430b2fc839b5de1f3643b528853d5cf26096c1de",
 )
@@ -418,95 +440,58 @@ maven_jar(
 AUTO_VALUE_VERSION = "1.6"
 
 maven_jar(
-    name = "auto_value",
+    name = "auto-value",
     artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
     sha1 = "a3b1b1404f8acaa88594a017185e013cd342c9a8",
 )
 
 maven_jar(
-    name = "auto_value_annotations",
+    name = "auto-value-annotations",
     artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
     sha1 = "da725083ee79fdcd86d9f3d8a76e38174a01892a",
 )
 
 # Transitive dependency of commons-compress
 maven_jar(
-    name = "tukaani_xz",
+    name = "tukaani-xz",
     artifact = "org.tukaani:xz:1.6",
     sha1 = "05b6f921f1810bdf90e25471968f741f87168b64",
 )
 
-# When upgrading Lucene, make sure it's compatible with Elasticsearch
 LUCENE_VERS = "5.5.4"
 
 maven_jar(
-    name = "lucene_core",
+    name = "lucene-core",
     artifact = "org.apache.lucene:lucene-core:" + LUCENE_VERS,
     sha1 = "ab9c77e75cf142aa6e284b310c8395617bd9b19b",
 )
 
 maven_jar(
-    name = "lucene_analyzers_common",
+    name = "lucene-analyzers-common",
     artifact = "org.apache.lucene:lucene-analyzers-common:" + LUCENE_VERS,
     sha1 = "08ce9d34c8124c80e176e8332ee947480bbb9576",
 )
 
 maven_jar(
-    name = "backward_codecs",
+    name = "backward-codecs",
     artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
     sha1 = "a933f42e758c54c43083398127ea7342b54d8212",
 )
 
 maven_jar(
-    name = "lucene_misc",
+    name = "lucene-misc",
     artifact = "org.apache.lucene:lucene-misc:" + LUCENE_VERS,
     sha1 = "a74388857f73614e528ae44d742c60187cb55a5a",
 )
 
 maven_jar(
-    name = "lucene_queryparser",
+    name = "lucene-queryparser",
     artifact = "org.apache.lucene:lucene-queryparser:" + LUCENE_VERS,
     sha1 = "8a06fad4675473d98d93b61fea529e3f464bf69e",
 )
 
 maven_jar(
-    name = "lucene_highlighter",
-    artifact = "org.apache.lucene:lucene-highlighter:" + LUCENE_VERS,
-    sha1 = "433f53f03f1b14337c08d54e507a5410905376fa",
-)
-
-maven_jar(
-    name = "lucene_join",
-    artifact = "org.apache.lucene:lucene-join:" + LUCENE_VERS,
-    sha1 = "23f9a909a244ed3b28b37c5bb21a6e33e6c0a339",
-)
-
-maven_jar(
-    name = "lucene_memory",
-    artifact = "org.apache.lucene:lucene-memory:" + LUCENE_VERS,
-    sha1 = "4dbdc2e1a24837722294762a9edb479f79092ab9",
-)
-
-maven_jar(
-    name = "lucene_spatial",
-    artifact = "org.apache.lucene:lucene-spatial:" + LUCENE_VERS,
-    sha1 = "0217d302dc0ef4d9b8b475ffe327d83c1e0ceba5",
-)
-
-maven_jar(
-    name = "lucene_suggest",
-    artifact = "org.apache.lucene:lucene-suggest:" + LUCENE_VERS,
-    sha1 = "0f46dbb3229eed62dff10d008172c885e0e028c8",
-)
-
-maven_jar(
-    name = "lucene_queries",
-    artifact = "org.apache.lucene:lucene-queries:" + LUCENE_VERS,
-    sha1 = "f915357b8b4b43742ab48f1401dedcaa12dfa37a",
-)
-
-maven_jar(
-    name = "mime_util",
+    name = "mime-util",
     artifact = "eu.medsea.mimeutil:mime-util:2.1.3",
     attach_source = False,
     sha1 = "0c9cfae15c74f62491d4f28def0dff1dabe52a47",
@@ -517,7 +502,7 @@ PROLOG_VERS = "1.4.3"
 PROLOG_REPO = GERRIT
 
 maven_jar(
-    name = "prolog_runtime",
+    name = "prolog-runtime",
     artifact = "com.googlecode.prolog-cafe:prolog-runtime:" + PROLOG_VERS,
     attach_source = False,
     repository = PROLOG_REPO,
@@ -525,7 +510,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "prolog_compiler",
+    name = "prolog-compiler",
     artifact = "com.googlecode.prolog-cafe:prolog-compiler:" + PROLOG_VERS,
     attach_source = False,
     repository = PROLOG_REPO,
@@ -533,7 +518,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "prolog_io",
+    name = "prolog-io",
     artifact = "com.googlecode.prolog-cafe:prolog-io:" + PROLOG_VERS,
     attach_source = False,
     repository = PROLOG_REPO,
@@ -549,7 +534,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "guava_retrying",
+    name = "guava-retrying",
     artifact = "com.github.rholder:guava-retrying:2.0.0",
     sha1 = "974bc0a04a11cc4806f7c20a34703bd23c34e7f4",
 )
@@ -561,7 +546,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "blame_cache",
+    name = "blame-cache",
     artifact = "com/google/gitiles:blame-cache:0.2-6",
     attach_source = False,
     repository = GERRIT,
@@ -576,7 +561,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "html_types",
+    name = "html-types",
     artifact = "com.google.common.html.types:types:1.0.4",
     sha1 = "2adf4c8bfccc0ff7346f9186ac5aa57d829ad065",
 )
@@ -588,39 +573,39 @@ maven_jar(
 )
 
 maven_jar(
-    name = "dropwizard_core",
+    name = "dropwizard-core",
     artifact = "io.dropwizard.metrics:metrics-core:4.0.2",
     sha1 = "ec9878842d510cabd6bd6a9da1bebae1ae0cd199",
 )
 
 # When updading Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.57"
+BC_VERS = "1.59"
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BC_VERS,
-    sha1 = "f66a135611d42c992e5745788c3f94eb06464537",
+    sha1 = "2507204241ab450456bdb8e8c0a8f986e418bd99",
 )
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BC_VERS,
-    sha1 = "7b2d587f5e3780b79e1d35af3e84d00634e9420b",
+    sha1 = "ee93e5376bb6cf0a15c027b5f5e4393f2738e709",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BC_VERS,
-    sha1 = "5c96e34bc9bd4cd6870e6d193a99438f1e274ca7",
+    sha1 = "9cef0aab8a4bb849a8476c058ce3ff302aba3fff",
 )
 
 # TODO(davido): Remove exlusion of file system provider, when this issue is fixed:
 # https://issues.apache.org/jira/browse/SSHD-736
 maven_jar(
     name = "sshd",
-    artifact = "org.apache.sshd:sshd-core:1.6.0",
+    artifact = "org.apache.sshd:sshd-core:1.7.0",
     exclude = ["META-INF/services/java.nio.file.spi.FileSystemProvider"],
-    sha1 = "548e2da643e88cda9d313efb2564a74f9943e491",
+    sha1 = "2e8b14f6d841b098e46bf407b6fdccab4c19fa41",
 )
 
 maven_jar(
@@ -630,7 +615,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "mina_core",
+    name = "mina-core",
     artifact = "org.apache.mina:mina-core:2.0.16",
     sha1 = "f720f17643eaa7b0fec07c1d7f6272972c02bba4",
 )
@@ -647,7 +632,7 @@ maven_jar(
 HTTPCOMP_VERS = "4.4.1"
 
 maven_jar(
-    name = "fluent_hc",
+    name = "fluent-hc",
     artifact = "org.apache.httpcomponents:fluent-hc:" + HTTPCOMP_VERS,
     sha1 = "96fb842b68a44cc640c661186828b60590c71261",
 )
@@ -685,14 +670,14 @@ maven_jar(
 )
 
 maven_jar(
-    name = "hamcrest_core",
+    name = "hamcrest-core",
     artifact = "org.hamcrest:hamcrest-core:1.3",
     sha1 = "42a25dc3219429f0e5d060061f71acb49bf010a0",
 )
 
 # Only needed when jgit is built from the development tree
 maven_jar(
-    name = "hamcrest_library",
+    name = "hamcrest-library",
     artifact = "org.hamcrest:hamcrest-library:1.3",
     sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
 )
@@ -711,6 +696,18 @@ maven_jar(
     sha1 = "636e49d675bc28e0b3ae0edd077d6acbbb159166",
 )
 
+maven_jar(
+    name = "truth-liteproto-extension",
+    artifact = "com.google.truth.extensions:truth-liteproto-extension:" + TRUTH_VERS,
+    sha1 = "21210ac07e5cfbe83f04733f806224a6c0ae4d2d",
+)
+
+maven_jar(
+    name = "truth-proto-extension",
+    artifact = "com.google.truth.extensions:truth-proto-extension:" + TRUTH_VERS,
+    sha1 = "5a2b504143a5fec2b6be8bce292b3b7577a81789",
+)
+
 # When bumping the easymock version number, make sure to also move powermock to a compatible version
 maven_jar(
     name = "easymock",
@@ -719,7 +716,7 @@ maven_jar(
 )
 
 maven_jar(
-    name = "cglib_3_2",
+    name = "cglib-3_2",
     artifact = "cglib:cglib-nodep:3.2.0",
     sha1 = "cf1ca207c15b04ace918270b6cb3f5601160cdfd",
 )
@@ -733,37 +730,37 @@ maven_jar(
 POWERM_VERS = "1.6.1"
 
 maven_jar(
-    name = "powermock_module_junit4",
+    name = "powermock-module-junit4",
     artifact = "org.powermock:powermock-module-junit4:" + POWERM_VERS,
     sha1 = "ea8530b2848542624f110a393513af397b37b9cf",
 )
 
 maven_jar(
-    name = "powermock_module_junit4_common",
+    name = "powermock-module-junit4-common",
     artifact = "org.powermock:powermock-module-junit4-common:" + POWERM_VERS,
     sha1 = "7222ced54dabc310895d02e45c5428ca05193cda",
 )
 
 maven_jar(
-    name = "powermock_reflect",
+    name = "powermock-reflect",
     artifact = "org.powermock:powermock-reflect:" + POWERM_VERS,
     sha1 = "97d25eda8275c11161bcddda6ef8beabd534c878",
 )
 
 maven_jar(
-    name = "powermock_api_easymock",
+    name = "powermock-api-easymock",
     artifact = "org.powermock:powermock-api-easymock:" + POWERM_VERS,
     sha1 = "aa740ecf89a2f64d410b3d93ef8cd6833009ef00",
 )
 
 maven_jar(
-    name = "powermock_api_support",
+    name = "powermock-api-support",
     artifact = "org.powermock:powermock-api-support:" + POWERM_VERS,
     sha1 = "592ee6d929c324109d3469501222e0c76ccf0869",
 )
 
 maven_jar(
-    name = "powermock_core",
+    name = "powermock-core",
     artifact = "org.powermock:powermock-core:" + POWERM_VERS,
     sha1 = "5afc1efce8d44ed76b30af939657bd598e45d962",
 )
@@ -784,61 +781,61 @@ maven_jar(
 JETTY_VERS = "9.3.18.v20170406"
 
 maven_jar(
-    name = "jetty_servlet",
+    name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
     sha1 = "534e7fa0e4fb6e08f89eb3f6a8c48b4f81ff5738",
 )
 
 maven_jar(
-    name = "jetty_security",
+    name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
     sha1 = "16b900e91b04511f42b706c925c8af6023d2c05e",
 )
 
 maven_jar(
-    name = "jetty_servlets",
+    name = "jetty-servlets",
     artifact = "org.eclipse.jetty:jetty-servlets:" + JETTY_VERS,
     sha1 = "f9311d1d8e6124d2792f4db5b29514d0ecf46812",
 )
 
 maven_jar(
-    name = "jetty_server",
+    name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
     sha1 = "0a32feea88cba2d43951d22b60861c643454bb3f",
 )
 
 maven_jar(
-    name = "jetty_jmx",
+    name = "jetty-jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
     sha1 = "f988136dc5aa634afed6c5a35d910ee9599c6c23",
 )
 
 maven_jar(
-    name = "jetty_continuation",
+    name = "jetty-continuation",
     artifact = "org.eclipse.jetty:jetty-continuation:" + JETTY_VERS,
     sha1 = "3c5d89c8204d4a48a360087f95e4cbd4520b5de0",
 )
 
 maven_jar(
-    name = "jetty_http",
+    name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
     sha1 = "30ece6d732d276442d513b94d914de6fa1075fae",
 )
 
 maven_jar(
-    name = "jetty_io",
+    name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
     sha1 = "36cb411ee89be1b527b0c10747aa3153267fc3ec",
 )
 
 maven_jar(
-    name = "jetty_util",
+    name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
     sha1 = "8600b7d028a38cb462eff338de91390b3ff5040e",
 )
 
 maven_jar(
-    name = "openid_consumer",
+    name = "openid-consumer",
     artifact = "org.openid4java:openid4java:0.9.8",
     sha1 = "de4f1b33d3b0f0b2ab1d32834ec1190b39db4160",
 )
@@ -863,26 +860,26 @@ maven_jar(
 )
 
 maven_jar(
-    name = "codemirror_minified",
+    name = "codemirror-minified-gwt",
     artifact = "org.webjars.npm:codemirror-minified:" + CM_VERSION,
-    sha1 = "f84c178b11a188f416b4380bfb2b24f126453d28",
+    sha1 = "36558ea3b8e30782e1e09c0e7bd781e09614f139",
 )
 
 maven_jar(
-    name = "codemirror_original",
+    name = "codemirror-original-gwt",
     artifact = "org.webjars.npm:codemirror:" + CM_VERSION,
-    sha1 = "5a1f6c10d5aef0b9d2ce513dcc1e2657e4af730d",
+    sha1 = "f1f8fbbc3e2d224fdccc43d2f4180658a92320f9",
 )
 
 maven_jar(
-    name = "diff_match_patch",
+    name = "diff-match-patch",
     artifact = "org.webjars:google-diff-match-patch:" + DIFF_MATCH_PATCH_VERSION,
     attach_source = False,
     sha1 = "0cf1782dbcb8359d95070da9176059a5a9d37709",
 )
 
 maven_jar(
-    name = "commons_io",
+    name = "commons-io",
     artifact = "commons-io:commons-io:1.4",
     sha1 = "a8762d07e76cfde2395257a5da47ba7c1dbd3dce",
 )
@@ -899,88 +896,18 @@ maven_jar(
     sha1 = "8903bf42272062e87a7cbc1d98919e0729a9939f",
 )
 
-# When upgrading Elasticsearch, make sure it's compatible with Lucene
 maven_jar(
-    name = "elasticsearch",
-    artifact = "org.elasticsearch:elasticsearch:2.4.6",
-    sha1 = "d2954e1173a608a9711f132d1768a676a8b1fb81",
-)
-
-# Java REST client for Elasticsearch.
-JEST_VERSION = "2.4.0"
-
-maven_jar(
-    name = "jest_common",
-    artifact = "io.searchbox:jest-common:" + JEST_VERSION,
-    sha1 = "ea779ebe7c438a53dce431f85b0d4e1d8faee2ac",
-)
-
-maven_jar(
-    name = "jest",
-    artifact = "io.searchbox:jest:" + JEST_VERSION,
-    sha1 = "e2a604a584e6633545ac6b1fe99ef888ab96dae9",
-)
-
-maven_jar(
-    name = "joda_time",
-    artifact = "joda-time:joda-time:2.9.9",
-    sha1 = "f7b520c458572890807d143670c9b24f4de90897",
-)
-
-maven_jar(
-    name = "joda_convert",
-    artifact = "org.joda:joda-convert:1.8.1",
-    sha1 = "675642ac208e0b741bc9118dcbcae44c271b992a",
-)
-
-maven_jar(
-    name = "compress_lzf",
-    artifact = "com.ning:compress-lzf:1.0.2",
-    sha1 = "62896e6fca184c79cc01a14d143f3ae2b4f4b4ae",
-)
-
-maven_jar(
-    name = "hppc",
-    artifact = "com.carrotsearch:hppc:0.7.1",
-    sha1 = "8b5057f74ea378c0150a1860874a3ebdcb713767",
-)
-
-maven_jar(
-    name = "jsr166e",
-    artifact = "com.twitter:jsr166e:1.1.0",
-    sha1 = "233098147123ee5ddcd39ffc57ff648be4b7e5b2",
-)
-
-maven_jar(
-    name = "netty",
-    artifact = "io.netty:netty:3.10.0.Final",
-    sha1 = "ad61cd1bba067e6634ddd3e160edf0727391ac30",
-)
-
-maven_jar(
-    name = "t_digest",
-    artifact = "com.tdunning:t-digest:3.0",
-    sha1 = "84ccf145ac2215e6bfa63baa3101c0af41017cfc",
+    name = "elasticsearch-rest-client",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:5.6.9",
+    sha1 = "895706412e2fba3f842fca82ec3dece1cb4ee7d1",
 )
 
 JACKSON_VERSION = "2.8.9"
 
 maven_jar(
-    name = "jackson_core",
+    name = "jackson-core",
     artifact = "com.fasterxml.jackson.core:jackson-core:" + JACKSON_VERSION,
     sha1 = "569b1752705da98f49aabe2911cc956ff7d8ed9d",
-)
-
-maven_jar(
-    name = "jackson_dataformat_cbor",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:" + JACKSON_VERSION,
-    sha1 = "93242092324cad33d777e06c0515e40a6b862659",
-)
-
-maven_jar(
-    name = "jackson_dataformat_smile",
-    artifact = "com.fasterxml.jackson.dataformat:jackson-dataformat-smile:" + JACKSON_VERSION,
-    sha1 = "d36cbae6b06ac12fca16fda403759e479316141b",
 )
 
 maven_jar(
@@ -990,12 +917,36 @@ maven_jar(
 )
 
 maven_jar(
-    name = "httpcore_nio",
+    name = "httpcore-nio",
     artifact = "org.apache.httpcomponents:httpcore-nio:" + HTTPCOMP_VERS,
     sha1 = "a8c5e3c3bfea5ce23fb647c335897e415eb442e3",
 )
 
-load("//tools/bzl:js.bzl", "npm_binary", "bower_archive")
+maven_jar(
+    name = "testcontainers",
+    artifact = "org.testcontainers:testcontainers:1.8.0",
+    sha1 = "bc413912f7044f9f12aa0782853aef0a067ee52a",
+)
+
+maven_jar(
+    name = "duct-tape",
+    artifact = "org.rnorth.duct-tape:duct-tape:1.0.7",
+    sha1 = "a26b5d90d88c91321dc7a3734ea72d2fc019ebb6",
+)
+
+maven_jar(
+    name = "visible-assertions",
+    artifact = "org.rnorth.visible-assertions:visible-assertions:2.1.0",
+    sha1 = "f2fcff2862860828ac38a5e1f14d941787c06b13",
+)
+
+maven_jar(
+    name = "jna",
+    artifact = "net.java.dev.jna:jna:4.5.1",
+    sha1 = "65bd0cacc9c79a21c6ed8e9f588577cd3c2f85b9",
+)
+
+load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")
 
 npm_binary(
     name = "bower",

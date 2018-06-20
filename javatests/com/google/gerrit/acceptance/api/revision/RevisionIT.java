@@ -1226,6 +1226,26 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void commentOnNonExistingFile() throws Exception {
+    PushOneCommit.Result r = createChange();
+    r = updateChange(r, "new content");
+    CommentInput in = new CommentInput();
+    in.line = 1;
+    in.message = "nit: trailing whitespace";
+    in.path = "non-existing.txt";
+    ReviewInput reviewInput = new ReviewInput();
+    Map<String, List<CommentInput>> comments = new HashMap<>();
+    comments.put("non-existing.txt", Collections.singletonList(in));
+    reviewInput.comments = comments;
+    reviewInput.message = "comment test";
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage(
+        String.format("not found in revision %d,1", r.getChange().change().getId().id));
+    gApi.changes().id(r.getChangeId()).revision(1).review(reviewInput);
+  }
+
+  @Test
   public void patch() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeApi changeApi = gApi.changes().id(r.getChangeId());

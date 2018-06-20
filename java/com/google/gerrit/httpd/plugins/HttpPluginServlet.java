@@ -32,6 +32,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -51,8 +52,8 @@ import com.google.gerrit.server.plugins.PluginsCollection;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
 import com.google.gerrit.server.ssh.SshInfo;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
-import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -88,17 +89,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.IO;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class HttpPluginServlet extends HttpServlet implements StartPluginListener, ReloadPluginListener {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final int SMALL_RESOURCE = 128 * 1024;
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(HttpPluginServlet.class);
 
   private final MimeUtilFileTypeRegistry mimeUtil;
   private final Provider<String> webUrl;
@@ -190,7 +191,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       try {
         filter = plugin.getHttpInjector().getInstance(GuiceFilter.class);
       } catch (RuntimeException e) {
-        log.warn(String.format("Plugin %s cannot load GuiceFilter", name), e);
+        logger.atWarning().withCause(e).log("Plugin %s cannot load GuiceFilter", name);
         return null;
       }
 
@@ -198,7 +199,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         ServletContext ctx = PluginServletContext.create(plugin, wrapper.getFullPath(name));
         filter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
-        log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
+        logger.atWarning().withCause(e).log("Plugin %s failed to initialize HTTP", name);
         return null;
       }
 
@@ -422,11 +423,9 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
               && (name.endsWith(".md") || name.endsWith(".html"))
               && size.isPresent()) {
             if (size.get() <= 0 || size.get() > SMALL_RESOURCE) {
-              log.warn(
-                  String.format(
-                      "Plugin %s: %s omitted from document index. "
-                          + "Size %d out of range (0,%d).",
-                      pluginName, name.substring(prefix.length()), size.get(), SMALL_RESOURCE));
+              logger.atWarning().log(
+                  "Plugin %s: %s omitted from document index. " + "Size %d out of range (0,%d).",
+                  pluginName, name.substring(prefix.length()), size.get(), SMALL_RESOURCE);
               return false;
             }
             return true;
@@ -448,10 +447,9 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         if (about == null) {
           about = entry;
         } else {
-          log.warn(
-              String.format(
-                  "Plugin %s: Multiple 'about' documents found; using %s",
-                  pluginName, about.getName().substring(prefix.length())));
+          logger.atWarning().log(
+              "Plugin %s: Multiple 'about' documents found; using %s",
+              pluginName, about.getName().substring(prefix.length()));
         }
       } else {
         docs.add(entry);
@@ -472,7 +470,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       try (BufferedReader reader = new BufferedReader(isr)) {
         String line;
         while ((line = reader.readLine()) != null) {
-          line = line.trim();
+          line = StringUtils.stripEnd(line, null);
           if (line.isEmpty()) {
             aboutContent.append("\n");
           } else {
@@ -729,9 +727,8 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
         }
         return def;
       } catch (IOException e) {
-        log.warn(
-            String.format("Error getting %s for plugin %s, using default", attr, plugin.getName()),
-            e);
+        logger.atWarning().withCause(e).log(
+            "Error getting %s for plugin %s, using default", attr, plugin.getName());
         return null;
       }
     }

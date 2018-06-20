@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
@@ -35,12 +36,11 @@ import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PluginConfigFactory implements ReloadPluginListener {
-  private static final Logger log = LoggerFactory.getLogger(PluginConfigFactory.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String EXTENSION = ".config";
 
   private final SitePaths site;
@@ -222,7 +222,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
     GlobalPluginConfig pluginConfig = new GlobalPluginConfig(pluginName, cfg, secureStore);
     pluginConfigs.put(pluginName, pluginConfig);
     if (!cfg.getFile().exists()) {
-      log.info("No " + pluginConfigFile.toAbsolutePath() + "; assuming defaults");
+      logger.atInfo().log("No %s; assuming defaults", pluginConfigFile.toAbsolutePath());
       return pluginConfig;
     }
 
@@ -230,9 +230,9 @@ public class PluginConfigFactory implements ReloadPluginListener {
       cfg.load();
     } catch (ConfigInvalidException e) {
       // This is an error in user input, don't spam logs with a stack trace.
-      log.warn("Failed to load " + pluginConfigFile.toAbsolutePath() + ": " + e);
+      logger.atWarning().log("Failed to load %s: %s", pluginConfigFile.toAbsolutePath(), e);
     } catch (IOException e) {
-      log.warn("Failed to load " + pluginConfigFile.toAbsolutePath(), e);
+      logger.atWarning().withCause(e).log("Failed to load %s", pluginConfigFile.toAbsolutePath());
     }
 
     return pluginConfig;

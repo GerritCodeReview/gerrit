@@ -15,9 +15,9 @@ java_library(
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",
         "//lib/commons:codec",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

@@ -43,9 +43,8 @@ public class Query extends SshCommand {
   }
 
   @Option(
-    name = "--all-approvals",
-    usage = "Include information about all patch sets and approvals"
-  )
+      name = "--all-approvals",
+      usage = "Include information about all patch sets and approvals")
   void setApprovals(boolean on) {
     if (on) {
       processor.setIncludePatchSets(on);
@@ -84,21 +83,19 @@ public class Query extends SshCommand {
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    usage = "Number of changes to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      usage = "Number of changes to skip")
   void setStart(int start) {
     processor.setStart(start);
   }
 
   @Argument(
-    index = 0,
-    required = true,
-    multiValued = true,
-    metaVar = "QUERY",
-    usage = "Query to execute"
-  )
+      index = 0,
+      required = true,
+      multiValued = true,
+      metaVar = "QUERY",
+      usage = "Query to execute")
   private List<String> query;
 
   @Override

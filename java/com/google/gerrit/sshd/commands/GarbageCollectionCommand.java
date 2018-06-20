@@ -49,12 +49,11 @@ public class GarbageCollectionCommand extends SshCommand {
   private boolean aggressive;
 
   @Argument(
-    index = 0,
-    required = false,
-    multiValued = true,
-    metaVar = "NAME",
-    usage = "projects for which the Git garbage collection should be run"
-  )
+      index = 0,
+      required = false,
+      multiValued = true,
+      metaVar = "NAME",
+      usage = "projects for which the Git garbage collection should be run")
   private List<ProjectState> projects = new ArrayList<>();
 
   @Inject private ProjectCache projectCache;

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -32,13 +33,11 @@ import com.google.inject.Singleton;
 import java.util.Set;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Factory to create a {@link SubmitStrategy} for a {@link SubmitType}. */
 @Singleton
 public class SubmitStrategyFactory {
-  private static final Logger log = LoggerFactory.getLogger(SubmitStrategyFactory.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final SubmitStrategy.Arguments.Factory argsFactory;
 
@@ -97,7 +96,7 @@ public class SubmitStrategyFactory {
       case INHERIT:
       default:
         String errorMsg = "No submit strategy for: " + submitType;
-        log.error(errorMsg);
+        logger.atSevere().log(errorMsg);
         throw new IntegrationException(errorMsg);
     }
   }

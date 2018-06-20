@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.plugins.Plugin;
@@ -24,12 +25,10 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import org.apache.sshd.server.Command;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListener {
-  private static final Logger log = LoggerFactory.getLogger(SshPluginStarterCallback.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DispatchCommandProvider root;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
@@ -65,11 +64,9 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
         return plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
         if (!providesDynamicOptions(plugin)) {
-          log.warn(
-              String.format(
-                  "Plugin %s did not define its top-level command nor any DynamicOptions",
-                  plugin.getName()),
-              err);
+          logger.atWarning().withCause(err).log(
+              "Plugin %s did not define its top-level command nor any DynamicOptions",
+              plugin.getName());
         }
       }
     }

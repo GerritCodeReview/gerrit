@@ -42,11 +42,10 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(name = "create-account", description = "Create a new batch/role account")
 final class CreateAccountCommand extends SshCommand {
   @Option(
-    name = "--group",
-    aliases = {"-g"},
-    metaVar = "GROUP",
-    usage = "groups to add account to"
-  )
+      name = "--group",
+      aliases = {"-g"},
+      metaVar = "GROUP",
+      usage = "groups to add account to")
   private List<AccountGroup.Id> groups = new ArrayList<>();
 
   @Option(name = "--full-name", metaVar = "NAME", usage = "display name of the account")
@@ -59,10 +58,9 @@ final class CreateAccountCommand extends SshCommand {
   private String sshKey;
 
   @Option(
-    name = "--http-password",
-    metaVar = "PASSWORD",
-    usage = "password for HTTP authentication"
-  )
+      name = "--http-password",
+      metaVar = "PASSWORD",
+      usage = "password for HTTP authentication")
   private String httpPassword;
 
   @Argument(index = 0, required = true, metaVar = "USERNAME", usage = "name of the user account")

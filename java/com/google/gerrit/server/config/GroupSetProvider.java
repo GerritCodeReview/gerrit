@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
@@ -25,11 +26,10 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Parses groups referenced in the {@code gerrit.config} file. */
 public abstract class GroupSetProvider implements Provider<Set<AccountGroup.UUID>> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected Set<AccountGroup.UUID> groupIds;
 
@@ -46,8 +46,7 @@ public abstract class GroupSetProvider implements Provider<Set<AccountGroup.UUID
         if (g != null) {
           builder.add(g.getUUID());
         } else {
-          Logger log = LoggerFactory.getLogger(getClass());
-          log.warn("Group \"{}\" not available, skipping.", n);
+          logger.atWarning().log("Group \"%s\" not available, skipping.", n);
         }
       }
       groupIds = builder.build();

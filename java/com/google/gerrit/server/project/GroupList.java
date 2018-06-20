@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -26,11 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GroupList extends TabFile {
-  private static final Logger log = LoggerFactory.getLogger(GroupList.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String FILE_NAME = "groups";
 
@@ -46,7 +45,7 @@ public class GroupList extends TabFile {
     Map<AccountGroup.UUID, GroupReference> groupsByUUID = new HashMap<>(rows.size());
     for (Row row : rows) {
       if (row.left == null) {
-        log.warn("null field in group list for {}:\n{}", project, text);
+        logger.atWarning().log("null field in group list for %s:\n%s", project, text);
         continue;
       }
       AccountGroup.UUID uuid = new AccountGroup.UUID(row.left);

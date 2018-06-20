@@ -25,35 +25,34 @@ graph = defaultdict(list)
 handled_rules = []
 
 for xml in args.xmls:
-  tree = ET.parse(xml)
-  root = tree.getroot()
+    tree = ET.parse(xml)
+    root = tree.getroot()
 
-  for child in root:
-    rule_name = child.attrib["name"]
-    if rule_name in handled_rules:
-      # already handled in other xml files
-      continue
+    for child in root:
+        rule_name = child.attrib["name"]
+        if rule_name in handled_rules:
+            # already handled in other xml files
+            continue
 
-    handled_rules.append(rule_name)
-    for c in child.getchildren():
-      if c.tag != "rule-input":
-        continue
+        handled_rules.append(rule_name)
+        for c in child.getchildren():
+            if c.tag != "rule-input":
+                continue
 
-      license_name = c.attrib["name"]
-      if LICENSE_PREFIX in license_name:
-        entries[rule_name].append(license_name)
-        graph[license_name].append(rule_name)
+            license_name = c.attrib["name"]
+            if LICENSE_PREFIX in license_name:
+                entries[rule_name].append(license_name)
+                graph[license_name].append(rule_name)
 
 if len(graph[DO_NOT_DISTRIBUTE]):
-  print("DO_NOT_DISTRIBUTE license found in:", file=stderr)
-  for target in graph[DO_NOT_DISTRIBUTE]:
-    print(target, file=stderr)
-  exit(1)
+    print("DO_NOT_DISTRIBUTE license found in:", file=stderr)
+    for target in graph[DO_NOT_DISTRIBUTE]:
+        print(target, file=stderr)
+    exit(1)
 
 if args.asciidoctor:
-  print(
-# We don't want any blank line before "= Gerrit Code Review - Licenses"
-"""= Gerrit Code Review - Licenses
+    # We don't want any blank line before "= Gerrit Code Review - Licenses"
+    print("""= Gerrit Code Review - Licenses
 
 Gerrit open source software is licensed under the <<Apache2_0,Apache
 License 2.0>>.  Executable distributions also include other software
@@ -93,40 +92,39 @@ updates of mirror servers, or realtime backups.
 """)
 
 for n in sorted(graph.keys()):
-  if len(graph[n]) == 0:
-    continue
+    if len(graph[n]) == 0:
+        continue
 
-  name = n[len(LICENSE_PREFIX):]
-  safename = name.replace(".", "_")
-  print()
-  print("[[%s]]" % safename)
-  print(name)
-  print()
-  for d in sorted(graph[n]):
-    if d.startswith("//lib:") or d.startswith("//lib/"):
-      p = d[len("//lib:"):]
-    else:
-      p = d[d.index(":")+1:].lower()
-    if "__" in p:
-      p = p[:p.index("__")]
-    print("* " + p)
-  print()
-  print("[[%s_license]]" % safename)
-  print("----")
-  filename = n[2:].replace(":", "/")
-  try:
-    with open(filename, errors='ignore') as fd:
-      copyfileobj(fd, stdout)
-  except TypeError:
-    with open(filename) as fd:
-      copyfileobj(fd, stdout)
-  print()
-  print("----")
-  print()
+    name = n[len(LICENSE_PREFIX):]
+    safename = name.replace(".", "_")
+    print()
+    print("[[%s]]" % safename)
+    print(name)
+    print()
+    for d in sorted(graph[n]):
+        if d.startswith("//lib:") or d.startswith("//lib/"):
+            p = d[len("//lib:"):]
+        else:
+            p = d[d.index(":")+1:].lower()
+        if "__" in p:
+            p = p[:p.index("__")]
+        print("* " + p)
+    print()
+    print("[[%s_license]]" % safename)
+    print("----")
+    filename = n[2:].replace(":", "/")
+    try:
+        with open(filename, errors='ignore') as fd:
+            copyfileobj(fd, stdout)
+    except TypeError:
+        with open(filename) as fd:
+            copyfileobj(fd, stdout)
+    print()
+    print("----")
+    print()
 
 if args.asciidoctor:
-  print(
-"""
+    print("""
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

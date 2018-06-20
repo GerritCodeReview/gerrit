@@ -6,6 +6,5 @@ java_library(
         "//java/com/google/gerrit/util/ssl",
         "//lib/commons:codec",
         "//lib/commons:net",
-        "//lib/log:api",
     ],
 )

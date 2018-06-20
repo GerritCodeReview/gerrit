@@ -22,8 +22,10 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Map;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
@@ -62,6 +64,13 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
     super(metadata, actual);
   }
 
+  public void isAbstract() {
+    isNotNull();
+    assertWithMessage("expected class %s to be abstract", actual().getName())
+        .that(Modifier.isAbstract(actual().getModifiers()))
+        .isTrue();
+  }
+
   public void isConcrete() {
     isNotNull();
     assertWithMessage("expected class %s to be concrete", actual().getName())
@@ -77,5 +86,18 @@ public class SerializedClassSubject extends Subject<SerializedClassSubject, Clas
                 .filter(f -> !Modifier.isStatic(f.getModifiers()))
                 .collect(toImmutableMap(Field::getName, Field::getGenericType)))
         .containsExactlyEntriesIn(expectedFields);
+  }
+
+  public void hasAutoValueMethods(Map<String, Type> expectedMethods) {
+    // Would be nice if we could check clazz is an @AutoValue, but the retention is not RUNTIME.
+    isAbstract();
+    assertThat(
+            Arrays.stream(actual().getDeclaredMethods())
+                .filter(m -> !Modifier.isStatic(m.getModifiers()))
+                .filter(m -> Modifier.isAbstract(m.getModifiers()))
+                .filter(m -> m.getParameters().length == 0)
+                .collect(toImmutableMap(Method::getName, Method::getGenericReturnType)))
+        .named("no-argument abstract methods on %s", actual().getName())
+        .isEqualTo(expectedMethods);
   }
 }

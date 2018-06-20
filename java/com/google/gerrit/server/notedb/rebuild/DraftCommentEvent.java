@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb.rebuild;
 import static com.google.gerrit.server.CommentsUtil.setCommentRevId;
 
 import com.google.common.base.MoreObjects.ToStringHelper;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -25,11 +26,9 @@ import com.google.gerrit.server.notedb.ChangeDraftUpdate;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class DraftCommentEvent extends Event {
-  private static final Logger log = LoggerFactory.getLogger(DraftCommentEvent.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public final Comment c;
   private final Change change;
@@ -65,11 +64,10 @@ class DraftCommentEvent extends Event {
       try {
         setCommentRevId(c, cache, change, ps);
       } catch (PatchListNotAvailableException e) {
-        log.warn(
-            "Unable to determine parent commit of patch set {} ({}); omitting draft inline comment",
-            ps.getId(),
-            ps.getRevision(),
-            c);
+        logger.atWarning().log(
+            "Unable to determine parent commit of patch set %s (%s);"
+                + " omitting draft inline comment %s",
+            ps.getId(), ps.getRevision(), c);
         return;
       }
     }

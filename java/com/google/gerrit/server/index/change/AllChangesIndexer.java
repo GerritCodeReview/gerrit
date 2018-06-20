@@ -22,6 +22,7 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ComparisonChain;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.index.SiteIndexer;
@@ -53,11 +54,9 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
-  private static final Logger log = LoggerFactory.getLogger(AllChangesIndexer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
@@ -118,10 +117,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         changeCount += size;
         projects.add(new ProjectHolder(name, size));
       } catch (IOException e) {
-        log.error("Error collecting project {}", name, e);
+        logger.atSevere().withCause(e).log("Error collecting project %s", name);
         projectsFailed++;
         if (projectsFailed > projects.size() / 2) {
-          log.error("Over 50% of the projects could not be collected: aborted");
+          logger.atSevere().log("Over 50%% of the projects could not be collected: aborted");
           return new Result(sw, false, 0, 0);
         }
       }
@@ -176,7 +175,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
               },
               directExecutor()));
     } catch (ExecutionException e) {
-      log.error("Error in batch indexer", e);
+      logger.atSevere().withCause(e).log("Error in batch indexer");
       ok.set(false);
     }
     // If too many changes failed, maybe there was a bug in the indexer. Don't
@@ -187,8 +186,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     int nTotal = nFailed + nDone;
     double pctFailed = ((double) nFailed) / nTotal * 100;
     if (pctFailed > 10) {
-      log.error(
-          "Failed {}/{} changes ({}%); not marking new index as ready",
+      logger.atSevere().log(
+          "Failed %s/%s changes (%s%%); not marking new index as ready",
           nFailed, nTotal, Math.round(pctFailed));
       ok.set(false);
     }
@@ -228,7 +227,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         // we don't have concrete proof that improving packfile locality would help.
         notesFactory.scan(repo, db, project).forEach(r -> index(db, r));
       } catch (RepositoryNotFoundException rnfe) {
-        log.error(rnfe.getMessage());
+        logger.atSevere().log(rnfe.getMessage());
       }
       return null;
     }
@@ -255,12 +254,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         this.failed.update(1);
       }
 
-      if (e != null) {
-        log.warn(error, e);
-      } else {
-        log.warn(error);
-      }
-
+      logger.atWarning().withCause(e).log(error);
       verboseWriter.println(error);
     }
 

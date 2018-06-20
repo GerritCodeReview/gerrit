@@ -19,6 +19,7 @@ import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -85,13 +86,11 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, ChangeInfo>
     implements UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Revert.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<ReviewDb> db;
   private final PermissionBackend permissionBackend;
@@ -265,7 +264,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     try {
       projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
     } catch (IOException e) {
-      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check if project state permits write: %s", rsrc.getProject());
     }
     return new UiAction.Description()
         .setLabel("Revert")
@@ -306,7 +306,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         cm.setAccountsToNotify(accountsToNotify);
         cm.send();
       } catch (Exception err) {
-        log.error("Cannot send email for revert change " + change.getId(), err);
+        logger.atSevere().withCause(err).log(
+            "Cannot send email for revert change %s", change.getId());
       }
     }
   }

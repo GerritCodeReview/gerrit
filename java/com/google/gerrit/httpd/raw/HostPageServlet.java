@@ -18,6 +18,7 @@ import static com.google.gerrit.common.FileUtil.lastModified;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
@@ -38,7 +39,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.GetDiffPreferences;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtjsonrpc.server.JsonServlet;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import com.google.inject.Inject;
@@ -60,8 +61,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -70,7 +69,7 @@ import org.w3c.dom.Node;
 @SuppressWarnings("serial")
 @Singleton
 public class HostPageServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory.getLogger(HostPageServlet.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String HPD_ID = "gerrit_hostpagedata";
   private static final int DEFAULT_JS_LOAD_TIMEOUT = 5000;
@@ -141,7 +140,7 @@ public class HostPageServlet extends HttpServlet {
         }
         src += "?content=" + md.hash().toString();
       } else {
-        log.debug("No " + src + " in webapp root; keeping noncache.js URL");
+        logger.atFine().log("No %s in webapp root; keeping noncache.js URL", src);
       }
     } catch (IOException e) {
       throw new IOException("Failed reading " + src, e);
@@ -173,7 +172,7 @@ public class HostPageServlet extends HttpServlet {
         page = p;
       }
     } catch (IOException e) {
-      log.error("Cannot refresh site header/footer", e);
+      logger.atSevere().withCause(e).log("Cannot refresh site header/footer");
     }
     return p;
   }
@@ -225,7 +224,7 @@ public class HostPageServlet extends HttpServlet {
         | ConfigInvalidException
         | IOException
         | PermissionBackendException e) {
-      log.warn("Cannot query account diff preferences", e);
+      logger.atWarning().withCause(e).log("Cannot query account diff preferences");
     }
     return DiffPreferencesInfo.defaults();
   }

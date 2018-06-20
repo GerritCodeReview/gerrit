@@ -17,6 +17,7 @@ package com.google.gerrit.server.util;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -35,11 +36,10 @@ import org.apache.log4j.helpers.OnlyOnceErrorHandler;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.LoggingEvent;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class SystemLog {
-  private static final org.slf4j.Logger log = LoggerFactory.getLogger(SystemLog.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String LOG4J_CONFIGURATION = "log4j.configuration";
 
@@ -90,8 +90,8 @@ public class SystemLog {
       if (appender != null) {
         async.addAppender(appender);
       } else {
-        log.warn(
-            "No appender with the name: " + name + " was found. " + name + " logging is disabled");
+        logger.atWarning().log(
+            "No appender with the name: %s was found. %s logging is disabled", name, name);
       }
     }
     async.activateOptions();

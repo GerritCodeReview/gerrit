@@ -51,11 +51,11 @@ import java.util.function.Supplier;
 public class PerThreadCache implements AutoCloseable {
   private static final ThreadLocal<PerThreadCache> CACHE = new ThreadLocal<>();
   /**
-   * Cache at maximum 50 values per thread. This value was chosen arbitrarily. Some endpoints (like
+   * Cache at maximum 25 values per thread. This value was chosen arbitrarily. Some endpoints (like
    * ListProjects) break the assumption that the data cached in a request is limited. To prevent
    * this class from accumulating an unbound number of objects, we enforce this limit.
    */
-  private static final int PER_THREAD_CACHE_SIZE = 50;
+  private static final int PER_THREAD_CACHE_SIZE = 25;
 
   /**
    * Unique key for key-value mappings stored in PerThreadCache. The key is based on the value's

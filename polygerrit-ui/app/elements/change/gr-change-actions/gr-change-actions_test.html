@@ -83,6 +83,9 @@ limitations under the License.
         getProjectConfig() { return Promise.resolve({}); },
       });
 
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+
       element = fixture('basic');
       element.change = {};
       element.changeNum = '42';
@@ -95,7 +98,6 @@ limitations under the License.
           enabled: true,
         },
       };
-      sandbox = sinon.sandbox.create();
       sandbox.stub(element.$.confirmCherrypick.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));
       sandbox.stub(element.$.confirmMove.$.restAPI,
@@ -399,6 +401,19 @@ limitations under the License.
       assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
     });
 
+    test('_setLabelValuesOnRevert', () => {
+      const labels = {'Foo': 1, 'Bar-Baz': -2};
+      const changeId = 1234;
+      sandbox.stub(element.$.jsAPI, 'getLabelValuesPostRevert').returns(labels);
+      const saveStub = sandbox.stub(element.$.restAPI, 'saveChangeReview')
+          .returns(Promise.resolve());
+      return element._setLabelValuesOnRevert(changeId).then(() => {
+        assert.isTrue(saveStub.calledOnce);
+        assert.equal(saveStub.lastCall.args[0], changeId);
+        assert.deepEqual(saveStub.lastCall.args[2], {labels});
+      });
+    });
+
     suite('change edits', () => {
       test('shows confirm dialog for delete edit', () => {
         element.set('editMode', true);
@@ -488,6 +503,11 @@ limitations under the License.
 
         assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
         assert.isOk(element.$$('gr-button[data-action-key="stopEdit"]'));
+        element.change = {status: 'MERGED'};
+        flushAsynchronousOperations();
+
+        assert.isNotOk(element.$$('gr-button[data-action-key="edit"]'));
+        element.change = {status: 'NEW'};
         element.set('editMode', false);
         flushAsynchronousOperations();
 

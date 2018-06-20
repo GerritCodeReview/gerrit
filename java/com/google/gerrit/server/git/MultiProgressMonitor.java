@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -28,8 +29,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ProgressMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Progress reporting interface that multiplexes multiple sub-tasks.
@@ -48,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * multi-line progress messages would be impossible.)
  */
 public class MultiProgressMonitor {
-  private static final Logger log = LoggerFactory.getLogger(MultiProgressMonitor.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Constant indicating the total work units cannot be predicted. */
   public static final int UNKNOWN = 0;
@@ -215,10 +214,9 @@ public class MultiProgressMonitor {
                 String.format(
                     "(timeout %sms, cancelled)",
                     TimeUnit.MILLISECONDS.convert(now - deadline, NANOSECONDS));
-            log.warn(
-                String.format(
-                    "MultiProgressMonitor worker killed after %sms" + detailMessage, //
-                    TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS)));
+            logger.atWarning().log(
+                "MultiProgressMonitor worker killed after %sms: %s",
+                TimeUnit.MILLISECONDS.convert(now - overallStart, NANOSECONDS), detailMessage);
           }
           break;
         }
@@ -232,7 +230,7 @@ public class MultiProgressMonitor {
         if (!done && workerFuture.isDone()) {
           // The worker may not have called end() explicitly, which is likely a
           // programming error.
-          log.warn("MultiProgressMonitor worker did not call end() before returning");
+          logger.atWarning().log("MultiProgressMonitor worker did not call end() before returning");
           end();
         }
       }

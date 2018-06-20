@@ -67,7 +67,7 @@ java_doc(
     libs = DEPS + [
         ":gwtui-api-lib",
         "//lib:gwtjsonrpc",
-        "//lib:gwtorm_client",
+        "//lib:gwtorm-client",
         "//lib/gwt:dev",
         "//gerrit-gwtui-common:client-lib",
         "//java/com/google/gerrit/common:client",

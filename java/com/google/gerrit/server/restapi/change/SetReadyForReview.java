@@ -33,6 +33,7 @@ import com.google.gerrit.server.change.WorkInProgressOp.Input;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
@@ -66,7 +67,11 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
       throws RestApiException, UpdateException, PermissionBackendException {
     Change change = rsrc.getChange();
     if (!rsrc.isUserOwner()
-        && !permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        && !permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)
+        && !permissionBackend
+            .currentUser()
+            .project(rsrc.getProject())
+            .test(ProjectPermission.WRITE_CONFIG)) {
       throw new AuthException("not allowed to set ready for review");
     }
 
@@ -96,8 +101,13 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
                 rsrc.getChange().getStatus() == Status.NEW && rsrc.getChange().isWorkInProgress(),
                 or(
                     rsrc.isUserOwner(),
-                    permissionBackend
-                        .currentUser()
-                        .testCond(GlobalPermission.ADMINISTRATE_SERVER))));
+                    or(
+                        permissionBackend
+                            .currentUser()
+                            .testCond(GlobalPermission.ADMINISTRATE_SERVER),
+                        permissionBackend
+                            .currentUser()
+                            .project(rsrc.getProject())
+                            .testCond(ProjectPermission.WRITE_CONFIG)))));
   }
 }

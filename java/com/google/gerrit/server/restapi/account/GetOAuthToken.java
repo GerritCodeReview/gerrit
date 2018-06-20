@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -27,14 +28,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.net.URI;
 import java.net.URISyntaxException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
-class GetOAuthToken implements RestReadView<AccountResource> {
+public class GetOAuthToken implements RestReadView<AccountResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String BEARER_TYPE = "bearer";
-  private static final Logger log = LoggerFactory.getLogger(GetOAuthToken.class);
 
   private final Provider<CurrentUser> self;
   private final OAuthTokenCache tokenCache;
@@ -53,7 +52,7 @@ class GetOAuthToken implements RestReadView<AccountResource> {
   @Override
   public OAuthTokenInfo apply(AccountResource rsrc)
       throws AuthException, ResourceNotFoundException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       throw new AuthException("not allowed to get access token");
     }
     OAuthToken accessToken = tokenCache.get(rsrc.getUser().getAccountId());
@@ -72,14 +71,15 @@ class GetOAuthToken implements RestReadView<AccountResource> {
 
   private static String getHostName(String canonicalWebUrl) {
     if (canonicalWebUrl == null) {
-      log.error("No canonicalWebUrl defined in gerrit.config, OAuth may not work properly");
+      logger.atSevere().log(
+          "No canonicalWebUrl defined in gerrit.config, OAuth may not work properly");
       return null;
     }
 
     try {
       return new URI(canonicalWebUrl).getHost();
     } catch (URISyntaxException e) {
-      log.error("Invalid canonicalWebUrl '" + canonicalWebUrl + "'", e);
+      logger.atSevere().withCause(e).log("Invalid canonicalWebUrl '%s'", canonicalWebUrl);
       return null;
     }
   }

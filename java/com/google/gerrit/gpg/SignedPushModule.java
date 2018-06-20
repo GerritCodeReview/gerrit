@@ -15,6 +15,7 @@
 package com.google.gerrit.gpg;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Project;
@@ -42,11 +43,9 @@ import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.PreReceiveHookChain;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.SignedPushConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class SignedPushModule extends AbstractModule {
-  private static final Logger log = LoggerFactory.getLogger(SignedPushModule.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected void configure() {
@@ -93,8 +92,8 @@ class SignedPushModule extends AbstractModule {
         rp.setSignedPushConfig(null);
         return;
       } else if (signedPushConfig == null) {
-        log.error(
-            "receive.enableSignedPush is true for project {} but"
+        logger.atSevere().log(
+            "receive.enableSignedPush is true for project %s but"
                 + " false in gerrit.config, so signed push verification is"
                 + " disabled",
             project.get());

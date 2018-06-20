@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

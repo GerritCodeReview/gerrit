@@ -14,20 +14,18 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.auto.value.AutoValue;
-import com.google.common.base.Strings;
-import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
@@ -36,39 +34,23 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Caches external IDs of all accounts. The external IDs are always loaded from NoteDb. */
 @Singleton
 class ExternalIdCacheImpl implements ExternalIdCache {
-  private static final Logger log = LoggerFactory.getLogger(ExternalIdCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static final String CACHE_NAME = "external_ids_map";
 
   private final LoadingCache<ObjectId, AllExternalIds> extIdsByAccount;
   private final ExternalIdReader externalIdReader;
   private final Lock lock;
 
   @Inject
-  ExternalIdCacheImpl(ExternalIdReader externalIdReader) {
-    this.extIdsByAccount =
-        CacheBuilder.newBuilder()
-            // The cached data is potentially pretty large and we are always only interested
-            // in the latest value, hence the maximum cache size is set to 1.
-            // This can lead to extra cache loads in case of the following race:
-            // 1. thread 1 reads the notes ref at revision A
-            // 2. thread 2 updates the notes ref to revision B and stores the derived value
-            //    for B in the cache
-            // 3. thread 1 attempts to read the data for revision A from the cache, and misses
-            // 4. later threads attempt to read at B
-            // In this race unneeded reloads are done in step 3 (reload from revision A) and
-            // step 4 (reload from revision B, because the value for revision B was lost when the
-            // reload from revision A was done, since the cache can hold only one entry).
-            // These reloads could be avoided by increasing the cache size to 2. However the race
-            // window between reading the ref and looking it up in the cache is small so that
-            // it's rare that this race happens. Therefore it's not worth to double the memory
-            // usage of this cache, just to avoid this.
-            .maximumSize(1)
-            .build(new Loader(externalIdReader));
+  ExternalIdCacheImpl(
+      @Named(CACHE_NAME) LoadingCache<ObjectId, AllExternalIds> extIdsByAccount,
+      ExternalIdReader externalIdReader) {
+    this.extIdsByAccount = extIdsByAccount;
     this.externalIdReader = externalIdReader;
     this.lock = new ReentrantLock(true /* fair */);
   }
@@ -154,15 +136,16 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       update.accept(m);
       extIdsByAccount.put(newNotesRev, AllExternalIds.create(m));
     } catch (ExecutionException e) {
-      log.warn("Cannot update external IDs", e);
+      logger.atWarning().withCause(e).log("Cannot update external IDs");
     } finally {
       lock.unlock();
     }
   }
 
-  private static class Loader extends CacheLoader<ObjectId, AllExternalIds> {
+  static class Loader extends CacheLoader<ObjectId, AllExternalIds> {
     private final ExternalIdReader externalIdReader;
 
+    @Inject
     Loader(ExternalIdReader externalIdReader) {
       this.externalIdReader = externalIdReader;
     }
@@ -177,32 +160,5 @@ class ExternalIdCacheImpl implements ExternalIdCache {
       }
       return AllExternalIds.create(extIdsByAccount);
     }
-  }
-
-  /**
-   * Cache value containing all external IDs.
-   *
-   * <p>All returned fields are unmodifiable.
-   */
-  @AutoValue
-  abstract static class AllExternalIds {
-    static AllExternalIds create(Multimap<Account.Id, ExternalId> byAccount) {
-      SetMultimap<String, ExternalId> byEmailCopy =
-          MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(1).build();
-      byAccount
-          .values()
-          .stream()
-          .filter(e -> !Strings.isNullOrEmpty(e.email()))
-          .forEach(e -> byEmailCopy.put(e.email(), e));
-
-      return new AutoValue_ExternalIdCacheImpl_AllExternalIds(
-          Multimaps.unmodifiableSetMultimap(
-              MultimapBuilder.hashKeys(byAccount.size()).hashSetValues(5).build(byAccount)),
-          byEmailCopy);
-    }
-
-    public abstract SetMultimap<Account.Id, ExternalId> byAccount();
-
-    public abstract SetMultimap<String, ExternalId> byEmail();
   }
 }

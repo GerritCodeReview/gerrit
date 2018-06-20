@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -96,8 +97,6 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -111,7 +110,7 @@ import org.slf4j.LoggerFactory;
  * conflicting, even if an earlier commit along that same line can be merged cleanly.
  */
 public class MergeOp implements AutoCloseable {
-  private static final Logger log = LoggerFactory.getLogger(MergeOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS = SubmitRuleOptions.builder().build();
   private static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_ALLOW_CLOSED =
@@ -160,12 +159,12 @@ public class MergeOp implements AutoCloseable {
 
     public void logProblem(Change.Id id, Throwable t) {
       String msg = "Error reading change";
-      log.error(msg + " " + id, t);
+      logger.atSevere().withCause(t).log("%s %s", msg, id);
       problems.put(id, msg);
     }
 
     public void logProblem(Change.Id id, String msg) {
-      log.error(msg + " " + id);
+      logger.atSevere().log("%s %s", msg, id);
       problems.put(id, msg);
     }
 
@@ -390,7 +389,7 @@ public class MergeOp implements AutoCloseable {
         commitStatus.problem(cd.getId(), e.getMessage());
       } catch (OrmException e) {
         String msg = "Error checking submit rules for change";
-        log.warn(msg + " " + cd.getId(), e);
+        logger.atWarning().withCause(e).log("%s %s", msg, cd.getId());
         commitStatus.problem(cd.getId(), msg);
       }
     }
@@ -444,7 +443,7 @@ public class MergeOp implements AutoCloseable {
     this.db = db;
     openRepoManager();
 
-    logDebug("Beginning integration of {}", change);
+    logDebug("Beginning integration of %s", change);
     try {
       ChangeSet indexBackedChangeSet =
           mergeSuperSet.setMergeOpRepoManager(orm).completeChangeSet(db, change, caller);
@@ -457,7 +456,7 @@ public class MergeOp implements AutoCloseable {
         throw new AuthException(
             "A change to be submitted with " + change.getId() + " is not visible");
       }
-      logDebug("Calculated to merge {}", indexBackedChangeSet);
+      logDebug("Calculated to merge %s", indexBackedChangeSet);
 
       // Reload ChangeSet so that we don't rely on (potentially) stale index data for merging
       ChangeSet cs = reloadChanges(indexBackedChangeSet);
@@ -476,7 +475,7 @@ public class MergeOp implements AutoCloseable {
             long attempt = retryTracker.lastAttemptNumber + 1;
             boolean isRetry = attempt > 1;
             if (isRetry) {
-              logDebug("Retrying, attempt #{}; skipping merged changes", attempt);
+              logDebug("Retrying, attempt #%d; skipping merged changes", attempt);
               this.ts = TimeUtil.nowTs();
               openRepoManager();
             }
@@ -566,7 +565,7 @@ public class MergeOp implements AutoCloseable {
   private void integrateIntoHistory(ChangeSet cs)
       throws IntegrationException, RestApiException, UpdateException {
     checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
-    logDebug("Beginning merge attempt on {}", cs);
+    logDebug("Beginning merge attempt on %s", cs);
     Map<Branch.NameKey, BranchBatch> toSubmit = new HashMap<>();
 
     ListMultimap<Branch.NameKey, ChangeData> cbb;
@@ -708,7 +707,7 @@ public class MergeOp implements AutoCloseable {
       throw new IntegrationException("Failed to determine already accepted commits.", e);
     }
 
-    logDebug("Found {} existing heads", alreadyAccepted.size());
+    logDebug("Found %d existing heads", alreadyAccepted.size());
     return alreadyAccepted;
   }
 
@@ -722,7 +721,7 @@ public class MergeOp implements AutoCloseable {
 
   private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted)
       throws IntegrationException {
-    logDebug("Validating {} changes", submitted.size());
+    logDebug("Validating %d changes", submitted.size());
     Set<CodeReviewCommit> toSubmit = new LinkedHashSet<>(submitted.size());
     SetMultimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
 
@@ -827,7 +826,7 @@ public class MergeOp implements AutoCloseable {
       commit.add(or.canMergeFlag);
       toSubmit.add(commit);
     }
-    logDebug("Submitting on this run: {}", toSubmit);
+    logDebug("Submitting on this run: %s", toSubmit);
     return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);
   }
 
@@ -937,32 +936,24 @@ public class MergeOp implements AutoCloseable {
         + " failed";
   }
 
-  private void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(submissionId + msg, args);
-    }
+  private void logDebug(String msg) {
+    logger.atFine().log(submissionId + msg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(submissionId + msg, arg);
   }
 
   private void logWarn(String msg, Throwable t) {
-    if (log.isWarnEnabled()) {
-      log.warn(submissionId + msg, t);
-    }
+    logger.atWarning().withCause(t).log("%s%s", submissionId, msg);
   }
 
   private void logWarn(String msg) {
-    if (log.isWarnEnabled()) {
-      log.warn(submissionId + msg);
-    }
+    logger.atWarning().log("%s%s", submissionId, msg);
   }
 
   private void logError(String msg, Throwable t) {
-    if (log.isErrorEnabled()) {
-      if (t != null) {
-        log.error(submissionId + msg, t);
-      } else {
-        log.error(submissionId + msg);
-      }
-    }
+    logger.atSevere().withCause(t).log("%s%s", submissionId, msg);
   }
 
   private void logError(String msg) {

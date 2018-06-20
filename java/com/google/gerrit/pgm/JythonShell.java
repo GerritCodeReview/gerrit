@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.launcher.GerritLauncher;
 import java.io.File;
 import java.io.IOException;
@@ -24,11 +25,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Properties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class JythonShell {
-  private static final Logger log = LoggerFactory.getLogger(JythonShell.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String STARTUP_RESOURCE = "com/google/gerrit/pgm/Startup.py";
   private static final String STARTUP_FILE = "Startup.py";
 
@@ -79,7 +79,7 @@ public class JythonShell {
 
     try {
       shell = console.getConstructor(new Class<?>[] {}).newInstance();
-      log.info("Jython shell instance created.");
+      logger.atInfo().log("Jython shell instance created.");
     } catch (InstantiationException
         | IllegalAccessException
         | IllegalArgumentException
@@ -170,10 +170,10 @@ public class JythonShell {
       if (in != null) {
         execStream(in, "resource " + p);
       } else {
-        log.error("Cannot load resource " + p);
+        logger.atSevere().log("Cannot load resource %s", p);
       }
     } catch (IOException e) {
-      log.error(e.getMessage(), e);
+      logger.atSevere().withCause(e).log(e.getMessage());
     }
   }
 
@@ -188,15 +188,13 @@ public class JythonShell {
             new Class<?>[] {String.class},
             new Object[] {script.getAbsolutePath()});
       } else {
-        log.info(
-            "User initialization file "
-                + script.getAbsolutePath()
-                + " is not found or not executable");
+        logger.atInfo().log(
+            "User initialization file %s is not found or not executable", script.getAbsolutePath());
       }
     } catch (InvocationTargetException e) {
-      log.error("Exception occurred while loading file " + p + " : ", e);
+      logger.atSevere().withCause(e).log("Exception occurred while loading file %s", p);
     } catch (SecurityException e) {
-      log.error("SecurityException occurred while loading file " + p + " : ", e);
+      logger.atSevere().withCause(e).log("SecurityException occurred while loading file %s", p);
     }
   }
 
@@ -209,7 +207,7 @@ public class JythonShell {
           new Class<?>[] {InputStream.class, String.class},
           new Object[] {in, p});
     } catch (InvocationTargetException e) {
-      log.error("Exception occurred while loading " + p + " : ", e);
+      logger.atSevere().withCause(e).log("Exception occurred while loading %s", p);
     }
   }
 

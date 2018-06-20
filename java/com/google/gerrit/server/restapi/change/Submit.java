@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -79,13 +80,11 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Submit
     implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
-  private static final Logger log = LoggerFactory.getLogger(Submit.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String DEFAULT_TOOLTIP = "Submit patch set ${patchSet} into ${branch}";
   private static final String DEFAULT_TOOLTIP_ANCESTORS =
@@ -95,14 +94,10 @@ public class Submit
       "Submit all ${topicSize} changes of the same topic "
           + "(${submitSize} changes including ancestors and other "
           + "changes related by topic)";
-  private static final String BLOCKED_SUBMIT_TOOLTIP =
-      "This change depends on other changes which are not ready";
   private static final String BLOCKED_HIDDEN_SUBMIT_TOOLTIP =
       "This change depends on other hidden changes which are not ready";
-  private static final String BLOCKED_WORK_IN_PROGRESS = "This change is marked work in progress";
   private static final String CLICK_FAILURE_TOOLTIP = "Clicking the button would fail";
   private static final String CHANGE_UNMERGEABLE = "Problems with integrating this change";
-  private static final String CHANGES_NOT_MERGEABLE = "Problems with change(s): ";
 
   public static class Output {
     transient Change change;
@@ -240,6 +235,11 @@ public class Submit
   }
 
   /**
+   * Returns a message describing what prevents the current change from being submitted - or null.
+   * This method only considers parent changes, and changes in the same topic. The caller is
+   * responsible for making sure the current change to be submitted can indeed be submitted
+   * (permissions, submit rules, is not a WIP...)
+   *
    * @param cd the change the user is currently looking at
    * @param cs set of changes to be submitted at once
    * @param user the user who is checking to submit
@@ -251,6 +251,11 @@ public class Submit
         return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
       }
       for (ChangeData c : cs.changes()) {
+        if (cd.getId().equals(c.getId())) {
+          // We ignore the change about to be submitted, as these checks are already done in the
+          // #apply and #getDescription methods.
+          continue;
+        }
         Set<ChangePermission> can =
             permissionBackend
                 .user(user)
@@ -261,12 +266,16 @@ public class Submit
           return BLOCKED_HIDDEN_SUBMIT_TOOLTIP;
         }
         if (!can.contains(ChangePermission.SUBMIT)) {
-          return BLOCKED_SUBMIT_TOOLTIP;
+          return "You don't have permission to submit change " + c.getId();
         }
         if (c.change().isWorkInProgress()) {
-          return BLOCKED_WORK_IN_PROGRESS;
+          return "Change " + c.getId() + " is marked work in progress";
         }
-        MergeOp.checkSubmitRule(c, false);
+        try {
+          MergeOp.checkSubmitRule(c, false);
+        } catch (ResourceConflictException e) {
+          return "Change " + c.getId() + " is not ready: " + e.getMessage();
+        }
       }
 
       Collection<ChangeData> unmergeable = unmergeableChanges(cs);
@@ -278,13 +287,12 @@ public class Submit
             return CHANGE_UNMERGEABLE;
           }
         }
-        return CHANGES_NOT_MERGEABLE
+
+        return "Problems with change(s): "
             + unmergeable.stream().map(c -> c.getId().toString()).collect(joining(", "));
       }
-    } catch (ResourceConflictException e) {
-      return BLOCKED_SUBMIT_TOOLTIP;
     } catch (PermissionBackendException | OrmException | IOException e) {
-      log.error("Error checking if change is submittable", e);
+      logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
     return null;
@@ -294,6 +302,7 @@ public class Submit
   public UiAction.Description getDescription(RevisionResource resource) {
     Change change = resource.getChange();
     if (!change.getStatus().isOpen()
+        || change.isWorkInProgress()
         || !resource.isCurrent()
         || !resource.permissions().testOrFalse(ChangePermission.SUBMIT)) {
       return null; // submit not visible
@@ -304,7 +313,7 @@ public class Submit
         return null; // submit not visible
       }
     } catch (IOException e) {
-      log.error("Error checking if change is submittable", e);
+      logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 
@@ -315,7 +324,7 @@ public class Submit
     } catch (ResourceConflictException e) {
       return null; // submit not visible
     } catch (OrmException e) {
-      log.error("Error checking if change is submittable", e);
+      logger.atSevere().withCause(e).log("Error checking if change is submittable");
       throw new OrmRuntimeException("Could not determine problems for the change", e);
     }
 

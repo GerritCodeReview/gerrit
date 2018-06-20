@@ -64,41 +64,37 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private final WebLinks webLinks;
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of branches to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of branches to list")
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S", "-s"},
-    metaVar = "CNT",
-    usage = "number of branches to skip"
-  )
+      name = "--start",
+      aliases = {"-S", "-s"},
+      metaVar = "CNT",
+      usage = "number of branches to skip")
   public void setStart(int start) {
     this.start = start;
   }
 
   @Option(
-    name = "--match",
-    aliases = {"-m"},
-    metaVar = "MATCH",
-    usage = "match branches substring"
-  )
+      name = "--match",
+      aliases = {"-m"},
+      metaVar = "MATCH",
+      usage = "match branches substring")
   public void setMatchSubstring(String matchSubstring) {
     this.matchSubstring = matchSubstring;
   }
 
   @Option(
-    name = "--regex",
-    aliases = {"-r"},
-    metaVar = "REGEX",
-    usage = "match branches regex"
-  )
+      name = "--regex",
+      aliases = {"-r"},
+      metaVar = "REGEX",
+      usage = "match branches regex")
   public void setMatchRegex(String matchRegex) {
     this.matchRegex = matchRegex;
   }

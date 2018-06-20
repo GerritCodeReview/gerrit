@@ -21,8 +21,8 @@ import com.google.gerrit.index.Schema;
 import java.util.Map;
 
 class ElasticMapping {
-  static MappingProperties createMapping(Schema<?> schema) {
-    ElasticMapping.Builder mapping = new ElasticMapping.Builder();
+  static MappingProperties createMapping(Schema<?> schema, ElasticQueryAdapter adapter) {
+    ElasticMapping.Builder mapping = new ElasticMapping.Builder(adapter);
     for (FieldDef<?, ?> field : schema.getFields().values()) {
       String name = field.getName();
       FieldType<?> fieldType = field.getType();
@@ -46,8 +46,13 @@ class ElasticMapping {
   }
 
   static class Builder {
+    private final ElasticQueryAdapter adapter;
     private final ImmutableMap.Builder<String, FieldProperties> fields =
         new ImmutableMap.Builder<>();
+
+    Builder(ElasticQueryAdapter adapter) {
+      this.adapter = adapter;
+    }
 
     MappingProperties build() {
       MappingProperties properties = new MappingProperties();
@@ -56,9 +61,10 @@ class ElasticMapping {
     }
 
     Builder addExactField(String name) {
-      FieldProperties key = new FieldProperties("string");
-      key.index = "not_analyzed";
-      FieldProperties properties = new FieldProperties("string");
+      FieldProperties key = new FieldProperties(adapter.exactFieldType());
+      key.index = adapter.indexProperty();
+      FieldProperties properties;
+      properties = new FieldProperties(adapter.exactFieldType());
       properties.fields = ImmutableMap.of("key", key);
       fields.put(name, properties);
       return this;
@@ -78,7 +84,7 @@ class ElasticMapping {
     }
 
     Builder addString(String name) {
-      fields.put(name, new FieldProperties("string"));
+      fields.put(name, new FieldProperties(adapter.stringFieldType()));
       return this;
     }
 

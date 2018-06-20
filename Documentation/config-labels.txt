@@ -275,8 +275,8 @@ forward when a new patch set is uploaded. This can be used to enable
 sticky approvals, reducing turn-around for trivial cleanups prior to
 submitting a change. Defaults to false.
 
-[[label_copyAllScoresOnMergeCommitFirstParentUpdate]]
-=== `label.Label-Name.copyAllScoresOnMergeCommitFirstParentUpdate`
+[[label_copyAllScoresOnMergeFirstParentUpdate]]
+=== `label.Label-Name.copyAllScoresOnMergeFirstParentUpdate`
 
 This policy is useful if you don't want to trigger CI or human
 verification again if your target branch moved on but the feature

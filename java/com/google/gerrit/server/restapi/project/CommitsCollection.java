@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -41,12 +42,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class CommitsCollection implements ChildCollection<ProjectResource, CommitResource> {
-  private static final Logger log = LoggerFactory.getLogger(CommitsCollection.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
@@ -118,7 +117,8 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
           return true;
         }
       } catch (OrmException e) {
-        log.error("Cannot look up change for commit " + commit.name() + " in " + project, e);
+        logger.atSevere().withCause(e).log(
+            "Cannot look up change for commit %s in %s", commit.name(), project);
       }
     }
 

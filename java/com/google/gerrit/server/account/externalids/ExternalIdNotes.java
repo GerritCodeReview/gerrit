@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
@@ -60,8 +61,6 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * {@link VersionedMetaData} subclass to update external IDs.
@@ -85,7 +84,7 @@ import org.slf4j.LoggerFactory;
  * accounts for which external IDs have been updated (see {@link #updateCaches()}).
  */
 public class ExternalIdNotes extends VersionedMetaData {
-  private static final Logger log = LoggerFactory.getLogger(ExternalIdNotes.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final int MAX_NOTE_SZ = 1 << 19;
 
@@ -358,7 +357,8 @@ public class ExternalIdNotes extends VersionedMetaData {
         try {
           b.add(ExternalId.parse(note.getName(), raw, note.getData()));
         } catch (ConfigInvalidException | RuntimeException e) {
-          log.error(String.format("Ignoring invalid external ID note %s", note.getName()), e);
+          logger.atSevere().withCause(e).log(
+              "Ignoring invalid external ID note %s", note.getName());
         }
       }
       return b.build();

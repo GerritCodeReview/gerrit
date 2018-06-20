@@ -20,6 +20,7 @@ import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
@@ -57,12 +58,10 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Migrate groups from ReviewDb to NoteDb. */
 public class Schema_167 extends SchemaVersion {
-  private static final Logger log = LoggerFactory.getLogger(Schema_167.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -196,11 +195,10 @@ public class Schema_167 extends SchemaVersion {
         AccountConfig accountConfig = new AccountConfig(accountId, allUsersRepo).load();
         return accountConfig.getLoadedAccount();
       } catch (IOException | ConfigInvalidException ignored) {
-        log.warn(
-            "Failed to load account {}."
+        logger.atWarning().withCause(ignored).log(
+            "Failed to load account %s."
                 + " Cannot get account name for group audit log commit messages.",
-            accountId.get(),
-            ignored);
+            accountId.get());
         return Optional.empty();
       }
     }
@@ -248,11 +246,10 @@ public class Schema_167 extends SchemaVersion {
         }
         return groupDescriptions;
       } catch (SQLException ignored) {
-        log.warn(
-            "Failed to load group {}."
+        logger.atWarning().withCause(ignored).log(
+            "Failed to load group %s."
                 + " Cannot get group name for group audit log commit messages.",
-            groupUuid.get(),
-            ignored);
+            groupUuid.get());
         return ImmutableList.of();
       }
     }

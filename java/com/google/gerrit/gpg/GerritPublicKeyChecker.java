@@ -20,6 +20,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPG
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.server.IdentifiedUser;
@@ -44,8 +45,6 @@ import org.bouncycastle.openpgp.PGPSignature;
 import org.bouncycastle.openpgp.operator.bc.BcPGPContentVerifierBuilderProvider;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PushCertificateIdent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Checker for GPG public keys including Gerrit-specific checks.
@@ -54,7 +53,7 @@ import org.slf4j.LoggerFactory;
  * ID in the database, or an email address thereof.
  */
 public class GerritPublicKeyChecker extends PublicKeyChecker {
-  private static final Logger log = LoggerFactory.getLogger(GerritPublicKeyChecker.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Singleton
   public static class Factory {
@@ -137,7 +136,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
       return checkIdsForArbitraryUser(key);
     } catch (PGPException | OrmException e) {
       String msg = "Error checking user IDs for key";
-      log.warn(msg + " " + keyIdToString(key.getKeyID()), e);
+      logger.atWarning().withCause(e).log("%s %s", msg, keyIdToString(key.getKeyID()));
       return CheckResult.bad(msg);
     }
   }

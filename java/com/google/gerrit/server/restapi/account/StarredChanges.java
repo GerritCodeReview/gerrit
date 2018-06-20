@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -45,14 +46,12 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class StarredChanges
     implements ChildCollection<AccountResource, AccountResource.StarredChange>,
         AcceptsCreate<AccountResource> {
-  private static final Logger log = LoggerFactory.getLogger(StarredChanges.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangesCollection changes;
   private final DynamicMap<RestView<AccountResource.StarredChange>> views;
@@ -110,7 +109,7 @@ public class StarredChanges
     } catch (ResourceNotFoundException e) {
       throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
     } catch (OrmException | PermissionBackendException | IOException e) {
-      log.error("cannot resolve change", e);
+      logger.atSevere().withCause(e).log("cannot resolve change");
       throw new UnprocessableEntityException("internal server error");
     }
   }
@@ -135,7 +134,7 @@ public class StarredChanges
     @Override
     public Response<?> apply(AccountResource rsrc, EmptyInput in)
         throws RestApiException, OrmException, IOException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to add starred change");
       }
       try {
@@ -157,7 +156,7 @@ public class StarredChanges
   }
 
   @Singleton
-  static class Put implements RestModifyView<AccountResource.StarredChange, EmptyInput> {
+  public static class Put implements RestModifyView<AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;
 
     @Inject
@@ -168,7 +167,7 @@ public class StarredChanges
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
         throws AuthException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed update starred changes");
       }
       return Response.none();
@@ -189,7 +188,7 @@ public class StarredChanges
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, EmptyInput in)
         throws AuthException, OrmException, IOException, IllegalLabelException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
       }
       starredChangesUtil.star(

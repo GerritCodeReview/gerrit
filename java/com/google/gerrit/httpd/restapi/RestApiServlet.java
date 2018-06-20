@@ -58,6 +58,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
@@ -109,6 +110,7 @@ import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -122,7 +124,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.google.gson.stream.MalformedJsonException;
-import com.google.gwtexpui.server.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
@@ -164,12 +165,11 @@ import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
 import org.eclipse.jgit.util.TemporaryBuffer.Heap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RestApiServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(RestApiServlet.class);
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** MIME type used for a JSON response body. */
   private static final String JSON_TYPE = "application/json";
@@ -846,15 +846,24 @@ public class RestApiServlet extends HttpServlet {
     throw new BadRequestException("Expected JSON object");
   }
 
+  @SuppressWarnings("unchecked")
   private static Object createInstance(Type type)
       throws NoSuchMethodException, InstantiationException, IllegalAccessException,
           InvocationTargetException {
     if (type instanceof Class) {
-      @SuppressWarnings("unchecked")
       Class<Object> clazz = (Class<Object>) type;
       Constructor<Object> c = clazz.getDeclaredConstructor();
       c.setAccessible(true);
       return c.newInstance();
+    }
+    if (type instanceof ParameterizedType) {
+      Type rawType = ((ParameterizedType) type).getRawType();
+      if (rawType instanceof Class && List.class.isAssignableFrom((Class<Object>) rawType)) {
+        return new ArrayList<>();
+      }
+      if (rawType instanceof Class && Map.class.isAssignableFrom((Class<Object>) rawType)) {
+        return new HashMap<>();
+      }
     }
     throw new InstantiationException("Cannot make " + type);
   }
@@ -1192,7 +1201,7 @@ public class RestApiServlet extends HttpServlet {
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + req.getQueryString();
     }
-    log.error("Error in {} {}", req.getMethod(), uri, err);
+    logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uri);
 
     if (!res.isCommitted()) {
       res.reset();

@@ -5,7 +5,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
+        "//lib/flogger:api",
         "//lib/guice",
-        "//lib/log:api",
     ],
 )

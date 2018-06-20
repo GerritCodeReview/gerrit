@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb.rebuild;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -27,12 +28,10 @@ import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class OnlineNoteDbMigrator implements LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(OnlineNoteDbMigrator.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String TRIAL = "OnlineNoteDbMigrator/trial";
 
@@ -79,9 +78,10 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   }
 
   private void migrate() {
-    log.info("Starting online NoteDb migration");
+    logger.atInfo().log("Starting online NoteDb migration");
     if (upgradeIndex) {
-      log.info("Online index schema upgrades will be deferred until NoteDb migration is complete");
+      logger.atInfo().log(
+          "Online index schema upgrades will be deferred until NoteDb migration is complete");
     }
     Stopwatch sw = Stopwatch.createStarted();
     // TODO(dborowitz): Tune threads, maybe expose a progress monitor somewhere.
@@ -89,13 +89,13 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
         migratorBuilderProvider.get().setAutoMigrate(true).setTrialMode(trial).build()) {
       migrator.migrate();
     } catch (Exception e) {
-      log.error("Error in online NoteDb migration", e);
+      logger.atSevere().withCause(e).log("Error in online NoteDb migration");
     }
     gcAllUsers.runWithLogger();
-    log.info("Online NoteDb migration completed in {}s", sw.elapsed(TimeUnit.SECONDS));
+    logger.atInfo().log("Online NoteDb migration completed in %ss", sw.elapsed(TimeUnit.SECONDS));
 
     if (upgradeIndex) {
-      log.info("Starting deferred index schema upgrades");
+      logger.atInfo().log("Starting deferred index schema upgrades");
       indexUpgrader.start();
     }
   }

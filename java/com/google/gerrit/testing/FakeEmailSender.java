@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.server.git.WorkQueue;
@@ -35,8 +36,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Email sender implementation that records messages in memory.
@@ -48,7 +47,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class FakeEmailSender implements EmailSender {
-  private static final Logger log = LoggerFactory.getLogger(FakeEmailSender.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends AbstractModule {
     @Override
@@ -166,7 +165,7 @@ public class FakeEmailSender implements EmailSender {
         try {
           task.get();
         } catch (ExecutionException | InterruptedException e) {
-          log.warn("error finishing email task", e);
+          logger.atWarning().withCause(e).log("error finishing email task");
         }
       }
     }

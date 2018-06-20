@@ -42,21 +42,19 @@ public class SuggestReviewers {
   protected final int maxSuggestedReviewers;
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of reviewers to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of reviewers to list")
   public void setLimit(int l) {
     this.limit = l <= 0 ? maxSuggestedReviewers : Math.min(l, maxSuggestedReviewers);
   }
 
   @Option(
-    name = "--query",
-    aliases = {"-q"},
-    metaVar = "QUERY",
-    usage = "match reviewers query"
-  )
+      name = "--query",
+      aliases = {"-q"},
+      metaVar = "QUERY",
+      usage = "match reviewers query")
   public void setQuery(String q) {
     this.query = q;
   }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.extensions.events;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -41,12 +42,10 @@ import java.sql.Timestamp;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EventUtil {
-  private static final Logger log = LoggerFactory.getLogger(EventUtil.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final ImmutableSet<ListChangesOption> CHANGE_OPTIONS;
 
@@ -121,26 +120,17 @@ public class EventUtil {
   }
 
   public void logEventListenerError(Object event, Object listener, Exception error) {
-    if (log.isDebugEnabled()) {
-      log.debug(
-          String.format(
-              "Error in event listener %s for event %s",
-              listener.getClass().getName(), event.getClass().getName()),
-          error);
-    } else {
-      log.warn(
-          "Error in event listener {} for event {}: {}",
-          listener.getClass().getName(),
-          event.getClass().getName(),
-          error.getMessage());
-    }
+    logger.atWarning().log(
+        "Error in event listener %s for event %s: %s",
+        listener.getClass().getName(), event.getClass().getName(), error.getMessage());
+    logger.atFine().withCause(error).log(
+        "Cause of error in event listener %s:", listener.getClass().getName());
   }
 
   public static void logEventListenerError(Object listener, Exception error) {
-    if (log.isDebugEnabled()) {
-      log.debug(String.format("Error in event listener %s", listener.getClass().getName()), error);
-    } else {
-      log.warn("Error in event listener {}: {}", listener.getClass().getName(), error.getMessage());
-    }
+    logger.atWarning().log(
+        "Error in event listener %s: %s", listener.getClass().getName(), error.getMessage());
+    logger.atFine().withCause(error).log(
+        "Cause of error in event listener %s", listener.getClass().getName());
   }
 }

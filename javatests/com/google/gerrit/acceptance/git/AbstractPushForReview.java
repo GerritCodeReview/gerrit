@@ -276,7 +276,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void output() throws Exception {
-    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/";
+    String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/";
     ObjectId initialHead = testRepo.getRepository().resolve("HEAD");
     PushOneCommit.Result r1 = pushTo("refs/for/master");
     Change.Id id1 = r1.getChange().getId();
@@ -328,7 +328,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pushHead(testRepo, master, false), master);
 
     // Attempt to push amended commit to same change
-    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
+    String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/" + r.getChange().getId();
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertErrorStatus("change " + url + " closed");
 
@@ -354,7 +354,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pushHead(testRepo, master, false), master);
 
     // Attempt to push amended commit to same change
-    String url = canonicalWebUrl.get() + "#/c/" + project.get() + "/+/" + r.getChange().getId();
+    String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/" + r.getChange().getId();
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertErrorStatus("change " + url + " closed");
 
@@ -656,11 +656,11 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(r.getChange().change().getOwner()).isEqualTo(user.id);
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
 
-    // Other user trying to move from WIP to ready should fail.
+    // Admin user trying to move from WIP to ready should succeed.
     GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
     testRepo.reset("ps");
-    r = amendChange(r.getChangeId(), "refs/for/master%ready", admin, testRepo);
-    r.assertErrorStatus(ReceiveConstants.ONLY_OWNER_CAN_MODIFY_WIP);
+    r = amendChange(r.getChangeId(), "refs/for/master%ready", user, testRepo);
+    r.assertOkStatus();
 
     // Other user trying to move from WIP to WIP should succeed.
     r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
@@ -672,14 +672,29 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertOkStatus();
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
 
-    // Other user trying to move from ready to WIP should fail.
+    // Admin user trying to move from ready to WIP should succeed.
     GitUtil.fetch(testRepo, r.getPatchSet().getRefName() + ":ps");
     testRepo.reset("ps");
     r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
-    r.assertErrorStatus(ReceiveConstants.ONLY_OWNER_CAN_MODIFY_WIP);
+    r.assertOkStatus();
 
-    // Other user trying to move from ready to ready should succeed.
-    r = amendChange(r.getChangeId(), "refs/for/master%ready", admin, testRepo);
+    // Other user trying to move from wip to wip should succeed.
+    r = amendChange(r.getChangeId(), "refs/for/master%wip", admin, testRepo);
+    r.assertOkStatus();
+
+    // Non owner, non admin and non project owner cannot flip wip bit:
+    TestAccount user2 = accountCreator.user2();
+    grant(
+        project, "refs/*", Permission.FORGE_COMMITTER, false, SystemGroupBackend.REGISTERED_USERS);
+    TestRepository<?> user2Repo = cloneProject(project, user2);
+    GitUtil.fetch(user2Repo, r.getPatchSet().getRefName() + ":ps");
+    user2Repo.reset("ps");
+    r = amendChange(r.getChangeId(), "refs/for/master%ready", user2, user2Repo);
+    r.assertErrorStatus(ReceiveConstants.ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
+
+    // Project owner trying to move from WIP to ready should succeed.
+    allow("refs/*", Permission.OWNER, SystemGroupBackend.REGISTERED_USERS);
+    r = amendChange(r.getChangeId(), "refs/for/master%ready", user2, user2Repo);
     r.assertOkStatus();
   }
 
@@ -700,7 +715,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertMessage(
         "Updated Changes:\n  "
             + canonicalWebUrl.get()
-            + "#/c/"
+            + "c/"
             + project.get()
             + "/+/"
             + r.getChange().getId()

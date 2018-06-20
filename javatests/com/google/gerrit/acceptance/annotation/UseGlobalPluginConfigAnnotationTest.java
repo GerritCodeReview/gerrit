@@ -57,10 +57,9 @@ public class UseGlobalPluginConfigAnnotationTest extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   @GlobalPluginConfig(
-    pluginName = "test",
-    name = "section.name",
-    values = {"value-1", "value-2"}
-  )
+      pluginName = "test",
+      name = "section.name",
+      values = {"value-1", "value-2"})
   public void testList() {
     assertThat(cfg().getStringList("section", null, "name"))
         .asList()
@@ -70,10 +69,9 @@ public class UseGlobalPluginConfigAnnotationTest extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   @GlobalPluginConfig(
-    pluginName = "test",
-    name = "section.subsection.name",
-    values = {"value-1", "value-2"}
-  )
+      pluginName = "test",
+      name = "section.subsection.name",
+      values = {"value-1", "value-2"})
   public void testListWithSubsection() {
     assertThat(cfg().getStringList("section", "subsection", "name"))
         .asList()
@@ -83,11 +81,10 @@ public class UseGlobalPluginConfigAnnotationTest extends AbstractDaemonTest {
   @Test
   @UseLocalDisk
   @GlobalPluginConfig(
-    pluginName = "test",
-    name = "section.name",
-    value = "value-1",
-    values = {"value-2", "value-3"}
-  )
+      pluginName = "test",
+      name = "section.name",
+      value = "value-1",
+      values = {"value-2", "value-3"})
   public void valueHasPrecedenceOverValues() {
     assertThat(cfg().getStringList("section", null, "name")).asList().containsExactly("value-1");
   }

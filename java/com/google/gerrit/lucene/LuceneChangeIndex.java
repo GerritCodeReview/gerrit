@@ -34,6 +34,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.index.QueryOptions;
@@ -91,8 +92,6 @@ import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Secondary index implementation using Apache Lucene.
@@ -102,7 +101,7 @@ import org.slf4j.LoggerFactory;
  * a committed write and it showing up to other threads' searchers.
  */
 public class LuceneChangeIndex implements ChangeIndex {
-  private static final Logger log = LoggerFactory.getLogger(LuceneChangeIndex.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String UPDATED_SORT_FIELD = sortFieldName(ChangeField.UPDATED);
   static final String ID_SORT_FIELD = sortFieldName(ChangeField.LEGACY_ID);
@@ -380,7 +379,7 @@ public class LuceneChangeIndex implements ChangeIndex {
             try {
               indexes.get(i).release(searchers[i]);
             } catch (IOException e) {
-              log.warn("cannot release Lucene searcher", e);
+              logger.atWarning().withCause(e).log("cannot release Lucene searcher");
             }
           }
         }

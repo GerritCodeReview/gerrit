@@ -56,7 +56,7 @@ public class ChangesCollection
   private final ProjectCache projectCache;
 
   @Inject
-  ChangesCollection(
+  public ChangesCollection(
       Provider<ReviewDb> db,
       Provider<CurrentUser> user,
       Provider<QueryChanges> queryFactory,

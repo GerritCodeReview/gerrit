@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Supplier;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
@@ -48,12 +49,12 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Delayed execution of tasks using a background thread pool. */
 @Singleton
 public class WorkQueue {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static class Lifecycle implements LifecycleListener {
     private final WorkQueue workQueue;
 
@@ -79,31 +80,30 @@ public class WorkQueue {
     }
   }
 
-  private static final Logger log = LoggerFactory.getLogger(WorkQueue.class);
   private static final UncaughtExceptionHandler LOG_UNCAUGHT_EXCEPTION =
       new UncaughtExceptionHandler() {
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-          log.error("WorkQueue thread " + t.getName() + " threw exception", e);
+          logger.atSevere().withCause(e).log("WorkQueue thread %s threw exception", t.getName());
         }
       };
 
-  private final MetricMaker metrics;
   private final ScheduledExecutorService defaultQueue;
   private final IdGenerator idGenerator;
+  private final MetricMaker metrics;
   private final CopyOnWriteArrayList<Executor> queues;
 
   @Inject
-  WorkQueue(MetricMaker metrics, IdGenerator idGenerator, @GerritServerConfig Config cfg) {
-    this(metrics, idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1));
+  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
+    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1), metrics);
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */
-  public WorkQueue(MetricMaker metrics, IdGenerator idGenerator, int defaultThreadPoolSize) {
-    this.metrics = metrics;
+  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize, MetricMaker metrics) {
     this.idGenerator = idGenerator;
+    this.metrics = metrics;
     this.queues = new CopyOnWriteArrayList<>();
-    this.defaultQueue = createQueue(defaultThreadPoolSize, "WorkQueue");
+    this.defaultQueue = createQueue(defaultThreadPoolSize, "WorkQueue", true);
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
@@ -111,13 +111,54 @@ public class WorkQueue {
     return defaultQueue;
   }
 
-  /** Create a new executor queue. */
-  public ScheduledExecutorService createQueue(int poolsize, String prefix) {
-    return createQueue(poolsize, prefix, Thread.NORM_PRIORITY);
+  /**
+   * Create a new executor queue.
+   *
+   * <p>Creates a new executor queue without associated metrics. This method is suitable for use by
+   * plugins.
+   *
+   * <p>If metrics are needed, use {@link #createQueue(int, String, int, boolean)} instead.
+   *
+   * @param poolsize the size of the pool.
+   * @param queueName the name of the queue.
+   */
+  public ScheduledThreadPoolExecutor createQueue(int poolsize, String queueName) {
+    return createQueue(poolsize, queueName, Thread.NORM_PRIORITY, false);
   }
 
-  public ScheduledThreadPoolExecutor createQueue(int poolsize, String prefix, int threadPriority) {
-    Executor executor = new Executor(poolsize, prefix);
+  /**
+   * Create a new executor queue, with default priority, optionally with metrics.
+   *
+   * <p>Creates a new executor queue, optionally with associated metrics. Metrics should not be
+   * requested for queues created by plugins.
+   *
+   * @param poolsize the size of the pool.
+   * @param queueName the name of the queue.
+   * @param withMetrics whether to create metrics.
+   */
+  public ScheduledThreadPoolExecutor createQueue(
+      int poolsize, String queueName, boolean withMetrics) {
+    return createQueue(poolsize, queueName, Thread.NORM_PRIORITY, withMetrics);
+  }
+
+  /**
+   * Create a new executor queue, optionally with metrics.
+   *
+   * <p>Creates a new executor queue, optionally with associated metrics. Metrics should not be
+   * requested for queues created by plugins.
+   *
+   * @param poolsize the size of the pool.
+   * @param queueName the name of the queue.
+   * @param threadPriority thread priority.
+   * @param withMetrics whether to create metrics.
+   */
+  public ScheduledThreadPoolExecutor createQueue(
+      int poolsize, String queueName, int threadPriority, boolean withMetrics) {
+    Executor executor = new Executor(poolsize, queueName);
+    if (withMetrics) {
+      logger.atInfo().log("Adding metrics for '%s' queue", queueName);
+      executor.buildMetrics(queueName);
+    }
     executor.setContinueExistingPeriodicTasksAfterShutdownPolicy(false);
     executor.setExecuteExistingDelayedTasksAfterShutdownPolicy(true);
     queues.add(executor);
@@ -207,7 +248,7 @@ public class WorkQueue {
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
 
-    Executor(int corePoolSize, String prefix) {
+    Executor(int corePoolSize, final String queueName) {
       super(
           corePoolSize,
           new ThreadFactory() {
@@ -217,7 +258,7 @@ public class WorkQueue {
             @Override
             public Thread newThread(Runnable task) {
               final Thread t = parent.newThread(task);
-              t.setName(prefix + "-" + tid.getAndIncrement());
+              t.setName(queueName + "-" + tid.getAndIncrement());
               t.setUncaughtExceptionHandler(LOG_UNCAUGHT_EXCEPTION);
               return t;
             }
@@ -229,12 +270,17 @@ public class WorkQueue {
               0.75f, // load factor
               corePoolSize + 4 // concurrency level
               );
-      queueName = prefix;
-      buildMetrics(queueName, metrics);
+      this.queueName = queueName;
     }
 
-    private void buildMetrics(String queueName, MetricMaker metric) {
-      metric.newCallbackMetric(
+    @Override
+    protected void terminated() {
+      super.terminated();
+      queues.remove(this);
+    }
+
+    private void buildMetrics(String queueName) {
+      metrics.newCallbackMetric(
           getMetricName(queueName, "max_pool_size"),
           Long.class,
           new Description("Maximum allowed number of threads in the pool")
@@ -246,7 +292,7 @@ public class WorkQueue {
               return (long) getMaximumPoolSize();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "pool_size"),
           Long.class,
           new Description("Current number of threads in the pool").setGauge().setUnit("threads"),
@@ -256,7 +302,7 @@ public class WorkQueue {
               return (long) getPoolSize();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "active_threads"),
           Long.class,
           new Description("Number number of threads that are actively executing tasks")
@@ -268,7 +314,7 @@ public class WorkQueue {
               return (long) getActiveCount();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "scheduled_tasks"),
           Integer.class,
           new Description("Number of scheduled tasks in the queue").setGauge().setUnit("tasks"),
@@ -278,7 +324,7 @@ public class WorkQueue {
               return getQueue().size();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "total_scheduled_tasks_count"),
           Long.class,
           new Description("Total number of tasks that have been scheduled for execution")
@@ -290,7 +336,7 @@ public class WorkQueue {
               return (long) getTaskCount();
             }
           });
-      metric.newCallbackMetric(
+      metrics.newCallbackMetric(
           getMetricName(queueName, "total_completed_tasks_count"),
           Long.class,
           new Description("Total number of tasks that have completed execution")
@@ -309,13 +355,7 @@ public class WorkQueue {
           CaseFormat.UPPER_CAMEL.to(
               CaseFormat.LOWER_UNDERSCORE,
               queueName.replaceFirst("SSH", "Ssh").replaceAll("-", ""));
-      return String.format("queue/%s/%s", name, metricName);
-    }
-
-    @Override
-    protected void terminated() {
-      super.terminated();
-      queues.remove(this);
+      return metrics.sanitizeMetricName(String.format("queue/%s/%s", name, metricName));
     }
 
     @Override
@@ -564,7 +604,8 @@ public class WorkQueue {
           }
         }
       } catch (ClassNotFoundException | IllegalArgumentException | IllegalAccessException e) {
-        log.debug("Cannot get a proper name for TrustedListenableFutureTask: {}", e.getMessage());
+        logger.atFine().log(
+            "Cannot get a proper name for TrustedListenableFutureTask: %s", e.getMessage());
       }
       return runnable.toString();
     }

@@ -38,7 +38,6 @@
     'text/x-java': 'java',
     'text/x-kotlin': 'kotlin',
     'text/x-lua': 'lua',
-    'text/x-markdown': 'markdown',
     'text/x-objectivec': 'objectivec',
     'text/x-ocaml': 'ocaml',
     'text/x-perl': 'perl',
@@ -62,7 +61,6 @@
     'gr-diff gr-syntax gr-syntax-attribute': true,
     'gr-diff gr-syntax gr-syntax-built_in': true,
     'gr-diff gr-syntax gr-syntax-comment': true,
-    'gr-diff gr-syntax gr-syntax-emphasis': true,
     'gr-diff gr-syntax gr-syntax-keyword': true,
     'gr-diff gr-syntax gr-syntax-link': true,
     'gr-diff gr-syntax gr-syntax-literal': true,
@@ -77,7 +75,6 @@
     'gr-diff gr-syntax gr-syntax-selector-pseudo': true,
     'gr-diff gr-syntax gr-syntax-selector-tag': true,
     'gr-diff gr-syntax gr-syntax-string': true,
-    'gr-diff gr-syntax gr-syntax-strong': true,
     'gr-diff gr-syntax gr-syntax-tag': true,
     'gr-diff gr-syntax gr-syntax-template-tag': true,
     'gr-diff gr-syntax gr-syntax-template-variable': true,
@@ -442,7 +439,7 @@
     },
 
     _loadHLJS() {
-      return this.$.libLoader.get().then(hljs => {
+      return this.$.libLoader.getHLJS().then(hljs => {
         this._hljs = hljs;
       });
     },

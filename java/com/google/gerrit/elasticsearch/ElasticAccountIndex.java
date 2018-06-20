@@ -16,8 +16,10 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.gerrit.server.index.account.AccountField.ID;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
+import com.google.gerrit.elasticsearch.bulk.BulkRequest;
+import com.google.gerrit.elasticsearch.bulk.IndexRequest;
+import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
@@ -26,87 +28,83 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndex;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Bulk;
-import io.searchbox.core.Bulk.Builder;
-import io.searchbox.core.search.sort.Sort;
-import io.searchbox.core.search.sort.Sort.Sorting;
 import java.io.IOException;
 import java.util.Set;
-import org.eclipse.jgit.lib.Config;
+import org.apache.http.HttpStatus;
+import org.elasticsearch.client.Response;
 
 public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, AccountState>
     implements AccountIndex {
   static class AccountMapping {
-    MappingProperties accounts;
+    final MappingProperties accounts;
 
-    AccountMapping(Schema<AccountState> schema) {
-      this.accounts = ElasticMapping.createMapping(schema);
+    AccountMapping(Schema<AccountState> schema, ElasticQueryAdapter adapter) {
+      this.accounts = ElasticMapping.createMapping(schema, adapter);
     }
   }
 
-  static final String ACCOUNTS = "accounts";
+  private static final String ACCOUNTS = "accounts";
 
   private final AccountMapping mapping;
   private final Provider<AccountCache> accountCache;
+  private final Schema<AccountState> schema;
 
   @Inject
   ElasticAccountIndex(
-      @GerritServerConfig Config cfg,
+      ElasticConfiguration cfg,
       SitePaths sitePaths,
       Provider<AccountCache> accountCache,
-      JestClientBuilder clientBuilder,
+      ElasticRestClientProvider client,
       @Assisted Schema<AccountState> schema) {
-    super(cfg, sitePaths, schema, clientBuilder, ACCOUNTS);
+    super(cfg, sitePaths, schema, client, ACCOUNTS);
     this.accountCache = accountCache;
-    this.mapping = new AccountMapping(schema);
+    this.mapping = new AccountMapping(schema, client.adapter());
+    this.schema = schema;
   }
 
   @Override
   public void replace(AccountState as) throws IOException {
-    Bulk bulk =
-        new Bulk.Builder()
-            .defaultIndex(indexName)
-            .defaultType(ACCOUNTS)
-            .addAction(insert(ACCOUNTS, as))
-            .refresh(true)
-            .build();
-    JestResult result = client.execute(bulk);
-    if (!result.isSucceeded()) {
+    BulkRequest bulk =
+        new IndexRequest(getId(as), indexName, type, client.adapter())
+            .add(new UpdateRequest<>(schema, as));
+
+    String uri = getURI(type, BULK);
+    Response response = postRequest(bulk, uri, getRefreshParam());
+    int statusCode = response.getStatusLine().getStatusCode();
+    if (statusCode != HttpStatus.SC_OK) {
       throw new IOException(
           String.format(
               "Failed to replace account %s in index %s: %s",
-              as.getAccount().getId(), indexName, result.getErrorMessage()));
+              as.getAccount().getId(), indexName, statusCode));
     }
   }
 
   @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
-    Sort sort = new Sort(AccountField.ID.getName(), Sorting.ASC);
-    sort.setIgnoreUnmapped();
-    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::accountFields), ACCOUNTS, sort);
+    JsonArray sortArray = getSortArray(AccountField.ID.getName());
+    return new ElasticQuerySource(
+        p, opts.filterFields(IndexUtils::accountFields), ACCOUNTS, sortArray);
   }
 
   @Override
-  protected Builder addActions(Builder builder, Account.Id c) {
-    return builder.addAction(delete(ACCOUNTS, c));
+  protected String getDeleteActions(Account.Id a) {
+    return delete(type, a);
   }
 
   @Override
   protected String getMappings() {
-    ImmutableMap<String, AccountMapping> mappings = ImmutableMap.of("mappings", mapping);
-    return gson.toJson(mappings);
+    return getMappingsForSingleType(ACCOUNTS, mapping.accounts);
   }
 
   @Override

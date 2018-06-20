@@ -1,2 +1,6 @@
 build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=worker
+build --disk_cache=~/.gerritcodereview/bazel-cache/cas
+build --repository_cache=~/.gerritcodereview/bazel-cache/repository
+build --experimental_strict_action_env
+build --action_env=PATH
 test --build_tests_only

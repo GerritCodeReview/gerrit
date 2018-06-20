@@ -36,7 +36,7 @@ public class PluginsCollection
   private final Provider<InstallPlugin> install;
 
   @Inject
-  PluginsCollection(
+  public PluginsCollection(
       DynamicMap<RestView<PluginResource>> views,
       PluginLoader loader,
       Provider<ListPlugins> list,

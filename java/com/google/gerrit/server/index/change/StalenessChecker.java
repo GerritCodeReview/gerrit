@@ -28,6 +28,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
@@ -49,12 +50,10 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class StalenessChecker {
-  private static final Logger log = LoggerFactory.getLogger(StalenessChecker.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(
@@ -200,7 +199,7 @@ public class StalenessChecker {
       }
       return false;
     } catch (IOException e) {
-      log.warn(String.format("error checking staleness of %s in %s", id, project), e);
+      logger.atWarning().withCause(e).log("error checking staleness of %s in %s", id, project);
       return true;
     }
   }

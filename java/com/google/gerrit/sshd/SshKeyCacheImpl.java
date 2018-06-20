@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -38,13 +39,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Provides the {@link SshKeyCacheEntry}. */
 @Singleton
 public class SshKeyCacheImpl implements SshKeyCache {
-  private static final Logger log = LoggerFactory.getLogger(SshKeyCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String CACHE_NAME = "sshkeys";
 
   static final Iterable<SshKeyCacheEntry> NO_SUCH_USER = none();
@@ -78,7 +78,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
     try {
       return cache.get(username);
     } catch (ExecutionException e) {
-      log.warn("Cannot load SSH keys for " + username, e);
+      logger.atWarning().withCause(e).log("Cannot load SSH keys for %s", username);
       return Collections.emptyList();
     }
   }
@@ -135,11 +135,11 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
     private void markInvalid(AccountSshKey k) {
       try {
-        log.info("Flagging SSH key " + k.seq() + " of account " + k.accountId() + " invalid");
+        logger.atInfo().log("Flagging SSH key %d of account %s invalid", k.seq(), k.accountId());
         authorizedKeys.markKeyInvalid(k.accountId(), k.seq());
       } catch (IOException | ConfigInvalidException e) {
-        log.error(
-            "Failed to mark SSH key " + k.seq() + " of account " + k.accountId() + " invalid", e);
+        logger.atSevere().withCause(e).log(
+            "Failed to mark SSH key %d of account %s invalid", k.seq(), k.accountId());
       }
     }
   }

@@ -17,14 +17,13 @@ package com.google.gerrit.server.project;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Iterates from a project up through its parents to All-Projects.
@@ -32,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * <p>If a cycle is detected the cycle is broken and All-Projects is visited.
  */
 class ProjectHierarchyIterator implements Iterator<ProjectState> {
-  private static final Logger log = LoggerFactory.getLogger(ProjectHierarchyIterator.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ProjectCache cache;
   private final AllProjectsName allProjectsName;
@@ -91,8 +90,8 @@ class ProjectHierarchyIterator implements Iterator<ProjectState> {
     }
     int idx = order.lastIndexOf(parentName.get());
     order.add(parentName.get());
-    log.warn(
-        "Cycle detected in projects: " + Joiner.on(" -> ").join(order.subList(idx, order.size())));
+    logger.atWarning().log(
+        "Cycle detected in projects: %s", Joiner.on(" -> ").join(order.subList(idx, order.size())));
     return false;
   }
 

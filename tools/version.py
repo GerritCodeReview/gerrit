@@ -23,24 +23,24 @@ parser = OptionParser()
 opts, args = parser.parse_args()
 
 if not len(args):
-  parser.error('not enough arguments')
+    parser.error('not enough arguments')
 elif len(args) > 1:
-  parser.error('too many arguments')
+    parser.error('too many arguments')
 
 DEST_PATTERN = r'\g<1>%s\g<3>' % args[0]
 
 
 def replace_in_file(filename, src_pattern):
-  try:
-    f = open(filename, "r")
-    s = f.read()
-    f.close()
-    s = re.sub(src_pattern, DEST_PATTERN, s)
-    f = open(filename, "w")
-    f.write(s)
-    f.close()
-  except IOError as err:
-    print('error updating %s: %s' % (filename, err), file=sys.stderr)
+    try:
+        f = open(filename, "r")
+        s = f.read()
+        f.close()
+        s = re.sub(src_pattern, DEST_PATTERN, s)
+        f = open(filename, "w")
+        f.write(s)
+        f.close()
+    except IOError as err:
+        print('error updating %s: %s' % (filename, err), file=sys.stderr)
 
 
 src_pattern = re.compile(r'^(\s*<version>)([-.\w]+)(</version>\s*)$',
@@ -48,8 +48,8 @@ src_pattern = re.compile(r'^(\s*<version>)([-.\w]+)(</version>\s*)$',
 for project in ['gerrit-acceptance-framework', 'gerrit-extension-api',
                 'gerrit-plugin-api', 'gerrit-plugin-gwtui',
                 'gerrit-war']:
-  pom = os.path.join('tools', 'maven', '%s_pom.xml' % project)
-  replace_in_file(pom, src_pattern)
+    pom = os.path.join('tools', 'maven', '%s_pom.xml' % project)
+    replace_in_file(pom, src_pattern)
 
 src_pattern = re.compile(r'^(GERRIT_VERSION = ")([-.\w]+)(")$', re.MULTILINE)
 replace_in_file('version.bzl', src_pattern)

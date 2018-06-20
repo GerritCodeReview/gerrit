@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
 import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 

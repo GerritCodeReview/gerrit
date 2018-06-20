@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.auth.container;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_EXTERNAL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.CanonicalWebUrl;
@@ -29,7 +30,7 @@ import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -40,8 +41,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -56,7 +55,7 @@ import org.w3c.dom.NodeList;
 @Singleton
 class HttpLoginServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(HttpLoginServlet.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicItem<WebSession> webSession;
   private final CanonicalWebUrl urlProvider;
@@ -86,10 +85,10 @@ class HttpLoginServlet extends HttpServlet {
     CacheHeaders.setNotCacheable(rsp);
     final String user = authFilter.getRemoteUser(req);
     if (user == null || "".equals(user)) {
-      log.error(
-          "Unable to authenticate user by "
-              + authFilter.getLoginHeader()
-              + " request header.  Check container or server configuration.");
+      logger.atSevere().log(
+          "Unable to authenticate user by %s request header."
+              + " Check container or server configuration.",
+          authFilter.getLoginHeader());
 
       final Document doc =
           HtmlDomUtil.parseFile( //
@@ -118,7 +117,7 @@ class HttpLoginServlet extends HttpServlet {
     try {
       arsp = accountManager.authenticate(areq);
     } catch (AccountException e) {
-      log.error("Unable to authenticate user \"" + user + "\"", e);
+      logger.atSevere().withCause(e).log("Unable to authenticate user \"%s\"", user);
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
       return;
     }
@@ -126,16 +125,12 @@ class HttpLoginServlet extends HttpServlet {
     String remoteExternalId = authFilter.getRemoteExternalIdToken(req);
     if (remoteExternalId != null) {
       try {
-        log.debug("Associating external identity \"{}\" to user \"{}\"", remoteExternalId, user);
+        logger.atFine().log(
+            "Associating external identity \"%s\" to user \"%s\"", remoteExternalId, user);
         updateRemoteExternalId(arsp, remoteExternalId);
       } catch (AccountException | OrmException | ConfigInvalidException e) {
-        log.error(
-            "Unable to associate external identity \""
-                + remoteExternalId
-                + "\" to user \""
-                + user
-                + "\"",
-            e);
+        logger.atSevere().withCause(e).log(
+            "Unable to associate external identity \"%s\" to user \"%s\"", remoteExternalId, user);
         rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
         return;
       }

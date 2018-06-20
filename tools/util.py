@@ -15,57 +15,59 @@
 from os import path
 
 REPO_ROOTS = {
-  'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
-  'GERRIT_API': 'https://gerrit-api.commondatastorage.googleapis.com/release',
-  'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
-  'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
-  'MAVEN_SNAPSHOT': 'https://oss.sonatype.org/content/repositories/snapshots',
+    'GERRIT': 'http://gerrit-maven.storage.googleapis.com',
+    'GERRIT_API':
+        'https://gerrit-api.commondatastorage.googleapis.com/release',
+    'MAVEN_CENTRAL': 'http://repo1.maven.org/maven2',
+    'MAVEN_LOCAL': 'file://' + path.expanduser('~/.m2/repository'),
+    'MAVEN_SNAPSHOT':
+        'https://oss.sonatype.org/content/repositories/snapshots',
 }
 
 
 def resolve_url(url, redirects):
-  """ Resolve URL of a Maven artifact.
+    """ Resolve URL of a Maven artifact.
 
-  prefix:path is passed as URL. prefix identifies known or custom
-  repositories that can be rewritten in redirects set, passed as
-  second arguments.
+    prefix:path is passed as URL. prefix identifies known or custom
+    repositories that can be rewritten in redirects set, passed as
+    second arguments.
 
-  A special case is supported, when prefix neither exists in
-  REPO_ROOTS, no in redirects set: the url is returned as is.
-  This enables plugins to pass custom maven_repository URL as is
-  directly to maven_jar().
+    A special case is supported, when prefix neither exists in
+    REPO_ROOTS, no in redirects set: the url is returned as is.
+    This enables plugins to pass custom maven_repository URL as is
+    directly to maven_jar().
 
-  Returns a resolved path for Maven artifact.
-  """
-  s = url.find(':')
-  if s < 0:
-    return url
-  scheme, rest = url[:s], url[s+1:]
-  if scheme in redirects:
-    root = redirects[scheme]
-  elif scheme in REPO_ROOTS:
-    root = REPO_ROOTS[scheme]
-  else:
-    return url
-  root = root.rstrip('/')
-  rest = rest.lstrip('/')
-  return '/'.join([root, rest])
+    Returns a resolved path for Maven artifact.
+    """
+    s = url.find(':')
+    if s < 0:
+        return url
+    scheme, rest = url[:s], url[s+1:]
+    if scheme in redirects:
+        root = redirects[scheme]
+    elif scheme in REPO_ROOTS:
+        root = REPO_ROOTS[scheme]
+    else:
+        return url
+    root = root.rstrip('/')
+    rest = rest.lstrip('/')
+    return '/'.join([root, rest])
 
 
 def hash_file(hash_obj, path):
-  """Hash the contents of a file.
+    """Hash the contents of a file.
 
-  Args:
-    hash_obj: an open hash object, e.g. hashlib.sha1().
-    path: path to the file to hash.
+    Args:
+      hash_obj: an open hash object, e.g. hashlib.sha1().
+      path: path to the file to hash.
 
-  Returns:
-    The passed-in hash_obj.
-  """
-  with open(path, 'rb') as f:
-    while True:
-      b = f.read(8192)
-      if not b:
-        break
-      hash_obj.update(b)
-  return hash_obj
+    Returns:
+      The passed-in hash_obj.
+    """
+    with open(path, 'rb') as f:
+        while True:
+            b = f.read(8192)
+            if not b:
+                break
+            hash_obj.update(b)
+    return hash_obj

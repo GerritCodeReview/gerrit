@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -55,15 +56,13 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Default implementation of MergeSuperSet that does the computation of the merge super set
  * sequentially on the local Gerrit instance.
  */
 public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
-  private static final Logger log = LoggerFactory.getLogger(LocalMergeSuperSetComputation.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends AbstractModule {
     @Override
@@ -261,9 +260,7 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private void logErrorAndThrow(String msg) throws OrmException {
-    if (log.isErrorEnabled()) {
-      log.error(msg);
-    }
+    logger.atSevere().log(msg);
     throw new OrmException(msg);
   }
 }

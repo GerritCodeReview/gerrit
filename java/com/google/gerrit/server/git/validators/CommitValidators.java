@@ -23,6 +23,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -77,11 +78,9 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CommitValidators {
-  private static final Logger log = LoggerFactory.getLogger(CommitValidators.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final Pattern NEW_PATCHSET_PATTERN =
       Pattern.compile("^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/[1-9][0-9]*)?$");
@@ -227,7 +226,8 @@ public class CommitValidators {
         messages.addAll(commitValidator.onCommitReceived(receiveEvent));
       }
     } catch (CommitValidationException e) {
-      log.debug("CommitValidationException occurred: {}", e.getFullMessage(), e);
+      logger.atFine().withCause(e).log(
+          "CommitValidationException occurred: %s", e.getFullMessage());
       // Keep the old messages (and their order) in case of an exception
       messages.addAll(e.getMessages());
       throw new CommitValidationException(e.getMessage(), messages);
@@ -443,14 +443,11 @@ public class CommitValidators {
             throw new ConfigInvalidException("invalid project configuration");
           }
         } catch (ConfigInvalidException | IOException e) {
-          log.error(
-              "User "
-                  + user.getLoggableName()
-                  + " tried to push an invalid project configuration "
-                  + receiveEvent.command.getNewId().name()
-                  + " for project "
-                  + receiveEvent.project.getName(),
-              e);
+          logger.atSevere().withCause(e).log(
+              "User %s tried to push an invalid project configuration %s for project %s",
+              user.getLoggableName(),
+              receiveEvent.command.getNewId().name(),
+              receiveEvent.project.getName());
           throw new CommitValidationException("invalid project configuration", messages);
         }
       }
@@ -479,7 +476,7 @@ public class CommitValidators {
       } catch (AuthException e) {
         throw new CommitValidationException("you are not allowed to upload merges");
       } catch (PermissionBackendException e) {
-        log.error("cannot check MERGE", e);
+        logger.atSevere().withCause(e).log("cannot check MERGE");
         throw new CommitValidationException("internal auth error");
       }
     }
@@ -554,7 +551,7 @@ public class CommitValidators {
           throw new CommitValidationException(
               "not Signed-off-by author/committer/uploader in commit message footer");
         } catch (PermissionBackendException e) {
-          log.error("cannot check FORGE_COMMITTER", e);
+          logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
           throw new CommitValidationException("internal auth error");
         }
       }
@@ -590,7 +587,7 @@ public class CommitValidators {
             "invalid author",
             invalidEmail(receiveEvent.commit, "author", author, user, canonicalWebUrl));
       } catch (PermissionBackendException e) {
-        log.error("cannot check FORGE_AUTHOR", e);
+        logger.atSevere().withCause(e).log("cannot check FORGE_AUTHOR");
         throw new CommitValidationException("internal auth error");
       }
     }
@@ -624,7 +621,7 @@ public class CommitValidators {
             "invalid committer",
             invalidEmail(receiveEvent.commit, "committer", committer, user, canonicalWebUrl));
       } catch (PermissionBackendException e) {
-        log.error("cannot check FORGE_COMMITTER", e);
+        logger.atSevere().withCause(e).log("cannot check FORGE_COMMITTER");
         throw new CommitValidationException("internal auth error");
       }
     }
@@ -663,7 +660,7 @@ public class CommitValidators {
                   gerritIdent.getEmailAddress(),
                   RefPermission.FORGE_SERVER.name()));
         } catch (PermissionBackendException e) {
-          log.error("cannot check FORGE_SERVER", e);
+          logger.atSevere().withCause(e).log("cannot check FORGE_SERVER");
           throw new CommitValidationException("internal auth error");
         }
       }
@@ -690,7 +687,7 @@ public class CommitValidators {
         return Collections.emptyList();
       } catch (IOException e) {
         String m = "error checking banned commits";
-        log.warn(m, e);
+        logger.atWarning().withCause(e).log(m);
         throw new CommitValidationException(m, e);
       }
     }
@@ -729,7 +726,7 @@ public class CommitValidators {
           return msgs;
         } catch (IOException | ConfigInvalidException e) {
           String m = "error validating external IDs";
-          log.warn(m, e);
+          logger.atWarning().withCause(e).log(m);
           throw new CommitValidationException(m, e);
         }
       }
@@ -787,7 +784,7 @@ public class CommitValidators {
         }
       } catch (IOException e) {
         String m = String.format("Validating update for account %s failed", accountId.get());
-        log.error(m, e);
+        logger.atSevere().withCause(e).log(m);
         throw new CommitValidationException(m, e);
       }
       return Collections.emptyList();

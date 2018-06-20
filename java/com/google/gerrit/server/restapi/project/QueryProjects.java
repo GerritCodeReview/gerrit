@@ -46,30 +46,27 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
   private int start;
 
   @Option(
-    name = "--query",
-    aliases = {"-q"},
-    usage = "project query"
-  )
+      name = "--query",
+      aliases = {"-q"},
+      usage = "project query")
   public void setQuery(String query) {
     this.query = query;
   }
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of projects to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of projects to list")
   public void setLimit(int limit) {
     this.limit = limit;
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    metaVar = "CNT",
-    usage = "number of projects to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      metaVar = "CNT",
+      usage = "number of projects to skip")
   public void setStart(int start) {
     this.start = start;
   }

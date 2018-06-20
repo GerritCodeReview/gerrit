@@ -113,15 +113,20 @@
     CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
     // Matches
-    // /c/<project>/+/<changeNum>/
-    //     [<basePatchNum|edit>..][<patchNum|edit>]/[path].
+    // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>].
     // TODO(kaspern): Migrate completely to project based URLs, with backwards
     // compatibility for change-only.
-    // eslint-disable-next-line max-len
-    CHANGE_OR_DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))?))?\/?$/,
+    CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
 
     // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
     CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
+
+    // Matches
+    // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..]<patchNum|edit>/<path>.
+    // TODO(kaspern): Migrate completely to project based URLs, with backwards
+    // compatibility for change-only.
+    // eslint-disable-next-line max-len
+    DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
 
     // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit
     DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit$/,
@@ -642,22 +647,11 @@
         return;
       }
       page(pattern, this._loadUserMiddleware.bind(this), data => {
-        this.$.reporting.locationChanged(this._getPageName(handlerName, data));
+        this.$.reporting.locationChanged(handlerName);
         const promise = opt_authRedirect ?
           this._redirectIfNotLoggedIn(data) : Promise.resolve();
         promise.then(() => { this[handlerName](data); });
       });
-    },
-
-    _getPageName(handlerName, ctx) {
-      switch (handlerName) {
-        case '_handleChangeOrDiffRoute': {
-          const isDiffView = ctx.params[8];
-          return isDiffView ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE;
-        }
-        default:
-          return handlerName;
-      }
     },
 
     _startRouter() {
@@ -806,7 +800,9 @@
 
       this._mapRoute(RoutePattern.CHANGE_EDIT, '_handleChangeEditRoute', true);
 
-      this._mapRoute(RoutePattern.CHANGE_OR_DIFF, '_handleChangeOrDiffRoute');
+      this._mapRoute(RoutePattern.DIFF, '_handleDiffRoute');
+
+      this._mapRoute(RoutePattern.CHANGE, '_handleChangeRoute');
 
       this._mapRoute(RoutePattern.CHANGE_LEGACY, '_handleChangeLegacyRoute');
 
@@ -1245,9 +1241,20 @@
       this._redirect('/c/' + encodeURIComponent(ctx.params[0]));
     },
 
-    _handleChangeOrDiffRoute(ctx) {
-      const isDiffView = ctx.params[8];
+    _handleChangeRoute(ctx) {
+      // Parameter order is based on the regex group number matched.
+      const params = {
+        project: ctx.params[0],
+        changeNum: ctx.params[1],
+        basePatchNum: ctx.params[4],
+        patchNum: ctx.params[6],
+        view: Gerrit.Nav.View.CHANGE,
+      };
 
+      this._redirectOrNavigate(params);
+    },
+
+    _handleDiffRoute(ctx) {
       // Parameter order is based on the regex group number matched.
       const params = {
         project: ctx.params[0],
@@ -1255,15 +1262,13 @@
         basePatchNum: ctx.params[4],
         patchNum: ctx.params[6],
         path: ctx.params[8],
-        view: isDiffView ? Gerrit.Nav.View.DIFF : Gerrit.Nav.View.CHANGE,
+        view: Gerrit.Nav.View.DIFF,
       };
 
-      if (isDiffView) {
-        const address = this._parseLineAddress(ctx.hash);
-        if (address) {
-          params.leftSide = address.leftSide;
-          params.lineNum = address.lineNum;
-        }
+      const address = this._parseLineAddress(ctx.hash);
+      if (address) {
+        params.leftSide = address.leftSide;
+        params.lineNum = address.lineNum;
       }
 
       this._redirectOrNavigate(params);

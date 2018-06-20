@@ -523,6 +523,11 @@ public class IdentifiedUser extends CurrentUser {
         realUser);
   }
 
+  @Override
+  public boolean hasSameAccountId(CurrentUser other) {
+    return getAccountId().get() == other.getAccountId().get();
+  }
+
   private String guessHost() {
     String host = null;
     SocketAddress remotePeer = null;

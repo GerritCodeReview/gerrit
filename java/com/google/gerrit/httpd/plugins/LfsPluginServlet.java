@@ -18,13 +18,14 @@ import static com.google.gerrit.extensions.api.lfs.LfsDefinitions.CONTENTTYPE_VN
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_NOT_IMPLEMENTED;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.resources.Resource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.ReloadPluginListener;
 import com.google.gerrit.server.plugins.StartPluginListener;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
@@ -45,14 +46,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class LfsPluginServlet extends HttpServlet
     implements StartPluginListener, ReloadPluginListener {
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(LfsPluginServlet.class);
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String MESSAGE_LFS_NOT_CONFIGURED =
       "{\"message\":\"No LFS plugin is configured to handle LFS requests.\"}";
 
@@ -139,7 +140,7 @@ public class LfsPluginServlet extends HttpServlet
       try {
         guiceFilter = plugin.getHttpInjector().getInstance(GuiceFilter.class);
       } catch (RuntimeException e) {
-        log.warn(String.format("Plugin %s cannot load GuiceFilter", name), e);
+        logger.atWarning().withCause(e).log("Plugin %s cannot load GuiceFilter", name);
         return null;
       }
 
@@ -147,7 +148,7 @@ public class LfsPluginServlet extends HttpServlet
         ServletContext ctx = PluginServletContext.create(plugin, "/");
         guiceFilter.init(new WrappedFilterConfig(ctx));
       } catch (ServletException e) {
-        log.warn(String.format("Plugin %s failed to initialize HTTP", name), e);
+        logger.atWarning().withCause(e).log("Plugin %s failed to initialize HTTP", name);
         return null;
       }
 

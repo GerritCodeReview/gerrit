@@ -32,6 +32,16 @@ limitations under the License.
       main {
         max-width: 46em;
       }
+      :host(.loading) main {
+        display: none;
+      }
+      .loadingMessage {
+        display: none;
+        font-style: italic;
+      }
+      :host(.loading) .loadingMessage {
+        display: block;
+      }
       hr {
         margin-top: 1em;
         margin-bottom: 1em;
@@ -54,9 +64,13 @@ limitations under the License.
       input {
         width: 20em;
       }
+      section.hide {
+        display: none;
+      }
     </style>
     <div class="container gr-form-styles">
       <header>Please confirm your contact information</header>
+      <div class="loadingMessage">Loading...</div>
       <main>
         <p>
           The following contact information was automatically obtained when you
@@ -73,7 +87,7 @@ limitations under the License.
               bind-value="{{_account.name}}"
               disabled="[[_saving]]">
         </section>
-        <section>
+        <section class$="[[_computeUsernameClass(_usernameMutable)]]">
           <div class="title">Username</div>
           <input
               is="iron-input"
@@ -108,7 +122,7 @@ limitations under the License.
             id="saveButton"
             primary
             link
-            disabled="[[_computeSaveDisabled(_account.name, _account.username, _account.email, _saving)]]"
+            disabled="[[_computeSaveDisabled(_account.name, _account.email, _saving)]]"
             on-tap="_handleSave">Save</gr-button>
       </footer>
     </div>

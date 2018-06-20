@@ -68,16 +68,28 @@ formatQueryResults invocations in ChangeJson.
 * `query/query_latency`: Successful query latency, accumulated over the life
 of the process.
 
-=== Queue
+=== Core Queues
 
-The metrics below are per queue.
+The following queues support metrics:
 
-* `queue/<queueName>/pool_size`: Current number of threads in the pool
-* `queue/<queueName>/max_pool_size`: Maximum allowed number of threads in the pool
-* `queue/<queueName>/active_threads`: Number of threads that are actively executing tasks
-* `queue/<queueName>/scheduled_tasks`: Number of scheduled tasks in the queue
-* `queue/<queueName>/total_scheduled_tasks_count`: Total number of tasks that have been scheduled
-* `queue/<queueName>/total_completed_tasks_count`: Total number of tasks that have completed execution
+* default `WorkQueue`
+* index batch
+* index interactive
+* receive commits
+* send email
+* ssh batch worker
+* ssh command start
+* ssh interactive worker
+* ssh stream worker
+
+Each queue provides the following metrics:
+
+* `queue/<queue_name>/pool_size`: Current number of threads in the pool
+* `queue/<queue_name>/max_pool_size`: Maximum allowed number of threads in the pool
+* `queue/<queue_name>/active_threads`: Number of threads that are actively executing tasks
+* `queue/<queue_name>/scheduled_tasks`: Number of scheduled tasks in the queue
+* `queue/<queue_name>/total_scheduled_tasks_count`: Total number of tasks that have been scheduled
+* `queue/<queue_name>/total_completed_tasks_count`: Total number of tasks that have completed execution
 
 === SSH sessions
 

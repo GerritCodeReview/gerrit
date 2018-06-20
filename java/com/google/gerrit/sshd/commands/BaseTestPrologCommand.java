@@ -42,17 +42,15 @@ abstract class BaseTestPrologCommand extends SshCommand {
   protected String changeId;
 
   @Option(
-    name = "-s",
-    usage =
-        "Read prolog script from stdin instead of reading rules.pl from the refs/meta/config branch"
-  )
+      name = "-s",
+      usage =
+          "Read prolog script from stdin instead of reading rules.pl from the refs/meta/config branch")
   protected boolean useStdin;
 
   @Option(
-    name = "--no-filters",
-    aliases = {"-n"},
-    usage = "Don't run the submit_filter/2 from the parent projects"
-  )
+      name = "--no-filters",
+      aliases = {"-n"},
+      usage = "Don't run the submit_filter/2 from the parent projects")
   void setNoFilters(boolean no) {
     input.filters = no ? Filters.SKIP : Filters.RUN;
   }

@@ -14,18 +14,17 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class PluginCleanerTask implements Runnable {
-  private static final Logger log = LoggerFactory.getLogger(PluginCleanerTask.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final WorkQueue workQueue;
   private final PluginLoader loader;
@@ -58,10 +57,9 @@ class PluginCleanerTask implements Runnable {
 
       if (0 < left) {
         long waiting = TimeUtil.nowMs() - start;
-        log.warn(
-            String.format(
-                "%d plugins still waiting to be reclaimed after %d minutes",
-                pending, TimeUnit.MILLISECONDS.toMinutes(waiting)));
+        logger.atWarning().log(
+            "%d plugins still waiting to be reclaimed after %d minutes",
+            pending, TimeUnit.MILLISECONDS.toMinutes(waiting));
         attempts = Math.min(attempts + 1, 15);
         ensureScheduled();
       } else {

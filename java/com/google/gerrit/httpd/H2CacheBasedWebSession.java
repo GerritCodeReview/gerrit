@@ -14,8 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
-
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -30,6 +28,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Named;
 import com.google.inject.servlet.RequestScoped;
+import java.time.Duration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,10 +40,8 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
       protected void configure() {
         persist(WebSessionManager.CACHE_NAME, String.class, Val.class)
             .maximumWeight(1024) // reasonable default for many sites
-            .expireAfterWrite(
-                CacheBasedWebSession.MAX_AGE_MINUTES,
-                MINUTES) // expire sessions if they are inactive
-        ;
+            // expire sessions if they are inactive
+            .expireAfterWrite(Duration.ofMinutes(CacheBasedWebSession.MAX_AGE_MINUTES));
         install(new FactoryModuleBuilder().build(WebSessionManagerFactory.class));
         DynamicItem.itemOf(binder(), WebSession.class);
         DynamicItem.bind(binder(), WebSession.class)

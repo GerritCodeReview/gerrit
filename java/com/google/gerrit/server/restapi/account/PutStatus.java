@@ -56,7 +56,7 @@ public class PutStatus implements RestModifyView<AccountResource, StatusInput> {
   public Response<String> apply(AccountResource rsrc, StatusInput input)
       throws AuthException, ResourceNotFoundException, OrmException, IOException,
           PermissionBackendException, ConfigInvalidException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
     return apply(rsrc.getUser(), input);

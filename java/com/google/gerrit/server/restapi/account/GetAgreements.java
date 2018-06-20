@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
@@ -36,12 +37,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GetAgreements implements RestReadView<AccountResource> {
-  private static final Logger log = LoggerFactory.getLogger(GetAgreements.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<CurrentUser> self;
   private final ProjectCache projectCache;
@@ -85,13 +84,9 @@ public class GetAgreements implements RestReadView<AccountResource> {
           if (rule.getGroup().getUUID() != null) {
             groupIds.add(rule.getGroup().getUUID());
           } else {
-            log.warn(
-                "group \""
-                    + rule.getGroup().getName()
-                    + "\" does not "
-                    + "exist, referenced in CLA \""
-                    + ca.getName()
-                    + "\"");
+            logger.atWarning().log(
+                "group \"%s\" does not exist, referenced in CLA \"%s\"",
+                rule.getGroup().getName(), ca.getName());
           }
         }
       }

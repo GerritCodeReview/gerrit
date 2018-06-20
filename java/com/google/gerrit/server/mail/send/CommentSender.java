@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.FilenameComparator;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.NoSuchEntityException;
@@ -58,12 +59,10 @@ import java.util.Set;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 public class CommentSender extends ReplyToChangeSender {
-  private static final Logger log = LoggerFactory.getLogger(CommentSender.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     CommentSender create(Project.NameKey project, Change.Id id);
@@ -205,9 +204,9 @@ public class CommentSender extends ReplyToChangeSender {
       try {
         patchList = getPatchList();
       } catch (PatchListObjectTooLargeException e) {
-        log.warn("Failed to get patch list: " + e.getMessage());
+        logger.atWarning().log("Failed to get patch list: %s", e.getMessage());
       } catch (PatchListNotAvailableException e) {
-        log.error("Failed to get patch list", e);
+        logger.atSevere().withCause(e).log("Failed to get patch list");
       }
     }
 
@@ -227,11 +226,9 @@ public class CommentSender extends ReplyToChangeSender {
           try {
             currentGroup.fileData = new PatchFile(repo, patchList, c.key.filename);
           } catch (IOException e) {
-            log.warn(
-                String.format(
-                    "Cannot load %s from %s in %s",
-                    c.key.filename, patchList.getNewId().name(), projectState.getName()),
-                e);
+            logger.atWarning().withCause(e).log(
+                "Cannot load %s from %s in %s",
+                c.key.filename, patchList.getNewId().name(), projectState.getName());
             currentGroup.fileData = null;
           }
         }
@@ -321,7 +318,7 @@ public class CommentSender extends ReplyToChangeSender {
     try {
       return commentsUtil.getPublished(args.db.get(), changeData.notes(), key);
     } catch (OrmException e) {
-      log.warn("Could not find the parent of this comment: " + child.toString());
+      logger.atWarning().log("Could not find the parent of this comment: %s", child);
       return Optional.empty();
     }
   }
@@ -539,16 +536,16 @@ public class CommentSender extends ReplyToChangeSender {
       return fileInfo.getLine(side, lineNbr);
     } catch (IOException err) {
       // Default to the empty string if the file cannot be safely read.
-      log.warn(String.format("Failed to read file on side %d", side), err);
+      logger.atWarning().withCause(err).log("Failed to read file on side %d", side);
       return "";
     } catch (IndexOutOfBoundsException err) {
       // Default to the empty string if the given line number does not appear
       // in the file.
-      log.debug(String.format("Failed to get line number of file on side %d", side), err);
+      logger.atFine().withCause(err).log("Failed to get line number of file on side %d", side);
       return "";
     } catch (NoSuchEntityException err) {
       // Default to the empty string if the side cannot be found.
-      log.warn(String.format("Side %d of file didn't exist", side), err);
+      logger.atWarning().withCause(err).log("Side %d of file didn't exist", side);
       return "";
     }
   }

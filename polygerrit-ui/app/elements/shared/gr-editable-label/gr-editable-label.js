@@ -92,7 +92,7 @@
 
     _showDropdown() {
       if (this.readOnly || this.editing) { return; }
-      this._open().then(() => {
+      return this._open().then(() => {
         this.$.input.$.input.focus();
         if (!this.$.input.value) { return; }
         this.$.input.$.input.setSelectionRange(0, this.$.input.value.length);
@@ -118,7 +118,7 @@
       let iters = 0;
       const step = () => {
         this.async(() => {
-          if (this.style.display !== 'none') {
+          if (this.$.dropdown.style.display !== 'none') {
             fn.call(this);
           } else if (iters++ < AWAIT_MAX_ITERS) {
             step.call(this);

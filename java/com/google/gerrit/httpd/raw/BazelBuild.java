@@ -19,10 +19,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
 import com.google.common.escape.Escaper;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.TimeUtil;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
@@ -33,11 +34,9 @@ import java.nio.file.Path;
 import java.util.Properties;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class BazelBuild {
-  private static final Logger log = LoggerFactory.getLogger(BazelBuild.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Path sourceRoot;
 
@@ -49,7 +48,7 @@ public class BazelBuild {
   public void build(Label label) throws IOException, BuildFailureException {
     ProcessBuilder proc = newBuildProcess(label);
     proc.directory(sourceRoot.toFile()).redirectErrorStream(true);
-    log.info("building " + label.fullName());
+    logger.atInfo().log("building %s", label.fullName());
     long start = TimeUtil.nowMs();
     Process rebuild = proc.start();
     byte[] out;
@@ -67,12 +66,12 @@ public class BazelBuild {
           "interrupted waiting for: " + Joiner.on(' ').join(proc.command()));
     }
     if (status != 0) {
-      log.warn("build failed: " + new String(out, UTF_8));
+      logger.atWarning().log("build failed: %s", new String(out, UTF_8));
       throw new BuildFailureException(out);
     }
 
     long time = TimeUtil.nowMs() - start;
-    log.info(String.format("UPDATED    %s in %.3fs", label.fullName(), time / 1000.0));
+    logger.atInfo().log("UPDATED    %s in %.3fs", label.fullName(), time / 1000.0);
   }
 
   // Represents a label in bazel.

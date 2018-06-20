@@ -38,7 +38,7 @@ import com.google.inject.Singleton;
 import java.util.Optional;
 
 @Singleton
-class Capabilities implements ChildCollection<AccountResource, AccountResource.Capability> {
+public class Capabilities implements ChildCollection<AccountResource, AccountResource.Capability> {
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final DynamicMap<RestView<AccountResource.Capability>> views;
@@ -66,7 +66,7 @@ class Capabilities implements ChildCollection<AccountResource, AccountResource.C
       throws ResourceNotFoundException, AuthException, PermissionBackendException {
     permissionBackend.checkUsesDefaultCapabilities();
     IdentifiedUser target = parent.getUser();
-    if (self.get() != target) {
+    if (!self.get().hasSameAccountId(target)) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 

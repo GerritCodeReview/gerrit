@@ -18,6 +18,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
@@ -77,10 +78,8 @@ import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
-import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.gerrit.server.schema.DataSourceModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.DataSourceType;
@@ -127,12 +126,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class WebAppInitializer extends GuiceServletContextListener implements Filter {
-  private static final Logger log = LoggerFactory.getLogger(WebAppInitializer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private Path sitePath;
   private Injector dbInjector;
@@ -194,7 +191,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
           buf.append("\nResolve above errors before continuing.");
           buf.append("\nComplete stack trace follows:");
         }
-        log.error(buf.toString(), first.getCause());
+        logger.atSevere().withCause(first.getCause()).log(buf.toString());
         throw new CreationException(Collections.singleton(first));
       }
 
@@ -358,10 +355,8 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     // with the proper classes (e.g. group backends, custom Prolog
     // predicates) and the associated rules ready to be evaluated.
     modules.add(new PluginModule());
-    modules.add(new PluginRestApiModule());
 
     modules.add(new RestApiModule());
-    modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
 

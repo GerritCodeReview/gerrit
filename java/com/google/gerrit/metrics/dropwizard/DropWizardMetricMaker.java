@@ -151,8 +151,8 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   private static void checkCounterDescription(String name, Description desc) {
     checkMetricName(name);
-    checkArgument(!desc.isConstant(), "counters must not be constant");
-    checkArgument(!desc.isGauge(), "counters must not be gauge");
+    checkArgument(!desc.isConstant(), "counter must not be constant");
+    checkArgument(!desc.isGauge(), "counter must not be gauge");
   }
 
   CounterImpl newCounterImpl(String name, boolean isRate) {
@@ -326,7 +326,7 @@ public class DropWizardMetricMaker extends MetricMaker {
       if (!desc.getAnnotations()
           .get(Description.DESCRIPTION)
           .equals(annotations.get(Description.DESCRIPTION))) {
-        throw new IllegalStateException(String.format("metric %s already defined", name));
+        throw new IllegalStateException(String.format("metric '%s' already defined", name));
       }
     } else {
       descriptions.put(name, desc.getAnnotations());
@@ -339,8 +339,29 @@ public class DropWizardMetricMaker extends MetricMaker {
   private static void checkMetricName(String name) {
     checkArgument(
         METRIC_NAME_PATTERN.matcher(name).matches(),
-        "metric name must match %s",
+        "invalid metric name '%s': must match pattern '%s'",
+        name,
         METRIC_NAME_PATTERN.pattern());
+  }
+
+  @Override
+  public String sanitizeMetricName(String name) {
+    if (METRIC_NAME_PATTERN.matcher(name).matches()) {
+      return name;
+    }
+
+    String first = name.substring(0, 1).replaceFirst("[^\\w-]", "_");
+    if (name.length() == 1) {
+      return first;
+    }
+
+    String result = first + name.substring(1).replaceAll("/[/]+", "/").replaceAll("[^\\w-/]", "_");
+
+    if (result.endsWith("/")) {
+      result = result.substring(0, result.length() - 1);
+    }
+
+    return result;
   }
 
   static String name(Description.FieldOrdering ordering, String codeName, String fieldValues) {

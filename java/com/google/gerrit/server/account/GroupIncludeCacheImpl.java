@@ -21,6 +21,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.cache.CacheModule;
@@ -37,13 +38,12 @@ import com.google.inject.name.Named;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Tracks group inclusions in memory for efficient access. */
 @Singleton
 public class GroupIncludeCacheImpl implements GroupIncludeCache {
-  private static final Logger log = LoggerFactory.getLogger(GroupIncludeCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String PARENT_GROUPS_NAME = "groups_bysubgroup";
   private static final String GROUPS_WITH_MEMBER_NAME = "groups_bymember";
   private static final String EXTERNAL_NAME = "groups_external";
@@ -94,7 +94,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     try {
       return groupsWithMember.get(memberId);
     } catch (ExecutionException e) {
-      log.warn(String.format("Cannot load groups containing %d as member", memberId.get()));
+      logger.atWarning().withCause(e).log("Cannot load groups containing %s as member", memberId);
       return ImmutableSet.of();
     }
   }
@@ -104,7 +104,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     try {
       return parentGroups.get(groupId);
     } catch (ExecutionException e) {
-      log.warn("Cannot load included groups", e);
+      logger.atWarning().withCause(e).log("Cannot load included groups");
       return Collections.emptySet();
     }
   }
@@ -132,7 +132,7 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     try {
       return external.get(EXTERNAL_NAME);
     } catch (ExecutionException e) {
-      log.warn("Cannot load set of non-internal groups", e);
+      logger.atWarning().withCause(e).log("Cannot load set of non-internal groups");
       return ImmutableList.of();
     }
   }

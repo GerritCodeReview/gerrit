@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroupByIdAud;
@@ -41,13 +42,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** NoteDb reader for group audit log. */
 @Singleton
 public class AuditLogReader {
-  private static final Logger log = LoggerFactory.getLogger(AuditLogReader.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final String serverId;
 
@@ -184,11 +183,9 @@ public class AuditLogReader {
   }
 
   private static void logInvalid(AccountGroup.UUID uuid, RevCommit c, FooterLine line) {
-    log.debug(
-        "Invalid footer line in commit {} while parsing audit log for group {}: {}",
-        c.name(),
-        uuid,
-        line);
+    logger.atFine().log(
+        "Invalid footer line in commit %s while parsing audit log for group %s: %s",
+        c.name(), uuid, line);
   }
 
   private ImmutableList<ParsedCommit> parseCommits(Repository repo, AccountGroup.UUID uuid)

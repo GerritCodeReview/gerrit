@@ -314,11 +314,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editGpgKeys =
         toBoolean(enableSignedPush && cfg.getBoolean("gerrit", null, "editGpgKeys", true));
     info.webUis = EnumSet.noneOf(UiType.class);
+    info.webUis.add(UiType.POLYGERRIT);
     if (gerritOptions.enableGwtUi()) {
       info.webUis.add(UiType.GWT);
-    }
-    if (gerritOptions.enablePolyGerrit()) {
-      info.webUis.add(UiType.POLYGERRIT);
     }
     return info;
   }

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NeedsParams;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -58,7 +59,7 @@ public class GroupsCollection
   private boolean hasQuery2;
 
   @Inject
-  GroupsCollection(
+  public GroupsCollection(
       DynamicMap<RestView<GroupResource>> views,
       Provider<ListGroups> list,
       Provider<QueryGroups> queryGroups,
@@ -199,7 +200,7 @@ public class GroupsCollection
   }
 
   @Override
-  public CreateGroup create(TopLevelResource root, IdString name) {
+  public CreateGroup create(TopLevelResource root, IdString name) throws RestApiException {
     return createGroup.create(name.get());
   }
 

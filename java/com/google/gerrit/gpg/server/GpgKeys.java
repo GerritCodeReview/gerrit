@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -53,12 +54,10 @@ import org.bouncycastle.openpgp.PGPException;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
 import org.eclipse.jgit.util.NB;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
-  private static final Logger log = LoggerFactory.getLogger(GpgKeys.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String MIME_TYPE = "application/pgp-keys";
 
@@ -164,7 +163,8 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
             }
           }
           if (!found) {
-            log.warn("No public key stored for fingerprint {}", Fingerprint.toString(fp));
+            logger.atWarning().log(
+                "No public key stored for fingerprint %s", Fingerprint.toString(fp));
           }
         }
       }
@@ -207,7 +207,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     if (!BouncyCastleUtil.havePGP()) {
       throw new ResourceNotFoundException("GPG not enabled");
     }
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       throw new ResourceNotFoundException();
     }
   }

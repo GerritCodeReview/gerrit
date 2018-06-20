@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.group.db;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
@@ -32,10 +33,10 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class RenameGroupOp extends DefaultQueueOp {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   interface Factory {
     RenameGroupOp create(
         @Assisted("author") PersonIdent author,
@@ -45,7 +46,6 @@ class RenameGroupOp extends DefaultQueueOp {
   }
 
   private static final int MAX_TRIES = 10;
-  private static final Logger log = LoggerFactory.getLogger(RenameGroupOp.class);
 
   private final ProjectCache projectCache;
   private final MetaDataUpdate.Server metaDataUpdateFactory;
@@ -93,7 +93,7 @@ class RenameGroupOp extends DefaultQueueOp {
       } catch (RepositoryNotFoundException noProject) {
         continue;
       } catch (ConfigInvalidException | IOException err) {
-        log.error("Cannot rename group " + oldName + " in " + projectName, err);
+        logger.atSevere().withCause(err).log("Cannot rename group %s in %s", oldName, projectName);
       }
     }
 
@@ -127,14 +127,9 @@ class RenameGroupOp extends DefaultQueueOp {
         projectCache.evict(config.getProject());
         success = true;
       } catch (IOException e) {
-        log.error(
-            "Could not commit rename of group "
-                + oldName
-                + " to "
-                + newName
-                + " in "
-                + md.getProjectName().get(),
-            e);
+        logger.atSevere().withCause(e).log(
+            "Could not commit rename of group %s to %s in %s",
+            oldName, newName, md.getProjectName().get());
         try {
           Thread.sleep(25 /* milliseconds */);
         } catch (InterruptedException wakeUp) {
@@ -145,13 +140,8 @@ class RenameGroupOp extends DefaultQueueOp {
 
     if (!success) {
       if (tryingAgain) {
-        log.warn(
-            "Could not rename group "
-                + oldName
-                + " to "
-                + newName
-                + " in "
-                + md.getProjectName().get());
+        logger.atWarning().log(
+            "Could not rename group %s to %s in %s", oldName, newName, md.getProjectName().get());
       } else {
         retryOn.add(md.getProjectName());
       }

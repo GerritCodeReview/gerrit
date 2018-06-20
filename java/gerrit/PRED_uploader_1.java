@@ -14,6 +14,7 @@
 
 package gerrit;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.rules.StoredValues;
@@ -25,11 +26,9 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PRED_uploader_1 extends Predicate.P1 {
-  private static final Logger log = LoggerFactory.getLogger(PRED_uploader_1.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final SymbolTerm user = SymbolTerm.intern("user", 1);
 
@@ -45,9 +44,9 @@ public class PRED_uploader_1 extends Predicate.P1 {
 
     PatchSet patchSet = StoredValues.getPatchSet(engine);
     if (patchSet == null) {
-      log.error(
-          "Failed to load current patch set of change "
-              + StoredValues.getChange(engine).getChangeId());
+      logger.atSevere().log(
+          "Failed to load current patch set of change %s",
+          StoredValues.getChange(engine).getChangeId());
       return engine.fail();
     }
 

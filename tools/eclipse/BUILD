@@ -9,6 +9,7 @@ load(
 
 TEST_DEPS = [
     "//gerrit-gwtui:ui_tests",
+    "//javatests/com/google/gerrit/elasticsearch:elasticsearch_test_utils",
     "//javatests/com/google/gerrit/server:server_tests",
 ]
 
@@ -18,8 +19,8 @@ DEPS = [
     "//gerrit-plugin-gwtui:gwtui-api-lib",
     "//java/com/google/gerrit/acceptance:lib",
     "//java/com/google/gerrit/server",
-    "//lib/asciidoctor:asciidoc_lib",
-    "//lib/asciidoctor:doc_indexer_lib",
+    "//java/com/google/gerrit/asciidoctor:asciidoc_lib",
+    "//java/com/google/gerrit/asciidoctor:doc_indexer_lib",
     "//lib/auto:auto-value",
     "//lib/gwt:ant",
     "//lib/gwt:colt",
@@ -30,7 +31,7 @@ DEPS = [
     "//lib/gwt:tapestry",
     "//lib/gwt:w3c-css-sac",
     "//lib/jetty:servlets",
-    "//lib/prolog:compiler_lib",
+    "//lib/prolog:compiler-lib",
     # TODO(davido): I do not understand why it must be on the Eclipse classpath
     #'//Documentation:index',
 ]

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.flogger.backend.Platform;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -26,6 +27,8 @@ import org.apache.log4j.PatternLayout;
 import org.eclipse.jgit.lib.Config;
 
 public class GarbageCollectionLogFile implements LifecycleListener {
+  private static final String LOG_NAME = "gc_log";
+
   @Inject
   public GarbageCollectionLogFile(SitePaths sitePaths, @GerritServerConfig Config config) {
     if (SystemLog.shouldConfigure()) {
@@ -38,15 +41,24 @@ public class GarbageCollectionLogFile implements LifecycleListener {
 
   @Override
   public void stop() {
-    LogManager.getLogger(GarbageCollection.LOG_NAME).removeAllAppenders();
+    getLogger(GarbageCollection.class).removeAllAppenders();
+    getLogger(GarbageCollectionRunner.class).removeAllAppenders();
   }
 
   private static void initLogSystem(Path logdir, boolean rotate) {
-    Logger gcLogger = LogManager.getLogger(GarbageCollection.LOG_NAME);
+    initGcLogger(logdir, rotate, getLogger(GarbageCollection.class));
+    initGcLogger(logdir, rotate, getLogger(GarbageCollectionRunner.class));
+  }
+
+  private static Logger getLogger(Class<?> clazz) {
+    return LogManager.getLogger(Platform.getBackend(clazz.getName()).getLoggerName());
+  }
+
+  private static void initGcLogger(Path logdir, boolean rotate, Logger gcLogger) {
     gcLogger.removeAllAppenders();
     gcLogger.addAppender(
         SystemLog.createAppender(
-            logdir, GarbageCollection.LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate));
+            logdir, LOG_NAME, new PatternLayout("[%d] %-5p %x: %m%n"), rotate));
     gcLogger.setAdditivity(false);
   }
 }

@@ -24,6 +24,7 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -64,10 +65,9 @@ import org.kohsuke.args4j.Option;
 
 public abstract class SiteProgram extends AbstractProgram {
   @Option(
-    name = "--site-path",
-    aliases = {"-d"},
-    usage = "Local directory containing site data"
-  )
+      name = "--site-path",
+      aliases = {"-d"},
+      usage = "Local directory containing site data")
   private void setSitePath(String path) {
     sitePath = Paths.get(path);
   }
@@ -155,6 +155,13 @@ public abstract class SiteProgram extends AbstractProgram {
         });
     Module configModule = new GerritServerConfigModule();
     modules.add(configModule);
+    modules.add(
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            bind(GerritRuntime.class).toInstance(getGerritRuntime());
+          }
+        });
     Injector cfgInjector = Guice.createInjector(sitePathModule, configModule);
     Config cfg = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     String dbType;
@@ -217,6 +224,11 @@ public abstract class SiteProgram extends AbstractProgram {
       }
       throw die(buf.toString(), new RuntimeException("DbInjector failed", ce));
     }
+  }
+
+  /** Returns the current runtime used by this Gerrit program. */
+  protected GerritRuntime getGerritRuntime() {
+    return GerritRuntime.BATCH;
   }
 
   protected final String getConfiguredSecureStoreClass() {

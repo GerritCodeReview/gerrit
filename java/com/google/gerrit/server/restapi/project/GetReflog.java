@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -36,47 +37,42 @@ import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.ReflogReader;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class GetReflog implements RestReadView<BranchResource> {
-  private static final Logger log = LoggerFactory.getLogger(GetReflog.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "maximum number of reflog entries to list"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "maximum number of reflog entries to list")
   public GetReflog setLimit(int limit) {
     this.limit = limit;
     return this;
   }
 
   @Option(
-    name = "--from",
-    metaVar = "TIMESTAMP",
-    usage =
-        "timestamp from which the reflog entries should be listed (UTC, format: "
-            + TimestampHandler.TIMESTAMP_FORMAT
-            + ")"
-  )
+      name = "--from",
+      metaVar = "TIMESTAMP",
+      usage =
+          "timestamp from which the reflog entries should be listed (UTC, format: "
+              + TimestampHandler.TIMESTAMP_FORMAT
+              + ")")
   public GetReflog setFrom(Timestamp from) {
     this.from = from;
     return this;
   }
 
   @Option(
-    name = "--to",
-    metaVar = "TIMESTAMP",
-    usage =
-        "timestamp until which the reflog entries should be listed (UTC, format: "
-            + TimestampHandler.TIMESTAMP_FORMAT
-            + ")"
-  )
+      name = "--to",
+      metaVar = "TIMESTAMP",
+      usage =
+          "timestamp until which the reflog entries should be listed (UTC, format: "
+              + TimestampHandler.TIMESTAMP_FORMAT
+              + ")")
   public GetReflog setTo(Timestamp to) {
     this.to = to;
     return this;
@@ -106,7 +102,7 @@ public class GetReflog implements RestReadView<BranchResource> {
         r = repo.getReflogReader(rsrc.getRef());
       } catch (UnsupportedOperationException e) {
         String msg = "reflog not supported on repo " + rsrc.getNameKey().get();
-        log.error(msg);
+        logger.atSevere().log(msg);
         throw new MethodNotAllowedException(msg);
       }
       if (r == null) {

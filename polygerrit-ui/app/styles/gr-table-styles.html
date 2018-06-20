@@ -30,6 +30,9 @@ limitations under the License.
       .genericList tr {
         border-bottom: 1px solid var(--border-color);
       }
+      .genericList tr:hover {
+        background-color: var(--hover-background-color);
+      }
       .genericList th {
         white-space: nowrap;
       }
@@ -71,11 +74,11 @@ limitations under the License.
       }
       .genericList .topHeader {
         background-color: var(--table-header-background-color);
-        font-size: var(--font-size-large);
         height: 3rem;
       }
       .genericList .groupHeader {
         background-color: var(--table-subheader-background-color);
+        font-size: var(--font-size-large);
       }
       .genericList a {
         color: var(--primary-text-color);

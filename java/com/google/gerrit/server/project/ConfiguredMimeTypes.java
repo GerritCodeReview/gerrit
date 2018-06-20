@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.flogger.FluentLogger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,11 +24,9 @@ import java.util.regex.PatternSyntaxException;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ConfiguredMimeTypes {
-  private static final Logger log = LoggerFactory.getLogger(ConfiguredMimeTypes.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String MIMETYPE = "mimetype";
   private static final String KEY_PATH = "path";
@@ -45,10 +44,9 @@ public class ConfiguredMimeTypes {
           try {
             add(typeName, path);
           } catch (PatternSyntaxException | InvalidPatternException e) {
-            log.warn(
-                String.format(
-                    "Ignoring invalid %s.%s.%s = %s in project %s: %s",
-                    MIMETYPE, typeName, KEY_PATH, path, projectName, e.getMessage()));
+            logger.atWarning().log(
+                "Ignoring invalid %s.%s.%s = %s in project %s: %s",
+                MIMETYPE, typeName, KEY_PATH, path, projectName, e.getMessage());
           }
         }
       }

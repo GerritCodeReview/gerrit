@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -46,14 +47,13 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class CherryPick
     extends RetryingRestModifyView<RevisionResource, CherryPickInput, ChangeInfo>
     implements UiAction<RevisionResource> {
-  private static final Logger log = LoggerFactory.getLogger(CherryPick.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final PermissionBackend permissionBackend;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
@@ -120,7 +120,8 @@ public class CherryPick
     try {
       projectStatePermitsWrite = projectCache.checkedGet(rsrc.getProject()).statePermitsWrite();
     } catch (IOException e) {
-      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check if project state permits write: %s", rsrc.getProject());
     }
     return new UiAction.Description()
         .setLabel("Cherry Pick")

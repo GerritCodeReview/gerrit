@@ -20,6 +20,7 @@ import static org.pegdown.Extensions.HARDWRAPS;
 import static org.pegdown.Extensions.SUPPRESS_ALL_HTML;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,11 +38,9 @@ import org.pegdown.ast.HeaderNode;
 import org.pegdown.ast.Node;
 import org.pegdown.ast.RootNode;
 import org.pegdown.ast.TextNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MarkdownFormatter {
-  private static final Logger log = LoggerFactory.getLogger(MarkdownFormatter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String defaultCss;
 
@@ -51,7 +50,7 @@ public class MarkdownFormatter {
     try {
       src = readPegdownCss(file);
     } catch (IOException err) {
-      log.warn("Cannot load pegdown.css", err);
+      logger.atWarning().withCause(err).log("Cannot load pegdown.css");
       src = "";
     }
     defaultCss = file.get() ? null : src;
@@ -64,7 +63,7 @@ public class MarkdownFormatter {
     try {
       return readPegdownCss(new AtomicBoolean());
     } catch (IOException err) {
-      log.warn("Cannot load pegdown.css", err);
+      logger.atWarning().withCause(err).log("Cannot load pegdown.css");
       return "";
     }
   }

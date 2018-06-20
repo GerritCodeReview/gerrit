@@ -383,10 +383,9 @@ public class ChangeEdits
     private final ProjectCache projectCache;
 
     @Option(
-      name = "--base",
-      aliases = {"-b"},
-      usage = "whether to load the content on the base revision instead of the change edit"
-    )
+        name = "--base",
+        aliases = {"-b"},
+        usage = "whether to load the content on the base revision instead of the change edit")
     private boolean base;
 
     @Inject
@@ -485,10 +484,9 @@ public class ChangeEdits
     private final ChangeEditUtil editUtil;
 
     @Option(
-      name = "--base",
-      aliases = {"-b"},
-      usage = "whether to load the message on the base revision instead of the change edit"
-    )
+        name = "--base",
+        aliases = {"-b"},
+        usage = "whether to load the message on the base revision instead of the change edit")
     private boolean base;
 
     @Inject

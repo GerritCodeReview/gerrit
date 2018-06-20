@@ -15,12 +15,13 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.collect.FluentIterable;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.reviewdb.client.Change;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.EnumCacheSerializer;
 import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -41,8 +43,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
-import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
@@ -51,19 +51,17 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.LargeObjectException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ChangeKindCacheImpl implements ChangeKindCache {
-  private static final Logger log = LoggerFactory.getLogger(ChangeKindCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String ID_CACHE = "change_kind";
 
@@ -106,11 +104,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         ObjectId prior,
         ObjectId next) {
       try {
-        Key key = new Key(prior, next, useRecursiveMerge);
+        Key key = Key.create(prior, next, useRecursiveMerge);
         return new Loader(key, repoManager, project, rw, repoConfig).call();
       } catch (IOException e) {
-        log.warn(
-            "Cannot check trivial rebase of new patch set " + next.name() + " in " + project, e);
+        logger.atWarning().withCause(e).log(
+            "Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
         return ChangeKind.REWORK;
       }
     }
@@ -127,78 +125,44 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
   }
 
-  public static class Key {
-    private transient ObjectId prior;
-    private transient ObjectId next;
-    private transient String strategyName;
-
-    private Key(ObjectId prior, ObjectId next, boolean useRecursiveMerge) {
-      checkNotNull(next, "next");
-      String strategyName = MergeUtil.mergeStrategyName(true, useRecursiveMerge);
-      this.prior = prior.copy();
-      this.next = next.copy();
-      this.strategyName = strategyName;
+  @AutoValue
+  public abstract static class Key {
+    public static Key create(AnyObjectId prior, AnyObjectId next, String strategyName) {
+      return new AutoValue_ChangeKindCacheImpl_Key(prior.copy(), next.copy(), strategyName);
     }
 
-    public Key(ObjectId prior, ObjectId next, String strategyName) {
-      this.prior = prior;
-      this.next = next;
-      this.strategyName = strategyName;
+    private static Key create(AnyObjectId prior, AnyObjectId next, boolean useRecursiveMerge) {
+      return create(prior, next, MergeUtil.mergeStrategyName(true, useRecursiveMerge));
     }
 
-    public ObjectId getPrior() {
-      return prior;
-    }
+    public abstract ObjectId prior();
 
-    public ObjectId getNext() {
-      return next;
-    }
+    public abstract ObjectId next();
 
-    public String getStrategyName() {
-      return strategyName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (o instanceof Key) {
-        Key k = (Key) o;
-        return Objects.equals(prior, k.prior)
-            && Objects.equals(next, k.next)
-            && Objects.equals(strategyName, k.strategyName);
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(prior, next, strategyName);
-    }
+    public abstract String strategyName();
 
     @VisibleForTesting
     static class Serializer implements CacheSerializer<Key> {
       @Override
       public byte[] serialize(Key object) {
-        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
-        ChangeKindKeyProto.Builder b = ChangeKindKeyProto.newBuilder();
-        object.getPrior().copyRawTo(buf, 0);
-        b.setPrior(ByteString.copyFrom(buf));
-        object.getNext().copyRawTo(buf, 0);
-        b.setNext(ByteString.copyFrom(buf));
-        b.setStrategyName(object.getStrategyName());
-        return ProtoCacheSerializers.toByteArray(b.build());
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return ProtoCacheSerializers.toByteArray(
+            ChangeKindKeyProto.newBuilder()
+                .setPrior(idConverter.toByteString(object.prior()))
+                .setNext(idConverter.toByteString(object.next()))
+                .setStrategyName(object.strategyName())
+                .build());
       }
 
       @Override
       public Key deserialize(byte[] in) {
-        try {
-          ChangeKindKeyProto proto = ChangeKindKeyProto.parseFrom(in);
-          return new Key(
-              ObjectId.fromRaw(proto.getPrior().toByteArray()),
-              ObjectId.fromRaw(proto.getNext().toByteArray()),
-              proto.getStrategyName());
-        } catch (InvalidProtocolBufferException e) {
-          throw new IllegalArgumentException("Failed to deserialize object", e);
-        }
+        ChangeKindKeyProto proto =
+            ProtoCacheSerializers.parseUnchecked(ChangeKindKeyProto.parser(), in);
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return create(
+            idConverter.fromByteString(proto.getPrior()),
+            idConverter.fromByteString(proto.getNext()),
+            proto.getStrategyName());
       }
     }
   }
@@ -231,7 +195,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     @SuppressWarnings("resource") // Resources are manually managed.
     @Override
     public ChangeKind call() throws IOException {
-      if (Objects.equals(key.prior, key.next)) {
+      if (Objects.equals(key.prior(), key.next())) {
         return ChangeKind.NO_CODE_CHANGE;
       }
 
@@ -244,9 +208,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         config = repo.getConfig();
       }
       try {
-        RevCommit prior = rw.parseCommit(key.prior);
+        RevCommit prior = rw.parseCommit(key.prior());
         rw.parseBody(prior);
-        RevCommit next = rw.parseCommit(key.next);
+        RevCommit next = rw.parseCommit(key.next());
         rw.parseBody(next);
 
         if (!next.getFullMessage().equals(prior.getFullMessage())) {
@@ -277,7 +241,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         // having the same tree as would exist when the prior commit is
         // cherry-picked onto the next commit's new first parent.
         try (ObjectInserter ins = new InMemoryInserter(rw.getObjectReader())) {
-          ThreeWayMerger merger = MergeUtil.newThreeWayMerger(ins, config, key.strategyName);
+          ThreeWayMerger merger = MergeUtil.newThreeWayMerger(ins, config, key.strategyName());
           merger.setBase(prior.getParent(0));
           if (merger.merge(next.getParent(0), prior)
               && merger.getResultTreeId().equals(next.getTree())) {
@@ -321,7 +285,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     }
 
     private static boolean isSameDeltaAndTree(RevCommit prior, RevCommit next) {
-      if (next.getTree() != prior.getTree()) {
+      if (!Objects.equals(next.getTree(), prior.getTree())) {
         return false;
       }
 
@@ -334,7 +298,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       // Make sure that the prior/next delta is the same - not just the tree.
       // This is done by making sure that the parent trees are equal.
       for (int i = 0; i < prior.getParentCount(); i++) {
-        if (next.getParent(i).getTree() != prior.getParent(i).getTree()) {
+        if (!Objects.equals(next.getParent(i).getTree(), prior.getParent(i).getTree())) {
           return false;
         }
       }
@@ -347,7 +311,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     public int weigh(Key key, ChangeKind changeKind) {
       return 16
           + 2 * 36
-          + 2 * key.strategyName.length() // Size of Key, 64 bit JVM
+          + 2 * key.strategyName().length() // Size of Key, 64 bit JVM
           + 2 * changeKind.name().length(); // Size of ChangeKind, 64 bit JVM
     }
   }
@@ -377,10 +341,11 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       ObjectId prior,
       ObjectId next) {
     try {
-      Key key = new Key(prior, next, useRecursiveMerge);
+      Key key = Key.create(prior, next, useRecursiveMerge);
       return cache.get(key, new Loader(key, repoManager, project, rw, repoConfig));
     } catch (ExecutionException e) {
-      log.warn("Cannot check trivial rebase of new patch set " + next.name() + " in " + project, e);
+      logger.atWarning().withCause(e).log(
+          "Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
       return ChangeKind.REWORK;
     }
   }
@@ -432,12 +397,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         }
       } catch (OrmException e) {
         // Do nothing; assume we have a complex change
-        log.warn(
-            "Unable to get change kind for patchSet "
-                + patch.getPatchSetId()
-                + "of change "
-                + change.getId(),
-            e);
+        logger.atWarning().withCause(e).log(
+            "Unable to get change kind for patchSet %s of change %s",
+            patch.getPatchSetId(), change.getId());
       }
     }
     return kind;
@@ -462,12 +424,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
                 cache, rw, repo.getConfig(), changeDataFactory.create(db, change), patch);
       } catch (IOException e) {
         // Do nothing; assume we have a complex change
-        log.warn(
-            "Unable to get change kind for patchSet "
-                + patch.getPatchSetId()
-                + "of change "
-                + change.getChangeId(),
-            e);
+        logger.atWarning().withCause(e).log(
+            "Unable to get change kind for patchSet %s of change %s",
+            patch.getPatchSetId(), change.getChangeId());
       }
     }
     return kind;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.receive;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailSettings;
 import com.google.gerrit.server.mail.Encryption;
@@ -24,12 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.net.imap.IMAPClient;
 import org.apache.commons.net.imap.IMAPSClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ImapMailReceiver extends MailReceiver {
-  private static final Logger log = LoggerFactory.getLogger(ImapMailReceiver.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String INBOX_FOLDER = "INBOX";
 
   @Inject
@@ -71,7 +71,7 @@ public class ImapMailReceiver extends MailReceiver {
         // should fetch.
         if (!imap.fetch("1:*", "(INTERNALDATE)")) {
           // false indicates that there are no messages to fetch
-          log.info("Fetched 0 messages via IMAP");
+          logger.atInfo().log("Fetched 0 messages via IMAP");
           return;
         }
         // Format of reply is one line per email and one line to indicate
@@ -81,7 +81,7 @@ public class ImapMailReceiver extends MailReceiver {
         // * 2 FETCH (INTERNALDATE "Mon, 24 Oct 2016 16:53:22 +0200 (CEST)")
         // AAAC OK FETCH completed.
         int numMessages = imap.getReplyStrings().length - 1;
-        log.info("Fetched " + numMessages + " messages via IMAP");
+        logger.atInfo().log("Fetched %d messages via IMAP", numMessages);
         // Fetch the full version of all emails
         List<MailMessage> mailMessages = new ArrayList<>(numMessages);
         for (int i = 1; i <= numMessages; i++) {
@@ -108,21 +108,22 @@ public class ImapMailReceiver extends MailReceiver {
                 if (imap.store(i + ":" + i, "+FLAGS", "(\\Deleted)")) {
                   pendingDeletion.remove(mailMessage.id());
                 } else {
-                  log.error("Could not mark mail message as deleted: " + mailMessage.id());
+                  logger.atSevere().log(
+                      "Could not mark mail message as deleted: %s", mailMessage.id());
                 }
               } else {
                 mailMessages.add(mailMessage);
               }
             } catch (MailParsingException e) {
-              log.error("Exception while parsing email after IMAP fetch", e);
+              logger.atSevere().withCause(e).log("Exception while parsing email after IMAP fetch");
             }
           } else {
-            log.error("IMAP fetch failed. Will retry in next fetch cycle.");
+            logger.atSevere().log("IMAP fetch failed. Will retry in next fetch cycle.");
           }
         }
         // Permanently delete emails marked for deletion
         if (!imap.expunge()) {
-          log.error("Could not expunge IMAP emails");
+          logger.atSevere().log("Could not expunge IMAP emails");
         }
         dispatchMailProcessor(mailMessages, async);
       } finally {

@@ -21,6 +21,7 @@ import static org.apache.sshd.common.channel.ChannelOutputStream.WAIT_FOR_SPACE_
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Version;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.metrics.Counter0;
@@ -70,7 +71,7 @@ import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.compression.Compression;
 import org.apache.sshd.common.file.FileSystemFactory;
-import org.apache.sshd.common.forward.DefaultTcpipForwarderFactory;
+import org.apache.sshd.common.forward.DefaultForwarderFactory;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.AbstractIoServiceFactory;
@@ -111,8 +112,6 @@ import org.apache.sshd.server.session.SessionFactory;
 import org.bouncycastle.crypto.prng.RandomGenerator;
 import org.bouncycastle.crypto.prng.VMPCRandomGenerator;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * SSH daemon to communicate with Gerrit.
@@ -133,7 +132,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
-  private static final Logger sshDaemonLog = LoggerFactory.getLogger(SshDaemon.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public enum SshSessionBackend {
     MINA,
@@ -334,7 +333,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         throw new IllegalStateException("Cannot bind to " + addressList(), e);
       }
 
-      sshDaemonLog.info(String.format("Started Gerrit %s on %s", getVersion(), addressList()));
+      logger.atInfo().log("Started Gerrit %s on %s", getVersion(), addressList());
     }
   }
 
@@ -348,9 +347,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       try {
         daemonAcceptor.close(true).await();
         shutdownExecutors();
-        sshDaemonLog.info("Stopped Gerrit SSHD");
+        logger.atInfo().log("Stopped Gerrit SSHD");
       } catch (IOException e) {
-        sshDaemonLog.warn("Exception caught while closing", e);
+        logger.atWarning().withCause(e).log("Exception caught while closing");
       } finally {
         daemonAcceptor = null;
       }
@@ -400,9 +399,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         try {
           r.add(new HostKey(addr, keyBin));
         } catch (JSchException e) {
-          sshDaemonLog.warn(
-              String.format(
-                  "Cannot format SSHD host key [%s]: %s", pub.getAlgorithm(), e.getMessage()));
+          logger.atWarning().log(
+              "Cannot format SSHD host key [%s]: %s", pub.getAlgorithm(), e.getMessage());
         }
       }
     }
@@ -533,15 +531,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         final byte[] iv = new byte[c.getIVSize()];
         c.init(Cipher.Mode.Encrypt, key, iv);
       } catch (InvalidKeyException e) {
-        sshDaemonLog.warn(
-            "Disabling cipher "
-                + f.getName()
-                + ": "
-                + e.getMessage()
-                + "; try installing unlimited cryptography extension");
+        logger.atWarning().log(
+            "Disabling cipher %s: %s; try installing unlimited cryptography extension",
+            f.getName(), e.getMessage());
         i.remove();
       } catch (Exception e) {
-        sshDaemonLog.warn("Disabling cipher " + f.getName() + ": " + e.getMessage());
+        logger.atWarning().log("Disabling cipher %s: %s", f.getName(), e.getMessage());
         i.remove();
       }
     }
@@ -602,7 +597,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           msg.append(avail[i].getName());
         }
         msg.append(" is supported");
-        sshDaemonLog.error(msg.toString());
+        logger.atSevere().log(msg.toString());
       } else if (add) {
         if (!def.contains(n)) {
           def.add(n);
@@ -670,12 +665,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     List<NamedFactory<UserAuth>> authFactories = new ArrayList<>();
     if (kerberosKeytab != null) {
       authFactories.add(UserAuthGSSFactory.INSTANCE);
-      sshDaemonLog.info("Enabling kerberos with keytab " + kerberosKeytab);
+      logger.atInfo().log("Enabling kerberos with keytab %s", kerberosKeytab);
       if (!new File(kerberosKeytab).canRead()) {
-        sshDaemonLog.error(
-            "Keytab "
-                + kerberosKeytab
-                + " does not exist or is not readable; further errors are possible");
+        logger.atSevere().log(
+            "Keytab %s does not exist or is not readable; further errors are possible",
+            kerberosKeytab);
       }
       kerberosAuthenticator.setKeytabFile(kerberosKeytab);
       if (kerberosPrincipal == null) {
@@ -685,9 +679,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
           kerberosPrincipal = "host/localhost";
         }
       }
-      sshDaemonLog.info("Using kerberos principal " + kerberosPrincipal);
+      logger.atInfo().log("Using kerberos principal %s", kerberosPrincipal);
       if (!kerberosPrincipal.startsWith("host/")) {
-        sshDaemonLog.warn(
+        logger.atWarning().log(
             "Host principal does not start with host/ "
                 + "which most SSH clients will supply automatically");
       }
@@ -700,7 +694,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initForwarding() {
-    setTcpipForwardingFilter(
+    setForwardingFilter(
         new ForwardingFilter() {
           @Override
           public boolean canForwardAgent(Session session, String requestType) {
@@ -722,7 +716,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
             return false;
           }
         });
-    setTcpipForwarderFactory(new DefaultTcpipForwarderFactory());
+    setForwarderFactory(new DefaultForwarderFactory());
   }
 
   private void initFileSystemFactory() {

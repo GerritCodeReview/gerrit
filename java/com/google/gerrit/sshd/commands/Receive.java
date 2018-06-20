@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -41,16 +42,13 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Receives change upload over SSH using the Git receive-pack protocol. */
 @CommandMetaData(
-  name = "receive-pack",
-  description = "Standard Git server side command for client side git push"
-)
+    name = "receive-pack",
+    description = "Standard Git server side command for client side git push")
 final class Receive extends AbstractGitCommand {
-  private static final Logger log = LoggerFactory.getLogger(Receive.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject private AsyncReceiveCommits.Factory factory;
   @Inject private IdentifiedUser currentUser;
@@ -61,21 +59,19 @@ final class Receive extends AbstractGitCommand {
       MultimapBuilder.hashKeys(2).hashSetValues().build();
 
   @Option(
-    name = "--reviewer",
-    aliases = {"--re"},
-    metaVar = "EMAIL",
-    usage = "request reviewer for change(s)"
-  )
+      name = "--reviewer",
+      aliases = {"--re"},
+      metaVar = "EMAIL",
+      usage = "request reviewer for change(s)")
   void addReviewer(Account.Id id) {
     reviewers.put(ReviewerStateInternal.REVIEWER, id);
   }
 
   @Option(
-    name = "--cc",
-    aliases = {},
-    metaVar = "EMAIL",
-    usage = "CC user on change(s)"
-  )
+      name = "--cc",
+      aliases = {},
+      metaVar = "EMAIL",
+      usage = "CC user on change(s)")
   void addCC(Account.Id id) {
     reviewers.put(ReviewerStateInternal.CC, id);
   }
@@ -121,7 +117,7 @@ final class Receive extends AbstractGitCommand {
         msg.append(currentUser.getAccountId());
         msg.append("): ");
         msg.append(badStream.getCause().getMessage());
-        log.info(msg.toString());
+        logger.atInfo().log(msg.toString());
         throw new UnloggedFailure(128, "error: " + badStream.getCause().getMessage());
       }
 

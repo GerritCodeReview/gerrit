@@ -45,23 +45,20 @@ import org.kohsuke.args4j.Option;
 /** Display the current work queue. */
 @AdminHighPriorityCommand
 @CommandMetaData(
-  name = "show-queue",
-  description = "Display the background work queues",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "show-queue",
+    description = "Display the background work queues",
+    runsAt = MASTER_OR_SLAVE)
 final class ShowQueue extends SshCommand {
   @Option(
-    name = "--wide",
-    aliases = {"-w"},
-    usage = "display without line width truncation"
-  )
+      name = "--wide",
+      aliases = {"-w"},
+      usage = "display without line width truncation")
   private boolean wide;
 
   @Option(
-    name = "--by-queue",
-    aliases = {"-q"},
-    usage = "group tasks by queue and print queue info"
-  )
+      name = "--by-queue",
+      aliases = {"-q"},
+      usage = "group tasks by queue and print queue info")
   private boolean groupByQueue;
 
   @Inject private PermissionBackend permissionBackend;

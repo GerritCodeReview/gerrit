@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
@@ -44,13 +45,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Caches important (but small) account state to avoid database hits. */
 @Singleton
 public class AccountCacheImpl implements AccountCache {
-  private static final Logger log = LoggerFactory.getLogger(AccountCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String BYID_NAME = "accounts";
 
@@ -89,7 +88,7 @@ public class AccountCacheImpl implements AccountCache {
     try {
       return byId.get(accountId).orElse(missing(accountId));
     } catch (ExecutionException e) {
-      log.warn("Cannot load AccountState for " + accountId, e);
+      logger.atWarning().withCause(e).log("Cannot load AccountState for %s", accountId);
       return missing(accountId);
     }
   }
@@ -99,7 +98,7 @@ public class AccountCacheImpl implements AccountCache {
     try {
       return byId.get(accountId);
     } catch (ExecutionException e) {
-      log.warn("Cannot load AccountState for ID " + accountId, e);
+      logger.atWarning().withCause(e).log("Cannot load AccountState for ID %s", accountId);
       return null;
     }
   }
@@ -126,14 +125,14 @@ public class AccountCacheImpl implements AccountCache {
     try {
       futures = executor.invokeAll(callables);
     } catch (InterruptedException e) {
-      log.error("Cannot load AccountStates", e);
+      logger.atSevere().withCause(e).log("Cannot load AccountStates");
       return ImmutableMap.of();
     }
     for (Future<Optional<AccountState>> f : futures) {
       try {
         f.get().ifPresent(s -> accountStates.put(s.getAccount().getId(), s));
       } catch (InterruptedException | ExecutionException e) {
-        log.error("Cannot load AccountState", e);
+        logger.atSevere().withCause(e).log("Cannot load AccountState");
       }
     }
     return accountStates;
@@ -147,7 +146,7 @@ public class AccountCacheImpl implements AccountCache {
           .map(e -> get(e.accountId()))
           .orElseGet(Optional::empty);
     } catch (IOException | ConfigInvalidException e) {
-      log.warn("Cannot load AccountState for username " + username, e);
+      logger.atWarning().withCause(e).log("Cannot load AccountState for username %s", username);
       return null;
     }
   }

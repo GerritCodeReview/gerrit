@@ -51,23 +51,20 @@ import org.kohsuke.args4j.Option;
 /** Show the current SSH connections. */
 @RequiresCapability(GlobalCapability.VIEW_CONNECTIONS)
 @CommandMetaData(
-  name = "show-connections",
-  description = "Display active client SSH connections",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "show-connections",
+    description = "Display active client SSH connections",
+    runsAt = MASTER_OR_SLAVE)
 final class ShowConnections extends SshCommand {
   @Option(
-    name = "--numeric",
-    aliases = {"-n"},
-    usage = "don't resolve names"
-  )
+      name = "--numeric",
+      aliases = {"-n"},
+      usage = "don't resolve names")
   private boolean numeric;
 
   @Option(
-    name = "--wide",
-    aliases = {"-w"},
-    usage = "display without line width truncation"
-  )
+      name = "--wide",
+      aliases = {"-w"},
+      usage = "display without line width truncation")
   private boolean wide;
 
   @Inject private SshDaemon daemon;

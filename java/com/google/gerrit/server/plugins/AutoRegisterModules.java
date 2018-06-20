@@ -20,6 +20,7 @@ import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
@@ -38,11 +39,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class AutoRegisterModules {
-  private static final Logger log = LoggerFactory.getLogger(AutoRegisterModules.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final String pluginName;
   private final PluginGuiceEnvironment env;
@@ -134,12 +133,10 @@ class AutoRegisterModules {
         initJs = STATIC_INIT_JS;
       }
     } catch (IOException e) {
-      log.warn(
-          String.format(
-              "Cannot access %s from plugin %s: "
-                  + "JavaScript auto-discovered plugin will not be registered",
-              STATIC_INIT_JS, pluginName),
-          e);
+      logger.atWarning().withCause(e).log(
+          "Cannot access %s from plugin %s: "
+              + "JavaScript auto-discovered plugin will not be registered",
+          STATIC_INIT_JS, pluginName);
     }
   }
 
@@ -155,10 +152,9 @@ class AutoRegisterModules {
 
     Export export = clazz.getAnnotation(Export.class);
     if (export == null) {
-      log.warn(
-          String.format(
-              "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
-              pluginName, clazz.getName(), def.annotationValue));
+      logger.atWarning().log(
+          "In plugin %s asm incorrectly parsed %s with @Export(\"%s\")",
+          pluginName, clazz.getName(), def.annotationValue);
       return;
     }
 
@@ -192,9 +188,8 @@ class AutoRegisterModules {
     if (listen != null) {
       listen(clazz, clazz);
     } else {
-      log.warn(
-          String.format(
-              "In plugin %s asm incorrectly parsed %s with @Listen", pluginName, clazz.getName()));
+      logger.atWarning().log(
+          "In plugin %s asm incorrectly parsed %s with @Listen", pluginName, clazz.getName());
     }
   }
 

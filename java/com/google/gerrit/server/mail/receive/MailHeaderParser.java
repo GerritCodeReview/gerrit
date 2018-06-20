@@ -16,18 +16,17 @@ package com.google.gerrit.server.mail.receive;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.server.mail.MailHeader;
 import com.google.gerrit.server.mail.MailUtil;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.format.DateTimeParseException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Parse metadata from inbound email */
 public class MailHeaderParser {
-  private static final Logger log = LoggerFactory.getLogger(MailHeaderParser.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static MailMetadata parse(MailMessage m) {
     MailMetadata metadata = new MailMetadata();
@@ -47,7 +46,8 @@ public class MailHeaderParser {
         try {
           metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
         } catch (DateTimeParseException e) {
-          log.error("Mail: Error while parsing timestamp from header of message " + m.id(), e);
+          logger.atSevere().withCause(e).log(
+              "Mail: Error while parsing timestamp from header of message %s", m.id());
         }
       } else if (header.startsWith(MailHeader.MESSAGE_TYPE.fieldWithDelimiter())) {
         metadata.messageType =
@@ -93,7 +93,8 @@ public class MailHeaderParser {
         try {
           metadata.timestamp = Timestamp.from(MailUtil.rfcDateformatter.parse(ts, Instant::from));
         } catch (DateTimeParseException e) {
-          log.error("Mail: Error while parsing timestamp from footer of message " + m.id(), e);
+          logger.atSevere().withCause(e).log(
+              "Mail: Error while parsing timestamp from footer of message %s", m.id());
         }
       } else if (metadata.messageType == null && line.contains(MailHeader.MESSAGE_TYPE.getName())) {
         metadata.messageType = extractFooter(MailHeader.MESSAGE_TYPE.withDelimiter(), line);

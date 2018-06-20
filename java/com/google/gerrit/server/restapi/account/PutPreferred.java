@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -44,12 +45,10 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PutPreferred implements RestModifyView<AccountResource.Email, Input> {
-  private static final Logger log = LoggerFactory.getLogger(PutPreferred.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
@@ -117,9 +116,9 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
                         externalIds.byEmail(preferredEmail);
                     if (!existingExtIdsWithThisEmail.isEmpty()) {
                       // but the email is already assigned to another account
-                      log.warn(
-                          "Cannot set preferred email {} for account {} because it is owned"
-                              + " by the following account(s): {}",
+                      logger.atWarning().log(
+                          "Cannot set preferred email %s for account %s because it is owned"
+                              + " by the following account(s): %s",
                           preferredEmail,
                           user.getAccountId(),
                           existingExtIdsWithThisEmail

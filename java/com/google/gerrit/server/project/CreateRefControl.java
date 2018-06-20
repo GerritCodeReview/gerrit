@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -32,13 +33,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTag;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Manages access control for creating Git references (aka branches, tags). */
 @Singleton
 public class CreateRefControl {
-  private static final Logger log = LoggerFactory.getLogger(CreateRefControl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
@@ -85,7 +84,8 @@ public class CreateRefControl {
       try (RevWalk rw = new RevWalk(repo)) {
         rw.parseBody(tag);
       } catch (IOException e) {
-        log.error(String.format("RevWalk(%s) parsing %s:", branch.getParentKey(), tag.name()), e);
+        logger.atSevere().withCause(e).log(
+            "RevWalk(%s) parsing %s:", branch.getParentKey(), tag.name());
         throw e;
       }
 

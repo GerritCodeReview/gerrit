@@ -34,6 +34,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -54,7 +55,7 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -85,14 +86,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Invokes {@code gitweb.cgi} for the project given in {@code p}. */
 @SuppressWarnings("serial")
 @Singleton
 class GitwebServlet extends HttpServlet {
-  private static final Logger log = LoggerFactory.getLogger(GitwebServlet.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String PROJECT_LIST_ACTION = "project_list";
 
@@ -137,7 +136,7 @@ class GitwebServlet extends HttpServlet {
       try {
         uri = new URI(url);
       } catch (URISyntaxException e) {
-        log.error("Invalid gitweb.url: " + url);
+        logger.atSevere().log("Invalid gitweb.url: %s", url);
       }
       gitwebUrl = uri;
     } else {
@@ -428,7 +427,7 @@ class GitwebServlet extends HttpServlet {
       sendErrorOrRedirect(req, rsp, HttpServletResponse.SC_NOT_FOUND);
       return;
     } catch (IOException | PermissionBackendException err) {
-      log.error("cannot load " + name, err);
+      logger.atSevere().withCause(err).log("cannot load %s", name);
       rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       return;
     } catch (ResourceConflictException e) {
@@ -528,13 +527,13 @@ class GitwebServlet extends HttpServlet {
 
       final int status = proc.exitValue();
       if (0 != status) {
-        log.error("Non-zero exit status (" + status + ") from " + gitwebCgi);
+        logger.atSevere().log("Non-zero exit status (%d) from %s", status, gitwebCgi);
         if (!rsp.isCommitted()) {
           rsp.sendError(500);
         }
       }
     } catch (InterruptedException ie) {
-      log.debug("CGI: interrupted waiting for CGI to terminate");
+      logger.atFine().log("CGI: interrupted waiting for CGI to terminate");
     }
   }
 
@@ -659,7 +658,7 @@ class GitwebServlet extends HttpServlet {
                   dst.close();
                 }
               } catch (IOException e) {
-                log.error("Unexpected error copying input to CGI", e);
+                logger.atSevere().withCause(e).log("Unexpected error copying input to CGI");
               }
             },
             "Gitweb-InputFeeder")
@@ -679,9 +678,9 @@ class GitwebServlet extends HttpServlet {
                   }
                   b.append("CGI: ").append(line);
                 }
-                log.error(b.toString());
+                logger.atSevere().log(b.toString());
               } catch (IOException e) {
-                log.error("Unexpected error copying stderr from CGI", e);
+                logger.atSevere().withCause(e).log("Unexpected error copying stderr from CGI");
               }
             },
             "Gitweb-ErrorLogger")

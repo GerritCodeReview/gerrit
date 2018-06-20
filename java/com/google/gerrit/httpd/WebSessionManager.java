@@ -29,6 +29,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.cache.Cache;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.ConfigUtil;
@@ -43,11 +44,9 @@ import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class WebSessionManager {
-  private static final Logger log = LoggerFactory.getLogger(WebSessionManager.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static final String CACHE_NAME = "web_sessions";
 
   private final long sessionMaxAgeMillis;
@@ -69,10 +68,9 @@ public class WebSessionManager {
                 SECONDS.convert(MAX_AGE_MINUTES, MINUTES),
                 SECONDS));
     if (sessionMaxAgeMillis < MINUTES.toMillis(5)) {
-      log.warn(
-          String.format(
-              "cache.%s.maxAge is set to %d milliseconds; it should be at least 5 minutes.",
-              CACHE_NAME, sessionMaxAgeMillis));
+      logger.atWarning().log(
+          "cache.%s.maxAge is set to %d milliseconds; it should be at least 5 minutes.",
+          CACHE_NAME, sessionMaxAgeMillis);
     }
   }
 

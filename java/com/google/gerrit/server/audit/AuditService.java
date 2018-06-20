@@ -15,6 +15,7 @@
 package com.google.gerrit.server.audit;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -24,12 +25,10 @@ import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AuditService {
-  private static final Logger log = LoggerFactory.getLogger(AuditService.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicSet<AuditListener> auditListeners;
   private final DynamicSet<GroupAuditListener> groupAuditListeners;
@@ -59,7 +58,7 @@ public class AuditService {
             GroupMemberAuditEvent.create(actor, updatedGroup, addedMembers, addedOn);
         auditListener.onAddMembers(event);
       } catch (RuntimeException e) {
-        log.error("failed to log add accounts to group event", e);
+        logger.atSevere().withCause(e).log("failed to log add accounts to group event");
       }
     }
   }
@@ -75,7 +74,7 @@ public class AuditService {
             GroupMemberAuditEvent.create(actor, updatedGroup, deletedMembers, deletedOn);
         auditListener.onDeleteMembers(event);
       } catch (RuntimeException e) {
-        log.error("failed to log delete accounts from group event", e);
+        logger.atSevere().withCause(e).log("failed to log delete accounts from group event");
       }
     }
   }
@@ -91,7 +90,7 @@ public class AuditService {
             GroupSubgroupAuditEvent.create(actor, updatedGroup, addedSubgroups, addedOn);
         auditListener.onAddSubgroups(event);
       } catch (RuntimeException e) {
-        log.error("failed to log add groups to group event", e);
+        logger.atSevere().withCause(e).log("failed to log add groups to group event");
       }
     }
   }
@@ -107,7 +106,7 @@ public class AuditService {
             GroupSubgroupAuditEvent.create(actor, updatedGroup, deletedSubgroups, deletedOn);
         auditListener.onDeleteSubgroups(event);
       } catch (RuntimeException e) {
-        log.error("failed to log delete groups from group event", e);
+        logger.atSevere().withCause(e).log("failed to log delete groups from group event");
       }
     }
   }

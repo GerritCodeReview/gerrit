@@ -4,6 +4,7 @@ package com.google.gerrit.httpd;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -17,13 +18,12 @@ import java.util.List;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class DirectChangeByCommit extends HttpServlet {
   private static final long serialVersionUID = 1L;
-  private static final Logger log = LoggerFactory.getLogger(DirectChangeByCommit.class);
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Changes changes;
 
@@ -39,7 +39,7 @@ class DirectChangeByCommit extends HttpServlet {
     try {
       results = changes.query(query).withLimit(2).get();
     } catch (RestApiException e) {
-      log.warn("Cannot process query by URL: /r/" + query, e);
+      logger.atWarning().withCause(e).log("Cannot process query by URL: /r/%s", query);
       results = ImmutableList.of();
     }
     String token;

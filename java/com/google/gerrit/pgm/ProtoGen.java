@@ -32,12 +32,11 @@ import org.kohsuke.args4j.Option;
 
 public class ProtoGen extends AbstractProgram {
   @Option(
-    name = "--output",
-    aliases = {"-o"},
-    required = true,
-    metaVar = "FILE",
-    usage = "File to write .proto into"
-  )
+      name = "--output",
+      aliases = {"-o"},
+      required = true,
+      metaVar = "FILE",
+      usage = "File to write .proto into")
   private File file;
 
   @Override

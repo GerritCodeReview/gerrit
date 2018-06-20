@@ -83,11 +83,17 @@ class RevisionNoteBuilder {
   }
 
   public byte[] build(ChangeNoteUtil noteUtil, boolean writeJson) throws IOException {
+    return build(noteUtil.getChangeNoteJson(), noteUtil.getLegacyChangeNoteWrite(), writeJson);
+  }
+
+  public byte[] build(
+      ChangeNoteJson changeNoteJson, LegacyChangeNoteWrite legacyChangeNoteWrite, boolean writeJson)
+      throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     if (writeJson) {
-      buildNoteJson(noteUtil, out);
+      buildNoteJson(changeNoteJson, out);
     } else {
-      buildNoteLegacy(noteUtil, out);
+      buildNoteLegacy(legacyChangeNoteWrite, out);
     }
     return out.toByteArray();
   }
@@ -122,7 +128,7 @@ class RevisionNoteBuilder {
     return all;
   }
 
-  private void buildNoteJson(ChangeNoteUtil noteUtil, OutputStream out) throws IOException {
+  private void buildNoteJson(ChangeNoteJson noteUtil, OutputStream out) throws IOException {
     ListMultimap<Integer, Comment> comments = buildCommentMap();
     if (comments.isEmpty() && pushCert == null) {
       return;
@@ -137,7 +143,8 @@ class RevisionNoteBuilder {
     }
   }
 
-  private void buildNoteLegacy(ChangeNoteUtil noteUtil, OutputStream out) throws IOException {
+  private void buildNoteLegacy(LegacyChangeNoteWrite noteUtil, OutputStream out)
+      throws IOException {
     if (pushCert != null) {
       byte[] certBytes = pushCert.getBytes(UTF_8);
       out.write(certBytes, 0, trimTrailingNewlines(certBytes));

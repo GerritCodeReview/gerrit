@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-account-dropdown/gr-account-dropdown.html">
@@ -101,25 +102,37 @@ limitations under the License.
           color: var(--primary-text-color);
         }
       }
+      .settingsButton {
+        margin-left: .5em;
+      }
       .browse {
         color: var(--header-text-color);
         /* Same as gr-button */
         margin: 5px 4px;
         text-decoration: none;
       }
-      .accountContainer:not(.loggedIn):not(.loggedOut) .loginButton,
-      .accountContainer:not(.loggedIn):not(.loggedOut) gr-account-dropdown,
-      .accountContainer.loggedIn .loginButton,
-      .accountContainer.loggedOut gr-account-dropdown {
+      .settingsButton,
+      gr-account-dropdown {
         display: none;
+      }
+      :host([loading]) .accountContainer,
+      :host([logged-in]) .loginButton {
+        display: none;
+      }
+      :host([logged-in]) .settingsButton,
+      :host([logged-in]) gr-account-dropdown {
+        display: inline;
+      }
+      iron-icon {
+        color: var(--header-text-color);
       }
       .accountContainer {
         align-items: center;
         display: flex;
         margin: 0 -.5em 0 .5em;
-        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
       .loginButton {
         color: var(--header-text-color);
@@ -181,6 +194,12 @@ limitations under the License.
             name="header-browse-source"></gr-endpoint-decorator>
         <div class="accountContainer" id="accountContainer">
           <a class="loginButton" href$="[[_loginURL]]">Sign in</a>
+          <a
+              class="settingsButton"
+              href$="[[_generateSettingsLink()]]"
+              title="Settings">
+            <iron-icon icon="gr-icons:settings"></iron-icon>
+          </a>
           <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
         </div>
       </div>

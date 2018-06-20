@@ -45,3 +45,151 @@ message OAuthTokenProto {
   int64 expires_at = 4;
   string provider_id = 5;
 }
+
+
+// Serialized form of com.google.gerrit.server.notedb.ChangeNotesCache.Key.
+// Next ID: 4
+message ChangeNotesKeyProto {
+  string project = 1;
+  int32 change_id = 2;
+  bytes id = 3;
+}
+
+// Serialized from of com.google.gerrit.server.notedb.ChangeNotesState.
+//
+// Note on embedded protos: this is just for storing in a cache, so some formats
+// were chosen ease of coding the initial implementation. In particular, where
+// there already exists another serialization mechanism in Gerrit for
+// serializing a particular field, we use that rather than defining a new proto
+// type. This includes ReviewDb types that can be serialized to proto using
+// ProtobufCodec as well as NoteDb and indexed types that are serialized using
+// JSON. We can always revisit this decision later, particularly when we
+// eliminate the ReviewDb types; it just requires bumping the cache version.
+//
+// Note on nullability: there are a lot of nullable fields in ChangeNotesState
+// and its dependencies. It's likely we could make some of them non-nullable,
+// but each one of those would be a potentially significant amount of cleanup,
+// and there's no guarantee we'd be able to eliminate all of them. (For a less
+// complex class, it's likely the cleanup would be more feasible.)
+//
+// Instead, we just take the tedious yet simple approach of having a "has_foo"
+// field for each nullable field "foo", indicating whether or not foo is null.
+//
+// Next ID: 19
+message ChangeNotesStateProto {
+  // Effectively required, even though the corresponding ChangeNotesState field
+  // is optional, since the field is only absent when NoteDb is disabled, in
+  // which case attempting to use the ChangeNotesCache is programmer error.
+  bytes meta_id = 1;
+
+  int32 change_id = 2;
+
+  // Next ID: 24
+  message ChangeColumnsProto {
+    string change_key = 1;
+
+    int64 created_on = 2;
+
+    int64 last_updated_on = 3;
+
+    int32 owner = 4;
+
+    string branch = 5;
+
+    int32 current_patch_set_id = 6;
+    bool has_current_patch_set_id = 7;
+
+    string subject = 8;
+
+    string topic = 9;
+    bool has_topic = 10;
+
+    string original_subject = 11;
+    bool has_original_subject = 12;
+
+    string submission_id = 13;
+    bool has_submission_id = 14;
+
+    int32 assignee = 15;
+    bool has_assignee = 16;
+
+    string status = 17;
+    bool has_status = 18;
+
+    bool is_private = 19;
+
+    bool work_in_progress = 20;
+
+    bool review_started = 21;
+
+    int32 revert_of = 22;
+    bool has_revert_of = 23;
+  }
+  // Effectively required, even though the corresponding ChangeNotesState field
+  // is optional, since the field is only absent when NoteDb is disabled, in
+  // which case attempting to use the ChangeNotesCache is programmer error.
+  ChangeColumnsProto columns = 3;
+
+  repeated int32 past_assignee = 4;
+
+  repeated string hashtag = 5;
+
+  // Raw PatchSet proto as produced by ProtobufCodec.
+  repeated bytes patch_set = 6;
+
+  // Raw PatchSetApproval proto as produced by ProtobufCodec.
+  repeated bytes approval = 7;
+
+  // Next ID: 4
+  message ReviewerSetEntryProto {
+    string state = 1;
+    int32 account_id = 2;
+    int64 timestamp = 3;
+  }
+  repeated ReviewerSetEntryProto reviewer = 8;
+
+  // Next ID: 4
+  message ReviewerByEmailSetEntryProto {
+    string state = 1;
+    string address = 2;
+    int64 timestamp = 3;
+  }
+  repeated ReviewerByEmailSetEntryProto reviewer_by_email = 9;
+
+  repeated ReviewerSetEntryProto pending_reviewer = 10;
+
+  repeated ReviewerByEmailSetEntryProto pending_reviewer_by_email = 11;
+
+  repeated int32 past_reviewer = 12;
+
+  // Next ID: 5
+  message ReviewerStatusUpdateProto {
+    int64 date = 1;
+    int32 updated_by = 2;
+    int32 reviewer = 3;
+    string state = 4;
+  }
+  repeated ReviewerStatusUpdateProto reviewer_update = 13;
+
+  // JSON produced from
+  // com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord.
+  repeated string submit_record = 14;
+
+  // Raw ChangeMessage proto as produced by ProtobufCodec.
+  repeated bytes change_message = 15;
+
+  // JSON produced from com.google.gerrit.reviewdb.client.Comment.
+  repeated string published_comment = 16;
+
+  int64 read_only_until = 17;
+  bool has_read_only_until = 18;
+}
+
+
+// Serialized form of com.google.gerrit.server.query.change.ConflictKey
+message ConflictKeyProto {
+  bytes commit = 1;
+  bytes other_commit = 2;
+  string submit_type = 3;
+  bool content_merge = 4;
+}

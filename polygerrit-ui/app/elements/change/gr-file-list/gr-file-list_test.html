@@ -60,9 +60,11 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
+        getDiffPreferences() { return Promise.resolve({}); },
         getDiffComments() { return Promise.resolve({}); },
         getDiffRobotComments() { return Promise.resolve({}); },
         getDiffDrafts() { return Promise.resolve({}); },
+        getAccountCapabilities() { return Promise.resolve({}); },
       });
       stub('gr-date-formatter', {
         _loadTimeFormat() { return Promise.resolve(''); },
@@ -85,6 +87,7 @@ limitations under the License.
             .returns({meta: {}, left: [], right: []});
         done();
       });
+      element._loading = false;
       element.diffPrefs = {};
       element.numFilesShown = 200;
       element.patchRange = {
@@ -388,68 +391,147 @@ limitations under the License.
         ],
       };
 
+      const parentTo1 = {
+        basePatchNum: 'PARENT',
+        patchNum: '1',
+      };
+
+      const parentTo2 = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+
+      const _1To2 = {
+        basePatchNum: '1',
+        patchNum: '2',
+      };
+
       assert.equal(
-          element._computeCommentsString(element.changeComments, '1',
+          element._computeCommentsString(element.changeComments, parentTo1,
               '/COMMIT_MSG', 'comment'), '2 comments (1 unresolved)');
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, '1'
+          element._computeCommentsString(element.changeComments, _1To2,
+              '/COMMIT_MSG', 'comment'), '3 comments (1 unresolved)');
+      assert.equal(
+          element._computeCommentsStringMobile(element.changeComments, parentTo1
           , '/COMMIT_MSG'), '2c');
       assert.equal(
-          element._computeDraftsString(element.changeComments, '1',
+          element._computeCommentsStringMobile(element.changeComments, _1To2
+          , '/COMMIT_MSG'), '3c');
+      assert.equal(
+          element._computeDraftsString(element.changeComments, parentTo1,
               'unresolved.file'), '1 draft');
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, '1',
+          element._computeDraftsString(element.changeComments, _1To2,
+              'unresolved.file'), '1 draft');
+      assert.equal(
+          element._computeDraftsStringMobile(element.changeComments, parentTo1,
               'unresolved.file'), '1d');
       assert.equal(
-          element._computeCommentsString(element.changeComments, '1',
+          element._computeDraftsStringMobile(element.changeComments, _1To2,
+              'unresolved.file'), '1d');
+      assert.equal(
+          element._computeCommentsString(element.changeComments, parentTo1,
               'myfile.txt', 'comment'), '1 comment');
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, '1',
+          element._computeCommentsString(element.changeComments, _1To2,
+              'myfile.txt', 'comment'), '3 comments');
+      assert.equal(
+          element._computeCommentsStringMobile(element.changeComments, parentTo1,
               'myfile.txt'), '1c');
       assert.equal(
-          element._computeDraftsString(element.changeComments, '1',
+          element._computeCommentsStringMobile(element.changeComments, _1To2,
+              'myfile.txt'), '3c');
+      assert.equal(
+          element._computeDraftsString(element.changeComments, parentTo1,
               'myfile.txt'), '');
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, '1',
+          element._computeDraftsString(element.changeComments, _1To2,
               'myfile.txt'), '');
       assert.equal(
-          element._computeCommentsString(element.changeComments, '1',
+          element._computeDraftsStringMobile(element.changeComments, parentTo1,
+              'myfile.txt'), '');
+      assert.equal(
+          element._computeDraftsStringMobile(element.changeComments, _1To2,
+              'myfile.txt'), '');
+      assert.equal(
+          element._computeCommentsString(element.changeComments, parentTo1,
               'file_added_in_rev2.txt', 'comment'), '');
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, '1',
+          element._computeCommentsString(element.changeComments, _1To2,
+              'file_added_in_rev2.txt', 'comment'), '');
+      assert.equal(
+          element._computeCommentsStringMobile(element.changeComments, parentTo1,
               'file_added_in_rev2.txt'), '');
       assert.equal(
-          element._computeDraftsString(element.changeComments, '1',
+          element._computeCommentsStringMobile(element.changeComments, _1To2,
               'file_added_in_rev2.txt'), '');
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, '1',
+          element._computeDraftsString(element.changeComments, parentTo1,
               'file_added_in_rev2.txt'), '');
       assert.equal(
-          element._computeCommentsString(element.changeComments, '2',
+          element._computeDraftsString(element.changeComments, _1To2,
+              'file_added_in_rev2.txt'), '');
+      assert.equal(
+          element._computeDraftsStringMobile(element.changeComments, parentTo1,
+              'file_added_in_rev2.txt'), '');
+      assert.equal(
+          element._computeDraftsStringMobile(element.changeComments, _1To2,
+              'file_added_in_rev2.txt'), '');
+      assert.equal(
+          element._computeCommentsString(element.changeComments, parentTo2,
               '/COMMIT_MSG', 'comment'), '1 comment');
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, '2',
+          element._computeCommentsString(element.changeComments, _1To2,
+              '/COMMIT_MSG', 'comment'), '3 comments (1 unresolved)');
+      assert.equal(
+          element._computeCommentsStringMobile(element.changeComments, parentTo2,
               '/COMMIT_MSG'), '1c');
       assert.equal(
-          element._computeDraftsString(element.changeComments, '1',
+          element._computeCommentsStringMobile(element.changeComments, _1To2,
+              '/COMMIT_MSG'), '3c');
+      assert.equal(
+          element._computeDraftsString(element.changeComments, parentTo1,
               '/COMMIT_MSG'), '2 drafts');
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, '1',
+          element._computeDraftsString(element.changeComments, _1To2,
+              '/COMMIT_MSG'), '2 drafts');
+      assert.equal(
+          element._computeDraftsStringMobile(element.changeComments, parentTo1,
               '/COMMIT_MSG'), '2d');
       assert.equal(
-          element._computeCommentsString(element.changeComments, '2',
+          element._computeDraftsStringMobile(element.changeComments, _1To2,
+              '/COMMIT_MSG'), '2d');
+      assert.equal(
+          element._computeCommentsString(element.changeComments, parentTo2,
               'myfile.txt', 'comment'), '2 comments');
       assert.equal(
-          element._computeCommentsStringMobile(element.changeComments, '2',
+          element._computeCommentsString(element.changeComments, _1To2,
+              'myfile.txt', 'comment'), '3 comments');
+      assert.equal(
+          element._computeCommentsStringMobile(element.changeComments, parentTo2,
               'myfile.txt'), '2c');
       assert.equal(
-          element._computeDraftsStringMobile(element.changeComments, '2',
+          element._computeCommentsStringMobile(element.changeComments, _1To2,
+              'myfile.txt'), '3c');
+      assert.equal(
+          element._computeDraftsStringMobile(element.changeComments, parentTo2,
               'myfile.txt'), '');
       assert.equal(
-          element._computeCommentsString(element.changeComments, '2',
+          element._computeDraftsStringMobile(element.changeComments, _1To2,
+              'myfile.txt'), '');
+      assert.equal(
+          element._computeCommentsString(element.changeComments, parentTo2,
               'file_added_in_rev2.txt', 'comment'), '');
-      assert.equal(element._computeCommentsString(element.changeComments, '2',
-          'unresolved.file', 'comment'), '3 comments (1 unresolved)');
+      assert.equal(
+          element._computeCommentsString(element.changeComments, _1To2,
+              'file_added_in_rev2.txt', 'comment'), '');
+      assert.equal(
+          element._computeCommentsString(element.changeComments, parentTo2,
+              'unresolved.file', 'comment'), '3 comments (1 unresolved)');
+      assert.equal(
+          element._computeCommentsString(element.changeComments, _1To2,
+              'unresolved.file', 'comment'), '3 comments (1 unresolved)');
     });
 
     suite('keyboard shortcuts', () => {
@@ -880,7 +962,7 @@ limitations under the License.
       flushAsynchronousOperations();
 
       assert.equal(element.$$('iron-icon').icon, 'gr-icons:expand-more');
-      assert.equal(renderSpy.callCount, 2);
+      assert.equal(renderSpy.callCount, 1);
       assert.notInclude(element._expandedFilePaths, path);
       assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
@@ -1321,6 +1403,7 @@ limitations under the License.
             .returns({meta: {}, left: [], right: []});
         done();
       });
+      element._loading = false;
       element.numFilesShown = 75;
       element.selectedIndex = 0;
       element._filesByPath = {

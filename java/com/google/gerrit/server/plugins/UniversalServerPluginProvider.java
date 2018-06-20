@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.plugins;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -21,12 +22,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class UniversalServerPluginProvider implements ServerPluginProvider {
-  private static final Logger log = LoggerFactory.getLogger(UniversalServerPluginProvider.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicSet<ServerPluginProvider> serverPluginProviders;
 
@@ -82,11 +81,9 @@ class UniversalServerPluginProvider implements ServerPluginProvider {
     List<ServerPluginProvider> providers = new ArrayList<>();
     for (ServerPluginProvider serverPluginProvider : serverPluginProviders) {
       boolean handles = serverPluginProvider.handles(srcPath);
-      log.debug(
-          "File {} handled by {} ? => {}",
-          srcPath,
-          serverPluginProvider.getProviderPluginName(),
-          handles);
+      logger.atFine().log(
+          "File %s handled by %s ? => %s",
+          srcPath, serverPluginProvider.getProviderPluginName(), handles);
       if (handles) {
         providers.add(serverPluginProvider);
       }

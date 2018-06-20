@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.InternalUser;
@@ -32,12 +33,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AbandonUtil {
-  private static final Logger log = LoggerFactory.getLogger(AbandonUtil.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeCleanupConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
@@ -93,12 +92,13 @@ public class AbandonUtil {
             msg.append(" ").append(change.getId().get());
           }
           msg.append(".");
-          log.error(msg.toString(), e);
+          logger.atSevere().withCause(e).log(msg.toString());
         }
       }
-      log.info(String.format("Auto-Abandoned %d of %d changes.", count, changesToAbandon.size()));
+      logger.atInfo().log("Auto-Abandoned %d of %d changes.", count, changesToAbandon.size());
     } catch (QueryParseException | OrmException e) {
-      log.error("Failed to query inactive open changes for auto-abandoning.", e);
+      logger.atSevere().withCause(e).log(
+          "Failed to query inactive open changes for auto-abandoning.");
     }
   }
 
@@ -116,11 +116,10 @@ public class AbandonUtil {
       if (!changesToAbandon.isEmpty()) {
         validChanges.add(cd);
       } else {
-        log.debug(
-            "Change data with id \"{}\" does not satisfy the query \"{}\""
+        logger.atFine().log(
+            "Change data with id \"%s\" does not satisfy the query \"%s\""
                 + " any more, hence skipping it in clean up",
-            cd.getId(),
-            query);
+            cd.getId(), query);
       }
     }
     return validChanges;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
@@ -26,11 +27,9 @@ import com.google.gerrit.server.restapi.group.GroupJson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AgreementJson {
-  private static final Logger log = LoggerFactory.getLogger(AgreementJson.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<CurrentUser> self;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -62,12 +61,9 @@ public class AgreementJson {
         GroupResource group = new GroupResource(gc);
         info.autoVerifyGroup = groupJson.format(group);
       } catch (NoSuchGroupException | OrmException e) {
-        log.warn(
-            "autoverify group \""
-                + autoVerifyGroup.getName()
-                + "\" does not exist, referenced in CLA \""
-                + ca.getName()
-                + "\"");
+        logger.atWarning().log(
+            "autoverify group \"%s\" does not exist, referenced in CLA \"%s\"",
+            autoVerifyGroup.getName(), ca.getName());
       }
     }
     return info;

@@ -17,6 +17,7 @@ package com.google.gerrit.pgm;
 import static com.google.gerrit.pgm.init.InitPlugins.JAR;
 import static com.google.gerrit.pgm.init.InitPlugins.PLUGIN_DIR;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import com.google.inject.Singleton;
@@ -28,12 +29,10 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class WarDistribution implements PluginsDistribution {
-  private static final Logger log = LoggerFactory.getLogger(WarDistribution.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   public void foreach(Processor processor) throws IOException {
@@ -53,8 +52,7 @@ public class WarDistribution implements PluginsDistribution {
             try (InputStream in = zf.getInputStream(ze)) {
               processor.process(pluginName, in);
             } catch (IOException ioe) {
-              log.error(
-                  String.format("Error opening plugin %s: %s", ze.getName(), ioe.getMessage()));
+              logger.atSevere().log("Error opening plugin %s: %s", ze.getName(), ioe.getMessage());
             }
           }
         }

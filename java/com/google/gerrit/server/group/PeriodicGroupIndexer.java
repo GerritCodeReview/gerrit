@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -35,8 +36,6 @@ import com.google.inject.Provider;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Runnable to schedule periodic group reindexing.
@@ -58,7 +57,7 @@ import org.slf4j.LoggerFactory;
  * slave.
  */
 public class PeriodicGroupIndexer implements Runnable {
-  private static final Logger log = LoggerFactory.getLogger(PeriodicGroupIndexer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends LifecycleModule {
     @Override
@@ -88,7 +87,7 @@ public class PeriodicGroupIndexer implements Runnable {
 
       boolean isEnabled = cfg.getBoolean("index", "scheduledIndexer", "enabled", true);
       if (!isEnabled) {
-        log.warn("index.scheduledIndexer is disabled");
+        logger.atWarning().log("index.scheduledIndexer is disabled");
         return;
       }
 
@@ -146,9 +145,9 @@ public class PeriodicGroupIndexer implements Runnable {
         }
       }
       groupUuids = newGroupUuids;
-      log.info("Run group indexer, {} groups reindexed", reindexCounter);
+      logger.atInfo().log("Run group indexer, %s groups reindexed", reindexCounter);
     } catch (Throwable t) {
-      log.error("Failed to reindex groups", t);
+      logger.atSevere().withCause(t).log("Failed to reindex groups");
     }
   }
 }

@@ -22,6 +22,7 @@ import com.google.common.base.Enums;
 import com.google.common.base.MoreObjects;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -29,6 +30,7 @@ import com.google.gerrit.server.cache.BooleanCacheSerializer;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
 import com.google.gerrit.server.cache.proto.Cache.MergeabilityKeyProto;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -37,23 +39,18 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import com.google.protobuf.ByteString;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class MergeabilityCacheImpl implements MergeabilityCache {
-  private static final Logger log = LoggerFactory.getLogger(MergeabilityCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String CACHE_NAME = "mergeability";
 
@@ -145,33 +142,24 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
 
       @Override
       public byte[] serialize(EntryKey object) {
-        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
-        MergeabilityKeyProto.Builder b = MergeabilityKeyProto.newBuilder();
-        object.getCommit().copyRawTo(buf, 0);
-        b.setCommit(ByteString.copyFrom(buf));
-        object.getInto().copyRawTo(buf, 0);
-        b.setInto(ByteString.copyFrom(buf));
-        b.setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.getSubmitType()));
-        b.setMergeStrategy(object.getMergeStrategy());
-        return ProtoCacheSerializers.toByteArray(b.build());
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return ProtoCacheSerializers.toByteArray(
+            MergeabilityKeyProto.newBuilder()
+                .setCommit(idConverter.toByteString(object.getCommit()))
+                .setInto(idConverter.toByteString(object.getInto()))
+                .setSubmitType(SUBMIT_TYPE_CONVERTER.reverse().convert(object.getSubmitType()))
+                .setMergeStrategy(object.getMergeStrategy())
+                .build());
       }
 
       @Override
       public EntryKey deserialize(byte[] in) {
-        MergeabilityKeyProto proto;
-        try {
-          proto = MergeabilityKeyProto.parseFrom(in);
-        } catch (IOException e) {
-          throw new IllegalArgumentException("Failed to deserialize mergeability cache key");
-        }
-        byte[] buf = new byte[Constants.OBJECT_ID_LENGTH];
-        proto.getCommit().copyTo(buf, 0);
-        ObjectId commit = ObjectId.fromRaw(buf);
-        proto.getInto().copyTo(buf, 0);
-        ObjectId into = ObjectId.fromRaw(buf);
+        MergeabilityKeyProto proto =
+            ProtoCacheSerializers.parseUnchecked(MergeabilityKeyProto.parser(), in);
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
         return new EntryKey(
-            commit,
-            into,
+            idConverter.fromByteString(proto.getCommit()),
+            idConverter.fromByteString(proto.getInto()),
             SUBMIT_TYPE_CONVERTER.convert(proto.getSubmitType()),
             proto.getMergeStrategy());
       }
@@ -224,11 +212,9 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
             }
           });
     } catch (ExecutionException | UncheckedExecutionException e) {
-      log.error(
-          String.format(
-              "Error checking mergeability of %s into %s (%s)",
-              key.commit.name(), key.into.name(), key.submitType.name()),
-          e.getCause());
+      logger.atSevere().withCause(e.getCause()).log(
+          "Error checking mergeability of %s into %s (%s)",
+          key.commit.name(), key.into.name(), key.submitType.name());
       return false;
     }
   }

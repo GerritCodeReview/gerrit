@@ -157,4 +157,17 @@ public abstract class CurrentUser {
   public Optional<ExternalId.Key> getLastLoginExternalIdKey() {
     return get(lastLoginExternalIdPropertyKey);
   }
+
+  /**
+   * Checks if the current user has the same account id of another.
+   *
+   * <p>Provide a generic interface for allowing subclasses to define whether two accounts represent
+   * the same account id.
+   *
+   * @param other user to compare
+   * @return true if the two users have the same account id
+   */
+  public boolean hasSameAccountId(CurrentUser other) {
+    return false;
+  }
 }

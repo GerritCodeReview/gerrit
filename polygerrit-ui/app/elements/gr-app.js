@@ -88,6 +88,11 @@
         computed: '_computePluginScreenName(params)',
       },
       _settingsUrl: String,
+      _feedbackUrl: {
+        type: String,
+        value: 'https://bugs.chromium.org/p/gerrit/issues/entry' +
+          '?template=PolyGerrit%20Issue',
+      },
     },
 
     listeners: {
@@ -125,7 +130,14 @@
       });
       this.$.restAPI.getVersion().then(version => {
         this._version = version;
+        this._logWelcome();
       });
+
+      if (window.localStorage.getItem('dark-theme')) {
+        this.$.libLoader.getDarkTheme().then(module => {
+          Polymer.dom(this.root).appendChild(module);
+        });
+      }
 
       // Note: this is evaluated here to ensure that it only happens after the
       // router has been initialized. @see Issue 7837
@@ -185,13 +197,17 @@
         this.async(() => this.set('_showPluginScreen', true), 1);
       }
       if (this.params.justRegistered) {
-        this.$.registration.open();
+        this.$.registrationOverlay.open();
+        this.$.registrationDialog.loadData().then(() => {
+          this.$.registrationOverlay.refit();
+        });
       }
       this.$.header.unfloat();
     },
 
     _computeShowGwtUiLink(config) {
-      return config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
+      return !window.DEPRECATE_GWT_UI &&
+          config.gerrit.web_uis && config.gerrit.web_uis.includes('GWT');
     },
 
     _handlePageError(e) {
@@ -265,7 +281,7 @@
 
     _handleRegistrationDialogClose(e) {
       this.params.justRegistered = false;
-      this.$.registration.close();
+      this.$.registrationOverlay.close();
     },
 
     _computeShadowClass(isShadowDom) {
@@ -302,6 +318,19 @@
 
     _computePluginScreenName({plugin, screen}) {
       return Gerrit._getPluginScreenName(plugin, screen);
+    },
+
+    _logWelcome() {
+      console.group('Runtime Info');
+      console.log('Gerrit UI (PolyGerrit)');
+      console.log(`Gerrit Server Version: ${this._version}`);
+      if (window.VERSION_INFO) {
+        console.log(`UI Version Info: ${window.VERSION_INFO}`);
+      }
+      const renderTime = new Date(window.performance.timing.loadEventStart);
+      console.log(`Document loaded at: ${renderTime}`);
+      console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      console.groupEnd();
     },
   });
 })();

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.rpc;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SshHostKey;
 import com.google.gerrit.common.data.SystemInfoService;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -26,11 +27,9 @@ import com.jcraft.jsch.JSch;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class SystemInfoServiceImpl implements SystemInfoService {
-  private static final Logger log = LoggerFactory.getLogger(SystemInfoServiceImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final JSch JSCH = new JSch();
 
@@ -63,7 +62,7 @@ class SystemInfoServiceImpl implements SystemInfoService {
     HttpServletRequest r = httpRequest.get();
     String ua = r.getHeader("User-Agent");
     message = message.replaceAll("\n", "\n  ");
-    log.error("Client UI JavaScript error: User-Agent=" + ua + ": " + message);
+    logger.atSevere().log("Client UI JavaScript error: User-Agent=%s: %s", ua, message);
     callback.onSuccess(VoidResult.INSTANCE);
   }
 }

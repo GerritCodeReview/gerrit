@@ -109,6 +109,24 @@ will be performed by scanning all classes in the plugin JAR for
   Gerrit-HttpModule: tld.example.project.HttpModuleClassName
 ----
 
+=== Batch runtime
+
+Gerrit can be run as a server, serving HTTP or SSH requests, or as an
+offline program. Plugins can contribute Guice modules to this batch
+runtime by binding `Gerrit-BatchModule` to one of their classes.
+The Guice injector is bound to less classes, and some Gerrit features
+will be absent - on purpose.
+
+This feature was originally introduced to support plugins during an
+offline reindexing task.
+
+----
+  Gerrit-BatchModule: tld.example.project.CoreModuleClassName
+----
+
+In this runtime, only the module designated by `Gerrit-BatchModule` is
+enabled, not `Gerrit-SysModule`.
+
 [[plugin_name]]
 === Plugin Name
 
@@ -765,7 +783,7 @@ ssh command.
 [source, java]
 ----
 public class SshModule extends AbstractModule {
-  private static final Logger log = LoggerFactory.getLogger(SshModule.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected void configure() {
@@ -778,7 +796,7 @@ public class SshModule extends AbstractModule {
   public static class BanOptions implements DynamicOptions.DynamicBean {
     @Option(name = "--log", aliases = { "-l" }, usage = "Say Hello in the Log")
     private void parse(String arg) {
-      log.error("Say Hello in the Log " + arg);
+      logger.atSevere().log("Say Hello in the Log %s", arg);
     }
   }
 ----
@@ -2839,6 +2857,9 @@ public class MyPluginModule extends AbstractModule {
   }
 }
 ----
+
+Plugin authors should also consider binding their SubmitRule using a `Gerrit-BatchModule`.
+See link:dev-plugins.html[Batch runtime] for more informations.
 
 == SEE ALSO
 

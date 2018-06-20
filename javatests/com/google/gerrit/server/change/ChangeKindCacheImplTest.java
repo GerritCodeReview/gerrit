@@ -15,12 +15,14 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.server.cache.testing.CacheSerializerTestUtil.bytes;
 import static com.google.gerrit.server.cache.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.proto.Cache.ChangeKindKeyProto;
+import com.google.gerrit.server.change.ChangeKindCacheImpl.Key;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -28,7 +30,7 @@ public class ChangeKindCacheImplTest {
   @Test
   public void keySerializer() throws Exception {
     ChangeKindCacheImpl.Key key =
-        new ChangeKindCacheImpl.Key(
+        Key.create(
             ObjectId.zeroId(),
             ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
             "aStrategy");
@@ -54,7 +56,7 @@ public class ChangeKindCacheImplTest {
   @Test
   public void keyFields() throws Exception {
     assertThatSerializedClass(ChangeKindCacheImpl.Key.class)
-        .hasFields(
+        .hasAutoValueMethods(
             ImmutableMap.of(
                 "prior", ObjectId.class, "next", ObjectId.class, "strategyName", String.class));
   }

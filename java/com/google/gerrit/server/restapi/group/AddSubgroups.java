@@ -127,12 +127,12 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     groupsUpdateProvider.get().updateGroup(parentGroupUuid, groupUpdate);
   }
 
-  static class PutSubgroup implements RestModifyView<GroupResource, Input> {
+  public static class PutSubgroup implements RestModifyView<GroupResource, Input> {
 
     private final AddSubgroups addSubgroups;
     private final String id;
 
-    PutSubgroup(AddSubgroups addSubgroups, String id) {
+    public PutSubgroup(AddSubgroups addSubgroups, String id) {
       this.addSubgroups = addSubgroups;
       this.id = id;
     }
@@ -156,11 +156,11 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   }
 
   @Singleton
-  static class UpdateSubgroup implements RestModifyView<SubgroupResource, Input> {
+  public static class UpdateSubgroup implements RestModifyView<SubgroupResource, Input> {
     private final Provider<GetSubgroup> get;
 
     @Inject
-    UpdateSubgroup(Provider<GetSubgroup> get) {
+    public UpdateSubgroup(Provider<GetSubgroup> get) {
       this.get = get;
     }
 

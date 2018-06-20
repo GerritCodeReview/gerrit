@@ -60,7 +60,7 @@ public class ProjectsCollection
   private boolean hasQuery;
 
   @Inject
-  ProjectsCollection(
+  public ProjectsCollection(
       DynamicMap<RestView<ProjectResource>> views,
       Provider<ListProjects> list,
       Provider<QueryProjects> queryProjects,
@@ -181,7 +181,7 @@ public class ProjectsCollection
   }
 
   @Override
-  public CreateProject create(TopLevelResource parent, IdString name) {
+  public CreateProject create(TopLevelResource parent, IdString name) throws RestApiException {
     return createProjectFactory.create(name.get());
   }
 }

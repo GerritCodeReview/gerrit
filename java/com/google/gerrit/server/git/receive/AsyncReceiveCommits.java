@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -63,12 +64,10 @@ import org.eclipse.jgit.transport.PreReceiveHook;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Hook that delegates to {@link ReceiveCommits} in a worker thread. */
 public class AsyncReceiveCommits implements PreReceiveHook {
-  private static final Logger log = LoggerFactory.getLogger(AsyncReceiveCommits.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String TIMEOUT_NAME = "ReceiveCommitsOverallTimeout";
 
@@ -272,11 +271,9 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       w.progress.waitFor(
           executor.submit(scopePropagator.wrap(w)), timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (ExecutionException e) {
-      log.warn(
-          String.format(
-              "Error in ReceiveCommits while processing changes for project %s",
-              projectState.getName()),
-          e);
+      logger.atWarning().withCause(e).log(
+          "Error in ReceiveCommits while processing changes for project %s",
+          projectState.getName());
       rp.sendError("internal error while processing changes");
       // ReceiveCommits has tried its best to catch errors, so anything at this
       // point is very bad.

@@ -16,28 +16,32 @@
 import unittest
 from util import resolve_url
 
+
 class TestResolveUrl(unittest.TestCase):
-  """ run to test:
-    python -m unittest -v util_test
-  """
+    """ run to test:
+      python -m unittest -v util_test
+    """
 
-  def testKnown(self):
-    url = resolve_url('GERRIT:foo.jar', {})
-    self.assertEqual(url, 'http://gerrit-maven.storage.googleapis.com/foo.jar')
+    def testKnown(self):
+        url = resolve_url('GERRIT:foo.jar', {})
+        self.assertEqual(url,
+                         'http://gerrit-maven.storage.googleapis.com/foo.jar')
 
-  def testKnownRedirect(self):
-    url = resolve_url('MAVEN_CENTRAL:foo.jar',
-                      {'MAVEN_CENTRAL': 'http://my.company.mirror/maven2'})
-    self.assertEqual(url, 'http://my.company.mirror/maven2/foo.jar')
+    def testKnownRedirect(self):
+        url = resolve_url('MAVEN_CENTRAL:foo.jar',
+                          {'MAVEN_CENTRAL': 'http://my.company.mirror/maven2'})
+        self.assertEqual(url, 'http://my.company.mirror/maven2/foo.jar')
 
-  def testCustom(self):
-    url = resolve_url('http://maven.example.com/release/foo.jar', {})
-    self.assertEqual(url, 'http://maven.example.com/release/foo.jar')
+    def testCustom(self):
+        url = resolve_url('http://maven.example.com/release/foo.jar', {})
+        self.assertEqual(url, 'http://maven.example.com/release/foo.jar')
 
-  def testCustomRedirect(self):
-    url = resolve_url('MAVEN_EXAMPLE:foo.jar',
-                      {'MAVEN_EXAMPLE': 'http://maven.example.com/release'})
-    self.assertEqual(url, 'http://maven.example.com/release/foo.jar')
+    def testCustomRedirect(self):
+        url = resolve_url('MAVEN_EXAMPLE:foo.jar',
+                          {'MAVEN_EXAMPLE':
+                           'http://maven.example.com/release'})
+        self.assertEqual(url, 'http://maven.example.com/release/foo.jar')
+
 
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

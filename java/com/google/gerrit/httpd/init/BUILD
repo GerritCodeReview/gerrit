@@ -27,10 +27,10 @@ java_library(
         "//lib:guava",
         "//lib:gwtorm",
         "//lib:servlet-api-3_1",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
         "//prolog:gerrit-prolog-common",
     ],
 )

@@ -22,17 +22,18 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gwtorm.server.OrmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Specific version of a secondary index schema. */
 public class Schema<T> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static class Builder<T> {
     private final List<FieldDef<T, ?>> fields = new ArrayList<>();
 
@@ -57,8 +58,6 @@ public class Schema<T> {
       return new Schema<>(ImmutableList.copyOf(fields));
     }
   }
-
-  private static final Logger log = LoggerFactory.getLogger(Schema.class);
 
   public static class Values<T> {
     private final FieldDef<T, ?> field;
@@ -184,7 +183,8 @@ public class Schema<T> {
                 try {
                   v = f.get(obj);
                 } catch (OrmException e) {
-                  log.error(String.format("error getting field %s of %s", f.getName(), obj), e);
+                  logger.atSevere().withCause(e).log(
+                      "error getting field %s of %s", f.getName(), obj);
                   return null;
                 }
                 if (v == null) {

@@ -104,6 +104,14 @@ import org.junit.runners.model.InitializationError;
  * field annotated with {@code @ConfigSuite.Name}.
  */
 public class ConfigSuite extends Suite {
+  private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
+
+  static {
+    System.setProperty(
+        FLOGGER_BACKEND_PROPERTY,
+        "com.google.common.flogger.backend.log4j.Log4jBackendFactory#getInstance");
+  }
+
   public static final String DEFAULT = "default";
 
   @Target({METHOD})

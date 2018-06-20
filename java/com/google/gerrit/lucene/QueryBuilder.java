@@ -141,20 +141,21 @@ public class QueryBuilder<V> {
         "field not in schema v%s: %s",
         schema.getVersion(),
         p.getField().getName());
-    if (p.getType() == FieldType.INTEGER) {
+    FieldType<?> type = p.getType();
+    if (type == FieldType.INTEGER) {
       return intQuery(p);
-    } else if (p.getType() == FieldType.INTEGER_RANGE) {
+    } else if (type == FieldType.INTEGER_RANGE) {
       return intRangeQuery(p);
-    } else if (p.getType() == FieldType.TIMESTAMP) {
+    } else if (type == FieldType.TIMESTAMP) {
       return timestampQuery(p);
-    } else if (p.getType() == FieldType.EXACT) {
+    } else if (type == FieldType.EXACT) {
       return exactQuery(p);
-    } else if (p.getType() == FieldType.PREFIX) {
+    } else if (type == FieldType.PREFIX) {
       return prefixQuery(p);
-    } else if (p.getType() == FieldType.FULL_TEXT) {
+    } else if (type == FieldType.FULL_TEXT) {
       return fullTextQuery(p);
     } else {
-      throw FieldType.badFieldType(p.getType());
+      throw FieldType.badFieldType(type);
     }
   }
 

@@ -14,39 +14,53 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import static java.util.stream.Collectors.toList;
+
+import com.google.common.flogger.FluentLogger;
+import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import io.searchbox.client.JestResult;
-import io.searchbox.client.http.JestHttpClient;
-import io.searchbox.indices.aliases.GetAliases;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map.Entry;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.methods.HttpGet;
+import org.elasticsearch.client.Response;
 
 @Singleton
 class ElasticIndexVersionDiscovery {
-  private final JestHttpClient client;
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final ElasticRestClientProvider client;
 
   @Inject
-  ElasticIndexVersionDiscovery(JestClientBuilder clientBuilder) {
-    this.client = clientBuilder.build();
+  ElasticIndexVersionDiscovery(ElasticRestClientProvider client) {
+    this.client = client;
   }
 
   List<String> discover(String prefix, String indexName) throws IOException {
     String name = prefix + indexName + "_";
-    JestResult result = client.execute(new GetAliases.Builder().addIndex(name + "*").build());
-    if (result.isSucceeded()) {
-      JsonObject object = result.getJsonObject().getAsJsonObject();
-      List<String> versions = new ArrayList<>(object.size());
-      for (Entry<String, JsonElement> entry : object.entrySet()) {
-        versions.add(entry.getKey().replace(name, ""));
-      }
-      return versions;
+    Response response =
+        client
+            .get()
+            .performRequest(HttpGet.METHOD_NAME, client.adapter().getVersionDiscoveryUrl(name));
+
+    StatusLine statusLine = response.getStatusLine();
+    if (statusLine.getStatusCode() != HttpStatus.SC_OK) {
+      String message =
+          String.format(
+              "Failed to discover index versions for %s: %d: %s",
+              name, statusLine.getStatusCode(), statusLine.getReasonPhrase());
+      logger.atSevere().log(message);
+      throw new IOException(message);
     }
-    return Collections.emptyList();
+
+    return new JsonParser()
+        .parse(AbstractElasticIndex.getContent(response))
+        .getAsJsonObject()
+        .entrySet()
+        .stream()
+        .map(e -> e.getKey().replace(name, ""))
+        .collect(toList());
   }
 }

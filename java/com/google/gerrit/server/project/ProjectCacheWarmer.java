@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.reviewdb.client.Project;
@@ -24,12 +25,10 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ProjectCacheWarmer implements LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(ProjectCacheWarmer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Config config;
   private final ProjectCache cache;
@@ -57,15 +56,15 @@ public class ProjectCacheWarmer implements LifecycleListener {
                 pool.shutdown();
                 try {
                   pool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
-                  log.info("Finished loading project cache");
+                  logger.atInfo().log("Finished loading project cache");
                 } catch (InterruptedException e) {
-                  log.warn("Interrupted while waiting for project cache to load");
+                  logger.atWarning().log("Interrupted while waiting for project cache to load");
                 }
               });
       scheduler.setName("ProjectCacheWarmer");
       scheduler.setDaemon(true);
 
-      log.info("Loading project cache");
+      logger.atInfo().log("Loading project cache");
       scheduler.start();
     }
   }

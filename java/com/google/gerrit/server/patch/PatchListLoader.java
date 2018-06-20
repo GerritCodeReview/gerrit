@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
@@ -74,11 +75,9 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PatchListLoader implements Callable<PatchList> {
-  static final Logger log = LoggerFactory.getLogger(PatchListLoader.class);
+  static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     PatchListLoader create(PatchListKey key, Project.NameKey project);
@@ -449,19 +448,15 @@ public class PatchListLoader implements Callable<PatchList> {
     try {
       return result.get(timeoutMillis, TimeUnit.MILLISECONDS);
     } catch (InterruptedException | TimeoutException e) {
-      log.warn(
-          timeoutMillis
-              + " ms timeout reached for Diff loader"
-              + " in project "
-              + project
-              + " on commit "
-              + commitB.name()
-              + " on path "
-              + diffEntry.getNewPath()
-              + " comparing "
-              + diffEntry.getOldId().name()
-              + ".."
-              + diffEntry.getNewId().name());
+      logger.atWarning().log(
+          "%s ms timeout reached for Diff loader in project %s"
+              + " on commit %s on path %s comparing %s..%s",
+          timeoutMillis,
+          project,
+          commitB.name(),
+          diffEntry.getNewPath(),
+          diffEntry.getOldId().name(),
+          diffEntry.getNewId().name());
       result.cancel(true);
       synchronized (diffEntry) {
         return toFileHeaderWithoutMyersDiff(diffFormatter, diffEntry);

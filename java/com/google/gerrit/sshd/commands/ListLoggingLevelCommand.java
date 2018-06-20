@@ -29,10 +29,9 @@ import org.kohsuke.args4j.Argument;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "ls-level",
-  description = "list the level of loggers",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "ls-level",
+    description = "list the level of loggers",
+    runsAt = MASTER_OR_SLAVE)
 public class ListLoggingLevelCommand extends SshCommand {
 
   @Argument(index = 0, required = false, metaVar = "NAME", usage = "used to match loggers")

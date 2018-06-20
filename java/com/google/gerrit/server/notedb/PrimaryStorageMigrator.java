@@ -27,6 +27,7 @@ import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -72,13 +73,11 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Helper to migrate the {@link PrimaryStorage} of individual changes. */
 @Singleton
 public class PrimaryStorageMigrator {
-  private static final Logger log = LoggerFactory.getLogger(PrimaryStorageMigrator.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /**
    * Exception thrown during migration if the change has no {@code noteDbState} field at the
@@ -277,7 +276,8 @@ public class PrimaryStorageMigrator {
     // the primary storage to NoteDb.
 
     setPrimaryStorageNoteDb(id, rebuiltState);
-    log.debug("Migrated change {} to NoteDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
+    logger.atFine().log(
+        "Migrated change %s to NoteDb primary in %sms", id, sw.elapsed(MILLISECONDS));
   }
 
   private Change setReadOnlyInReviewDb(Change.Id id) throws OrmException {
@@ -413,7 +413,8 @@ public class PrimaryStorageMigrator {
     rebuilder.rebuildReviewDb(db(), project, id);
     setPrimaryStorageReviewDb(id, newMetaId);
     releaseReadOnlyLeaseInNoteDb(project, id);
-    log.debug("Migrated change {} to ReviewDb primary in {}ms", id, sw.elapsed(MILLISECONDS));
+    logger.atFine().log(
+        "Migrated change %s to ReviewDb primary in %sms", id, sw.elapsed(MILLISECONDS));
   }
 
   private ObjectId setReadOnlyInNoteDb(Project.NameKey project, Change.Id id)

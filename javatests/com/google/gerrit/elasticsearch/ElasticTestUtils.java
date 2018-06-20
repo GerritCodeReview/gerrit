@@ -14,226 +14,39 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.elasticsearch.ElasticAccountIndex.ACCOUNTS;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CHANGES;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.CLOSED_CHANGES;
-import static com.google.gerrit.elasticsearch.ElasticChangeIndex.OPEN_CHANGES;
-import static com.google.gerrit.elasticsearch.ElasticGroupIndex.GROUPS;
-import static com.google.gerrit.elasticsearch.ElasticProjectIndex.PROJECTS;
-
-import com.google.common.base.Strings;
-import com.google.common.io.Files;
-import com.google.gerrit.elasticsearch.ElasticAccountIndex.AccountMapping;
-import com.google.gerrit.elasticsearch.ElasticChangeIndex.ChangeMapping;
-import com.google.gerrit.elasticsearch.ElasticGroupIndex.GroupMapping;
-import com.google.gerrit.elasticsearch.ElasticProjectIndex.ProjectMapping;
-import com.google.gerrit.index.Schema;
-import com.google.gerrit.index.project.ProjectData;
-import com.google.gerrit.index.project.ProjectSchemaDefinitions;
-import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.index.IndexModule.IndexType;
-import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
-import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
-import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import java.io.File;
-import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+import java.io.IOException;
+import java.util.Collection;
 import org.eclipse.jgit.lib.Config;
-import org.elasticsearch.action.admin.cluster.node.info.NodesInfoRequest;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
 
-final class ElasticTestUtils {
-  static final Gson gson =
-      new GsonBuilder()
-          .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-          .create();
+public final class ElasticTestUtils {
+  public static class ElasticNodeInfo {
+    public final int port;
 
-  static class ElasticNodeInfo {
-    final Node node;
-    final String port;
-    final File elasticDir;
-
-    private ElasticNodeInfo(Node node, File rootDir, String port) {
-      this.node = node;
+    public ElasticNodeInfo(int port) {
       this.port = port;
-      this.elasticDir = rootDir;
     }
   }
 
-  static void configure(Config config, String port, String prefix) {
+  public static void configure(Config config, int port, String prefix) {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", "test", "protocol", "http");
     config.setString("elasticsearch", "test", "hostname", "localhost");
-    config.setString("elasticsearch", "test", "port", port);
+    config.setInt("elasticsearch", "test", "port", port);
     config.setString("elasticsearch", null, "prefix", prefix);
+    config.setString("index", null, "maxLimit", "10000");
   }
 
-  static ElasticNodeInfo startElasticsearchNode() throws InterruptedException, ExecutionException {
-    File elasticDir = Files.createTempDir();
-    Path elasticDirPath = elasticDir.toPath();
-    Settings settings =
-        Settings.settingsBuilder()
-            .put("cluster.name", "gerrit")
-            .put("node.name", "Gerrit Elasticsearch Test Node")
-            .put("node.local", true)
-            .put("discovery.zen.ping.multicast.enabled", false)
-            .put("index.store.fs.memory.enabled", true)
-            .put("index.gateway.type", "none")
-            .put("index.max_result_window", Integer.MAX_VALUE)
-            .put("gateway.type", "default")
-            .put("http.port", 0)
-            .put("discovery.zen.ping.unicast.hosts", "[\"localhost\"]")
-            .put("path.home", elasticDirPath.toAbsolutePath())
-            .put("path.data", elasticDirPath.resolve("data").toAbsolutePath())
-            .put("path.work", elasticDirPath.resolve("work").toAbsolutePath())
-            .put("path.logs", elasticDirPath.resolve("logs").toAbsolutePath())
-            .put("transport.tcp.connect_timeout", "60s")
-            .build();
-
-    // Start the node
-    Node node = NodeBuilder.nodeBuilder().settings(settings).node();
-
-    // Wait for it to be ready
-    node.client().admin().cluster().prepareHealth().setWaitForYellowStatus().execute().actionGet();
-
-    assertThat(node.isClosed()).isFalse();
-    return new ElasticNodeInfo(node, elasticDir, getHttpPort(node));
-  }
-
-  static void deleteAllIndexes(ElasticNodeInfo nodeInfo, String prefix) {
-    Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareDelete(String.format("%s%s_%04d", prefix, CHANGES, changeSchema.getVersion()))
-        .execute()
-        .actionGet();
-
-    Schema<AccountState> accountSchema = AccountSchemaDefinitions.INSTANCE.getLatest();
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareDelete(String.format("%s%s_%04d", prefix, ACCOUNTS, accountSchema.getVersion()))
-        .execute()
-        .actionGet();
-
-    Schema<InternalGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareDelete(String.format("%s%s_%04d", prefix, GROUPS, groupSchema.getVersion()))
-        .execute()
-        .actionGet();
-
-    Schema<ProjectData> projectSchema = ProjectSchemaDefinitions.INSTANCE.getLatest();
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareDelete(String.format("%s%s_%04d", prefix, PROJECTS, projectSchema.getVersion()))
-        .execute()
-        .actionGet();
-  }
-
-  static class NodeInfo {
-    String httpAddress;
-  }
-
-  static class Info {
-    Map<String, NodeInfo> nodes;
-  }
-
-  static void createAllIndexes(ElasticNodeInfo nodeInfo, String prefix) {
-    Schema<ChangeData> changeSchema = ChangeSchemaDefinitions.INSTANCE.getLatest();
-    ChangeMapping openChangesMapping = new ChangeMapping(changeSchema);
-    ChangeMapping closedChangesMapping = new ChangeMapping(changeSchema);
-    openChangesMapping.closedChanges = null;
-    closedChangesMapping.openChanges = null;
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(String.format("%s%s_%04d", prefix, CHANGES, changeSchema.getVersion()))
-        .addMapping(OPEN_CHANGES, gson.toJson(openChangesMapping))
-        .addMapping(CLOSED_CHANGES, gson.toJson(closedChangesMapping))
-        .execute()
-        .actionGet();
-
-    Schema<AccountState> accountSchema = AccountSchemaDefinitions.INSTANCE.getLatest();
-    AccountMapping accountMapping = new AccountMapping(accountSchema);
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(String.format("%s%s_%04d", prefix, ACCOUNTS, accountSchema.getVersion()))
-        .addMapping(ElasticAccountIndex.ACCOUNTS, gson.toJson(accountMapping))
-        .execute()
-        .actionGet();
-
-    Schema<InternalGroup> groupSchema = GroupSchemaDefinitions.INSTANCE.getLatest();
-    GroupMapping groupMapping = new GroupMapping(groupSchema);
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(String.format("%s%s_%04d", prefix, GROUPS, groupSchema.getVersion()))
-        .addMapping(ElasticGroupIndex.GROUPS, gson.toJson(groupMapping))
-        .execute()
-        .actionGet();
-
-    Schema<ProjectData> projectSchema = ProjectSchemaDefinitions.INSTANCE.getLatest();
-    ProjectMapping projectMapping = new ProjectMapping(projectSchema);
-    nodeInfo
-        .node
-        .client()
-        .admin()
-        .indices()
-        .prepareCreate(String.format("%s%s_%04d", prefix, PROJECTS, projectSchema.getVersion()))
-        .addMapping(ElasticProjectIndex.PROJECTS, gson.toJson(projectMapping))
-        .execute()
-        .actionGet();
-  }
-
-  private static String getHttpPort(Node node) throws InterruptedException, ExecutionException {
-    String nodes =
-        node.client().admin().cluster().nodesInfo(new NodesInfoRequest("*")).get().toString();
-    Gson gson =
-        new GsonBuilder()
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create();
-    Info info = gson.fromJson(nodes, Info.class);
-    if (info.nodes == null || info.nodes.size() != 1) {
-      throw new RuntimeException("Cannot extract local Elasticsearch http port");
+  public static void createAllIndexes(Injector injector) throws IOException {
+    Collection<IndexDefinition<?, ?, ?>> indexDefs =
+        injector.getInstance(Key.get(new TypeLiteral<Collection<IndexDefinition<?, ?, ?>>>() {}));
+    for (IndexDefinition<?, ?, ?> indexDef : indexDefs) {
+      indexDef.getIndexCollection().getSearchIndex().deleteAll();
     }
-    Iterator<NodeInfo> values = info.nodes.values().iterator();
-    String httpAddress = values.next().httpAddress;
-    if (Strings.isNullOrEmpty(httpAddress)) {
-      throw new RuntimeException("Cannot extract local Elasticsearch http port");
-    }
-    if (httpAddress.indexOf(':') < 0) {
-      throw new RuntimeException("Seems that port is not included in Elasticsearch http_address");
-    }
-    return httpAddress.substring(httpAddress.indexOf(':') + 1, httpAddress.length());
   }
 
   private ElasticTestUtils() {

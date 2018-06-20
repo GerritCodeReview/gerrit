@@ -43,23 +43,21 @@ public class CheckMergeability implements RestReadView<BranchResource> {
   private SubmitType submitType;
 
   @Option(
-    name = "--source",
-    metaVar = "COMMIT",
-    usage =
-        "the source reference to merge, which could be any git object "
-            + "references expression, refer to "
-            + "org.eclipse.jgit.lib.Repository#resolve(String)",
-    required = true
-  )
+      name = "--source",
+      metaVar = "COMMIT",
+      usage =
+          "the source reference to merge, which could be any git object "
+              + "references expression, refer to "
+              + "org.eclipse.jgit.lib.Repository#resolve(String)",
+      required = true)
   public void setSource(String source) {
     this.source = source;
   }
 
   @Option(
-    name = "--strategy",
-    metaVar = "STRATEGY",
-    usage = "name of the merge strategy, refer to org.eclipse.jgit.merge.MergeStrategy"
-  )
+      name = "--strategy",
+      metaVar = "STRATEGY",
+      usage = "name of the merge strategy, refer to org.eclipse.jgit.merge.MergeStrategy")
   public void setStrategy(String strategy) {
     this.strategy = strategy;
   }

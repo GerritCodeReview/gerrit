@@ -753,6 +753,7 @@ Default is 1024 for most caches, except:
 * `"diff"`: default is `10m` (10 MiB of memory)
 * `"diff_intraline"`: default is `10m` (10 MiB of memory)
 * `"diff_summary"`: default is `10m` (10 MiB of memory)
+* `"external_ids_map"`: default is `2` and should not be changed
 * `"groups"`: default is unlimited
 * `"groups_byname"`: default is unlimited
 * `"groups_byuuid"`: default is unlimited
@@ -761,6 +762,16 @@ Default is 1024 for most caches, except:
 +
 If set to 0 the cache is disabled. Entries are removed immediately
 after being stored by the cache. This is primarily useful for testing.
+
+[[cache.name.expireFromMemoryAfterAccess]]cache.<name>.expireFromMemoryAfterAccess::
++
+Time after last access to automatically expire entries from an in-memory
+cache. If 0 or not specified, entries are never expired in this manner.
+Values may use unit suffixes as in link:#cache.name.maxAge[maxAge].
++
+This option only applies to in-memory caches; persistent cache values are
+not expired in this manner, and are only pruned via
+link:#cache.name.diskLimit[diskLimit].
 
 [[cache.name.diskLimit]]cache.<name>.diskLimit::
 +
@@ -773,10 +784,11 @@ performed once every 24 hours.
 +
 Default is 128 MiB per cache, except:
 +
+* `"change_notes"`: disk storage is disabled by default
 * `"diff_summary"`: default is `1g` (1 GiB of disk space)
 
 +
-If 0, disk storage for the cache is disabled.
+If 0 or negative, disk storage for the cache is disabled.
 
 ==== [[cache_names]]Standard Caches
 
@@ -842,6 +854,16 @@ of paths of changed files.
 Ideally, disk limit of this cache is large enough to cover all changes.
 This should significantly speed up change reindexing, especially
 full offline reindexing.
+
+cache `"external_ids_map"`::
++
+A singleton cache whose sole entry is a map of the parsed representation
+of link:config-accounts.html#external-ids[all current external IDs]. The
+cache may temporarily contain 2 entries, but the second one is promptly
+expired.
++
+It is not recommended to change the attributes of this cache away from
+the defaults.
 
 cache `"git_tags"`::
 +
@@ -2204,20 +2226,6 @@ A good name should be short but precise enough so that users can identify the in
 Defaults to the full hostname of the Gerrit server.
 
 
-[[gerrit.ui]]gerrit.ui::
-+
-Default UI when the user does not request a different preference via argument
-or cookie.
-+
-* `GWT` for the old-style Google Web Toolkit-based interface.
-* `POLYGERRIT` for the new Polymer-based HTML5 Web interface.
-+
-A sanity check during startup is performed that the value of
-gerrit.ui is an enabled UI.
-+
-Defaults to GWT (if GWT is enabled) or POLYGERRIT (if POLYGERRIT is
-enabled and GWT is disabled)
-
 [[gerrit.serverId]]gerrit.serverId::
 +
 Used by NoteDb to, amongst other things, identify author identities from
@@ -2972,10 +2980,13 @@ Sample Lucene index configuration:
 === Section elasticsearch
 
 WARNING: The Elasticsearch support has only been tested with Elasticsearch
-version 2.4.x. Support for other versions is not guaranteed.
+versions 2.4, 5.6 and 6.2. Support for other versions is not guaranteed.
 
-Open and closed changes are indexed in a single index, separated
-into types `open_changes` and `closed_changes` respectively.
+Open and closed changes are indexed in a single index, separated into types
+`open_changes` and `closed_changes` respectively, if using Elasticsearch
+versions 2.4 or 5.6. Open and closed changes are merged into the default `_doc`
+type otherwise. The latter is also used for accounts and groups indices starting
+with Elasticsearch 6.2.
 
 [[elasticsearch.prefix]]elasticsearch.prefix::
 +

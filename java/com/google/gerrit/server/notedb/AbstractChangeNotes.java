@@ -48,7 +48,8 @@ public abstract class AbstractChangeNotes<T> {
     final GitRepositoryManager repoManager;
     final NotesMigration migration;
     final AllUsersName allUsers;
-    final ChangeNoteUtil noteUtil;
+    final ChangeNoteJson changeNoteJson;
+    final LegacyChangeNoteRead legacyChangeNoteRead;
     final NoteDbMetrics metrics;
     final Provider<ReviewDb> db;
 
@@ -65,7 +66,8 @@ public abstract class AbstractChangeNotes<T> {
         GitRepositoryManager repoManager,
         NotesMigration migration,
         AllUsersName allUsers,
-        ChangeNoteUtil noteUtil,
+        ChangeNoteJson changeNoteJson,
+        LegacyChangeNoteRead legacyChangeNoteRead,
         NoteDbMetrics metrics,
         Provider<ReviewDb> db,
         Provider<ChangeRebuilder> rebuilder,
@@ -73,7 +75,8 @@ public abstract class AbstractChangeNotes<T> {
       this.repoManager = repoManager;
       this.migration = migration;
       this.allUsers = allUsers;
-      this.noteUtil = noteUtil;
+      this.legacyChangeNoteRead = legacyChangeNoteRead;
+      this.changeNoteJson = changeNoteJson;
       this.metrics = metrics;
       this.db = db;
       this.rebuilder = rebuilder;

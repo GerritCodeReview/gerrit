@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
@@ -47,12 +48,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class UiActions {
-  private static final Logger log = LoggerFactory.getLogger(UiActions.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static Predicate<UiAction.Description> enabled() {
     return UiAction.Description::isEnabled;
@@ -131,8 +130,8 @@ public class UiActions {
     try {
       view = e.getProvider().get();
     } catch (RuntimeException err) {
-      log.error(
-          String.format("error creating view %s.%s", e.getPluginName(), e.getExportName()), err);
+      logger.atSevere().withCause(err).log(
+          "error creating view %s.%s", e.getPluginName(), e.getExportName());
       return null;
     }
 
@@ -154,8 +153,8 @@ public class UiActions {
     try {
       globalRequired = GlobalPermission.fromAnnotation(e.getPluginName(), view.getClass());
     } catch (PermissionBackendException err) {
-      log.error(
-          String.format("exception testing view %s.%s", e.getPluginName(), e.getExportName()), err);
+      logger.atSevere().withCause(err).log(
+          "exception testing view %s.%s", e.getPluginName(), e.getExportName());
       return null;
     }
     if (!globalRequired.isEmpty()) {

@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
@@ -66,6 +67,7 @@ import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
@@ -87,10 +89,8 @@ import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
-import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.project.DefaultProjectNameLockManager;
 import com.google.gerrit.server.restapi.RestApiModule;
-import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.gerrit.server.schema.DataSourceProvider;
 import com.google.gerrit.server.schema.InMemoryAccountPatchReviewStore;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
@@ -126,12 +126,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Run SSH daemon portions of Gerrit. */
 public class Daemon extends SiteProgram {
-  private static final Logger log = LoggerFactory.getLogger(Daemon.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(name = "--enable-httpd", usage = "Enable the internal HTTP daemon")
   private Boolean httpd;
@@ -168,20 +166,18 @@ public class Daemon extends SiteProgram {
   private boolean polyGerritDev;
 
   @Option(
-    name = "--init",
-    aliases = {"-i"},
-    usage = "Init site before starting the daemon"
-  )
+      name = "--init",
+      aliases = {"-i"},
+      usage = "Init site before starting the daemon")
   private boolean doInit;
 
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
   private boolean stopOnly;
 
   @Option(
-    name = "--migrate-to-note-db",
-    usage = "Automatically migrate changes to NoteDb",
-    handler = ExplicitBooleanOptionHandler.class
-  )
+      name = "--migrate-to-note-db",
+      usage = "Automatically migrate changes to NoteDb",
+      handler = ExplicitBooleanOptionHandler.class)
   private boolean migrateToNoteDb;
 
   @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)
@@ -248,7 +244,7 @@ public class Daemon extends SiteProgram {
         new UncaughtExceptionHandler() {
           @Override
           public void uncaughtException(Thread t, Throwable e) {
-            log.error("Thread " + t.getName() + " threw exception", e);
+            logger.atSevere().withCause(e).log("Thread %s threw exception", t.getName());
           }
         });
 
@@ -268,17 +264,17 @@ public class Daemon extends SiteProgram {
       start();
       RuntimeShutdown.add(
           () -> {
-            log.info("caught shutdown, cleaning up");
+            logger.atInfo().log("caught shutdown, cleaning up");
             stop();
           });
 
-      log.info("Gerrit Code Review " + myVersion() + " ready");
+      logger.atInfo().log("Gerrit Code Review %s ready", myVersion());
       if (runId != null) {
         try {
           Files.write(runFile, (runId + "\n").getBytes(UTF_8));
           runFile.toFile().setReadable(true, false);
         } catch (IOException err) {
-          log.warn("Cannot write --run-id to " + runFile, err);
+          logger.atWarning().withCause(err).log("Cannot write --run-id to %s", runFile);
         }
       }
 
@@ -298,7 +294,7 @@ public class Daemon extends SiteProgram {
       }
       return 0;
     } catch (Throwable err) {
-      log.error("Unable to start daemon", err);
+      logger.atSevere().withCause(err).log("Unable to start daemon");
       return 1;
     }
   }
@@ -365,10 +361,15 @@ public class Daemon extends SiteProgram {
       try {
         Files.delete(runFile);
       } catch (IOException err) {
-        log.warn("failed to delete " + runFile, err);
+        logger.atWarning().withCause(err).log("failed to delete %s", runFile);
       }
     }
     manager.stop();
+  }
+
+  @Override
+  protected GerritRuntime getGerritRuntime() {
+    return GerritRuntime.DAEMON;
   }
 
   private boolean sshdOff() {
@@ -435,8 +436,6 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new SignedTokenEmailTokenVerifier.Module());
     modules.add(new RestApiModule());
-    modules.add(new PluginRestApiModule());
-    modules.add(new RestCacheAdminModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
     modules.add(new GerritInstanceNameModule());

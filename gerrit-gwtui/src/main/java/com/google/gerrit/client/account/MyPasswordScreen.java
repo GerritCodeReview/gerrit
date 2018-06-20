@@ -49,7 +49,7 @@ public class MyPasswordScreen extends SettingsScreen {
       return;
     }
 
-    password = new CopyableLabel("(click 'generate' to revoke an old password)");
+    password = new CopyableLabel(Util.C.revokePassword());
     password.addStyleName(Gerrit.RESOURCES.css().accountPassword());
 
     generatePassword = new Button(Util.C.buttonGeneratePassword());

@@ -36,12 +36,11 @@ final class IndexChangesCommand extends SshCommand {
   @Inject private ChangeArgumentParser changeArgumentParser;
 
   @Argument(
-    index = 0,
-    required = true,
-    multiValued = true,
-    metaVar = "CHANGE",
-    usage = "changes to index"
-  )
+      index = 0,
+      required = true,
+      multiValued = true,
+      metaVar = "CHANGE",
+      usage = "changes to index")
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, null, false);

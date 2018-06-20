@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Atomics;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -44,13 +45,11 @@ import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SessionAware;
 import org.apache.sshd.server.session.ServerSession;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Creates a CommandFactory using commands registered by {@link CommandModule}. */
 @Singleton
 class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListener {
-  private static final Logger logger = LoggerFactory.getLogger(CommandFactoryProvider.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DispatchCommandProvider dispatcher;
   private final SshLog log;
@@ -76,7 +75,7 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
     createCommandInterceptor = i;
 
     int threads = cfg.getInt("sshd", "commandStartThreads", 2);
-    startExecutor = workQueue.createQueue(threads, "SshCommandStart");
+    startExecutor = workQueue.createQueue(threads, "SshCommandStart", true);
     destroyExecutor =
         Executors.newSingleThreadExecutor(
             new ThreadFactoryBuilder()
@@ -166,12 +165,9 @@ class CommandFactoryProvider implements Provider<CommandFactory>, LifecycleListe
                   try {
                     onStart();
                   } catch (Exception e) {
-                    logger.warn(
-                        "Cannot start command \""
-                            + ctx.getCommandLine()
-                            + "\" for user "
-                            + ctx.getSession().getUsername(),
-                        e);
+                    logger.atWarning().withCause(e).log(
+                        "Cannot start command \"%s\" for user %s",
+                        ctx.getCommandLine(), ctx.getSession().getUsername());
                   }
                 }
 

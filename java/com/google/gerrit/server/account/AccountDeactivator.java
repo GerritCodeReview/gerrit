@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -27,12 +28,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Runnable to enable scheduling account deactivations to run periodically */
 public class AccountDeactivator implements Runnable {
-  private static final Logger log = LoggerFactory.getLogger(AccountDeactivator.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends LifecycleModule {
     @Override
@@ -84,7 +83,7 @@ public class AccountDeactivator implements Runnable {
 
   @Override
   public void run() {
-    log.info("Running account deactivations");
+    logger.atInfo().log("Running account deactivations");
     try {
       int numberOfAccountsDeactivated = 0;
       for (AccountState acc : accountQueryProvider.get().query(AccountPredicates.isActive())) {
@@ -92,10 +91,11 @@ public class AccountDeactivator implements Runnable {
           numberOfAccountsDeactivated++;
         }
       }
-      log.info(
-          "Deactivations complete, {} account(s) were deactivated", numberOfAccountsDeactivated);
+      logger.atInfo().log(
+          "Deactivations complete, %d account(s) were deactivated", numberOfAccountsDeactivated);
     } catch (Exception e) {
-      log.error("Failed to complete deactivation of accounts: " + e.getMessage(), e);
+      logger.atSevere().withCause(e).log(
+          "Failed to complete deactivation of accounts: %s", e.getMessage());
     }
   }
 
@@ -105,22 +105,19 @@ public class AccountDeactivator implements Runnable {
     }
 
     String userName = accountState.getUserName().get();
-    log.debug("processing account " + userName);
+    logger.atFine().log("processing account %s", userName);
     try {
       if (realm.accountBelongsToRealm(accountState.getExternalIds()) && !realm.isActive(userName)) {
         sif.deactivate(accountState.getAccount().getId());
-        log.info("deactivated account " + userName);
+        logger.atInfo().log("deactivated account %s", userName);
         return true;
       }
     } catch (ResourceConflictException e) {
-      log.info("Account {} already deactivated, continuing...", userName);
+      logger.atInfo().log("Account %s already deactivated, continuing...", userName);
     } catch (Exception e) {
-      log.error(
-          "Error deactivating account: {} ({}) {}",
-          userName,
-          accountState.getAccount().getId(),
-          e.getMessage(),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Error deactivating account: %s (%s) %s",
+          userName, accountState.getAccount().getId(), e.getMessage());
     }
     return false;
   }

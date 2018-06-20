@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeRevertedListener;
@@ -23,12 +24,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ChangeReverted {
-  private static final Logger log = LoggerFactory.getLogger(ChangeReverted.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicSet<ChangeRevertedListener> listeners;
   private final EventUtil util;
@@ -53,7 +52,7 @@ public class ChangeReverted {
         }
       }
     } catch (OrmException e) {
-      log.error("Couldn't fire event", e);
+      logger.atSevere().withCause(e).log("Couldn't fire event");
     }
   }
 

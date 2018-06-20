@@ -15,6 +15,7 @@
 package com.google.gerrit.server.mail.receive;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -30,12 +31,10 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Future;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** MailReceiver implements base functionality for receiving emails. */
 public abstract class MailReceiver implements LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(MailReceiver.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected EmailSettings mailSettings;
   protected Set<String> pendingDeletion;
@@ -91,7 +90,7 @@ public abstract class MailReceiver implements LifecycleListener {
             try {
               MailReceiver.this.handleEmails(true);
             } catch (MailTransferException | IOException e) {
-              log.error("Error while fetching emails", e);
+              logger.atSevere().withCause(e).log("Error while fetching emails");
             }
           }
         },
@@ -141,7 +140,8 @@ public abstract class MailReceiver implements LifecycleListener {
                         mailProcessor.process(m);
                         requestDeletion(m.id());
                       } catch (RestApiException | UpdateException e) {
-                        log.error("Mail: Can't process message " + m.id() + " . Won't delete.", e);
+                        logger.atSevere().withCause(e).log(
+                            "Mail: Can't process message %s . Won't delete.", m.id());
                       }
                     });
       } else {
@@ -150,7 +150,7 @@ public abstract class MailReceiver implements LifecycleListener {
           mailProcessor.process(m);
           requestDeletion(m.id());
         } catch (RestApiException | UpdateException e) {
-          log.error("Mail: Can't process messages. Won't delete.", e);
+          logger.atSevere().withCause(e).log("Mail: Can't process messages. Won't delete.");
         }
       }
     }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.reviewdb.client.Project;
@@ -45,13 +46,11 @@ import org.eclipse.jgit.lib.RepositoryCacheConfig;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.WindowCacheConfig;
 import org.eclipse.jgit.util.FS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Manages Git repositories stored on the local filesystem. */
 @Singleton
 public class LocalDiskRepositoryManager implements GitRepositoryManager {
-  private static final Logger log = LoggerFactory.getLogger(LocalDiskRepositoryManager.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends LifecycleModule {
     @Override
@@ -98,7 +97,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
         } else {
           desc = String.format("%d", limit);
         }
-        log.info(String.format("Defaulting core.streamFileThreshold to %s", desc));
+        logger.atInfo().log("Defaulting core.streamFileThreshold to %s", desc);
         cfg.setStreamFileThreshold(limit);
       }
       cfg.install();
@@ -193,9 +192,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       //
       File metaConfigLog = new File(db.getDirectory(), "logs/" + RefNames.REFS_CONFIG);
       if (!metaConfigLog.getParentFile().mkdirs() || !metaConfigLog.createNewFile()) {
-        log.error(
-            String.format(
-                "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name));
+        logger.atSevere().log(
+            "Failed to create ref log for %s in repository %s", RefNames.REFS_CONFIG, name);
       }
 
       return db;
@@ -248,7 +246,8 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
           Integer.MAX_VALUE,
           visitor);
     } catch (IOException e) {
-      log.error("Error walking repository tree " + visitor.startFolder.toAbsolutePath(), e);
+      logger.atSevere().withCause(e).log(
+          "Error walking repository tree %s", visitor.startFolder.toAbsolutePath());
     }
   }
 
@@ -288,7 +287,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
 
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException e) {
-      log.warn(e.getMessage());
+      logger.atWarning().log(e.getMessage());
       return FileVisitResult.CONTINUE;
     }
 
@@ -303,7 +302,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
       Project.NameKey nameKey = getProjectName(startFolder, p);
       if (getBasePath(nameKey).equals(startFolder)) {
         if (isUnreasonableName(nameKey)) {
-          log.warn("Ignoring unreasonably named repository " + p.toAbsolutePath());
+          logger.atWarning().log("Ignoring unreasonably named repository %s", p.toAbsolutePath());
         } else {
           found.add(nameKey);
         }

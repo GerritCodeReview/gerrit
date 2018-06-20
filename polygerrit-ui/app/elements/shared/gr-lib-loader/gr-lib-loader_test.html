@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-lib-loader</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-lib-loader.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-lib-loader></gr-lib-loader>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-lib-loader tests', () => {
+    let sandbox;
+    let element;
+    let resolveLoad;
+    let loadStub;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+
+      loadStub = sandbox.stub(element, '_loadScript', () =>
+        new Promise(resolve => resolveLoad = resolve)
+      );
+
+      // Assert preconditions:
+      assert.isFalse(element._hljsState.loading);
+    });
+
+    teardown(() => {
+      if (window.hljs) {
+        delete window.hljs;
+      }
+      sandbox.restore();
+
+      // Because the element state is a singleton, clean it up.
+      element._hljsState.configured = false;
+      element._hljsState.loading = false;
+      element._hljsState.callbacks = [];
+    });
+
+    test('only load once', done => {
+      sandbox.stub(element, '_getHLJSUrl').returns('');
+      const firstCallHandler = sinon.stub();
+      element.getHLJS().then(firstCallHandler);
+
+      // It should now be in the loading state.
+      assert.isTrue(loadStub.called);
+      assert.isTrue(element._hljsState.loading);
+      assert.isFalse(firstCallHandler.called);
+
+      const secondCallHandler = sinon.stub();
+      element.getHLJS().then(secondCallHandler);
+
+      // No change in state.
+      assert.isTrue(element._hljsState.loading);
+      assert.isFalse(firstCallHandler.called);
+      assert.isFalse(secondCallHandler.called);
+
+      // Now load the library.
+      resolveLoad();
+      flush(() => {
+        // The state should be loaded and both handlers called.
+        assert.isFalse(element._hljsState.loading);
+        assert.isTrue(firstCallHandler.called);
+        assert.isTrue(secondCallHandler.called);
+        done();
+      });
+    });
+
+    suite('preloaded', () => {
+      let hljsStub;
+
+      setup(() => {
+        hljsStub = {
+          configure: sinon.stub(),
+        };
+        window.hljs = hljsStub;
+      });
+
+      teardown(() => {
+        delete window.hljs;
+      });
+
+      test('returns hljs', done => {
+        const firstCallHandler = sinon.stub();
+        element.getHLJS().then(firstCallHandler);
+        flush(() => {
+          assert.isTrue(firstCallHandler.called);
+          assert.isTrue(firstCallHandler.calledWith(hljsStub));
+          done();
+        });
+      });
+
+      test('configures hljs', done => {
+        element.getHLJS().then(() => {
+          assert.isTrue(window.hljs.configure.calledOnce);
+          done();
+        });
+      });
+    });
+
+    suite('_getHLJSUrl', () => {
+      suite('checking _getLibRoot', () => {
+        let root;
+
+        setup(() => {
+          sandbox.stub(element, '_getLibRoot', () => root);
+        });
+
+        test('with no root', () => {
+          assert.isNull(element._getHLJSUrl());
+        });
+
+        test('with root', () => {
+          root = 'test-root.com/';
+          assert.equal(element._getHLJSUrl(),
+              'test-root.com/bower_components/highlightjs/highlight.min.js');
+        });
+      });
+    });
+  });
+</script>

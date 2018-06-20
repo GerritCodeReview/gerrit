@@ -17,6 +17,7 @@ package com.google.gerrit.server.cache.h2;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -42,12 +43,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
-  private static final Logger log = LoggerFactory.getLogger(H2CacheFactory.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final MemoryCacheFactory memCacheFactory;
   private final Config config;
@@ -99,15 +98,15 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
       try {
         Files.createDirectories(loc);
       } catch (IOException e) {
-        log.warn("Can't create disk cache: " + loc.toAbsolutePath());
+        logger.atWarning().log("Can't create disk cache: %s", loc.toAbsolutePath());
         return null;
       }
     }
     if (!Files.isWritable(loc)) {
-      log.warn("Can't write to disk cache: " + loc.toAbsolutePath());
+      logger.atWarning().log("Can't write to disk cache: %s", loc.toAbsolutePath());
       return null;
     }
-    log.info("Enabling disk cache " + loc.toAbsolutePath());
+    logger.atInfo().log("Enabling disk cache %s", loc.toAbsolutePath());
     return loc;
   }
 
@@ -132,16 +131,16 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         List<Runnable> pending = executor.shutdownNow();
         if (executor.awaitTermination(15, TimeUnit.MINUTES)) {
           if (pending != null && !pending.isEmpty()) {
-            log.info(String.format("Finishing %d disk cache updates", pending.size()));
+            logger.atInfo().log("Finishing %d disk cache updates", pending.size());
             for (Runnable update : pending) {
               update.run();
             }
           }
         } else {
-          log.info("Timeout waiting for disk cache to close");
+          logger.atInfo().log("Timeout waiting for disk cache to close");
         }
       } catch (InterruptedException e) {
-        log.warn("Interrupted waiting for disk cache to shutdown");
+        logger.atWarning().log("Interrupted waiting for disk cache to shutdown");
       }
     }
     synchronized (caches) {
@@ -216,7 +215,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     if (h2AutoServer) {
       url.append(";AUTO_SERVER=TRUE");
     }
-    Long expireAfterWrite = def.expireAfterWrite(TimeUnit.SECONDS);
     return new SqlStore<>(
         url.toString(),
         def.keyType(),
@@ -224,6 +222,6 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
         def.valueSerializer(),
         def.version(),
         maxSize,
-        expireAfterWrite == null ? 0 : expireAfterWrite.longValue());
+        def.expireAfterWrite());
   }
 }

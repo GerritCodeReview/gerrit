@@ -37,10 +37,9 @@ import org.kohsuke.args4j.Option;
 /** Causes the caches to purge all entries and reload. */
 @RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
 @CommandMetaData(
-  name = "flush-caches",
-  description = "Flush some/all server caches from memory",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "flush-caches",
+    description = "Flush some/all server caches from memory",
+    runsAt = MASTER_OR_SLAVE)
 final class FlushCaches extends SshCommand {
   @Option(name = "--cache", usage = "flush named cache", metaVar = "NAME")
   private List<String> caches = new ArrayList<>();

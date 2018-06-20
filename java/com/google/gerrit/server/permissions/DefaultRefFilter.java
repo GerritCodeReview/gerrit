@@ -22,6 +22,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_USERS_SELF;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -60,11 +61,9 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.SymbolicRef;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class DefaultRefFilter {
-  private static final Logger log = LoggerFactory.getLogger(DefaultRefFilter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   interface Factory {
     DefaultRefFilter create(ProjectControl projectControl);
@@ -286,7 +285,8 @@ class DefaultRefFilter {
       } catch (AuthException e) {
         return false;
       } catch (PermissionBackendException e) {
-        log.error("Failed to check permission for " + id + " in " + projectState.getName(), e);
+        logger.atSevere().withCause(e).log(
+            "Failed to check permission for %s in %s", id, projectState.getName());
         return false;
       }
     }
@@ -306,8 +306,8 @@ class DefaultRefFilter {
       }
       return visibleChanges;
     } catch (OrmException | PermissionBackendException e) {
-      log.error(
-          "Cannot load changes for project " + project + ", assuming no changes are visible", e);
+      logger.atSevere().withCause(e).log(
+          "Cannot load changes for project %s, assuming no changes are visible", project);
       return Collections.emptyMap();
     }
   }
@@ -318,7 +318,8 @@ class DefaultRefFilter {
     try {
       s = changeNotesFactory.scan(repo, db.get(), p);
     } catch (IOException e) {
-      log.error("Cannot load changes for project " + p + ", assuming no changes are visible", e);
+      logger.atSevere().withCause(e).log(
+          "Cannot load changes for project %s, assuming no changes are visible", p);
       return Collections.emptyMap();
     }
     return s.map(this::toNotes)
@@ -329,8 +330,8 @@ class DefaultRefFilter {
   @Nullable
   private ChangeNotes toNotes(ChangeNotesResult r) {
     if (r.error().isPresent()) {
-      log.warn(
-          "Failed to load change " + r.id() + " in " + projectState.getName(), r.error().get());
+      logger.atWarning().withCause(r.error().get()).log(
+          "Failed to load change %s in %s", r.id(), projectState.getName());
       return null;
     }
     try {
@@ -339,7 +340,8 @@ class DefaultRefFilter {
         return r.notes();
       }
     } catch (PermissionBackendException e) {
-      log.error("Failed to check permission for " + r.id() + " in " + projectState.getName(), e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check permission for %s in %s", r.id(), projectState.getName());
     }
     return null;
   }
@@ -362,7 +364,7 @@ class DefaultRefFilter {
     } catch (AuthException e) {
       return false;
     } catch (PermissionBackendException e) {
-      log.error("unable to check permissions", e);
+      logger.atSevere().withCause(e).log("unable to check permissions");
       return false;
     }
     return projectState.statePermitsRead();
@@ -375,10 +377,8 @@ class DefaultRefFilter {
     } catch (AuthException e) {
       return false;
     } catch (PermissionBackendException e) {
-      log.error(
-          String.format(
-              "Can't check permission for user %s on project %s", user, projectState.getName()),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Can't check permission for user %s on project %s", user, projectState.getName());
       return false;
     }
     return true;

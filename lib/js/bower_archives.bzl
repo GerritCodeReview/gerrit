@@ -65,8 +65,8 @@ def load_bower_archives():
   bower_archive(
     name = "iron-menu-behavior",
     package = "PolymerElements/iron-menu-behavior",
-    version = "2.0.1",
-    sha1 = "139528ee1e8d86257e2aa445de7761b8ec70ae91")
+    version = "2.1.1",
+    sha1 = "1504997f6eb9aec490b855dadee473cac064f38c")
   bower_archive(
     name = "iron-meta",
     package = "PolymerElements/iron-meta",
@@ -105,8 +105,8 @@ def load_bower_archives():
   bower_archive(
     name = "paper-icon-button",
     package = "PolymerElements/paper-icon-button",
-    version = "2.1.0",
-    sha1 = "caead6a276877888d128ace809376980c3f3fe42")
+    version = "2.2.0",
+    sha1 = "9525e76ef433428bb9d6ec4fa65c4ef83156a803")
   bower_archive(
     name = "paper-ripple",
     package = "PolymerElements/paper-ripple",

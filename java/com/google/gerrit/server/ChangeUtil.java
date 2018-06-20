@@ -45,7 +45,7 @@ public class ChangeUtil {
       Ordering.from(comparingInt(PatchSet::getPatchSetId));
 
   public static String formatChangeUrl(String canonicalWebUrl, Change change) {
-    return canonicalWebUrl + "#/c/" + change.getProject().get() + "/+/" + change.getChangeId();
+    return canonicalWebUrl + "c/" + change.getProject().get() + "/+/" + change.getChangeId();
   }
 
   /** @return a new unique identifier for change message entities. */

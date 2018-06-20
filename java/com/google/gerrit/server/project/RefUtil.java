@@ -18,6 +18,7 @@ import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -33,11 +34,9 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.ObjectWalk;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RefUtil {
-  private static final Logger log = LoggerFactory.getLogger(RefUtil.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private RefUtil() {}
 
@@ -51,11 +50,11 @@ public class RefUtil {
       }
       return revid;
     } catch (IOException err) {
-      log.error(
-          "Cannot resolve \"" + baseRevision + "\" in project \"" + projectName.get() + "\"", err);
+      logger.atSevere().withCause(err).log(
+          "Cannot resolve \"%s\" in project \"%s\"", baseRevision, projectName.get());
       throw new InvalidRevisionException();
     } catch (RevisionSyntaxException err) {
-      log.error("Invalid revision syntax \"" + baseRevision + "\"", err);
+      logger.atSevere().withCause(err).log("Invalid revision syntax \"%s\"", baseRevision);
       throw new InvalidRevisionException();
     }
   }
@@ -89,9 +88,8 @@ public class RefUtil {
     } catch (IncorrectObjectTypeException | MissingObjectException err) {
       throw new InvalidRevisionException();
     } catch (IOException err) {
-      log.error(
-          "Repository \"" + repo.getDirectory() + "\" may be corrupt; suggest running git fsck",
-          err);
+      logger.atSevere().withCause(err).log(
+          "Repository \"%s\" may be corrupt; suggest running git fsck", repo.getDirectory());
       throw new InvalidRevisionException();
     }
   }

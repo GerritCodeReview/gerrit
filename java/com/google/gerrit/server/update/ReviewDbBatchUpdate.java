@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -82,8 +83,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * {@link BatchUpdate} implementation that supports mixed ReviewDb/NoteDb operations, depending on
@@ -102,7 +101,7 @@ import org.slf4j.LoggerFactory;
  * attempt to reimplement this logic. Use {@code BatchUpdate} if at all possible.
  */
 public class ReviewDbBatchUpdate extends BatchUpdate {
-  private static final Logger log = LoggerFactory.getLogger(ReviewDbBatchUpdate.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface AssistedFactory {
     ReviewDbBatchUpdate create(
@@ -369,13 +368,13 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
 
   private void executeUpdateRepo() throws UpdateException, RestApiException {
     try {
-      logDebug("Executing updateRepo on {} ops", ops.size());
+      logDebug("Executing updateRepo on %d ops", ops.size());
       RepoContextImpl ctx = new RepoContextImpl();
       for (BatchUpdateOp op : ops.values()) {
         op.updateRepo(ctx);
       }
 
-      logDebug("Executing updateRepo on {} RepoOnlyOps", repoOnlyOps.size());
+      logDebug("Executing updateRepo on %d RepoOnlyOps", repoOnlyOps.size());
       for (RepoOnlyOp op : repoOnlyOps) {
         op.updateRepo(ctx);
       }
@@ -417,7 +416,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     if (user.isIdentifiedUser()) {
       batchRefUpdate.setRefLogIdent(user.asIdentifiedUser().newRefLogIdent(when, tz));
     }
-    logDebug("Executing batch of {} ref updates", batchRefUpdate.getCommands().size());
+    logDebug("Executing batch of %d ref updates", batchRefUpdate.getCommands().size());
     if (dryrun) {
       return;
     }
@@ -445,7 +444,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     boolean success = false;
     Stopwatch sw = Stopwatch.createStarted();
     try {
-      logDebug("Executing change ops (parallel? {})", parallel);
+      logDebug("Executing change ops (parallel? %s)", parallel);
       ListeningExecutorService executor =
           parallel ? changeUpdateExector : MoreExecutors.newDirectExecutorService();
 
@@ -469,13 +468,13 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
               new ChangeTask(e.getKey(), e.getValue(), Thread.currentThread(), dryrun);
           tasks.add(task);
           if (!parallel) {
-            logDebug("Direct execution of task for ops: {}", ops);
+            logDebug("Direct execution of task for ops: %s", ops);
           }
           futures.add(executor.submit(task));
         }
         if (parallel) {
           logDebug(
-              "Waiting on futures for {} ops spanning {} changes", ops.size(), ops.keySet().size());
+              "Waiting on futures for %d ops spanning %d changes", ops.size(), ops.keySet().size());
         }
         Futures.allAsList(futures).get();
 
@@ -521,7 +520,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     //
     // See the comments in NoteDbUpdateManager#execute() for why we execute the
     // updates on the change repo first.
-    logDebug("Executing NoteDb updates for {} changes", tasks.size());
+    logDebug("Executing NoteDb updates for %d changes", tasks.size());
     try {
       initRepository();
       BatchRefUpdate changeRefUpdate = repoView.getRepository().getRefDatabase().newBatchUpdate();
@@ -530,7 +529,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
         int objs = 0;
         for (ChangeTask task : tasks) {
           if (task.noteDbResult == null) {
-            logDebug("No-op update to {}", task.id);
+            logDebug("No-op update to %s", task.id);
             continue;
           }
           for (ReceiveCommand cmd : task.noteDbResult.changeCommands()) {
@@ -543,9 +542,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           hasAllUsersCommands |= !task.noteDbResult.allUsersCommands().isEmpty();
         }
         logDebug(
-            "Collected {} objects and {} ref updates to change repo",
-            objs,
-            changeRefUpdate.getCommands().size());
+            "Collected %d objects and %d ref updates to change repo",
+            objs, changeRefUpdate.getCommands().size());
         executeNoteDbUpdate(getRevWalk(), ins, changeRefUpdate);
       }
 
@@ -564,9 +562,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
             }
           }
           logDebug(
-              "Collected {} objects and {} ref updates to All-Users",
-              objs,
-              allUsersRefUpdate.getCommands().size());
+              "Collected %d objects and %d ref updates to All-Users",
+              objs, allUsersRefUpdate.getCommands().size());
           executeNoteDbUpdate(allUsersRw, allUsersIns, allUsersRefUpdate);
         }
       } else {
@@ -579,7 +576,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
         // rebuilt the next time it is needed.
         //
         // Always log even without RequestId.
-        log.debug("Ignoring NoteDb update error after ReviewDb write", e);
+        logger.atFine().withCause(e).log("Ignoring NoteDb update error after ReviewDb write");
 
         // Otherwise, we can't prove it's safe to ignore the error, either because some change had
         // NOTE_DB primary, or a task failed before determining the primary storage.
@@ -670,7 +667,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           }
 
           // Call updateChange on each op.
-          logDebug("Calling updateChange on {} ops", changeOps.size());
+          logDebug("Calling updateChange on %s ops", changeOps.size());
           for (BatchUpdateOp op : changeOps) {
             dirty |= op.updateChange(ctx);
           }
@@ -708,7 +705,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
               db.commit();
             }
           } else {
-            logDebug("Skipping ReviewDb write since primary storage is {}", storage);
+            logDebug("Skipping ReviewDb write since primary storage is %s", storage);
           }
         } finally {
           db.rollback();
@@ -732,7 +729,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
             // already written the NoteDbChangeState to ReviewDb, which means
             // if the state is out of date it will be rebuilt the next time it
             // is needed.
-            log.debug("Ignoring NoteDb update error after ReviewDb write", ex);
+            logger.atFine().withCause(ex).log("Ignoring NoteDb update error after ReviewDb write");
           }
         }
       } catch (Exception e) {
@@ -827,15 +824,11 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     }
 
     private void logDebug(String msg, Throwable t) {
-      if (log.isDebugEnabled()) {
-        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "]" + msg, t);
-      }
+      ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, t);
     }
 
     private void logDebug(String msg, Object... args) {
-      if (log.isDebugEnabled()) {
-        ReviewDbBatchUpdate.this.logDebug("[" + taskId + "]" + msg, args);
-      }
+      ReviewDbBatchUpdate.this.logDebug("[" + taskId + "] " + msg, args);
     }
   }
 

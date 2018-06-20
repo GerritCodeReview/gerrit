@@ -494,10 +494,10 @@ limitations under the License.
 
     test('saveDiffPreferences invalidates cache line', () => {
       const cacheKey = '/accounts/self/preferences.diff';
-      sandbox.stub(element, 'send');
+      sandbox.stub(element, '_send');
       element._cache[cacheKey] = {tab_size: 4};
       element.saveDiffPreferences({tab_size: 8});
-      assert.isTrue(element.send.called);
+      assert.isTrue(element._send.called);
       assert.notOk(element._cache[cacheKey]);
     });
 
@@ -619,10 +619,10 @@ limitations under the License.
         });
 
     test('savPreferences normalizes download scheme', () => {
-      sandbox.stub(element, 'send');
+      sandbox.stub(element, '_send');
       element.savePreferences({download_scheme: 'HTTP'});
-      assert.isTrue(element.send.called);
-      assert.equal(element.send.lastCall.args[2].download_scheme, 'http');
+      assert.isTrue(element._send.called);
+      assert.equal(element._send.lastCall.args[0].body.download_scheme, 'http');
     });
 
     test('getDiffPreferences returns correct defaults', done => {
@@ -648,10 +648,10 @@ limitations under the License.
     });
 
     test('saveDiffPreferences set show_tabs to false', () => {
-      sandbox.stub(element, 'send');
+      sandbox.stub(element, '_send');
       element.saveDiffPreferences({show_tabs: false});
-      assert.isTrue(element.send.called);
-      assert.equal(element.send.lastCall.args[2].show_tabs, false);
+      assert.isTrue(element._send.called);
+      assert.equal(element._send.lastCall.args[0].body.show_tabs, false);
     });
 
     test('getEditPreferences returns correct defaults', done => {
@@ -681,17 +681,21 @@ limitations under the License.
     });
 
     test('saveEditPreferences set show_tabs to false', () => {
-      sandbox.stub(element, 'send');
+      sandbox.stub(element, '_send');
       element.saveEditPreferences({show_tabs: false});
-      assert.isTrue(element.send.called);
-      assert.equal(element.send.lastCall.args[2].show_tabs, false);
+      assert.isTrue(element._send.called);
+      assert.equal(element._send.lastCall.args[0].body.show_tabs, false);
     });
 
     test('confirmEmail', () => {
-      sandbox.spy(element, 'send');
+      sandbox.spy(element, '_send');
       element.confirmEmail('foo');
-      assert.isTrue(element.send.calledWith(
-          'PUT', '/config/server/email.confirm', {token: 'foo'}));
+      assert.isTrue(element._send.calledOnce);
+      assert.deepEqual(element._send.lastCall.args[0], {
+        method: 'PUT',
+        url: '/config/server/email.confirm',
+        body: {token: 'foo'},
+      });
     });
 
     test('GrReviewerUpdatesParser.parse is used', () => {
@@ -703,17 +707,18 @@ limitations under the License.
       });
     });
 
-    test('setAccountStatus', done => {
-      sandbox.stub(element, 'send').returns(Promise.resolve('OOO'));
-      sandbox.stub(element, 'getResponseObject')
-          .returns(Promise.resolve('OOO'));
+    test('setAccountStatus', () => {
+      sandbox.stub(element, '_send').returns(Promise.resolve('OOO'));
       element._cache['/accounts/self/detail'] = {};
-      element.setAccountStatus('OOO').then(() => {
-        assert.isTrue(element.send.calledWith('PUT', '/accounts/self/status',
-            {status: 'OOO'}));
+      return element.setAccountStatus('OOO').then(() => {
+        assert.isTrue(element._send.calledOnce);
+        assert.equal(element._send.lastCall.args[0].method, 'PUT');
+        assert.equal(element._send.lastCall.args[0].url,
+            '/accounts/self/status');
+        assert.deepEqual(element._send.lastCall.args[0].body,
+            {status: 'OOO'});
         assert.deepEqual(element._cache['/accounts/self/detail'],
             {status: 'OOO'});
-        done();
       });
     });
 
@@ -797,39 +802,41 @@ limitations under the License.
       });
     });
 
-    test('saveChangeEdit', done => {
+    test('saveChangeEdit', () => {
       element._projectLookup = {1: 'test'};
       const change_num = '1';
       const file_name = 'index.php';
       const file_contents = '<?php';
-      sandbox.stub(element, 'send').returns(
-          Promise.resolve([change_num, file_name, file_contents])
-      );
+      sandbox.stub(element, '_send').returns(
+          Promise.resolve([change_num, file_name, file_contents]));
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, file_name, file_contents]));
       element._cache['/changes/' + change_num + '/edit/' + file_name] = {};
-      element.saveChangeEdit(change_num, file_name, file_contents).then(() => {
-        assert.isTrue(element.send.calledWith('PUT',
-            '/changes/test~1/edit/' + file_name,
-            file_contents));
-        done();
-      });
+      return element.saveChangeEdit(change_num, file_name, file_contents)
+          .then(() => {
+            assert.isTrue(element._send.calledOnce);
+            assert.equal(element._send.lastCall.args[0].method, 'PUT');
+            assert.equal(element._send.lastCall.args[0].url,
+                '/changes/test~1/edit/' + file_name);
+            assert.equal(element._send.lastCall.args[0].body, file_contents);
+          });
     });
 
-    test('putChangeCommitMessage', done => {
+    test('putChangeCommitMessage', () => {
       element._projectLookup = {1: 'test'};
       const change_num = '1';
       const message = 'this is a commit message';
-      sandbox.stub(element, 'send').returns(
-          Promise.resolve([change_num, message])
-      );
+      sandbox.stub(element, '_send').returns(
+          Promise.resolve([change_num, message]));
       sandbox.stub(element, 'getResponseObject')
           .returns(Promise.resolve([change_num, message]));
       element._cache['/changes/' + change_num + '/message'] = {};
-      element.putChangeCommitMessage(change_num, message).then(() => {
-        assert.isTrue(element.send.calledWith('PUT',
-            '/changes/test~1/message', {message}));
-        done();
+      return element.putChangeCommitMessage(change_num, message).then(() => {
+        assert.isTrue(element._send.calledOnce);
+        assert.equal(element._send.lastCall.args[0].method, 'PUT');
+        assert.equal(element._send.lastCall.args[0].url,
+            '/changes/test~1/message');
+        assert.deepEqual(element._send.lastCall.args[0].body, {message});
       });
     });
 
@@ -866,9 +873,12 @@ limitations under the License.
     });
 
     test('createRepo encodes name', () => {
-      const sendStub = sandbox.stub(element, 'send');
-      element.createRepo({name: 'x/y'});
-      assert.equal(sendStub.lastCall.args[1], '/projects/x%2Fy');
+      const sendStub = sandbox.stub(element, '_send')
+          .returns(Promise.resolve());
+      return element.createRepo({name: 'x/y'}).then(() => {
+        assert.isTrue(sendStub.calledOnce);
+        assert.equal(sendStub.lastCall.args[0].url, '/projects/x%2Fy');
+      });
     });
 
     test('queryChangeFiles', () => {
@@ -1121,10 +1131,13 @@ limitations under the License.
 
     test('getChangeURLAndSend', () => {
       element._projectLookup = {1: 'test'};
-      const sendStub = sandbox.stub(element, 'send').returns(Promise.resolve());
+      const sendStub = sandbox.stub(element, '_send')
+          .returns(Promise.resolve());
       return element.getChangeURLAndSend(1, 'POST', 1, '/test').then(() => {
-        assert.isTrue(sendStub.calledWith('POST',
-            '/changes/test~1/revisions/1/test'));
+        assert.isTrue(sendStub.calledOnce);
+        assert.equal(sendStub.lastCall.args[0].method, 'POST');
+        assert.equal(sendStub.lastCall.args[0].url,
+            '/changes/test~1/revisions/1/test');
       });
     });
 
@@ -1164,10 +1177,10 @@ limitations under the License.
     });
 
     test('generateAccountHttpPassword', () => {
-      const sendSpy = sandbox.spy(element, 'send');
+      const sendSpy = sandbox.spy(element, '_send');
       return element.generateAccountHttpPassword().then(() => {
         assert.isTrue(sendSpy.calledOnce);
-        assert.deepEqual(sendSpy.lastCall.args[2], {generate: true});
+        assert.deepEqual(sendSpy.lastCall.args[0].body, {generate: true});
       });
     });
 
@@ -1317,6 +1330,22 @@ limitations under the License.
           assert.isTrue(getChangeEditFilesStub.calledOnce);
           assert.isTrue(getChangeFilesStub.calledOnce);
         });
+      });
+    });
+
+    test('_fetch forwards request and logs', () => {
+      const logStub = sandbox.stub(element, '_logCall');
+      const response = {status: 404, text: sinon.stub()};
+      const url = 'my url';
+      const fetchOptions = {method: 'DELETE'};
+      sandbox.stub(element._auth, 'fetch').returns(Promise.resolve(response));
+      const startTime = 123;
+      sandbox.stub(Date, 'now').returns(startTime);
+      return element._fetch(url, fetchOptions).then(() => {
+        assert.isTrue(logStub.calledOnce);
+        assert.isTrue(logStub.calledWith(
+            url, fetchOptions, startTime, response.status));
+        assert.isFalse(response.text.called);
       });
     });
   });

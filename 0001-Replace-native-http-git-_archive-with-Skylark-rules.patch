@@ -1,0 +1,133 @@
+Date: Wed, 30 May 2018 21:22:18 +0200
+Subject: [PATCH] Replace native {http,git}_archive with Skylark rules
+
+See [1] for more details.
+
+Test Plan:
+
+* Apply this CL on Bazel master: [2] and build bazel
+* Run with this custom built bazel version:
+
+  $ bazel test //javatests/...
+  $ bazel test //closure/...
+
+[1] https://groups.google.com/d/topic/bazel-discuss/dO2MHQLwJF0/discussion
+[2] https://bazel-review.googlesource.com/#/c/bazel/+/55932/
+---
+ closure/repositories.bzl | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/closure/repositories.bzl b/closure/repositories.bzl
+index 9b84a72..2816fb6 100644
+--- closure/repositories.bzl
++++ closure/repositories.bzl
+@@ -14,6 +14,7 @@
+ 
+ """External dependencies for Closure Rules."""
+ 
++load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
+ load("//closure/private:java_import_external.bzl", "java_import_external")
+ load("//closure/private:platform_http_file.bzl", "platform_http_file")
+ load("//closure:filegroup_external.bzl", "filegroup_external")
+@@ -405,7 +406,7 @@ def com_google_common_html_types():
+   )
+ 
+ def com_google_common_html_types_html_proto():
+-  native.http_file(
++  http_file(
+       name = "com_google_common_html_types_html_proto",
+       sha256 = "6ece202f11574e37d0c31d9cf2e9e11a0dbc9218766d50d211059ebd495b49c3",
+       urls = [
+@@ -633,7 +634,7 @@ def com_google_javascript_closure_compiler():
+ 
+ def com_google_javascript_closure_library():
+   # After updating: bazel run //closure/library:regenerate -- "$PWD"
+-  native.new_http_archive(
++  http_archive(
+       name = "com_google_javascript_closure_library",
+       urls = [
+           "https://mirror.bazel.build/github.com/google/closure-library/archive/v20180405.tar.gz",
+@@ -658,7 +659,7 @@ def com_google_jsinterop_annotations():
+ 
+ def com_google_protobuf():
+   # Note: Protobuf 3.6.0+ is going to use C++11
+-  native.http_archive(
++  http_archive(
+       name = "com_google_protobuf",
+       strip_prefix = "protobuf-3.5.1",
+       sha256 = "826425182ee43990731217b917c5c3ea7190cfda141af4869e6d4ad9085a740f",
+@@ -669,7 +670,7 @@ def com_google_protobuf():
+   )
+ 
+ def com_google_protobuf_js():
+-  native.new_http_archive(
++  http_archive(
+       name = "com_google_protobuf_js",
+       urls = [
+           "https://mirror.bazel.build/github.com/google/protobuf/archive/v3.5.1.tar.gz",
+@@ -722,7 +723,7 @@ def com_google_template_soy():
+   )
+ 
+ def com_google_template_soy_jssrc():
+-  native.new_http_archive(
++  http_archive(
+       name = "com_google_template_soy_jssrc",
+       sha256 = "c76ab4cb6e46a7c76336640b3c40d6897b420209a6c0905cdcd32533dda8126a",
+       urls = [
+@@ -757,7 +758,7 @@ def com_squareup_javapoet():
+   )
+ 
+ def fonts_noto_hinted_deb():
+-  native.http_file(
++  http_file(
+       name = "fonts_noto_hinted_deb",
+       urls = [
+           "https://mirror.bazel.build/http.us.debian.org/debian/pool/main/f/fonts-noto/fonts-noto-hinted_20161116-1_all.deb",
+@@ -767,7 +768,7 @@ def fonts_noto_hinted_deb():
+   )
+ 
+ def fonts_noto_mono_deb():
+-  native.http_file(
++  http_file(
+       name = "fonts_noto_mono_deb",
+       urls = [
+           "https://mirror.bazel.build/http.us.debian.org/debian/pool/main/f/fonts-noto/fonts-noto-mono_20161116-1_all.deb",
+@@ -801,7 +802,7 @@ def javax_inject():
+   )
+ 
+ def libexpat_amd64_deb():
+-  native.http_file(
++  http_file(
+       name = "libexpat_amd64_deb",
+       urls = [
+           "https://mirror.bazel.build/http.us.debian.org/debian/pool/main/e/expat/libexpat1_2.1.0-6+deb8u3_amd64.deb",
+@@ -811,7 +812,7 @@ def libexpat_amd64_deb():
+   )
+ 
+ def libfontconfig_amd64_deb():
+-  native.http_file(
++  http_file(
+       name = "libfontconfig_amd64_deb",
+       urls = [
+           "https://mirror.bazel.build/http.us.debian.org/debian/pool/main/f/fontconfig/libfontconfig1_2.11.0-6.3+deb8u1_amd64.deb",
+@@ -821,7 +822,7 @@ def libfontconfig_amd64_deb():
+   )
+ 
+ def libfreetype_amd64_deb():
+-  native.http_file(
++  http_file(
+       name = "libfreetype_amd64_deb",
+       urls = [
+           "https://mirror.bazel.build/http.us.debian.org/debian/pool/main/f/freetype/libfreetype6_2.5.2-3+deb8u1_amd64.deb",
+@@ -831,7 +832,7 @@ def libfreetype_amd64_deb():
+   )
+ 
+ def libpng_amd64_deb():
+-  native.http_file(
++  http_file(
+       name = "libpng_amd64_deb",
+       urls = [
+           "https://mirror.bazel.build/http.us.debian.org/debian/pool/main/libp/libpng/libpng12-0_1.2.50-2+deb8u2_amd64.deb",
+-- 
+2.16.3
+

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.rules;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -39,8 +40,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Per-thread Prolog interpreter.
@@ -50,7 +49,7 @@ import org.slf4j.LoggerFactory;
  * <p>A single copy of the Prolog interpreter, for the current thread.
  */
 public class PrologEnvironment extends BufferingPrologControl {
-  private static final Logger log = LoggerFactory.getLogger(PrologEnvironment.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     /**
@@ -142,7 +141,7 @@ public class PrologEnvironment extends BufferingPrologControl {
       try {
         i.next().run();
       } catch (Throwable err) {
-        log.error("Failed to execute cleanup for PrologEnvironment", err);
+        logger.atSevere().withCause(err).log("Failed to execute cleanup for PrologEnvironment");
       }
       i.remove();
     }

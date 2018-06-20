@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
@@ -44,8 +45,6 @@ import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Checks authorization to perform an action on a project, reference, or change.
@@ -91,7 +90,7 @@ import org.slf4j.LoggerFactory;
  */
 @ImplementedBy(DefaultPermissionBackend.class)
 public abstract class PermissionBackend {
-  private static final Logger logger = LoggerFactory.getLogger(PermissionBackend.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Returns an instance scoped to the current user. */
   public abstract WithUser currentUser();
@@ -253,7 +252,7 @@ public abstract class PermissionBackend {
       try {
         return test(perm);
       } catch (PermissionBackendException e) {
-        logger.warn("Cannot test " + perm + "; assuming false", e);
+        logger.atWarning().withCause(e).log("Cannot test %s; assuming false", perm);
         return false;
       }
     }
@@ -283,7 +282,8 @@ public abstract class PermissionBackend {
           // Do not include this project in allowed.
         } catch (PermissionBackendException e) {
           if (e.getCause() instanceof RepositoryNotFoundException) {
-            logger.warn("Could not find repository of the project {} : ", project.get(), e);
+            logger.atWarning().withCause(e).log(
+                "Could not find repository of the project %s", project.get());
             // Do not include this project because doesn't exist
           } else {
             throw e;
@@ -350,7 +350,7 @@ public abstract class PermissionBackend {
       try {
         return test(perm);
       } catch (PermissionBackendException e) {
-        logger.warn("Cannot test " + perm + "; assuming false", e);
+        logger.atWarning().withCause(e).log("Cannot test %s; assuming false", perm);
         return false;
       }
     }
@@ -456,7 +456,7 @@ public abstract class PermissionBackend {
       try {
         return test(perm);
       } catch (PermissionBackendException e) {
-        logger.warn("Cannot test " + perm + "; assuming false", e);
+        logger.atWarning().withCause(e).log("Cannot test %s; assuming false", perm);
         return false;
       }
     }
@@ -506,7 +506,7 @@ public abstract class PermissionBackend {
       try {
         return test(perm);
       } catch (PermissionBackendException e) {
-        logger.warn("Cannot test " + perm + "; assuming false", e);
+        logger.atWarning().withCause(e).log("Cannot test %s; assuming false", perm);
         return false;
       }
     }

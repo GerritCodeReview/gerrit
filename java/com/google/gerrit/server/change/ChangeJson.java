@@ -57,6 +57,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -165,8 +166,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Produces {@link ChangeInfo} (which is serialized to JSON afterwards) from {@link ChangeData}.
@@ -175,7 +174,7 @@ import org.slf4j.LoggerFactory;
  * ChangeData} objects from different sources.
  */
 public class ChangeJson {
-  private static final Logger log = LoggerFactory.getLogger(ChangeJson.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final SubmitRuleOptions SUBMIT_RULE_OPTIONS_LENIENT =
       ChangeField.SUBMIT_RULE_OPTIONS_LENIENT.toBuilder().build();
@@ -502,7 +501,8 @@ public class ChangeJson {
                 ensureLoaded(Collections.singleton(cd));
                 return Optional.of(format(cd, Optional.empty(), false));
               } catch (OrmException | RuntimeException e) {
-                log.warn("Omitting corrupt change " + cd.getId() + " from results", e);
+                logger.atWarning().withCause(e).log(
+                    "Omitting corrupt change %s from results", cd.getId());
                 return Optional.empty();
               }
             });
@@ -517,7 +517,7 @@ public class ChangeJson {
           try {
             c.call().ifPresent(result::add);
           } catch (Exception e) {
-            log.warn("Omitting change due to exception", e);
+            logger.atWarning().withCause(e).log("Omitting change due to exception");
           }
         }
         return result;
@@ -542,7 +542,7 @@ public class ChangeJson {
       notes = cd.notes();
     } catch (OrmException e) {
       String msg = "Error loading change";
-      log.warn(msg + " " + cd.getId(), e);
+      logger.atWarning().withCause(e).log(msg + " %s", cd.getId());
       ChangeInfo info = new ChangeInfo();
       info._number = cd.getId().get();
       ProblemInfo p = new ProblemInfo();
@@ -914,7 +914,7 @@ public class ChangeJson {
           tag = psa.getTag();
           date = psa.getGranted();
           if (psa.isPostSubmit()) {
-            log.warn("unexpected post-submit approval on open change: {}", psa);
+            logger.atWarning().log("unexpected post-submit approval on open change: %s", psa);
           }
         } else {
           // Either the user cannot vote on this label, or they were added as a
@@ -1559,7 +1559,7 @@ public class ChangeJson {
     }
     ProjectState projectState = projectCache.checkedGet(cd.project());
     if (projectState == null) {
-      log.error("project state for project " + cd.project() + " is null");
+      logger.atSevere().log("project state for project %s is null", cd.project());
       return false;
     }
     return projectState.statePermitsRead();

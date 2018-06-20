@@ -23,9 +23,9 @@ java_library(
         "//lib:gwtorm",
         "//lib:h2",
         "//lib/commons:validator",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

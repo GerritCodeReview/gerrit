@@ -19,6 +19,7 @@ import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -80,12 +81,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class EventFactory {
-  private static final Logger log = LoggerFactory.getLogger(EventFactory.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AccountCache accountCache;
   private final Emails emails;
@@ -135,7 +134,7 @@ public class EventFactory {
     try (ReviewDb db = schema.open()) {
       return asChangeAttribute(db, change);
     } catch (OrmException e) {
-      log.error("Cannot open database connection", e);
+      logger.atSevere().withCause(e).log("Cannot open database connection");
       return new ChangeAttribute();
     }
   }
@@ -158,7 +157,8 @@ public class EventFactory {
     try {
       a.commitMessage = changeDataFactory.create(db, change).commitMessage();
     } catch (Exception e) {
-      log.error("Error while getting full commit message for change " + a.number, e);
+      logger.atSevere().withCause(e).log(
+          "Error while getting full commit message for change %d", a.number);
     }
     a.url = getChangeUrl(change);
     a.owner = asAccountAttribute(change.getOwner());
@@ -450,9 +450,9 @@ public class EventFactory {
         patchSetAttribute.files.add(p);
       }
     } catch (PatchListObjectTooLargeException e) {
-      log.warn("Cannot get patch list: " + e.getMessage());
+      logger.atWarning().log("Cannot get patch list: %s", e.getMessage());
     } catch (PatchListNotAvailableException e) {
-      log.error("Cannot get patch list", e);
+      logger.atSevere().withCause(e).log("Cannot get patch list");
     }
   }
 
@@ -476,7 +476,7 @@ public class EventFactory {
     try (ReviewDb db = schema.open()) {
       return asPatchSetAttribute(db, revWalk, change, patchSet);
     } catch (OrmException e) {
-      log.error("Cannot open database connection", e);
+      logger.atSevere().withCause(e).log("Cannot open database connection");
       return new PatchSetAttribute();
     }
   }
@@ -523,11 +523,11 @@ public class EventFactory {
       }
       p.kind = changeKindCache.getChangeKind(db, change, patchSet);
     } catch (IOException | OrmException e) {
-      log.error("Cannot load patch set data for " + patchSet.getId(), e);
+      logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.getId());
     } catch (PatchListObjectTooLargeException e) {
-      log.warn(String.format("Cannot get size information for %s: %s", pId, e.getMessage()));
+      logger.atWarning().log("Cannot get size information for %s: %s", pId, e.getMessage());
     } catch (PatchListNotAvailableException e) {
-      log.error(String.format("Cannot get size information for %s.", pId), e);
+      logger.atSevere().withCause(e).log("Cannot get size information for %s.", pId);
     }
     return p;
   }

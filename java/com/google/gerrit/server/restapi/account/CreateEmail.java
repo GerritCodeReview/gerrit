@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.extensions.client.AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
@@ -45,11 +46,9 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CreateEmail implements RestModifyView<AccountResource, EmailInput> {
-  private static final Logger log = LoggerFactory.getLogger(CreateEmail.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     CreateEmail create(String email);
@@ -95,7 +94,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
       input = new EmailInput();
     }
 
-    if (self.get() != rsrc.getUser() || input.noConfirmation) {
+    if (!self.get().hasSameAccountId(rsrc.getUser()) || input.noConfirmation) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 
@@ -126,7 +125,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
     info.email = email;
     if (input.noConfirmation || isDevMode) {
       if (isDevMode) {
-        log.warn("skipping email validation in developer mode");
+        logger.atWarning().log("skipping email validation in developer mode");
       }
       try {
         accountManager.link(user.getAccountId(), AuthRequest.forEmail(email));
@@ -146,7 +145,7 @@ public class CreateEmail implements RestModifyView<AccountResource, EmailInput> 
         sender.send();
         info.pendingConfirmation = true;
       } catch (EmailException | RuntimeException e) {
-        log.error("Cannot send email verification message to " + email, e);
+        logger.atSevere().withCause(e).log("Cannot send email verification message to %s", email);
         throw e;
       }
     }

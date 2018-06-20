@@ -16,6 +16,7 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.config.GerritRuntime;
 import java.nio.file.Path;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 
@@ -36,6 +37,7 @@ public interface ServerPluginProvider {
     public final PluginUser user;
     public final String canonicalUrl;
     public final Path dataDir;
+    final GerritRuntime gerritRuntime;
 
     /**
      * Creates a new PluginDescription for ServerPluginProvider.
@@ -43,11 +45,14 @@ public interface ServerPluginProvider {
      * @param user Gerrit user for interacting with plugins
      * @param canonicalUrl plugin root Web URL
      * @param dataDir directory for plugin data
+     * @param gerritRuntime current Gerrit runtime (daemon, batch, ...)
      */
-    public PluginDescription(PluginUser user, String canonicalUrl, Path dataDir) {
+    public PluginDescription(
+        PluginUser user, String canonicalUrl, Path dataDir, GerritRuntime gerritRuntime) {
       this.user = user;
       this.canonicalUrl = canonicalUrl;
       this.dataDir = dataDir;
+      this.gerritRuntime = gerritRuntime;
     }
   }
 

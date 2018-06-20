@@ -14,7 +14,7 @@
 
 package com.google.gerrit.httpd.resources;
 
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.gerrit.util.http.CacheHeaders;
 import java.io.IOException;
 import java.io.Serializable;
 import javax.servlet.http.HttpServletRequest;

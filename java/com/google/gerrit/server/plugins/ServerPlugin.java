@@ -16,11 +16,13 @@ package com.google.gerrit.server.plugins;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -32,11 +34,9 @@ import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ServerPlugin extends Plugin {
-  private static final Logger log = LoggerFactory.getLogger(ServerPlugin.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Manifest manifest;
   private final PluginContentScanner scanner;
@@ -44,7 +44,9 @@ public class ServerPlugin extends Plugin {
   private final String pluginCanonicalWebUrl;
   private final ClassLoader classLoader;
   private final String metricsPrefix;
+  private final GerritRuntime gerritRuntime;
   protected Class<? extends Module> sysModule;
+  protected Class<? extends Module> batchModule;
   protected Class<? extends Module> sshModule;
   protected Class<? extends Module> httpModule;
 
@@ -63,7 +65,8 @@ public class ServerPlugin extends Plugin {
       PluginContentScanner scanner,
       Path dataDir,
       ClassLoader classLoader,
-      String metricsPrefix)
+      String metricsPrefix,
+      GerritRuntime gerritRuntime)
       throws InvalidPluginException {
     super(
         name,
@@ -77,31 +80,10 @@ public class ServerPlugin extends Plugin {
     this.classLoader = classLoader;
     this.manifest = scanner == null ? null : getPluginManifest(scanner);
     this.metricsPrefix = metricsPrefix;
+    this.gerritRuntime = gerritRuntime;
     if (manifest != null) {
       loadGuiceModules(manifest, classLoader);
     }
-  }
-
-  public ServerPlugin(
-      String name,
-      String pluginCanonicalWebUrl,
-      PluginUser pluginUser,
-      Path srcJar,
-      FileSnapshot snapshot,
-      PluginContentScanner scanner,
-      Path dataDir,
-      ClassLoader classLoader)
-      throws InvalidPluginException {
-    this(
-        name,
-        pluginCanonicalWebUrl,
-        pluginUser,
-        srcJar,
-        snapshot,
-        scanner,
-        dataDir,
-        classLoader,
-        null);
   }
 
   private void loadGuiceModules(Manifest manifest, ClassLoader classLoader)
@@ -110,6 +92,7 @@ public class ServerPlugin extends Plugin {
     String sysName = main.getValue("Gerrit-Module");
     String sshName = main.getValue("Gerrit-SshModule");
     String httpName = main.getValue("Gerrit-HttpModule");
+    String batchName = main.getValue("Gerrit-BatchModule");
 
     if (!Strings.isNullOrEmpty(sshName) && getApiType() != Plugin.ApiType.PLUGIN) {
       throw new InvalidPluginException(
@@ -118,6 +101,7 @@ public class ServerPlugin extends Plugin {
     }
 
     try {
+      this.batchModule = load(batchName, classLoader);
       this.sysModule = load(sysName, classLoader);
       this.sshModule = load(sshName, classLoader);
       this.httpModule = load(httpName, classLoader);
@@ -127,7 +111,7 @@ public class ServerPlugin extends Plugin {
   }
 
   @SuppressWarnings("unchecked")
-  protected static Class<? extends Module> load(String name, ClassLoader pluginLoader)
+  protected static Class<? extends Module> load(@Nullable String name, ClassLoader pluginLoader)
       throws ClassNotFoundException {
     if (Strings.isNullOrEmpty(name)) {
       return null;
@@ -178,9 +162,8 @@ public class ServerPlugin extends Plugin {
     } else if ("restart".equalsIgnoreCase(v)) {
       return false;
     } else {
-      log.warn(
-          String.format(
-              "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart", getName(), v));
+      logger.atWarning().log(
+          "Plugin %s has invalid Gerrit-ReloadMode %s; assuming restart", getName(), v);
       return false;
     }
   }
@@ -199,6 +182,18 @@ public class ServerPlugin extends Plugin {
     Injector root = newRootInjector(env);
     serverManager = new LifecycleManager();
     serverManager.add(root);
+
+    if (gerritRuntime == GerritRuntime.BATCH) {
+      if (batchModule != null) {
+        sysInjector = root.createChildInjector(root.getInstance(batchModule));
+        serverManager.add(sysInjector);
+      } else {
+        sysInjector = root;
+      }
+
+      serverManager.start();
+      return;
+    }
 
     AutoRegisterModules auto = null;
     if (sysModule == null && sshModule == null && httpModule == null) {

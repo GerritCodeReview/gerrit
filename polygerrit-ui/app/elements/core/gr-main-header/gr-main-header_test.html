@@ -53,6 +53,30 @@ limitations under the License.
       sandbox.restore();
     });
 
+    test('link visibility', () => {
+      element.loading = true;
+      assert.equal(getComputedStyle(element.$$('.accountContainer')).display,
+          'none');
+      element.loading = false;
+      element.loggedIn = false;
+      assert.notEqual(getComputedStyle(element.$$('.accountContainer')).display,
+          'none');
+      assert.notEqual(getComputedStyle(element.$$('.loginButton')).display,
+          'none');
+      assert.equal(getComputedStyle(element.$$('gr-account-dropdown')).display,
+          'none');
+      assert.equal(getComputedStyle(element.$$('.settingsButton')).display,
+          'none');
+      element.loggedIn = true;
+      assert.equal(getComputedStyle(element.$$('.loginButton')).display,
+          'none');
+      assert.notEqual(getComputedStyle(element.$$('gr-account-dropdown'))
+          .display,
+          'none');
+      assert.notEqual(getComputedStyle(element.$$('.settingsButton')).display,
+          'none');
+    });
+
     test('fix my menu item', () => {
       assert.deepEqual([
         {url: 'https://awesometown.com/#hashyhash'},

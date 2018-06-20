@@ -40,7 +40,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
-import static com.google.gerrit.server.notedb.ChangeNoteUtil.sanitizeFooter;
+import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -527,7 +527,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
       ObjectId data =
-          inserter.insert(OBJ_BLOB, e.getValue().build(noteUtil, noteUtil.getWriteJson()));
+          inserter.insert(
+              OBJ_BLOB,
+              e.getValue()
+                  .build(
+                      noteUtil.getChangeNoteJson(),
+                      noteUtil.getLegacyChangeNoteWrite(),
+                      noteUtil.getChangeNoteJson().getWriteJson()));
       rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 
@@ -555,7 +561,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil, getId(), rw.getObjectReader(), noteMap, PatchLineComment.Status.PUBLISHED);
+        noteUtil.getChangeNoteJson(),
+        noteUtil.getLegacyChangeNoteRead(),
+        getId(),
+        rw.getObjectReader(),
+        noteMap,
+        PatchLineComment.Status.PUBLISHED);
   }
 
   private void checkComments(
@@ -738,7 +749,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (readOnlyUntil != null) {
-      addFooter(msg, FOOTER_READ_ONLY_UNTIL, ChangeNoteUtil.formatTime(serverIdent, readOnlyUntil));
+      addFooter(msg, FOOTER_READ_ONLY_UNTIL, NoteDbUtil.formatTime(serverIdent, readOnlyUntil));
     }
 
     if (isPrivate != null) {

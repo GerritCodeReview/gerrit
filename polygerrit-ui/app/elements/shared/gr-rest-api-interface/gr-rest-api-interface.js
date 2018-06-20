@@ -57,6 +57,31 @@
    */
   Defs.ChangeFetchRequest;
 
+  /**
+   * Object to describe a request for passing into _send.
+   * - method is the HTTP method to use in the request.
+   * - url is the URL for the request
+   * - body is a request payload.
+   *     TODO (beckysiegel) remove need for number at least.
+   * - errFn is a function to invoke when the request fails.
+   * - cancelCondition is a function that, if provided and returns true, will
+   *   cancel the response after it resolves.
+   * - contentType is the content type of the body.
+   * - headers is a key-value hash to describe HTTP headers for the request.
+   * - parseResponse states whether the result should be parsed as a JSON
+   *     object using getResponseObject.
+   * @typedef {{
+   *   method: string,
+   *   url: string,
+   *   body: (string|number|Object|null|undefined),
+   *   errFn: (function(?Response, string=)|null|undefined),
+   *   contentType: (string|null|undefined),
+   *   headers: (Object|undefined),
+   *   parseResponse: (boolean|undefined),
+   * }}
+   */
+  Defs.SendRequest;
+
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -138,16 +163,50 @@
     JSON_PREFIX,
 
     /**
+     * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
+     * with timing and logging.
+     * @param {string} url
+     * @param {Object=} opt_fetchOptions
+     */
+    _fetch(url, opt_fetchOptions) {
+      const start = Date.now();
+      const xhr = this._auth.fetch(url, opt_fetchOptions);
+
+      // Log the call after it completes.
+      xhr.then(res => this._logCall(url, opt_fetchOptions, start, res.status));
+
+      // Return the XHR directly (without the log).
+      return xhr;
+    },
+
+    /**
+     * Log information about a REST call. Because the elapsed time is determined
+     * by this method, it should be called immediately after the request
+     * finishes.
+     * @param {string} url
+     * @param {Object|undefined} fetchOptions
+     * @param {number} startTime the time that the request was started.
+     * @param {number} status the HTTP status of the response. The status value
+     *     is used here rather than the response object so there is no way this
+     *     method can read the body stream.
+     */
+    _logCall(url, fetchOptions, startTime, status) {
+      const method = (fetchOptions && fetchOptions.method) ?
+          fetchOptions.method : 'GET';
+      const elapsed = (Date.now() - startTime) + 'ms';
+      console.log(['HTTP', status, method, elapsed, url].join(' '));
+    },
+
+    /**
      * Fetch JSON from url provided.
      * Returns a Promise that resolves to a native Response.
      * Doesn't do error checking. Supports cancel condition. Performs auth.
      * Validates auth expiry errors.
      * @param {Defs.FetchJSONRequest} req
-     * @return {Promise}
      */
     _fetchRawJSON(req) {
       const urlWithParams = this._urlWithParams(req.url, req.params);
-      return this._auth.fetch(urlWithParams, req.fetchOptions).then(res => {
+      return this._fetch(urlWithParams, req.fetchOptions).then(res => {
         if (req.cancelCondition && req.cancelCondition()) {
           res.body.cancel();
           return;
@@ -293,47 +352,61 @@
       });
     },
 
-    saveRepoConfig(repo, config, opt_errFn, opt_ctx) {
+    saveRepoConfig(repo, config, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(repo);
-      return this.send('PUT', `/projects/${encodeName}/config`, config,
-          opt_errFn, opt_ctx);
+      return this._send({
+        method: 'PUT',
+        url: `/projects/${encodeName}/config`,
+        body: config,
+        errFn: opt_errFn,
+      });
     },
 
-    runRepoGC(repo, opt_errFn, opt_ctx) {
+    runRepoGC(repo, opt_errFn) {
       if (!repo) { return ''; }
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(repo);
-      return this.send('POST', `/projects/${encodeName}/gc`, '',
-          opt_errFn, opt_ctx);
+      return this._send({
+        method: 'POST',
+        url: `/projects/${encodeName}/gc`,
+        body: '',
+        errFn: opt_errFn,
+      });
     },
 
     /**
      * @param {?Object} config
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    createRepo(config, opt_errFn, opt_ctx) {
+    createRepo(config, opt_errFn) {
       if (!config.name) { return ''; }
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(config.name);
-      return this.send('PUT', `/projects/${encodeName}`, config, opt_errFn,
-          opt_ctx);
+      return this._send({
+        method: 'PUT',
+        url: `/projects/${encodeName}`,
+        body: config,
+        errFn: opt_errFn,
+      });
     },
 
     /**
      * @param {?Object} config
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    createGroup(config, opt_errFn, opt_ctx) {
+    createGroup(config, opt_errFn) {
       if (!config.name) { return ''; }
       const encodeName = encodeURIComponent(config.name);
-      return this.send('PUT', `/groups/${encodeName}`, config, opt_errFn,
-          opt_ctx);
+      return this._send({
+        method: 'PUT',
+        url: `/groups/${encodeName}`,
+        body: config,
+        errFn: opt_errFn,
+      });
     },
 
     getGroupConfig(group, opt_errFn) {
@@ -347,34 +420,38 @@
      * @param {string} repo
      * @param {string} ref
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    deleteRepoBranches(repo, ref, opt_errFn, opt_ctx) {
+    deleteRepoBranches(repo, ref, opt_errFn) {
       if (!repo || !ref) { return ''; }
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/branches/${encodeRef}`, '',
-          opt_errFn, opt_ctx);
+      return this._send({
+        method: 'DELETE',
+        url: `/projects/${encodeName}/branches/${encodeRef}`,
+        body: '',
+        errFn: opt_errFn,
+      });
     },
 
     /**
      * @param {string} repo
      * @param {string} ref
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    deleteRepoTags(repo, ref, opt_errFn, opt_ctx) {
+    deleteRepoTags(repo, ref, opt_errFn) {
       if (!repo || !ref) { return ''; }
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
-      return this.send('DELETE',
-          `/projects/${encodeName}/tags/${encodeRef}`, '',
-          opt_errFn, opt_ctx);
+      return this._send({
+        method: 'DELETE',
+        url: `/projects/${encodeName}/tags/${encodeRef}`,
+        body: '',
+        errFn: opt_errFn,
+      });
     },
 
     /**
@@ -382,17 +459,19 @@
      * @param {string} branch
      * @param {string} revision
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    createRepoBranch(name, branch, revision, opt_errFn, opt_ctx) {
+    createRepoBranch(name, branch, revision, opt_errFn) {
       if (!name || !branch || !revision) { return ''; }
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(name);
       const encodeBranch = encodeURIComponent(branch);
-      return this.send('PUT',
-          `/projects/${encodeName}/branches/${encodeBranch}`,
-          revision, opt_errFn, opt_ctx);
+      return this._send({
+        method: 'PUT',
+        url: `/projects/${encodeName}/branches/${encodeBranch}`,
+        body: revision,
+        errFn: opt_errFn,
+      });
     },
 
     /**
@@ -400,16 +479,19 @@
      * @param {string} tag
      * @param {string} revision
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    createRepoTag(name, tag, revision, opt_errFn, opt_ctx) {
+    createRepoTag(name, tag, revision, opt_errFn) {
       if (!name || !tag || !revision) { return ''; }
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(name);
       const encodeTag = encodeURIComponent(tag);
-      return this.send('PUT', `/projects/${encodeName}/tags/${encodeTag}`,
-          revision, opt_errFn, opt_ctx);
+      return this._send({
+        method: 'PUT',
+        url: `/projects/${encodeName}/tags/${encodeTag}`,
+        body: revision,
+        errFn: opt_errFn,
+      });
     },
 
     /**
@@ -424,35 +506,51 @@
 
     getGroupMembers(groupName, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
-      return this.send('GET', `/groups/${encodeName}/members/`, null, opt_errFn)
-          .then(response => this.getResponseObject(response));
+      return this._fetchJSON({
+        url: `/groups/${encodeName}/members/`,
+        errFn: opt_errFn,
+      });
     },
 
     getIncludedGroup(groupName) {
       const encodeName = encodeURIComponent(groupName);
-      return this.send('GET', `/groups/${encodeName}/groups/`)
-          .then(response => this.getResponseObject(response));
+      return this._fetchJSON({url: `/groups/${encodeName}/groups/`});
     },
 
     saveGroupName(groupId, name) {
       const encodeId = encodeURIComponent(groupId);
-      return this.send('PUT', `/groups/${encodeId}/name`, {name});
+      return this._send({
+        method: 'PUT',
+        url: `/groups/${encodeId}/name`,
+        body: {name},
+      });
     },
 
     saveGroupOwner(groupId, ownerId) {
       const encodeId = encodeURIComponent(groupId);
-      return this.send('PUT', `/groups/${encodeId}/owner`, {owner: ownerId});
+      return this._send({
+        method: 'PUT',
+        url: `/groups/${encodeId}/owner`,
+        body: {owner: ownerId},
+      });
     },
 
     saveGroupDescription(groupId, description) {
       const encodeId = encodeURIComponent(groupId);
-      return this.send('PUT', `/groups/${encodeId}/description`,
-          {description});
+      return this._send({
+        method: 'PUT',
+        url: `/groups/${encodeId}/description`,
+        body: {description},
+      });
     },
 
     saveGroupOptions(groupId, options) {
       const encodeId = encodeURIComponent(groupId);
-      return this.send('PUT', `/groups/${encodeId}/options`, options);
+      return this._send({
+        method: 'PUT',
+        url: `/groups/${encodeId}/options`,
+        body: options,
+      });
     },
 
     getGroupAuditLog(group, opt_errFn) {
@@ -465,34 +563,44 @@
     saveGroupMembers(groupName, groupMembers) {
       const encodeName = encodeURIComponent(groupName);
       const encodeMember = encodeURIComponent(groupMembers);
-      return this.send('PUT', `/groups/${encodeName}/members/${encodeMember}`)
-          .then(response => this.getResponseObject(response));
+      return this._send({
+        method: 'PUT',
+        url: `/groups/${encodeName}/members/${encodeMember}`,
+        parseResponse: true,
+      });
     },
 
     saveIncludedGroup(groupName, includedGroup, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
       const encodeIncludedGroup = encodeURIComponent(includedGroup);
-      return this.send('PUT',
-          `/groups/${encodeName}/groups/${encodeIncludedGroup}`, null,
-          opt_errFn).then(response => {
-            if (response.ok) {
-              return this.getResponseObject(response);
-            }
-          });
+      const req = {
+        method: 'PUT',
+        url: `/groups/${encodeName}/groups/${encodeIncludedGroup}`,
+        errFn: opt_errFn,
+      };
+      return this._send(req).then(response => {
+        if (response.ok) {
+          return this.getResponseObject(response);
+        }
+      });
     },
 
     deleteGroupMembers(groupName, groupMembers) {
       const encodeName = encodeURIComponent(groupName);
       const encodeMember = encodeURIComponent(groupMembers);
-      return this.send('DELETE',
-          `/groups/${encodeName}/members/${encodeMember}`);
+      return this._send({
+        method: 'DELETE',
+        url: `/groups/${encodeName}/members/${encodeMember}`,
+      });
     },
 
     deleteIncludedGroup(groupName, includedGroup) {
       const encodeName = encodeURIComponent(groupName);
       const encodeIncludedGroup = encodeURIComponent(includedGroup);
-      return this.send('DELETE',
-          `/groups/${encodeName}/groups/${encodeIncludedGroup}`);
+      return this._send({
+        method: 'DELETE',
+        url: `/groups/${encodeName}/groups/${encodeIncludedGroup}`,
+      });
     },
 
     getVersion() {
@@ -562,41 +670,50 @@
     /**
      * @param {?Object} prefs
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    savePreferences(prefs, opt_errFn, opt_ctx) {
+    savePreferences(prefs, opt_errFn) {
       // Note (Issue 5142): normalize the download scheme with lower case before
       // saving.
       if (prefs.download_scheme) {
         prefs.download_scheme = prefs.download_scheme.toLowerCase();
       }
 
-      return this.send('PUT', '/accounts/self/preferences', prefs, opt_errFn,
-          opt_ctx);
+      return this._send({
+        method: 'PUT',
+        url: '/accounts/self/preferences',
+        body: prefs,
+        errFn: opt_errFn,
+      });
     },
 
     /**
      * @param {?Object} prefs
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    saveDiffPreferences(prefs, opt_errFn, opt_ctx) {
+    saveDiffPreferences(prefs, opt_errFn) {
       // Invalidate the cache.
       this._cache['/accounts/self/preferences.diff'] = undefined;
-      return this.send('PUT', '/accounts/self/preferences.diff', prefs,
-          opt_errFn, opt_ctx);
+      return this._send({
+        method: 'PUT',
+        url: '/accounts/self/preferences.diff',
+        body: prefs,
+        errFn: opt_errFn,
+      });
     },
 
     /**
      * @param {?Object} prefs
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    saveEditPreferences(prefs, opt_errFn, opt_ctx) {
+    saveEditPreferences(prefs, opt_errFn) {
       // Invalidate the cache.
       this._cache['/accounts/self/preferences.edit'] = undefined;
-      return this.send('PUT', '/accounts/self/preferences.edit', prefs,
-          opt_errFn, opt_ctx);
+      return this._send({
+        method: 'PUT',
+        url: '/accounts/self/preferences.edit',
+        body: prefs,
+        errFn: opt_errFn,
+      });
     },
 
     getAccount() {
@@ -615,8 +732,12 @@
     },
 
     deleteAccountIdentity(id) {
-      return this.send('POST', '/accounts/self/external.ids:delete', id)
-          .then(response => this.getResponseObject(response));
+      return this._send({
+        method: 'POST',
+        url: '/accounts/self/external.ids:delete',
+        body: id,
+        parseResponse: true,
+      });
     },
 
     /**
@@ -636,46 +757,49 @@
     /**
      * @param {string} email
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    addAccountEmail(email, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/emails/' +
-          encodeURIComponent(email), null, opt_errFn, opt_ctx);
+    addAccountEmail(email, opt_errFn) {
+      return this._send({
+        method: 'PUT',
+        url: '/accounts/self/emails/' + encodeURIComponent(email),
+        errFn: opt_errFn,
+      });
     },
 
     /**
      * @param {string} email
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    deleteAccountEmail(email, opt_errFn, opt_ctx) {
-      return this.send('DELETE', '/accounts/self/emails/' +
-          encodeURIComponent(email), null, opt_errFn, opt_ctx);
+    deleteAccountEmail(email, opt_errFn) {
+      return this._send({
+        method: 'DELETE',
+        url: '/accounts/self/emails/' + encodeURIComponent(email),
+        errFn: opt_errFn,
+      });
     },
 
     /**
      * @param {string} email
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    setPreferredAccountEmail(email, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/emails/' +
-          encodeURIComponent(email) + '/preferred', null,
-          opt_errFn, opt_ctx).then(() => {
-            // If result of getAccountEmails is in cache, update it in the cache
-            // so we don't have to invalidate it.
-            const cachedEmails = this._cache['/accounts/self/emails'];
-            if (cachedEmails) {
-              const emails = cachedEmails.map(entry => {
-                if (entry.email === email) {
-                  return {email, preferred: true};
-                } else {
-                  return {email};
-                }
-              });
-              this._cache['/accounts/self/emails'] = emails;
+    setPreferredAccountEmail(email, opt_errFn) {
+      const encodedEmail = encodeURIComponent(email);
+      const url = `/accounts/self/emails/${encodedEmail}/preferred`;
+      return this._send({method: 'PUT', url, errFn: opt_errFn}).then(() => {
+        // If result of getAccountEmails is in cache, update it in the cache
+        // so we don't have to invalidate it.
+        const cachedEmails = this._cache['/accounts/self/emails'];
+        if (cachedEmails) {
+          const emails = cachedEmails.map(entry => {
+            if (entry.email === email) {
+              return {email, preferred: true};
+            } else {
+              return {email};
             }
           });
+          this._cache['/accounts/self/emails'] = emails;
+        }
+      });
     },
 
     /**
@@ -695,35 +819,49 @@
     /**
      * @param {string} name
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    setAccountName(name, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/name', {name}, opt_errFn, opt_ctx)
-          .then(response => this.getResponseObject(response)
-              .then(newName => this._updateCachedAccount({name: newName})));
+    setAccountName(name, opt_errFn) {
+      const req = {
+        method: 'PUT',
+        url: '/accounts/self/name',
+        body: {name},
+        errFn: opt_errFn,
+        parseResponse: true,
+      };
+      return this._send(req)
+          .then(newName => this._updateCachedAccount({name: newName}));
     },
 
     /**
      * @param {string} username
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    setAccountUsername(username, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/username', {username}, opt_errFn,
-          opt_ctx).then(response => this.getResponseObject(response)
-              .then(newName => this._updateCachedAccount({username: newName})));
+    setAccountUsername(username, opt_errFn) {
+      const req = {
+        method: 'PUT',
+        url: '/accounts/self/username',
+        body: {username},
+        errFn: opt_errFn,
+        parseResponse: true,
+      };
+      return this._send(req)
+          .then(newName => this._updateCachedAccount({username: newName}));
     },
 
     /**
      * @param {string} status
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    setAccountStatus(status, opt_errFn, opt_ctx) {
-      return this.send('PUT', '/accounts/self/status', {status},
-          opt_errFn, opt_ctx).then(response => this.getResponseObject(response)
-              .then(newStatus => this._updateCachedAccount(
-                  {status: newStatus})));
+    setAccountStatus(status, opt_errFn) {
+      const req = {
+        method: 'PUT',
+        url: '/accounts/self/status',
+        body: {status},
+        errFn: opt_errFn,
+        parseResponse: true,
+      };
+      return this._send(req)
+          .then(newStatus => this._updateCachedAccount({status: newStatus}));
     },
 
     getAccountStatus(userId) {
@@ -741,7 +879,11 @@
     },
 
     saveAccountAgreement(name) {
-      return this.send('PUT', '/accounts/self/agreements', name);
+      return this._send({
+        method: 'PUT',
+        url: '/accounts/self/agreements',
+        body: name,
+      });
     },
 
     /**
@@ -832,24 +974,28 @@
     /**
      * @param {string} projects
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    saveWatchedProjects(projects, opt_errFn, opt_ctx) {
-      return this.send('POST', '/accounts/self/watched.projects', projects,
-          opt_errFn, opt_ctx)
-          .then(response => {
-            return this.getResponseObject(response);
-          });
+    saveWatchedProjects(projects, opt_errFn) {
+      return this._send({
+        method: 'POST',
+        url: '/accounts/self/watched.projects',
+        body: projects,
+        errFn: opt_errFn,
+        parseResponse: true,
+      });
     },
 
     /**
      * @param {string} projects
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    deleteWatchedProjects(projects, opt_errFn, opt_ctx) {
-      return this.send('POST', '/accounts/self/watched.projects:delete',
-          projects, opt_errFn, opt_ctx);
+    deleteWatchedProjects(projects, opt_errFn) {
+      return this._send({
+        method: 'POST',
+        url: '/accounts/self/watched.projects:delete',
+        body: projects,
+        errFn: opt_errFn,
+      });
     },
 
     /**
@@ -1202,8 +1348,11 @@
     setRepoHead(repo, ref) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this.send(
-          'PUT', `/projects/${encodeURIComponent(repo)}/HEAD`, {ref});
+      return this._send({
+        method: 'PUT',
+        url: `/projects/${encodeURIComponent(repo)}/HEAD`,
+        body: {ref},
+      });
     },
 
     /**
@@ -1272,30 +1421,33 @@
     setRepoAccessRights(repoName, repoInfo) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this.send(
-          'POST', `/projects/${encodeURIComponent(repoName)}/access`,
-          repoInfo);
+      return this._send({
+        method: 'POST',
+        url: `/projects/${encodeURIComponent(repoName)}/access`,
+        body: repoInfo,
+      });
     },
 
     setRepoAccessRightsForReview(projectName, projectInfo) {
-      return this.send(
-          'PUT', `/projects/${encodeURIComponent(projectName)}/access:review`,
-          projectInfo).then(response => this.getResponseObject(response));
+      return this._send({
+        method: 'PUT',
+        url: `/projects/${encodeURIComponent(projectName)}/access:review`,
+        body: projectInfo,
+        parseResponse: true,
+      });
     },
 
     /**
      * @param {string} inputVal
      * @param {number} opt_n
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    getSuggestedGroups(inputVal, opt_n, opt_errFn, opt_ctx) {
+    getSuggestedGroups(inputVal, opt_n, opt_errFn) {
       const params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }
       return this._fetchJSON({
         url: '/groups/',
         errFn: opt_errFn,
-        cancelCondition: opt_ctx,
         params,
       });
     },
@@ -1304,9 +1456,8 @@
      * @param {string} inputVal
      * @param {number} opt_n
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    getSuggestedProjects(inputVal, opt_n, opt_errFn, opt_ctx) {
+    getSuggestedProjects(inputVal, opt_n, opt_errFn) {
       const params = {
         m: inputVal,
         n: MAX_PROJECT_RESULTS,
@@ -1316,7 +1467,6 @@
       return this._fetchJSON({
         url: '/projects/',
         errFn: opt_errFn,
-        cancelCondition: opt_ctx,
         params,
       });
     },
@@ -1325,9 +1475,8 @@
      * @param {string} inputVal
      * @param {number} opt_n
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    getSuggestedAccounts(inputVal, opt_n, opt_errFn, opt_ctx) {
+    getSuggestedAccounts(inputVal, opt_n, opt_errFn) {
       if (!inputVal) {
         return Promise.resolve([]);
       }
@@ -1336,7 +1485,6 @@
       return this._fetchJSON({
         url: '/accounts/',
         errFn: opt_errFn,
-        cancelCondition: opt_ctx,
         params,
       });
     },
@@ -1364,7 +1512,7 @@
                 throw Error('Unsupported HTTP method: ' + method);
             }
 
-            return this.send(method, url, body);
+            return this._send({method, url, body});
           });
     },
 
@@ -1441,13 +1589,12 @@
      * @param {string} path
      * @param {boolean} reviewed
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    saveFileReviewed(changeNum, patchNum, path, reviewed, opt_errFn, opt_ctx) {
+    saveFileReviewed(changeNum, patchNum, path, reviewed, opt_errFn) {
       const method = reviewed ? 'PUT' : 'DELETE';
-      const e = `/files/${encodeURIComponent(path)}/reviewed`;
-      return this.getChangeURLAndSend(changeNum, method, patchNum, e, null,
-          opt_errFn, opt_ctx);
+      const endpoint = `/files/${encodeURIComponent(path)}/reviewed`;
+      return this.getChangeURLAndSend(changeNum, method, patchNum, endpoint,
+          null, opt_errFn);
     },
 
     /**
@@ -1455,15 +1602,19 @@
      * @param {number|string} patchNum
      * @param {!Object} review
      * @param {function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      */
-    saveChangeReview(changeNum, patchNum, review, opt_errFn, opt_ctx) {
+    saveChangeReview(changeNum, patchNum, review, opt_errFn) {
       const promises = [
         this.awaitPendingDiffDrafts(),
         this.getChangeActionURL(changeNum, patchNum, '/review'),
       ];
       return Promise.all(promises).then(([, url]) => {
-        return this.send('POST', url, review, opt_errFn, opt_ctx);
+        return this._send({
+          method: 'POST',
+          url,
+          body: review,
+          errFn: opt_errFn,
+        });
       });
     },
 
@@ -1491,16 +1642,21 @@
      */
     createChange(project, branch, subject, opt_topic, opt_isPrivate,
         opt_workInProgress, opt_baseChange, opt_baseCommit) {
-      return this.send('POST', '/changes/', {
-        project,
-        branch,
-        subject,
-        topic: opt_topic,
-        is_private: opt_isPrivate,
-        work_in_progress: opt_workInProgress,
-        base_change: opt_baseChange,
-        base_commit: opt_baseCommit,
-      }).then(response => this.getResponseObject(response));
+      return this._send({
+        method: 'POST',
+        url: '/changes/',
+        body: {
+          project,
+          branch,
+          subject,
+          topic: opt_topic,
+          is_private: opt_isPrivate,
+          work_in_progress: opt_workInProgress,
+          base_change: opt_baseChange,
+          base_commit: opt_baseCommit,
+        },
+        parseResponse: true,
+      });
     },
 
     /**
@@ -1542,7 +1698,7 @@
       const e = `/files/${encodeURIComponent(path)}/content`;
       const headers = {Accept: 'application/json'};
       return this.getChangeURLAndSend(changeNum, 'GET', patchNum, e, null,
-          opt_errFn, null, null, headers);
+          opt_errFn, null, headers);
     },
 
     /**
@@ -1554,7 +1710,7 @@
       const e = '/edit/' + encodeURIComponent(path);
       const headers = {Accept: 'application/json'};
       return this.getChangeURLAndSend(changeNum, 'GET', null, e, null, null,
-          null, null, headers);
+          null, headers);
     },
 
     rebaseChangeEdit(changeNum) {
@@ -1583,7 +1739,7 @@
     saveChangeEdit(changeNum, path, contents) {
       const e = '/edit/' + encodeURIComponent(path);
       return this.getChangeURLAndSend(changeNum, 'PUT', null, e, contents, null,
-          null, 'text/plain');
+          'text/plain');
     },
 
     // Deprecated, prefer to use putChangeCommitMessage instead.
@@ -1606,10 +1762,58 @@
     saveChangeStarred(changeNum, starred) {
       const url = '/accounts/self/starred.changes/' + changeNum;
       const method = starred ? 'PUT' : 'DELETE';
-      return this.send(method, url);
+      return this._send({method, url});
     },
 
     /**
+     * Send an XHR.
+     * @param {Defs.SendRequest} req
+     * @return {Promise}
+     */
+    _send(req) {
+      const options = {method: req.method};
+      if (req.body) {
+        options.headers = new Headers();
+        options.headers.set(
+            'Content-Type', req.contentType || 'application/json');
+        options.body = typeof req.body === 'string' ?
+            req.body : JSON.stringify(req.body);
+      }
+      if (req.headers) {
+        if (!options.headers) { options.headers = new Headers(); }
+        for (const header in req.headers) {
+          if (!req.headers.hasOwnProperty(header)) { continue; }
+          options.headers.set(header, req.headers[header]);
+        }
+      }
+      const url = req.url.startsWith('http') ?
+          req.url : this.getBaseUrl() + req.url;
+      const xhr = this._fetch(url, options).then(response => {
+        if (!response.ok) {
+          if (req.errFn) {
+            return req.errFn.call(undefined, response);
+          }
+          this.fire('server-error', {response});
+        }
+        return response;
+      }).catch(err => {
+        this.fire('network-error', {error: err});
+        if (req.errFn) {
+          return req.errFn.call(undefined, null, err);
+        } else {
+          throw err;
+        }
+      });
+
+      if (req.parseResponse) {
+        return xhr.then(res => this.getResponseObject(res));
+      }
+
+      return xhr;
+    },
+
+    /**
+     * Public version of the _send method preserved for plugins.
      * @param {string} method
      * @param {string} url
      * @param {?string|number|Object=} opt_body passed as null sometimes
@@ -1617,47 +1821,18 @@
      *    number at least.
      * @param {?function(?Response, string=)=} opt_errFn
      *    passed as null sometimes.
-     * @param {?=} opt_ctx
      * @param {?string=} opt_contentType
      * @param {Object=} opt_headers
      */
-    send(method, url, opt_body, opt_errFn, opt_ctx, opt_contentType,
+    send(method, url, opt_body, opt_errFn, opt_contentType,
         opt_headers) {
-      const options = {method};
-      if (opt_body) {
-        options.headers = new Headers();
-        options.headers.set(
-            'Content-Type', opt_contentType || 'application/json');
-        if (typeof opt_body !== 'string') {
-          opt_body = JSON.stringify(opt_body);
-        }
-        options.body = opt_body;
-      }
-      if (opt_headers) {
-        if (!options.headers) { options.headers = new Headers(); }
-        for (const header in opt_headers) {
-          if (!opt_headers.hasOwnProperty(header)) { continue; }
-          options.headers.set(header, opt_headers[header]);
-        }
-      }
-      if (!url.startsWith('http')) {
-        url = this.getBaseUrl() + url;
-      }
-      return this._auth.fetch(url, options).then(response => {
-        if (!response.ok) {
-          if (opt_errFn) {
-            return opt_errFn.call(opt_ctx || null, response);
-          }
-          this.fire('server-error', {response});
-        }
-        return response;
-      }).catch(err => {
-        this.fire('network-error', {error: err});
-        if (opt_errFn) {
-          return opt_errFn.call(opt_ctx, null, err);
-        } else {
-          throw err;
-        }
+      return this._send({
+        method,
+        url,
+        body: opt_body,
+        errFn: opt_errFn,
+        contentType: opt_contentType,
+        headers: opt_headers,
       });
     },
 
@@ -1903,7 +2078,7 @@
     },
 
     _fetchB64File(url) {
-      return this._auth.fetch(this.getBaseUrl() + url)
+      return this._fetch(this.getBaseUrl() + url)
           .then(response => {
             if (!response.ok) { return Promise.reject(response.statusText); }
             const type = response.headers.get('X-FYI-Content-Type');
@@ -2014,7 +2189,10 @@
     },
 
     deleteAccountHttpPassword() {
-      return this.send('DELETE', '/accounts/self/password.http');
+      return this._send({
+        method: 'DELETE',
+        url: '/accounts/self/password.http',
+      });
     },
 
     /**
@@ -2023,8 +2201,12 @@
      * parameter.
      */
     generateAccountHttpPassword() {
-      return this.send('PUT', '/accounts/self/password.http', {generate: true})
-          .then(this.getResponseObject.bind(this));
+      return this._send({
+        method: 'PUT',
+        url: '/accounts/self/password.http',
+        body: {generate: true},
+        parseResponse: true,
+      });
     },
 
     getAccountSSHKeys() {
@@ -2032,8 +2214,13 @@
     },
 
     addAccountSSHKey(key) {
-      return this.send('POST', '/accounts/self/sshkeys', key, null, null,
-          'plain/text')
+      const req = {
+        method: 'POST',
+        url: '/accounts/self/sshkeys',
+        body: key,
+        contentType: 'plain/text',
+      };
+      return this._send(req)
           .then(response => {
             if (response.status < 200 && response.status >= 300) {
               return Promise.reject();
@@ -2047,7 +2234,10 @@
     },
 
     deleteAccountSSHKey(id) {
-      return this.send('DELETE', '/accounts/self/sshkeys/' + id);
+      return this._send({
+        method: 'DELETE',
+        url: '/accounts/self/sshkeys/' + id,
+      });
     },
 
     getAccountGPGKeys() {
@@ -2055,7 +2245,8 @@
     },
 
     addAccountGPGKey(key) {
-      return this.send('POST', '/accounts/self/gpgkeys', key)
+      const req = {method: 'POST', url: '/accounts/self/gpgkeys', body: key};
+      return this._send(req)
           .then(response => {
             if (response.status < 200 && response.status >= 300) {
               return Promise.reject();
@@ -2069,7 +2260,10 @@
     },
 
     deleteAccountGPGKey(id) {
-      return this.send('DELETE', '/accounts/self/gpgkeys/' + id);
+      return this._send({
+        method: 'DELETE',
+        url: '/accounts/self/gpgkeys/' + id,
+      });
     },
 
     deleteVote(changeNum, account, label) {
@@ -2084,13 +2278,17 @@
     },
 
     confirmEmail(token) {
-      return this.send('PUT', '/config/server/email.confirm', {token})
-          .then(response => {
-            if (response.status === 204) {
-              return 'Email confirmed successfully.';
-            }
-            return null;
-          });
+      const req = {
+        method: 'PUT',
+        url: '/config/server/email.confirm',
+        body: {token},
+      };
+      return this._send(req).then(response => {
+        if (response.status === 204) {
+          return 'Email confirmed successfully.';
+        }
+        return null;
+      });
     },
 
     getCapabilities(token, opt_errFn) {
@@ -2220,16 +2418,21 @@
      * @param {?Object|number|string=} opt_payload gets passed as null, string,
      *    Object, or number.
      * @param {?function(?Response, string=)=} opt_errFn
-     * @param {?=} opt_ctx
      * @param {?=} opt_contentType
      * @param {Object=} opt_headers
      * @return {!Promise<!Object>}
      */
     getChangeURLAndSend(changeNum, method, patchNum, endpoint, opt_payload,
-        opt_errFn, opt_ctx, opt_contentType, opt_headers) {
+        opt_errFn, opt_contentType, opt_headers) {
       return this._changeBaseURL(changeNum, patchNum).then(url => {
-        return this.send(method, url + endpoint, opt_payload, opt_errFn,
-            opt_ctx, opt_contentType, opt_headers);
+        return this._send({
+          method,
+          url: url + endpoint,
+          body: opt_payload,
+          errFn: opt_errFn,
+          contentType: opt_contentType,
+          headers: opt_headers,
+        });
       });
     },
 

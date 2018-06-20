@@ -150,10 +150,10 @@ limitations under the License.
         min-width: 3.5em;
       }
       .added {
-        color: #388E3C;
+        color: var(--vote-text-color-recommended);
       }
       .removed {
-        color: #D32F2F;
+        color: var(--vote-text-color-disliked);
         text-align: left;
       }
       .drafts {
@@ -312,16 +312,16 @@ limitations under the License.
             </span>
             <div class="comments desktop">
               <span class="drafts">
-                [[_computeDraftsString(changeComments, patchRange.patchNum, file.__path)]]
+                [[_computeDraftsString(changeComments, patchRange, file.__path)]]
               </span>
-              [[_computeCommentsString(changeComments, patchRange.patchNum, file.__path)]]
+              [[_computeCommentsString(changeComments, patchRange, file.__path)]]
             </div>
             <div class="comments mobile">
               <span class="drafts">
-                [[_computeDraftsStringMobile(changeComments, patchRange.patchNum,
+                [[_computeDraftsStringMobile(changeComments, patchRange,
                     file.__path)]]
               </span>
-              [[_computeCommentsStringMobile(changeComments, patchRange.patchNum,
+              [[_computeCommentsStringMobile(changeComments, patchRange,
                   file.__path)]]
             </div>
             <div class$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]">

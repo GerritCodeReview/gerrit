@@ -43,9 +43,8 @@ public class MigrateAccountPatchReviewDb extends SiteProgram {
   private String sourceUrl;
 
   @Option(
-    name = "--chunkSize",
-    usage = "chunk size of fetching from source and push to target on each time"
-  )
+      name = "--chunkSize",
+      usage = "chunk size of fetching from source and push to target on each time")
   private static long chunkSize = 100000;
 
   @Override

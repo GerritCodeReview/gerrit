@@ -14,16 +14,14 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.mail.receive.MailMessage;
 import com.google.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Filters out auto-reply messages according to RFC 3834. */
 @Singleton
 public class AutoReplyMailFilter implements MailFilter {
-
-  private static final Logger log = LoggerFactory.getLogger(AutoReplyMailFilter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   public boolean shouldProcessMessage(MailMessage message) {
@@ -32,8 +30,8 @@ public class AutoReplyMailFilter implements MailFilter {
         String prec = header.substring(MailHeader.PRECEDENCE.fieldWithDelimiter().length()).trim();
 
         if (prec.equals("list") || prec.equals("junk") || prec.equals("bulk")) {
-          log.error(
-              "Message {} has a Precedence header. Will ignore and delete message.", message.id());
+          logger.atSevere().log(
+              "Message %s has a Precedence header. Will ignore and delete message.", message.id());
           return false;
         }
 
@@ -42,8 +40,8 @@ public class AutoReplyMailFilter implements MailFilter {
             header.substring(MailHeader.AUTO_SUBMITTED.fieldWithDelimiter().length()).trim();
 
         if (!autoSubmitted.equals("no")) {
-          log.error(
-              "Message {} has an Auto-Submitted header. Will ignore and delete message.",
+          logger.atSevere().log(
+              "Message %s has an Auto-Submitted header. Will ignore and delete message.",
               message.id());
           return false;
         }

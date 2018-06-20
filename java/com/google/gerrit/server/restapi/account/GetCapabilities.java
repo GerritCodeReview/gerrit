@@ -50,7 +50,7 @@ import java.util.Map;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
 
-class GetCapabilities implements RestReadView<AccountResource> {
+public class GetCapabilities implements RestReadView<AccountResource> {
   @Option(name = "-q", metaVar = "CAP", usage = "Capability to inspect")
   void addQuery(String name) {
     if (query == null) {
@@ -79,12 +79,13 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Override
-  public Object apply(AccountResource rsrc) throws RestApiException, PermissionBackendException {
+  public Object apply(AccountResource resource)
+      throws RestApiException, PermissionBackendException {
     permissionBackend.checkUsesDefaultCapabilities();
     PermissionBackend.WithUser perm = permissionBackend.currentUser();
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(resource.getUser())) {
       perm.check(GlobalPermission.ADMINISTRATE_SERVER);
-      perm = permissionBackend.user(rsrc.getUser());
+      perm = permissionBackend.user(resource.getUser());
     }
 
     Map<String, Object> have = new LinkedHashMap<>();
@@ -92,7 +93,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
       have.put(globalOrPluginPermissionName(p), true);
     }
 
-    AccountLimits limits = limitsFactory.create(rsrc.getUser());
+    AccountLimits limits = limitsFactory.create(resource.getUser());
     addRanges(have, limits);
     addPriority(have, limits);
 
@@ -162,7 +163,7 @@ class GetCapabilities implements RestReadView<AccountResource> {
   }
 
   @Singleton
-  static class CheckOne implements RestReadView<AccountResource.Capability> {
+  public static class CheckOne implements RestReadView<AccountResource.Capability> {
     private final PermissionBackend permissionBackend;
 
     @Inject

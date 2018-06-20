@@ -17,7 +17,8 @@ package com.google.gerrit.pgm.http.jetty;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 
 import com.google.common.base.Strings;
-import com.google.gwtexpui.server.CacheHeaders;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.util.http.CacheHeaders;
 import java.io.IOException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +28,9 @@ import org.eclipse.jetty.http.HttpStatus;
 import org.eclipse.jetty.server.HttpConnection;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.ErrorHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class HiddenErrorHandler extends ErrorHandler {
-  private static final Logger log = LoggerFactory.getLogger(HiddenErrorHandler.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   public void handle(
@@ -79,7 +78,7 @@ class HiddenErrorHandler extends ErrorHandler {
       if (!Strings.isNullOrEmpty(req.getQueryString())) {
         uri += "?" + req.getQueryString();
       }
-      log.error(String.format("Error in %s %s", req.getMethod(), uri), err);
+      logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uri);
     }
   }
 }

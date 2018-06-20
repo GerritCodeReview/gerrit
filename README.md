@@ -40,7 +40,7 @@ Note that we do not accept Pull Requests via the Github mirror.
 ## Getting in contact
 
 The IRC channel on freenode is #gerrit. An archive is available at:
-[echelog.com](http://echelog.com/logs/browse/gerrit).
+[echelog.com](https://echelog.com/logs/browse/gerrit).
 
 The Developer Mailing list is [repo-discuss on Google Groups](https://groups.google.com/forum/#!forum/repo-discuss).
 
@@ -58,7 +58,7 @@ Install [Bazel](https://bazel.build/versions/master/docs/install.html) and run t
 ## Install binary packages (Deb/Rpm)
 
 The instruction how to configure GerritForge/BinTray repositories is
-[here](http://gitenterprise.me/2015/02/27/gerrit-2-10-rpm-and-debian-packages-available)
+[here](https://gitenterprise.me/2015/02/27/gerrit-2-10-rpm-and-debian-packages-available/)
 
 On Debian/Ubuntu run:
 

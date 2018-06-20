@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
@@ -70,12 +71,11 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput> {
-  private final Logger log = LoggerFactory.getLogger(getClass());
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Provider<PersonIdent> serverIdent;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;
@@ -223,10 +223,9 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
           try {
             addKeyFactory.create(rsrc.getUser(), addedKeys).send();
           } catch (EmailException e) {
-            log.error(
-                "Cannot send GPG key added message to "
-                    + rsrc.getUser().getAccount().getPreferredEmail(),
-                e);
+            logger.atSevere().withCause(e).log(
+                "Cannot send GPG key added message to %s",
+                rsrc.getUser().getAccount().getPreferredEmail());
           }
           break;
         case NO_CHANGE:

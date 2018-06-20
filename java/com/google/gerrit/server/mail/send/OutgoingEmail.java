@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -51,12 +52,10 @@ import java.util.Set;
 import java.util.StringJoiner;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.util.SystemReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Sends an email to one or more interested parties. */
 public abstract class OutgoingEmail {
-  private static final Logger log = LoggerFactory.getLogger(OutgoingEmail.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected String messageClass;
   private final Set<Account.Id> rcptTo = new HashSet<>();
@@ -470,7 +469,7 @@ public abstract class OutgoingEmail {
         add(rt, toAddress(to), override);
       }
     } catch (PermissionBackendException e) {
-      log.error("Error reading database for account: " + to, e);
+      logger.atSevere().withCause(e).log("Error reading database for account: %s", to);
     }
   }
 
@@ -491,9 +490,9 @@ public abstract class OutgoingEmail {
   protected void add(RecipientType rt, Address addr, boolean override) {
     if (addr != null && addr.getEmail() != null && addr.getEmail().length() > 0) {
       if (!args.validator.isValid(addr.getEmail())) {
-        log.warn("Not emailing " + addr.getEmail() + " (invalid email address)");
+        logger.atWarning().log("Not emailing %s (invalid email address)", addr.getEmail());
       } else if (!args.emailSender.canEmail(addr.getEmail())) {
-        log.warn("Not emailing " + addr.getEmail() + " (prohibited by allowrcpt)");
+        logger.atWarning().log("Not emailing %s (prohibited by allowrcpt)", addr.getEmail());
       } else {
         if (!smtpRcptTo.add(addr)) {
           if (!override) {

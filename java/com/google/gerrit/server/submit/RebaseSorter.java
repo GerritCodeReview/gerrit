@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change.Status;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -32,11 +33,9 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RebaseSorter {
-  private static final Logger log = LoggerFactory.getLogger(RebaseSorter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
@@ -110,8 +109,8 @@ public class RebaseSorter {
       // check if the commit is merged in other branches
       for (RevCommit accepted : alreadyAccepted) {
         if (mirw.isMergedInto(mirw.parseCommit(commit), mirw.parseCommit(accepted))) {
-          log.debug(
-              "Dependency {} merged into branch head {}.", commit.getName(), accepted.getName());
+          logger.atFine().log(
+              "Dependency %s merged into branch head %s.", commit.getName(), accepted.getName());
           return true;
         }
       }
@@ -121,8 +120,8 @@ public class RebaseSorter {
       for (ChangeData change : changes) {
         if (change.change().getStatus() == Status.MERGED
             && change.change().getDest().equals(dest)) {
-          log.debug(
-              "Dependency {} associated with merged change {}.", commit.getName(), change.getId());
+          logger.atFine().log(
+              "Dependency %s associated with merged change %s.", commit.getName(), change.getId());
           return true;
         }
       }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -60,13 +61,12 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput, ChangeInfo>
     implements RestModifyView<RevisionResource, RebaseInput>, UiAction<RevisionResource> {
-  private static final Logger log = LoggerFactory.getLogger(Rebase.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final ImmutableSet<ListChangesOption> OPTIONS =
       Sets.immutableEnumSet(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT);
 
@@ -222,7 +222,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         return description;
       }
     } catch (IOException e) {
-      log.error("Failed to check if project state permits write: " + rsrc.getProject(), e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check if project state permits write: %s", rsrc.getProject());
       return description;
     }
 
@@ -231,10 +232,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         return description;
       }
     } catch (OrmException | IOException e) {
-      log.error(
-          String.format(
-              "Failed to check if the current patch set of change %s is locked", change.getId()),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;
     }
 
@@ -245,7 +244,8 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
         enabled = rebaseUtil.canRebase(rsrc.getPatchSet(), change.getDest(), repo, rw);
       }
     } catch (IOException e) {
-      log.error("Failed to check if patch set can be rebased: " + rsrc.getPatchSet(), e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check if patch set can be rebased: %s", rsrc.getPatchSet());
       return description;
     }
 

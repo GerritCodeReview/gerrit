@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.submit;
 
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -22,11 +24,9 @@ import com.google.gerrit.server.util.RequestId;
 import java.io.IOException;
 import java.util.Queue;
 import org.eclipse.jgit.lib.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 class TestHelperOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(TestHelperOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Change.Id changeId;
   private final TestSubmitInput input;
@@ -42,7 +42,7 @@ class TestHelperOp implements BatchUpdateOp {
   public void updateRepo(RepoContext ctx) throws IOException {
     Queue<Boolean> q = input.generateLockFailures;
     if (q != null && !q.isEmpty() && q.remove()) {
-      logDebug("Adding bogus ref update to trigger lock failure, via change {}", changeId);
+      logDebug("Adding bogus ref update to trigger lock failure, via change %s", changeId);
       ctx.addRefUpdate(
           ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
           ObjectId.zeroId(),
@@ -50,9 +50,7 @@ class TestHelperOp implements BatchUpdateOp {
     }
   }
 
-  private void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(submissionId + msg, args);
-    }
+  private void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(submissionId + msg, arg);
   }
 }

@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
@@ -47,8 +48,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -56,7 +55,8 @@ import org.w3c.dom.Element;
 @SuppressWarnings("serial")
 @Singleton
 class LoginForm extends HttpServlet {
-  private static final Logger log = LoggerFactory.getLogger(LoginForm.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final ImmutableMap<String, String> ALL_PROVIDERS =
       ImmutableMap.of(
           "launchpad", OpenIdUrls.URL_LAUNCHPAD,
@@ -91,7 +91,7 @@ class LoginForm extends HttpServlet {
     this.oauthServiceProviders = oauthServiceProviders;
 
     if (urlProvider == null || Strings.isNullOrEmpty(urlProvider.get())) {
-      log.error("gerrit.canonicalWebUrl must be set in gerrit.config");
+      logger.atSevere().log("gerrit.canonicalWebUrl must be set in gerrit.config");
     }
 
     if (authConfig.getAuthType() == AuthType.OPENID_SSO) {
@@ -160,14 +160,14 @@ class LoginForm extends HttpServlet {
       mode = SignInMode.SIGN_IN;
     }
 
-    log.debug("mode \"{}\"", mode);
+    logger.atFine().log("mode \"%s\"", mode);
     OAuthServiceProvider oauthProvider = lookupOAuthServiceProvider(id);
 
     if (oauthProvider == null) {
-      log.debug("OpenId provider \"{}\"", id);
+      logger.atFine().log("OpenId provider \"%s\"", id);
       discover(req, res, link, id, remember, token, mode);
     } else {
-      log.debug("OAuth provider \"{}\"", id);
+      logger.atFine().log("OAuth provider \"%s\"", id);
       OAuthSessionOverOpenID oauthSession = oauthSessionProvider.get();
       if (!currentUserProvider.get().isIdentifiedUser() && oauthSession.isLoggedIn()) {
         oauthSession.logout();

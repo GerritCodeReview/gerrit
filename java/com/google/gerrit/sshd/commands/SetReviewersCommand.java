@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -39,41 +40,36 @@ import java.util.Map;
 import java.util.Set;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @CommandMetaData(name = "set-reviewers", description = "Add or remove reviewers on a change")
 public class SetReviewersCommand extends SshCommand {
-  private static final Logger log = LoggerFactory.getLogger(SetReviewersCommand.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(name = "--project", aliases = "-p", usage = "project containing the change")
   private ProjectState projectState;
 
   @Option(
-    name = "--add",
-    aliases = {"-a"},
-    metaVar = "REVIEWER",
-    usage = "user or group that should be added as reviewer"
-  )
+      name = "--add",
+      aliases = {"-a"},
+      metaVar = "REVIEWER",
+      usage = "user or group that should be added as reviewer")
   private List<String> toAdd = new ArrayList<>();
 
   @Option(
-    name = "--remove",
-    aliases = {"-r"},
-    metaVar = "REVIEWER",
-    usage = "user that should be removed from the reviewer list"
-  )
+      name = "--remove",
+      aliases = {"-r"},
+      metaVar = "REVIEWER",
+      usage = "user that should be removed from the reviewer list")
   void optionRemove(Account.Id who) {
     toRemove.add(who);
   }
 
   @Argument(
-    index = 0,
-    required = true,
-    multiValued = true,
-    metaVar = "CHANGE",
-    usage = "changes to modify"
-  )
+      index = 0,
+      required = true,
+      multiValued = true,
+      metaVar = "CHANGE",
+      usage = "changes to modify")
   void addChange(String token) {
     try {
       changeArgumentParser.addChange(token, changes, projectState);
@@ -106,7 +102,7 @@ public class SetReviewersCommand extends SshCommand {
         ok &= modifyOne(rsrc);
       } catch (Exception err) {
         ok = false;
-        log.error("Error updating reviewers on change " + rsrc.getId(), err);
+        logger.atSevere().withCause(err).log("Error updating reviewers on change %s", rsrc.getId());
         writeError("fatal", "internal error while updating " + rsrc.getId());
       }
     }

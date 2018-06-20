@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.index.query.Predicate;
@@ -40,11 +41,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ProjectWatch {
-  private static final Logger log = LoggerFactory.getLogger(ProjectWatch.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected final EmailArguments args;
   protected final ProjectState projectState;
@@ -102,12 +101,9 @@ public class ProjectWatch {
           try {
             add(matching, nc);
           } catch (QueryParseException e) {
-            log.warn(
-                "Project {} has invalid notify {} filter \"{}\": {}",
-                state.getName(),
-                nc.getName(),
-                nc.getFilter(),
-                e.getMessage());
+            logger.atWarning().log(
+                "Project %s has invalid notify %s filter \"%s\": %s",
+                state.getName(), nc.getName(), nc.getFilter(), e.getMessage());
           }
         }
       }

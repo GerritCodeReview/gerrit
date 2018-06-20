@@ -20,6 +20,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
@@ -31,13 +32,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @NoHttpd
 @UseSsh
 public class SshCommandsIT extends AbstractDaemonTest {
-  private static final Logger log = LoggerFactory.getLogger(SshCommandsIT.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   // TODO: It would be better to dynamically generate these lists
   private static final List<String> COMMON_ROOT_COMMANDS =
@@ -129,7 +128,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
         // content of the stderr, which will always start with "gerrit command" when the --help
         // option is used.
         String cmd = String.format("gerrit%s%s %s", root.isEmpty() ? "" : " ", root, command);
-        log.debug(cmd);
+        logger.atFine().log(cmd);
         adminSshSession.exec(String.format("%s --help", cmd));
         String response = adminSshSession.getError();
         assertWithMessage(String.format("command %s failed: %s", command, response))

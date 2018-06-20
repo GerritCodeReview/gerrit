@@ -49,7 +49,7 @@ public class Index implements RestModifyView<AccountResource, Input> {
   @Override
   public Response<?> apply(AccountResource rsrc, Input input)
       throws IOException, AuthException, PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 

@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -41,18 +42,17 @@ import java.util.Optional;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class JdbcAccountPatchReviewStore
     implements AccountPatchReviewStore, LifecycleListener {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
   private static final String H2_DB = "h2";
   private static final String MARIADB = "mariadb";
   private static final String MYSQL = "mysql";
   private static final String POSTGRESQL = "postgresql";
   private static final String URL = "url";
-  private static final Logger log = LoggerFactory.getLogger(JdbcAccountPatchReviewStore.class);
 
   public static class Module extends LifecycleModule {
     private final Config cfg;
@@ -164,7 +164,7 @@ public abstract class JdbcAccountPatchReviewStore
     try {
       createTableIfNotExists();
     } catch (OrmException e) {
-      log.error("Failed to create table to store account patch reviews", e);
+      logger.atSevere().withCause(e).log("Failed to create table to store account patch reviews");
     }
   }
 

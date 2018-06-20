@@ -17,11 +17,10 @@ from __future__ import print_function
 import collections
 import sys
 import zipfile
-import io
 
 if len(sys.argv) < 3:
-  print('usage: %s <out.zip> <in.zip>...' % sys.argv[0], file=sys.stderr)
-  exit(1)
+    print('usage: %s <out.zip> <in.zip>...' % sys.argv[0], file=sys.stderr)
+    exit(1)
 
 outfile = sys.argv[1]
 infiles = sys.argv[2:]
@@ -29,22 +28,22 @@ seen = set()
 SERVICES = 'META-INF/services/'
 
 try:
-  with zipfile.ZipFile(outfile, 'w') as outzip:
-    services = collections.defaultdict(lambda: '')
-    for infile in infiles:
-      with zipfile.ZipFile(infile) as inzip:
-        for info in inzip.infolist():
-          n = info.filename
-          if n in seen:
-            continue
-          elif n.startswith(SERVICES):
-            # Concatenate all provider configuration files.
-            services[n] += inzip.read(n).decode("UTF-8")
-            continue
-          outzip.writestr(info, inzip.read(n))
-          seen.add(n)
+    with zipfile.ZipFile(outfile, 'w') as outzip:
+        services = collections.defaultdict(lambda: '')
+        for infile in infiles:
+            with zipfile.ZipFile(infile) as inzip:
+                for info in inzip.infolist():
+                    n = info.filename
+                    if n in seen:
+                        continue
+                    elif n.startswith(SERVICES):
+                        # Concatenate all provider configuration files.
+                        services[n] += inzip.read(n).decode("UTF-8")
+                        continue
+                    outzip.writestr(info, inzip.read(n))
+                    seen.add(n)
 
-    for n, v in list(services.items()):
-      outzip.writestr(n, v)
+        for n, v in list(services.items()):
+            outzip.writestr(n, v)
 except Exception as err:
-  exit('Failed to merge jars: %s' % err)
+    exit('Failed to merge jars: %s' % err)

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -25,11 +26,9 @@ import com.google.gerrit.server.project.ProjectState;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ParentProjectPredicate extends OrPredicate<ChangeData> {
-  private static final Logger log = LoggerFactory.getLogger(ParentProjectPredicate.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected final String value;
 
@@ -53,7 +52,7 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
         r.add(new ProjectPredicate(p.name));
       }
     } catch (PermissionBackendException e) {
-      log.warn("cannot check permissions to expand child projects", e);
+      logger.atWarning().withCause(e).log("cannot check permissions to expand child projects");
     }
     return r;
   }

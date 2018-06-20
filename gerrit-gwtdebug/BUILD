@@ -6,11 +6,11 @@ java_library(
         "//java/com/google/gerrit/pgm",
         "//java/com/google/gerrit/pgm/util",
         "//java/com/google/gerrit/util/cli",
+        "//lib/flogger:api",
         "//lib/gwt:dev",
         "//lib/jetty:server",
         "//lib/jetty:servlet",
         "//lib/jetty:servlets",
-        "//lib/log:api",
         "//lib/log:log4j",
     ],
 )

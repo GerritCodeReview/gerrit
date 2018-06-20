@@ -5,6 +5,6 @@ java_library(
     testonly = 1,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = [jgit_dep("@jgit_junit//jar")],
+    exports = [jgit_dep("@jgit-junit//jar")],
     runtime_deps = ["//lib/jgit/org.eclipse.jgit:jgit"],
 )

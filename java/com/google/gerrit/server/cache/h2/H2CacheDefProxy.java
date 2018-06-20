@@ -16,11 +16,12 @@ package com.google.gerrit.server.cache.h2;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cache.CacheSerializer;
 import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.inject.TypeLiteral;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
   private final PersistentCacheDef<K, V> source;
@@ -30,8 +31,15 @@ class H2CacheDefProxy<K, V> implements PersistentCacheDef<K, V> {
   }
 
   @Override
-  public Long expireAfterWrite(TimeUnit unit) {
-    return source.expireAfterWrite(unit);
+  @Nullable
+  public Duration expireAfterWrite() {
+    return source.expireAfterWrite();
+  }
+
+  @Override
+  @Nullable
+  public Duration expireFromMemoryAfterAccess() {
+    return source.expireFromMemoryAfterAccess();
   }
 
   @SuppressWarnings("unchecked")

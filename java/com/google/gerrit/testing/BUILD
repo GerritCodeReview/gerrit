@@ -35,11 +35,11 @@ java_library(
         "//lib:junit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
-        "//lib/log:api",
         "//lib/truth",
     ],
 )

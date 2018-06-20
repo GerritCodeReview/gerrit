@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -41,12 +42,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
-  private static final Logger log = LoggerFactory.getLogger(SearchingChangeCacheImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   static final String ID_CACHE = "changes";
 
   public static class Module extends CacheModule {
@@ -120,7 +120,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
       }
       return Collections.unmodifiableList(cds);
     } catch (ExecutionException e) {
-      log.warn("Cannot fetch changes for " + project, e);
+      logger.atWarning().withCause(e).log("Cannot fetch changes for %s", project);
       return Collections.emptyList();
     }
   }

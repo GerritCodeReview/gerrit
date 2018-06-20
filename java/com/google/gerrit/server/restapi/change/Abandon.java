@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -46,13 +47,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput, ChangeInfo>
     implements UiAction<ChangeResource> {
-  private static final Logger log = LoggerFactory.getLogger(Abandon.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<ReviewDb> dbProvider;
   private final ChangeJson.Factory json;
@@ -160,10 +159,8 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
         return description;
       }
     } catch (OrmException | IOException e) {
-      log.error(
-          String.format(
-              "Failed to check if the current patch set of change %s is locked", change.getId()),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Failed to check if the current patch set of change %s is locked", change.getId());
       return description;
     }
 

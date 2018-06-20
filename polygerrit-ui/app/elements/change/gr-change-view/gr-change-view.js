@@ -57,6 +57,9 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
+  const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
+  const SEND_REPLY_TIMING_LABEL = 'SendReply';
+
   Polymer({
     is: 'gr-change-view',
 
@@ -550,7 +553,9 @@
 
     _handleReplySent(e) {
       this.$.replyOverlay.close();
-      this._reload();
+      this._reload().then(() => {
+        this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+      });
     },
 
     _handleReplyCancel(e) {
@@ -624,6 +629,8 @@
       this.$.fileList.collapseAllDiffs();
       this._patchRange = patchRange;
 
+      // If the change has already been loaded and the parameter change is only
+      // in the patch range, then don't do a full reload.
       if (this._initialLoadComplete && patchChanged) {
         if (patchRange.patchNum == null) {
           patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
@@ -637,7 +644,7 @@
       this._changeNum = value.changeNum;
       this.$.relatedChanges.clear();
 
-      this._reload().then(() => {
+      this._reload(true).then(() => {
         this._performPostLoadTasks();
       });
     },
@@ -651,7 +658,6 @@
     },
 
     _performPostLoadTasks() {
-      this.$.relatedChanges.reload();
       this._maybeShowReplyDialog();
       this._maybeShowRevertDialog();
 
@@ -1199,43 +1205,103 @@
           });
     },
 
-    _reload() {
+    /**
+     * Reload the change.
+     * @param {boolean=} opt_reloadRelatedChanges Reloads the related chanegs
+     *     when true.
+     * @return {Promise} A promise that resolves when the core data has loaded.
+     *     Some non-core data loading may still be in-flight when the core data
+     *     promise resolves.
+     */
+    _reload(opt_reloadRelatedChanges) {
       this._loading = true;
       this._relatedChangesCollapsed = true;
 
-      const detailCompletes = this._getChangeDetail().then(() => {
-        this._loading = false;
-        this._getProjectConfig();
-      });
+      // Array to house all promises related to data requests.
+      const allDataPromises = [];
 
-      this._reloadComments();
+      // Resolves when the change detail and the edit patch set (if available)
+      // are loaded.
+      const detailCompletes = this._getChangeDetail();
+      allDataPromises.push(detailCompletes);
 
-      let reloadPromise;
+      // Resolves when the loading flag is set to false, meaning that some
+      // change content may start appearing.
+      const loadingFlagSet = detailCompletes
+          .then(() => { this._loading = false; });
 
+      // Resolves when the project config has loaded.
+      const projectConfigLoaded = detailCompletes
+          .then(() => this._getProjectConfig());
+      allDataPromises.push(projectConfigLoaded);
+
+      // Resolves when change comments have loaded (comments, drafts and robot
+      // comments).
+      const commentsLoaded = this._reloadComments();
+      allDataPromises.push(commentsLoaded);
+
+      let coreDataPromise;
+
+      // If the patch number is specified
       if (this._patchRange.patchNum) {
-        reloadPromise = Promise.all([
-          this._reloadPatchNumDependentResources(),
-          detailCompletes,
-        ]).then(() => {
-          return Promise.all([
-            this._getMergeability(),
-            this.$.actions.reload(),
-          ]);
-        });
+        // Because a specific patchset is specified, reload the resources that
+        // are keyed by patch number or patch range.
+        const patchResourcesLoaded = this._reloadPatchNumDependentResources();
+        allDataPromises.push(patchResourcesLoaded);
+
+        // Promise resolves when the change detail and patch dependent resources
+        // have loaded.
+        const detailAndPatchResourcesLoaded =
+            Promise.all([patchResourcesLoaded, loadingFlagSet]);
+
+        // Promise resolves when mergeability information has loaded.
+        const mergeabilityLoaded = detailAndPatchResourcesLoaded
+            .then(() => this._getMergeability());
+        allDataPromises.push(mergeabilityLoaded);
+
+        // Promise resovles when the change actions have loaded.
+        const actionsLoaded = detailAndPatchResourcesLoaded
+            .then(() => this.$.actions.reload());
+        allDataPromises.push(actionsLoaded);
+
+        // The core data is loaded when both mergeability and actions are known.
+        coreDataPromise = Promise.all([mergeabilityLoaded, actionsLoaded]);
       } else {
-        // The patch number is reliant on the change detail request.
-        reloadPromise = detailCompletes.then(() => {
-          this.$.fileList.reload();
-          if (!this._latestCommitMessage) {
-            this._getLatestCommitMessage();
-          }
-          return this._getMergeability();
+        // Resolves when the file list has loaded.
+        const fileListReload = loadingFlagSet
+            .then(() => this.$.fileList.reload());
+        allDataPromises.push(fileListReload);
+
+        const latestCommitMessageLoaded = loadingFlagSet.then(() => {
+          // If the latest commit message is known, there is nothing to do.
+          if (this._latestCommitMessage) { return Promise.resolve(); }
+          return this._getLatestCommitMessage();
         });
+        allDataPromises.push(latestCommitMessageLoaded);
+
+        // Promise resolves when mergeability information has loaded.
+        const mergeabilityLoaded = loadingFlagSet
+            .then(() => this._getMergeability());
+        allDataPromises.push(mergeabilityLoaded);
+
+        // Core data is loaded when mergeability has been loaded.
+        coreDataPromise = mergeabilityLoaded;
       }
 
-      return reloadPromise.then(() => {
-        this.$.reporting.changeDisplayed();
+      if (opt_reloadRelatedChanges) {
+        const relatedChangesLoaded = coreDataPromise
+            .then(() => this.$.relatedChanges.reload());
+        allDataPromises.push(relatedChangesLoaded);
+      }
+
+      this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
+      Promise.all(allDataPromises).then(() => {
+        this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+        this.$.reporting.changeFullyLoaded();
       });
+
+      return coreDataPromise
+          .then(() => { this.$.reporting.changeDisplayed(); });
     },
 
     /**

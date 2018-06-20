@@ -14,12 +14,21 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.reviewdb.client.Account;
+import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.util.GitDateFormatter;
+import org.eclipse.jgit.util.GitDateFormatter.Format;
 
 public class NoteDbUtil {
+
+  /**
+   * Returns an AccountId for the given email address. Returns empty if the address isn't on this
+   * server.
+   */
   public static Optional<Account.Id> parseIdent(PersonIdent ident, String serverId) {
     String email = ident.getEmailAddress();
     int at = email.indexOf('@');
@@ -36,4 +45,24 @@ public class NoteDbUtil {
   }
 
   private NoteDbUtil() {}
+
+  public static String formatTime(PersonIdent ident, Timestamp t) {
+    GitDateFormatter dateFormatter = new GitDateFormatter(Format.DEFAULT);
+    // TODO(dborowitz): Use a ThreadLocal or use Joda.
+    PersonIdent newIdent = new PersonIdent(ident, t);
+    return dateFormatter.formatDate(newIdent);
+  }
+
+  private static final CharMatcher INVALID_FOOTER_CHARS = CharMatcher.anyOf("\r\n\0");
+
+  static String sanitizeFooter(String value) {
+    // Remove characters that would confuse JGit's footer parser if they were
+    // included in footer values, for example by splitting the footer block into
+    // multiple paragraphs.
+    //
+    // One painful example: RevCommit#getShorMessage() might return a message
+    // containing "\r\r", which RevCommit#getFooterLines() will treat as an
+    // empty paragraph for the purposes of footer parsing.
+    return INVALID_FOOTER_CHARS.trimAndCollapseFrom(value, ' ');
+  }
 }

@@ -27,65 +27,68 @@ import tempfile
 
 
 def extract(path, outdir, bin):
-  if os.path.exists(os.path.join(outdir, bin)):
-    return # Another process finished extracting, ignore.
+    if os.path.exists(os.path.join(outdir, bin)):
+        return  # Another process finished extracting, ignore.
 
-  # Use a temp directory adjacent to outdir so shutil.move can use the same
-  # device atomically.
-  tmpdir = tempfile.mkdtemp(dir=os.path.dirname(outdir))
-  def cleanup():
-    try:
-      shutil.rmtree(tmpdir)
-    except OSError:
-      pass # Too late now
-  atexit.register(cleanup)
+    # Use a temp directory adjacent to outdir so shutil.move can use the same
+    # device atomically.
+    tmpdir = tempfile.mkdtemp(dir=os.path.dirname(outdir))
 
-  def extract_one(mem):
-    dest = os.path.join(outdir, mem.name)
-    tar.extract(mem, path=tmpdir)
-    try:
-      os.makedirs(os.path.dirname(dest))
-    except OSError:
-      pass # Either exists, or will fail on the next line.
-    shutil.move(os.path.join(tmpdir, mem.name), dest)
+    def cleanup():
+        try:
+            shutil.rmtree(tmpdir)
+        except OSError:
+            pass  # Too late now
+    atexit.register(cleanup)
 
-  with tarfile.open(path, 'r:gz') as tar:
-    for mem in tar.getmembers():
-      if mem.name != bin:
-        extract_one(mem)
-    # Extract bin last so other processes only short circuit when extraction is
-    # finished.
-    extract_one(tar.getmember(bin))
+    def extract_one(mem):
+        dest = os.path.join(outdir, mem.name)
+        tar.extract(mem, path=tmpdir)
+        try:
+            os.makedirs(os.path.dirname(dest))
+        except OSError:
+            pass  # Either exists, or will fail on the next line.
+        shutil.move(os.path.join(tmpdir, mem.name), dest)
+
+    with tarfile.open(path, 'r:gz') as tar:
+        for mem in tar.getmembers():
+            if mem.name != bin:
+                extract_one(mem)
+        # Extract bin last so other processes only short circuit when
+        # extraction is finished.
+        extract_one(tar.getmember(bin))
+
 
 def main(args):
-  path = args[0]
-  suffix = '.npm_binary.tgz'
-  tgz = os.path.basename(path)
+    path = args[0]
+    suffix = '.npm_binary.tgz'
+    tgz = os.path.basename(path)
 
-  parts = tgz[:-len(suffix)].split('@')
+    parts = tgz[:-len(suffix)].split('@')
 
-  if not tgz.endswith(suffix) or len(parts) != 2:
-    print('usage: %s <path/to/npm_binary>' % sys.argv[0], file=sys.stderr)
-    return 1
+    if not tgz.endswith(suffix) or len(parts) != 2:
+        print('usage: %s <path/to/npm_binary>' % sys.argv[0], file=sys.stderr)
+        return 1
 
-  name, _ = parts
+    name, _ = parts
 
-  # Avoid importing from gerrit because we don't want to depend on the right CWD.
-  sha1 = hashlib.sha1(open(path, 'rb').read()).hexdigest()
-  outdir = '%s-%s' % (path[:-len(suffix)], sha1)
-  rel_bin = os.path.join('package', 'bin', name)
-  bin = os.path.join(outdir, rel_bin)
-  if not os.path.isfile(bin):
-    extract(path, outdir, rel_bin)
+    # Avoid importing from gerrit because we don't want to depend on the right
+    # working directory
+    sha1 = hashlib.sha1(open(path, 'rb').read()).hexdigest()
+    outdir = '%s-%s' % (path[:-len(suffix)], sha1)
+    rel_bin = os.path.join('package', 'bin', name)
+    bin = os.path.join(outdir, rel_bin)
+    if not os.path.isfile(bin):
+        extract(path, outdir, rel_bin)
 
-  nodejs = spawn.find_executable('nodejs')
-  if nodejs:
-    # Debian installs Node.js as 'nodejs', due to a conflict with another
-    # package.
-    subprocess.check_call([nodejs, bin] + args[1:])
-  else:
-    subprocess.check_call([bin] + args[1:])
+    nodejs = spawn.find_executable('nodejs')
+    if nodejs:
+        # Debian installs Node.js as 'nodejs', due to a conflict with another
+        # package.
+        subprocess.check_call([nodejs, bin] + args[1:])
+    else:
+        subprocess.check_call([bin] + args[1:])
 
 
 if __name__ == '__main__':
-  sys.exit(main(sys.argv[1:]))
+    sys.exit(main(sys.argv[1:]))

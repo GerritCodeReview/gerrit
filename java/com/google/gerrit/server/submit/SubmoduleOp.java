@@ -19,6 +19,8 @@ import static java.util.Comparator.comparing;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -70,10 +72,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SubmoduleOp {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Only used for branches without code review changes */
   public class GitlinkOp implements RepoOnlyOp {
@@ -127,8 +128,6 @@ public class SubmoduleOp {
           orm);
     }
   }
-
-  private static final Logger log = LoggerFactory.getLogger(SubmoduleOp.class);
 
   private final GitModules.Factory gitmodulesFactory;
   private final PersonIdent myIdent;
@@ -214,7 +213,7 @@ public class SubmoduleOp {
       LinkedHashSet<Branch.NameKey> currentVisited,
       LinkedHashSet<Branch.NameKey> allVisited)
       throws SubmoduleException {
-    logDebug("Now processing " + current);
+    logDebug("Now processing %s", current);
 
     if (currentVisited.contains(current)) {
       throw new SubmoduleException(
@@ -276,9 +275,9 @@ public class SubmoduleOp {
   private Collection<Branch.NameKey> getDestinationBranches(Branch.NameKey src, SubscribeSection s)
       throws IOException {
     Collection<Branch.NameKey> ret = new HashSet<>();
-    logDebug("Inspecting SubscribeSection " + s);
+    logDebug("Inspecting SubscribeSection %s", s);
     for (RefSpec r : s.getMatchingRefSpecs()) {
-      logDebug("Inspecting [matching] ref " + r);
+      logDebug("Inspecting [matching] ref %s", r);
       if (!r.matchSource(src.get())) {
         continue;
       }
@@ -296,7 +295,7 @@ public class SubmoduleOp {
     }
 
     for (RefSpec r : s.getMultiMatchRefSpecs()) {
-      logDebug("Inspecting [all] ref " + r);
+      logDebug("Inspecting [all] ref %s", r);
       if (!r.matchSource(src.get())) {
         continue;
       }
@@ -320,17 +319,17 @@ public class SubmoduleOp {
         }
       }
     }
-    logDebug("Returning possible branches: " + ret + "for project " + s.getProject());
+    logDebug("Returning possible branches: %s for project %s", ret, s.getProject());
     return ret;
   }
 
   public Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
       Branch.NameKey srcBranch) throws IOException {
-    logDebug("Calculating possible superprojects for " + srcBranch);
+    logDebug("Calculating possible superprojects for %s", srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     Project.NameKey srcProject = srcBranch.getParentKey();
     for (SubscribeSection s : projectCache.get(srcProject).getSubscribeSections(srcBranch)) {
-      logDebug("Checking subscribe section " + s);
+      logDebug("Checking subscribe section %s", s);
       Collection<Branch.NameKey> branches = getDestinationBranches(srcBranch, s);
       for (Branch.NameKey targetBranch : branches) {
         Project.NameKey targetProject = targetBranch.getParentKey();
@@ -338,11 +337,11 @@ public class SubmoduleOp {
           OpenRepo or = orm.getRepo(targetProject);
           ObjectId id = or.repo.resolve(targetBranch.get());
           if (id == null) {
-            logDebug("The branch " + targetBranch + " doesn't exist.");
+            logDebug("The branch %s doesn't exist.", targetBranch);
             continue;
           }
         } catch (NoSuchProjectException e) {
-          logDebug("The project " + targetProject + " doesn't exist");
+          logDebug("The project %s doesn't exist", targetProject);
           continue;
         }
 
@@ -354,7 +353,7 @@ public class SubmoduleOp {
         ret.addAll(m.subscribedTo(srcBranch));
       }
     }
-    logDebug("Calculated superprojects for " + srcBranch + " are " + ret);
+    logDebug("Calculated superprojects for %s are %s", srcBranch, ret);
     return ret;
   }
 
@@ -678,9 +677,15 @@ public class SubmoduleOp {
     bu.addRepoOnlyOp(new GitlinkOp(branch));
   }
 
-  private void logDebug(String msg, Object... args) {
-    if (log.isDebugEnabled()) {
-      log.debug(orm.getSubmissionId() + msg, args);
-    }
+  private void logDebug(String msg) {
+    logger.atFine().log(orm.getSubmissionId() + " " + msg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg) {
+    logger.atFine().log(orm.getSubmissionId() + " " + msg, arg);
+  }
+
+  private void logDebug(String msg, @Nullable Object arg1, @Nullable Object arg2) {
+    logger.atFine().log(orm.getSubmissionId() + " " + msg, arg1, arg2);
   }
 }

@@ -34,7 +34,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.GerritOptions;
-import com.google.gwtexpui.server.CacheControlFilter;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.internal.UniqueAnnotations;
@@ -56,8 +55,7 @@ class UrlModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
-    filter("/*").through(Key.get(CacheControlFilter.class));
-    bind(Key.get(CacheControlFilter.class)).in(SINGLETON);
+    filter("/*").through(GwtCacheControlFilter.class);
 
     if (options.enableGwtUi()) {
       filter("/").through(XsrfCookieFilter.class);
@@ -265,8 +263,6 @@ class UrlModule extends ServletModule {
       throws IOException {
     final StringBuilder url = new StringBuilder();
     url.append(req.getContextPath());
-    url.append('/');
-    url.append('#');
     url.append(target);
     rsp.sendRedirect(url.toString());
   }

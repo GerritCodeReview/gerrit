@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
@@ -80,15 +81,13 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.ChangeIdUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ChangeInserter implements InsertChangeOp {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     ChangeInserter create(Change.Id cid, ObjectId commitId, String refName);
   }
-
-  private static final Logger log = LoggerFactory.getLogger(ChangeInserter.class);
 
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
@@ -468,11 +467,9 @@ public class ChangeInserter implements InsertChangeOp {
                         .test(ChangePermission.READ)
                     && projectState.statePermitsRead();
               } catch (PermissionBackendException e) {
-                log.warn(
-                    String.format(
-                        "Failed to check if account %d can see change %d",
-                        accountId.get(), notes.getChangeId().get()),
-                    e);
+                logger.atWarning().withCause(e).log(
+                    "Failed to check if account %d can see change %d",
+                    accountId.get(), notes.getChangeId().get());
                 return false;
               }
             })
@@ -497,7 +494,8 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.addExtraCC(extraCC);
                 cm.send();
               } catch (Exception e) {
-                log.error("Cannot send email for new change " + change.getId(), e);
+                logger.atSevere().withCause(e).log(
+                    "Cannot send email for new change %s", change.getId());
               }
             }
 

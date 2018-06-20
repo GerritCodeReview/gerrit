@@ -45,13 +45,13 @@ limitations under the License.
     let sandbox;
     let _listeners;
 
-    setup(done => {
+    setup(() => {
       sandbox = sinon.sandbox.create();
       _listeners = {};
 
       account = {
         name: 'name',
-        username: 'username',
+        username: null,
         email: 'email',
         secondary_emails: [
           'email2',
@@ -61,8 +61,6 @@ limitations under the License.
 
       stub('gr-rest-api-interface', {
         getAccount() {
-        // Once the account is resolved, we can let the test proceed.
-          flush(done);
           return Promise.resolve(account);
         },
         setAccountName(name) {
@@ -77,9 +75,15 @@ limitations under the License.
           account.email = email;
           return Promise.resolve();
         },
+        getConfig() {
+          return Promise.resolve(
+              {auth: {editable_account_fields: ['USER_NAME']}});
+        },
       });
 
       element = fixture('basic');
+
+      return element.loadData();
     });
 
     teardown(() => {
@@ -136,7 +140,7 @@ limitations under the License.
 
         // Nothing should be committed yet.
         assert.equal(account.name, 'name');
-        assert.equal(account.username, 'username');
+        assert.isNotOk(account.username);
         assert.equal(account.email, 'email');
 
         // Save and verify new values are committed.
@@ -158,12 +162,22 @@ limitations under the License.
 
     test('save btn disabled', () => {
       const compute = element._computeSaveDisabled;
-      assert.isTrue(compute('', '', '', false));
-      assert.isTrue(compute('', 'test', 'test', false));
-      assert.isTrue(compute('test', '', 'test', false));
-      assert.isTrue(compute('test', 'test', '', false));
-      assert.isTrue(compute('test', 'test', 'test', true));
-      assert.isFalse(compute('test', 'test', 'test', false));
+      assert.isTrue(compute('', '', false));
+      assert.isTrue(compute('', 'test', false));
+      assert.isTrue(compute('test', '', false));
+      assert.isTrue(compute('test', 'test', true));
+      assert.isFalse(compute('test', 'test', false));
+    });
+
+    test('_computeUsernameMutable', () => {
+      assert.isTrue(element._computeUsernameMutable(
+          {auth: {editable_account_fields: ['USER_NAME']}}, null));
+      assert.isFalse(element._computeUsernameMutable(
+          {auth: {editable_account_fields: ['USER_NAME']}}, 'abc'));
+      assert.isFalse(element._computeUsernameMutable(
+          {auth: {editable_account_fields: []}}, null));
+      assert.isFalse(element._computeUsernameMutable(
+          {auth: {editable_account_fields: []}}, 'abc'));
     });
   });
 </script>

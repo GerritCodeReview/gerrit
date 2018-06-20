@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
@@ -36,8 +37,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @ExtensionPoint
 public class ProjectConfigEntry {
@@ -299,7 +298,7 @@ public class ProjectConfigEntry {
   public void onUpdate(Project.NameKey project, Long oldValue, Long newValue) {}
 
   public static class UpdateChecker implements GitReferenceUpdatedListener {
-    private static final Logger log = LoggerFactory.getLogger(UpdateChecker.class);
+    private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
     private final GitRepositoryManager repoManager;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -350,9 +349,8 @@ public class ProjectConfigEntry {
           }
         }
       } catch (IOException | ConfigInvalidException e) {
-        log.error(
-            String.format("Failed to check if plugin config of project %s was updated.", p.get()),
-            e);
+        logger.atSevere().withCause(e).log(
+            "Failed to check if plugin config of project %s was updated.", p.get());
       }
     }
 

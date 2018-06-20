@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -42,46 +43,39 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "set-project-parent",
-  description = "Change the project permissions are inherited from"
-)
+    name = "set-project-parent",
+    description = "Change the project permissions are inherited from")
 final class AdminSetParent extends SshCommand {
-  private static final Logger log = LoggerFactory.getLogger(AdminSetParent.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Option(
-    name = "--parent",
-    aliases = {"-p"},
-    metaVar = "NAME",
-    usage = "new parent project"
-  )
+      name = "--parent",
+      aliases = {"-p"},
+      metaVar = "NAME",
+      usage = "new parent project")
   private ProjectState newParent;
 
   @Option(
-    name = "--children-of",
-    metaVar = "NAME",
-    usage = "parent project for which the child projects should be reparented"
-  )
+      name = "--children-of",
+      metaVar = "NAME",
+      usage = "parent project for which the child projects should be reparented")
   private ProjectState oldParent;
 
   @Option(
-    name = "--exclude",
-    metaVar = "NAME",
-    usage = "child project of old parent project which should not be reparented"
-  )
+      name = "--exclude",
+      metaVar = "NAME",
+      usage = "child project of old parent project which should not be reparented")
   private List<ProjectState> excludedChildren = new ArrayList<>();
 
   @Argument(
-    index = 0,
-    required = false,
-    multiValued = true,
-    metaVar = "NAME",
-    usage = "projects to modify"
-  )
+      index = 0,
+      required = false,
+      multiValued = true,
+      metaVar = "NAME",
+      usage = "projects to modify")
   private List<ProjectState> children = new ArrayList<>();
 
   @Inject private ProjectCache projectCache;
@@ -172,7 +166,7 @@ final class AdminSetParent extends SshCommand {
         err.append("error: Project ").append(name).append(" not found\n");
       } catch (IOException | ConfigInvalidException e) {
         final String msg = "Cannot update project " + name;
-        log.error(msg, e);
+        logger.atSevere().withCause(e).log(msg);
         err.append("error: ").append(msg).append("\n");
       }
 
@@ -180,7 +174,7 @@ final class AdminSetParent extends SshCommand {
         projectCache.evict(nameKey);
       } catch (IOException e) {
         final String msg = "Cannot reindex project: " + name;
-        log.error(msg, e);
+        logger.atSevere().withCause(e).log(msg);
         err.append("error: ").append(msg).append("\n");
       }
     }

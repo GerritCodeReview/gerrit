@@ -16,7 +16,7 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 /** Configure a persistent cache declared within a {@link CacheModule} instance. */
 public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
@@ -24,7 +24,7 @@ public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
   PersistentCacheBinding<K, V> maximumWeight(long weight);
 
   @Override
-  PersistentCacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits);
+  PersistentCacheBinding<K, V> expireAfterWrite(Duration duration);
 
   @Override
   PersistentCacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
@@ -34,7 +34,12 @@ public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
 
   PersistentCacheBinding<K, V> version(int version);
 
-  /** Set the total on-disk limit of the cache */
+  /**
+   * Set the total on-disk limit of the cache.
+   *
+   * <p>If 0 or negative, persistence for the cache is disabled by default, but may still be
+   * overridden in the config.
+   */
   PersistentCacheBinding<K, V> diskLimit(long limit);
 
   PersistentCacheBinding<K, V> keySerializer(CacheSerializer<K> keySerializer);

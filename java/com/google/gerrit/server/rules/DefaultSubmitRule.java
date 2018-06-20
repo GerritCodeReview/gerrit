@@ -16,6 +16,7 @@ package com.google.gerrit.server.rules;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -33,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Java implementation of Gerrit's default pre-submit rules behavior: check if the labels have the
@@ -45,7 +44,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public final class DefaultSubmitRule implements SubmitRule {
-  private static final Logger log = LoggerFactory.getLogger(DefaultSubmitRule.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends FactoryModule {
     @Override
@@ -82,7 +81,8 @@ public final class DefaultSubmitRule implements SubmitRule {
       labelTypes = cd.getLabelTypes().getLabelTypes();
       approvals = cd.currentApprovals();
     } catch (OrmException e) {
-      log.error("Unable to fetch labels and approvals for change {}", cd.getId(), e);
+      logger.atSevere().withCause(e).log(
+          "Unable to fetch labels and approvals for change %s", cd.getId());
 
       submitRecord.errorMessage = "Unable to fetch labels and approvals for the change";
       submitRecord.status = SubmitRecord.Status.RULE_ERROR;
@@ -94,8 +94,8 @@ public final class DefaultSubmitRule implements SubmitRule {
     for (LabelType t : labelTypes) {
       LabelFunction labelFunction = t.getFunction();
       if (labelFunction == null) {
-        log.error(
-            "Unable to find the LabelFunction for label {}, change {}", t.getName(), cd.getId());
+        logger.atSevere().log(
+            "Unable to find the LabelFunction for label %s, change %s", t.getName(), cd.getId());
 
         submitRecord.errorMessage = "Unable to find the LabelFunction for label " + t.getName();
         submitRecord.status = SubmitRecord.Status.RULE_ERROR;

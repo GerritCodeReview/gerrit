@@ -30,6 +30,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -60,8 +61,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A bundle of all entities rooted at a single {@link AccountGroup} entity.
@@ -71,7 +70,7 @@ import org.slf4j.LoggerFactory;
  */
 @AutoValue
 abstract class GroupBundle {
-  private static final Logger log = LoggerFactory.getLogger(GroupBundle.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static {
     // Initialization-time checks that the column set hasn't changed since the
@@ -414,12 +413,9 @@ abstract class GroupBundle {
       // corrupt, and it's not clear if we can programmatically repair it. For migrating to NoteDb,
       // we'll try our best to recreate it, but no guarantees it will match the real sequence of
       // attempted operations, which is in any case lost in the mists of time.
-      log.warn(
-          "group {} in {} has duplicate {} entities: {}",
-          uuid,
-          source,
-          clazz.getSimpleName(),
-          iterable);
+      logger.atWarning().log(
+          "group %s in %s has duplicate %s entities: %s",
+          uuid, source, clazz.getSimpleName(), iterable);
     }
     return set;
   }

@@ -22,6 +22,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -80,12 +81,10 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Basic Lucene index implementation. */
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
-  private static final Logger log = LoggerFactory.getLogger(AbstractLuceneIndex.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static String sortFieldName(FieldDef<?, ?> f) {
     return f.getName() + "_SORT";
@@ -145,18 +144,16 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
                     autoCommitWriter.commit();
                   }
                 } catch (IOException e) {
-                  log.error("Error committing " + index + " Lucene index", e);
+                  logger.atSevere().withCause(e).log("Error committing %s Lucene index", index);
                 } catch (OutOfMemoryError e) {
-                  log.error("Error committing " + index + " Lucene index", e);
+                  logger.atSevere().withCause(e).log("Error committing %s Lucene index", index);
                   try {
                     autoCommitWriter.close();
                   } catch (IOException e2) {
-                    log.error(
-                        "SEVERE: Error closing "
-                            + index
-                            + " Lucene index after OOM;"
+                    logger.atSevere().withCause(e).log(
+                        "SEVERE: Error closing %s Lucene index after OOM;"
                             + " index may be corrupted.",
-                        e);
+                        index);
                   }
                 }
               },
@@ -227,10 +224,11 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     writerThread.shutdown();
     try {
       if (!writerThread.awaitTermination(5, TimeUnit.SECONDS)) {
-        log.warn("shutting down " + name + " index with pending Lucene writes");
+        logger.atWarning().log("shutting down %s index with pending Lucene writes", name);
       }
     } catch (InterruptedException e) {
-      log.warn("interrupted waiting for pending Lucene writes of " + name + " index", e);
+      logger.atWarning().withCause(e).log(
+          "interrupted waiting for pending Lucene writes of %s index", name);
     }
     reopenThread.close();
 
@@ -244,7 +242,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     try {
       searcherManager.maybeRefreshBlocking();
     } catch (IOException e) {
-      log.warn("error finishing pending Lucene writes", e);
+      logger.atWarning().withCause(e).log("error finishing pending Lucene writes");
     }
 
     try {
@@ -252,12 +250,12 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     } catch (AlreadyClosedException e) {
       // Ignore.
     } catch (IOException e) {
-      log.warn("error closing Lucene writer", e);
+      logger.atWarning().withCause(e).log("error closing Lucene writer");
     }
     try {
       dir.close();
     } catch (IOException e) {
-      log.warn("error closing Lucene directory", e);
+      logger.atWarning().withCause(e).log("error closing Lucene directory");
     }
   }
 
@@ -450,7 +448,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       try {
         return reopenThread.waitForGeneration(gen, 0);
       } catch (InterruptedException e) {
-        log.warn("Interrupted waiting for searcher generation", e);
+        logger.atWarning().withCause(e).log("Interrupted waiting for searcher generation");
         return false;
       }
     }
@@ -526,7 +524,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
           try {
             release(searcher);
           } catch (IOException e) {
-            log.warn("cannot release Lucene searcher", e);
+            logger.atWarning().withCause(e).log("cannot release Lucene searcher");
           }
         }
       }

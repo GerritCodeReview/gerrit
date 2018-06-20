@@ -66,6 +66,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -77,7 +78,6 @@ import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.util.StringUtils;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
   public static final String COMMENTLINK = "commentlink";
@@ -1179,7 +1179,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         List<String> types = new ArrayList<>(4);
         for (NotifyType t : NotifyType.values()) {
           if (nc.isNotify(t)) {
-            types.add(StringUtils.toLowerCase(t.name()));
+            types.add(t.name().toLowerCase(Locale.US));
           }
         }
         rc.setStringList(NOTIFY, nc.getName(), KEY_TYPE, types);
@@ -1353,6 +1353,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         values.add(value.format().trim());
       }
       rc.setStringList(LABEL, name, KEY_VALUE, values);
+
+      List<String> refPatterns = label.getRefPatterns();
+      if (refPatterns != null && !refPatterns.isEmpty()) {
+        rc.setStringList(LABEL, name, KEY_BRANCH, refPatterns);
+      }
     }
 
     for (String name : toUnset) {

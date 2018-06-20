@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteSource;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.common.errors.InvalidSshKeyException;
@@ -43,12 +44,10 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class AddSshKey implements RestModifyView<AccountResource, SshKeyInput> {
-  private static final Logger log = LoggerFactory.getLogger(AddSshKey.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
@@ -74,7 +73,7 @@ public class AddSshKey implements RestModifyView<AccountResource, SshKeyInput> {
   public Response<SshKeyInfo> apply(AccountResource rsrc, SshKeyInput input)
       throws AuthException, BadRequestException, OrmException, IOException, ConfigInvalidException,
           PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
     return apply(rsrc.getUser(), input);
@@ -104,8 +103,8 @@ public class AddSshKey implements RestModifyView<AccountResource, SshKeyInput> {
       try {
         addKeyFactory.create(user, sshKey).send();
       } catch (EmailException e) {
-        log.error(
-            "Cannot send SSH key added message to " + user.getAccount().getPreferredEmail(), e);
+        logger.atSevere().withCause(e).log(
+            "Cannot send SSH key added message to %s", user.getAccount().getPreferredEmail());
       }
 
       user.getUserName().ifPresent(sshKeyCache::evict);

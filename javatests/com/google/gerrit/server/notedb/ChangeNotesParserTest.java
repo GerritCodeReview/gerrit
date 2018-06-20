@@ -442,17 +442,17 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     // Change created in WIP remains in WIP.
     RevCommit commit = writeCommit("Update WIP change\n" + "\n" + "Patch-set: 1\n", true);
     ChangeNotesState state = newParser(commit).parseAll();
-    assertThat(state.columns().hasReviewStarted()).isFalse();
+    assertThat(state.columns().reviewStarted()).isFalse();
 
     // Moving change out of WIP starts review.
     commit =
         writeCommit("New ready change\n" + "\n" + "Patch-set: 1\n" + "Work-in-progress: false\n");
     state = newParser(commit).parseAll();
-    assertThat(state.columns().hasReviewStarted()).isTrue();
+    assertThat(state.columns().reviewStarted()).isTrue();
 
     // Change created not in WIP has always been in review started state.
     state = assertParseSucceeds("New change that doesn't declare WIP\n" + "\n" + "Patch-set: 1\n");
-    assertThat(state.columns().hasReviewStarted()).isTrue();
+    assertThat(state.columns().reviewStarted()).isTrue();
   }
 
   @Test
@@ -498,7 +498,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private RevCommit writeCommit(String body) throws Exception {
     ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return writeCommit(
-        body, noteUtil.newIdent(changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent), false);
+        body,
+        noteUtil
+            .getLegacyChangeNoteWrite()
+            .newIdent(changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent),
+        false);
   }
 
   private RevCommit writeCommit(String body, PersonIdent author) throws Exception {
@@ -509,7 +513,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
     return writeCommit(
         body,
-        noteUtil.newIdent(changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent),
+        noteUtil
+            .getLegacyChangeNoteWrite()
+            .newIdent(changeOwner.getAccount(), TimeUtil.nowTs(), serverIdent),
         initWorkInProgress);
   }
 
@@ -555,7 +561,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
 
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     walk.reset();
-    ChangeNoteUtil noteUtil = injector.getInstance(ChangeNoteUtil.class);
-    return new ChangeNotesParser(newChange().getId(), tip, walk, noteUtil, args.metrics);
+    ChangeNoteJson changeNoteJson = injector.getInstance(ChangeNoteJson.class);
+    LegacyChangeNoteRead reader = injector.getInstance(LegacyChangeNoteRead.class);
+    return new ChangeNotesParser(
+        newChange().getId(), tip, walk, changeNoteJson, reader, args.metrics);
   }
 }

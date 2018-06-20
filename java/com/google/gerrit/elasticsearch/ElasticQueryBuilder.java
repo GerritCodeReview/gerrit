@@ -14,6 +14,9 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.gerrit.elasticsearch.builders.BoolQueryBuilder;
+import com.google.gerrit.elasticsearch.builders.QueryBuilder;
+import com.google.gerrit.elasticsearch.builders.QueryBuilders;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.query.AndPredicate;
@@ -28,14 +31,10 @@ import com.google.gerrit.index.query.RegexPredicate;
 import com.google.gerrit.index.query.TimestampRangePredicate;
 import com.google.gerrit.server.query.change.AfterPredicate;
 import java.time.Instant;
-import org.apache.lucene.search.BooleanQuery;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 
 public class ElasticQueryBuilder {
 
-  protected <T> QueryBuilder toQueryBuilder(Predicate<T> p) throws QueryParseException {
+  <T> QueryBuilder toQueryBuilder(Predicate<T> p) throws QueryParseException {
     if (p instanceof AndPredicate) {
       return and(p);
     } else if (p instanceof OrPredicate) {
@@ -52,27 +51,19 @@ public class ElasticQueryBuilder {
   }
 
   private <T> BoolQueryBuilder and(Predicate<T> p) throws QueryParseException {
-    try {
-      BoolQueryBuilder b = QueryBuilders.boolQuery();
-      for (Predicate<T> c : p.getChildren()) {
-        b.must(toQueryBuilder(c));
-      }
-      return b;
-    } catch (BooleanQuery.TooManyClauses e) {
-      throw new QueryParseException("cannot create query for index: " + p, e);
+    BoolQueryBuilder b = QueryBuilders.boolQuery();
+    for (Predicate<T> c : p.getChildren()) {
+      b.must(toQueryBuilder(c));
     }
+    return b;
   }
 
   private <T> BoolQueryBuilder or(Predicate<T> p) throws QueryParseException {
-    try {
-      BoolQueryBuilder q = QueryBuilders.boolQuery();
-      for (Predicate<T> c : p.getChildren()) {
-        q.should(toQueryBuilder(c));
-      }
-      return q;
-    } catch (BooleanQuery.TooManyClauses e) {
-      throw new QueryParseException("cannot create query for index: " + p, e);
+    BoolQueryBuilder q = QueryBuilders.boolQuery();
+    for (Predicate<T> c : p.getChildren()) {
+      q.should(toQueryBuilder(c));
     }
+    return q;
   }
 
   private <T> QueryBuilder not(Predicate<T> p) throws QueryParseException {

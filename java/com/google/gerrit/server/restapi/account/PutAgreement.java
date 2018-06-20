@@ -72,7 +72,7 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
       throw new MethodNotAllowedException("contributor agreements disabled");
     }
 
-    if (self.get() != resource.getUser()) {
+    if (!self.get().hasSameAccountId(resource.getUser())) {
       throw new AuthException("not allowed to enter contributor agreement");
     }
 

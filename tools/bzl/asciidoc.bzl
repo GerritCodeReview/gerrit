@@ -103,7 +103,7 @@ def _asciidoc_impl(ctx):
 
 _asciidoc_attrs = {
     "_exe": attr.label(
-        default = Label("//lib/asciidoctor:asciidoc"),
+        default = Label("//java/com/google/gerrit/asciidoctor:asciidoc"),
         cfg = "host",
         allow_files = True,
         executable = True,

@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.account;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.NotSignedInException;
 import com.google.gerrit.index.Index;
@@ -41,12 +42,10 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Parses a query string meant to be applied to account objects. */
 public class AccountQueryBuilder extends QueryBuilder<AccountState> {
-  private static final Logger log = LoggerFactory.getLogger(AccountQueryBuilder.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String FIELD_ACCOUNT = "account";
   public static final String FIELD_CAN_SEE = "cansee";
@@ -226,7 +225,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
     try {
       return canSeeSecondaryEmails();
     } catch (PermissionBackendException e) {
-      log.error("Permission check failed", e);
+      logger.atSevere().withCause(e).log("Permission check failed");
       return false;
     } catch (QueryParseException e) {
       // User is not signed in.

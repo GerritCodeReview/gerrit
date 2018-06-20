@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail;
 
 import static java.util.stream.Collectors.joining;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.MailMessage;
 import com.google.inject.Inject;
@@ -23,18 +24,16 @@ import com.google.inject.Singleton;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class ListMailFilter implements MailFilter {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public enum ListFilterMode {
     OFF,
     WHITELIST,
     BLACKLIST
   }
-
-  private static final Logger log = LoggerFactory.getLogger(ListMailFilter.class);
 
   private final ListFilterMode mode;
   private final Pattern mailPattern;
@@ -55,7 +54,7 @@ public class ListMailFilter implements MailFilter {
 
     boolean match = mailPattern.matcher(message.from().email).find();
     if (mode == ListFilterMode.WHITELIST && !match || mode == ListFilterMode.BLACKLIST && match) {
-      log.info("Mail message from " + message.from() + " rejected by list filter");
+      logger.atInfo().log("Mail message from %s rejected by list filter", message.from());
       return false;
     }
     return true;

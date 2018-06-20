@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.Side;
@@ -70,13 +71,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** A service that can attach the comments from a {@link MailMessage} to a change. */
 @Singleton
 public class MailProcessor {
-  private static final Logger log = LoggerFactory.getLogger(MailProcessor.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Emails emails;
   private final InboundEmailRejectionSender.Factory emailRejectionSender;
@@ -145,10 +144,9 @@ public class MailProcessor {
       throws OrmException, UpdateException, RestApiException, IOException {
     for (DynamicMap.Entry<MailFilter> filter : mailFilters) {
       if (!filter.getProvider().get().shouldProcessMessage(message)) {
-        log.warn(
-            String.format(
-                "Message %s filtered by plugin %s %s. Will delete message.",
-                message.id(), filter.getPluginName(), filter.getExportName()));
+        logger.atWarning().log(
+            "Message %s filtered by plugin %s %s. Will delete message.",
+            message.id(), filter.getPluginName(), filter.getExportName());
         return;
       }
     }
@@ -156,10 +154,9 @@ public class MailProcessor {
     MailMetadata metadata = MailHeaderParser.parse(message);
 
     if (!metadata.hasRequiredFields()) {
-      log.error(
-          String.format(
-              "Message %s is missing required metadata, have %s. Will delete message.",
-              message.id(), metadata));
+      logger.atSevere().log(
+          "Message %s is missing required metadata, have %s. Will delete message.",
+          message.id(), metadata);
       sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
       return;
     }
@@ -167,10 +164,10 @@ public class MailProcessor {
     Set<Account.Id> accountIds = emails.getAccountFor(metadata.author);
 
     if (accountIds.size() != 1) {
-      log.error(
-          String.format(
-              "Address %s could not be matched to a unique account. It was matched to %s. Will delete message.",
-              metadata.author, accountIds));
+      logger.atSevere().log(
+          "Address %s could not be matched to a unique account. It was matched to %s."
+              + " Will delete message.",
+          metadata.author, accountIds);
 
       // We don't want to send an email if no accounts are linked to it.
       if (accountIds.size() > 1) {
@@ -181,11 +178,11 @@ public class MailProcessor {
     Account.Id accountId = accountIds.iterator().next();
     Optional<AccountState> accountState = accountCache.get(accountId);
     if (!accountState.isPresent()) {
-      log.warn(String.format("Mail: Account %s doesn't exist. Will delete message.", accountId));
+      logger.atWarning().log("Mail: Account %s doesn't exist. Will delete message.", accountId);
       return;
     }
     if (!accountState.get().getAccount().isActive()) {
-      log.warn(String.format("Mail: Account %s is inactive. Will delete message.", accountId));
+      logger.atWarning().log("Mail: Account %s is inactive. Will delete message.", accountId);
       sendRejectionEmail(message, InboundEmailRejectionSender.Error.INACTIVE_ACCOUNT);
       return;
     }
@@ -199,7 +196,7 @@ public class MailProcessor {
           emailRejectionSender.create(message.from(), message.id(), reason);
       em.send();
     } catch (Exception e) {
-      log.error("Cannot send email to warn for an error", e);
+      logger.atSevere().withCause(e).log("Cannot send email to warn for an error");
     }
   }
 
@@ -210,18 +207,18 @@ public class MailProcessor {
       List<ChangeData> changeDataList =
           queryProvider.get().byLegacyChangeId(new Change.Id(metadata.changeNumber));
       if (changeDataList.size() != 1) {
-        log.error(
-            String.format(
-                "Message %s references unique change %s, but there are %d matching changes in the index. Will delete message.",
-                message.id(), metadata.changeNumber, changeDataList.size()));
+        logger.atSevere().log(
+            "Message %s references unique change %s,"
+                + " but there are %d matching changes in the index."
+                + " Will delete message.",
+            message.id(), metadata.changeNumber, changeDataList.size());
 
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.INTERNAL_EXCEPTION);
         return;
       }
       ChangeData cd = changeDataList.get(0);
       if (existingMessageIds(cd).contains(message.id())) {
-        log.info(
-            String.format("Message %s was already processed. Will delete message.", message.id()));
+        logger.atInfo().log("Message %s was already processed. Will delete message.", message.id());
         return;
       }
       // Get all comments; filter and sort them to get the original list of
@@ -244,9 +241,8 @@ public class MailProcessor {
       }
 
       if (parsedComments.isEmpty()) {
-        log.warn(
-            String.format(
-                "Could not parse any comments from %s. Will delete message.", message.id()));
+        logger.atWarning().log(
+            "Could not parse any comments from %s. Will delete message.", message.id());
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.PARSING_ERROR);
         return;
       }

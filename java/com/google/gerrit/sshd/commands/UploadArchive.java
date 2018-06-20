@@ -59,15 +59,14 @@ public class UploadArchive extends AbstractGitCommand {
    */
   static class Options {
     @Option(
-      name = "-f",
-      aliases = {"--format"},
-      usage =
-          "Format of the"
-              + " resulting archive: tar or zip... If this option is not given, and"
-              + " the output file is specified, the format is inferred from the"
-              + " filename if possible (e.g. writing to \"foo.zip\" makes the output"
-              + " to be in the zip format). Otherwise the output format is tar."
-    )
+        name = "-f",
+        aliases = {"--format"},
+        usage =
+            "Format of the"
+                + " resulting archive: tar or zip... If this option is not given, and"
+                + " the output file is specified, the format is inferred from the"
+                + " filename if possible (e.g. writing to \"foo.zip\" makes the output"
+                + " to be in the zip format). Otherwise the output format is tar.")
     private String format = "tar";
 
     @Option(name = "--prefix", usage = "Prepend <prefix>/ to each filename in the archive.")
@@ -101,25 +100,23 @@ public class UploadArchive extends AbstractGitCommand {
     private boolean level8;
 
     @Option(
-      name = "-9",
-      usage =
-          "Highest and slowest compression level. You "
-              + "can specify any number from 1 to 9 to adjust compression speed and "
-              + "ratio."
-    )
+        name = "-9",
+        usage =
+            "Highest and slowest compression level. You "
+                + "can specify any number from 1 to 9 to adjust compression speed and "
+                + "ratio.")
     private boolean level9;
 
     @Argument(index = 0, required = true, usage = "The tree or commit to produce an archive for.")
     private String treeIsh = "master";
 
     @Argument(
-      index = 1,
-      multiValued = true,
-      usage =
-          "Without an optional path parameter, all files and subdirectories of "
-              + "the current working directory are included in the archive. If one "
-              + "or more paths are specified, only these are included."
-    )
+        index = 1,
+        multiValued = true,
+        usage =
+            "Without an optional path parameter, all files and subdirectories of "
+                + "the current working directory are included in the archive. If one "
+                + "or more paths are specified, only these are included.")
     private List<String> path;
   }
 

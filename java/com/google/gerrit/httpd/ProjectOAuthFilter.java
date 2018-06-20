@@ -21,6 +21,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -54,8 +55,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Authenticates the current user with an OAuth2 server.
@@ -64,8 +63,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 class ProjectOAuthFilter implements Filter {
-
-  private static final Logger log = LoggerFactory.getLogger(ProjectOAuthFilter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String REALM_NAME = "Gerrit Code Review";
   private static final String AUTHORIZATION = "Authorization";
@@ -156,7 +154,7 @@ class ProjectOAuthFilter implements Filter {
     Optional<AccountState> who =
         accountCache.getByUsername(authInfo.username).filter(a -> a.getAccount().isActive());
     if (!who.isPresent()) {
-      log.warn(
+      logger.atWarning().log(
           authenticationFailedMsg(authInfo.username, req)
               + ": account inactive or not provisioned in Gerrit");
       rsp.sendError(SC_UNAUTHORIZED);
@@ -179,7 +177,7 @@ class ProjectOAuthFilter implements Filter {
       ws.setAccessPathOk(AccessPath.REST_API, true);
       return true;
     } catch (AccountException e) {
-      log.warn(authenticationFailedMsg(authInfo.username, req), e);
+      logger.atWarning().withCause(e).log(authenticationFailedMsg(authInfo.username, req));
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }

@@ -23,6 +23,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -46,8 +47,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Helper to sort {@link ChangeData}s based on {@link RevWalk} ordering.
@@ -63,7 +62,7 @@ import org.slf4j.LoggerFactory;
  * of the changes was updated.
  */
 public class WalkSorter {
-  private static final Logger log = LoggerFactory.getLogger(WalkSorter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final Ordering<List<PatchSetData>> PROJECT_LIST_SORTER =
       Ordering.natural()
@@ -237,7 +236,8 @@ public class WalkSorter {
         RevCommit c = rw.parseCommit(id);
         byCommit.put(c, PatchSetData.create(cd, maxPs, c));
       } catch (MissingObjectException | IncorrectObjectTypeException e) {
-        log.warn("missing commit " + id.name() + " for patch set " + maxPs.getId(), e);
+        logger.atWarning().withCause(e).log(
+            "missing commit %s for patch set %s", id.name(), maxPs.getId());
       }
     }
     return byCommit;

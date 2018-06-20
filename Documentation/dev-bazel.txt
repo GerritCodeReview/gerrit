@@ -244,6 +244,12 @@ To exclude tests that have been marked as flaky:
   bazel test --test_tag_filters=-flaky //...
 ----
 
+To exclude tests that require a Docker host:
+
+----
+  bazel test --test_tag_filters=-docker //...
+----
+
 To ignore cached test results:
 
 ----
@@ -267,6 +273,15 @@ The following values are currently supported for the group name:
 * rest
 * server
 * ssh
+
+[[elasticsearch]]
+=== Elasticsearch
+
+Successfully running the elasticsearch tests may require setting the local
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html[virtual memory].
+
+Bazel link:https://github.com/bazelbuild/bazel/issues/3476[does not currently make container failures visible],
+if any.
 
 == Dependencies
 
@@ -363,54 +378,19 @@ To consume the JGit dependency from the development tree, edit
 `lib/jgit/jgit.bzl` setting LOCAL_JGIT_REPO to a directory holding a
 JGit repository.
 
-[[local-action-cache]]
+[[bazel-local-caches]]
 
-To accelerate builds, local action cache can be activated. Note, that this
-experimental feature is not activated per default and only available since
-Bazel version 0.7.
+To accelerate builds, several caches are activated per default:
 
-To activate the local action cache, create accessible cache directory:
+* ~/.gerritcodereview/bazel-cache/downloaded-artifacts
+* ~/.gerritcodereview/bazel-cache/repository
+* ~/.gerritcodereview/bazel-cache/cas
 
-----
- mkdir -p ~/.gerritcodereview/bazel-cache/cas
-----
+Currently none of these caches have a maximum size limit. See
+link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue] for
+details. Users should watch the cache sizes and clean them manually if
+necessary.
 
-and add these lines to your `~/.bazelrc` file:
-
-----
-build --experimental_local_disk_cache_path=/home/<user>/.gerritcodereview/bazel-cache/cas
-build --experimental_local_disk_cache
-build --experimental_strict_action_env
-build --action_env=PATH
-----
-
-[NOTE] `experimental_local_disk_cache_path` must be absolute path. Expansion of `~` is
-unfortunately not supported yet. This is also the reason why we can't activate this
-feature by default yet (by adjusting tools/bazel.rc file).
-
-[[repository_cache]]
-
-To accelerate fetches, local repository cache can be activated. This cache is
-only used for rules_closure external repository and transitive dependendcies.
-That's because rules_closure uses standard Bazel download facility. For all
-other gerrit dependencies, the download_artifacts repository cache is used
-already.
-
-To activate the local repository cache, create accessible cache directory:
-
-----
- mkdir -p ~/.gerritcodereview/bazel-cache/repository
-----
-
-and add this line to your `~/.bazelrc` file:
-
-----
-build --experimental_repository_cache=/home/<user>/.gerritcodereview/bazel-cache/repository
-----
-
-[NOTE] `experimental_repository_cache` must be absolute path. Expansion of `~` is
-unfortunately not supported yet. This is also the reason why we can't activate this
-feature by default yet (by adjusting tools/bazel.rc file).
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

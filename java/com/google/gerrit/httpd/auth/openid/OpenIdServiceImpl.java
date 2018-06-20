@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -64,12 +65,10 @@ import org.openid4java.message.sreg.SRegMessage;
 import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
 import org.openid4java.util.HttpClientFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class OpenIdServiceImpl {
-  private static final Logger log = LoggerFactory.getLogger(OpenIdServiceImpl.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String RETURN_URL = "OpenID";
 
@@ -151,7 +150,7 @@ class OpenIdServiceImpl {
     final AuthRequest aReq;
     try {
       aReq = manager.authenticate(state.discovered, state.retTo.toString());
-      log.debug("OpenID: openid-realm={}", state.contextUrl);
+      logger.atFine().log("OpenID: openid-realm=%s", state.contextUrl);
       aReq.setRealm(state.contextUrl);
 
       if (requestRegistration(aReq)) {
@@ -173,7 +172,7 @@ class OpenIdServiceImpl {
         aReq.addExtension(pape);
       }
     } catch (MessageException | ConsumerException e) {
-      log.error("Cannot create OpenID redirect for " + openidIdentifier, e);
+      logger.atSevere().withCause(e).log("Cannot create OpenID redirect for %s" + openidIdentifier);
       return new DiscoveryResult(DiscoveryResult.Status.ERROR);
     }
 
@@ -195,7 +194,7 @@ class OpenIdServiceImpl {
     try {
       return accountManager.lookup(aReq.getIdentity()) == null;
     } catch (AccountException e) {
-      log.warn("Cannot determine if user account exists", e);
+      logger.atWarning().withCause(e).log("Cannot determine if user account exists");
       return true;
     }
   }
@@ -250,17 +249,16 @@ class OpenIdServiceImpl {
       if ("Nonce verification failed.".equals(result.getStatusMsg())) {
         // We might be suffering from clock skew on this system.
         //
-        log.error(
-            "OpenID failure: "
-                + result.getStatusMsg()
-                + "  Likely caused by clock skew on this server,"
-                + " install/configure NTP.");
+        logger.atSevere().log(
+            "OpenID failure: %s  Likely caused by clock skew on this server,"
+                + " install/configure NTP.",
+            result.getStatusMsg());
         cancelWithError(req, rsp, result.getStatusMsg());
 
       } else if (result.getStatusMsg() != null) {
         // Authentication failed.
         //
-        log.error("OpenID failure: " + result.getStatusMsg());
+        logger.atSevere().log("OpenID failure: %s", result.getStatusMsg());
         cancelWithError(req, rsp, result.getStatusMsg());
 
       } else {
@@ -286,12 +284,12 @@ class OpenIdServiceImpl {
         // right now. Instead of blocking all of them log the error and
         // let the authentication complete anyway.
         //
-        log.error("Invalid PAPE response " + openidIdentifier + ": " + err);
+        logger.atSevere().log("Invalid PAPE response %s: %s", openidIdentifier, err);
         unsupported = true;
         ext = null;
       }
       if (!unsupported && ext == null) {
-        log.error("No PAPE extension response from " + openidIdentifier);
+        logger.atSevere().log("No PAPE extension response from %s", openidIdentifier);
         cancelWithError(req, rsp, "OpenID provider does not support PAPE.");
         return;
       }
@@ -354,7 +352,7 @@ class OpenIdServiceImpl {
         }
 
         if (!match) {
-          log.error("Domain disallowed: " + emailDomain);
+          logger.atSevere().log("Domain disallowed: %s", emailDomain);
           cancelWithError(req, rsp, "Domain disallowed");
           return;
         }
@@ -376,17 +374,11 @@ class OpenIdServiceImpl {
           // This is (for now) a fatal error. There are two records
           // for what might be the same user.
           //
-          log.error(
+          logger.atSevere().log(
               "OpenID accounts disagree over user identity:\n"
-                  + "  Claimed ID: "
-                  + claimedId.get()
-                  + " is "
-                  + claimedIdentifier
-                  + "\n"
-                  + "  Delgate ID: "
-                  + actualId.get()
-                  + " is "
-                  + areq.getExternalIdKey());
+                  + "  Claimed ID: %s is %s\n"
+                  + "  Delgate ID: %s is %s",
+              claimedId.get(), claimedIdentifier, actualId.get(), areq.getExternalIdKey());
           cancelWithError(req, rsp, "Contact site administrator");
           return;
         }
@@ -451,7 +443,7 @@ class OpenIdServiceImpl {
           }
       }
     } catch (AccountException e) {
-      log.error("OpenID authentication failure", e);
+      logger.atSevere().withCause(e).log("OpenID authentication failure");
       cancelWithError(req, rsp, "Contact site administrator");
     }
   }
@@ -531,7 +523,7 @@ class OpenIdServiceImpl {
     try {
       list = manager.discover(openidIdentifier);
     } catch (DiscoveryException e) {
-      log.error("Cannot discover OpenID " + openidIdentifier, e);
+      logger.atSevere().withCause(e).log("Cannot discover OpenID %s", openidIdentifier);
       return null;
     }
     if (list == null || list.isEmpty()) {

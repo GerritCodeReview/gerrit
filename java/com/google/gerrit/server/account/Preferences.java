@@ -30,6 +30,7 @@ import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -54,8 +55,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Parses/writes preferences from/to a {@link Config} file.
@@ -86,7 +85,7 @@ import org.slf4j.LoggerFactory;
  * <p>The preferences are lazily parsed.
  */
 public class Preferences {
-  private static final Logger log = LoggerFactory.getLogger(Preferences.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String PREFERENCES_CONFIG = "preferences.config";
 
@@ -339,7 +338,7 @@ public class Preferences {
         }
       }
     } catch (IllegalAccessException e) {
-      log.error("Failed to apply default general preferences", e);
+      logger.atSevere().withCause(e).log("Failed to apply default general preferences");
       return GeneralPreferencesInfo.defaults();
     }
     return result;
@@ -358,7 +357,7 @@ public class Preferences {
         }
       }
     } catch (IllegalAccessException e) {
-      log.error("Failed to apply default diff preferences", e);
+      logger.atSevere().withCause(e).log("Failed to apply default diff preferences");
       return DiffPreferencesInfo.defaults();
     }
     return result;
@@ -377,7 +376,7 @@ public class Preferences {
         }
       }
     } catch (IllegalAccessException e) {
-      log.error("Failed to apply default edit preferences", e);
+      logger.atSevere().withCause(e).log("Failed to apply default edit preferences");
       return EditPreferencesInfo.defaults();
     }
     return result;

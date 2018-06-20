@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -43,11 +44,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ListDashboards implements RestReadView<ProjectResource> {
-  private static final Logger log = LoggerFactory.getLogger(ListDashboards.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager gitManager;
   private final PermissionBackend permissionBackend;
@@ -139,10 +138,9 @@ public class ListDashboards implements RestReadView<ProjectResource> {
                     project,
                     setDefault));
           } catch (ConfigInvalidException e) {
-            log.warn(
-                String.format(
-                    "Cannot parse dashboard %s:%s:%s: %s",
-                    definingProject.getName(), ref.getName(), tw.getPathString(), e.getMessage()));
+            logger.atWarning().log(
+                "Cannot parse dashboard %s:%s:%s: %s",
+                definingProject.getName(), ref.getName(), tw.getPathString(), e.getMessage());
           }
         }
       }

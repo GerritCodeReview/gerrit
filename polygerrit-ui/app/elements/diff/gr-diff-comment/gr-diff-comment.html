@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -32,7 +33,6 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
-
 <script src="../../../scripts/rootElement.js"></script>
 
 <dom-module id="gr-diff-comment">
@@ -59,11 +59,11 @@ limitations under the License.
         cursor: pointer;
         display: flex;
         font-family: 'Open Sans', sans-serif;
-        margin-bottom: 0.7em;
-        padding-bottom: 0;
+        margin: -.7em -.7em 0 -.7em;
+        padding: .7em;
       }
       .container.collapsed .header {
-        margin: 0;
+        margin-bottom: -.7em;
       }
       .headerMiddle {
         color: var(--deemphasized-text-color);
@@ -237,7 +237,7 @@ limitations under the License.
         class="container"
         on-mouseenter="_handleMouseEnter"
         on-mouseleave="_handleMouseLeave">
-      <div class="header" id="header" on-click="_handleToggleCollapsed">
+      <div class="header" id="header" on-tap="_handleToggleCollapsed">
         <div class="headerLeft">
           <span class="authorName">[[comment.author.name]]</span>
           <span class="draftLabel">DRAFT</span>
@@ -387,6 +387,7 @@ limitations under the License.
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-storage id="storage"></gr-storage>
+    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-diff-comment.js"></script>
 </dom-module>

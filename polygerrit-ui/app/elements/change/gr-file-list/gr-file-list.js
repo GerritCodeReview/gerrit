@@ -26,7 +26,10 @@
   const SIZE_BAR_GAP_WIDTH = 1;
   const SIZE_BAR_MIN_WIDTH = 1.5;
 
-  const RENDER_TIME = 'FileListRenderTime';
+  const RENDER_TIMING_LABEL = 'FileListRenderTime';
+  const RENDER_AVG_TIMING_LABEL = 'FileListRenderTimePerFile';
+  const EXPAND_ALL_TIMING_LABEL = 'ExpandAllDiffs';
+  const EXPAND_ALL_AVG_TIMING_LABEL = 'ExpandAllPerDiff';
 
   const FileStatus = {
     A: 'Added',
@@ -103,8 +106,6 @@
       _filesByPath: Object,
       _files: {
         type: Array,
-        computed: '_computeFiles(_filesByPath, changeComments, patchRange, ' +
-            '_reviewed)',
         observer: '_filesChanged',
         value() { return []; },
       },
@@ -148,6 +149,13 @@
         type: Array,
         computed: '_computeFilesShown(numFilesShown, _files.*)',
       },
+
+      /**
+       * The amount of files added to the shown files list the last time it was
+       * updated. This is used for reporting the average render time.
+       */
+      _reportinShownFilesIncrement: Number,
+
       _expandedFilePaths: {
         type: Array,
         value() { return []; },
@@ -183,6 +191,8 @@
 
     observers: [
       '_expandedPathsChanged(_expandedFilePaths.splices)',
+      '_computeFiles(_filesByPath, changeComments, patchRange, _reviewed, ' +
+          '_loading)',
     ],
 
     keyBindings: {
@@ -330,10 +340,9 @@
     _updateDiffPreferences() {
       if (!this.diffs.length) { return; }
       // Re-render all expanded diffs sequentially.
-      const timerName = 'Update ' + this._expandedFilePaths.length +
-          ' diffs with new prefs';
+      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
       this._renderInOrder(this._expandedFilePaths, this.diffs,
-          this._expandedFilePaths.length, timerName);
+          this._expandedFilePaths.length);
     },
 
     _forEachDiff(fn) {
@@ -372,14 +381,17 @@
      * Computes a string with the number of comments and unresolved comments.
      *
      * @param {!Object} changeComments
-     * @param {number} patchNum
+     * @param {!Object} patchRange
      * @param {string} path
      * @return {string}
      */
-    _computeCommentsString(changeComments, patchNum, path) {
-      const unresolvedCount = changeComments.computeUnresolvedNum(patchNum,
-          path);
-      const commentCount = changeComments.computeCommentCount(patchNum, path);
+    _computeCommentsString(changeComments, patchRange, path) {
+      const unresolvedCount =
+          changeComments.computeUnresolvedNum(patchRange.basePatchNum, path) +
+          changeComments.computeUnresolvedNum(patchRange.patchNum, path);
+      const commentCount =
+          changeComments.computeCommentCount(patchRange.basePatchNum, path) +
+          changeComments.computeCommentCount(patchRange.patchNum, path);
       const commentString = GrCountStringFormatter.computePluralString(
           commentCount, 'comment');
       const unresolvedString = GrCountStringFormatter.computeString(
@@ -396,12 +408,14 @@
      * Computes a string with the number of drafts.
      *
      * @param {!Object} changeComments
-     * @param {number} patchNum
+     * @param {!Object} patchRange
      * @param {string} path
      * @return {string}
      */
-    _computeDraftsString(changeComments, patchNum, path) {
-      const draftCount = changeComments.computeDraftCount(patchNum, path);
+    _computeDraftsString(changeComments, patchRange, path) {
+      const draftCount =
+          changeComments.computeDraftCount(patchRange.basePatchNum, path) +
+          changeComments.computeDraftCount(patchRange.patchNum, path);
       return GrCountStringFormatter.computePluralString(draftCount, 'draft');
     },
 
@@ -409,12 +423,14 @@
      * Computes a shortened string with the number of drafts.
      *
      * @param {!Object} changeComments
-     * @param {number} patchNum
+     * @param {!Object} patchRange
      * @param {string} path
      * @return {string}
      */
-    _computeDraftsStringMobile(changeComments, patchNum, path) {
-      const draftCount = changeComments.computeDraftCount(patchNum, path);
+    _computeDraftsStringMobile(changeComments, patchRange, path) {
+      const draftCount =
+          changeComments.computeDraftCount(patchRange.basePatchNum, path) +
+          changeComments.computeDraftCount(patchRange.patchNum, path);
       return GrCountStringFormatter.computeShortString(draftCount, 'd');
     },
 
@@ -422,12 +438,14 @@
      * Computes a shortened string with the number of comments.
      *
      * @param {!Object} changeComments
-     * @param {number} patchNum
+     * @param {!Object} patchRange
      * @param {string} path
      * @return {string}
      */
-    _computeCommentsStringMobile(changeComments, patchNum, path) {
-      const commentCount = changeComments.computeCommentCount(patchNum, path);
+    _computeCommentsStringMobile(changeComments, patchRange, path) {
+      const commentCount =
+          changeComments.computeCommentCount(patchRange.basePatchNum, path) +
+          changeComments.computeCommentCount(patchRange.patchNum, path);
       return GrCountStringFormatter.computeShortString(commentCount, 'c');
     },
 
@@ -782,13 +800,14 @@
           'gr-icons:expand-less' : 'gr-icons:expand-more';
     },
 
-    _computeFiles(filesByPath, changeComments, patchRange, reviewed) {
+    _computeFiles(filesByPath, changeComments, patchRange, reviewed, loading) {
+      // Await all promises resolving from reload. @See Issue 9057
+      if (loading) { return; }
+
       const commentedPaths = changeComments.getPaths(patchRange);
       const files = Object.assign({}, filesByPath);
       Object.keys(commentedPaths).forEach(commentedPath => {
-        if (files.hasOwnProperty(commentedPath)) {
-          return;
-        }
+        if (files.hasOwnProperty(commentedPath)) { return; }
         files[commentedPath] = {status: 'U'};
       });
       const reviewedSet = new Set(reviewed || []);
@@ -797,24 +816,30 @@
         files[filePath].isReviewed = reviewedSet.has(filePath);
       }
 
-      return this._normalizeChangeFilesResponse(files);
+      this._files = this._normalizeChangeFilesResponse(files);
     },
 
     _computeFilesShown(numFilesShown, files) {
+      const previousNumFilesShown = this._shownFiles ?
+          this._shownFiles.length : 0;
+
       const filesShown = files.base.slice(0, numFilesShown);
       this.fire('files-shown-changed', {length: filesShown.length});
 
       // Start the timer for the rendering work hwere because this is where the
       // _shownFiles property is being set, and _shownFiles is used in the
       // dom-repeat binding.
-      this.$.reporting.time(RENDER_TIME);
+      this.$.reporting.time(RENDER_TIMING_LABEL);
+
+      // How many more files are being shown (if it's an increase).
+      this._reportinShownFilesIncrement =
+          Math.max(0, filesShown.length - previousNumFilesShown);
 
       return filesShown;
     },
 
     _updateDiffCursor() {
       const diffElements = Polymer.dom(this.root).querySelectorAll('gr-diff');
-
       // Overwrite the cursor's list of diffs:
       this.$.diffCursor.splice(
           ...['diffs', 0, this.$.diffCursor.diffs.length].concat(diffElements));
@@ -905,26 +930,26 @@
           this._expandedFilePaths.indexOf(diff.path) === -1);
       this._clearCollapsedDiffs(collapsedDiffs);
 
-      if (!record) { return; }
+      if (!record) { return; } // Happens after "Collapse all" clicked.
 
       this.filesExpanded = this._computeExpandedFiles(
           this._expandedFilePaths.length, this._files.length);
 
       // Find the paths introduced by the new index splices:
       const newPaths = record.indexSplices
-          .map(splice => {
-            return splice.object.slice(splice.index,
-                splice.index + splice.addedCount);
-          })
-          .reduce((acc, paths) => { return acc.concat(paths); }, []);
-
-      const timerName = 'Expand ' + newPaths.length + ' diffs';
-      this.$.reporting.time(timerName);
+            .map(splice => splice.object.slice(
+                splice.index, splice.index + splice.addedCount))
+            .reduce((acc, paths) => acc.concat(paths), []);
 
       // Required so that the newly created diff view is included in this.diffs.
       Polymer.dom.flush();
 
-      this._renderInOrder(newPaths, this.diffs, newPaths.length, timerName);
+      this.$.reporting.time(EXPAND_ALL_TIMING_LABEL);
+
+      if (newPaths.length) {
+        this._renderInOrder(newPaths, this.diffs, newPaths.length);
+      }
+
       this._updateDiffCursor();
       this.$.diffCursor.handleDiffUpdate();
     },
@@ -944,11 +969,9 @@
      * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
      * @param  {number} initialCount The total number of paths in the pass. This
      *   is used to generate log messages.
-     * @param {string} timerName the timer to stop after the render has
-     *   completed
      * @return {!Promise}
      */
-    _renderInOrder(paths, diffElements, initialCount, timerName) {
+    _renderInOrder(paths, diffElements, initialCount) {
       let iter = 0;
 
       return (new Promise(resolve => {
@@ -972,7 +995,8 @@
           this._cancelForEachDiff = null;
           this._nextRenderParams = null;
           console.log('Finished expanding', initialCount, 'diff(s)');
-          this.$.reporting.timeEnd(timerName);
+          this.$.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
+              EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
           this.$.diffCursor.handleDiffUpdate();
         });
       });
@@ -1198,7 +1222,8 @@
     _reportRenderedRow(index) {
       if (index === this._shownFiles.length - 1) {
         this.async(() => {
-          this.$.reporting.timeEnd(RENDER_TIME);
+          this.$.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
+              RENDER_AVG_TIMING_LABEL, this._reportinShownFilesIncrement);
         }, 1);
       }
       return '';

@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Supplier;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -45,13 +46,11 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RequiresCapability(GlobalCapability.STREAM_EVENTS)
 @CommandMetaData(name = "stream-events", description = "Monitor events occurring in real time")
 final class StreamEvents extends BaseCommand {
-  private static final Logger log = LoggerFactory.getLogger(StreamEvents.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Maximum number of events that may be queued up for each connection. */
   private static final int MAX_EVENTS = 128;
@@ -60,11 +59,10 @@ final class StreamEvents extends BaseCommand {
   private static final int BATCH_SIZE = 32;
 
   @Option(
-    name = "--subscribe",
-    aliases = {"-s"},
-    metaVar = "SUBSCRIBE",
-    usage = "subscribe to specific stream-events"
-  )
+      name = "--subscribe",
+      aliases = {"-s"},
+      metaVar = "SUBSCRIBE",
+      usage = "subscribe to specific stream-events")
   private List<String> subscribedToEvents = new ArrayList<>();
 
   @Inject private IdentifiedUser currentUser;
@@ -279,7 +277,7 @@ final class StreamEvents extends BaseCommand {
     try {
       msg = gson.toJson(message) + "\n";
     } catch (Exception e) {
-      log.warn("Could not deserialize the msg: ", e);
+      logger.atWarning().withCause(e).log("Could not deserialize the msg");
     }
     if (msg != null) {
       synchronized (stdout) {

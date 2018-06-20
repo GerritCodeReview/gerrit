@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     implements Provider<Cache<K, V>>, PersistentCacheBinding<K, V>, PersistentCacheDef<K, V> {
@@ -39,6 +39,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
       CacheModule module, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     super(module, name, keyType, valType);
     version = -1;
+    diskLimit = 128 << 20;
   }
 
   @Inject(optional = true)
@@ -52,8 +53,8 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   }
 
   @Override
-  public PersistentCacheBinding<K, V> expireAfterWrite(long duration, TimeUnit durationUnits) {
-    return (PersistentCacheBinding<K, V>) super.expireAfterWrite(duration, durationUnits);
+  public PersistentCacheBinding<K, V> expireAfterWrite(Duration duration) {
+    return (PersistentCacheBinding<K, V>) super.expireAfterWrite(duration);
   }
 
   @Override
@@ -93,10 +94,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
 
   @Override
   public long diskLimit() {
-    if (diskLimit > 0) {
-      return diskLimit;
-    }
-    return 128 << 20;
+    return diskLimit;
   }
 
   @Override

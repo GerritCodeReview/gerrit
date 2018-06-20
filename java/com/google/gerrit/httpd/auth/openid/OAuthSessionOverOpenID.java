@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.auth.openid;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
@@ -45,14 +46,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** OAuth protocol implementation */
 @SessionScoped
 class OAuthSessionOverOpenID {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   static final String GERRIT_LOGIN = "/login";
-  private static final Logger log = LoggerFactory.getLogger(OAuthSessionOverOpenID.class);
   private static final SecureRandom randomState = newRandomGenerator();
   private final String state;
   private final DynamicItem<WebSession> webSession;
@@ -89,7 +89,7 @@ class OAuthSessionOverOpenID {
   boolean login(
       HttpServletRequest request, HttpServletResponse response, OAuthServiceProvider oauth)
       throws IOException {
-    log.debug("Login " + this);
+    logger.atFine().log("Login %s", this);
 
     if (isOAuthFinal(request)) {
       if (!checkState(request)) {
@@ -97,19 +97,19 @@ class OAuthSessionOverOpenID {
         return false;
       }
 
-      log.debug("Login-Retrieve-User " + this);
+      logger.atFine().log("Login-Retrieve-User %s", this);
       token = oauth.getAccessToken(new OAuthVerifier(request.getParameter("code")));
       user = oauth.getUserInfo(token);
 
       if (isLoggedIn()) {
-        log.debug("Login-SUCCESS " + this);
+        logger.atFine().log("Login-SUCCESS %s", this);
         authenticateAndRedirect(request, response);
         return true;
       }
       response.sendError(SC_UNAUTHORIZED);
       return false;
     }
-    log.debug("Login-PHASE1 " + this);
+    logger.atFine().log("Login-PHASE1 %s", this);
     redirectToken = LoginUrlToken.getToken(request);
     response.sendRedirect(oauth.getAuthorizationUrl() + "&state=" + state);
     return false;
@@ -135,50 +135,39 @@ class OAuthSessionOverOpenID {
       if (!Strings.isNullOrEmpty(claimedIdentifier)) {
         claimedId = accountManager.lookup(claimedIdentifier);
         if (!claimedId.isPresent()) {
-          log.debug("Claimed identity is unknown");
+          logger.atFine().log("Claimed identity is unknown");
         }
       }
 
       // Use case 1: claimed identity was provided during handshake phase
       // and user account exists for this identity
       if (claimedId.isPresent()) {
-        log.debug("Claimed identity is set and is known");
+        logger.atFine().log("Claimed identity is set and is known");
         if (actualId.isPresent()) {
           if (claimedId.get().equals(actualId.get())) {
             // Both link to the same account, that's what we expected.
-            log.debug("Both link to the same account. All is fine.");
+            logger.atFine().log("Both link to the same account. All is fine.");
           } else {
             // This is (for now) a fatal error. There are two records
             // for what might be the same user. The admin would have to
             // link the accounts manually.
-            log.error(
+            logger.atFine().log(
                 "OAuth accounts disagree over user identity:\n"
-                    + "  Claimed ID: "
-                    + claimedId.get()
-                    + " is "
-                    + claimedIdentifier
-                    + "\n"
-                    + "  Delgate ID: "
-                    + actualId.get()
-                    + " is "
-                    + user.getExternalId());
+                    + "  Claimed ID: %s is %s\n"
+                    + "  Delgate ID: %s is %s",
+                claimedId.get(), claimedIdentifier, actualId.get(), user.getExternalId());
             rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
           }
         } else {
           // Claimed account already exists: link to it.
-          log.debug("Claimed account already exists: link to it.");
+          logger.atFine().log("Claimed account already exists: link to it.");
           try {
             accountManager.link(claimedId.get(), areq);
           } catch (OrmException | ConfigInvalidException e) {
-            log.error(
-                "Cannot link: "
-                    + user.getExternalId()
-                    + " to user identity:\n"
-                    + "  Claimed ID: "
-                    + claimedId.get()
-                    + " is "
-                    + claimedIdentifier);
+            logger.atSevere().log(
+                "Cannot link: %s to user identity:\n  Claimed ID: %s is %s",
+                user.getExternalId(), claimedId.get(), claimedIdentifier);
             rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
           }
@@ -187,10 +176,11 @@ class OAuthSessionOverOpenID {
         // Use case 2: link mode activated from the UI
         Account.Id accountId = identifiedUser.get().getAccountId();
         try {
-          log.debug("Linking \"{}\" to \"{}\"", user.getExternalId(), accountId);
+          logger.atFine().log("Linking \"%s\" to \"%s\"", user.getExternalId(), accountId);
           accountManager.link(accountId, areq);
         } catch (OrmException | ConfigInvalidException e) {
-          log.error("Cannot link: " + user.getExternalId() + " to user identity: " + accountId);
+          logger.atSevere().log(
+              "Cannot link: %s to user identity: %s", user.getExternalId(), accountId);
           rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
           return;
         } finally {
@@ -202,7 +192,7 @@ class OAuthSessionOverOpenID {
       areq.setDisplayName(user.getDisplayName());
       arsp = accountManager.authenticate(areq);
     } catch (AccountException e) {
-      log.error("Unable to authenticate user \"" + user + "\"", e);
+      logger.atSevere().withCause(e).log("Unable to authenticate user \"%s\"", user);
       rsp.sendError(HttpServletResponse.SC_FORBIDDEN);
       return;
     }
@@ -223,7 +213,7 @@ class OAuthSessionOverOpenID {
   private boolean checkState(ServletRequest request) {
     String s = Strings.nullToEmpty(request.getParameter("state"));
     if (!s.equals(state)) {
-      log.error("Illegal request state '" + s + "' on OAuthProtocol " + this);
+      logger.atSevere().log("Illegal request state '%s' on OAuthProtocol %s", s, this);
       return false;
     }
     return true;

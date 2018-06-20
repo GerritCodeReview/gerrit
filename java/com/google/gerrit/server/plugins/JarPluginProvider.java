@@ -15,6 +15,7 @@
 package com.google.gerrit.server.plugins;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
@@ -34,13 +35,12 @@ import java.util.List;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class JarPluginProvider implements ServerPluginProvider {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   static final String PLUGIN_TMP_PREFIX = "plugin_";
   static final String JAR_EXTENSION = ".jar";
-  static final Logger log = LoggerFactory.getLogger(JarPluginProvider.class);
 
   private final Path tmpDir;
   private final PluginConfigFactory configFactory;
@@ -129,7 +129,7 @@ public class JarPluginProvider implements ServerPluginProvider {
       if (overlay != null) {
         Path classes = Paths.get(overlay).resolve(name).resolve("main");
         if (Files.isDirectory(classes)) {
-          log.info(String.format("plugin %s: including %s", name, classes));
+          logger.atInfo().log("plugin %s: including %s", name, classes);
           urls.add(classes.toUri().toURL());
         }
       }
@@ -152,7 +152,8 @@ public class JarPluginProvider implements ServerPluginProvider {
               jarScanner,
               description.dataDir,
               pluginLoader,
-              pluginConfig.getString("metricsPrefix", null));
+              pluginConfig.getString("metricsPrefix", null),
+              description.gerritRuntime);
       plugin.setCleanupHandle(new CleanupHandle(tmp, jarFile));
       keep = true;
       return plugin;

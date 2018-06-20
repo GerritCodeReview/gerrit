@@ -34,6 +34,7 @@ import com.google.gerrit.server.index.DummyIndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.notedb.rebuild.GcAllUsers;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
+import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -55,46 +56,42 @@ public class MigrateToNoteDb extends SiteProgram {
   private Integer threads;
 
   @Option(
-    name = "--project",
-    usage =
-        "Only rebuild these projects, do no other migration; incompatible with --change;"
-            + " recommended for debugging only"
-  )
+      name = "--project",
+      usage =
+          "Only rebuild these projects, do no other migration; incompatible with --change;"
+              + " recommended for debugging only")
   private List<String> projects = new ArrayList<>();
 
   @Option(
-    name = "--change",
-    usage =
-        "Only rebuild these changes, do no other migration; incompatible with --project;"
-            + " recommended for debugging only"
-  )
+      name = "--change",
+      usage =
+          "Only rebuild these changes, do no other migration; incompatible with --project;"
+              + " recommended for debugging only")
   private List<Integer> changes = new ArrayList<>();
 
   @Option(
-    name = "--force",
-    usage =
-        "Force rebuilding changes where ReviewDb is still the source of truth, even if they"
-            + " were previously migrated"
-  )
+      name = "--force",
+      usage =
+          "Force rebuilding changes where ReviewDb is still the source of truth, even if they"
+              + " were previously migrated")
   private boolean force;
 
   @Option(name = "--trial", usage = TRIAL_USAGE)
   private boolean trial;
 
   @Option(
-    name = "--sequence-gap",
-    usage =
-        "gap in change sequence numbers between last ReviewDb number and first NoteDb number;"
-            + " negative indicates using the value of noteDb.changes.initialSequenceGap (default"
-            + " 1000)"
-  )
+      name = "--sequence-gap",
+      usage =
+          "gap in change sequence numbers between last ReviewDb number and first NoteDb number;"
+              + " negative indicates using the value of noteDb.changes.initialSequenceGap (default"
+              + " 1000)")
   private int sequenceGap;
 
   @Option(
-    name = "--reindex",
-    usage = "Reindex all changes after migration; defaults to false in trial mode, true otherwise",
-    handler = ExplicitBooleanOptionHandler.class
-  )
+      name = "--reindex",
+      usage =
+          "Reindex all changes after migration; defaults to false in trial mode, true otherwise",
+      handler = ExplicitBooleanOptionHandler.class)
   private Boolean reindex;
 
   private Injector dbInjector;
@@ -122,6 +119,9 @@ public class MigrateToNoteDb extends SiteProgram {
       sysInjector.injectMembers(this);
       sysManager = new LifecycleManager();
       sysManager.add(sysInjector);
+      sysInjector
+          .getInstance(PluginGuiceEnvironment.class)
+          .setDbCfgInjector(dbInjector, dbInjector);
       sysManager.start();
 
       try (NoteDbMigrator migrator =

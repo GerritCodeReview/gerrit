@@ -18,60 +18,142 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-hovercard/gr-hovercard.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
+<link rel="import" href="../../shared/gr-label/gr-label.html">
+<link rel="import" href="../../shared/gr-label-info/gr-label-info.html">
 
 <dom-module id="gr-change-requirements">
   <template strip-whitespace>
     <style include="shared-styles">
       .status {
         display: inline-block;
-        font-weight: initial;
+        font-family: var(--monospace-font-family);
         text-align: center;
       }
-      .unsatisfied .icon {
+      .neutral .status {
         color: #FFA62F;
       }
-      .satisfied .icon {
-        color: #388E3C;
+      .positive .status {
+        color: var(--vote-text-color-recommended);
+      }
+      .negative .status {
+        color: var(--vote-text-color-disliked);
+      }
+      iron-icon {
+        color: inherit;
       }
       .requirement {
-        padding: .1em 0;
+        align-items: center;
+        background-color: var(--table-header-background-color);
+        border: 1px solid var(--border-color);
+        border-radius: 1em;
+        display: flex;
+        font-weight: bold;
+        height: 2rem;
+        justify-content: space-between;
+        margin: .25em;
+        min-width: 3em;
+        padding: .2em .65em
       }
-      .requirementContainer:not(:first-of-type) {
-        margin-top: .25em;
+      .status {
+        margin-left: .3em;
       }
-      .labelName, .changeIsWip {
+      .title {
         font-weight: bold;
       }
+      .required,
+      .optional {
+        display: block;
+      }
+      .optional {
+        margin-top: .5em;
+      }
+      .fieldContainer {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: .25em;
+        max-width: 25em;
+      }
+      .hidden {
+        display: none;
+      }
     </style>
-    <template is="dom-if" if="[[_showWip]]">
-      <div class="requirement unsatisfied changeIsWip">
-        <span class="status"><iron-icon class="icon" icon="gr-icons:hourglass"></iron-icon></span>
-        Work in Progress
+    <div class="required">
+      <span class="title">Required for submission</span>
+      <div class="fieldContainer">
+        <template
+            is="dom-repeat"
+            items="[[_requiredLabels]]">
+          <gr-label
+              tabindex="0"
+              id$="[[_removeInvalidChars(item.label)]]"
+              class$="requirement [[item.style]]">
+            <span class="labelName">[[_computeLabelShortcut(item.label)]]</span>
+            <span class="status">
+              <template is="dom-if" if="[[item.icon]]">
+                <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
+              </template>
+              <template is="dom-if" if="[[!item.icon]]">
+                <span>[[_computeLabelValue(item.labelInfo.value)]]</span>
+              </template>
+            </span>
+          </gr-label>
+          <gr-hovercard position="top" for="[[_removeInvalidChars(item.label)]]">
+            <gr-label-info
+                change="{{change}}"
+                account="[[account]]"
+                mutable="[[mutable]]"
+                label="[[item.label]]"
+                label-info="[[item.labelInfo]]"></gr-label-info>
+          </gr-hovercard>
+        </template>
+        <template
+            is="dom-repeat"
+            items="[[_requirements]]">
+          <gr-label
+              tabindex="0"
+              class$="requirement [[_computeRequirementClass(item.satisfied)]]"
+              has-tooltip$="[[item.tooltip]]" title$="[[item.tooltip]]">
+            [[item.fallback_text]]
+            <span class="status">
+              <iron-icon class="icon" icon="[[_computeRequirementIcon(item.satisfied)]]"></iron-icon>
+            </span>
+          </gr-label>
+        </template>
       </div>
-    </template>
-    <template is="dom-if" if="[[_showLabels]]">
-      <template
-          is="dom-repeat"
-          items="[[labels]]">
-        <div class$="requirement [[item.style]]">
-          <span class="status">
-            <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
-          </span>
-          Label <span class="labelName">[[item.label]]</span>
-        </div>
-      </template>
-    </template>
-    <template
-        is="dom-repeat"
-        items="[[requirements]]">
-      <div class$="requirement [[_computeRequirementClass(item.satisfied)]]">
-        <span class="status">
-          <iron-icon class="icon" icon="[[_computeRequirementIcon(item.satisfied)]]"></iron-icon>
-        </span>
-        [[item.fallback_text]]
+    </div>
+    <div class$="optional [[_computeShowOptional(_optionalLabels.*)]]">
+      <span class="title">Optional for submission</span>
+      <div class="fieldContainer">
+        <template
+            is="dom-repeat"
+            items="[[_optionalLabels]]">
+          <gr-label
+              tabindex="0"
+              id$="[[_removeInvalidChars(item.label)]]"
+              class$="requirement [[item.style]]">
+            <span class="labelName">[[_computeLabelShortcut(item.label)]]</span>
+            <span class="status">
+                <template is="dom-if" if="[[item.icon]]">
+                  <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
+                </template>
+                <template is="dom-if" if="[[!item.icon]]">
+                  <span>[[_computeLabelValue(item.labelInfo.value)]]</span>
+                </template>
+              </span>
+          </gr-label>
+          <gr-hovercard position="top" for="[[_removeInvalidChars(item.label)]]">
+            <gr-label-info
+                change="{{change}}"
+                account="[[account]]"
+                mutable="[[mutable]]"
+                label="[[item.label]]"
+                label-info="[[item.labelInfo]]"></gr-label-info>
+          </gr-hovercard>
+        </template>
       </div>
-    </template>
+    </div>
   </template>
   <script src="gr-change-requirements.js"></script>
 </dom-module>

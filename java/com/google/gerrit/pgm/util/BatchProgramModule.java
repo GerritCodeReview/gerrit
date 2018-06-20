@@ -65,6 +65,7 @@ import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.permissions.SectionSortCache;
+import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.CommentLinkProvider;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.ProjectCacheImpl;
@@ -111,7 +112,16 @@ public class BatchProgramModule extends FactoryModule {
     install(BatchUpdate.module());
     install(PatchListCacheImpl.module());
 
-    // Plugins are not loaded and we're just running through each change
+    // There is the concept of LifecycleModule, in Gerrit's own extension to Guice, which has these:
+    //  listener().to(SomeClassImplementingLifecycleListener.class);
+    // and the start() methods of each such listener are executed in the order they are declared.
+    // Makes sure that PluginLoader.start() is executed before the LuceneIndexModule.start() so that
+    // plugins get loaded and the respective Guice modules installed so that the on-line reindexing
+    // will happen with the proper classes (e.g. group backends, custom Prolog predicates) and the
+    // associated rules ready to be evaluated.
+    install(new PluginModule());
+
+    // We're just running through each change
     // once, so don't worry about cache removal.
     bind(new TypeLiteral<DynamicSet<CacheRemovalListener>>() {})
         .toInstance(DynamicSet.<CacheRemovalListener>emptySet());

@@ -16,6 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
@@ -33,30 +34,25 @@ import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Close specified SSH connections */
 @AdminHighPriorityCommand
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
-  name = "close-connection",
-  description = "Close the specified SSH connection",
-  runsAt = MASTER_OR_SLAVE
-)
+    name = "close-connection",
+    description = "Close the specified SSH connection",
+    runsAt = MASTER_OR_SLAVE)
 final class CloseConnection extends SshCommand {
-
-  private static final Logger log = LoggerFactory.getLogger(CloseConnection.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject private SshDaemon sshDaemon;
 
   @Argument(
-    index = 0,
-    multiValued = true,
-    required = true,
-    metaVar = "SESSION_ID",
-    usage = "List of SSH session IDs to be closed"
-  )
+      index = 0,
+      multiValued = true,
+      required = true,
+      metaVar = "SESSION_ID",
+      usage = "List of SSH session IDs to be closed")
   private final List<String> sessionIds = new ArrayList<>();
 
   @Option(name = "--wait", usage = "wait for connection to close before exiting")
@@ -84,7 +80,8 @@ final class CloseConnection extends SshCommand {
               future.await();
               stdout.println("closed connection " + sessionId);
             } catch (IOException e) {
-              log.warn("Wait for connection to close interrupted: " + e.getMessage());
+              logger.atWarning().log(
+                  "Wait for connection to close interrupted: %s", e.getMessage());
             }
           }
           break;

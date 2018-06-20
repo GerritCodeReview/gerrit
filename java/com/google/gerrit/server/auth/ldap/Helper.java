@@ -17,6 +17,7 @@ package com.google.gerrit.server.auth.ldap;
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.AccountException;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.account.AuthenticationFailedException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.util.ssl.BlindHostnameVerifier;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -56,12 +58,10 @@ import javax.security.auth.Subject;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 class Helper {
-  private static final Logger log = LoggerFactory.getLogger(Helper.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String LDAP_UUID = "ldap:";
   static final String STARTTLS_PROPERTY = Helper.class.getName() + ".startTls";
@@ -139,6 +139,7 @@ class Helper {
       SSLSocketFactory sslfactory = null;
       if (!sslVerify) {
         sslfactory = (SSLSocketFactory) BlindSSLSocketFactory.getDefault();
+        tls.setHostnameVerifier(BlindHostnameVerifier.getInstance());
       }
       tls.negotiate(sslfactory);
       ctx.addToEnvironment(STARTTLS_PROPERTY, tls);
@@ -153,12 +154,12 @@ class Helper {
         tls.close();
       }
     } catch (IOException | NamingException e) {
-      log.warn("Cannot close LDAP startTls handle", e);
+      logger.atWarning().withCause(e).log("Cannot close LDAP startTls handle");
     }
     try {
       ctx.close();
     } catch (NamingException e) {
-      log.warn("Cannot close LDAP handle", e);
+      logger.atWarning().withCause(e).log("Cannot close LDAP handle");
     }
   }
 
@@ -196,7 +197,7 @@ class Helper {
       Throwables.throwIfInstanceOf(e.getException(), IOException.class);
       Throwables.throwIfInstanceOf(e.getException(), NamingException.class);
       Throwables.throwIfInstanceOf(e.getException(), RuntimeException.class);
-      log.warn("Internal error", e.getException());
+      logger.atWarning().withCause(e.getException()).log("Internal error");
       return null;
     } finally {
       ctx.logout();
@@ -343,7 +344,7 @@ class Helper {
             }
           }
         } catch (NamingException e) {
-          log.warn("Could not find group {}", groupDN, e);
+          logger.atWarning().withCause(e).log("Could not find group %s", groupDN);
         }
         cachedParentsDNs = dns.build();
         parentGroups.put(groupDN, cachedParentsDNs);
@@ -474,11 +475,10 @@ class Helper {
       try {
         return LdapType.guessType(ctx);
       } catch (NamingException e) {
-        log.warn(
-            "Cannot discover type of LDAP server at {},"
+        logger.atWarning().withCause(e).log(
+            "Cannot discover type of LDAP server at %s,"
                 + " assuming the server is RFC 2307 compliant.",
-            server,
-            e);
+            server);
         return LdapType.RFC_2307;
       }
     }

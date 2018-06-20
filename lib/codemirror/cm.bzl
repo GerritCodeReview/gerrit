@@ -55,11 +55,14 @@ CM_THEMES = [
     "eclipse",
     "elegant",
     "erlang-dark",
+    "gruvbox-dark",
     "hopscotch",
     "icecoder",
+    "idea",
     "isotope",
     "lesser-dark",
     "liquibyte",
+    "lucario",
     "material",
     "mbo",
     "mdn-like",
@@ -75,6 +78,7 @@ CM_THEMES = [
     "rubyblue",
     "seti",
     "solarized",
+    "ssms",
     "the-matrix",
     "tomorrow-night-bright",
     "tomorrow-night-eighties",
@@ -214,7 +218,7 @@ CM_MODES = [
     "z80",
 ]
 
-CM_VERSION = "5.25.0"
+CM_VERSION = "5.37.0"
 
 TOP = "META-INF/resources/webjars/codemirror/%s" % CM_VERSION
 
@@ -231,8 +235,8 @@ DIFF_MATCH_PATCH_TOP = ("META-INF/resources/webjars/google-diff-match-patch/%s" 
 
 def pkg_cm():
   for archive, suffix, top, license in [
-      ('@codemirror_original//jar', '', TOP, LICENSE),
-      ('@codemirror_minified//jar', '_r', TOP_MINIFIED, LICENSE_MINIFIED)
+      ('@codemirror-original-gwt//jar', '', TOP, LICENSE),
+      ('@codemirror-minified-gwt//jar', '_r', TOP_MINIFIED, LICENSE_MINIFIED)
   ]:
     # Main JavaScript and addons
     genrule2(
@@ -306,13 +310,13 @@ def pkg_cm():
           "echo '/** @license' >>$@",
           "echo 'LICENSE-Apache2.0' >>$@",
           "echo '*/' >>$@",
-          'unzip -p $(location @diff_match_patch//jar) %s/diff_match_patch.js >>$@' % DIFF_MATCH_PATCH_TOP,
+          'unzip -p $(location @diff-match-patch//jar) %s/diff_match_patch.js >>$@' % DIFF_MATCH_PATCH_TOP,
           "echo ';' >> $@",
           'unzip -p $(location %s) %s/addon/merge/merge.js >>$@' % (archive, top)
         ]
       ),
       tools = [
-        '@diff_match_patch//jar',
+        '@diff-match-patch//jar',
         # dependency just for license tracking.
         ':diff-match-patch',
         archive,

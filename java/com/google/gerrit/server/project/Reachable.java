@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -32,8 +33,6 @@ import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Report whether a commit is reachable from a set of commits. This is used for checking if a user
@@ -41,7 +40,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class Reachable {
-  private static final Logger log = LoggerFactory.getLogger(Reachable.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
 
@@ -61,11 +60,8 @@ public class Reachable {
               .filter(refs, repo, RefFilterOptions.builder().setFilterTagsSeparately(true).build());
       return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
     } catch (IOException | PermissionBackendException e) {
-      log.error(
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), project),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Cannot verify permissions to commit object %s in repository %s", commit.name(), project);
       return false;
     }
   }
@@ -82,11 +78,8 @@ public class Reachable {
       }
       return fromRefs(project, repo, commit, refs);
     } catch (IOException e) {
-      log.error(
-          String.format(
-              "Cannot verify permissions to commit object %s in repository %s",
-              commit.name(), project),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Cannot verify permissions to commit object %s in repository %s", commit.name(), project);
       return false;
     }
   }

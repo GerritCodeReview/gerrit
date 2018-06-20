@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.LabelId;
@@ -47,11 +48,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MergedByPushOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(MergedByPushOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     MergedByPushOp create(
@@ -181,7 +180,8 @@ public class MergedByPushOp implements BatchUpdateOp {
                       cm.setPatchSet(patchSet, info);
                       cm.send();
                     } catch (Exception e) {
-                      log.error("Cannot send email for submitted patch set " + psId, e);
+                      logger.atSevere().withCause(e).log(
+                          "Cannot send email for submitted patch set %s", psId);
                     }
                   }
 

@@ -19,14 +19,16 @@
 from __future__ import print_function
 import sys
 
+
 def print_help():
-  for (n, v) in vars(sys.modules['__main__']).items():
-    if not n.startswith("__") and not n in ['help', 'reload'] \
-       and str(type(v)) != "<type 'javapackage'>"             \
-       and not str(v).startswith("<module"):
-       print("\"%s\" is \"%s\"" % (n, v))
-  print()
-  print("Welcome to the Gerrit Inspector")
-  print("Enter help() to see the above again, EOF to quit and stop Gerrit")
+    for (n, v) in vars(sys.modules['__main__']).items():
+        if not n.startswith("__") and n not in ['help', 'reload'] \
+           and str(type(v)) != "<type 'javapackage'>"             \
+           and not str(v).startswith("<module"):
+            print("\"%s\" is \"%s\"" % (n, v))
+    print()
+    print("Welcome to the Gerrit Inspector")
+    print("Enter help() to see the above again, EOF to quit and stop Gerrit")
+
 
 print_help()

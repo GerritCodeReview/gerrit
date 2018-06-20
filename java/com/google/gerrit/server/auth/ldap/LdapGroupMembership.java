@@ -65,7 +65,10 @@ class LdapGroupMembership implements GroupMembership {
       try {
         membership = new ListGroupMembership(membershipCache.get(id));
       } catch (ExecutionException e) {
-        LdapGroupBackend.log.warn(String.format("Cannot lookup membershipsOf %s in LDAP", id), e);
+        LdapGroupBackend.logger
+            .atWarning()
+            .withCause(e)
+            .log("Cannot lookup membershipsOf %s in LDAP", id);
         membership = GroupMembership.EMPTY;
       }
     }

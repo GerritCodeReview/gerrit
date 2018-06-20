@@ -115,19 +115,19 @@ public class ConflictsPredicate {
 
       ObjectId other = ObjectId.fromString(object.currentPatchSet().getRevision().get());
       ConflictKey conflictsKey =
-          new ConflictKey(
+          ConflictKey.create(
               changeDataCache.getTestAgainst(),
               other,
               str.type,
               projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
-      Boolean conflicts = args.conflictsCache.getIfPresent(conflictsKey);
-      if (conflicts != null) {
-        return conflicts;
+      Boolean maybeConflicts = args.conflictsCache.getIfPresent(conflictsKey);
+      if (maybeConflicts != null) {
+        return maybeConflicts;
       }
 
       try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
           CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        conflicts =
+        boolean conflicts =
             !args.submitDryRun.run(
                 str.type,
                 repo,

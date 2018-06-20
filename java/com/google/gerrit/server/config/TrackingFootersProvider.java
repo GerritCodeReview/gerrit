@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.TrackingId;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -26,18 +27,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.PatternSyntaxException;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Provides a list of all configured {@link TrackingFooter}s. */
 @Singleton
 public class TrackingFootersProvider implements Provider<TrackingFooters> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static String TRACKING_ID_TAG = "trackingid";
   private static String FOOTER_TAG = "footer";
   private static String SYSTEM_TAG = "system";
   private static String REGEX_TAG = "match";
   private final List<TrackingFooter> trackingFooters = new ArrayList<>();
-  private static final Logger log = LoggerFactory.getLogger(TrackingFootersProvider.class);
 
   @Inject
   TrackingFootersProvider(@GerritServerConfig Config cfg) {
@@ -50,36 +50,27 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
 
       if (footers.isEmpty()) {
         configValid = false;
-        log.error(
-            "Missing " + TRACKING_ID_TAG + "." + name + "." + FOOTER_TAG + " in gerrit.config");
+        logger.atSevere().log(
+            "Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, FOOTER_TAG);
       }
 
       String system = cfg.getString(TRACKING_ID_TAG, name, SYSTEM_TAG);
       if (system == null || system.isEmpty()) {
         configValid = false;
-        log.error(
-            "Missing " + TRACKING_ID_TAG + "." + name + "." + SYSTEM_TAG + " in gerrit.config");
+        logger.atSevere().log(
+            "Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, SYSTEM_TAG);
       } else if (system.length() > TrackingId.TRACKING_SYSTEM_MAX_CHAR) {
         configValid = false;
-        log.error(
-            "String too long \""
-                + system
-                + "\" in gerrit.config "
-                + TRACKING_ID_TAG
-                + "."
-                + name
-                + "."
-                + SYSTEM_TAG
-                + " (max "
-                + TrackingId.TRACKING_SYSTEM_MAX_CHAR
-                + " char)");
+        logger.atSevere().log(
+            "String too long \"%s\" in gerrit.config %s.%s.%s (max %d char)",
+            system, TRACKING_ID_TAG, name, SYSTEM_TAG, TrackingId.TRACKING_SYSTEM_MAX_CHAR);
       }
 
       String match = cfg.getString(TRACKING_ID_TAG, name, REGEX_TAG);
       if (match == null || match.isEmpty()) {
         configValid = false;
-        log.error(
-            "Missing " + TRACKING_ID_TAG + "." + name + "." + REGEX_TAG + " in gerrit.config");
+        logger.atSevere().log(
+            "Missing %s.%s.%s in gerrit.config", TRACKING_ID_TAG, name, REGEX_TAG);
       }
 
       if (configValid) {
@@ -88,17 +79,9 @@ public class TrackingFootersProvider implements Provider<TrackingFooters> {
             trackingFooters.add(new TrackingFooter(footer, match, system));
           }
         } catch (PatternSyntaxException e) {
-          log.error(
-              "Invalid pattern \""
-                  + match
-                  + "\" in gerrit.config "
-                  + TRACKING_ID_TAG
-                  + "."
-                  + name
-                  + "."
-                  + REGEX_TAG
-                  + ": "
-                  + e.getMessage());
+          logger.atSevere().log(
+              "Invalid pattern \"%s\" in gerrit.config %s.%s.%s: %s",
+              match, TRACKING_ID_TAG, name, REGEX_TAG, e.getMessage());
         }
       }
     }

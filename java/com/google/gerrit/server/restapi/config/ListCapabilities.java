@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.config;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -29,13 +30,12 @@ import com.google.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** List capabilities visible to the calling user. */
 @Singleton
 public class ListCapabilities implements RestReadView<ConfigResource> {
-  private static final Logger log = LoggerFactory.getLogger(ListCapabilities.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final Pattern PLUGIN_NAME_PATTERN = Pattern.compile("^[a-zA-Z0-9-]+$");
 
   private final PermissionBackend permissionBackend;
@@ -62,10 +62,9 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
     Map<String, CapabilityInfo> output = new HashMap<>();
     for (String pluginName : pluginCapabilities.plugins()) {
       if (!PLUGIN_NAME_PATTERN.matcher(pluginName).matches()) {
-        log.warn(
-            "Plugin name '{}' must match '{}' to use capabilities; rename the plugin",
-            pluginName,
-            PLUGIN_NAME_PATTERN.pattern());
+        logger.atWarning().log(
+            "Plugin name '%s' must match '%s' to use capabilities; rename the plugin",
+            pluginName, PLUGIN_NAME_PATTERN.pattern());
         continue;
       }
       for (Map.Entry<String, Provider<CapabilityDefinition>> entry :

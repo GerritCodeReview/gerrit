@@ -68,7 +68,6 @@ limitations under the License.
       }
       .topHeader th {
         background-color: var(--table-header-background-color);
-        font-size: var(--font-size-large);
         height: 3rem;
         position: -webkit-sticky;
         position: sticky;
@@ -140,12 +139,12 @@ limitations under the License.
       .truncatedProject {
         display: none;
       }
-      @media only screen and (max-width: 100em) {
+      @media only screen and (max-width: 150em) {
         .assignee,
         .branch,
         .owner {
           overflow: hidden;
-          max-width: 10rem;
+          max-width: 18rem;
           text-overflow: ellipsis;
         }
         .truncatedProject {
@@ -153,6 +152,13 @@ limitations under the License.
         }
         .fullProject {
           display: none;
+        }
+      }
+      @media only screen and (max-width: 100em) {
+        .assignee,
+        .branch,
+        .owner {
+          max-width: 10rem;
         }
       }
       @media only screen and (max-width: 50em) {

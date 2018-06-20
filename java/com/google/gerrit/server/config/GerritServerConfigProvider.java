@@ -16,6 +16,7 @@ package com.google.gerrit.server.config;
 
 import static java.util.stream.Collectors.joining;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.notedb.NotesMigration;
 import com.google.gerrit.server.securestore.SecureStore;
@@ -31,8 +32,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Provides {@link Config} annotated with {@link GerritServerConfig}.
@@ -44,7 +43,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class GerritServerConfigProvider implements Provider<Config> {
-  private static final Logger log = LoggerFactory.getLogger(GerritServerConfigProvider.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final SitePaths site;
   private final SecureStore secureStore;
@@ -78,7 +77,7 @@ public class GerritServerConfigProvider implements Provider<Config> {
   public GerritConfig loadConfig() {
     FileBasedConfig baseConfig = loadConfig(null, site.gerrit_config);
     if (!baseConfig.getFile().exists()) {
-      log.info("No " + site.gerrit_config.toAbsolutePath() + "; assuming defaults");
+      logger.atInfo().log("No %s; assuming defaults", site.gerrit_config.toAbsolutePath());
     }
 
     FileBasedConfig noteDbConfigOverBaseConfig = loadConfig(baseConfig, site.notedb_config);

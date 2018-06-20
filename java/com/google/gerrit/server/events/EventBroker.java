@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -37,13 +38,11 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Distributes Events to listeners if they are allowed to see them */
 @Singleton
 public class EventBroker implements EventDispatcher {
-  private static final Logger log = LoggerFactory.getLogger(EventBroker.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class Module extends LifecycleModule {
     @Override
@@ -203,7 +202,8 @@ public class EventBroker implements EventDispatcher {
                   .getChange();
           return isVisibleTo(change, user);
         } catch (NoSuchChangeException e) {
-          log.debug("Change {} cannot be found, falling back on ref visibility check", cid.id);
+          logger.atFine().log(
+              "Change %s cannot be found, falling back on ref visibility check", cid.id);
         }
       }
       return isVisibleTo(refEvent.getBranchNameKey(), user);

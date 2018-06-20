@@ -44,11 +44,10 @@ public class Rulec extends SiteProgram {
   private boolean quiet;
 
   @Argument(
-    index = 0,
-    multiValued = true,
-    metaVar = "PROJECT",
-    usage = "project to compile rules for"
-  )
+      index = 0,
+      multiValued = true,
+      metaVar = "PROJECT",
+      usage = "project to compile rules for")
   private List<String> projectNames = new ArrayList<>();
 
   private Injector dbInjector;

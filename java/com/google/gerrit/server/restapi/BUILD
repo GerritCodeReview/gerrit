@@ -29,9 +29,9 @@ java_library(
         "//lib/commons:codec",
         "//lib/commons:compress",
         "//lib/commons:lang",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/log:api",
     ],
 )

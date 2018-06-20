@@ -27,6 +27,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -66,8 +67,6 @@ import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility functions to manipulate patchset approvals.
@@ -82,7 +81,7 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class ApprovalsUtil {
-  private static final Logger log = LoggerFactory.getLogger(ApprovalsUtil.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final Ordering<PatchSetApproval> SORT_APPROVALS =
       Ordering.from(comparing(PatchSetApproval::getGranted));
@@ -271,11 +270,9 @@ public class ApprovalsUtil {
               .database(db)
               .test(ChangePermission.READ);
     } catch (IOException | PermissionBackendException e) {
-      log.warn(
-          String.format(
-              "Failed to check if account %d can see change %d",
-              accountId.get(), notes.getChangeId().get()),
-          e);
+      logger.atWarning().withCause(e).log(
+          "Failed to check if account %d can see change %d",
+          accountId.get(), notes.getChangeId().get());
       return false;
     }
   }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.init;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.pgm.init.BaseInit;
 import com.google.gerrit.pgm.init.PluginsDistribution;
 import java.nio.file.Path;
@@ -23,11 +24,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public final class SiteInitializer {
-  private static final Logger LOG = LoggerFactory.getLogger(SiteInitializer.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final String sitePath;
   private final String initPath;
@@ -49,7 +48,7 @@ public final class SiteInitializer {
     try {
       if (sitePath != null) {
         Path site = Paths.get(sitePath);
-        LOG.info("Initializing site at " + site.toRealPath().normalize());
+        logger.atInfo().log("Initializing site at %s", site.toRealPath().normalize());
         new BaseInit(site, false, true, pluginsDistribution, pluginsToInstall).run();
         return;
       }
@@ -60,7 +59,7 @@ public final class SiteInitializer {
           site = Paths.get(initPath);
         }
         if (site != null) {
-          LOG.info("Initializing site at " + site.toRealPath().normalize());
+          logger.atInfo().log("Initializing site at %s", site.toRealPath().normalize());
           new BaseInit(
                   site,
                   new ReviewDbDataSourceProvider(),
@@ -72,7 +71,7 @@ public final class SiteInitializer {
         }
       }
     } catch (Exception e) {
-      LOG.error("Site init failed", e);
+      logger.atSevere().withCause(e).log("Site init failed");
       throw new RuntimeException(e);
     }
   }

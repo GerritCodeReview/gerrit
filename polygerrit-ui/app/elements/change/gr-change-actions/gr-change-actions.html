@@ -25,6 +25,7 @@ limitations under the License.
 <link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
+<link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
@@ -61,26 +62,39 @@ limitations under the License.
         margin: 1em;
         text-align: center;
       }
+      iron-icon {
+        color: inherit;
+        height: 1.2rem;
+        margin-right: .2rem;
+        width: 1.2rem;
+      }
+      #moreActions iron-icon {
+        margin: 0;
+      }
+      #moreMessage,
+      .hidden {
+        display: none;
+      }
       @media screen and (max-width: 50em) {
-        #mainContent,
-        section,
-        gr-button,
-        gr-dropdown {
-          display: block;
-          flex: 1;
+        #mainContent {
+          flex-wrap: wrap;
+        }
+        gr-button {
+          --gr-button: {
+            padding: .5em;
+            white-space: nowrap;
+          }
         }
         gr-button,
         gr-dropdown {
-          /* px because don't have the same font size */
-          margin: 0 0 6px 0;
+          margin: 0;
         }
         #actionLoadingMessage {
-          display: block;
           margin: .5em;
           text-align: center;
         }
-        #mainContent.mobileOverlayOpened {
-          display: none;
+        #moreMessage {
+          display: inline;
         }
       }
     </style>
@@ -96,14 +110,17 @@ limitations under the License.
               items="[[_topLevelPrimaryActions]]"
               as="action">
             <gr-button
+                link
                 title$="[[action.title]]"
                 has-tooltip="[[_computeHasTooltip(action.title)]]"
-                primary$="[[action.__primary]]"
                 data-action-key$="[[action.__key]]"
                 data-action-type$="[[action.__type]]"
                 data-label$="[[action.label]]"
                 disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-                on-tap="_handleActionTap">[[action.label]]</gr-button>
+                on-tap="_handleActionTap">
+                <iron-icon class$="[[_computeHasIcon(action)]]" icon$="gr-icons:[[action.icon]]"></iron-icon>
+              [[action.label]]
+            </gr-button>
           </template>
         </section>
         <section id="secondaryActions"
@@ -113,27 +130,33 @@ limitations under the License.
               items="[[_topLevelSecondaryActions]]"
               as="action">
             <gr-button
+                link
                 title$="[[action.title]]"
                 has-tooltip="[[_computeHasTooltip(action.title)]]"
-                primary$="[[action.__primary]]"
                 data-action-key$="[[action.__key]]"
                 data-action-type$="[[action.__type]]"
                 data-label$="[[action.label]]"
                 disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-                on-tap="_handleActionTap">[[action.label]]</gr-button>
+                on-tap="_handleActionTap">
+              <iron-icon class$="[[_computeHasIcon(action)]]" icon$="gr-icons:[[action.icon]]"></iron-icon>
+              [[action.label]]
+            </gr-button>
           </template>
         </section>
       <gr-button hidden$="[[!_loading]]" disabled>Loading actions...</gr-button>
       <gr-dropdown
           id="moreActions"
+          link
           tabindex="0"
-          down-arrow
           vertical-offset="32"
           horizontal-align="right"
           on-tap-item="_handleOveflowItemTap"
           hidden$="[[_shouldHideActions(_menuActions.*, _loading)]]"
           disabled-ids="[[_disabledMenuActions]]"
-          items="[[_menuActions]]">More</gr-dropdown>
+          items="[[_menuActions]]">
+          <iron-icon icon="gr-icons:more-vert"></iron-icon>
+          <span id="moreMessage">More</span>
+        </gr-dropdown>
     </div>
     <gr-overlay id="overlay" with-backdrop>
       <gr-confirm-rebase-dialog id="confirmRebase"

@@ -25,6 +25,10 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.CacheSerializer;
+import com.google.gerrit.server.cache.ProtoCacheSerializers;
+import com.google.gerrit.server.cache.ProtoCacheSerializers.ObjectIdConverter;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesKeyProto;
 import com.google.gerrit.server.notedb.AbstractChangeNotes.Args;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.inject.Inject;
@@ -49,20 +53,53 @@ public class ChangeNotesCache {
       @Override
       protected void configure() {
         bind(ChangeNotesCache.class);
-        cache(CACHE_NAME, Key.class, ChangeNotesState.class)
+        persist(CACHE_NAME, Key.class, ChangeNotesState.class)
             .weigher(Weigher.class)
-            .maximumWeight(10 << 20);
+            .maximumWeight(10 << 20)
+            .diskLimit(-1)
+            .version(1)
+            .keySerializer(Key.Serializer.INSTANCE)
+            .valueSerializer(ChangeNotesState.Serializer.INSTANCE);
       }
     };
   }
 
   @AutoValue
   public abstract static class Key {
+    static Key create(Project.NameKey project, Change.Id changeId, ObjectId id) {
+      return new AutoValue_ChangeNotesCache_Key(project, changeId, id.copy());
+    }
+
     abstract Project.NameKey project();
 
     abstract Change.Id changeId();
 
     abstract ObjectId id();
+
+    @VisibleForTesting
+    static enum Serializer implements CacheSerializer<Key> {
+      INSTANCE;
+
+      @Override
+      public byte[] serialize(Key object) {
+        return ProtoCacheSerializers.toByteArray(
+            ChangeNotesKeyProto.newBuilder()
+                .setProject(object.project().get())
+                .setChangeId(object.changeId().get())
+                .setId(ObjectIdConverter.create().toByteString(object.id()))
+                .build());
+      }
+
+      @Override
+      public Key deserialize(byte[] in) {
+        ChangeNotesKeyProto proto =
+            ProtoCacheSerializers.parseUnchecked(ChangeNotesKeyProto.parser(), in);
+        return Key.create(
+            new Project.NameKey(proto.getProject()),
+            new Change.Id(proto.getChangeId()),
+            ObjectIdConverter.create().fromByteString(proto.getId()));
+      }
+    }
   }
 
   public static class Weigher implements com.google.common.cache.Weigher<Key, ChangeNotesState> {
@@ -134,7 +171,7 @@ public class ChangeNotesCache {
           + T // readOnlyUntil
           + 1 // isPrivate
           + 1 // workInProgress
-          + 1; // hasReviewStarted
+          + 1; // reviewStarted
     }
 
     private static int ptr(Object o, int size) {
@@ -309,7 +346,13 @@ public class ChangeNotesCache {
     @Override
     public ChangeNotesState call() throws ConfigInvalidException, IOException {
       ChangeNotesParser parser =
-          new ChangeNotesParser(key.changeId(), key.id(), rw, args.noteUtil, args.metrics);
+          new ChangeNotesParser(
+              key.changeId(),
+              key.id(),
+              rw,
+              args.changeNoteJson,
+              args.legacyChangeNoteRead,
+              args.metrics);
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.
@@ -330,7 +373,7 @@ public class ChangeNotesCache {
   Value get(Project.NameKey project, Change.Id changeId, ObjectId metaId, ChangeNotesRevWalk rw)
       throws IOException {
     try {
-      Key key = new AutoValue_ChangeNotesCache_Key(project, changeId, metaId.copy());
+      Key key = Key.create(project, changeId, metaId);
       Loader loader = new Loader(key, rw);
       ChangeNotesState s = cache.get(key, loader);
       return new AutoValue_ChangeNotesCache_Value(s, loader.revisionNoteMap);

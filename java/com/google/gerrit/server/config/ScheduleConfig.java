@@ -20,6 +20,7 @@ import static java.time.ZoneId.systemDefault;
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -32,8 +33,6 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class reads a schedule for running a periodic background job from a Git config.
@@ -101,7 +100,7 @@ import org.slf4j.LoggerFactory;
  */
 @AutoValue
 public abstract class ScheduleConfig {
-  private static final Logger log = LoggerFactory.getLogger(ScheduleConfig.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @VisibleForTesting static final String KEY_INTERVAL = "interval";
   @VisibleForTesting static final String KEY_STARTTIME = "startTime";
@@ -157,28 +156,26 @@ public abstract class ScheduleConfig {
   private boolean isInvalidOrMissing(long interval, long initialDelay) {
     String key = section() + (subsection() != null ? "." + subsection() : "");
     if (interval == MISSING_CONFIG && initialDelay == MISSING_CONFIG) {
-      log.info("No schedule configuration for \"{}\".", key);
+      logger.atInfo().log("No schedule configuration for \"%s\".", key);
       return true;
     }
 
     if (interval == MISSING_CONFIG) {
-      log.error(
-          "Incomplete schedule configuration for \"{}\" is ignored. Missing value for \"{}\".",
-          key,
-          key + "." + keyInterval());
+      logger.atSevere().log(
+          "Incomplete schedule configuration for \"%s\" is ignored. Missing value for \"%s\".",
+          key, key + "." + keyInterval());
       return true;
     }
 
     if (initialDelay == MISSING_CONFIG) {
-      log.error(
-          "Incomplete schedule configuration for \"{}\" is ignored. Missing value for \"{}\".",
-          key,
-          key + "." + keyStartTime());
+      logger.atSevere().log(
+          "Incomplete schedule configuration for \"%s\" is ignored. Missing value for \"%s\".",
+          key, key + "." + keyStartTime());
       return true;
     }
 
     if (interval <= 0 || initialDelay < 0) {
-      log.error("Invalid schedule configuration for \"{}\" is ignored. ", key);
+      logger.atSevere().log("Invalid schedule configuration for \"%s\" is ignored. ", key);
       return true;
     }
 

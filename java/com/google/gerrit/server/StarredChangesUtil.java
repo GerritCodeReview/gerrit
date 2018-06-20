@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
@@ -70,11 +71,11 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class StarredChangesUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @AutoValue
   public abstract static class StarField {
     private static final String SEPARATOR = ":";
@@ -153,8 +154,6 @@ public class StarredChangesUtil {
               label1, label2));
     }
   }
-
-  private static final Logger log = LoggerFactory.getLogger(StarredChangesUtil.class);
 
   public static final String DEFAULT_LABEL = "star";
   public static final String IGNORE_LABEL = "ignore";
@@ -305,11 +304,9 @@ public class StarredChangesUtil {
       Ref ref = repo.exactRef(RefNames.refsStarredChanges(changeId, accountId));
       return ref != null ? ref.getObjectId() : ObjectId.zeroId();
     } catch (IOException e) {
-      log.error(
-          String.format(
-              "Getting star object ID for account %d on change %d failed",
-              accountId.get(), changeId.get()),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Getting star object ID for account %d on change %d failed",
+          accountId.get(), changeId.get());
       return ObjectId.zeroId();
     }
   }
@@ -479,6 +476,11 @@ public class StarredChangesUtil {
 
   private void deleteRef(Repository repo, String refName, ObjectId oldObjectId)
       throws IOException, OrmException {
+    if (ObjectId.zeroId().equals(oldObjectId)) {
+      // ref doesn't exist
+      return;
+    }
+
     RefUpdate u = repo.updateRef(refName);
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(oldObjectId);

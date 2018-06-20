@@ -70,11 +70,13 @@
 
   const TIMER = {
     CHANGE_DISPLAYED: 'ChangeDisplayed',
+    CHANGE_LOAD_FULL: 'ChangeFullyLoaded',
     DASHBOARD_DISPLAYED: 'DashboardDisplayed',
     DIFF_VIEW_DISPLAYED: 'DiffViewDisplayed',
     FILE_LIST_DISPLAYED: 'FileListDisplayed',
     PLUGINS_LOADED: 'PluginsLoaded',
     STARTUP_CHANGE_DISPLAYED: 'StartupChangeDisplayed',
+    STARTUP_CHANGE_LOAD_FULL: 'StartupChangeFullyLoaded',
     STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
     STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
     STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
@@ -84,6 +86,7 @@
   const STARTUP_TIMERS = {};
   STARTUP_TIMERS[TIMER.PLUGINS_LOADED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_CHANGE_LOAD_FULL] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
@@ -148,8 +151,13 @@
       return window.performance.now();
     },
 
+    _arePluginsLoaded() {
+      return this._baselines &&
+        !this._baselines.hasOwnProperty(TIMER.PLUGINS_LOADED);
+    },
+
     reporter(...args) {
-      const report = (Gerrit._arePluginsLoaded() && !pending.length) ?
+      const report = (this._arePluginsLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
       report.apply(this, args);
     },
@@ -174,7 +182,7 @@
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       }
-      if (Gerrit._arePluginsLoaded()) {
+      if (this._arePluginsLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
             this.reporter(...args);
@@ -225,6 +233,7 @@
         delete this._baselines[prop];
       }
       this.time(TIMER.CHANGE_DISPLAYED);
+      this.time(TIMER.CHANGE_LOAD_FULL);
       this.time(TIMER.DASHBOARD_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
       this.time(TIMER.FILE_LIST_DISPLAYED);
@@ -248,6 +257,14 @@
         this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED);
       } else {
         this.timeEnd(TIMER.CHANGE_DISPLAYED);
+      }
+    },
+
+    changeFullyLoaded() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_LOAD_FULL)) {
+        this.timeEnd(TIMER.STARTUP_CHANGE_LOAD_FULL);
+      } else {
+        this.timeEnd(TIMER.CHANGE_LOAD_FULL);
       }
     },
 
@@ -293,6 +310,26 @@
       const time = Math.round(this.now() - baseTime);
       this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
       delete this._baselines[name];
+    },
+
+    /**
+     * Reports just line timeEnd, but additionally reports an average given a
+     * denominator and a separate reporiting name for the average.
+     * @param {string} name Timing name.
+     * @param {string} averageName Average timing name.
+     * @param {number} denominator Number by which to divide the total to
+     *     compute the average.
+     */
+    timeEndWithAverage(name, averageName, denominator) {
+      if (!this._baselines.hasOwnProperty(name)) { return; }
+      const baseTime = this._baselines[name];
+      this.timeEnd(name);
+
+      // Guard against division by zero.
+      if (!denominator) { return; }
+      const time = Math.round(this.now() - baseTime);
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY, averageName,
+          Math.round(time / denominator));
     },
 
     reportInteraction(eventName, opt_msg) {

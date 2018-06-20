@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -38,12 +39,10 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Utility methods related to rebasing changes. */
 public class RebaseUtil {
-  private static final Logger log = LoggerFactory.getLogger(RebaseUtil.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
@@ -69,10 +68,8 @@ public class RebaseUtil {
     } catch (RestApiException e) {
       return false;
     } catch (OrmException | IOException e) {
-      log.warn(
-          String.format(
-              "Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest),
-          e);
+      logger.atWarning().withCause(e).log(
+          "Error checking if patch set %s on %s can be rebased", patchSet.getId(), dest);
       return false;
     }
   }

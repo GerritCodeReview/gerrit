@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -58,11 +59,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PostReviewersOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(PostReviewersOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     PostReviewersOp create(
@@ -262,7 +261,8 @@ public class PostReviewersOp implements BatchUpdateOp {
       cm.addExtraCCByEmail(copiedByEmail);
       cm.send();
     } catch (Exception err) {
-      log.error("Cannot send email to new reviewers of change " + change.getId(), err);
+      logger.atSevere().withCause(err).log(
+          "Cannot send email to new reviewers of change %s", change.getId());
     }
   }
 

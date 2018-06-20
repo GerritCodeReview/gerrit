@@ -5,7 +5,7 @@ load("//lib/codemirror:cm.bzl", "pkg_cm")
 java_library(
     name = "diff-match-patch",
     data = ["//lib:LICENSE-Apache2.0"],
-    runtime_deps = ["@diff_match_patch//jar"],
+    runtime_deps = ["@diff-match-patch//jar"],
 )
 
 pkg_cm()

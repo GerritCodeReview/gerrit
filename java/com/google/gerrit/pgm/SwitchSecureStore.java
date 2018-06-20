@@ -19,6 +19,7 @@ import static com.google.gerrit.server.schema.DataSourceProvider.Context.SINGLE_
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -40,10 +41,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SwitchSecureStore extends SiteProgram {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static String getSecureStoreClassFromGerritConfig(SitePaths sitePaths) {
     FileBasedConfig cfg = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
     try {
@@ -54,13 +55,10 @@ public class SwitchSecureStore extends SiteProgram {
     return cfg.getString("gerrit", null, "secureStoreClass");
   }
 
-  private static final Logger log = LoggerFactory.getLogger(SwitchSecureStore.class);
-
   @Option(
-    name = "--new-secure-store-lib",
-    usage = "Path to new SecureStore implementation",
-    required = true
-  )
+      name = "--new-secure-store-lib",
+      usage = "Path to new SecureStore implementation",
+      required = true)
   private String newSecureStoreLib;
 
   @Override
@@ -68,7 +66,7 @@ public class SwitchSecureStore extends SiteProgram {
     SitePaths sitePaths = new SitePaths(getSitePath());
     Path newSecureStorePath = Paths.get(newSecureStoreLib);
     if (!Files.exists(newSecureStorePath)) {
-      log.error(String.format("File %s doesn't exist", newSecureStorePath.toAbsolutePath()));
+      logger.atSevere().log("File %s doesn't exist", newSecureStorePath.toAbsolutePath());
       return -1;
     }
 
@@ -76,7 +74,7 @@ public class SwitchSecureStore extends SiteProgram {
     String currentSecureStoreName = getCurrentSecureStoreClassName(sitePaths);
 
     if (currentSecureStoreName.equals(newSecureStore)) {
-      log.error(
+      logger.atSevere().log(
           "Old and new SecureStore implementation names "
               + "are the same. Migration will not work");
       return -1;
@@ -85,10 +83,9 @@ public class SwitchSecureStore extends SiteProgram {
     IoUtil.loadJARs(newSecureStorePath);
     SiteLibraryLoaderUtil.loadSiteLib(sitePaths.lib_dir);
 
-    log.info(
-        "Current secureStoreClass property ({}) will be replaced with {}",
-        currentSecureStoreName,
-        newSecureStore);
+    logger.atInfo().log(
+        "Current secureStoreClass property (%s) will be replaced with %s",
+        currentSecureStoreName, newSecureStore);
     Injector dbInjector = createDbInjector(SINGLE_USER);
     SecureStore currentStore = getSecureStore(currentSecureStoreName, dbInjector);
     SecureStore newStore = getSecureStore(newSecureStore, dbInjector);
@@ -104,7 +101,7 @@ public class SwitchSecureStore extends SiteProgram {
   }
 
   private void migrateProperties(SecureStore currentStore, SecureStore newStore) {
-    log.info("Migrate entries");
+    logger.atInfo().log("Migrate entries");
     for (EntryKey key : currentStore.list()) {
       String[] value = currentStore.getList(key.section, key.subsection, key.name);
       if (value != null) {
@@ -123,26 +120,29 @@ public class SwitchSecureStore extends SiteProgram {
   private void removeOldLib(SitePaths sitePaths, String currentSecureStoreName) throws IOException {
     Path oldSecureStore = findJarWithSecureStore(sitePaths, currentSecureStoreName);
     if (oldSecureStore != null) {
-      log.info("Removing old SecureStore ({}) from lib/ directory", oldSecureStore.getFileName());
+      logger.atInfo().log(
+          "Removing old SecureStore (%s) from lib/ directory", oldSecureStore.getFileName());
       try {
         Files.delete(oldSecureStore);
       } catch (IOException e) {
-        log.error("Cannot remove {}", oldSecureStore.toAbsolutePath(), e);
+        logger.atSevere().withCause(e).log("Cannot remove %s", oldSecureStore.toAbsolutePath());
       }
     } else {
-      log.info(
-          "Cannot find jar with old SecureStore ({}) in lib/ directory", currentSecureStoreName);
+      logger.atInfo().log(
+          "Cannot find jar with old SecureStore (%s) in lib/ directory", currentSecureStoreName);
     }
   }
 
   private void copyNewLib(SitePaths sitePaths, Path newSecureStorePath) throws IOException {
-    log.info("Copy new SecureStore ({}) into lib/ directory", newSecureStorePath.getFileName());
+    logger.atInfo().log(
+        "Copy new SecureStore (%s) into lib/ directory", newSecureStorePath.getFileName());
     Files.copy(newSecureStorePath, sitePaths.lib_dir.resolve(newSecureStorePath.getFileName()));
   }
 
   private void updateGerritConfig(SitePaths sitePaths, String newSecureStore)
       throws IOException, ConfigInvalidException {
-    log.info("Set gerrit.secureStoreClass property of gerrit.config to {}", newSecureStore);
+    logger.atInfo().log(
+        "Set gerrit.secureStoreClass property of gerrit.config to %s", newSecureStore);
     FileBasedConfig config = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
     config.load();
     config.setString("gerrit", null, "secureStoreClass", newSecureStore);
@@ -198,7 +198,7 @@ public class SwitchSecureStore extends SiteProgram {
           return jar;
         }
       } catch (IOException e) {
-        log.error(e.getMessage(), e);
+        logger.atSevere().withCause(e).log(e.getMessage());
       }
     }
     return null;

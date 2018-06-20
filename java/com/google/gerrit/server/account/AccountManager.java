@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
@@ -56,13 +57,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Tracks authentication related details for user accounts. */
 @Singleton
 public class AccountManager {
-  private static final Logger log = LoggerFactory.getLogger(AccountManager.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Sequences sequences;
   private final Accounts accounts;
@@ -144,24 +143,23 @@ public class AccountManager {
             // An inconsistency is detected in the database, having a record for scheme "username:"
             // but no record for scheme "gerrit:". Try to recover by linking
             // "gerrit:" identity to the existing account.
-            log.warn(
-                "User {} already has an account; link new identity to the existing account.",
+            logger.atWarning().log(
+                "User %s already has an account; link new identity to the existing account.",
                 who.getUserName());
             return link(existingId.get().accountId(), who);
           }
         }
         // New account, automatically create and return.
-        log.debug("External ID not found. Attempting to create new account.");
+        logger.atFine().log("External ID not found. Attempting to create new account.");
         return create(who);
       }
 
       ExternalId extId = optionalExtId.get();
       Optional<AccountState> accountState = byIdCache.get(extId.accountId());
       if (!accountState.isPresent()) {
-        log.error(
-            "Authentication with external ID {} failed. Account {} doesn't exist.",
-            extId.key().get(),
-            extId.accountId().get());
+        logger.atSevere().log(
+            "Authentication with external ID %s failed. Account %s doesn't exist.",
+            extId.key().get(), extId.accountId().get());
         throw new AccountException("Authentication error, account not found");
       }
 
@@ -195,12 +193,11 @@ public class AccountManager {
       }
       setInactiveFlag.deactivate(extId.get().accountId());
     } catch (Exception e) {
-      log.error(
-          "Unable to deactivate account "
-              + authRequest
-                  .getUserName()
-                  .orElse(" for external ID key " + authRequest.getExternalIdKey().get()),
-          e);
+      logger.atSevere().withCause(e).log(
+          "Unable to deactivate account %s",
+          authRequest
+              .getUserName()
+              .orElse(" for external ID key " + authRequest.getExternalIdKey().get()));
     }
   }
 
@@ -261,12 +258,11 @@ public class AccountManager {
         && who.getUserName().isPresent()
         && !who.getUserName().equals(user.getUserName())) {
       if (user.getUserName().isPresent()) {
-        log.warn(
-            "Not changing already set username {} to {}",
-            user.getUserName().get(),
-            who.getUserName().get());
+        logger.atWarning().log(
+            "Not changing already set username %s to %s",
+            user.getUserName().get(), who.getUserName().get());
       } else {
-        log.warn("Not setting username to {}", who.getUserName().get());
+        logger.atWarning().log("Not setting username to %s", who.getUserName().get());
       }
     }
 
@@ -285,11 +281,11 @@ public class AccountManager {
   private AuthResult create(AuthRequest who)
       throws OrmException, AccountException, IOException, ConfigInvalidException {
     Account.Id newId = new Account.Id(sequences.nextAccountId());
-    log.debug("Assigning new Id {} to account", newId);
+    logger.atFine().log("Assigning new Id %s to account", newId);
 
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
-    log.debug("Created external Id: {}", extId);
+    logger.atFine().log("Created external Id: %s", extId);
     checkEmailNotUsed(extId);
     ExternalId userNameExtId =
         who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
@@ -376,9 +372,9 @@ public class AccountManager {
       return;
     }
 
-    log.warn(
-        "Email {} is already assigned to account {};"
-            + " cannot create external ID {} with the same email for account {}.",
+    logger.atWarning().log(
+        "Email %s is already assigned to account %s;"
+            + " cannot create external ID %s with the same email for account %s.",
         email,
         existingExtIdsWithEmail.iterator().next().accountId().get(),
         extIdToBeCreated.key().get(),
@@ -414,7 +410,7 @@ public class AccountManager {
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, OrmException, IOException, ConfigInvalidException {
     Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
-    log.debug("Link another authentication identity to an existing account");
+    logger.atFine().log("Link another authentication identity to an existing account");
     if (optionalExtId.isPresent()) {
       ExternalId extId = optionalExtId.get();
       if (!extId.accountId().equals(to)) {
@@ -423,7 +419,7 @@ public class AccountManager {
       }
       update(who, extId);
     } else {
-      log.debug("Linking new external ID to the existing account");
+      logger.atFine().log("Linking new external ID to the existing account");
       ExternalId newExtId =
           ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress());
       checkEmailNotUsed(newExtId);

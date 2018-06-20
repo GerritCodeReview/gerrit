@@ -20,7 +20,6 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
-	"github.com/robfig/soy"
 	"io"
 	"io/ioutil"
 	"log"
@@ -29,6 +28,8 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
+
+	"github.com/robfig/soy"
 )
 
 var (
@@ -80,13 +81,6 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleRESTProxy(w http.ResponseWriter, r *http.Request) {
-	if strings.HasSuffix(r.URL.Path, ".html") {
-		w.Header().Set("Content-Type", "text/html")
-	} else if strings.HasSuffix(r.URL.Path, ".css") {
-		w.Header().Set("Content-Type", "text/css")
-	} else {
-		w.Header().Set("Content-Type", "application/json")
-	}
 	req := &http.Request{
 		Method: "GET",
 		URL: &url.URL{
@@ -102,6 +96,13 @@ func handleRESTProxy(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer res.Body.Close()
+	for name, values := range res.Header {
+		for _, value := range values {
+			if name != "Content-Length" {
+				w.Header().Add(name, value)
+			}
+		}
+	}
 	w.WriteHeader(res.StatusCode)
 	if _, err := io.Copy(w, patchResponse(r, res)); err != nil {
 		log.Println("Error copying response to ResponseWriter:", err)

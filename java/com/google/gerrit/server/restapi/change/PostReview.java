@@ -85,6 +85,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -161,6 +162,7 @@ public class PostReview
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CommentsUtil commentsUtil;
+  private final PublishCommentUtil publishCommentUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
   private final AccountsCollection accounts;
@@ -183,6 +185,7 @@ public class PostReview
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CommentsUtil commentsUtil,
+      PublishCommentUtil publishCommentUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache,
       AccountsCollection accounts,
@@ -199,6 +202,7 @@ public class PostReview
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
     this.commentsUtil = commentsUtil;
+    this.publishCommentUtil = publishCommentUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
     this.approvalsUtil = approvalsUtil;
@@ -568,7 +572,7 @@ public class PostReview
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
-      PatchSet.Id patchSetId = revision.getChange().currentPatchSetId();
+      PatchSet.Id patchSetId = revision.getPatchSet().getId();
       ensurePathRefersToAvailableOrMagicFile(path, revisionFilePaths, patchSetId);
 
       List<T> comments = entry.getValue();
@@ -948,7 +952,7 @@ public class PostReview
       switch (in.drafts) {
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
-          commentsUtil.publish(ctx, psId, drafts.values(), in.tag);
+          publishCommentUtil.publish(ctx, psId, drafts.values(), in.tag);
           comments.addAll(drafts.values());
           break;
         case KEEP:

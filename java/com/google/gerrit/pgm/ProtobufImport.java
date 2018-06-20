@@ -65,12 +65,11 @@ import org.kohsuke.args4j.Option;
  */
 public class ProtobufImport extends SiteProgram {
   @Option(
-    name = "--file",
-    aliases = {"-f"},
-    required = true,
-    metaVar = "FILE",
-    usage = "File to import from"
-  )
+      name = "--file",
+      aliases = {"-f"},
+      required = true,
+      metaVar = "FILE",
+      usage = "File to import from")
   private File file;
 
   private final LifecycleManager manager = new LifecycleManager();

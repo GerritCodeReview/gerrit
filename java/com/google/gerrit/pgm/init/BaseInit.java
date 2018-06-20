@@ -21,6 +21,7 @@ import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.metrics.DisabledMetricMaker;
@@ -75,12 +76,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import javax.sql.DataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /** Initialize a new Gerrit installation. */
 public class BaseInit extends SiteProgram {
-  private static final Logger log = LoggerFactory.getLogger(BaseInit.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final boolean standalone;
   private final boolean initDb;
@@ -205,7 +204,8 @@ public class BaseInit extends SiteProgram {
       }
       return names;
     } catch (FileNotFoundException e) {
-      log.warn("Couldn't find distribution archive location. No plugin will be installed");
+      logger.atWarning().log(
+          "Couldn't find distribution archive location. No plugin will be installed");
       return null;
     }
   }

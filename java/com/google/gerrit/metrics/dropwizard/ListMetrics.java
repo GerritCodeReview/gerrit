@@ -37,11 +37,10 @@ class ListMetrics implements RestReadView<ConfigResource> {
   boolean dataOnly;
 
   @Option(
-    name = "--prefix",
-    aliases = {"-p"},
-    metaVar = "PREFIX",
-    usage = "match metric by exact match or prefix"
-  )
+      name = "--prefix",
+      aliases = {"-p"},
+      metaVar = "PREFIX",
+      usage = "match metric by exact match or prefix")
   List<String> query = new ArrayList<>();
 
   @Inject

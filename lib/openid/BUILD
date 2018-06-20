@@ -2,7 +2,7 @@ java_library(
     name = "consumer",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@openid_consumer//jar"],
+    exports = ["@openid-consumer//jar"],
     runtime_deps = [
         ":nekohtml",
         ":xerces",

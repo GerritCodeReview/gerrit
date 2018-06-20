@@ -27,9 +27,9 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 
 public class RobotCommentsRevisionNote extends RevisionNote<RobotComment> {
-  private final ChangeNoteUtil noteUtil;
+  private final ChangeNoteJson noteUtil;
 
-  RobotCommentsRevisionNote(ChangeNoteUtil noteUtil, ObjectReader reader, ObjectId noteId) {
+  RobotCommentsRevisionNote(ChangeNoteJson noteUtil, ObjectReader reader, ObjectId noteId) {
     super(reader, noteId);
     this.noteUtil = noteUtil;
   }

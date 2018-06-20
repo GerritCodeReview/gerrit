@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
@@ -57,10 +58,10 @@ import java.util.concurrent.Callable;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class PatchScriptFactory implements Callable<PatchScript> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     PatchScriptFactory create(
         ChangeNotes notes,
@@ -76,8 +77,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs);
   }
-
-  private static final Logger log = LoggerFactory.getLogger(PatchScriptFactory.class);
 
   private final GitRepositoryManager repoManager;
   private final PatchSetUtil psUtil;
@@ -232,16 +231,16 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (IOException e) {
-        log.error("File content unavailable", e);
+        logger.atSevere().withCause(e).log("File content unavailable");
         throw new NoSuchChangeException(changeId, e);
       } catch (org.eclipse.jgit.errors.LargeObjectException err) {
         throw new LargeObjectException("File content is too large", err);
       }
     } catch (RepositoryNotFoundException e) {
-      log.error("Repository " + notes.getProjectName() + " not found", e);
+      logger.atSevere().withCause(e).log("Repository %s not found", notes.getProjectName());
       throw new NoSuchChangeException(changeId, e);
     } catch (IOException e) {
-      log.error("Cannot open repository " + notes.getProjectName(), e);
+      logger.atSevere().withCause(e).log("Cannot open repository %s", notes.getProjectName());
       throw new NoSuchChangeException(changeId, e);
     }
   }
@@ -277,7 +276,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     try {
       return ObjectId.fromString(ps.getRevision().get());
     } catch (IllegalArgumentException e) {
-      log.error("Patch set " + ps.getId() + " has invalid revision");
+      logger.atSevere().log("Patch set %s has invalid revision", ps.getId());
       throw new NoSuchChangeException(changeId, e);
     }
   }

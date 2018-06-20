@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -35,11 +36,9 @@ import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SetAssigneeOp implements BatchUpdateOp {
-  private static final Logger log = LoggerFactory.getLogger(SetAssigneeOp.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     SetAssigneeOp create(IdentifiedUser assignee);
@@ -127,7 +126,8 @@ public class SetAssigneeOp implements BatchUpdateOp {
       cm.setFrom(user.get().getAccountId());
       cm.send();
     } catch (Exception err) {
-      log.error("Cannot send email to new assignee of change " + change.getId(), err);
+      logger.atSevere().withCause(err).log(
+          "Cannot send email to new assignee of change %s", change.getId());
     }
     assigneeChanged.fire(
         change, ctx.getAccount(), oldAssignee != null ? oldAssignee.state() : null, ctx.getWhen());

@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.ProjectUtil;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -86,16 +87,14 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 public class CreateProject implements RestModifyView<TopLevelResource, ProjectInput> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     CreateProject create(String name);
   }
-
-  private static final Logger log = LoggerFactory.getLogger(CreateProject.class);
 
   private final Provider<ProjectsCollection> projectsCollection;
   private final Provider<GroupsCollection> groupsCollection;
@@ -275,7 +274,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       throw new BadRequestException("invalid project name: " + nameKey);
     } catch (ConfigInvalidException e) {
       String msg = "Cannot create " + nameKey;
-      log.error(msg, e);
+      logger.atSevere().withCause(e).log(msg);
       throw e;
     }
   }
@@ -383,7 +382,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
         }
       }
     } catch (IOException e) {
-      log.error("Cannot create empty commit for " + project.get(), e);
+      logger.atSevere().withCause(e).log("Cannot create empty commit for %s", project.get());
       throw e;
     }
   }
@@ -398,7 +397,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       try {
         l.onNewProjectCreated(event);
       } catch (RuntimeException e) {
-        log.warn("Failure in NewProjectCreatedListener", e);
+        logger.atWarning().withCause(e).log("Failure in NewProjectCreatedListener");
       }
     }
   }

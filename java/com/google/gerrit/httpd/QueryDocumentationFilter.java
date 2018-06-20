@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor.DocQueryException;
@@ -32,12 +33,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class QueryDocumentationFilter implements Filter {
-  private final Logger log = LoggerFactory.getLogger(QueryDocumentationFilter.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final QueryDocumentationExecutor searcher;
 
@@ -62,7 +61,7 @@ public class QueryDocumentationFilter implements Filter {
         List<DocResult> result = searcher.doQuery(request.getParameter("q"));
         RestApiServlet.replyJson(req, rsp, ImmutableListMultimap.of(), result);
       } catch (DocQueryException e) {
-        log.error("Doc search failed:", e);
+        logger.atSevere().withCause(e).log("Doc search failed");
         rsp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       }
     } else {

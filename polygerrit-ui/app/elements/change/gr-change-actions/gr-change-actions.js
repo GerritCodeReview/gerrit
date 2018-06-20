@@ -172,6 +172,22 @@
     __type: 'change',
   };
 
+  // Set of keys that have icons. As more icons are added to gr-icons.html, this
+  // set should be expanded.
+  const ACTIONS_WITH_ICONS = new Set([
+    ChangeActions.ABANDON,
+    ChangeActions.DELETE_EDIT,
+    ChangeActions.EDIT,
+    ChangeActions.PUBLISH_EDIT,
+    ChangeActions.REBASE_EDIT,
+    ChangeActions.RESTORE,
+    ChangeActions.REVERT,
+    ChangeActions.STOP_EDIT,
+    QUICK_APPROVE_ACTION.key,
+    RevisionActions.REBASE,
+    RevisionActions.SUBMIT,
+  ]);
+
   const AWAIT_CHANGE_ATTEMPTS = 5;
   const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
@@ -375,7 +391,7 @@
       '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
       '_changeChanged(change)',
       '_editStatusChanged(editMode, editPatchsetLoaded, ' +
-          'editBasedOnCurrentPatchSet, actions.*, change)',
+          'editBasedOnCurrentPatchSet, actions.*, change.*)',
     ],
 
     listeners: {
@@ -542,73 +558,63 @@
       }
     },
 
+      /**
+       * @param {string=} actionName
+       */
+    _deleteAndNotify(actionName) {
+      if (this.actions[actionName]) {
+        delete this.actions[actionName];
+        this.notifyPath('actions.' + actionName);
+      }
+    },
+
     _editStatusChanged(editMode, editPatchsetLoaded,
         editBasedOnCurrentPatchSet) {
-      const changeActions = this.actions;
-
       if (editPatchsetLoaded) {
         // Only show actions that mutate an edit if an actual edit patch set
         // is loaded.
         if (this.changeIsOpen(this.change.status)) {
           if (editBasedOnCurrentPatchSet) {
-            if (!changeActions.publishEdit) {
+            if (!this.actions.publishEdit) {
               this.set('actions.publishEdit', PUBLISH_EDIT);
             }
-            if (changeActions.rebaseEdit) {
-              delete this.actions.rebaseEdit;
-              this.notifyPath('actions.rebaseEdit');
-            }
+            this._deleteAndNotify('rebaseEdit');
           } else {
-            if (!changeActions.rebaseEdit) {
+            if (!this.actions.rebaseEdit) {
               this.set('actions.rebaseEdit', REBASE_EDIT);
             }
-            if (changeActions.publishEdit) {
-              delete this.actions.publishEdit;
-              this.notifyPath('actions.publishEdit');
-            }
+            this._deleteAndNotify('publishEdit');
           }
         }
-        if (!changeActions.deleteEdit) {
+        if (!this.actions.deleteEdit) {
           this.set('actions.deleteEdit', DELETE_EDIT);
         }
       } else {
-        if (changeActions.publishEdit) {
-          delete this.actions.publishEdit;
-          this.notifyPath('actions.publishEdit');
-        }
-        if (changeActions.rebaseEdit) {
-          delete this.actions.rebaseEdit;
-          this.notifyPath('actions.rebaseEdit');
-        }
-        if (changeActions.deleteEdit) {
-          delete this.actions.deleteEdit;
-          this.notifyPath('actions.deleteEdit');
-        }
+        this._deleteAndNotify('publishEdit');
+        this._deleteAndNotify('rebaseEdit');
+        this._deleteAndNotify('deleteEdit');
       }
 
       if (this.changeIsOpen(this.change.status)) {
         // Only show edit button if there is no edit patchset loaded and the
         // file list is not in edit mode.
         if (editPatchsetLoaded || editMode) {
-          if (changeActions.edit) {
-            delete this.actions.edit;
-            this.notifyPath('actions.edit');
-          }
+          this._deleteAndNotify('edit');
         } else {
-          if (!changeActions.edit) { this.set('actions.edit', EDIT); }
+          if (!this.actions.edit) { this.set('actions.edit', EDIT); }
         }
         // Only show STOP_EDIT if edit mode is enabled, but no edit patch set
         // is loaded.
         if (editMode && !editPatchsetLoaded) {
-          if (!changeActions.stopEdit) {
+          if (!this.actions.stopEdit) {
             this.set('actions.stopEdit', STOP_EDIT);
           }
         } else {
-          if (changeActions.stopEdit) {
-            delete this.actions.stopEdit;
-            this.notifyPath('actions.stopEdit');
-          }
+          this._deleteAndNotify('stopEdit');
         }
+      } else {
+        // Remove edit button.
+        this._deleteAndNotify('edit');
       }
     },
 
@@ -1103,8 +1109,7 @@
     _setLabelValuesOnRevert(newChangeId) {
       const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
       if (!labels) { return Promise.resolve(); }
-      return this.$.restAPI.getChangeURLAndSend(newChangeId,
-          this.actions.revert.method, 'current', '/review', {labels});
+      return this.$.restAPI.saveChangeReview(newChangeId, 'current', {labels});
     },
 
     _handleResponse(action, response) {
@@ -1188,7 +1193,7 @@
             }
             const patchNum = revisionAction ? this.latestPatchNum : null;
             return this.$.restAPI.getChangeURLAndSend(this.changeNum, method,
-                patchNum, actionEndpoint, payload, handleError, this)
+                patchNum, actionEndpoint, payload, handleError)
                 .then(response => {
                   cleanupFn.call(this);
                   return response;
@@ -1270,7 +1275,13 @@
 
       return revisionActionValues
           .concat(changeActionValues)
-          .sort(this._actionComparator.bind(this));
+          .sort(this._actionComparator.bind(this))
+          .map(action => {
+            if (ACTIONS_WITH_ICONS.has(action.__key)) {
+              action.icon = action.__key;
+            }
+            return action;
+          });
     },
 
     _getActionPriority(action) {
@@ -1385,6 +1396,10 @@
 
     _computeHasTooltip(title) {
       return !!title;
+    },
+
+    _computeHasIcon(action) {
+      return action.icon ? '' : 'hidden';
     },
   });
 })();

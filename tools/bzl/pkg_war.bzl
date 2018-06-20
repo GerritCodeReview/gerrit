@@ -23,7 +23,7 @@ LIBS = [
     "//lib/bouncycastle:bcpkix",
     "//lib/bouncycastle:bcprov",
     "//lib/bouncycastle:bcpg",
-    "//lib/log:impl_log4j",
+    "//lib/log:impl-log4j",
     "//resources:log4j-config",
 ]
 

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -37,11 +38,9 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import org.kohsuke.args4j.Option;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class QueryChanges implements RestReadView<TopLevelResource> {
-  private static final Logger log = LoggerFactory.getLogger(QueryChanges.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
@@ -49,19 +48,17 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   private EnumSet<ListChangesOption> options;
 
   @Option(
-    name = "--query",
-    aliases = {"-q"},
-    metaVar = "QUERY",
-    usage = "Query string"
-  )
+      name = "--query",
+      aliases = {"-q"},
+      metaVar = "QUERY",
+      usage = "Query string")
   private List<String> queries;
 
   @Option(
-    name = "--limit",
-    aliases = {"-n"},
-    metaVar = "CNT",
-    usage = "Maximum number of results to return"
-  )
+      name = "--limit",
+      aliases = {"-n"},
+      metaVar = "CNT",
+      usage = "Maximum number of results to return")
   public void setLimit(int limit) {
     imp.setUserProvidedLimit(limit);
   }
@@ -77,11 +74,10 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
   }
 
   @Option(
-    name = "--start",
-    aliases = {"-S"},
-    metaVar = "CNT",
-    usage = "Number of changes to skip"
-  )
+      name = "--start",
+      aliases = {"-S"},
+      metaVar = "CNT",
+      usage = "Number of changes to skip")
   public void setStart(int start) {
     imp.setStart(start);
   }
@@ -115,7 +111,7 @@ public class QueryChanges implements RestReadView<TopLevelResource> {
     } catch (QueryRequiresAuthException e) {
       throw new AuthException("Must be signed-in to use this operator");
     } catch (QueryParseException e) {
-      log.debug("Reject change query with 400 Bad Request: " + queries, e);
+      logger.atFine().withCause(e).log("Reject change query with 400 Bad Request: %s", queries);
       throw new BadRequestException(e.getMessage(), e);
     }
     return out.size() == 1 ? out.get(0) : out;

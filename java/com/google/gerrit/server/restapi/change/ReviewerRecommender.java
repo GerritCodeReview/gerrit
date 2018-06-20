@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -61,11 +62,10 @@ import java.util.stream.Stream;
 import org.apache.commons.lang.mutable.MutableDouble;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ReviewerRecommender {
-  private static final Logger log = LoggerFactory.getLogger(ReviewerRecommender.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final double BASE_REVIEWER_WEIGHT = 10;
   private static final double BASE_OWNER_WEIGHT = 1;
   private static final double BASE_COMMENT_WEIGHT = 0.5;
@@ -140,11 +140,11 @@ public class ReviewerRecommender {
       if (Strings.isNullOrEmpty(pluginWeight)) {
         pluginWeight = "1";
       }
-      log.debug("weight for {}: {}", key, pluginWeight);
+      logger.atFine().log("weight for %s: %s", key, pluginWeight);
       try {
         weights.add(Double.parseDouble(pluginWeight));
       } catch (NumberFormatException e) {
-        log.error("Exception while parsing weight for {}", key, e);
+        logger.atSevere().withCause(e).log("Exception while parsing weight for %s", key);
         weights.add(1d);
       }
     }
@@ -164,7 +164,7 @@ public class ReviewerRecommender {
         }
       }
     } catch (ExecutionException | InterruptedException e) {
-      log.error("Exception while suggesting reviewers", e);
+      logger.atSevere().withCause(e).log("Exception while suggesting reviewers");
       return ImmutableList.of();
     }
 
@@ -212,7 +212,7 @@ public class ReviewerRecommender {
       return suggestions;
     } catch (QueryParseException e) {
       // Unhandled, because owner:self will never provoke a QueryParseException
-      log.error("Exception while suggesting reviewers", e);
+      logger.atSevere().withCause(e).log("Exception while suggesting reviewers");
       return ImmutableMap.of();
     }
   }
@@ -254,7 +254,7 @@ public class ReviewerRecommender {
       } catch (QueryParseException e) {
         // Unhandled: If an exception is thrown, we won't increase the
         // candidates's score
-        log.error("Exception while suggesting reviewers", e);
+        logger.atSevere().withCause(e).log("Exception while suggesting reviewers");
       }
     }
 

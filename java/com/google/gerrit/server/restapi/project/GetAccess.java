@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterables;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.Permission;
@@ -67,12 +68,10 @@ import java.util.HashSet;
 import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class GetAccess implements RestReadView<ProjectResource> {
-  private static final Logger LOG = LoggerFactory.getLogger(GetAccess.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final ImmutableBiMap<PermissionRule.Action, PermissionRuleInfo.Action> ACTION_TYPE =
       ImmutableBiMap.of(
@@ -290,7 +289,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         group.name = basic.getName();
         group.url = basic.getUrl();
       } else {
-        LOG.warn("no such group: " + id);
+        logger.atWarning().log("no such group: %s", id);
         group = null;
       }
       groups.put(id, group);

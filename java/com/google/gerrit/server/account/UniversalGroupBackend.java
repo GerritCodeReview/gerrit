@@ -22,6 +22,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
@@ -39,15 +40,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Universal implementation of the GroupBackend that works with the injected set of GroupBackends.
  */
 @Singleton
 public class UniversalGroupBackend implements GroupBackend {
-  private static final Logger log = LoggerFactory.getLogger(UniversalGroupBackend.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicSet<GroupBackend> backends;
 
@@ -80,7 +79,7 @@ public class UniversalGroupBackend implements GroupBackend {
     }
     GroupBackend b = backend(uuid);
     if (b == null) {
-      log.debug("Unknown GroupBackend for UUID: " + uuid);
+      logger.atFine().log("Unknown GroupBackend for UUID: %s", uuid);
       return null;
     }
     return b.get(uuid);
@@ -130,7 +129,7 @@ public class UniversalGroupBackend implements GroupBackend {
       }
       GroupMembership m = membership(uuid);
       if (m == null) {
-        log.debug("Unknown GroupMembership for UUID: " + uuid);
+        logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
         return false;
       }
       return m.contains(uuid);
@@ -146,7 +145,7 @@ public class UniversalGroupBackend implements GroupBackend {
         }
         GroupMembership m = membership(uuid);
         if (m == null) {
-          log.debug("Unknown GroupMembership for UUID: " + uuid);
+          logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
           continue;
         }
         lookups.put(m, uuid);
@@ -176,7 +175,7 @@ public class UniversalGroupBackend implements GroupBackend {
         }
         GroupMembership m = membership(uuid);
         if (m == null) {
-          log.debug("Unknown GroupMembership for UUID: " + uuid);
+          logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
           continue;
         }
         lookups.put(m, uuid);

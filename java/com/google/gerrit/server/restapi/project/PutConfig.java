@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
@@ -58,12 +59,11 @@ import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Singleton
 public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
-  private static final Logger log = LoggerFactory.getLogger(PutConfig.class);
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final Pattern PARAMETER_NAME_PATTERN =
       Pattern.compile("^[a-zA-Z0-9]+[a-zA-Z0-9-]*$");
 
@@ -164,7 +164,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           throw new ResourceConflictException(
               "Cannot update " + projectName + ": " + e.getCause().getMessage());
         }
-        log.warn(String.format("Failed to update config of project %s.", projectName), e);
+        logger.atWarning().withCause(e).log("Failed to update config of project %s.", projectName);
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
@@ -201,10 +201,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         if (projectConfigEntry != null) {
           if (!PARAMETER_NAME_PATTERN.matcher(v.getKey()).matches()) {
             // TODO check why we have this restriction
-            log.warn(
-                "Parameter name '{}' must match '{}'",
-                v.getKey(),
-                PARAMETER_NAME_PATTERN.pattern());
+            logger.atWarning().log(
+                "Parameter name '%s' must match '%s'",
+                v.getKey(), PARAMETER_NAME_PATTERN.pattern());
             continue;
           }
           String oldValue = cfg.getString(v.getKey());
@@ -252,10 +251,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                     cfg.setStringList(v.getKey(), v.getValue().values);
                     break;
                   default:
-                    log.warn(
-                        String.format(
-                            "The type '%s' of parameter '%s' is not supported.",
-                            projectConfigEntry.getType().name(), v.getKey()));
+                    logger.atWarning().log(
+                        "The type '%s' of parameter '%s' is not supported.",
+                        projectConfigEntry.getType().name(), v.getKey());
                 }
               } catch (NumberFormatException ex) {
                 throw new BadRequestException(

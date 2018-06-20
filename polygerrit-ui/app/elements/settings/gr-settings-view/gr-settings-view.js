@@ -35,6 +35,8 @@
   const ABSOLUTE_URL_PATTERN = /^https?:/;
   const TRAILING_SLASH_PATTERN = /\/$/;
 
+  const RELOAD_MESSAGE = 'Reloading...';
+
   Polymer({
     is: 'gr-settings-view',
 
@@ -45,7 +47,7 @@
      */
 
     /**
-     * Fired with email confirmation text.
+     * Fired with email confirmation text, or when the page reloads.
      *
      * @event show-alert
      */
@@ -132,6 +134,11 @@
       _loadingPromise: Object,
 
       _showNumber: Boolean,
+
+      _isDark: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -148,6 +155,8 @@
 
     attached() {
       this.fire('title-change', {title: 'Settings'});
+
+      this._isDark = !!window.localStorage.getItem('dark-theme');
 
       const promises = [
         this.$.accountInfo.loadData(),
@@ -409,6 +418,21 @@
       base = base.replace(TRAILING_SLASH_PATTERN, '');
 
       return base + GERRIT_DOCS_FILTER_PATH;
+    },
+
+    _handleToggleDark() {
+      if (this._isDark) {
+        window.localStorage.removeItem('dark-theme');
+      } else {
+        window.localStorage.setItem('dark-theme', 'true');
+      }
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: RELOAD_MESSAGE},
+        bubbles: true,
+      }));
+      this.async(() => {
+        window.location.reload();
+      }, 1);
     },
   });
 })();

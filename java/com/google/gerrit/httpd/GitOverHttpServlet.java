@@ -44,10 +44,10 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -119,7 +119,7 @@ public class GitOverHttpServlet extends GitServlet {
             protected void configure() {
               cache(ID_CACHE, AdvertisedObjectsCacheKey.class, new TypeLiteral<Set<ObjectId>>() {})
                   .maximumWeight(4096)
-                  .expireAfterWrite(10, TimeUnit.MINUTES);
+                  .expireAfterWrite(Duration.ofMinutes(10));
             }
           });
     }

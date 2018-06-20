@@ -100,7 +100,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     @SuppressWarnings("unchecked")
     public List<ChangeInfo> apply(AccountResource rsrc)
         throws BadRequestException, AuthException, OrmException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to list stars of another account");
       }
       QueryChanges query = changes.list();
@@ -122,7 +122,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
     @Override
     public SortedSet<String> apply(AccountResource.Star rsrc) throws AuthException, OrmException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to get stars of another account");
       }
       return starredChangesUtil.getLabels(self.get().getAccountId(), rsrc.getChange().getId());
@@ -143,7 +143,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     @Override
     public Collection<String> apply(AccountResource.Star rsrc, StarsInput in)
         throws AuthException, BadRequestException, OrmException {
-      if (self.get() != rsrc.getUser()) {
+      if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to update stars of another account");
       }
       try {

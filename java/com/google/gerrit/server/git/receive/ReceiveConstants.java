@@ -20,8 +20,8 @@ public final class ReceiveConstants {
   public static final String PUSH_OPTION_SKIP_VALIDATION = "skip-validation";
 
   @VisibleForTesting
-  public static final String ONLY_OWNER_CAN_MODIFY_WIP =
-      "only change owner can modify Work-in-Progress";
+  public static final String ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP =
+      "only change owner or project owner can modify Work-in-Progress";
 
   static final String COMMAND_REJECTION_MESSAGE_FOOTER =
       "Please read the documentation and contact an administrator\n"

@@ -65,6 +65,7 @@ junit_tests(
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
+        "//lib/truth:truth-proto-extension",
         "//proto:cache_java_proto",
     ],
 )

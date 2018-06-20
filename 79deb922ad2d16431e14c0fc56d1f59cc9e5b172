@@ -33,6 +33,24 @@
       "revId": "79deb922ad2d16431e14c0fc56d1f59cc9e5b172",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb621b42_72c87a3d",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-20T01:33:29Z",
+      "side": 1,
+      "message": "Actually, looking closer, returning the server identity is consistent with what #getNameFor does when accountId is null.\n\nThat said, both of these methods need cleanup.  They are duplicating functionality that is available in the Account class.\n\nI\u0027ll push some changes.",
+      "parentUuid": "a753353e_13b84b76",
+      "revId": "79deb922ad2d16431e14c0fc56d1f59cc9e5b172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

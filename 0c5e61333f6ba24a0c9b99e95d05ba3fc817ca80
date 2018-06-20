@@ -70,6 +70,29 @@
       "revId": "0c5e61333f6ba24a0c9b99e95d05ba3fc817ca80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89ade901_b8066336",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/change/MoveChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-20T07:03:23Z",
+      "side": 1,
+      "message": "Still not quite sure what the expected behavior is, but it\u0027s unrelated to the issue being tested so it can be punted to a later change.",
+      "range": {
+        "startLine": 310,
+        "startChar": 4,
+        "endLine": 310,
+        "endChar": 65
+      },
+      "revId": "0c5e61333f6ba24a0c9b99e95d05ba3fc817ca80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

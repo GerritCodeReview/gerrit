@@ -852,5 +852,9 @@
       }
       return this.getParentIndex(patchRangeRecord.base.basePatchNum);
     },
+
+    expandAllContext() {
+      this._handleFullBypass();
+    },
   });
 })();

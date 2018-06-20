@@ -188,6 +188,13 @@ limitations under the License.
       assert.equal(element._setReviewed.lastCall.args[0], true);
     });
 
+    test('shift+x shortcut expands all diff context', () => {
+      const expandStub = sandbox.stub(element.$.diff, 'expandAllContext');
+      MockInteractions.pressAndReleaseKeyOn(element, 88, 'shift', 'x');
+      flushAsynchronousOperations();
+      assert.isTrue(expandStub.called);
+    });
+
     test('keyboard shortcuts with patch range', () => {
       element._changeNum = '42';
       element._patchRange = {

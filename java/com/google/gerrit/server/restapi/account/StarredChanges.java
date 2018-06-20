@@ -93,7 +93,7 @@ public class StarredChanges
     return new RestReadView<AccountResource>() {
       @Override
       public Object apply(AccountResource self)
-          throws BadRequestException, AuthException, OrmException {
+          throws BadRequestException, AuthException, OrmException, PermissionBackendException {
         QueryChanges query = changes.list();
         query.addQuery("starredby:" + self.getUser().getAccountId().get());
         return query.apply(TopLevelResource.INSTANCE);

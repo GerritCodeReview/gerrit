@@ -18,16 +18,22 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AvatarInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.avatar.AvatarProvider;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,22 +57,35 @@ public class InternalAccountDirectory extends AccountDirectory {
   private final AccountCache accountCache;
   private final DynamicItem<AvatarProvider> avatar;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final Provider<CurrentUser> self;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   InternalAccountDirectory(
       AccountCache accountCache,
       DynamicItem<AvatarProvider> avatar,
-      IdentifiedUser.GenericFactory userFactory) {
+      IdentifiedUser.GenericFactory userFactory,
+      Provider<CurrentUser> self,
+      PermissionBackend permissionBackend) {
     this.accountCache = accountCache;
     this.avatar = avatar;
     this.userFactory = userFactory;
+    this.self = self;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
-  public void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options) {
+  public void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
+      throws PermissionBackendException {
     if (options.equals(ID_ONLY)) {
       return;
     }
+
+    boolean canModifyAccount =
+        permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT);
+    Account.Id currentUserId = self.get().getAccountId();
+    Set<FillOptions> fillOptionsWithoutSecondaryEmails =
+        Sets.difference(options, EnumSet.of(FillOptions.SECONDARY_EMAILS));
     Set<Account.Id> ids =
         Streams.stream(in).map(a -> new Account.Id(a._accountId)).collect(toSet());
     Map<Account.Id, AccountState> accountStates = accountCache.get(ids);
@@ -74,7 +93,15 @@ public class InternalAccountDirectory extends AccountDirectory {
       Account.Id id = new Account.Id(info._accountId);
       AccountState state = accountStates.get(id);
       if (state != null) {
-        fill(info, accountStates.get(id), options);
+        if (!options.contains(FillOptions.SECONDARY_EMAILS)
+            || currentUserId.get() == state.getAccount().getId().get()
+            || canModifyAccount) {
+          fill(info, accountStates.get(id), options);
+        } else {
+          // user is not allowed to see secondary emails
+          fill(info, accountStates.get(id), fillOptionsWithoutSecondaryEmails);
+        }
+
       } else {
         info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
       }

@@ -20,6 +20,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.ArrayList;
@@ -83,18 +84,18 @@ public class AccountLoader {
     provided.add(info);
   }
 
-  public void fill() {
+  public void fill() throws PermissionBackendException {
     directory.fillAccountInfo(Iterables.concat(created.values(), provided), options);
   }
 
-  public void fill(Collection<? extends AccountInfo> infos) {
+  public void fill(Collection<? extends AccountInfo> infos) throws PermissionBackendException {
     for (AccountInfo info : infos) {
       put(info);
     }
     fill();
   }
 
-  public AccountInfo fillOne(Account.Id id) {
+  public AccountInfo fillOne(Account.Id id) throws PermissionBackendException {
     AccountInfo info = get(id);
     fill();
     return info;

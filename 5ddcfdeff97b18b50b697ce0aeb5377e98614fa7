@@ -93,6 +93,30 @@
       "revId": "5ddcfdeff97b18b50b697ce0aeb5377e98614fa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a76550f1_7ed621ab",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/ChangeIndexedCounter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-06-20T03:23:52Z",
+      "side": 1,
+      "message": "\u003e It was 2017 intentionally because that was the date on the original change that I took this code from.\n\n\nMy bad, sorry about that",
+      "parentUuid": "0645e928_0c1f4939",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "5ddcfdeff97b18b50b697ce0aeb5377e98614fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

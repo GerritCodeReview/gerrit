@@ -58,9 +58,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -4022,38 +4022,6 @@ public class ChangeIT extends AbstractDaemonTest {
     try (AutoCloseable ctx = disableChangeIndex()) {
       assertThat(gApi.changes().id(project.get(), number).get(ImmutableSet.of()).changeId)
           .isEqualTo(change.getChangeId());
-    }
-  }
-
-  private static class ChangeIndexedCounter implements ChangeIndexedListener {
-    private final AtomicLongMap<Integer> countsByChange = AtomicLongMap.create();
-
-    @Override
-    public void onChangeIndexed(String projectName, int id) {
-      countsByChange.incrementAndGet(id);
-    }
-
-    @Override
-    public void onChangeDeleted(int id) {
-      countsByChange.incrementAndGet(id);
-    }
-
-    void clear() {
-      countsByChange.clear();
-    }
-
-    long getCount(ChangeInfo info) {
-      return countsByChange.get(info._number);
-    }
-
-    void assertReindexOf(ChangeInfo info) {
-      assertReindexOf(info, 1);
-    }
-
-    void assertReindexOf(ChangeInfo info, int expectedCount) {
-      assertThat(getCount(info)).isEqualTo(expectedCount);
-      assertThat(countsByChange).hasSize(1);
-      clear();
     }
   }
 

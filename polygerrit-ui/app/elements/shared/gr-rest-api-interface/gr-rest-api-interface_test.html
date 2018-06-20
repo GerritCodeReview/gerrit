@@ -485,6 +485,26 @@ limitations under the License.
       });
     });
 
+    test('checkCredentials promise rejection', () => {
+      window.fetch.restore();
+      element._cache['/accounts/self/detail'] = true;
+      sandbox.spy(element, 'checkCredentials');
+      sandbox.stub(window, 'fetch', url => {
+        return Promise.reject({message: 'Failed to fetch'});
+      });
+      return element.getConfig(true)
+          .catch(err => undefined)
+          .then(() => {
+            // When the top-level fetch call throws an error, it invokes
+            // checkCredentials, which in turn makes another fetch call.
+            // The second fetch call also fails, which leads to a second
+            // invocation of checkCredentials, which should immediately
+            // return instead of making further fetch calls.
+            assert.isTrue(element.checkCredentials.calledTwice);
+            assert.isTrue(window.fetch.calledTwice);
+          });
+    });
+
     test('legacy n,z key in change url is replaced', () => {
       const stub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve([]));

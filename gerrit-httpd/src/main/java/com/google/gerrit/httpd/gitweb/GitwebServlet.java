@@ -126,7 +126,7 @@ class GitwebServlet extends HttpServlet {
       try {
         uri = new URI(url);
       } catch (URISyntaxException e) {
-        log.error("Invalid gitweb.url: " + url);
+        log.error("Invalid gitweb.url: {}", url);
       }
       gitwebUrl = uri;
     } else {
@@ -503,7 +503,7 @@ class GitwebServlet extends HttpServlet {
 
       final int status = proc.exitValue();
       if (0 != status) {
-        log.error("Non-zero exit status (" + status + ") from " + gitwebCgi);
+        log.error("Non-zero exit status ({}) from {}", status, gitwebCgi);
         if (!rsp.isCommitted()) {
           rsp.sendError(500);
         }

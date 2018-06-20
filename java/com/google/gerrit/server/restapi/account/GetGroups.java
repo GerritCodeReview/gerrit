@@ -22,6 +22,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.GroupControl;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.GroupJson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -42,7 +43,8 @@ public class GetGroups implements RestReadView<AccountResource> {
   }
 
   @Override
-  public List<GroupInfo> apply(AccountResource resource) throws OrmException {
+  public List<GroupInfo> apply(AccountResource resource)
+      throws OrmException, PermissionBackendException {
     IdentifiedUser user = resource.getUser();
     Account.Id userId = user.getAccountId();
     Set<AccountGroup.UUID> knownGroups = user.getEffectiveGroups().getKnownGroups();

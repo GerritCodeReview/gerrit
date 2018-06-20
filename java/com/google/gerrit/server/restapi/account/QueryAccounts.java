@@ -160,21 +160,15 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     if (options.contains(ListAccountsOption.DETAILS)) {
       fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     }
-    boolean modifyAccountCapabilityChecked = false;
     if (options.contains(ListAccountsOption.ALL_EMAILS)) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
-      modifyAccountCapabilityChecked = true;
       fillOptions.add(FillOptions.EMAIL);
       fillOptions.add(FillOptions.SECONDARY_EMAILS);
     }
     if (suggest) {
       fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
       fillOptions.add(FillOptions.EMAIL);
-
-      if (modifyAccountCapabilityChecked
-          || permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
-        fillOptions.add(FillOptions.SECONDARY_EMAILS);
-      }
+      fillOptions.add(FillOptions.SECONDARY_EMAILS);
     }
     accountLoader = accountLoaderFactory.create(fillOptions);
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13d00017_93e14b50",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2018-06-20T03:23:46Z",
+      "side": 1,
+      "message": "What about this one?",
+      "revId": "ddf27f44c8798ef810386a138c5dda9ecdc7d42c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -183,5 +183,10 @@ limitations under the License.
         MockInteractions.tap(element.$$('.closeButtonContainer gr-button'));
       });
     });
+
+    test('_computeShowDownloadCommands', () => {
+      assert.equal(element._computeShowDownloadCommands([]), 'hidden');
+      assert.equal(element._computeShowDownloadCommands(['test']), '');
+    });
   });
 </script>

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -30,12 +32,14 @@ public class GerritPersonIdentProvider implements Provider<PersonIdent> {
 
   @Inject
   public GerritPersonIdentProvider(@GerritServerConfig Config cfg) {
-    String name = cfg.getString("user", null, "name");
-    if (name == null) {
-      name = "Gerrit Code Review";
-    }
-    this.name = name;
-    email = cfg.get(UserConfig.KEY).getCommitterEmail();
+    StringBuilder name = new StringBuilder();
+    PersonIdent.appendSanitized(
+        name, firstNonNull(cfg.getString("user", null, "name"), "Gerrit Code Review"));
+    this.name = name.toString();
+
+    StringBuilder email = new StringBuilder();
+    PersonIdent.appendSanitized(email, cfg.get(UserConfig.KEY).getCommitterEmail());
+    this.email = email.toString();
   }
 
   @Override

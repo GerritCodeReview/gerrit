@@ -22,6 +22,30 @@
       "revId": "b101d825b01bca88511cde518c2d5d539a5625f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "240d508b_d83a6d16",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-20T03:38:48Z",
+      "side": 1,
+      "message": "No.  The Javadoc should be updated.",
+      "parentUuid": "86b71858_b11c9e99",
+      "range": {
+        "startLine": 362,
+        "startChar": 6,
+        "endLine": 362,
+        "endChar": 54
+      },
+      "revId": "b101d825b01bca88511cde518c2d5d539a5625f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

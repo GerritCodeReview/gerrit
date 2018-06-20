@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5de988a5_ea370e10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-06-20T20:17:05Z",
+      "side": 1,
+      "message": "Shall we add the Issue ID?\n\nBug: Issue 9319",
+      "revId": "0ab897b1c1ac0c49324d324b6e7ea75178ca4ef5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

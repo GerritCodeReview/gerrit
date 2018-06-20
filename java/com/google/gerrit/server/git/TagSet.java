@@ -330,8 +330,7 @@ class TagSet {
     return ref.isSymbolic()
         || ref.getObjectId() == null
         || PatchSet.isChangeRef(ref.getName())
-        || RefNames.isNoteDbMetaRef(ref.getName())
-        || ref.getName().startsWith(RefNames.REFS_CACHE_AUTOMERGE);
+        || RefNames.isNoteDbMetaRef(ref.getName());
   }
 
   private static boolean isTag(Ref ref) {

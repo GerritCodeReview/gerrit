@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b5a1833_ddf56e23",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2018-06-20T05:24:11Z",
+      "side": 1,
+      "message": "PersonIdent uses appendSanitized (it is public), which strips \u0027\u003c\u0027, \u0027\u003e\u0027 and leading/trailing whitespace. Do you think it is needed also here?\n\n  final StringBuilder r \u003d new StringBuilder();\n  appendSanitized(r, getName());\n  r.append(\" \u003c\"); //$NON-NLS-1$\n  appendSanitized(r, getEmailAddress());\n  r.append(\"\u003e \"); //$NON-NLS-1$\n  // [time and timezone, skipped]\n  return r.toString();",
+      "revId": "d75352f042f32e09716180e8ed3950dba532cf8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

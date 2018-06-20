@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -46,7 +47,8 @@ public class ListSubgroups implements RestReadView<GroupResource> {
   }
 
   @Override
-  public List<GroupInfo> apply(GroupResource rsrc) throws NotInternalGroupException, OrmException {
+  public List<GroupInfo> apply(GroupResource rsrc)
+      throws NotInternalGroupException, OrmException, PermissionBackendException {
     GroupDescription.Internal group =
         rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);
 
@@ -54,7 +56,8 @@ public class ListSubgroups implements RestReadView<GroupResource> {
   }
 
   public List<GroupInfo> getDirectSubgroups(
-      GroupDescription.Internal group, GroupControl groupControl) throws OrmException {
+      GroupDescription.Internal group, GroupControl groupControl)
+      throws OrmException, PermissionBackendException {
     boolean ownerOfParent = groupControl.isOwner();
     List<GroupInfo> included = new ArrayList<>();
     for (AccountGroup.UUID subgroupUuid : group.getSubgroups()) {

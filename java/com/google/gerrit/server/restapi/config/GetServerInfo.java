@@ -59,6 +59,7 @@ import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.change.AllowedFormats;
 import com.google.gerrit.server.submit.MergeSuperSet;
@@ -148,7 +149,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public ServerInfo apply(ConfigResource rsrc) throws MalformedURLException {
+  public ServerInfo apply(ConfigResource rsrc)
+      throws MalformedURLException, PermissionBackendException {
     ServerInfo info = new ServerInfo();
     info.accounts = getAccountsInfo(accountVisibilityProvider);
     info.auth = getAuthInfo(authConfig, realm);
@@ -178,7 +180,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     return info;
   }
 
-  private AuthInfo getAuthInfo(AuthConfig cfg, Realm realm) {
+  private AuthInfo getAuthInfo(AuthConfig cfg, Realm realm) throws PermissionBackendException {
     AuthInfo info = new AuthInfo();
     info.authType = cfg.getAuthType();
     info.useContributorAgreements = toBoolean(cfg.isUseContributorAgreements());

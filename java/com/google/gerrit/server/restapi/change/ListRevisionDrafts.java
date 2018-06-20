@@ -20,6 +20,7 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -51,7 +52,8 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc) throws OrmException {
+  public Map<String, List<CommentInfo>> apply(RevisionResource rsrc)
+      throws OrmException, PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())
@@ -59,7 +61,8 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
         .format(listComments(rsrc));
   }
 
-  public List<CommentInfo> getComments(RevisionResource rsrc) throws OrmException {
+  public List<CommentInfo> getComments(RevisionResource rsrc)
+      throws OrmException, PermissionBackendException {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())

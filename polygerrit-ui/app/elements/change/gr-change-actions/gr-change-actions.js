@@ -822,7 +822,12 @@
 
     _handleActionTap(e) {
       e.preventDefault();
-      const el = Polymer.dom(e).localTarget;
+      let el = Polymer.dom(e).localTarget;
+      while (el.is !== 'gr-button') {
+        if (!el.parentElement) { return; }
+        el = el.parentElement;
+      }
+
       const key = el.getAttribute('data-action-key');
       if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
           key.indexOf('~') !== -1) {

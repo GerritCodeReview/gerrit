@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1261fd75_d12b16bc",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-06-20T19:13:20Z",
+      "side": 1,
+      "message": "This merge conflict resolution was wrong. It changed the method signature from\n\nScheduledExecutorService createQueue(int, String)\n\nto\n\nScheduledThreadPoolExecutor createQueue(int, String)\n\n\nOn stable-2.14, the method signature was not change and I think it should not haved change here too. This commit was not included in a release yet so I think we should fix this and revert the adapdation that was done in plugins.\n\nI just realized about unneeded method signature change when people reported that latest of plugin stable-2.15 branch no longer works with 2.15.2. e.g. https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9319",
+      "range": {
+        "startLine": 126,
+        "startChar": 9,
+        "endLine": 126,
+        "endChar": 36
+      },
+      "revId": "300fd71243a351ee9520ef5329d625c7c915ee66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

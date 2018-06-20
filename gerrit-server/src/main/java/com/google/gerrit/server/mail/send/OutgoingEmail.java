@@ -362,7 +362,7 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account; Anonymous Coward if unset or the server identity if null.
    */
-  public String getNameEmailFor(@Nullable Account.Id accountId) {
+  protected String getNameEmailFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
       return args.gerritPersonIdent.toExternalString();
     }
@@ -378,7 +378,7 @@ public abstract class OutgoingEmail {
    * @return name/email of account, username, or null if unset.
    */
   @Nullable
-  public String getUserNameEmailFor(@Nullable Account.Id accountId) {
+  protected String getUserNameEmailFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
       return null;
     }

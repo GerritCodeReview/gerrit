@@ -95,6 +95,8 @@
 
   const INTERACTION_TYPE = 'interaction';
 
+  const DRAFT_ACTION_TIMER = 'time-between-draft-actions';
+
   const pending = [];
 
   const onError = function(oldOnError, msg, url, line, column, error) {
@@ -140,6 +142,11 @@
       _baselines: {
         type: Object,
         value: STARTUP_TIMERS, // Shared across all instances.
+      },
+
+      _timers: {
+        type: Object,
+        value: {timeBetweenDraftActions: null}, // Shared across all instances.
       },
     },
 
@@ -347,21 +354,56 @@
      * @returns {!Object} The timer object.
      */
     getTimer(name) {
-      const start = this.now();
       let called = false;
-      return {
+      let start;
+      let max = null;
+      const timer = {
+        init: () => {
+          called = false;
+          start = this.now();
+          return timer;
+        },
+
         end: () => {
           if (called) {
             throw new Error(`Timer for "${name}" already ended.`);
           }
           called = true;
-          this._reportTiming(name, this.now() - start);
+          const time = this.now() - start;
+
+          // If a maximum is specified and the time exceeds it, do not report.
+          if (max !== null && time > max) { return timer; }
+
+          this._reportTiming(name, time);
+          return timer;
+        },
+
+        withMaximum(maximum) {
+          max = maximum;
+          return timer;
         },
       };
+
+      return timer.init();
     },
 
     reportInteraction(eventName, opt_msg) {
       this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
+    },
+
+    draftInteraction() {
+      // If there is no timer defined, then this is the first interaction.
+      // Set up the timer so that it's ready to record the intervening time when
+      // called again.
+      const timer = this._timers.timeBetweenDraftActions;
+      if (!timer) {
+        this._timers.timeBetweenDraftActions = this.getTimer(DRAFT_ACTION_TIMER)
+            .withMaximum(2 * 60 * 1000);
+        return;
+      }
+
+      // Mark the time and reinitialize the timer.
+      timer.end().init();
     },
   });
 

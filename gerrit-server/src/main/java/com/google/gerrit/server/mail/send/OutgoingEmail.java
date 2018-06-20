@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -342,7 +343,7 @@ public abstract class OutgoingEmail {
   }
 
   /** Lookup a human readable name for an account, usually the "full name". */
-  protected String getNameFor(final Account.Id accountId) {
+  protected String getNameFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
       return args.gerritPersonIdent.getName();
     }
@@ -357,7 +358,7 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, or Anonymous Coward if unset.
    */
-  public String getNameEmailFor(Account.Id accountId) {
+  public String getNameEmailFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
       return args.gerritPersonIdent.toExternalString();
     }
@@ -372,7 +373,8 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, username, or null if unset.
    */
-  public String getUserNameEmailFor(Account.Id accountId) {
+  @Nullable
+  public String getUserNameEmailFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
       return null;
     }

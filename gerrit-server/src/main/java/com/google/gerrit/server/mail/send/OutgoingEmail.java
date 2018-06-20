@@ -378,6 +378,9 @@ public abstract class OutgoingEmail {
    * @return name/email of account, username, or null if unset.
    */
   public String getUserNameEmailFor(Account.Id accountId) {
+    if (accountId == null) {
+      return null;
+    }
     AccountState who = args.accountCache.get(accountId);
     String name = who.getAccount().getFullName();
     String email = who.getAccount().getPreferredEmail();

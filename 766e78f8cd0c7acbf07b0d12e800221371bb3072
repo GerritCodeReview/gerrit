@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "be220f03_8bdc6923",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-06-20T22:43:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d061dc58_d2cb6c52",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 136,
+        "endChar": 26
+      },
+      "revId": "766e78f8cd0c7acbf07b0d12e800221371bb3072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c910057a_6fe9934d",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6caf5aca_34698716",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-06-20T22:43:01Z",
+      "side": 1,
+      "message": "Yes, although the reason was to make the test I\u0027d already written not go into an infinite loop. Fixed by fixing the test.",
+      "parentUuid": "c910057a_6fe9934d",
+      "range": {
+        "startLine": 219,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 41
+      },
+      "revId": "766e78f8cd0c7acbf07b0d12e800221371bb3072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aed075a4_cbfefd33",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "766e78f8cd0c7acbf07b0d12e800221371bb3072",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4f29407_b636b331",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1027267
+      },
+      "writtenOn": "2018-06-20T22:43:01Z",
+      "side": 1,
+      "message": "Fixed. As for done(), I\u0027d rather do without. Mocha understands tests that returns promises.",
+      "parentUuid": "aed075a4_cbfefd33",
+      "range": {
+        "startLine": 496,
+        "startChar": 10,
+        "endLine": 496,
+        "endChar": 18
+      },
+      "revId": "766e78f8cd0c7acbf07b0d12e800221371bb3072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

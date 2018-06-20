@@ -197,6 +197,19 @@ limitations under the License.
       }, 'Timer for "foo-bar" already ended.');
     });
 
+    test('timer object maximum', () => {
+      const nowStub = sandbox.stub(element, 'now').returns(100);
+      const timer = element.getTimer('foo-bar').withMaximum(100);
+      nowStub.returns(150);
+      timer.end();
+      assert.isTrue(element.reporter.calledOnce);
+
+      timer.reset();
+      nowStub.returns(260);
+      timer.end();
+      assert.isTrue(element.reporter.calledOnce);
+    });
+
     test('timeEndWithAverage', () => {
       const nowStub = sandbox.stub(element, 'now').returns(0);
       nowStub.returns(1000);

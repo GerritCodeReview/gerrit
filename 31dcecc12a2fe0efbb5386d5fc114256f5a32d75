@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70468e6d_cfcd2862",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-20T11:13:00Z",
+      "side": 1,
+      "message": "AllProjects and AllUsers mostly behave like normal repositories. E.g. you can also push changes for the branches in these repositories (for example if you want to review modifications for the refs/meta/config branch). This means these repositories can also contain NoteDb change meta data that should be protected. Hence we cannot skip the check completely for them.",
+      "range": {
+        "startLine": 894,
+        "startChar": 10,
+        "endLine": 896,
+        "endChar": 55
+      },
+      "revId": "31dcecc12a2fe0efbb5386d5fc114256f5a32d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

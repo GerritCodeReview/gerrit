@@ -22,6 +22,30 @@
       "revId": "0c5e61333f6ba24a0c9b99e95d05ba3fc817ca80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fea6fff_e25892b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-20T06:59:52Z",
+      "side": 1,
+      "message": "Typically we refer to changes by the abbreviated change-id",
+      "parentUuid": "21aa66e6_1068ef2f",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "0c5e61333f6ba24a0c9b99e95d05ba3fc817ca80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

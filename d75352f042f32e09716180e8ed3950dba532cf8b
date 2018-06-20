@@ -34,6 +34,24 @@
       "revId": "d75352f042f32e09716180e8ed3950dba532cf8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "199a401c_c5e4e647",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2018-06-20T05:36:33Z",
+      "side": 1,
+      "message": "That depends on the context. If the configured name has \u003c\u003e, you probably do want to show it in comments, but strip it in email, don\u0027t you?",
+      "parentUuid": "7ded398e_ad830cee",
+      "revId": "d75352f042f32e09716180e8ed3950dba532cf8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

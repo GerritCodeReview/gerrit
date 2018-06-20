@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21aa66e6_1068ef2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2018-06-20T06:50:38Z",
+      "side": 1,
+      "message": "commit eb9e9ca3d3063913d6018c4904965b669701e42d",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "0c5e61333f6ba24a0c9b99e95d05ba3fc817ca80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

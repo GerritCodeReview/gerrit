@@ -70,6 +70,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
+import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
@@ -816,6 +817,32 @@ public class AccountIT extends AbstractDaemonTest {
     List<AccountInfo> emptyResult = gApi.accounts().suggestAccounts("unknown").get();
     assertThat(emptyResult).isEmpty();
     accountIndexedCounter.assertNoReindex();
+  }
+
+  @Test
+  public void getDetail() throws Exception {
+    String email = "preferred@example.com";
+    String name = "Foo";
+    String username = name("foo");
+    TestAccount foo = accountCreator.create(username, email, name);
+    String secondaryEmail = "secondary@example.com";
+    EmailInput input = newEmailInput(secondaryEmail);
+    gApi.accounts().id(foo.id.get()).addEmail(input);
+
+    String status = "OOO";
+    gApi.accounts().id(foo.id.get()).setStatus(status);
+
+    setApiUser(foo);
+    AccountDetailInfo detail = gApi.accounts().id(foo.id.get()).detail();
+    assertThat(detail._accountId).isEqualTo(foo.id.get());
+    assertThat(detail.name).isEqualTo(name);
+    assertThat(detail.username).isEqualTo(username);
+    assertThat(detail.email).isEqualTo(email);
+    assertThat(detail.secondaryEmails).containsExactly(secondaryEmail);
+    assertThat(detail.status).isEqualTo(status);
+    assertThat(detail.registeredOn).isEqualTo(getAccount(foo.getId()).getRegisteredOn());
+    assertThat(detail.inactive).isNull();
+    assertThat(detail._moreAccounts).isNull();
   }
 
   @Test

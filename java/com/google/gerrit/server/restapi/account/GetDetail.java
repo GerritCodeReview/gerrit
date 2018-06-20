@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
@@ -23,7 +23,6 @@ import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.EnumSet;
 
@@ -45,14 +44,5 @@ public class GetDetail implements RestReadView<AccountResource> {
     info.inactive = !a.isActive() ? true : null;
     directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
     return info;
-  }
-
-  public static class AccountDetailInfo extends AccountInfo {
-    public Timestamp registeredOn;
-    public Boolean inactive;
-
-    public AccountDetailInfo(Integer id) {
-      super(id);
-    }
   }
 }

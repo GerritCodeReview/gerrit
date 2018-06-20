@@ -16,6 +16,24 @@
       "revId": "749384eb60766ea67f1334cd02581f22bf0d5ec3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1838f85_c93aec1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-20T22:28:08Z",
+      "side": 1,
+      "message": "I hadnt seen that yet. How fortuitous!",
+      "parentUuid": "a626268a_13e1df06",
+      "revId": "749384eb60766ea67f1334cd02581f22bf0d5ec3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

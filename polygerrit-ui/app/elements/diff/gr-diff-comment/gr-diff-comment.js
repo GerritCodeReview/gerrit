@@ -413,40 +413,11 @@
       page.show(window.location.pathname + hash, null, false);
     },
 
-    _handleReply(e) {
-      e.preventDefault();
-      this.fire('create-reply-comment', this._getEventPayload(),
-          {bubbles: false});
-    },
-
-    _handleQuote(e) {
-      e.preventDefault();
-      this.fire('create-reply-comment', this._getEventPayload({quote: true}),
-          {bubbles: false});
-    },
-
-    _handleFix(e) {
-      e.preventDefault();
-      this.fire('create-fix-comment', this._getEventPayload({quote: true}),
-          {bubbles: false});
-    },
-
-    _handleAck(e) {
-      e.preventDefault();
-      this.fire('create-ack-comment', this._getEventPayload(),
-          {bubbles: false});
-    },
-
-    _handleDone(e) {
-      e.preventDefault();
-      this.fire('create-done-comment', this._getEventPayload(),
-          {bubbles: false});
-    },
-
     _handleEdit(e) {
       e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
+      this.$.reporting.recordDraftInteraction();
     },
 
     _handleSave(e) {
@@ -481,6 +452,7 @@
 
     _handleDiscard(e) {
       e.preventDefault();
+      this.$.reporting.recordDraftInteraction();
 
       if (!this._messageText) {
         this._discardDraft();
@@ -630,6 +602,7 @@
     },
 
     _handleToggleResolved() {
+      this.$.reporting.recordDraftInteraction();
       this.resolved = !this.resolved;
       // Modify payload instead of this.comment, as this.comment is passed from
       // the parent by ref.

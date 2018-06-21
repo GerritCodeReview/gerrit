@@ -14,8 +14,16 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    build_file_content = "exports_files([\"0001-Replace-native-http-git-_archive-with-Skylark-rules.patch\"])",
-    patches = ["//:0001-Replace-native-http-git-_archive-with-Skylark-rules.patch"],
+    build_file_content = "\n".join([
+        "exports_files([",
+        "    \"0001-Replace-native-http-git-_archive-with-Skylark-rules.patch\",",
+        "    \"0002-Bump-Dagger-to-2.14.1-to-support-Java-9.patch\",",	    
+        "])",
+    ]),
+    patches = [
+        "//:0001-Replace-native-http-git-_archive-with-Skylark-rules.patch",
+	"//:0002-Bump-Dagger-to-2.14.1-to-support-Java-9.patch",
+    ],
     sha256 = "a80acb69c63d5f6437b099c111480a4493bad4592015af2127a2f49fb7512d8d",
     strip_prefix = "rules_closure-0.7.0",
     url = "https://github.com/bazelbuild/rules_closure/archive/0.7.0.tar.gz",

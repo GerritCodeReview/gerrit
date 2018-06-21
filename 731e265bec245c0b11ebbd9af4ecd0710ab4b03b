@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd2b0f5f_0f9eea8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-21T11:34:29Z",
+      "side": 1,
+      "message": "Note for reviewers: I intend to add further documentation on that repo with details on how to set up its environment with pipenv.",
+      "revId": "731e265bec245c0b11ebbd9af4ecd0710ab4b03b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

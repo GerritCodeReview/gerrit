@@ -22,6 +22,30 @@
       "revId": "529baee0ccb54f00266aa4ee63268043369918b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35076ff1_62b104db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-21T06:33:22Z",
+      "side": 1,
+      "message": "TBH I\u0027m starting to think the deprecation of getRefs is causing more extra work than it\u0027s worth.\n\nI don\u0027t think it\u0027s worth doing this transformation here only to get rid of the deprecation warning; I\u0027d rather wait until JGit has a pair of getRefs{byPrefix} and setAdvertisedRefs that work together.",
+      "parentUuid": "2f03ab14_922fcd79",
+      "range": {
+        "startLine": 14,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "529baee0ccb54f00266aa4ee63268043369918b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

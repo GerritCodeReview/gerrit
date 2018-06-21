@@ -22,6 +22,30 @@
       "revId": "e1fce15639f110bdbc80cdea2fe13d211f3cda49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b47b6de3_cb96e7d8",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2018-06-21T08:35:38Z",
+      "side": 1,
+      "message": "yes, I missed to remove this\nthanks for fixing\n\nI always upload the new jgit release to a maven central staging repository on https://oss.sonatype.org/,\nupdate gerrit master to that version and test if gerrit builds and tests pass with the new version\nand if this was successful release the staging repository.",
+      "parentUuid": "b0c5a177_ecaefdb6",
+      "range": {
+        "startLine": 1,
+        "startChar": 77,
+        "endLine": 1,
+        "endChar": 84
+      },
+      "revId": "e1fce15639f110bdbc80cdea2fe13d211f3cda49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

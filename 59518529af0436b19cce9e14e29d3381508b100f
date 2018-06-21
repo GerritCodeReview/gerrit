@@ -482,6 +482,24 @@
     },
     {
       "key": {
+        "uuid": "5b5dfa69_1ffe4b0f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "Ok, fair enough. You might consider leaving a comment or rewording the error message to indicate that this is to make implementation easier; otherwise a future reader might have a hard time figuring out whether it was just to make it easier, or there is some fundamental reason why it doesn\u0027t work. Something as simple as \"updating and rewriting ref in one BatchUpdate not yet implemented\".",
+      "parentUuid": "e1169d38_6f790f05",
+      "revId": "59518529af0436b19cce9e14e29d3381508b100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8702a6c_8c09c4ff",
         "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
         "patchSetId": 2

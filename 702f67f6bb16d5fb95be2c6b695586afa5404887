@@ -1,0 +1,501 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "905758bf_cef3d139",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 2498,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "deleted",
+      "range": {
+        "startLine": 2498,
+        "startChar": 40,
+        "endLine": 2498,
+        "endChar": 47
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "202be155_cb86f7df",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 2499,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "it was",
+      "range": {
+        "startLine": 2499,
+        "startChar": 11,
+        "endLine": 2499,
+        "endChar": 15
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3315da4_7eadf1a7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 6120,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "options",
+      "range": {
+        "startLine": 6120,
+        "startChar": 51,
+        "endLine": 6120,
+        "endChar": 57
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e02873c7_4103b95f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 1643,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "I haven\u0027t gotten to the usages yet, but why do you need to control the RevSort? This should generally be the same order as used by ChangeNotesParser, right?\n\nOr is this about forward vs. reverse? In that case, I would suggest two methods with different names for forward/reverse, instead of exposing a RevSort parameter. That way callers can\u0027t do something weird like passing in RevSort.BOUNDARY.",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94edc9c0_c6e1135f",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "Generally we import PrimaryStorage directly; I think that would make this line more readable by avoiding the awkward wrapping.",
+      "range": {
+        "startLine": 137,
+        "startChar": 8,
+        "endLine": 137,
+        "endChar": 40
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9a65dd7_6d68aefb",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "It would be nice as a sanity check to enforce that this list is equal to  update.getNotes().getChangeMessages() (excluding Keys), and bail if it\u0027s not.",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe5b7fa8_812ddc29",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "This is a case where the Builder pattern could be useful, to avoid bugs due to getting the order of arguments wrong.",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3581fc8f_679b118c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "I like this refactoring, but I\u0027m not sure how it\u0027s related to this change. I would prefer if this lived in its own commit, so we can verify that it introduces no difference in behavior. It would also make it easier to see which (if any) of the changes in this file are necessary to support message deletion.",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3c827c0_9d231ac6",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "This should probably also be TOPO, otherwise there\u0027s a (very minor) chance that you will inadvertently swap the order of some commits that are incorrectly sorted with respect to commit timestamp.",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99486231_a5fac9ca",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "This method could probably use a small test or two. This is related to suggestion below to add a comment: it\u0027s not immediately obvious why we need to do it this way, and seeing some real-world input/output might be helpful.",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccd3d66a_e85a05b8",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "Optional: checkState",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6065027_62de71d4",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "failed",
+      "range": {
+        "startLine": 92,
+        "startChar": 39,
+        "endLine": 92,
+        "endChar": 43
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdc47304_5fe67650",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "It took me a minute to remember why this is necessary. I would add a comment like: \"Only replace the commit message body, which is the user-provided message. The subject and footers are NoteDb metadata.\"",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76d9346d_1344e799",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteChangeMessageRewriter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "Is this argument necessary? Isn\u0027t it always originalCommit.getParent(0)?",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91789b45_48fbc42e",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 114,
+        "startChar": 64,
+        "endLine": 114,
+        "endChar": 84
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74fb779f_02a453f3",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "Would it make sense to add a newline either before or after \"Reason:\"?",
+      "range": {
+        "startLine": 118,
+        "startChar": 56,
+        "endLine": 118,
+        "endChar": 57
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75ff30ee_3f22a2de",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "checkNotNull(deletedBy). We\u0027ve all done it, but it\u0027s still always embarrassing to see something like \"removed by: null\" in real data :)",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "674e24fe_5f5094a0",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 127,
+        "startChar": 34,
+        "endLine": 127,
+        "endChar": 43
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75fd33dc_e0256240",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "SHA-1",
+      "range": {
+        "startLine": 128,
+        "startChar": 18,
+        "endLine": 128,
+        "endChar": 26
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8112160d_d897c105",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "can",
+      "range": {
+        "startLine": 129,
+        "startChar": 7,
+        "endLine": 129,
+        "endChar": 12
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "159fc323_a9e85744",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "must",
+      "range": {
+        "startLine": 129,
+        "startChar": 87,
+        "endLine": 129,
+        "endChar": 92
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65aa25ae_35be217b",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "I think this whole comment belongs in ChangeMessageUtil.java. It\u0027s an answer to the question of \"why did we have to design the interface this way?\", which is something I\u0027d expect to see answered where the interface is defined, not in the caller.",
+      "range": {
+        "startLine": 127,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 26
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0af4bd5d_8b73c003",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "These days I\u0027m recommending against using ExpectedException due to its known pitfalls.",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bcd0906_b23d25a4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "It would be nice in the failure message here to include the contents of messagesAfterDeletion, otherwise you just see a mismatched size and don\u0027t know which one is missing.",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f81bb3ff_757d1e5e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T12:50:17Z",
+      "side": 1,
+      "message": "I think what you have here is fine for this commit. But I think we could design a better interface that would make this type of code much easier to write.\n\nHere\u0027s another idea: instead of exposing the low-level range information, we could parse a commit message into an AutoValue type, say ParsedCommitMessage, containing (encoding, subject, body, list of footers). Or even parsing a whole RevCommit, and including the author/committer/etc. as well. That type could then contain methods like:\n\n * byte[] toByteArray(), to reconstruct the original byte[]\n * ParsedCommitMessage withBody(String newBody), to produce a new message swapping out only the body\n * ParsedCommitMessage replacingFooter(String footer, String newValue), to swap out a single footer (not necessary for this change, but you were asking about it in IM)\n\nThen here you would have two ParsedCommitMessage variables, and you could verify that all but one of their fields are equal.\n\nYou could even go one step further and add a ParsedCommitMessageSubject class, so you could write more natural test assertions:\n\n assertThat(newMessage).isEqualToWithDifferentBody(oldMessage, expectedBody);",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

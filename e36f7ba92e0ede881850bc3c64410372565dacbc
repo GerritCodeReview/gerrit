@@ -22,6 +22,30 @@
       "revId": "e36f7ba92e0ede881850bc3c64410372565dacbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29aa4198_283794d3",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-21T06:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04c8fc46_8cf4c964",
+      "range": {
+        "startLine": 27,
+        "startChar": 64,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "e36f7ba92e0ede881850bc3c64410372565dacbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04c8fc46_8cf4c964",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1033322
+      },
+      "writtenOn": "2018-06-21T06:51:17Z",
+      "side": 1,
+      "message": "You\u0027ll need to set `--host_java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java9` too, and `--javacopt\u003d\u0027--release 9\u0027` should be unnecessary as long as the toolchain flags are set.",
+      "range": {
+        "startLine": 27,
+        "startChar": 64,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "e36f7ba92e0ede881850bc3c64410372565dacbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

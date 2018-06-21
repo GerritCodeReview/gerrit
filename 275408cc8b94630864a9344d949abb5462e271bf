@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2ced6b8_3eb3b059",
+        "filename": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T14:08:40Z",
+      "side": 0,
+      "message": "For the record I am ok with potentially duplicating the check here, this logic was a little hard to follow. IMO if this is the kind of thing we end up caring about, we can implement caching of (user, resource, permission) results at the level of a single PermissionBackend.WithUser instance.",
+      "revId": "275408cc8b94630864a9344d949abb5462e271bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

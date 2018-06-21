@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1529506389 +0200\nnonce ADrMV7Z9s1aASF2TnO99OW/xfi57+Po6GzT2RXwNJ0drBgqsaveyQJEyxyweZmbDOYs1QFWUFYOM\n\n0000000000000000000000000000000000000000 9abf75f080c5f7b8f89764d67563c761d941a4c3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlsqalUACgkQUbX9l6DQ\n71HXQQf/VTav6afY+Wk8Lj0xHEoPUkHohNXg3P79Qic94CvJy477OtZYSCs3bZCq\n/yAOi9LUrIR1BQLJMAsedtlpILdJ3uwjT13r0svGK7HHg4bzDx4rjzTrgRpUW6HB\nUPnZX26VAoAgpeRWQ94/HTpoUHXLlzTv8/2ND3lrT1w00vO02fhL9wdMRJas6e9a\nYmQLrzQJYgLO5Y3FSzDNGlQqylJLYK0pDnjnIgU1jszUJ43gs4YBFLLkwp7HwuGk\nwrtRIAEqKg4YiYzM5W37sVNBtuPokAo49R3YMeB4fi7HciLllOr/X32r1aW/FXgk\npDryCiuUW6zFQ3C7As+HrNwpmZCiAw\u003d\u003d\n\u003dfgLB\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "c97447b2_36f44eda",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T14:08:40Z",
+      "side": 1,
+      "message": "Factor this out of the loop? I wonder if resolving this provider is sometimes surprisingly nontrivial.",
+      "range": {
+        "startLine": 94,
+        "startChar": 14,
+        "endLine": 94,
+        "endChar": 46
+      },
+      "revId": "9abf75f080c5f7b8f89764d67563c761d941a4c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7a17dcf_caf010f2",
+        "filename": "java/com/google/gerrit/server/account/InternalAccountDirectory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-06-21T14:08:40Z",
+      "side": 1,
+      "message": "This should definitely not happen in the loop.",
+      "range": {
+        "startLine": 95,
+        "startChar": 15,
+        "endLine": 95,
+        "endChar": 84
+      },
+      "revId": "9abf75f080c5f7b8f89764d67563c761d941a4c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

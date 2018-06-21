@@ -22,6 +22,30 @@
       "revId": "31dcecc12a2fe0efbb5386d5fc114256f5a32d75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ecccbde_3f65ce75",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-06-21T15:16:56Z",
+      "side": 1,
+      "message": "Yes. You\u0027re correct. They shouldn\u0027t be skipped.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/186175",
+      "parentUuid": "70468e6d_cfcd2862",
+      "range": {
+        "startLine": 894,
+        "startChar": 10,
+        "endLine": 896,
+        "endChar": 55
+      },
+      "revId": "31dcecc12a2fe0efbb5386d5fc114256f5a32d75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

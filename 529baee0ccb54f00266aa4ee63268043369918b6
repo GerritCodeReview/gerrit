@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f03ab14_922fcd79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-06-21T06:12:06Z",
+      "side": 1,
+      "message": "Should this do that transformation? Or is it better to figure out what setAdvertisedRefs should be replaced with instead? (E.g. the setAdvertisedRefs interface doesn\u0027t fit well with protocol v2.)",
+      "range": {
+        "startLine": 14,
+        "startChar": 48,
+        "endLine": 15,
+        "endChar": 65
+      },
+      "revId": "529baee0ccb54f00266aa4ee63268043369918b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

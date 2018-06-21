@@ -40,6 +40,7 @@ public class RootCollectionsRestApiBindingsIT extends AbstractRestApiBindingsTes
               .build(),
           RestCall.get("/changes/"),
           RestCall.get("/groups/"),
+          RestCall.put("/groups/new-group"),
           RestCall.get("/plugins/"),
           RestCall.get("/projects/"),
           RestCall.put("/projects/new-project"));

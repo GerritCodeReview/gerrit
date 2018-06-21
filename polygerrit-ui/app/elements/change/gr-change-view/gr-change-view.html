@@ -430,13 +430,15 @@ limitations under the License.
         <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
           <div id="commitAndRelated" class="hideOnMobileOverlay">
             <div class="commitContainer">
-              <gr-button
-                  id="replyBtn"
-                  class="reply"
-                  hidden$="[[!_loggedIn]]"
-                  primary
-                  disabled="[[_replyDisabled]]"
-                  on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+              <div>
+                <gr-button
+                    id="replyBtn"
+                    class="reply"
+                    hidden$="[[!_loggedIn]]"
+                    primary
+                    disabled="[[_replyDisabled]]"
+                    on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+              </div>
               <div
                   id="commitMessage"
                   class$="commitMessage [[_computeCommitClass(_commitCollapsed, _latestCommitMessage)]]">

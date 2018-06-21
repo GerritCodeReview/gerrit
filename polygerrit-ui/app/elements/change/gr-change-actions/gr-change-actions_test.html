@@ -252,8 +252,8 @@ limitations under the License.
       assert.deepEqual(result, actions);
     });
 
-    test('submit change', done => {
-      element.$.confirmSubmitDialog.$.confirm.focus = done;
+    test('submit change', () => {
+      const showSpy = sandbox.spy(element, '_showActionDialog');
       sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchChangeUpdates',
@@ -270,6 +270,9 @@ limitations under the License.
       const submitButton = element.$$('gr-button[data-action-key="submit"]');
       assert.ok(submitButton);
       MockInteractions.tap(submitButton);
+
+      flushAsynchronousOperations();
+      assert.isTrue(showSpy.calledWith(element.$.confirmSubmitDialog));
     });
 
     test('_handleSubmitConfirm', () => {

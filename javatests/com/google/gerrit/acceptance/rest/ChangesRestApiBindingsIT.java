@@ -19,6 +19,8 @@ import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Meth
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import org.junit.Test;
 
 /**
@@ -99,6 +101,26 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   private static final ImmutableList<RestCall> CHANGE_ENDPOINTS_NOTEDB =
       ImmutableList.of(RestCall.post("/changes/%s/rebuild.notedb"));
 
+  /**
+   * Reviewer REST endpoints to be tested, each URL contains placeholders for the change identifier
+   * and the reviewer identifier.
+   */
+  private static final ImmutableList<RestCall> REVIEWER_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.get("/changes/%s/reviewers/%s"),
+          RestCall.get("/changes/%s/reviewers/%s/votes"),
+          RestCall.post("/changes/%s/reviewers/%s/delete"),
+          RestCall.delete("/changes/%s/reviewers/%s"));
+
+  /**
+   * Vote REST endpoints to be tested, each URL contains placeholders for the change identifier, the
+   * reviewer identifier and the label identifier.
+   */
+  private static final ImmutableList<RestCall> VOTE_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.post("/changes/%s/reviewers/%s/votes/%s/delete"),
+          RestCall.delete("/changes/%s/reviewers/%s/votes/%s"));
+
   // TODO(ekempin): Add tests for REST endpoints of changes child collections
 
   @Test
@@ -119,6 +141,29 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
 
     for (RestCall restCall : CHANGE_ENDPOINTS_NOTEDB) {
       execute(restCall, changeId);
+    }
+  }
+
+  @Test
+  public void reviewerEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    AddReviewerInput addReviewerInput = new AddReviewerInput();
+    addReviewerInput.reviewer = user.email;
+
+    for (RestCall restCall : REVIEWER_ENDPOINTS) {
+      gApi.changes().id(changeId).addReviewer(addReviewerInput);
+      execute(restCall, changeId, addReviewerInput.reviewer);
+    }
+  }
+
+  @Test
+  public void voteEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    for (RestCall restCall : VOTE_ENDPOINTS) {
+      gApi.changes().id(changeId).current().review(ReviewInput.approve());
+      execute(restCall, changeId, admin.email, "Code-Review");
     }
   }
 }

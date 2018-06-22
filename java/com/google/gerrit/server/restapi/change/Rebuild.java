@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.joining;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -67,7 +68,8 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
 
   @Override
   public BinaryResult apply(ChangeResource rsrc, Input input)
-      throws ResourceNotFoundException, IOException, OrmException, ConfigInvalidException {
+      throws ResourceNotFoundException, IOException, OrmException, ConfigInvalidException,
+          ResourceConflictException {
     if (!migration.commitChangeWrites()) {
       throw new ResourceNotFoundException();
     }
@@ -82,6 +84,9 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
     // in the case of races. This should be easy enough to detect by rerunning.
     ChangeBundle reviewDbBundle =
         bundleReader.fromReviewDb(ReviewDbUtil.unwrapDb(db.get()), rsrc.getId());
+    if (reviewDbBundle == null) {
+      throw new ResourceConflictException("change is missing in ReviewDb");
+    }
     rebuild(rsrc);
     ChangeNotes notes = notesFactory.create(db.get(), rsrc.getChange().getProject(), rsrc.getId());
     ChangeBundle noteDbBundle = ChangeBundle.fromNotes(commentsUtil, notes);

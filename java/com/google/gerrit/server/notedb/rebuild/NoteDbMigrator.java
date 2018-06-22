@@ -362,7 +362,8 @@ public class NoteDbMigrator implements AutoCloseable {
           primaryStorageMigrator,
           listeners,
           threads > 1
-              ? MoreExecutors.listeningDecorator(workQueue.createQueue(threads, "RebuildChange"))
+              ? MoreExecutors.listeningDecorator(
+                  workQueue.createQueue(threads, "RebuildChange", true))
               : MoreExecutors.newDirectExecutorService(),
           projects,
           changes,

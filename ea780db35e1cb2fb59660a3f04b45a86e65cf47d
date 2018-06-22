@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "8c6f1219_0b098232",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCreateView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T09:12:05Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "115c483c_7a39f314",
+      "range": {
+        "startLine": 30,
+        "startChar": 80,
+        "endLine": 30,
+        "endChar": 81
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6813dedc_99c3434a",
         "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
         "patchSetId": 2
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "68363e22_3417cf1c",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T09:12:05Z",
+      "side": 1,
+      "message": "How many users of the pure extension API are there, and would it be a great effort to fix them?\n\nWe already regularly break the build for plugins - you only have to look at the amount of broken builds on CI [1] to see that - so would API breakage cause that much more work?  I agree that this is not related to the change here though, so we can move this discussion elsewhere.\n\n[1] https://gerrit-ci.gerritforge.com/view/Plugins-master/",
+      "parentUuid": "e151c769_d125f945",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14f720ba_8109c663",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
         "patchSetId": 2
@@ -173,6 +221,24 @@
       "side": 1,
       "message": "Do you mean @NoHttpd? I don\u0027t think we have @NoSshd.\nMaking REST calls rquires httpd, so we can\u0027t use @NoHttpd here.",
       "parentUuid": "14f720ba_8109c663",
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46a4ae7a_b7858649",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T09:12:05Z",
+      "side": 1,
+      "message": "Hmm, I thought we had an annotation to prevent inclusion of the SSH stack.  Can\u0027t see it now, though.  Never mind.",
+      "parentUuid": "bf80ce0f_1068c08f",
       "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -214,6 +280,30 @@
       "side": 1,
       "message": "\u003e Is this suffix required? We already\n\u003e know it\u0027s testing the REST API because\n\u003e it\u0027s in the /rest/ package.\n\nI would agree if all our tests in the /rest/ package were actually REST tests, however most of these tests have been converted to use the extension API. So I chose to add the \u0027RestApi\u0027 suffix here to make clear that this test shouldn\u0027t be migrated to use the extension API.\n\nThis naming is consistent with the createBranchRestApi() test that I added in com.google.gerrit.acceptance.rest.project.CreateBranchIT. E.g. despite the package name this class didn\u0027t do any REST tests.\n\nI think our test organization by api vs. rest package is a mess, but that should be cleaned up separately.",
       "parentUuid": "ac06992b_a5b1aa78",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3107da4_8a45609c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T09:12:05Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "211e55c8_2e7d4ed2",
       "range": {
         "startLine": 26,
         "startChar": 27,

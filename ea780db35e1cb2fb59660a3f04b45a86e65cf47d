@@ -240,6 +240,30 @@
     },
     {
       "key": {
+        "uuid": "a93a9164_db367209",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T09:23:39Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "b85d5098_8e6e7f1d",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14f720ba_8109c663",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
         "patchSetId": 2

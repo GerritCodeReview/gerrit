@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83fb56d7_407eb788",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-22T19:34:17Z",
+      "side": 1,
+      "message": "There\u0027s an extraneous border when there aren\u0027t any download commands: https://imgur.com/a/niJR6cV\n\nCan this one be shown only when the commands are configured?",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 46
+      },
+      "revId": "14bc11b5f30843c08fde7244d6f7557a35ff3dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41b6534b_14fe8ecc",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-22T19:34:17Z",
+      "side": 1,
+      "message": "Nit: This is indented too far.",
+      "range": {
+        "startLine": 81,
+        "startChar": 12,
+        "endLine": 84,
+        "endChar": 73
+      },
+      "revId": "14bc11b5f30843c08fde7244d6f7557a35ff3dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

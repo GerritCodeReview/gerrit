@@ -61,17 +61,24 @@
       });
     },
 
-    _computeSelected(item, selectedItem) {
-      return item === selectedItem;
+    _handleTabChange(e) {
+      const scheme = this.schemes[e.detail.value];
+      if (scheme && scheme !== this.selectedScheme) {
+        this.set('selectedScheme', scheme);
+        if (this._loggedIn) {
+          this.$.restAPI.savePreferences(
+              {download_scheme: this.selectedScheme});
+        }
+      }
     },
 
-    _handleSchemeTap(e) {
-      e.preventDefault();
-      const el = Polymer.dom(e).localTarget;
-      this.selectedScheme = el.getAttribute('data-scheme');
-      if (this._loggedIn) {
-        this.$.restAPI.savePreferences({download_scheme: this.selectedScheme});
-      }
+    _computeSelected(schemes, selectedScheme) {
+      return (schemes.findIndex(scheme => scheme === selectedScheme) || 0)
+          + '';
+    },
+
+    _computeShowTabs(schemes) {
+      return schemes.length > 1 ? '' : 'hidden';
     },
   });
 })();

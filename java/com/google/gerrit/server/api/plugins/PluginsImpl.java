@@ -14,10 +14,11 @@
 
 package com.google.gerrit.server.api.plugins;
 
+import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.api.plugins.PluginApi;
 import com.google.gerrit.extensions.api.plugins.Plugins;
-import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -62,6 +63,14 @@ public class PluginsImpl implements Plugins {
         return listProvider.get().request(this).apply(TopLevelResource.INSTANCE);
       }
     };
+  }
+
+  @Override
+  @Deprecated
+  public PluginApi install(
+      String name, com.google.gerrit.extensions.common.InstallPluginInput input)
+      throws RestApiException {
+    throw new NotImplementedException();
   }
 
   @Override

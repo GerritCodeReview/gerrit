@@ -16,6 +16,24 @@
       "revId": "275408cc8b94630864a9344d949abb5462e271bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e23e96c5_57c8a834",
+        "filename": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T07:17:22Z",
+      "side": 0,
+      "message": "Yes, it\u0027s probably better to leave the check here for better readability.\n\nDone",
+      "parentUuid": "b2ced6b8_3eb3b059",
+      "revId": "275408cc8b94630864a9344d949abb5462e271bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

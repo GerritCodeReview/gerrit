@@ -40,7 +40,13 @@ import org.junit.Ignore;
 @Ignore
 public abstract class AbstractRestApiBindingsTest extends AbstractDaemonTest {
   protected void execute(List<RestCall> restCalls, String... args) throws Exception {
+    execute(restCalls, () -> {}, args);
+  }
+
+  protected void execute(List<RestCall> restCalls, BeforeRestCall beforeRestCall, String... args)
+      throws Exception {
     for (RestCall restCall : restCalls) {
+      beforeRestCall.run();
       execute(restCall, args);
     }
   }
@@ -140,5 +146,10 @@ public abstract class AbstractRestApiBindingsTest extends AbstractDaemonTest {
 
       abstract RestCall build();
     }
+  }
+
+  @FunctionalInterface
+  public interface BeforeRestCall {
+    void run() throws Exception;
   }
 }

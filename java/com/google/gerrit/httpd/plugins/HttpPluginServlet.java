@@ -252,7 +252,8 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     int cnt = parts.size();
     return cnt == 0
         || (cnt == 1 && ("PUT".equals(method) || "DELETE".equals(method)))
-        || (cnt == 2 && parts.get(1).startsWith("gerrit~"));
+        || (cnt == 2 && parts.get(1).startsWith("gerrit~")
+            || ("GET".equals(method) && parts.get(1).equals("status")));
   }
 
   private void onDefault(PluginHolder holder, HttpServletRequest req, HttpServletResponse res)

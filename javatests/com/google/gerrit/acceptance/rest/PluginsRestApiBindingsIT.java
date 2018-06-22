@@ -37,11 +37,7 @@ public class PluginsRestApiBindingsIT extends AbstractRestApiBindingsTest {
   private static final ImmutableList<RestCall> PLUGIN_ENDPOINTS =
       ImmutableList.of(
           RestCall.put("/plugins/%s"),
-
-          // For GET requests prefixing the view name with 'gerrit~' is required.
-          RestCall.get("/plugins/%s/gerrit~status"),
-
-          // POST (and PUT) requests don't require the 'gerrit~' prefix in front of the view name.
+          RestCall.get("/plugins/%s/status"),
           RestCall.post("/plugins/%s/enable"),
           RestCall.post("/plugins/%s/disable"),
           RestCall.post("/plugins/%s/reload"),

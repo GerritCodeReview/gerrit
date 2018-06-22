@@ -1,4 +1,114 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1529418807 +0200\nnonce ADrMV7Zded4UqWnILOFANJiuckrVCcH9nuSqognLDNJkaHwtH4QG63QsVPffbqYBrN6tGZ2Fbdm2\n\n0000000000000000000000000000000000000000 ea780db35e1cb2fb59660a3f04b45a86e65cf47d refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlspFDcACgkQUbX9l6DQ\n71HxvwgAszfCH7QxJ0ZSE3cOr74TX8ZOdt+nay7piYUa0PV21mmjL9K7aHjDmXM4\ncaNKbXKCCB6hH/U5j9Tn9bR1g2eZXw5aG1y0gFkHX4CKhExwQ0YfTROGrSJ4uvXU\nmr3Y1P6on1TBNwTbUOIrmlH6P6FqO5/Bh/TfWvtatOfiXog9NUPzT0volDvEVIdR\n5fg+oiiLGKxAozRPbrsTu40fbqA8jYFhexy1ulnmKx5tzJvF3ED8gfJuSfmk5BfY\nOWMYBP5HqSiDug92ch5tikVbu6Gbm1G4WFSfMzubQswwwLjxItSdwBR5bqiuM7+r\nhOTC+Auo165moIfaMP59rNq6MyXsaQ\u003d\u003d\n\u003dzhJL\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e75084f1_eba1e307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T01:40:58Z",
+      "side": 1,
+      "message": "override",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7507412f_cf33c839",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCreateView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T01:40:58Z",
+      "side": 1,
+      "message": "Not really related to this change, but it reminded me...\n\nSome time ago I was doing some restructuring of the static Input classes into standalone classes in the extension API. One thing I thought about doing was introducing a standard empty Input class that the others should derive from, then here it would be:\n\n I extends RestInput\n\nor something like that.\n\nHowever I didn\u0027t continue with that idea because I wasn\u0027t sure exactly what benefit it would bring, if any.",
+      "range": {
+        "startLine": 30,
+        "startChar": 80,
+        "endLine": 30,
+        "endChar": 81
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6813dedc_99c3434a",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T01:40:58Z",
+      "side": 1,
+      "message": "While we\u0027re doing this refactoring would it make sense to move this into the project package?",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14f720ba_8109c663",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T01:40:58Z",
+      "side": 1,
+      "message": "Annotate this class with @NoSshd?",
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac06992b_a5b1aa78",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T01:40:58Z",
+      "side": 1,
+      "message": "Is this suffix required? We already know it\u0027s testing the REST API because it\u0027s in the /rest/ package.\n\nIf we want to differentiate from the AccountIT that tests with the api, maybe we can put REST in the class name?",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

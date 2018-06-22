@@ -275,6 +275,27 @@ limitations under the License.
       assert.isTrue(showSpy.calledWith(element.$.confirmSubmitDialog));
     });
 
+    test('submit change, tap on icon', done => {
+      element.$.confirmSubmitDialog.$.confirm.focus = done;
+      sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
+          .returns(Promise.resolve('test'));
+      sandbox.stub(element, 'fetchChangeUpdates',
+          () => { return Promise.resolve({isLatest: true}); });
+      sandbox.stub(element.$.overlay, 'open').returns(Promise.resolve());
+      element.change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {_number: 2},
+        },
+      };
+      element.latestPatchNum = '2';
+
+      const submitIcon =
+          element.$$('gr-button[data-action-key="submit"] iron-icon');
+      assert.ok(submitIcon);
+      MockInteractions.tap(submitIcon);
+    });
+
     test('_handleSubmitConfirm', () => {
       const fireStub = sandbox.stub(element, '_fireAction');
       sandbox.stub(element, '_canSubmitChange').returns(true);

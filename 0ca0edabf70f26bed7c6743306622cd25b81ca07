@@ -17,6 +17,24 @@
       "revId": "0ca0edabf70f26bed7c6743306622cd25b81ca07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "937b2ede_180859b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T07:52:07Z",
+      "side": 1,
+      "message": "Hmm, maybe it should be kept:\n  https://gerrit-review.googlesource.com/Documentation/rest-api-plugins.html#plugin-endpoints",
+      "parentUuid": "d68ddf97_322fe1e3",
+      "revId": "0ca0edabf70f26bed7c6743306622cd25b81ca07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

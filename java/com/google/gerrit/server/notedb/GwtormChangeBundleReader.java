@@ -31,10 +31,15 @@ public class GwtormChangeBundleReader implements ChangeBundleReader {
 
   @Override
   public ChangeBundle fromReviewDb(ReviewDb db, Change.Id id) throws OrmException {
+    Change reviewDbChange = db.changes().get(id);
+    if (reviewDbChange == null) {
+      return null;
+    }
+
     // TODO(dborowitz): Figure out how to do this more consistently, e.g. hand-written inner joins.
     List<PatchSetApproval> approvals = db.patchSetApprovals().byChange(id).toList();
     return new ChangeBundle(
-        db.changes().get(id),
+        reviewDbChange,
         db.changeMessages().byChange(id),
         db.patchSets().byChange(id),
         approvals,

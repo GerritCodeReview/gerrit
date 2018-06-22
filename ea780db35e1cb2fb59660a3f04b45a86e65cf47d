@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "a6f06d4f_af943876",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T08:21:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e75084f1_eba1e307",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7507412f_cf33c839",
         "filename": "java/com/google/gerrit/extensions/restapi/RestCreateView.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2018-06-22T01:40:58Z",
       "side": 1,
       "message": "Not really related to this change, but it reminded me...\n\nSome time ago I was doing some restructuring of the static Input classes into standalone classes in the extension API. One thing I thought about doing was introducing a standard empty Input class that the others should derive from, then here it would be:\n\n I extends RestInput\n\nor something like that.\n\nHowever I didn\u0027t continue with that idea because I wasn\u0027t sure exactly what benefit it would bring, if any.",
+      "range": {
+        "startLine": 30,
+        "startChar": 80,
+        "endLine": 30,
+        "endChar": 81
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "115c483c_7a39f314",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCreateView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T08:21:55Z",
+      "side": 1,
+      "message": "I think it would have been a good idea to do this from the beginning. It would at least improve readability. But I\u0027m not sure if we can still do this without breaking the REST API, e.g. PostWatchedProjects uses List\u003cProjectWatchInfo\u003e as input type and we can\u0027t make List implement RestInput.",
+      "parentUuid": "7507412f_cf33c839",
       "range": {
         "startLine": 30,
         "startChar": 80,
@@ -72,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "e151c769_d125f945",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T08:21:55Z",
+      "side": 1,
+      "message": "I agree that com.google.gerrit.extensions.project would be the right package for this class, but isn\u0027t moving this class a breakage of the extensions API? If we still want to do this, it should rather be a separate change.",
+      "parentUuid": "6813dedc_99c3434a",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14f720ba_8109c663",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
         "patchSetId": 2
@@ -86,6 +158,24 @@
       "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf80ce0f_1068c08f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T08:21:55Z",
+      "side": 1,
+      "message": "Do you mean @NoHttpd? I don\u0027t think we have @NoSshd.\nMaking REST calls rquires httpd, so we can\u0027t use @NoHttpd here.",
+      "parentUuid": "14f720ba_8109c663",
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -109,6 +199,30 @@
       "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "211e55c8_2e7d4ed2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T08:21:55Z",
+      "side": 1,
+      "message": "\u003e Is this suffix required? We already\n\u003e know it\u0027s testing the REST API because\n\u003e it\u0027s in the /rest/ package.\n\nI would agree if all our tests in the /rest/ package were actually REST tests, however most of these tests have been converted to use the extension API. So I chose to add the \u0027RestApi\u0027 suffix here to make clear that this test shouldn\u0027t be migrated to use the extension API.\n\nThis naming is consistent with the createBranchRestApi() test that I added in com.google.gerrit.acceptance.rest.project.CreateBranchIT. E.g. despite the package name this class didn\u0027t do any REST tests.\n\nI think our test organization by api vs. rest package is a mess, but that should be cleaned up separately.",
+      "parentUuid": "ac06992b_a5b1aa78",
+      "range": {
+        "startLine": 26,
+        "startChar": 27,
+        "endLine": 26,
+        "endChar": 34
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

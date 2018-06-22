@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1529665623 +0200\nnonce ADrMV7a4vlTS0RvHbD1AYvqE5LtxQkAIaeRcp5z7Unk3uFUhDe2uz3Bgdb0F3M4z3CLTmxRU5KQJ\n\n0000000000000000000000000000000000000000 745e0f5fec07246977dccf65d108873afbda6c07 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlss2FcACgkQUbX9l6DQ\n71FJoAgAq2+xcW6/FROO+1NwUl2XlCCFfOwZv+V/y3KagLDNve7yfkyd1UcyQ4iA\nF9RydARx/LL5kor4OLewOenKuwa6+B7wUFE8EP48aa9ET6SY/pMYOsC7/TRHSsHE\nHs7muqfU8vHsWj7uYdz3mCyz5xoyCz87TgsC/SqAE3l78GkbDdGkat5vrwQPmnPj\nbLfdJ56wkme8DLzrdQScY43XkwDdowZlYS8Bc+nhi3VOsWu+4mjiisfkbbNnZJKa\nOiQzT0xrIG+XoNXYI5FSkyoDOddutdmNmzef30w2tw2/JNBgnlc0GtTfhbKpORZQ\nl8654KIIbnts3SrsbGK/nK/7n0SEqw\u003d\u003d\n\u003dvq4j\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7bd95c2_b36afb8d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2018-06-22T18:58:32Z",
+      "side": 1,
+      "message": "nit: have you increased max allowed textwidth?",
+      "range": {
+        "startLine": 791,
+        "startChar": 10,
+        "endLine": 793,
+        "endChar": 23
+      },
+      "revId": "745e0f5fec07246977dccf65d108873afbda6c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

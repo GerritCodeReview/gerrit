@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -42,7 +43,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class SuggestReviewersIT extends AbstractDaemonTest {
-  @Inject private CreateGroup.Factory createGroupFactory;
+  @Inject private CreateGroup createGroup;
 
   private InternalGroup group1;
   private InternalGroup group2;
@@ -490,7 +491,8 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   private InternalGroup newGroup(String name) throws Exception {
-    GroupInfo group = createGroupFactory.create(name(name)).apply(TopLevelResource.INSTANCE, null);
+    GroupInfo group =
+        createGroup.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(name(name)), null);
     return group(new AccountGroup.UUID(group.id));
   }
 

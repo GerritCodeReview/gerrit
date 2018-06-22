@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -119,7 +120,7 @@ final class SetAccountCommand extends SshCommand {
 
   @Inject private IdentifiedUser.GenericFactory genericUserFactory;
 
-  @Inject private CreateEmail.Factory createEmailFactory;
+  @Inject private CreateEmail createEmail;
 
   @Inject private GetEmails getEmails;
 
@@ -269,7 +270,7 @@ final class SetAccountCommand extends SshCommand {
     in.email = email;
     in.noConfirmation = true;
     try {
-      createEmailFactory.create(email).apply(rsrc, in);
+      createEmail.apply(rsrc, IdString.fromDecoded(email), in);
     } catch (EmailException e) {
       throw die(e.getMessage());
     }

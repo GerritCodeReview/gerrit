@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -25,28 +24,23 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.SubgroupResource;
-import com.google.gerrit.server.restapi.group.AddSubgroups.PutSubgroup;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class SubgroupsCollection
-    implements ChildCollection<GroupResource, SubgroupResource>, AcceptsCreate<GroupResource> {
+public class SubgroupsCollection implements ChildCollection<GroupResource, SubgroupResource> {
   private final DynamicMap<RestView<SubgroupResource>> views;
   private final ListSubgroups list;
   private final GroupsCollection groupsCollection;
-  private final AddSubgroups addSubgroups;
 
   @Inject
   SubgroupsCollection(
       DynamicMap<RestView<SubgroupResource>> views,
       ListSubgroups list,
-      GroupsCollection groupsCollection,
-      AddSubgroups addSubgroups) {
+      GroupsCollection groupsCollection) {
     this.views = views;
     this.list = list;
     this.groupsCollection = groupsCollection;
-    this.addSubgroups = addSubgroups;
   }
 
   @Override
@@ -71,11 +65,6 @@ public class SubgroupsCollection
   private static boolean isSubgroup(
       GroupDescription.Internal parent, GroupDescription.Basic member) {
     return parent.getSubgroups().contains(member.getGroupUUID());
-  }
-
-  @Override
-  public PutSubgroup create(GroupResource group, IdString id) {
-    return new PutSubgroup(addSubgroups, id.get());
   }
 
   @Override

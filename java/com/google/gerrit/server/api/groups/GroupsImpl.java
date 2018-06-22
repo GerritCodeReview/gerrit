@@ -49,7 +49,7 @@ class GroupsImpl implements Groups {
   private final Provider<ListGroups> listGroups;
   private final Provider<QueryGroups> queryGroups;
   private final PermissionBackend permissionBackend;
-  private final CreateGroup.Factory createGroup;
+  private final CreateGroup createGroup;
   private final GroupApiImpl.Factory api;
 
   @Inject
@@ -60,7 +60,7 @@ class GroupsImpl implements Groups {
       Provider<ListGroups> listGroups,
       Provider<QueryGroups> queryGroups,
       PermissionBackend permissionBackend,
-      CreateGroup.Factory createGroup,
+      CreateGroup createGroup,
       GroupApiImpl.Factory api) {
     this.accounts = accounts;
     this.groups = groups;
@@ -90,9 +90,11 @@ class GroupsImpl implements Groups {
       throw new BadRequestException("GroupInput must specify name");
     }
     try {
-      CreateGroup impl = createGroup.create(in.name);
-      permissionBackend.currentUser().checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
-      GroupInfo info = impl.apply(TopLevelResource.INSTANCE, in);
+      permissionBackend
+          .currentUser()
+          .checkAny(GlobalPermission.fromAnnotation(createGroup.getClass()));
+      GroupInfo info =
+          createGroup.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(in.name), in);
       return id(info.id);
     } catch (Exception e) {
       throw asRestApiException("Cannot create group " + in.name, e);

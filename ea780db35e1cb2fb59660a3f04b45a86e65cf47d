@@ -216,6 +216,30 @@
     },
     {
       "key": {
+        "uuid": "b85d5098_8e6e7f1d",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T09:20:32Z",
+      "side": 1,
+      "message": "OK, in that case I will continue my refactoring of the input classes in a separate change and we can continue the discussion there.",
+      "parentUuid": "3782cc48_aad74a8e",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14f720ba_8109c663",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
         "patchSetId": 2
@@ -281,6 +305,24 @@
       "side": 1,
       "message": "We have @UseSsh that is required for SSH tests. The absence of this annotation should disable the SSH stack.",
       "parentUuid": "46a4ae7a_b7858649",
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d018ea5_f193a36b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T09:20:32Z",
+      "side": 1,
+      "message": "Ah, yes, that\u0027s what I was thinking about.",
+      "parentUuid": "0f57e8c4_970ac204",
       "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -309,7 +309,7 @@ public class SubmoduleOp {
         continue;
       }
 
-      for (Ref ref : or.repo.getRefDatabase().getRefs(RefNames.REFS_HEADS).values()) {
+      for (Ref ref : or.repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_HEADS)) {
         if (r.getDestination() != null && !r.matchDestination(ref.getName())) {
           continue;
         }

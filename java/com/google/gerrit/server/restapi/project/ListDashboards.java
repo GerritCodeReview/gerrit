@@ -103,7 +103,7 @@ public class ListDashboards implements RestReadView<ProjectResource> {
     try (Repository git = gitManager.openRepository(state.getNameKey());
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();
-      for (Ref ref : git.getRefDatabase().getRefs(REFS_DASHBOARDS).values()) {
+      for (Ref ref : git.getRefDatabase().getRefsByPrefix(REFS_DASHBOARDS)) {
         if (perm.ref(ref.getName()).test(RefPermission.READ) && state.statePermitsRead()) {
           all.addAll(scanDashboards(state.getProject(), git, rw, ref, project, setDefault));
         }

@@ -155,7 +155,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       throws IOException, ResourceNotFoundException, PermissionBackendException {
     List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
-      Collection<Ref> heads = db.getRefDatabase().getRefs(Constants.R_HEADS).values();
+      Collection<Ref> heads = db.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
       refs = new ArrayList<>(heads.size() + 3);
       refs.addAll(heads);
       refs.addAll(

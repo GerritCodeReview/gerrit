@@ -18,7 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.reviewdb.client.Project;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -89,9 +89,9 @@ public final class MagicBranch {
   }
 
   private static Capable checkMagicBranchRef(String branchName, Repository repo, Project project) {
-    Map<String, Ref> blockingFors;
+    List<Ref> blockingFors;
     try {
-      blockingFors = repo.getRefDatabase().getRefs(branchName);
+      blockingFors = repo.getRefDatabase().getRefsByPrefix(branchName);
     } catch (IOException err) {
       String projName = project.getName();
       logger.atWarning().withCause(err).log("Cannot scan refs in '%s'", projName);
@@ -101,7 +101,7 @@ public final class MagicBranch {
       String projName = project.getName();
       logger.atSevere().log(
           "Repository '%s' needs the following refs removed to receive changes: %s",
-          projName, blockingFors.keySet());
+          projName, blockingFors);
       return new Capable("One or more " + branchName + " names blocks change upload");
     }
 

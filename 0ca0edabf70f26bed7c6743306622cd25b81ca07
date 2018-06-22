@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1529652689 +0200\nnonce ADrMV7a+DMfMYEMmQzzaIJRjv6KmeqXgzEXRiIVIK5ci2U98W8NOd4g+7taDW5bZuzt4QXA2yz/J\n\n0000000000000000000000000000000000000000 0ca0edabf70f26bed7c6743306622cd25b81ca07 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlsspdEACgkQUbX9l6DQ\n71EBmggAqloIdz8kjbh5wCTDu48OVtAuB6Q361R5vI49XBpLGp6Z9jxyIImBm+QC\nzdZ3NYckk6ryWGzziz1k2ynDqV1zhPyUp2iIMylmdnJAtoXGVb8pqxyasL9f4EoI\nDwSi+eSnvaotuy1hRVT3N4kNN/UMl1cVcA3ztdwIhCnUX0ZVWqxd3RxzezB3iSiE\nmgmF4hSmkxfCqdS4Lnjr0W2m9NVAMjqloX6Azk1Ci9UGt8z1vm2c8CfXUjOb3X3s\nzQN1s7Ee0jp178PWHD3/+Rfar80sE1fMRqvahXZb1Q0kHLDGK0ZXX1aqK4I0MdSw\nGOQ4ylUBVAscqqFDKwl9VBts8wuHcg\u003d\u003d\n\u003d0oQC\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d68ddf97_322fe1e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-22T07:40:25Z",
+      "side": 1,
+      "message": "What was the reason that this prefix requirement was originally introduced?  If we know that, maybe it\u0027s worth mentioning it here and saying why it\u0027s no longer needed (aside from it being confusing).",
+      "revId": "0ca0edabf70f26bed7c6743306622cd25b81ca07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

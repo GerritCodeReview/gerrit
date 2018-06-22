@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9940a85a_48342306",
+        "filename": "java/com/google/gerrit/reviewdb/client/RefNames.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T11:15:04Z",
+      "side": 1,
+      "message": "But REFS_CACHE_AUTOMERGE refs have nothing to do with NoteDb. So I think it\u0027s surprising that this method checks for them.",
+      "range": {
+        "startLine": 128,
+        "startChar": 11,
+        "endLine": 128,
+        "endChar": 47
+      },
+      "revId": "40ae84fded02cb5bad0acc08001d088a3ac2ec1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

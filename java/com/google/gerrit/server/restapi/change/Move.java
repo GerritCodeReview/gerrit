@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
@@ -123,6 +124,9 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     Change change = rsrc.getChange();
     Project.NameKey project = rsrc.getProject();
     IdentifiedUser caller = rsrc.getUser().asIdentifiedUser();
+    if (input.destinationBranch == null) {
+      throw new BadRequestException("destination branch is required");
+    }
     input.destinationBranch = RefNames.fullName(input.destinationBranch);
 
     if (change.getStatus().isClosed()) {

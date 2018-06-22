@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -320,6 +321,15 @@ public class MoveChangeIT extends AbstractDaemonTest {
     move(changeId, "foo");
 
     // TODO(dpursehouse): Assert about state of labels after move
+  }
+
+  @Test
+  public void moveNoDestinationBranchSpecified() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("destination branch is required");
+    move(r.getChangeId(), null);
   }
 
   private void move(int changeNum, String destination) throws RestApiException {

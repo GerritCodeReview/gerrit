@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db863367_5266c5a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-22T01:05:45Z",
+      "side": 1,
+      "message": "Do you mean draft here?",
+      "range": {
+        "startLine": 9,
+        "startChar": 56,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "fc172ed0aaca0aac9976336013fbcb3e4a820123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7816e4e_4fc79538",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-06-22T01:05:45Z",
+      "side": 1,
+      "message": "Super nit: one-line this?",
+      "range": {
+        "startLine": 232,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 7
+      },
+      "revId": "fc172ed0aaca0aac9976336013fbcb3e4a820123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

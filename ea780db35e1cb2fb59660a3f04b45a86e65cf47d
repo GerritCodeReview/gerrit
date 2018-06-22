@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "3782cc48_aad74a8e",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T09:16:31Z",
+      "side": 1,
+      "message": "Yeah, I don\u0027t feel strongly against breaking the API here for the reasons you name, but I don\u0027t want to do this as a side effect in a change that does something else.",
+      "parentUuid": "68363e22_3417cf1c",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 42
+      },
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14f720ba_8109c663",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
         "patchSetId": 2
@@ -239,6 +263,24 @@
       "side": 1,
       "message": "Hmm, I thought we had an annotation to prevent inclusion of the SSH stack.  Can\u0027t see it now, though.  Never mind.",
       "parentUuid": "bf80ce0f_1068c08f",
+      "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f57e8c4_970ac204",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/CreateAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-22T09:16:31Z",
+      "side": 1,
+      "message": "We have @UseSsh that is required for SSH tests. The absence of this annotation should disable the SSH stack.",
+      "parentUuid": "46a4ae7a_b7858649",
       "revId": "ea780db35e1cb2fb59660a3f04b45a86e65cf47d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

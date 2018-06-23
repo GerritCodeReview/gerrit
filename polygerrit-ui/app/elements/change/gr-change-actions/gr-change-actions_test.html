@@ -276,7 +276,7 @@ limitations under the License.
     });
 
     test('submit change, tap on icon', done => {
-      element.$.confirmSubmitDialog.$.confirm.focus = done;
+      sandbox.stub(element.$.confirmSubmitDialog, 'resetFocus', done);
       sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchChangeUpdates',

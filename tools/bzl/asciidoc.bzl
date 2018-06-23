@@ -211,6 +211,7 @@ def genasciidoc(
         )
 
 def _asciidoc_html_zip_impl(ctx):
+<<<<<<< HEAD   (a1d983 Update rules_closure to latest version)
     args = [
         "--mktmp",
         "-z",
@@ -228,6 +229,23 @@ def _asciidoc_html_zip_impl(ctx):
         arguments = args,
         progress_message = "Rendering asciidoctor files for %s" % ctx.label.name,
     )
+=======
+  args = [
+    "--mktmp",
+    "-z", ctx.outputs.out.path,
+    "--in-ext", ".txt" + ctx.attr.suffix,
+    "--out-ext", ".html",
+  ]
+  args.extend(_generate_asciidoc_args(ctx))
+  ctx.actions.run(
+    inputs = ctx.files.srcs + [ctx.file.version],
+    outputs = [ctx.outputs.out],
+    tools = [ctx.executable._exe],
+    executable = ctx.executable._exe,
+    arguments = args,
+    progress_message = "Rendering asciidoctor files for %s" % ctx.label.name,
+  )
+>>>>>>> CHANGE (6af7e7 Bazel: Avoid using tools in action inputs)
 
 _asciidoc_html_zip = rule(
     attrs = _asciidoc_attrs,

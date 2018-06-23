@@ -175,6 +175,7 @@ def _gwt_binary_impl(ctx):
         deploy_dir,
     )
 
+<<<<<<< HEAD   (a1d983 Update rules_closure to latest version)
     # TODO(davido): clean up command concatenation
     cmd += " ".join([
         "-style %s" % ctx.attr.style,
@@ -198,6 +199,16 @@ def _gwt_binary_impl(ctx):
         progress_message = "GWT compiling " + output_zip.short_path,
         command = "set -e\n" + cmd,
     )
+=======
+  ctx.actions.run_shell(
+    inputs = list(deps) + gwt_user_agent_modules,
+    outputs = [output_zip],
+    tools = ctx.files._jdk + ctx.files._zip,
+    mnemonic = "GwtBinary",
+    progress_message = "GWT compiling " + output_zip.short_path,
+    command = "set -e\n" + cmd,
+  )
+>>>>>>> CHANGE (6af7e7 Bazel: Avoid using tools in action inputs)
 
 def _get_transitive_closure(ctx):
     deps = []

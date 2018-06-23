@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95144475_b7e437c6",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-23T00:05:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83f5a1cf_c9c5c066",
+      "range": {
+        "startLine": 380,
+        "startChar": 14,
+        "endLine": 380,
+        "endChar": 27
+      },
+      "revId": "8ee9bb6d7b1d93f6989ca82d57d5195721010e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61531821_df727916",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "8ee9bb6d7b1d93f6989ca82d57d5195721010e51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d0429f9_11868aff",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-23T00:05:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61531821_df727916",
+      "range": {
+        "startLine": 406,
+        "startChar": 4,
+        "endLine": 406,
+        "endChar": 20
+      },
+      "revId": "8ee9bb6d7b1d93f6989ca82d57d5195721010e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4b65c010_c038330c",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-23T00:05:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d8280df_3ea05335",
+      "range": {
+        "startLine": 413,
+        "startChar": 50,
+        "endLine": 413,
+        "endChar": 77
+      },
+      "revId": "8ee9bb6d7b1d93f6989ca82d57d5195721010e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e3e78de_6ae8c5ce",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
         "patchSetId": 4
@@ -85,6 +157,24 @@
       "revId": "8ee9bb6d7b1d93f6989ca82d57d5195721010e51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "175451d5_eac84164",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment-thread/gr-diff-comment-thread.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-23T00:05:46Z",
+      "side": 1,
+      "message": "That\u0027s not a style that I\u0027ve seen us document anywhere, but okay.",
+      "parentUuid": "5e3e78de_6ae8c5ce",
+      "revId": "8ee9bb6d7b1d93f6989ca82d57d5195721010e51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

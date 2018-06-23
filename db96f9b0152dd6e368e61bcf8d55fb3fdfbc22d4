@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af541208_f5d82c94",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/AbstractRestApiBindingsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-23T06:26:19Z",
+      "side": 1,
+      "message": "Will this be reached?  Won\u0027t the call to fail on the previous line already result in an exception?",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 42
+      },
+      "revId": "db96f9b0152dd6e368e61bcf8d55fb3fdfbc22d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5c5448_e8789141",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RootCollectionsRestApiBindingsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-23T06:26:19Z",
+      "side": 1,
+      "message": "There\u0027s a similar pattern in most of the tests.  Can we make the base class have a method that takes a list and does this iteration?",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "db96f9b0152dd6e368e61bcf8d55fb3fdfbc22d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

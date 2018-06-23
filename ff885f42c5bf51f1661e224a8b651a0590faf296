@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22bacac2_8b6bc069",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-23T09:58:09Z",
+      "side": 1,
+      "message": "make this a proper hyperlink, i.e. on the \"Bazel option\" text.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dbc72e0_2effc827",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-23T09:58:09Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10d6e41d_3d6c76a0",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-23T09:58:09Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 31,
+        "startChar": 43,
+        "endLine": 31,
+        "endChar": 46
+      },
+      "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -192,8 +192,9 @@ def _gwt_binary_impl(ctx):
     ])
 
     ctx.actions.run_shell(
-        inputs = list(deps) + ctx.files._jdk + ctx.files._zip + gwt_user_agent_modules,
+        inputs = list(deps) + gwt_user_agent_modules,
         outputs = [output_zip],
+        tools = ctx.files._jdk + ctx.files._zip,
         mnemonic = "GwtBinary",
         progress_message = "GWT compiling " + output_zip.short_path,
         command = "set -e\n" + cmd,

@@ -23,6 +23,30 @@
       "revId": "745e0f5fec07246977dccf65d108873afbda6c07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e194e60e_99ce62d5",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-23T00:02:08Z",
+      "side": 1,
+      "message": "The maximum line length was increased from 80 to 100 columns when we introduced google-java-format.",
+      "parentUuid": "e7bd95c2_b36afb8d",
+      "range": {
+        "startLine": 791,
+        "startChar": 10,
+        "endLine": 793,
+        "endChar": 23
+      },
+      "revId": "745e0f5fec07246977dccf65d108873afbda6c07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "d1e71293_0d9e7ea6",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1033322
+      },
+      "writtenOn": "2018-06-23T20:06:27Z",
+      "side": 1,
+      "message": "I think this is a typo, the second flag should be --java_toolchain instead of passing --host_java_toolchain twice.",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6dbc72e0_2effc827",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20

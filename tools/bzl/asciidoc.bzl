@@ -198,8 +198,9 @@ def _asciidoc_html_zip_impl(ctx):
   ]
   args.extend(_generate_asciidoc_args(ctx))
   ctx.actions.run(
-    inputs = ctx.files.srcs + [ctx.executable._exe, ctx.file.version],
+    inputs = ctx.files.srcs + [ctx.file.version],
     outputs = [ctx.outputs.out],
+    tools = [ctx.executable._exe],
     executable = ctx.executable._exe,
     arguments = args,
     progress_message = "Rendering asciidoctor files for %s" % ctx.label.name,

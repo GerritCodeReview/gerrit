@@ -156,7 +156,8 @@ def _gwt_binary_impl(ctx):
     gwt_user_agent_modules.append(ua.zip)
     module = ua.module
 
-  cmd = "external/local_jdk/bin/java %s -Dgwt.normalizeTimestamps=true -cp %s %s -war %s -deploy %s " % (
+  cmd = "%s %s -Dgwt.normalizeTimestamps=true -cp %s %s -war %s -deploy %s " % (
+    ctx.attr._jdk[java_common.JavaRuntimeInfo].java_executable_exec_path,
     " ".join(ctx.attr.jvm_args),
     ":".join(paths),
     GWT_COMPILER,
@@ -212,7 +213,8 @@ gwt_binary = rule(
         "compiler_args": attr.string_list(),
         "jvm_args": attr.string_list(),
         "_jdk": attr.label(
-            default = Label("//tools/defaults:jdk"),
+            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+            cfg = "host",
         ),
         "_zip": attr.label(
             default = Label("@bazel_tools//tools/zip:zipper"),

@@ -445,18 +445,22 @@ maven_jar(
     sha1 = "430b2fc839b5de1f3643b528853d5cf26096c1de",
 )
 
-AUTO_VALUE_VERSION = "1.6"
+AUTO_VALUE_VERSION = "HEAD-SNAPSHOT"
 
 maven_jar(
     name = "auto-value",
     artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
-    sha1 = "a3b1b1404f8acaa88594a017185e013cd342c9a8",
+    sha1 = "869c478c07d4a46e09a9d30e11c3ca86774a0764",
+    repository = MAVEN_LOCAL,
+    attach_source = False,
 )
 
 maven_jar(
     name = "auto-value-annotations",
     artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
-    sha1 = "da725083ee79fdcd86d9f3d8a76e38174a01892a",
+    sha1 = "2116ef4f27ef52768815967c24177d52b67205b7",
+    repository = MAVEN_LOCAL,
+    attach_source = False,
 )
 
 # Transitive dependency of commons-compress

@@ -263,9 +263,9 @@ public class RebaseChangeOp implements BatchUpdateOp {
     ThreeWayMerger merger =
         newMergeUtil().newThreeWayMerger(ctx.getInserter(), ctx.getRepoView().getConfig());
     merger.setBase(parentCommit);
-    merger.merge(original, base);
+    boolean success = merger.merge(original, base);
 
-    if (merger.getResultTreeId() == null) {
+    if (!success || merger.getResultTreeId() == null) {
       throw new MergeConflictException(
           "The change could not be rebased due to a conflict during merge.");
     }

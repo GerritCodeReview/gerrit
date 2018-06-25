@@ -23,14 +23,15 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.html.HtmlEscapers;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.util.http.CacheHeaders;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -122,20 +123,18 @@ public class BazelBuild {
     }
   }
 
-  private Properties loadBuildProperties(Path propPath) throws IOException {
-    Properties properties = new Properties();
-    try (InputStream in = Files.newInputStream(propPath)) {
-      properties.load(in);
-    } catch (NoSuchFileException e) {
-      // Ignore; will be run from PATH, with a descriptive error if it fails.
-    }
-    return properties;
-  }
-
   private ProcessBuilder newBuildProcess(Label label) throws IOException {
-    Properties properties = loadBuildProperties(sourceRoot.resolve(".bazel_path"));
+    Properties properties = GerritLauncher.loadBuildProperties(sourceRoot.resolve(".bazel_path"));
     String bazel = firstNonNull(properties.getProperty("bazel"), "bazel");
-    ProcessBuilder proc = new ProcessBuilder(bazel, "build", label.fullName());
+    List<String> cmd = new ArrayList<>();
+    cmd.add(bazel);
+    cmd.add("build");
+    if (GerritLauncher.isJdk9OrLater()) {
+      cmd.add("--host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java9");
+      cmd.add("--java_toolchain=@bazel_tools//tools/jdk:toolchain_java9");
+    }
+    cmd.add(label.fullName());
+    ProcessBuilder proc = new ProcessBuilder(cmd);
     if (properties.containsKey("PATH")) {
       proc.environment().put("PATH", properties.getProperty("PATH"));
     }

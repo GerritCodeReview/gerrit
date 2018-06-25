@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb9a3799_a5a73cc5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/AbstractRestApiBindingsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-25T06:20:43Z",
+      "side": 1,
+      "message": "Yes, the previous line will already throw an exception and this line will never be reached. However without this line the compiler thinks that \u0027response\u0027 may not have been initialized and then shows compilation errors below where \u0027response\u0027 is used.",
+      "parentUuid": "af541208_f5d82c94",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 42
+      },
+      "revId": "db96f9b0152dd6e368e61bcf8d55fb3fdfbc22d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f5c5448_e8789141",
         "filename": "javatests/com/google/gerrit/acceptance/rest/RootCollectionsRestApiBindingsIT.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "db96f9b0152dd6e368e61bcf8d55fb3fdfbc22d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed09d090_2e906a3c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RootCollectionsRestApiBindingsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-25T06:20:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f5c5448_e8789141",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "db96f9b0152dd6e368e61bcf8d55fb3fdfbc22d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

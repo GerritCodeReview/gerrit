@@ -14,11 +14,16 @@
 
 package com.google.gerrit.extensions.restapi;
 
-/** Enum for HTTP request methods. */
-public enum HttpRequestMethod {
-  GET,
-  PUT,
-  DELETE,
-  POST,
-  CREATE;
+import com.google.inject.TypeLiteral;
+
+/** REST API endpoints for projects, changes, accounts, etc. */
+public interface RestApiEndpoint<R extends RestResource> {
+
+  TypeLiteral<RestView<R>> getType();
+
+  /** Gets the HTTP method of the endpiont. Valid methods are PUT, */
+  RestEndpointType getMethod();
+
+  /** Gets the name of the endpoint. */
+  String getName();
 }

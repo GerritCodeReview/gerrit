@@ -140,6 +140,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
+import com.google.gerrit.server.restapi.account.AccountRestApiEndpoint;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -148,6 +149,7 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2063,7 +2065,11 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void removeNoNotify() throws Exception {
-    testRemoveReviewer(false);
+
+    Type type = AccountRestApiEndpoint.GET_EMAIL.getType();
+    System.out.println("===> " + type);
+
+    // testRemoveReviewer(false);
   }
 
   private void testRemoveReviewer(boolean notify) throws Exception {

@@ -43,6 +43,10 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), STARRED_CHANGE_KIND);
     DynamicMap.mapOf(binder(), STAR_KIND);
 
+    createTest(AccountRestApiEndpoint.CREATE_ACCOUNT.getType()).to(CreateAccount.class);
+
+    create(AccountRestApiEndpoint.CREATE_ACCOUNT.getType()).to(CreateAccount.class);
+
     create(ACCOUNT_KIND).to(CreateAccount.class);
     put(ACCOUNT_KIND).to(PutAccount.class);
     get(ACCOUNT_KIND).to(GetAccount.class);

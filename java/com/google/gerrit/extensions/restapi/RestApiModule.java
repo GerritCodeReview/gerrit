@@ -14,11 +14,11 @@
 
 package com.google.gerrit.extensions.restapi;
 
-import static com.google.gerrit.extensions.restapi.HttpRequestMethod.CREATE;
-import static com.google.gerrit.extensions.restapi.HttpRequestMethod.DELETE;
-import static com.google.gerrit.extensions.restapi.HttpRequestMethod.GET;
-import static com.google.gerrit.extensions.restapi.HttpRequestMethod.POST;
-import static com.google.gerrit.extensions.restapi.HttpRequestMethod.PUT;
+import static com.google.gerrit.extensions.restapi.RestEndpointType.CREATE;
+import static com.google.gerrit.extensions.restapi.RestEndpointType.DELETE;
+import static com.google.gerrit.extensions.restapi.RestEndpointType.GET;
+import static com.google.gerrit.extensions.restapi.RestEndpointType.POST;
+import static com.google.gerrit.extensions.restapi.RestEndpointType.PUT;
 
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -50,6 +50,10 @@ public abstract class RestApiModule extends FactoryModule {
     return new CreateViewBinder<>(bind(viewType).annotatedWith(export(CREATE, "/")));
   }
 
+  protected CreateViewBinder createTest(TypeLiteral viewType) {
+    return new CreateViewBinder<>(bind(viewType).annotatedWith(export(CREATE, "/")));
+  }
+
   protected <R extends RestResource> ReadViewBinder<R> get(
       TypeLiteral<RestView<R>> viewType, String name) {
     return new ReadViewBinder<>(view(viewType, GET, name));
@@ -76,17 +80,17 @@ public abstract class RestApiModule extends FactoryModule {
   }
 
   protected <R extends RestResource> LinkedBindingBuilder<RestView<R>> view(
-      TypeLiteral<RestView<R>> viewType, HttpRequestMethod method, String name) {
+      TypeLiteral<RestView<R>> viewType, RestEndpointType method, String name) {
     return bind(viewType).annotatedWith(export(method, name));
   }
 
   protected <P extends RestResource, R extends RestResource>
       LinkedBindingBuilder<RestView<R>> createView(
-          TypeLiteral<RestView<R>> viewType, HttpRequestMethod method, String name) {
+          TypeLiteral<RestView<R>> viewType, RestEndpointType method, String name) {
     return bind(viewType).annotatedWith(export(method, name));
   }
 
-  private static Export export(HttpRequestMethod method, String name) {
+  private static Export export(RestEndpointType method, String name) {
     if (name.length() > 1 && name.startsWith("/")) {
       // Views may be bound as "/" to mean the resource itself, or
       // as "status" as in "/type/{id}/status". Don't bind "/status"

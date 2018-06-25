@@ -16,11 +16,27 @@ package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Method.GET;
+import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
+import static java.util.stream.Collectors.toList;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
+import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
+import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
+import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.FixReplacementInfo;
+import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.reviewdb.client.Patch;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import org.junit.Test;
 
 /**
@@ -121,7 +137,111 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.post("/changes/%s/reviewers/%s/votes/%s/delete"),
           RestCall.delete("/changes/%s/reviewers/%s/votes/%s"));
 
-  // TODO(ekempin): Add tests for REST endpoints of changes child collections
+  /**
+   * Revision REST endpoints to be tested, each URL contains placeholders for the change identifier
+   * and the revision identifier.
+   */
+  private static final ImmutableList<RestCall> REVISION_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.get("/changes/%s/revisions/%s/actions"),
+          RestCall.post("/changes/%s/revisions/%s/cherrypick"),
+          RestCall.get("/changes/%s/revisions/%s/commit"),
+          RestCall.get("/changes/%s/revisions/%s/mergeable"),
+          RestCall.get("/changes/%s/revisions/%s/related"),
+          RestCall.get("/changes/%s/revisions/%s/review"),
+          RestCall.post("/changes/%s/revisions/%s/review"),
+          RestCall.get("/changes/%s/revisions/%s/preview_submit"),
+          RestCall.post("/changes/%s/revisions/%s/submit"),
+          RestCall.get("/changes/%s/revisions/%s/submit_type"),
+          RestCall.post("/changes/%s/revisions/%s/test.submit_rule"),
+          RestCall.post("/changes/%s/revisions/%s/test.submit_type"),
+          RestCall.post("/changes/%s/revisions/%s/rebase"),
+          RestCall.get("/changes/%s/revisions/%s/description"),
+          RestCall.put("/changes/%s/revisions/%s/description"),
+          RestCall.get("/changes/%s/revisions/%s/patch"),
+          RestCall.get("/changes/%s/revisions/%s/archive"),
+          RestCall.get("/changes/%s/revisions/%s/mergelist"),
+          RestCall.get("/changes/%s/revisions/%s/reviewers"),
+          RestCall.get("/changes/%s/revisions/%s/drafts"),
+          RestCall.put("/changes/%s/revisions/%s/drafts"),
+          RestCall.get("/changes/%s/revisions/%s/comments"),
+          RestCall.get("/changes/%s/revisions/%s/robotcomments"),
+          RestCall.builder(GET, "/changes/%s/revisions/%s/fixes")
+              // GET /changes/<change>/revisions/<revision>/fixes is not implemented
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
+          RestCall.get("/changes/%s/revisions/%s/files"));
+
+  /**
+   * Revision reviewer REST endpoints to be tested, each URL contains placeholders for the change
+   * identifier, the revision identifier and the reviewer identifier.
+   */
+  private static final ImmutableList<RestCall> REVISION_REVIEWER_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.get("/changes/%s/revisions/%s/reviewers/%s"),
+          RestCall.get("/changes/%s/revisions/%s/reviewers/%s/votes"),
+          RestCall.post("/changes/%s/revisions/%s/reviewers/%s/delete"),
+          RestCall.delete("/changes/%s/revisions/%s/reviewers/%s"));
+
+  /**
+   * Revision vote REST endpoints to be tested, each URL contains placeholders for the change
+   * identifier, the revision identifier, the reviewer identifier and the label identifier.
+   */
+  private static final ImmutableList<RestCall> REVISION_VOTE_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.post("/changes/%s/revisions/%s/reviewers/%s/votes/%s/delete"),
+          RestCall.delete("/changes/%s/revisions/%s/reviewers/%s/votes/%s"));
+
+  /**
+   * Draft comment REST endpoints to be tested, each URL contains placeholders for the change
+   * identifier, the revision identifier and the draft comment identifier.
+   */
+  private static final ImmutableList<RestCall> DRAFT_COMMENT_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.get("/changes/%s/revisions/%s/drafts/%s"),
+          RestCall.put("/changes/%s/revisions/%s/drafts/%s"),
+          RestCall.delete("/changes/%s/revisions/%s/drafts/%s"));
+
+  /**
+   * Comment REST endpoints to be tested, each URL contains placeholders for the change identifier,
+   * the revision identifier and the comment identifier.
+   */
+  private static final ImmutableList<RestCall> COMMENT_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.get("/changes/%s/revisions/%s/comments/%s"),
+          RestCall.delete("/changes/%s/revisions/%s/comments/%s"),
+          RestCall.post("/changes/%s/revisions/%s/comments/%s/delete"));
+
+  /**
+   * Robot comment REST endpoints to be tested, each URL contains placeholders for the change
+   * identifier, the revision identifier and the robot comment identifier.
+   */
+  private static final ImmutableList<RestCall> ROBOT_COMMENT_ENDPOINTS =
+      ImmutableList.of(RestCall.get("/changes/%s/revisions/%s/robotcomments/%s"));
+
+  /**
+   * Fix REST endpoints to be tested, each URL contains placeholders for the change identifier, the
+   * revision identifier and the fix identifier.
+   */
+  private static final ImmutableList<RestCall> FIX_ENDPOINTS =
+      ImmutableList.of(RestCall.post("/changes/%s/revisions/%s/fixes/%s/apply"));
+
+  /**
+   * Revision file REST endpoints to be tested, each URL contains placeholders for the change
+   * identifier, the revision identifier and the file identifier.
+   */
+  private static final ImmutableList<RestCall> REVISION_FILE_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.put("/changes/%s/revisions/%s/files/%s/reviewed"),
+          RestCall.delete("/changes/%s/revisions/%s/files/%s/reviewed"),
+          RestCall.get("/changes/%s/revisions/%s/files/%s/content"),
+          RestCall.get("/changes/%s/revisions/%s/files/%s/download"),
+          RestCall.get("/changes/%s/revisions/%s/files/%s/diff"),
+          RestCall.get("/changes/%s/revisions/%s/files/%s/blame"));
+
+  // TODO(ekempin): Add tests for change message and change edit REST endpoints
+
+  private static final String FILENAME = "test.txt";
 
   @Test
   public void changeEndpoints() throws Exception {
@@ -162,5 +282,168 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
         changeId,
         admin.email,
         "Code-Review");
+  }
+
+  @Test
+  public void revisionEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+    execute(REVISION_ENDPOINTS, changeId, "current");
+  }
+
+  @Test
+  public void revisionReviewerEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    AddReviewerInput addReviewerInput = new AddReviewerInput();
+    addReviewerInput.reviewer = user.email;
+
+    execute(
+        REVISION_REVIEWER_ENDPOINTS,
+        () -> gApi.changes().id(changeId).addReviewer(addReviewerInput),
+        changeId,
+        "current",
+        addReviewerInput.reviewer);
+  }
+
+  @Test
+  public void revisionVoteEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    execute(
+        REVISION_VOTE_ENDPOINTS,
+        () -> gApi.changes().id(changeId).current().review(ReviewInput.approve()),
+        changeId,
+        "current",
+        admin.email,
+        "Code-Review");
+  }
+
+  @Test
+  public void draftCommentEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    for (RestCall restCall : DRAFT_COMMENT_ENDPOINTS) {
+      DraftInput draftInput = new DraftInput();
+      draftInput.path = Patch.COMMIT_MSG;
+      draftInput.side = Side.REVISION;
+      draftInput.line = 1;
+      draftInput.message = "draft comment";
+      CommentInfo draftInfo = gApi.changes().id(changeId).current().createDraft(draftInput).get();
+
+      execute(restCall, changeId, "current", draftInfo.id);
+    }
+  }
+
+  @Test
+  public void commentEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    for (RestCall restCall : COMMENT_ENDPOINTS) {
+      DraftInput draftInput = new DraftInput();
+      draftInput.path = Patch.COMMIT_MSG;
+      draftInput.side = Side.REVISION;
+      draftInput.line = 1;
+      draftInput.message = "draft comment";
+      CommentInfo commentInfo = gApi.changes().id(changeId).current().createDraft(draftInput).get();
+
+      ReviewInput reviewInput = new ReviewInput();
+      reviewInput.drafts = DraftHandling.PUBLISH;
+      gApi.changes().id(changeId).current().review(reviewInput);
+
+      execute(restCall, changeId, "current", commentInfo.id);
+    }
+  }
+
+  @Test
+  public void robotCommentEndpoints() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+
+    String changeId = createChange().getChangeId();
+
+    RobotCommentInput robotCommentInput = new RobotCommentInput();
+    robotCommentInput.robotId = "happyRobot";
+    robotCommentInput.robotRunId = "1";
+    robotCommentInput.line = 1;
+    robotCommentInput.message = "nit: trailing whitespace";
+    robotCommentInput.path = Patch.COMMIT_MSG;
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.robotComments =
+        Collections.singletonMap(robotCommentInput.path, ImmutableList.of(robotCommentInput));
+    reviewInput.message = "robot comment test";
+    gApi.changes().id(changeId).current().review(reviewInput);
+
+    List<RobotCommentInfo> robotCommentInfos =
+        gApi.changes().id(changeId).current().robotCommentsAsList();
+    RobotCommentInfo robotCommentInfo = Iterables.getOnlyElement(robotCommentInfos);
+
+    execute(ROBOT_COMMENT_ENDPOINTS, changeId, "current", robotCommentInfo.id);
+  }
+
+  @Test
+  public void fixEndpoints() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+
+    String changeId = createChange("Subject", FILENAME, "content").getChangeId();
+
+    RobotCommentInput robotCommentInput = new RobotCommentInput();
+    robotCommentInput.robotId = "happyRobot";
+    robotCommentInput.robotRunId = "1";
+    robotCommentInput.line = 1;
+    robotCommentInput.message = "nit: trailing whitespace";
+    robotCommentInput.path = FILENAME;
+
+    FixReplacementInfo fixReplacementInfo = new FixReplacementInfo();
+    fixReplacementInfo.path = FILENAME;
+    fixReplacementInfo.replacement = "some replacement code";
+    fixReplacementInfo.range = createRange(1, 1, 1, 2);
+
+    FixSuggestionInfo fixSuggestionInfo = new FixSuggestionInfo();
+    fixSuggestionInfo.fixId = "An ID which must be overwritten.";
+    fixSuggestionInfo.description = "A description for a suggested fix.";
+    fixSuggestionInfo.replacements = ImmutableList.of(fixReplacementInfo);
+
+    robotCommentInput.fixSuggestions = ImmutableList.of(fixSuggestionInfo);
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.robotComments =
+        Collections.singletonMap(robotCommentInput.path, ImmutableList.of(robotCommentInput));
+    reviewInput.message = "robot comment test";
+    gApi.changes().id(changeId).current().review(reviewInput);
+
+    List<RobotCommentInfo> robotCommentInfos =
+        gApi.changes().id(changeId).current().robotCommentsAsList();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    execute(FIX_ENDPOINTS, changeId, "current", fixId);
+  }
+
+  @Test
+  public void revisionFileEndpoints() throws Exception {
+    String changeId = createChange("Subject", FILENAME, "content").getChangeId();
+    execute(REVISION_FILE_ENDPOINTS, changeId, "current", FILENAME);
+  }
+
+  private static Comment.Range createRange(
+      int startLine, int startCharacter, int endLine, int endCharacter) {
+    Comment.Range range = new Comment.Range();
+    range.startLine = startLine;
+    range.startCharacter = startCharacter;
+    range.endLine = endLine;
+    range.endCharacter = endCharacter;
+    return range;
+  }
+
+  private static List<String> getFixIds(List<RobotCommentInfo> robotComments) {
+    assertThatList(robotComments).isNotNull();
+    return robotComments
+        .stream()
+        .map(robotCommentInfo -> robotCommentInfo.fixSuggestions)
+        .filter(Objects::nonNull)
+        .flatMap(List::stream)
+        .map(fixSuggestionInfo -> fixSuggestionInfo.fixId)
+        .collect(toList());
   }
 }

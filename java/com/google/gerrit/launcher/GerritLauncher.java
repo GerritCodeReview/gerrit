@@ -34,6 +34,7 @@ import java.net.URLClassLoader;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
@@ -44,6 +45,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -644,6 +646,20 @@ public final class GerritLauncher {
     return resolveInSourceRoot("eclipse-out");
   }
 
+  public static boolean isJdk9OrLater() {
+    return Double.parseDouble(System.getProperty("java.class.version")) >= 53.0;
+  }
+
+  public static Properties loadBuildProperties(Path propPath) throws IOException {
+    Properties properties = new Properties();
+    try (InputStream in = Files.newInputStream(propPath)) {
+      properties.load(in);
+    } catch (NoSuchFileException e) {
+      // Ignore; will be run from PATH, with a descriptive error if it fails.
+    }
+    return properties;
+  }
+
   static final String SOURCE_ROOT_RESOURCE = "/com/google/gerrit/launcher/workspace-root.txt";
 
   /**
@@ -708,14 +724,37 @@ public final class GerritLauncher {
     return ret;
   }
 
-  private static ClassLoader useDevClasspath() throws MalformedURLException, FileNotFoundException {
+  private static ClassLoader useDevClasspath() throws IOException {
     Path out = getDeveloperEclipseOut();
     List<URL> dirs = new ArrayList<>();
     dirs.add(out.resolve("classes").toUri().toURL());
     ClassLoader cl = GerritLauncher.class.getClassLoader();
-    for (URL u : ((URLClassLoader) cl).getURLs()) {
-      if (includeJar(u)) {
-        dirs.add(u);
+
+    if (isJdk9OrLater()) {
+      Path rootPath = resolveInSourceRoot(".");
+
+      Properties properties = loadBuildProperties(rootPath.resolve(".bazel_path"));
+      String outputBase = properties.getProperty("output_base");
+
+      Path runtimeClasspath =
+          rootPath.resolve("bazel-bin/tools/eclipse/main_classpath_collect.runtime_classpath");
+      String prefix = rootPath.toString().substring(0, rootPath.toString().length() - 1);
+      for (String f : Files.readAllLines(runtimeClasspath, UTF_8)) {
+        URL url;
+        if (f.startsWith("external")) {
+          url = new URL("file:" + outputBase + "/" + f);
+        } else {
+          url = new URL("file:" + prefix + f);
+        }
+        if (includeJar(url)) {
+          dirs.add(url);
+        }
+      }
+    } else {
+      for (URL u : ((URLClassLoader) cl).getURLs()) {
+        if (includeJar(u)) {
+          dirs.add(u);
+        }
       }
     }
     return URLClassLoader.newInstance(

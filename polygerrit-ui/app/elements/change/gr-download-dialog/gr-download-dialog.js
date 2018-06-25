@@ -172,5 +172,9 @@
         this._selectedScheme = schemes.sort()[0];
       }
     },
+
+    _computeShowDownloadCommands(schemes) {
+      return schemes.length ? '' : 'hidden';
+    },
   });
 })();

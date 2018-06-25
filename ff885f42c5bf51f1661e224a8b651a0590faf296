@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a281f5e7_975e92e2",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-25T05:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22bacac2_8b6bc069",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1e71293_0d9e7ea6",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "482111c8_9b5d62bb",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-25T05:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f84d4a7_2215255c",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 26,
+        "endChar": 27
+      },
+      "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dbc72e0_2effc827",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "e9d3c33d_c0131f05",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-25T05:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dbc72e0_2effc827",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10d6e41d_3d6c76a0",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 20
@@ -115,6 +187,30 @@
       "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49e96744_58a24a6a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-06-25T05:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d6e41d_3d6c76a0",
+      "range": {
+        "startLine": 31,
+        "startChar": 43,
+        "endLine": 31,
+        "endChar": 46
+      },
+      "revId": "ff885f42c5bf51f1661e224a8b651a0590faf296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

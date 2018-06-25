@@ -112,21 +112,16 @@ limitations under the License.
     });
 
     test('non link items', () => {
-      const nativeTapHandler = sandbox.stub();
       const item0 = {name: 'item one', id: 'foo'};
       element.items = [item0, {name: 'item two', id: 'bar'}];
       const fooTapped = sandbox.stub();
       const tapped = sandbox.stub();
       element.addEventListener('tap-item-foo', fooTapped);
       element.addEventListener('tap-item', tapped);
-      element.addEventListener('tap', nativeTapHandler);
       flushAsynchronousOperations();
-
       MockInteractions.tap(element.$$('.itemAction'));
       assert.isTrue(fooTapped.called);
       assert.isTrue(tapped.called);
-      assert.isFalse(nativeTapHandler.called);
-
       assert.deepEqual(tapped.lastCall.args[0].detail, item0);
     });
 

@@ -14,6 +14,12 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import static com.google.gerrit.extensions.restapi.HttpRequestMethod.CREATE;
+import static com.google.gerrit.extensions.restapi.HttpRequestMethod.DELETE;
+import static com.google.gerrit.extensions.restapi.HttpRequestMethod.GET;
+import static com.google.gerrit.extensions.restapi.HttpRequestMethod.POST;
+import static com.google.gerrit.extensions.restapi.HttpRequestMethod.PUT;
+
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -24,12 +30,6 @@ import com.google.inject.binder.ScopedBindingBuilder;
 
 /** Guice DSL for binding {@link RestView} implementations. */
 public abstract class RestApiModule extends FactoryModule {
-  protected static final String GET = "GET";
-  protected static final String PUT = "PUT";
-  protected static final String DELETE = "DELETE";
-  protected static final String POST = "POST";
-  protected static final String CREATE = "CREATE";
-
   protected <R extends RestResource> ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
     return get(viewType, "/");
   }
@@ -75,12 +75,18 @@ public abstract class RestApiModule extends FactoryModule {
     return new ChildCollectionBinder<>(view(type, GET, name));
   }
 
-  private <R extends RestResource> LinkedBindingBuilder<RestView<R>> view(
-      TypeLiteral<RestView<R>> viewType, String method, String name) {
+  protected <R extends RestResource> LinkedBindingBuilder<RestView<R>> view(
+      TypeLiteral<RestView<R>> viewType, HttpRequestMethod method, String name) {
     return bind(viewType).annotatedWith(export(method, name));
   }
 
-  private static Export export(String method, String name) {
+  protected <P extends RestResource, R extends RestResource>
+      LinkedBindingBuilder<RestView<R>> createView(
+          TypeLiteral<RestView<R>> viewType, HttpRequestMethod method, String name) {
+    return bind(viewType).annotatedWith(export(method, name));
+  }
+
+  private static Export export(HttpRequestMethod method, String name) {
     if (name.length() > 1 && name.startsWith("/")) {
       // Views may be bound as "/" to mean the resource itself, or
       // as "status" as in "/type/{id}/status". Don't bind "/status"

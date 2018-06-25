@@ -108,8 +108,8 @@ public class PureRevert {
               .create(projectCache.checkedGet(notes.getProjectName()))
               .newThreeWayMerger(oi, repo.getConfig());
       merger.setBase(claimedRevertCommit.getParent(0));
-      merger.merge(claimedRevertCommit, claimedOriginalCommit);
-      if (merger.getResultTreeId() == null) {
+      boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
+      if (!success || merger.getResultTreeId() == null) {
         // Merge conflict during rebase
         return new PureRevertInfo(false);
       }

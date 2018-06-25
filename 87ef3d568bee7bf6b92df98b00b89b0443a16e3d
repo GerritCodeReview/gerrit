@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffebfcd3_ae0e3a47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-25T12:17:21Z",
+      "side": 1,
+      "message": "Nit: We normally manually change this message to look nicer. This should be:\n\nMerge branch stable-2.15\n\n* stable-2.15:\n  Check Merger#merge\u0027s returned boolean when merging",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "87ef3d568bee7bf6b92df98b00b89b0443a16e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

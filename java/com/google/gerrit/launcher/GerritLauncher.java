@@ -18,6 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import com.google.common.base.Charsets;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -708,14 +709,36 @@ public final class GerritLauncher {
     return ret;
   }
 
-  private static ClassLoader useDevClasspath() throws MalformedURLException, FileNotFoundException {
+  private static ClassLoader useDevClasspath() throws IOException {
+    // TODO(davido): Retrieve Bazel's output_base path programmatically
+    String outputBase = "/home/davido/.cache/bazel/_bazel_davido/5c01f4f713b675540b8b424c5c647f63";
     Path out = getDeveloperEclipseOut();
     List<URL> dirs = new ArrayList<>();
     dirs.add(out.resolve("classes").toUri().toURL());
     ClassLoader cl = GerritLauncher.class.getClassLoader();
-    for (URL u : ((URLClassLoader) cl).getURLs()) {
-      if (includeJar(u)) {
-        dirs.add(u);
+
+    if (isJdk9OrLater()) {
+      Path rootPath = resolveInSourceRoot(".");
+      Path runtimeClasspath =
+          rootPath.resolve("bazel-bin/tools/eclipse/main_classpath_collect.runtime_classpath");
+      String prefix = rootPath.toString().substring(0, rootPath.toString().length() - 1);
+      for (String f : Files.readAllLines(runtimeClasspath, Charsets.UTF_8)) {
+        URL url;
+        if (f.startsWith("external")) {
+          url = new URL("file:" + outputBase + "/" + f);
+        } else {
+          url = new URL("file:" + prefix + f);
+        }
+        if (includeJar(url)) {
+          System.out.println(url);
+          dirs.add(url);
+        }
+      }
+    } else {
+      for (URL u : ((URLClassLoader) cl).getURLs()) {
+        if (includeJar(u)) {
+          dirs.add(u);
+        }
       }
     }
     return URLClassLoader.newInstance(
@@ -725,6 +748,10 @@ public final class GerritLauncher {
   private static boolean includeJar(URL u) {
     String path = u.getPath();
     return path.endsWith(".jar") && !path.endsWith("-src.jar");
+  }
+
+  private static boolean isJdk9OrLater() {
+    return Double.parseDouble(System.getProperty("java.class.version")) >= 53.0;
   }
 
   private GerritLauncher() {}

@@ -152,7 +152,7 @@ public class ChangeEdits
 
   public static class DeleteFile implements RestModifyView<ChangeResource, Input> {
 
-    interface Factory {
+    public interface Factory {
       DeleteFile create(String path);
     }
 

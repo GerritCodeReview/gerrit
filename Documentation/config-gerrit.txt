@@ -3691,6 +3691,16 @@ Setting to false to skip the check can decrease latency during push.
 +
 Default is true.
 
+[[receive.allowProjectOwnersToChangeParent]]receive.allowProjectOwnersToChangeParent::
++
+If true, Gerrit will allow project owners to update project parent.
++
+By default only Gerrit administrators are allowed to change the parent
+of a project since change it may allow a project owner to circumvent
+site-wide rules (like important BLOCK rules).
++
+Default is false.
+
 [[receive.checkReferencedObjectsAreReachable]]receive.checkReferencedObjectsAreReachable::
 +
 If set to true, Gerrit will validate that all referenced objects that

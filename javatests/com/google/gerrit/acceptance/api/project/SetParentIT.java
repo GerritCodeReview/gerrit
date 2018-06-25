@@ -17,13 +17,16 @@ package com.google.gerrit.acceptance.api.project;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import org.junit.Test;
 
 @NoHttpd
@@ -35,6 +38,40 @@ public class SetParentIT extends AbstractDaemonTest {
     setApiUser(user);
     exception.expect(AuthException.class);
     gApi.projects().name(project.get()).parent(parent);
+  }
+
+  @Test
+  @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
+  public void setParentNotAllowedForNonOwners() throws Exception {
+    String parent = createProject("parent", null, true).get();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    gApi.projects().name(project.get()).parent(parent);
+  }
+
+  @Test
+  @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
+  public void setParentAllowedByAdminWhenAllowProjectOwnersEnabled() throws Exception {
+    String parent = createProject("parent", null, true).get();
+
+    gApi.projects().name(project.get()).parent(parent);
+    assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);
+
+    // When the parent name is not explicitly set, it should be
+    // set to "All-Projects".
+    gApi.projects().name(project.get()).parent(null);
+    assertThat(gApi.projects().name(project.get()).parent())
+        .isEqualTo(AllProjectsNameProvider.DEFAULT);
+  }
+
+  @Test
+  @GerritConfig(name = "receive.allowProjectOwnersToChangeParent", value = "true")
+  public void setParentAllowedForOwners() throws Exception {
+    String parent = createProject("parent", null, true).get();
+    setApiUser(user);
+    grant(project, "refs/*", Permission.OWNER, false, SystemGroupBackend.REGISTERED_USERS);
+    gApi.projects().name(project.get()).parent(parent);
+    assertThat(gApi.projects().name(project.get()).parent()).isEqualTo(parent);
   }
 
   @Test

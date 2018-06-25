@@ -31,24 +31,23 @@ public abstract class RestApiModule extends FactoryModule {
   protected static final String CREATE = "CREATE";
 
   protected <R extends RestResource> ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
-    return new ReadViewBinder<>(view(viewType, GET, "/"));
+    return get(viewType, "/");
   }
 
   protected <R extends RestResource> ModifyViewBinder<R> put(TypeLiteral<RestView<R>> viewType) {
-    return new ModifyViewBinder<>(view(viewType, PUT, "/"));
+    return put(viewType, "/");
   }
 
   protected <R extends RestResource> ModifyViewBinder<R> post(TypeLiteral<RestView<R>> viewType) {
-    return new ModifyViewBinder<>(view(viewType, POST, "/"));
+    return post(viewType, "/");
   }
 
   protected <R extends RestResource> ModifyViewBinder<R> delete(TypeLiteral<RestView<R>> viewType) {
-    return new ModifyViewBinder<>(view(viewType, DELETE, "/"));
+    return delete(viewType, "/");
   }
 
-  protected <P extends RestResource, R extends RestResource> CreateViewBinder<R> create(
-      TypeLiteral<RestView<R>> viewType) {
-    return new CreateViewBinder<>(createView(viewType, CREATE, "/"));
+  protected <R extends RestResource> CreateViewBinder<R> create(TypeLiteral<RestView<R>> viewType) {
+    return new CreateViewBinder<>(bind(viewType).annotatedWith(export(CREATE, "/")));
   }
 
   protected <R extends RestResource> ReadViewBinder<R> get(
@@ -78,12 +77,6 @@ public abstract class RestApiModule extends FactoryModule {
 
   protected <R extends RestResource> LinkedBindingBuilder<RestView<R>> view(
       TypeLiteral<RestView<R>> viewType, String method, String name) {
-    return bind(viewType).annotatedWith(export(method, name));
-  }
-
-  protected <P extends RestResource, R extends RestResource>
-      LinkedBindingBuilder<RestView<R>> createView(
-          TypeLiteral<RestView<R>> viewType, String method, String name) {
     return bind(viewType).annotatedWith(export(method, name));
   }
 

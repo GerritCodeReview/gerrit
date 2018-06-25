@@ -32,7 +32,7 @@ AUTO = '//lib/auto:auto-value'
 JRE = '/'.join([
     'org.eclipse.jdt.launching.JRE_CONTAINER',
     'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
-    'JavaSE-1.8',
+    'JavaSE-9',
 ])
 # Map of targets to corresponding classpath collector rules
 cp_targets = {
@@ -52,9 +52,12 @@ opts.add_option('--name', help='name of the generated project',
                 action='store', default='gerrit', dest='project_name')
 opts.add_option('-b', '--batch', action='store_true',
                 dest='batch', help='Bazel batch option')
+opts.add_option('-9', '--java9', action='store_true',
+                dest='java9', help='Java9 support')
 args, _ = opts.parse_args()
 
 batch_option = '--batch' if args.batch else None
+java9 = args.java9
 
 
 def _build_bazel_cmd(*args):
@@ -63,6 +66,9 @@ def _build_bazel_cmd(*args):
         cmd.append('--batch')
     for arg in args:
         cmd.append(arg)
+    if java9:
+        cmd.append('--host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java9')
+        cmd.append('--java_toolchain=@bazel_tools//tools/jdk:toolchain_java9')
     return cmd
 
 

@@ -17,6 +17,24 @@
       "revId": "a8b4a7ee07925d9ddb85e1d91fb2b7e55a58adf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "296234df_191ae09c",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/notedb/GwtormChangeBundleReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-25T07:56:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30a78c04_3c1032d4",
+      "revId": "a8b4a7ee07925d9ddb85e1d91fb2b7e55a58adf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

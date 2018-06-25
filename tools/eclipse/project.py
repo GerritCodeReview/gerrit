@@ -32,7 +32,7 @@ AUTO = '//lib/auto:auto-value'
 JRE = '/'.join([
     'org.eclipse.jdt.launching.JRE_CONTAINER',
     'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
-    'JavaSE-1.8',
+    'JavaSE-9',
 ])
 # Map of targets to corresponding classpath collector rules
 cp_targets = {
@@ -52,10 +52,12 @@ opts.add_option('--name', help='name of the generated project',
                 action='store', default='gerrit', dest='project_name')
 opts.add_option('-b', '--batch', action='store_true',
                 dest='batch', help='Bazel batch option')
+opts.add_option('-j', '--java', action='store',
+                dest='java', help='Post Java 8 support (9|10|11|...)')
 args, _ = opts.parse_args()
 
 batch_option = '--batch' if args.batch else None
-
+custom_java = args.java
 
 def _build_bazel_cmd(*args):
     cmd = ['bazel']
@@ -63,6 +65,9 @@ def _build_bazel_cmd(*args):
         cmd.append('--batch')
     for arg in args:
         cmd.append(arg)
+    if custom_java:
+        cmd.append('--host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java%s' % custom_java)
+        cmd.append('--java_toolchain=@bazel_tools//tools/jdk:toolchain_java%s' % custom_java)
     return cmd
 
 
@@ -70,9 +75,10 @@ def retrieve_ext_location():
     return check_output(_build_bazel_cmd('info', 'output_base')).strip()
 
 
-def gen_bazel_path():
+def gen_bazel_path(ext_location):
     bazel = check_output(['which', 'bazel']).strip().decode('UTF-8')
     with open(path.join(ROOT, ".bazel_path"), 'w') as fd:
+        fd.write("output_base=%s\n" % ext_location)
         fd.write("bazel=%s\n" % bazel)
         fd.write("PATH=%s\n" % environ["PATH"])
 
@@ -301,7 +307,7 @@ try:
     gen_project(args.project_name)
     gen_classpath(ext_location)
     gen_factorypath(ext_location)
-    gen_bazel_path()
+    gen_bazel_path(ext_location)
 
     # TODO(davido): Remove this when GWT gone
     gwt_working_dir = ".gwt_work_dir"

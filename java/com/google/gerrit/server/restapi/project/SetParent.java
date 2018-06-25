@@ -30,6 +30,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -43,6 +44,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
@@ -51,6 +53,7 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
   private final MetaDataUpdate.Server updateFactory;
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
+  private final boolean allowProjectOwnersToChangeParent;
 
   @Inject
   SetParent(
@@ -58,12 +61,15 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
       PermissionBackend permissionBackend,
       MetaDataUpdate.Server updateFactory,
       AllProjectsName allProjects,
-      AllUsersName allUsers) {
+      AllUsersName allUsers,
+      @GerritServerConfig Config config) {
     this.cache = cache;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.allProjects = allProjects;
     this.allUsers = allUsers;
+    this.allowProjectOwnersToChangeParent =
+        config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
   }
 
   @Override
@@ -113,7 +119,7 @@ public class SetParent implements RestModifyView<ProjectResource, ParentInput> {
       Project.NameKey project, IdentifiedUser user, String newParent, boolean checkIfAdmin)
       throws AuthException, ResourceConflictException, UnprocessableEntityException,
           PermissionBackendException, BadRequestException {
-    if (checkIfAdmin) {
+    if (checkIfAdmin && !allowProjectOwnersToChangeParent) {
       permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 

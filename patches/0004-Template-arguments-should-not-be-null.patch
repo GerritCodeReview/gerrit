@@ -1,0 +1,35 @@
+From 0b758aa874a5206d99d84e0da17275212cfba32a Mon Sep 17 00:00:00 2001
+From: cushon <cushon@google.com>
+Date: Mon, 25 Jun 2018 17:22:14 -0700
+Subject: [PATCH 4/4] Template arguments should not be null
+
+If the generated annotation isn't available use the empty string instead of
+null.
+
+Fixes #645
+
+RELNOTES=N/A
+
+-------------
+Created by MOE: https://github.com/google/moe
+MOE_MIGRATED_REVID=202048570
+---
+ .../java/com/google/auto/value/processor/AutoAnnotationProcessor.java   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/value/src/main/java/com/google/auto/value/processor/AutoAnnotationProcessor.java b/value/src/main/java/com/google/auto/value/processor/AutoAnnotationProcessor.java
+index 02a519b..ba7f806 100644
+--- a/value/src/main/java/com/google/auto/value/processor/AutoAnnotationProcessor.java
++++ b/value/src/main/java/com/google/auto/value/processor/AutoAnnotationProcessor.java
+@@ -182,7 +182,7 @@ public class AutoAnnotationProcessor extends AbstractProcessor {
+   private String getGeneratedTypeName() {
+     return generatedAnnotation(elementUtils, processingEnv.getSourceVersion())
+         .map(generatedAnnotation -> TypeEncoder.encode(generatedAnnotation.asType()))
+-        .orElse(null);
++        .orElse("");
+   }
+ 
+   /**
+-- 
+2.16.3
+

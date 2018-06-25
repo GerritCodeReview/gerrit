@@ -16,8 +16,10 @@ package com.google.gerrit.server.change;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.PureRevertInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.PatchSetUtil;
@@ -41,8 +43,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.kohsuke.args4j.Option;
 
-public class PureRevert {
+public class GetPureRevert implements RestReadView<ChangeResource> {
   private final MergeUtil.Factory mergeUtilFactory;
   private final GitRepositoryManager repoManager;
   private final ProjectCache projectCache;
@@ -50,8 +53,15 @@ public class PureRevert {
   private final Provider<ReviewDb> dbProvider;
   private final PatchSetUtil psUtil;
 
+  @Option(
+      name = "--claimed-original",
+      aliases = {"-o"},
+      usage = "SHA1 (40 digit hex) of the original commit")
+  @Nullable
+  private String claimedOriginal;
+
   @Inject
-  PureRevert(
+  GetPureRevert(
       MergeUtil.Factory mergeUtilFactory,
       GitRepositoryManager repoManager,
       ProjectCache projectCache,
@@ -66,7 +76,18 @@ public class PureRevert {
     this.psUtil = psUtil;
   }
 
-  public PureRevertInfo get(ChangeNotes notes, @Nullable String claimedOriginal)
+  @Override
+  public PureRevertInfo apply(ChangeResource rsrc)
+      throws ResourceConflictException, IOException, BadRequestException, OrmException,
+          AuthException {
+    PatchSet currentPatchSet = psUtil.current(dbProvider.get(), rsrc.getNotes());
+    if (currentPatchSet == null) {
+      throw new ResourceConflictException("current revision is missing");
+    }
+    return getPureRevert(rsrc.getNotes());
+  }
+
+  public PureRevertInfo getPureRevert(ChangeNotes notes)
       throws OrmException, IOException, BadRequestException, ResourceConflictException {
     PatchSet currentPatchSet = psUtil.current(dbProvider.get(), notes);
     if (currentPatchSet == null) {
@@ -123,5 +144,10 @@ public class PureRevert {
         return new PureRevertInfo(entries.isEmpty());
       }
     }
+  }
+
+  public GetPureRevert setClaimedOriginal(String claimedOriginal) {
+    this.claimedOriginal = claimedOriginal;
+    return this;
   }
 }

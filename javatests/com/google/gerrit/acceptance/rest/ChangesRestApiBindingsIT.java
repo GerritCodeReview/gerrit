@@ -22,6 +22,7 @@ import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.RestCall;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -59,7 +60,6 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.delete("/changes/%s/topic"),
           RestCall.get("/changes/%s/in"),
           RestCall.get("/changes/%s/hashtags"),
-          RestCall.post("/changes/%s/hashtags"),
           RestCall.get("/changes/%s/comments"),
           RestCall.get("/changes/%s/robotcomments"),
           RestCall.get("/changes/%s/drafts"),
@@ -116,7 +116,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
    * identifier.
    */
   private static final ImmutableList<RestCall> CHANGE_ENDPOINTS_NOTEDB =
-      ImmutableList.of(RestCall.post("/changes/%s/rebuild.notedb"));
+      ImmutableList.of(
+          RestCall.post("/changes/%s/hashtags"), RestCall.post("/changes/%s/rebuild.notedb"));
 
   /**
    * Reviewer REST endpoints to be tested, each URL contains placeholders for the change identifier

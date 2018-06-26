@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "ca8e8208_e0796550",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3696,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-26T08:01:15Z",
+      "side": 1,
+      "message": "OK",
+      "parentUuid": "8826b3d6_9d9681ba",
+      "range": {
+        "startLine": 3696,
+        "startChar": 52,
+        "endLine": 3696,
+        "endChar": 66
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b74c5a3_0ab758b3",
         "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
         "patchSetId": 2

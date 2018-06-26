@@ -14,6 +14,9 @@
 
 package com.google.gerrit.acceptance.rest;
 
+import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Method.PUT;
+import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -40,7 +43,11 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.put("/accounts/%s/name"),
           RestCall.delete("/accounts/%s/name"),
           RestCall.get("/accounts/%s/username"),
-          RestCall.put("/accounts/%s/username"),
+          RestCall.builder(PUT, "/accounts/%s/username")
+              // Changing the username is not allowed.
+              .expectedResponseCode(SC_METHOD_NOT_ALLOWED)
+              .expectedMessage("Username cannot be changed.")
+              .build(),
           RestCall.get("/accounts/%s/active"),
           RestCall.put("/accounts/%s/active"),
           RestCall.delete("/accounts/%s/active"),

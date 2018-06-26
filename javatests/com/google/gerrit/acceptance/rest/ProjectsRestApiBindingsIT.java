@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Method.GET;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
+import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
@@ -93,7 +94,11 @@ public class ProjectsRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.get("/projects/%s/branches/%s"),
           RestCall.put("/projects/%s/branches/%s"),
           RestCall.get("/projects/%s/branches/%s/mergeable"),
-          RestCall.get("/projects/%s/branches/%s/reflog"),
+          RestCall.builder(GET, "/projects/%s/branches/%s/reflog")
+              // The tests use DfsRepository which does not support getting the reflog.
+              .expectedResponseCode(SC_METHOD_NOT_ALLOWED)
+              .expectedMessage("reflog not supported on")
+              .build(),
           RestCall.builder(GET, "/projects/%s/branches/%s/files")
               // GET /projects/<project>/branches/<branch>/files is not implemented
               .expectedResponseCode(SC_NOT_FOUND)

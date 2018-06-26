@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
+import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.auto.value.AutoValue;
@@ -80,8 +81,13 @@ public abstract class AbstractRestApiBindingsTest extends AbstractDaemonTest {
     String msg = String.format("%s %s returned %d: %s", method, uri, status, body);
     if (restCall.expectedResponseCode().isPresent()) {
       assertWithMessage(msg).that(status).isEqualTo(restCall.expectedResponseCode().get());
+      if (restCall.expectedMessage().isPresent()) {
+        assertWithMessage(msg).that(body).contains(restCall.expectedMessage().get());
+      }
     } else {
-      assertWithMessage(msg).that(status).isNotIn(ImmutableList.of(SC_FORBIDDEN, SC_NOT_FOUND));
+      assertWithMessage(msg)
+          .that(status)
+          .isNotIn(ImmutableList.of(SC_FORBIDDEN, SC_NOT_FOUND, SC_METHOD_NOT_ALLOWED));
       assertWithMessage(msg).that(status).isLessThan(SC_INTERNAL_SERVER_ERROR);
     }
   }
@@ -123,6 +129,8 @@ public abstract class AbstractRestApiBindingsTest extends AbstractDaemonTest {
 
     abstract Optional<Integer> expectedResponseCode();
 
+    abstract Optional<String> expectedMessage();
+
     String uri(String... args) {
       String uriFormat = uriFormat();
       int expectedArgNum = StringUtils.countMatches(uriFormat, "%s");
@@ -143,6 +151,8 @@ public abstract class AbstractRestApiBindingsTest extends AbstractDaemonTest {
       abstract Builder uriFormat(String uriFormat);
 
       abstract Builder expectedResponseCode(int expectedResponseCode);
+
+      abstract Builder expectedMessage(String expectedMessage);
 
       abstract RestCall build();
     }

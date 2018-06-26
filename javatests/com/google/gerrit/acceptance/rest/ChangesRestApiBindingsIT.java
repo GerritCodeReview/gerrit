@@ -239,7 +239,14 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.get("/changes/%s/revisions/%s/files/%s/diff"),
           RestCall.get("/changes/%s/revisions/%s/files/%s/blame"));
 
-  // TODO(ekempin): Add tests for change message and change edit REST endpoints
+  /**
+   * Change message REST endpoints to be tested, each URL contains placeholders for the change
+   * identifier and the change message identifier.
+   */
+  private static final ImmutableList<RestCall> CHANGE_MESSAGE_ENDPOINTS =
+      ImmutableList.of(RestCall.get("/changes/%s/messages/%s"));
+
+  // TODO(ekempin): Add tests for change edit REST endpoints
 
   private static final String FILENAME = "test.txt";
 
@@ -424,6 +431,16 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   public void revisionFileEndpoints() throws Exception {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
     execute(REVISION_FILE_ENDPOINTS, changeId, "current", FILENAME);
+  }
+
+  @Test
+  public void changeMessageEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // A change message is created on change creation.
+    String changeMessageId = Iterables.getOnlyElement(gApi.changes().id(changeId).messages()).id;
+
+    execute(CHANGE_MESSAGE_ENDPOINTS, changeId, changeMessageId);
   }
 
   private static Comment.Range createRange(

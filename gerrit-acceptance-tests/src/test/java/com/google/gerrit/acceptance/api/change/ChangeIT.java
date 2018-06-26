@@ -466,9 +466,19 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   @TestProjectInput(cloneAs = "user")
-  public void deleteChangeAsUserWithDeleteOwnChangesPermission() throws Exception {
+  public void deleteChangeAsUserWithDeleteOwnChangesPermissionForGroup() throws Exception {
     allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
+    deleteChangeAsUser();
+  }
 
+  @Test
+  @TestProjectInput(cloneAs = "user")
+  public void deleteChangeAsUserWithDeleteOwnChangesPermissionForOwners() throws Exception {
+    allow(Permission.DELETE_OWN_CHANGES, CHANGE_OWNER, "refs/*");
+    deleteChangeAsUser();
+  }
+
+  private void deleteChangeAsUser() throws Exception {
     try {
       PushOneCommit.Result changeResult =
           pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");

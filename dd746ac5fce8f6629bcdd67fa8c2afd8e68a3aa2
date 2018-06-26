@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "474b60a1_ac112e0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-26T07:30:09Z",
+      "side": 1,
+      "message": "introduces",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3f09378_497d859d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3696,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-26T07:30:09Z",
+      "side": 1,
+      "message": "better: the parent project",
+      "range": {
+        "startLine": 3696,
+        "startChar": 52,
+        "endLine": 3696,
+        "endChar": 66
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b74c5a3_0ab758b3",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-26T07:30:09Z",
+      "side": 1,
+      "message": "What about the same check that exists in ReceiveCommits that disallows project owners to push parent updates to refs/meta/config?",
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "732564c5_c6339f27",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-26T07:30:09Z",
+      "side": 1,
+      "message": "Shouldn\u0027t there be an else block to check that the calling user is a project owner?",
+      "range": {
+        "startLine": 179,
+        "startChar": 16,
+        "endLine": 179,
+        "endChar": 17
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea3f9b80_da4b216a",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-26T07:30:09Z",
+      "side": 1,
+      "message": "Where do you check that the calling user is a project owner if allowProjectOwnersToChangeParent \u003d\u003d true?",
+      "range": {
+        "startLine": 122,
+        "startChar": 25,
+        "endLine": 122,
+        "endChar": 57
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

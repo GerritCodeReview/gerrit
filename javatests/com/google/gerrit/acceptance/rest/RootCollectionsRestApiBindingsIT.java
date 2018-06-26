@@ -39,6 +39,7 @@ public class RootCollectionsRestApiBindingsIT extends AbstractRestApiBindingsTes
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
           RestCall.get("/changes/"),
+          RestCall.post("/changes/"),
           RestCall.get("/groups/"),
           RestCall.put("/groups/new-group"),
           RestCall.get("/plugins/"),

@@ -56,6 +56,7 @@ public class ConfigRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.get("/config/server/summary"),
           RestCall.get("/config/server/capabilities"),
           RestCall.get("/config/server/caches"),
+          RestCall.post("/config/server/caches"),
           RestCall.get("/config/server/tasks"));
 
   /**

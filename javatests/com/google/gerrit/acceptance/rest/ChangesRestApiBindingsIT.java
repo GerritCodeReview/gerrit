@@ -98,6 +98,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
           RestCall.get("/changes/%s/edit"),
+          RestCall.post("/changes/%s/edit"),
           RestCall.post("/changes/%s/edit:rebase"),
           RestCall.get("/changes/%s/edit:message"),
           RestCall.put("/changes/%s/edit:message"),

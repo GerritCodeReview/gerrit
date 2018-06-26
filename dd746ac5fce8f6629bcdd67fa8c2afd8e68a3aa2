@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "328bd72e_74d97e8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-06-26T07:54:36Z",
+      "side": 1,
+      "message": "beneficial",
+      "range": {
+        "startLine": 16,
+        "startChar": 51,
+        "endLine": 16,
+        "endChar": 61
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "474b60a1_ac112e0f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -25,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "62a6f30a_19934938",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-06-26T07:54:36Z",
+      "side": 1,
+      "message": "introduces?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 9
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e3f09378_497d859d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -36,6 +82,30 @@
       "writtenOn": "2018-06-26T07:30:09Z",
       "side": 1,
       "message": "better: the parent project",
+      "range": {
+        "startLine": 3696,
+        "startChar": 52,
+        "endLine": 3696,
+        "endChar": 66
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8826b3d6_9d9681ba",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3696,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2018-06-26T07:54:36Z",
+      "side": 1,
+      "message": "\"the parent project\" feels more ambiguous to me, it sounds like the actual parent project and not project.parent. \"the parent of a project\" or \"the project\u0027s parent\" would be my choice.",
+      "parentUuid": "e3f09378_497d859d",
       "range": {
         "startLine": 3696,
         "startChar": 52,

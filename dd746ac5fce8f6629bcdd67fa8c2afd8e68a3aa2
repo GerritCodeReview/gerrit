@@ -178,6 +178,30 @@
       "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b6d2ff0_40ab007b",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetParent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1021592
+      },
+      "writtenOn": "2018-06-26T07:54:55Z",
+      "side": 1,
+      "message": "Only project owners are allowed to update the project settings, which is usually handled by the callers.\n\nThough if you use the /parent REST end point, it does not seem to happen. This should certainly have an isOwner-check. Thanks.",
+      "parentUuid": "ea3f9b80_da4b216a",
+      "range": {
+        "startLine": 122,
+        "startChar": 25,
+        "endLine": 122,
+        "endChar": 57
+      },
+      "revId": "dd746ac5fce8f6629bcdd67fa8c2afd8e68a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

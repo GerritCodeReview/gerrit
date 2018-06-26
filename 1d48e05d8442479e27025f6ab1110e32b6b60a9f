@@ -307,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "f4dce4e9_7d013f44",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-26T08:06:59Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "01329c6e_e85e4eb7",
+      "range": {
+        "startLine": 1151,
+        "startChar": 11,
+        "endLine": 1151,
+        "endChar": 15
+      },
+      "revId": "1d48e05d8442479e27025f6ab1110e32b6b60a9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7faac8fb_a7f18500",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 21

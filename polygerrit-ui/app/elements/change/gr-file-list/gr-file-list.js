@@ -528,6 +528,9 @@
       // link, defer to the native behavior.
       if (!path || this.descendedFromClass(e.target, 'pathLink')) { return; }
 
+      // Disregard the event if the click target is in the edit controls.
+      if (this.descendedFromClass(e.target, 'editFileControls')) { return; }
+
       e.preventDefault();
       this._togglePathExpanded(path);
     },

@@ -49,7 +49,7 @@ public class GerritCommonTest extends PrologTestCase {
             bind(PrologEnvironment.Args.class)
                 .toInstance(
                     new PrologEnvironment.Args(
-                        null, null, null, null, null, null, null, cfg, null));
+                        null, null, null, null, null, null, null, cfg, null, null));
           }
         });
   }

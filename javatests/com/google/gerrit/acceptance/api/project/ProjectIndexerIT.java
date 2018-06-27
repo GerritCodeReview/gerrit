@@ -28,10 +28,13 @@ import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.index.project.StalenessChecker;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Ref;
@@ -41,6 +44,7 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
   @Inject private ProjectIndexer projectIndexer;
   @Inject private ProjectIndexCollection indexes;
   @Inject private IndexConfig indexConfig;
+  @Inject private StalenessChecker stalenessChecker;
 
   private static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(ProjectField.NAME.getName(), ProjectField.REF_STATE.getName());
@@ -71,5 +75,47 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
             ImmutableSet.of(RefState.of(projectConfigRef)),
             allProjects,
             ImmutableSet.of(RefState.of(allProjectConfigRef)));
+  }
+
+  @Test
+  public void stalenessChecker_currentProject_notStale() throws Exception {
+    assertThat(stalenessChecker.isStale(project)).isFalse();
+  }
+
+  @Test
+  public void stalenessChecker_currentProjectUpdates_isStale() throws Exception {
+    updateProjectConfigWithoutIndexUpdate(project);
+    assertThat(stalenessChecker.isStale(project)).isTrue();
+  }
+
+  @Test
+  public void stalenessChecker_parentProjectUpdates_isStale() throws Exception {
+    updateProjectConfigWithoutIndexUpdate(allProjects);
+    assertThat(stalenessChecker.isStale(project)).isTrue();
+  }
+
+  @Test
+  public void stalenessChecker_hierarchyChange_isStale() throws Exception {
+    updateProjectConfigWithoutIndexUpdate(allProjects, c -> c.getProject().setParentName(allUsers));
+    assertThat(stalenessChecker.isStale(project)).isTrue();
+  }
+
+  private void updateProjectConfigWithoutIndexUpdate(Project.NameKey project) throws Exception {
+    updateProjectConfigWithoutIndexUpdate(
+        project, c -> c.getProject().setDescription("making it stale"));
+  }
+
+  private void updateProjectConfigWithoutIndexUpdate(
+      Project.NameKey project, Consumer<ProjectConfig> update) throws Exception {
+    try (AutoCloseable ignored = disableProjectIndex()) {
+      try (ProjectConfigUpdate u = updateProject(project)) {
+        update.accept(u.getConfig());
+        u.save();
+      }
+    } catch (UnsupportedOperationException e) {
+      // Drop, as we just wanted to drop the index update
+      return;
+    }
+    fail("should have a UnsupportedOperationException");
   }
 }

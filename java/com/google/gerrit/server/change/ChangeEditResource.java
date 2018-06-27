@@ -20,7 +20,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.inject.TypeLiteral;
 
 /**
- * Represents change edit resource, that is actualy two kinds of resources:
+ * Represents change edit resource, that is actually two kinds of resources:
  *
  * <ul>
  *   <li>the change edit itself

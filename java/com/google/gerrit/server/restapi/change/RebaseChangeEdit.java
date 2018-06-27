@@ -41,7 +41,8 @@ import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class RebaseChangeEdit
-    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource.Rebase>,
+        AcceptsPost<ChangeResource> {
 
   private final Rebase rebase;
 
@@ -51,7 +52,7 @@ public class RebaseChangeEdit
   }
 
   @Override
-  public DynamicMap<RestView<ChangeEditResource>> views() {
+  public DynamicMap<RestView<ChangeEditResource.Rebase>> views() {
     throw new NotImplementedException();
   }
 
@@ -61,7 +62,7 @@ public class RebaseChangeEdit
   }
 
   @Override
-  public ChangeEditResource parse(ChangeResource parent, IdString id) {
+  public ChangeEditResource.Rebase parse(ChangeResource parent, IdString id) {
     throw new NotImplementedException();
   }
 

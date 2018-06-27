@@ -44,7 +44,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit
-    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource.Publish>,
+        AcceptsPost<ChangeResource> {
 
   private final Publish publish;
 
@@ -54,7 +55,7 @@ public class PublishChangeEdit
   }
 
   @Override
-  public DynamicMap<RestView<ChangeEditResource>> views() {
+  public DynamicMap<RestView<ChangeEditResource.Publish>> views() {
     throw new NotImplementedException();
   }
 
@@ -64,7 +65,7 @@ public class PublishChangeEdit
   }
 
   @Override
-  public ChangeEditResource parse(ChangeResource parent, IdString id) {
+  public ChangeEditResource.Publish parse(ChangeResource parent, IdString id) {
     throw new NotImplementedException();
   }
 

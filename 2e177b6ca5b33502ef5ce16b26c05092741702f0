@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44265e28_36327318",
+        "filename": "java/com/google/gerrit/server/patch/PatchSetInfoFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-06-27T09:59:17Z",
+      "side": 1,
+      "message": "Here we are now calling setAccount for cases where before we did not do that: If we find an account by email without the index and then the index yields another account we previously did not set an account, but now we do.\n\nWould it make sense to store the original UserIdentities here and offer them in a getAuthor/getCommiter? That would mean the Prolog fact could call getAccountForExternal and we would not affect other parts of Gerrit.",
+      "revId": "2e177b6ca5b33502ef5ce16b26c05092741702f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "27127acf_a84c4c62",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-27T21:21:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0c5d520_456700c8",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 19
+      },
+      "revId": "e0fa0e950ab388e54a4cd03f28815d9136b671c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4726eb02_9a62d121",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7ee391d0_db026b31",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-27T21:21:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4726eb02_9a62d121",
+      "range": {
+        "startLine": 44,
+        "startChar": 8,
+        "endLine": 44,
+        "endChar": 26
+      },
+      "revId": "e0fa0e950ab388e54a4cd03f28815d9136b671c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "268649c1_aa3feac8",
         "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "e0fa0e950ab388e54a4cd03f28815d9136b671c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79792eb8_b5e512f8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-06-27T21:21:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "268649c1_aa3feac8",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 6
+      },
+      "revId": "e0fa0e950ab388e54a4cd03f28815d9136b671c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

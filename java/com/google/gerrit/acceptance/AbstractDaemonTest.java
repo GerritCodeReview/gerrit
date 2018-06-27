@@ -68,6 +68,8 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.index.project.ProjectIndex;
+import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -274,6 +276,7 @@ public abstract class AbstractDaemonTest {
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private AccountIndexCollection accountIndexes;
+  @Inject private ProjectIndexCollection projectIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private Provider<AnonymousUser> anonymousUser;
@@ -898,6 +901,41 @@ public abstract class AbstractDaemonTest {
         }
       }
     };
+  }
+
+  protected AutoCloseable disableProjectIndex() {
+    disableProjectIndexWrites();
+    ProjectIndex searchIndex = projectIndexes.getSearchIndex();
+    if (!(searchIndex instanceof DisabledProjectIndex)) {
+      projectIndexes.setSearchIndex(new DisabledProjectIndex(searchIndex), false);
+    }
+
+    return new AutoCloseable() {
+      @Override
+      public void close() {
+        enableProjectIndexWrites();
+        ProjectIndex searchIndex = projectIndexes.getSearchIndex();
+        if (searchIndex instanceof DisabledProjectIndex) {
+          projectIndexes.setSearchIndex(((DisabledProjectIndex) searchIndex).unwrap(), false);
+        }
+      }
+    };
+  }
+
+  protected void disableProjectIndexWrites() {
+    for (ProjectIndex i : projectIndexes.getWriteIndexes()) {
+      if (!(i instanceof DisabledProjectIndex)) {
+        projectIndexes.addWriteIndex(new DisabledProjectIndex(i));
+      }
+    }
+  }
+
+  protected void enableProjectIndexWrites() {
+    for (ProjectIndex i : projectIndexes.getWriteIndexes()) {
+      if (i instanceof DisabledProjectIndex) {
+        projectIndexes.addWriteIndex(((DisabledProjectIndex) i).unwrap());
+      }
+    }
   }
 
   protected static Gson newGson() {

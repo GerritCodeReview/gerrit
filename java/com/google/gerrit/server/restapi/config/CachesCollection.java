@@ -20,12 +20,10 @@ import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.config.CacheResource;
 import com.google.gerrit.server.config.ConfigResource;
@@ -38,27 +36,23 @@ import com.google.inject.Singleton;
 
 @RequiresAnyCapability({VIEW_CACHES, MAINTAIN_SERVER})
 @Singleton
-public class CachesCollection
-    implements ChildCollection<ConfigResource, CacheResource>, AcceptsPost<ConfigResource> {
+public class CachesCollection implements ChildCollection<ConfigResource, CacheResource> {
 
   private final DynamicMap<RestView<CacheResource>> views;
   private final Provider<ListCaches> list;
   private final PermissionBackend permissionBackend;
   private final DynamicMap<Cache<?, ?>> cacheMap;
-  private final PostCaches postCaches;
 
   @Inject
   CachesCollection(
       DynamicMap<RestView<CacheResource>> views,
       Provider<ListCaches> list,
       PermissionBackend permissionBackend,
-      DynamicMap<Cache<?, ?>> cacheMap,
-      PostCaches postCaches) {
+      DynamicMap<Cache<?, ?>> cacheMap) {
     this.views = views;
     this.list = list;
     this.permissionBackend = permissionBackend;
     this.cacheMap = cacheMap;
-    this.postCaches = postCaches;
   }
 
   @Override
@@ -89,10 +83,5 @@ public class CachesCollection
   @Override
   public DynamicMap<RestView<CacheResource>> views() {
     return views;
-  }
-
-  @Override
-  public PostCaches post(ConfigResource parent) throws RestApiException {
-    return postCaches;
   }
 }

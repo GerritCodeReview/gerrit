@@ -23,7 +23,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCollectionView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.CacheResource;
 import com.google.gerrit.server.config.ConfigResource;
@@ -36,7 +36,7 @@ import java.util.List;
 
 @RequiresAnyCapability({FLUSH_CACHES, MAINTAIN_SERVER})
 @Singleton
-public class PostCaches implements RestModifyView<ConfigResource, Input> {
+public class PostCaches implements RestCollectionView<ConfigResource, CacheResource, Input> {
   public static class Input {
     public Operation operation;
     public List<String> caches;

@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsDelete;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -32,6 +31,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestCollectionView;
 import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -71,26 +71,21 @@ import org.kohsuke.args4j.Option;
 
 @Singleton
 public class ChangeEdits
-    implements ChildCollection<ChangeResource, ChangeEditResource>,
-        AcceptsPost<ChangeResource>,
-        AcceptsDelete<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsDelete<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
   private final DeleteFile.Factory deleteFileFactory;
   private final Provider<Detail> detail;
   private final ChangeEditUtil editUtil;
-  private final Post post;
 
   @Inject
   ChangeEdits(
       DynamicMap<RestView<ChangeEditResource>> views,
       Provider<Detail> detail,
       ChangeEditUtil editUtil,
-      Post post,
       DeleteFile.Factory deleteFileFactory) {
     this.views = views;
     this.detail = detail;
     this.editUtil = editUtil;
-    this.post = post;
     this.deleteFileFactory = deleteFileFactory;
   }
 
@@ -112,11 +107,6 @@ public class ChangeEdits
       throw new ResourceNotFoundException(id);
     }
     return new ChangeEditResource(rsrc, edit.get(), id.get());
-  }
-
-  @Override
-  public Post post(ChangeResource parent) throws RestApiException {
-    return post;
   }
 
   /**
@@ -241,7 +231,8 @@ public class ChangeEdits
    * The combination of two operations in one request is supported.
    */
   @Singleton
-  public static class Post implements RestModifyView<ChangeResource, Post.Input> {
+  public static class Post
+      implements RestCollectionView<ChangeResource, ChangeEditResource, Post.Input> {
     public static class Input {
       public String restorePath;
       public String oldPath;

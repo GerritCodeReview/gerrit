@@ -61,6 +61,26 @@ public class Emails {
    * are needed it is more efficient to use {@link #getAccountsFor(String...)} as this method reads
    * the SHA1 of the refs/meta/external-ids branch only once (and not once per email).
    *
+   * <p>Accounts are not looked up by their preferred email, so this method does not rely on the
+   * index.
+   *
+   * @see #getAccountFor(String)
+   */
+  public ImmutableSet<Account.Id> getAccountForExternal(String email) throws IOException {
+    return externalIds.byEmail(email).stream().map(ExternalId::accountId).collect(toImmutableSet());
+  }
+
+  /**
+   * Returns the accounts with the given email.
+   *
+   * <p>Each email should belong to a single account only. This means if more than one account is
+   * returned there is an inconsistency in the external IDs.
+   *
+   * <p>The accounts are retrieved via the external ID cache. Each access to the external ID cache
+   * requires reading the SHA1 of the refs/meta/external-ids branch. If accounts for multiple emails
+   * are needed it is more efficient to use {@link #getAccountsFor(String...)} as this method reads
+   * the SHA1 of the refs/meta/external-ids branch only once (and not once per email).
+   *
    * <p>In addition accounts are included that have the given email as preferred email even if they
    * have no external ID for the preferred email. Having accounts with a preferred email that does
    * not exist as external ID is an inconsistency, but existing functionality relies on still

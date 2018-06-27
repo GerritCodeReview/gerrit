@@ -54,7 +54,7 @@ limitations under the License.
       gr-button,
       gr-dropdown {
         /* px because don't have the same font size */
-        margin-left: 12px;
+        margin-left: 8px;
       }
       #actionLoadingMessage {
         align-items: center;
@@ -69,6 +69,14 @@ limitations under the License.
         height: 1.2rem;
         margin-right: .2rem;
         width: 1.2rem;
+      }
+      gr-button {
+        min-height: 2.25em;
+      }
+      gr-dropdown {
+        --gr-button: {
+          min-height: 2.25em;
+        }
       }
       #moreActions iron-icon {
         margin: 0;

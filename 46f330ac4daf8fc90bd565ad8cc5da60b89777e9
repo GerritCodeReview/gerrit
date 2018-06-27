@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595a2f45_d091b102",
+        "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-06-27T16:28:26Z",
+      "side": 1,
+      "message": "what happened to V2 ?",
+      "range": {
+        "startLine": 33,
+        "startChar": 37,
+        "endLine": 33,
+        "endChar": 38
+      },
+      "revId": "46f330ac4daf8fc90bd565ad8cc5da60b89777e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

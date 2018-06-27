@@ -83,8 +83,7 @@ public class SystemLog {
       if (appender != null) {
         async.addAppender(appender);
       } else {
-        log.warn(
-            "No appender with the name: " + name + " was found. " + name + " logging is disabled");
+        log.warn("No appender with the name: {} was found. {} logging is disabled", name, name);
       }
     }
     async.activateOptions();

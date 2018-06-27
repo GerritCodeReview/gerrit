@@ -14,23 +14,43 @@
 
 package com.google.gerrit.index.project;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.reviewdb.client.Project;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class ProjectData {
   private final Project project;
-  private final ImmutableList<Project.NameKey> ancestors;
+  private final Optional<ProjectData> parent;
 
-  public ProjectData(Project project, Iterable<Project.NameKey> ancestors) {
+  public ProjectData(Project project, Optional<ProjectData> parent) {
     this.project = project;
-    this.ancestors = ImmutableList.copyOf(ancestors);
+    this.parent = parent;
   }
 
   public Project getProject() {
     return project;
   }
 
-  public ImmutableList<Project.NameKey> getAncestors() {
-    return ancestors;
+  public Optional<ProjectData> getParent() {
+    return parent;
+  }
+
+  /** Returns all {@link ProjectData} in the hierarchy starting with the current one. */
+  public ImmutableList<ProjectData> tree() {
+    List<ProjectData> parents = new ArrayList<>();
+    Optional<ProjectData> curr = Optional.of(this);
+    while (curr.isPresent()) {
+      parents.add(curr.get());
+      curr = curr.get().parent;
+    }
+    return ImmutableList.copyOf(parents);
+  }
+
+  public ImmutableList<String> getParentNames() {
+    return tree().stream().skip(1).map(p -> p.getProject().getName()).collect(toImmutableList());
   }
 }

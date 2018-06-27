@@ -214,14 +214,13 @@ public class PatchSetUtil {
     return false;
   }
 
-  /** Returns the full commit message for the given project at the given patchset revision */
-  public String getFullCommitMessage(Project.NameKey project, PatchSet patchSet)
-      throws IOException {
+  /** Returns the commit for the given project at the given patchset revision */
+  public RevCommit getRevCommit(Project.NameKey project, PatchSet patchSet) throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit src = rw.parseCommit(ObjectId.fromString(patchSet.getRevision().get()));
       rw.parseBody(src);
-      return src.getFullMessage();
+      return src;
     }
   }
 }

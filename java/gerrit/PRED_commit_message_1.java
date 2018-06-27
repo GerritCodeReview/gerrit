@@ -21,6 +21,7 @@ import com.googlecode.prolog_cafe.lang.Predicate;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
  * Returns the commit message as a symbol
@@ -40,7 +41,8 @@ public class PRED_commit_message_1 extends Predicate.P1 {
     engine.setB0();
     Term a1 = arg1.dereference();
 
-    String commitMessage = StoredValues.COMMIT_MESSAGE.get(engine);
+    RevCommit revCommit = StoredValues.COMMIT.get(engine);
+    String commitMessage = revCommit.getFullMessage();
 
     SymbolTerm msg = SymbolTerm.create(commitMessage);
     if (!a1.unify(msg, engine.trail)) {

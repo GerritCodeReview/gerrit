@@ -37,6 +37,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/reviewdb:server",
         "//lib:guava",
         "//lib:gwtjsonrpc",
         "//lib:gwtorm",

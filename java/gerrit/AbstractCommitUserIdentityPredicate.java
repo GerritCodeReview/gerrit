@@ -57,11 +57,11 @@ abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
     Emails emails = env.getArgs().getEmails();
     Account.Id id = null;
     try {
-      ImmutableSet<Id> ids = emails.getAccountFor(userId.getEmailAddress());
+      ImmutableSet<Id> ids = emails.getAccountForExternal(userId.getEmailAddress());
       if (ids.size() == 1) {
         id = ids.iterator().next();
       }
-    } catch (IOException | OrmException e) {
+    } catch (IOException e) {
       throw new SystemException(e.getMessage());
     }
 

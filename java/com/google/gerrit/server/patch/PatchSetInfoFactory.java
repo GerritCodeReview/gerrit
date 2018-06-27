@@ -100,7 +100,7 @@ public class PatchSetInfoFactory {
     // If only one account has access to this email address, select it
     // as the identity of the user.
     //
-    Set<Account.Id> a = emails.getAccountFor(u.getEmail());
+    Set<Account.Id> a = emails.getAccountForExternal(u.getEmail());
     if (a.size() == 1) {
       u.setAccount(a.iterator().next());
     }

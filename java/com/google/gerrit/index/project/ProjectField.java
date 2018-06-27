@@ -17,11 +17,15 @@ package com.google.gerrit.index.project;
 import static com.google.gerrit.index.FieldDef.exact;
 import static com.google.gerrit.index.FieldDef.fullText;
 import static com.google.gerrit.index.FieldDef.prefix;
+import static com.google.gerrit.index.FieldDef.storedOnly;
 
-import com.google.common.collect.Iterables;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.index.RefState;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Index schema for projects. */
 public class ProjectField {
@@ -39,6 +43,26 @@ public class ProjectField {
       prefix("name_part").buildRepeatable(p -> SchemaUtil.getNameParts(p.getProject().getName()));
 
   public static final FieldDef<ProjectData, Iterable<String>> ANCESTOR_NAME =
-      exact("ancestor_name")
-          .buildRepeatable(p -> Iterables.transform(p.getAncestors(), Project.NameKey::get));
+      exact("ancestor_name").buildRepeatable(p -> p.getParentNames());
+
+  /**
+   * All values of all refs that were used in the course of indexing this document. This covers
+   * {@code refs/meta/config} of the current project and all of it's parents.
+   *
+   * <p>Emitted as UTF-8 encoded strings of the form {@code project:ref/name:[hex sha]}.
+   */
+  public static final FieldDef<ProjectData, Iterable<byte[]>> REF_STATE =
+      storedOnly("ref_state")
+          .buildRepeatable(
+              projectData -> {
+                List<byte[]> result = new ArrayList<>();
+                result.add(toRefState(projectData.getProject()));
+                projectData.getParents().forEach(p -> result.add(toRefState(p.getProject())));
+                return result;
+              });
+
+  private static byte[] toRefState(Project project) {
+    return RefState.create(RefNames.REFS_CONFIG, project.getConfigRefState())
+        .toByteArray(project.getNameKey());
+  }
 }

@@ -33,7 +33,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexUtils;
-import com.google.gerrit.server.index.RefState;
+import com.google.gerrit.index.RefState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

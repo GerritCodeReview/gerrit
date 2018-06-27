@@ -31,7 +31,7 @@ import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.index.RefState;
+import com.google.gerrit.index.RefState;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;

@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeEditResource;
@@ -33,6 +32,9 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -75,19 +77,23 @@ public class RebaseChangeEdit
   }
 
   @Singleton
-  public static class Rebase implements RestModifyView<ChangeResource, Input> {
-
+  public static class Rebase extends RetryingRestModifyView<ChangeResource, Input, Response<?>> {
     private final GitRepositoryManager repositoryManager;
     private final ChangeEditModifier editModifier;
 
     @Inject
-    Rebase(GitRepositoryManager repositoryManager, ChangeEditModifier editModifier) {
+    Rebase(
+        RetryHelper retryHelper,
+        GitRepositoryManager repositoryManager,
+        ChangeEditModifier editModifier) {
+      super(retryHelper);
       this.repositoryManager = repositoryManager;
       this.editModifier = editModifier;
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, Input in)
+    protected Response<?> applyImpl(
+        BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input in)
         throws AuthException, ResourceConflictException, IOException, OrmException,
             PermissionBackendException {
       Project.NameKey project = rsrc.getProject();

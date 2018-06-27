@@ -65,7 +65,7 @@ limitations under the License.
     let suggestion3;
     let element;
 
-    setup(() => {
+    setup(done => {
       owner = makeAccount();
       existingReviewer1 = makeAccount();
       existingReviewer2 = makeAccount();
@@ -78,6 +78,10 @@ limitations under the License.
         },
       };
 
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(true); },
+      });
+
       element = fixture('basic');
       element.change = {
         _number: 42,
@@ -88,6 +92,7 @@ limitations under the License.
         },
       };
       sandbox = sinon.sandbox.create();
+      return flush(done);
     });
 
     teardown(() => {
@@ -166,6 +171,19 @@ limitations under the License.
           element._getReviewerSuggestions().then(reviewers => {
             assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);
           }).then(done);
+        });
+      });
+
+      test('_getReviewerSuggestions short circuits when logged out', () => {
+        // API call is already stubbed.
+        const xhrSpy = element.$.restAPI.getChangeSuggestedReviewers;
+        element._loggedIn = false;
+        return element._getReviewerSuggestions('').then(() => {
+          assert.isFalse(xhrSpy.called);
+          element._loggedIn = true;
+          return element._getReviewerSuggestions('').then(() => {
+            assert.isTrue(xhrSpy.called);
+          });
         });
       });
     });

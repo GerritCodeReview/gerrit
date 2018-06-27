@@ -69,6 +69,8 @@
         type: String,
         observer: '_inputTextChanged',
       },
+
+      _loggedIn: Boolean,
     },
 
     behaviors: [
@@ -78,6 +80,9 @@
     attached() {
       this.$.restAPI.getConfig().then(cfg => {
         this._config = cfg;
+      });
+      this.$.restAPI.getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
       });
     },
 
@@ -144,7 +149,9 @@
     },
 
     _getReviewerSuggestions(input) {
-      if (!this.change || !this.change._number) { return Promise.resolve([]); }
+      if (!this.change || !this.change._number || !this._loggedIn) {
+        return Promise.resolve([]);
+      }
 
       const api = this.$.restAPI;
       const xhr = this.allowAnyUser ?

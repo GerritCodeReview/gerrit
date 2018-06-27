@@ -71,21 +71,17 @@ public class RulesIT extends AbstractDaemonTest {
 
   @Test
   public void testUserPredicate() throws Exception {
-    // This test results in a RULE_ERROR as Prolog tries to find accounts by email, using the index.
-    // TODO(maximeg) get OK results
     modifySubmitRules(
         String.format(
             "gerrit:commit_author(user(%d), '%s', '%s')",
             user.getId().get(), user.fullName, user.email));
-    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
   public void testCommitAuthorPredicate() throws Exception {
-    // This test results in a RULE_ERROR as Prolog tries to find accounts by email, using the index.
-    // TODO(maximeg) get OK results
     modifySubmitRules("gerrit:commit_author(Id)");
-    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.RULE_ERROR);
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   private SubmitRecord.Status statusForRule() throws Exception {

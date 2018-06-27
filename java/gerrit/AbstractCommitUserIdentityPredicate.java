@@ -19,7 +19,6 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.rules.PrologEnvironment;
-import com.google.gwtorm.server.OrmException;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.exceptions.SystemException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
@@ -57,11 +56,11 @@ abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
     Emails emails = env.getArgs().getEmails();
     Account.Id id = null;
     try {
-      ImmutableSet<Account.Id> ids = emails.getAccountFor(userId.getEmailAddress());
+      ImmutableSet<Account.Id> ids = emails.getAccountForExternal(userId.getEmailAddress());
       if (ids.size() == 1) {
         id = ids.iterator().next();
       }
-    } catch (IOException | OrmException e) {
+    } catch (IOException e) {
       throw new SystemException(e.getMessage());
     }
 

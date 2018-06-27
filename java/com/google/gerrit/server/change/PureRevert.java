@@ -117,7 +117,7 @@ public class PureRevert {
       // Any differences between claimed original's parent and the rebase result indicate that the
       // claimedRevert is not a pure revert but made content changes
       try (DiffFormatter df = new DiffFormatter(new ByteArrayOutputStream())) {
-        df.setRepository(repo);
+        df.setReader(oi.newReader(), repo.getConfig());
         List<DiffEntry> entries =
             df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
         return new PureRevertInfo(entries.isEmpty());

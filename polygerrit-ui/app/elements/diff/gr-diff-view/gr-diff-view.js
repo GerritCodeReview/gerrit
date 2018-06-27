@@ -990,6 +990,7 @@
     },
 
     _handleShiftXKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       this.$.diff.expandAllContext();
     },
   });

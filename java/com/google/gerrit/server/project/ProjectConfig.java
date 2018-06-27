@@ -499,6 +499,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (p.getDescription() == null) {
       p.setDescription("");
     }
+    if (revision != null) {
+      p.setConfigRefState(revision.toObjectId().name());
+    }
 
     if (rc.getStringList(ACCESS, null, KEY_INHERIT_FROM).length > 1) {
       // The config must not contain more than one parent to inherit from

@@ -62,6 +62,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Ref;
@@ -538,7 +539,11 @@ public class ProjectState {
   }
 
   public ProjectData toProjectData() {
-    return new ProjectData(getProject(), parents().transform(s -> s.getProject().getNameKey()));
+    ProjectData project = null;
+    for (ProjectState state : treeInOrder()) {
+      project = new ProjectData(state.getProject(), Optional.ofNullable(project));
+    }
+    return project;
   }
 
   private String readFile(Path p) throws IOException {

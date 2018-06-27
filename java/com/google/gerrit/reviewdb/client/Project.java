@@ -99,6 +99,8 @@ public final class Project {
 
   protected String themeName;
 
+  protected String configRefState;
+
   protected Project() {}
 
   public Project(Project.NameKey nameKey) {
@@ -238,5 +240,15 @@ public final class Project {
 
   public void setParentName(NameKey n) {
     parent = n;
+  }
+
+  /** Returns the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
+  public String getConfigRefState() {
+    return configRefState;
+  }
+
+  /** Sets the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
+  public void setConfigRefState(String state) {
+    configRefState = state;
   }
 }

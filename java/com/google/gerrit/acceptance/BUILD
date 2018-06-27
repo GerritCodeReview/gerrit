@@ -98,6 +98,7 @@ java_library2(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/pgm/init",

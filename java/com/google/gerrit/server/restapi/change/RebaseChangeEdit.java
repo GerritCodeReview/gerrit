@@ -44,16 +44,18 @@ public class RebaseChangeEdit
     implements ChildCollection<ChangeResource, ChangeEditResource.Rebase>,
         AcceptsPost<ChangeResource> {
 
+  private final DynamicMap<RestView<ChangeEditResource.Rebase>> views;
   private final Rebase rebase;
 
   @Inject
-  RebaseChangeEdit(Rebase rebase) {
+  RebaseChangeEdit(DynamicMap<RestView<ChangeEditResource.Rebase>> views, Rebase rebase) {
+    this.views = views;
     this.rebase = rebase;
   }
 
   @Override
   public DynamicMap<RestView<ChangeEditResource.Rebase>> views() {
-    throw new NotImplementedException();
+    return views;
   }
 
   @Override

@@ -47,16 +47,18 @@ public class PublishChangeEdit
     implements ChildCollection<ChangeResource, ChangeEditResource.Publish>,
         AcceptsPost<ChangeResource> {
 
+  private final DynamicMap<RestView<ChangeEditResource.Publish>> views;
   private final Publish publish;
 
   @Inject
-  PublishChangeEdit(Publish publish) {
+  PublishChangeEdit(DynamicMap<RestView<ChangeEditResource.Publish>> views, Publish publish) {
+    this.views = views;
     this.publish = publish;
   }
 
   @Override
   public DynamicMap<RestView<ChangeEditResource.Publish>> views() {
-    throw new NotImplementedException();
+    return views;
   }
 
   @Override

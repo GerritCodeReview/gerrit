@@ -33,22 +33,24 @@
     'INTERACTIVE',
   ];
 
-  const DROPDOWN_OPTIONS = [
-    'ALLOW',
-    'DENY',
-    'BLOCK',
-  ];
+  const Action = {
+    Allow: 'ALLOW',
+    Deny: 'DENY',
+    Block: 'BLOCK',
+  };
 
-  const FORCE_PUSH_OPTIONS = [
-    {
-      name: 'Block all pushes, block force push only',
-      value: false,
-    },
-    {
-      name: 'Allow fast-forward only push, allow all pushes',
-      value: true,
-    },
-  ];
+  const DROPDOWN_OPTIONS = [Action.Allow, Action.Deny, Action.Block];
+
+  const FORCE_PUSH_OPTIONS = {
+    Allow: [
+      {name: 'Allow pushing but not force pushing', value: false},
+      {name: 'Allow pushing with or without force', value: true},
+    ],
+    Block: [
+      {name: 'Block pushing with or without force', value: false},
+      {name: 'Block force pushing', value: true},
+    ],
+  };
 
   const FORCE_EDIT_OPTIONS = [
     {
@@ -117,13 +119,17 @@
       this._setOriginalRuleValues(rule.value);
     },
 
-    _computeForce(permission) {
-      return this.permissionValues.push.id === permission ||
-          this.permissionValues.editTopicName.id === permission;
+    _computeForce(permission, action) {
+      if (this.permissionValues.push.id === permission &&
+          action !== Action.Deny) {
+        return true;
+      }
+
+      return this.permissionValues.editTopicName.id === permission;
     },
 
-    _computeForceClass(permission) {
-      return this._computeForce(permission) ? 'force' : '';
+    _computeForceClass(permission, action) {
+      return this._computeForce(permission, action) ? 'force' : '';
     },
 
     _computeGroupPath(group) {
@@ -156,9 +162,15 @@
       return classList.join(' ');
     },
 
-    _computeForceOptions(permission) {
+    _computeForceOptions(permission, action) {
       if (permission === this.permissionValues.push.id) {
-        return FORCE_PUSH_OPTIONS;
+        if (action === Action.Allow) {
+          return FORCE_PUSH_OPTIONS.Allow;
+        } else if (action === Action.Block) {
+          return FORCE_PUSH_OPTIONS.Block;
+        } else {
+          return [];
+        }
       } else if (permission === this.permissionValues.editTopicName.id) {
         return FORCE_EDIT_OPTIONS;
       }

@@ -20,8 +20,8 @@ import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -59,13 +59,14 @@ public class RebaseChangeEdit
   }
 
   @Override
-  public RestView<ChangeResource> list() {
-    throw new NotImplementedException();
+  public RestView<ChangeResource> list() throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Override
-  public ChangeEditResource.Rebase parse(ChangeResource parent, IdString id) {
-    throw new NotImplementedException();
+  public ChangeEditResource.Rebase parse(ChangeResource parent, IdString id)
+      throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Override

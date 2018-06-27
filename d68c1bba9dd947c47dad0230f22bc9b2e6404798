@@ -16,6 +16,24 @@
       "revId": "d68c1bba9dd947c47dad0230f22bc9b2e6404798",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e8fe5ae_a07a65ec",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1065014
+      },
+      "writtenOn": "2018-06-27T20:44:07Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t there separate javadoc for this release?\n\nload(\"//tools/bzl:maven_jar.bzl\", \"GERRIT\", \"MAVEN_LOCAL\", \"MAVEN_CENTRAL\", \"maven_jar\")",
+      "parentUuid": "c0d6c651_17dd0750",
+      "revId": "d68c1bba9dd947c47dad0230f22bc9b2e6404798",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

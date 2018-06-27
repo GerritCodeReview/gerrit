@@ -253,9 +253,15 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
    */
   private static final ImmutableList<RestCall> CHANGE_EDIT_ENDPOINTS =
       ImmutableList.of(
+          // Create change edit by deleting an existing file.
+          RestCall.delete("/changes/%s/edit/%s"),
+
+          // Calls on existing change edit.
           RestCall.get("/changes/%s/edit/%s"),
           RestCall.put("/changes/%s/edit/%s"),
           RestCall.get("/changes/%s/edit/%s/meta"),
+
+          // Delete content of a file in an existing change edit.
           RestCall.delete("/changes/%s/edit/%s"));
 
   private static final String FILENAME = "test.txt";
@@ -456,8 +462,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   @Test
   public void changeEditEndpoints() throws Exception {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
-    gApi.changes().id(changeId).edit().create();
 
+    // The change edit is created by the first REST call.
     execute(CHANGE_EDIT_ENDPOINTS, changeId, FILENAME);
   }
 

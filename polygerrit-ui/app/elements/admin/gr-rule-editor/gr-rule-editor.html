@@ -111,13 +111,13 @@ limitations under the License.
         </a>
         <gr-select
             id="force"
-            class$="[[_computeForceClass(permission)]]"
+            class$="[[_computeForceClass(permission, rule.value.action)]]"
             bind-value="{{rule.value.force}}"
             on-change="_handleValueChange">
           <select disabled$="[[!editing]]">
             <template
                 is="dom-repeat"
-                items="[[_computeForceOptions(permission)]]">
+                items="[[_computeForceOptions(permission, rule.value.action)]]">
               <option value="[[item.value]]">[[item.name]]</option>
             </template>
           </select>

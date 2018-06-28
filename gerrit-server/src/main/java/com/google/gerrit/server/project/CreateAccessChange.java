@@ -22,6 +22,7 @@ import com.google.gerrit.common.errors.PermissionDeniedException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -145,6 +146,8 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         bu.execute();
         return Response.created(jsonFactory.noOptions().format(ins.getChange()));
       }
+    } catch (InvalidNameException e) {
+      throw new BadRequestException(e.toString());
     }
   }
 

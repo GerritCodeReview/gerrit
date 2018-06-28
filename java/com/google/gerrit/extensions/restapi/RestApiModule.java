@@ -75,7 +75,7 @@ public abstract class RestApiModule extends FactoryModule {
     return new ChildCollectionBinder<>(view(type, GET, name));
   }
 
-  protected <R extends RestResource> LinkedBindingBuilder<RestView<R>> view(
+  private <R extends RestResource> LinkedBindingBuilder<RestView<R>> view(
       TypeLiteral<RestView<R>> viewType, String method, String name) {
     return bind(viewType).annotatedWith(export(method, name));
   }

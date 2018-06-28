@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1530197078 +0200\nnonce ADrMV7bqYfrqQVYi6GQOW77jybcGak7tVRa4+8XiC0kNfOoQw4XLnGzJgTSHlFKqwApe14le8q+U\n\n0000000000000000000000000000000000000000 0fdd85fd3cc71777214c4b0896724c9b1c4f21c6 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAls09FYACgkQUbX9l6DQ\n71Ftiwf/VN8doDYPnmq4bD4cSEu9sau6/YGKjDRL8RMTarakKEK1oKjXnG90Z7Ow\nu1qN1AKUtnIFXUvbH3yPewwMEI7ltPINUPglY/LclahzNtyerz2mKQJPdjthrML/\nerMLkQ2VvoUIVB+T4eR8b4IRHCcDLrk9BhkJwYiMv6xdROXopC7j0z0gy0zU3wl7\nJvVfidGag4LSlE8TcL0ybXFFh2hrxFi0FNrIt2gxMXlwBh8wDTUnokfQUC730kM2\ncc9oIo1nMWCqMXyg0Fb0B7DIrte7mDWEyCOF5kG+H96ZAUzkhexb5mFGLjAz6Qna\n2ShQIQU226SuiCUtJgh+3Z+ZVxI0QQ\u003d\u003d\n\u003dc4Lu\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "df0efbde_01bb80e3",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-06-28T14:53:57Z",
+      "side": 1,
+      "message": "One brief doubt: what should the author timestamp be on the submodule subscription commit?\n\nOne possibility would be to use the current timestamp in that case:\n\n  PersonIdent newCommitAuthor \u003d newCommit.getAuthorIdent();\n  if (author \u003d\u003d null) {\n    author \u003d newCommitAuthor;\n  } else if (author.getName().equals(newCommitAuthor.getName())\n             \u0026\u0026 author.getEmailAddress().equals(newCommitAuthor.getEmailAddress())) {\n    author \u003d new PersonIdent(author, myIdent.getWhen());\n  } else {\n    author \u003d myIdent;\n  }\n\nWhat do you think?",
+      "revId": "0fdd85fd3cc71777214c4b0896724c9b1c4f21c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

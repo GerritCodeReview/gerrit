@@ -465,6 +465,23 @@
     },
     {
       "key": {
+        "uuid": "7bd75c67_c94128d5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T12:23:02Z",
+      "side": 1,
+      "message": "Can you please also add an assertion that verifies that the change was properly reindexed to make sure that the deleted message is also removed from the index?",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0bcd0906_b23d25a4",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
         "patchSetId": 18

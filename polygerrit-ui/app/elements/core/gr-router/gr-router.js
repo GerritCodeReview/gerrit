@@ -309,12 +309,7 @@
       if (!weblinks) { return null; }
       const weblink = weblinks.find(this._isDirectCommit);
       if (!weblink) { return null; }
-      const url = weblink.url;
-      if (url.startsWith('https:') || url.startsWith('http:')) {
-        return url;
-      } else {
-        return `../../${url}`;
-      }
+      return weblink.url;
     },
 
     _getChangeWeblinks({repo, commit, options: {weblinks}}) {

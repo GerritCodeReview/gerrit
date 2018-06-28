@@ -78,7 +78,7 @@ limitations under the License.
       assert.isOk(element._computeShowWebLink(element.change,
           element.commitInfo, element.serverConfig));
       assert.equal(element._computeWebLink(element.change, element.commitInfo,
-          element.serverConfig), '../../link-url');
+          element.serverConfig), 'link-url');
     });
 
     test('does not relativize web links that begin with scheme', () => {

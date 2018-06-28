@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d37f7109_af43a4f5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-06-28T01:07:24Z",
+      "side": 1,
+      "message": "optional: This might be clearer with \"but not force pushing\" in parentheses. That would make it more obvious to me that a separate rule can still allow force pushing without being overridden by this one.",
+      "range": {
+        "startLine": 46,
+        "startChar": 28,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "b38a1bec27cf6e76c6a193faf1ddc1114a7c3b7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

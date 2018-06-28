@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
@@ -113,6 +114,9 @@ final class SetAccountCommand extends SshCommand {
   @Option(name = "--clear-http-password", usage = "clear HTTP password for the account")
   private boolean clearHttpPassword;
 
+  @Option(name = "--generate-http-password", usage = "generate a new HTTP password for the account")
+  private boolean generateHttpPassword;
+
   @Inject private IdentifiedUser.GenericFactory genericUserFactory;
 
   @Inject private CreateEmail.Factory createEmailFactory;
@@ -150,8 +154,16 @@ final class SetAccountCommand extends SshCommand {
     if (active && inactive) {
       throw die("--active and --inactive options are mutually exclusive.");
     }
-    if (clearHttpPassword && !Strings.isNullOrEmpty(httpPassword)) {
-      throw die("--http-password and --clear-http-password options are mutually exclusive.");
+    if (generateHttpPassword && clearHttpPassword) {
+      throw die("--generate-http-password and --clear-http-password are mutually exclusive.");
+    }
+    if (!Strings.isNullOrEmpty(httpPassword)) { // gave --http-password
+      if (generateHttpPassword) {
+        throw die("--http-password and --generate-http-password options are mutually exclusive.");
+      }
+      if (clearHttpPassword) {
+        throw die("--http-password and --clear-http-password options are mutually exclusive.");
+      }
     }
     if (addSshKeys.contains("-") && deleteSshKeys.contains("-")) {
       throw die("Only one option may use the stdin");
@@ -193,10 +205,16 @@ final class SetAccountCommand extends SshCommand {
         putName.apply(rsrc, in);
       }
 
-      if (httpPassword != null || clearHttpPassword) {
+      if (httpPassword != null || clearHttpPassword || generateHttpPassword) {
         PutHttpPassword.Input in = new PutHttpPassword.Input();
         in.httpPassword = httpPassword;
-        putHttpPassword.apply(rsrc, in);
+        if (generateHttpPassword) {
+          in.generate = true;
+        }
+        Response<String> resp = putHttpPassword.apply(rsrc, in);
+        if (generateHttpPassword) {
+          stdout.print("New password: " + resp.value() + "\n");
+        }
       }
 
       if (active) {

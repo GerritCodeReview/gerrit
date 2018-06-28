@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c6c3156_f9a4938f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T09:47:48Z",
+      "side": 1,
+      "message": "This looks like it adds a DisabledProjectIndex in addition to the the existing write index. Shouldn\u0027t it rather replace the existing write index?",
+      "range": {
+        "startLine": 926,
+        "startChar": 8,
+        "endLine": 926,
+        "endChar": 66
+      },
+      "revId": "3cf343b5b8cd9725859ad1d2fb6ae51b54f26ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ed47759_2d722ddb",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T09:47:48Z",
+      "side": 1,
+      "message": "Same here, only vice versa.",
+      "revId": "3cf343b5b8cd9725859ad1d2fb6ae51b54f26ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "898964e3_7ab37a74",
+        "filename": "java/com/google/gerrit/acceptance/DisabledProjectIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T09:47:48Z",
+      "side": 1,
+      "message": "Is this needed? E.g. DisabledAccountIndex doesn\u0027t implement it.",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 3
+      },
+      "revId": "3cf343b5b8cd9725859ad1d2fb6ae51b54f26ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35726a2a_de722a84",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIndexerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T09:47:48Z",
+      "side": 1,
+      "message": "Uh, does this set All-Users as parent of All-Projects???",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 100
+      },
+      "revId": "3cf343b5b8cd9725859ad1d2fb6ae51b54f26ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

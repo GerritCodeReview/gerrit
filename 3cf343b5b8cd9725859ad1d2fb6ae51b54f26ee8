@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "e4be503c_59f27bb4",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-06-28T12:24:04Z",
+      "side": 1,
+      "message": "Actually, the replacing is happening in the write index impl. based on the version. So nothing further to do.",
+      "parentUuid": "6aeb7d81_d3d7c446",
+      "range": {
+        "startLine": 926,
+        "startChar": 8,
+        "endLine": 926,
+        "endChar": 66
+      },
+      "revId": "3cf343b5b8cd9725859ad1d2fb6ae51b54f26ee8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ed47759_2d722ddb",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 1

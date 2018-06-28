@@ -18,9 +18,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.RawInputUtil;
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.errors.EmailException;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
@@ -30,6 +28,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountSshKey;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AddSshKey;
@@ -43,11 +42,14 @@ import com.google.gerrit.server.account.PutActive;
 import com.google.gerrit.server.account.PutHttpPassword;
 import com.google.gerrit.server.account.PutName;
 import com.google.gerrit.server.account.PutPreferred;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -62,7 +64,6 @@ import org.kohsuke.args4j.Option;
 
 /** Set a user's account settings. * */
 @CommandMetaData(name = "set-account", description = "Change an account's settings")
-@RequiresCapability(GlobalCapability.MODIFY_ACCOUNT)
 final class SetAccountCommand extends SshCommand {
 
   @Argument(
@@ -141,23 +142,51 @@ final class SetAccountCommand extends SshCommand {
 
   @Inject private DeleteSshKey deleteSshKey;
 
+  @Inject private PermissionBackend permissionBackend;
+
+  @Inject private Provider<CurrentUser> userProvider;
+
   private IdentifiedUser user;
   private AccountResource rsrc;
 
   @Override
   public void run() throws Exception {
+    user = genericUserFactory.create(id);
+
     validate();
     setAccount();
   }
 
   private void validate() throws UnloggedFailure {
-    if (active && inactive) {
-      throw die("--active and --inactive options are mutually exclusive.");
+    PermissionBackend.WithUser userPermission = permissionBackend.user(userProvider);
+
+    boolean hasSuperPrivs = userPermission.testOrFalse(GlobalPermission.ADMINISTRATE_SERVER);
+    boolean hasModAccountPrivs =
+        hasSuperPrivs || userPermission.testOrFalse(GlobalPermission.MODIFY_ACCOUNT);
+
+    if (!id.equals(userProvider.get().getAccountId())) {
+      if (!hasModAccountPrivs) {
+        throw die(
+            "Setting another user's account information requries 'modify account' or 'administrate server' capabilities.");
+      }
     }
+    if (active || inactive) {
+      if (!hasModAccountPrivs) {
+        throw die(
+            "--active and --inactive require 'modify account' or 'administrate server' capabilities.");
+      }
+      if (active && inactive) {
+        throw die("--active and --inactive options are mutually exclusive.");
+      }
+    }
+
     if (generateHttpPassword && clearHttpPassword) {
       throw die("--generate-http-password and --clear-http-password are mutually exclusive.");
     }
     if (!Strings.isNullOrEmpty(httpPassword)) { // gave --http-password
+      if (!hasSuperPrivs) {
+        throw die("--http-password requires 'administrate server' capabilities.");
+      }
       if (generateHttpPassword) {
         throw die("--http-password and --generate-http-password options are mutually exclusive.");
       }
@@ -184,7 +213,6 @@ final class SetAccountCommand extends SshCommand {
   private void setAccount()
       throws OrmException, IOException, UnloggedFailure, ConfigInvalidException,
           PermissionBackendException {
-    user = genericUserFactory.create(id);
     rsrc = new AccountResource(user);
     try {
       for (String email : addEmails) {

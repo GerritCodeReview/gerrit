@@ -43,7 +43,7 @@
 
   const ForcePushOptions = {
     ALLOW: [
-      {name: 'Allow pushing but not force pushing', value: false},
+      {name: 'Allow pushing (but not force pushing)', value: false},
       {name: 'Allow pushing with or without force', value: true},
     ],
     BLOCK: [

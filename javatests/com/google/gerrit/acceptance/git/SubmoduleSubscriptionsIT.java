@@ -20,6 +20,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.ConfigSuite;
 import org.eclipse.jgit.junit.TestRepository;
@@ -518,6 +519,87 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public void submoduleSubjectCommitMessageSizeLimit() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isFalse();
     testSubmoduleSubjectCommitMessageAndExpectTruncation();
+  }
+
+  @Test
+  public void superRepoCommitHasSameAuthorAsSubmoduleCommits() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
+
+    allowMatchingSubmoduleSubscription(
+        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+    allowMatchingSubmoduleSubscription(
+        "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
+
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, "subscribed-to-project", "master");
+    prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
+    pushSubmoduleConfig(superRepo, "master", config);
+
+    String topic = "foo";
+
+    subRepo.tick(1); // Make sure that both changes have different timestamps.
+    String changeId1 =
+        createChange(subRepo, "refs/heads/master", "Change 1", "a.txt", "some content", topic)
+            .getChangeId();
+    approve(changeId1);
+
+    subRepo2.tick(2); // Make sure that both changes have different timestamps.
+    String changeId2 =
+        createChange(subRepo2, "refs/heads/master", "Change 2", "b.txt", "other content", topic)
+            .getChangeId();
+    approve(changeId2);
+
+    // Submit the topic, 2 changes with the same author.
+    gApi.changes().id(changeId1).current().submit();
+
+    // Expect that the author is preserved for the superRepo commit.
+    expectToHaveAuthor(superRepo, "master", admin.fullName, admin.email);
+  }
+
+  @Test
+  public void superRepoCommitHasGerritAsAuthorIfAuthorsOfSubmoduleCommitsDiffer() throws Exception {
+    assume().that(isSubmitWholeTopicEnabled()).isTrue();
+
+    TestRepository<?> superRepo = createProjectWithPush("super-project");
+    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+
+    TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
+    subRepo2 = cloneProject(new Project.NameKey(name("subscribed-to-project-2")), user);
+
+    allowMatchingSubmoduleSubscription(
+        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+    allowMatchingSubmoduleSubscription(
+        "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
+
+    Config config = new Config();
+    prepareSubmoduleConfigEntry(config, "subscribed-to-project", "master");
+    prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
+    pushSubmoduleConfig(superRepo, "master", config);
+
+    String topic = "foo";
+
+    // Create change as admin.
+    String changeId1 =
+        createChange(subRepo, "refs/heads/master", "Change 1", "a.txt", "some content", topic)
+            .getChangeId();
+    approve(changeId1);
+
+    // Create change as user.
+    PushOneCommit push =
+        pushFactory.create(db, user.getIdent(), subRepo2, "Change 2", "b.txt", "other content");
+    String changeId2 = push.to("refs/for/master/" + name(topic)).getChangeId();
+    approve(changeId2);
+
+    // Submit the topic, 2 changes with the different author.
+    gApi.changes().id(changeId1).current().submit();
+
+    // Expect that the Gerrit server identity is chosen as author for the superRepo commit.
+    expectToHaveAuthor(
+        superRepo, "master", serverIdent.get().getName(), serverIdent.get().getEmailAddress());
   }
 
   private void testSubmoduleSubjectCommitMessageAndExpectTruncation() throws Exception {

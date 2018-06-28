@@ -81,10 +81,6 @@
         return;
       }
 
-      if (!/^https?\:\/\//.test(webLink)) {
-        webLink = '../../' + webLink;
-      }
-
       return webLink;
     },
 

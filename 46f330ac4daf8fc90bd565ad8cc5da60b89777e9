@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "06255155_c4b5eb58",
+        "filename": "java/com/google/gerrit/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T09:22:14Z",
+      "side": 1,
+      "message": "nit: its",
+      "range": {
+        "startLine": 50,
+        "startChar": 64,
+        "endLine": 50,
+        "endChar": 68
+      },
+      "revId": "46f330ac4daf8fc90bd565ad8cc5da60b89777e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "144093eb_66e9ebe6",
+        "filename": "java/com/google/gerrit/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T09:22:14Z",
+      "side": 1,
+      "message": "Since ProjectConfig may set null for configRefState for should handle the null case her to avoid NPE\u0027s.",
+      "range": {
+        "startLine": 65,
+        "startChar": 49,
+        "endLine": 65,
+        "endChar": 76
+      },
+      "revId": "46f330ac4daf8fc90bd565ad8cc5da60b89777e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "595a2f45_d091b102",
         "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
         "patchSetId": 2
@@ -13,6 +59,30 @@
       "writtenOn": "2018-06-27T16:28:26Z",
       "side": 1,
       "message": "what happened to V2 ?",
+      "range": {
+        "startLine": 33,
+        "startChar": 37,
+        "endLine": 33,
+        "endChar": 38
+      },
+      "revId": "46f330ac4daf8fc90bd565ad8cc5da60b89777e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "260bf4ad_29acbfe4",
+        "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T09:22:14Z",
+      "side": 1,
+      "message": "yes, should be V2",
+      "parentUuid": "595a2f45_d091b102",
       "range": {
         "startLine": 33,
         "startChar": 37,

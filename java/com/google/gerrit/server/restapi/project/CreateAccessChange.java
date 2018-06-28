@@ -157,6 +157,8 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         bu.execute();
         return Response.created(jsonFactory.noOptions().format(ins.getChange()));
       }
+    } catch (InvalidNameException e) {
+      throw new BadRequestException(e.toString());
     }
   }
 

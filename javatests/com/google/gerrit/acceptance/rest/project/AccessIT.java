@@ -649,6 +649,34 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(permissions2.keySet()).containsExactly(Permission.READ);
   }
 
+  @Test
+  public void addAccessSectionForInvalidRef() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    // 'refs/heads/stable_*' is invalid, correct would be '^refs/heads/stable_.*'
+    String invalidRef = Constants.R_HEADS + "stable_*";
+    accessInput.add.put(invalidRef, accessSectionInfo);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Invalid Name: " + invalidRef);
+    pApi().access(accessInput);
+  }
+
+  @Test
+  public void createAccessChangeWithAccessSectionForInvalidRef() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();
+
+    // 'refs/heads/stable_*' is invalid, correct would be '^refs/heads/stable_.*'
+    String invalidRef = Constants.R_HEADS + "stable_*";
+    accessInput.add.put(invalidRef, accessSectionInfo);
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("Invalid Name: " + invalidRef);
+    pApi().accessChange(accessInput);
+  }
+
   private ProjectApi pApi() throws Exception {
     return gApi.projects().name(newProjectName.get());
   }

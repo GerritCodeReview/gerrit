@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "addd5c82_a8ca9368",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T13:07:02Z",
+      "side": 1,
+      "message": "Maybe also mention that PatchSetInfo and commit message are no longer exposed to Prolog and that plugins that use these stored values must be adapted?",
+      "revId": "3838b8f683189f02d4817f211eec928380d05d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f36bee41_5b537e0c",
+        "filename": "java/gerrit/AbstractCommitUserIdentityPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-28T13:07:02Z",
+      "side": 1,
+      "message": "nit: Account.Id",
+      "range": {
+        "startLine": 60,
+        "startChar": 19,
+        "endLine": 60,
+        "endChar": 21
+      },
+      "revId": "3838b8f683189f02d4817f211eec928380d05d69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

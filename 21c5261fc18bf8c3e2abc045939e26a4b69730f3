@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d863c7b_59302b2e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetPureRevertIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-28T03:39:16Z",
+      "side": 1,
+      "message": "Missing header",
+      "revId": "21c5261fc18bf8c3e2abc045939e26a4b69730f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b97bbfd_e428314a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/GetPureRevertIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-06-28T03:39:16Z",
+      "side": 1,
+      "message": "Could these tests be added in ChangeIT instead of in a new class?",
+      "revId": "21c5261fc18bf8c3e2abc045939e26a4b69730f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -39,7 +40,7 @@ import org.slf4j.LoggerFactory;
 class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListener {
   private static final Logger log = LoggerFactory.getLogger(ElasticRestClientProvider.class);
 
-  private final HttpHost[] hosts;
+  private final List<HttpHost> hosts;
   private final String username;
   private final String password;
 
@@ -48,7 +49,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
 
   @Inject
   ElasticRestClientProvider(ElasticConfiguration cfg) {
-    hosts = cfg.urls.toArray(new HttpHost[cfg.urls.size()]);
+    hosts = cfg.hosts;
     username = cfg.username;
     password = cfg.password;
   }
@@ -132,7 +133,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
   }
 
   private RestClient build() {
-    RestClientBuilder builder = RestClient.builder(hosts);
+    RestClientBuilder builder = RestClient.builder(hosts.toArray(new HttpHost[hosts.size()]));
     setConfiguredCredentialsIfAny(builder);
     return builder.build();
   }

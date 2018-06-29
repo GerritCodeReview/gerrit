@@ -35,7 +35,7 @@ class ElasticConfiguration {
 
   private final Config cfg;
 
-  final List<HttpHost> urls;
+  final List<HttpHost> hosts;
   final String username;
   final String password;
   final boolean requestCompression;
@@ -65,16 +65,16 @@ class ElasticConfiguration {
     if (subsections.isEmpty()) {
       HttpHost httpHost =
           new HttpHost(DEFAULT_HOST, Integer.valueOf(DEFAULT_PORT), DEFAULT_PROTOCOL);
-      this.urls = Collections.singletonList(httpHost);
+      this.hosts = Collections.singletonList(httpHost);
     } else {
-      this.urls = new ArrayList<>(subsections.size());
+      this.hosts = new ArrayList<>(subsections.size());
       for (String subsection : subsections) {
         String port = getString(cfg, subsection, "port", DEFAULT_PORT);
         String host = getString(cfg, subsection, "hostname", DEFAULT_HOST);
         String protocol = getString(cfg, subsection, "protocol", DEFAULT_PROTOCOL);
 
         HttpHost httpHost = new HttpHost(host, Integer.valueOf(port), protocol);
-        this.urls.add(httpHost);
+        this.hosts.add(httpHost);
       }
     }
   }

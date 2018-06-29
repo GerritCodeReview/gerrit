@@ -423,7 +423,8 @@ public class SubmoduleOp {
       if (newCommit != null) {
         if (author == null) {
           author = newCommit.getAuthorIdent();
-        } else if (!author.equals(newCommit.getAuthorIdent())) {
+        } else if (!author.getName().equals(newCommit.getAuthorIdent().getName())
+            || !author.getEmailAddress().equals(newCommit.getAuthorIdent().getEmailAddress())) {
           author = myIdent;
         }
       }

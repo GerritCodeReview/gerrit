@@ -32,6 +32,7 @@ import java.util.stream.StreamSupport;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -435,5 +436,23 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     RevWalk rw = repo.getRevWalk();
     RevCommit c = rw.parseCommit(commitId);
     assertThat(c.getFullMessage()).isEqualTo(expectedMessage);
+  }
+
+  protected void expectToHaveAuthor(
+      TestRepository<?> repo, String branch, String expectedAuthorName, String expectedAuthorEmail)
+      throws Exception {
+    ObjectId commitId =
+        repo.git()
+            .fetch()
+            .setRemote("origin")
+            .call()
+            .getAdvertisedRef("refs/heads/" + branch)
+            .getObjectId();
+
+    RevWalk rw = repo.getRevWalk();
+    RevCommit c = rw.parseCommit(commitId);
+    PersonIdent authorIdent = c.getAuthorIdent();
+    assertThat(authorIdent.getName()).isEqualTo(expectedAuthorName);
+    assertThat(authorIdent.getEmailAddress()).isEqualTo(expectedAuthorEmail);
   }
 }

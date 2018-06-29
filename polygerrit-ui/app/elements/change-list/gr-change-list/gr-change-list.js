@@ -186,6 +186,7 @@
         labelName = labelName.slice(LABEL_PREFIX_INVALID_PROLOG.length);
       }
       return labelName.split('-').reduce((a, i) => {
+        if (!i) { return a; }
         return a + i[0].toUpperCase();
       }, '');
     },

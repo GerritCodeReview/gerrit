@@ -130,6 +130,8 @@ limitations under the License.
           'Invalid-Prolog-Rules-Label-Name--Verified'), 'V');
       assert.equal(element._computeLabelShortcut(
           'Some-Special-Label-7'), 'SSL7');
+      assert.equal(element._computeLabelShortcut('--Too----many----dashes---'),
+          'TMD');
     });
 
     test('colspans', () => {

@@ -14,9 +14,18 @@
 
 package com.google.gerrit.acceptance.rest;
 
+import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
+
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.gpg.testing.TestKey;
+import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import org.junit.Test;
 
 /**
@@ -27,6 +36,8 @@ import org.junit.Test;
  * AbstractRestApiBindingsTest}).
  */
 public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
+  @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
+
   /**
    * Account REST endpoints to be tested, each URL contains a placeholder for the account
    * identifier.
@@ -73,7 +84,9 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.post("/accounts/%s/external.ids:delete"),
           RestCall.get("/accounts/%s/oauthtoken"),
           RestCall.get("/accounts/%s/capabilities"),
-          RestCall.get("/accounts/%s/capabilities/viewPlugins"));
+          RestCall.get("/accounts/%s/capabilities/viewPlugins"),
+          RestCall.get("/accounts/%s/gpgkeys"),
+          RestCall.post("/accounts/%s/gpgkeys"));
 
   /**
    * Email REST endpoints to be tested, each URL contains a placeholders for the account and email
@@ -87,6 +100,17 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
 
           // email deletion must be tested last
           RestCall.delete("/accounts/%s/emails/%s"));
+
+  /**
+   * GPG key REST endpoints to be tested, each URL contains a placeholders for the account
+   * identifier and the GPG key identifier.
+   */
+  private static final ImmutableList<RestCall> GPG_KEY_ENDPOINTS =
+      ImmutableList.of(
+          RestCall.get("/accounts/%s/gpgkeys/%s"),
+
+          // GPG key deletion must be tested last
+          RestCall.delete("/accounts/%s/gpgkeys/%s"));
 
   /**
    * SSH key REST endpoints to be tested, each URL contains a placeholders for the account and SSH
@@ -118,6 +142,30 @@ public class AccountsRestApiBindingsIT extends AbstractRestApiBindingsTest {
   @Test
   public void emailEndpoints() throws Exception {
     execute(EMAIL_ENDPOINTS, "self", admin.email);
+  }
+
+  @Test
+  @GerritConfig(name = "receive.enableSignedPush", value = "true")
+  public void gpgKeyEndpoints() throws Exception {
+    TestKey key = validKeyWithoutExpiration();
+    String id = key.getKeyIdString();
+
+    String email = "test1@example.com"; // email that is hard-coded in the test GPG key
+    accountsUpdateProvider
+        .get()
+        .update(
+            "Add Email",
+            admin.getId(),
+            u ->
+                u.addExternalId(
+                    ExternalId.createWithEmail(name("test"), email, admin.getId(), email)));
+
+    setApiUser(admin);
+    gApi.accounts()
+        .self()
+        .putGpgKeys(ImmutableList.of(key.getPublicKeyArmored()), ImmutableList.of());
+
+    execute(GPG_KEY_ENDPOINTS, "self", id);
   }
 
   @Test

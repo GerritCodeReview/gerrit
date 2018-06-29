@@ -21,6 +21,8 @@
 
   const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
 
+  const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
+
   Polymer({
     is: 'gr-change-list',
 
@@ -180,6 +182,9 @@
     },
 
     _computeLabelShortcut(labelName) {
+      if (labelName.startsWith(LABEL_PREFIX_INVALID_PROLOG)) {
+        labelName = labelName.slice(LABEL_PREFIX_INVALID_PROLOG.length);
+      }
       return labelName.split('-').reduce((a, i) => {
         return a + i[0].toUpperCase();
       }, '');

@@ -26,9 +26,13 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpHost;
 import org.eclipse.jgit.lib.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Singleton
 class ElasticConfiguration {
+  private static final Logger log = LoggerFactory.getLogger(ElasticConfiguration.class);
+
   private static final String DEFAULT_HOST = "localhost";
   private static final String DEFAULT_PORT = "9200";
   private static final String DEFAULT_PROTOCOL = "http";
@@ -77,6 +81,8 @@ class ElasticConfiguration {
         this.hosts.add(httpHost);
       }
     }
+
+    log.info("Elasticsearch hosts: {}", hosts);
   }
 
   Config getConfig() {

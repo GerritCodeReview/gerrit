@@ -25,16 +25,10 @@ import com.google.gerrit.reviewdb.client.Change;
 import java.io.File;
 import org.eclipse.jgit.lib.ReflogEntry;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
 import org.junit.Test;
 
 @UseLocalDisk
 public class ReflogIT extends AbstractDaemonTest {
-  @Before
-  public void setUp() throws Exception {
-    assume().that(notesMigration.disableChangeReviewDb()).isTrue();
-  }
-
   @Test
   public void guessRestApiInReflog() throws Exception {
     assume().that(notesMigration.disableChangeReviewDb()).isTrue();

@@ -421,10 +421,11 @@ public class SubmoduleOp {
       RevCommit newCommit = updateSubmodule(dc, ed, msgbuf, s);
       count++;
       if (newCommit != null) {
+        PersonIdent newCommitAuthor = newCommit.getAuthorIdent();
         if (author == null) {
-          author = newCommit.getAuthorIdent();
-        } else if (!author.getName().equals(newCommit.getAuthorIdent().getName())
-            || !author.getEmailAddress().equals(newCommit.getAuthorIdent().getEmailAddress())) {
+          author = new PersonIdent(newCommitAuthor, myIdent.getWhen());
+        } else if (!author.getName().equals(newCommitAuthor.getName())
+            || !author.getEmailAddress().equals(newCommitAuthor.getEmailAddress())) {
           author = myIdent;
         }
       }

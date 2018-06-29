@@ -297,7 +297,8 @@ public class PrologRuleEvaluator {
     try {
       return LabelType.checkName(name);
     } catch (IllegalArgumentException e) {
-      return LabelType.checkName("Invalid-Prolog-Rules-Label-Name--" + sanitizeLabelName(name));
+      String newName = "Invalid-Prolog-Rules-Label-Name-" + sanitizeLabelName(name);
+      return LabelType.checkName(newName.replace("--", "-"));
     }
   }
 

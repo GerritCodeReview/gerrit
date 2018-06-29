@@ -30,18 +30,18 @@ public class PrologRuleEvaluatorTest {
   @Test
   public void labelWithSpacesIsTransformed() {
     assertThat(PrologRuleEvaluator.checkLabelName("Label with spaces"))
-        .isEqualTo("Invalid-Prolog-Rules-Label-Name--Labelwithspaces");
+        .isEqualTo("Invalid-Prolog-Rules-Label-Name-Labelwithspaces");
   }
 
   @Test
   public void labelStartingWithADashIsTransformed() {
     assertThat(PrologRuleEvaluator.checkLabelName("-dashed-label"))
-        .isEqualTo("Invalid-Prolog-Rules-Label-Name---dashed-label");
+        .isEqualTo("Invalid-Prolog-Rules-Label-Name-dashed-label");
   }
 
   @Test
   public void labelWithInvalidCharactersIsTransformed() {
     assertThat(PrologRuleEvaluator.checkLabelName("*urgent*"))
-        .isEqualTo("Invalid-Prolog-Rules-Label-Name--urgent");
+        .isEqualTo("Invalid-Prolog-Rules-Label-Name-urgent");
   }
 }

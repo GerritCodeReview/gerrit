@@ -128,6 +128,8 @@ limitations under the License.
       assert.equal(element._computeLabelShortcut('polygerrit-review'), 'PR');
       assert.equal(element._computeLabelShortcut(
           'Some-Special-Label-7'), 'SSL7');
+      assert.equal(element._computeLabelShortcut('--Too----many----dashes---'),
+          'TMD');
     });
 
     test('colspans', () => {

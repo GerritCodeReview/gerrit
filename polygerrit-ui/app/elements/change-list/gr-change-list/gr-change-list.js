@@ -181,6 +181,7 @@
 
     _computeLabelShortcut(labelName) {
       return labelName.split('-').reduce((a, i) => {
+        if (!i) { return a; }
         return a + i[0].toUpperCase();
       }, '');
     },

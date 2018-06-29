@@ -41,7 +41,6 @@ class ElasticConfiguration {
   final boolean requestCompression;
   final long connectionTimeout;
   final long maxConnectionIdleTime;
-  final TimeUnit maxConnectionIdleUnit = TimeUnit.MILLISECONDS;
   final int maxTotalConnection;
   final int readTimeout;
   final String prefix;

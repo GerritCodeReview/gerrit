@@ -71,6 +71,24 @@
       "revId": "0fdd85fd3cc71777214c4b0896724c9b1c4f21c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9602353_5f76dfe8",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-06-29T09:31:08Z",
+      "side": 1,
+      "message": "\u003e One brief doubt: what should the author timestamp be\n\u003e on the submodule subscription commit?\n\nThat\u0027s a good point. I think we should always use a new author timestamp for the super-repo commit.\nDone in: https://gerrit-review.googlesource.com/c/gerrit/+/187097\n\n\u003e I think those edge cases are okay. Mapping using\n\u003e .mailmap or Gerrit\u0027s account database would be neat,\n\u003e but seems beyond the scope of this initial fix.\n\n+1",
+      "parentUuid": "b5e1e706_04a55d8c",
+      "revId": "0fdd85fd3cc71777214c4b0896724c9b1c4f21c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

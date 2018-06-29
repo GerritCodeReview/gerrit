@@ -126,6 +126,7 @@ limitations under the License.
       assert.equal(element._computeLabelShortcut('Library-Compliance'), 'LC');
       assert.equal(element._computeLabelShortcut('PolyGerrit-Review'), 'PR');
       assert.equal(element._computeLabelShortcut('polygerrit-review'), 'PR');
+      assert.equal(element._computeLabelShortcut('Invalid-Prolog-Rules-Label-Name--Verified'), 'V');
       assert.equal(element._computeLabelShortcut(
           'Some-Special-Label-7'), 'SSL7');
     });

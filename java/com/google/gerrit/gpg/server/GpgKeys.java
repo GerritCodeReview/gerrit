@@ -59,8 +59,6 @@ import org.eclipse.jgit.util.NB;
 public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static final String MIME_TYPE = "application/pgp-keys";
-
   private final DynamicMap<RestView<GpgKey>> views;
   private final Provider<CurrentUser> self;
   private final Provider<PublicKeyStore> storeProvider;

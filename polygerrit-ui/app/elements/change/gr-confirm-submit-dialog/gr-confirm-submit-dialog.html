@@ -30,6 +30,12 @@ limitations under the License.
       p {
         margin-bottom: 1em;
       }
+      @media screen and (max-width: 50em) {
+        #dialog {
+          min-width: inherit;
+          width: 100%;
+        }
+      }
     </style>
     <gr-confirm-dialog
         id="dialog"

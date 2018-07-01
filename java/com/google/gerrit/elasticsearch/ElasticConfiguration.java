@@ -16,6 +16,7 @@ package com.google.gerrit.elasticsearch;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -29,19 +30,20 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 class ElasticConfiguration {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final String DEFAULT_HOST = "localhost";
   private static final String DEFAULT_PORT = "9200";
   private static final String DEFAULT_PROTOCOL = "http";
 
   private final Config cfg;
 
-  final List<HttpHost> urls;
+  final List<HttpHost> hosts;
   final String username;
   final String password;
   final boolean requestCompression;
   final long connectionTimeout;
   final long maxConnectionIdleTime;
-  final TimeUnit maxConnectionIdleUnit = TimeUnit.MILLISECONDS;
   final int maxTotalConnection;
   final int readTimeout;
   final String prefix;
@@ -66,18 +68,20 @@ class ElasticConfiguration {
     if (subsections.isEmpty()) {
       HttpHost httpHost =
           new HttpHost(DEFAULT_HOST, Integer.valueOf(DEFAULT_PORT), DEFAULT_PROTOCOL);
-      this.urls = Collections.singletonList(httpHost);
+      this.hosts = Collections.singletonList(httpHost);
     } else {
-      this.urls = new ArrayList<>(subsections.size());
+      this.hosts = new ArrayList<>(subsections.size());
       for (String subsection : subsections) {
         String port = getString(cfg, subsection, "port", DEFAULT_PORT);
         String host = getString(cfg, subsection, "hostname", DEFAULT_HOST);
         String protocol = getString(cfg, subsection, "protocol", DEFAULT_PROTOCOL);
 
         HttpHost httpHost = new HttpHost(host, Integer.valueOf(port), protocol);
-        this.urls.add(httpHost);
+        this.hosts.add(httpHost);
       }
     }
+
+    logger.atInfo().log("Elasticsearch hosts: %s", hosts);
   }
 
   Config getConfig() {

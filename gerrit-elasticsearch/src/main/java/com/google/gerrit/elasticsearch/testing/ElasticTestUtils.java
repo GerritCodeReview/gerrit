@@ -40,7 +40,6 @@ public final class ElasticTestUtils {
     config.setString("elasticsearch", null, "prefix", prefix);
     config.setString("index", null, "maxLimit", "10000");
     if (password != null) {
-      config.setString("elasticsearch", null, "username", "elastic");
       config.setString("elasticsearch", null, "password", password);
     }
   }

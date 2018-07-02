@@ -1110,6 +1110,13 @@ bower_archive(
     version = "5.37.0",
 )
 
+bower_archive(
+    name = "resemblejs",
+    package = "huddleeng/resemble.js",
+    sha1 = "324444ea79509fd53f9947b947a0365adba14f64",
+    version = "2.10.2",
+)
+
 # bower test stuff
 
 bower_archive(

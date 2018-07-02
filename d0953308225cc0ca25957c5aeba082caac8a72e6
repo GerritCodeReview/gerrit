@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b99161f2_c53ed5ae",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1019767
+      },
+      "writtenOn": "2018-07-02T10:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f414f72f_e5b8110d",
+      "range": {
+        "startLine": 163,
+        "startChar": 12,
+        "endLine": 163,
+        "endChar": 25
+      },
+      "revId": "d0953308225cc0ca25957c5aeba082caac8a72e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29d44b76_46253f71",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "d0953308225cc0ca25957c5aeba082caac8a72e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa07acbe_54680a3d",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1019767
+      },
+      "writtenOn": "2018-07-02T10:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29d44b76_46253f71",
+      "range": {
+        "startLine": 164,
+        "startChar": 12,
+        "endLine": 164,
+        "endChar": 30
+      },
+      "revId": "d0953308225cc0ca25957c5aeba082caac8a72e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "74ecec55_dfeb7b3b",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1019767
+      },
+      "writtenOn": "2018-07-02T10:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38539a6a_e1c57343",
+      "range": {
+        "startLine": 167,
+        "startChar": 8,
+        "endLine": 167,
+        "endChar": 47
+      },
+      "revId": "d0953308225cc0ca25957c5aeba082caac8a72e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "222ca681_606f13d7",
         "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
         "patchSetId": 2
@@ -85,6 +157,24 @@
       "revId": "d0953308225cc0ca25957c5aeba082caac8a72e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cb9be17_36e9b54e",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1019767
+      },
+      "writtenOn": "2018-07-02T10:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "222ca681_606f13d7",
+      "revId": "d0953308225cc0ca25957c5aeba082caac8a72e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +198,30 @@
       "revId": "d0953308225cc0ca25957c5aeba082caac8a72e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0463021_6b372025",
+        "filename": "gerrit-sshd/src/main/java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1019767
+      },
+      "writtenOn": "2018-07-02T10:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea9a5099_8534e535",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 32
+      },
+      "revId": "d0953308225cc0ca25957c5aeba082caac8a72e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -33,7 +33,8 @@ public class ElasticReindexIT extends AbstractReindexTests {
     elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
-    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);
+    String password = version == ElasticVersion.V5_6 ? "changeme" : null;
+    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix, password);
     return cfg;
   }
 

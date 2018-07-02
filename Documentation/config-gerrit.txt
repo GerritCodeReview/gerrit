@@ -2870,7 +2870,7 @@ Defaults to `http`.
 [[elasticsearch.name.hostname]]elasticsearch.name.hostname::
 +
 Elasticsearch server hostname.
-
++
 Defaults to `localhost`.
 
 [[elasticsearch.name.port]]elasticsearch.name.port::

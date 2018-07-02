@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1530536818 +0200\nnonce ADrMV7Z1pEuLg0mlt74vhEHEPmtjq8sKsLff0PpDv6jUS2r/L88a5vNz8/AL/oorbrFZs7YdVlrc\n\n0000000000000000000000000000000000000000 076e97137571aa254cd5ac0d325912177a070606 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAls6I3IACgkQUbX9l6DQ\n71HSCQf/aXXZQpCWRVDw9RpHsph2/8V8KeuE6Vul3Zu1Gk6VP3H9IqVbQ8/gaYUR\nJTOcyKM6WHaFKydXbMK7nPRHQi6JiN4YA0rldLFcRncWB8p8txBCkeBkRqxMu2DQ\nHdf+ziebTaSr7LEYT0j7WYM4mD3iZHJx5QWrOz6y83armjys3Y47E5s7T8AMg5A3\n+hibrWwKXDNa0XlMigMKaVkGxMoXU5xpbVrRaQUxjV9wnZQ9T4TF/v5ubYqCZ11d\nizN8dmdBAtJJH2B7rjVH64NtFfXmBnS4HtIP+PNDbFJ9JUH0INoJ/+Rut44DoJG/\nPwjRaKNAnry8G6l7mSX3AYN2ZdFKXA\u003d\u003d\n\u003dEj3O\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "13b1c4ba_37b1d90a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-02T14:54:47Z",
+      "side": 1,
+      "message": "Should we rather fix this strange behavior instead of documenting it?\n\nOr was there a specific reason it was implemented in this way, that we should mention? (if not in the javadoc itself, at least here in the commit message).",
+      "range": {
+        "startLine": 25,
+        "startChar": 62,
+        "endLine": 26,
+        "endChar": 67
+      },
+      "revId": "076e97137571aa254cd5ac0d325912177a070606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15e49db6_bcf20101",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-02T14:54:47Z",
+      "side": 1,
+      "message": "spent",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "076e97137571aa254cd5ac0d325912177a070606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

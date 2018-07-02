@@ -14,15 +14,16 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpHost;
 import org.eclipse.jgit.lib.Config;
@@ -55,24 +56,35 @@ class ElasticConfiguration {
             cfg.getTimeUnit("elasticsearch", null, "maxRetryTimeout", 30000, TimeUnit.MILLISECONDS);
     this.prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
 
-    Set<String> subsections = cfg.getSubsections("elasticsearch");
-    if (subsections.isEmpty()) {
-      HttpHost httpHost =
+    String[] servers = cfg.getStringList("elasticsearch", null, "server");
+    if (servers.length == 0) {
+      HttpHost defaultServer =
           new HttpHost(DEFAULT_HOST, Integer.valueOf(DEFAULT_PORT), DEFAULT_PROTOCOL);
-      this.hosts = Collections.singletonList(httpHost);
+      log.info("No Elasticsearch servers configured; using default: {}", defaultServer);
+      this.hosts = Collections.singletonList(defaultServer);
     } else {
-      this.hosts = new ArrayList<>(subsections.size());
-      for (String subsection : subsections) {
-        String port = getString(cfg, subsection, "port", DEFAULT_PORT);
-        String host = getString(cfg, subsection, "hostname", DEFAULT_HOST);
-        String protocol = getString(cfg, subsection, "protocol", DEFAULT_PROTOCOL);
-
-        HttpHost httpHost = new HttpHost(host, Integer.valueOf(port), protocol);
-        this.hosts.add(httpHost);
+      this.hosts = new ArrayList<>(servers.length);
+      for (String server : servers) {
+        try {
+          URI uri = new URI(server);
+          int port = uri.getPort();
+          HttpHost httpHost =
+              new HttpHost(
+                  uri.getHost(),
+                  port == -1 ? Integer.valueOf(DEFAULT_PORT) : port,
+                  uri.getScheme());
+          this.hosts.add(httpHost);
+        } catch (URISyntaxException e) {
+          log.error("Invalid server URI {}: {}", server, e.getMessage());
+        }
       }
     }
 
-    log.info("Elasticsearch hosts: {}", hosts);
+    if (hosts.isEmpty()) {
+      throw new ProvisionException("No valid Elasticsearch servers configured");
+    }
+
+    log.info("Elasticsearch servers: {}", hosts);
   }
 
   Config getConfig() {
@@ -85,9 +97,5 @@ class ElasticConfiguration {
 
   String getIndexName(String name, int schemaVersion) {
     return String.format("%s%s_%04d", prefix, name, schemaVersion);
-  }
-
-  private String getString(Config cfg, String subsection, String name, String defaultValue) {
-    return MoreObjects.firstNonNull(cfg.getString("elasticsearch", subsection, name), defaultValue);
   }
 }

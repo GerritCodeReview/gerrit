@@ -2809,6 +2809,13 @@ change index named `gerrit1_changes_0001`.
 +
 Not set by default.
 
+[[elasticsearch.server]]elasticsearch.server::
++
+Elasticsearch server URI in the form `http[s]://hostname:port`. The `port` is
+optional and defaults to `9200` if not specified.
++
+May be specified multiple times to configure multiple Elasticsearch servers.
+
 [[elasticsearch.username]]elasticsearch.username::
 +
 Username used to connect to Elasticsearch.
@@ -2828,29 +2835,6 @@ Sets the maximum timeout to honor in case of multiple retries of the same reques
 The value is in the usual time-unit format like `1 m`, `5 m`.
 +
 Defaults to `30000 ms`.
-
-==== Elasticsearch server(s) configuration
-
-Each section corresponds to one Elasticsearch server.
-
-[[elasticsearch.name.protocol]]elasticsearch.name.protocol::
-+
-Elasticsearch server protocol. Can be `http` or `https`.
-+
-Defaults to `http`.
-
-[[elasticsearch.name.hostname]]elasticsearch.name.hostname::
-+
-Elasticsearch server hostname.
-+
-Defaults to `localhost`.
-
-[[elasticsearch.name.port]]elasticsearch.name.port::
-+
-Elasticsearch server port.
-+
-Defaults to `9200`.
-
 
 [[ldap]]
 === Section ldap

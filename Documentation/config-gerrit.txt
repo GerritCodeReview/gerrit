@@ -2813,7 +2813,7 @@ Not set by default.
 +
 Username used to connect to Elasticsearch.
 +
-Not set by default.
+If a password is set, defaults to `elastic`, otherwise not set by default.
 
 [[elasticsearch.password]]elasticsearch.password::
 +

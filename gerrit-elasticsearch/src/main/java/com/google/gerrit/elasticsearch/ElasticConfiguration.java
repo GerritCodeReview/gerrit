@@ -14,6 +14,8 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -36,6 +38,7 @@ class ElasticConfiguration {
   private static final String DEFAULT_HOST = "localhost";
   private static final String DEFAULT_PORT = "9200";
   private static final String DEFAULT_PROTOCOL = "http";
+  private static final String DEFAULT_USERNAME = "elastic";
 
   private final Config cfg;
   private final List<HttpHost> hosts;
@@ -48,8 +51,11 @@ class ElasticConfiguration {
   @Inject
   ElasticConfiguration(@GerritServerConfig Config cfg) {
     this.cfg = cfg;
-    this.username = cfg.getString("elasticsearch", null, "username");
     this.password = cfg.getString("elasticsearch", null, "password");
+    this.username =
+        password == null
+            ? null
+            : firstNonNull(cfg.getString("elasticsearch", null, "username"), DEFAULT_USERNAME);
     this.maxRetryTimeout =
         (int)
             cfg.getTimeUnit("elasticsearch", null, "maxRetryTimeout", 30000, TimeUnit.MILLISECONDS);

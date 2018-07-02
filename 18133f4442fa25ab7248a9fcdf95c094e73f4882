@@ -23,6 +23,30 @@
       "revId": "18133f4442fa25ab7248a9fcdf95c094e73f4882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "306e4831_6c77540c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/AccountsRestApiBindingsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-02T08:59:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7de1455_23da6464",
+      "range": {
+        "startLine": 166,
+        "startChar": 80,
+        "endLine": 166,
+        "endChar": 86
+      },
+      "revId": "18133f4442fa25ab7248a9fcdf95c094e73f4882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

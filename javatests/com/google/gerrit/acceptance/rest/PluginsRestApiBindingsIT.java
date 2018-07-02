@@ -42,9 +42,9 @@ public class PluginsRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.get("/plugins/%s/gerrit~status"),
 
           // POST (and PUT) requests don't require the 'gerrit~' prefix in front of the view name.
-          RestCall.post("/plugins/%s/enable"),
-          RestCall.post("/plugins/%s/disable"),
-          RestCall.post("/plugins/%s/reload"),
+          RestCall.post("/plugins/%s/gerrit~enable"),
+          RestCall.post("/plugins/%s/gerrit~disable"),
+          RestCall.post("/plugins/%s/gerrit~reload"),
 
           // Plugin deletion must be tested last
           RestCall.delete("/plugins/%s"));

@@ -19,8 +19,8 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -44,28 +44,32 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit
-    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource.Publish>,
+        AcceptsPost<ChangeResource> {
 
+  private final DynamicMap<RestView<ChangeEditResource.Publish>> views;
   private final Publish publish;
 
   @Inject
-  PublishChangeEdit(Publish publish) {
+  PublishChangeEdit(DynamicMap<RestView<ChangeEditResource.Publish>> views, Publish publish) {
+    this.views = views;
     this.publish = publish;
   }
 
   @Override
-  public DynamicMap<RestView<ChangeEditResource>> views() {
-    throw new NotImplementedException();
+  public DynamicMap<RestView<ChangeEditResource.Publish>> views() {
+    return views;
   }
 
   @Override
-  public RestView<ChangeResource> list() {
-    throw new NotImplementedException();
+  public RestView<ChangeResource> list() throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Override
-  public ChangeEditResource parse(ChangeResource parent, IdString id) {
-    throw new NotImplementedException();
+  public ChangeEditResource.Publish parse(ChangeResource parent, IdString id)
+      throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Override

@@ -59,7 +59,6 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.delete("/changes/%s/topic"),
           RestCall.get("/changes/%s/in"),
           RestCall.get("/changes/%s/hashtags"),
-          RestCall.post("/changes/%s/hashtags"),
           RestCall.get("/changes/%s/comments"),
           RestCall.get("/changes/%s/robotcomments"),
           RestCall.get("/changes/%s/drafts"),
@@ -98,6 +97,7 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
           RestCall.get("/changes/%s/edit"),
+          RestCall.post("/changes/%s/edit"),
           RestCall.post("/changes/%s/edit:rebase"),
           RestCall.get("/changes/%s/edit:message"),
           RestCall.put("/changes/%s/edit:message"),
@@ -115,7 +115,8 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
    * identifier.
    */
   private static final ImmutableList<RestCall> CHANGE_ENDPOINTS_NOTEDB =
-      ImmutableList.of(RestCall.post("/changes/%s/rebuild.notedb"));
+      ImmutableList.of(
+          RestCall.post("/changes/%s/hashtags"), RestCall.post("/changes/%s/rebuild.notedb"));
 
   /**
    * Reviewer REST endpoints to be tested, each URL contains placeholders for the change identifier
@@ -239,7 +240,29 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.get("/changes/%s/revisions/%s/files/%s/diff"),
           RestCall.get("/changes/%s/revisions/%s/files/%s/blame"));
 
-  // TODO(ekempin): Add tests for change message and change edit REST endpoints
+  /**
+   * Change message REST endpoints to be tested, each URL contains placeholders for the change
+   * identifier and the change message identifier.
+   */
+  private static final ImmutableList<RestCall> CHANGE_MESSAGE_ENDPOINTS =
+      ImmutableList.of(RestCall.get("/changes/%s/messages/%s"));
+
+  /**
+   * Change edit REST endpoints to be tested, each URL contains placeholders for the change
+   * identifier and the change edit identifier.
+   */
+  private static final ImmutableList<RestCall> CHANGE_EDIT_ENDPOINTS =
+      ImmutableList.of(
+          // Create change edit by deleting an existing file.
+          RestCall.delete("/changes/%s/edit/%s"),
+
+          // Calls on existing change edit.
+          RestCall.get("/changes/%s/edit/%s"),
+          RestCall.put("/changes/%s/edit/%s"),
+          RestCall.get("/changes/%s/edit/%s/meta"),
+
+          // Delete content of a file in an existing change edit.
+          RestCall.delete("/changes/%s/edit/%s"));
 
   private static final String FILENAME = "test.txt";
 
@@ -424,6 +447,24 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   public void revisionFileEndpoints() throws Exception {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
     execute(REVISION_FILE_ENDPOINTS, changeId, "current", FILENAME);
+  }
+
+  @Test
+  public void changeMessageEndpoints() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // A change message is created on change creation.
+    String changeMessageId = Iterables.getOnlyElement(gApi.changes().id(changeId).messages()).id;
+
+    execute(CHANGE_MESSAGE_ENDPOINTS, changeId, changeMessageId);
+  }
+
+  @Test
+  public void changeEditEndpoints() throws Exception {
+    String changeId = createChange("Subject", FILENAME, "content").getChangeId();
+
+    // The change edit is created by the first REST call.
+    execute(CHANGE_EDIT_ENDPOINTS, changeId, FILENAME);
   }
 
   private static Comment.Range createRange(

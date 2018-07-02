@@ -15,6 +15,8 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
+import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_PUBLISH_KIND;
+import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_REBASE_KIND;
 import static com.google.gerrit.server.change.ChangeMessageResource.CHANGE_MESSAGE_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
 import static com.google.gerrit.server.change.CommentResource.COMMENT_KIND;
@@ -65,6 +67,8 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), REVIEWER_KIND);
     DynamicMap.mapOf(binder(), REVISION_KIND);
     DynamicMap.mapOf(binder(), CHANGE_EDIT_KIND);
+    DynamicMap.mapOf(binder(), CHANGE_EDIT_PUBLISH_KIND);
+    DynamicMap.mapOf(binder(), CHANGE_EDIT_REBASE_KIND);
     DynamicMap.mapOf(binder(), VOTE_KIND);
     DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
 

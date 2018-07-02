@@ -18,6 +18,7 @@ import static com.google.gerrit.acceptance.rest.AbstractRestApiBindingsTest.Meth
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.GerritConfig;
 import org.junit.Test;
 
 /**
@@ -39,6 +40,7 @@ public class RootCollectionsRestApiBindingsIT extends AbstractRestApiBindingsTes
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
           RestCall.get("/changes/"),
+          RestCall.post("/changes/"),
           RestCall.get("/groups/"),
           RestCall.put("/groups/new-group"),
           RestCall.get("/plugins/"),
@@ -47,6 +49,7 @@ public class RootCollectionsRestApiBindingsIT extends AbstractRestApiBindingsTes
           RestCall.put("/projects/new-project"));
 
   @Test
+  @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
   public void rootEndpoints() throws Exception {
     execute(ROOT_ENDPOINTS);
   }

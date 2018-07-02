@@ -17,6 +17,24 @@
       "revId": "1962febe4d8856d4b5519c5e90cef22fc3b61002",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b83c4e70_a96e066b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/ChangesRestApiBindingsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-02T09:27:37Z",
+      "side": 1,
+      "message": "Yes maybe, but I don\u0027t feel strong enough to rebase all the series.",
+      "parentUuid": "606a0e7a_e208c22d",
+      "revId": "1962febe4d8856d4b5519c5e90cef22fc3b61002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

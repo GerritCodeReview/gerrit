@@ -38,8 +38,8 @@ class ElasticConfiguration {
   private static final String DEFAULT_PROTOCOL = "http";
 
   private final Config cfg;
+  private final List<HttpHost> hosts;
 
-  final List<HttpHost> hosts;
   final String username;
   final String password;
   final boolean requestCompression;
@@ -87,6 +87,10 @@ class ElasticConfiguration {
 
   Config getConfig() {
     return cfg;
+  }
+
+  HttpHost[] getHosts() {
+    return hosts.toArray(new HttpHost[hosts.size()]);
   }
 
   String getIndexName(String name, int schemaVersion) {

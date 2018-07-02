@@ -51,6 +51,7 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -69,7 +70,7 @@ import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gerrit.server.update.RetryingRestCollectionView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -85,7 +86,8 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PostReviewers
-    extends RetryingRestModifyView<ChangeResource, AddReviewerInput, AddReviewerResult> {
+    extends RetryingRestCollectionView<
+        ChangeResource, ReviewerResource, AddReviewerInput, AddReviewerResult> {
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;

@@ -66,12 +66,12 @@ public class Module extends RestApiModule {
     put(EMAIL_KIND, "preferred").to(PutPreferred.class);
     put(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
     delete(ACCOUNT_KIND, "password.http").to(PutHttpPassword.class);
-    child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
-    post(ACCOUNT_KIND, "sshkeys").to(AddSshKey.class);
     get(ACCOUNT_KIND, "watched.projects").to(GetWatchedProjects.class);
     post(ACCOUNT_KIND, "watched.projects").to(PostWatchedProjects.class);
     post(ACCOUNT_KIND, "watched.projects:delete").to(DeleteWatchedProjects.class);
 
+    child(ACCOUNT_KIND, "sshkeys").to(SshKeys.class);
+    postOnCollection(SSH_KEY_KIND).to(AddSshKey.class);
     get(SSH_KEY_KIND).to(GetSshKey.class);
     delete(SSH_KEY_KIND).to(DeleteSshKey.class);
 

@@ -36,7 +36,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.junit.TestRepository;
@@ -198,15 +197,15 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
     Comment ownerCommentPs2 = newComment(notes, 2, "owner comment on ps2", changeOwner);
     Comment otherCommentPs1 = newComment(notes, 1, "other user comment on ps1", otherUser);
 
-    ByteOutputStream out1 = new ByteOutputStream(0);
+    ByteArrayOutputStream out1 = new ByteArrayOutputStream(0);
     legacyChangeNoteWrite.buildNote(
         ImmutableListMultimap.<Integer, Comment>builder().put(1, ownerCommentPs1).build(), out1);
 
-    ByteOutputStream out2 = new ByteOutputStream(0);
+    ByteArrayOutputStream out2 = new ByteArrayOutputStream(0);
     legacyChangeNoteWrite.buildNote(
         ImmutableListMultimap.<Integer, Comment>builder().put(2, ownerCommentPs2).build(), out2);
 
-    ByteOutputStream out3 = new ByteOutputStream(0);
+    ByteArrayOutputStream out3 = new ByteArrayOutputStream(0);
     legacyChangeNoteWrite.buildNote(
         ImmutableListMultimap.<Integer, Comment>builder().put(1, otherCommentPs1).build(), out3);
 
@@ -310,7 +309,7 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
 
     Comment ps1Comment = newComment(notes, 1, "comment on ps1 (legacy)");
 
-    ByteOutputStream out1 = new ByteOutputStream(0);
+    ByteArrayOutputStream out1 = new ByteArrayOutputStream(0);
     legacyChangeNoteWrite.buildNote(
         ImmutableListMultimap.<Integer, Comment>builder().put(1, ps1Comment).build(), out1);
 
@@ -333,7 +332,7 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
     update.commit();
 
     Comment ps3Comment = newComment(notes, 3, "comment on ps3 (legacy)");
-    ByteOutputStream out3 = new ByteOutputStream(0);
+    ByteArrayOutputStream out3 = new ByteArrayOutputStream(0);
     legacyChangeNoteWrite.buildNote(
         ImmutableListMultimap.<Integer, Comment>builder().put(3, ps3Comment).build(), out3);
 

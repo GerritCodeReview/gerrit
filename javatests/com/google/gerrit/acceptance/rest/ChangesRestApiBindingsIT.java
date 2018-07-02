@@ -248,14 +248,23 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
       ImmutableList.of(RestCall.get("/changes/%s/messages/%s"));
 
   /**
+   * Change edit REST endpoints that create an edit to be tested, each URL contains placeholders for
+   * the change identifier and the change edit identifier.
+   */
+  private static final ImmutableList<RestCall> CHANGE_EDIT_CREATE_ENDPOINTS =
+      ImmutableList.of(
+          // Create change edit by editing an existing file.
+          RestCall.put("/changes/%s/edit/%s"),
+
+          // Create change edit by deleting an existing file.
+          RestCall.delete("/changes/%s/edit/%s"));
+
+  /**
    * Change edit REST endpoints to be tested, each URL contains placeholders for the change
    * identifier and the change edit identifier.
    */
   private static final ImmutableList<RestCall> CHANGE_EDIT_ENDPOINTS =
       ImmutableList.of(
-          // Create change edit by deleting an existing file.
-          RestCall.delete("/changes/%s/edit/%s"),
-
           // Calls on existing change edit.
           RestCall.get("/changes/%s/edit/%s"),
           RestCall.put("/changes/%s/edit/%s"),
@@ -460,10 +469,21 @@ public class ChangesRestApiBindingsIT extends AbstractRestApiBindingsTest {
   }
 
   @Test
-  public void changeEditEndpoints() throws Exception {
+  public void changeEditCreateEndpoints() throws Exception {
     String changeId = createChange("Subject", FILENAME, "content").getChangeId();
 
-    // The change edit is created by the first REST call.
+    // Each of the REST calls creates the change edit newly.
+    execute(
+        CHANGE_EDIT_CREATE_ENDPOINTS,
+        () -> adminRestSession.delete("/changes/" + changeId + "/edit"),
+        changeId,
+        FILENAME);
+  }
+
+  @Test
+  public void changeEditEndpoints() throws Exception {
+    String changeId = createChange("Subject", FILENAME, "content").getChangeId();
+    gApi.changes().id(changeId).edit().create();
     execute(CHANGE_EDIT_ENDPOINTS, changeId, FILENAME);
   }
 

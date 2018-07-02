@@ -120,9 +120,10 @@ public class ChangeEdits
   }
 
   /**
-   * Create handler that is activated when collection element is accessed but doesn't exist, e. g.
-   * PUT request with a path was called but change edit wasn't created yet. Change edit is created
-   * and PUT handler is called.
+   * Handler that is invoked if a DELETE request on a non-existing member is done. For change edits
+   * this is the case if a DELETE request for a file in a change edit is done and the change edit
+   * doesn't exist yet (and hence the parse method returned ResourceNotFoundException). In this case
+   * we want to create the change edit on the fly and delete the file with the given id in it.
    */
   @Override
   public DeleteFile delete(ChangeResource parent, IdString id) throws RestApiException {

@@ -14,18 +14,14 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
-import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class ChangeNoteJson {
   private final Gson gson = newGson();
-  private final boolean writeJson;
 
   static Gson newGson() {
     return new GsonBuilder()
@@ -36,14 +32,5 @@ public class ChangeNoteJson {
 
   public Gson getGson() {
     return gson;
-  }
-
-  public boolean getWriteJson() {
-    return writeJson;
-  }
-
-  @Inject
-  ChangeNoteJson(@GerritServerConfig Config config) {
-    this.writeJson = config.getBoolean("notedb", "writeJson", true);
   }
 }

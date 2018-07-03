@@ -119,11 +119,6 @@ public class ChangeEdits
     return post;
   }
 
-  /**
-   * Create handler that is activated when collection element is accessed but doesn't exist, e. g.
-   * PUT request with a path was called but change edit wasn't created yet. Change edit is created
-   * and PUT handler is called.
-   */
   @Override
   public DeleteFile delete(ChangeResource parent, IdString id) throws RestApiException {
     // It's safe to assume that id can never be null, because
@@ -132,6 +127,11 @@ public class ChangeEdits
     return deleteFileFactory.create(id.get());
   }
 
+  /**
+   * Create handler that is activated when collection element is accessed but doesn't exist, e. g.
+   * PUT request with a path was called but change edit wasn't created yet. Change edit is created
+   * and PUT handler is called.
+   */
   public static class Create
       implements RestCreateView<ChangeResource, ChangeEditResource, Put.Input> {
     private final Put putEdit;

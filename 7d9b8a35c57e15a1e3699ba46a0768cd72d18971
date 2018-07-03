@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4ec2425_2139ab70",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-03T16:42:43Z",
+      "side": 1,
+      "message": "Would it make sense to check the whole causal chain instead of just the direct cause? That would make us resilient to a larger class of changes to the exception being thrown.",
+      "revId": "7d9b8a35c57e15a1e3699ba46a0768cd72d18971",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

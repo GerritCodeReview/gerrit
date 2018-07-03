@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc8c2361_b68b36bf",
+        "filename": "java/com/google/gerrit/server/UsedAt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-03T07:35:08Z",
+      "side": 1,
+      "message": "that is public",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 36
+      },
+      "revId": "ed3e2755bd2151161d01ecc6205cba9ac39d715f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

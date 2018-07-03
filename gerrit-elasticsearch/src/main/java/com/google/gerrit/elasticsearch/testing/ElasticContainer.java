@@ -30,6 +30,7 @@ public class ElasticContainer<SELF extends ElasticContainer<SELF>> extends Gener
     // See https://github.com/testcontainers/testcontainers-java/issues/343
     try {
       ElasticContainer<?> container = new ElasticContainer<>(version);
+      container.addEnv("ES_JAVA_OPTS", "-Xms128m -Xmx128m");
       container.start();
       return container;
     } catch (Throwable t) {

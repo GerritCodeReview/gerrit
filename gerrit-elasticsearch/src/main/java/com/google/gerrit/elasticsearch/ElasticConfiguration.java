@@ -38,15 +38,11 @@ class ElasticConfiguration {
   private static final String DEFAULT_PROTOCOL = "http";
 
   private final Config cfg;
+  private final List<HttpHost> hosts;
 
-  final List<HttpHost> hosts;
   final String username;
   final String password;
-  final boolean requestCompression;
-  final long connectionTimeout;
-  final long maxConnectionIdleTime;
-  final int maxTotalConnection;
-  final int readTimeout;
+  final int maxRetryTimeout;
   final String prefix;
 
   @Inject
@@ -54,15 +50,9 @@ class ElasticConfiguration {
     this.cfg = cfg;
     this.username = cfg.getString("elasticsearch", null, "username");
     this.password = cfg.getString("elasticsearch", null, "password");
-    this.requestCompression = cfg.getBoolean("elasticsearch", null, "requestCompression", false);
-    this.connectionTimeout =
-        cfg.getTimeUnit("elasticsearch", null, "connectionTimeout", 3000, TimeUnit.MILLISECONDS);
-    this.maxConnectionIdleTime =
-        cfg.getTimeUnit(
-            "elasticsearch", null, "maxConnectionIdleTime", 3000, TimeUnit.MILLISECONDS);
-    this.maxTotalConnection = cfg.getInt("elasticsearch", null, "maxTotalConnection", 1);
-    this.readTimeout =
-        (int) cfg.getTimeUnit("elasticsearch", null, "readTimeout", 3000, TimeUnit.MICROSECONDS);
+    this.maxRetryTimeout =
+        (int)
+            cfg.getTimeUnit("elasticsearch", null, "maxRetryTimeout", 30000, TimeUnit.MILLISECONDS);
     this.prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
 
     Set<String> subsections = cfg.getSubsections("elasticsearch");
@@ -87,6 +77,10 @@ class ElasticConfiguration {
 
   Config getConfig() {
     return cfg;
+  }
+
+  HttpHost[] getHosts() {
+    return hosts.toArray(new HttpHost[hosts.size()]);
   }
 
   String getIndexName(String name, int schemaVersion) {

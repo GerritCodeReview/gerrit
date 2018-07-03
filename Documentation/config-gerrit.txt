@@ -2921,41 +2921,13 @@ Password used to connect to Elasticsearch.
 +
 Not set by default.
 
-[[elasticsearch.requestCompression]]elasticsearch.requestCompression::
+[[elasticsearch.maxRetryTimeout]]elasticsearch.maxRetryTimeout::
 +
-Enable request compression.
-+
-Defaults to `false`.
-
-[[elasticsearch.connectionTimeout]]elasticsearch.connectionTimeout::
-+
-How long should Gerrit waits for connection.
+Sets the maximum timeout to honor in case of multiple retries of the same request.
 +
 The value is in the usual time-unit format like `1 m`, `5 m`.
 +
-Defaults to `5 m`
-
-[[elasticsearch.maxConnectionIdleTime]]elasticsearch.maxConnectionIdleTime::
-+
-How long connection can stay in idle.
-+
-The value is in the usual time-unit format like `1 m`, `5 m`.
-+
-Defaults to `5 m`
-
-[[elasticsearch.maxTotalConnection]]elasticsearch.maxTotalConnection::
-+
-How many connections can be spawned simultaneously.
-+
-Defaults to `1`
-
-[[elasticsearch.maxReadTimeout]]elasticsearch.maxReadTimeout::
-+
-Timeout for read operations.
-+
-The value is in the usual time-unit format like `1 m`, `5 m`.
-+
-Defaults to `5 m`
+Defaults to `30000 ms`.
 
 ==== Elasticsearch server(s) configuration
 
@@ -2970,7 +2942,7 @@ Defaults to `http`.
 [[elasticsearch.name.hostname]]elasticsearch.name.hostname::
 +
 Elasticsearch server hostname.
-
++
 Defaults to `localhost`.
 
 [[elasticsearch.name.port]]elasticsearch.name.port::

@@ -17,17 +17,31 @@ package com.google.gerrit.extensions.restapi;
 /**
  * Optional interface for {@link RestCollection}.
  *
- * <p>Collections that implement this interface can accept a {@code DELETE} directly on the
- * collection itself.
+ * <p>This interface is used for 2 purposes:
+ *
+ * <ul>
+ *   <li>to support {@code DELETE} directly on the collection itself
+ *   <li>to support {@code DELETE} on a non-existing member of the collection (in order to create
+ *       that member)
+ * </ul>
+ *
+ * <p>This interface is not supported for root collections.
  */
 public interface AcceptsDelete<P extends RestResource> {
   /**
-   * Handle deletion of a child resource by DELETE on the collection.
+   * Handle
    *
-   * @param parent parent collection handle.
-   * @param id id of the resource being created (optional).
-   * @return a view to perform the deletion.
-   * @throws RestApiException the view cannot be constructed.
+   * <ul>
+   *   <li>{@code DELETE} directly on the collection itself (in this case id is {@code null})
+   *   <li>{@code DELETE} on a non-existing member of the collection (in this case id is not {@code
+   *       null})
+   * </ul>
+   *
+   * @param parent the collection
+   * @param id id of the non-existing collection member for which the {@code DELETE} request is
+   *     done, {@code null} if the {@code DELETE} request is done on the collection itself
+   * @return a view to handle the {@code DELETE} request
+   * @throws RestApiException the view cannot be constructed
    */
   RestModifyView<P, ?> delete(P parent, IdString id) throws RestApiException;
 }

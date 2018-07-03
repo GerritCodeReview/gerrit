@@ -2801,6 +2801,9 @@ respectively. When using version 6.2 or later, the open and closed changes are
 merged into the default `_doc` type. The latter is also used for the accounts and
 groups indices starting with Elasticsearch 6.2.
 
+Note that when Gerrit is configured to use Elasticsearch, the Elasticsearch
+server(s) must be reachable during the site initialization.
+
 [[elasticsearch.prefix]]elasticsearch.prefix::
 +
 This setting can be used to prefix index names to allow multiple Gerrit

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "439657bc_420666d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-07-03T11:48:32Z",
+      "side": 1,
+      "message": "Bug: Issue 9050",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 9
+      },
+      "revId": "f1c40a820fb919a1246518cd8c0c15088eadb057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b485d0fa_1498c4dc",
+        "filename": "gerrit-elasticsearch/src/main/java/com/google/gerrit/elasticsearch/testing/ElasticContainer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-07-03T11:48:32Z",
+      "side": 1,
+      "message": "Should we eventually use the non oss image here too?",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 73
+      },
+      "revId": "f1c40a820fb919a1246518cd8c0c15088eadb057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -66,7 +66,7 @@ public class CommentJsonMigrator {
       Project.NameKey project, Repository repo, RevWalk rw, ObjectInserter ins, BatchRefUpdate bru)
       throws IOException {
     boolean ok = true;
-    for (Ref ref : repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
+    for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
       Change.Id changeId = Change.Id.fromRef(ref.getName());
       if (changeId == null || !ref.getName().equals(RefNames.changeMetaRef(changeId))) {
         continue;
@@ -84,7 +84,7 @@ public class CommentJsonMigrator {
       BatchRefUpdate bru)
       throws IOException {
     boolean ok = true;
-    for (Ref ref : allUsersRepo.getRefDatabase().getRefs(RefNames.REFS_DRAFT_COMMENTS).values()) {
+    for (Ref ref : allUsersRepo.getRefDatabase().getRefsByPrefix(RefNames.REFS_DRAFT_COMMENTS)) {
       Change.Id changeId = Change.Id.fromAllUsersRef(ref.getName());
       if (changeId == null) {
         continue;

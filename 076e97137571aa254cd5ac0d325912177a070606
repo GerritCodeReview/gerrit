@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "9437c45f_483daad5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-03T06:54:56Z",
+      "side": 1,
+      "message": "I don\u0027t see how we can fix this without breaking the API. This is used for creating change edits and there is an explicit test for it (ChangeEditIT#createEditByDeletingExistingFileRest). I think the UI should have made 2 requests in this case: 1. create the change edit, 2. delete a file in the change edit.\n\nI\u0027ve inserted a link to the change implementing this to the commit message.\n\nFWIW if change [1] gets accepted I plan on working removing the AcceptsDelete interface. Then at least the implementation will get cleaner.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/187250",
+      "parentUuid": "13b1c4ba_37b1d90a",
+      "range": {
+        "startLine": 25,
+        "startChar": 62,
+        "endLine": 26,
+        "endChar": 67
+      },
+      "revId": "076e97137571aa254cd5ac0d325912177a070606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15e49db6_bcf20101",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -46,6 +70,30 @@
       "revId": "076e97137571aa254cd5ac0d325912177a070606",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "149a07ba_09aa4604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-03T06:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15e49db6_bcf20101",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "076e97137571aa254cd5ac0d325912177a070606",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

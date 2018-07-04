@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6eaaaf5c_de8b5577",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-04T08:19:45Z",
+      "side": 1,
+      "message": "The code says that this REST endpoint returns 204",
+      "range": {
+        "startLine": 1373,
+        "startChar": 0,
+        "endLine": 1377,
+        "endChar": 4
+      },
+      "revId": "d1eb0db8dd62bfa891dc5af75bf135bd93abf50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5755a5b0_80af205a",
+        "filename": "java/com/google/gerrit/sshd/commands/IndexProjectCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-04T08:19:45Z",
+      "side": 1,
+      "message": "Would it be worth to rename this class to avoid confusion?",
+      "range": {
+        "startLine": 32,
+        "startChar": 12,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "d1eb0db8dd62bfa891dc5af75bf135bd93abf50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "974efc6e_28c4a3da",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-04T08:19:45Z",
+      "side": 1,
+      "message": "Seems this line is not needed, since the following assert already checks the exact entries in the map.",
+      "revId": "d1eb0db8dd62bfa891dc5af75bf135bd93abf50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

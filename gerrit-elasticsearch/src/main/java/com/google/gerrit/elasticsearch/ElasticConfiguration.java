@@ -35,8 +35,16 @@ import org.slf4j.LoggerFactory;
 class ElasticConfiguration {
   private static final Logger log = LoggerFactory.getLogger(ElasticConfiguration.class);
 
-  private static final String DEFAULT_PORT = "9200";
-  private static final String DEFAULT_USERNAME = "elastic";
+  static final String SECTION_ELASTICSEARCH = "elasticsearch";
+  static final String KEY_PASSWORD = "password";
+  static final String KEY_USERNAME = "username";
+  static final String KEY_MAX_RETRY_TIMEOUT = "maxRetryTimeout";
+  static final String KEY_PREFIX = "prefix";
+  static final String KEY_SERVER = "server";
+  static final String DEFAULT_PORT = "9200";
+  static final String DEFAULT_USERNAME = "elastic";
+  static final int DEFAULT_MAX_RETRY_TIMEOUT_MS = 30000;
+  static final TimeUnit MAX_RETRY_TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
 
   private final Config cfg;
   private final List<HttpHost> hosts;
@@ -49,17 +57,23 @@ class ElasticConfiguration {
   @Inject
   ElasticConfiguration(@GerritServerConfig Config cfg) {
     this.cfg = cfg;
-    this.password = cfg.getString("elasticsearch", null, "password");
+    this.password = cfg.getString(SECTION_ELASTICSEARCH, null, KEY_PASSWORD);
     this.username =
         password == null
             ? null
-            : firstNonNull(cfg.getString("elasticsearch", null, "username"), DEFAULT_USERNAME);
+            : firstNonNull(
+                cfg.getString(SECTION_ELASTICSEARCH, null, KEY_USERNAME), DEFAULT_USERNAME);
     this.maxRetryTimeout =
         (int)
-            cfg.getTimeUnit("elasticsearch", null, "maxRetryTimeout", 30000, TimeUnit.MILLISECONDS);
-    this.prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
+            cfg.getTimeUnit(
+                SECTION_ELASTICSEARCH,
+                null,
+                KEY_MAX_RETRY_TIMEOUT,
+                DEFAULT_MAX_RETRY_TIMEOUT_MS,
+                MAX_RETRY_TIMEOUT_UNIT);
+    this.prefix = Strings.nullToEmpty(cfg.getString(SECTION_ELASTICSEARCH, null, KEY_PREFIX));
     this.hosts = new ArrayList<>();
-    for (String server : cfg.getStringList("elasticsearch", null, "server")) {
+    for (String server : cfg.getStringList(SECTION_ELASTICSEARCH, null, KEY_SERVER)) {
       try {
         URI uri = new URI(server);
         int port = uri.getPort();

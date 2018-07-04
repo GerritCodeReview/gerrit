@@ -15,6 +15,8 @@
 package com.google.gerrit.elasticsearch;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_SERVER;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.SECTION_ELASTICSEARCH;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -31,7 +33,7 @@ public class ElasticConfigurationTest {
   @Test
   public void singleServer() throws Exception {
     Config cfg = new Config();
-    cfg.setString("elasticsearch", null, "server", "http://elastic:1234");
+    cfg.setString(SECTION_ELASTICSEARCH, null, KEY_SERVER, "http://elastic:1234");
     ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
     assertHosts(esCfg, "http://elastic:1234");
   }
@@ -39,7 +41,7 @@ public class ElasticConfigurationTest {
   @Test
   public void serverWithoutPortSpecified() throws Exception {
     Config cfg = new Config();
-    cfg.setString("elasticsearch", null, "server", "http://elastic");
+    cfg.setString(SECTION_ELASTICSEARCH, null, KEY_SERVER, "http://elastic");
     ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
     assertHosts(esCfg, "http://elastic:9200");
   }
@@ -48,9 +50,9 @@ public class ElasticConfigurationTest {
   public void multipleServers() throws Exception {
     Config cfg = new Config();
     cfg.setStringList(
-        "elasticsearch",
+        SECTION_ELASTICSEARCH,
         null,
-        "server",
+        KEY_SERVER,
         ImmutableList.of("http://elastic1:1234", "http://elastic2:1234"));
     ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
     assertHosts(esCfg, "http://elastic1:1234", "http://elastic2:1234");
@@ -64,7 +66,7 @@ public class ElasticConfigurationTest {
   @Test
   public void singleServerInvalid() throws Exception {
     Config cfg = new Config();
-    cfg.setString("elasticsearch", null, "server", "foo");
+    cfg.setString(SECTION_ELASTICSEARCH, null, KEY_SERVER, "foo");
     assertProvisionException(cfg);
   }
 
@@ -72,7 +74,7 @@ public class ElasticConfigurationTest {
   public void multipleServersIncludingInvalid() throws Exception {
     Config cfg = new Config();
     cfg.setStringList(
-        "elasticsearch", null, "server", ImmutableList.of("http://elastic1:1234", "foo"));
+        SECTION_ELASTICSEARCH, null, KEY_SERVER, ImmutableList.of("http://elastic1:1234", "foo"));
     ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
     assertHosts(esCfg, "http://elastic1:1234");
   }

@@ -80,7 +80,8 @@ public class LegacyChangeNoteWrite {
    *     the same side.
    * @param out output stream to write to.
    */
-  void buildNote(ListMultimap<Integer, Comment> comments, OutputStream out) {
+  @VisibleForTesting
+  public void buildNote(ListMultimap<Integer, Comment> comments, OutputStream out) {
     if (comments.isEmpty()) {
       return;
     }

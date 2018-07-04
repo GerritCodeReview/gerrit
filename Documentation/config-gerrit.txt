@@ -2779,16 +2779,16 @@ Number of threads to use for indexing in normal interactive operations. Setting
 it to 0 disables the dedicated thread pool and indexing will be done in the same
 thread as the operation.
 +
-If not set or set to a negative value, defaults to 1 plus half of the number of
-logical CPUs as returned by the JVM.
+If not set or set to a zero, defaults to the number of logical CPUs as returned
+by the JVM. If set to a negative value, defaults to a direct executor.
 
 [[index.batchThreads]]index.batchThreads::
 +
 Number of threads to use for indexing in background operations, such as
 online schema upgrades.
 +
-If not set or set to a negative value, defaults to the number of logical
-CPUs as returned by the JVM.
+If not set or set to a zero, defaults to the number of logical CPUs as returned
+by the JVM. If set to a negative value, defaults to a direct executor.
 
 [[index.onlineUpgrade]]index.onlineUpgrade::
 +

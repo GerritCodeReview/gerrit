@@ -1,12 +1,12 @@
-= gerrit index project
+= gerrit index changes in project
 
 == NAME
-gerrit index project - Index all the changes in one or more projects.
+gerrit index changes in project - Index all the changes in one or more projects.
 
 == SYNOPSIS
 [verse]
 --
-_ssh_ -p <port> <host> _gerrit index project_ <PROJECT> [<PROJECT> ...]
+_ssh_ -p <port> <host> _gerrit index changes-in-project_ <PROJECT> [<PROJECT> ...]
 --
 
 == DESCRIPTION
@@ -26,7 +26,7 @@ This command is intended to be used in scripts.
 Index all changes in projects MyProject and NiceProject.
 
 ----
-    $ ssh -p 29418 user@review.example.com gerrit index project MyProject NiceProject
+    $ ssh -p 29418 user@review.example.com gerrit index changes-in-project MyProject NiceProject
 ----
 
 GERRIT

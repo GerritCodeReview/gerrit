@@ -214,7 +214,9 @@ public class IndexModule extends LifecycleModule {
     if (threads < 0) {
       return MoreExecutors.newDirectExecutorService();
     } else if (threads == 0) {
-      threads = Runtime.getRuntime().availableProcessors() / 2 + 1;
+      threads =
+          config.getInt(
+              "index", null, "threads", Runtime.getRuntime().availableProcessors() / 2 + 1);
     }
     return MoreExecutors.listeningDecorator(
         workQueue.createQueue(threads, "Index-Interactive", true));

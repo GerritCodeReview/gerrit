@@ -22,6 +22,30 @@
       "revId": "479c50ba282917b298ba404e0cda54e53db13377",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c430d14f_f82995b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-04T12:31:08Z",
+      "side": 1,
+      "message": "It will prompt with the third server name in the list and will leave the other two alone.  I haven\u0027t tested what happens if you change the value from what it prompts; I suspect that what will happen is you\u0027ll end up with the original 3 and then a new one with whatever you changed it to.\n\nWithout delving into the implementation of the init library to add support for lists, there\u0027s not a lot we can do other than document that multiple servers must be configured manually.",
+      "parentUuid": "201eb2c5_38adf582",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "479c50ba282917b298ba404e0cda54e53db13377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

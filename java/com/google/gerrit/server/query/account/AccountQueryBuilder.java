@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.errors.NotSignedInException;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.LimitPredicate;
@@ -120,12 +121,17 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   public Predicate<AccountState> cansee(String change)
       throws QueryParseException, OrmException, PermissionBackendException {
     ChangeNotes changeNotes = args.changeFinder.findOne(change);
-    if (changeNotes == null
-        || !args.permissionBackend
-            .user(args.getUser())
-            .database(args.db)
-            .change(changeNotes)
-            .test(ChangePermission.READ)) {
+    if (changeNotes == null) {
+      throw error(String.format("change %s not found", change));
+    }
+
+    try {
+      args.permissionBackend
+          .user(args.getUser())
+          .database(args.db)
+          .change(changeNotes)
+          .check(ChangePermission.READ);
+    } catch (AuthException e) {
       throw error(String.format("change %s not found", change));
     }
 
@@ -218,7 +224,12 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState> {
   }
 
   private boolean canSeeSecondaryEmails() throws PermissionBackendException, QueryParseException {
-    return args.permissionBackend.user(args.getUser()).test(GlobalPermission.MODIFY_ACCOUNT);
+    try {
+      args.permissionBackend.user(args.getUser()).check(GlobalPermission.MODIFY_ACCOUNT);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 
   private boolean checkedCanSeeSecondaryEmails() {

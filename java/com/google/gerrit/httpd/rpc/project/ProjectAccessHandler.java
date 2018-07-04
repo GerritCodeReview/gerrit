@@ -127,8 +127,12 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
           replace(config, toDelete, section);
 
         } else if (AccessSection.isValid(name)) {
-          if (checkIfOwner && !forProject.ref(name).test(RefPermission.WRITE_CONFIG)) {
-            continue;
+          if (checkIfOwner) {
+            try {
+              forProject.ref(name).check(RefPermission.WRITE_CONFIG);
+            } catch (AuthException e) {
+              continue;
+            }
           }
 
           RefPattern.validate(name);
@@ -143,8 +147,15 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
             config.remove(config.getAccessSection(name));
           }
 
-        } else if (!checkIfOwner || forProject.ref(name).test(RefPermission.WRITE_CONFIG)) {
+        } else if (!checkIfOwner) {
           config.remove(config.getAccessSection(name));
+        } else {
+          try {
+            forProject.ref(name).check(RefPermission.WRITE_CONFIG);
+            config.remove(config.getAccessSection(name));
+          } catch (AuthException e) {
+            // Do nothing.
+          }
         }
       }
 

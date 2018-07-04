@@ -65,17 +65,22 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
-    Change change = rsrc.getChange();
-
-    if (!rsrc.isUserOwner()
-        && !permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)
-        && !permissionBackend
-            .currentUser()
-            .project(rsrc.getProject())
-            .test(ProjectPermission.WRITE_CONFIG)) {
-      throw new AuthException("not allowed to set work in progress");
+    if (!rsrc.isUserOwner()) {
+      try {
+        permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+      } catch (AuthException e) {
+        try {
+          permissionBackend
+              .currentUser()
+              .project(rsrc.getProject())
+              .check(ProjectPermission.WRITE_CONFIG);
+        } catch (AuthException exp) {
+          throw new AuthException("not allowed to set work in progress");
+        }
+      }
     }
 
+    Change change = rsrc.getChange();
     if (change.getStatus() != Status.NEW) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }

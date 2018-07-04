@@ -350,14 +350,17 @@ public class PostReviewers
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws PermissionBackendException {
-    if (!permissionBackend
-        .user(anonymousProvider.get())
-        .change(rsrc.getNotes())
-        .database(dbProvider)
-        .test(ChangePermission.READ)) {
+    try {
+      permissionBackend
+          .user(anonymousProvider.get())
+          .change(rsrc.getNotes())
+          .database(dbProvider)
+          .check(ChangePermission.READ);
+    } catch (AuthException e) {
       return fail(
           reviewer, MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));
     }
+
     if (!migration.readChanges()) {
       // addByEmail depends on NoteDb.
       return fail(

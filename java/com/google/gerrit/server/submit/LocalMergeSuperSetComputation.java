@@ -25,6 +25,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -182,14 +183,19 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
         changeSet.ids().contains(cd.getId())
             && (projectState != null)
             && projectState.statePermitsRead();
-    if (visible
-        && !permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ)) {
+    if (!visible) {
+      return false;
+    }
+
+    try {
+      permissionBackend.user(user).change(cd).database(db).check(ChangePermission.READ);
+      return true;
+    } catch (AuthException e) {
       // We thought the change was visible, but it isn't.
       // This can happen if the ACL changes during the
       // completeChangeSet computation, for example.
-      visible = false;
+      return false;
     }
-    return visible;
   }
 
   private SubmitType submitType(ChangeData cd) throws OrmException {

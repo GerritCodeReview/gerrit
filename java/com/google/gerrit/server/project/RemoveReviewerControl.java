@@ -67,19 +67,18 @@ public class RemoveReviewerControl {
     checkRemoveReviewer(notes, currentUser, reviewer, 0);
   }
 
-  /** @return true if the user is allowed to remove this reviewer. */
-  public boolean testRemoveReviewer(
+  public void checkRemoveReviewer(
       ChangeData cd, CurrentUser currentUser, Account.Id reviewer, int value)
-      throws PermissionBackendException, OrmException {
+      throws PermissionBackendException, OrmException, AuthException {
     if (canRemoveReviewerWithoutPermissionCheck(
         permissionBackend, cd.change(), currentUser, reviewer, value)) {
-      return true;
+      return;
     }
-    return permissionBackend
+    permissionBackend
         .user(currentUser)
         .change(cd)
         .database(dbProvider)
-        .test(ChangePermission.REMOVE_REVIEWER);
+        .check(ChangePermission.REMOVE_REVIEWER);
   }
 
   private void checkRemoveReviewer(

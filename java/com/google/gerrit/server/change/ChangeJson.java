@@ -908,7 +908,12 @@ public class ChangeJson {
             // This may be a dummy approval that was inserted when the reviewer
             // was added. Explicitly check whether the user can vote on this
             // label.
-            value = perm.test(new LabelPermission(lt)) ? 0 : null;
+            try {
+              perm.check(new LabelPermission(lt));
+              value = 0;
+            } catch (AuthException exp) {
+              value = null;
+            }
           }
           tag = psa.getTag();
           date = psa.getGranted();
@@ -919,7 +924,12 @@ public class ChangeJson {
           // Either the user cannot vote on this label, or they were added as a
           // reviewer but have not responded yet. Explicitly check whether the
           // user can vote on this label.
-          value = perm.test(new LabelPermission(lt)) ? 0 : null;
+          try {
+            perm.check(new LabelPermission(lt));
+            value = 0;
+          } catch (AuthException exp) {
+            value = null;
+          }
         }
         addApproval(
             e.getValue().label(), approvalInfo(accountId, value, permittedVotingRange, tag, date));
@@ -1215,11 +1225,11 @@ public class ChangeJson {
       }
       for (ApprovalInfo ai : label.all) {
         Account.Id id = new Account.Id(ai._accountId);
-
-        if (removeReviewerControl.testRemoveReviewer(
-            cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0))) {
+        try {
+          removeReviewerControl.checkRemoveReviewer(
+              cd, userProvider.get(), id, MoreObjects.firstNonNull(ai.value, 0));
           removable.add(id);
-        } else {
+        } catch (AuthException e) {
           fixed.add(id);
         }
       }
@@ -1234,8 +1244,11 @@ public class ChangeJson {
       for (AccountInfo ai : ccs) {
         if (ai._accountId != null) {
           Account.Id id = new Account.Id(ai._accountId);
-          if (removeReviewerControl.testRemoveReviewer(cd, userProvider.get(), id, 0)) {
+          try {
+            removeReviewerControl.checkRemoveReviewer(cd, userProvider.get(), id, 0);
             removable.add(id);
+          } catch (AuthException e) {
+            // Do nothing.
           }
         }
       }

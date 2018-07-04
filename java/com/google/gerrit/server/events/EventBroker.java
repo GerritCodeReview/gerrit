@@ -171,21 +171,31 @@ public class EventBroker implements EventDispatcher {
       return false;
     }
     ReviewDb db = dbProvider.get();
-    return permissionBackend
-        .user(user)
-        .change(notesFactory.createChecked(db, change))
-        .database(db)
-        .test(ChangePermission.READ);
+    try {
+      permissionBackend
+          .user(user)
+          .change(notesFactory.createChecked(db, change))
+          .database(db)
+          .check(ChangePermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 
   protected boolean isVisibleTo(Branch.NameKey branchName, CurrentUser user)
       throws PermissionBackendException {
     ProjectState pe = projectCache.get(branchName.getParentKey());
-    if (pe == null) {
+    if (pe == null || !pe.statePermitsRead()) {
       return false;
     }
-    return pe.statePermitsRead()
-        && permissionBackend.user(user).ref(branchName).test(RefPermission.READ);
+
+    try {
+      permissionBackend.user(user).ref(branchName).check(RefPermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 
   protected boolean isVisibleTo(Event event, CurrentUser user)

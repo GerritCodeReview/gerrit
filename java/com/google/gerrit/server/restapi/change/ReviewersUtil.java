@@ -27,6 +27,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
@@ -300,10 +301,14 @@ public class ReviewersUtil {
 
   private List<SuggestedReviewerInfo> loadAccounts(List<Account.Id> accountIds)
       throws PermissionBackendException {
-    Set<FillOptions> fillOptions =
-        permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)
-            ? EnumSet.of(FillOptions.SECONDARY_EMAILS)
-            : EnumSet.noneOf(FillOptions.class);
+    Set<FillOptions> fillOptions;
+    try {
+      permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
+      fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
+    } catch (AuthException e) {
+      fillOptions = EnumSet.noneOf(FillOptions.class);
+    }
+
     fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     AccountLoader accountLoader = accountLoaderFactory.create(fillOptions);
 

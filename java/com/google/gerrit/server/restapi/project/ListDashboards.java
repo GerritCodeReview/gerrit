@@ -18,6 +18,7 @@ import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Project;
@@ -104,8 +105,15 @@ public class ListDashboards implements RestReadView<ProjectResource> {
         RevWalk rw = new RevWalk(git)) {
       List<DashboardInfo> all = new ArrayList<>();
       for (Ref ref : git.getRefDatabase().getRefsByPrefix(REFS_DASHBOARDS)) {
-        if (perm.ref(ref.getName()).test(RefPermission.READ) && state.statePermitsRead()) {
+        if (!state.statePermitsRead()) {
+          continue;
+        }
+
+        try {
+          perm.ref(ref.getName()).check(RefPermission.READ);
           all.addAll(scanDashboards(state.getProject(), git, rw, ref, project, setDefault));
+        } catch (AuthException e) {
+          // Do nothing.
         }
       }
       return all;

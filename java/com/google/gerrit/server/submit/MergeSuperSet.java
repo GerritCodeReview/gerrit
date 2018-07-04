@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
@@ -100,17 +101,22 @@ public class MergeSuperSet {
       List<ChangeData> cds = queryProvider.get().byLegacyChangeId(change.getId());
       checkState(cds.size() == 1, "Expected exactly one ChangeData, got " + cds.size());
       ChangeData cd = Iterables.getFirst(cds, null);
-      ProjectState projectState = projectCache.checkedGet(cd.project());
-      ChangeSet changeSet =
-          new ChangeSet(
-              cd,
-              projectState != null
-                  && projectState.statePermitsRead()
-                  && permissionBackend
-                      .user(user)
-                      .change(cd)
-                      .database(db)
-                      .test(ChangePermission.READ));
+
+      boolean visible = false;
+      if (cd != null) {
+        ProjectState projectState = projectCache.checkedGet(cd.project());
+
+        if (projectState.statePermitsRead()) {
+          try {
+            permissionBackend.user(user).change(cd).database(db).check(ChangePermission.READ);
+            visible = true;
+          } catch (AuthException e) {
+            // Do nothing.
+          }
+        }
+      }
+
+      ChangeSet changeSet = new ChangeSet(cd, visible);
       if (wholeTopicEnabled(cfg)) {
         return completeChangeSetIncludingTopics(db, changeSet, user);
       }
@@ -203,8 +209,15 @@ public class MergeSuperSet {
   private boolean canRead(ReviewDb db, CurrentUser user, ChangeData cd)
       throws PermissionBackendException, IOException {
     ProjectState projectState = projectCache.checkedGet(cd.project());
-    return projectState != null
-        && projectState.statePermitsRead()
-        && permissionBackend.user(user).change(cd).database(db).test(ChangePermission.READ);
+    if (projectState == null || !projectState.statePermitsRead()) {
+      return false;
+    }
+
+    try {
+      permissionBackend.user(user).change(cd).database(db).check(ChangePermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 }

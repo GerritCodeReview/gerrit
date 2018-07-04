@@ -46,6 +46,30 @@
       "revId": "479c50ba282917b298ba404e0cda54e53db13377",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a39d23c3_afebeece",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-07-04T12:43:23Z",
+      "side": 1,
+      "message": "I just wanted to make sure running the init would not mess up the existing servers configuration and you confirmed that.",
+      "parentUuid": "c430d14f_f82995b5",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "479c50ba282917b298ba404e0cda54e53db13377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

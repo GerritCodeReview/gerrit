@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.account;
 
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.account.AccountState;
@@ -40,13 +41,16 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   @Override
   public boolean match(AccountState accountState) throws OrmException {
     try {
-      return permissionBackend
+      permissionBackend
           .absentUser(accountState.getAccount().getId())
           .database(db)
           .change(changeNotes)
-          .test(ChangePermission.READ);
+          .check(ChangePermission.READ);
+      return true;
     } catch (PermissionBackendException e) {
       throw new OrmException("Failed to check if account can see change", e);
+    } catch (AuthException e) {
+      return false;
     }
   }
 

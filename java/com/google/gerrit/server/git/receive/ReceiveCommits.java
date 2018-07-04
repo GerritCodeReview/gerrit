@@ -2528,11 +2528,23 @@ class ReceiveCommits {
       if (magicBranch != null
           && (magicBranch.workInProgress || magicBranch.ready)
           && magicBranch.workInProgress != change.isWorkInProgress()
-          && (!user.getAccountId().equals(change.getOwner())
-              && !permissions.test(ProjectPermission.WRITE_CONFIG)
-              && !permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER))) {
-        reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
-        return false;
+          && !user.getAccountId().equals(change.getOwner())) {
+        boolean hasWriteConfigPermission = false;
+        try {
+          permissions.check(ProjectPermission.WRITE_CONFIG);
+          hasWriteConfigPermission = true;
+        } catch (AuthException e) {
+          // Do nothing.
+        }
+
+        if (!hasWriteConfigPermission) {
+          try {
+            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+          } catch (AuthException e1) {
+            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
+            return false;
+          }
+        }
       }
 
       if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {

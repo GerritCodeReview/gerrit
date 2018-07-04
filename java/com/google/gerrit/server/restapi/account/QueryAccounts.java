@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AccountVisibility;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -171,9 +172,15 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
       fillOptions.add(FillOptions.EMAIL);
 
-      if (modifyAccountCapabilityChecked
-          || permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)) {
+      if (modifyAccountCapabilityChecked) {
         fillOptions.add(FillOptions.SECONDARY_EMAILS);
+      } else {
+        try {
+          permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
+          fillOptions.add(FillOptions.SECONDARY_EMAILS);
+        } catch (AuthException e) {
+          // Do nothing.
+        }
       }
     }
     accountLoader = accountLoaderFactory.create(fillOptions);

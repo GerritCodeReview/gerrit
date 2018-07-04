@@ -263,12 +263,17 @@ public class ApprovalsUtil {
 
   private boolean canSee(ReviewDb db, ChangeNotes notes, Account.Id accountId) {
     try {
-      return projectCache.checkedGet(notes.getProjectName()).statePermitsRead()
-          && permissionBackend
-              .absentUser(accountId)
-              .change(notes)
-              .database(db)
-              .test(ChangePermission.READ);
+      if (!projectCache.checkedGet(notes.getProjectName()).statePermitsRead()) {
+        return false;
+      }
+      permissionBackend
+          .absentUser(accountId)
+          .change(notes)
+          .database(db)
+          .check(ChangePermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
     } catch (IOException | PermissionBackendException e) {
       logger.atWarning().withCause(e).log(
           "Failed to check if account %d can see change %d",

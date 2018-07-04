@@ -15,6 +15,7 @@
 package com.google.gerrit.truth;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.truth.Fact.fact;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
@@ -46,7 +47,7 @@ public class ListSubject<S extends Subject<S, E>, E> extends IterableSubject {
     isNotNull();
     List<E> list = getActualList();
     if (index >= list.size()) {
-      fail("has an element at index " + index);
+      failWithoutActual(fact("expected to have element at index", index));
     }
     return elementAssertThatFunction.apply(list.get(index));
   }

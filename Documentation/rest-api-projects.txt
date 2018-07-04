@@ -1354,6 +1354,29 @@ parameters `perm`, `account` and `ref`, for example:
 
 
 [[index]]
+=== Index project
+
+Adds or updates the current project (and children, if specified) in the secondary index.
+
+As an input, a link:#index-project-input[IndexProjectInput] entity can be provided.
+
+.Request
+----
+  POST /projects/MyProject/index HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "index_children": "true"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
+[[index.changes]]
 === Index all changes in a project
 
 Adds or updates all the changes belonging to a project in the secondary index.
@@ -1362,7 +1385,7 @@ returns immediately.
 
 .Request
 ----
-  POST /projects/MyProject/index HTTP/1.0
+  POST /projects/MyProject/index.changes HTTP/1.0
 ----
 
 .Response
@@ -3127,6 +3150,17 @@ project.
 The ref to which `HEAD` should be set, the `refs/heads` prefix can be
 omitted.
 |============================
+
+[[index-project-input]]
+=== IndexProjectInput
+The `IndexProjectInput` contains parameters for indexing a project.
+
+[options="header",cols="1,^2,4"]
+|================================
+|Field Name         ||Description
+|`index_children`   ||
+If children should be indexed recursively.
+|================================
 
 [[inherited-boolean-info]]
 === InheritedBooleanInfo

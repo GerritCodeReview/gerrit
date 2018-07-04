@@ -14,6 +14,7 @@
 
 package com.google.gerrit.truth;
 
+import static com.google.common.truth.Fact.fact;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.DefaultSubject;
@@ -57,7 +58,7 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
     isNotNull();
     Optional<T> optional = actual();
     if (!optional.isPresent()) {
-      fail("has a value");
+      failWithoutActual(fact("expected to have", "value"));
     }
   }
 
@@ -65,7 +66,7 @@ public class OptionalSubject<S extends Subject<S, ? super T>, T>
     isNotNull();
     Optional<T> optional = actual();
     if (optional.isPresent()) {
-      fail("does not have a value");
+      failWithoutActual(fact("expected not to have", "value"));
     }
   }
 

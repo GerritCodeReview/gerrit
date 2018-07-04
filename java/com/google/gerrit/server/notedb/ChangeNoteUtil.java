@@ -16,12 +16,9 @@ package com.google.gerrit.server.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
 import java.util.Date;
-import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.FooterKey;
 
@@ -65,17 +62,13 @@ public class ChangeNoteUtil {
 
   private final LegacyChangeNoteRead legacyChangeNoteRead;
   private final ChangeNoteJson changeNoteJson;
-
-  private final AccountCache accountCache;
   private final String serverId;
 
   @Inject
   public ChangeNoteUtil(
       ChangeNoteJson changeNoteJson,
       LegacyChangeNoteRead legacyChangeNoteRead,
-      AccountCache accountCache,
       @GerritServerId String serverId) {
-    this.accountCache = accountCache;
     this.serverId = serverId;
     this.changeNoteJson = changeNoteJson;
     this.legacyChangeNoteRead = legacyChangeNoteRead;
@@ -90,9 +83,8 @@ public class ChangeNoteUtil {
   }
 
   public PersonIdent newIdent(Account.Id authorId, Date when, PersonIdent serverIdent) {
-    Optional<Account> author = accountCache.get(authorId).map(AccountState::getAccount);
     return new PersonIdent(
-        author.map(Account::getName).orElseGet(() -> Account.getName(authorId)),
+        "Gerrit User " + authorId.toString(),
         authorId.get() + "@" + serverId,
         when,
         serverIdent.getTimeZone());
@@ -101,6 +93,9 @@ public class ChangeNoteUtil {
   @VisibleForTesting
   public PersonIdent newIdent(Account author, Date when, PersonIdent serverIdent) {
     return new PersonIdent(
-        author.getName(), author.getId().get() + "@" + serverId, when, serverIdent.getTimeZone());
+        "Gerrit User " + author.getId(),
+        author.getId().get() + "@" + serverId,
+        when,
+        serverIdent.getTimeZone());
   }
 }

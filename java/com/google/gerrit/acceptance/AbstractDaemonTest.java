@@ -397,6 +397,8 @@ public abstract class AbstractDaemonTest {
       baseConfig.setString("sshd", null, "listenAddress", "off");
     }
 
+    baseConfig.setInt("index", null, "batchThreads", -1);
+
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     Module module = createModule();
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {

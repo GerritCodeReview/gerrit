@@ -136,7 +136,7 @@ link:cmd-index-start.html[gerrit index start]::
 link:cmd-index-changes.html[gerrit index changes]::
 	Index one or more changes.
 
-link:cmd-index-project.html[gerrit index project]::
+link:cmd-index-changes-in-project.html[gerrit index changes-in-project]::
 	Index all the changes in one or more projects.
 
 link:cmd-logging-ls-level.html[gerrit logging ls-level]::

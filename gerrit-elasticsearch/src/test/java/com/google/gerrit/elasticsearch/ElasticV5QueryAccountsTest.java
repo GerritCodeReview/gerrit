@@ -60,7 +60,7 @@ public class ElasticV5QueryAccountsTest extends AbstractQueryAccountsTest {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
     String indicesPrefix = testName();
-    ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port, indicesPrefix);
+    ElasticTestUtils.configure(elasticsearchConfig, nodeInfo.port, indicesPrefix, "changeme");
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }
 }

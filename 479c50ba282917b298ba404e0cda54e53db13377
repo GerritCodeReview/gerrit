@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "201eb2c5_38adf582",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012987
+      },
+      "writtenOn": "2018-07-04T12:00:12Z",
+      "side": 1,
+      "message": "If I have a config with 3 servers, will the init mess up that configuration, will I need to re-add the other 2 servers after the init?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "479c50ba282917b298ba404e0cda54e53db13377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

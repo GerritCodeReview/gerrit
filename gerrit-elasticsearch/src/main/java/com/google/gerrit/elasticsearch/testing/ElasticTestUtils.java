@@ -36,7 +36,7 @@ public final class ElasticTestUtils {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", null, "server", "http://localhost:" + port);
     config.setString("elasticsearch", null, "prefix", prefix);
-    config.setString("index", null, "maxLimit", "10000");
+    config.setInt("index", null, "maxLimit", 10000);
     if (password != null) {
       config.setString("elasticsearch", null, "password", password);
     }

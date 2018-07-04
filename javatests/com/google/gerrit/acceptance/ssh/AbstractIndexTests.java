@@ -102,7 +102,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     enableChangeIndexWrites();
 
     changeIndexedCounter.clear();
-    String cmd = Joiner.on(" ").join("gerrit", "index", "project", project.get());
+    String cmd = Joiner.on(" ").join("gerrit", "index", "changes-in-project", project.get());
     adminSshSession.exec(cmd);
     adminSshSession.assertSuccess();
 

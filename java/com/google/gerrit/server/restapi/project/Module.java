@@ -68,6 +68,7 @@ public class Module extends RestApiModule {
     get(PROJECT_KIND, "statistics.git").to(GetStatistics.class);
     post(PROJECT_KIND, "gc").to(GarbageCollect.class);
     post(PROJECT_KIND, "index").to(Index.class);
+    post(PROJECT_KIND, "index.changes").to(IndexChanges.class);
 
     child(PROJECT_KIND, "branches").to(BranchesCollection.class);
     create(BRANCH_KIND).to(CreateBranch.class);

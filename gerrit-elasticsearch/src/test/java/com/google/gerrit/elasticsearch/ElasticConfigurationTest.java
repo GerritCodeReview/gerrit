@@ -17,6 +17,7 @@ package com.google.gerrit.elasticsearch;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.DEFAULT_USERNAME;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PASSWORD;
+import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_PREFIX;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_SERVER;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.KEY_USERNAME;
 import static com.google.gerrit.elasticsearch.ElasticConfiguration.SECTION_ELASTICSEARCH;
@@ -40,6 +41,7 @@ public class ElasticConfigurationTest {
     assertHosts(esCfg, "http://elastic:1234");
     assertThat(esCfg.username).isNull();
     assertThat(esCfg.password).isNull();
+    assertThat(esCfg.prefix).isEmpty();
   }
 
   @Test
@@ -48,6 +50,14 @@ public class ElasticConfigurationTest {
     cfg.setString(SECTION_ELASTICSEARCH, null, KEY_SERVER, "http://elastic");
     ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
     assertHosts(esCfg, "http://elastic:9200");
+  }
+
+  @Test
+  public void prefix() throws Exception {
+    Config cfg = newConfig();
+    cfg.setString(SECTION_ELASTICSEARCH, null, KEY_PREFIX, "myprefix");
+    ElasticConfiguration esCfg = new ElasticConfiguration(cfg);
+    assertThat(esCfg.prefix).isEqualTo("myprefix");
   }
 
   @Test

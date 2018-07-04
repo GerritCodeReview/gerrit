@@ -18,6 +18,8 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.projects.IndexProjectInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -26,8 +28,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gwtorm.server.OrmException;
@@ -37,22 +37,20 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.concurrent.Future;
 
+@RequiresCapability(GlobalCapability.MAINTAIN_SERVER)
 @Singleton
 public class Index implements RestModifyView<ProjectResource, IndexProjectInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final PermissionBackend permissionBackend;
   private final ProjectIndexer indexer;
   private final ListeningExecutorService executor;
   private final Provider<ListChildProjects> listChildProjectsProvider;
 
   @Inject
   Index(
-      PermissionBackend permissionBackend,
       ProjectIndexer indexer,
       @IndexExecutor(BATCH) ListeningExecutorService executor,
       Provider<ListChildProjects> listChildProjectsProvider) {
-    this.permissionBackend = permissionBackend;
     this.indexer = indexer;
     this.executor = executor;
     this.listChildProjectsProvider = listChildProjectsProvider;
@@ -62,7 +60,6 @@ public class Index implements RestModifyView<ProjectResource, IndexProjectInput>
   public Response.Accepted apply(ProjectResource rsrc, IndexProjectInput input)
       throws IOException, AuthException, OrmException, PermissionBackendException,
           ResourceConflictException {
-    permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
     String response = "Project " + rsrc.getName() + " submitted for reindexing";
 
     reindexAsync(rsrc.getNameKey());

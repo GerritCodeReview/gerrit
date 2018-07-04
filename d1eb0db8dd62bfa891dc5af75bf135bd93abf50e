@@ -112,6 +112,24 @@
       "revId": "d1eb0db8dd62bfa891dc5af75bf135bd93abf50e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278be2df_42a901da",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-04T09:28:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "974efc6e_28c4a3da",
+      "revId": "d1eb0db8dd62bfa891dc5af75bf135bd93abf50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

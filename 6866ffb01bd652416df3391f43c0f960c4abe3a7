@@ -1,4 +1,97 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1530715170 +0200\nnonce ADrMV7akGmVs7ffsnZvlA2GL11YTjU4nmkFLqEGRDUpbQ4rfl7aJdjrEqV7e2a5D4fp68OpiADnF\n\n0000000000000000000000000000000000000000 6866ffb01bd652416df3391f43c0f960c4abe3a7 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAls83CIACgkQUbX9l6DQ\n71GV8gf/TTJ0ZoAQLQO/ZVCyWj0DzRqu3b0H7MfVgSUJ5Sdsd3/N9mPMJUO33oWE\nlnB+QngFrQQE+4s6Il4KEeo8ePP0FouCtiUGKEyxDsRhxKPIOvITwvHcWZioaWGT\nyI3qmM2Ko7Lkj3v0LCVv97G/N+AIXI5xaw40yTW5q7eL9LoFzIEZNj8LspSyavwZ\njRFVmOWasZMLRP1t0aSETRNwLOpxaTeQRWCmM5FpVadzcNSTpGpfIZi4/bdXB+jP\nsLani/9J4fZmC2hg38BQ9PH8+QHldn92IUcm0e/fSyZ+JrhZLDJ4HxEMFFq/LWHQ\nx62vO0I18LbvwHfmjgoTj3B3DeQXPQ\u003d\u003d\n\u003dadAS\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f7ee136_38dbc953",
+        "filename": "javatests/com/google/gerrit/common/data/ParameterizedStringTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-04T23:52:56Z",
+      "side": 1,
+      "message": "This should be:\n\n  assertThat(p.getParameterNames()).isEmpty();",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 57
+      },
+      "revId": "6866ffb01bd652416df3391f43c0f960c4abe3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c06b348_d7605d11",
+        "filename": "javatests/com/google/gerrit/common/data/ParameterizedStringTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-04T23:52:56Z",
+      "side": 1,
+      "message": "Should be:\n\n assertThat(p.bind(a)).isEmpty();",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 39
+      },
+      "revId": "6866ffb01bd652416df3391f43c0f960c4abe3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48277e21_70b3716e",
+        "filename": "javatests/com/google/gerrit/common/data/ParameterizedStringTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-04T23:52:56Z",
+      "side": 1,
+      "message": "Should be:\n\n  assertThat(p.replace(a)).isEmpty();",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 43
+      },
+      "revId": "6866ffb01bd652416df3391f43c0f960c4abe3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97acf0af_cb4506b4",
+        "filename": "javatests/com/google/gerrit/common/data/ParameterizedStringTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-04T23:52:56Z",
+      "side": 1,
+      "message": "Why is asList added here but not in the other tests?",
+      "range": {
+        "startLine": 105,
+        "startChar": 25,
+        "endLine": 105,
+        "endChar": 35
+      },
+      "revId": "6866ffb01bd652416df3391f43c0f960c4abe3a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

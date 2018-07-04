@@ -4,6 +4,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = ["@truth//jar"],
     runtime_deps = [
+        ":diffutils",
         "//lib:guava",
         "//lib:junit",
     ],
@@ -30,6 +31,13 @@ java_library(
         "//lib:guava",
         "//lib:protobuf",
     ],
+)
+
+java_library(
+    name = "diffutils",
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:private"],
+    exports = ["@diffutils//jar"],
 )
 
 java_library(

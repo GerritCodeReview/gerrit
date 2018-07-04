@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common.testing;
 
+import static com.google.common.truth.Fact.fact;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
@@ -51,14 +52,14 @@ public class RangeSubject extends Subject<RangeSubject, Comment.Range> {
   public void isValid() {
     isNotNull();
     if (!actual().isValid()) {
-      fail("is valid");
+      failWithoutActual(fact("expected to be", "valid"));
     }
   }
 
   public void isInvalid() {
     isNotNull();
     if (actual().isValid()) {
-      fail("is invalid");
+      failWithoutActual(fact("expected not to be", "valid"));
     }
   }
 }

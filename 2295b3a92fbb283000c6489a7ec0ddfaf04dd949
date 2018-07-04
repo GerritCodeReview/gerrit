@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d80fade5_41d5089e",
+        "filename": "Documentation/cmd-index-project.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-04T09:36:35Z",
+      "side": 1,
+      "message": "This file should be renamed now to reflect the new command name.",
+      "revId": "2295b3a92fbb283000c6489a7ec0ddfaf04dd949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e4ce8a0_e7f72f59",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-04T09:36:35Z",
+      "side": 1,
+      "message": "If the indexing is now executed asynchronously in the background, 202 Accepted seems to be the right response code.",
+      "range": {
+        "startLine": 1377,
+        "startChar": 2,
+        "endLine": 1377,
+        "endChar": 25
+      },
+      "revId": "2295b3a92fbb283000c6489a7ec0ddfaf04dd949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aca6b43e_55aa0c06",
+        "filename": "java/com/google/gerrit/server/restapi/project/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-04T09:36:35Z",
+      "side": 1,
+      "message": "Add @SuppressWarnings(\"unused\") to suppress warning.",
+      "revId": "2295b3a92fbb283000c6489a7ec0ddfaf04dd949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b639f801_bcd54b61",
+        "filename": "java/com/google/gerrit/server/restapi/project/Index.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-04T09:36:35Z",
+      "side": 1,
+      "message": "We always name this \"possiblyIgnoredError\"",
+      "range": {
+        "startLine": 83,
+        "startChar": 14,
+        "endLine": 83,
+        "endChar": 21
+      },
+      "revId": "2295b3a92fbb283000c6489a7ec0ddfaf04dd949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.truth.Fact.fact;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.extensions.api.changes.RecipientType.BCC;
 import static com.google.gerrit.extensions.api.changes.RecipientType.CC;
@@ -100,7 +101,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
     public FakeEmailSenderSubject notSent() {
       if (actual().peekMessage() != null) {
-        fail("a message wasn't sent");
+        failWithoutActual(fact("expected message to be", "sent"));
       }
       return this;
     }
@@ -108,7 +109,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     public FakeEmailSenderSubject sent(String messageType, StagedUsers users) {
       message = actual().nextMessage();
       if (message == null) {
-        fail("a message was sent");
+        failWithoutActual(fact("expected message not to be", "sent"));
       }
       recipients = new HashMap<>();
       recipients.put(TO, parseAddresses(message, "To"));
@@ -123,11 +124,12 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
               .collect(toList()));
       this.users = users;
       if (!message.headers().containsKey("X-Gerrit-MessageType")) {
-        fail("a message was sent with X-Gerrit-MessageType header");
+        failWithoutActual(
+            fact("expected to have message sent with", "X-Gerrit-MessageType header"));
       }
       EmailHeader header = message.headers().get("X-Gerrit-MessageType");
       if (!header.equals(new EmailHeader.String(messageType))) {
-        fail("message of type " + messageType + " was sent; X-Gerrit-MessageType is " + header);
+        failWithoutActual(fact("expected message of type", messageType));
       }
 
       // Return a named subject that displays a human-readable table of
@@ -191,9 +193,10 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
     private void rcpt(@Nullable RecipientType type, String email, boolean expected) {
       if (recipients.get(type).contains(email) != expected) {
-        fail(
-            expected ? "notifies" : "doesn't notify",
-            "]\n" + type + ": " + users.emailToName(email) + "\n]");
+        failWithoutActual(
+            fact(
+                expected ? "notifies" : "doesn't notify",
+                "[\n" + type + ": " + users.emailToName(email) + "\n]"));
       }
       if (expected) {
         accountedFor.add(email);
@@ -219,9 +222,10 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
         }
       }
       if (!ok) {
-        fail(
-            "was fully tested, missing assertions for: "
-                + recipientMapToString(unaccountedFor, e -> users.emailToName(e)));
+        failWithoutActual(
+            fact(
+                "expected assertions for",
+                recipientMapToString(unaccountedFor, e -> users.emailToName(e))));
       }
       return this;
     }
@@ -282,7 +286,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
     private void rcpt(@Nullable RecipientType type, NotifyType watch) {
       if (!users.watchers.containsKey(watch)) {
-        fail("configured to watch", watch);
+        failWithoutActual(fact("expected to be configured to watch", watch));
       }
       rcpt(type, users.watchers.get(watch));
     }

@@ -1077,7 +1077,7 @@ public abstract class AbstractDaemonTest {
       ProjectConfig config = ProjectConfig.read(md);
       AccessSection s = config.getAccessSection(ref, true);
       Permission p = s.getPermission(permission, true);
-      p.getRules().clear();
+      p.clearRules();
       config.commit(md);
       projectCache.evict(config.getProject());
     }

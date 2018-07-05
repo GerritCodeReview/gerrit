@@ -737,7 +737,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private List<PermissionRule> loadPermissionRules(
+  private ImmutableList<PermissionRule> loadPermissionRules(
       Config rc,
       String section,
       String subsection,
@@ -746,7 +746,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       boolean useRange) {
     Permission perm = new Permission(varName);
     loadPermissionRules(rc, section, subsection, varName, groupsByName, perm, useRange);
-    return perm.getRules();
+    return ImmutableList.copyOf(perm.getRules());
   }
 
   private void loadPermissionRules(

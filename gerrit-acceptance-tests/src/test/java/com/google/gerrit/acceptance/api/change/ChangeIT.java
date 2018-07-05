@@ -442,12 +442,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteNewChangeAsAdmin() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
-
-    gApi.changes().id(changeId).delete();
-
-    assertThat(query(changeId)).isEmpty();
+    deleteChangeAsUser(admin, admin);
   }
 
   @Test
@@ -468,23 +463,23 @@ public class ChangeIT extends AbstractDaemonTest {
   @TestProjectInput(cloneAs = "user")
   public void deleteChangeAsUserWithDeleteOwnChangesPermissionForGroup() throws Exception {
     allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
-    deleteChangeAsUser();
+    deleteChangeAsUser(user, user);
   }
 
   @Test
   @TestProjectInput(cloneAs = "user")
   public void deleteChangeAsUserWithDeleteOwnChangesPermissionForOwners() throws Exception {
     allow(Permission.DELETE_OWN_CHANGES, CHANGE_OWNER, "refs/*");
-    deleteChangeAsUser();
+    deleteChangeAsUser(user, user);
   }
 
-  private void deleteChangeAsUser() throws Exception {
+  private void deleteChangeAsUser(TestAccount owner, TestAccount deleteAs) throws Exception {
     try {
       PushOneCommit.Result changeResult =
-          pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
+          pushFactory.create(db, owner.getIdent(), testRepo).to("refs/for/master");
       String changeId = changeResult.getChangeId();
 
-      setApiUser(user);
+      setApiUser(deleteAs);
       gApi.changes().id(changeId).delete();
 
       assertThat(query(changeId)).isEmpty();
@@ -496,15 +491,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @TestProjectInput(cloneAs = "user")
   public void deleteNewChangeOfAnotherUserAsAdmin() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
-    changeResult.assertOkStatus();
-    String changeId = changeResult.getChangeId();
-
-    setApiUser(admin);
-    gApi.changes().id(changeId).delete();
-
-    assertThat(query(changeId)).isEmpty();
+    deleteChangeAsUser(user, admin);
   }
 
   @Test

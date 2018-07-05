@@ -133,4 +133,15 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
     return new HashSet<>(getPermissions())
         .equals(new HashSet<>(((AccessSection) obj).getPermissions()));
   }
+
+  @Override
+  public int hashCode() {
+    int hashCode = super.hashCode();
+    if (permissions != null) {
+      for (Permission permission : permissions) {
+        hashCode += permission.hashCode();
+      }
+    }
+    return hashCode;
+  }
 }

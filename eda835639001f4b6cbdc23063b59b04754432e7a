@@ -157,6 +157,30 @@
     },
     {
       "key": {
+        "uuid": "3716d36d_557ed6ab",
+        "filename": "java/com/google/gerrit/server/restapi/account/Capabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-05T13:29:03Z",
+      "side": 1,
+      "message": "You mean we could throw out the AuthE? This commit doesn\u0027t intend to change existing behavior.",
+      "parentUuid": "00e0e980_e72eefe7",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 5
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bce4980e_bdf32a10",
         "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
         "patchSetId": 1
@@ -168,6 +192,30 @@
       "writtenOn": "2018-07-05T12:58:58Z",
       "side": 1,
       "message": "Propagate\n\n(here and below in the other files)",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 9
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1d0fe35_3108da70",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-05T13:29:03Z",
+      "side": 1,
+      "message": "Do you mean throw out AuthE?",
+      "parentUuid": "bce4980e_bdf32a10",
       "range": {
         "startLine": 77,
         "startChar": 8,

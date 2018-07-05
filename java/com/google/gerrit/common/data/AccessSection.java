@@ -49,7 +49,7 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
       }
     }
 
-    permissions = list;
+    permissions = new ArrayList<>(list);
   }
 
   @Nullable

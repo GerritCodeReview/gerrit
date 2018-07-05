@@ -26,6 +26,7 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
+import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.Util.category;
 import static com.google.gerrit.server.project.Util.value;
@@ -64,6 +65,8 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
@@ -460,6 +463,33 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteNewChangeAsUserWithDeleteChangesPermissionForGroup() throws Exception {
+    allow(Permission.DELETE_CHANGES, REGISTERED_USERS, "refs/*");
+    deleteChangeAsUser(admin, user);
+  }
+
+  @Test
+  public void deleteNewChangeAsUserWithDeleteChangesPermissionForProjectOwners() throws Exception {
+    GroupApi groupApi = gApi.groups().create(name("delete-change"));
+    groupApi.addMembers("user");
+
+    ProjectInput in = new ProjectInput();
+    in.name = name("delete-change");
+    in.owners = Lists.newArrayListWithCapacity(1);
+    in.owners.add(groupApi.name());
+    in.createEmptyCommit = true;
+    ProjectApi api = gApi.projects().create(in);
+
+    Project.NameKey nameKey = new Project.NameKey(api.get().name);
+
+    ProjectConfig cfg = projectCache.checkedGet(nameKey).getConfig();
+    Util.allow(cfg, Permission.DELETE_CHANGES, PROJECT_OWNERS, "refs/*");
+    saveProjectConfig(nameKey, cfg);
+
+    deleteChangeAsUser(nameKey, admin, user);
+  }
+
+  @Test
   public void deleteChangeAsUserWithDeleteOwnChangesPermissionForGroup() throws Exception {
     allow(Permission.DELETE_OWN_CHANGES, REGISTERED_USERS, "refs/*");
     deleteChangeAsUser(user, user);
@@ -472,10 +502,15 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private void deleteChangeAsUser(TestAccount owner, TestAccount deleteAs) throws Exception {
+    deleteChangeAsUser(project, owner, deleteAs);
+  }
+
+  private void deleteChangeAsUser(
+      Project.NameKey projectName, TestAccount owner, TestAccount deleteAs) throws Exception {
     try {
       setApiUser(owner);
       ChangeInput in = new ChangeInput();
-      in.project = project.get();
+      in.project = projectName.get();
       in.branch = "refs/heads/master";
       in.subject = "test";
       String changeId = gApi.changes().create(in).get().changeId;
@@ -488,6 +523,7 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(query(changeId)).isEmpty();
     } finally {
       removePermission(Permission.DELETE_OWN_CHANGES, project, "refs/*");
+      removePermission(Permission.DELETE_CHANGES, project, "refs/*");
     }
   }
 

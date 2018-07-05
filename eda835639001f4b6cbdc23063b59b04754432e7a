@@ -181,6 +181,30 @@
     },
     {
       "key": {
+        "uuid": "e0c9a168_f7c17b3d",
+        "filename": "java/com/google/gerrit/server/restapi/account/Capabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T13:35:11Z",
+      "side": 1,
+      "message": "The method signature has AuthException and there is another check call in the method that just propagates the AuthException instead of treating it here.",
+      "parentUuid": "3716d36d_557ed6ab",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 5
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bce4980e_bdf32a10",
         "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
         "patchSetId": 1
@@ -225,6 +249,30 @@
       "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5efb2e3_5a6a2338",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T13:35:11Z",
+      "side": 1,
+      "message": "There are two possibilities: Leave as is. This means you catch and re-throw because you want the specific error message.\nJust let it propagate which will make RestApiServlet use the original message (smth like WRITE_CONFIG not granted)\n\nProbably here we want the nicer message so catch and rethrow is OK, but please don\u0027t nest try blocks.",
+      "parentUuid": "d1d0fe35_3108da70",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 9
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

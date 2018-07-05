@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3db2ea72_ddf10549",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T14:26:10Z",
+      "side": 1,
+      "message": "You need to keep the reference to GetPureRevert after calling the first #get().\n\nOtherwise you set the param on a different instance than you call.",
+      "range": {
+        "startLine": 717,
+        "startChar": 4,
+        "endLine": 718,
+        "endChar": 32
+      },
+      "revId": "7ee3dcceb16c4bd96a843fc5cd612f1b4124e9c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

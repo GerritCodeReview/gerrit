@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
 import java.util.ArrayList;
@@ -34,11 +35,11 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
     super(refPattern);
   }
 
-  public List<Permission> getPermissions() {
+  public ImmutableList<Permission> getPermissions() {
     if (permissions == null) {
-      permissions = new ArrayList<>();
+      return ImmutableList.of();
     }
-    return permissions;
+    return ImmutableList.copyOf(permissions);
   }
 
   public void setPermissions(List<Permission> list) {
@@ -59,13 +60,19 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   @Nullable
   public Permission getPermission(String name, boolean create) {
-    for (Permission p : getPermissions()) {
-      if (p.getName().equalsIgnoreCase(name)) {
-        return p;
+    if (permissions != null) {
+      for (Permission p : permissions) {
+        if (p.getName().equalsIgnoreCase(name)) {
+          return p;
+        }
       }
     }
 
     if (create) {
+      if (permissions == null) {
+        permissions = new ArrayList<>();
+      }
+
       Permission p = new Permission(name);
       permissions.add(p);
       return p;
@@ -75,7 +82,10 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void addPermission(Permission permission) {
-    List<Permission> permissions = getPermissions();
+    if (permissions == null) {
+      permissions = new ArrayList<>();
+    }
+
     for (Permission p : permissions) {
       if (p.getName().equalsIgnoreCase(permission.getName())) {
         throw new IllegalArgumentException();

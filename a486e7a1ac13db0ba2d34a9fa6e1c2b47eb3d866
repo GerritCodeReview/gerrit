@@ -22,6 +22,30 @@
       "revId": "a486e7a1ac13db0ba2d34a9fa6e1c2b47eb3d866",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ec6d362_dfee4abd",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-05T06:25:31Z",
+      "side": 1,
+      "message": "The intention is not to let project owners delete changes by default (i.e. in the same way that administrators can). The delete changes permission should be explicitly added to the project owners virtual group.",
+      "parentUuid": "b0f91028_97c5d432",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 487,
+        "endChar": 36
+      },
+      "revId": "a486e7a1ac13db0ba2d34a9fa6e1c2b47eb3d866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

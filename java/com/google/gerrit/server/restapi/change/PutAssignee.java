@@ -89,7 +89,10 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       throw new UnprocessableEntityException(input.assignee + " is not active");
     }
     try {
-      rsrc.permissions().database(db).user(assignee).check(ChangePermission.READ);
+      rsrc.permissions()
+          .database(db)
+          .absentUser(assignee.getAccountId())
+          .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new AuthException("read not permitted for " + input.assignee);
     }

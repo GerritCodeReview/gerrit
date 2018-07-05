@@ -16,6 +16,24 @@
       "revId": "fdf2ca2f243d00b4abda97e4c592218125e8ea7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f75cbc_102d3756",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-05T08:17:22Z",
+      "side": 1,
+      "message": "Hmm, OK.\n\nActually I\u0027m not sure why these tests need to clone the repo and create the change by git push.\n\nWouldn\u0027t it be enough to use the \"create change\" API?  That would also make it more explicitly clear which user is supposed to be the owner of the change and we wouldn\u0027t have this misunderstanding.",
+      "parentUuid": "24fd757e_f2abf344",
+      "revId": "fdf2ca2f243d00b4abda97e4c592218125e8ea7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

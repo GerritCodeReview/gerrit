@@ -36,9 +36,9 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   public List<Permission> getPermissions() {
     if (permissions == null) {
-      permissions = new ArrayList<>();
+      return new ArrayList<>();
     }
-    return permissions;
+    return new ArrayList<>(permissions);
   }
 
   public void setPermissions(List<Permission> list) {
@@ -59,13 +59,19 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   @Nullable
   public Permission getPermission(String name, boolean create) {
-    for (Permission p : getPermissions()) {
-      if (p.getName().equalsIgnoreCase(name)) {
-        return p;
+    if (permissions != null) {
+      for (Permission p : permissions) {
+        if (p.getName().equalsIgnoreCase(name)) {
+          return p;
+        }
       }
     }
 
     if (create) {
+      if (permissions == null) {
+        permissions = new ArrayList<>();
+      }
+
       Permission p = new Permission(name);
       permissions.add(p);
       return p;
@@ -75,7 +81,10 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void addPermission(Permission permission) {
-    List<Permission> permissions = getPermissions();
+    if (permissions == null) {
+      permissions = new ArrayList<>();
+    }
+
     for (Permission p : permissions) {
       if (p.getName().equalsIgnoreCase(permission.getName())) {
         throw new IllegalArgumentException();

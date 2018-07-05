@@ -115,7 +115,7 @@ public class SetAccessUtil {
           }
           p.add(r);
         }
-        accessSection.getPermissions().add(p);
+        accessSection.addPermission(p);
       }
       sections.add(accessSection);
     }

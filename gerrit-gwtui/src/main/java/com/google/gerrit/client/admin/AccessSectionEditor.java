@@ -169,7 +169,7 @@ public class AccessSectionEditor extends Composite
 
   @Override
   public void setValue(AccessSection value) {
-    Collections.sort(value.getPermissions());
+    sortPermissions(value);
 
     this.value = value;
     this.readOnly = !editing || !(projectAccess.isOwnerOf(value) || projectAccess.canUpload());
@@ -202,6 +202,12 @@ public class AccessSectionEditor extends Composite
     } else {
       enableEditing();
     }
+  }
+
+  private void sortPermissions(AccessSection accessSection) {
+    List<Permission> permissionList = new ArrayList<>(accessSection.getPermissions());
+    Collections.sort(permissionList);
+    accessSection.setPermissions(permissionList);
   }
 
   void setEditing(boolean editing) {

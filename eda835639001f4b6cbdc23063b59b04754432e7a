@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9c15f58_02aa0c25",
+        "filename": "java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T12:58:58Z",
+      "side": 1,
+      "message": "An AuthException should not be logged, so this needs to go in its own catch block",
+      "range": {
+        "startLine": 275,
+        "startChar": 27,
+        "endLine": 275,
+        "endChar": 40
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0fd1869_a1c562ec",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T12:58:58Z",
+      "side": 1,
+      "message": "I think the usages in ChangeJson should continue to use #test. #test is for returning (tentative) information to the user, check for checking access before granting access to a resource.\n\nHere we return info to the user.\n\n(here and below)",
+      "range": {
+        "startLine": 911,
+        "startChar": 5,
+        "endLine": 917,
+        "endChar": 11
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8252abaa_ebd5dfd5",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2541,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T12:58:58Z",
+      "side": 1,
+      "message": "Nested catch blocks make the code harder to read. Could you factor out a static method in this class that has a try catch and returns a boolean?\n\n(We use that pattern in multiple other places)",
+      "range": {
+        "startLine": 2532,
+        "startChar": 7,
+        "endLine": 2541,
+        "endChar": 9
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833b99d2_85a815fe",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T12:58:58Z",
+      "side": 1,
+      "message": "nit: I think in most places we try to have the AuthE be the first catch block and the \u0027real\u0027 exceptions be the latter. Would be nice to stay consistent.",
+      "range": {
+        "startLine": 353,
+        "startChar": 4,
+        "endLine": 353,
+        "endChar": 29
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80b6dec7_d07d6abf",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T12:58:58Z",
+      "side": 1,
+      "message": "The only caller is ChangeJson, so I think this should stay as \u0027test\u0027",
+      "range": {
+        "startLine": 70,
+        "startChar": 14,
+        "endLine": 70,
+        "endChar": 33
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad6065f_185e6f10",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T12:58:58Z",
+      "side": 1,
+      "message": "nit:remove the blank",
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00e0e980_e72eefe7",
+        "filename": "java/com/google/gerrit/server/restapi/account/Capabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T12:58:58Z",
+      "side": 1,
+      "message": "You can propagate the AuthException and spare the catch block",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 5
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bce4980e_bdf32a10",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T12:58:58Z",
+      "side": 1,
+      "message": "Propagate\n\n(here and below in the other files)",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 9
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

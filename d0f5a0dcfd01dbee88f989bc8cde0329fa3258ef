@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86c1e878_57649390",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-05T13:17:09Z",
+      "side": 1,
+      "message": "This needs to be a Provider so that it doesn\u0027t leak fields between calls since it is not a Singleton.",
+      "range": {
+        "startLine": 156,
+        "startChar": 16,
+        "endLine": 156,
+        "endChar": 29
+      },
+      "revId": "d0f5a0dcfd01dbee88f989bc8cde0329fa3258ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

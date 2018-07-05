@@ -479,6 +479,8 @@ public class ChangeIT extends AbstractDaemonTest {
           pushFactory.create(db, owner.getIdent(), testRepo).to("refs/for/master");
       String changeId = changeResult.getChangeId();
 
+      assertThat(gApi.changes().id(changeId).info().owner._accountId).isEqualTo(owner.id.get());
+
       setApiUser(deleteAs);
       gApi.changes().id(changeId).delete();
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0f91028_97c5d432",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2018-07-05T05:50:26Z",
+      "side": 1,
+      "message": "according to this:\n\n\u003e changes to be deleted by Project Owners on a per-project basis\n\nProject Owners should be able to delete change without granting them DELETE_CHANGES permission ;)\nAfter check in RefControl it seems that you need to update commit description to reflect that ProjectOwners can do that provided that they were granted DELETE_CHANGES permission IOW project ownership seems to be neglectable as it implemented now...",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 487,
+        "endChar": 36
+      },
+      "revId": "a486e7a1ac13db0ba2d34a9fa6e1c2b47eb3d866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

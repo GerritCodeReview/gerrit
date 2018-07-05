@@ -47,4 +47,16 @@ public class DiffInfoSubject extends Subject<DiffInfoSubject, DiffInfo> {
     DiffInfo diffInfo = actual();
     return Truth.assertThat(diffInfo.changeType).named("changeType");
   }
+
+  public FileMetaSubject metaA() {
+    isNotNull();
+    DiffInfo diffInfo = actual();
+    return FileMetaSubject.assertThat(diffInfo.metaA).named("metaA");
+  }
+
+  public FileMetaSubject metaB() {
+    isNotNull();
+    DiffInfo diffInfo = actual();
+    return FileMetaSubject.assertThat(diffInfo.metaB).named("metaB");
+  }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24fd757e_f2abf344",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-05T08:13:23Z",
+      "side": 1,
+      "message": "Having this check is a good idea, but it only passes because all callers provide the user that has cloned the testRepo as \u0027owner\u0027.\n\nE.g. if you remove \u0027@TestProjectInput(cloneAs \u003d \"user\")\u0027 from \u0027deleteChangeAsUserWithDeleteOwnChangesPermissionForGroup\u0027 and \u0027deleteChangeAsUserWithDeleteOwnChangesPermissionForOwners\u0027 then this check fails for these tests. Although these tests call \u0027deleteChangeAsUser(user, user)\u0027 the change is created with owner \u003d admin.",
+      "revId": "fdf2ca2f243d00b4abda97e4c592218125e8ea7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

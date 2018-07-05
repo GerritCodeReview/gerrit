@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ddb32122_99ad713a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-05T07:43:45Z",
+      "side": 1,
+      "message": "Yes, the destination branch.  I\u0027ll update the commit message to clarify this.  Also in the next paragraph.",
+      "parentUuid": "957d60a7_531e5066",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "21cbf25f795826baebb6c2c25eba898121a9fe4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c8785aba_3e985d65",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-07-05T07:37:45Z",
       "side": 1,
       "message": "Do this work as intended?\n\nI believe using \u0027pushFactory.create(db, owner.getIdent(), repo)\u0027 means:\n\n- owner.getIdent() is used as author and committer\n- but the user that has cloned \u0027repo\u0027 becomes the change owner\n\nThis means that \u0027deleteChangeAsUser(testRepo, owner, deleteAs)\u0027 would always result in changes that are owned by the admin user (as this user cloned the \u0027testRepo\u0027), even if as \u0027owner\u0027 another user is given.",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 515,
+        "endChar": 49
+      },
+      "revId": "21cbf25f795826baebb6c2c25eba898121a9fe4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6066fb2f_019d572b",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-05T07:43:45Z",
+      "side": 1,
+      "message": "If it\u0027s not working as intended I would expect some of the tests to be failing, but I will look into this.",
+      "parentUuid": "c8785aba_3e985d65",
       "range": {
         "startLine": 507,
         "startChar": 4,

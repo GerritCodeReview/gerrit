@@ -127,7 +127,7 @@ public class AccessSectionTest {
   }
 
   @Test
-  public void cannotAddPermissionByModifyingList() {
+  public void cannotAddPermissionByModifyingListThatWasProvidedToAccessSection() {
     Permission abandonPermission = new Permission(Permission.ABANDON);
     Permission rebasePermission = new Permission(Permission.REBASE);
 
@@ -139,6 +139,21 @@ public class AccessSectionTest {
 
     Permission submitPermission = new Permission(Permission.SUBMIT);
     permissions.add(submitPermission);
+    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
+  }
+
+  @Test
+  public void cannotAddPermissionByModifyingListThatWasRetrievedFromAccessSection() {
+    Permission submitPermission = new Permission(Permission.SUBMIT);
+    accessSection.getPermissions().add(submitPermission);
+    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
+
+    List<Permission> permissions = new ArrayList<>();
+    permissions.add(new Permission(Permission.ABANDON));
+    permissions.add(new Permission(Permission.REBASE));
+    accessSection.setPermissions(permissions);
+    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
+    accessSection.getPermissions().add(submitPermission);
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
   }
 

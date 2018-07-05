@@ -293,12 +293,10 @@ public class CommitValidators {
       if (c.getFullMessage().contains(CHANGE_ID_PREFIX)) {
         String lastLine = Iterables.getLast(Splitter.on('\n').split(c.getFullMessage()), "");
         if (!lastLine.contains(CHANGE_ID_PREFIX)) {
-          sb.append('\n');
-          sb.append('\n');
-          sb.append("Hint: A potential ");
-          sb.append(FooterConstants.CHANGE_ID.getName());
-          sb.append(" was found, but it was not in the ");
-          sb.append("footer (last paragraph) of the commit message.");
+          sb.append("\n\n")
+              .append("Hint: run\n")
+              .append("  git commit --amend\n")
+              .append("and move 'Change-Id: Ixxx..' to the bottom on a separate line\n");
         }
       }
       sb.append('\n');

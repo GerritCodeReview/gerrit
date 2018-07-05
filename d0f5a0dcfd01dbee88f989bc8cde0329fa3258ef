@@ -22,6 +22,30 @@
       "revId": "d0f5a0dcfd01dbee88f989bc8cde0329fa3258ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88845d64_d01199f5",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-05T14:24:43Z",
+      "side": 1,
+      "message": "Ah. Right.",
+      "parentUuid": "86c1e878_57649390",
+      "range": {
+        "startLine": 156,
+        "startChar": 16,
+        "endLine": 156,
+        "endChar": 29
+      },
+      "revId": "d0f5a0dcfd01dbee88f989bc8cde0329fa3258ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,7 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -49,6 +50,7 @@ import java.util.List;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
+@UsedAt(UsedAt.Project.PLUGINS_ALL)
 public class EmailArguments {
   final GitRepositoryManager server;
   final ProjectCache projectCache;

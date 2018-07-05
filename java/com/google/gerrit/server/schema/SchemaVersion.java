@@ -19,6 +19,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.UsedAt;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
@@ -49,6 +50,7 @@ public abstract class SchemaVersion {
     this.versionNbr = guessVersion(getClass());
   }
 
+  @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
   public static int guessVersion(Class<?> c) {
     String n = c.getName();
     n = n.substring(n.lastIndexOf('_') + 1);

@@ -21,6 +21,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.inject.Inject;
@@ -54,6 +55,7 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 public class AutoMerger {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  @UsedAt(UsedAt.Project.GOOGLE)
   public static boolean cacheAutomerge(Config cfg) {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
   }

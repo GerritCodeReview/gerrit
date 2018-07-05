@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
@@ -119,6 +120,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     return Strings.isNullOrEmpty(newPassword) ? Response.<String>none() : Response.ok(newPassword);
   }
 
+  @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
   public static String generate() {
     byte[] rand = new byte[LEN];
     rng.nextBytes(rand);

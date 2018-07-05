@@ -30,13 +30,15 @@ import org.kohsuke.args4j.Option;
 public class GetPureRevert implements RestReadView<ChangeResource> {
 
   private final PureRevert pureRevert;
+  @Nullable private String claimedOriginal;
 
   @Option(
       name = "--claimed-original",
       aliases = {"-o"},
       usage = "SHA1 (40 digit hex) of the original commit")
-  @Nullable
-  private String claimedOriginal;
+  public void setClaimedOriginal(String claimedOriginal) {
+    this.claimedOriginal = claimedOriginal;
+  }
 
   @Inject
   GetPureRevert(PureRevert pureRevert) {

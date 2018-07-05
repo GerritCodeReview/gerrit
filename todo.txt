@@ -1,0 +1,30 @@
+
+* drop /a/ check.access GET request
+
+* split off further classes from server/
+
+* project creation in ADT
+
+* colored error messages in git remote
+
+* refs/review/
+
+* reftable for go-git
+
+* why "gerrit changes" advocacy doc.
+
+* zoekt top-N gh repos.
+
+* zoekt ranking display (csv?)
+
+* test deadlock?
+
+* flogger for plugin.
+
+* load test for All-Users local use?
+
+* UI: limit # of conflict changes to show.
+
+* 
+
+

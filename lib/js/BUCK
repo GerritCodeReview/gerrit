@@ -17,8 +17,8 @@ include_defs('//lib/js.defs')
 
 npm_binary(
   name = 'bower',
-  version = '1.7.9',
-  sha1 = 'b7296c2393e0d75edaa6ca39648132dd255812b0',
+  version = '1.8.0',
+  sha1 = '55dbebef0ad9155382d9e9d3e497c1372345b44a',
 )
 
 npm_binary(

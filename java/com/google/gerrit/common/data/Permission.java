@@ -14,6 +14,7 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -155,13 +156,15 @@ public class Permission implements Comparable<Permission> {
     exclusiveGroup = newExclusiveGroup;
   }
 
-  public List<PermissionRule> getRules() {
-    initRules();
-    return rules;
+  public ImmutableList<PermissionRule> getRules() {
+    if (rules == null) {
+      return ImmutableList.of();
+    }
+    return ImmutableList.copyOf(rules);
   }
 
   public void setRules(List<PermissionRule> list) {
-    rules = list;
+    rules = new ArrayList<>(list);
   }
 
   public void add(PermissionRule rule) {
@@ -178,6 +181,12 @@ public class Permission implements Comparable<Permission> {
   public void removeRule(GroupReference group) {
     if (rules != null) {
       rules.removeIf(permissionRule -> sameGroup(permissionRule, group));
+    }
+  }
+
+  public void clearRules() {
+    if (rules != null) {
+      rules.clear();
     }
   }
 

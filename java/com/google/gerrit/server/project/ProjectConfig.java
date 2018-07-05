@@ -737,7 +737,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private List<PermissionRule> loadPermissionRules(
+  private ImmutableList<PermissionRule> loadPermissionRules(
       Config rc,
       String section,
       String subsection,

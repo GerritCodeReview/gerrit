@@ -46,6 +46,30 @@
       "revId": "a486e7a1ac13db0ba2d34a9fa6e1c2b47eb3d866",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d4af46e_1b578a6c",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-05T06:29:28Z",
+      "side": 1,
+      "message": "Or rather, to a group that is set as a project owner.",
+      "parentUuid": "0ec6d362_dfee4abd",
+      "range": {
+        "startLine": 485,
+        "startChar": 4,
+        "endLine": 487,
+        "endChar": 36
+      },
+      "revId": "a486e7a1ac13db0ba2d34a9fa6e1c2b47eb3d866",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

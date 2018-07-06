@@ -137,7 +137,10 @@ public class DiffInfo extends JavaScriptObject {
 
   private static void append(StringBuilder s, JsArrayString lines) {
     for (int i = 0; i < lines.length(); i++) {
-      s.append(lines.get(i)).append('\n');
+      if (s.length() > 0) {
+        s.append('\n');
+      }
+      s.append(lines.get(i));
     }
   }
 

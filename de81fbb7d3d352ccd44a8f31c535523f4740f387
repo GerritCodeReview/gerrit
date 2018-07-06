@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e092d862_9b40bc43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:17:06Z",
+      "side": 1,
+      "message": "You seem to be implying that users of textual \"git diff\" are not interested in whether files end with a newline or not, but \"git diff\" does in fact identify when one side or the other is missing a newline. Maybe not the most obvious behavior in the world, but it\u0027s there:\n\n $ git log --reverse -p\n commit 14e0ff4ebf2f388dd50a72e99c971b5be33aded8\n Author: Dave Borowitz \u003cdborowitz@google.com\u003e\n Date:   Fri Jul 6 14:31:42 2018 -0700\n \n     Add file with no trailing newline\n \n diff --git a/foo b/foo\n new file mode 100644\n index 0000000..a907ec3\n --- /dev/null\n +++ b/foo\n @@ -0,0 +1,2 @@\n +foo\n +bar\n \\ No newline at end of file\n \n commit 28fce9a752c88cb984122512cad632e4c732ee40\n Author: Dave Borowitz \u003cdborowitz@google.com\u003e\n Date:   Fri Jul 6 14:31:51 2018 -0700\n \n     Add trailing newline\n \n diff --git a/foo b/foo\n index a907ec3..3bd1f0e 100644\n --- a/foo\n +++ b/foo\n @@ -1,2 +1,2 @@\n  foo\n -bar\n \\ No newline at end of file\n +bar\n \n commit 138b4c6ec027c734c511db92493fc4ef61a98ae0 (HEAD -\u003e master)\n Author: Dave Borowitz \u003cdborowitz@google.com\u003e\n Date:   Fri Jul 6 14:31:59 2018 -0700\n \n     Remove trailing newline\n \n diff --git a/foo b/foo\n index 3bd1f0e..a907ec3 100644\n --- a/foo\n +++ b/foo\n @@ -1,2 +1,2 @@\n  foo\n -bar\n +bar\n \\ No newline at end of file",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 69
+      },
+      "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06ca0ece_5027c933",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:17:06Z",
+      "side": 1,
+      "message": "Can we at least document this discrepancy in the REST API docs?",
+      "range": {
+        "startLine": 97,
+        "startChar": 31,
+        "endLine": 100,
+        "endChar": 32
+      },
+      "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48081ce3_613479b8",
+        "filename": "java/com/google/gerrit/extensions/common/testing/FileMetaSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:17:06Z",
+      "side": 1,
+      "message": "On its own the plural \"lines\" sounds to me like this would would return a subject over the list of lines, rather than over the number of lines. How about \"lineCount\"? Or, is there even a use case for this other than lines().isEqualTo(n)? If not, then we could skip the IntegerSubject and just have hasLineCount(n).\n\nAnother possibility: \"totalLines\", which I think pairs well with \"linesInserted/linesDeleted\"",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 29
+      },
+      "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "265fd131_ef25009a",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:17:06Z",
+      "side": 1,
+      "message": "This phrase was a little hard to parse on first read. I would suggest \"differences in newline at end\".\n\nOptional: at that point, the method name is quite verbose. How about something like \"correctForDifferencesInNewlineAtEnd\"?",
+      "range": {
+        "startLine": 177,
+        "startChar": 25,
+        "endLine": 177,
+        "endChar": 48
+      },
+      "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46a85965_a4a6236f",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:17:06Z",
+      "side": 1,
+      "message": "Nit: Since edits is an ArrayList this can be done in O(1) time instead of O(n).",
+      "range": {
+        "startLine": 289,
+        "startChar": 30,
+        "endLine": 289,
+        "endChar": 63
+      },
+      "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b64b693_d2c63c9a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:17:06Z",
+      "side": 1,
+      "message": "I\u0027m not going to insist you fix this now, but it\u0027s a little unfortunate that these have to be phrased as slow acceptance tests. Most of the logic is in PatchScriptBuilder which is mostly self-contained, if we could figure out a way to stub out PatchListCache reasonably in tests.",
+      "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d39ce156_df21b098",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:17:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t there be an extra blank line? In other words, could this be .containsExactly(\"Line 1\", \"Line 2\", \"Line 3\", \"\")?",
+      "range": {
+        "startLine": 415,
+        "startChar": 0,
+        "endLine": 415,
+        "endChar": 52
+      },
+      "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

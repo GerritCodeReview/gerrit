@@ -39,6 +39,11 @@
         type: String,
         computed: '_computeChangeURL(change)',
       },
+      needsReview: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: '_computeItemNeedsReview(change.reviewed)',
+      },
       statuses: {
         type: Array,
         computed: 'changeStatuses(change)',
@@ -61,6 +66,10 @@
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    _computeItemNeedsReview(reviewed) {
+      return !reviewed;
+    },
 
     _computeChangeURL(change) {
       return Gerrit.Nav.getUrlForChange(change);

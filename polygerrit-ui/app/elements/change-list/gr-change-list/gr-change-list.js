@@ -113,7 +113,8 @@
       'n ]': '_handleNKey',
       'o': '_handleOKey',
       'p [': '_handlePKey',
-      'shift+r': '_handleRKey',
+      'r': '_handleRKey',
+      'shift+r': '_handleShiftRKey',
       's': '_handleSKey',
     },
 
@@ -281,6 +282,27 @@
     },
 
     _handleRKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
+
+      e.preventDefault();
+      this._toggleReviewedForIndex(this.selectedIndex);
+    },
+
+    _toggleReviewedForIndex(index) {
+      const changeEls = this._getListItems();
+      if (index >= changeEls.length || !changeEls[index]) {
+        return;
+      }
+
+      const changeEl = changeEls[index];
+      const change = changeEl.change;
+      const newVal = !change.reviewed;
+      changeEl.set('change.reviewed', newVal);
+      this.$.restAPI.saveChangeReviewed(change._number, newVal);
+    },
+
+    _handleShiftRKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();

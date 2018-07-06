@@ -2021,6 +2021,14 @@
       });
     },
 
+    saveChangeReviewed(changeNum, reviewed) {
+      return this._getChangeURLAndSend({
+        changeNum,
+        method: 'PUT',
+        endpoint: reviewed ? '/reviewed' : '/unreviewed',
+      });
+    },
+
     /**
      * Send an XHR.
      * @param {Defs.SendRequest} req

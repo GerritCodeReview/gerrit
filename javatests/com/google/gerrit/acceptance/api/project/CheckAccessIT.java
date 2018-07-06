@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -95,6 +96,19 @@ public class CheckAccessIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("input requires 'account'");
     gApi.projects().name(normalProject.get()).checkAccess(new AccessCheckInput());
+  }
+
+  @Test
+  public void anonymousDisallowed() throws Exception {
+    AccessCheckInput in = new AccessCheckInput();
+    in.account = user.email;
+    in.permission = "read";
+    in.ref = "refs/heads/master";
+
+    exception.expect(AuthException.class);
+    exception.expectMessage("must be authenticated");
+    setApiUserAnonymous();
+    gApi.projects().name(normalProject.get()).checkAccess(in);
   }
 
   @Test

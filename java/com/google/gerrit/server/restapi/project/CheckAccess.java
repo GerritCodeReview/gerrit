@@ -64,6 +64,12 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
   public AccessCheckInfo apply(ProjectResource rsrc, AccessCheckInput input)
       throws OrmException, PermissionBackendException, RestApiException, IOException,
           ConfigInvalidException {
+    if (!rsrc.getUser().isIdentifiedUser()) {
+      // This generates 403. It would be better to return 401, but RestApiServlet doesn't
+      // support that.
+      throw new AuthException("must be authenticated");
+    }
+
     permissionBackend.user(rsrc.getUser()).check(GlobalPermission.VIEW_ACCESS);
 
     rsrc.getProjectState().checkStatePermitsRead();

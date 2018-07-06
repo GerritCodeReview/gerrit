@@ -48,7 +48,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-import org.h2.jdbc.JdbcSQLException;
 
 /**
  * Hybrid in-memory and database backed cache built on H2.
@@ -341,8 +340,10 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
               b.put(keyType.get(r, 1));
             }
           }
-        } catch (JdbcSQLException e) {
-          if (e.getCause() instanceof InvalidClassException) {
+        } catch (Exception e) {
+          if (Throwables.getCausalChain(e)
+              .stream()
+              .anyMatch(InvalidClassException.class::isInstance)) {
             // If deserialization failed using default Java serialization, this means we are using
             // the old serialVersionUID-based invalidation strategy. In that case, authors are
             // most likely bumping serialVersionUID rather than using the new versioning in the

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2018 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-change-reviewed</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-change-reviewed.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-change-reviewed></gr-change-reviewed>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-change-reviewed tests', () => {
+    let element;
+
+    setup(() => {
+      stub('gr-rest-api-interface', {
+        saveChangeReviewed() { return Promise.resolve({ok: true}); },
+      });
+      element = fixture('basic');
+      element.change = {
+        _number: 2,
+        reviewed: true,
+      };
+    });
+
+    test('reviewed visibility states', () => {
+      element.set('change.reviewed', false);
+      let icon = element.$$('iron-icon');
+      assert.isTrue(icon.classList.contains('active'));
+      assert.equal(icon.icon, 'gr-icons:unreviewed');
+
+      element.set('change.reviewed', true);
+      icon = element.$$('iron-icon');
+      assert.isFalse(icon.classList.contains('active'));
+      assert.equal(icon.icon, 'gr-icons:reviewed');
+    });
+
+    test('marking reviewed', done => {
+      element.set('change.reviewed', false);
+      MockInteractions.tap(element.$$('button'));
+
+      element._xhrPromise.then(req => {
+        assert.equal(element.change.reviewed, true);
+        done();
+      });
+    });
+
+    test('unmarking reviewed', done => {
+      element.set('change.reviewed', true);
+      MockInteractions.tap(element.$$('button'));
+
+      element._xhrPromise.then(req => {
+        assert.equal(element.change.reviewed, false);
+        done();
+      });
+    });
+  });
+</script>

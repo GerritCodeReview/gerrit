@@ -16,14 +16,13 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.util.TreeFormatter.TreeNode;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 /** Node of a Project in a tree formatted by {@link ListProjects}. */
-public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
+public class ProjectNode implements Comparable<ProjectNode> {
   public interface Factory {
     ProjectNode create(Project project, boolean isVisible);
   }
@@ -61,17 +60,14 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
     return project;
   }
 
-  @Override
   public String getDisplayName() {
     return project.getName();
   }
 
-  @Override
   public boolean isVisible() {
     return isVisible;
   }
 
-  @Override
   public SortedSet<? extends ProjectNode> getChildren() {
     return children;
   }

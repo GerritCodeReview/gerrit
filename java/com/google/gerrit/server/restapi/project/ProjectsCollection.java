@@ -30,7 +30,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -82,7 +81,7 @@ public class ProjectsCollection
     if (hasQuery) {
       return queryProjects.get();
     }
-    return list.get().setFormat(OutputFormat.JSON);
+    return list.get();
   }
 
   @Override

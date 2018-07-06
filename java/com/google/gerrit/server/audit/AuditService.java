@@ -22,12 +22,13 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.audit.group.GroupAuditListener;
 import com.google.gerrit.server.audit.group.GroupMemberAuditEvent;
 import com.google.gerrit.server.audit.group.GroupSubgroupAuditEvent;
+import com.google.gerrit.server.group.GroupAuditService;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.sql.Timestamp;
 
 @Singleton
-public class AuditService {
+public class AuditService implements GroupAuditService {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DynamicSet<AuditListener> auditListeners;
@@ -47,6 +48,7 @@ public class AuditService {
     }
   }
 
+  @Override
   public void dispatchAddMembers(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
@@ -63,6 +65,7 @@ public class AuditService {
     }
   }
 
+  @Override
   public void dispatchDeleteMembers(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
@@ -79,6 +82,7 @@ public class AuditService {
     }
   }
 
+  @Override
   public void dispatchAddSubgroups(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,
@@ -95,6 +99,7 @@ public class AuditService {
     }
   }
 
+  @Override
   public void dispatchDeleteSubgroups(
       Account.Id actor,
       AccountGroup.UUID updatedGroup,

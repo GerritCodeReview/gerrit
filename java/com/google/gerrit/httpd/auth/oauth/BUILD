@@ -10,6 +10,7 @@ java_library(
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/audit",
         "//lib:gson",
         "//lib:guava",
         "//lib:gwtorm",

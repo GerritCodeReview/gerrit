@@ -39,6 +39,11 @@
         type: String,
         computed: '_computeChangeURL(change)',
       },
+      needsReview: {
+        type: Boolean,
+        reflectToAttribute: true,
+        computed: '_computeItemNeedsReview(change.reviewed)',
+      },
       statuses: {
         type: Array,
         computed: 'changeStatuses(change)',
@@ -61,6 +66,10 @@
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    _computeItemNeedsReview(reviewed) {
+      return !reviewed;
+    },
 
     _computeChangeURL(change) {
       return Gerrit.Nav.getUrlForChange(change);
@@ -187,6 +196,15 @@
       } else {
         return 'XL';
       }
+    },
+
+    toggleReviewed() {
+      const newVal = !this.change.reviewed;
+      this.set('change.reviewed', newVal);
+      this.dispatchEvent(new CustomEvent('toggle-reviewed', {
+        bubbles: true,
+        detail: {change: this.change, reviewed: newVal},
+      }));
     },
   });
 })();

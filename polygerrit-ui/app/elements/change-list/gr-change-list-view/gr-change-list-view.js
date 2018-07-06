@@ -268,5 +268,10 @@
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
     },
+
+    _handleToggleReviewed(e) {
+      this.$.restAPI.saveChangeReviewed(e.detail.change._number,
+          e.detail.reviewed);
+    },
   });
 })();

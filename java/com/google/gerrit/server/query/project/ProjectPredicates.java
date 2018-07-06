@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.project;
 
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.index.project.ProjectPredicate;
@@ -32,6 +33,10 @@ public class ProjectPredicates {
 
   public static Predicate<ProjectData> description(String description) {
     return new ProjectPredicate(ProjectField.DESCRIPTION, description);
+  }
+
+  public static Predicate<ProjectData> state(ProjectState state) {
+    return new ProjectPredicate(ProjectField.STATE, state.name());
   }
 
   private ProjectPredicates() {}

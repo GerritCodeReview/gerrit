@@ -45,6 +45,9 @@ public class ProjectField {
   public static final FieldDef<ProjectData, Iterable<String>> NAME_PART =
       prefix("name_part").buildRepeatable(p -> SchemaUtil.getNameParts(p.getProject().getName()));
 
+  public static final FieldDef<ProjectData, String> STATE =
+      exact("state").stored().build(p -> p.getProject().getState().name());
+
   public static final FieldDef<ProjectData, Iterable<String>> ANCESTOR_NAME =
       exact("ancestor_name").buildRepeatable(p -> p.getParentNames());
 

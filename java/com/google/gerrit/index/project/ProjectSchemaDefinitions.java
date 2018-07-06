@@ -30,7 +30,7 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
           ProjectField.NAME_PART,
           ProjectField.ANCESTOR_NAME);
 
-  static final Schema<ProjectData> V2 = schema(V1, ProjectField.REF_STATE);
+  static final Schema<ProjectData> V2 = schema(V1, ProjectField.STATE, ProjectField.REF_STATE);
 
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 

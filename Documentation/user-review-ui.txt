@@ -258,7 +258,9 @@ Deletes the change.
 For open or abandoned changes, the `Delete Change` button will be available
 and if the user is the change owner and is granted the
 link:access-control.html#category_delete_own_changes[Delete Own Changes]
-permission or if they are an administrator.
+permission, if they are granted the
+link:access-control.html#category_delete_changes[Delete Changes] permission,
+or if they are an administrator.
 
 ** [[plugin-actions]]Further actions may be available if plugins are installed.
 

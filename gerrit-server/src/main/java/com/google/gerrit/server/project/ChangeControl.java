@@ -156,8 +156,7 @@ class ChangeControl {
     switch (status) {
       case NEW:
       case ABANDONED:
-        return (isOwner() && getRefControl().canDeleteOwnChanges(isOwner()))
-            || getProjectControl().isAdmin();
+        return (getRefControl().canDeleteChanges(isOwner()) || getProjectControl().isAdmin());
       case MERGED:
       default:
         return false;

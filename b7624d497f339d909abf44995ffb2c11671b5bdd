@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5126eecb_96ab8d61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:21:49Z",
+      "side": 1,
+      "message": "You\u0027ve only changed LegacyChangeNoteWrite, which is going away soon anyway. What about ChangeNoteUtil#newIdent? It\u0027s fine if it happens in a later change, but if so, this commit message is too broad.\n\nI\u0027d also prefer if there were some test coverage so that we could clearly see the effect this has.",
+      "revId": "b7624d497f339d909abf44995ffb2c11671b5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d647b3f_5d5b82c6",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:21:49Z",
+      "side": 1,
+      "message": "Nit: I\u0027ve never been a fan of the \u0027\"\" + \u003cnon-String\u003e\u0027 idiom. I\u0027d prefer either Integer.toString(authorId.get()) or just authorId.toString().",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 27
+      },
+      "revId": "b7624d497f339d909abf44995ffb2c11671b5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aab8aec7_3b627865",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:21:49Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "revId": "b7624d497f339d909abf44995ffb2c11671b5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

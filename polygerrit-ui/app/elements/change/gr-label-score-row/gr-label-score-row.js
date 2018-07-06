@@ -49,12 +49,12 @@
     },
 
     get selectedItem() {
-      if (!this._ironSelector) { return; }
+      if (!this._ironSelector) { return undefined; }
       return this._ironSelector.selectedItem;
     },
 
     get selectedValue() {
-      if (!this._ironSelector) { return; }
+      if (!this._ironSelector) { return undefined; }
       return this._ironSelector.selected;
     },
 

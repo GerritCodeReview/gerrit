@@ -17,7 +17,7 @@
 (function() {
   'use strict';
 
-  const NUMBER_FIXED_COLUMNS = 3;
+  const NUMBER_FIXED_COLUMNS = 4;
 
   const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
 
@@ -83,6 +83,10 @@
       },
       showNumber: Boolean, // No default value to prevent flickering.
       showStar: {
+        type: Boolean,
+        value: false,
+      },
+      showMarkReviewed: {
         type: Boolean,
         value: false,
       },
@@ -152,6 +156,7 @@
             preferences.legacycid_in_change_table);
         this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
             preferences.change_table : this.columnNames;
+        this.showMarkReviewed = preferences.mark_reviewed_in_change_table && this.showReviewedState;
       } else {
         // Not logged in.
         this.showNumber = false;

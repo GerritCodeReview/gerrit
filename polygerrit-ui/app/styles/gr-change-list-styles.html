@@ -107,8 +107,15 @@ limitations under the License.
       gr-change-star {
         vertical-align: middle;
       }
+      .reviewed {
+        padding: 0;
+      }
+      gr-change-reviewed {
+        vertical-align: middle;
+      }
       .branch,
       .star,
+      .reviewed,
       .label,
       .number,
       .owner,
@@ -122,10 +129,16 @@ limitations under the License.
       .star {
         vertical-align: middle;
       }
+      .reviewed {
+        vertical-align: middle;
+      }
       .leftPadding {
         width: var(--default-horizontal-margin);
       }
       .star {
+        width: 30px;
+      }
+      .reviewed {
         width: 30px;
       }
       .label {
@@ -193,6 +206,10 @@ limitations under the License.
         .assignee,
         .groupHeader .star,
         .noChanges .star {
+          display: none;
+        }
+        .groupHeader .reviewed,
+        .noChanges .reviewed {
           display: none;
         }
         .groupHeader .cell,

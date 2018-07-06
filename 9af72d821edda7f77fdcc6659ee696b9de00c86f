@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "329b4e7b_516e3f22",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1068879
+      },
+      "writtenOn": "2018-07-06T15:08:43Z",
+      "side": 1,
+      "message": "This being my first time working with Polymer, the data bindings were a bit tricky to work with. If there\u0027s a better way to keep this property consistent with change.reviewed please let me know.",
+      "revId": "9af72d821edda7f77fdcc6659ee696b9de00c86f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

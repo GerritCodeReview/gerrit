@@ -17,7 +17,7 @@
 (function() {
   'use strict';
 
-  const NUMBER_FIXED_COLUMNS = 3;
+  const NUMBER_FIXED_COLUMNS = 4;
 
   const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
 

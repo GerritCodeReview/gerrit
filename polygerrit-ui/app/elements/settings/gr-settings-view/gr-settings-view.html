@@ -217,6 +217,16 @@ limitations under the License.
             </span>
           </section>
           <section>
+            <span class="title">Show "Mark as Reviewed" button in change list</span>
+            <span class="value">
+              <input
+                  id="showMarkReviewedButton"
+                  type="checkbox"
+                  checked$="[[_localPrefs.mark_reviewed_in_change_table]]"
+                  on-change="_handleShowMarkReviewedButtonChanged">
+            </span>
+          </section>
+          <section>
             <span class="title">Publish comments on push</span>
             <span class="value">
               <input

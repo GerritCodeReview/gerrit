@@ -52,6 +52,10 @@
         type: Boolean,
         value: false,
       },
+      showMarkReviewed: {
+        type: Boolean,
+        value: false,
+      },
       showNumber: Boolean,
       _changeSize: {
         type: String,
@@ -196,15 +200,6 @@
       } else {
         return 'XL';
       }
-    },
-
-    toggleReviewed() {
-      const newVal = !this.change.reviewed;
-      this.set('change.reviewed', newVal);
-      this.dispatchEvent(new CustomEvent('toggle-reviewed', {
-        bubbles: true,
-        detail: {change: this.change, reviewed: newVal},
-      }));
     },
   });
 })();

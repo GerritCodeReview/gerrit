@@ -45,27 +45,61 @@ java_library(
     ],
 )
 
+ELASTICSEARCH_DEPS = [
+    ":elasticsearch",
+    ":elasticsearch_test_utils",
+    "//gerrit-server:query_tests_code",
+    "//gerrit-server:testutil",
+    "//lib:truth",
+    "//lib/guice",
+    "//lib/jgit/org.eclipse.jgit:jgit",
+]
+
+TYPES = [
+    "account",
+    "change",
+    "group",
+]
+
+SUFFIX = "sTest.java"
+
 ELASTICSEARCH_TESTS = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticQuery" + i.capitalize() + "sTest.java" for i in [
     "account",
     "change",
     "group",
 ]}
 
+ELASTICSEARCH_TESTS = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticQuery" + i.capitalize() + SUFFIX for i in TYPES}
+
+ELASTICSEARCH_TESTS_V5 = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticV5Query" + i.capitalize() + SUFFIX for i in TYPES}
+
+ELASTICSEARCH_TESTS_V6 = {i: "src/test/java/com/google/gerrit/elasticsearch/ElasticV6Query" + i.capitalize() + SUFFIX for i in TYPES}
+
+ELASTICSEARCH_TAGS = [
+    "docker",
+    "elastic",
+]
+
 [junit_tests(
     name = "elasticsearch_query_%ss_test" % name,
     size = "large",
     srcs = [src],
-    tags = [
-        "docker",
-        "elastic",
-    ],
-    deps = [
-        ":elasticsearch",
-        ":elasticsearch_test_utils",
-        "//gerrit-server:query_tests_code",
-        "//gerrit-server:testutil",
-        "//lib:truth",
-        "//lib/guice",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-    ],
+    tags = ELASTICSEARCH_TAGS,
+    deps = ELASTICSEARCH_DEPS,
 ) for name, src in ELASTICSEARCH_TESTS.items()]
+
+[junit_tests(
+    name = "elasticsearch_query_%ss_test_v5" % name,
+    size = "large",
+    srcs = [src],
+    tags = ELASTICSEARCH_TAGS,
+    deps = ELASTICSEARCH_DEPS,
+) for name, src in ELASTICSEARCH_TESTS_V5.items()]
+
+[junit_tests(
+    name = "elasticsearch_query_%ss_test_v6" % name,
+    size = "large",
+    srcs = [src],
+    tags = ELASTICSEARCH_TAGS,
+    deps = ELASTICSEARCH_DEPS,
+) for name, src in ELASTICSEARCH_TESTS_V6.items()]

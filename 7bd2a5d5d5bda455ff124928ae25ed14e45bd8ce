@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1530783323 +0200\nnonce ADrMV7aDPP4ICSyTzuhta9q/DaRNIm+xTiRpxtMyLaZ/zP8fJlCUMu5YD9d1nVlc+goj3bd5MzQm\n\n0000000000000000000000000000000000000000 7bd2a5d5d5bda455ff124928ae25ed14e45bd8ce refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAls95lsACgkQUbX9l6DQ\n71FFxAgAkOdHMcxX6MR4yNA+VXz2SPW8if6kVYX94qqWSo3qaecmmuMUny2CbbCY\nP5OEoqx9hDmMRZW5XepxW0xVtCMZQqpmFsMhmLutC5ZCOFx/pe9cWKpzyiVYQFYr\nQaYYR8i07DpGSKMUScoeZEZdfO6a3fsC95lz3ZwNMyaPJQwKe7RrE3SkFui8Gec8\ntm6uh2hWaeoXpdtEdmMJjjukeri1qwPHTMnWPf24iuVACDj2gRBFf4vLQUSP3ecU\nMODBwt4/aFifzmJJ1/VhBOv7ynU/OO3f3r28TPJh8W6UlQNII6N6jKvjSagKsFJI\n9PTIRagpvr47NgawnfUGGwUbHXALHA\u003d\u003d\n\u003dl7qI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbc46273_c7ae79ff",
+        "filename": "javatests/com/google/gerrit/common/data/AccessSectionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-06T07:09:05Z",
+      "side": 1,
+      "message": "This is repeated in almost all the tests.  Make it a class variable and initialise it in a @Before annotated method?",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 73
+      },
+      "revId": "7bd2a5d5d5bda455ff124928ae25ed14e45bd8ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

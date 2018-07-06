@@ -63,6 +63,13 @@ ELASTICSEARCH_TAGS = [
 ]
 
 [junit_tests(
+    name = "ElasticVersionTest",
+    srcs = ["ElasticVersionTest.java"],
+    tags = ["elastic"],
+    deps = ELASTICSEARCH_DEPS + ["//lib/truth"],
+)]
+
+[junit_tests(
     name = "elasticsearch_%ss_test" % name,
     size = "large",
     srcs = [src],

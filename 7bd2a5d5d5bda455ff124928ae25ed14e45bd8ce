@@ -23,6 +23,30 @@
       "revId": "7bd2a5d5d5bda455ff124928ae25ed14e45bd8ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "996686a1_f30c7079",
+        "filename": "javatests/com/google/gerrit/common/data/AccessSectionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-06T07:35:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbc46273_c7ae79ff",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 73
+      },
+      "revId": "7bd2a5d5d5bda455ff124928ae25ed14e45bd8ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

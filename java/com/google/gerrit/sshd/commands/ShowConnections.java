@@ -22,7 +22,7 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
@@ -168,7 +168,7 @@ final class ShowConnections extends SshCommand {
   }
 
   private static String id(SshSession sd) {
-    return sd != null ? IdGenerator.format(sd.getSessionId()) : "";
+    return sd != null ? HexFormat.fromInt(sd.getSessionId()) : "";
   }
 
   private static String time(long now, long time) {

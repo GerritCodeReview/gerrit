@@ -9,6 +9,8 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",

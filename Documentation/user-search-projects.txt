@@ -24,6 +24,11 @@ description:'DESCRIPTION'::
 Matches projects whose description contains 'DESCRIPTION', using a
 full-text search.
 
+[[state]]
+state:'STATE'::
++
+Matches project's state. Can be either 'active' or 'read-only'.
+
 == Magical Operators
 
 [[is-visible]]

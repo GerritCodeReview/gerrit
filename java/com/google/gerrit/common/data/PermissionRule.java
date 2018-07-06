@@ -66,11 +66,11 @@ public class PermissionRule implements Comparable<PermissionRule> {
     action = Action.BLOCK;
   }
 
-  public Boolean getForce() {
+  public boolean getForce() {
     return force;
   }
 
-  public void setForce(Boolean newForce) {
+  public void setForce(boolean newForce) {
     force = newForce;
   }
 

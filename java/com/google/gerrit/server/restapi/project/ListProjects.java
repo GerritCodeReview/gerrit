@@ -36,12 +36,14 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OutputFormat;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.ioutil.RegexListSearcher;
 import com.google.gerrit.server.ioutil.StringUtil;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -50,7 +52,6 @@ import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
-import com.google.gerrit.server.util.RegexListSearcher;
 import com.google.gerrit.server.util.TreeFormatter;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
@@ -594,7 +595,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
               p -> p.get().toLowerCase(Locale.US).contains(matchSubstring.toLowerCase(Locale.US)));
     } else if (matchRegex != null) {
       checkMatchOptions(matchPrefix == null && matchSubstring == null);
-      RegexListSearcher<Project.NameKey> searcher;
+      RegexListSearcher<NameKey> searcher;
       try {
         searcher = new RegexListSearcher<>(matchRegex, Project.NameKey::get);
       } catch (IllegalArgumentException e) {

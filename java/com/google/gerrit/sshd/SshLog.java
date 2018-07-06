@@ -27,7 +27,7 @@ import com.google.gerrit.server.config.ConfigKey;
 import com.google.gerrit.server.config.ConfigUpdatedEvent;
 import com.google.gerrit.server.config.GerritConfigListener;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.util.IdGenerator;
+import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.sshd.SshScope.Context;
 import com.google.inject.Inject;
@@ -277,7 +277,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
   }
 
   private static String id(int id) {
-    return IdGenerator.format(id);
+    return HexFormat.fromInt(id);
   }
 
   void audit(Context ctx, Object result, String cmd) {
@@ -298,7 +298,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
       created = TimeUtil.nowMs();
     } else {
       SshSession session = ctx.getSession();
-      sessionId = IdGenerator.format(session.getSessionId());
+      sessionId = HexFormat.fromInt(session.getSessionId());
       currentUser = session.getUser();
       created = ctx.created;
     }

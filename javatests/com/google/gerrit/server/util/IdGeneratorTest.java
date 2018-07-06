@@ -34,11 +34,4 @@ public class IdGeneratorTest {
     assertEquals(0xdeadbeef, IdGenerator.unmix(IdGenerator.mix(0xdeadbeef)));
     assertEquals(0x0b966b11, IdGenerator.unmix(IdGenerator.mix(0x0b966b11)));
   }
-
-  @Test
-  public void format() {
-    assertEquals("0000000f", IdGenerator.format(0xf));
-    assertEquals("801234ab", IdGenerator.format(0x801234ab));
-    assertEquals("deadbeef", IdGenerator.format(0xdeadbeef));
-  }
 }

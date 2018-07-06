@@ -128,6 +128,30 @@
       "revId": "1b27d904dee1d64e042fd4cbb160830aa9940b68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd4d3d8c_89764f01",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/git/GitModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-06T13:35:32Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/187830",
+      "parentUuid": "8068bc6b_5dc965b1",
+      "range": {
+        "startLine": 31,
+        "startChar": 33,
+        "endLine": 31,
+        "endChar": 54
+      },
+      "revId": "1b27d904dee1d64e042fd4cbb160830aa9940b68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

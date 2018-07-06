@@ -74,19 +74,19 @@ public class PermissionRule implements Comparable<PermissionRule> {
     force = newForce;
   }
 
-  public Integer getMin() {
+  public int getMin() {
     return min;
   }
 
-  public void setMin(Integer min) {
+  public void setMin(int min) {
     this.min = min;
   }
 
-  public void setMax(Integer max) {
+  public void setMax(int max) {
     this.max = max;
   }
 
-  public Integer getMax() {
+  public int getMax() {
     return max;
   }
 
@@ -266,7 +266,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
   }
 
   public boolean hasRange() {
-    return (!(getMin() == null || getMin() == 0)) || (!(getMax() == null || getMax() == 0));
+    return getMin() != 0 || getMax() != 0;
   }
 
   public static int parseInt(String value) {

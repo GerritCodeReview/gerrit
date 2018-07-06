@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
-import com.google.gerrit.server.util.HostPlatform;
+import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.testing.GerritBaseTests;
 import java.io.IOException;
 import java.nio.file.Files;

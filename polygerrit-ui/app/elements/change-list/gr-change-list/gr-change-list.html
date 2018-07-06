@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../../../styles/gr-change-list-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-cursor-manager/gr-cursor-manager.html">
+<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-change-list-item/gr-change-list-item.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -40,6 +41,7 @@ limitations under the License.
       <tr class="topHeader">
         <th class="leftPadding"></th>
         <th class="star" hidden$="[[!showStar]]" hidden></th>
+        <th class="reviewed" hidden$="[[!showReviewedState]]" hidden></th>
         <th class="number" hidden$="[[!showNumber]]" hidden>#</th>
         <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
           <th class$="[[_lowerCase(item)]]"
@@ -59,6 +61,7 @@ limitations under the License.
           <tr class="groupHeader">
             <td class="leftPadding"></td>
             <td class="star" hidden$="[[!showStar]]" hidden></td>
+            <td class="reviewed" hidden$="[[!showReviewedState]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               <a href$="[[_sectionHref(changeSection.query)]]">
@@ -71,6 +74,7 @@ limitations under the License.
           <tr class="noChanges">
             <td class="leftPadding"></td>
             <td class="star" hidden$="[[!showStar]]" hidden></td>
+            <td class="reviewed" hidden$="[[!showReviewedState]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               No changes
@@ -86,11 +90,13 @@ limitations under the License.
               visible-change-table-columns="[[visibleChangeTableColumns]]"
               show-number="[[showNumber]]"
               show-star="[[showStar]]"
+              show-mark-reviewed="[[showReviewedState]]"
               tabindex="0"
               label-names="[[labelNames]]"></gr-change-list-item>
         </template>
       </template>
     </table>
+    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-cursor-manager
         id="cursor"
         index="{{selectedIndex}}"

@@ -27,6 +27,7 @@
     'signed_off_by',
     'email_format',
     'size_bar_in_change_table',
+    'mark_reviewed_in_change_table',
   ];
 
   const GERRIT_DOCS_BASE_URL = 'https://gerrit-review.googlesource.com/' +
@@ -284,6 +285,11 @@
     _handleShowSizeBarsInFileListChanged() {
       this.set('_localPrefs.size_bar_in_change_table',
           this.$.showSizeBarsInFileList.checked);
+    },
+
+    _handleShowMarkReviewedButtonChanged() {
+      this.set('_localPrefs.mark_reviewed_in_change_table',
+          this.$.showMarkReviewedButton.checked);
     },
 
     _handlePublishCommentsOnPushChanged() {

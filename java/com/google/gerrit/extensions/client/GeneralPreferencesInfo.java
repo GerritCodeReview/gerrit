@@ -147,6 +147,7 @@ public class GeneralPreferencesInfo {
   public Boolean relativeDateInChangeTable;
   public DiffView diffView;
   public Boolean sizeBarInChangeTable;
+  public Boolean markReviewedInChangeTable;
   public Boolean legacycidInChangeTable;
   public ReviewCategoryStrategy reviewCategoryStrategy;
   public Boolean muteCommonPathPrefixes;
@@ -222,6 +223,7 @@ public class GeneralPreferencesInfo {
     p.relativeDateInChangeTable = false;
     p.diffView = DiffView.SIDE_BY_SIDE;
     p.sizeBarInChangeTable = true;
+    p.markReviewedInChangeTable = false;
     p.legacycidInChangeTable = false;
     p.muteCommonPathPrefixes = true;
     p.signedOffBy = false;

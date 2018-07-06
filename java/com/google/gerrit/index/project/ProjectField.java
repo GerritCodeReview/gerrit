@@ -37,7 +37,7 @@ public class ProjectField {
       exact("name").stored().build(p -> p.getProject().getName());
 
   public static final FieldDef<ProjectData, String> DESCRIPTION =
-      fullText("description").build(p -> p.getProject().getDescription());
+      fullText("description").stored().build(p -> p.getProject().getDescription());
 
   public static final FieldDef<ProjectData, String> PARENT_NAME =
       exact("parent_name").build(p -> p.getProject().getParentName());

@@ -103,3 +103,22 @@ ELASTICSEARCH_TAGS = [
     tags = ELASTICSEARCH_TAGS,
     deps = ELASTICSEARCH_DEPS,
 ) for name, src in ELASTICSEARCH_TESTS_V6.items()]
+
+junit_tests(
+    name = "elasticsearch_tests",
+    size = "small",
+    srcs = glob(
+        ["src/test/java/com/google/gerrit/elasticsearch/*Test.java"],
+        exclude = ["src/test/java/com/google/gerrit/elasticsearch/Elastic*Query*" + SUFFIX],
+    ),
+    tags = ["elastic"],
+    deps = [
+        ":elasticsearch",
+        ":elasticsearch_test_utils",
+        "//gerrit-server:testutil",
+        "//lib:guava",
+        "//lib:truth",
+        "//lib/guice",
+        "//lib/jgit/org.eclipse.jgit:jgit",
+    ],
+)

@@ -19,7 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.google.gerrit.server.util.HostPlatform;
+import com.google.gerrit.server.ioutil.HostPlatform;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;

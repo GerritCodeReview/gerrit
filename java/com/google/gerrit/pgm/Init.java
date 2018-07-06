@@ -26,8 +26,8 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
-import com.google.gerrit.server.util.HostPlatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -44,9 +44,10 @@ import org.kohsuke.args4j.Option;
 /** Initialize a new Gerrit installation. */
 public class Init extends BaseInit {
   @Option(
-      name = "--batch",
-      aliases = {"-b"},
-      usage = "Batch mode; skip interactive prompting")
+    name = "--batch",
+    aliases = {"-b"},
+    usage = "Batch mode; skip interactive prompting"
+  )
   private boolean batchMode;
 
   @Option(name = "--delete-caches", usage = "Delete all persistent caches without asking")
@@ -68,8 +69,9 @@ public class Init extends BaseInit {
   private boolean installAllPlugins;
 
   @Option(
-      name = "--secure-store-lib",
-      usage = "Path to jar providing SecureStore implementation class")
+    name = "--secure-store-lib",
+    usage = "Path to jar providing SecureStore implementation class"
+  )
   private String secureStoreLib;
 
   @Option(name = "--dev", usage = "Setup site with default options suitable for developers")

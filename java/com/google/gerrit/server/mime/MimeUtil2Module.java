@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.mime;
 
-import com.google.gerrit.server.util.HostPlatform;
+import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;

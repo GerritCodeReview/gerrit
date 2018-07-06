@@ -91,7 +91,6 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
-import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
 import com.google.gerrit.server.auth.oauth.OAuthTokenCache;
@@ -301,7 +300,6 @@ public class GerritGlobalModule extends FactoryModule {
     bind(IdentifiedUser.GenericFactory.class).in(SINGLETON);
     bind(AccountControl.Factory.class);
 
-    install(new AuditModule());
     bind(UiActions.class);
 
     bind(GitReferenceUpdated.class);

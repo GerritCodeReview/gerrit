@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-change-star/gr-change-star.html">
+<link rel="import" href="../../shared/gr-change-reviewed/gr-change-reviewed.html">
 <link rel="import" href="../../shared/gr-change-status/gr-change-status.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
@@ -124,6 +125,9 @@ limitations under the License.
     <td class="cell leftPadding"></td>
     <td class="cell star" hidden$="[[!showStar]]" hidden>
       <gr-change-star change="{{change}}"></gr-change-star>
+    </td>
+    <td class="cell reviewed" hidden$="[[!showMarkReviewed]]" hidden>
+      <gr-change-reviewed change="{{change}}"></gr-change-reviewed>
     </td>
     <td class="cell number" hidden$="[[!showNumber]]" hidden>
       <a href$="[[changeURL]]">[[change._number]]</a>

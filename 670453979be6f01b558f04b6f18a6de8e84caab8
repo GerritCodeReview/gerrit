@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6f988ee2_381641e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-06T14:10:29Z",
+      "side": 1,
+      "message": "can you merge that into master so I can rebase?",
+      "parentUuid": "88332b63_2ce8e1f4",
+      "range": {
+        "startLine": 13,
+        "startChar": 26,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "670453979be6f01b558f04b6f18a6de8e84caab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd8ab23f_950ad739",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -92,6 +116,30 @@
       "revId": "670453979be6f01b558f04b6f18a6de8e84caab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93f224fa_83168219",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-06T14:10:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "642aa502_99a19a13",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 22,
+        "endChar": 68
+      },
+      "revId": "670453979be6f01b558f04b6f18a6de8e84caab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

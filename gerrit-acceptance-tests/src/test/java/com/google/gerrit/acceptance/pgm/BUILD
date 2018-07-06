@@ -19,6 +19,7 @@ acceptance_tests(
     labels = [
         "docker",
         "elastic",
+        "flaky",
         "pgm",
     ],
     deps = [

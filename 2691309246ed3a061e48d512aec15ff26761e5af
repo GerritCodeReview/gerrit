@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f8adcecc_950227f6",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-06T19:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc50bf64_78c2b16a",
+      "range": {
+        "startLine": 175,
+        "startChar": 19,
+        "endLine": 175,
+        "endChar": 26
+      },
+      "revId": "2691309246ed3a061e48d512aec15ff26761e5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bec1dbc_0c71daf2",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "68afca5c_4477864e",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-06T19:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bec1dbc_0c71daf2",
+      "range": {
+        "startLine": 201,
+        "startChar": 19,
+        "endLine": 201,
+        "endChar": 26
+      },
+      "revId": "2691309246ed3a061e48d512aec15ff26761e5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fc78b44_fce6a68e",
         "filename": "polygerrit-ui/app/elements/gr-app.js",
         "patchSetId": 11
@@ -68,6 +116,30 @@
       "revId": "2691309246ed3a061e48d512aec15ff26761e5af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e187b9b_64bb46d2",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-06T19:37:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fc78b44_fce6a68e",
+      "range": {
+        "startLine": 338,
+        "startChar": 64,
+        "endLine": 338,
+        "endChar": 68
+      },
+      "revId": "2691309246ed3a061e48d512aec15ff26761e5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

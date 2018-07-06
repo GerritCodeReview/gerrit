@@ -56,6 +56,7 @@ import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.InternalAccountDirectory;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
+import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
@@ -166,18 +167,20 @@ public class Daemon extends SiteProgram {
   private boolean polyGerritDev;
 
   @Option(
-      name = "--init",
-      aliases = {"-i"},
-      usage = "Init site before starting the daemon")
+    name = "--init",
+    aliases = {"-i"},
+    usage = "Init site before starting the daemon"
+  )
   private boolean doInit;
 
   @Option(name = "--stop-only", usage = "Stop the daemon", hidden = true)
   private boolean stopOnly;
 
   @Option(
-      name = "--migrate-to-note-db",
-      usage = "Automatically migrate changes to NoteDb",
-      handler = ExplicitBooleanOptionHandler.class)
+    name = "--migrate-to-note-db",
+    usage = "Automatically migrate changes to NoteDb",
+    handler = ExplicitBooleanOptionHandler.class
+  )
   private boolean migrateToNoteDb;
 
   @Option(name = "--trial", usage = "(With --migrate-to-note-db) " + MigrateToNoteDb.TRIAL_USAGE)
@@ -422,6 +425,7 @@ public class Daemon extends SiteProgram {
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
+    modules.add(new AuditModule());
 
     modules.add(new SearchingChangeCacheImpl.Module(slave));
     modules.add(new InternalAccountDirectory.Module());

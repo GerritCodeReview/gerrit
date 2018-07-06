@@ -31,13 +31,13 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupIncludeCache;
-import com.google.gerrit.server.audit.AuditService;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.update.RefUpdateUtil;
@@ -89,7 +89,7 @@ public class GroupsUpdate {
   private final GroupCache groupCache;
   private final GroupIncludeCache groupIncludeCache;
   private final Provider<GroupIndexer> indexer;
-  private final AuditService auditService;
+  private final GroupAuditService groupAuditService;
   private final RenameGroupOp.Factory renameGroupOpFactory;
   @Nullable private final IdentifiedUser currentUser;
   private final AuditLogFormatter auditLogFormatter;
@@ -106,7 +106,7 @@ public class GroupsUpdate {
       GroupCache groupCache,
       GroupIncludeCache groupIncludeCache,
       Provider<GroupIndexer> indexer,
-      AuditService auditService,
+      GroupAuditService auditService,
       AccountCache accountCache,
       RenameGroupOp.Factory renameGroupOpFactory,
       @GerritServerId String serverId,
@@ -120,7 +120,7 @@ public class GroupsUpdate {
     this.groupCache = groupCache;
     this.groupIncludeCache = groupIncludeCache;
     this.indexer = indexer;
-    this.auditService = auditService;
+    this.groupAuditService = auditService;
     this.renameGroupOpFactory = renameGroupOpFactory;
     this.gitRefUpdated = gitRefUpdated;
     this.retryHelper = retryHelper;
@@ -384,14 +384,14 @@ public class GroupsUpdate {
     }
 
     if (!createdGroup.getMembers().isEmpty()) {
-      auditService.dispatchAddMembers(
+      groupAuditService.dispatchAddMembers(
           currentUser.getAccountId(),
           createdGroup.getGroupUUID(),
           createdGroup.getMembers(),
           createdGroup.getCreatedOn());
     }
     if (!createdGroup.getSubgroups().isEmpty()) {
-      auditService.dispatchAddSubgroups(
+      groupAuditService.dispatchAddSubgroups(
           currentUser.getAccountId(),
           createdGroup.getGroupUUID(),
           createdGroup.getSubgroups(),
@@ -405,19 +405,19 @@ public class GroupsUpdate {
     }
 
     if (!result.getAddedMembers().isEmpty()) {
-      auditService.dispatchAddMembers(
+      groupAuditService.dispatchAddMembers(
           currentUser.getAccountId(), result.getGroupUuid(), result.getAddedMembers(), updatedOn);
     }
     if (!result.getDeletedMembers().isEmpty()) {
-      auditService.dispatchDeleteMembers(
+      groupAuditService.dispatchDeleteMembers(
           currentUser.getAccountId(), result.getGroupUuid(), result.getDeletedMembers(), updatedOn);
     }
     if (!result.getAddedSubgroups().isEmpty()) {
-      auditService.dispatchAddSubgroups(
+      groupAuditService.dispatchAddSubgroups(
           currentUser.getAccountId(), result.getGroupUuid(), result.getAddedSubgroups(), updatedOn);
     }
     if (!result.getDeletedSubgroups().isEmpty()) {
-      auditService.dispatchDeleteSubgroups(
+      groupAuditService.dispatchDeleteSubgroups(
           currentUser.getAccountId(),
           result.getGroupUuid(),
           result.getDeletedSubgroups(),

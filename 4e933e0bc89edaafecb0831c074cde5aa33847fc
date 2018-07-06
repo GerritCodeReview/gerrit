@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1530533311 +0200\nnonce ADrMV7axO/8CPuFSPFjlJfIxO2ktdU/zDkOUpaCaGLMftb2lU4FxH/o3mFcRlqGe6gz+j1XfoqUv\n\n0000000000000000000000000000000000000000 4e933e0bc89edaafecb0831c074cde5aa33847fc refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAls6Fb8ACgkQUbX9l6DQ\n71HJ2wgAnDq9fAImeY4Jfq7mCen5QiKSmKzhDd2Lyegt5D8SG9PfrFlMMWtLqXp7\nOkv+OW5uZKZIPOtQJ8IHjBqVxps0LNNoGuINl+q/YU4XS8Ck2ChJONAaJgc53PrG\ntWH7rLDn10zxaof5zgqCNXTQtCfg9bzGZR5vjY59HdJIM0kCqAjiTzqtbzuOIKqO\nZky05+mOGjIypMgsQd/KWwTDwEQGr1FREW+jKhTfdlOfLccqTfh6lwpX7fKPuKoB\nMaAH0Zpe2VdnVzLM9GigbjTFbQJdGE4G3TKiN+9YmZJG47WzWbivQoOQyvIA444J\nQqmkBLe5g6JDSGvKxMy96o0Jkui/1A\u003d\u003d\n\u003dyB0V\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d37c0bf_ae92ba91",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-06T22:35:29Z",
+      "side": 1,
+      "message": "The only issue with this is that up until now (IIRC), this portion was always a valid HTTP verb. Is that an invariant worth preserving?",
+      "range": {
+        "startLine": 313,
+        "startChar": 40,
+        "endLine": 313,
+        "endChar": 58
+      },
+      "revId": "4e933e0bc89edaafecb0831c074cde5aa33847fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

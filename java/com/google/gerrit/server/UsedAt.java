@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.annotations.GwtCompatible;
@@ -27,13 +28,16 @@ import java.lang.annotation.Target;
  * organisation using Gerrit.
  */
 @BindingAnnotation
-@Target({METHOD})
+@Target({METHOD, TYPE})
 @Retention(RUNTIME)
 @GwtCompatible
 public @interface UsedAt {
   /** Enumeration of projects that call a method that would otherwise be private. */
   enum Project {
-    GOOGLE
+    GOOGLE,
+    PLUGIN_DELETE_PROJECT,
+    PLUGIN_SERVICEUSER,
+    PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.
   }
 
   /** Reference to the project that uses the method annotated with this annotation. */

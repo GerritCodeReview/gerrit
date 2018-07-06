@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.gerrit.server.UsedAt;
+
 public class JdbcUtil {
 
   public static String hostname(String hostname) {
@@ -26,6 +28,7 @@ public class JdbcUtil {
     return hostname;
   }
 
+  @UsedAt(UsedAt.Project.PLUGINS_ALL)
   public static String port(String port) {
     if (port != null && !port.isEmpty()) {
       return ":" + port;

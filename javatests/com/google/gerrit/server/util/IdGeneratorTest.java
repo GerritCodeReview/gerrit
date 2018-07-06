@@ -17,6 +17,7 @@ package com.google.gerrit.server.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.gerrit.server.ioutil.HexFormat;
 import java.util.HashSet;
 import org.junit.Test;
 
@@ -33,12 +34,5 @@ public class IdGeneratorTest {
     assertEquals(0xc0ffee12, IdGenerator.unmix(IdGenerator.mix(0xc0ffee12)));
     assertEquals(0xdeadbeef, IdGenerator.unmix(IdGenerator.mix(0xdeadbeef)));
     assertEquals(0x0b966b11, IdGenerator.unmix(IdGenerator.mix(0x0b966b11)));
-  }
-
-  @Test
-  public void format() {
-    assertEquals("0000000f", IdGenerator.format(0xf));
-    assertEquals("801234ab", IdGenerator.format(0x801234ab));
-    assertEquals("deadbeef", IdGenerator.format(0xdeadbeef));
   }
 }

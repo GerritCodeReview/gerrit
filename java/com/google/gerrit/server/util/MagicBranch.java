@@ -25,7 +25,9 @@ import org.eclipse.jgit.lib.Repository;
 public final class MagicBranch {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static final String NEW_CHANGE = "refs/for/";
+  public static final String NEW_CHANGE_FOR = "refs/for/";
+  public static final String NEW_CHANGE = "refs/review/";
+
   // TODO(xchangcheng): remove after 'repo' supports private/wip changes.
   public static final String NEW_DRAFT_CHANGE = "refs/drafts/";
   // TODO(xchangcheng): remove after migrating tools which are using this magic branch.
@@ -38,6 +40,8 @@ public final class MagicBranch {
       magicBranch = NEW_DRAFT_CHANGE;
     } else if (refName.startsWith(NEW_PUBLISH_CHANGE)) {
       magicBranch = NEW_PUBLISH_CHANGE;
+    } else if (refName.startsWith(NEW_CHANGE_FOR)) {
+      magicBranch = NEW_CHANGE_FOR;
     }
     return refName.substring(magicBranch.length());
   }
@@ -46,7 +50,8 @@ public final class MagicBranch {
   public static boolean isMagicBranch(String refName) {
     return refName.startsWith(NEW_DRAFT_CHANGE)
         || refName.startsWith(NEW_PUBLISH_CHANGE)
-        || refName.startsWith(NEW_CHANGE);
+        || refName.startsWith(NEW_CHANGE)
+        || refName.startsWith(NEW_CHANGE_FOR);
   }
 
   /** Returns the ref name prefix for a magic branch, {@code null} if the branch is not magic */
@@ -59,6 +64,9 @@ public final class MagicBranch {
     }
     if (refName.startsWith(NEW_CHANGE)) {
       return NEW_CHANGE;
+    }
+    if (refName.startsWith(NEW_CHANGE_FOR)) {
+      return NEW_CHANGE_FOR;
     }
     return null;
   }
@@ -73,6 +81,10 @@ public final class MagicBranch {
    */
   public static Capable checkMagicBranchRefs(Repository repo, Project project) {
     Capable result = checkMagicBranchRef(NEW_CHANGE, repo, project);
+    if (result != Capable.OK) {
+      return result;
+    }
+    result = checkMagicBranchRef(NEW_CHANGE_FOR, repo, project);
     if (result != Capable.OK) {
       return result;
     }
@@ -99,9 +111,11 @@ public final class MagicBranch {
     }
     if (!blockingFors.isEmpty()) {
       String projName = project.getName();
-      logger.atSevere().log(
-          "Repository '%s' needs the following refs removed to receive changes: %s",
-          projName, blockingFors);
+      logger
+          .atSevere()
+          .log(
+              "Repository '%s' needs the following refs removed to receive changes: %s",
+              projName, blockingFors);
       return new Capable("One or more " + branchName + " names blocks change upload");
     }
 

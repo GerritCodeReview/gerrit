@@ -23,7 +23,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.util.RequestId;
-import com.google.gerrit.server.util.SubmoduleSectionParser;
+import com.google.gerrit.server.util.git.SubmoduleSectionParser;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;

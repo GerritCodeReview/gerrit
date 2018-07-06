@@ -43,6 +43,11 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void setPermissions(List<Permission> list) {
+    if (list == null) {
+      permissions = null;
+      return;
+    }
+
     Set<String> names = new HashSet<>();
     for (Permission p : list) {
       if (!names.add(p.getName().toLowerCase())) {
@@ -60,6 +65,10 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   @Nullable
   public Permission getPermission(String name, boolean create) {
+    if (name == null) {
+      return null;
+    }
+
     if (permissions != null) {
       for (Permission p : permissions) {
         if (p.getName().equalsIgnoreCase(name)) {
@@ -82,6 +91,10 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void addPermission(Permission permission) {
+    if (permission == null) {
+      return;
+    }
+
     if (permissions == null) {
       permissions = new ArrayList<>();
     }
@@ -102,12 +115,16 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void removePermission(String name) {
-    if (permissions != null) {
+    if (permissions != null && name != null) {
       permissions.removeIf(permission -> name.equalsIgnoreCase(permission.getName()));
     }
   }
 
   public void mergeFrom(AccessSection section) {
+    if (section == null) {
+      return;
+    }
+
     for (Permission src : section.getPermissions()) {
       Permission dst = getPermission(src.getName());
       if (dst != null) {

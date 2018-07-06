@@ -60,6 +60,10 @@ public class AccessSectionTest {
     Permission submitPermission = new Permission(Permission.SUBMIT);
     accessSection.setPermissions(ImmutableList.of(submitPermission));
     assertThat(accessSection.getPermissions()).containsExactly(submitPermission);
+
+    // Passing in null doesn't fail.
+    accessSection.setPermissions(null);
+    assertThat(accessSection.getPermissions()).isEmpty();
   }
 
   @Test
@@ -92,6 +96,9 @@ public class AccessSectionTest {
     Permission submitPermission = new Permission(Permission.SUBMIT);
     accessSection.setPermissions(ImmutableList.of(submitPermission));
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isEqualTo(submitPermission);
+
+    // Passing in null doesn't fail.
+    assertThat(accessSection.getPermission(null)).isNull();
   }
 
   @Test
@@ -106,8 +113,12 @@ public class AccessSectionTest {
   public void createMissingPermissionOnGet() {
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
 
-    assertThat(accessSection.getPermission(Permission.SUBMIT, true))
-        .isEqualTo(new Permission(Permission.SUBMIT));
+    Permission submitPermission = new Permission(Permission.SUBMIT);
+    assertThat(accessSection.getPermission(Permission.SUBMIT, true)).isEqualTo(submitPermission);
+
+    // Passing in null doesn't fail.
+    assertThat(accessSection.getPermission(null, true)).isNull();
+    assertThat(accessSection.getPermissions()).containsExactly(submitPermission).inOrder();
   }
 
   @Test
@@ -121,6 +132,12 @@ public class AccessSectionTest {
     Permission submitPermission = new Permission(Permission.SUBMIT);
     accessSection.addPermission(submitPermission);
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isEqualTo(submitPermission);
+    assertThat(accessSection.getPermissions())
+        .containsExactly(abandonPermission, rebasePermission, submitPermission)
+        .inOrder();
+
+    // Passing in null doesn't fail.
+    accessSection.addPermission(null);
     assertThat(accessSection.getPermissions())
         .containsExactly(abandonPermission, rebasePermission, submitPermission)
         .inOrder();
@@ -172,6 +189,12 @@ public class AccessSectionTest {
     assertThat(accessSection.getPermissions())
         .containsExactly(abandonPermission, rebasePermission)
         .inOrder();
+
+    // Passing in null doesn't fail.
+    accessSection.remove(null);
+    assertThat(accessSection.getPermissions())
+        .containsExactly(abandonPermission, rebasePermission)
+        .inOrder();
   }
 
   @Test
@@ -186,6 +209,12 @@ public class AccessSectionTest {
 
     accessSection.removePermission(Permission.SUBMIT);
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
+    assertThat(accessSection.getPermissions())
+        .containsExactly(abandonPermission, rebasePermission)
+        .inOrder();
+
+    // Passing in null doesn't fail.
+    accessSection.removePermission(null);
     assertThat(accessSection.getPermissions())
         .containsExactly(abandonPermission, rebasePermission)
         .inOrder();
@@ -226,6 +255,12 @@ public class AccessSectionTest {
     accessSection2.setPermissions(ImmutableList.of(rebasePermission, submitPermission));
 
     accessSection1.mergeFrom(accessSection2);
+    assertThat(accessSection1.getPermissions())
+        .containsExactly(abandonPermission, rebasePermission, submitPermission)
+        .inOrder();
+
+    // Passing in null doesn't fail.
+    accessSection1.mergeFrom(null);
     assertThat(accessSection1.getPermissions())
         .containsExactly(abandonPermission, rebasePermission, submitPermission)
         .inOrder();

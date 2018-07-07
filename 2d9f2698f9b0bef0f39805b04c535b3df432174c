@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbd89d99_49fef204",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1068879
+      },
+      "writtenOn": "2018-07-07T00:33:38Z",
+      "side": 1,
+      "message": "@Kasper I noticed this interface was removed from the element a few months ago. Is there a better way for me to organize my code such that a keyboard shortcut on the change list can fire off a REST call?\n\nAs an aside, the keyboard shortcut for starring changes in the change list is currently broken because it depends on restAPI interface in the same way my new changes do. I can put in another CR to fix that shortcut after I know how to proceed.\n\nHere\u0027s the CR where it was removed for reference:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/170070\n\nThanks!",
+      "revId": "2d9f2698f9b0bef0f39805b04c535b3df432174c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

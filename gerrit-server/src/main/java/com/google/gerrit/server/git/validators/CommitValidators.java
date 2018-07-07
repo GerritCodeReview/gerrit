@@ -297,7 +297,7 @@ public class CommitValidators {
           sb.append('\n');
           sb.append("Hint: A potential ");
           sb.append(FooterConstants.CHANGE_ID.getName());
-          sb.append("Change-Id was found, but it was not in the ");
+          sb.append(" was found, but it was not in the ");
           sb.append("footer (last paragraph) of the commit message.");
         }
       }

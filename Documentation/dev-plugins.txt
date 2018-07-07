@@ -2282,6 +2282,16 @@ by implementing `com.google.gerrit.extensions.config.ExternalIncludedIn`,
 e.g. a plugin can provide a list of servers on which the change was
 deployed.
 
+[[change-report-formatting]]
+== Change Report Formatting
+
+When a change is pushed for review from the command line, Gerrit reports
+the change(s) received with their URL and subject.
+
+By implementing the
+`com.google.gerrit.server.git.ChangeReportFormatter` interface, a plugin
+may change the formatting of the report.
+
 [[links-to-external-tools]]
 == Links To External Tools
 

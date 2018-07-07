@@ -16,6 +16,24 @@
       "revId": "8918b50914761f6c8864399ed4310aa90d453741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb5e609d_454bc659",
+        "filename": "javatests/com/google/gerrit/elasticsearch/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-07T00:08:56Z",
+      "side": 1,
+      "message": "I cannot find ElasticConfigurationTest anywhere in my local master environment right now; am I missing something?",
+      "parentUuid": "ff37ffee_d59d0f77",
+      "revId": "8918b50914761f6c8864399ed4310aa90d453741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

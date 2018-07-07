@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d848faa7_cf96d57d",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-07T07:49:47Z",
+      "side": 1,
+      "message": "We could add the support.",
+      "range": {
+        "startLine": 72,
+        "startChar": 29,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "49e96990ccbf35c8d52100d93ffda36a61fd4916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dd45f12_0ffe5b05",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/CheckAccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-07T07:49:47Z",
+      "side": 1,
+      "message": "It\u0027s better if there is only one statement after the exception.expect setup.  Move the setApi.. call to before the exception.expect lines.",
+      "range": {
+        "startLine": 110,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 62
+      },
+      "revId": "49e96990ccbf35c8d52100d93ffda36a61fd4916",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

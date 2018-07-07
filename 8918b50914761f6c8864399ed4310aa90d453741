@@ -52,6 +52,24 @@
       "revId": "8918b50914761f6c8864399ed4310aa90d453741",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "727a3c8c_cb9da812",
+        "filename": "javatests/com/google/gerrit/elasticsearch/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-07T00:58:07Z",
+      "side": 1,
+      "message": "Will look into this on Monday to make sure we are consistent between branches that way.",
+      "parentUuid": "f89df648_de50ac78",
+      "revId": "8918b50914761f6c8864399ed4310aa90d453741",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

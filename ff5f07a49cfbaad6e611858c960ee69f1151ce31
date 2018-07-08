@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0675cf6_591f8824",
+        "filename": "javatests/com/google/gerrit/elasticsearch/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-08T21:16:15Z",
+      "side": 1,
+      "message": "Too many unnecessary deps for this very rule; need to trim them.",
+      "range": {
+        "startLine": 73,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 29
+      },
+      "revId": "ff5f07a49cfbaad6e611858c960ee69f1151ce31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

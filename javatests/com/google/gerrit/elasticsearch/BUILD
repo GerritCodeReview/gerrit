@@ -10,34 +10,23 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/elasticsearch",
-        "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
-        "//java/com/google/gerrit/index/project",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
-        "//lib:gson",
         "//lib:guava",
         "//lib:junit",
         "//lib/guice",
         "//lib/httpcomponents:httpcore",
         "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/testcontainers",
-        "//lib/truth",
     ],
 )
 
 ELASTICSEARCH_DEPS = [
     ":elasticsearch_test_utils",
     "//java/com/google/gerrit/elasticsearch",
-    "//java/com/google/gerrit/server",
-    "//java/com/google/gerrit/server/project/testing:project-test-util",
     "//java/com/google/gerrit/testing:gerrit-test-util",
     "//lib/guice",
-    "//lib/httpcomponents:httpcore",
     "//lib/jgit/org.eclipse.jgit:jgit",
-    "//lib/jgit/org.eclipse.jgit.junit:junit",
-    "//lib/testcontainers",
 ]
 
 QUERY_TESTS_DEP = "//javatests/com/google/gerrit/server/query/%s:abstract_query_tests"

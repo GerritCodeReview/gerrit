@@ -378,6 +378,16 @@ public class CmdLineParser {
     }
 
     @Override
+    public String[] forbids() {
+      return null;
+    }
+
+    @Override
+    public boolean help() {
+      return false;
+    }
+
+    @Override
     public Class<? extends Annotation> annotationType() {
       return o.annotationType();
     }
@@ -561,6 +571,16 @@ public class CmdLineParser {
 
     @Override
     public boolean isMultiValued() {
+      return false;
+    }
+
+    @Override
+    public String[] forbids() {
+      return null;
+    }
+
+    @Override
+    public boolean help() {
       return false;
     }
   }

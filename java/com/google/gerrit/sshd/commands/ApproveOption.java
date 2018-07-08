@@ -114,6 +114,16 @@ final class ApproveOption implements Option, Setter<Short> {
     return false;
   }
 
+  @Override
+  public String[] forbids() {
+    return null;
+  }
+
+  @Override
+  public boolean help() {
+    return false;
+  }
+
   String getLabelName() {
     return type.getName();
   }

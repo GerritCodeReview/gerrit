@@ -45,9 +45,11 @@ versions.check(minimum_bazel_version = "0.14.0")
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
 
 # Prevent redundant loading of dependencies.
+# TODO(davido): Omit re-fetching ancient args4j version when these PRs are merged:
+# https://github.com/bazelbuild/rules_closure/pull/262
+# https://github.com/google/closure-templates/pull/155
 closure_repositories(
     omit_aopalliance = True,
-    omit_args4j = True,
     omit_javax_inject = True,
 )
 
@@ -299,9 +301,9 @@ maven_jar(
 )
 
 maven_jar(
-    name = "args4j",
-    artifact = "args4j:args4j:2.0.26",
-    sha1 = "01ebb18ebb3b379a74207d5af4ea7c8338ebd78b",
+    name = "args4j-intern",
+    artifact = "args4j:args4j:2.0.29",
+    sha1 = "55ca4ddc4e906ffbaec043113b36bb410a3d909e",
 )
 
 maven_jar(

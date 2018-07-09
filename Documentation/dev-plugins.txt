@@ -504,6 +504,14 @@ plugins implementing this can modify commit message of the change being
 submitted by Rebase Always and Cherry Pick submit strategies as well as
 change being queried with COMMIT_FOOTERS option.
 
+[[error-handlers]]
+== Error Handlers
+
+`com.google.gerrit.server.restapi.RestApiErrorHandler`:
+plugins implementing this interface can control which message should
+be returned to the client if a REST API call fails with 4xx or 5xx. In
+addition the status code of the REST response may be changed.
+
 [[merge-super-set-computation]]
 == Merge Super Set Computation
 

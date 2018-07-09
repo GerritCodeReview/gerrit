@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi;
 
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.inject.AbstractModule;
@@ -21,6 +22,8 @@ import com.google.inject.AbstractModule;
 public class RestApiModule extends AbstractModule {
   @Override
   protected void configure() {
+    DynamicSet.setOf(binder(), RestApiErrorHandler.class);
+
     install(new com.google.gerrit.server.restapi.access.Module());
     install(new com.google.gerrit.server.restapi.account.Module());
     install(new com.google.gerrit.server.restapi.change.Module());

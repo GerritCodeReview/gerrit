@@ -68,6 +68,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AcceptsDelete;
 import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -109,6 +110,7 @@ import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.restapi.RestApiErrorHandler;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gerrit.util.http.RequestUtil;
@@ -216,6 +218,7 @@ public class RestApiServlet extends HttpServlet {
     final Provider<ParameterParser> paramParser;
     final PermissionBackend permissionBackend;
     final AuditService auditService;
+    final DynamicSet<RestApiErrorHandler> errorHandlers;
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
 
@@ -226,6 +229,7 @@ public class RestApiServlet extends HttpServlet {
         Provider<ParameterParser> paramParser,
         PermissionBackend permissionBackend,
         AuditService auditService,
+        DynamicSet<RestApiErrorHandler> errorHandlers,
         RestApiMetrics metrics,
         @GerritServerConfig Config cfg) {
       this.currentUser = currentUser;
@@ -233,6 +237,7 @@ public class RestApiServlet extends HttpServlet {
       this.paramParser = paramParser;
       this.permissionBackend = permissionBackend;
       this.auditService = auditService;
+      this.errorHandlers = errorHandlers;
       this.metrics = metrics;
       allowOrigin = makeAllowOrigin(cfg);
     }
@@ -467,22 +472,51 @@ public class RestApiServlet extends HttpServlet {
       }
     } catch (MalformedJsonException | JsonParseException e) {
       responseBytes =
-          replyError(req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
+          replyError(
+              globals.errorHandlers,
+              req,
+              res,
+              status = SC_BAD_REQUEST,
+              "Invalid " + JSON_TYPE + " in request",
+              e);
     } catch (BadRequestException e) {
       responseBytes =
           replyError(
-              req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
+              globals.errorHandlers,
+              req,
+              res,
+              status = SC_BAD_REQUEST,
+              messageOr(e, "Bad Request"),
+              e.caching(),
+              e);
     } catch (AuthException e) {
       responseBytes =
-          replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
+          replyError(
+              globals.errorHandlers,
+              req,
+              res,
+              status = SC_FORBIDDEN,
+              messageOr(e, "Forbidden"),
+              e.caching(),
+              e);
     } catch (AmbiguousViewException e) {
-      responseBytes = replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
+      responseBytes =
+          replyError(
+              globals.errorHandlers, req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
     } catch (ResourceNotFoundException e) {
       responseBytes =
-          replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
+          replyError(
+              globals.errorHandlers,
+              req,
+              res,
+              status = SC_NOT_FOUND,
+              messageOr(e, "Not Found"),
+              e.caching(),
+              e);
     } catch (MethodNotAllowedException e) {
       responseBytes =
           replyError(
+              globals.errorHandlers,
               req,
               res,
               status = SC_METHOD_NOT_ALLOWED,
@@ -491,10 +525,18 @@ public class RestApiServlet extends HttpServlet {
               e);
     } catch (ResourceConflictException e) {
       responseBytes =
-          replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
+          replyError(
+              globals.errorHandlers,
+              req,
+              res,
+              status = SC_CONFLICT,
+              messageOr(e, "Conflict"),
+              e.caching(),
+              e);
     } catch (PreconditionFailedException e) {
       responseBytes =
           replyError(
+              globals.errorHandlers,
               req,
               res,
               status = SC_PRECONDITION_FAILED,
@@ -504,6 +546,7 @@ public class RestApiServlet extends HttpServlet {
     } catch (UnprocessableEntityException e) {
       responseBytes =
           replyError(
+              globals.errorHandlers,
               req,
               res,
               status = SC_UNPROCESSABLE_ENTITY,
@@ -512,12 +555,24 @@ public class RestApiServlet extends HttpServlet {
               e);
     } catch (NotImplementedException e) {
       responseBytes =
-          replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
+          replyError(
+              globals.errorHandlers,
+              req,
+              res,
+              status = SC_NOT_IMPLEMENTED,
+              messageOr(e, "Not Implemented"),
+              e);
     } catch (UpdateException e) {
       Throwable t = e.getCause();
       if (t instanceof LockFailureException) {
         responseBytes =
-            replyError(req, res, status = SC_SERVICE_UNAVAILABLE, messageOr(t, "Lock failure"), e);
+            replyError(
+                globals.errorHandlers,
+                req,
+                res,
+                status = SC_SERVICE_UNAVAILABLE,
+                messageOr(t, "Lock failure"),
+                e);
       } else {
         status = SC_INTERNAL_SERVER_ERROR;
         responseBytes = handleException(e, req, res);
@@ -1231,8 +1286,8 @@ public class RestApiServlet extends HttpServlet {
         .checkAny(GlobalPermission.fromAnnotation(d.pluginName, d.view.getClass()));
   }
 
-  private static long handleException(
-      Throwable err, HttpServletRequest req, HttpServletResponse res) throws IOException {
+  private long handleException(Throwable err, HttpServletRequest req, HttpServletResponse res)
+      throws IOException {
     String uri = req.getRequestURI();
     if (!Strings.isNullOrEmpty(req.getQueryString())) {
       uri += "?" + req.getQueryString();
@@ -1241,22 +1296,25 @@ public class RestApiServlet extends HttpServlet {
 
     if (!res.isCommitted()) {
       res.reset();
-      return replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
+      return replyError(
+          globals.errorHandlers, req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
     }
     return 0;
   }
 
   public static long replyError(
+      DynamicSet<RestApiErrorHandler> errorHandlers,
       HttpServletRequest req,
       HttpServletResponse res,
       int statusCode,
       String msg,
       @Nullable Throwable err)
       throws IOException {
-    return replyError(req, res, statusCode, msg, CacheControl.NONE, err);
+    return replyError(errorHandlers, req, res, statusCode, msg, CacheControl.NONE, err);
   }
 
   public static long replyError(
+      DynamicSet<RestApiErrorHandler> errorHandlers,
       HttpServletRequest req,
       HttpServletResponse res,
       int statusCode,
@@ -1270,6 +1328,9 @@ public class RestApiServlet extends HttpServlet {
     configureCaching(req, res, null, null, c);
     checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
     res.setStatus(statusCode);
+    for (RestApiErrorHandler errorHandler : errorHandlers) {
+      msg = errorHandler.handleError(req, res, msg, err);
+    }
     return replyText(req, res, msg);
   }
 

@@ -20,6 +20,7 @@ import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -28,6 +29,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.restapi.RestApiErrorHandler;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -60,17 +62,20 @@ class RunAsFilter implements Filter {
   private final DynamicItem<WebSession> session;
   private final PermissionBackend permissionBackend;
   private final AccountResolver accountResolver;
+  private final DynamicSet<RestApiErrorHandler> errorHandlers;
 
   @Inject
   RunAsFilter(
       AuthConfig config,
       DynamicItem<WebSession> session,
       PermissionBackend permissionBackend,
-      AccountResolver accountResolver) {
+      AccountResolver accountResolver,
+      DynamicSet<RestApiErrorHandler> errorHandlers) {
     this.enabled = config.isRunAsEnabled();
     this.session = session;
     this.permissionBackend = permissionBackend;
     this.accountResolver = accountResolver;
+    this.errorHandlers = errorHandlers;
   }
 
   @Override
@@ -82,7 +87,13 @@ class RunAsFilter implements Filter {
     String runas = req.getHeader(RUN_AS);
     if (runas != null) {
       if (!enabled) {
-        replyError(req, res, SC_FORBIDDEN, RUN_AS + " disabled by auth.enableRunAs = false", null);
+        replyError(
+            errorHandlers,
+            req,
+            res,
+            SC_FORBIDDEN,
+            RUN_AS + " disabled by auth.enableRunAs = false",
+            null);
         return;
       }
 
@@ -95,11 +106,12 @@ class RunAsFilter implements Filter {
         }
         permissionBackend.user(self).check(GlobalPermission.RUN_AS);
       } catch (AuthException e) {
-        replyError(req, res, SC_FORBIDDEN, "not permitted to use " + RUN_AS, null);
+        replyError(errorHandlers, req, res, SC_FORBIDDEN, "not permitted to use " + RUN_AS, null);
         return;
       } catch (PermissionBackendException e) {
         logger.atWarning().withCause(e).log("cannot check runAs");
-        replyError(req, res, SC_INTERNAL_SERVER_ERROR, RUN_AS + " unavailable", null);
+        replyError(
+            errorHandlers, req, res, SC_INTERNAL_SERVER_ERROR, RUN_AS + " unavailable", null);
         return;
       }
 
@@ -108,11 +120,12 @@ class RunAsFilter implements Filter {
         target = accountResolver.find(runas);
       } catch (OrmException | IOException | ConfigInvalidException e) {
         logger.atWarning().withCause(e).log("cannot resolve account for %s", RUN_AS);
-        replyError(req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
+        replyError(
+            errorHandlers, req, res, SC_INTERNAL_SERVER_ERROR, "cannot resolve " + RUN_AS, e);
         return;
       }
       if (target == null) {
-        replyError(req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
+        replyError(errorHandlers, req, res, SC_FORBIDDEN, "no account matches " + RUN_AS, null);
         return;
       }
       session.get().setUserAccountId(target.getId());

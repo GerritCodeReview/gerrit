@@ -33,10 +33,12 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.DynamicOptions;
+import com.google.gerrit.server.restapi.RestApiErrorHandler;
 import com.google.gerrit.util.cli.CmdLineParser;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gson.JsonArray;
@@ -149,15 +151,18 @@ public class ParameterParser {
   private final CmdLineParser.Factory parserFactory;
   private final Injector injector;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
+  private final DynamicSet<RestApiErrorHandler> errorHandlers;
 
   @Inject
   ParameterParser(
       CmdLineParser.Factory pf,
       Injector injector,
-      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans) {
+      DynamicMap<DynamicOptions.DynamicBean> dynamicBeans,
+      DynamicSet<RestApiErrorHandler> errorHandlers) {
     this.parserFactory = pf;
     this.injector = injector;
     this.dynamicBeans = dynamicBeans;
+    this.errorHandlers = errorHandlers;
   }
 
   <T> boolean parse(
@@ -172,7 +177,7 @@ public class ParameterParser {
       clp.parseOptionMap(in);
     } catch (CmdLineException | NumberFormatException e) {
       if (!clp.wasHelpRequestedByOption()) {
-        replyError(req, res, SC_BAD_REQUEST, e.getMessage(), e);
+        replyError(errorHandlers, req, res, SC_BAD_REQUEST, e.getMessage(), e);
         return false;
       }
     }

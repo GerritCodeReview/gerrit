@@ -80,10 +80,7 @@ public class ReviewerJson {
       ReviewerInfo info =
           format(
               new ReviewerInfo(rsrc.getReviewerUser().getAccountId().get()),
-              permissionBackend
-                  .absentUser(rsrc.getReviewerUser().getAccountId())
-                  .database(db)
-                  .change(cd),
+              rsrc.getReviewerUser().getAccountId(),
               cd);
       loader.put(info);
       infos.add(info);
@@ -97,22 +94,19 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource>of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, PermissionBackend.ForChange perm, ChangeData cd)
+  public ReviewerInfo format(ReviewerInfo out, Account.Id reviewer, ChangeData cd)
       throws OrmException, PermissionBackendException {
     PatchSet.Id psId = cd.change().currentPatchSetId();
     return format(
         out,
-        perm,
+        reviewer,
         cd,
         approvalsUtil.byPatchSetUser(
             db.get(), cd.notes(), psId, new Account.Id(out._accountId), null, null));
   }
 
   public ReviewerInfo format(
-      ReviewerInfo out,
-      PermissionBackend.ForChange perm,
-      ChangeData cd,
-      Iterable<PatchSetApproval> approvals)
+      ReviewerInfo out, Account.Id reviewer, ChangeData cd, Iterable<PatchSetApproval> approvals)
       throws OrmException, PermissionBackendException {
     LabelTypes labelTypes = cd.getLabelTypes();
 
@@ -128,6 +122,9 @@ public class ReviewerJson {
     // do not exist in the DB.
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
+      PermissionBackend.ForChange perm =
+          permissionBackend.absentUser(reviewer).database(db).change(cd);
+
       for (SubmitRecord rec : submitRuleEvaluator.evaluate(cd)) {
         if (rec.labels == null) {
           continue;

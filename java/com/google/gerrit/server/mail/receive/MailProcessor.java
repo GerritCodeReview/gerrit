@@ -323,7 +323,6 @@ public class MailProcessor {
           .byPatchSetUser(
               ctx.getDb(),
               notes,
-              ctx.getUser(),
               psId,
               ctx.getAccountId(),
               ctx.getRevWalk(),

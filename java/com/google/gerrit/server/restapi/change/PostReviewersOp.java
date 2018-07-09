@@ -169,7 +169,7 @@ public class PostReviewersOp implements BatchUpdateOp {
                 ctx.getUpdate(ctx.getChange().currentPatchSetId()),
                 projectCache
                     .checkedGet(rsrc.getProject())
-                    .getLabelTypes(rsrc.getChange().getDest(), ctx.getUser()),
+                    .getLabelTypes(rsrc.getChange().getDest()),
                 rsrc.getChange(),
                 reviewers);
         if (addedReviewers.isEmpty()) {

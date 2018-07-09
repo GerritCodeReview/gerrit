@@ -87,7 +87,6 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
           approvalsUtil.byPatchSetUser(
               db.get(),
               rsrc.getChangeResource().getNotes(),
-              rsrc.getChangeResource().getUser(),
               rsrc.getChange().currentPatchSetId(),
               rsrc.getReviewerUser().getAccountId(),
               null,

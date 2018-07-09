@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af36211_ea83202b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-09T13:19:31Z",
+      "side": 1,
+      "message": "Can you explain in more details how this works and why using the change owner in this case is correct?\n\nIf I understand this correctly:\n\n- labels are defined in project.config\n- A part of the label configuration is label.\u003clabel-name\u003e.branches [1]\n  which defines to which branches the label should apply\n- For this branch definition one can use ref patterns, including using \u0027{$username}\u0027\n  which is a placeholder for the current user. E.g. label \"foo\" can be configured to\n  apply for \u0027refs/sandbox/{$username}/*\u0027.\n- This means label \"foo\" applies to my sandbox branch \u0027refs/sandbox/ekempin/x\u0027\n- However other people may push changes for my sandbox branch. E.g. hiesel can be\n  owner of a change for \u0027refs/sandbox/ekempin/x\u0027\n- Now to decide if for this change label \"foo\" should be applied you use the change\n  owner (hiesel) to resolve \u0027{$username}\u0027 in the ref pattern of the label. Wouldn\u0027t this\n  mean that you check if \"refs/sandbox/hiesel/*\" matches the destination branch of the change\n  which is \"refs/sandbox/ekempin/x\"? So you would find that the label doesn\u0027t apply although\n  it should apply?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_branch",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "edf2b176648797b8468630498f2a6c79474f0832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

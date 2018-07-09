@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -41,31 +42,6 @@ public class UiActionsTest {
 
   private static class FakeForProject extends ForProject {
     private boolean allowValueQueries = true;
-
-    @Override
-    public CurrentUser user() {
-      return new CurrentUser() {
-        @Override
-        public GroupMembership getEffectiveGroups() {
-          throw new UnsupportedOperationException("not implemented");
-        }
-
-        @Override
-        public Object getCacheKey() {
-          return new Object();
-        }
-
-        @Override
-        public boolean isIdentifiedUser() {
-          return true;
-        }
-
-        @Override
-        public Account.Id getAccountId() {
-          return new Account.Id(1);
-        }
-      };
-    }
 
     @Override
     public String resourcePath() {
@@ -100,6 +76,11 @@ public class UiActionsTest {
     }
 
     @Override
+    public BooleanCondition testCond(ProjectPermission perm) {
+      return new PermissionBackendCondition.ForProject(this, perm, fakeUser());
+    }
+
+    @Override
     public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
       throw new UnsupportedOperationException("not implemented");
@@ -107,6 +88,30 @@ public class UiActionsTest {
 
     private void disallowValueQueries() {
       allowValueQueries = false;
+    }
+
+    private static CurrentUser fakeUser() {
+      return new CurrentUser() {
+        @Override
+        public GroupMembership getEffectiveGroups() {
+          throw new UnsupportedOperationException("not implemented");
+        }
+
+        @Override
+        public Object getCacheKey() {
+          return new Object();
+        }
+
+        @Override
+        public boolean isIdentifiedUser() {
+          return true;
+        }
+
+        @Override
+        public Account.Id getAccountId() {
+          return new Account.Id(1);
+        }
+      };
     }
   }
 

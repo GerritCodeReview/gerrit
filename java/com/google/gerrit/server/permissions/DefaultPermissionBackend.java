@@ -23,6 +23,7 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.cache.PerThreadCache;
+import com.google.gerrit.server.permissions.PermissionBackendCondition.WithUser;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -98,11 +100,6 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     @Override
-    public CurrentUser user() {
-      return user;
-    }
-
-    @Override
     public ForProject project(Project.NameKey project) {
       try {
         ProjectState state = projectCache.checkedGet(project);
@@ -136,6 +133,11 @@ public class DefaultPermissionBackend extends PermissionBackend {
         }
       }
       return ok;
+    }
+
+    @Override
+    public BooleanCondition testCond(GlobalOrPluginPermission perm) {
+      return new PermissionBackendCondition.WithUser(this, perm, user);
     }
 
     private boolean can(GlobalOrPluginPermission perm) throws PermissionBackendException {

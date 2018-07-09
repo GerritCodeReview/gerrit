@@ -309,7 +309,6 @@ public class ReplaceOp implements BatchUpdateOp {
     approvalCopier.copyInReviewDb(
         ctx.getDb(),
         ctx.getNotes(),
-        ctx.getUser(),
         newPatchSet,
         ctx.getRevWalk(),
         ctx.getRepoView().getConfig(),
@@ -408,7 +407,6 @@ public class ReplaceOp implements BatchUpdateOp {
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
               ctx.getNotes(),
-              ctx.getUser(),
               priorPatchSetId,
               ctx.getAccountId(),
               ctx.getRevWalk(),
@@ -541,10 +539,7 @@ public class ReplaceOp implements BatchUpdateOp {
      * show a transition from an oldValue of 0 to the new value.
      */
     List<LabelType> labels =
-        projectCache
-            .checkedGet(ctx.getProject())
-            .getLabelTypes(notes, ctx.getUser())
-            .getLabelTypes();
+        projectCache.checkedGet(ctx.getProject()).getLabelTypes(notes).getLabelTypes();
     Map<String, Short> allApprovals = new HashMap<>();
     Map<String, Short> oldApprovals = new HashMap<>();
     for (LabelType lt : labels) {

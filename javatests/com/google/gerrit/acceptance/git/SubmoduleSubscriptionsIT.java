@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GerritConfig;
@@ -23,9 +24,11 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.testing.ConfigSuite;
+import com.google.gerrit.testing.TestTimeUtil;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
@@ -522,84 +525,134 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Test
+  public void superRepoCommitHasSameAuthorAsSubmoduleCommit() throws Exception {
+    // Make sure that the commit is created at an earlier timestamp than the submit timestamp.
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    try {
+      TestRepository<?> superRepo = createProjectWithPush("super-project");
+      TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+      allowMatchingSubmoduleSubscription(
+          "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+      createSubmoduleSubscription(superRepo, "master", "subscribed-to-project", "master");
+
+      PushOneCommit.Result pushResult =
+          createChange(subRepo, "refs/heads/master", "Change", "a.txt", "some content", null);
+      approve(pushResult.getChangeId());
+      gApi.changes().id(pushResult.getChangeId()).current().submit();
+
+      // Expect that the author name/email is preserved for the superRepo commit, but a new author
+      // timestamp is used.
+      PersonIdent authorIdent = getAuthor(superRepo, "master");
+      assertThat(authorIdent.getName()).isEqualTo(admin.fullName);
+      assertThat(authorIdent.getEmailAddress()).isEqualTo(admin.email);
+      assertThat(authorIdent.getWhen())
+          .isGreaterThan(pushResult.getCommit().getAuthorIdent().getWhen());
+    } finally {
+      TestTimeUtil.useSystemTime();
+    }
+  }
+
+  @Test
   public void superRepoCommitHasSameAuthorAsSubmoduleCommits() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
-    TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
+    // Make sure that the commits are created at different timestamps and that the submit timestamp
+    // is afterwards.
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    try {
+      TestRepository<?> superRepo = createProjectWithPush("super-project");
+      TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+      TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
 
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
+      allowMatchingSubmoduleSubscription(
+          "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+      allowMatchingSubmoduleSubscription(
+          "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
 
-    Config config = new Config();
-    prepareSubmoduleConfigEntry(config, "subscribed-to-project", "master");
-    prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
-    pushSubmoduleConfig(superRepo, "master", config);
+      Config config = new Config();
+      prepareSubmoduleConfigEntry(config, "subscribed-to-project", "master");
+      prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
+      pushSubmoduleConfig(superRepo, "master", config);
 
-    String topic = "foo";
+      String topic = "foo";
 
-    subRepo.tick(1); // Make sure that both changes have different timestamps.
-    String changeId1 =
-        createChange(subRepo, "refs/heads/master", "Change 1", "a.txt", "some content", topic)
-            .getChangeId();
-    approve(changeId1);
+      PushOneCommit.Result pushResult1 =
+          createChange(subRepo, "refs/heads/master", "Change 1", "a.txt", "some content", topic);
+      approve(pushResult1.getChangeId());
 
-    subRepo2.tick(2); // Make sure that both changes have different timestamps.
-    String changeId2 =
-        createChange(subRepo2, "refs/heads/master", "Change 2", "b.txt", "other content", topic)
-            .getChangeId();
-    approve(changeId2);
+      PushOneCommit.Result pushResult2 =
+          createChange(subRepo2, "refs/heads/master", "Change 2", "b.txt", "other content", topic);
+      approve(pushResult2.getChangeId());
 
-    // Submit the topic, 2 changes with the same author.
-    gApi.changes().id(changeId1).current().submit();
+      // Submit the topic, 2 changes with the same author.
+      gApi.changes().id(pushResult1.getChangeId()).current().submit();
 
-    // Expect that the author is preserved for the superRepo commit.
-    expectToHaveAuthor(superRepo, "master", admin.fullName, admin.email);
+      // Expect that the author name/email is preserved for the superRepo commit, but a new author
+      // timestamp is used.
+      PersonIdent authorIdent = getAuthor(superRepo, "master");
+      assertThat(authorIdent.getName()).isEqualTo(admin.fullName);
+      assertThat(authorIdent.getEmailAddress()).isEqualTo(admin.email);
+      assertThat(authorIdent.getWhen())
+          .isGreaterThan(pushResult1.getCommit().getAuthorIdent().getWhen());
+      assertThat(authorIdent.getWhen())
+          .isGreaterThan(pushResult2.getCommit().getAuthorIdent().getWhen());
+    } finally {
+      TestTimeUtil.useSystemTime();
+    }
   }
 
   @Test
   public void superRepoCommitHasGerritAsAuthorIfAuthorsOfSubmoduleCommitsDiffer() throws Exception {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
 
-    TestRepository<?> superRepo = createProjectWithPush("super-project");
-    TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
+    // Make sure that the commits are created at different timestamps and that the submit timestamp
+    // is afterwards.
+    TestTimeUtil.resetWithClockStep(1, SECONDS);
+    try {
+      TestRepository<?> superRepo = createProjectWithPush("super-project");
+      TestRepository<?> subRepo = createProjectWithPush("subscribed-to-project");
 
-    TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
-    subRepo2 = cloneProject(new Project.NameKey(name("subscribed-to-project-2")), user);
+      TestRepository<?> subRepo2 = createProjectWithPush("subscribed-to-project-2");
+      subRepo2 = cloneProject(new Project.NameKey(name("subscribed-to-project-2")), user);
 
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
-    allowMatchingSubmoduleSubscription(
-        "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
+      allowMatchingSubmoduleSubscription(
+          "subscribed-to-project", "refs/heads/master", "super-project", "refs/heads/master");
+      allowMatchingSubmoduleSubscription(
+          "subscribed-to-project-2", "refs/heads/master", "super-project", "refs/heads/master");
 
-    Config config = new Config();
-    prepareSubmoduleConfigEntry(config, "subscribed-to-project", "master");
-    prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
-    pushSubmoduleConfig(superRepo, "master", config);
+      Config config = new Config();
+      prepareSubmoduleConfigEntry(config, "subscribed-to-project", "master");
+      prepareSubmoduleConfigEntry(config, "subscribed-to-project-2", "master");
+      pushSubmoduleConfig(superRepo, "master", config);
 
-    String topic = "foo";
+      String topic = "foo";
 
-    // Create change as admin.
-    String changeId1 =
-        createChange(subRepo, "refs/heads/master", "Change 1", "a.txt", "some content", topic)
-            .getChangeId();
-    approve(changeId1);
+      // Create change as admin.
+      PushOneCommit.Result pushResult1 =
+          createChange(subRepo, "refs/heads/master", "Change 1", "a.txt", "some content", topic);
+      approve(pushResult1.getChangeId());
 
-    // Create change as user.
-    PushOneCommit push =
-        pushFactory.create(db, user.getIdent(), subRepo2, "Change 2", "b.txt", "other content");
-    String changeId2 = push.to("refs/for/master/" + name(topic)).getChangeId();
-    approve(changeId2);
+      // Create change as user.
+      PushOneCommit push =
+          pushFactory.create(db, user.getIdent(), subRepo2, "Change 2", "b.txt", "other content");
+      PushOneCommit.Result pushResult2 = push.to("refs/for/master/" + name(topic));
+      approve(pushResult2.getChangeId());
 
-    // Submit the topic, 2 changes with the different author.
-    gApi.changes().id(changeId1).current().submit();
+      // Submit the topic, 2 changes with the different author.
+      gApi.changes().id(pushResult1.getChangeId()).current().submit();
 
-    // Expect that the Gerrit server identity is chosen as author for the superRepo commit.
-    expectToHaveAuthor(
-        superRepo, "master", serverIdent.get().getName(), serverIdent.get().getEmailAddress());
+      // Expect that the Gerrit server identity is chosen as author for the superRepo commit and a
+      // new author timestamp is used.
+      PersonIdent authorIdent = getAuthor(superRepo, "master");
+      assertThat(authorIdent.getName()).isEqualTo(serverIdent.get().getName());
+      assertThat(authorIdent.getEmailAddress()).isEqualTo(serverIdent.get().getEmailAddress());
+      assertThat(authorIdent.getWhen())
+          .isGreaterThan(pushResult1.getCommit().getAuthorIdent().getWhen());
+      assertThat(authorIdent.getWhen())
+          .isGreaterThan(pushResult2.getCommit().getAuthorIdent().getWhen());
+    } finally {
+      TestTimeUtil.useSystemTime();
+    }
   }
 
   private void testSubmoduleSubjectCommitMessageAndExpectTruncation() throws Exception {

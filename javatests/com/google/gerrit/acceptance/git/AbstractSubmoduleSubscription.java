@@ -438,9 +438,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     assertThat(c.getFullMessage()).isEqualTo(expectedMessage);
   }
 
-  protected void expectToHaveAuthor(
-      TestRepository<?> repo, String branch, String expectedAuthorName, String expectedAuthorEmail)
-      throws Exception {
+  protected PersonIdent getAuthor(TestRepository<?> repo, String branch) throws Exception {
     ObjectId commitId =
         repo.git()
             .fetch()
@@ -451,8 +449,6 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
 
     RevWalk rw = repo.getRevWalk();
     RevCommit c = rw.parseCommit(commitId);
-    PersonIdent authorIdent = c.getAuthorIdent();
-    assertThat(authorIdent.getName()).isEqualTo(expectedAuthorName);
-    assertThat(authorIdent.getEmailAddress()).isEqualTo(expectedAuthorEmail);
+    return c.getAuthorIdent();
   }
 }

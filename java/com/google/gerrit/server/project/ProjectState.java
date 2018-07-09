@@ -410,7 +410,7 @@ public class ProjectState {
         r.add(l);
       } else {
         for (String refPattern : refs) {
-          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern, user)) {
+          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern)) {
             r.add(l);
             break;
           }
@@ -558,7 +558,7 @@ public class ProjectState {
     return new LabelTypes(Collections.unmodifiableList(all));
   }
 
-  private boolean match(Branch.NameKey destination, String refPattern, CurrentUser user) {
-    return RefPatternMatcher.getMatcher(refPattern).match(destination.get(), user);
+  private boolean match(Branch.NameKey destination, String refPattern) {
+    return RefPatternMatcher.getMatcher(refPattern, false).match(destination.get(), null);
   }
 }

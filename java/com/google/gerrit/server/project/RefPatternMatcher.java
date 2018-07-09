@@ -20,6 +20,7 @@ import static com.google.gerrit.server.project.RefPattern.isRE;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -31,7 +32,19 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public abstract class RefPatternMatcher {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static RefPatternMatcher getMatcher(String pattern) {
+    return getMatcher(pattern, true);
+  }
+
+  public static RefPatternMatcher getMatcher(String pattern, boolean allowExpandedParameters) {
+    if (!allowExpandedParameters && pattern.contains("${")) {
+      logger.atWarning().log("RefPattern contains unexpected expanded parameters: " + pattern);
+      // Return an exact matcher that will fail to match.
+      return new Exact(pattern);
+    }
+
     if (pattern.contains("${")) {
       return new ExpandParameters(pattern);
     } else if (isRE(pattern)) {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "030a5c6b_3f04d7d8",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-09T14:43:33Z",
+      "side": 1,
+      "message": "This message is still not specific enough.\n\nThis warning is logged if there is a project.config with label.\u003cname\u003e.branch set to a ref pattern that contains \"${...}\". From this warning we must be able to find that label definition. With the current information we don\u0027t know at which repository to look and what\u0027s the label name. Also the message should clearly say that this is wrong configuration. Currently it sounds more like an error.",
+      "range": {
+        "startLine": 563,
+        "startChar": 6,
+        "endLine": 567,
+        "endChar": 29
+      },
+      "revId": "c05116547cfa0cecc07ee7a6a72fbd20db942fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "58518e9b_206ff5a3",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-09T14:43:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c46206e0_449ebf23",
+      "range": {
+        "startLine": 403,
+        "startChar": 60,
+        "endLine": 403,
+        "endChar": 78
+      },
+      "revId": "1e99d21fe8727f1ce378c2bf7f919de93b21b602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1be3d31e_c75cd91c",
         "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
         "patchSetId": 1

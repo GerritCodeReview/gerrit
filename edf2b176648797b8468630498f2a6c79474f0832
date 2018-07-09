@@ -22,6 +22,30 @@
       "revId": "edf2b176648797b8468630498f2a6c79474f0832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91342941_4604c908",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-09T14:37:24Z",
+      "side": 1,
+      "message": "Done. As discussed offline, this is addressed now by the predecessor change.",
+      "parentUuid": "0af36211_ea83202b",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "edf2b176648797b8468630498f2a6c79474f0832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

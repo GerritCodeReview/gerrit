@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd73f784_bbd54df7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-09T19:20:37Z",
+      "side": 1,
+      "message": "\u003e Also, in the linked issue, it describes HLJS finding syntax symbols in Clojure code, so I suspect it must have been included in that case.\n\nIt did it only after I\u0027ve built HLJS from the mentioned commit. I skipped the minification process to simplify debugging and this fixed styling issue. After I reverted this change, i was geting exception, that not clojure module is found. In fact, if i search in the base version in Emacs, I don\u0027t see this part:\n\n  b.registerLanguage(\"clojure\",function(a)\n\nMy impression is, that the base HLJS version was built without clojure.js included.\n\nOn googlesource.com this line is present here: [1].\n\n  e.registerLanguage(\"clojure\",function(e)\n\nif I try to find it on gerrithub.io, that is running the latest stable-2.15 branch: [2], I also see\n\n  b.registerLanguage(\"clojure\",function(a)\n\nConclusion: HLJS is broken on master, but is just fine on stable-2.15.\n\nTrying to bisect it, I suspect, that it was broken in this commit:\n\n  db8691a96b274d4784d089ddc41f7c359b2f9181\n\nIf I revert this change, then the size of minified file is:\n\n  $ ls -all lib/highlightjs/highlight.min.js\n-rw-r--r-- 1 davido users 88056 Jul  9 21:13 lib/highlightjs/highlight.min.js\n\nand this line present:\n\n  b.registerLanguage(\"clojure\",function(a)\n\nWithout the revert, the line above is missing, and the file is really tiny:\n\n  $ ls -all lib/highlightjs/highlight.min.js\n-rw-r--r-- 1 davido users 45778 Jul  9 21:16 lib/highlightjs/highlight.min.js\n\nand this line is missing:\n\n  b.registerLanguage(\"clojure\",function(a)\n\nAnd I get exception when trying to open test.clj file: no clojure mod found or some such.\n\nConclusion: HLJS was broken in master in this commit: db8691a96b274d4784d089ddc41f7c359b2f9181.\n\n* [1] https://cdn.googlesource.com/polygerrit_ui/524.0/bower_components/highlightjs/highlight.min.js\n* [2] https://review.gerrithub.io/bower_components/highlightjs/highlight.min.js",
+      "parentUuid": "a2324c72_ed576b77",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "fe230def6d2169e7d73cc10fa916382a3e4d3e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a8dcb2b_9fb6e766",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-07-09T01:06:21Z",
       "side": 1,
       "message": "To avoid these problems in future, can we include this build step in the gerrit build process?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "fe230def6d2169e7d73cc10fa916382a3e4d3e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69da53a4_34c7cdce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-09T19:20:37Z",
+      "side": 1,
+      "message": "Good point, but HLJS is dead and there is no point o build again and again dead project without any progress. Beside the fact, the build process is not trivial, as it depends on npm that is not easy doable in Bazel.",
+      "parentUuid": "5a8dcb2b_9fb6e766",
       "range": {
         "startLine": 9,
         "startChar": 0,

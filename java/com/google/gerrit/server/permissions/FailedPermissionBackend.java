@@ -15,6 +15,7 @@
 package com.google.gerrit.server.permissions;
 
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -84,11 +85,6 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public CurrentUser user() {
-      throw new UnsupportedOperationException("FailedPermissionBackend is not scoped to user");
-    }
-
-    @Override
     public ForProject project(Project.NameKey project) {
       return new FailedProject(message, cause);
     }
@@ -102,6 +98,12 @@ public class FailedPermissionBackend {
     public <T extends GlobalOrPluginPermission> Set<T> test(Collection<T> permSet)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
+    }
+
+    @Override
+    public BooleanCondition testCond(GlobalOrPluginPermission perm) {
+      throw new UnsupportedOperationException(
+          "FailedPermissionBackend does not support conditions");
     }
   }
 
@@ -117,11 +119,6 @@ public class FailedPermissionBackend {
     @Override
     public ForProject database(Provider<ReviewDb> db) {
       return this;
-    }
-
-    @Override
-    public CurrentUser user() {
-      throw new UnsupportedOperationException("FailedPermissionBackend is not scoped to user");
     }
 
     @Override
@@ -157,6 +154,12 @@ public class FailedPermissionBackend {
     }
 
     @Override
+    public BooleanCondition testCond(ProjectPermission perm) {
+      throw new UnsupportedOperationException(
+          "FailedPermissionBackend does not support conditions");
+    }
+
+    @Override
     public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
@@ -175,11 +178,6 @@ public class FailedPermissionBackend {
     @Override
     public ForRef database(Provider<ReviewDb> db) {
       return this;
-    }
-
-    @Override
-    public CurrentUser user() {
-      throw new UnsupportedOperationException("FailedPermissionBackend is not scoped to user");
     }
 
     @Override
@@ -222,6 +220,12 @@ public class FailedPermissionBackend {
     public Set<RefPermission> test(Collection<RefPermission> permSet)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
+    }
+
+    @Override
+    public BooleanCondition testCond(RefPermission perm) {
+      throw new UnsupportedOperationException(
+          "FailedPermissionBackend does not support conditions");
     }
   }
 
@@ -267,8 +271,9 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public CurrentUser user() {
-      throw new UnsupportedOperationException("FailedPermissionBackend is not scoped to user");
+    public BooleanCondition testCond(ChangePermissionOrLabel perm) {
+      throw new UnsupportedOperationException(
+          "FailedPermissionBackend does not support conditions");
     }
   }
 }

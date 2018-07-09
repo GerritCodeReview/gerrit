@@ -77,13 +77,18 @@ public class SystemLog {
   }
 
   private AsyncAppender createAsyncAppender(String name, Layout layout, boolean rotate) {
+    return createAsyncAppender(name, layout, rotate, false);
+  }
+
+  public AsyncAppender createAsyncAppender(
+      String name, Layout layout, boolean rotate, boolean forPlugin) {
     AsyncAppender async = new AsyncAppender();
     async.setName(name);
     async.setBlocking(true);
     async.setBufferSize(asyncLoggingBufferSize);
     async.setLocationInfo(false);
 
-    if (shouldConfigure()) {
+    if (forPlugin || shouldConfigure()) {
       async.addAppender(createAppender(site.logs_dir, name, layout, rotate));
     } else {
       Appender appender = LogManager.getLogger(name).getAppender(name);

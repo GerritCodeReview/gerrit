@@ -2989,6 +2989,9 @@ respectively. When using version 6.2 or later, the open and closed changes are
 merged into the default `_doc` type. The latter is also used for the accounts and
 groups indices starting with Elasticsearch 6.2.
 
+Note that when Gerrit is configured to use Elasticsearch, the Elasticsearch
+server(s) must be reachable during the site initialization.
+
 [[elasticsearch.prefix]]elasticsearch.prefix::
 +
 This setting can be used to prefix index names to allow multiple Gerrit
@@ -2997,17 +3000,17 @@ change index named `gerrit1_changes_0001`.
 +
 Not set by default.
 
-[[elasticsearch.username]]elasticsearch.username::
+[[elasticsearch.server]]elasticsearch.server::
 +
-Username used to connect to Elasticsearch.
+Elasticsearch server URI in the form `http[s]://hostname:port`. The `port` is
+optional and defaults to `9200` if not specified.
 +
-Not set by default.
-
-[[elasticsearch.password]]elasticsearch.password::
+At least one server must be specified. May be specified multiple times to
+configure multiple Elasticsearch servers.
 +
-Password used to connect to Elasticsearch.
-+
-Not set by default.
+Note that the site initialization program only allows to configure a single
+server. To configure multiple servers the `gerrit.config` file must be edited
+manually.
 
 [[elasticsearch.maxRetryTimeout]]elasticsearch.maxRetryTimeout::
 +
@@ -3017,28 +3020,29 @@ The value is in the usual time-unit format like `1 m`, `5 m`.
 +
 Defaults to `30000 ms`.
 
-==== Elasticsearch server(s) configuration
+==== Elasticsearch Security
 
-Each section corresponds to one Elasticsearch server.
+When security is enabled in Elasticsearch, the username and password must be provided.
+Note that the same username and password are used for all servers.
 
-[[elasticsearch.name.protocol]]elasticsearch.name.protocol::
-+
-Elasticsearch server protocol. Can be `http` or `https`.
-+
-Defaults to `http`.
+For further information about Elasticsearch security, please refer to the documentation:
 
-[[elasticsearch.name.hostname]]elasticsearch.name.hostname::
-+
-Elasticsearch server hostname.
-+
-Defaults to `localhost`.
+* link:https://www.elastic.co/guide/en/elasticsearch/plugins/2.4/security.html[Elasticsearch 2.4]
+* link:https://www.elastic.co/guide/en/x-pack/5.6/security-getting-started.html[Elasticsearch 5.6]
+* link:https://www.elastic.co/guide/en/x-pack/6.2/security-getting-started.html[Elasticsearch 6.2]
+* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3]
 
-[[elasticsearch.name.port]]elasticsearch.name.port::
+[[elasticsearch.username]]elasticsearch.username::
 +
-Elasticsearch server port.
+Username used to connect to Elasticsearch.
 +
-Defaults to `9200`.
+If a password is set, defaults to `elastic`, otherwise not set by default.
 
+[[elasticsearch.password]]elasticsearch.password::
++
+Password used to connect to Elasticsearch.
++
+Not set by default.
 
 [[ldap]]
 === Section ldap

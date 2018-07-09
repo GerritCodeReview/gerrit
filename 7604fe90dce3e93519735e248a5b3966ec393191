@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "bb521371_04fca39d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-09T14:43:51Z",
+      "side": 1,
+      "message": "The hard part is teasing apart the dependencies so it is possible to split off files.\n\nI think the place (directory name) where we put the files is basically a bikeshed discussion, and we should only avoid doing if it is for an API that is widely used in plugins, as it would cause a lot of code churn.",
+      "parentUuid": "e88479b7_c86aa760",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d19d7eb_12d3d3a1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
         "patchSetId": 6

@@ -130,8 +130,6 @@
        */
       _commentMap: Object,
 
-      _commentsForDiff: Object,
-
       /**
        * Object to contain the path of the next and previous file in the current
        * change and patch range that has comments.
@@ -171,7 +169,6 @@
     ],
 
     observers: [
-      '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*)',
       '_setReviewedObserver(_loggedIn, params.*, _prefs)',
     ],
@@ -216,7 +213,6 @@
 
     _getChangeDetail(changeNum) {
       return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
-        this._change = change;
         return change;
       });
     },
@@ -585,26 +581,16 @@
         this._userPrefs = prefs;
       }));
 
-      promises.push(this._getChangeDetail(this._changeNum).then(change => {
-        let commit;
-        let baseCommit;
-        for (const commitSha in change.revisions) {
-          if (!change.revisions.hasOwnProperty(commitSha)) continue;
-          const revision = change.revisions[commitSha];
-          const patchNum = revision._number.toString();
-          if (patchNum === this._patchRange.patchNum) {
-            commit = commitSha;
-            const commitObj = revision.commit || {};
-            const parents = commitObj.parents || [];
-            if (this._patchRange.basePatchNum === PARENT && parents.length) {
-              baseCommit = parents[parents.length - 1].commit;
-            }
-          } else if (patchNum === this._patchRange.basePatchNum) {
-            baseCommit = commitSha;
-          }
-        }
-        this._commitRange = {commit, baseCommit};
-      }));
+      const detailRequest = this._getChangeDetail(this._changeNum)
+          .then(change => {
+            this._change = change;
+            this._commitRange = this._getCommitRange(change, this._patchRange);
+            return change;
+          });
+      promises.push(detailRequest);
+
+      promises.push(detailRequest.then(change =>
+          this._getProjectConfig(change.project)));
 
       promises.push(this._loadComments());
 
@@ -621,11 +607,38 @@
           });
         }
         this._loading = false;
-        this.$.diff.comments = this._commentsForDiff;
         return this.$.diff.reload();
       }).then(() => {
         this.$.reporting.diffViewDisplayed();
       });
+    },
+
+    /**
+     * Get an object describing the revision and base commits of the range.
+     * @param {!Object} change The change detail.
+     * @param {!Object} patchRange
+     * @return {!Object} an object with the revision commit as "commit" and the
+     *     base commit as "baseCommit".
+     */
+    _getCommitRange(change, patchRange) {
+      let commit;
+      let baseCommit;
+      for (const commitSha in change.revisions) {
+        if (!change.revisions.hasOwnProperty(commitSha)) { continue; }
+        const revision = change.revisions[commitSha];
+        const patchNum = revision._number.toString();
+        if (patchNum === patchRange.patchNum) {
+          commit = commitSha;
+          const commitObj = revision.commit || {};
+          const parents = commitObj.parents || [];
+          if (patchRange.basePatchNum === PARENT && parents.length) {
+            baseCommit = parents[parents.length - 1].commit;
+          }
+        } else if (patchNum === patchRange.basePatchNum) {
+          baseCommit = commitSha;
+        }
+      }
+      return {commit, baseCommit};
     },
 
     _changeViewStateChanged(changeViewState) {
@@ -874,9 +887,6 @@
       return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
         this._changeComments = comments;
         this._commentMap = this._getPaths(this._patchRange);
-
-        this._commentsForDiff = this._getCommentsForPath(this._path,
-            this._patchRange, this._projectConfig);
       });
     },
 

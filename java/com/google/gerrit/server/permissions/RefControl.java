@@ -20,6 +20,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -408,11 +409,6 @@ class RefControl {
     private String resourcePath;
 
     @Override
-    public CurrentUser user() {
-      return getUser();
-    }
-
-    @Override
     public ForRef user(CurrentUser user) {
       return forUser(user).asForRef().database(db);
     }
@@ -478,6 +474,11 @@ class RefControl {
         }
       }
       return ok;
+    }
+
+    @Override
+    public BooleanCondition testCond(RefPermission perm) {
+      return new PermissionBackendCondition.ForRef(this, perm, getUser());
     }
 
     private boolean can(RefPermission perm) throws PermissionBackendException {

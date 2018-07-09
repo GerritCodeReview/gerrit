@@ -402,14 +402,14 @@ public class ApprovalsUtil {
       ReviewDb db,
       ChangeNotes notes,
       PatchSet.Id psId,
-      Account.Id accountId,
+      Account.Id accountIdToFilterApprovals,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
       throws OrmException {
     if (!migration.readChanges()) {
-      return sortApprovals(db.patchSetApprovals().byPatchSetUser(psId, accountId));
+      return sortApprovals(db.patchSetApprovals().byPatchSetUser(psId, accountIdToFilterApprovals));
     }
-    return filterApprovals(byPatchSet(db, notes, psId, rw, repoConfig), accountId);
+    return filterApprovals(byPatchSet(db, notes, psId, rw, repoConfig), accountIdToFilterApprovals);
   }
 
   public PatchSetApproval getSubmitter(ReviewDb db, ChangeNotes notes, PatchSet.Id c) {

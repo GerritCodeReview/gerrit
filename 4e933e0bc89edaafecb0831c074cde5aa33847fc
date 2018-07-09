@@ -23,6 +23,30 @@
       "revId": "4e933e0bc89edaafecb0831c074cde5aa33847fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "710fa9c1_f86e11b0",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-09T06:09:39Z",
+      "side": 1,
+      "message": "I\u0027m aware of this and in my opinion it\u0027s okay if it allows us to simplify the bindings of the REST endpoints. Actually this assumption that these are only valid HTTP verbs was already given up with [1] which added CREATE to support resource creation.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/185570/3/java/com/google/gerrit/extensions/restapi/RestApiModule.java",
+      "parentUuid": "5d37c0bf_ae92ba91",
+      "range": {
+        "startLine": 313,
+        "startChar": 40,
+        "endLine": 313,
+        "endChar": 58
+      },
+      "revId": "4e933e0bc89edaafecb0831c074cde5aa33847fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

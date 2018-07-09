@@ -26,11 +26,8 @@ import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -71,43 +68,25 @@ public class LabelNormalizer {
     }
   }
 
-  private final IdentifiedUser.GenericFactory userFactory;
   private final ProjectCache projectCache;
 
   @Inject
-  LabelNormalizer(IdentifiedUser.GenericFactory userFactory, ProjectCache projectCache) {
-    this.userFactory = userFactory;
+  LabelNormalizer(ProjectCache projectCache) {
     this.projectCache = projectCache;
   }
 
   /**
-   * @param notes change containing the given approvals.
+   * @param notes change notes containing the given approvals.
    * @param approvals list of approvals.
    * @return copies of approvals normalized to the defined ranges for the label type. Approvals for
    *     unknown labels are not included in the output.
-   * @throws OrmException
    */
   public Result normalize(ChangeNotes notes, Collection<PatchSetApproval> approvals)
-      throws OrmException, IOException {
-    IdentifiedUser user = userFactory.create(notes.getChange().getOwner());
-    return normalize(notes, user, approvals);
-  }
-
-  /**
-   * @param notes change notes containing the given approvals.
-   * @param user current user.
-   * @param approvals list of approvals.
-   * @return copies of approvals normalized to the defined ranges for the label type. Approvals for
-   *     unknown labels are not included in the output.
-   */
-  public Result normalize(
-      ChangeNotes notes, CurrentUser user, Collection<PatchSetApproval> approvals)
       throws IOException {
     List<PatchSetApproval> unchanged = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> updated = Lists.newArrayListWithCapacity(approvals.size());
     List<PatchSetApproval> deleted = Lists.newArrayListWithCapacity(approvals.size());
-    LabelTypes labelTypes =
-        projectCache.checkedGet(notes.getProjectName()).getLabelTypes(notes, user);
+    LabelTypes labelTypes = projectCache.checkedGet(notes.getProjectName()).getLabelTypes(notes);
     for (PatchSetApproval psa : approvals) {
       Change.Id changeId = psa.getKey().getParentKey().getParentKey();
       checkArgument(

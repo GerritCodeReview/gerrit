@@ -361,7 +361,7 @@ public class MergeUtil {
 
     PatchSetApproval submitAudit = null;
 
-    for (PatchSetApproval a : safeGetApprovals(notes, user, psId)) {
+    for (PatchSetApproval a : safeGetApprovals(notes, psId)) {
       if (a.getValue() <= 0) {
         // Negative votes aren't counted.
         continue;
@@ -460,10 +460,9 @@ public class MergeUtil {
     return "Verified".equalsIgnoreCase(id.get());
   }
 
-  private Iterable<PatchSetApproval> safeGetApprovals(
-      ChangeNotes notes, CurrentUser user, PatchSet.Id psId) {
+  private Iterable<PatchSetApproval> safeGetApprovals(ChangeNotes notes, PatchSet.Id psId) {
     try {
-      return approvalsUtil.byPatchSet(db.get(), notes, user, psId, null, null);
+      return approvalsUtil.byPatchSet(db.get(), notes, psId, null, null);
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Can't read approval records for %s", psId);
       return Collections.emptyList();

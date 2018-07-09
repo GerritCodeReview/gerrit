@@ -521,8 +521,7 @@ public class ChangeInserter implements InsertChangeOp {
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
-        List<LabelType> labels =
-            projectState.getLabelTypes(change.getDest(), ctx.getUser()).getLabelTypes();
+        List<LabelType> labels = projectState.getLabelTypes(change).getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
         for (LabelType lt : labels) {

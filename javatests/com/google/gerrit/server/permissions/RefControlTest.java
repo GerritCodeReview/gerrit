@@ -971,6 +971,7 @@ public class RefControlTest {
             repoManager,
             commentLinks,
             capabilityCollectionFactory,
+            identifiedUserFactory,
             pc));
     return repo;
   }

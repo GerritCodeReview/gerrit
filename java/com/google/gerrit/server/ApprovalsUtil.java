@@ -388,7 +388,6 @@ public class ApprovalsUtil {
   public Iterable<PatchSetApproval> byPatchSet(
       ReviewDb db,
       ChangeNotes notes,
-      CurrentUser user,
       PatchSet.Id psId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
@@ -396,13 +395,12 @@ public class ApprovalsUtil {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSet(psId));
     }
-    return copier.getForPatchSet(db, notes, user, psId, rw, repoConfig);
+    return copier.getForPatchSet(db, notes, psId, rw, repoConfig);
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(
       ReviewDb db,
       ChangeNotes notes,
-      CurrentUser user,
       PatchSet.Id psId,
       Account.Id accountId,
       @Nullable RevWalk rw,
@@ -411,7 +409,7 @@ public class ApprovalsUtil {
     if (!migration.readChanges()) {
       return sortApprovals(db.patchSetApprovals().byPatchSetUser(psId, accountId));
     }
-    return filterApprovals(byPatchSet(db, notes, user, psId, rw, repoConfig), accountId);
+    return filterApprovals(byPatchSet(db, notes, psId, rw, repoConfig), accountId);
   }
 
   public PatchSetApproval getSubmitter(ReviewDb db, ChangeNotes notes, PatchSet.Id c) {

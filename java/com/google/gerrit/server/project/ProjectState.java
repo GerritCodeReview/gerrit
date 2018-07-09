@@ -35,12 +35,15 @@ import com.google.gerrit.extensions.api.projects.ThemeInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.index.project.ProjectData;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -83,6 +86,7 @@ public class ProjectState {
   private final ProjectCache projectCache;
   private final GitRepositoryManager gitMgr;
   private final List<CommentLinkInfo> commentLinks;
+  private final IdentifiedUser.GenericFactory userFactory;
 
   private final ProjectConfig config;
   private final Map<String, ProjectLevelConfig> configs;
@@ -112,6 +116,7 @@ public class ProjectState {
       final GitRepositoryManager gitMgr,
       final List<CommentLinkInfo> commentLinks,
       final CapabilityCollection.Factory limitsFactory,
+      final IdentifiedUser.GenericFactory userFactory,
       @Assisted final ProjectConfig config) {
     this.sitePaths = sitePaths;
     this.projectCache = projectCache;
@@ -126,6 +131,7 @@ public class ProjectState {
         isAllProjects
             ? limitsFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
             : null;
+    this.userFactory = userFactory;
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -394,31 +400,14 @@ public class ProjectState {
     return labelTypes;
   }
 
-  /** All available label types for this change and user. */
-  public LabelTypes getLabelTypes(ChangeNotes notes, CurrentUser user) {
-    return getLabelTypes(notes.getChange().getDest(), user);
+  /** All available label types for this change. */
+  public LabelTypes getLabelTypes(ChangeNotes notes) {
+    return getLabelTypes(notes.getChange().getDest(), notes.getChange().getOwner());
   }
 
-  /** All available label types for this branch and user. */
-  public LabelTypes getLabelTypes(Branch.NameKey destination, CurrentUser user) {
-    List<LabelType> all = getLabelTypes().getLabelTypes();
-
-    List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
-    for (LabelType l : all) {
-      List<String> refs = l.getRefPatterns();
-      if (refs == null) {
-        r.add(l);
-      } else {
-        for (String refPattern : refs) {
-          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern, user)) {
-            r.add(l);
-            break;
-          }
-        }
-      }
-    }
-
-    return new LabelTypes(r);
+  /** All available label types for this change. */
+  public LabelTypes getLabelTypes(Change change) {
+    return getLabelTypes(change.getDest(), change.getOwner());
   }
 
   public List<CommentLinkInfo> getCommentLinks() {
@@ -558,7 +547,30 @@ public class ProjectState {
     return new LabelTypes(Collections.unmodifiableList(all));
   }
 
-  private boolean match(Branch.NameKey destination, String refPattern, CurrentUser user) {
-    return RefPatternMatcher.getMatcher(refPattern).match(destination.get(), user);
+  /** All available label types for this branch and changeOwner. */
+  private LabelTypes getLabelTypes(Branch.NameKey destination, Account.Id changeOwner) {
+    IdentifiedUser owner = userFactory.create(changeOwner);
+    List<LabelType> all = getLabelTypes().getLabelTypes();
+
+    List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
+    for (LabelType l : all) {
+      List<String> refs = l.getRefPatterns();
+      if (refs == null) {
+        r.add(l);
+      } else {
+        for (String refPattern : refs) {
+          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern, owner)) {
+            r.add(l);
+            break;
+          }
+        }
+      }
+    }
+
+    return new LabelTypes(r);
+  }
+
+  private boolean match(Branch.NameKey destination, String refPattern, CurrentUser changeOwner) {
+    return RefPatternMatcher.getMatcher(refPattern).match(destination.get(), changeOwner);
   }
 }

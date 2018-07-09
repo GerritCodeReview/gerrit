@@ -44,7 +44,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
@@ -88,7 +87,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private final PatchSetUtil psUtil;
   private final ApprovalsUtil approvalsUtil;
   private final ProjectCache projectCache;
-  private final Provider<CurrentUser> userProvider;
 
   @Inject
   Move(
@@ -101,8 +99,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       RetryHelper retryHelper,
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
-      ProjectCache projectCache,
-      Provider<CurrentUser> userProvider) {
+      ProjectCache projectCache) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.dbProvider = dbProvider;
@@ -113,7 +110,6 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     this.psUtil = psUtil;
     this.approvalsUtil = approvalsUtil;
     this.projectCache = projectCache;
-    this.userProvider = userProvider;
   }
 
   @Override
@@ -261,15 +257,9 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       List<PatchSetApproval> approvals = new ArrayList<>();
       for (PatchSetApproval psa :
           approvalsUtil.byPatchSet(
-              ctx.getDb(),
-              ctx.getNotes(),
-              userProvider.get(),
-              psId,
-              ctx.getRevWalk(),
-              ctx.getRepoView().getConfig())) {
+              ctx.getDb(), ctx.getNotes(), psId, ctx.getRevWalk(), ctx.getRepoView().getConfig())) {
         ProjectState projectState = projectCache.checkedGet(project);
-        LabelType type =
-            projectState.getLabelTypes(ctx.getNotes(), ctx.getUser()).byLabel(psa.getLabelId());
+        LabelType type = projectState.getLabelTypes(ctx.getNotes()).byLabel(psa.getLabelId());
         // Only keep veto votes, defined as votes where:
         // 1- the label function allows minimum values to block submission.
         // 2- the vote holds the minimum value.

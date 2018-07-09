@@ -79,7 +79,6 @@ public class ApprovalCopier {
    *
    * @param db review database.
    * @param notes change notes for user uploading PatchSet
-   * @param user user uploading PatchSet
    * @param ps new PatchSet
    * @param rw open walk that can read the patch set commit; null to open the repo on demand.
    * @param repoConfig repo config used for change kind detection; null to read from repo on demand.
@@ -88,12 +87,11 @@ public class ApprovalCopier {
   public void copyInReviewDb(
       ReviewDb db,
       ChangeNotes notes,
-      CurrentUser user,
       PatchSet ps,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
       throws OrmException {
-    copyInReviewDb(db, notes, user, ps, rw, repoConfig, Collections.emptyList());
+    copyInReviewDb(db, notes, ps, rw, repoConfig, Collections.emptyList());
   }
 
   /**
@@ -101,7 +99,6 @@ public class ApprovalCopier {
    *
    * @param db review database.
    * @param notes change notes for user uploading PatchSet
-   * @param user user uploading PatchSet
    * @param ps new PatchSet
    * @param rw open walk that can read the patch set commit; null to open the repo on demand.
    * @param repoConfig repo config used for change kind detection; null to read from repo on demand.
@@ -111,33 +108,30 @@ public class ApprovalCopier {
   public void copyInReviewDb(
       ReviewDb db,
       ChangeNotes notes,
-      CurrentUser user,
       PatchSet ps,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
       Iterable<PatchSetApproval> dontCopy)
       throws OrmException {
     if (PrimaryStorage.of(notes.getChange()) == PrimaryStorage.REVIEW_DB) {
-      db.patchSetApprovals().insert(getForPatchSet(db, notes, user, ps, rw, repoConfig, dontCopy));
+      db.patchSetApprovals().insert(getForPatchSet(db, notes, ps, rw, repoConfig, dontCopy));
     }
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
       ReviewDb db,
       ChangeNotes notes,
-      CurrentUser user,
       PatchSet.Id psId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig)
       throws OrmException {
     return getForPatchSet(
-        db, notes, user, psId, rw, repoConfig, Collections.<PatchSetApproval>emptyList());
+        db, notes, psId, rw, repoConfig, Collections.<PatchSetApproval>emptyList());
   }
 
   Iterable<PatchSetApproval> getForPatchSet(
       ReviewDb db,
       ChangeNotes notes,
-      CurrentUser user,
       PatchSet.Id psId,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
@@ -147,13 +141,12 @@ public class ApprovalCopier {
     if (ps == null) {
       return Collections.emptyList();
     }
-    return getForPatchSet(db, notes, user, ps, rw, repoConfig, dontCopy);
+    return getForPatchSet(db, notes, ps, rw, repoConfig, dontCopy);
   }
 
   private Iterable<PatchSetApproval> getForPatchSet(
       ReviewDb db,
       ChangeNotes notes,
-      CurrentUser user,
       PatchSet ps,
       @Nullable RevWalk rw,
       @Nullable Config repoConfig,
@@ -211,7 +204,7 @@ public class ApprovalCopier {
           byUser.put(psa.getLabel(), psa.getAccountId(), copy(psa, ps.getId()));
         }
       }
-      return labelNormalizer.normalize(notes, user, byUser.values()).getNormalized();
+      return labelNormalizer.normalize(notes, byUser.values()).getNormalized();
     } catch (IOException e) {
       throw new OrmException(e);
     }

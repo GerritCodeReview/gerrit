@@ -172,7 +172,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       ps = psUtil.current(db.get(), ctx.getNotes());
 
       boolean found = false;
-      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());
 
       Account.Id accountId = accountState.getAccount().getId();
 
@@ -180,7 +180,6 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
               ctx.getNotes(),
-              ctx.getUser(),
               psId,
               accountId,
               ctx.getRevWalk(),

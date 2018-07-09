@@ -1171,7 +1171,6 @@ public class ChangeJson {
         approvalsUtil.byPatchSetUser(
             db.get(),
             lazyLoad ? cd.notes() : notesFactory.createFromIndexedChange(cd.change()),
-            user,
             cd.change().currentPatchSetId(),
             user.getAccountId(),
             null,

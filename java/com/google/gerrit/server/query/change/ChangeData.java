@@ -590,7 +590,7 @@ public class ChangeData {
       } catch (IOException e) {
         throw new OrmException("project state not available", e);
       }
-      labelTypes = state.getLabelTypes(change().getDest(), userFactory.create(change().getOwner()));
+      labelTypes = state.getLabelTypes(change());
     }
     return labelTypes;
   }
@@ -633,13 +633,7 @@ public class ChangeData {
         try {
           currentApprovals =
               ImmutableList.copyOf(
-                  approvalsUtil.byPatchSet(
-                      db,
-                      notes(),
-                      userFactory.create(c.getOwner()),
-                      c.currentPatchSetId(),
-                      null,
-                      null));
+                  approvalsUtil.byPatchSet(db, notes(), c.currentPatchSetId(), null, null));
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();

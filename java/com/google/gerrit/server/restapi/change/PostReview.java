@@ -237,7 +237,7 @@ public class PostReview
       throw new ResourceConflictException("cannot post review on edit");
     }
     ProjectState projectState = projectCache.checkedGet(revision.getProject());
-    LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes(), revision.getUser());
+    LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes());
     input.drafts = firstNonNull(input.drafts, DraftHandling.KEEP);
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, labelTypes, input);
@@ -1148,7 +1148,7 @@ public class PostReview
       List<PatchSetApproval> del = new ArrayList<>();
       List<PatchSetApproval> ups = new ArrayList<>();
       Map<String, PatchSetApproval> current = scanLabels(projectState, ctx, del);
-      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());
       Map<String, Short> allApprovals =
           getAllApprovals(labelTypes, approvalsByKey(current.values()), inLabels);
       Map<String, Short> previous =
@@ -1297,11 +1297,7 @@ public class PostReview
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
           LabelId labelId =
-              projectState
-                  .getLabelTypes(ctx.getNotes(), ctx.getUser())
-                  .getLabelTypes()
-                  .get(0)
-                  .getLabelId();
+              projectState.getLabelTypes(ctx.getNotes()).getLabelTypes().get(0).getLabelId();
           PatchSetApproval c = ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
@@ -1322,14 +1318,13 @@ public class PostReview
     private Map<String, PatchSetApproval> scanLabels(
         ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del)
         throws OrmException, IOException {
-      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());
       Map<String, PatchSetApproval> current = new HashMap<>();
 
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
               ctx.getNotes(),
-              ctx.getUser(),
               psId,
               user.getAccountId(),
               ctx.getRevWalk(),

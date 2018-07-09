@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbdcd93c_8be032ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-09T15:18:00Z",
+      "side": 1,
+      "message": "Right! I\u0027m glad we have agreement here.",
+      "revId": "4d60546ad971ebbac3d6706c7223eb484eb2f4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85207f78_76f5089a",
+        "filename": "java/com/google/gerrit/mail/BUILD",
+        "patchSetId": 9
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-09T15:18:00Z",
+      "side": 1,
+      "message": "In recent review Dave mentined, that \"*.java\" form is prefered to avoid unintentional recursive matches.",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "4d60546ad971ebbac3d6706c7223eb484eb2f4af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

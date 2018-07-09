@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f350c87a_3554567c",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-09T19:56:01Z",
+      "side": 1,
+      "message": "Can this be \u0027Set new changes to \"work in progress\" by default\u0027?",
+      "range": {
+        "startLine": 194,
+        "startChar": 32,
+        "endLine": 194,
+        "endChar": 64
+      },
+      "revId": "b470f07d2ce0f0fe59b208f0988f8a13a6fbab6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

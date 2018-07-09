@@ -368,6 +368,9 @@ assign permissions for that label on a branch, but this permission is then
 ignored if the label doesn't apply for that branch.
 Additionally, the `branch` modifier has no effect when the submit rule
 is customized in the rules.pl of the project or inherited from parent projects.
+Branch can be a ref pattern similar to what is documented
+link:access-control.html#reference[here], but must not contain `${username}` or
+`${shardeduserid}`.
 
 [[label_example]]
 === Example

@@ -32,13 +32,18 @@ public final class ElasticTestUtils {
     }
   }
 
-  public static void configure(Config config, int port, String prefix) {
+  public static void configure(Config config, int port, String prefix, String password) {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
-    config.setString("elasticsearch", "test", "protocol", "http");
-    config.setString("elasticsearch", "test", "hostname", "localhost");
-    config.setInt("elasticsearch", "test", "port", port);
+    config.setString("elasticsearch", null, "server", "http://localhost:" + port);
     config.setString("elasticsearch", null, "prefix", prefix);
-    config.setString("index", null, "maxLimit", "10000");
+    config.setInt("index", null, "maxLimit", 10000);
+    if (password != null) {
+      config.setString("elasticsearch", null, "password", password);
+    }
+  }
+
+  public static void configure(Config config, int port, String prefix) {
+    configure(config, port, prefix, null);
   }
 
   public static void createAllIndexes(Injector injector) throws IOException {

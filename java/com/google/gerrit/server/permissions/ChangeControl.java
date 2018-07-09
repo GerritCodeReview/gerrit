@@ -327,8 +327,7 @@ class ChangeControl {
           case ABANDON:
             return canAbandon();
           case DELETE:
-            return (getProjectControl().isAdmin()
-                || (isOwner() && refControl.canDeleteOwnChanges(isOwner())));
+            return (getProjectControl().isAdmin() || (refControl.canDeleteChanges(isOwner())));
           case ADD_PATCH_SET:
             return canAddPatchSet();
           case EDIT_ASSIGNEE:

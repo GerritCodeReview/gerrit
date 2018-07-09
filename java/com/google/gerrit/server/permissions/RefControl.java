@@ -133,9 +133,10 @@ class RefControl {
     return canPerform(Permission.EDIT_TOPIC_NAME, false, true);
   }
 
-  /** @return true if this user can delete their own changes. */
-  boolean canDeleteOwnChanges(boolean isChangeOwner) {
-    return canPerform(Permission.DELETE_OWN_CHANGES, isChangeOwner, false);
+  /** @return true if this user can delete changes. */
+  boolean canDeleteChanges(boolean isChangeOwner) {
+    return canPerform(Permission.DELETE_CHANGES)
+        || (isChangeOwner && canPerform(Permission.DELETE_OWN_CHANGES, isChangeOwner, false));
   }
 
   /** The range of permitted values associated with a label permission. */

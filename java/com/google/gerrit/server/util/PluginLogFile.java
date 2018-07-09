@@ -38,7 +38,7 @@ public abstract class PluginLogFile implements LifecycleListener {
 
   @Override
   public void start() {
-    AsyncAppender asyncAppender = systemLog.createAsyncAppender(logName, layout);
+    AsyncAppender asyncAppender = systemLog.createAsyncAppender(logName, layout, true, true);
     Logger logger = LogManager.getLogger(logName);
     logger.removeAppender(logName);
     logger.addAppender(asyncAppender);

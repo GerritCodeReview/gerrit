@@ -841,6 +841,17 @@ right assigned).
 This category permits users to delete their own changes if they are not merged
 yet. This means only own changes that are open or abandoned can be deleted.
 
+[[category_delete_changes]]
+=== Delete Changes
+
+This category permits users to delete other users' changes if they are not merged
+yet. This means only changes that are open or abandoned can be deleted.
+
+Having this permission implies having the link:#category_delete_own_changes[
+Delete Own Changes] permission.
+
+Administrators may always delete changes without having this permission.
+
 [[category_edit_topic_name]]
 === Edit Topic Name
 

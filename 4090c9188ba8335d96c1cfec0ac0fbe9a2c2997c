@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed448bbe_96124ac0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-themes/gr-syntax-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-09T16:46:16Z",
+      "side": 1,
+      "message": "Nitpick: these two rulesets can be combined:\n\n.gr-syntax-keyword,\n.gr-syntax-name {\n  color: var(--syntax-keyword-color);\n  line-height: 1;\n}",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 7
+      },
+      "revId": "4090c9188ba8335d96c1cfec0ac0fbe9a2c2997c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

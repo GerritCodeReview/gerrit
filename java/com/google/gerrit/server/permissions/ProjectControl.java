@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -323,11 +324,6 @@ class ProjectControl {
     private String resourcePath;
 
     @Override
-    public CurrentUser user() {
-      return getUser();
-    }
-
-    @Override
     public ForProject user(CurrentUser user) {
       return forUser(user).asForProject().database(db);
     }
@@ -392,6 +388,11 @@ class ProjectControl {
         }
       }
       return ok;
+    }
+
+    @Override
+    public BooleanCondition testCond(ProjectPermission perm) {
+      return new PermissionBackendCondition.ForProject(this, perm, getUser());
     }
 
     @Override

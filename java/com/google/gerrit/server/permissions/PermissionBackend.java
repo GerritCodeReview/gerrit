@@ -173,9 +173,6 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a specific user. */
   public abstract static class WithUser extends AcceptsReviewDb<WithUser> {
-    /** Returns the user this instance is scoped to. */
-    public abstract CurrentUser user();
-
     /** Returns an instance scoped for the specified project. */
     public abstract ForProject project(Project.NameKey project);
 
@@ -257,9 +254,7 @@ public abstract class PermissionBackend {
       }
     }
 
-    public BooleanCondition testCond(GlobalOrPluginPermission perm) {
-      return new PermissionBackendCondition.WithUser(this, perm);
-    }
+    public abstract BooleanCondition testCond(GlobalOrPluginPermission perm);
 
     /**
      * Filter a set of projects using {@code check(perm)}.
@@ -296,9 +291,6 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a user and project. */
   public abstract static class ForProject extends AcceptsReviewDb<ForProject> {
-    /** Returns the user this instance is scoped to. */
-    public abstract CurrentUser user();
-
     /** Returns the fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
@@ -355,9 +347,7 @@ public abstract class PermissionBackend {
       }
     }
 
-    public BooleanCondition testCond(ProjectPermission perm) {
-      return new PermissionBackendCondition.ForProject(this, perm);
-    }
+    public abstract BooleanCondition testCond(ProjectPermission perm);
 
     /**
      * Filter a map of references by visibility.
@@ -407,9 +397,6 @@ public abstract class PermissionBackend {
 
   /** PermissionBackend scoped to a user, project and reference. */
   public abstract static class ForRef extends AcceptsReviewDb<ForRef> {
-    /** Returns the user this instance is scoped to. */
-    public abstract CurrentUser user();
-
     /** Returns a fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
@@ -461,16 +448,11 @@ public abstract class PermissionBackend {
       }
     }
 
-    public BooleanCondition testCond(RefPermission perm) {
-      return new PermissionBackendCondition.ForRef(this, perm);
-    }
+    public abstract BooleanCondition testCond(RefPermission perm);
   }
 
   /** PermissionBackend scoped to a user, project, reference and change. */
   public abstract static class ForChange extends AcceptsReviewDb<ForChange> {
-    /** Returns the user this instance is scoped to. */
-    public abstract CurrentUser user();
-
     /** Returns the fully qualified resource path that this instance is scoped to. */
     public abstract String resourcePath();
 
@@ -511,9 +493,7 @@ public abstract class PermissionBackend {
       }
     }
 
-    public BooleanCondition testCond(ChangePermissionOrLabel perm) {
-      return new PermissionBackendCondition.ForChange(this, perm);
-    }
+    public abstract BooleanCondition testCond(ChangePermissionOrLabel perm);
 
     /**
      * Test which values of a label the user may be able to set.

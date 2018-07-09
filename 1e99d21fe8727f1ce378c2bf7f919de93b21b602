@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26c3681b_c873b3f5",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-09T14:25:04Z",
+      "side": 1,
+      "message": "better: ${username} and ${shardeduserid}",
+      "range": {
+        "startLine": 372,
+        "startChar": 42,
+        "endLine": 373,
+        "endChar": 16
+      },
+      "revId": "1e99d21fe8727f1ce378c2bf7f919de93b21b602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09ee5789_33dc78f8",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-09T14:25:04Z",
+      "side": 1,
+      "message": "This parameter is now unused and can be removed?",
+      "range": {
+        "startLine": 403,
+        "startChar": 60,
+        "endLine": 403,
+        "endChar": 78
+      },
+      "revId": "1e99d21fe8727f1ce378c2bf7f919de93b21b602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1be3d31e_c75cd91c",
+        "filename": "java/com/google/gerrit/server/project/RefPatternMatcher.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-09T14:25:04Z",
+      "side": 1,
+      "message": "I think it would be better to move this check into ProjectState.match and then make the error message more specific (saying which ref for which label on which project is invalid).\n\nIf a ref contains ${username} or ${shardeduserid} I would even directly return false from ProjectState.match and hence ignore those refs.",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "1e99d21fe8727f1ce378c2bf7f919de93b21b602",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

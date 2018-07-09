@@ -337,7 +337,7 @@ public class RestApiServlet extends HttpServlet {
           }
         }
         if (viewData.view == null) {
-          viewData = view(rsrc, rc, req.getMethod(), path);
+          viewData = view(rc, req.getMethod(), path);
         }
       }
       checkRequiresCapability(viewData);
@@ -392,7 +392,7 @@ public class RestApiServlet extends HttpServlet {
           }
         }
         if (viewData.view == null) {
-          viewData = view(rsrc, c, req.getMethod(), path);
+          viewData = view(c, req.getMethod(), path);
         }
         checkRequiresCapability(viewData);
       }
@@ -1109,10 +1109,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private ViewData view(
-      RestResource rsrc,
-      RestCollection<RestResource, RestResource> rc,
-      String method,
-      List<IdString> path)
+      RestCollection<RestResource, RestResource> rc, String method, List<IdString> path)
       throws AmbiguousViewException, RestApiException {
     DynamicMap<RestView<RestResource>> views = rc.views();
     final IdString projection = path.isEmpty() ? IdString.fromUrl("/") : path.remove(0);
@@ -1136,10 +1133,8 @@ public class RestApiServlet extends HttpServlet {
         return new ViewData(p.get(0), view);
       }
       view = views.get(p.get(0), "GET." + viewname);
-      if (view != null && view instanceof AcceptsPost && "POST".equals(method)) {
-        @SuppressWarnings("unchecked")
-        AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) view;
-        return new ViewData(p.get(0), ap.post(rsrc));
+      if (view != null) {
+        return new ViewData(p.get(0), view);
       }
       throw new ResourceNotFoundException(projection);
     }
@@ -1150,10 +1145,8 @@ public class RestApiServlet extends HttpServlet {
       return new ViewData(null, core);
     }
     core = views.get("gerrit", "GET." + p.get(0));
-    if (core instanceof AcceptsPost && "POST".equals(method)) {
-      @SuppressWarnings("unchecked")
-      AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) core;
-      return new ViewData(null, ap.post(rsrc));
+    if (core != null) {
+      return new ViewData(null, core);
     }
 
     Map<String, RestView<RestResource>> r = new TreeMap<>();

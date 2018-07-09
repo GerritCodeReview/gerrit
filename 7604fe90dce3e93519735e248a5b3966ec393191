@@ -193,6 +193,30 @@
     },
     {
       "key": {
+        "uuid": "8c8de0dd_72bc3dc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-09T14:45:01Z",
+      "side": 1,
+      "message": "where with \"avoid doing it\", I mean \"have a long discussion to get the location of the classes exactly right\".",
+      "parentUuid": "bb521371_04fca39d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "7604fe90dce3e93519735e248a5b3966ec393191",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d19d7eb_12d3d3a1",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/BUILD",
         "patchSetId": 6

@@ -16,6 +16,24 @@
       "revId": "5c76635514bb1082424ef808e8625f2ce43e583e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e7f58ef_fe20bba1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-09T23:01:53Z",
+      "side": 1,
+      "message": "The answer might shock you! ^_^",
+      "parentUuid": "db2ae942_7bdcfb07",
+      "revId": "5c76635514bb1082424ef808e8625f2ce43e583e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa52f683_38a0443f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-09T15:25:37Z",
+      "side": 1,
+      "message": "Resolved",
+      "parentUuid": "5126eecb_96ab8d61",
+      "revId": "b7624d497f339d909abf44995ffb2c11671b5bdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d647b3f_5d5b82c6",
         "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
         "patchSetId": 6

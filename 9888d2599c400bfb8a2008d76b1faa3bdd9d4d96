@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0cc6bc7_2506f8e7",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-09T15:25:37Z",
+      "side": 1,
+      "message": "Optional: to match ChangeNoteUtil, wouldn\u0027t this be \"Gerrit User N\" as well? But like I said since this is going away so soon it\u0027s hard to care too much.",
+      "revId": "9888d2599c400bfb8a2008d76b1faa3bdd9d4d96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

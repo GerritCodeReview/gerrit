@@ -366,6 +366,102 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void singleHunkAtBeginningIsFollowedByCorrectCommonLines() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\nLine 4\nLine 5\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, filePath, content -> content.replace("Line 1\n", "Line one\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).linesOfA().isNotEmpty();
+    assertThat(diffInfo).content().element(0).linesOfB().isNotEmpty();
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .commonLines()
+        .containsExactly("Line 2", "Line 3", "Line 4", "Line 5")
+        .inOrder();
+  }
+
+  @Test
+  public void singleHunkAtEndIsPrecededByCorrectCommonLines() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\nLine 4\nLine 5\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, filePath, content -> content.replace("Line 5\n", "Line five\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsExactly("Line 1", "Line 2", "Line 3", "Line 4")
+        .inOrder();
+    assertThat(diffInfo).content().element(1).linesOfA().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfB().isNotEmpty();
+  }
+
+  @Test
+  public void singleHunkInTheMiddleIsSurroundedByCorrectCommonLines() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\nLine 4\nLine 5\nLine 6\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, filePath, content -> content.replace("Line 3\n", "Line three\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsExactly("Line 1", "Line 2")
+        .inOrder();
+    assertThat(diffInfo).content().element(1).linesOfA().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfB().isNotEmpty();
+    assertThat(diffInfo)
+        .content()
+        .element(2)
+        .commonLines()
+        .containsExactly("Line 4", "Line 5", "Line 6")
+        .inOrder();
+  }
+
+  @Test
+  public void twoHunksAreSeparatedByCorrectCommonLines() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\nLine 4\nLine 5\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(
+        changeId,
+        filePath,
+        content -> content.replace("Line 2\n", "Line two\n").replace("Line 5\n", "Line five\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfB().isNotEmpty();
+    assertThat(diffInfo)
+        .content()
+        .element(2)
+        .commonLines()
+        .containsExactly("Line 3", "Line 4")
+        .inOrder();
+    assertThat(diffInfo).content().element(3).linesOfA().isNotEmpty();
+    assertThat(diffInfo).content().element(3).linesOfB().isNotEmpty();
+  }
+
+  @Test
   public void rebaseHunksAtStartOfFileAreIdentified() throws Exception {
     String newFileContent =
         FILE_CONTENT.replace("Line 1\n", "Line one\n").replace("Line 5\n", "Line five\n");
@@ -381,15 +477,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
     assertThat(diffInfo).content().element(0).isDueToRebase();
-    assertThat(diffInfo).content().element(1).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(1).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(2).linesOfA().containsExactly("Line 5");
     assertThat(diffInfo).content().element(2).linesOfB().containsExactly("Line five");
     assertThat(diffInfo).content().element(2).isDueToRebase();
-    assertThat(diffInfo).content().element(3).commonLines().hasSize(44);
+    assertThat(diffInfo).content().element(3).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(4).linesOfA().containsExactly("Line 50");
     assertThat(diffInfo).content().element(4).linesOfB().containsExactly("Line fifty");
     assertThat(diffInfo).content().element(4).isNotDueToRebase();
-    assertThat(diffInfo).content().element(5).commonLines().hasSize(50);
+    assertThat(diffInfo).content().element(5).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -412,15 +508,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(49);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 50");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line fifty");
     assertThat(diffInfo).content().element(1).isNotDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(9);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 60");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line sixty");
     assertThat(diffInfo).content().element(3).isDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(39);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 100");
     assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line one hundred");
     assertThat(diffInfo).content().element(5).isDueToRebase();
@@ -450,15 +546,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
-    assertThat(diffInfo).content().element(1).commonLines().hasSize(38);
+    assertThat(diffInfo).content().element(1).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(2).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo).content().element(2).linesOfB().containsExactly("Line forty");
     assertThat(diffInfo).content().element(2).isDueToRebase();
-    assertThat(diffInfo).content().element(3).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(3).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(4).linesOfA().containsExactly("Line 45");
     assertThat(diffInfo).content().element(4).linesOfB().containsExactly("Line forty five");
     assertThat(diffInfo).content().element(4).isDueToRebase();
-    assertThat(diffInfo).content().element(5).commonLines().hasSize(54);
+    assertThat(diffInfo).content().element(5).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(6).linesOfA().containsExactly("Line 100");
     assertThat(diffInfo).content().element(6).linesOfB().containsExactly("Line one hundred");
     assertThat(diffInfo).content().element(6).isNotDueToRebase();
@@ -489,11 +585,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(41);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line forty");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(59);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 100");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line one hundred");
     assertThat(diffInfo).content().element(3).isNotDueToRebase();
@@ -522,7 +618,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(0).linesOfA().isNull();
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line zero");
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
-    assertThat(diffInfo).content().element(1).commonLines().hasSize(9);
+    assertThat(diffInfo).content().element(1).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(2).linesOfA().containsExactly("Line 10");
     assertThat(diffInfo)
         .content()
@@ -530,11 +626,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line ten", "Line ten and a half");
     assertThat(diffInfo).content().element(2).isNotDueToRebase();
-    assertThat(diffInfo).content().element(3).commonLines().hasSize(29);
+    assertThat(diffInfo).content().element(3).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(4).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo).content().element(4).linesOfB().containsExactly("Line forty");
     assertThat(diffInfo).content().element(4).isDueToRebase();
-    assertThat(diffInfo).content().element(5).commonLines().hasSize(60);
+    assertThat(diffInfo).content().element(5).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -562,11 +658,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(37);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line forty");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(59);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 100");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line one hundred");
     assertThat(diffInfo).content().element(3).isNotDueToRebase();
@@ -595,15 +691,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().isNull();
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
-    assertThat(diffInfo).content().element(1).commonLines().hasSize(8);
+    assertThat(diffInfo).content().element(1).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(2).linesOfA().containsExactly("Line 10", "Line 11");
     assertThat(diffInfo).content().element(2).linesOfB().containsExactly("Line ten");
     assertThat(diffInfo).content().element(2).isNotDueToRebase();
-    assertThat(diffInfo).content().element(3).commonLines().hasSize(28);
+    assertThat(diffInfo).content().element(3).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(4).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo).content().element(4).linesOfB().containsExactly("Line forty");
     assertThat(diffInfo).content().element(4).isDueToRebase();
-    assertThat(diffInfo).content().element(5).commonLines().hasSize(60);
+    assertThat(diffInfo).content().element(5).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -623,7 +719,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(39);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 40");
     assertThat(diffInfo)
         .content()
@@ -631,7 +727,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line modified after rebase");
     assertThat(diffInfo).content().element(1).isNotDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(60);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -655,7 +751,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(38);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 39", "Line 40");
     assertThat(diffInfo)
         .content()
@@ -663,7 +759,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line thirty nine", "Line forty");
     assertThat(diffInfo).content().element(1).isNotDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(60);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -687,7 +783,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(40);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 41", "Line 42");
     assertThat(diffInfo)
         .content()
@@ -695,7 +791,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line forty one", "Line forty two");
     assertThat(diffInfo).content().element(1).isNotDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(58);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -717,7 +813,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(38);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo)
         .content()
         .element(1)
@@ -729,7 +825,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line thirty nine", "A different line forty", "Line forty one");
     assertThat(diffInfo).content().element(1).isNotDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(59);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -755,7 +851,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(40);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 41", "Line 42");
     assertThat(diffInfo)
         .content()
@@ -763,11 +859,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line forty one", "Line forty two", "Line forty two and a half");
     assertThat(diffInfo).content().element(1).isNotDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(17);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 60");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line sixty");
     assertThat(diffInfo).content().element(3).isDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(40);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -791,15 +887,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
     assertThat(diffInfo).content().element(0).isDueToRebase();
-    assertThat(diffInfo).content().element(1).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(1).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(2).linesOfA().containsExactly("Line 3");
     assertThat(diffInfo).content().element(2).linesOfB().containsExactly("Line three");
     assertThat(diffInfo).content().element(2).isNotDueToRebase();
-    assertThat(diffInfo).content().element(3).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(3).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(4).linesOfA().containsExactly("Line 5");
     assertThat(diffInfo).content().element(4).linesOfB().containsExactly("Line five");
     assertThat(diffInfo).content().element(4).isDueToRebase();
-    assertThat(diffInfo).content().element(5).commonLines().hasSize(95);
+    assertThat(diffInfo).content().element(5).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -834,15 +930,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 2");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line two");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(7);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 10");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line ten");
     assertThat(diffInfo).content().element(3).isNotDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(90);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);
@@ -879,19 +975,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 2");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line two");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line seven");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line 7");
     assertThat(diffInfo).content().element(3).isNotDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 9");
     assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line nine");
     assertThat(diffInfo).content().element(5).isNotDueToRebase();
-    assertThat(diffInfo).content().element(6).commonLines().hasSize(8);
+    assertThat(diffInfo).content().element(6).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(7).linesOfA().containsExactly("Line 18", "Line 19");
     assertThat(diffInfo)
         .content()
@@ -899,15 +995,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line eighteen", "Line nineteen");
     assertThat(diffInfo).content().element(7).isDueToRebase();
-    assertThat(diffInfo).content().element(8).commonLines().hasSize(29);
+    assertThat(diffInfo).content().element(8).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(9).linesOfA().containsExactly("Line 50");
     assertThat(diffInfo).content().element(9).linesOfB().containsExactly("Line fifty");
     assertThat(diffInfo).content().element(9).isDueToRebase();
-    assertThat(diffInfo).content().element(10).commonLines().hasSize(9);
+    assertThat(diffInfo).content().element(10).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(11).linesOfA().containsExactly("Line 60");
     assertThat(diffInfo).content().element(11).linesOfB().containsExactly("Line sixty");
     assertThat(diffInfo).content().element(11).isNotDueToRebase();
-    assertThat(diffInfo).content().element(12).commonLines().hasSize(40);
+    assertThat(diffInfo).content().element(12).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);
@@ -980,11 +1076,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).content().element(0).linesOfA().containsExactly("Line 1");
     assertThat(diffInfo).content().element(0).linesOfB().containsExactly("Line one");
     assertThat(diffInfo).content().element(0).isDueToRebase();
-    assertThat(diffInfo).content().element(1).commonLines().hasSize(48);
+    assertThat(diffInfo).content().element(1).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(2).linesOfA().containsExactly("Line 50");
     assertThat(diffInfo).content().element(2).linesOfB().containsExactly("Line fifty");
     assertThat(diffInfo).content().element(2).isNotDueToRebase();
-    assertThat(diffInfo).content().element(3).commonLines().hasSize(50);
+    assertThat(diffInfo).content().element(3).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(initialPatchSetId);
@@ -1015,15 +1111,15 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, renamedFilePath).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 5");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(44);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 50");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line fifty");
     assertThat(diffInfo).content().element(3).isNotDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(50);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);
@@ -1059,11 +1155,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, newFilePath2).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 5");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(95);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
   }
 
   @Test
@@ -1096,11 +1192,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, newFilePath3).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 5");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line five");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(95);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
   }
 
   @Test
@@ -1125,19 +1221,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo renamedFileDiffInfo =
         getDiffRequest(changeId, CURRENT, renamedFileName).withBase(initialPatchSetId).get();
-    assertThat(renamedFileDiffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(renamedFileDiffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(renamedFileDiffInfo).content().element(1).linesOfA().containsExactly("Line 5");
     assertThat(renamedFileDiffInfo).content().element(1).linesOfB().containsExactly("Line five");
     assertThat(renamedFileDiffInfo).content().element(1).isDueToRebase();
-    assertThat(renamedFileDiffInfo).content().element(2).commonLines().hasSize(95);
+    assertThat(renamedFileDiffInfo).content().element(2).commonLines().isNotEmpty();
 
     DiffInfo copiedFileDiffInfo =
         getDiffRequest(changeId, CURRENT, copyFileName).withBase(initialPatchSetId).get();
-    assertThat(copiedFileDiffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(copiedFileDiffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(copiedFileDiffInfo).content().element(1).linesOfA().containsExactly("Line 5");
     assertThat(copiedFileDiffInfo).content().element(1).linesOfB().containsExactly("Line five");
     assertThat(copiedFileDiffInfo).content().element(1).isDueToRebase();
-    assertThat(copiedFileDiffInfo).content().element(2).commonLines().hasSize(95);
+    assertThat(copiedFileDiffInfo).content().element(2).commonLines().isNotEmpty();
   }
 
   /*
@@ -1168,23 +1264,23 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line five");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 5");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(14);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 20");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line twenty");
     assertThat(diffInfo).content().element(3).isNotDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(14);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 35");
     assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line thirty five");
     assertThat(diffInfo).content().element(5).isDueToRebase();
-    assertThat(diffInfo).content().element(6).commonLines().hasSize(24);
+    assertThat(diffInfo).content().element(6).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(7).linesOfA().containsExactly("Line 60");
     assertThat(diffInfo).content().element(7).linesOfB().containsExactly("Line sixty");
     assertThat(diffInfo).content().element(7).isDueToRebase();
-    assertThat(diffInfo).content().element(8).commonLines().hasSize(40);
+    assertThat(diffInfo).content().element(8).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);
@@ -1239,19 +1335,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String currentPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     DiffInfo diffInfo =
         getDiffRequest(changeId, initialPatchSetId, FILE_NAME).withBase(currentPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(4);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line five");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 5");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(14);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line twenty");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line 20");
     assertThat(diffInfo).content().element(3).isNotDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(14);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(5).linesOfA().isNull();
     assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line 35");
     assertThat(diffInfo).content().element(5).isDueToRebase();
-    assertThat(diffInfo).content().element(6).commonLines().hasSize(65);
+    assertThat(diffInfo).content().element(6).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).revision(initialPatchSetId).files(currentPatchSetId);
@@ -1282,7 +1378,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .intralineEditsOfB()
         .containsExactly(ImmutableList.of(5, 3));
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
-    assertThat(diffInfo).content().element(1).commonLines().hasSize(99);
+    assertThat(diffInfo).content().element(1).commonLines().isNotEmpty();
   }
 
   @Test
@@ -1312,11 +1408,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .intralineEditsOfB()
         .containsExactly(ImmutableList.of(5, 3));
     assertThat(diffInfo).content().element(0).isDueToRebase();
-    assertThat(diffInfo).content().element(1).commonLines().hasSize(48);
+    assertThat(diffInfo).content().element(1).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(2).linesOfA().containsExactly("Line 50");
     assertThat(diffInfo).content().element(2).linesOfB().containsExactly("Line fifty");
     assertThat(diffInfo).content().element(2).isNotDueToRebase();
-    assertThat(diffInfo).content().element(3).commonLines().hasSize(50);
+    assertThat(diffInfo).content().element(3).commonLines().isNotEmpty();
   }
 
   @Test
@@ -1335,7 +1431,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 4", "{", "Line 6");
     assertThat(diffInfo)
         .content()
@@ -1343,7 +1439,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line four", "{", "Line six");
     assertThat(diffInfo).content().element(1).isNotDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(94);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);
@@ -1372,19 +1468,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 4");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line four");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 6");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line six");
     assertThat(diffInfo).content().element(3).isDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(13);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 20");
     assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line twenty");
     assertThat(diffInfo).content().element(5).isNotDueToRebase();
-    assertThat(diffInfo).content().element(6).commonLines().hasSize(80);
+    assertThat(diffInfo).content().element(6).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);
@@ -1411,19 +1507,19 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 4");
     assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line four");
     assertThat(diffInfo).content().element(1).isDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 6");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line six");
     assertThat(diffInfo).content().element(3).isNotDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(5).linesOfA().containsExactly("Line 8");
     assertThat(diffInfo).content().element(5).linesOfB().containsExactly("Line eight");
     assertThat(diffInfo).content().element(5).isDueToRebase();
-    assertThat(diffInfo).content().element(6).commonLines().hasSize(92);
+    assertThat(diffInfo).content().element(6).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);
@@ -1452,7 +1548,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(3);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 4", "{", "Line 6");
     assertThat(diffInfo)
         .content()
@@ -1460,11 +1556,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .linesOfB()
         .containsExactly("Line four", "{", "Line six");
     assertThat(diffInfo).content().element(1).isNotDueToRebase();
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(1);
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
     assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 8");
     assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line eight!");
     assertThat(diffInfo).content().element(3).isDueToRebase();
-    assertThat(diffInfo).content().element(4).commonLines().hasSize(92);
+    assertThat(diffInfo).content().element(4).commonLines().isNotEmpty();
 
     Map<String, FileInfo> changedFiles =
         gApi.changes().id(changeId).current().files(previousPatchSetId);

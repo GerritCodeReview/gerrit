@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a2324c72_ed576b77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-09T16:44:16Z",
+      "side": 1,
+      "message": "Where do we see Clojure not being included? If I load a diff right now from master, I can run the following in my JS console:\n\n  hljs.listLanguages().indexOf(\u0027clojure\u0027) // 26 \n\nAlso, in the linked issue, it describes HLJS finding syntax symbols in Clojure code, so I suspect it must have been included in that case.\n\nIs there some commit included in cf4b46e5b7a that fixes something? I don\u0027t see any changes to the Clojure language definitions in the last year.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "fe230def6d2169e7d73cc10fa916382a3e4d3e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5a8dcb2b_9fb6e766",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

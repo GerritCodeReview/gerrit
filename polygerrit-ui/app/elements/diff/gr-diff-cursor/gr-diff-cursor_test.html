@@ -60,7 +60,14 @@ limitations under the License.
       // Register the diff with the cursor.
       cursorElement.push('diffs', diffElement);
 
-      diffElement.comments = {left: [], right: []};
+      diffElement.changeComments = {
+        getCommentsBySideForPath() {
+          return {left: [], right: []};
+        },
+      };
+      diffElement.path = 'some/path.js';
+      diffElement.patchRange = {basePatchNum: 1, patchNum: 2};
+      diffElement.projectConfig = {};
       diffElement.$.restAPI.getDiffPreferences().then(prefs => {
         diffElement.prefs = prefs;
       });

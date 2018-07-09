@@ -686,10 +686,10 @@ limitations under the License.
     });
 
     suite('_commitRange', () => {
+      let detail;
+
       setup(() => {
-        sandbox.stub(element.$.diff, 'reload');
-        sandbox.stub(element, '_initCursor');
-        sandbox.stub(element, '_getChangeDetail').returns(Promise.resolve({
+        detail = {
           _number: 42,
           revisions: {
             'commit-sha-1': {
@@ -708,39 +708,22 @@ limitations under the License.
               },
             },
           },
-        }));
+        };
       });
 
-      test('uses the patchNum and basePatchNum ', done => {
-        element.params = {
-          view: Gerrit.Nav.View.DIFF,
-          changeNum: '42',
-          patchNum: '4',
-          basePatchNum: '2',
-          path: '/COMMIT_MSG',
-        };
-        flush(() => {
-          assert.deepEqual(element._commitRange, {
-            baseCommit: 'commit-sha-2',
-            commit: 'commit-sha-4',
-          });
-          done();
+      test('uses the patchNum and basePatchNum ', () => {
+        const patchRange = {basePatchNum: '2', patchNum: '4'};
+        assert.deepEqual(element._getCommitRange(detail, patchRange), {
+          baseCommit: 'commit-sha-2',
+          commit: 'commit-sha-4',
         });
       });
 
-      test('uses the parent when there is no base patch num ', done => {
-        element.params = {
-          view: Gerrit.Nav.View.DIFF,
-          changeNum: '42',
-          patchNum: '5',
-          path: '/COMMIT_MSG',
-        };
-        flush(() => {
-          assert.deepEqual(element._commitRange, {
-            commit: 'commit-sha-5',
-            baseCommit: 'sha-5-parent',
-          });
-          done();
+      test('uses the parent when there is no base patch num ', () => {
+        const patchRange = {basePatchNum: 'PARENT', patchNum: '5'};
+        assert.deepEqual(element._getCommitRange(detail, patchRange), {
+          commit: 'commit-sha-5',
+          baseCommit: 'sha-5-parent',
         });
       });
     });

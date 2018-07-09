@@ -40,7 +40,6 @@ import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -394,13 +393,13 @@ public class ProjectState {
     return labelTypes;
   }
 
-  /** All available label types for this change and user. */
-  public LabelTypes getLabelTypes(ChangeNotes notes, CurrentUser user) {
-    return getLabelTypes(notes.getChange().getDest(), user);
+  /** All available label types for this change. */
+  public LabelTypes getLabelTypes(ChangeNotes notes) {
+    return getLabelTypes(notes.getChange().getDest());
   }
 
-  /** All available label types for this branch and user. */
-  public LabelTypes getLabelTypes(Branch.NameKey destination, CurrentUser user) {
+  /** All available label types for this branch. */
+  public LabelTypes getLabelTypes(Branch.NameKey destination) {
     List<LabelType> all = getLabelTypes().getLabelTypes();
 
     List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
@@ -410,7 +409,15 @@ public class ProjectState {
         r.add(l);
       } else {
         for (String refPattern : refs) {
-          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern, user)) {
+          if (refPattern.contains("${")) {
+            logger.atWarning().log(
+                "Ref pattern for label %s in project %s contains illegal expanded parameters: %s."
+                    + " Ref pattern will be ignored.",
+                l, getName(), refPattern);
+            continue;
+          }
+
+          if (RefConfigSection.isValid(refPattern) && match(destination, refPattern)) {
             r.add(l);
             break;
           }
@@ -558,7 +565,7 @@ public class ProjectState {
     return new LabelTypes(Collections.unmodifiableList(all));
   }
 
-  private boolean match(Branch.NameKey destination, String refPattern, CurrentUser user) {
-    return RefPatternMatcher.getMatcher(refPattern).match(destination.get(), user);
+  private boolean match(Branch.NameKey destination, String refPattern) {
+    return RefPatternMatcher.getMatcher(refPattern).match(destination.get(), null);
   }
 }

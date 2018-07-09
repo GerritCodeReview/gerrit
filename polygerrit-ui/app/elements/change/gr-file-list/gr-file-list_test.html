@@ -1350,7 +1350,7 @@ limitations under the License.
     const setupDiff = function(diff) {
       const mock = document.createElement('mock-diff-response');
       diff._diff = mock.diffResponse;
-      diff.comments = {
+      sandbox.stub(diff, '_computeComments').returns({
         left: diff.path === '/COMMIT_MSG' ? commitMsgComments : [],
         right: [],
         meta: {
@@ -1360,7 +1360,13 @@ limitations under the License.
             patchNum: 2,
           },
         },
+      });
+      diff.changeComments = {};
+      diff.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: 2,
       };
+      diff.projectConfig = {};
       diff.prefs = {
         context: 10,
         tab_size: 8,
@@ -1396,6 +1402,7 @@ limitations under the License.
     setup(done => {
       sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
+        getIsAdmin() { return Promise.resolve(false); },
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
         getDiffComments() { return Promise.resolve({}); },

@@ -243,7 +243,7 @@ limitations under the License.
       });
 
       test('remove comment', () => {
-        element.comments = {
+        sandbox.stub(element, '_computeComments').returns({
           meta: {
             changeNum: '42',
             patchRange: {
@@ -265,12 +265,16 @@ limitations under the License.
             {id: 'd1', __draft: true, __commentSide: 'right'},
             {id: 'd2', __draft: true, __commentSide: 'right'},
           ],
-        };
+        });
+        element.changeComments = {};
+        element.path = '';
+        element.patchRange = {basePatchNum: 1, patchNum: 2};
+        element.projectConfig = {};
 
         element._removeComment({});
         // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem
         // to believe that one object deepEquals another even when they do :-/.
-        assert.equal(JSON.stringify(element.comments), JSON.stringify({
+        assert.equal(JSON.stringify(element._comments), JSON.stringify({
           meta: {
             changeNum: '42',
             patchRange: {
@@ -296,7 +300,7 @@ limitations under the License.
 
         element._removeComment({id: 'bc2', side: 'PARENT',
           __commentSide: 'left'});
-        assert.deepEqual(element.comments, {
+        assert.deepEqual(element._comments, {
           meta: {
             changeNum: '42',
             patchRange: {
@@ -320,7 +324,7 @@ limitations under the License.
         });
 
         element._removeComment({id: 'd2', __commentSide: 'right'});
-        assert.deepEqual(element.comments, {
+        assert.deepEqual(element._comments, {
           meta: {
             changeNum: '42',
             patchRange: {
@@ -410,7 +414,6 @@ limitations under the License.
       suite('image diffs', () => {
         let mockFile1;
         let mockFile2;
-        const stubs = [];
         setup(() => {
           mockFile1 = {
             body: 'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
@@ -443,23 +446,21 @@ limitations under the License.
             subject: 'Updated the carrot',
             message: 'Updated the carrot\n\nChange-Id: Iabcd123\n',
           };
-          const mockComments = {baseComments: [], comments: []};
-
-          stubs.push(sandbox.stub(element.$.restAPI, 'getCommitInfo',
-              () => Promise.resolve(mockCommit)));
-          stubs.push(sandbox.stub(element.$.restAPI,
+          sandbox.stub(element.$.restAPI, 'getCommitInfo',
+              () => Promise.resolve(mockCommit));
+          sandbox.stub(element.$.restAPI,
               'getB64FileContents',
               (changeId, patchNum, path, opt_parentIndex) => {
                 return Promise.resolve(opt_parentIndex === 1 ? mockFile1 :
                     mockFile2);
-              }));
-          stubs.push(sandbox.stub(element.$.restAPI, '_getDiffComments',
-              () => Promise.resolve(mockComments)));
-          stubs.push(sandbox.stub(element.$.restAPI, 'getDiffDrafts',
-              () => Promise.resolve(mockComments)));
+              });
 
+          sandbox.stub(element, '_computeComments')
+              .returns({left: [], right: []});
+          element.changeComments = {};
+          element.path = 'made/up/file/path.html';
           element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
-          element.comments = {left: [], right: []};
+          element.projectConfig = {};
         });
 
         test('renders image diffs with same file name', done => {
@@ -479,8 +480,8 @@ limitations under the License.
             content: [{skip: 66}],
             binary: true,
           };
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element, '_getDiff',
+              () => Promise.resolve(mockDiff));
 
           const rendered = () => {
             // Recognizes that it should be an image diff.
@@ -559,8 +560,8 @@ limitations under the License.
             content: [{skip: 66}],
             binary: true,
           };
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element, '_getDiff',
+              () => Promise.resolve(mockDiff));
 
           const rendered = () => {
             // Recognizes that it should be an image diff.
@@ -640,8 +641,8 @@ limitations under the License.
             content: [{skip: 66}],
             binary: true,
           };
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element, '_getDiff',
+              () => Promise.resolve(mockDiff));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -679,8 +680,8 @@ limitations under the License.
             content: [{skip: 66}],
             binary: true,
           };
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element, '_getDiff',
+              () => Promise.resolve(mockDiff));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -720,8 +721,8 @@ limitations under the License.
           };
           mockFile1.type = 'image/jpeg-evil';
 
-          stubs.push(sandbox.stub(element, '_getDiff',
-              () => Promise.resolve(mockDiff)));
+          sandbox.stub(element, '_getDiff',
+              () => Promise.resolve(mockDiff));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -797,10 +798,12 @@ limitations under the License.
         const setupDiff = function() {
           const mock = document.createElement('mock-diff-response');
           element._diff = mock.diffResponse;
-          element.comments = {
-            left: [],
-            right: [],
-          };
+          sandbox.stub(element, '_computeComments')
+              .returns({left: [], right: []});
+          element.changeComments = {};
+          element.patchRange = {basePatchNum: 1, patchNum: 2};
+          element.path = 'imaginary/path.sh';
+          element.projectConfig = {};
           element.prefs = {
             context: 10,
             tab_size: 8,
@@ -923,7 +926,8 @@ limitations under the License.
             change_type: 'MODIFIED',
             content: [{skip: 66}],
           };
-          element.comments = {
+          const projectConfig = {foo: 'bar'};
+          sandbox.stub(element, '_computeComments').returns({
             meta: {
               changeNum: '42',
               patchRange: {
@@ -931,7 +935,7 @@ limitations under the License.
                 patchNum: 3,
               },
               path: '/path/to/foo',
-              projectConfig: {foo: 'bar'},
+              projectConfig,
             },
             left: [
               {id: 'bc1', side: 'PARENT', __commentSide: 'left'},
@@ -945,7 +949,11 @@ limitations under the License.
               {id: 'd1', __draft: true, __commentSide: 'right'},
               {id: 'd2', __draft: true, __commentSide: 'right'},
             ],
-          };
+          });
+          element.changeComments = {};
+          element.path = 'carrot.jpg';
+          element.patchRange = {basePatchNum: 1, patchNum: 2};
+          element.projectConfig = projectConfig;
         });
 
         test('change in preferences re-renders diff', () => {
@@ -955,7 +963,7 @@ limitations under the License.
           assert.isTrue(element._renderDiffTable.called);
         });
 
-        test('change in preferences does not re-renders diff with ' +
+        test('change in preferences does not re-render diff with ' +
             'noRenderOnPrefsChange', () => {
           sandbox.stub(element, '_renderDiffTable');
           element.noRenderOnPrefsChange = true;
@@ -967,7 +975,7 @@ limitations under the License.
 
       suite('handle comment-update', () => {
         setup(() => {
-          element.comments = {
+          sandbox.stub(element, '_computeComments').returns({
             meta: {
               changeNum: '42',
               patchRange: {
@@ -989,14 +997,18 @@ limitations under the License.
               {id: 'd1', __draft: true, __commentSide: 'right'},
               {id: 'd2', __draft: true, __commentSide: 'right'},
             ],
-          };
+          });
+          element.changeComments = {};
+          element.path = '/path/to/foo';
+          element.patchRange = {basePatchNum: 'PARENT', patchNum: 3};
+          element.projectConfig = {foo: 'bar'};
         });
 
         test('creating a draft', () => {
           const comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
             __commentSide: 'left'};
           element.fire('comment-update', {comment});
-          assert.include(element.comments.left, comment);
+          assert.include(element._comments.left, comment);
         });
 
         test('discarding a draft', () => {
@@ -1011,10 +1023,10 @@ limitations under the License.
           const diffCommentsModifiedStub = sandbox.stub();
           element.addEventListener('diff-comments-modified',
               diffCommentsModifiedStub);
-          element.comments.left.push(comment);
+          element._comments.left.push(comment);
           comment.id = id;
           element.fire('comment-discard', {comment});
-          const drafts = element.comments.left.filter(item => {
+          const drafts = element._comments.left.filter(item => {
             return item.__draftID === draftID;
           });
           assert.equal(drafts.length, 0);
@@ -1033,10 +1045,10 @@ limitations under the License.
           const diffCommentsModifiedStub = sandbox.stub();
           element.addEventListener('diff-comments-modified',
               diffCommentsModifiedStub);
-          element.comments.left.push(comment);
+          element._comments.left.push(comment);
           comment.id = id;
           element.fire('comment-save', {comment});
-          const drafts = element.comments.left.filter(item => {
+          const drafts = element._comments.left.filter(item => {
             return item.__draftID === draftID;
           });
           assert.equal(drafts.length, 1);

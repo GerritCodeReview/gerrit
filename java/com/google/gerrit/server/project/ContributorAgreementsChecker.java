@@ -108,7 +108,11 @@ public class ContributorAgreementsChecker {
 
     if (!iUser.getEffectiveGroups().containsAnyOf(okGroupIds)) {
       final StringBuilder msg = new StringBuilder();
-      msg.append("A Contributor Agreement must be completed before uploading");
+      msg.append("No Contributor Agreement on file for user ")
+          .append(iUser.getNameEmail())
+          .append(" (id=")
+          .append(iUser.getAccountId())
+          .append(")");
       if (canonicalWebUrl != null) {
         msg.append(":\n\n  ");
         msg.append(canonicalWebUrl);

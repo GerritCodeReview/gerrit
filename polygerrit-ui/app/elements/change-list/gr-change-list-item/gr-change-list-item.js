@@ -122,17 +122,19 @@
       return '';
     },
 
-    _computeProjectURL(project) {
-      return Gerrit.Nav.getUrlForProjectChanges(project, true);
+    _computeProjectURL(change) {
+      return Gerrit.Nav.getUrlForProjectChanges(change.project, true,
+          change.internalHost);
     },
 
     _computeProjectBranchURL(change) {
-      return Gerrit.Nav.getUrlForBranch(change.branch, change.project);
+      return Gerrit.Nav.getUrlForBranch(change.branch, change.project, null,
+          change.internalHost);
     },
 
     _computeTopicURL(change) {
       if (!change.topic) { return ''; }
-      return Gerrit.Nav.getUrlForTopic(change.topic);
+      return Gerrit.Nav.getUrlForTopic(change.topic, change.internalHost);
     },
 
     _computeTruncatedProject(project) {

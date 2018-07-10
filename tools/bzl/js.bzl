@@ -413,6 +413,7 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
       name = name + "_bin",
       compilation_level = "SIMPLE",
       defs = [
+        "--allow_method_call_decomposing",
         "--polymer_version=1",
         "--language_out=ECMASCRIPT6",
         "--rewrite_polyfills=false",

@@ -25,73 +25,86 @@ sh_bang_template = (" && ".join([
 ]))
 
 def maven_package(
-    version,
-    repository = None,
-    url = None,
-    jar = {},
-    src = {},
-    doc = {},
-    war = {}):
+        version,
+        repository = None,
+        url = None,
+        jar = {},
+        src = {},
+        doc = {},
+        war = {}):
+    build_cmd = ["bazel", "build"]
+    mvn_cmd = ["python", "tools/maven/mvn.py", "-v", version]
+    api_cmd = mvn_cmd[:]
+    api_targets = []
+    for type, d in [("jar", jar), ("java-source", src), ("javadoc", doc)]:
+        for a, t in sorted(d.items()):
+            api_cmd.append("-s %s:%s:$(location %s)" % (a, type, t))
+            api_targets.append(t)
 
-  build_cmd = ['bazel', 'build']
-  mvn_cmd = ['python', 'tools/maven/mvn.py', '-v', version]
-  api_cmd = mvn_cmd[:]
-  api_targets = []
-  for type,d in [('jar', jar), ('java-source', src), ('javadoc', doc)]:
-    for a,t in sorted(d.items()):
-      api_cmd.append('-s %s:%s:$(location %s)' % (a,type,t))
-      api_targets.append(t)
-
-  native.genrule(
-    name = 'gen_api_install',
-    cmd = sh_bang_template % (
-      ' '.join(build_cmd + api_targets),
-      ' '.join(api_cmd + ['-a', 'install'])),
-    srcs = api_targets,
-    outs = ['api_install.sh'],
-    executable = True,
-    testonly = 1,
-  )
-
-  if repository and url:
     native.genrule(
-      name = 'gen_api_deploy',
-      cmd = sh_bang_template % (
-        ' '.join(build_cmd + api_targets),
-        ' '.join(api_cmd + ['-a', 'deploy',
-                            '--repository', repository,
-                            '--url', url])),
-      srcs = api_targets,
-      outs = ['api_deploy.sh'],
-      executable = True,
-      testonly = 1,
+        name = "gen_api_install",
+        cmd = sh_bang_template % (
+            " ".join(build_cmd + api_targets),
+            " ".join(api_cmd + ["-a", "install"]),
+        ),
+        srcs = api_targets,
+        outs = ["api_install.sh"],
+        executable = True,
+        testonly = 1,
     )
 
-  war_cmd = mvn_cmd[:]
-  war_targets = []
-  for a,t in sorted(war.items()):
-    war_cmd.append('-s %s:war:$(location %s)' % (a,t))
-    war_targets.append(t)
+    if repository and url:
+        native.genrule(
+            name = "gen_api_deploy",
+            cmd = sh_bang_template % (
+                " ".join(build_cmd + api_targets),
+                " ".join(api_cmd + [
+                    "-a",
+                    "deploy",
+                    "--repository",
+                    repository,
+                    "--url",
+                    url,
+                ]),
+            ),
+            srcs = api_targets,
+            outs = ["api_deploy.sh"],
+            executable = True,
+            testonly = 1,
+        )
 
-  native.genrule(
-    name = 'gen_war_install',
-    cmd = sh_bang_template % (' '.join(build_cmd + war_targets),
-                              ' '.join(war_cmd + ['-a', 'install'])),
-    srcs = war_targets,
-    outs = ['war_install.sh'],
-    executable = True,
-  )
+    war_cmd = mvn_cmd[:]
+    war_targets = []
+    for a, t in sorted(war.items()):
+        war_cmd.append("-s %s:war:$(location %s)" % (a, t))
+        war_targets.append(t)
 
-  if repository and url:
     native.genrule(
-      name = 'gen_war_deploy',
-      cmd = sh_bang_template % (
-          ' '.join(build_cmd + war_targets),
-          ' '.join(war_cmd + [
-        '-a', 'deploy',
-        '--repository', repository,
-        '--url', url])),
-      srcs = war_targets,
-      outs = ['war_deploy.sh'],
-      executable = True,
+        name = "gen_war_install",
+        cmd = sh_bang_template % (
+            " ".join(build_cmd + war_targets),
+            " ".join(war_cmd + ["-a", "install"]),
+        ),
+        srcs = war_targets,
+        outs = ["war_install.sh"],
+        executable = True,
     )
+
+    if repository and url:
+        native.genrule(
+            name = "gen_war_deploy",
+            cmd = sh_bang_template % (
+                " ".join(build_cmd + war_targets),
+                " ".join(war_cmd + [
+                    "-a",
+                    "deploy",
+                    "--repository",
+                    repository,
+                    "--url",
+                    url,
+                ]),
+            ),
+            srcs = war_targets,
+            outs = ["war_deploy.sh"],
+            executable = True,
+        )

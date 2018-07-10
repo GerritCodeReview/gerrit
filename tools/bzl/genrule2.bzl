@@ -17,11 +17,12 @@
 #   expose TMP shell variable
 
 def genrule2(cmd, **kwargs):
-  cmd = ' && '.join([
-    'ROOT=$$PWD',
-    'TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)',
-    '(' + cmd + ')',
-  ])
-  native.genrule(
-    cmd = cmd,
-    **kwargs)
+    cmd = " && ".join([
+        "ROOT=$$PWD",
+        "TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)",
+        "(" + cmd + ")",
+    ])
+    native.genrule(
+        cmd = cmd,
+        **kwargs
+    )

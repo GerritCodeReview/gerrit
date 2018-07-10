@@ -15,11 +15,12 @@
 # Syntactic sugar for native java_library() rule:
 #   accept exported_deps attributes
 
-def java_library2(deps=[], exported_deps=[], exports=[], **kwargs):
-  if exported_deps:
-    deps = deps + exported_deps
-    exports = exports + exported_deps
-  native.java_library(
-    deps = deps,
-    exports = exports,
-    **kwargs)
+def java_library2(deps = [], exported_deps = [], exports = [], **kwargs):
+    if exported_deps:
+        deps = deps + exported_deps
+        exports = exports + exported_deps
+    native.java_library(
+        deps = deps,
+        exports = exports,
+        **kwargs
+    )

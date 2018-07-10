@@ -1,4 +1,4 @@
-load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "MAVEN_CENTRAL", "maven_jar")
+load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_CENTRAL", "MAVEN_LOCAL", "maven_jar")
 
 _JGIT_VERS = "4.9.2.201712150930-r.15-g5fe8e31d4"
 
@@ -13,13 +13,13 @@ _JGIT_REPO = GERRIT  # Leave here even if set to MAVEN_CENTRAL.
 LOCAL_JGIT_REPO = ""
 
 def jgit_repos():
-  if LOCAL_JGIT_REPO:
-    native.local_repository(
-        name = "jgit",
-        path = LOCAL_JGIT_REPO,
-    )
-  else:
-    jgit_maven_repos()
+    if LOCAL_JGIT_REPO:
+        native.local_repository(
+            name = "jgit",
+            path = LOCAL_JGIT_REPO,
+        )
+    else:
+        jgit_maven_repos()
 
 def jgit_maven_repos():
     maven_jar(
@@ -52,15 +52,15 @@ def jgit_maven_repos():
     )
 
 def jgit_dep(name):
-  mapping = {
-      "@jgit-junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
-      "@jgit-lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
-      "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
-      "@jgit-servlet//jar":"@jgit//org.eclipse.jgit.http.server:jgit-servlet",
-      "@jgit-archive//jar": "@jgit//org.eclipse.jgit.archive:jgit-archive",
-  }
+    mapping = {
+        "@jgit-junit//jar": "@jgit//org.eclipse.jgit.junit:junit",
+        "@jgit-lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
+        "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
+        "@jgit-servlet//jar": "@jgit//org.eclipse.jgit.http.server:jgit-servlet",
+        "@jgit-archive//jar": "@jgit//org.eclipse.jgit.archive:jgit-archive",
+    }
 
-  if LOCAL_JGIT_REPO:
-    return mapping[name]
-  else:
-    return name
+    if LOCAL_JGIT_REPO:
+        return mapping[name]
+    else:
+        return name

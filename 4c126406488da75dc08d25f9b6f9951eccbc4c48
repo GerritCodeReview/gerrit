@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb657a72_3583cabe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-10T11:45:09Z",
+      "side": 1,
+      "message": "I don\u0027t see where this part is changed.  The code only seems to change the hint section.",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 79
+      },
+      "revId": "4c126406488da75dc08d25f9b6f9951eccbc4c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea49a069_63fdc709",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-10T11:45:09Z",
+      "side": 1,
+      "message": "Actually, doesn\u0027t this end up being duplicated by the message at L349-L355?",
+      "range": {
+        "startLine": 341,
+        "startChar": 10,
+        "endLine": 344,
+        "endChar": 89
+      },
+      "revId": "4c126406488da75dc08d25f9b6f9951eccbc4c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

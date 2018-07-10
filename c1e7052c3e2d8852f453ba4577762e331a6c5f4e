@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "2aac72a2_6623e610",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-10T15:58:11Z",
+      "side": 1,
+      "message": "Yes, it\u0027s better to remove this method. There is still a test that uses it. I will look into rewriting this test tomorrow so that we can get rid of this method.",
+      "parentUuid": "139c44c4_ee36afe9",
+      "range": {
+        "startLine": 30,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 31
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1bd1991_dd62a74a",
         "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
         "patchSetId": 1

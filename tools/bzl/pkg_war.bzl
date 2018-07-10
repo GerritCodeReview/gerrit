@@ -32,93 +32,93 @@ PGMLIBS = [
 ]
 
 def _add_context(in_file, output):
-  input_path = in_file.path
-  return [
-    'unzip -qd %s %s' % (output, input_path)
-  ]
+    input_path = in_file.path
+    return [
+        "unzip -qd %s %s" % (output, input_path),
+    ]
 
 def _add_file(in_file, output):
-  output_path = output
-  input_path = in_file.path
-  short_path = in_file.short_path
-  n = in_file.basename
+    output_path = output
+    input_path = in_file.path
+    short_path = in_file.short_path
+    n = in_file.basename
 
-  if short_path.startswith('gerrit-'):
-    n = short_path.split('/')[0] + '-' + n
-  elif short_path.startswith('java/'):
-    n = short_path[5:].replace('/', '_')
-  output_path += n
-  return [
-    'test -L %s || ln -s $(pwd)/%s %s' % (output_path, input_path, output_path)
-  ]
+    if short_path.startswith("gerrit-"):
+        n = short_path.split("/")[0] + "-" + n
+    elif short_path.startswith("java/"):
+        n = short_path[5:].replace("/", "_")
+    output_path += n
+    return [
+        "test -L %s || ln -s $(pwd)/%s %s" % (output_path, input_path, output_path),
+    ]
 
 def _make_war(input_dir, output):
-  return '(%s)' % ' && '.join([
-    'root=$(pwd)',
-    'TZ=UTC',
-    'export TZ',
-    'cd %s' % input_dir,
-    "find . -exec touch -t 198001010000 '{}' ';' 2> /dev/null",
-    'zip -X -9qr ${root}/%s .' % (output.path),
-  ])
+    return "(%s)" % " && ".join([
+        "root=$(pwd)",
+        "TZ=UTC",
+        "export TZ",
+        "cd %s" % input_dir,
+        "find . -exec touch -t 198001010000 '{}' ';' 2> /dev/null",
+        "zip -X -9qr ${root}/%s ." % (output.path),
+    ])
 
 def _war_impl(ctx):
-  war = ctx.outputs.war
-  build_output = war.path + '.build_output'
-  inputs = []
+    war = ctx.outputs.war
+    build_output = war.path + ".build_output"
+    inputs = []
 
-  # Create war layout
-  cmd = [
-    'set -e;rm -rf ' + build_output,
-    'mkdir -p ' + build_output,
-    'mkdir -p %s/WEB-INF/lib' % build_output,
-    'mkdir -p %s/WEB-INF/pgm-lib' % build_output,
-  ]
+    # Create war layout
+    cmd = [
+        "set -e;rm -rf " + build_output,
+        "mkdir -p " + build_output,
+        "mkdir -p %s/WEB-INF/lib" % build_output,
+        "mkdir -p %s/WEB-INF/pgm-lib" % build_output,
+    ]
 
-  # Add lib
-  transitive_lib_deps = depset()
-  for l in ctx.attr.libs:
-    if hasattr(l, 'java'):
-      transitive_lib_deps += l.java.transitive_runtime_deps
-    elif hasattr(l, 'files'):
-      transitive_lib_deps += l.files
+    # Add lib
+    transitive_lib_deps = depset()
+    for l in ctx.attr.libs:
+        if hasattr(l, "java"):
+            transitive_lib_deps += l.java.transitive_runtime_deps
+        elif hasattr(l, "files"):
+            transitive_lib_deps += l.files
 
-  for dep in transitive_lib_deps:
-    cmd += _add_file(dep, build_output + '/WEB-INF/lib/')
-    inputs.append(dep)
+    for dep in transitive_lib_deps:
+        cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
+        inputs.append(dep)
 
-  # Add pgm lib
-  transitive_pgmlib_deps = depset()
-  for l in ctx.attr.pgmlibs:
-    transitive_pgmlib_deps += l.java.transitive_runtime_deps
+    # Add pgm lib
+    transitive_pgmlib_deps = depset()
+    for l in ctx.attr.pgmlibs:
+        transitive_pgmlib_deps += l.java.transitive_runtime_deps
 
-  for dep in transitive_pgmlib_deps:
-    if dep not in inputs:
-      cmd += _add_file(dep, build_output + '/WEB-INF/pgm-lib/')
-      inputs.append(dep)
+    for dep in transitive_pgmlib_deps:
+        if dep not in inputs:
+            cmd += _add_file(dep, build_output + "/WEB-INF/pgm-lib/")
+            inputs.append(dep)
 
-  # Add context
-  transitive_context_deps = depset()
-  if ctx.attr.context:
-    for jar in ctx.attr.context:
-      if hasattr(jar, 'java'):
-        transitive_context_deps += jar.java.transitive_runtime_deps
-      elif hasattr(jar, 'files'):
-        transitive_context_deps += jar.files
-  for dep in transitive_context_deps:
-    cmd += _add_context(dep, build_output)
-    inputs.append(dep)
+    # Add context
+    transitive_context_deps = depset()
+    if ctx.attr.context:
+        for jar in ctx.attr.context:
+            if hasattr(jar, "java"):
+                transitive_context_deps += jar.java.transitive_runtime_deps
+            elif hasattr(jar, "files"):
+                transitive_context_deps += jar.files
+    for dep in transitive_context_deps:
+        cmd += _add_context(dep, build_output)
+        inputs.append(dep)
 
-  # Add zip war
-  cmd.append(_make_war(build_output, war))
+    # Add zip war
+    cmd.append(_make_war(build_output, war))
 
-  ctx.actions.run_shell(
-    inputs = inputs,
-    outputs = [war],
-    mnemonic = 'WAR',
-    command = '\n'.join(cmd),
-    use_default_shell_env = True,
-  )
+    ctx.actions.run_shell(
+        inputs = inputs,
+        outputs = [war],
+        mnemonic = "WAR",
+        command = "\n".join(cmd),
+        use_default_shell_env = True,
+    )
 
 # context: go to the root directory
 # libs: go to the WEB-INF/lib directory
@@ -133,25 +133,25 @@ _pkg_war = rule(
     implementation = _war_impl,
 )
 
-def pkg_war(name, ui = 'ui_optdbg', context = [], doc = False, **kwargs):
-  doc_ctx = []
-  doc_lib = []
-  ui_deps = []
-  if ui == 'polygerrit' or ui == 'ui_optdbg' or ui == 'ui_optdbg_r':
-    ui_deps.append('//polygerrit-ui/app:polygerrit_ui')
-  if ui and ui != 'polygerrit':
-    ui_deps.append('//gerrit-gwtui:%s' % ui)
-  if doc:
-    doc_ctx.append('//Documentation:html')
-    doc_lib.append('//Documentation:index')
+def pkg_war(name, ui = "ui_optdbg", context = [], doc = False, **kwargs):
+    doc_ctx = []
+    doc_lib = []
+    ui_deps = []
+    if ui == "polygerrit" or ui == "ui_optdbg" or ui == "ui_optdbg_r":
+        ui_deps.append("//polygerrit-ui/app:polygerrit_ui")
+    if ui and ui != "polygerrit":
+        ui_deps.append("//gerrit-gwtui:%s" % ui)
+    if doc:
+        doc_ctx.append("//Documentation:html")
+        doc_lib.append("//Documentation:index")
 
-  _pkg_war(
-    name = name,
-    libs = LIBS + doc_lib,
-    pgmlibs = PGMLIBS,
-    context = doc_ctx + context + ui_deps + [
-      '//java:gerrit-main-class_deploy.jar',
-      '//webapp:assets',
-    ],
-    **kwargs
-  )
+    _pkg_war(
+        name = name,
+        libs = LIBS + doc_lib,
+        pgmlibs = PGMLIBS,
+        context = doc_ctx + context + ui_deps + [
+            "//java:gerrit-main-class_deploy.jar",
+            "//webapp:assets",
+        ],
+        **kwargs
+    )

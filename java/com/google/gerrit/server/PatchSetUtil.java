@@ -181,17 +181,16 @@ public class PatchSetUtil {
   }
 
   /** Check if the current patch set of the change is locked. */
-  public void checkPatchSetNotLocked(ChangeNotes notes, CurrentUser user)
+  public void checkPatchSetNotLocked(ChangeNotes notes)
       throws OrmException, IOException, ResourceConflictException {
-    if (isPatchSetLocked(notes, user)) {
+    if (isPatchSetLocked(notes)) {
       throw new ResourceConflictException(
           String.format("The current patch set of change %s is locked", notes.getChangeId()));
     }
   }
 
   /** Is the current patch set locked against state changes? */
-  public boolean isPatchSetLocked(ChangeNotes notes, CurrentUser user)
-      throws OrmException, IOException {
+  public boolean isPatchSetLocked(ChangeNotes notes) throws OrmException, IOException {
     Change change = notes.getChange();
     if (change.getStatus() == Change.Status.MERGED) {
       return false;

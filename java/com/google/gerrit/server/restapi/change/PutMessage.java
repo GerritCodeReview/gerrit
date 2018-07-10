@@ -184,7 +184,7 @@ public class PutMessage
     }
 
     // Not allowed to put message if the current patch set is locked.
-    psUtil.checkPatchSetNotLocked(changeNotes, userProvider.get());
+    psUtil.checkPatchSetNotLocked(changeNotes);
     try {
       permissionBackend
           .user(userProvider.get())

@@ -91,7 +91,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       throws RestApiException, UpdateException, OrmException, PermissionBackendException,
           IOException {
     // Not allowed to restore if the current patch set is locked.
-    psUtil.checkPatchSetNotLocked(rsrc.getNotes(), rsrc.getUser());
+    psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().database(dbProvider).check(ChangePermission.RESTORE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
@@ -183,7 +183,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     }
 
     try {
-      if (psUtil.isPatchSetLocked(rsrc.getNotes(), rsrc.getUser())) {
+      if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
     } catch (OrmException | IOException e) {

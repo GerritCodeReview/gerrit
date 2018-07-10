@@ -309,7 +309,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException,
           OrmException {
     // Not allowed to create a new patch set if the current patch set is locked.
-    psUtil.checkPatchSetNotLocked(origNotes, ctx.getUser());
+    psUtil.checkPatchSetNotLocked(origNotes);
 
     if (checkAddPatchSetPermission) {
       permissionBackend

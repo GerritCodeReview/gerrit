@@ -135,7 +135,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     }
 
     // Not allowed to move if the current patch set is locked.
-    psUtil.checkPatchSetNotLocked(rsrc.getNotes(), rsrc.getUser());
+    psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     // Move requires abandoning this change, and creating a new change.
     try {
@@ -304,7 +304,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
     }
 
     try {
-      if (psUtil.isPatchSetLocked(rsrc.getNotes(), rsrc.getUser())) {
+      if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
     } catch (OrmException | IOException e) {

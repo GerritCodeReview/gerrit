@@ -128,7 +128,7 @@ public class CreateMergePatchSet
       throws OrmException, IOException, RestApiException, UpdateException,
           PermissionBackendException {
     // Not allowed to create a new patch set if the current patch set is locked.
-    psUtil.checkPatchSetNotLocked(rsrc.getNotes(), rsrc.getUser());
+    psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().database(db).check(ChangePermission.ADD_PATCH_SET);
 

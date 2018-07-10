@@ -2444,7 +2444,7 @@ class ReceiveCommits {
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
       // Not allowed to create a new patch set if the current patch set is locked.
-      if (psUtil.isPatchSetLocked(notes, user)) {
+      if (psUtil.isPatchSetLocked(notes)) {
         reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
         return false;
       }

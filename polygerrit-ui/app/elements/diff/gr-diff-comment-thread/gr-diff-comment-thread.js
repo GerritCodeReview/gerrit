@@ -41,6 +41,7 @@
         type: Array,
         value() { return []; },
       },
+      changeComments: Object,
       range: Object,
       keyEventTarget: {
         type: Object,

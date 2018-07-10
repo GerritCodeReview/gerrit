@@ -72,6 +72,7 @@
         notify: true,
         observer: '_commentChanged',
       },
+      changeComments: Object,
       isRobotComment: {
         type: Boolean,
         value: false,
@@ -546,7 +547,7 @@
 
     _saveDraft(draft) {
       this._showStartRequest();
-      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
+      return this.changeComments.saveDraft(this.changeNum, this.patchNum, draft)
           .then(result => {
             if (result.ok) {
               this._showEndRequest();
@@ -559,7 +560,7 @@
 
     _deleteDraft(draft) {
       this._showStartRequest();
-      return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
+      return this.changeComments.discardDraft(this.changeNum, this.patchNum,
           draft).then(result => {
             if (result.ok) {
               this._showEndRequest();

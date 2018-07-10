@@ -58,11 +58,15 @@
    * @param {number} changeNum
    * @constructor
    */
-  function ChangeComments(comments, robotComments, drafts, changeNum) {
+  function ChangeComments(comments, robotComments, drafts, changeNum, saveFn,
+      discardFn) {
     this._comments = comments;
     this._robotComments = robotComments;
     this._drafts = drafts;
     this._changeNum = changeNum;
+
+    this._saveFn = saveFn;
+    this._discardFn = discardFn;
   }
 
   ChangeComments.prototype = {
@@ -480,6 +484,16 @@
         this._isInRevisionOfPatchRange(comment, range);
   };
 
+  ChangeComments.prototype.saveDraft = function(changeNum, patchNum, draft) {
+    console.log('save');
+    return this._saveFn(changeNum, patchNum, draft);
+  };
+
+  ChangeComments.prototype.discardDraft = function(changeNum, patchNum, draft) {
+    console.log('discard');
+    return this._discardFn(changeNum, patchNum, draft);
+  };
+
   Polymer({
     is: 'gr-comment-api',
 
@@ -494,6 +508,14 @@
     behaviors: [
       Gerrit.PatchSetBehavior,
     ],
+
+    _saveFn(changeNum, patchNum, draft) {
+      return this.$.restAPI.saveDiffDraft(changeNum, patchNum, draft);
+    },
+
+    _discardFn(changeNum, patchNum, draft) {
+      return this.$.restAPI.saveDiffDraft(changeNum, patchNum, draft);
+    },
 
     /**
      * Load all comments (with drafts and robot comments) for the given change
@@ -511,7 +533,8 @@
 
       return Promise.all(promises).then(([comments, robotComments, drafts]) => {
         this._changeComments = new ChangeComments(comments,
-          robotComments, drafts, changeNum);
+          robotComments, drafts, changeNum, this._saveFn.bind(this),
+          this._discardFn.bind(this));
         return this._changeComments;
       });
     },
@@ -528,9 +551,11 @@
       if (!this._changeComments) {
         return this.loadAll(changeNum);
       }
+
       return this.$.restAPI.getDiffDrafts(changeNum).then(drafts => {
         this._changeComments = new ChangeComments(this._changeComments.comments,
-            this._changeComments.robotComments, drafts, changeNum);
+            this._changeComments.robotComments, drafts, changeNum,
+            this._saveFn.bind(this), this._discardFn.bind(this));
         return this._changeComments;
       });
     },

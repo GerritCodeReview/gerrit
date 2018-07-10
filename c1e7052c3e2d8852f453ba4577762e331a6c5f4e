@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "75c090d6_8f142bc6",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-10T15:51:00Z",
+      "side": 1,
+      "message": "I agree that client_tests is a confusing name. I\u0027ve uploaded a separate change to change this name:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/188271\n\nI\u0027ll then rebase this change onto that change.",
+      "parentUuid": "435b624e_ec3c24b2",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "139c44c4_ee36afe9",
         "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
         "patchSetId": 1

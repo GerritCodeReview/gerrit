@@ -45,6 +45,30 @@
       "revId": "2587e407b6f67256ec7bea8ea8e23f2917646c0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8850b5d8_a0ec857d",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-10T16:56:10Z",
+      "side": 1,
+      "message": "Here\u0027s the change for codemirror-editor plugin:\nhttps://gerrit-review.googlesource.com/c/plugins/codemirror-editor/+/188034",
+      "parentUuid": "3e5dc32b_f289fdf3",
+      "range": {
+        "startLine": 412,
+        "startChar": 4,
+        "endLine": 423,
+        "endChar": 5
+      },
+      "revId": "2587e407b6f67256ec7bea8ea8e23f2917646c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

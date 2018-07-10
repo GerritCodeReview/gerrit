@@ -39,6 +39,7 @@ languages included. Build it with the following:
           kotlin \
           lisp \
           lua \
+          markdown \
           objectivec \
           ocaml \
           perl \

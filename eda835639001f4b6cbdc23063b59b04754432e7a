@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26377086_a7a4f817",
+        "filename": "java/com/google/gerrit/server/ApprovalsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T08:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9c15f58_02aa0c25",
+      "range": {
+        "startLine": 275,
+        "startChar": 27,
+        "endLine": 275,
+        "endChar": 40
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0fd1869_a1c562ec",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "00d36573_272add0a",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T08:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0fd1869_a1c562ec",
+      "range": {
+        "startLine": 911,
+        "startChar": 5,
+        "endLine": 917,
+        "endChar": 11
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8252abaa_ebd5dfd5",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2018-07-05T12:58:58Z",
       "side": 1,
       "message": "Nested catch blocks make the code harder to read. Could you factor out a static method in this class that has a try catch and returns a boolean?\n\n(We use that pattern in multiple other places)",
+      "range": {
+        "startLine": 2532,
+        "startChar": 7,
+        "endLine": 2541,
+        "endChar": 9
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ef13dfa_087f5228",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2541,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T08:24:43Z",
+      "side": 1,
+      "message": "factor out method is not that useful because it\u0027s not used by others. Let\u0027s use a local var to avoid nesting try-catch blocks.",
+      "parentUuid": "8252abaa_ebd5dfd5",
       "range": {
         "startLine": 2532,
         "startChar": 7,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "4d567d75_3bc6072b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T08:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833b99d2_85a815fe",
+      "range": {
+        "startLine": 353,
+        "startChar": 4,
+        "endLine": 353,
+        "endChar": 29
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80b6dec7_d07d6abf",
         "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
         "patchSetId": 1
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "84d85140_b375f2a8",
+        "filename": "java/com/google/gerrit/server/project/RemoveReviewerControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T08:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b6dec7_d07d6abf",
+      "range": {
+        "startLine": 70,
+        "startChar": 14,
+        "endLine": 70,
+        "endChar": 33
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ad6065f_185e6f10",
         "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
         "patchSetId": 1
@@ -131,6 +251,24 @@
       "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a6a6334_15782347",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T08:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ad6065f_185e6f10",
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -205,6 +343,30 @@
     },
     {
       "key": {
+        "uuid": "8fd83761_b4adfbb4",
+        "filename": "java/com/google/gerrit/server/restapi/account/Capabilities.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T08:24:43Z",
+      "side": 1,
+      "message": "It\u0027s unclear to me all the callers throw out 404 when seeing AuthE. I would like to keep as it is and avoid changing the existing behavior.",
+      "parentUuid": "e0c9a168_f7c17b3d",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 80,
+        "endChar": 5
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bce4980e_bdf32a10",
         "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
         "patchSetId": 1
@@ -264,6 +426,30 @@
       "side": 1,
       "message": "There are two possibilities: Leave as is. This means you catch and re-throw because you want the specific error message.\nJust let it propagate which will make RestApiServlet use the original message (smth like WRITE_CONFIG not granted)\n\nProbably here we want the nicer message so catch and rethrow is OK, but please don\u0027t nest try blocks.",
       "parentUuid": "d1d0fe35_3108da70",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 9
+      },
+      "revId": "eda835639001f4b6cbdc23063b59b04754432e7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df0da204_f2df8173",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T08:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5efb2e3_5a6a2338",
       "range": {
         "startLine": 77,
         "startChar": 8,

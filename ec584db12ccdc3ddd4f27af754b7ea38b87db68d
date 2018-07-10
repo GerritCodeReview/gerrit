@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7aa1debb_0e7e5d46",
+        "filename": "polygerrit-ui/app/elements/admin/gr-project/gr-project.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-10T07:51:11Z",
+      "side": 1,
+      "message": "Should this be:\n\n  Set new changes to \"work in progress\" by default\n\nto be consistent with the wording of account setting (which was changed per Kasper\u0027s comment on the following change in the series??",
+      "range": {
+        "startLine": 244,
+        "startChar": 18,
+        "endLine": 244,
+        "endChar": 65
+      },
+      "revId": "ec584db12ccdc3ddd4f27af754b7ea38b87db68d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

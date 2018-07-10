@@ -93,9 +93,6 @@ class ChangeControl {
   }
 
   private ChangeControl forUser(CurrentUser who) {
-    if (getUser().equals(who)) {
-      return this;
-    }
     return new ChangeControl(
         changeDataFactory, identifiedUserFactory, refControl.forUser(who), notes);
   }
@@ -265,7 +262,7 @@ class ChangeControl {
 
     @Override
     public ForChange user(CurrentUser user) {
-      return getUser().equals(user) ? this : forUser(user).asForChange(cd, db);
+      return forUser(user).asForChange(cd, db);
     }
 
     @Override

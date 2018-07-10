@@ -78,6 +78,7 @@ ELASTICSEARCH_TESTS_V6 = {i: "src/test/java/com/google/gerrit/elasticsearch/Elas
 ELASTICSEARCH_TAGS = [
     "docker",
     "elastic",
+    "exclusive",
 ]
 
 [junit_tests(

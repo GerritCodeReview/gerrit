@@ -18,6 +18,7 @@ acceptance_tests(
     labels = [
         "docker",
         "elastic",
+        "exclusive",
         "pgm",
     ],
     deps = [":util"],

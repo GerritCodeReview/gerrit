@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e440dbf_cc769ee7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-10T02:40:32Z",
+      "side": 1,
+      "message": "It would be clearer if there were links to the relevant PRs and/or the actual commits.",
+      "revId": "34fbe70d1e14a034c9b0e65b95aded19db179a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

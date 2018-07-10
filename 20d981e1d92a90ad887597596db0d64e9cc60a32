@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1cd6c34f_0d55b93e",
+        "filename": "java/com/google/gerrit/server/restapi/project/Index.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-10T12:22:32Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/188251",
+      "parentUuid": "4e5bea73_ceb2e1d3",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 16
+      },
+      "revId": "20d981e1d92a90ad887597596db0d64e9cc60a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b4163dc_afcdfb77",
         "filename": "java/com/google/gerrit/server/restapi/project/Index.java",
         "patchSetId": 4

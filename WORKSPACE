@@ -962,7 +962,7 @@ npm_binary(
 
 npm_binary(
     name = "vulcanize",
-    repository = GERRIT,
+    repository = "NPMJS",
 )
 
 npm_binary(

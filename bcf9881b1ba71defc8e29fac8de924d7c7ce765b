@@ -16,6 +16,24 @@
       "revId": "bcf9881b1ba71defc8e29fac8de924d7c7ce765b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6be47e77_a2346aeb",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-10T03:58:04Z",
+      "side": 1,
+      "message": "Hm, let me try removing this.",
+      "parentUuid": "626d8ed9_2858f369",
+      "revId": "bcf9881b1ba71defc8e29fac8de924d7c7ce765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

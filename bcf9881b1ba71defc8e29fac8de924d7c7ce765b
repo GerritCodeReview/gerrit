@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "626d8ed9_2858f369",
+        "filename": "plugins/codemirror-editor",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-10T00:26:07Z",
+      "side": 1,
+      "message": "Was this added intentionally? It looks like it may be the source of errors.",
+      "revId": "bcf9881b1ba71defc8e29fac8de924d7c7ce765b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

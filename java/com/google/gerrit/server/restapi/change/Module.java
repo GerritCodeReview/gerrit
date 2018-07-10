@@ -72,6 +72,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), VOTE_KIND);
     DynamicMap.mapOf(binder(), CHANGE_MESSAGE_KIND);
 
+    postOnCollection(CHANGE_KIND).to(CreateChange.class);
     get(CHANGE_KIND).to(GetChange.class);
     post(CHANGE_KIND, "merge").to(CreateMergePatchSet.class);
     get(CHANGE_KIND, "detail").to(GetDetail.class);
@@ -112,9 +113,9 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "ready").to(SetReadyForReview.class);
     put(CHANGE_KIND, "message").to(PutMessage.class);
 
-    post(CHANGE_KIND, "reviewers").to(PostReviewers.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
     child(CHANGE_KIND, "reviewers").to(Reviewers.class);
+    postOnCollection(REVIEWER_KIND).to(PostReviewers.class);
     get(REVIEWER_KIND).to(GetReviewer.class);
     delete(REVIEWER_KIND).to(DeleteReviewer.class);
     post(REVIEWER_KIND, "delete").to(DeleteReviewer.class);
@@ -170,9 +171,12 @@ public class Module extends RestApiModule {
 
     child(CHANGE_KIND, "edit").to(ChangeEdits.class);
     create(CHANGE_EDIT_KIND).to(ChangeEdits.Create.class);
+    postOnCollection(CHANGE_EDIT_KIND).to(ChangeEdits.Post.class);
     delete(CHANGE_KIND, "edit").to(DeleteChangeEdit.class);
     child(CHANGE_KIND, "edit:publish").to(PublishChangeEdit.class);
+    postOnCollection(CHANGE_EDIT_PUBLISH_KIND).to(PublishChangeEdit.Publish.class);
     child(CHANGE_KIND, "edit:rebase").to(RebaseChangeEdit.class);
+    postOnCollection(CHANGE_EDIT_REBASE_KIND).to(RebaseChangeEdit.Rebase.class);
     put(CHANGE_KIND, "edit:message").to(ChangeEdits.EditMessage.class);
     get(CHANGE_KIND, "edit:message").to(ChangeEdits.GetMessage.class);
     put(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Put.class);

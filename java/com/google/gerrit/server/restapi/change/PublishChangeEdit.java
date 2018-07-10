@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -33,7 +32,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gerrit.server.update.RetryingRestCollectionView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -44,16 +43,13 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit
-    implements ChildCollection<ChangeResource, ChangeEditResource.Publish>,
-        AcceptsPost<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource.Publish> {
 
   private final DynamicMap<RestView<ChangeEditResource.Publish>> views;
-  private final Publish publish;
 
   @Inject
-  PublishChangeEdit(DynamicMap<RestView<ChangeEditResource.Publish>> views, Publish publish) {
+  PublishChangeEdit(DynamicMap<RestView<ChangeEditResource.Publish>> views) {
     this.views = views;
-    this.publish = publish;
   }
 
   @Override
@@ -72,14 +68,10 @@ public class PublishChangeEdit
     throw new ResourceNotFoundException();
   }
 
-  @Override
-  public Publish post(ChangeResource parent) throws RestApiException {
-    return publish;
-  }
-
   @Singleton
   public static class Publish
-      extends RetryingRestModifyView<ChangeResource, PublishChangeEditInput, Response<?>> {
+      extends RetryingRestCollectionView<
+          ChangeResource, ChangeEditResource.Publish, PublishChangeEditInput, Response<?>> {
 
     private final ChangeEditUtil editUtil;
     private final NotifyUtil notifyUtil;

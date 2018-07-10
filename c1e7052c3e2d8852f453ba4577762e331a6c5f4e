@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1530880884 +0200\nnonce ADrMV7awU5QYJ4QhRwD2b61g4ahsEy3VDvart/JL2MhUhcEuMHGWk2JE87kk1GmJ/LDMAk3f09FV\n\n0000000000000000000000000000000000000000 c1e7052c3e2d8852f453ba4577762e331a6c5f4e refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEyBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAls/Y3QACgkQUbX9l6DQ\n71FTWAf3cq8f+3mdAxcHG4xHkwzwvSbuz8aimbklPK58nxsP+8BpHDVd/l2SCbV7\nzx3ePNpraN24++O8QthD1xKrqQwUN4gqo8Nfxm2TmM10zPNDEeW+YmwEUINvNlcL\nU804Q39TpyAzBIsjdPb9kIttskwXJfsFKZultkYKR5+ub2HveakDKMY16zvI/1tY\nmUWPgYl4W+MlN6e/kNQPXc9apWMkVAABAVf5CpSPM8RcvJqltR6+Y/mlI1SJQq1B\nKq7SPuU5KG3TajgX5l0TQ/wvMTA1NqJjsC8XC95KY5YWGBUd9yPsOSLtyx3XUy2S\nbl/3Mok05bTSZYUQp89VcdURprnw\n\u003dGfxg\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "435b624e_ec3c24b2",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-10T12:27:45Z",
+      "side": 1,
+      "message": "This class is automatically included in client_tests in the BUILD file. Is this intended? If so, do you have any idea why this is a *client* test?",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "139c44c4_ee36afe9",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-10T12:27:45Z",
+      "side": 1,
+      "message": "Is this method really used somewhere? I could track it back to ProjectConfig#resolve but that method wasn\u0027t used anywhere else. If possible, I would rather remove references to the class AccountGroup instead of introducing new ones.",
+      "range": {
+        "startLine": 30,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 31
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1bd1991_dd62a74a",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-10T12:27:45Z",
+      "side": 1,
+      "message": "Would it make sense to test this with null as name?",
+      "range": {
+        "startLine": 121,
+        "startChar": 14,
+        "endLine": 121,
+        "endChar": 27
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

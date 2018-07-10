@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23305b46_ee315cef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 1,
+      "message": "When we passing around PB, our motivation is to avoid reconstructing the PB instance rather than getting the smaller objects? I thought the reason should be we want to reuse the existing PB to 1) rescope it to another user 2) scope down to other laysers. By doing this, in DefaultPermissonBackend, we could avoid loading ProjectState mutliple times.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 26
+      },
+      "revId": "3694f45b432951db17ae633ed6f00f767e368d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89c76dcb_e028b26b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 1,
+      "message": "c/anti-patter/anti-pattern",
+      "range": {
+        "startLine": 15,
+        "startChar": 42,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "3694f45b432951db17ae633ed6f00f767e368d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab39d5a_8446d148",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 1,
+      "message": "This is a general issue when passing around objects. Personally, I think it\u0027s better to only pass required parameters rather than a heavy object. But since Java relies cheap references everywhere, there should be no big difference regarding to performance.",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 17,
+        "endChar": 55
+      },
+      "revId": "3694f45b432951db17ae633ed6f00f767e368d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

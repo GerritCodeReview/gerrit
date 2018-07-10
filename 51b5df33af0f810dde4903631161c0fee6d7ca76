@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fa6eff5_a6934a1c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 0,
+      "message": "This is not used anymore.",
+      "range": {
+        "startLine": 455,
+        "startChar": 5,
+        "endLine": 456,
+        "endChar": 73
+      },
+      "revId": "51b5df33af0f810dde4903631161c0fee6d7ca76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb01ab44_15a7ce29",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 0,
+      "message": "Motivation for this?\n\nThis is also contained in a loop. Do we really want to reconstruct the object for each account?",
+      "range": {
+        "startLine": 465,
+        "startChar": 61,
+        "endLine": 465,
+        "endChar": 87
+      },
+      "revId": "51b5df33af0f810dde4903631161c0fee6d7ca76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aefd0d7_002d7ffb",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 0,
+      "message": "Like previous comments. Changing this looks like we are trying to avoid using rescoping users. Do we want to do that? This change has some effects on performance.",
+      "range": {
+        "startLine": 111,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 43
+      },
+      "revId": "51b5df33af0f810dde4903631161c0fee6d7ca76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

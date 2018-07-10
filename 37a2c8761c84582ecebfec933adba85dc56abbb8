@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a598c29_31e2d0b8",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 1,
+      "message": "Here and below, could they be moved out to just rescope the user rather than reconstruct a new PB instance?",
+      "range": {
+        "startLine": 890,
+        "startChar": 6,
+        "endLine": 890,
+        "endChar": 83
+      },
+      "revId": "37a2c8761c84582ecebfec933adba85dc56abbb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09da679d_9a32f2fd",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 1,
+      "message": "Even though #currentUser shouldn\u0027t read #user back, we can still accept a PB instance here to avoid creating a new one at line#1124 each this method is called. Actually, there are two callers of this method whcih are nested in a \u0027for\u0027 loop. But the existing code is nested and resconstructed there each time.",
+      "range": {
+        "startLine": 1107,
+        "startChar": 6,
+        "endLine": 1107,
+        "endChar": 34
+      },
+      "revId": "37a2c8761c84582ecebfec933adba85dc56abbb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "502df453_e7cb7cf4",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 1,
+      "message": "optional: consider making this name consistent with its callers.",
+      "range": {
+        "startLine": 1164,
+        "startChar": 54,
+        "endLine": 1164,
+        "endChar": 62
+      },
+      "revId": "37a2c8761c84582ecebfec933adba85dc56abbb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48dd034f_2034ab53",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-10T07:45:38Z",
+      "side": 1,
+      "message": "use #getUser()?",
+      "range": {
+        "startLine": 268,
+        "startChar": 13,
+        "endLine": 268,
+        "endChar": 33
+      },
+      "revId": "37a2c8761c84582ecebfec933adba85dc56abbb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

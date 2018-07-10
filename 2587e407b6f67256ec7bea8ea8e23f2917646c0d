@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c865c5c_b2638e4d",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-10T06:15:39Z",
+      "side": 1,
+      "message": "This is the reason it\u0027s failing to build plugins/codemirror-editor:\n\n  $ bazel build plugins/codemirror-editor:codemirror-editor -s\nERROR: /home/davido/projects/gerrit2/plugins/codemirror-editor/BUILD:30:1: Label \u0027//plugins/codemirror-editor:plugin.html\u0027 is duplicated in the \u0027srcs\u0027 attribute of rule \u0027cm_combined\u0027\n\nChanging it to just \"srcs\u003dsrcs\" fixed it to me.",
+      "range": {
+        "startLine": 410,
+        "startChar": 54,
+        "endLine": 410,
+        "endChar": 71
+      },
+      "revId": "2587e407b6f67256ec7bea8ea8e23f2917646c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e5dc32b_f289fdf3",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-10T06:15:39Z",
+      "side": 1,
+      "message": "This doesn\u0027t work for codemirror-editor plugin: [1].\n\n* [1] http://paste.openstack.org/show/725385",
+      "range": {
+        "startLine": 412,
+        "startChar": 4,
+        "endLine": 423,
+        "endChar": 5
+      },
+      "revId": "2587e407b6f67256ec7bea8ea8e23f2917646c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

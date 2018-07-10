@@ -16,4 +16,5 @@ package com.google.gerrit.extensions.api.projects;
 
 public class IndexProjectInput {
   public Boolean indexChildren;
+  public Boolean async;
 }

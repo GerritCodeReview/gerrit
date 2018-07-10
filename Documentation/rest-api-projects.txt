@@ -1357,8 +1357,8 @@ parameters `perm`, `account` and `ref`, for example:
 === Index project
 
 Adds or updates the current project (and children, if specified) in the secondary index.
-The indexing task is executed asynchronously in background, so this command
-returns immediately.
+The indexing task is executed asynchronously in background and this command returns
+immediately if `async` is specified in the input.
 
 As an input, a link:#index-project-input[IndexProjectInput] entity can be provided.
 
@@ -1369,6 +1369,7 @@ As an input, a link:#index-project-input[IndexProjectInput] entity can be provid
 
   {
     "index_children": "true"
+    "async": "true"
   }
 ----
 
@@ -3162,6 +3163,8 @@ The `IndexProjectInput` contains parameters for indexing a project.
 |Field Name         ||Description
 |`index_children`   ||
 If children should be indexed recursively.
+|`async`            ||
+If projects should be indexed asynchronously.
 |================================
 
 [[inherited-boolean-info]]

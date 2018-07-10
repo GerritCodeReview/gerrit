@@ -37,6 +37,7 @@
         type: Number,
         value: null,
       },
+      changeComments: Object,
       _threads: {
         type: Array,
         value() { return []; },

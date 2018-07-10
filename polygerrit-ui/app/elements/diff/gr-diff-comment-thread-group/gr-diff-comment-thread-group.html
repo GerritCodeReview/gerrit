@@ -34,6 +34,7 @@ limitations under the License.
     <template is="dom-repeat" items="[[_threads]]" as="thread">
       <gr-diff-comment-thread
           comments="[[thread.comments]]"
+          change-comments="[[changeComments]]"
           comment-side="[[thread.commentSide]]"
           is-on-parent="[[isOnParent]]"
           parent-index="[[parentIndex]]"

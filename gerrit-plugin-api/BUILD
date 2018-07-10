@@ -16,6 +16,7 @@ EXPORTS = [
     "//gerrit-server:metrics",
     "//gerrit-reviewdb:server",
     "//gerrit-server:prolog-common",
+    "//lib/commons:compress",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/dropwizard:dropwizard-core",

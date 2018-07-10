@@ -3,6 +3,7 @@ NPMJS = "NPMJS"
 GERRIT = "GERRIT:"
 
 load("//lib/js:npm.bzl", "NPM_VERSIONS", "NPM_SHA1S")
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_library", "closure_js_binary")
 
 def _npm_tarball(name):
   return "%s@%s.npm_binary.tgz" % (name, NPM_VERSIONS[name])
@@ -391,6 +392,88 @@ def vulcanize(*args, **kwargs):
   """Vulcanize runs vulcanize and (optionally) crisper on a set of sources."""
   _vulcanize_rule(*args, pkg=PACKAGE_NAME, **kwargs)
 
-def polygerrit_plugin(*args, **kwargs):
-  """Bundles plugin dependencies for deployment."""
-  _vulcanize_rule(*args, pkg=PACKAGE_NAME, **kwargs)
+def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
+    """Bundles plugin dependencies for deployment.
+
+    This rule bundles all Polymer elements and JS dependencies into .html and .js files.
+    Run-time dependencies (e.g. JS libraries loaded after plugin starts) should be provided using "assets" property.
+    Output of this rule is a FileSet with "${name}_fs", with deploy artifacts in "plugins/${name}/static".
+
+    Args:
+      name: String, plugin name.
+      app: String, the main or root source file.
+      assets: Fileset, additional files to be used by plugin in runtime, exported to "plugins/${name}/static".
+      srcs: Source files required for combining.
+    """
+
+    # Combines all .js and .html files into foo_combined.js and foo_combined.html
+    _vulcanize_rule(name=name + "_combined", app=app, srcs=srcs + [app],pkg=PACKAGE_NAME, **kwargs)
+
+    closure_js_binary(
+      name = name + "_bin",
+      compilation_level = "SIMPLE",
+      defs = [
+        "--polymer_version=1",
+        "--language_out=ECMASCRIPT6",
+        "--rewrite_polyfills=false",
+      ],
+      deps = [
+        name + "_closure_lib"
+      ],
+    )
+
+    closure_js_library(
+      name = name + "_closure_lib",
+      srcs = [name + "_combined.js"],
+      convention = "GOOGLE",
+      deps = [
+        "//lib/polymer_externs:polymer_closure",
+        "//polygerrit-ui/externs:plugin",
+      ],
+      no_closure_library = True,
+    )
+
+    native.genrule(
+      name = name + "_rename_html",
+      srcs = [name + "_combined.html"],
+      outs = [name + ".html"],
+      cmd = "sed 's/<script src=\"" + name + "_combined.js\"/<script src=\"" + name + ".js\"/g' $(SRCS) > $(OUTS)",
+      output_to_bindir = True,
+    )
+
+    native.genrule(
+      name = name + "_rename_js",
+      srcs = [name + "_bin.js"],
+      outs = [name + ".js"],
+      cmd = "cp $< $@",
+      output_to_bindir = True,
+    )
+
+    static_files = [
+      name + ".js",
+      name + ".html",
+    ]
+
+    if assets:
+      nested, direct = [], []
+      for x in assets:
+        target = nested if '/' in x else direct
+        target.append(x)
+
+      static_files += direct
+
+      if nested:
+        native.genrule(
+          name = name + '_copy_assets',
+          srcs = assets,
+          outs = [f.split('/')[-1] for f in nested],
+          cmd = "cp $(SRCS) $(@D)",
+          output_to_bindir = True,
+        )
+        static_files += [":" + name + "_copy_assets"]
+
+
+    native.filegroup(
+      name = name,
+      srcs = static_files,
+    )

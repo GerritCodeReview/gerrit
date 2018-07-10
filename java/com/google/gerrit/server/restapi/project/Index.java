@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.projects.IndexProjectInput;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -62,27 +63,33 @@ public class Index implements RestModifyView<ProjectResource, IndexProjectInput>
           ResourceConflictException {
     String response = "Project " + rsrc.getName() + " submitted for reindexing";
 
-    reindexAsync(rsrc.getNameKey());
+    reindex(rsrc.getNameKey(), input.async);
     if (Boolean.TRUE.equals(input.indexChildren)) {
       ListChildProjects listChildProjects = listChildProjectsProvider.get();
       listChildProjects.setRecursive(true);
-      listChildProjects.apply(rsrc).forEach(p -> reindexAsync(new Project.NameKey(p.name)));
+      for (ProjectInfo child : listChildProjects.apply(rsrc)) {
+        reindex(new Project.NameKey(child.name), input.async);
+      }
 
       response += " (indexing children recursively)";
     }
     return Response.accepted(response);
   }
 
-  private void reindexAsync(Project.NameKey project) {
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError =
-        executor.submit(
-            () -> {
-              try {
-                indexer.index(project);
-              } catch (IOException e) {
-                logger.atWarning().withCause(e).log("reindexing project %s failed", project);
-              }
-            });
+  private void reindex(Project.NameKey project, Boolean async) throws IOException {
+    if (Boolean.TRUE.equals(async)) {
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          executor.submit(
+              () -> {
+                try {
+                  indexer.index(project);
+                } catch (IOException e) {
+                  logger.atWarning().withCause(e).log("reindexing project %s failed", project);
+                }
+              });
+    } else {
+      indexer.index(project);
+    }
   }
 }

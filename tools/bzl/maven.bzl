@@ -15,18 +15,18 @@
 # Merge maven files
 
 def cmd(jars):
-  return ('$(location //tools:merge_jars) $@ '
-          + ' '.join(['$(location %s)' % j for j in jars]))
+    return ("$(location //tools:merge_jars) $@ " +
+            " ".join(["$(location %s)" % j for j in jars]))
 
 def merge_maven_jars(name, srcs, **kwargs):
-  native.genrule(
-    name = '%s__merged_bin' % name,
-    cmd = cmd(srcs),
-    tools = srcs + ['//tools:merge_jars'],
-    outs = ['%s__merged.jar' % name],
-  )
-  native.java_import(
-    name = name,
-    jars = [':%s__merged_bin' % name],
-    **kwargs
-  )
+    native.genrule(
+        name = "%s__merged_bin" % name,
+        cmd = cmd(srcs),
+        tools = srcs + ["//tools:merge_jars"],
+        outs = ["%s__merged.jar" % name],
+    )
+    native.java_import(
+        name = name,
+        jars = [":%s__merged_bin" % name],
+        **kwargs
+    )

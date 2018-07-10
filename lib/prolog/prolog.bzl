@@ -15,22 +15,22 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 
 def prolog_cafe_library(
-    name,
-    srcs,
-    deps = [],
-    **kwargs):
-  genrule2(
-    name = name + '__pl2j',
-    cmd = '$(location //lib/prolog:compiler-bin) ' +
-      '$$(dirname $@) $@ ' +
-      '$(SRCS)',
-    srcs = srcs,
-    tools = ['//lib/prolog:compiler-bin'],
-    outs = [ name + '.srcjar' ],
-  )
-  native.java_library(
-    name = name,
-    srcs = [':' + name + '__pl2j'],
-    deps = ['//lib/prolog:runtime-neverlink'] + deps,
-    **kwargs
-  )
+        name,
+        srcs,
+        deps = [],
+        **kwargs):
+    genrule2(
+        name = name + "__pl2j",
+        cmd = "$(location //lib/prolog:compiler-bin) " +
+              "$$(dirname $@) $@ " +
+              "$(SRCS)",
+        srcs = srcs,
+        tools = ["//lib/prolog:compiler-bin"],
+        outs = [name + ".srcjar"],
+    )
+    native.java_library(
+        name = name,
+        srcs = [":" + name + "__pl2j"],
+        deps = ["//lib/prolog:runtime-neverlink"] + deps,
+        **kwargs
+    )

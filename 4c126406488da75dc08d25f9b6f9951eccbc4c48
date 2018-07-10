@@ -45,6 +45,30 @@
       "revId": "4c126406488da75dc08d25f9b6f9951eccbc4c48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79ff88e3_3b597a30",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-10T11:46:26Z",
+      "side": 1,
+      "message": "Never mind.  I see it\u0027s fixed in the follow-up change.\n\nCan we just squash that change into this one?",
+      "parentUuid": "ea49a069_63fdc709",
+      "range": {
+        "startLine": 341,
+        "startChar": 10,
+        "endLine": 344,
+        "endChar": 89
+      },
+      "revId": "4c126406488da75dc08d25f9b6f9951eccbc4c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

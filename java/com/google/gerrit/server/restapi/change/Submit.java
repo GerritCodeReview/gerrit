@@ -468,7 +468,11 @@ public class Submit
     CurrentUser caller = rsrc.getUser();
     IdentifiedUser submitter = accounts.parseOnBehalfOf(caller, in.onBehalfOf);
     try {
-      perm.user(submitter).check(ChangePermission.READ);
+      permissionBackend
+          .user(submitter)
+          .database(dbProvider)
+          .change(rsrc.getNotes())
+          .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", submitter.getAccountId()));

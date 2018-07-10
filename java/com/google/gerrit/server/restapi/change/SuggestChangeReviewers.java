@@ -85,14 +85,18 @@ public class SuggestChangeReviewers extends SuggestReviewers
   }
 
   private VisibilityControl getVisibility(ChangeResource rsrc) {
-    // Use the destination reference, not the change, as private changes deny anyone who is not
-    // already a reviewer.
-    PermissionBackend.ForRef perm = permissionBackend.currentUser().ref(rsrc.getChange().getDest());
+
     return new VisibilityControl() {
       @Override
       public boolean isVisibleTo(Account.Id account) throws OrmException {
+        // Use the destination reference, not the change, as private changes deny anyone who is not
+        // already a reviewer.
         IdentifiedUser who = identifiedUserFactory.create(account);
-        return perm.user(who).testOrFalse(RefPermission.READ);
+        return permissionBackend
+            .user(who)
+            .database(dbProvider)
+            .ref(rsrc.getChange().getDest())
+            .testOrFalse(RefPermission.READ);
       }
     };
   }

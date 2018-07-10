@@ -454,17 +454,13 @@ public class PostReviewers
       }
 
       ChangeData cd = changeDataFactory.create(dbProvider.get(), notes);
-      PermissionBackend.ForChange perm =
-          permissionBackend.user(caller).database(dbProvider).change(cd);
-
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
       PostReviewersOp.Result opResult = op.getResult();
       if (migration.readChanges() && state == CC) {
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {
-          result.ccs.add(
-              json.format(new ReviewerInfo(accountId.get()), perm.absentUser(accountId), cd));
+          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), accountId, cd));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : reviewersByEmail) {
@@ -477,7 +473,7 @@ public class PostReviewers
           result.reviewers.add(
               json.format(
                   new ReviewerInfo(psa.getAccountId().get()),
-                  perm.absentUser(psa.getAccountId()),
+                  psa.getAccountId(),
                   cd,
                   ImmutableList.of(psa)));
         }

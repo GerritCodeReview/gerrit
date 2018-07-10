@@ -56,10 +56,13 @@ public abstract class PermissionBackendCondition
   public static class WithUser extends PermissionBackendCondition {
     private final PermissionBackend.WithUser impl;
     private final GlobalOrPluginPermission perm;
+    private final CurrentUser user;
 
-    WithUser(PermissionBackend.WithUser impl, GlobalOrPluginPermission perm) {
+    public WithUser(
+        PermissionBackend.WithUser impl, GlobalOrPluginPermission perm, CurrentUser user) {
       this.impl = impl;
       this.perm = perm;
+      this.user = user;
     }
 
     public PermissionBackend.WithUser withUser() {
@@ -82,7 +85,7 @@ public abstract class PermissionBackendCondition
 
     @Override
     public int hashCode() {
-      return Objects.hash(perm, hashForUser(impl.user()));
+      return Objects.hash(perm, hashForUser(user));
     }
 
     @Override
@@ -91,17 +94,19 @@ public abstract class PermissionBackendCondition
         return false;
       }
       WithUser other = (WithUser) obj;
-      return Objects.equals(perm, other.perm) && usersAreEqual(impl.user(), other.impl.user());
+      return Objects.equals(perm, other.perm) && usersAreEqual(user, other.user);
     }
   }
 
   public static class ForProject extends PermissionBackendCondition {
     private final PermissionBackend.ForProject impl;
     private final ProjectPermission perm;
+    private final CurrentUser user;
 
-    ForProject(PermissionBackend.ForProject impl, ProjectPermission perm) {
+    public ForProject(PermissionBackend.ForProject impl, ProjectPermission perm, CurrentUser user) {
       this.impl = impl;
       this.perm = perm;
+      this.user = user;
     }
 
     public PermissionBackend.ForProject project() {
@@ -124,7 +129,7 @@ public abstract class PermissionBackendCondition
 
     @Override
     public int hashCode() {
-      return Objects.hash(perm, impl.resourcePath(), hashForUser(impl.user()));
+      return Objects.hash(perm, impl.resourcePath(), hashForUser(user));
     }
 
     @Override
@@ -135,17 +140,19 @@ public abstract class PermissionBackendCondition
       ForProject other = (ForProject) obj;
       return Objects.equals(perm, other.perm)
           && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
-          && usersAreEqual(impl.user(), other.impl.user());
+          && usersAreEqual(user, other.user);
     }
   }
 
   public static class ForRef extends PermissionBackendCondition {
     private final PermissionBackend.ForRef impl;
     private final RefPermission perm;
+    private final CurrentUser user;
 
-    ForRef(PermissionBackend.ForRef impl, RefPermission perm) {
+    public ForRef(PermissionBackend.ForRef impl, RefPermission perm, CurrentUser user) {
       this.impl = impl;
       this.perm = perm;
+      this.user = user;
     }
 
     public PermissionBackend.ForRef ref() {
@@ -168,7 +175,7 @@ public abstract class PermissionBackendCondition
 
     @Override
     public int hashCode() {
-      return Objects.hash(perm, impl.resourcePath(), hashForUser(impl.user()));
+      return Objects.hash(perm, impl.resourcePath(), hashForUser(user));
     }
 
     @Override
@@ -179,17 +186,20 @@ public abstract class PermissionBackendCondition
       ForRef other = (ForRef) obj;
       return Objects.equals(perm, other.perm)
           && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
-          && usersAreEqual(impl.user(), other.impl.user());
+          && usersAreEqual(user, other.user);
     }
   }
 
   public static class ForChange extends PermissionBackendCondition {
     private final PermissionBackend.ForChange impl;
     private final ChangePermissionOrLabel perm;
+    private final CurrentUser user;
 
-    ForChange(PermissionBackend.ForChange impl, ChangePermissionOrLabel perm) {
+    public ForChange(
+        PermissionBackend.ForChange impl, ChangePermissionOrLabel perm, CurrentUser user) {
       this.impl = impl;
       this.perm = perm;
+      this.user = user;
     }
 
     public PermissionBackend.ForChange change() {
@@ -212,7 +222,7 @@ public abstract class PermissionBackendCondition
 
     @Override
     public int hashCode() {
-      return Objects.hash(perm, impl.resourcePath(), hashForUser(impl.user()));
+      return Objects.hash(perm, impl.resourcePath(), hashForUser(user));
     }
 
     @Override
@@ -223,7 +233,7 @@ public abstract class PermissionBackendCondition
       ForChange other = (ForChange) obj;
       return Objects.equals(perm, other.perm)
           && Objects.equals(impl.resourcePath(), other.impl.resourcePath())
-          && usersAreEqual(impl.user(), other.impl.user());
+          && usersAreEqual(user, other.user);
     }
   }
 

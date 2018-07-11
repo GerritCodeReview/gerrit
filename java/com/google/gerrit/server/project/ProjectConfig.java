@@ -402,10 +402,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return mimeTypes;
   }
 
-  public GroupReference resolve(AccountGroup group) {
-    return resolve(GroupReference.forGroup(group));
-  }
-
   public GroupReference resolve(GroupReference group) {
     GroupReference groupRef = groupList.resolve(group);
     if (groupRef != null

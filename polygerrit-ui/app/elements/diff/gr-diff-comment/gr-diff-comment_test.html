@@ -614,7 +614,8 @@ limitations under the License.
 
       setup(() => {
         discardStub = sandbox.stub(element, '_discardDraft');
-        overlayStub = sandbox.stub(element, '_openOverlay');
+        overlayStub = sandbox.stub(element, '_openOverlay')
+            .returns(Promise.resolve());
         mockEvent = {preventDefault: sinon.stub()};
       });
 

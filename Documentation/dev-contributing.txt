@@ -164,7 +164,7 @@ Guide].
 
 To format Java source code, Gerrit uses the
 link:https://github.com/google/google-java-format[`google-java-format`]
-tool (version 1.5), and to format Bazel BUILD and WORKSPACE files the
+tool (version 1.5), and to format Bazel BUILD, WORKSPACE and .bzl files the
 link:https://github.com/bazelbuild/buildtools/tree/master/buildifier[`buildifier`]
 tool (version 0.12.0).
 These tools automatically apply format according to the style guides; this

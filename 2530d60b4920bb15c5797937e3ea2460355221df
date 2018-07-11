@@ -16,6 +16,24 @@
       "revId": "2530d60b4920bb15c5797937e3ea2460355221df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "335cb31a_01cb4865",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDetail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-11T09:47:27Z",
+      "side": 1,
+      "message": "Agree that we don\u0027t want audit log like this. But the result of \"test\" is just a hint, it could be more permissive than reality. We don\u0027t want a leak here so \"check\" is required.",
+      "parentUuid": "a9f45250_79b24ca5",
+      "revId": "2530d60b4920bb15c5797937e3ea2460355221df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

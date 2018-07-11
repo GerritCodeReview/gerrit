@@ -8,4 +8,5 @@ acceptance_tests(
         "noci",
         "no_windows",
     ],
+    deps = ["//java/com/google/gerrit/mail"],
 )

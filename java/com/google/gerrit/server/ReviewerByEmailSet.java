@@ -17,7 +17,7 @@ package com.google.gerrit.server;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
-import com.google.gerrit.server.mail.Address;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import java.sql.Timestamp;
 

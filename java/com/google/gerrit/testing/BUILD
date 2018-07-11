@@ -19,6 +19,7 @@ java_library(
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/lifecycle",
+        "//java/com/google/gerrit/mail",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/reviewdb:server",

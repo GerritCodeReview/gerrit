@@ -42,15 +42,15 @@
    */
   const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-  function GrDiffBuilder(diff, comments, prefs, projectName, outputEl, layers) {
+  function GrDiffBuilder(diff, comments, createThreadGroupFn, prefs, outputEl,
+      layers) {
     this._diff = diff;
     this._comments = comments;
+    this._createThreadGroupFn = createThreadGroupFn;
     this._prefs = prefs;
-    this._projectName = projectName;
     this._outputEl = outputEl;
     this.groups = [];
     this._blameInfo = null;
-    this._parentIndex = undefined;
 
     this.layers = layers || [];
 
@@ -363,16 +363,7 @@
    */
   GrDiffBuilder.prototype.createCommentThreadGroup = function(changeNum,
       patchNum, path, isOnParent, commentSide) {
-    const threadGroupEl =
-        document.createElement('gr-diff-comment-thread-group');
-    threadGroupEl.changeNum = changeNum;
-    threadGroupEl.commentSide = commentSide;
-    threadGroupEl.patchForNewThreads = patchNum;
-    threadGroupEl.path = path;
-    threadGroupEl.isOnParent = isOnParent;
-    threadGroupEl.projectName = this._projectName;
-    threadGroupEl.parentIndex = this._parentIndex;
-    return threadGroupEl;
+    return this._createThreadGroupFn(patchNum, isOnParent, commentSide);
   };
 
   /**
@@ -612,10 +603,6 @@
         }
       }
     }
-  };
-
-  GrDiffBuilder.prototype.setParentIndex = function(index) {
-    this._parentIndex = index;
   };
 
   /**

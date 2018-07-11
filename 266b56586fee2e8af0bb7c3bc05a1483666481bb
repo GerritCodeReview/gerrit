@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d55f810a_388a51e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-11T01:25:54Z",
+      "side": 0,
+      "message": "This async was added in I0d11ffa48c to fix tests in Firefox and Safari, so I\u0027ve confirmed that tests don\u0027t fail in those browsers with this chang.",
+      "range": {
+        "startLine": 629,
+        "startChar": 0,
+        "endLine": 631,
+        "endChar": 12
+      },
+      "revId": "266b56586fee2e8af0bb7c3bc05a1483666481bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0571fe53_8bc02c28",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2875,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-11T14:09:07Z",
+      "side": 1,
+      "message": "nit: one blank line too much",
+      "revId": "027453f17cb8b5d151c485f3405fdc205fd4ece4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

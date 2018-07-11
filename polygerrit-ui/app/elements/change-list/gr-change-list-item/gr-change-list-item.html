@@ -172,10 +172,13 @@ limitations under the License.
     <td class="cell project"
         hidden$="[[isColumnHidden('Project', visibleChangeTableColumns)]]">
       <a class="fullProject" href$="[[_computeProjectURL(change)]]">
-        [[change.project]]
+        [[_computeProjectDisplay(change)]]
       </a>
-      <a class="truncatedProject" href$="[[_computeProjectURL(change)]]">
-        [[_computeTruncatedProject(change.project)]]
+      <a
+          class="truncatedProject"
+          href$="[[_computeProjectURL(change)]]"
+          title$="[[_computeProjectDisplay(change)]]">
+        [[_computeProjectDisplay(change, 'true')]]
       </a>
     </td>
     <td class="cell branch"

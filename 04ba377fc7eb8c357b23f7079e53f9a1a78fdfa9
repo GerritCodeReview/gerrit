@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d530dd77_ff8ab068",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-11T14:42:43Z",
+      "side": 1,
+      "message": "I changed this change to only disallow null for name (see comment below).",
+      "parentUuid": "1a2d152e_18aa5f5f",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "04ba377fc7eb8c357b23f7079e53f9a1a78fdfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a13465bc_8976fa64",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c00b5233_f0d34065",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-11T14:42:43Z",
+      "side": 1,
+      "message": "Good catch. We need to continue to support GroupReferences with null UUID as they represent groups which could not be resolved from a name given in project.config.\n\nLooks like we are missing a test for this case. Would be good to add one (by a separate change).\n\n\u003e Can we be sure that we don\u0027t break plugins or other extensions of Gerrit by\n\u003e throwing exceptions for null values?\n\nNot entirely, hopefully we have sufficient tests. But if a plugin uses a GroupReference with null as name, then this is a bug and like this we at least get to know about it :-/",
+      "parentUuid": "a13465bc_8976fa64",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "04ba377fc7eb8c357b23f7079e53f9a1a78fdfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51a3543e_94a29a39",
         "filename": "java/com/google/gerrit/common/data/GroupReference.java",
         "patchSetId": 1
@@ -69,6 +117,30 @@
       "revId": "04ba377fc7eb8c357b23f7079e53f9a1a78fdfa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ea9b3bc_e719703a",
+        "filename": "java/com/google/gerrit/common/data/GroupReference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-11T14:42:43Z",
+      "side": 1,
+      "message": "Ugh, an AccountGroup.UUID that wraps null is really ugly. I wonder how much other code doesn\u0027t check for this.\n\nFix in the follow-up change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/188531",
+      "parentUuid": "51a3543e_94a29a39",
+      "range": {
+        "startLine": 80,
+        "startChar": 11,
+        "endLine": 80,
+        "endChar": 30
+      },
+      "revId": "04ba377fc7eb8c357b23f7079e53f9a1a78fdfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

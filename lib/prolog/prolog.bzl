@@ -13,22 +13,22 @@
 # limitations under the License.
 
 def prolog_cafe_library(
-    name,
-    srcs,
-    deps = [],
-    **kwargs):
-  native.genrule(
-    name = name + '__pl2j',
-    cmd = '$(location //lib/prolog:compiler-bin) ' +
-      '$$(dirname $@) $@ ' +
-      '$(SRCS)',
-    srcs = srcs,
-    tools = ['//lib/prolog:compiler-bin'],
-    outs = [ name + '.srcjar' ],
-  )
-  native.java_library(
-    name = name,
-    srcs = [':' + name + '__pl2j'],
-    deps = ['//lib/prolog:runtime-neverlink'] + deps,
-    **kwargs
-  )
+        name,
+        srcs,
+        deps = [],
+        **kwargs):
+    native.genrule(
+        name = name + "__pl2j",
+        cmd = "$(location //lib/prolog:compiler-bin) " +
+              "$$(dirname $@) $@ " +
+              "$(SRCS)",
+        srcs = srcs,
+        tools = ["//lib/prolog:compiler-bin"],
+        outs = [name + ".srcjar"],
+    )
+    native.java_library(
+        name = name,
+        srcs = [":" + name + "__pl2j"],
+        deps = ["//lib/prolog:runtime-neverlink"] + deps,
+        **kwargs
+    )

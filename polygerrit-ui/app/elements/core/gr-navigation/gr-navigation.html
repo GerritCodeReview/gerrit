@@ -177,13 +177,15 @@ limitations under the License.
        * @param {!string} project The name of the project.
        * @param {boolean=} opt_openOnly When true, only search open changes in
        *     the project.
+       * @param {string=} opt_host The host in which to search.
        * @return {string}
        */
-      getUrlForProjectChanges(project, opt_openOnly) {
+      getUrlForProjectChanges(project, opt_openOnly, opt_host) {
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           project,
           statuses: opt_openOnly ? ['open'] : [],
+          host: opt_host,
         });
       },
 
@@ -191,26 +193,30 @@ limitations under the License.
        * @param {string} branch The name of the branch.
        * @param {string} project The name of the project.
        * @param {string=} opt_status The status to search.
+       * @param {string=} opt_host The host in which to search.
        * @return {string}
        */
-      getUrlForBranch(branch, project, opt_status) {
+      getUrlForBranch(branch, project, opt_status, opt_host) {
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           branch,
           project,
           statuses: opt_status ? [opt_status] : undefined,
+          host: opt_host,
         });
       },
 
       /**
        * @param {string} topic The name of the topic.
+       * @param {string=} opt_host The host in which to search.
        * @return {string}
        */
-      getUrlForTopic(topic) {
+      getUrlForTopic(topic, opt_host) {
         return this._getUrlFor({
           view: Gerrit.Nav.View.SEARCH,
           topic,
           statuses: ['open', 'merged'],
+          host: opt_host,
         });
       },
 
@@ -267,6 +273,7 @@ limitations under the License.
           patchNum: opt_patchNum,
           basePatchNum: opt_basePatchNum,
           edit: opt_isEdit,
+          host: change.internalHost || undefined,
         });
       },
 

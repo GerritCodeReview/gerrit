@@ -273,5 +273,19 @@ limitations under the License.
       assert.deepEqual(Gerrit.Nav.getUrlForTopic.lastCall.args,
           [change.topic, change.internalHost]);
     });
+
+    test('_computeProjectDisplay', () => {
+      const change = {
+        project: 'a/test/repo',
+        internalHost: 'host',
+      };
+      assert.equal(element._computeProjectDisplay(change), 'host/a/test/repo');
+      assert.equal(element._computeProjectDisplay(change, true),
+          'host/…/test/repo');
+      delete change.internalHost;
+      assert.equal(element._computeProjectDisplay(change), 'a/test/repo');
+      assert.equal(element._computeProjectDisplay(change, true),
+          '…/test/repo');
+    });
   });
 </script>

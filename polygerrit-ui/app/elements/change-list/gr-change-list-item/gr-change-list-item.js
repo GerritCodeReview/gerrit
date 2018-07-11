@@ -137,9 +137,21 @@
       return Gerrit.Nav.getUrlForTopic(change.topic, change.internalHost);
     },
 
-    _computeTruncatedProject(project) {
-      if (!project) { return ''; }
-      return this.truncatePath(project, 2);
+    /**
+     * Computes the display string for the project column. If there is a host
+     * specified in the change detail, the string will be prefixed with it.
+     *
+     * @param {!Object} change
+     * @param {string=} truncate whether or not the project name should be
+     *     truncated. If this value is truthy, the name will be truncated.
+     * @return {string}
+     */
+    _computeProjectDisplay(change, truncate) {
+      if (!change || !change.project) { return ''; }
+      let str = '';
+      if (change.internalHost) { str += change.internalHost + '/'; }
+      str += truncate ? this.truncatePath(change.project, 2) : change.project;
+      return str;
     },
 
     _computeAccountStatusString(account) {

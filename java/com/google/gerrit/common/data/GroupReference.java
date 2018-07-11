@@ -61,6 +61,9 @@ public class GroupReference implements Comparable<GroupReference> {
   }
 
   public void setName(String newName) {
+    if (newName == null) {
+      throw new NullPointerException();
+    }
     this.name = newName;
   }
 

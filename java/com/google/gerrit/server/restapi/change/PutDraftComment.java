@@ -34,6 +34,7 @@ import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -80,7 +81,7 @@ public class PutDraftComment
   @Override
   protected Response<CommentInfo> applyImpl(
       BatchUpdate.Factory updateFactory, DraftCommentResource rsrc, DraftInput in)
-      throws RestApiException, UpdateException, OrmException {
+      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.applyImpl(updateFactory, rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.AddMembers;
 import com.google.gerrit.server.restapi.group.AddSubgroups;
 import com.google.gerrit.server.restapi.group.CreateGroup;
@@ -100,7 +101,9 @@ final class CreateGroupCommand extends SshCommand {
   @Inject private AddSubgroups addSubgroups;
 
   @Override
-  protected void run() throws Failure, OrmException, IOException, ConfigInvalidException {
+  protected void run()
+      throws Failure, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     try {
       GroupResource rsrc = createGroup();
 
@@ -117,7 +120,8 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private GroupResource createGroup()
-      throws RestApiException, OrmException, IOException, ConfigInvalidException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     GroupInput input = new GroupInput();
     input.description = groupDescription;
     input.visibleToAll = visibleToAll;
@@ -132,7 +136,8 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addMembers(GroupResource rsrc)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     AddMembers.Input input =
         AddMembers.Input.fromMembers(
             initialMembers.stream().map(Object::toString).collect(toList()));
@@ -140,7 +145,8 @@ final class CreateGroupCommand extends SshCommand {
   }
 
   private void addSubgroups(GroupResource rsrc)
-      throws RestApiException, OrmException, IOException, ConfigInvalidException {
+      throws RestApiException, OrmException, IOException, ConfigInvalidException,
+          PermissionBackendException {
     AddSubgroups.Input input =
         AddSubgroups.Input.fromGroups(
             initialGroups.stream().map(AccountGroup.UUID::get).collect(toList()));

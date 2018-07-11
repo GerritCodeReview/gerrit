@@ -78,7 +78,11 @@ public class GroupReference implements Comparable<GroupReference> {
   }
 
   private static String uuid(GroupReference a) {
-    return a.getUUID() != null ? a.getUUID().get() : "?";
+    if (a.getUUID() != null && a.getUUID().get() != null) {
+      return a.getUUID().get();
+    }
+
+    return "?";
   }
 
   @Override

@@ -154,4 +154,18 @@ public class GroupReferenceTest {
     assertThat(groupReference1.equals(groupReference3)).isFalse();
     assertThat(groupReference2.equals(groupReference3)).isFalse();
   }
+
+  @Test
+  public void testHashcode() {
+    AccountGroup.UUID uuid1 = new AccountGroup.UUID("uuid1");
+    AccountGroup.UUID uuid2 = new AccountGroup.UUID("uuid2");
+    GroupReference groupReference1 = new GroupReference(uuid1, "foo");
+    GroupReference groupReference2 = new GroupReference(uuid1, "bar");
+    GroupReference groupReference3 = new GroupReference(uuid2, "foo");
+    GroupReference groupReference4 = new GroupReference(null, "bar");
+
+    assertThat(groupReference1.hashCode()).isEqualTo(groupReference2.hashCode());
+    assertThat(groupReference1.hashCode()).isNotEqualTo(groupReference3.hashCode());
+    assertThat(groupReference1.hashCode()).isNotEqualTo(groupReference4.hashCode());
+  }
 }

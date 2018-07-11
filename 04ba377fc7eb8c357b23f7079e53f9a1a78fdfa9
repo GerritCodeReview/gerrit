@@ -1,4 +1,74 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1531296383 +0200\nnonce APISObQBprn6B20li7ktUTWOW6pAxtyCynMCTBmr9ohhIfFThxTuJpzw0CiSZ8aYXEOdMOjleKwP\n\n0000000000000000000000000000000000000000 04ba377fc7eb8c357b23f7079e53f9a1a78fdfa9 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltFun8ACgkQUbX9l6DQ\n71GhCAgAod7Edgwo+nMNyyHRN8vgWUln6PUJStB34fx7JgNIyj6+zd0xSY443THK\nTHdj5YCZkSZrDzAemRlNDHxsfEPLdHEgwesKvbi1WguT2JBVGKABfycFLZaYo0G0\nKBkfOdoyxqYOrh1EEtvNDXF/3b1GV9bdGQwhfVxpKRlTdh3oXib/QT+DaaMiFMum\nxCktJ30a1NqPZ3pV1USpeX/8RBSmK11ANd65pdTfcFXCHoTBfx3B73XVhNmXuTWd\nQCduCC3naGYg0zQfUZMTZfMTW0KpCyzwgqtyJmImVsLFakHtm06ePYy+kHLptvsX\nGXeRWDFROawmDR1UjKOjiHKKuoTNMg\u003d\u003d\n\u003dJkvo\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2d152e_18aa5f5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-11T11:14:51Z",
+      "side": 1,
+      "message": "At first glance, I would have guessed that we now reject null UUIDs in general, including the null objects and the strings in those. The code only checks for null values of UUID objects. Could you please mention in the commit message that this is only about the UUID objects and the string value in those is still allowed to be null?",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "04ba377fc7eb8c357b23f7079e53f9a1a78fdfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a13465bc_8976fa64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-11T11:14:51Z",
+      "side": 1,
+      "message": "I agree that we shouldn\u0027t have allowed null values for UUID (both for the object and the contained string) and name in the first place but the cat is out of the bag already. Can we be sure that we don\u0027t break plugins or other extensions of Gerrit by throwing exceptions for null values?\n\nGroupList#resolves explicitly mentions that a UUID can be null in a specific situation. I don\u0027t know whether that comment is still up-to-date, though.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "04ba377fc7eb8c357b23f7079e53f9a1a78fdfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51a3543e_94a29a39",
+        "filename": "java/com/google/gerrit/common/data/GroupReference.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-11T11:14:51Z",
+      "side": 1,
+      "message": "With this change, a.getUUID() should never be null. So, this check is not necessary anymore.\n\nWhat is still an issue and has been before is that if the string inside of UUID is null, we return null from this method. Calling the hashcode() method below or the compareTo() method above then results in a NPE.",
+      "range": {
+        "startLine": 80,
+        "startChar": 11,
+        "endLine": 80,
+        "endChar": 30
+      },
+      "revId": "04ba377fc7eb8c357b23f7079e53f9a1a78fdfa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

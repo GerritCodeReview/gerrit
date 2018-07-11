@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f2be1c6_b151433b",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-11T11:43:29Z",
+      "side": 1,
+      "message": "I think it would be ebtter to remove this and just instantiate the object using the other constructor and a PersionIdent in tests",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "048f83a231855611763413bc9963a26d4c1ad1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "975995ad_0e553f75",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-11T11:43:29Z",
+      "side": 1,
+      "message": "static",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 12
+      },
+      "revId": "048f83a231855611763413bc9963a26d4c1ad1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dd8abca_a2a8fcfd",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-11T11:43:29Z",
+      "side": 1,
+      "message": "please put this at the top of the class",
+      "revId": "048f83a231855611763413bc9963a26d4c1ad1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "541b01e4_542dbc94",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-11T11:43:29Z",
+      "side": 1,
+      "message": "nit: progress makes it sound like this is a progress monitor, which it is not. Maybe \u0027result\u0027 would be better?",
+      "range": {
+        "startLine": 74,
+        "startChar": 46,
+        "endLine": 74,
+        "endChar": 54
+      },
+      "revId": "048f83a231855611763413bc9963a26d4c1ad1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

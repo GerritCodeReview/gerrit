@@ -23,11 +23,15 @@ import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerIdProvider;
+import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -49,20 +53,66 @@ public class CommentJsonMigrator {
 
   private final LegacyChangeNoteRead legacyChangeNoteRead;
   private final ChangeNoteJson changeNoteJson;
+  private final AllUsersName allUsers;
 
   @Inject
   CommentJsonMigrator(
-      ChangeNoteJson changeNoteJson, GerritServerIdProvider gerritServerIdProvider) {
+      ChangeNoteJson changeNoteJson,
+      GerritServerIdProvider gerritServerIdProvider,
+      AllUsersName allUsers) {
     this.changeNoteJson = changeNoteJson;
+    this.allUsers = allUsers;
     this.legacyChangeNoteRead = new LegacyChangeNoteRead(gerritServerIdProvider.get());
   }
 
-  CommentJsonMigrator(ChangeNoteJson changeNoteJson, String serverId) {
+  CommentJsonMigrator(ChangeNoteJson changeNoteJson, String serverId, AllUsersName allUsers) {
     this.changeNoteJson = changeNoteJson;
     this.legacyChangeNoteRead = new LegacyChangeNoteRead(serverId);
+    this.allUsers = allUsers;
   }
 
-  public boolean migrateChanges(
+  private static ObjectInserter newPackInserter(Repository repo) {
+    if (!(repo instanceof FileRepository)) {
+      return repo.newObjectInserter();
+    }
+    PackInserter ins = ((FileRepository) repo).getObjectDatabase().newPackInserter();
+    ins.checkExisting(false);
+    return ins;
+  }
+
+  public class MigrationProgress {
+    public int skipped;
+    public boolean ok;
+    public int refsUpdated;
+  }
+
+  public MigrationProgress migrateProject(Project.NameKey project, Repository repo) {
+    MigrationProgress progress = new MigrationProgress();
+    progress.ok = true;
+    try (RevWalk rw = new RevWalk(repo);
+        ObjectInserter ins = newPackInserter(repo)) {
+      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+      bru.setAllowNonFastForwards(true);
+      progress.ok &= migrateChanges(project, repo, rw, ins, bru);
+      if (project.equals(allUsers)) {
+        progress.ok &= migrateDrafts(allUsers, repo, rw, ins, bru);
+      }
+
+      progress.refsUpdated += bru.getCommands().size();
+      if (!bru.getCommands().isEmpty()) {
+        ins.flush();
+        RefUpdateUtil.executeChecked(bru, rw);
+
+      } else {
+        progress.skipped++;
+      }
+    } catch (IOException e) {
+      progress.ok = false;
+    }
+    return progress;
+  }
+
+  private boolean migrateChanges(
       Project.NameKey project, Repository repo, RevWalk rw, ObjectInserter ins, BatchRefUpdate bru)
       throws IOException {
     boolean ok = true;
@@ -76,7 +126,7 @@ public class CommentJsonMigrator {
     return ok;
   }
 
-  public boolean migrateDrafts(
+  private boolean migrateDrafts(
       Project.NameKey allUsers,
       Repository allUsersRepo,
       RevWalk rw,

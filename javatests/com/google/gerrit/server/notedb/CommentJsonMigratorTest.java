@@ -33,7 +33,8 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.update.RefUpdateUtil;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.notedb.CommentJsonMigrator.MigrationProgress;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
@@ -57,13 +58,14 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
   @Inject private ChangeNoteUtil noteUtil;
   @Inject private CommentsUtil commentsUtil;
   @Inject private LegacyChangeNoteWrite legacyChangeNoteWrite;
+  @Inject private AllUsersName allUsersName;
 
   private AtomicInteger uuidCounter;
 
   @Before
   public void setUpCounter() {
     uuidCounter = new AtomicInteger();
-    migrator = new CommentJsonMigrator(new ChangeNoteJson(), "gerrit");
+    migrator = new CommentJsonMigrator(new ChangeNoteJson(), "gerrit", allUsersName);
   }
 
   @Test
@@ -90,7 +92,7 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
             getRevId(notes, 2), ps2Comment.toString());
 
     ChangeNotes oldNotes = notes;
-    migrate(project, migrator::migrateChanges, 0);
+    migrate(project, 0);
     assertNoDifferences(notes, oldNotes);
     assertThat(notes.getMetaId()).isEqualTo(oldNotes.getMetaId());
   }
@@ -163,7 +165,7 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
         .containsExactly(ps1Comment1.key, true, ps1Comment2.key, true, ps2Comment1.key, true);
 
     ChangeNotes oldNotes = notes;
-    migrate(project, migrator::migrateChanges, 1);
+    migrate(project, 1);
 
     // Comment content is the same.
     notes = newNotes(c);
@@ -265,7 +267,7 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
         .containsExactly(otherCommentPs1.key, true);
 
     ChangeNotes oldNotes = notes;
-    migrate(allUsers, migrator::migrateDrafts, 2);
+    migrate(allUsers, 2);
     assertNoDifferences(notes, oldNotes);
 
     // Migration doesn't touch change ref.
@@ -366,7 +368,7 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
         .containsExactly(ps1Comment.key, true, ps2Comment.key, false, ps3Comment.key, true);
 
     ChangeNotes oldNotes = notes;
-    migrate(project, migrator::migrateChanges, 1);
+    migrate(project, 1);
     assertNoDifferences(notes, oldNotes);
 
     // Comment content is the same.
@@ -402,19 +404,12 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
         throws Exception;
   }
 
-  private void migrate(Project.NameKey project, MigrateFunction func, int expectedCommands)
-      throws Exception {
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk rw = new RevWalk(repo);
-        ObjectInserter ins = repo.newObjectInserter()) {
-      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
-      bru.setAllowNonFastForwards(true);
-      assertThat(func.call(project, repo, rw, ins, bru)).isTrue();
-      assertThat(bru.getCommands()).hasSize(expectedCommands);
-      if (!bru.getCommands().isEmpty()) {
-        ins.flush();
-        RefUpdateUtil.executeChecked(bru, rw);
-      }
+  private void migrate(Project.NameKey project, int expectedCommands) throws Exception {
+    try (Repository repo = repoManager.openRepository(project)) {
+      MigrationProgress progress = migrator.migrateProject(project, repo);
+
+      assertThat(progress.ok).isTrue();
+      assertThat(progress.refsUpdated).isEqualTo(expectedCommands);
     }
   }
 

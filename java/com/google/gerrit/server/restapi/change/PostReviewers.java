@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -250,9 +251,7 @@ public class PostReviewers
       return null;
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.absentUser(reviewerUser.getAccountId()).ref(rsrc.getChange().getDest());
-    if (isValidReviewer(reviewerUser.getAccount(), perm)) {
+    if (isValidReviewer(rsrc.getChange().getDest(), reviewerUser.getAccount())) {
       return new Addition(
           reviewer,
           rsrc,
@@ -333,10 +332,8 @@ public class PostReviewers
               ChangeMessages.get().groupManyMembersConfirmation, group.getName(), members.size()));
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.user(rsrc.getUser()).ref(rsrc.getChange().getDest());
     for (Account member : members) {
-      if (isValidReviewer(member, perm)) {
+      if (isValidReviewer(rsrc.getChange().getDest(), member)) {
         reviewers.add(member.getId());
       }
     }
@@ -376,7 +373,7 @@ public class PostReviewers
         reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
   }
 
-  private boolean isValidReviewer(Account member, PermissionBackend.ForRef perm)
+  private boolean isValidReviewer(Branch.NameKey branch, Account member)
       throws PermissionBackendException {
     if (!member.isActive()) {
       return false;
@@ -385,7 +382,11 @@ public class PostReviewers
     // Does not account for draft status as a user might want to let a
     // reviewer see a draft.
     try {
-      perm.absentUser(member.getId()).check(RefPermission.READ);
+      permissionBackend
+          .absentUser(member.getId())
+          .database(dbProvider)
+          .ref(branch)
+          .check(RefPermission.READ);
       return true;
     } catch (AuthException e) {
       return false;

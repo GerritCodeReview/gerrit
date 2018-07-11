@@ -174,6 +174,7 @@ public class PostReview
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
+  private final PermissionBackend permissionBackend;
   private final boolean strictLabels;
 
   @Inject
@@ -196,7 +197,8 @@ public class PostReview
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      PermissionBackend permissionBackend) {
     super(retryHelper);
     this.db = db;
     this.changeResourceFactory = changeResourceFactory;
@@ -216,6 +218,7 @@ public class PostReview
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
+    this.permissionBackend = permissionBackend;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
@@ -482,7 +485,11 @@ public class PostReview
 
     IdentifiedUser reviewer = accounts.parseOnBehalfOf(caller, in.onBehalfOf);
     try {
-      perm.user(reviewer).check(ChangePermission.READ);
+      permissionBackend
+          .user(reviewer)
+          .database(db)
+          .change(rev.getNotes())
+          .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));

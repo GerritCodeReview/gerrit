@@ -43,16 +43,23 @@ public class GroupReference implements Comparable<GroupReference> {
 
   protected GroupReference() {}
 
-  public GroupReference(AccountGroup.UUID uuid, String name) {
+  /**
+   * Create a group reference.
+   *
+   * @param uuid UUID of the group, may be {@code null} if the group name couldn't be resolved
+   * @param name the group name, must not be {@code null}
+   */
+  public GroupReference(@Nullable AccountGroup.UUID uuid, String name) {
     setUUID(uuid);
     setName(name);
   }
 
+  @Nullable
   public AccountGroup.UUID getUUID() {
     return uuid != null ? new AccountGroup.UUID(uuid) : null;
   }
 
-  public void setUUID(AccountGroup.UUID newUUID) {
+  public void setUUID(@Nullable AccountGroup.UUID newUUID) {
     uuid = newUUID != null ? newUUID.get() : null;
   }
 

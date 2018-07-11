@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f82a6124_96165a66",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2410,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-11T21:04:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "51d1063f_b6cffc89",
+      "range": {
+        "startLine": 2409,
+        "startChar": 0,
+        "endLine": 2410,
+        "endChar": 69
+      },
+      "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77835674_8635d92a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 7
@@ -116,6 +140,54 @@
       "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c43fe5fa_48887245",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-11T21:04:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0eda9a5b_95ff9f1e",
+      "range": {
+        "startLine": 2415,
+        "startChar": 0,
+        "endLine": 2415,
+        "endChar": 7
+      },
+      "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cfd90d98_b20661c0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 2415,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-11T21:04:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "77835674_8635d92a",
+      "range": {
+        "startLine": 2415,
+        "startChar": 46,
+        "endLine": 2415,
+        "endChar": 50
+      },
+      "revId": "e347818a8a0d91200e7a20943871914c3ab4eb66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -52,7 +52,7 @@ ELASTICSEARCH_TAGS = [
 ]
 
 [junit_tests(
-    name = "elasticsearch_%ss_test" % name,
+    name = "elasticsearch_query_%ss_test" % name,
     size = "large",
     srcs = [src],
     tags = ELASTICSEARCH_TAGS,
@@ -60,7 +60,7 @@ ELASTICSEARCH_TAGS = [
 ) for name, src in ELASTICSEARCH_TESTS.items()]
 
 [junit_tests(
-    name = "elasticsearch_%ss_test_V5" % name,
+    name = "elasticsearch_query_%ss_test_V5" % name,
     size = "large",
     srcs = [src],
     tags = ELASTICSEARCH_TAGS,
@@ -68,14 +68,14 @@ ELASTICSEARCH_TAGS = [
 ) for name, src in ELASTICSEARCH_TESTS_V5.items()]
 
 [junit_tests(
-    name = "elasticsearch_%ss_test_V6" % name,
+    name = "elasticsearch_query_%ss_test_V6" % name,
     size = "large",
     srcs = [src],
     tags = ELASTICSEARCH_TAGS + ["flaky"],
     deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
 ) for name, src in ELASTICSEARCH_TESTS_V6.items()]
 
-[junit_tests(
+junit_tests(
     name = "elasticsearch_tests",
     size = "small",
     srcs = glob(
@@ -90,4 +90,4 @@ ELASTICSEARCH_TAGS = [
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
     ],
-)]
+)

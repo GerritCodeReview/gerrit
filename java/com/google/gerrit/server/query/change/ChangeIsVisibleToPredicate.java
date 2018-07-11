@@ -15,6 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -83,13 +84,12 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       throw new OrmException("unable to read project state", e);
     }
 
-    boolean visible;
     PermissionBackend.WithUser withUser =
         user.isIdentifiedUser()
             ? permissionBackend.absentUser(user.getAccountId())
             : permissionBackend.user(anonymousUserProvider.get());
     try {
-      visible = withUser.indexedChange(cd, notes).database(db).test(ChangePermission.READ);
+      withUser.indexedChange(cd, notes).database(db).check(ChangePermission.READ);
     } catch (PermissionBackendException e) {
       Throwable cause = e.getCause();
       if (cause instanceof RepositoryNotFoundException) {
@@ -98,12 +98,12 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
         return false;
       }
       throw new OrmException("unable to check permissions on change " + cd.getId(), e);
+    } catch (AuthException e) {
+      return false;
     }
-    if (visible) {
-      cd.cacheVisibleTo(user);
-      return true;
-    }
-    return false;
+
+    cd.cacheVisibleTo(user);
+    return true;
   }
 
   @Override

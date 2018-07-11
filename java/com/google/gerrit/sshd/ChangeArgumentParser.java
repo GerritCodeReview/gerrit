@@ -86,15 +86,22 @@ public class ChangeArgumentParser {
     }
     for (ChangeNotes notes : matched) {
       if (!changes.containsKey(notes.getChangeId())
-          && inProject(projectState, notes.getProjectName())
-          && (canMaintainServer
-              || (permissionBackend
-                      .currentUser()
-                      .change(notes)
-                      .database(db)
-                      .test(ChangePermission.READ)
-                  && projectState.statePermitsRead()))) {
-        toAdd.add(notes);
+          && inProject(projectState, notes.getProjectName())) {
+        if (canMaintainServer) {
+          toAdd.add(notes);
+          continue;
+        }
+
+        if (!projectState.statePermitsRead()) {
+          continue;
+        }
+
+        try {
+          permissionBackend.currentUser().change(notes).database(db).check(ChangePermission.READ);
+          toAdd.add(notes);
+        } catch (AuthException e) {
+          // Do nothing.
+        }
       }
     }
 

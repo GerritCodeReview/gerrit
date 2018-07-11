@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -125,10 +126,13 @@ public class EqualsLabelPredicate extends ChangeIndexPredicate {
       PermissionBackend.ForChange perm =
           permissionBackend.absentUser(approver).database(dbProvider).change(cd);
       ProjectState projectState = projectCache.checkedGet(cd.project());
-      return projectState != null
-          && projectState.statePermitsRead()
-          && perm.test(ChangePermission.READ);
-    } catch (PermissionBackendException | IOException e) {
+      if (projectState == null || !projectState.statePermitsRead()) {
+        return false;
+      }
+
+      perm.check(ChangePermission.READ);
+      return true;
+    } catch (PermissionBackendException | IOException | AuthException e) {
       return false;
     }
   }

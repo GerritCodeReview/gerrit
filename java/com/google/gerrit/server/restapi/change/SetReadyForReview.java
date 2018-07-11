@@ -65,16 +65,28 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
   protected Response<?> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
-    Change change = rsrc.getChange();
-    if (!rsrc.isUserOwner()
-        && !permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)
-        && !permissionBackend
-            .currentUser()
-            .project(rsrc.getProject())
-            .test(ProjectPermission.WRITE_CONFIG)) {
-      throw new AuthException("not allowed to set ready for review");
+    if (!rsrc.isUserOwner()) {
+      boolean hasAdministrateServerPermission = false;
+      try {
+        permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+        hasAdministrateServerPermission = true;
+      } catch (AuthException e) {
+        // Skip.
+      }
+
+      if (!hasAdministrateServerPermission) {
+        try {
+          permissionBackend
+              .currentUser()
+              .project(rsrc.getProject())
+              .check(ProjectPermission.WRITE_CONFIG);
+        } catch (AuthException exp) {
+          throw new AuthException("not allowed to set ready for review");
+        }
+      }
     }
 
+    Change change = rsrc.getChange();
     if (change.getStatus() != Status.NEW) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }

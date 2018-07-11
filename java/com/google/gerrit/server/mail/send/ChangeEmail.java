@@ -403,12 +403,19 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
-    return projectState.statePermitsRead()
-        && args.permissionBackend
-            .absentUser(to)
-            .change(changeData)
-            .database(args.db)
-            .test(ChangePermission.READ);
+    if (!projectState.statePermitsRead()) {
+      return false;
+    }
+    try {
+      args.permissionBackend
+          .absentUser(to)
+          .change(changeData)
+          .database(args.db)
+          .check(ChangePermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 
   /** Find all users who are authors of any part of this change. */

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -56,12 +57,19 @@ public class GetDetail implements RestReadView<AccountResource> {
     AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
     info.registeredOn = a.getRegisteredOn();
     info.inactive = !a.isActive() ? true : null;
-    Set<FillOptions> fillOptions =
-        self.get().hasSameAccountId(rsrc.getUser())
-                || permissionBackend.currentUser().test(GlobalPermission.MODIFY_ACCOUNT)
-            ? EnumSet.allOf(FillOptions.class)
-            : Sets.difference(
+    Set<FillOptions> fillOptions;
+    if (self.get().hasSameAccountId(rsrc.getUser())) {
+      fillOptions = EnumSet.allOf(FillOptions.class);
+    } else {
+      try {
+        permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
+        fillOptions = EnumSet.allOf(FillOptions.class);
+      } catch (AuthException e) {
+        fillOptions =
+            Sets.difference(
                 EnumSet.allOf(FillOptions.class), EnumSet.of(FillOptions.SECONDARY_EMAILS));
+      }
+    }
     directory.fillAccountInfo(Collections.singleton(info), fillOptions);
     return info;
   }

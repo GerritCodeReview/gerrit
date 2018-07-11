@@ -22,11 +22,6 @@ public class GroupReference implements Comparable<GroupReference> {
 
   private static final String PREFIX = "group ";
 
-  /** @return a new reference to the given group description. */
-  public static GroupReference forGroup(AccountGroup group) {
-    return new GroupReference(group.getGroupUUID(), group.getName());
-  }
-
   public static GroupReference forGroup(GroupDescription.Basic group) {
     return new GroupReference(group.getGroupUUID(), group.getName());
   }

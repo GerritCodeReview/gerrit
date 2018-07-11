@@ -189,6 +189,30 @@
       "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd4f82fe_91c14847",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-11T08:07:25Z",
+      "side": 1,
+      "message": "I think a GroupReference with null as name doesn\u0027t make sense. Fixed by the follow-up change: https://gerrit-review.googlesource.com/c/gerrit/+/188468",
+      "parentUuid": "9c828353_8fac7fec",
+      "range": {
+        "startLine": 121,
+        "startChar": 14,
+        "endLine": 121,
+        "endChar": 27
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

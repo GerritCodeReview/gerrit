@@ -16,10 +16,8 @@ package com.google.gerrit.server.permissions;
 
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.permissions.PermissionBackend.ForProject;
@@ -122,16 +120,6 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public ForProject user(CurrentUser user) {
-      return this;
-    }
-
-    @Override
-    public ForProject absentUser(Account.Id id) {
-      return this;
-    }
-
-    @Override
     public String resourcePath() {
       throw new UnsupportedOperationException(
           "FailedPermissionBackend is not scoped to a resource");
@@ -177,16 +165,6 @@ public class FailedPermissionBackend {
 
     @Override
     public ForRef database(Provider<ReviewDb> db) {
-      return this;
-    }
-
-    @Override
-    public ForRef user(CurrentUser user) {
-      return this;
-    }
-
-    @Override
-    public ForRef absentUser(Account.Id id) {
       return this;
     }
 
@@ -240,16 +218,6 @@ public class FailedPermissionBackend {
 
     @Override
     public ForChange database(Provider<ReviewDb> db) {
-      return this;
-    }
-
-    @Override
-    public ForChange user(CurrentUser user) {
-      return this;
-    }
-
-    @Override
-    public ForChange absentUser(Account.Id id) {
       return this;
     }
 

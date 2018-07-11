@@ -261,16 +261,6 @@ class ChangeControl {
     }
 
     @Override
-    public ForChange user(CurrentUser user) {
-      return forUser(user).asForChange(cd, db);
-    }
-
-    @Override
-    public ForChange absentUser(Account.Id id) {
-      return user(identifiedUserFactory.create(id));
-    }
-
-    @Override
     public String resourcePath() {
       if (resourcePath == null) {
         resourcePath =

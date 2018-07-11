@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9f45250_79b24ca5",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetDetail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-11T08:32:04Z",
+      "side": 1,
+      "message": "Why was this changed to \u0027check\u0027?\n\nIf a user without Modify Account capability requests details of another account, this check will fail and we return the account details without secondary emails. But if I understood this correctly failed permission checks by the \u0027check\u0027 method will trigger an audit log, for \"a user attempted to access a resource to which he didn\u0027t have permissions\". I think in this case we don\u0027t want such an audit log and hence using \u0027test\u0027 was correct here?",
+      "revId": "2530d60b4920bb15c5797937e3ea2460355221df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

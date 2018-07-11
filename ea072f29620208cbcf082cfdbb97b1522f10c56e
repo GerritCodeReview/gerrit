@@ -91,6 +91,30 @@
       "revId": "ea072f29620208cbcf082cfdbb97b1522f10c56e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2f5083_c224254c",
+        "filename": "gerrit-elasticsearch/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-11T14:01:13Z",
+      "side": 1,
+      "message": "Done in Iabeced6b.",
+      "parentUuid": "66f6f11b_c697288f",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 0
+      },
+      "revId": "ea072f29620208cbcf082cfdbb97b1522f10c56e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

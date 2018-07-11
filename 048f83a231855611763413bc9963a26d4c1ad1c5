@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "e4db1159_43871af8",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-11T14:10:14Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "8c33f4ce_c656d2b2",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 3
+      },
+      "revId": "048f83a231855611763413bc9963a26d4c1ad1c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "975995ad_0e553f75",
         "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
         "patchSetId": 1

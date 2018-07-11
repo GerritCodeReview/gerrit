@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "28de39cc_7319852b",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-11T07:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75c090d6_8f142bc6",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "139c44c4_ee36afe9",
         "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
         "patchSetId": 1
@@ -97,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "057a0613_44701da0",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-11T07:34:54Z",
+      "side": 1,
+      "message": "[1] removes this method.\n\nDone.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/188466",
+      "parentUuid": "2aac72a2_6623e610",
+      "range": {
+        "startLine": 30,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 31
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1bd1991_dd62a74a",
         "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
         "patchSetId": 1
@@ -108,6 +156,30 @@
       "writtenOn": "2018-07-10T12:27:45Z",
       "side": 1,
       "message": "Would it make sense to test this with null as name?",
+      "range": {
+        "startLine": 121,
+        "startChar": 14,
+        "endLine": 121,
+        "endChar": 27
+      },
+      "revId": "c1e7052c3e2d8852f453ba4577762e331a6c5f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c828353_8fac7fec",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-11T07:34:54Z",
+      "side": 1,
+      "message": "I think yes, but what should be the expected behavior?",
+      "parentUuid": "b1bd1991_dd62a74a",
       "range": {
         "startLine": 121,
         "startChar": 14,

@@ -18,9 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.AccountGroup.UUID;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class GroupReferenceTest {
+  @Rule public ExpectedException exception = ExpectedException.none();
+
   @Test
   public void forGroupDescription() {
     String name = "foo";
@@ -54,6 +58,27 @@ public class GroupReferenceTest {
   }
 
   @Test
+  public void create() {
+    AccountGroup.UUID uuid = new AccountGroup.UUID("uuid");
+    String name = "foo";
+    GroupReference groupReference = new GroupReference(uuid, name);
+    assertThat(groupReference.getUUID()).isEqualTo(uuid);
+    assertThat(groupReference.getName()).isEqualTo(name);
+  }
+
+  @Test
+  public void cannotCreateWithoutUuid() {
+    exception.expect(NullPointerException.class);
+    new GroupReference(null, "foo");
+  }
+
+  @Test
+  public void cannotCreateWithoutName() {
+    exception.expect(NullPointerException.class);
+    new GroupReference(new AccountGroup.UUID("uuid"), null);
+  }
+
+  @Test
   public void isGroupReference() {
     assertThat(GroupReference.isGroupReference("foo")).isFalse();
     assertThat(GroupReference.isGroupReference("groupfoo")).isFalse();
@@ -82,8 +107,8 @@ public class GroupReferenceTest {
     groupReference.setUUID(uuid2);
     assertThat(groupReference.getUUID()).isEqualTo(uuid2);
 
+    exception.expect(NullPointerException.class);
     groupReference.setUUID(null);
-    assertThat(groupReference.getUUID()).isNull();
   }
 
   @Test
@@ -97,8 +122,8 @@ public class GroupReferenceTest {
     groupReference.setName(name2);
     assertThat(groupReference.getName()).isEqualTo(name2);
 
+    exception.expect(NullPointerException.class);
     groupReference.setName(null);
-    assertThat(groupReference.getName()).isNull();
   }
 
   @Test

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 
@@ -54,11 +56,11 @@ public class GroupReference implements Comparable<GroupReference> {
   }
 
   public AccountGroup.UUID getUUID() {
-    return uuid != null ? new AccountGroup.UUID(uuid) : null;
+    return new AccountGroup.UUID(uuid);
   }
 
   public void setUUID(AccountGroup.UUID newUUID) {
-    uuid = newUUID != null ? newUUID.get() : null;
+    uuid = checkNotNull(newUUID).get();
   }
 
   public String getName() {
@@ -66,7 +68,7 @@ public class GroupReference implements Comparable<GroupReference> {
   }
 
   public void setName(String newName) {
-    this.name = newName;
+    this.name = checkNotNull(newName);
   }
 
   @Override

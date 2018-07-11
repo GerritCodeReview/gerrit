@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce44fae5_addb63ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-11T13:03:29Z",
+      "side": 1,
+      "message": "Not the case for 2.14 (as opposed to master), AFAIK.",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "ea072f29620208cbcf082cfdbb97b1522f10c56e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "238cf0a4_ddd609e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-11T13:03:29Z",
+      "side": 1,
+      "message": "Not actually done through this change for 2.14.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 70
+      },
+      "revId": "ea072f29620208cbcf082cfdbb97b1522f10c56e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05bc3c6a_25f399e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-11T13:03:29Z",
+      "side": 1,
+      "message": "Would not apply as is for 2.14 (this change), as per above /related comments.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "ea072f29620208cbcf082cfdbb97b1522f10c56e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f6f11b_c697288f",
+        "filename": "gerrit-elasticsearch/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-11T13:03:29Z",
+      "side": 1,
+      "message": "Should have been removed after introducing the below /refactored assignment.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 0
+      },
+      "revId": "ea072f29620208cbcf082cfdbb97b1522f10c56e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

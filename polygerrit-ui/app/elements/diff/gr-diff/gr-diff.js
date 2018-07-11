@@ -182,6 +182,16 @@
         type: String,
         computed: '_computeNewlineWarning(_diff)',
       },
+
+      /**
+       * @type {function(number, boolean, !string)}
+       */
+      _createThredGroupFn: {
+        type: Function,
+        value() {
+          return this._createCommentThreadGroup.bind(this);
+        },
+      },
     },
 
     behaviors: [
@@ -481,8 +491,8 @@
       // Check if thread group exists.
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
-        threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent, commentSide);
+        threadGroupEl = this._createCommentThreadGroup(patchNum, isOnParent,
+            commentSide);
         contentEl.appendChild(threadGroupEl);
       }
 
@@ -494,6 +504,25 @@
         threadEl = this._getThread(threadGroupEl, commentSide, opt_range);
       }
       return threadEl;
+    },
+
+    /**
+     * @param {number} patchNum
+     * @param {boolean} isOnParent
+     * @param {!string} commentSide
+     * @return {!Object}
+     */
+    _createCommentThreadGroup(patchNum, isOnParent, commentSide) {
+      const threadGroupEl =
+          document.createElement('gr-diff-comment-thread-group');
+      threadGroupEl.changeNum = this.changeNum;
+      threadGroupEl.commentSide = commentSide;
+      threadGroupEl.patchForNewThreads = patchNum;
+      threadGroupEl.path = this.path;
+      threadGroupEl.isOnParent = isOnParent;
+      threadGroupEl.projectName = this.projectName;
+      threadGroupEl.parentIndex = this._parentIndex;
+      return threadGroupEl;
     },
 
     /**

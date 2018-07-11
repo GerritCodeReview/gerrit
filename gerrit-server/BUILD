@@ -205,6 +205,7 @@ java_library(
     name = "lucene_query_%ss_test" % name,
     size = "large",
     srcs = [src],
+    tags = ["lucene"],
     visibility = ["//visibility:public"],
     deps = TESTUTIL_DEPS + [
         ":abstract_query_tests",

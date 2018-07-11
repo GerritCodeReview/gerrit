@@ -1,6 +1,7 @@
 package(default_visibility = ["//visibility:public"])
 
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//tools/bzl:js.bzl", "node_module")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 config_setting(
@@ -79,4 +80,8 @@ genrule2(
         "cd $$TMP",
         "zip -qr $$ROOT/$@ .",
     ]),
+)
+
+node_module(
+    name = "foo",
 )

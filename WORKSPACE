@@ -970,6 +970,10 @@ npm_binary(
     repository = GERRIT,
 )
 
+npm_binary(
+    name = "resemblejs",
+)
+
 # bower_archive() seed components.
 bower_archive(
     name = "iron-autogrow-textarea",

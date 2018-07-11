@@ -146,9 +146,9 @@ def _bower_component_impl(ctx):
         transitive_versions += d.transitive_versions
 
     return struct(
-        transitive_zipfiles = transitive_zipfiles,
-        transitive_versions = transitive_versions,
         transitive_licenses = transitive_licenses,
+        transitive_versions = transitive_versions,
+        transitive_zipfiles = transitive_zipfiles,
     )
 
 _common_attrs = {
@@ -187,9 +187,9 @@ def _js_component(ctx):
         licenses += depset([ctx.file.license])
 
     return struct(
-        transitive_zipfiles = list([ctx.outputs.zip]),
-        transitive_versions = depset(),
         transitive_licenses = licenses,
+        transitive_versions = depset(),
+        transitive_zipfiles = list([ctx.outputs.zip]),
     )
 
 js_component = rule(
@@ -271,9 +271,9 @@ def _bower_component_bundle_impl(ctx):
     )
 
     return struct(
-        transitive_zipfiles = zips,
-        transitive_versions = versions,
         transitive_licenses = licenses,
+        transitive_versions = versions,
+        transitive_zipfiles = zips,
     )
 
 bower_component_bundle = rule(
@@ -341,8 +341,8 @@ def _vulcanize_impl(ctx):
     # from the environment, and it may be under $HOME, so we can't run
     # in the sandbox.
     node_tweaks = dict(
-        use_default_shell_env = True,
         execution_requirements = {"local": "1"},
+        use_default_shell_env = True,
     )
     ctx.actions.run_shell(
         mnemonic = "Vulcanize",
@@ -422,6 +422,23 @@ _vulcanize_rule = rule(
     },
     outputs = _vulcanize_output_func,
 )
+
+def _node_module_impl(ctx):
+    pass
+
+_node_module = rule(
+    _node_module_impl,
+    attrs = {
+        "_resemblejs": attr.label(
+            default = Label("@resemblejs//:%s" % _npm_tarball("resemblejs")),
+            allow_single_file = True,
+        ),
+    },
+)
+
+def node_module(*args, **kwargs):
+    """TODO"""
+    _node_module(*args, **kwargs)
 
 def vulcanize(*args, **kwargs):
     """Vulcanize runs vulcanize and (optionally) crisper on a set of sources."""

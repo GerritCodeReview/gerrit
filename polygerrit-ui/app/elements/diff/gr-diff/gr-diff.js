@@ -482,7 +482,7 @@
       let threadGroupEl = this._getThreadGroupForLine(contentEl);
       if (!threadGroupEl) {
         threadGroupEl = this.$.diffBuilder.createCommentThreadGroup(
-            this.changeNum, patchNum, this.path, isOnParent, commentSide);
+            patchNum, isOnParent, commentSide);
         contentEl.appendChild(threadGroupEl);
       }
 

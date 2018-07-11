@@ -88,6 +88,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestCollectionView;
 import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestDeleteMissingView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -325,15 +326,28 @@ public class RestApiServlet extends HttpServlet {
             checkPreconditions(req);
           }
         } catch (ResourceNotFoundException e) {
-          if (!path.isEmpty() || (!isPost(req) && !isPut(req))) {
+          if (!path.isEmpty()) {
             throw e;
           }
 
-          RestView<RestResource> createView = rc.views().get("gerrit", "CREATE./");
-          if (createView != null) {
-            viewData = new ViewData(null, createView);
-            status = SC_CREATED;
-            path.add(id);
+          if (isPost(req) || isPut(req)) {
+            RestView<RestResource> createView = rc.views().get("gerrit", "CREATE./");
+            if (createView != null) {
+              viewData = new ViewData(null, createView);
+              status = SC_CREATED;
+              path.add(id);
+            } else {
+              throw e;
+            }
+          } else if (isDelete(req)) {
+            RestView<RestResource> deleteView = rc.views().get("gerrit", "DELETE_MISSING./");
+            if (deleteView != null) {
+              viewData = new ViewData(null, deleteView);
+              status = SC_NO_CONTENT;
+              path.add(id);
+            } else {
+              throw e;
+            }
           } else {
             throw e;
           }
@@ -363,7 +377,7 @@ public class RestApiServlet extends HttpServlet {
           } else if (c instanceof AcceptsDelete && isDelete(req)) {
             @SuppressWarnings("unchecked")
             AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
-            viewData = new ViewData(null, ac.delete(rsrc, null));
+            viewData = new ViewData(null, ac.delete(rsrc));
           } else {
             throw new MethodNotAllowedException();
           }
@@ -388,11 +402,15 @@ public class RestApiServlet extends HttpServlet {
             } else {
               throw e;
             }
-          } else if (c instanceof AcceptsDelete && isDelete(req)) {
-            @SuppressWarnings("unchecked")
-            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
-            viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
-            status = SC_NO_CONTENT;
+          } else if (isDelete(req)) {
+            RestView<RestResource> deleteView = c.views().get("gerrit", "DELETE_MISSING./");
+            if (deleteView != null) {
+              viewData = new ViewData(null, deleteView);
+              status = SC_NO_CONTENT;
+              path.add(id);
+            } else {
+              throw e;
+            }
           } else {
             throw e;
           }
@@ -431,6 +449,19 @@ public class RestApiServlet extends HttpServlet {
         @SuppressWarnings("unchecked")
         RestCreateView<RestResource, RestResource, Object> m =
             (RestCreateView<RestResource, RestResource, Object>) viewData.view;
+
+        Type type = inputType(m);
+        inputRequestBody = parseRequest(req, type);
+        result = m.apply(rsrc, path.get(0), inputRequestBody);
+        if (inputRequestBody instanceof RawInput) {
+          try (InputStream is = req.getInputStream()) {
+            ServletUtils.consumeRequestBody(is);
+          }
+        }
+      } else if (viewData.view instanceof RestDeleteMissingView<?, ?, ?>) {
+        @SuppressWarnings("unchecked")
+        RestDeleteMissingView<RestResource, RestResource, Object> m =
+            (RestDeleteMissingView<RestResource, RestResource, Object>) viewData.view;
 
         Type type = inputType(m);
         inputRequestBody = parseRequest(req, type);
@@ -787,6 +818,24 @@ public class RestApiServlet extends HttpServlet {
     // This is smart enough to resolve even when there are intervening subclasses, even if they have
     // reordered type arguments.
     TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestCreateView.class);
+
+    Type supertype = supertypeLiteral.getType();
+    checkState(
+        supertype instanceof ParameterizedType,
+        "supertype of %s is not parameterized: %s",
+        typeLiteral,
+        supertypeLiteral);
+    return ((ParameterizedType) supertype).getActualTypeArguments()[2];
+  }
+
+  private static Type inputType(RestDeleteMissingView<RestResource, RestResource, Object> m) {
+    // MyCreateView implements RestDeleteMissingView<SomeResource, SomeResource, MyInput>
+    TypeLiteral<?> typeLiteral = TypeLiteral.get(m.getClass());
+
+    // RestDeleteMissingView<SomeResource, SomeResource, MyInput>
+    // This is smart enough to resolve even when there are intervening subclasses, even if they have
+    // reordered type arguments.
+    TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestDeleteMissingView.class);
 
     Type supertype = supertypeLiteral.getType();
     checkState(

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb3d8790_ca016f01",
+        "filename": "java/com/google/gerrit/server/util/git/SubmoduleSectionParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-12T00:53:34Z",
+      "side": 1,
+      "message": "The content of the file is mostly unchanged, so the copyright year should also be unchanged.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d8ae957ca61235cde252d0b70b7738142ef909a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08a99d4e_27d9c4e0",
+        "filename": "javatests/com/google/gerrit/server/util/git/SubmoduleSectionParserTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-12T00:53:34Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be changed?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d8ae957ca61235cde252d0b70b7738142ef909a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4d5860e0_ca484943",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-12T18:35:12Z",
+      "side": 0,
+      "message": "Yes, we put licenses on stackoverflow snippets: https://opensource.google.com/docs/patching/#stack-overflow\n\nhttps://opensource.google.com/docs/releasing/preparing/#license-headers describes the general philosophy behind the license headers in Google\u0027s open source code. For details, we should contact \u003cinternal list\u003e to get advice from a lawyer.",
+      "parentUuid": "1e09359f_0fd7c47a",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "7b5929068b92f2dc3c93f2ca5ba6e020424b6e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a19a331c_6dda9a7c",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 4

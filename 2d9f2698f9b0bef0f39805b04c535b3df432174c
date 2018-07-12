@@ -16,6 +16,23 @@
       "revId": "2d9f2698f9b0bef0f39805b04c535b3df432174c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddb280f7_cc4bf16a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1064642
+      },
+      "writtenOn": "2018-07-12T18:15:54Z",
+      "side": 1,
+      "message": "I wonder if it now makes more sense to have _handleRKey refer to lowercase R, and rename the existing _handleRKey to _handleShiftRKey. This would make \u0027r\u0027 consistent with all of the other lowercase shortcuts.",
+      "revId": "2d9f2698f9b0bef0f39805b04c535b3df432174c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

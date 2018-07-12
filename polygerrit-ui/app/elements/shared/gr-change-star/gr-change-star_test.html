@@ -37,9 +37,6 @@ limitations under the License.
     let element;
 
     setup(() => {
-      stub('gr-rest-api-interface', {
-        saveChangeStarred() { return Promise.resolve({ok: true}); },
-      });
       element = fixture('basic');
       element.change = {
         _number: 2,
@@ -60,23 +57,21 @@ limitations under the License.
     });
 
     test('starring', done => {
-      element.set('change.starred', false);
-      MockInteractions.tap(element.$$('button'));
-
-      element._xhrPromise.then(req => {
+      element.addEventListener('toggle-star', () => {
         assert.equal(element.change.starred, true);
         done();
       });
+      element.set('change.starred', false);
+      MockInteractions.tap(element.$$('button'));
     });
 
     test('unstarring', done => {
-      element.set('change.starred', true);
-      MockInteractions.tap(element.$$('button'));
-
-      element._xhrPromise.then(req => {
+      element.addEventListener('toggle-star', () => {
         assert.equal(element.change.starred, false);
         done();
       });
+      element.set('change.starred', true);
+      MockInteractions.tap(element.$$('button'));
     });
   });
 </script>

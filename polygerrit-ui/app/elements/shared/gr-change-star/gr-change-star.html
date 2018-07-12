@@ -17,7 +17,6 @@ limitations under the License.
 
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-change-star">
@@ -36,7 +35,6 @@ limitations under the License.
           class$="[[_computeStarClass(change.starred)]]"
           icon$="[[_computeStarIcon(change.starred)]]"></iron-icon>
     </button>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-change-star.js"></script>
 </dom-module>

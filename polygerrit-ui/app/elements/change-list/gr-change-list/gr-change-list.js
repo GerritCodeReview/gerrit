@@ -306,10 +306,7 @@
       }
 
       const changeEl = changeEls[index];
-      const change = changeEl.change;
-      const newVal = !change.starred;
-      changeEl.set('change.starred', newVal);
-      this.$.restAPI.saveChangeStarred(change._number, newVal);
+      changeEl.$$('gr-change-star').toggleStar();
     },
 
     _changeForIndex(index) {

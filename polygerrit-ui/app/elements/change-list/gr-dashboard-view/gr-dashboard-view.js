@@ -241,5 +241,10 @@
     _computeUserHeaderClass(userParam) {
       return userParam === 'self' ? 'hide' : '';
     },
+
+    _handleToggleStar(e) {
+      this.$.restAPI.saveChangeStarred(e.detail.change._number,
+          e.detail.starred);
+    },
   });
 })();

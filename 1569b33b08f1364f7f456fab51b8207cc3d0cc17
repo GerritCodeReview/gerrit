@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b95c1ca_16ce3eb4",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-12T17:47:24Z",
+      "side": 1,
+      "message": "optional: you can also mix in something like the old _gen_changeId to handle multiple commits within \"date\"\u0027s timestamp resolution.",
+      "range": {
+        "startLine": 6,
+        "startChar": 10,
+        "endLine": 6,
+        "endChar": 34
+      },
+      "revId": "1569b33b08f1364f7f456fab51b8207cc3d0cc17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43dfa482_198a0a40",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-12T17:47:24Z",
+      "side": 1,
+      "message": "nit: please quote this parameter",
+      "range": {
+        "startLine": 8,
+        "startChar": 81,
+        "endLine": 8,
+        "endChar": 83
+      },
+      "revId": "1569b33b08f1364f7f456fab51b8207cc3d0cc17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

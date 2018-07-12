@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "937b3104_18f40f25",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-12T17:50:58Z",
+      "side": 1,
+      "message": "We can\u0027t count on sha1sum being available on all platforms. \"git hash-object\" is omnipresent. :)",
+      "range": {
+        "startLine": 6,
+        "startChar": 38,
+        "endLine": 6,
+        "endChar": 45
+      },
+      "revId": "1569b33b08f1364f7f456fab51b8207cc3d0cc17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43dfa482_198a0a40",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 3

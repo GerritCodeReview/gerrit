@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "243b0f23_5351dd4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-12T17:49:38Z",
+      "side": 1,
+      "message": "2.2.0. See /usr/share/doc/git/RelNotes/2.2.0.txt for details.",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "a19b8058bc570b252919d8f1222fdfde47b71979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

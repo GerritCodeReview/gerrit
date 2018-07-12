@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "efab0e19_0bdd8302",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-12T09:47:04Z",
+      "side": 1,
+      "message": "I opened a thread with our UX researchers.",
+      "parentUuid": "98842eb0_c2e33ac0",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "7d28361fba2afda03e024aca75c9349725d15e60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d99a396_33c85d05",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "43a946e9_42e4c93e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-12T09:47:04Z",
+      "side": 1,
+      "message": "Let me try to open a thread there too.",
+      "parentUuid": "1d99a396_33c85d05",
+      "revId": "7d28361fba2afda03e024aca75c9349725d15e60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37eb8090_24944550",
         "filename": "java/com/google/gerrit/server/util/MagicBranch.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2018-07-06T21:14:00Z",
       "side": 1,
       "message": "I don\u0027t think this is sufficient, I am guessing there is some code that needs to be changed in ReceiveCommits as well.",
+      "revId": "7d28361fba2afda03e024aca75c9349725d15e60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0793fe06_d9d10b9b",
+        "filename": "java/com/google/gerrit/server/util/MagicBranch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-12T09:47:04Z",
+      "side": 1,
+      "message": "surprisingly, it does work:\n\n$ git push ssh://hanwen@localhost:29418/testrepo HEAD:refs/review/master\nkey_load_public: invalid format\nEnumerating objects: 4, done.\nCounting objects: 100% (4/4), done.\nWriting objects: 100% (3/3), 277 bytes | 277.00 KiB/s, done.\nTotal 3 (delta 0), reused 0 (delta 0)\nremote: Processing changes: new: 1, done    \nremote: \nremote: New Changes:\nremote:   http://xxx:8080/c/testrepo/+/21 x\nremote: \nTo ssh://localhost:29418/testrepo\n * [new branch]      HEAD -\u003e refs/review/master",
+      "parentUuid": "37eb8090_24944550",
       "revId": "7d28361fba2afda03e024aca75c9349725d15e60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

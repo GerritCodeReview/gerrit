@@ -127,6 +127,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private static final String CHANGE = "change";
   private static final String KEY_PRIVATE_BY_DEFAULT = "privateByDefault";
+  private static final String KEY_WORK_IN_PROGRESS_BY_DEFAULT = "workInProgressByDefault";
 
   private static final String SUBMIT = "submit";
   private static final String KEY_ACTION = "action";
@@ -538,6 +539,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     p.setPrivateByDefault(
         getEnum(rc, CHANGE, null, KEY_PRIVATE_BY_DEFAULT, InheritableBoolean.INHERIT));
+
+    p.setWorkInProgressByDefault(
+        getEnum(rc, CHANGE, null, KEY_WORK_IN_PROGRESS_BY_DEFAULT, InheritableBoolean.INHERIT));
 
     p.setEnableReviewerByEmail(
         getEnum(rc, REVIEWER, null, KEY_ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.INHERIT));
@@ -1118,6 +1122,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         null,
         KEY_PRIVATE_BY_DEFAULT,
         p.getPrivateByDefault(),
+        InheritableBoolean.INHERIT);
+
+    set(
+        rc,
+        CHANGE,
+        null,
+        KEY_WORK_IN_PROGRESS_BY_DEFAULT,
+        p.getWorkInProgressByDefault(),
         InheritableBoolean.INHERIT);
 
     set(

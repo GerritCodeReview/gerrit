@@ -79,6 +79,8 @@ public interface AdminConstants extends Constants {
 
   String privateByDefault();
 
+  String workInProgressByDefault();
+
   String enableReviewerByEmail();
 
   String matchAuthorToCommitterDate();

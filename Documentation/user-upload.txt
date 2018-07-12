@@ -309,6 +309,11 @@ flag from a change on push, explicitly specify the `ready` option:
 Only change owners, project owners and site administrators can specify
 `work-in-progress` and `ready` options on push.
 
+The default for this option can be set as a
+link:intro-user.html#work-in-progress-by-default[user preference]. If the
+preference is set so the default behavior is to create `work-in-progress`
+changes, this can be overridden with the `ready` option.
+
 [[message]]
 ==== Message
 

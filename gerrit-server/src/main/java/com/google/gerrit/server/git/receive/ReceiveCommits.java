@@ -2127,6 +2127,7 @@ class ReceiveCommits {
     }
 
     private void setChangeId(int id) {
+      possiblyOverrideWorkInProgress();
 
       changeId = new Change.Id(id);
       ins =
@@ -2145,6 +2146,17 @@ class ReceiveCommits {
       if (rp.getPushCertificate() != null) {
         ins.setPushCertificate(rp.getPushCertificate().toTextWithSignature());
       }
+    }
+
+    private void possiblyOverrideWorkInProgress() {
+      // When wip or ready explicitly provided, leave it as is.
+      if (magicBranch.workInProgress || magicBranch.ready) {
+        return;
+      }
+      magicBranch.workInProgress =
+          projectCache.get(project.getNameKey()).isWorkInProgressByDefault()
+              || firstNonNull(
+                  user.getAccount().getGeneralPreferencesInfo().workInProgressByDefault, false);
     }
 
     private void addOps(BatchUpdate bu) throws RestApiException {

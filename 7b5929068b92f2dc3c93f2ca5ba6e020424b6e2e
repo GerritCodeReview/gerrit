@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "cf0a51ff_5bce33fc",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1017837
+      },
+      "writtenOn": "2018-07-12T17:58:40Z",
+      "side": 0,
+      "message": "nit: Despite the brevity of the new hook, it should have a license stated so it can be used easily.",
+      "range": {
+        "startLine": 7,
+        "startChar": 2,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "7b5929068b92f2dc3c93f2ca5ba6e020424b6e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a19a331c_6dda9a7c",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 4

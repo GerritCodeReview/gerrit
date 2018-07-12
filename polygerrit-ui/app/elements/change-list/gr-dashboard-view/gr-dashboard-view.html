@@ -60,7 +60,8 @@ limitations under the License.
           account="[[account]]"
           preferences="[[preferences]]"
           selected-index="{{viewState.selectedChangeIndex}}"
-          sections="[[_results]]"></gr-change-list>
+          sections="[[_results]]"
+          on-toggle-star="_handleToggleStar"></gr-change-list>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting"></gr-reporting>

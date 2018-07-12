@@ -443,7 +443,13 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
     """
 
     # Combines all .js and .html files into foo_combined.js and foo_combined.html
-    _vulcanize_rule(name = name + "_combined", app = app, srcs = srcs + [app], pkg = PACKAGE_NAME, **kwargs)
+    _vulcanize_rule(
+        name = name + "_combined",
+        app = app,
+        srcs = srcs if app in srcs else srcs + [app],
+        pkg = PACKAGE_NAME,
+        **kwargs
+    )
 
     closure_js_binary(
         name = name + "_bin",

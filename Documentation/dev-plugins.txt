@@ -2871,6 +2871,17 @@ public class MyPluginModule extends AbstractModule {
 Plugin authors should also consider binding their SubmitRule using a `Gerrit-BatchModule`.
 See link:dev-plugins.html[Batch runtime] for more informations.
 
+
+The SubmitRule extension point allows you to write complex rules, but writing
+small self-contained rules should be preferred: doing so allows end users to
+compose several rules to form more complex submit checks.
+
+The `SubmitRequirement` class allows rules to communicate what the user needs
+to change in order to be compliant. These requirements should be kept once they
+are met, but marked as `OK`. If the requirements were not displayed, reviewers
+would need to use their precious time to manually check that they were met.
+
+
 == SEE ALSO
 
 * link:js-api.html[JavaScript API]

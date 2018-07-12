@@ -263,5 +263,10 @@
     _computeLoggedIn(account) {
       return !!(account && Object.keys(account).length > 0);
     },
+
+    _handleToggleStar(e) {
+      this.$.restAPI.saveChangeStarred(e.detail.change._number,
+          e.detail.starred);
+    },
   });
 })();

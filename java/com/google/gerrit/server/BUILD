@@ -41,6 +41,7 @@ java_library(
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/util/cli",
         "//java/com/google/gerrit/util/ssl",
         "//java/org/apache/commons/net",

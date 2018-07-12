@@ -12,26 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.git;
+package com.google.gerrit.server.util.git;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.SubmoduleSubscription;
-import com.google.gerrit.server.util.SubmoduleSectionParser;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
-public class SubmoduleSectionParserIT extends AbstractDaemonTest {
+public class SubmoduleSectionParserTest {
   private static final String THIS_SERVER = "http://localhost/";
 
   @Test
   public void followMasterBranch() throws Exception {
-    Project.NameKey p = createProject("a");
+    Project.NameKey p = new Project.NameKey("proj");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -56,7 +54,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void followMatchingBranch() throws Exception {
-    Project.NameKey p = createProject("a");
+    Project.NameKey p = new Project.NameKey("a");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -92,7 +90,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void followAnotherBranch() throws Exception {
-    Project.NameKey p = createProject("a");
+    Project.NameKey p = new Project.NameKey("a");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -117,7 +115,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withAnotherURI() throws Exception {
-    Project.NameKey p = createProject("a");
+    Project.NameKey p = new Project.NameKey("a");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -142,7 +140,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withSlashesInProjectName() throws Exception {
-    Project.NameKey p = createProject("project/with/slashes/a");
+    Project.NameKey p = new Project.NameKey("project/with/slashes/a");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -167,7 +165,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withSlashesInPath() throws Exception {
-    Project.NameKey p = createProject("a");
+    Project.NameKey p = new Project.NameKey("a");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -192,8 +190,8 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withMoreSections() throws Exception {
-    Project.NameKey p1 = createProject("a");
-    Project.NameKey p2 = createProject("b");
+    Project.NameKey p1 = new Project.NameKey("a");
+    Project.NameKey p2 = new Project.NameKey("b");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -225,8 +223,8 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withSubProjectFound() throws Exception {
-    Project.NameKey p1 = createProject("a/b");
-    Project.NameKey p2 = createProject("b");
+    Project.NameKey p1 = new Project.NameKey("a/b");
+    Project.NameKey p2 = new Project.NameKey("b");
     Config cfg = new Config();
     cfg.fromText(
         "\n"
@@ -258,10 +256,10 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withAnInvalidSection() throws Exception {
-    Project.NameKey p1 = createProject("a");
-    Project.NameKey p2 = createProject("b");
-    Project.NameKey p3 = createProject("d");
-    Project.NameKey p4 = createProject("e");
+    Project.NameKey p1 = new Project.NameKey("a");
+    Project.NameKey p2 = new Project.NameKey("b");
+    Project.NameKey p3 = new Project.NameKey("d");
+    Project.NameKey p4 = new Project.NameKey("e");
     Config cfg = new Config();
     cfg.fromText(
         "\n"
@@ -328,7 +326,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withSectionToOtherServer() throws Exception {
-    Project.NameKey p1 = createProject("a");
+    Project.NameKey p1 = new Project.NameKey("a");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -349,7 +347,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withRelativeURI() throws Exception {
-    Project.NameKey p1 = createProject("a");
+    Project.NameKey p1 = new Project.NameKey("a");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -374,7 +372,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withDeepRelativeURI() throws Exception {
-    Project.NameKey p1 = createProject("a");
+    Project.NameKey p1 = new Project.NameKey("a");
     Config cfg = new Config();
     cfg.fromText(
         ""
@@ -400,7 +398,7 @@ public class SubmoduleSectionParserIT extends AbstractDaemonTest {
 
   @Test
   public void withOverlyDeepRelativeURI() throws Exception {
-    Project.NameKey p1 = createProject("nested/a");
+    Project.NameKey p1 = new Project.NameKey("nested/a");
     Config cfg = new Config();
     cfg.fromText(
         ""

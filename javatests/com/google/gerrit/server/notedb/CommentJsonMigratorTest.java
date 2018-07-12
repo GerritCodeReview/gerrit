@@ -406,10 +406,10 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
 
   private void migrate(Project.NameKey project, int expectedCommands) throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
-      ProjectMigrationResult progress = migrator.migrateProject(project, repo);
+      ProjectMigrationResult progress = migrator.migrateProject(project, repo, false);
 
       assertThat(progress.ok).isTrue();
-      assertThat(progress.refsUpdated).isEqualTo(expectedCommands);
+      assertThat(progress.refsUpdated.size()).isEqualTo(expectedCommands);
     }
   }
 

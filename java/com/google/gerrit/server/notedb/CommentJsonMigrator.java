@@ -77,7 +77,8 @@ public class CommentJsonMigrator {
     this.allUsers = allUsers;
   }
 
-  public ProjectMigrationResult migrateProject(Project.NameKey project, Repository repo) {
+  public ProjectMigrationResult migrateProject(
+      Project.NameKey project, Repository repo, boolean dryRun) {
     ProjectMigrationResult progress = new ProjectMigrationResult();
     progress.ok = true;
     try (RevWalk rw = new RevWalk(repo);
@@ -91,9 +92,10 @@ public class CommentJsonMigrator {
 
       progress.refsUpdated += bru.getCommands().size();
       if (!bru.getCommands().isEmpty()) {
-        ins.flush();
-        RefUpdateUtil.executeChecked(bru, rw);
-
+        if (!dryRun) {
+          ins.flush();
+          RefUpdateUtil.executeChecked(bru, rw);
+        }
       } else {
         progress.skipped++;
       }

@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1531320367 +0200\nnonce APISObS5wsMG1OJ4OET4JrCoJnR5J5tf+xtPJH693ZE1W/KLoNbRu8OwGiUfyXlP9pswsVsOd6U7\n\n0000000000000000000000000000000000000000 8b158f7f2ef4a34bb720748e0b5f33c7049d714c refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltGGC8ACgkQUbX9l6DQ\n71HeXwgAkrJKFbrYHb8Sn0Smxr/dtLIuWaSAmwvNI6U1SS8cYhCrROaFgxuOJSpG\nNEVYhl6rF4H0rR2OhG7QIMPm4S6SI4aI56VEyJhZK3SXjvk0U6E3PpNOUcPghqoX\nQupi+iiDQlWQGIs2bxMcFcU0T8mzywg7WND7SPtj3oI4a7hYx8qav5S5kd+sp6QC\nxWdRHzjzVigQ4O46ict9Qm+rpG4y+l/pOkKssctlVCV0BSvDDHMAfZP5nBjrGQZ4\n+SEFiqAOzr3JFAOU08Ro1sGn5TwYKDM1fHYCqT5dCpxGMNjlVk2Xv/2YuWQfH1Cu\nVPGyIuwzIhTn1mSO1LcM2vlUylCXZQ\u003d\u003d\n\u003dHfXI\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b7a363f_e6b61691",
+        "filename": "java/com/google/gerrit/common/data/GroupReference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-12T08:54:45Z",
+      "side": 1,
+      "message": "The added test doesn\u0027t cover this case. As this change is all about fixing the NPE here, I would like to have this covered, too.",
+      "range": {
+        "startLine": 76,
+        "startChar": 31,
+        "endLine": 76,
+        "endChar": 56
+      },
+      "revId": "8b158f7f2ef4a34bb720748e0b5f33c7049d714c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90059644_9d6a54ad",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-12T08:54:45Z",
+      "side": 1,
+      "message": "Here and below: The hashCode() contract says that two objects which are unequal according to the equals() method may still have the same hashcode. Since we internally defer to the JDK\u0027s hashcode implementation of the UUID string, this assertion might not be true on all JVMs.",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 84
+      },
+      "revId": "8b158f7f2ef4a34bb720748e0b5f33c7049d714c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

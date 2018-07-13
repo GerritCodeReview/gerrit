@@ -118,6 +118,30 @@
       "revId": "ac34bb051c9b777f7f30f091180a0583a19700f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1cfd7f6_b8e6f98f",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-13T07:51:41Z",
+      "side": 1,
+      "message": "No, the fix is not on stable-2.15.  The code that broke is is not on stable-2.15.\n\nI fixed it in the merge because there was a test, added on stable-2.15, that exposed the breakage when merged to master.  I then found a bunch of other cases, and fixed them separately in this commit on top of the merge.\n\nThen I realised that the merge might take some time to get in, due to other breakages related to the new WIP preferences, so I rebased this on the head of master and added the fix that was in the merge.",
+      "parentUuid": "b60e9963_d122a790",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 36
+      },
+      "revId": "ac34bb051c9b777f7f30f091180a0583a19700f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

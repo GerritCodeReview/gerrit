@@ -1,6 +1,6 @@
 package(default_visibility = ["//visibility:public"])
 
-load("//tools/bzl:js.bzl", "bower_component", "js_component")
+load("//tools/bzl:js.bzl", "bower_component", "js_component", "external_js_module")
 
 # For importing new versions of existing bower packages,
 #
@@ -45,4 +45,9 @@ js_component(
 bower_component(
     name = "codemirror-minified",
     license = "//lib:LICENSE-codemirror-minified",
+)
+
+external_js_module(
+    name = "resemblejs",
+    license = "//lib:LICENSE-resemblejs",
 )

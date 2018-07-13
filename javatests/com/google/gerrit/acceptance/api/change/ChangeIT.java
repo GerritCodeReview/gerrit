@@ -449,6 +449,16 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createWipChangeWithWorkInProgressByDefaultForProject() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.workInProgressByDefault = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(input);
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
+  }
+
+  @Test
   public void setReadyForReviewNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result rready = createChange();
     String changeId = rready.getChangeId();

@@ -39,6 +39,7 @@
       baseChange: String,
       baseCommit: String,
       privateByDefault: String,
+      workInProgressByDefault: String,
       canCreate: {
         type: Boolean,
         notify: true,
@@ -55,6 +56,7 @@
       if (!this.repoName) { return; }
       this.$.restAPI.getProjectConfig(this.repoName).then(config => {
         this.privateByDefault = config.private_by_default;
+        this.workInProgressByDefault = config.work_in_progress_by_default;
       });
     },
 

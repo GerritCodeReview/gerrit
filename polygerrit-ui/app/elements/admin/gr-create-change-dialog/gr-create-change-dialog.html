@@ -119,6 +119,17 @@ limitations under the License.
                 checked$="[[_formatBooleanString(privateByDefault)]]">
           </span>
         </section>
+        <section>
+          <label
+              class="title"
+              for="wipChangeCheckBox">WIP change</label>
+          <span class="value">
+            <input
+                type="checkbox"
+                id="wipChangeCheckBox"
+                checked$="[[_formatBooleanString(workInProgressByDefault)]]">
+          </span>
+        </section>
       </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

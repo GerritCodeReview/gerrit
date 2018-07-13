@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcae5091_0691796b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/WorkInProgressByDefaultIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-13T05:38:43Z",
+      "side": 1,
+      "message": "Wy was this moved to api mackage and not javatests/com/google/gerrit/acceptance/rest/change/ was preserved? Id you think the original location was wrong (and also from PrivateByDefaultIT.java, that I used as example), then these should be moved on stable-2.15 in its own change and not in the merge commit.",
+      "revId": "cf4f4eafcbb0b9f935edb25e8062cdaed1bd6aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

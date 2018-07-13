@@ -52,6 +52,24 @@
       "revId": "aa329d43b172c42fcb89c7b57360cce99bad88c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "998fd7d1_19aaa8b0",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV5QueryProjectsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-13T21:13:28Z",
+      "side": 1,
+      "message": "Answering my own question: yes, because this test only exists on master.\n\nStill not sure why it was passing for me without the password though.",
+      "parentUuid": "7318fa09_8a54ae36",
+      "revId": "aa329d43b172c42fcb89c7b57360cce99bad88c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

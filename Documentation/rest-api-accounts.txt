@@ -1255,6 +1255,7 @@ any account.
     "review_category_strategy": "ABBREV",
     "mute_common_path_prefixes": true,
     "publish_comments_on_push": true,
+    "work_in_progress_by_default": true,
     "default_base_for_merges": "FIRST_PARENT",
     "my": [
       {
@@ -1361,6 +1362,7 @@ link:#preferences-info[PreferencesInfo] entity.
     "review_category_strategy": "NAME",
     "diff_view": "SIDE_BY_SIDE",
     "publish_comments_on_push": true,
+    "work_in_progress_by_default": true,
     "mute_common_path_prefixes": true,
     "my": [
       {
@@ -2654,6 +2656,9 @@ Allowed values are `AUTO_MERGE` and `FIRST_PARENT`.
 |`publish_comments_on_push`     |not set if `false`|
 Whether to link:user-upload.html#publish-comments[publish draft comments] on
 push by default.
+|`work_in_progress_by_default`  |not set if `false`|
+Whether to link:user-upload.html#wip[set work-in-progress] on
+push or on create changes online by default.
 |============================================
 
 [[preferences-input]]

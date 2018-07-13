@@ -827,6 +827,12 @@ commands that need to be copied frequently, such as the Change-Ids, commit IDs
 and download commands. Note that this option is only shown if the Flash plugin
 is available and the JavaScript Clipboard API is unavailable.
 
+- [[work-in-progress-by-default]]`Set new changes work-in-progress`:
++
+Whether new changes are uploaded as work-in-progress per default. This
+preference just sets the default; the behavior can still be overridden using a
+link:user-upload.html#wip[push option].
+
 [[my-menu]]
 In addition it is possible to customize the menu entries of the `My`
 menu. This can be used to make the navigation to frequently used

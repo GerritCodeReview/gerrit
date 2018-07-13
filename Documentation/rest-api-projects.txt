@@ -2890,10 +2890,13 @@ signed push validation is required on the project.
 |`reject_implicit_merges`|optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 implicit merges should be rejected on changes pushed to the project.
-|`private_by_default`     ||
+|`private_by_default`         ||
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 all new changes are set as private by default.
-|`max_object_size_limit`     ||
+|`work_in_progress_by_default`||
+link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
+all new changes are set as work-in-progress by default.
+|`max_object_size_limit`      ||
 The link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] of this project as a link:#max-object-size-limit-info[
 MaxObjectSizeLimitInfo] entity.

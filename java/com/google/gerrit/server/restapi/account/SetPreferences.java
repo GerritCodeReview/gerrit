@@ -63,7 +63,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
   public GeneralPreferencesInfo apply(AccountResource rsrc, GeneralPreferencesInfo input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
           OrmException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 

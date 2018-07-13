@@ -227,6 +227,16 @@ limitations under the License.
             </span>
           </section>
           <section>
+            <span class="title">Set new changes to "work in progress" by default</span>
+            <span class="value">
+              <input
+                  id="workInProgressByDefault"
+                  type="checkbox"
+                  checked$="[[_localPrefs.work_in_progress_by_default]]"
+                  on-change="_handleWorkInProgressByDefault">
+            </span>
+          </section>
+          <section>
             <span class="title">
               Insert Signed-off-by Footer For Inline Edit Changes
             </span>

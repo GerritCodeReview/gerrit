@@ -33,6 +33,7 @@ public class ConfigInfo {
   public InheritedBooleanInfo requireSignedPush;
   public InheritedBooleanInfo rejectImplicitMerges;
   public InheritedBooleanInfo privateByDefault;
+  public InheritedBooleanInfo workInProgressByDefault;
   public InheritedBooleanInfo enableReviewerByEmail;
   public InheritedBooleanInfo matchAuthorToCommitterDate;
   public InheritedBooleanInfo rejectEmptyCommit;

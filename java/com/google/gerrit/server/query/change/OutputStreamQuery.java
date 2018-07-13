@@ -237,7 +237,7 @@ public class OutputStreamQuery {
       ChangeData d, Map<Project.NameKey, Repository> repos, Map<Project.NameKey, RevWalk> revWalks)
       throws OrmException, IOException {
     LabelTypes labelTypes = d.getLabelTypes();
-    ChangeAttribute c = eventFactory.asChangeAttribute(db, d.change());
+    ChangeAttribute c = eventFactory.asChangeAttribute(db, d.change(), d.notes());
     eventFactory.extend(c, d.change());
 
     if (!trackingFooters.isEmpty()) {

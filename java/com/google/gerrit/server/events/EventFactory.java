@@ -130,9 +130,9 @@ public class EventFactory {
    * @param change
    * @return object suitable for serialization to JSON
    */
-  public ChangeAttribute asChangeAttribute(Change change) {
+  public ChangeAttribute asChangeAttribute(Change change, ChangeNotes notes) {
     try (ReviewDb db = schema.open()) {
-      return asChangeAttribute(db, change);
+      return asChangeAttribute(db, change, notes);
     } catch (OrmException e) {
       logger.atSevere().withCause(e).log("Cannot open database connection");
       return new ChangeAttribute();
@@ -170,6 +170,24 @@ public class EventFactory {
     return a;
   }
 
+  /**
+   * Create a ChangeAttribute for the given change suitable for serialization to JSON.
+   *
+   * @param db Review database
+   * @param change
+   * @param notes
+   * @return object suitable for serialization to JSON
+   */
+  public ChangeAttribute asChangeAttribute(ReviewDb db, Change change, ChangeNotes notes)
+      throws OrmException {
+    ChangeAttribute a = asChangeAttribute(db, change);
+    Set<String> hashtags = notes.load().getHashtags();
+    if (!hashtags.isEmpty()) {
+      a.hashtags = new ArrayList<String>(hashtags.size());
+      a.hashtags.addAll(hashtags);
+    }
+    return a;
+  }
   /**
    * Create a RefUpdateAttribute for the given old ObjectId, new ObjectId, and branch that is
    * suitable for serialization to JSON.

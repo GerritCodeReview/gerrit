@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "052cf33a_29eeea9d",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetPreferences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-13T07:10:01Z",
+      "side": 1,
+      "message": "This should really be a part of [1] but I don\u0027t want to rebase the merge and do all the conflict resolution again.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/188814",
+      "revId": "03a0b213805c1bd5a5b69d720b7d6438036cf469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0bbdf69_3a82094c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-13T07:10:01Z",
+      "side": 1,
+      "message": "_repoConfig",
+      "range": {
+        "startLine": 254,
+        "startChar": 56,
+        "endLine": 254,
+        "endChar": 70
+      },
+      "revId": "03a0b213805c1bd5a5b69d720b7d6438036cf469",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

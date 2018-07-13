@@ -1141,6 +1141,14 @@ bower_archive(
     version = "6.5.0",
 )
 
+load("//tools/bzl:js.bzl", "external_js_archive")
+
+external_js_archive(
+    name = "resemblejs",
+    sha1 = "e7ff06d948346286331ba3309a4b3bcc2451c0b3",
+    version = "2.10.3",
+)
+
 # Bower component transitive dependencies.
 load("//lib/js:bower_archives.bzl", "load_bower_archives")
 

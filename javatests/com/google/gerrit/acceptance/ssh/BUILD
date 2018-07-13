@@ -25,8 +25,9 @@ acceptance_tests(
     srcs = ["ElasticIndexIT.java"],
     group = "elastic",
     labels = [
-        "elastic",
         "docker",
+        "elastic",
+        "exclusive",
         "ssh",
     ],
     deps = [

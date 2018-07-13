@@ -315,6 +315,7 @@ limitations under the License.
           require_signed_push: 'TRUE',
           reject_implicit_merges: 'TRUE',
           private_by_default: 'TRUE',
+          work_in_progress_by_default: 'TRUE',
           match_author_to_committer_date: 'TRUE',
           reject_empty_commit: 'TRUE',
           max_object_size_limit: 10,
@@ -350,6 +351,8 @@ limitations under the License.
               configInputObj.reject_implicit_merges;
           element.$.setAllnewChangesPrivateByDefaultSelect.bindValue =
               configInputObj.private_by_default;
+          element.$.setAllNewChangesWorkInProgressByDefaultSelect.bindValue =
+              configInputObj.work_in_progress_by_default;
           element.$.matchAuthoredDateWithCommitterDateSelect.bindValue =
               configInputObj.match_author_to_committer_date;
           element.$.maxGitObjSizeInput.bindValue =

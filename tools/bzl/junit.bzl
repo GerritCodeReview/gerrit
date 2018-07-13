@@ -43,11 +43,7 @@ def _AsClassName(fname):
         if findex != -1:
             break
     if findex == -1:
-        fail(
-            "%s does not contain any of %s",
-            fname,
-            _PREFIXES,
-        )
+        fail("%s does not contain any of %s" % (fname, _PREFIXES))
     return ".".join(toks[findex:]) + ".class"
 
 def _impl(ctx):

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d82a9ff1_63393671",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1026519
+      },
+      "writtenOn": "2018-07-13T16:44:23Z",
+      "side": 1,
+      "message": "Can this be handled at the gr-change-list level? gr-change-list already has code to toggle stars based on the keyboard shortcut.",
+      "revId": "c0445805fd616eaf8efc6e82c7174bd2bfde8a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

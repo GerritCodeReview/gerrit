@@ -840,6 +840,10 @@ limitations under the License.
       assert.isFalse(element._computeHideEditCommitMessage(true, false, {}));
       assert.isTrue(element._computeHideEditCommitMessage(true, false,
           _change));
+      assert.isTrue(element._computeHideEditCommitMessage(true, false, {},
+          true));
+      assert.isFalse(element._computeHideEditCommitMessage(true, false, {},
+          false));
     });
 
     test('_handleCommitMessageSave trims trailing whitespace', () => {

@@ -145,7 +145,7 @@
       _hideEditCommitMessage: {
         type: Boolean,
         computed: '_computeHideEditCommitMessage(_loggedIn, ' +
-            '_editingCommitMessage, _change)',
+            '_editingCommitMessage, _change, _editMode)',
       },
       _diffAgainst: String,
       /** @type {?string} */
@@ -394,8 +394,9 @@
       return this.changeStatuses(change, options);
     },
 
-    _computeHideEditCommitMessage(loggedIn, editing, change) {
-      if (!loggedIn || editing || change.status === this.ChangeStatus.MERGED) {
+    _computeHideEditCommitMessage(loggedIn, editing, change, editMode) {
+      if (!loggedIn || editing || change.status === this.ChangeStatus.MERGED ||
+          editMode) {
         return true;
       }
 

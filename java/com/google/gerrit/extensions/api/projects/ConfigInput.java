@@ -30,6 +30,7 @@ public class ConfigInput {
   public InheritableBoolean requireSignedPush;
   public InheritableBoolean rejectImplicitMerges;
   public InheritableBoolean privateByDefault;
+  public InheritableBoolean workInProgressByDefault;
   public InheritableBoolean enableReviewerByEmail;
   public InheritableBoolean matchAuthorToCommitterDate;
   public InheritableBoolean rejectEmptyCommit;

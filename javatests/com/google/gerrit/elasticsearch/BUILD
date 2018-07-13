@@ -49,6 +49,7 @@ ELASTICSEARCH_TESTS_V6 = {i: "ElasticV6Query" + i.capitalize() + SUFFIX for i in
 ELASTICSEARCH_TAGS = [
     "docker",
     "elastic",
+    "exclusive",
 ]
 
 [junit_tests(

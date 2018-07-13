@@ -21,6 +21,7 @@ import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
@@ -79,6 +80,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String MAPPINGS = "mappings";
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
+  protected static final String SETTINGS = "settings";
 
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtobufCodec<T> codec) {
@@ -181,7 +183,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     }
 
     // Recreate the index.
-    response = performRequest("PUT", getMappings(), indexName, Collections.emptyMap());
+    String indexCreationFields = concatJsonString(getSettings(), getMappings());
+    response = performRequest("PUT", indexCreationFields, indexName, Collections.emptyMap());
     statusCode = response.getStatusLine().getStatusCode();
     if (statusCode != HttpStatus.SC_OK) {
       String error = String.format("Failed to create index %s: %s", indexName, statusCode);
@@ -192,6 +195,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected abstract String getDeleteActions(K id);
 
   protected abstract String getMappings();
+
+  private String getSettings() {
+    return gson.toJson(ImmutableMap.of(SETTINGS, ElasticSetting.createSetting()));
+  }
 
   protected abstract String getId(V v);
 
@@ -292,6 +299,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected Response postRequest(Object payload, String uri, Map<String, String> params)
       throws IOException {
     return performRequest("POST", payload, uri, params);
+  }
+
+  private String concatJsonString(String target, String addition) {
+    return target.substring(0, target.length() - 1) + "," + addition.substring(1);
   }
 
   private Response performRequest(

@@ -94,6 +94,30 @@
       "revId": "ac34bb051c9b777f7f30f091180a0583a19700f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b60e9963_d122a790",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-07-13T07:39:21Z",
+      "side": 1,
+      "message": "\u003e OK.  I don\u0027t know what happened, but when I found this one while merging stable-2.15 [1] (the newly added tests were failing because of this) I checked on both stable-2.14 and stable-2.15 and didn\u0027t see any instances of incorrect usage.\n\u003e \n\u003e It must have got broken somewhere on master.  It wasn\u0027t during the package move; I checked that.\n\nI believe it was merged correctly into stable-2.15 and then not merged yet on master.\n\n\u003e [1] https://gerrit-review.googlesource.com/c/gerrit/+/188813\n\nThis the stable-2.15 merge to master and it is still opened.\nDoes it make sense then to revert this and get this fix from [1]?",
+      "parentUuid": "18f13270_04e68203",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 36
+      },
+      "revId": "ac34bb051c9b777f7f30f091180a0583a19700f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

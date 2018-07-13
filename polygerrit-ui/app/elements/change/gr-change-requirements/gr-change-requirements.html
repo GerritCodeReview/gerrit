@@ -18,60 +18,156 @@ limitations under the License.
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
+<link rel="import" href="../../shared/gr-label/gr-label.html">
+<link rel="import" href="../../shared/gr-label-info/gr-label-info.html">
+<link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
 
 <dom-module id="gr-change-requirements">
   <template strip-whitespace>
     <style include="shared-styles">
+      :host {
+        display: table;
+        width: 100%;
+      }
       .status {
+        color: #FFA62F;
         display: inline-block;
-        font-weight: initial;
+        font-family: var(--monospace-font-family);
         text-align: center;
       }
-      .unsatisfied .icon {
-        color: #FFA62F;
+      .approved.status {
+        color: var(--vote-text-color-recommended);
       }
-      .satisfied .icon {
-        color: #388E3C;
+      .rejected.status {
+        color: var(--vote-text-color-disliked);
       }
-      .requirement {
-        padding: .1em 0;
+      iron-icon {
+        color: inherit;
       }
-      .requirementContainer:not(:first-of-type) {
-        margin-top: .25em;
+      .name {
+        font-family: var(--font-family-bold);
       }
-      .labelName, .changeIsWip {
+      section {
+        display: table-row;
+      }
+      .show-hide {
+        float: right;
+      }
+      .title {
         font-weight: bold;
+        min-width: 10em;
+        padding-left: var(--requirements-horizontal-padding);
+        padding-right: .5em;
+        vertical-align: top;
+      }
+      .value {
+        padding-right: var(--requirements-horizontal-padding);
+        vertical-align: middle;
+      }
+      .title,
+      .value {
+        display: table-cell;
+        padding-top: .6em;
+      }
+      .hidden {
+        display: none;
+      }
+      .showHide {
+        cursor: pointer;
+      }
+      .showHide .title {
+        border-top: 1px solid var(--border-color);
+        padding-bottom: .5em;
+        padding-top: .5em;
+      }
+      .showHide .value {
+        border-top: 1px solid var(--border-color);
+        padding-top: 0;
+        vertical-align: middle;
+      }
+      .showHide iron-icon {
+        color: var(--deemphasized-text-color);
+        float: right;
+      }
+      .spacer {
+        height: .5em;
       }
     </style>
-    <template is="dom-if" if="[[_showWip]]">
-      <div class="requirement unsatisfied changeIsWip">
-        <span class="status"><iron-icon class="icon" icon="gr-icons:hourglass"></iron-icon></span>
-        Work in Progress
-      </div>
-    </template>
-    <template is="dom-if" if="[[_showLabels]]">
-      <template
-          is="dom-repeat"
-          items="[[labels]]">
-        <div class$="requirement [[item.style]]">
-          <span class="status">
-            <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
+    <template
+        is="dom-repeat"
+        items="[[_requirements]]">
+      <section>
+        <div class="title requirement">
+          <span class$="status [[item.style]]">
+            <iron-icon class="icon" icon="[[_computeRequirementIcon(item.satisfied)]]"></iron-icon>
           </span>
-          Label <span class="labelName">[[item.label]]</span>
+          <gr-limited-text class="name" limit="40" text="[[item.fallback_text]]"></gr-limited-text>
         </div>
-      </template>
+      </section>
     </template>
     <template
         is="dom-repeat"
-        items="[[requirements]]">
-      <div class$="requirement [[_computeRequirementClass(item.satisfied)]]">
-        <span class="status">
-          <iron-icon class="icon" icon="[[_computeRequirementIcon(item.satisfied)]]"></iron-icon>
-        </span>
-        [[item.fallback_text]]
-      </div>
+        items="[[_requiredLabels]]">
+      <section>
+        <div class="title">
+          <span class$="status [[item.style]]">
+            <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
+          </span>
+          <gr-limited-text class="name" limit="40" text="[[item.label]]"></gr-limited-text>
+        </div>
+        <div class="value">
+          <gr-label-info
+              change="{{change}}"
+              account="[[account]]"
+              mutable="[[mutable]]"
+              label="[[item.label]]"
+              label-info="[[item.labelInfo]]"></gr-label-info>
+        </div>
+      </section>
     </template>
+    <section class="spacer"></section>
+    <section class$="spacer [[_computeShowOptional(_optionalLabels.*)]]"></section>
+    <section
+        show-bottom-border$="[[_showOptionalLabels]]"
+        on-tap="_handleShowHide"
+        class$="showHide [[_computeShowOptional(_optionalLabels.*)]]">
+      <div class="title">Other labels</div>
+      <div class="value">
+        <iron-icon
+            id="showHide"
+            icon="[[_computeShowHideIcon(_showOptionalLabels)]]">
+        </iron-icon>
+      </label>
+      </div>
+    </section>
+    <template
+        is="dom-repeat"
+        items="[[_optionalLabels]]">
+      <section class$="optional [[_computeSectionClass(_showOptionalLabels)]]">
+        <div class="title">
+          <span class$="status [[item.style]]">
+            <template is="dom-if" if="[[item.icon]]">
+              <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
+            </template>
+            <template is="dom-if" if="[[!item.icon]]">
+              <span>[[_computeLabelValue(item.labelInfo.value)]]</span>
+            </template>
+          </span>
+          <gr-limited-text class="name" limit="40" text="[[item.label]]"></gr-limited-text>
+        </div>
+        <div class="value">
+          <gr-label-info
+              change="{{change}}"
+              account="[[account]]"
+              mutable="[[mutable]]"
+              label="[[item.label]]"
+              label-info="[[item.labelInfo]]"></gr-label-info>
+        </div>
+      </section>
+    </template>
+    <section class$="spacer [[_computeShowOptional(_optionalLabels.*)]] [[_computeSectionClass(_showOptionalLabels)]]"></section>
   </template>
   <script src="gr-change-requirements.js"></script>
 </dom-module>

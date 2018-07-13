@@ -30,6 +30,7 @@ public class ChangeAttribute {
   public AccountAttribute assignee;
   public String url;
   public String commitMessage;
+  public List<String> hashtags;
 
   public Long createdOn;
   public Long lastUpdated;

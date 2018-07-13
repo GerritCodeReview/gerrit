@@ -44,7 +44,7 @@ public class GetEmails implements RestReadView<AccountResource> {
   @Override
   public List<EmailInfo> apply(AccountResource rsrc)
       throws AuthException, PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 

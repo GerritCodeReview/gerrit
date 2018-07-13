@@ -58,7 +58,7 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
   public EditPreferencesInfo apply(AccountResource rsrc, EditPreferencesInfo input)
       throws RestApiException, RepositoryNotFoundException, IOException, ConfigInvalidException,
           PermissionBackendException, OrmException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.MODIFY_ACCOUNT);
     }
 

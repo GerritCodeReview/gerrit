@@ -40,19 +40,69 @@ limitations under the License.
       element = fixture('basic');
     });
 
-    test('computed fields', () => {
-      assert.isTrue(element._computeShowLabelStatus({status: 'NEW'}));
-      assert.isFalse(element._computeShowLabelStatus({status: 'MERGED'}));
-      assert.isFalse(element._computeShowLabelStatus({status: 'ABANDONED'}));
-
+    test('requirements computed fields', () => {
       assert.isTrue(element._computeShowWip({work_in_progress: true}));
       assert.isFalse(element._computeShowWip({work_in_progress: false}));
 
-      assert.equal(element._computeRequirementClass(true), 'satisfied');
-      assert.equal(element._computeRequirementClass(false), 'unsatisfied');
+      assert.equal(element._computeRequirementClass(true), 'approved');
+      assert.equal(element._computeRequirementClass(false), '');
 
       assert.equal(element._computeRequirementIcon(true), 'gr-icons:check');
-      assert.equal(element._computeRequirementIcon(false), 'gr-icons:hourglass');
+      assert.equal(element._computeRequirementIcon(false),
+          'gr-icons:hourglass');
+    });
+
+    test('label computed fields', () => {
+      assert.equal(element._computeLabelIcon({approved: []}), 'gr-icons:check');
+      assert.equal(element._computeLabelIcon({rejected: []}), 'gr-icons:close');
+      assert.equal(element._computeLabelIcon({}), 'gr-icons:hourglass');
+
+      assert.equal(element._computeLabelClass({approved: []}), 'approved');
+      assert.equal(element._computeLabelClass({rejected: []}), 'rejected');
+      assert.equal(element._computeLabelClass({}), '');
+      assert.equal(element._computeLabelClass({value: 0}), '');
+
+      assert.equal(element._computeLabelValue(1), '+1');
+      assert.equal(element._computeLabelValue(-1), '-1');
+      assert.equal(element._computeLabelValue(0), '0');
+    });
+
+    test('_computeLabels', () => {
+      assert.equal(element._optionalLabels.length, 0);
+      assert.equal(element._requiredLabels.length, 0);
+      element._computeLabels({base: {
+        test: {
+          all: [{_account_id: 1, name: 'bojack', value: 1}],
+          default_value: 0,
+          values: [],
+          value: 1,
+        },
+        opt_test: {
+          all: [{_account_id: 1, name: 'bojack', value: 1}],
+          default_value: 0,
+          values: [],
+          optional: true,
+        },
+      }});
+      assert.equal(element._optionalLabels.length, 1);
+      assert.equal(element._requiredLabels.length, 1);
+
+      assert.equal(element._optionalLabels[0].label, 'opt_test');
+      assert.equal(element._optionalLabels[0].icon, 'gr-icons:hourglass');
+      assert.equal(element._optionalLabels[0].style, '');
+      assert.ok(element._optionalLabels[0].labelInfo);
+    });
+
+    test('optional show/hide', () => {
+      element._optionalLabels = [{label: 'test'}];
+      flushAsynchronousOperations();
+
+      assert.ok(element.$$('section.optional'));
+      MockInteractions.tap(element.$$('.showHide'));
+      flushAsynchronousOperations();
+
+      assert.isFalse(element._showOptionalLabels);
+      assert.isTrue(isHidden(element.$$('section.optional')));
     });
 
     test('properly converts satisfied labels', () => {
@@ -60,17 +110,16 @@ limitations under the License.
         status: 'NEW',
         labels: {
           Verified: {
-            approved: true,
+            approved: [],
           },
         },
         requirements: [],
       };
       flushAsynchronousOperations();
 
-      const labelName = element.$$('.satisfied .labelName');
-      assert.ok(labelName);
-      assert.isFalse(labelName.hasAttribute('hidden'));
-      assert.equal(labelName.innerHTML, 'Verified');
+      assert.ok(element.$$('.approved'));
+      assert.ok(element.$$('.name'));
+      assert.equal(element.$$('.name').text, 'Verified');
     });
 
     test('properly converts unsatisfied labels', () => {
@@ -84,10 +133,10 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const labelName = element.$$('.unsatisfied .labelName');
-      assert.ok(labelName);
-      assert.isFalse(labelName.hasAttribute('hidden'));
-      assert.equal(labelName.innerHTML, 'Verified');
+      const name = element.$$('.name');
+      assert.ok(name);
+      assert.isFalse(name.hasAttribute('hidden'));
+      assert.equal(name.text, 'Verified');
     });
 
     test('properly displays Work In Progress', () => {
@@ -99,12 +148,9 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const changeIsWip = element.$$('.changeIsWip.unsatisfied');
+      const changeIsWip = element.$$('.title');
       assert.ok(changeIsWip);
-      assert.isFalse(changeIsWip.hasAttribute('hidden'));
-      assert.notEqual(changeIsWip.innerHTML.indexOf('Work in Progress'), -1);
     });
-
 
     test('properly displays a satisfied requirement', () => {
       element.change = {
@@ -117,13 +163,12 @@ limitations under the License.
       };
       flushAsynchronousOperations();
 
-      const satisfiedRequirement = element.$$('.satisfied');
-      assert.ok(satisfiedRequirement);
-      assert.isFalse(satisfiedRequirement.hasAttribute('hidden'));
-
-      // Extract the content of the text node (second element, after the span)
-      const textNode = satisfiedRequirement.childNodes[1].nodeValue.trim();
-      assert.equal(textNode, 'Resolve all comments');
+      const requirement = element.$$('.requirement');
+      assert.ok(requirement);
+      assert.isFalse(requirement.hasAttribute('hidden'));
+      assert.ok(requirement.querySelector('.approved'));
+      assert.equal(requirement.querySelector('.name').text,
+          'Resolve all comments');
     });
   });
 </script>

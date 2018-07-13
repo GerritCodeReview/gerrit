@@ -34,6 +34,24 @@
       "revId": "c0445805fd616eaf8efc6e82c7174bd2bfde8a5b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d69327a_0c21b364",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-13T23:49:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7efcb5ae_043a81ef",
+      "revId": "c0445805fd616eaf8efc6e82c7174bd2bfde8a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "aa329d43b172c42fcb89c7b57360cce99bad88c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e24c89d_3eaed92a",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV5QueryProjectsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2018-07-13T18:04:20Z",
+      "side": 1,
+      "message": "Good question, and I don\u0027t know why. All I can be sure of now is that this makes these tests pass in our environments (5.6.10 image ID 3dd892e41b14). It also makes this class consistent with its siblings, Elasticsearch usage assumptions wise.",
+      "parentUuid": "ec5d4f0b_5b3ef1a0",
+      "revId": "aa329d43b172c42fcb89c7b57360cce99bad88c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

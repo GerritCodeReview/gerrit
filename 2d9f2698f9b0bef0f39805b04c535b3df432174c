@@ -33,6 +33,24 @@
       "revId": "2d9f2698f9b0bef0f39805b04c535b3df432174c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0926d69c_02b6df86",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1068879
+      },
+      "writtenOn": "2018-07-13T00:18:44Z",
+      "side": 1,
+      "message": "Agreed, it does seem more consistent that way, and I\u0027m putting up a patchset now with that change.",
+      "parentUuid": "ddb280f7_cc4bf16a",
+      "revId": "2d9f2698f9b0bef0f39805b04c535b3df432174c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

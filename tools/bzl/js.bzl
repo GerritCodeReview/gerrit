@@ -54,6 +54,73 @@ def _run_npm_binary_str(ctx, tarball, args):
         ctx.path(tarball),
     ] + args)
 
+def _external_js_archive(ctx):
+    """Download external js dependencies from npm"""
+    name = ctx.name
+    version = ctx.attr.version
+    sha1 = ctx.attr.sha1
+
+    download_name = "%s@%s_download.tgz" % (name, version)
+    renamed_name = "%s@%s_renamed.zip" % (name, version)
+    version_name = "%s_version.json" % name
+
+    filename = "%s-%s.tgz" % (name, version)
+    url = "http://registry.npmjs.org/%s/-/%s" % (name, filename)
+
+    cmd = [
+        ctx.which("python"),
+        ctx.path(ctx.attr._download_script),
+        "-o",
+        ctx.path(download_name),
+        "-u",
+        url,
+        "-v",
+        sha1,
+    ]
+
+    out = ctx.execute(cmd)
+    if out.return_code:
+        fail("failed %s: %s" % (" ".join(cmd), out.stderr))
+
+    _bash(ctx, " && ".join([
+        "TMP=$(mktemp -d || mktemp -d -t bazel-tmp)",
+        "TZ=UTC",
+        "export UTC",
+        "cd $TMP",
+        "mkdir node_modules",
+        "cd node_modules",
+        "tar -xvzf %s" % ctx.path(download_name),
+        "mv package %s" % name,
+        "cd ..",
+        "find . -exec touch -t 198001010000 '{}' ';'",
+        "zip -Xr %s node_modules" % ctx.path(renamed_name),
+        "cd ..",
+        "rm -rf ${TMP}",
+    ]))
+
+    ctx.file(
+        version_name,
+        '"%s": "%s"' % (name, ctx.attr.version),
+    )
+    ctx.file(
+        "BUILD",
+        "\n".join([
+            "package(default_visibility=['//visibility:public'])",
+            "filegroup(name = 'zipfile', srcs = ['%s'], )" % renamed_name,
+            "filegroup(name = 'version_json', srcs = ['%s'], visibility=['//visibility:public'])" % version_name,
+        ]),
+        False,
+    )
+
+external_js_archive = repository_rule(
+    _external_js_archive,
+    attrs = {
+        "_download_script": attr.label(default = Label("//tools:download_file.py")),
+        "sha1": attr.string(mandatory = True),
+        "version": attr.string(mandatory = True),
+    },
+)
+
 def _bower_archive(ctx):
     """Download a bower package."""
     download_name = "%s__download_bower.zip" % ctx.name
@@ -152,6 +219,28 @@ def _bower_component_impl(ctx):
         transitive_zipfiles = transitive_zipfiles,
     )
 
+def _external_js_module_impl(ctx):
+    transitive_zipfiles = depset([ctx.file.zipfile])
+    for d in ctx.attr.deps:
+        transitive_zipfiles += d.transitive_zipfiles
+
+    transitive_licenses = depset()
+    if ctx.file.license:
+        transitive_licenses += depset([ctx.file.license])
+
+    for d in ctx.attr.deps:
+        transitive_licenses += d.transitive_licenses
+
+    transitive_versions = depset(ctx.files.version_json)
+    for d in ctx.attr.deps:
+        transitive_versions += d.transitive_versions
+
+    return struct(
+        transitive_zipfiles = transitive_zipfiles,
+        transitive_versions = transitive_versions,
+        transitive_licenses = transitive_licenses,
+    )
+
 _common_attrs = {
     "deps": attr.label_list(providers = [
         "transitive_zipfiles",
@@ -216,12 +305,36 @@ _bower_component = rule(
     }.items()),
 )
 
+_external_js_module = rule(
+    _external_js_module_impl,
+    attrs = dict(_common_attrs.items() + {
+        "zipfile": attr.label(allow_single_file = [".zip"]),
+        "license": attr.label(allow_single_file = True),
+        "version_json": attr.label(allow_files = [".json"]),
+
+        # If set, define by hand, and don't regenerate this entry in bower2bazel.
+        "seed": attr.bool(default = False),
+    }.items()),
+)
+
 # TODO(hanwen): make license mandatory.
 def bower_component(name, license = None, **kwargs):
     prefix = "//lib:LICENSE-"
     if license and not license.startswith(prefix):
         license = prefix + license
     _bower_component(
+        name = name,
+        license = license,
+        zipfile = "@%s//:zipfile" % name,
+        version_json = "@%s//:version_json" % name,
+        **kwargs
+    )
+
+def external_js_module(name, license = None, **kwargs):
+    prefix = "//lib:LICENSE-"
+    if license and not license.startswith(prefix):
+        license = prefix + license
+    _external_js_module(
         name = name,
         license = license,
         zipfile = "@%s//:zipfile" % name,
@@ -322,17 +435,27 @@ def _bundle_impl(ctx):
     ])
 
     pkg_dir = ctx.attr.pkg.lstrip("/")
+
+    separate_packages = " ".join([
+        "for z in %s; do" % " ".join([z.path for z in zips]),
+        'unzip -l "$z" | grep -q node_modules;',
+        'if [ "$?" == "0" ];',
+        "then unzip -q $z &&",
+        "mv node_modules/* %s/%s/node_modules/ &&" % (destdir, pkg_dir),
+        "rm -r node_modules;",
+        "else unzip -qd %s/%s/bower_components/ $z;" % (destdir, pkg_dir),
+        "fi;",
+        "done",
+    ])
+
     cmd = " && ".join([
         # unpack dependencies.
         "export PATH",
         "p=$PWD",
         "rm -rf %s" % destdir,
         "mkdir -p %s/%s/bower_components" % (destdir, pkg_dir),
-        "for z in %s; do unzip -qd %s/%s/bower_components/ $z; done" % (
-            " ".join([z.path for z in zips]),
-            destdir,
-            pkg_dir,
-        ),
+        "mkdir -p %s/%s/node_modules" % (destdir, pkg_dir),
+        "%s" % separate_packages,
         "tar -cf - %s | tar -C %s -xf -" % (" ".join([s.path for s in ctx.files.srcs]), destdir),
         "cd %s" % destdir,
         hermetic_npm_binary,

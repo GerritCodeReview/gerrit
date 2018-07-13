@@ -2,7 +2,7 @@ load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_CENTRAL", "MAVEN_LOCAL", "mav
 
 _JGIT_VERS = "5.0.1.201806211838-r"
 
-_DOC_VERS = "5.0.0.201806131550-r"  # Set to _JGIT_VERS unless using a snapshot
+_DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
 
 JGIT_DOC_URL = "http://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 

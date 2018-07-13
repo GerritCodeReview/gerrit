@@ -145,7 +145,6 @@ limitations under the License.
         sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
         Gerrit._setPluginsPending([]);
         element = createElement();
-        sandbox.stub(element, '_computeCanDeleteVote').returns(true);
 
         labelChangeStub = sandbox.stub();
         plugin.changeMetadata().onLabelsChanged(labelChangeStub);
@@ -156,8 +155,18 @@ limitations under the License.
         assert.equal(labelChangeStub.callCount, 1);
         assert.isTrue(labelChangeStub.calledWithExactly(labels));
         assert.equal(labelChangeStub.args[0][0]['CI'].all.length, 2);
-        MockInteractions.tap(Polymer.dom(element.root).querySelector(
-            'gr-account-chip').$.remove);
+        element.set(['change', 'labels'], {
+          CI: {
+            all: [
+              {value: 1, name: 'user 2', _account_id: 1},
+            ],
+            values: {
+              ' 0': 'Don\'t submit as-is',
+              '+1': 'No score',
+              '+2': 'Looks good to me',
+            },
+          },
+        });
         // Wait for fake rest API response.
         flush(() => {
           assert.equal(labelChangeStub.callCount, 2);

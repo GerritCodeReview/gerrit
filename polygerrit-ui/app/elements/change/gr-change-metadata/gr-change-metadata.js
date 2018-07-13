@@ -46,10 +46,14 @@
         type: Object,
         notify: true,
       },
+      account: Object,
       /** @type {?} */
       revision: Object,
       commitInfo: Object,
-      mutable: Boolean,
+      mutable: {
+        type: Boolean,
+        computed: '_computeIsMutable(account)',
+      },
       /**
        * @type {{ note_db_enabled: string }}
        */
@@ -156,60 +160,6 @@
       return Object.keys(labels).sort();
     },
 
-    _computeLabelValues(labelName, _labels) {
-      const result = [];
-      const labels = _labels.base;
-      const labelInfo = labels[labelName];
-      if (!labelInfo) { return result; }
-      if (!labelInfo.values) {
-        if (labelInfo.rejected || labelInfo.approved) {
-          const ok = labelInfo.approved || !labelInfo.rejected;
-          return [{
-            value: ok ? '👍️' : '👎️',
-            className: ok ? 'positive' : 'negative',
-            account: ok ? labelInfo.approved : labelInfo.rejected,
-          }];
-        }
-        return result;
-      }
-      const approvals = labelInfo.all || [];
-      const values = Object.keys(labelInfo.values);
-      for (const label of approvals) {
-        if (label.value && label.value != labels[labelName].default_value) {
-          let labelClassName;
-          let labelValPrefix = '';
-          if (label.value > 0) {
-            labelValPrefix = '+';
-            if (parseInt(label.value, 10) ===
-                parseInt(values[values.length - 1], 10)) {
-              labelClassName = 'max';
-            } else {
-              labelClassName = 'positive';
-            }
-          } else if (label.value < 0) {
-            if (parseInt(label.value, 10) === parseInt(values[0], 10)) {
-              labelClassName = 'min';
-            } else {
-              labelClassName = 'negative';
-            }
-          }
-          result.push({
-            value: labelValPrefix + label.value,
-            className: labelClassName,
-            account: label,
-          });
-        }
-      }
-      return result;
-    },
-
-    _computeValueTooltip(change, score, labelName) {
-      if (!change.labels[labelName] ||
-          !change.labels[labelName].values ||
-          !change.labels[labelName].values[score]) { return ''; }
-      return change.labels[labelName].values[score];
-    },
-
     _handleTopicChanged(e, topic) {
       const lastTopic = this.change.topic;
       if (!topic.length) { topic = null; }
@@ -296,75 +246,6 @@
       const hasLabels = !!change.labels &&
           Object.keys(change.labels).length > 0;
       return hasRequirements || hasLabels || !!change.work_in_progress;
-    },
-
-    /**
-     * A user is able to delete a vote iff the mutable property is true and the
-     * reviewer that left the vote exists in the list of removable_reviewers
-     * received from the backend.
-     *
-     * @param {!Object} reviewer An object describing the reviewer that left the
-     *     vote.
-     * @param {boolean} mutable this.mutable describes whether the
-     *     change-metadata section is modifiable by the current user.
-     */
-    _computeCanDeleteVote(reviewer, mutable) {
-      if (!mutable || !this.change || !this.change.removable_reviewers) {
-        return false;
-      }
-      for (let i = 0; i < this.change.removable_reviewers.length; i++) {
-        if (this.change.removable_reviewers[i]._account_id ===
-            reviewer._account_id) {
-          return true;
-        }
-      }
-      return false;
-    },
-
-    /**
-     * Closure annotation for Polymer.prototype.splice is off.
-     * For now, supressing annotations.
-     *
-     * TODO(beckysiegel) submit Polymer PR
-     *
-     * @suppress {checkTypes} */
-    _onDeleteVote(e) {
-      e.preventDefault();
-      const target = Polymer.dom(e).rootTarget;
-      target.disabled = true;
-      const labelName = target.labelName;
-      const accountID = parseInt(target.getAttribute('data-account-id'), 10);
-      this._xhrPromise =
-          this.$.restAPI.deleteVote(this.change._number, accountID, labelName)
-          .then(response => {
-            target.disabled = false;
-            if (!response.ok) { return response; }
-            const label = this.change.labels[labelName];
-            const labels = label.all || [];
-            let wasChanged = false;
-            for (let i = 0; i < labels.length; i++) {
-              if (labels[i]._account_id === accountID) {
-                for (const key in label) {
-                  if (label.hasOwnProperty(key) &&
-                      label[key]._account_id === accountID) {
-                    // Remove special label field, keeping change label values
-                    // in sync with the backend.
-                    this.change.labels[labelName][key] = null;
-                    wasChanged = true;
-                  }
-                }
-                this.change.labels[labelName].all.splice(i, 1);
-                wasChanged = true;
-                break;
-              }
-            }
-            if (wasChanged) {
-              this.notifyPath('change.labels');
-            }
-          }).catch(err => {
-            target.disabled = false;
-            return;
-          });
     },
 
     _computeProjectURL(project) {
@@ -457,6 +338,10 @@
         parents.length > 1 ? 'merge' : 'nonMerge',
         parentIsCurrent ? 'current' : 'notCurrent',
       ].join(' ');
+    },
+
+    _computeIsMutable(account) {
+      return !!Object.keys(account).length;
     },
   });
 })();

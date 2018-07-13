@@ -56,6 +56,7 @@ public class MyPreferencesScreen extends SettingsScreen {
   private CheckBox muteCommonPathPrefixes;
   private CheckBox signedOffBy;
   private CheckBox publishCommentsOnPush;
+  private CheckBox workInProgressByDefault;
   private ListBox maximumPageSize;
   private ListBox dateFormat;
   private ListBox timeFormat;
@@ -163,9 +164,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     muteCommonPathPrefixes = new CheckBox(Util.C.muteCommonPathPrefixes());
     signedOffBy = new CheckBox(Util.C.signedOffBy());
     publishCommentsOnPush = new CheckBox(Util.C.publishCommentsOnPush());
+    workInProgressByDefault = new CheckBox(Util.C.workInProgressByDefault());
 
     boolean flashClippy = !UserAgent.hasJavaScriptClipboard() && UserAgent.Flash.isInstalled();
-    final Grid formGrid = new Grid(15 + (flashClippy ? 1 : 0), 2);
+    final Grid formGrid = new Grid(16 + (flashClippy ? 1 : 0), 2);
 
     int row = 0;
 
@@ -229,6 +231,10 @@ public class MyPreferencesScreen extends SettingsScreen {
     formGrid.setWidget(row, fieldIdx, publishCommentsOnPush);
     row++;
 
+    formGrid.setText(row, labelIdx, "");
+    formGrid.setWidget(row, fieldIdx, workInProgressByDefault);
+    row++;
+
     if (flashClippy) {
       formGrid.setText(row, labelIdx, "");
       formGrid.setWidget(row, fieldIdx, useFlashClipboard);
@@ -264,6 +270,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     e.listenTo(muteCommonPathPrefixes);
     e.listenTo(signedOffBy);
     e.listenTo(publishCommentsOnPush);
+    e.listenTo(workInProgressByDefault);
     e.listenTo(diffView);
     e.listenTo(reviewCategoryStrategy);
     e.listenTo(emailStrategy);
@@ -303,6 +310,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     muteCommonPathPrefixes.setEnabled(on);
     signedOffBy.setEnabled(on);
     publishCommentsOnPush.setEnabled(on);
+    workInProgressByDefault.setEnabled(on);
     reviewCategoryStrategy.setEnabled(on);
     diffView.setEnabled(on);
     emailStrategy.setEnabled(on);
@@ -329,6 +337,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     muteCommonPathPrefixes.setValue(p.muteCommonPathPrefixes());
     signedOffBy.setValue(p.signedOffBy());
     publishCommentsOnPush.setValue(p.publishCommentsOnPush());
+    workInProgressByDefault.setValue(p.workInProgressByDefault());
     setListBox(
         reviewCategoryStrategy,
         GeneralPreferencesInfo.ReviewCategoryStrategy.NONE,
@@ -421,6 +430,7 @@ public class MyPreferencesScreen extends SettingsScreen {
     p.muteCommonPathPrefixes(muteCommonPathPrefixes.getValue());
     p.signedOffBy(signedOffBy.getValue());
     p.publishCommentsOnPush(publishCommentsOnPush.getValue());
+    p.workInProgressByDefault(workInProgressByDefault.getValue());
     p.reviewCategoryStrategy(
         getListBox(
             reviewCategoryStrategy, ReviewCategoryStrategy.NONE, ReviewCategoryStrategy.values()));

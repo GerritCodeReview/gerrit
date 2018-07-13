@@ -175,6 +175,9 @@ limitations under the License.
       assert.equal(valueOf('Publish comments on push', 'preferences')
           .firstElementChild.checked, false);
       assert.equal(valueOf(
+          'Set new changes to "work in progress" by default', 'preferences')
+          .firstElementChild.checked, false);
+      assert.equal(valueOf(
           'Insert Signed-off-by Footer For Inline Edit Changes', 'preferences')
           .firstElementChild.checked, false);
 
@@ -222,6 +225,30 @@ limitations under the License.
       stub('gr-rest-api-interface', {
         savePreferences(prefs) {
           assert.equal(prefs.publish_comments_on_push, true);
+          return Promise.resolve();
+        },
+      });
+
+      // Save the change.
+      element._handleSavePreferences().then(() => {
+        assert.isFalse(element._prefsChanged);
+        assert.isFalse(element._menuChanged);
+        done();
+      });
+    });
+
+    test('set new changes work-in-progress', done => {
+      const newChangesWorkInProgress =
+        valueOf('Set new changes to "work in progress" by default',
+            'preferences').firstElementChild;
+      MockInteractions.tap(newChangesWorkInProgress);
+
+      assert.isFalse(element._menuChanged);
+      assert.isTrue(element._prefsChanged);
+
+      stub('gr-rest-api-interface', {
+        savePreferences(prefs) {
+          assert.equal(prefs.work_in_progress_by_default, true);
           return Promise.resolve();
         },
       });

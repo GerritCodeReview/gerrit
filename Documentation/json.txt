@@ -29,6 +29,8 @@ url:: Canonical URL to reach this change.
 commitMessage:: The full commit message for the change's current patch
 set.
 
+hashtags:: List of hashtags associated with this change.
+
 createdOn:: Time in seconds since the UNIX epoch when this change
 was created.
 

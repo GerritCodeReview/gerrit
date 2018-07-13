@@ -88,6 +88,7 @@ public class ProjectInfoScreen extends ProjectScreen {
   private ListBox requireSignedPush;
   private ListBox rejectImplicitMerges;
   private ListBox privateByDefault;
+  private ListBox workInProgressByDefault;
   private ListBox enableReviewerByEmail;
   private ListBox matchAuthorToCommitterDate;
   private NpTextBox maxObjectSizeLimit;
@@ -198,6 +199,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     requireChangeID.setEnabled(isOwner);
     rejectImplicitMerges.setEnabled(isOwner);
     privateByDefault.setEnabled(isOwner);
+    workInProgressByDefault.setEnabled(isOwner);
     maxObjectSizeLimit.setEnabled(isOwner);
     enableReviewerByEmail.setEnabled(isOwner);
     matchAuthorToCommitterDate.setEnabled(isOwner);
@@ -277,6 +279,10 @@ public class ProjectInfoScreen extends ProjectScreen {
     privateByDefault = newInheritedBooleanBox();
     saveEnabler.listenTo(privateByDefault);
     grid.addHtml(AdminConstants.I.privateByDefault(), privateByDefault);
+
+    workInProgressByDefault = newInheritedBooleanBox();
+    saveEnabler.listenTo(workInProgressByDefault);
+    grid.addHtml(AdminConstants.I.workInProgressByDefault(), workInProgressByDefault);
 
     enableReviewerByEmail = newInheritedBooleanBox();
     saveEnabler.listenTo(enableReviewerByEmail);
@@ -427,6 +433,7 @@ public class ProjectInfoScreen extends ProjectScreen {
     }
     setBool(rejectImplicitMerges, result.rejectImplicitMerges());
     setBool(privateByDefault, result.privateByDefault());
+    setBool(workInProgressByDefault, result.workInProgressByDefault());
     setBool(enableReviewerByEmail, result.enableReviewerByEmail());
     setBool(matchAuthorToCommitterDate, result.matchAuthorToCommitterDate());
     setSubmitType(result.defaultSubmitType());
@@ -700,6 +707,7 @@ public class ProjectInfoScreen extends ProjectScreen {
         rsp,
         getBool(rejectImplicitMerges),
         getBool(privateByDefault),
+        getBool(workInProgressByDefault),
         getBool(enableReviewerByEmail),
         getBool(matchAuthorToCommitterDate),
         maxObjectSizeLimit.getText().trim(),

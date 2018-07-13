@@ -72,12 +72,11 @@
             }
           }
           if (label._account_id === account._account_id) {
-            // Put self-votes at the top, and add a flag.
+            // Put self-votes at the top.
             result.unshift({
               value: labelValPrefix + label.value,
               className: labelClassName,
               account: label,
-              isCurrentUser: true,
             });
           } else {
             result.push({
@@ -165,10 +164,6 @@
       return labelInfo.values[score];
     },
 
-    _computeLabelContainerClass(label) {
-      return label.isCurrentUser ? 'currentUser' : '';
-    },
-
     /**
      * @param {!Object} labelInfo
      * @param {Object} changeLabelsRecord not used, but added as a parameter in
@@ -177,7 +172,9 @@
     _computeShowPlaceholder(labelInfo, changeLabelsRecord) {
       if (labelInfo.all) {
         for (const label of labelInfo.all) {
-          if (label.value) { return 'hidden'; }
+          if (label.value && label.value != labelInfo.default_value) {
+            return 'hidden';
+          }
         }
       }
       return '';

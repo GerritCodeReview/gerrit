@@ -46,6 +46,30 @@
       "revId": "ac34bb051c9b777f7f30f091180a0583a19700f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "767ab933_ba8b4d4c",
+        "filename": "java/com/google/gerrit/server/restapi/account/SetPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2018-07-13T07:22:46Z",
+      "side": 1,
+      "message": "What about\nhttps://gerrit-review.googlesource.com/c/gerrit/+/177670/6/gerrit-server/src/main/java/com/google/gerrit/server/account/SetPreferences.java\n\nI believe it was in a different package and we missed it during the merge. Thanks for finding this out and fixing it :-)",
+      "parentUuid": "52c498d3_b4a961f0",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 36
+      },
+      "revId": "ac34bb051c9b777f7f30f091180a0583a19700f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

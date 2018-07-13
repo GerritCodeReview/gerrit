@@ -34,6 +34,24 @@
       "revId": "aa329d43b172c42fcb89c7b57360cce99bad88c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7318fa09_8a54ae36",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV5QueryProjectsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-13T21:08:58Z",
+      "side": 1,
+      "message": "Is this fix only needed on master?",
+      "parentUuid": "8e24c89d_3eaed92a",
+      "revId": "aa329d43b172c42fcb89c7b57360cce99bad88c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

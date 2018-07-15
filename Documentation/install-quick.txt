@@ -172,6 +172,12 @@ Download a local clone of the repository and move into it
   user@host:~/demo-project$
 ----
 
+Install the link:user-changeid.html[Change-Id commitmsg hook]
+
+----
+  scp -p -P 29418 user@localhost:hooks/commit-msg $(git rev-parse --git-dir)/hooks/
+----
+
 Then make a change to it and upload it as a reviewable change in Gerrit.
 
 ----

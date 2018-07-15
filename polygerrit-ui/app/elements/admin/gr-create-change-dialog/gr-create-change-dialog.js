@@ -74,7 +74,7 @@
 
     handleCreateChange() {
       const isPrivate = this.$.privateChangeCheckBox.checked;
-      const isWip = true;
+      const isWip = this.$.wipChangeCheckBox.checked;
       return this.$.restAPI.createChange(this.repoName, this.branch,
           this.subject, this.topic, isPrivate, isWip, this.baseChange,
           this.baseCommit || null)

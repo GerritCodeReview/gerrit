@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adcd1093_edac0e6f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2018-07-15T11:01:39Z",
+      "side": 1,
+      "message": "This is problematic addition. WIP checkbox was removed on master for whatever reasons. The commit, that introduced this change doesn\u0027t really explain, why it was done: [1].\n\nI agree, that now, that we have project wide/use wide setting for WIP bit, we have to render the checkbox on create change screen. I also agree to do that in this merge commit.\n\nHowever, when doing so, the value of the checkbox must be considered when sending the create change request THis was not done in this change.\n\nI\u0027m not sure, whether it wasn\u0027t done intentionally of just missed, so that I added another change on top of this merge commit to fix that.\n\nIf you agree to do that in this commit, just squash that change here and abandon my fix. if not, then the fact that create-change-dialog is more or less left broken by this change (as we do have UI widgets that do not have any effect) should be at very least mentioned in the commit message, and say that the problem if fixed in follow up change.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/127513/55/polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html#b108",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 132,
+        "endChar": 18
+      },
+      "revId": "5bfb1456d93b13dac5acc498e203c179ce0b4c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

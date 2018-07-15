@@ -79,7 +79,6 @@ limitations under the License.
         subject: 'first change created with polygerrit ui',
         topic: 'test-topic',
         is_private: false,
-        work_in_progress: true,
       };
 
       const saveStub = sandbox.stub(element.$.restAPI,
@@ -100,7 +99,7 @@ limitations under the License.
         // Private change
         assert.isFalse(saveStub.lastCall.args[4]);
         // WIP Change
-        assert.isTrue(saveStub.lastCall.args[5]);
+        assert.isFalse(saveStub.lastCall.args[5]);
         assert.isTrue(saveStub.called);
         done();
       });
@@ -142,7 +141,7 @@ limitations under the License.
         // Private change
         assert.isTrue(saveStub.lastCall.args[4]);
         // WIP Change
-        assert.isTrue(saveStub.lastCall.args[5]);
+        assert.isFalse(saveStub.lastCall.args[5]);
         assert.isTrue(saveStub.called);
         done();
       });

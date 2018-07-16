@@ -45,6 +45,29 @@
       "revId": "401825a5b1ddb78cf0e9a45c722b311d9c2d495f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1374e683_3775fe7d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6005,
+      "author": {
+        "id": 1032912
+      },
+      "writtenOn": "2018-07-16T21:52:30Z",
+      "side": 1,
+      "message": "Now that I think about it, I\u0027m not even sure what it means for lines to be inclusive or exclusive. It makes more sense to say that the range is a range of characters (start_line, start_character) to (end_line, end_character). \n\nThen the questions become:\n* What does end_character default to if omitted?\n* What happens if the range is empty or invalid?",
+      "range": {
+        "startLine": 6004,
+        "startChar": 0,
+        "endLine": 6005,
+        "endChar": 0
+      },
+      "revId": "401825a5b1ddb78cf0e9a45c722b311d9c2d495f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,4 +1,51 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1531327153 +0200\nnonce APISObTXoXwK8WR1InFzMlf21rNBbqP77Jyoyjj9QOznLIV9TUvOhPBT10xWNvLkYqYsRoZAgdNl\n\n0000000000000000000000000000000000000000 3ff14b035f8dc47dece85391416e2cc013fc26f3 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltGMrEACgkQUbX9l6DQ\n71Fu+QgAic71L9EcSsrjO9mzD2HDFlF/SC/MMEwENlfE3d+q9oZ7XKwtuJs3tk9v\nMJ1NdVEMBi07tsM2Echb5YVhXPRmFFcaDN5WjSu+JDYpGA7StsuNfemGOpy+ExBH\njG9Ut8mC/q4IEmCZm2LEU4QA21Ry+wLuWFhwBsppbo7c4dNYf2iAWdMonXCJ6cra\nTAViWHrhSPPZr/UXCRR5YgMU/d2dmGeBl3PXxFevFHefMAIzjJMIh0+5NN0HX324\nCACesbtRXhOEEW86rzdRrKRPQAIyUe5q4muRUeQ4pKQqvWNcE5CEdnXalH1RpWpI\nky8OPyYIcMynARkmmQQUOTyYLgQwtA\u003d\u003d\n\u003dm4rw\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "5156442c_89ed9442",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestDeleteView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-16T18:17:14Z",
+      "side": 1,
+      "message": "If this is only about deleting missing resources, can we work that into the class name?",
+      "range": {
+        "startLine": 18,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 81
+      },
+      "revId": "3ff14b035f8dc47dece85391416e2cc013fc26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c809e3e_20645a96",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestDeleteView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-16T18:17:14Z",
+      "side": 1,
+      "message": "I would suggest moving this parenthetical to a new paragraph and emphasizing that developers designing new REST APIs should probably not need to use this interface.",
+      "range": {
+        "startLine": 18,
+        "startChar": 82,
+        "endLine": 19,
+        "endChar": 77
+      },
+      "revId": "3ff14b035f8dc47dece85391416e2cc013fc26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

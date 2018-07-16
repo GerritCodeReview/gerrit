@@ -17,6 +17,24 @@
       "revId": "f04eb08266a632d23d74e1a817675139698b7375",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ba77d98_e77bc824",
+        "filename": "tools/js/npm_pack.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-16T23:56:26Z",
+      "side": 1,
+      "message": "Seems like this is unrelated to this change though.  Let\u0027s fix this in a separate commit.",
+      "parentUuid": "2c06d012_cfd8ead9",
+      "revId": "f04eb08266a632d23d74e1a817675139698b7375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

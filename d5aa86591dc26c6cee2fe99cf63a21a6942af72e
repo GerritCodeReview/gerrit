@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "693a76ce_f5e6cea2",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-07-16T13:36:25Z",
+      "side": 1,
+      "message": "Use grep -c ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 41
+      },
+      "revId": "d5aa86591dc26c6cee2fe99cf63a21a6942af72e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f690cdf5_401f4090",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-07-16T13:36:25Z",
+      "side": 1,
+      "message": "Lacking curly brackets?",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "d5aa86591dc26c6cee2fe99cf63a21a6942af72e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2067b86f_470b670e",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-07-16T13:36:25Z",
+      "side": 1,
+      "message": "Same as line 48",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "d5aa86591dc26c6cee2fe99cf63a21a6942af72e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4ef273b_6dce329f",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1019328
+      },
+      "writtenOn": "2018-07-16T13:36:25Z",
+      "side": 1,
+      "message": "Lacking curly brackets here and below ?",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 12
+      },
+      "revId": "d5aa86591dc26c6cee2fe99cf63a21a6942af72e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

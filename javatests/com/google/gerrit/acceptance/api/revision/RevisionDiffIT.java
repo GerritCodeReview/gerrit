@@ -32,6 +32,7 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -112,16 +113,115 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void diffDeletedFile() throws Exception {
+  public void deletedFileIsIncludedInDiff() throws Exception {
     gApi.changes().id(changeId).edit().deleteFile(FILE_NAME);
     gApi.changes().id(changeId).edit().publish();
 
     Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
     assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, FILE_NAME);
+  }
 
-    DiffInfo diff = getDiffRequest(changeId, CURRENT, FILE_NAME).get();
-    assertThat(diff.metaA.lines).isEqualTo(100);
-    assertThat(diff.metaB).isNull();
+  @Test
+  public void numberOfLinesInDiffOfDeletedFileWithoutNewlineAtEndIsCorrect() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().deleteFile(filePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(3);
+    assertThat(diffInfo).metaB().isNull();
+  }
+
+  @Test
+  public void numberOfLinesInFileInfoOfDeletedFileWithoutNewlineAtEndIsCorrect() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().deleteFile(filePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.get(filePath)).linesInserted().isNull();
+    assertThat(changedFiles.get(filePath)).linesDeleted().isEqualTo(3);
+  }
+
+  @Test
+  public void numberOfLinesInDiffOfDeletedFileWithNewlineAtEndIsCorrect() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().deleteFile(filePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(4);
+    assertThat(diffInfo).metaB().isNull();
+  }
+
+  @Test
+  public void numberOfLinesInFileInfoOfDeletedFileWithNewlineAtEndIsCorrect() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().deleteFile(filePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.get(filePath)).linesInserted().isNull();
+    // Inherited from Git: An empty last line is ignored in the count.
+    assertThat(changedFiles.get(filePath)).linesDeleted().isEqualTo(3);
+  }
+
+  @Test
+  public void deletedFileWithoutNewlineAtEndResultsInOneDiffEntry() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().deleteFile(filePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo)
+        .content()
+        .onlyElement()
+        .linesOfA()
+        .containsExactly("Line 1", "Line 2", "Line 3");
+  }
+
+  @Test
+  public void deletedFileWithNewlineAtEndResultsInOneDiffEntry() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().deleteFile(filePath);
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo)
+        .content()
+        .onlyElement()
+        .linesOfA()
+        .containsExactly("Line 1", "Line 2", "Line 3", "");
   }
 
   @Test
@@ -133,6 +233,91 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
     assertThat(changedFiles.keySet()).containsExactly(COMMIT_MSG, newFilePath);
+  }
+
+  @Test
+  public void numberOfLinesInDiffOfAddedFileWithoutNewlineAtEndIsCorrect() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).metaA().isNull();
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(3);
+  }
+
+  @Test
+  public void numberOfLinesInFileInfoOfAddedFileWithoutNewlineAtEndIsCorrect() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.get(filePath)).linesInserted().isEqualTo(3);
+    assertThat(changedFiles.get(filePath)).linesDeleted().isNull();
+  }
+
+  @Test
+  public void numberOfLinesInDiffOfAddedFileWithNewlineAtEndIsCorrect() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).metaA().isNull();
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(4);
+  }
+
+  @Test
+  public void numberOfLinesInFileInfoOfAddedFileWithNewlineAtEndIsCorrect() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    // Inherited from Git: An empty last line is ignored in the count.
+    assertThat(changedFiles.get(filePath)).linesInserted().isEqualTo(3);
+    assertThat(changedFiles.get(filePath)).linesDeleted().isNull();
+  }
+
+  @Test
+  public void addedFileWithoutNewlineAtEndResultsInOneDiffEntry() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(initialPatchSetId).get();
+    assertThat(diffInfo)
+        .content()
+        .onlyElement()
+        .linesOfB()
+        .containsExactly("Line 1", "Line 2", "Line 3");
+  }
+
+  @Test
+  public void addedFileWithNewlineAtEndResultsInOneDiffEntry() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(initialPatchSetId).get();
+    assertThat(diffInfo)
+        .content()
+        .onlyElement()
+        .linesOfB()
+        .containsExactly("Line 1", "Line 2", "Line 3", "");
   }
 
   @Test
@@ -193,11 +378,11 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     // automerge
     diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "foo").get();
-    assertThat(diff.metaA.lines).isEqualTo(5);
+    assertThat(diff.metaA.lines).isEqualTo(6);
     assertThat(diff.metaB.lines).isEqualTo(1);
 
     diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "bar").get();
-    assertThat(diff.metaA.lines).isEqualTo(5);
+    assertThat(diff.metaA.lines).isEqualTo(6);
     assertThat(diff.metaB.lines).isEqualTo(1);
 
     // parent 1
@@ -209,6 +394,596 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "foo").withParent(2).get();
     assertThat(diff.metaA.lines).isEqualTo(1);
     assertThat(diff.metaB.lines).isEqualTo(1);
+  }
+
+  @Test
+  public void diffOfUnmodifiedFileMarksAllLinesAsCommon() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo)
+        .content()
+        .onlyElement()
+        .commonLines()
+        .containsAllOf("Line 1", "Line 2", "Line 3")
+        .inOrder();
+    assertThat(diffInfo).content().onlyElement().linesOfA().isNull();
+    assertThat(diffInfo).content().onlyElement().linesOfB().isNull();
+  }
+
+  @Test
+  public void diffOfUnmodifiedFileWithNewlineAtEndHasEmptyLineAtEnd() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().onlyElement().commonLines().lastElement().isEqualTo("");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(4);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(4);
+  }
+
+  @Test
+  public void diffOfUnmodifiedFileWithoutNewlineAtEndEndsWithLastLineContent() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    gApi.changes().id(changeId).edit().modifyCommitMessage("An unchanged patchset");
+    gApi.changes().id(changeId).edit().publish();
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().onlyElement().commonLines().lastElement().isEqualTo("Line 3");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(3);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(3);
+  }
+
+  @Test
+  public void diffOfModifiedFileWithNewlineAtEndHasEmptyLineAtEnd() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, filePath, content -> content.replace("Line 1\n", "Line one\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().lastElement().commonLines().lastElement().isEqualTo("");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(4);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(4);
+  }
+
+  @Test
+  public void diffOfModifiedFileWithoutNewlineAtEndEndsWithLastLineContent() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, filePath, content -> content.replace("Line 1\n", "Line one\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().lastElement().commonLines().lastElement().isEqualTo("Line 3");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(3);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(3);
+  }
+
+  @Test
+  public void diffOfModifiedLastLineWithNewlineAtEndHasEmptyLineAtEnd() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3\n";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, filePath, content -> content.replace("Line 3\n", "Line three\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().lastElement().commonLines().lastElement().isEqualTo("");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(4);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(4);
+  }
+
+  @Test
+  public void diffOfModifiedLastLineWithoutNewlineAtEndEndsWithLastLineContent() throws Exception {
+    String filePath = "a_new_file.txt";
+    String fileContent = "Line 1\nLine 2\nLine 3";
+    gApi.changes().id(changeId).edit().modifyFile(filePath, RawInputUtil.create(fileContent));
+    gApi.changes().id(changeId).edit().publish();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, filePath, content -> content.replace("Line 3", "Line three"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, filePath).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().lastElement().linesOfA().containsExactly("Line 3");
+    assertThat(diffInfo).content().lastElement().linesOfB().containsExactly("Line three");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(3);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(3);
+  }
+
+  @Test
+  public void addedNewlineAtEndOfFileIsMarkedInDiffWhenWhitespaceIsConsidered() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withBase(previousPatchSetId)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 101");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 101", "");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(102);
+  }
+
+  @Test
+  public void addedNewlineAtEndOfFileIsMarkedInDiffWhenWhitespaceIsIgnored() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_ALL)
+            .withBase(previousPatchSetId)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().isNull();
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(102);
+  }
+
+  @Test
+  public void addedNewlineAtEndOfFileMeansOneModifiedLine() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\n"));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void addedLastLineWithoutNewlineBeforeAndAfterwardsIsMarkedInDiff() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\nLine 102"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withBase(previousPatchSetId)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 101");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 101", "Line 102");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(102);
+  }
+
+  @Test
+  public void addedLastLineWithoutNewlineBeforeAndAfterwardsMeansTwoModifiedLines()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\nLine 102"));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(2);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void addedLastLineWithoutNewlineBeforeButWithOneAfterwardsIsMarkedInDiff()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\nLine 102\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withBase(previousPatchSetId)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 101");
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line 101", "Line 102", "");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(103);
+  }
+
+  @Test
+  public void addedLastLineWithoutNewlineBeforeButWithOneAfterwardsMeansTwoModifiedLines()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\nLine 102\n"));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    // Inherited from Git: An empty last line is ignored in the count.
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(2);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void addedLastLineWithNewlineBeforeAndAfterwardsIsMarkedInDiff() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().isNull();
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 101");
+    assertThat(diffInfo).content().element(2).commonLines().containsExactly("");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(102);
+  }
+
+  @Test
+  public void addedLastLineWithNewlineBeforeAndAfterwardsMeansOneInsertedLine() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101\n"));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isNull();
+  }
+
+  @Test
+  public void addedLastLineWithNewlineBeforeButWithoutOneAfterwardsIsMarkedInDiff()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 101");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(101);
+  }
+
+  @Test
+  public void addedLastLineWithNewlineBeforeButWithoutOneAfterwardsMeansOneInsertedLine()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    // Inherited from Git: An empty last line is ignored in the count.
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isNull();
+  }
+
+  @Test
+  public void hunkForModifiedLastLineIsCombinedWithHunkForAddedNewlineAtEnd() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 101", "Line one oh one\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 101");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line one oh one", "");
+  }
+
+  @Test
+  public void intralineEditsForModifiedLastLineArePreservedWhenNewlineIsAlsoAddedAtEnd()
+      throws Exception {
+    assume().that(intraline).isTrue();
+
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 101", "Line one oh one\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .intralineEditsOfA()
+        .containsExactly(ImmutableList.of(5, 3));
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .intralineEditsOfB()
+        .containsExactly(ImmutableList.of(5, 11));
+  }
+
+  @Test
+  public void hunkForModifiedSecondToLastLineIsNotCombinedWithHunkForAddedNewlineAtEnd()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(
+        changeId,
+        FILE_NAME,
+        fileContent -> fileContent.replace("Line 100\n", "Line one hundred\n").concat("\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line one hundred");
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(3).linesOfA().isNull();
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("");
+  }
+
+  @Test
+  public void deletedNewlineAtEndOfFileIsMarkedInDiffWhenWhitespaceIsConsidered() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line 100"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(initialPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100", "");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 100");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(100);
+  }
+
+  @Test
+  public void deletedNewlineAtEndOfFileIsMarkedInDiffWhenWhitespaceIsIgnored() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line 100"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(initialPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_ALL)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("");
+    assertThat(diffInfo).content().element(1).linesOfB().isNull();
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(100);
+  }
+
+  @Test
+  public void deletedNewlineAtEndOfFileMeansOneModifiedLine() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line 100"));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void deletedLastLineWithoutNewlineBeforeAndAfterwardsIsMarkedInDiff() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line 100"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.replace("\nLine 100", ""));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 99", "Line 100");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 99");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(100);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(99);
+  }
+
+  @Test
+  public void deletedLastLineWithoutNewlineBeforeAndAfterwardsMeansTwoModifiedLines()
+      throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line 100"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.replace("\nLine 100", ""));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(2);
+  }
+
+  @Test
+  public void deletedLastLineWithoutNewlineBeforeButWithOneAfterwardsIsMarkedInDiff()
+      throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line 100"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100", ""));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(100);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(100);
+  }
+
+  @Test
+  public void deletedLastLineWithoutNewlineBeforeButWithOneAfterwardsMeansOneDeletedLine()
+      throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line 100"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100", ""));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(previousPatchSetId);
+    // Inherited from Git: An empty last line is ignored in the count.
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isNull();
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void deletedLastLineWithNewlineBeforeAndAfterwardsIsMarkedInDiff() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", ""));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(initialPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100");
+    assertThat(diffInfo).content().element(1).linesOfB().isNull();
+    assertThat(diffInfo).content().element(2).commonLines().containsExactly("");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(100);
+  }
+
+  @Test
+  public void deletedLastLineWithNewlineBeforeAndAfterwardsMeansOneDeletedLine() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", ""));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isNull();
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void deletedLastLineWithNewlineBeforeButWithoutOneAfterwardsIsMarkedInDiff()
+      throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("\nLine 100\n", ""));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(initialPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 99", "Line 100", "");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line 99");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(99);
+  }
+
+  @Test
+  public void deletedLastLineWithNewlineBeforeButWithoutOneAfterwardsMeansTwoModifiedLines()
+      throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("\nLine 100\n", ""));
+
+    Map<String, FileInfo> changedFiles =
+        gApi.changes().id(changeId).current().files(initialPatchSetId);
+    assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
+    assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(2);
+  }
+
+  @Test
+  public void hunkForModifiedLastLineIsCombinedWithHunkForDeletedNewlineAtEnd() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line one hundred"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100", "");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line one hundred");
+  }
+
+  @Test
+  public void intralineEditsForModifiedLastLineArePreservedWhenNewlineIsAlsoDeletedAtEnd()
+      throws Exception {
+    assume().that(intraline).isTrue();
+
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 100\n", "Line one hundred"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .intralineEditsOfA()
+        .containsExactly(ImmutableList.of(5, 4));
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .intralineEditsOfB()
+        .containsExactly(ImmutableList.of(5, 11));
+  }
+
+  @Test
+  public void hunkForModifiedSecondToLastLineIsNotCombinedWithHunkForDeletedNewlineAtEnd()
+      throws Exception {
+    addModifiedPatchSet(
+        changeId,
+        FILE_NAME,
+        fileContent ->
+            fileContent
+                .replace("Line 99\n", "Line ninety-nine\n")
+                .replace("Line 100\n", "Line 100"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(initialPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 99");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line ninety-nine");
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("");
+    assertThat(diffInfo).content().element(3).linesOfB().isNull();
   }
 
   @Test
@@ -382,7 +1157,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .content()
         .element(1)
         .commonLines()
-        .containsExactly("Line 2", "Line 3", "Line 4", "Line 5")
+        .containsExactly("Line 2", "Line 3", "Line 4", "Line 5", "")
         .inOrder();
   }
 
@@ -430,7 +1205,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .content()
         .element(2)
         .commonLines()
-        .containsExactly("Line 4", "Line 5", "Line 6")
+        .containsExactly("Line 4", "Line 5", "Line 6", "")
         .inOrder();
   }
 
@@ -1027,7 +1802,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
     assertThat(diffInfo).changeType().isEqualTo(ChangeType.DELETED);
-    assertThat(diffInfo).content().element(0).linesOfA().hasSize(100);
+    assertThat(diffInfo).content().element(0).linesOfA().hasSize(101);
     assertThat(diffInfo).content().element(0).linesOfB().isNull();
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
 
@@ -1050,7 +1825,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         getDiffRequest(changeId, CURRENT, newFilePath).withBase(initialPatchSetId).get();
     assertThat(diffInfo).changeType().isEqualTo(ChangeType.ADDED);
     assertThat(diffInfo).content().element(0).linesOfA().isNull();
-    assertThat(diffInfo).content().element(0).linesOfB().hasSize(3);
+    assertThat(diffInfo).content().element(0).linesOfB().hasSize(4);
     assertThat(diffInfo).content().element(0).isNotDueToRebase();
 
     Map<String, FileInfo> changedFiles =

@@ -323,6 +323,30 @@
       "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b3a9349_1ef2c158",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-16T18:22:36Z",
+      "side": 1,
+      "message": "I could go either way. Feel free to leave it as-is.\n\nI think for me, the difference between \"containsAllOf\" and \"containsExactly\" is subtle enough that frequently when I see one, I find myself double-checking whether the author\u0027s intention matches the method that they chose. That\u0027s what led to this comment.\n\nI don\u0027t know what the right answer here is with respect to the Truth library itself. I know that containsAllOf and containsExactly are checking two different things, and given what they\u0027re checking, they are pretty reasonable and unambiguous names. But apparently that\u0027s not enough to stop me from double-checking whenever I read it.",
+      "parentUuid": "992cecf7_3cda2048",
+      "range": {
+        "startLine": 415,
+        "startChar": 0,
+        "endLine": 415,
+        "endChar": 52
+      },
+      "revId": "de81fbb7d3d352ccd44a8f31c535523f4740f387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

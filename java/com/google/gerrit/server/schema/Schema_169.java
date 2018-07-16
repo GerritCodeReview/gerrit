@@ -72,7 +72,7 @@ public class Schema_169 extends SchemaVersion {
     int skipped = 0;
     for (Project.NameKey project : projects) {
       try (Repository repo = repoManager.openRepository(project)) {
-        ProjectMigrationResult progress = migrator.migrateProject(project, repo);
+        ProjectMigrationResult progress = migrator.migrateProject(project, repo, false);
         skipped += progress.skipped;
       } catch (IOException e) {
         ok = false;

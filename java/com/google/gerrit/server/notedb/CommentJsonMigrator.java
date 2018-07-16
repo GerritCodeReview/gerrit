@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.notedb.RevisionNote.MAX_NOTE_SZ;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
@@ -29,6 +31,7 @@ import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
@@ -54,7 +57,7 @@ public class CommentJsonMigrator {
   public static class ProjectMigrationResult {
     public int skipped;
     public boolean ok;
-    public int refsUpdated;
+    public List<String> refsUpdated;
   }
 
   private final LegacyChangeNoteRead legacyChangeNoteRead;
@@ -77,9 +80,12 @@ public class CommentJsonMigrator {
     this.allUsers = allUsers;
   }
 
-  public ProjectMigrationResult migrateProject(Project.NameKey project, Repository repo) {
+  public ProjectMigrationResult migrateProject(
+      Project.NameKey project, Repository repo, boolean dryRun) {
     ProjectMigrationResult progress = new ProjectMigrationResult();
     progress.ok = true;
+    progress.skipped = 0;
+    progress.refsUpdated = ImmutableList.of();
     try (RevWalk rw = new RevWalk(repo);
         ObjectInserter ins = newPackInserter(repo)) {
       BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
@@ -89,17 +95,20 @@ public class CommentJsonMigrator {
         progress.ok &= migrateDrafts(allUsers, repo, rw, ins, bru);
       }
 
-      progress.refsUpdated += bru.getCommands().size();
+      progress.refsUpdated =
+          bru.getCommands().stream().map(c -> c.getRefName()).collect(toImmutableList());
       if (!bru.getCommands().isEmpty()) {
-        ins.flush();
-        RefUpdateUtil.executeChecked(bru, rw);
-
+        if (!dryRun) {
+          ins.flush();
+          RefUpdateUtil.executeChecked(bru, rw);
+        }
       } else {
         progress.skipped++;
       }
     } catch (IOException e) {
       progress.ok = false;
     }
+
     return progress;
   }
 

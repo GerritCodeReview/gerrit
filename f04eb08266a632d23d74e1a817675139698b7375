@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher Dave Borowitz \u003cdborowitz@google.com\u003e 1531757232 -0700\nnonce APISObRPej6dm3Nb69pTjmCmllUd8MgxcA+vjgVG36bESUBC2NZ9LAyoZBXywNsQBBQHQUpaR5L/\n\n0000000000000000000000000000000000000000 f04eb08266a632d23d74e1a817675139698b7375 refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQJJBAABCgAzFiEEpPm/sOxWgSqG5grhX9fFmpoSiIwFAltMwrAVHGRib3Jvd2l0\nekBnb29nbGUuY29tAAoJEF/XxZqaEoiMvY8QAMKJuh+teWT4vEbrDaCN3FB7e8iI\n//AXSRKZiIVQ9mwF61fLz276aR83L3eNn9+7k/rFS59ned83ZuxRpWTdbdya6vdK\n3fvspAFI4IurA68D+3at2QrxhqoF9qT1oqUtb/krmW5LCeNttAaUNqppZXRjql2z\nf7sFbIwOgi3NUUcmkFp3RuuA8oZmoHLcUvd8GjUPNiijWQja0CY3f2oyKMBK7s+M\nP3b0fcFkufoTtVrLRdhdDI9St59at3irPvdDgn18hWyZkdTvHdLv3fHUmLNIxuhu\nHYvaxdGOJO/kHduNspOai0US3BhHcLwkdWLFU1Je6Pqcx9zHJl33Ic4rk95wmGso\nODlFrxfBsjl6yS/LNybJj2m7At8Vd/ZnEnWiNPRYKPFy+mVAyHdrVNYgKK8ASLZ4\n46ttYbknDUkNrseTxuTxr8AWmFFcZUlWK74sP70AfyHps8eq684DI8QMrmGySSIK\nTt4Aw1z7PupRu7otxeuPzxc98WKjpqJLJiF1dN3WiCPpOZybjva826Iogn+ekPlm\nuj1PlsCskLqmdMEUYcmCokgEjwMeKiGQ3jurJBTCaF7xAro/F2znZeEPd6ur0BfR\neVrHThu4Atcj2OzJj7YwT+F9xi2Of25k4IPrY98hZzQUQXayjxhq+sKeTtIxmIA3\noZt7/V+RoKGoXCBB\n\u003dbG5o\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c06d012_cfd8ead9",
+        "filename": "tools/js/npm_pack.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-16T22:34:52Z",
+      "side": 1,
+      "message": "This would break if a package has no dependencies. Please add the following before this line:\n\n    if \u0027dependencies\u0027 in package:",
+      "revId": "f04eb08266a632d23d74e1a817675139698b7375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

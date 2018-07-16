@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0ede3cf_8d53ee37",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-16T18:39:33Z",
+      "side": 1,
+      "message": "This paragraph is fine, but it should be preceded by an accurate summary fragment for what this method actually does. https://google.github.io/styleguide/javaguide.html#s7.2-summary-fragment",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 138,
+        "endChar": 100
+      },
+      "revId": "d6d37a5b9008395cfa81b24caad40a3ef2044946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49eb7148_e311afd3",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-16T18:39:33Z",
+      "side": 1,
+      "message": "I see checkNotNull in the other override of createNewChangeMessage, but there should be one here as well. It\u0027s a separate public method so we can\u0027t guarantee that the only caller is via createNewChangeMessage on line 125.",
+      "revId": "d6d37a5b9008395cfa81b24caad40a3ef2044946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8360ceb_fcea8d61",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-16T18:39:33Z",
+      "side": 1,
+      "message": "No need for String.format; Subject#named takes a format string and varargs.",
+      "range": {
+        "startLine": 272,
+        "startChar": 12,
+        "endLine": 272,
+        "endChar": 25
+      },
+      "revId": "d6d37a5b9008395cfa81b24caad40a3ef2044946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

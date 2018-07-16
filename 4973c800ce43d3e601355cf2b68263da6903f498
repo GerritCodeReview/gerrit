@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddc05d15_8f594bf7",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-16T23:00:16Z",
+      "side": 1,
+      "message": "10508db39bf17916b61b0eae1422cb8b76ca2a0f for 1.2.1",
+      "range": {
+        "startLine": 1148,
+        "startChar": 12,
+        "endLine": 1148,
+        "endChar": 52
+      },
+      "revId": "4973c800ce43d3e601355cf2b68263da6903f498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a62a8d45_8570d026",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-16T23:00:16Z",
+      "side": 1,
+      "message": "I think we should use 1.2.1, if we can.\nI\u0027ve deployed it alongside with crisper and vulcanize, to the Maven repo.",
+      "revId": "4973c800ce43d3e601355cf2b68263da6903f498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28a31033_5a278775",
+        "filename": "lib/js/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-16T23:00:16Z",
+      "side": 1,
+      "message": "external_js_module or similar?\nSince you\u0027ve used external_js_archive?\nI hope it solves more problems that it causes - so up to you.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 11
+      },
+      "revId": "4973c800ce43d3e601355cf2b68263da6903f498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -132,6 +132,8 @@ limitations under the License.
           'Some-Special-Label-7'), 'SSL7');
       assert.equal(element._computeLabelShortcut('--Too----many----dashes---'),
           'TMD');
+      assert.equal(element._computeLabelShortcut(
+          'Really-rather-entirely-too-long-of-a-label-name'), 'RRETL');
     });
 
     test('colspans', () => {

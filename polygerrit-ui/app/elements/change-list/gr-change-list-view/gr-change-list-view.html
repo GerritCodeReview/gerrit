@@ -86,7 +86,8 @@ limitations under the License.
           changes="{{_changes}}"
           preferences="[[preferences]]"
           selected-index="{{viewState.selectedChangeIndex}}"
-          show-star="[[_loggedIn]]"></gr-change-list>
+          show-star="[[_loggedIn]]"
+          on-toggle-star="_handleToggleStar"></gr-change-list>
       <nav class$="[[_computeNavClass(_loading)]]">
           Page [[_computePage(_offset, _changesPerPage)]]
           <a id="prevArrow"

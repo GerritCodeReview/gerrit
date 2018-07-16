@@ -946,6 +946,10 @@ maven_jar(
 
 load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")
 
+# NPM binaries bundled along with their dependencies.
+#
+# For full instructions on adding new binaries to the build, see
+# http://gerrit-review.googlesource.com/Documentation/dev-bazel.html#npm-binary
 npm_binary(
     name = "bower",
 )

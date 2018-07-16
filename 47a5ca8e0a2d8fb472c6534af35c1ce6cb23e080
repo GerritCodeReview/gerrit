@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4a7ef70_b78c6360",
+        "filename": "Documentation/install-quick.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-16T23:58:46Z",
+      "side": 1,
+      "message": "I think this should be reworded because now it reads like it\u0027s referring to the commitmsg hook.",
+      "range": {
+        "startLine": 181,
+        "startChar": 5,
+        "endLine": 181,
+        "endChar": 24
+      },
+      "revId": "47a5ca8e0a2d8fb472c6534af35c1ce6cb23e080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

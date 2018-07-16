@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "45271021_7ae510c2",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 1067379
+      },
+      "writtenOn": "2018-07-16T23:13:03Z",
+      "side": 1,
+      "message": "so should we download the package from maven repo? Currently, external_js_archive downloads packages from registry.npmjs.org",
+      "parentUuid": "a62a8d45_8570d026",
+      "revId": "4973c800ce43d3e601355cf2b68263da6903f498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28a31033_5a278775",
         "filename": "lib/js/BUILD",
         "patchSetId": 1

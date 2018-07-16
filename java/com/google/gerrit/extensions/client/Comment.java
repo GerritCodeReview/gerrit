@@ -46,7 +46,7 @@ public abstract class Comment {
 
     public int startLine; // 1-based, inclusive
     public int startCharacter; // 0-based, inclusive
-    public int endLine; // 1-based, exclusive
+    public int endLine; // 1-based, inclusive
     public int endCharacter; // 0-based, exclusive
 
     public boolean isValid() {

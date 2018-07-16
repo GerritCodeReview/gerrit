@@ -6001,7 +6001,7 @@ The `CommentRange` entity describes the range of an inline comment.
 |Field Name    ||Description
 |`start_line`        ||The start line number of the range. (1-based, inclusive)
 |`start_character`   ||The character position in the start line. (0-based, inclusive)
-|`end_line`          ||The end line number of the range. (1-based, exclusive)
+|`end_line`          ||The end line number of the range. (1-based, inclusive)
 |`end_character`     ||The character position in the end line. (0-based, exclusive)
 |===========================
 

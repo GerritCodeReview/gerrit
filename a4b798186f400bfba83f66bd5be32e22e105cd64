@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44bed5e6_2029aae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-16T13:49:21Z",
+      "side": 1,
+      "message": "Start with a capital A?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "a4b798186f400bfba83f66bd5be32e22e105cd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5606aa66_f2da4c71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-16T13:49:21Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 9,
+        "startChar": 69,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "a4b798186f400bfba83f66bd5be32e22e105cd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8082db9_a2d24293",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-16T13:49:21Z",
+      "side": 1,
+      "message": "optional: Could be an auto value and/or the list could be an immutable list.",
+      "revId": "a4b798186f400bfba83f66bd5be32e22e105cd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ee88bb4_14ddd563",
+        "filename": "java/com/google/gerrit/server/notedb/CommentJsonMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-16T13:49:21Z",
+      "side": 1,
+      "message": "toImmutableList()",
+      "range": {
+        "startLine": 97,
+        "startChar": 89,
+        "endLine": 97,
+        "endChar": 95
+      },
+      "revId": "a4b798186f400bfba83f66bd5be32e22e105cd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f44cdf04_1b026f10",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommentJsonMigratorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2018-07-16T13:49:21Z",
+      "side": 1,
+      "message": "containsExactly would be a nicer here to make sure you see the commands you expect",
+      "range": {
+        "startLine": 412,
+        "startChar": 37,
+        "endLine": 412,
+        "endChar": 55
+      },
+      "revId": "a4b798186f400bfba83f66bd5be32e22e105cd64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

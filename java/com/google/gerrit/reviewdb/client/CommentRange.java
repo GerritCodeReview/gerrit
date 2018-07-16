@@ -33,10 +33,11 @@ public class CommentRange {
   protected CommentRange() {}
 
   public CommentRange(int sl, int sc, int el, int ec) {
-    startLine = sl;
-    startCharacter = sc;
-    endLine = el;
-    endCharacter = ec;
+    // Start position is inclusive; end position is exclusive.
+    startLine = sl; // 1-based
+    startCharacter = sc; // 0-based
+    endLine = el; // 1-based
+    endCharacter = ec; // 0-based
   }
 
   public int getStartLine() {

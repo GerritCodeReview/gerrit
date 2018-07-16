@@ -5996,13 +5996,22 @@ comment if it is supplied.
 === CommentRange
 The `CommentRange` entity describes the range of an inline comment.
 
+The comment range is a range from the start position, specified by `start_line`
+and `start_character`, to the end position, specified by `end_line` and
+`end_character`. The start position is *inclusive* and the end position is
+*exclusive*.
+
+So, a range over part of a line will have `start_line` equal to
+`end_line`; however a range with `end_line` set to 5 and `end_character` equal
+to 0 will not include any characters on line 5,
+
 [options="header",cols="1,^1,5"]
 |===========================
-|Field Name    ||Description
-|`start_line`        ||The start line number of the range. (1-based, inclusive)
-|`start_character`   ||The character position in the start line. (0-based, inclusive)
-|`end_line`          ||The end line number of the range. (1-based, exclusive)
-|`end_character`     ||The character position in the end line. (0-based, exclusive)
+|Field Name          ||Description
+|`start_line`        ||The start line number of the range. (1-based)
+|`start_character`   ||The character position in the start line. (0-based)
+|`end_line`          ||The end line number of the range. (1-based)
+|`end_character`     ||The character position in the end line. (0-based)
 |===========================
 
 [[commit-info]]

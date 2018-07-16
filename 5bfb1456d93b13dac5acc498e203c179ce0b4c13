@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "99dfd3dd_75115071",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-16T03:34:48Z",
+      "side": 1,
+      "message": "I think we can leave the fix in the separate commit.\n\nI\u0027ll update the commit message tomorrow when I\u0027m back at my computer.",
+      "parentUuid": "adcd1093_edac0e6f",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 132,
+        "endChar": 18
+      },
+      "revId": "5bfb1456d93b13dac5acc498e203c179ce0b4c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "44ae9503_9178a1f9",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo_test.html",
         "patchSetId": 5

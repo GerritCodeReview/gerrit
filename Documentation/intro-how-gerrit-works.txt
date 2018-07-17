@@ -2,7 +2,7 @@
 
 To learn how Gerrit fits into and complements the developer workflow, consider a
 typical project. The following project contains a central source repository
-(_Authoritative Repository_) that serves as the authoritative copy of the
+(_Authoritative Repository_) that serves as the authoritative version of the
 project's contents.
 
 .Central Source Repository image::images/intro-quick-central-

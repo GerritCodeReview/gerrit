@@ -39,16 +39,16 @@ import java.io.IOException;
 public class DeleteBranch implements RestModifyView<BranchResource, Input> {
 
   private final Provider<InternalChangeQuery> queryProvider;
-  private final DeleteRef.Factory deleteRefFactory;
+  private final DeleteRef deleteRef;
   private final PermissionBackend permissionBackend;
 
   @Inject
   DeleteBranch(
       Provider<InternalChangeQuery> queryProvider,
-      DeleteRef.Factory deleteRefFactory,
+      DeleteRef deleteRef,
       PermissionBackend permissionBackend) {
     this.queryProvider = queryProvider;
-    this.deleteRefFactory = deleteRefFactory;
+    this.deleteRef = deleteRef;
     this.permissionBackend = permissionBackend;
   }
 
@@ -68,7 +68,7 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");
     }
 
-    deleteRefFactory.create(rsrc).delete(ImmutableSet.of(rsrc.getRef()), R_HEADS);
+    deleteRef.delete(rsrc.getProjectState(), ImmutableSet.of(rsrc.getRef()), R_HEADS);
     return Response.none();
   }
 }

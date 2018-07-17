@@ -31,11 +31,11 @@ import java.io.IOException;
 
 @Singleton
 public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInput> {
-  private final DeleteRef.Factory deleteRefFactory;
+  private final DeleteRef deleteRef;
 
   @Inject
-  DeleteTags(DeleteRef.Factory deleteRefFactory) {
-    this.deleteRefFactory = deleteRefFactory;
+  DeleteTags(DeleteRef deleteRef) {
+    this.deleteRef = deleteRef;
   }
 
   @Override
@@ -44,7 +44,7 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
     if (input == null || input.tags == null || input.tags.isEmpty()) {
       throw new BadRequestException("tags must be specified");
     }
-    deleteRefFactory.create(project).delete(ImmutableSet.copyOf(input.tags), R_TAGS);
+    deleteRef.delete(project.getProjectState(), ImmutableSet.copyOf(input.tags), R_TAGS);
     return Response.none();
   }
 }

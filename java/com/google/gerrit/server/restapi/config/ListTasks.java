@@ -23,13 +23,13 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.ProjectTask;
 import com.google.gerrit.server.git.WorkQueue.Task;
+import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -133,7 +133,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
     public String queueName;
 
     public TaskInfo(Task<?> task) {
-      this.id = IdGenerator.format(task.getTaskId());
+      this.id = HexFormat.fromInt(task.getTaskId());
       this.state = task.getState();
       this.startTime = new Timestamp(task.getStartTime().getTime());
       this.delay = task.getDelay(TimeUnit.MILLISECONDS);

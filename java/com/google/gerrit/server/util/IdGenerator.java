@@ -22,16 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 /** Simple class to produce 4 billion keys randomly distributed. */
 @Singleton
 public class IdGenerator {
-  /** Format an id created by this class as a hex string. */
-  public static String format(int id) {
-    final char[] r = new char[8];
-    for (int p = 7; 0 <= p; p--) {
-      final int h = id & 0xf;
-      r[p] = h < 10 ? (char) ('0' + h) : (char) ('a' + (h - 10));
-      id >>= 4;
-    }
-    return new String(r);
-  }
 
   private final AtomicInteger gen;
 

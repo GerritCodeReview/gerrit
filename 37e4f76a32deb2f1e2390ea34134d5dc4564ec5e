@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d06b8bf_5229f5c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-17T21:46:51Z",
+      "side": 1,
+      "message": "Link to https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7144",
+      "revId": "37e4f76a32deb2f1e2390ea34134d5dc4564ec5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7db9836c_cc78ff7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2018-07-17T11:25:48Z",
+      "side": 1,
+      "message": "2.8.0 was released March 28, 2016 as far as I can see.\n\nhttps://github.com/git/git/blob/master/Documentation/RelNotes/2.8.0.txt",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "f8ef69553eead2b5c8b628877704bd2fe732184a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

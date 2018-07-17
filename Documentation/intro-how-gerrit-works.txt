@@ -2,7 +2,7 @@
 
 To learn how Gerrit fits into and complements the developer workflow, consider a
 typical project. The following project contains a central source repository
-(_Authoritative Repository_) that serves as the authoritative copy of the
+(_Authoritative Repository_) that serves as the authoritative version of the
 project's contents.
 
 .Central Source Repository image::images/intro-quick-central-
@@ -28,6 +28,9 @@ Like any repository hosting product, Gerrit provides a powerful link:access-
 control.html[access control model], which enables you to fine-tune access to
 your repository.
 
-GERRIT ------ Part of link:index.html[Gerrit Code Review]
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
 
-SEARCHBOX ---------
+SEARCHBOX
+---------

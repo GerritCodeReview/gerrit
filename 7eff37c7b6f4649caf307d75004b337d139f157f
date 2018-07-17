@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c8283b4_5f032c46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-17T15:14:23Z",
+      "side": 1,
+      "message": "DiffFormatter uses\n\n\tprivate static boolean isEndOfLineMissing(RawText text, int line) {\n\t\treturn line + 1 \u003d\u003d text.size() \u0026\u0026 text.isMissingNewlineAtEnd();\n\t}\n\nAre you saying you want that exposed in some particular class? What API would you like for it?",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "7eff37c7b6f4649caf307d75004b337d139f157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e52d93_f570a5b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-17T15:14:23Z",
+      "side": 1,
+      "message": "Which class/method are you referring to here?",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 27
+      },
+      "revId": "7eff37c7b6f4649caf307d75004b337d139f157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

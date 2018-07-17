@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -91,7 +92,7 @@ public class DeleteRef {
    * @throws ResourceConflictException
    */
   public void deleteSingleRef(ProjectState projectState, String ref)
-      throws IOException, ResourceConflictException {
+      throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
     deleteSingleRef(projectState, ref, null);
   }
 
@@ -105,10 +106,17 @@ public class DeleteRef {
    * @throws ResourceConflictException
    */
   public void deleteSingleRef(ProjectState projectState, String ref, @Nullable String prefix)
-      throws IOException, ResourceConflictException {
+      throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
     if (prefix != null && !ref.startsWith(R_REFS)) {
       ref = prefix + ref;
     }
+
+    projectState.checkStatePermitsWrite();
+    permissionBackend
+        .currentUser()
+        .project(projectState.getNameKey())
+        .ref(ref)
+        .check(RefPermission.DELETE);
 
     try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
       RefUpdate.Result result;
@@ -182,10 +190,18 @@ public class DeleteRef {
    */
   public void deleteMultipleRefs(
       ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
+      throws OrmException, IOException, ResourceConflictException, PermissionBackendException,
+          AuthException {
     if (refsToDelete.isEmpty()) {
       return;
     }
+
+    if (refsToDelete.size() == 1) {
+      deleteSingleRef(projectState, Iterables.getOnlyElement(refsToDelete), prefix);
+      return;
+    }
+
+    projectState.checkStatePermitsWrite();
 
     try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
       BatchRefUpdate batchUpdate = repository.getRefDatabase().newBatchUpdate();
@@ -198,7 +214,7 @@ public class DeleteRef {
                   .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
                   .collect(ImmutableSet.toImmutableSet());
       for (String ref : refs) {
-        batchUpdate.addCommand(createDeleteCommand(projectState, repository, ref));
+        batchUpdate.addCommand(createDeleteCommand(projectState.getNameKey(), repository, ref));
       }
       try (RevWalk rw = new RevWalk(repository)) {
         batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
@@ -217,8 +233,7 @@ public class DeleteRef {
     }
   }
 
-  private ReceiveCommand createDeleteCommand(
-      ProjectState projectState, Repository r, String refName)
+  private ReceiveCommand createDeleteCommand(Project.NameKey project, Repository r, String refName)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
     Ref ref = r.getRefDatabase().getRef(refName);
     ReceiveCommand command;
@@ -236,11 +251,7 @@ public class DeleteRef {
       command.setResult(Result.REJECTED_OTHER_REASON, "not allowed to delete branch " + refName);
     } else {
       try {
-        permissionBackend
-            .currentUser()
-            .project(projectState.getNameKey())
-            .ref(refName)
-            .check(RefPermission.DELETE);
+        permissionBackend.currentUser().project(project).ref(refName).check(RefPermission.DELETE);
       } catch (AuthException denied) {
         command.setResult(
             Result.REJECTED_OTHER_REASON,
@@ -248,12 +259,8 @@ public class DeleteRef {
       }
     }
 
-    if (!projectState.statePermitsWrite()) {
-      command.setResult(Result.REJECTED_OTHER_REASON, "project state does not permit write");
-    }
-
     if (!refName.startsWith(R_TAGS)) {
-      Branch.NameKey branchKey = new Branch.NameKey(projectState.getNameKey(), ref.getName());
+      Branch.NameKey branchKey = new Branch.NameKey(project, ref.getName());
       if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
         command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
       }
@@ -263,7 +270,7 @@ public class DeleteRef {
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(r.exactRef(refName).getObjectId());
     u.setNewObjectId(ObjectId.zeroId());
-    refDeletionValidator.validateRefOperation(projectState.getName(), identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(project.get(), identifiedUser.get(), u);
     return command;
   }
 

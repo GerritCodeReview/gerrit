@@ -156,12 +156,12 @@ public class CreateBranchIT extends AbstractDaemonTest {
       Class<? extends RestApiException> errType,
       String errMsg)
       throws Exception {
-    exception.expect(errType);
+    BranchInput in = new BranchInput();
+    in.revision = revision;
     if (errMsg != null) {
       exception.expectMessage(errMsg);
     }
-    BranchInput in = new BranchInput();
-    in.revision = revision;
+    exception.expect(errType);
     branch(branch).create(in);
   }
 

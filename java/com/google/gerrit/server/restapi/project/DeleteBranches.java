@@ -44,7 +44,8 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
     if (input == null || input.branches == null || input.branches.isEmpty()) {
       throw new BadRequestException("branches must be specified");
     }
-    deleteRef.delete(project.getProjectState(), ImmutableSet.copyOf(input.branches), R_HEADS);
+    deleteRef.deleteMultipleRefs(
+        project.getProjectState(), ImmutableSet.copyOf(input.branches), R_HEADS);
     return Response.none();
   }
 }

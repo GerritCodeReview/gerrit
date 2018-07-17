@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cf9cdab_9161d0ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-17T21:06:23Z",
+      "side": 1,
+      "message": "nit: the commit message is a place to describe what the change does. It gets used when writing release notes, for example.\n\nHere, I think something simple like \"Copy edits to intro-quick and intro-how-gerrit-works\" should work as a commit message.",
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9301759_1ce95fae",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-17T21:06:23Z",
+      "side": 1,
+      "message": "Here, I think the text is talking about code being robust when it lands in \"master\", even before it gets released to customers. That\u0027s important in a CI world because if your code is not reliable in \"master\" then you get used to not being able to trust tests.",
+      "range": {
+        "startLine": 17,
+        "startChar": 71,
+        "endLine": 17,
+        "endChar": 79
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

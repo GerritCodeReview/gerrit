@@ -243,6 +243,22 @@ limitations under the License.
                 </span>
               </section>
               <section>
+                <span class="title">
+                  Set new changes to "work in progress" by default</span>
+                <span class="value">
+                  <gr-select
+                      id="setAllNewChangesWorkInProgressByDefaultSelect"
+                      bind-value="{{_repoConfig.work_in_progress_by_default.configured_value}}">
+                    <select disabled$="[[_readOnly]]">
+                      <template is="dom-repeat"
+                          items="[[_formatBooleanSelect(_repoConfig.work_in_progress_by_default)]]">
+                        <option value="[[item.value]]">[[item.label]]</option>
+                      </template>
+                    </select>
+                  </gr-select>
+                </span>
+              </section>
+              <section>
                 <span class="title">Maximum Git object size limit</span>
                 <span class="value">
                   <input

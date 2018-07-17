@@ -266,6 +266,12 @@ public class CreateChange
       AccountState accountState = me.state();
       GeneralPreferencesInfo info = accountState.getGeneralPreferences();
 
+      boolean isWorkInProgress =
+          input.workInProgress == null
+              ? rsrc.getProjectState().is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
+                  || MoreObjects.firstNonNull(info.workInProgressByDefault, false)
+              : input.workInProgress;
+
       // Add a Change-Id line if there isn't already one
       String commitMessage = subject;
       if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
@@ -309,7 +315,7 @@ public class CreateChange
       }
       ins.setTopic(topic);
       ins.setPrivate(isPrivate);
-      ins.setWorkInProgress(input.workInProgress != null && input.workInProgress);
+      ins.setWorkInProgress(isWorkInProgress);
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));

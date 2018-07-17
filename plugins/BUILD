@@ -37,6 +37,7 @@ EXPORTS = [
     "//java/com/google/gerrit/metrics/dropwizard",
     "//java/com/google/gerrit/reviewdb:server",
     "//java/com/google/gerrit/util/http",
+    "//lib/commons:compress",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/dropwizard:dropwizard-core",

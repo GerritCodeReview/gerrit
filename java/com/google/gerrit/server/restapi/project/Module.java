@@ -104,7 +104,6 @@ public class Module extends RestApiModule {
     put(PROJECT_KIND, "config").to(PutConfig.class);
     post(COMMIT_KIND, "cherrypick").to(CherryPickCommit.class);
 
-    factory(DeleteRef.Factory.class);
     factory(ProjectNode.Factory.class);
   }
 }

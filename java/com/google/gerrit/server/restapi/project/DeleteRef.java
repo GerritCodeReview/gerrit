@@ -28,19 +28,20 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -53,6 +54,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
 
+@Singleton
 public class DeleteRef {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -65,11 +67,6 @@ public class DeleteRef {
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refDeletionValidator;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final ProjectResource resource;
-
-  public interface Factory {
-    DeleteRef create(ProjectResource r);
-  }
 
   @Inject
   DeleteRef(
@@ -78,36 +75,36 @@ public class DeleteRef {
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refDeletionValidatorFactory,
-      Provider<InternalChangeQuery> queryProvider,
-      @Assisted ProjectResource resource) {
+      Provider<InternalChangeQuery> queryProvider) {
     this.identifiedUser = identifiedUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
     this.refDeletionValidator = refDeletionValidatorFactory.create(DELETE);
     this.queryProvider = queryProvider;
-    this.resource = resource;
   }
 
-  public void delete(ImmutableSet<String> refsToDelete)
+  public void delete(ProjectState projectState, ImmutableSet<String> refsToDelete)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
-    delete(refsToDelete, null);
+    delete(projectState, refsToDelete, null);
   }
 
-  public void delete(ImmutableSet<String> refsToDelete, @Nullable String prefix)
+  public void delete(
+      ProjectState projectState, ImmutableSet<String> refsToDelete, @Nullable String prefix)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
     if (!refsToDelete.isEmpty()) {
-      try (Repository r = repoManager.openRepository(resource.getNameKey())) {
+      try (Repository r = repoManager.openRepository(projectState.getNameKey())) {
         if (refsToDelete.size() == 1) {
-          deleteSingleRef(r, Iterables.getOnlyElement(refsToDelete), prefix);
+          deleteSingleRef(
+              r, projectState.getNameKey(), Iterables.getOnlyElement(refsToDelete), prefix);
         } else {
-          deleteMultipleRefs(r, refsToDelete, prefix);
+          deleteMultipleRefs(r, projectState, refsToDelete, prefix);
         }
       }
     }
   }
 
-  private void deleteSingleRef(Repository r, String ref, String prefix)
+  private void deleteSingleRef(Repository r, Project.NameKey project, String ref, String prefix)
       throws IOException, ResourceConflictException {
     if (prefix != null && !ref.startsWith(R_REFS)) {
       ref = prefix + ref;
@@ -117,7 +114,7 @@ public class DeleteRef {
     u.setExpectedOldObjectId(r.exactRef(ref).getObjectId());
     u.setNewObjectId(ObjectId.zeroId());
     u.setForceUpdate(true);
-    refDeletionValidator.validateRefOperation(resource.getName(), identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(project.get(), identifiedUser.get(), u);
     int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
     for (; ; ) {
       try {
@@ -144,8 +141,7 @@ public class DeleteRef {
       case NO_CHANGE:
       case FAST_FORWARD:
       case FORCED:
-        referenceUpdated.fire(
-            resource.getNameKey(), u, ReceiveCommand.Type.DELETE, identifiedUser.get().state());
+        referenceUpdated.fire(project, u, ReceiveCommand.Type.DELETE, identifiedUser.get().state());
         break;
 
       case REJECTED_CURRENT_BRANCH:
@@ -165,7 +161,8 @@ public class DeleteRef {
     }
   }
 
-  private void deleteMultipleRefs(Repository r, ImmutableSet<String> refsToDelete, String prefix)
+  private void deleteMultipleRefs(
+      Repository r, ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
     BatchRefUpdate batchUpdate = r.getRefDatabase().newBatchUpdate();
     batchUpdate.setAtomic(false);
@@ -177,7 +174,7 @@ public class DeleteRef {
                 .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
                 .collect(toImmutableSet());
     for (String ref : refs) {
-      batchUpdate.addCommand(createDeleteCommand(resource, r, ref));
+      batchUpdate.addCommand(createDeleteCommand(projectState, r, ref));
     }
     try (RevWalk rw = new RevWalk(r)) {
       batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
@@ -185,7 +182,7 @@ public class DeleteRef {
     StringBuilder errorMessages = new StringBuilder();
     for (ReceiveCommand command : batchUpdate.getCommands()) {
       if (command.getResult() == Result.OK) {
-        postDeletion(resource, command);
+        postDeletion(projectState.getNameKey(), command);
       } else {
         appendAndLogErrorMessage(errorMessages, command);
       }
@@ -195,7 +192,8 @@ public class DeleteRef {
     }
   }
 
-  private ReceiveCommand createDeleteCommand(ProjectResource project, Repository r, String refName)
+  private ReceiveCommand createDeleteCommand(
+      ProjectState projectState, Repository r, String refName)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
     Ref ref = r.getRefDatabase().getRef(refName);
     ReceiveCommand command;
@@ -215,7 +213,7 @@ public class DeleteRef {
       try {
         permissionBackend
             .currentUser()
-            .project(project.getNameKey())
+            .project(projectState.getNameKey())
             .ref(refName)
             .check(RefPermission.DELETE);
       } catch (AuthException denied) {
@@ -225,12 +223,12 @@ public class DeleteRef {
       }
     }
 
-    if (!project.getProjectState().statePermitsWrite()) {
+    if (!projectState.statePermitsWrite()) {
       command.setResult(Result.REJECTED_OTHER_REASON, "project state does not permit write");
     }
 
     if (!refName.startsWith(R_TAGS)) {
-      Branch.NameKey branchKey = new Branch.NameKey(project.getNameKey(), ref.getName());
+      Branch.NameKey branchKey = new Branch.NameKey(projectState.getNameKey(), ref.getName());
       if (!queryProvider.get().setLimit(1).byBranchOpen(branchKey).isEmpty()) {
         command.setResult(Result.REJECTED_OTHER_REASON, "it has open changes");
       }
@@ -240,7 +238,7 @@ public class DeleteRef {
     u.setForceUpdate(true);
     u.setExpectedOldObjectId(r.exactRef(refName).getObjectId());
     u.setNewObjectId(ObjectId.zeroId());
-    refDeletionValidator.validateRefOperation(project.getName(), identifiedUser.get(), u);
+    refDeletionValidator.validateRefOperation(projectState.getName(), identifiedUser.get(), u);
     return command;
   }
 
@@ -269,7 +267,7 @@ public class DeleteRef {
     errorMessages.append("\n");
   }
 
-  private void postDeletion(ProjectResource project, ReceiveCommand cmd) {
-    referenceUpdated.fire(project.getNameKey(), cmd, identifiedUser.get().state());
+  private void postDeletion(Project.NameKey project, ReceiveCommand cmd) {
+    referenceUpdated.fire(project, cmd, identifiedUser.get().state());
   }
 }

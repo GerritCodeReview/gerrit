@@ -101,41 +101,6 @@ limitations under the License.
       });
     });
 
-    test('new change created with wip by default', () => {
-      element._projectConfig = {
-        work_in_progress_by_default: {
-          inherited_value: true,
-        },
-      };
-
-      const configInputObj = {
-        branch: 'test-branch',
-        topic: 'test-topic',
-        subject: 'first change created with polygerrit ui',
-        project: element.projectName,
-        work_in_progress: true,
-      };
-
-      const saveStub = sandbox.stub(element.$.restAPI,
-          'createChange', () => {
-            return Promise.resolve({});
-          });
-
-      element.project = element.projectName;
-      element.branch = 'test-branch';
-      element.topic = 'test-topic';
-      element.subject = 'first change created with polygerrit ui';
-      assert.isTrue(element.$.wipChangeCheckBox.checked);
-
-      element.$.branchInput.bindValue = configInputObj.branch;
-      element.$.tagNameInput.bindValue = configInputObj.topic;
-      element.$.messageInput.bindValue = configInputObj.subject;
-
-      element.handleCreateChange().then(() => {
-        assert.isTrue(saveStub.lastCall.calledWithExactly(configInputObj));
-      });
-    });
-
     test('new change created with wip', () => {
       const configInputObj = {
         branch: 'test-branch',
@@ -153,7 +118,6 @@ limitations under the License.
       element.branch = 'test-branch';
       element.topic = 'test-topic';
       element.subject = 'first change created with polygerrit ui';
-      element.$.wipChangeCheckBox.checked = true;
       assert.isFalse(element.$.privateChangeCheckBox.checked);
 
       element.$.branchInput.bindValue = configInputObj.branch;

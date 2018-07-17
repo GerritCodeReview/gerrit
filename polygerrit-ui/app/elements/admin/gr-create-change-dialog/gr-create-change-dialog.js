@@ -61,9 +61,8 @@
 
     handleCreateChange() {
       const isPrivate = this.$.privateChangeCheckBox.checked;
-      const isWip = this.$.wipChangeCheckBox.checked;
       return this.$.restAPI.createChange(this.projectName, this.branch,
-          this.subject, this.topic, isPrivate, isWip)
+          this.subject, this.topic, isPrivate, true)
           .then(changeCreated => {
             if (!changeCreated) {
               return;

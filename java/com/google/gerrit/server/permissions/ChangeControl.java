@@ -92,11 +92,6 @@ class ChangeControl {
     return new ForChangeImpl(cd, db);
   }
 
-  private ChangeControl forUser(CurrentUser who) {
-    return new ChangeControl(
-        changeDataFactory, identifiedUserFactory, refControl.forUser(who), notes);
-  }
-
   private CurrentUser getUser() {
     return refControl.getUser();
   }

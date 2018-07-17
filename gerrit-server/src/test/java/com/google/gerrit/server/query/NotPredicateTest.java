@@ -50,17 +50,26 @@ public class NotPredicateTest extends PredicateTest {
     final TestPredicate p = f("author", "bob");
     final Predicate<String> n = not(p);
 
-    exception.expect(UnsupportedOperationException.class);
-    n.getChildren().clear();
-    assertOnlyChild("clear", p, n);
+    try {
+      n.getChildren().clear();
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException e) {
+      assertOnlyChild("clear", p, n);
+    }
 
-    exception.expect(UnsupportedOperationException.class);
-    n.getChildren().remove(0);
-    assertOnlyChild("remove(0)", p, n);
+    try {
+      n.getChildren().remove(0);
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException e) {
+      assertOnlyChild("remove(0)", p, n);
+    }
 
-    exception.expect(UnsupportedOperationException.class);
-    n.getChildren().iterator().remove();
-    assertOnlyChild("remove(0)", p, n);
+    try {
+      n.getChildren().iterator().remove();
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException e) {
+      assertOnlyChild("remove()", p, n);
+    }
   }
 
   private static void assertOnlyChild(String o, Predicate<String> c, Predicate<String> p) {

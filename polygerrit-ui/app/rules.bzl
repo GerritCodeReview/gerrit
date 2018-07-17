@@ -3,8 +3,8 @@ load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_
 load(
     "//tools/bzl:js.bzl",
     "bower_component",
+    "bundle_assets",
     "js_component",
-    "vulcanize",
 )
 
 def polygerrit_bundle(name, srcs, outs, app):
@@ -41,7 +41,7 @@ def polygerrit_bundle(name, srcs, outs, app):
         ],
     )
 
-    vulcanize(
+    bundle_assets(
         name = appName,
         srcs = srcs,
         app = app,

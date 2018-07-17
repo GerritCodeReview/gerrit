@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -91,7 +92,7 @@ public class DeleteRef {
    * @throws ResourceConflictException
    */
   public void deleteSingleRef(ProjectState projectState, String ref)
-      throws IOException, ResourceConflictException {
+      throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
     deleteSingleRef(projectState, ref, null);
   }
 
@@ -105,10 +106,17 @@ public class DeleteRef {
    * @throws ResourceConflictException
    */
   public void deleteSingleRef(ProjectState projectState, String ref, @Nullable String prefix)
-      throws IOException, ResourceConflictException {
+      throws IOException, ResourceConflictException, AuthException, PermissionBackendException {
     if (prefix != null && !ref.startsWith(R_REFS)) {
       ref = prefix + ref;
     }
+
+    projectState.checkStatePermitsWrite();
+    permissionBackend
+        .currentUser()
+        .project(projectState.getNameKey())
+        .ref(ref)
+        .check(RefPermission.DELETE);
 
     try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
       RefUpdate.Result result;
@@ -182,8 +190,14 @@ public class DeleteRef {
    */
   public void deleteMultipleRefs(
       ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
+      throws OrmException, IOException, ResourceConflictException, PermissionBackendException,
+          AuthException {
     if (refsToDelete.isEmpty()) {
+      return;
+    }
+
+    if (refsToDelete.size() == 1) {
+      deleteSingleRef(projectState, Iterables.getOnlyElement(refsToDelete), prefix);
       return;
     }
 

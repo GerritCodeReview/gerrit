@@ -34,6 +34,29 @@
       "revId": "2530d60b4920bb15c5797937e3ea2460355221df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc6a9295_eb2ab207",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListDashboards.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-17T20:59:46Z",
+      "side": 1,
+      "message": "What you have here is logically equivalent to the LHS, but this formulation makes it more obvious that the whole method should just return an empty list early when the project is not readable. No need to do the permission check or open the repository.",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 0
+      },
+      "revId": "2530d60b4920bb15c5797937e3ea2460355221df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

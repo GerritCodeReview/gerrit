@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8464ac1e_30b514de",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1148,
+      "author": {
+        "id": 1067379
+      },
+      "writtenOn": "2018-07-17T21:34:18Z",
+      "side": 1,
+      "message": "it is 27b104370f541780549eba9d916194a796584763 for me",
+      "parentUuid": "ddc05d15_8f594bf7",
+      "range": {
+        "startLine": 1148,
+        "startChar": 12,
+        "endLine": 1148,
+        "endChar": 52
+      },
+      "revId": "4973c800ce43d3e601355cf2b68263da6903f498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a62a8d45_8570d026",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "4badb33c_177c7c23",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1149,
+      "author": {
+        "id": 1067379
+      },
+      "writtenOn": "2018-07-17T21:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45271021_7ae510c2",
+      "revId": "4973c800ce43d3e601355cf2b68263da6903f498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28a31033_5a278775",
         "filename": "lib/js/BUILD",
         "patchSetId": 1
@@ -71,6 +113,30 @@
       "writtenOn": "2018-07-16T23:00:16Z",
       "side": 1,
       "message": "external_js_module or similar?\nSince you\u0027ve used external_js_archive?\nI hope it solves more problems that it causes - so up to you.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 11
+      },
+      "revId": "4973c800ce43d3e601355cf2b68263da6903f498",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62b4ce1_3349f553",
+        "filename": "lib/js/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1067379
+      },
+      "writtenOn": "2018-07-17T21:34:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28a31033_5a278775",
       "range": {
         "startLine": 50,
         "startChar": 0,

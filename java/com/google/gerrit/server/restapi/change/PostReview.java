@@ -64,6 +64,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
@@ -94,7 +95,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -174,6 +174,7 @@ public class PostReview
   private final Config gerritConfig;
   private final WorkInProgressOp.Factory workInProgressOpFactory;
   private final ProjectCache projectCache;
+  private final PermissionBackend permissionBackend;
   private final boolean strictLabels;
 
   @Inject
@@ -196,7 +197,8 @@ public class PostReview
       NotifyUtil notifyUtil,
       @GerritServerConfig Config gerritConfig,
       WorkInProgressOp.Factory workInProgressOpFactory,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      PermissionBackend permissionBackend) {
     super(retryHelper);
     this.db = db;
     this.changeResourceFactory = changeResourceFactory;
@@ -216,6 +218,7 @@ public class PostReview
     this.gerritConfig = gerritConfig;
     this.workInProgressOpFactory = workInProgressOpFactory;
     this.projectCache = projectCache;
+    this.permissionBackend = permissionBackend;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
@@ -237,7 +240,7 @@ public class PostReview
       throw new ResourceConflictException("cannot post review on edit");
     }
     ProjectState projectState = projectCache.checkedGet(revision.getProject());
-    LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes(), revision.getUser());
+    LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes());
     input.drafts = firstNonNull(input.drafts, DraftHandling.KEEP);
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, labelTypes, input);
@@ -482,7 +485,11 @@ public class PostReview
 
     IdentifiedUser reviewer = accounts.parseOnBehalfOf(caller, in.onBehalfOf);
     try {
-      perm.user(reviewer).check(ChangePermission.READ);
+      permissionBackend
+          .user(reviewer)
+          .database(db)
+          .change(rev.getNotes())
+          .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
           String.format("on_behalf_of account %s cannot see change", reviewer.getAccountId()));
@@ -1148,7 +1155,7 @@ public class PostReview
       List<PatchSetApproval> del = new ArrayList<>();
       List<PatchSetApproval> ups = new ArrayList<>();
       Map<String, PatchSetApproval> current = scanLabels(projectState, ctx, del);
-      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());
       Map<String, Short> allApprovals =
           getAllApprovals(labelTypes, approvalsByKey(current.values()), inLabels);
       Map<String, Short> previous =
@@ -1297,11 +1304,7 @@ public class PostReview
           // If no existing label is being set to 0, hack in the caller
           // as a reviewer by picking the first server-wide LabelType.
           LabelId labelId =
-              projectState
-                  .getLabelTypes(ctx.getNotes(), ctx.getUser())
-                  .getLabelTypes()
-                  .get(0)
-                  .getLabelId();
+              projectState.getLabelTypes(ctx.getNotes()).getLabelTypes().get(0).getLabelId();
           PatchSetApproval c = ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen());
           c.setTag(in.tag);
           c.setGranted(ctx.getWhen());
@@ -1322,14 +1325,13 @@ public class PostReview
     private Map<String, PatchSetApproval> scanLabels(
         ProjectState projectState, ChangeContext ctx, List<PatchSetApproval> del)
         throws OrmException, IOException {
-      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes(), ctx.getUser());
+      LabelTypes labelTypes = projectState.getLabelTypes(ctx.getNotes());
       Map<String, PatchSetApproval> current = new HashMap<>();
 
       for (PatchSetApproval a :
           approvalsUtil.byPatchSetUser(
               ctx.getDb(),
               ctx.getNotes(),
-              ctx.getUser(),
               psId,
               user.getAccountId(),
               ctx.getRevWalk(),

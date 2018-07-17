@@ -693,7 +693,7 @@ public class MergeOp implements AutoCloseable {
     }
 
     try {
-      for (Ref r : or.repo.getRefDatabase().getRefs(Constants.R_HEADS).values()) {
+      for (Ref r : or.repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS)) {
         try {
           CodeReviewCommit aac = or.rw.parseCommit(r.getObjectId());
           if (!commitStatus.commits.values().contains(aac)) {
@@ -787,19 +787,33 @@ public class MergeOp implements AutoCloseable {
       }
 
       if (!revisions.containsEntry(id, ps.getId())) {
-        // TODO this is actually an error, the branch is gone but we
-        // want to merge the issue. We can't safely do that if the
-        // tip is not reachable.
-        //
+        if (revisions.containsValue(ps.getId())) {
+          // TODO This is actually an error, the patch set ref exists but points to a revision that
+          // is different from the revision that we have stored for the patch set in the change
+          // meta data.
+          commitStatus.logProblem(
+              changeId,
+              "Revision "
+                  + idstr
+                  + " of patch set "
+                  + ps.getPatchSetId()
+                  + " does not match the revision of the patch set ref "
+                  + ps.getId().toRefName());
+          continue;
+        }
+
+        // The patch set ref is not found but we want to merge the change. We can't safely do that
+        // if the patch set ref is missing. In a multi-master setup this can indicate a replication
+        // lag (e.g. the change meta data was already replicated, but the replication of the patch
+        // set ref is still pending).
         commitStatus.logProblem(
             changeId,
-            "Revision "
-                + idstr
-                + " of patch set "
-                + ps.getPatchSetId()
-                + " does not match "
+            "Patch set ref "
                 + ps.getId().toRefName()
-                + " for change");
+                + " not found. Expected patch set ref of "
+                + ps.getPatchSetId()
+                + " to point to revision "
+                + idstr);
         continue;
       }
 

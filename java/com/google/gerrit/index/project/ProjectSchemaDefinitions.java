@@ -21,6 +21,7 @@ import com.google.gerrit.index.SchemaDefinitions;
 
 public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
 
+  @Deprecated
   static final Schema<ProjectData> V1 =
       schema(
           ProjectField.NAME,
@@ -28,6 +29,8 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
           ProjectField.PARENT_NAME,
           ProjectField.NAME_PART,
           ProjectField.ANCESTOR_NAME);
+
+  static final Schema<ProjectData> V2 = schema(V1, ProjectField.STATE, ProjectField.REF_STATE);
 
   public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 

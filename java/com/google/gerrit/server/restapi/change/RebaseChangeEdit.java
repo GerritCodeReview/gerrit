@@ -16,15 +16,12 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.change.ChangeEditResource;
@@ -33,6 +30,9 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryingRestCollectionView;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,49 +41,51 @@ import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class RebaseChangeEdit
-    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource.Rebase> {
 
-  private final Rebase rebase;
+  private final DynamicMap<RestView<ChangeEditResource.Rebase>> views;
 
   @Inject
-  RebaseChangeEdit(Rebase rebase) {
-    this.rebase = rebase;
+  RebaseChangeEdit(DynamicMap<RestView<ChangeEditResource.Rebase>> views) {
+    this.views = views;
   }
 
   @Override
-  public DynamicMap<RestView<ChangeEditResource>> views() {
-    throw new NotImplementedException();
+  public DynamicMap<RestView<ChangeEditResource.Rebase>> views() {
+    return views;
   }
 
   @Override
-  public RestView<ChangeResource> list() {
-    throw new NotImplementedException();
+  public RestView<ChangeResource> list() throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Override
-  public ChangeEditResource parse(ChangeResource parent, IdString id) {
-    throw new NotImplementedException();
-  }
-
-  @Override
-  public Rebase post(ChangeResource parent) throws RestApiException {
-    return rebase;
+  public ChangeEditResource.Rebase parse(ChangeResource parent, IdString id)
+      throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Singleton
-  public static class Rebase implements RestModifyView<ChangeResource, Input> {
-
+  public static class Rebase
+      extends RetryingRestCollectionView<
+          ChangeResource, ChangeEditResource.Rebase, Input, Response<?>> {
     private final GitRepositoryManager repositoryManager;
     private final ChangeEditModifier editModifier;
 
     @Inject
-    Rebase(GitRepositoryManager repositoryManager, ChangeEditModifier editModifier) {
+    Rebase(
+        RetryHelper retryHelper,
+        GitRepositoryManager repositoryManager,
+        ChangeEditModifier editModifier) {
+      super(retryHelper);
       this.repositoryManager = repositoryManager;
       this.editModifier = editModifier;
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, Input in)
+    protected Response<?> applyImpl(
+        BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input in)
         throws AuthException, ResourceConflictException, IOException, OrmException,
             PermissionBackendException {
       Project.NameKey project = rsrc.getProject();

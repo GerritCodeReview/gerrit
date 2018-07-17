@@ -15,8 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+
+<link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -24,17 +27,15 @@ limitations under the License.
 <dom-module id="gr-download-commands">
   <template>
     <style include="shared-styles">
-      ul {
-        list-style: none;
+      paper-tabs {
+        height: 3rem;
         margin-bottom: .5em;
+        --paper-tabs-selection-bar-color: var(--link-color);
       }
-      li {
-        display: inline-block;
-        margin: 0;
-        padding: 0;
-      }
-      li gr-button {
-        margin-right: 1em;
+      paper-tab {
+        max-width: 15rem;
+        text-transform: uppercase;
+        --paper-tab-ink: var(--link-color);
       }
       label,
       input {
@@ -43,11 +44,6 @@ limitations under the License.
       label {
         font-family: var(--font-family-bold);
       }
-      li[selected] gr-button {
-        color: var(--primary-text-color);
-        font-family: var(--font-family-bold);
-        text-decoration: none;
-      }
       .schemes {
         display: flex;
         justify-content: space-between;
@@ -55,25 +51,25 @@ limitations under the License.
       .commands {
         display: flex;
         flex-direction: column;
-        border-bottom: 1px solid var(--border-color);
-        border-top: 1px solid var(--border-color);
-        padding: .5em;
       }
       gr-copy-clipboard {
         width: 60em;
         margin-bottom: .5em;
       }
+      .hidden {
+        display: none;
+      }
     </style>
     <div class="schemes">
-      <ul hidden$="[[!schemes.length]]" hidden>
+      <paper-tabs
+          id="downloadTabs"
+          class$="[[_computeShowTabs(schemes)]]"
+          selected="[[_computeSelected(schemes, selectedScheme)]]"
+          on-selected-changed="_handleTabChange">
         <template is="dom-repeat" items="[[schemes]]" as="scheme">
-          <li selected$="[[_computeSelected(scheme, selectedScheme)]]">
-            <gr-button link data-scheme$="[[scheme]]" on-tap="_handleSchemeTap">
-              [[scheme]]
-            </gr-button>
-          </li>
+          <paper-tab data-scheme$="[[scheme]]">[[scheme]]</paper-tab>
         </template>
-      </ul>
+      </paper-tabs>
     </div>
     <div class="commands" hidden$="[[!schemes.length]]" hidden>
       <template is="dom-repeat"

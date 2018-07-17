@@ -838,6 +838,28 @@ limitations under the License.
       assert.isTrue(reviewStub.calledOnce);
     });
 
+    test('_handleFileListTap editMode', () => {
+      element._filesByPath = {
+        '/COMMIT_MSG': {},
+        'f1.txt': {},
+        'f2.txt': {},
+      };
+      element.changeNum = '42';
+      element.patchRange = {
+        basePatchNum: 'PARENT',
+        patchNum: '2',
+      };
+      element.editMode = true;
+      flushAsynchronousOperations();
+      const tapSpy = sandbox.spy(element, '_handleFileListTap');
+      const toggleExpandSpy = sandbox.spy(element, '_togglePathExpanded');
+
+      // Tap the edit controls. Should be ignored by _handleFileListTap.
+      MockInteractions.tap(element.$$('.editFileControls'));
+      assert.isTrue(tapSpy.calledOnce);
+      assert.isFalse(toggleExpandSpy.called);
+    });
+
     test('patch set from revisions', () => {
       const expected = [
         {num: 4, desc: 'test'},

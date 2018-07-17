@@ -247,8 +247,10 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('reply', done => {
+    test('reply', () => {
       const commentEl = element.$$('gr-diff-comment');
+      const reportStub = sandbox.stub(element.$.reporting,
+          'recordDraftInteraction');
       assert.ok(commentEl);
 
       const replyBtn = element.$.replyBtn;
@@ -261,11 +263,13 @@ limitations under the License.
       assert.equal(drafts.length, 1);
       assert.notOk(drafts[0].message, 'message should be empty');
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      done();
+      assert.isTrue(reportStub.calledOnce);
     });
 
-    test('quote reply', done => {
+    test('quote reply', () => {
       const commentEl = element.$$('gr-diff-comment');
+      const reportStub = sandbox.stub(element.$.reporting,
+          'recordDraftInteraction');
       assert.ok(commentEl);
 
       const quoteBtn = element.$.quoteBtn;
@@ -278,10 +282,12 @@ limitations under the License.
       assert.equal(drafts.length, 1);
       assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      done();
+      assert.isTrue(reportStub.calledOnce);
     });
 
-    test('quote reply multiline', done => {
+    test('quote reply multiline', () => {
+      const reportStub = sandbox.stub(element.$.reporting,
+          'recordDraftInteraction');
       element.comments = [{
         author: {
           name: 'Mr. Peanutbutter',
@@ -308,10 +314,12 @@ limitations under the License.
       assert.equal(drafts[0].message,
           '> is this a crossover episode!?\n> It might be!\n\n');
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
-      done();
+      assert.isTrue(reportStub.calledOnce);
     });
 
     test('ack', done => {
+      const reportStub = sandbox.stub(element.$.reporting,
+          'recordDraftInteraction');
       element.changeNum = '42';
       element.patchNum = '1';
 
@@ -328,11 +336,14 @@ limitations under the License.
         assert.equal(drafts[0].message, 'Ack');
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         assert.equal(drafts[0].unresolved, false);
+        assert.isTrue(reportStub.calledOnce);
         done();
       });
     });
 
     test('done', done => {
+      const reportStub = sandbox.stub(element.$.reporting,
+          'recordDraftInteraction');
       element.changeNum = '42';
       element.patchNum = '1';
       const commentEl = element.$$('gr-diff-comment');
@@ -348,6 +359,7 @@ limitations under the License.
         assert.equal(drafts[0].message, 'Done');
         assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
         assert.isFalse(drafts[0].unresolved);
+        assert.isTrue(reportStub.calledOnce);
         done();
       });
     });

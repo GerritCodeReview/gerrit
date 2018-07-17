@@ -15,7 +15,8 @@
 package com.google.gerrit.server.mail;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.mail.MailHeader;
+import com.google.gerrit.mail.MailMessage;
 import com.google.inject.Singleton;
 
 /** Filters out auto-reply messages according to RFC 3834. */

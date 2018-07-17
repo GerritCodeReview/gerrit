@@ -92,7 +92,7 @@ limitations under the License.
       .headerTitle .headerSubject {
         font-family: var(--font-family-bold);
       }
-      .replyContainer {
+      #replyBtn {
         margin-bottom: 1em;
       }
       gr-change-star {
@@ -116,13 +116,11 @@ limitations under the License.
         font-family: var(--font-family);
         margin-top: 1em;
       }
-      .changeInfo-column:not(:last-of-type) {
-        margin-right: 1em;
-        padding-right: 1em;
+      .changeInfo-column {
+        padding: 0 1em;
       }
       .changeMetadata {
         border-right: 1px solid var(--border-color);
-        font-size: .95rem;
         padding: 1em 0;
       }
       /* Prevent plugin text from overflowing. */
@@ -191,7 +189,6 @@ limitations under the License.
         overflow: hidden;
       }
       #relatedChanges {
-        font-size: .9rem;
       }
       #relatedChanges.collapsed {
         margin-bottom: 1.1em;
@@ -255,9 +252,20 @@ limitations under the License.
           max-width: var(--commit-message-max-width, 100ch);
         }
       }
+      #metadata {
+        padding-right: 1em;
+        width: 100%;
+      }
       /* NOTE: If you update this breakpoint, also update the
       BREAKPOINT_RELATED_MED in the JS */
-      @media screen and (max-width: 60em) {
+      @media screen and (max-width: 75em) {
+        .relatedChanges {
+          padding: 0;
+        }
+        #relatedChanges {
+          border-top: 1px solid var(--border-color);
+          padding-top: 1em;
+        }
         #commitAndRelated {
           flex-direction: column;
           flex-wrap: nowrap;
@@ -265,10 +273,11 @@ limitations under the License.
         #commitMessageEditor {
           min-width: 0;
         }
-        gr-reply-dialog {
-          height: 100vh;
-          min-width: initial;
-          width: 100vw;
+        .commitMessage {
+          margin-right: 0;
+        }
+        .mainChangeInfo {
+          padding-right: 0;
         }
       }
       /* NOTE: If you update this breakpoint, also update the
@@ -308,15 +317,24 @@ limitations under the License.
           flex-direction: column;
           flex-wrap: nowrap;
         }
+        .commitContainer {
+          border-top: 1px solid var(--border-color);
+          margin: 0;
+          padding: 1em 0;
+        }
         .relatedChanges,
         .changeMetadata {
           font-size: var(--font-size-normal);
         }
         .changeMetadata {
           border-right: none;
-          margin-bottom: 1em;
           margin-top: .25em;
           max-width: none;
+          padding: 1em 0;
+        }
+        #metadata,
+        .mainChangeInfo {
+          padding: 0;
         }
         .commitActions {
           display: block;
@@ -325,12 +343,17 @@ limitations under the License.
         }
         .commitMessage {
           flex: initial;
-          margin-right: 0;
+          margin: 0;
         }
         /* Change actions are the only thing thant need to remain visible due
         to the fact that they may have the currently visible overlay open. */
         #mainContent.overlayOpen .hideOnMobileOverlay {
           display: none;
+        }
+        gr-reply-dialog {
+          height: 100vh;
+          min-width: initial;
+          width: 100vw;
         }
       }
     </style>
@@ -396,10 +419,10 @@ limitations under the License.
           <gr-change-metadata
               id="metadata"
               change="{{_change}}"
-              account="[[_account]]"
               revision="[[_selectedRevision]]"
               commit-info="[[_commitInfo]]"
               server-config="[[_serverConfig]]"
+              mutable="[[_loggedIn]]"
               parent-is-current="[[_parentIsCurrent]]"
               on-show-reply-dialog="_handleShowReplyDialog">
           </gr-change-metadata>
@@ -409,17 +432,16 @@ limitations under the License.
           <div id="change_plugins"></div>
         </div>
         <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
-          <hr class="mobile">
           <div id="commitAndRelated" class="hideOnMobileOverlay">
             <div class="commitContainer">
-              <div class="replyContainer">
-                  <gr-button
-                      id="replyBtn"
-                      class="reply"
-                      hidden$="[[!_loggedIn]]"
-                      primary
-                      disabled="[[_replyDisabled]]"
-                      on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+              <div>
+                <gr-button
+                    id="replyBtn"
+                    class="reply"
+                    hidden$="[[!_loggedIn]]"
+                    primary
+                    disabled="[[_replyDisabled]]"
+                    on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
               </div>
               <div
                   id="commitMessage"

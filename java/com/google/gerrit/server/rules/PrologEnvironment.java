@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -176,6 +177,7 @@ public class PrologEnvironment extends BufferingPrologControl {
     private final int reductionLimit;
     private final int compileLimit;
     private final PatchSetUtil patchsetUtil;
+    private Emails emails;
 
     @Inject
     Args(
@@ -187,7 +189,8 @@ public class PrologEnvironment extends BufferingPrologControl {
         IdentifiedUser.GenericFactory userFactory,
         Provider<AnonymousUser> anonymousUser,
         @GerritServerConfig Config config,
-        PatchSetUtil patchsetUtil) {
+        PatchSetUtil patchsetUtil,
+        Emails emails) {
       this.projectCache = projectCache;
       this.permissionBackend = permissionBackend;
       this.repositoryManager = repositoryManager;
@@ -196,6 +199,7 @@ public class PrologEnvironment extends BufferingPrologControl {
       this.userFactory = userFactory;
       this.anonymousUser = anonymousUser;
       this.patchsetUtil = patchsetUtil;
+      this.emails = emails;
 
       int limit = config.getInt("rules", null, "reductionLimit", 100000);
       reductionLimit = limit <= 0 ? Integer.MAX_VALUE : limit;
@@ -246,6 +250,10 @@ public class PrologEnvironment extends BufferingPrologControl {
 
     public PatchSetUtil getPatchsetUtil() {
       return patchsetUtil;
+    }
+
+    public Emails getEmails() {
+      return emails;
     }
   }
 }

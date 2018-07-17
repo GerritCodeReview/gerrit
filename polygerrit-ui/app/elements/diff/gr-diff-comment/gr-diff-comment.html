@@ -50,9 +50,13 @@ limitations under the License.
       :host([disabled]) {
         pointer-events: none;
       }
-      :host([disabled]) .body,
+      :host([disabled]) .actions,
+      :host([disabled]) .robotActions,
       :host([disabled]) .date {
         opacity: .5;
+      }
+      :host([discarding]) {
+        display: none;
       }
       .header {
         align-items: baseline;
@@ -209,7 +213,6 @@ limitations under the License.
       }
       .resolve label {
         color: var(--comment-text-color);
-        font-size: var(--font-size-small);
       }
       gr-confirm-dialog .main {
         display: flex;
@@ -226,12 +229,6 @@ limitations under the License.
       #deleteBtn.showDeleteButtons {
         display: block;
       }
-      #savingMessage {
-        display: none;
-      }
-      :host([disabled]) #savingMessage {
-        display: inline;
-      }
     </style>
     <div id="container"
         class="container"
@@ -246,7 +243,6 @@ limitations under the License.
               title="This draft is only visible to you. To publish drafts, click the red 'Reply' button at the top of the change or press the 'A' key."
               max-width="20em"
               show-icon></gr-tooltip-content>
-          <span id="savingMessage">[[_savingMessage]]</span>
         </div>
         <div class="headerMiddle">
           <span class="collapsedContent">[[comment.message]]</span>

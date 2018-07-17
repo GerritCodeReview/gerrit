@@ -2204,6 +2204,7 @@ class ReceiveCommits {
     }
 
     private void setChangeId(int id) {
+      possiblyOverrideWorkInProgress();
 
       changeId = new Change.Id(id);
       ins =
@@ -2222,6 +2223,16 @@ class ReceiveCommits {
       if (rp.getPushCertificate() != null) {
         ins.setPushCertificate(rp.getPushCertificate().toTextWithSignature());
       }
+    }
+
+    private void possiblyOverrideWorkInProgress() {
+      // When wip or ready explicitly provided, leave it as is.
+      if (magicBranch.workInProgress || magicBranch.ready) {
+        return;
+      }
+      magicBranch.workInProgress =
+          projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
+              || firstNonNull(user.state().getGeneralPreferences().workInProgressByDefault, false);
     }
 
     private void addOps(BatchUpdate bu) throws RestApiException {
@@ -2444,7 +2455,7 @@ class ReceiveCommits {
       RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
       // Not allowed to create a new patch set if the current patch set is locked.
-      if (psUtil.isPatchSetLocked(notes, user)) {
+      if (psUtil.isPatchSetLocked(notes)) {
         reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
         return false;
       }
@@ -2468,7 +2479,7 @@ class ReceiveCommits {
         return false;
       }
 
-      for (Ref r : rp.getRepository().getRefDatabase().getRefs("refs/changes").values()) {
+      for (Ref r : rp.getRepository().getRefDatabase().getRefsByPrefix("refs/changes")) {
         if (r.getObjectId().equals(newCommit)) {
           reject(inputCommand, "commit already exists (in the project)");
           return false;
@@ -2528,11 +2539,23 @@ class ReceiveCommits {
       if (magicBranch != null
           && (magicBranch.workInProgress || magicBranch.ready)
           && magicBranch.workInProgress != change.isWorkInProgress()
-          && (!user.getAccountId().equals(change.getOwner())
-              && !permissions.test(ProjectPermission.WRITE_CONFIG)
-              && !permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER))) {
-        reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
-        return false;
+          && !user.getAccountId().equals(change.getOwner())) {
+        boolean hasWriteConfigPermission = false;
+        try {
+          permissions.check(ProjectPermission.WRITE_CONFIG);
+          hasWriteConfigPermission = true;
+        } catch (AuthException e) {
+          // Do nothing.
+        }
+
+        if (!hasWriteConfigPermission) {
+          try {
+            permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+          } catch (AuthException e1) {
+            reject(inputCommand, ONLY_CHANGE_OWNER_OR_PROJECT_OWNER_CAN_MODIFY_WIP);
+            return false;
+          }
+        }
       }
 
       if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {

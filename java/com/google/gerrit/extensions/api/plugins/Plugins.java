@@ -14,7 +14,6 @@
 
 package com.google.gerrit.extensions.api.plugins;
 
-import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -28,6 +27,10 @@ public interface Plugins {
   ListRequest list() throws RestApiException;
 
   PluginApi name(String name) throws RestApiException;
+
+  @Deprecated
+  PluginApi install(String name, com.google.gerrit.extensions.common.InstallPluginInput input)
+      throws RestApiException;
 
   PluginApi install(String name, InstallPluginInput input) throws RestApiException;
 
@@ -121,7 +124,15 @@ public interface Plugins {
     }
 
     @Override
-    public PluginApi install(String name, InstallPluginInput input) throws RestApiException {
+    @Deprecated
+    public PluginApi install(
+        String name, com.google.gerrit.extensions.common.InstallPluginInput input)
+        throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public PluginApi install(String name, InstallPluginInput input) {
       throw new NotImplementedException();
     }
   }

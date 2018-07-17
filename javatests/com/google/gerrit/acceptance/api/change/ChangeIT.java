@@ -44,6 +44,7 @@ import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
+import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
@@ -58,9 +59,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
+import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -91,6 +92,8 @@ import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
@@ -123,6 +126,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -137,7 +141,6 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.project.testing.Util;
 import com.google.gerrit.server.restapi.change.PostReview;
@@ -442,6 +445,16 @@ public class ChangeIT extends AbstractDaemonTest {
     grant(project, "refs/*", Permission.OWNER, false, REGISTERED_USERS);
     setApiUser(user2);
     gApi.changes().id(changeId).setWorkInProgress();
+    assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
+  }
+
+  @Test
+  public void createWipChangeWithWorkInProgressByDefaultForProject() throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.workInProgressByDefault = InheritableBoolean.TRUE;
+    gApi.projects().name(project.get()).config(input);
+    String changeId =
+        gApi.changes().create(new ChangeInput(project.get(), "master", "Test Change")).get().id;
     assertThat(gApi.changes().id(changeId).get().workInProgress).isTrue();
   }
 
@@ -999,12 +1012,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteNewChangeAsAdmin() throws Exception {
-    PushOneCommit.Result changeResult = createChange();
-    String changeId = changeResult.getChangeId();
-
-    gApi.changes().id(changeId).delete();
-
-    assertThat(query(changeId)).isEmpty();
+    deleteChangeAsUser(admin, admin);
   }
 
   @Test
@@ -1021,41 +1029,86 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
-  public void deleteChangeAsUserWithDeleteOwnChangesPermission() throws Exception {
+  public void deleteNewChangeAsUserWithDeleteChangesPermissionForGroup() throws Exception {
+    allow("refs/*", Permission.DELETE_CHANGES, REGISTERED_USERS);
+    deleteChangeAsUser(admin, user);
+  }
+
+  @Test
+  public void deleteNewChangeAsUserWithDeleteChangesPermissionForProjectOwners() throws Exception {
+    GroupApi groupApi = gApi.groups().create(name("delete-change"));
+    groupApi.addMembers("user");
+
+    ProjectInput in = new ProjectInput();
+    in.name = name("delete-change");
+    in.owners = Lists.newArrayListWithCapacity(1);
+    in.owners.add(groupApi.name());
+    in.createEmptyCommit = true;
+    ProjectApi api = gApi.projects().create(in);
+
+    Project.NameKey nameKey = new Project.NameKey(api.get().name);
+
+    try (ProjectConfigUpdate u = updateProject(nameKey)) {
+      Util.allow(u.getConfig(), Permission.DELETE_CHANGES, PROJECT_OWNERS, "refs/*");
+      u.save();
+    }
+
+    deleteChangeAsUser(nameKey, admin, user);
+  }
+
+  @Test
+  public void deleteChangeAsUserWithDeleteOwnChangesPermissionForGroup() throws Exception {
     allow("refs/*", Permission.DELETE_OWN_CHANGES, REGISTERED_USERS);
+    deleteChangeAsUser(user, user);
+  }
 
+  @Test
+  public void deleteChangeAsUserWithDeleteOwnChangesPermissionForOwners() throws Exception {
+    allow("refs/*", Permission.DELETE_OWN_CHANGES, CHANGE_OWNER);
+    deleteChangeAsUser(user, user);
+  }
+
+  private void deleteChangeAsUser(
+      com.google.gerrit.acceptance.TestAccount owner,
+      com.google.gerrit.acceptance.TestAccount deleteAs)
+      throws Exception {
+    deleteChangeAsUser(project, owner, deleteAs);
+  }
+
+  private void deleteChangeAsUser(
+      Project.NameKey projectName,
+      com.google.gerrit.acceptance.TestAccount owner,
+      com.google.gerrit.acceptance.TestAccount deleteAs)
+      throws Exception {
     try {
-      PushOneCommit.Result changeResult =
-          pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
-      String changeId = changeResult.getChangeId();
-      int id = changeResult.getChange().getId().id;
-      RevCommit commit = changeResult.getCommit();
+      setApiUser(owner);
+      ChangeInput in = new ChangeInput();
+      in.project = projectName.get();
+      in.branch = "refs/heads/master";
+      in.subject = "test";
+      ChangeInfo changeInfo = gApi.changes().create(in).get();
+      String changeId = changeInfo.changeId;
+      int id = changeInfo._number;
+      String commit = changeInfo.currentRevision;
 
-      setApiUser(user);
+      assertThat(gApi.changes().id(changeId).info().owner._accountId).isEqualTo(owner.id.get());
+
+      setApiUser(deleteAs);
       gApi.changes().id(changeId).delete();
 
       assertThat(query(changeId)).isEmpty();
 
       String ref = new Change.Id(id).toRefPrefix() + "1";
-      eventRecorder.assertRefUpdatedEvents(project.get(), ref, null, commit, commit, null);
+      eventRecorder.assertRefUpdatedEvents(projectName.get(), ref, null, commit, commit, null);
     } finally {
       removePermission(project, "refs/*", Permission.DELETE_OWN_CHANGES);
+      removePermission(project, "refs/*", Permission.DELETE_CHANGES);
     }
   }
 
   @Test
-  @TestProjectInput(cloneAs = "user")
   public void deleteNewChangeOfAnotherUserAsAdmin() throws Exception {
-    PushOneCommit.Result changeResult =
-        pushFactory.create(db, user.getIdent(), testRepo).to("refs/for/master");
-    changeResult.assertOkStatus();
-    String changeId = changeResult.getChangeId();
-
-    setApiUser(admin);
-    gApi.changes().id(changeId).delete();
-
-    assertThat(query(changeId)).isEmpty();
+    deleteChangeAsUser(user, admin);
   }
 
   @Test
@@ -2703,9 +2756,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
       PersonIdent expectedAuthor =
-          changeNoteUtil
-              .getLegacyChangeNoteWrite()
-              .newIdent(getAccount(admin.id), c.updated, serverIdent.get());
+          changeNoteUtil.newIdent(getAccount(admin.id), c.updated, serverIdent.get());
       assertThat(commitPatchSetCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitPatchSetCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.updated));
@@ -2713,10 +2764,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       RevCommit commitChangeCreation = rw.parseCommit(commitPatchSetCreation.getParent(0));
       assertThat(commitChangeCreation.getShortMessage()).isEqualTo("Create change");
-      expectedAuthor =
-          changeNoteUtil
-              .getLegacyChangeNoteWrite()
-              .newIdent(getAccount(admin.id), c.created, serverIdent.get());
+      expectedAuthor = changeNoteUtil.newIdent(getAccount(admin.id), c.created, serverIdent.get());
       assertThat(commitChangeCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
       assertThat(commitChangeCreation.getCommitterIdent())
           .isEqualTo(new PersonIdent(serverIdent.get(), c.created));
@@ -4022,38 +4070,6 @@ public class ChangeIT extends AbstractDaemonTest {
     try (AutoCloseable ctx = disableChangeIndex()) {
       assertThat(gApi.changes().id(project.get(), number).get(ImmutableSet.of()).changeId)
           .isEqualTo(change.getChangeId());
-    }
-  }
-
-  private static class ChangeIndexedCounter implements ChangeIndexedListener {
-    private final AtomicLongMap<Integer> countsByChange = AtomicLongMap.create();
-
-    @Override
-    public void onChangeIndexed(String projectName, int id) {
-      countsByChange.incrementAndGet(id);
-    }
-
-    @Override
-    public void onChangeDeleted(int id) {
-      countsByChange.incrementAndGet(id);
-    }
-
-    void clear() {
-      countsByChange.clear();
-    }
-
-    long getCount(ChangeInfo info) {
-      return countsByChange.get(info._number);
-    }
-
-    void assertReindexOf(ChangeInfo info) {
-      assertReindexOf(info, 1);
-    }
-
-    void assertReindexOf(ChangeInfo info, int expectedCount) {
-      assertThat(getCount(info)).isEqualTo(expectedCount);
-      assertThat(countsByChange).hasSize(1);
-      clear();
     }
   }
 

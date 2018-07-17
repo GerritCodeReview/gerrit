@@ -60,7 +60,7 @@ public class Schema_161 extends SchemaVersion {
       BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
       bru.setAllowNonFastForwards(true);
 
-      for (Ref ref : git.getRefDatabase().getRefs(RefNames.REFS_STARRED_CHANGES).values()) {
+      for (Ref ref : git.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
         StarRef starRef = StarredChangesUtil.readLabels(git, ref.getName());
 
         Set<Integer> mutedPatchSets =

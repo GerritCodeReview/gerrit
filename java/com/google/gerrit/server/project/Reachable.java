@@ -70,8 +70,8 @@ public class Reachable {
   boolean fromHeadsOrTags(Project.NameKey project, Repository repo, RevCommit commit) {
     try {
       RefDatabase refdb = repo.getRefDatabase();
-      Collection<Ref> heads = refdb.getRefs(Constants.R_HEADS).values();
-      Collection<Ref> tags = refdb.getRefs(Constants.R_TAGS).values();
+      Collection<Ref> heads = refdb.getRefsByPrefix(Constants.R_HEADS);
+      Collection<Ref> tags = refdb.getRefsByPrefix(Constants.R_TAGS);
       Map<String, Ref> refs = Maps.newHashMapWithExpectedSize(heads.size() + tags.size());
       for (Ref r : Iterables.concat(heads, tags)) {
         refs.put(r.getName(), r);

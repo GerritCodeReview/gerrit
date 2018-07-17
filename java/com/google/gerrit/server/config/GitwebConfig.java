@@ -36,6 +36,8 @@ import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.eclipse.jgit.lib.Config;
 
 public class GitwebConfig {
@@ -178,7 +180,11 @@ public class GitwebConfig {
   private final GitwebType type;
 
   @Inject
-  GitwebConfig(GitwebCgiConfig cgiConfig, @GerritServerConfig Config cfg) {
+  GitwebConfig(
+      GitwebCgiConfig cgiConfig,
+      @GerritServerConfig Config cfg,
+      @Nullable @CanonicalWebUrl String gerritUrl)
+      throws MalformedURLException {
     if (isDisabled(cfg)) {
       type = null;
       url = null;
@@ -191,7 +197,14 @@ public class GitwebConfig {
         // Use an externally managed gitweb instance, and not an internal one.
         url = cfgUrl;
       } else {
-        url = firstNonNull(cfgUrl, "gitweb");
+        String baseGerritUrl;
+        if (gerritUrl != null) {
+          URL u = new URL(gerritUrl);
+          baseGerritUrl = u.getPath();
+        } else {
+          baseGerritUrl = "/";
+        }
+        url = firstNonNull(cfgUrl, baseGerritUrl + "gitweb");
       }
     }
   }

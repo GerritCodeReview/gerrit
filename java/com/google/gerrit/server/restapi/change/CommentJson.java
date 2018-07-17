@@ -32,7 +32,7 @@ import com.google.gerrit.reviewdb.client.FixReplacement;
 import com.google.gerrit.reviewdb.client.FixSuggestion;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.account.AccountLoader;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +71,7 @@ class CommentJson {
   }
 
   private abstract class BaseCommentFormatter<F extends Comment, T extends CommentInfo> {
-    public T format(F comment) throws OrmException {
+    public T format(F comment) throws PermissionBackendException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
       T info = toInfo(comment, loader);
       if (loader != null) {
@@ -80,7 +80,7 @@ class CommentJson {
       return info;
     }
 
-    public Map<String, List<T>> format(Iterable<F> comments) throws OrmException {
+    public Map<String, List<T>> format(Iterable<F> comments) throws PermissionBackendException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
 
       Map<String, List<T>> out = new TreeMap<>();
@@ -106,7 +106,7 @@ class CommentJson {
       return out;
     }
 
-    public List<T> formatAsList(Iterable<F> comments) throws OrmException {
+    public List<T> formatAsList(Iterable<F> comments) throws PermissionBackendException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
 
       List<T> out =

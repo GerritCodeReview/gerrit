@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
+import com.google.gerrit.extensions.api.accounts.AgreementInput;
 import com.google.gerrit.extensions.api.accounts.EmailApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
@@ -29,10 +30,10 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountExternalIdInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AgreementInfo;
-import com.google.gerrit.extensions.common.AgreementInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -57,6 +58,7 @@ import com.google.gerrit.server.restapi.account.DeleteWatchedProjects;
 import com.google.gerrit.server.restapi.account.GetActive;
 import com.google.gerrit.server.restapi.account.GetAgreements;
 import com.google.gerrit.server.restapi.account.GetAvatar;
+import com.google.gerrit.server.restapi.account.GetDetail;
 import com.google.gerrit.server.restapi.account.GetDiffPreferences;
 import com.google.gerrit.server.restapi.account.GetEditPreferences;
 import com.google.gerrit.server.restapi.account.GetEmails;
@@ -77,7 +79,6 @@ import com.google.gerrit.server.restapi.account.SshKeys;
 import com.google.gerrit.server.restapi.account.StarredChanges;
 import com.google.gerrit.server.restapi.account.Stars;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
@@ -92,6 +93,7 @@ public class AccountApiImpl implements AccountApi {
   private final AccountResource account;
   private final ChangesCollection changes;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final GetDetail getDetail;
   private final GetAvatar getAvatar;
   private final GetPreferences getPreferences;
   private final SetPreferences setPreferences;
@@ -108,7 +110,7 @@ public class AccountApiImpl implements AccountApi {
   private final Stars.Get starsGet;
   private final Stars.Post starsPost;
   private final GetEmails getEmails;
-  private final CreateEmail.Factory createEmailFactory;
+  private final CreateEmail createEmail;
   private final DeleteEmail deleteEmail;
   private final GpgApiAdapter gpgApiAdapter;
   private final GetSshKeys getSshKeys;
@@ -131,6 +133,7 @@ public class AccountApiImpl implements AccountApi {
   AccountApiImpl(
       AccountLoader.Factory ailf,
       ChangesCollection changes,
+      GetDetail getDetail,
       GetAvatar getAvatar,
       GetPreferences getPreferences,
       SetPreferences setPreferences,
@@ -147,7 +150,7 @@ public class AccountApiImpl implements AccountApi {
       Stars.Get starsGet,
       Stars.Post starsPost,
       GetEmails getEmails,
-      CreateEmail.Factory createEmailFactory,
+      CreateEmail createEmail,
       DeleteEmail deleteEmail,
       GpgApiAdapter gpgApiAdapter,
       GetSshKeys getSshKeys,
@@ -169,6 +172,7 @@ public class AccountApiImpl implements AccountApi {
     this.account = account;
     this.accountLoaderFactory = ailf;
     this.changes = changes;
+    this.getDetail = getDetail;
     this.getAvatar = getAvatar;
     this.getPreferences = getPreferences;
     this.setPreferences = setPreferences;
@@ -185,7 +189,7 @@ public class AccountApiImpl implements AccountApi {
     this.starsGet = starsGet;
     this.starsPost = starsPost;
     this.getEmails = getEmails;
-    this.createEmailFactory = createEmailFactory;
+    this.createEmail = createEmail;
     this.deleteEmail = deleteEmail;
     this.getSshKeys = getSshKeys;
     this.addSshKey = addSshKey;
@@ -214,6 +218,15 @@ public class AccountApiImpl implements AccountApi {
       return ai;
     } catch (Exception e) {
       throw asRestApiException("Cannot parse change", e);
+    }
+  }
+
+  @Override
+  public AccountDetailInfo detail() throws RestApiException {
+    try {
+      return getDetail.apply(account);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get detail", e);
     }
   }
 
@@ -327,9 +340,8 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void starChange(String changeId) throws RestApiException {
     try {
-      ChangeResource rsrc = changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
-      starredChangesCreate.setChange(rsrc);
-      starredChangesCreate.apply(account, new StarredChanges.EmptyInput());
+      starredChangesCreate.apply(
+          account, IdString.fromUrl(changeId), new StarredChanges.EmptyInput());
     } catch (Exception e) {
       throw asRestApiException("Cannot star change", e);
     }
@@ -380,7 +392,7 @@ public class AccountApiImpl implements AccountApi {
   public List<GroupInfo> getGroups() throws RestApiException {
     try {
       return getGroups.apply(account);
-    } catch (OrmException e) {
+    } catch (Exception e) {
       throw asRestApiException("Cannot get groups", e);
     }
   }
@@ -398,7 +410,7 @@ public class AccountApiImpl implements AccountApi {
   public void addEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
-      createEmailFactory.create(input.email).apply(rsrc, input);
+      createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot add email", e);
     }
@@ -418,7 +430,7 @@ public class AccountApiImpl implements AccountApi {
   public EmailApi createEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
-      createEmailFactory.create(input.email).apply(rsrc, input);
+      createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
       return email(rsrc.getEmail());
     } catch (Exception e) {
       throw asRestApiException("Cannot create email", e);
@@ -505,7 +517,11 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public List<AgreementInfo> listAgreements() throws RestApiException {
-    return getAgreements.apply(account);
+    try {
+      return getAgreements.apply(account);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get agreements", e);
+    }
   }
 
   @Override

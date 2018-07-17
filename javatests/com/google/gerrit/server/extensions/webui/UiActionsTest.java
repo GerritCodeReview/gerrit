@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
@@ -43,7 +44,43 @@ public class UiActionsTest {
     private boolean allowValueQueries = true;
 
     @Override
-    public CurrentUser user() {
+    public String resourcePath() {
+      return "/projects/test-project";
+    }
+
+    @Override
+    public ForRef ref(String ref) {
+      throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
+    public void check(ProjectPermission perm) throws AuthException, PermissionBackendException {
+      throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
+    public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
+        throws PermissionBackendException {
+      assertThat(allowValueQueries).isTrue();
+      return ImmutableSet.of(ProjectPermission.READ);
+    }
+
+    @Override
+    public BooleanCondition testCond(ProjectPermission perm) {
+      return new PermissionBackendCondition.ForProject(this, perm, fakeUser());
+    }
+
+    @Override
+    public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException {
+      throw new UnsupportedOperationException("not implemented");
+    }
+
+    private void disallowValueQueries() {
+      allowValueQueries = false;
+    }
+
+    private static CurrentUser fakeUser() {
       return new CurrentUser() {
         @Override
         public GroupMembership getEffectiveGroups() {
@@ -65,48 +102,6 @@ public class UiActionsTest {
           return new Account.Id(1);
         }
       };
-    }
-
-    @Override
-    public String resourcePath() {
-      return "/projects/test-project";
-    }
-
-    @Override
-    public ForProject user(CurrentUser user) {
-      throw new UnsupportedOperationException("not implemented");
-    }
-
-    @Override
-    public ForProject absentUser(Account.Id id) {
-      throw new UnsupportedOperationException("not implemented");
-    }
-
-    @Override
-    public ForRef ref(String ref) {
-      throw new UnsupportedOperationException("not implemented");
-    }
-
-    @Override
-    public void check(ProjectPermission perm) throws AuthException, PermissionBackendException {
-      throw new UnsupportedOperationException("not implemented");
-    }
-
-    @Override
-    public Set<ProjectPermission> test(Collection<ProjectPermission> permSet)
-        throws PermissionBackendException {
-      assertThat(allowValueQueries).isTrue();
-      return ImmutableSet.of(ProjectPermission.READ);
-    }
-
-    @Override
-    public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
-        throws PermissionBackendException {
-      throw new UnsupportedOperationException("not implemented");
-    }
-
-    private void disallowValueQueries() {
-      allowValueQueries = false;
     }
   }
 

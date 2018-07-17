@@ -107,7 +107,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       throws OrmException, UpdateException, RestApiException, IOException,
           PermissionBackendException {
     // Not allowed to rebase if the current patch set is locked.
-    patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes(), rsrc.getUser());
+    patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().database(dbProvider).check(ChangePermission.REBASE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
@@ -228,7 +228,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     }
 
     try {
-      if (patchSetUtil.isPatchSetLocked(rsrc.getNotes(), rsrc.getUser())) {
+      if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
     } catch (OrmException | IOException e) {

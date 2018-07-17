@@ -122,7 +122,7 @@ public class WorkQueue {
    * @param poolsize the size of the pool.
    * @param queueName the name of the queue.
    */
-  public ScheduledThreadPoolExecutor createQueue(int poolsize, String queueName) {
+  public ScheduledExecutorService createQueue(int poolsize, String queueName) {
     return createQueue(poolsize, queueName, Thread.NORM_PRIORITY, false);
   }
 

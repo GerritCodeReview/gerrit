@@ -19,6 +19,7 @@ genrule2(
 
 PLUGIN_API = [
     "//java/com/google/gerrit/server",
+    "//java/com/google/gerrit/server/ioutil",
     "//java/com/google/gerrit/server/restapi",
     "//java/com/google/gerrit/pgm/init/api",
     "//java/com/google/gerrit/httpd",
@@ -37,6 +38,7 @@ EXPORTS = [
     "//java/com/google/gerrit/metrics/dropwizard",
     "//java/com/google/gerrit/reviewdb:server",
     "//java/com/google/gerrit/util/http",
+    "//lib/commons:compress",
     "//lib/commons:dbcp",
     "//lib/commons:lang",
     "//lib/dropwizard:dropwizard-core",

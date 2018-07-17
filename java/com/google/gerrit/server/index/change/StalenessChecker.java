@@ -31,11 +31,12 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.RefState;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.index.RefState;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -103,6 +104,7 @@ public class StalenessChecker {
         parsePatterns(cd));
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
   public static boolean isStale(
       GitRepositoryManager repoManager,
       Change.Id id,
@@ -247,7 +249,7 @@ public class StalenessChecker {
     }
 
     private boolean match(Repository repo, Set<RefState> expected) throws IOException {
-      for (Ref r : repo.getRefDatabase().getRefs(prefix()).values()) {
+      for (Ref r : repo.getRefDatabase().getRefsByPrefix(prefix())) {
         if (!match(r.getName())) {
           continue;
         }

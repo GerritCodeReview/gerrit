@@ -16,13 +16,11 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
-import com.google.gwtorm.server.OrmException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.ArrayList;
@@ -86,23 +84,18 @@ public class AccountLoader {
     provided.add(info);
   }
 
-  public void fill() throws OrmException {
-    try {
-      directory.fillAccountInfo(Iterables.concat(created.values(), provided), options);
-    } catch (DirectoryException e) {
-      Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
-      throw new OrmException(e);
-    }
+  public void fill() throws PermissionBackendException {
+    directory.fillAccountInfo(Iterables.concat(created.values(), provided), options);
   }
 
-  public void fill(Collection<? extends AccountInfo> infos) throws OrmException {
+  public void fill(Collection<? extends AccountInfo> infos) throws PermissionBackendException {
     for (AccountInfo info : infos) {
       put(info);
     }
     fill();
   }
 
-  public AccountInfo fillOne(Account.Id id) throws OrmException {
+  public AccountInfo fillOne(Account.Id id) throws PermissionBackendException {
     AccountInfo info = get(id);
     fill();
     return info;

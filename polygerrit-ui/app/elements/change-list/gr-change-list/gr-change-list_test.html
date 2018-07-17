@@ -127,7 +127,13 @@ limitations under the License.
       assert.equal(element._computeLabelShortcut('PolyGerrit-Review'), 'PR');
       assert.equal(element._computeLabelShortcut('polygerrit-review'), 'PR');
       assert.equal(element._computeLabelShortcut(
+          'Invalid-Prolog-Rules-Label-Name--Verified'), 'V');
+      assert.equal(element._computeLabelShortcut(
           'Some-Special-Label-7'), 'SSL7');
+      assert.equal(element._computeLabelShortcut('--Too----many----dashes---'),
+          'TMD');
+      assert.equal(element._computeLabelShortcut(
+          'Really-rather-entirely-too-long-of-a-label-name'), 'RRETL');
     });
 
     test('colspans', () => {

@@ -26,12 +26,13 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.mail.EmailHeader;
+import com.google.gerrit.mail.EmailHeader.AddressList;
+import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.MailHeader;
-import com.google.gerrit.server.mail.send.EmailHeader.AddressList;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
@@ -356,7 +357,7 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, or Anonymous Coward if unset.
    */
-  public String getNameEmailFor(Account.Id accountId) {
+  protected String getNameEmailFor(Account.Id accountId) {
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::getAccount);
     if (account.isPresent()) {
       String name = account.get().getFullName();
@@ -379,7 +380,7 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, username, or null if unset.
    */
-  public String getUserNameEmailFor(Account.Id accountId) {
+  protected String getUserNameEmailFor(Account.Id accountId) {
     Optional<AccountState> accountState = args.accountCache.get(accountId);
     if (!accountState.isPresent()) {
       return null;
@@ -564,28 +565,6 @@ public abstract class OutgoingEmail {
     return soyTemplate(name, SanitizedContent.ContentKind.HTML);
   }
 
-  public String joinStrings(Iterable<Object> in, String joiner) {
-    return joinStrings(in.iterator(), joiner);
-  }
-
-  public String joinStrings(Iterator<Object> in, String joiner) {
-    if (!in.hasNext()) {
-      return "";
-    }
-
-    Object first = in.next();
-    if (!in.hasNext()) {
-      return safeToString(first);
-    }
-
-    StringBuilder r = new StringBuilder();
-    r.append(safeToString(first));
-    while (in.hasNext()) {
-      r.append(joiner).append(safeToString(in.next()));
-    }
-    return r.toString();
-  }
-
   protected void removeUser(Account user) {
     String fromEmail = user.getPreferredEmail();
     for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext(); ) {
@@ -599,10 +578,6 @@ public abstract class OutgoingEmail {
         ((AddressList) entry.getValue()).remove(fromEmail);
       }
     }
-  }
-
-  private static String safeToString(Object obj) {
-    return obj != null ? obj.toString() : "";
   }
 
   protected final boolean useHtml() {

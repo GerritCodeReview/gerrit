@@ -485,6 +485,26 @@ limitations under the License.
       });
     });
 
+    test('checkCredentials promise rejection', () => {
+      window.fetch.restore();
+      element._cache['/accounts/self/detail'] = true;
+      sandbox.spy(element, 'checkCredentials');
+      sandbox.stub(window, 'fetch', url => {
+        return Promise.reject({message: 'Failed to fetch'});
+      });
+      return element.getConfig(true)
+          .catch(err => undefined)
+          .then(() => {
+            // When the top-level fetch call throws an error, it invokes
+            // checkCredentials, which in turn makes another fetch call.
+            // The second fetch call also fails, which leads to a second
+            // invocation of checkCredentials, which should immediately
+            // return instead of making further fetch calls.
+            assert.isTrue(element.checkCredentials.calledTwice);
+            assert.isTrue(window.fetch.calledTwice);
+          });
+    });
+
     test('legacy n,z key in change url is replaced', () => {
       const stub = sandbox.stub(element, '_fetchJSON')
           .returns(Promise.resolve([]));
@@ -691,11 +711,10 @@ limitations under the License.
       sandbox.spy(element, '_send');
       element.confirmEmail('foo');
       assert.isTrue(element._send.calledOnce);
-      assert.deepEqual(element._send.lastCall.args[0], {
-        method: 'PUT',
-        url: '/config/server/email.confirm',
-        body: {token: 'foo'},
-      });
+      assert.equal(element._send.lastCall.args[0].method, 'PUT');
+      assert.equal(element._send.lastCall.args[0].url,
+          '/config/server/email.confirm');
+      assert.deepEqual(element._send.lastCall.args[0].body, {token: 'foo'});
     });
 
     test('GrReviewerUpdatesParser.parse is used', () => {
@@ -725,7 +744,7 @@ limitations under the License.
     suite('draft comments', () => {
       test('_sendDiffDraftRequest pending requests tracked', () => {
         const obj = element._pendingRequests;
-        sandbox.stub(element, 'getChangeURLAndSend', () => mockPromise());
+        sandbox.stub(element, '_getChangeURLAndSend', () => mockPromise());
         assert.notOk(element.hasPendingDiffDrafts());
 
         element._sendDiffDraftRequest(null, null, null, {});
@@ -747,7 +766,7 @@ limitations under the License.
       suite('_failForCreate200', () => {
         test('_sendDiffDraftRequest checks for 200 on create', () => {
           const sendPromise = Promise.resolve();
-          sandbox.stub(element, 'getChangeURLAndSend').returns(sendPromise);
+          sandbox.stub(element, '_getChangeURLAndSend').returns(sendPromise);
           const failStub = sandbox.stub(element, '_failForCreate200')
               .returns(Promise.resolve());
           return element._sendDiffDraftRequest('PUT', 123, 4, {}).then(() => {
@@ -757,7 +776,7 @@ limitations under the License.
         });
 
         test('_sendDiffDraftRequest no checks for 200 on non create', () => {
-          sandbox.stub(element, 'getChangeURLAndSend')
+          sandbox.stub(element, '_getChangeURLAndSend')
               .returns(Promise.resolve());
           const failStub = sandbox.stub(element, '_failForCreate200')
               .returns(Promise.resolve());
@@ -841,35 +860,54 @@ limitations under the License.
     });
 
     test('startWorkInProgress', () => {
-      sandbox.stub(element, 'getChangeURLAndSend')
+      const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve('ok'));
       element.startWorkInProgress('42');
-      assert.isTrue(element.getChangeURLAndSend.calledWith(
-          '42', 'POST', null, '/wip', {}));
+      assert.isTrue(sendStub.calledOnce);
+      assert.equal(sendStub.lastCall.args[0].changeNum, '42');
+      assert.equal(sendStub.lastCall.args[0].method, 'POST');
+      assert.isNotOk(sendStub.lastCall.args[0].patchNum);
+      assert.equal(sendStub.lastCall.args[0].endpoint, '/wip');
+      assert.deepEqual(sendStub.lastCall.args[0].body, {});
+
       element.startWorkInProgress('42', 'revising...');
-      assert.isTrue(element.getChangeURLAndSend.calledWith(
-          '42', 'POST', null, '/wip', {message: 'revising...'}));
+      assert.isTrue(sendStub.calledTwice);
+      assert.equal(sendStub.lastCall.args[0].changeNum, '42');
+      assert.equal(sendStub.lastCall.args[0].method, 'POST');
+      assert.isNotOk(sendStub.lastCall.args[0].patchNum);
+      assert.equal(sendStub.lastCall.args[0].endpoint, '/wip');
+      assert.deepEqual(sendStub.lastCall.args[0].body,
+          {message: 'revising...'});
     });
 
     test('startReview', () => {
-      sandbox.stub(element, 'getChangeURLAndSend')
+      const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve({}));
       element.startReview('42', {message: 'Please review.'});
-      assert.isTrue(element.getChangeURLAndSend.calledWith(
-          '42', 'POST', null, '/ready', {message: 'Please review.'}));
+      assert.isTrue(sendStub.calledOnce);
+      assert.equal(sendStub.lastCall.args[0].changeNum, '42');
+      assert.equal(sendStub.lastCall.args[0].method, 'POST');
+      assert.isNotOk(sendStub.lastCall.args[0].patchNum);
+      assert.equal(sendStub.lastCall.args[0].endpoint, '/ready');
+      assert.deepEqual(sendStub.lastCall.args[0].body,
+          {message: 'Please review.'});
     });
 
-    test('deleteComment', done => {
-      sandbox.stub(element, 'getChangeURLAndSend').returns(Promise.resolve());
-      sandbox.stub(element, 'getResponseObject').returns('some response');
-      element.deleteComment('foo', 'bar', '01234', 'removal reason')
+    test('deleteComment', () => {
+      const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
+          .returns(Promise.resolve('some response'));
+      return element.deleteComment('foo', 'bar', '01234', 'removal reason')
           .then(response => {
             assert.equal(response, 'some response');
-            done();
+            assert.isTrue(sendStub.calledOnce);
+            assert.equal(sendStub.lastCall.args[0].changeNum, 'foo');
+            assert.equal(sendStub.lastCall.args[0].method, 'POST');
+            assert.equal(sendStub.lastCall.args[0].patchNum, 'bar');
+            assert.equal(sendStub.lastCall.args[0].endpoint,
+                '/comments/01234/delete');
+            assert.deepEqual(sendStub.lastCall.args[0].body,
+                {reason: 'removal reason'});
           });
-      assert.isTrue(element.getChangeURLAndSend.calledWith(
-          'foo', 'POST', 'bar', '/comments/01234/delete',
-          {reason: 'removal reason'}));
     });
 
     test('createRepo encodes name', () => {
@@ -885,11 +923,10 @@ limitations under the License.
       const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
-        assert.deepEqual(fetchStub.lastCall.args[0], {
-          changeNum: '42',
-          endpoint: '/files?q=test%2Fpath.js',
-          patchNum: 'edit',
-        });
+        assert.equal(fetchStub.lastCall.args[0].changeNum, '42');
+        assert.equal(fetchStub.lastCall.args[0].endpoint,
+            '/files?q=test%2Fpath.js');
+        assert.equal(fetchStub.lastCall.args[0].patchNum, 'edit');
       });
     });
 
@@ -1129,11 +1166,18 @@ limitations under the License.
       });
     });
 
-    test('getChangeURLAndSend', () => {
+    test('_getChangeURLAndSend', () => {
       element._projectLookup = {1: 'test'};
       const sendStub = sandbox.stub(element, '_send')
           .returns(Promise.resolve());
-      return element.getChangeURLAndSend(1, 'POST', 1, '/test').then(() => {
+
+      const req = {
+        changeNum: 1,
+        method: 'POST',
+        patchNum: 1,
+        endpoint: '/test',
+      };
+      return element._getChangeURLAndSend(req).then(() => {
         assert.isTrue(sendStub.calledOnce);
         assert.equal(sendStub.lastCall.args[0].method, 'POST');
         assert.equal(sendStub.lastCall.args[0].url,
@@ -1161,18 +1205,18 @@ limitations under the License.
     });
 
     test('setChangeTopic', () => {
-      const sendSpy = sandbox.spy(element, 'getChangeURLAndSend');
+      const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
       return element.setChangeTopic(123, 'foo-bar').then(() => {
         assert.isTrue(sendSpy.calledOnce);
-        assert.deepEqual(sendSpy.lastCall.args[4], {topic: 'foo-bar'});
+        assert.deepEqual(sendSpy.lastCall.args[0].body, {topic: 'foo-bar'});
       });
     });
 
     test('setChangeHashtag', () => {
-      const sendSpy = sandbox.spy(element, 'getChangeURLAndSend');
+      const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
       return element.setChangeHashtag(123, 'foo-bar').then(() => {
         assert.isTrue(sendSpy.calledOnce);
-        assert.equal(sendSpy.lastCall.args[4], 'foo-bar');
+        assert.equal(sendSpy.lastCall.args[0].body, 'foo-bar');
       });
     });
 
@@ -1271,7 +1315,7 @@ limitations under the License.
     });
 
     test('getFileContent', () => {
-      sandbox.stub(element, 'getChangeURLAndSend')
+      sandbox.stub(element, '_getChangeURLAndSend')
           .returns(Promise.resolve({
             ok: 'true',
             headers: {
@@ -1341,12 +1385,25 @@ limitations under the License.
       sandbox.stub(element._auth, 'fetch').returns(Promise.resolve(response));
       const startTime = 123;
       sandbox.stub(Date, 'now').returns(startTime);
-      return element._fetch(url, fetchOptions).then(() => {
+      const req = {url, fetchOptions};
+      return element._fetch(req).then(() => {
         assert.isTrue(logStub.calledOnce);
-        assert.isTrue(logStub.calledWith(
-            url, fetchOptions, startTime, response.status));
+        assert.isTrue(logStub.calledWith(req, startTime, response.status));
         assert.isFalse(response.text.called);
       });
+    });
+
+    test('_logCall only reports requests with anonymized URLss', () => {
+      sandbox.stub(Date, 'now').returns(200);
+      const handler = sinon.stub();
+      element.addEventListener('rpc-log', handler);
+
+      element._logCall({url: 'url'}, 100, 200);
+      assert.isFalse(handler.called);
+
+      element._logCall({url: 'url', anonymizedUrl: 'not url'}, 100, 200);
+      flushAsynchronousOperations();
+      assert.isTrue(handler.calledOnce);
     });
   });
 </script>

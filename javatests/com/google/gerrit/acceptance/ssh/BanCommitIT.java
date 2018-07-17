@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static org.eclipse.jgit.transport.RemoteRefUpdate.Status.REJECTED_OTHER_REASON;
 
@@ -36,7 +35,7 @@ public class BanCommitIT extends AbstractDaemonTest {
     RevCommit c = commitBuilder().add("a.txt", "some content").create();
 
     String response = adminSshSession.exec("gerrit ban-commit " + project.get() + " " + c.name());
-    assertWithMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isFalse();
+    adminSshSession.assertSuccess();
     assertThat(response.toLowerCase(Locale.US)).doesNotContain("error");
 
     RemoteRefUpdate u =

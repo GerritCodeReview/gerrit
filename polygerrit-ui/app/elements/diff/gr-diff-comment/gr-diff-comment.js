@@ -24,8 +24,6 @@
   const DRAFT_SINGULAR = 'draft...';
   const DRAFT_PLURAL = 'drafts...';
   const SAVED_MESSAGE = 'All changes saved';
-  const SAVING_PROGRESS_MESSAGE = 'Saving draft...';
-  const DiSCARDING_PROGRESS_MESSAGE = 'Discarding draft...';
 
   const REPORT_CREATE_DRAFT = 'CreateDraftComment';
   const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
@@ -94,6 +92,11 @@
         value: false,
         observer: '_editingChanged',
       },
+      discarding: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
       hasChildren: Boolean,
       patchNum: String,
       showActions: Boolean,
@@ -126,8 +129,6 @@
         type: Object,
         value: {number: 0}, // Intentional to share the object across instances.
       },
-
-      _savingMessage: String,
 
       _enableOverlay: {
         type: Boolean,
@@ -228,11 +229,10 @@
      */
     save(opt_comment) {
       let comment = opt_comment;
-      if (!comment) {
-        comment = this.comment;
-        this.comment.message = this._messageText;
-      }
+      if (!comment) { comment = this.comment; }
 
+      this.set('comment.message', this._messageText);
+      this.editing = false;
       this.disabled = true;
 
       if (!this._messageText) {
@@ -254,7 +254,6 @@
           }
           resComment.__commentSide = this.commentSide;
           this.comment = resComment;
-          this.editing = false;
           this._fireSave();
           return obj;
         });
@@ -413,40 +412,11 @@
       page.show(window.location.pathname + hash, null, false);
     },
 
-    _handleReply(e) {
-      e.preventDefault();
-      this.fire('create-reply-comment', this._getEventPayload(),
-          {bubbles: false});
-    },
-
-    _handleQuote(e) {
-      e.preventDefault();
-      this.fire('create-reply-comment', this._getEventPayload({quote: true}),
-          {bubbles: false});
-    },
-
-    _handleFix(e) {
-      e.preventDefault();
-      this.fire('create-fix-comment', this._getEventPayload({quote: true}),
-          {bubbles: false});
-    },
-
-    _handleAck(e) {
-      e.preventDefault();
-      this.fire('create-ack-comment', this._getEventPayload(),
-          {bubbles: false});
-    },
-
-    _handleDone(e) {
-      e.preventDefault();
-      this.fire('create-done-comment', this._getEventPayload(),
-          {bubbles: false});
-    },
-
     _handleEdit(e) {
       e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
+      this.$.reporting.recordDraftInteraction();
     },
 
     _handleSave(e) {
@@ -456,10 +426,9 @@
       if (this.disabled) { return; }
       const timingLabel = this.comment.id ?
           REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
-      this.$.reporting.time(timingLabel);
+      const timer = this.$.reporting.getTimer(timingLabel);
       this.set('comment.__editing', false);
-      return this.save()
-          .then(() => { this.$.reporting.timeEnd(timingLabel); });
+      return this.save().then(() => { timer.end(); });
     },
 
     _handleCancel(e) {
@@ -482,27 +451,31 @@
 
     _handleDiscard(e) {
       e.preventDefault();
+      this.$.reporting.recordDraftInteraction();
 
       if (!this._messageText) {
         this._discardDraft();
         return;
       }
-      this._openOverlay(this.confirmDiscardOverlay);
+
+      this._openOverlay(this.confirmDiscardOverlay).then(() => {
+        this.confirmDiscardOverlay.querySelector('#confirmDiscardDialog')
+            .resetFocus();
+      });
     },
 
     _handleConfirmDiscard(e) {
       e.preventDefault();
-      this.$.reporting.time(REPORT_DISCARD_DRAFT);
+      const timer = this.$.reporting.getTimer(REPORT_DISCARD_DRAFT);
       this._closeConfirmDiscardOverlay();
-      return this._discardDraft()
-          .then(() => { this.$.reporting.timeEnd(REPORT_DISCARD_DRAFT); });
+      return this._discardDraft().then(() => { timer.end(); });
     },
 
     _discardDraft() {
       if (!this.comment.__draft) {
         throw Error('Cannot discard a non-draft comment.');
       }
-      this._savingMessage = DiSCARDING_PROGRESS_MESSAGE;
+      this.discarding = true;
       this.editing = false;
       this.disabled = true;
       this._eraseDraftComment();
@@ -515,7 +488,10 @@
 
       this._xhrPromise = this._deleteDraft(this.comment).then(response => {
         this.disabled = false;
-        if (!response.ok) { return response; }
+        if (!response.ok) {
+          this.discarding = false;
+          return response;
+        }
 
         this._fireDiscard();
       }).catch(err => {
@@ -569,7 +545,6 @@
     },
 
     _saveDraft(draft) {
-      this._savingMessage = SAVING_PROGRESS_MESSAGE;
       this._showStartRequest();
       return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
           .then(result => {
@@ -632,6 +607,7 @@
     },
 
     _handleToggleResolved() {
+      this.$.reporting.recordDraftInteraction();
       this.resolved = !this.resolved;
       // Modify payload instead of this.comment, as this.comment is passed from
       // the parent by ref.
@@ -654,9 +630,7 @@
 
     _openOverlay(overlay) {
       Polymer.dom(Gerrit.getRootElement()).appendChild(overlay);
-      this.async(() => {
-        overlay.open();
-      }, 1);
+      return overlay.open();
     },
 
     _closeOverlay(overlay) {

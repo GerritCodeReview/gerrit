@@ -439,7 +439,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     private static ScanResult scanChangeIds(Repository repo) throws IOException {
       ImmutableSet.Builder<Change.Id> fromPs = ImmutableSet.builder();
       ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
-      for (Ref r : repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
+      for (Ref r : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
         Change.Id id = Change.Id.fromRef(r.getName());
         if (id != null) {
           (r.getName().endsWith(RefNames.META_SUFFIX) ? fromMeta : fromPs).add(id);

@@ -542,6 +542,8 @@ public class GroupRebuilderTest extends GerritBaseTests {
   public void combineWithBatchGroupNameNotes() throws Exception {
     AccountGroup g1 = newGroup("a");
     AccountGroup g2 = newGroup("b");
+    GroupReference gr1 = new GroupReference(g1.getGroupUUID(), g1.getName());
+    GroupReference gr2 = new GroupReference(g2.getGroupUUID(), g2.getName());
 
     GroupBundle b1 = builder().group(g1).build();
     GroupBundle b2 = builder().group(g2).build();
@@ -551,8 +553,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
     rebuilder.rebuild(repo, b1, bru);
     rebuilder.rebuild(repo, b2, bru);
     try (ObjectInserter inserter = repo.newObjectInserter()) {
-      ImmutableList<GroupReference> refs =
-          ImmutableList.of(GroupReference.forGroup(g1), GroupReference.forGroup(g2));
+      ImmutableList<GroupReference> refs = ImmutableList.of(gr1, gr2);
       GroupNameNotes.updateAllGroups(repo, inserter, bru, refs, newPersonIdent());
       inserter.flush();
     }
@@ -569,9 +570,7 @@ public class GroupRebuilderTest extends GerritBaseTests {
     assertMigratedCleanly(reload(g1), b1);
     assertMigratedCleanly(reload(g2), b2);
 
-    GroupReference group1 = GroupReference.forGroup(g1);
-    GroupReference group2 = GroupReference.forGroup(g2);
-    assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(group1, group2);
+    assertThat(GroupNameNotes.loadAllGroups(repo)).containsExactly(gr1, gr2);
   }
 
   @Test

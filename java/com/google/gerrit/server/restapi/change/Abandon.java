@@ -81,7 +81,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
       throws RestApiException, UpdateException, OrmException, PermissionBackendException,
           IOException, ConfigInvalidException {
     // Not allowed to abandon if the current patch set is locked.
-    patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes(), rsrc.getUser());
+    patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().database(dbProvider).check(ChangePermission.ABANDON);
 
@@ -155,7 +155,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
     }
 
     try {
-      if (patchSetUtil.isPatchSetLocked(rsrc.getNotes(), rsrc.getUser())) {
+      if (patchSetUtil.isPatchSetLocked(rsrc.getNotes())) {
         return description;
       }
     } catch (OrmException | IOException e) {

@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -46,16 +45,13 @@ import org.eclipse.jgit.lib.Constants;
 
 @Singleton
 public class ProjectsCollection
-    implements RestCollection<TopLevelResource, ProjectResource>,
-        AcceptsCreate<TopLevelResource>,
-        NeedsParams {
+    implements RestCollection<TopLevelResource, ProjectResource>, NeedsParams {
   private final DynamicMap<RestView<ProjectResource>> views;
   private final Provider<ListProjects> list;
   private final Provider<QueryProjects> queryProjects;
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> user;
-  private final CreateProject.Factory createProjectFactory;
 
   private boolean hasQuery;
 
@@ -66,7 +62,6 @@ public class ProjectsCollection
       Provider<QueryProjects> queryProjects,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      CreateProject.Factory factory,
       Provider<CurrentUser> user) {
     this.views = views;
     this.list = list;
@@ -74,7 +69,6 @@ public class ProjectsCollection
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.user = user;
-    this.createProjectFactory = factory;
   }
 
   @Override
@@ -178,10 +172,5 @@ public class ProjectsCollection
   @Override
   public DynamicMap<RestView<ProjectResource>> views() {
     return views;
-  }
-
-  @Override
-  public CreateProject create(TopLevelResource parent, IdString name) throws RestApiException {
-    return createProjectFactory.create(name.get());
   }
 }

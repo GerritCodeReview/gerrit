@@ -889,7 +889,8 @@ If the change does not have a topic an empty string is returned.
 Sets the topic of a change.
 
 The new topic must be provided in the request body inside a
-link:#topic-input[TopicInput] entity.
+link:#topic-input[TopicInput] entity. Any leading or trailing whitespace
+in the topic name will be removed.
 
 .Request
 ----
@@ -2276,7 +2277,9 @@ POST request:
 --
 
 Marks a change as ignored. The change will not be shown in the incoming
-reviews dashboard, and email notifications will be suppressed.
+reviews dashboard, and email notifications will be suppressed. Ignoring
+a change does not cause the change's "updated" timestamp to be modified,
+and the owner is not notified.
 
 .Request
 ----
@@ -6281,10 +6284,14 @@ The old file path. +
 Only set if the file was renamed or copied.
 |`lines_inserted`|optional|
 Number of inserted lines. +
-Not set for binary files or if no lines were inserted.
+Not set for binary files or if no lines were inserted. +
+An empty last line is not included in the count and hence this number can
+differ by one from details provided in <<#diff-info,DiffInfo>>.
 |`lines_deleted` |optional|
 Number of deleted lines. +
-Not set for binary files or if no lines were deleted.
+Not set for binary files or if no lines were deleted. +
+An empty last line is not included in the count and hence this number can
+differ by one from details provided in <<#diff-info,DiffInfo>>.
 |`size_delta`    ||
 Number of bytes by which the file size increased/decreased.
 |`size`          ||

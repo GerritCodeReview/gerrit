@@ -29,6 +29,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -459,17 +460,23 @@ public class ChangeInserter implements InsertChangeOp {
         .stream()
         .filter(
             accountId -> {
+              if (!projectState.statePermitsRead()) {
+                return false;
+              }
+
               try {
-                return permissionBackend
-                        .absentUser(accountId)
-                        .change(notes)
-                        .database(db)
-                        .test(ChangePermission.READ)
-                    && projectState.statePermitsRead();
+                permissionBackend
+                    .absentUser(accountId)
+                    .change(notes)
+                    .database(db)
+                    .check(ChangePermission.READ);
+                return true;
               } catch (PermissionBackendException e) {
                 logger.atWarning().withCause(e).log(
                     "Failed to check if account %d can see change %d",
                     accountId.get(), notes.getChangeId().get());
+                return false;
+              } catch (AuthException e) {
                 return false;
               }
             })
@@ -521,8 +528,7 @@ public class ChangeInserter implements InsertChangeOp {
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
       if (approvals != null && !approvals.isEmpty()) {
-        List<LabelType> labels =
-            projectState.getLabelTypes(change.getDest(), ctx.getUser()).getLabelTypes();
+        List<LabelType> labels = projectState.getLabelTypes(change.getDest()).getLabelTypes();
         Map<String, Short> allApprovals = new HashMap<>();
         Map<String, Short> oldApprovals = new HashMap<>();
         for (LabelType lt : labels) {

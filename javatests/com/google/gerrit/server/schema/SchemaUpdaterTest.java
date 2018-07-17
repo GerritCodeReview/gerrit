@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -94,7 +95,11 @@ public class SchemaUpdaterTest {
                     Config cfg = new Config();
                     cfg.setString("user", null, "name", "Gerrit Code Review");
                     cfg.setString("user", null, "email", "gerrit@localhost");
-
+                    cfg.setString(
+                        GerritServerIdProvider.SECTION,
+                        null,
+                        GerritServerIdProvider.KEY,
+                        "1234567");
                     bind(Config.class) //
                         .annotatedWith(GerritServerConfig.class) //
                         .toInstance(cfg);

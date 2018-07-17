@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.server.mail;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.GerritConfig;
-import com.google.gerrit.server.mail.send.EmailHeader;
+import com.google.gerrit.mail.EmailHeader;
 import java.net.URI;
 import java.util.Map;
 import org.junit.Test;

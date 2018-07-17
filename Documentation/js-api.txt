@@ -175,7 +175,11 @@ Supported events:
   and link:rest-api-changes.html#revision-info[RevisionInfo] are
   passed as arguments. Similar to a form submit validation, the
   function must return true to allow the operation to continue, or
-  false to prevent it.
+  false to prevent it. The function may be called multiple times, for
+  example, if submitting a change shows a confirmation dialog, this
+  event may be called to validate that the check whether dialog can be
+  shown, and called again when the submit is confirmed to check whether
+  the actual submission action can proceed.
 
 * `comment`: Invoked when a DOM element that represents a comment is
   created. This DOM element is passed as argument. This DOM element

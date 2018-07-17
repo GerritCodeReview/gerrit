@@ -91,6 +91,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
@@ -123,7 +124,6 @@ import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -416,7 +416,7 @@ public class ChangeJson {
   }
 
   public List<List<ChangeInfo>> formatQueryResults(List<QueryResult<ChangeData>> in)
-      throws OrmException {
+      throws PermissionBackendException {
     try (Timer0.Context ignored = metrics.formatQueryResultsLatency.start()) {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
       List<List<ChangeInfo>> res = new ArrayList<>(in.size());
@@ -434,7 +434,8 @@ public class ChangeJson {
     }
   }
 
-  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in) throws OrmException {
+  public List<ChangeInfo> formatChangeDatas(Collection<ChangeData> in)
+      throws OrmException, PermissionBackendException {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
@@ -659,10 +660,9 @@ public class ChangeJson {
       // list permitted labels, since users can't vote on those patch sets.
       if (user.isIdentifiedUser()
           && (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId()))) {
-        PermissionBackend.ForChange perm = permissionBackendForChange(user, cd);
         out.permittedLabels =
             cd.change().getStatus() != Change.Status.ABANDONED
-                ? permittedLabels(perm, cd)
+                ? permittedLabels(user.getAccountId(), cd)
                 : ImmutableMap.of();
       }
 
@@ -890,7 +890,7 @@ public class ChangeJson {
     LabelTypes labelTypes = cd.getLabelTypes();
     for (Account.Id accountId : allUsers) {
       PermissionBackend.ForChange perm = permissionBackendForChange(accountId, cd);
-      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
+      Map<String, VotingRangeInfo> pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
       for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
         LabelType lt = labelTypes.byLabel(e.getKey());
         if (lt == null) {
@@ -1031,8 +1031,7 @@ public class ChangeJson {
       Map<String, ApprovalInfo> byLabel = Maps.newHashMapWithExpectedSize(labels.size());
       Map<String, VotingRangeInfo> pvr = Collections.emptyMap();
       if (detailed) {
-        PermissionBackend.ForChange perm = permissionBackendForChange(accountId, cd);
-        pvr = getPermittedVotingRanges(permittedLabels(perm, cd));
+        pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
         for (Map.Entry<String, LabelWithStatus> entry : labels.entrySet()) {
           ApprovalInfo ai = approvalInfo(accountId, 0, null, null, null);
           byLabel.put(entry.getKey(), ai);
@@ -1107,8 +1106,7 @@ public class ChangeJson {
   }
 
   private Map<String, Collection<String>> permittedLabels(
-      PermissionBackend.ForChange perm, ChangeData cd)
-      throws OrmException, PermissionBackendException {
+      Account.Id filterApprovalsBy, ChangeData cd) throws OrmException, PermissionBackendException {
     boolean isMerged = cd.change().getStatus() == Change.Status.MERGED;
     LabelTypes labelTypes = cd.getLabelTypes();
     Map<String, LabelType> toCheck = new HashMap<>();
@@ -1124,7 +1122,8 @@ public class ChangeJson {
     }
 
     Map<String, Short> labels = null;
-    Set<LabelPermission.WithValue> can = perm.testLabels(toCheck.values());
+    Set<LabelPermission.WithValue> can =
+        permissionBackendForChange(filterApprovalsBy, cd).testLabels(toCheck.values());
     SetMultimap<String, String> permitted = LinkedHashMultimap.create();
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
@@ -1140,7 +1139,7 @@ public class ChangeJson {
           boolean ok = can.contains(new LabelPermission.WithValue(type, v));
           if (isMerged) {
             if (labels == null) {
-              labels = currentLabels(perm, cd);
+              labels = currentLabels(filterApprovalsBy, cd);
             }
             short prev = labels.getOrDefault(type.getName(), (short) 0);
             ok &= v.getValue() >= prev;
@@ -1164,17 +1163,15 @@ public class ChangeJson {
     return permitted.asMap();
   }
 
-  private Map<String, Short> currentLabels(PermissionBackend.ForChange perm, ChangeData cd)
+  private Map<String, Short> currentLabels(Account.Id accountId, ChangeData cd)
       throws OrmException {
-    IdentifiedUser user = perm.user().asIdentifiedUser();
     Map<String, Short> result = new HashMap<>();
     for (PatchSetApproval psa :
         approvalsUtil.byPatchSetUser(
             db.get(),
             lazyLoad ? cd.notes() : notesFactory.createFromIndexedChange(cd.change()),
-            user,
             cd.change().currentPatchSetId(),
-            user.getAccountId(),
+            accountId,
             null,
             null)) {
       result.put(psa.getLabel(), psa.getValue());

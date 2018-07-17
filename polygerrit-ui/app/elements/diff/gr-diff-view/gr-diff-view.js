@@ -192,6 +192,7 @@
       ',': '_handleCommaKey',
       'm': '_handleMKey',
       'r': '_handleRKey',
+      'shift+x': '_handleShiftXKey',
     },
 
     attached() {
@@ -986,6 +987,11 @@
         return 'show';
       }
       return '';
+    },
+
+    _handleShiftXKey(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+      this.$.diff.expandAllContext();
     },
   });
 })();

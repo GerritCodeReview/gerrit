@@ -184,7 +184,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData> {
       throws OrmException, IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;
-    for (Ref ref : repo.getRefDatabase().getRefs(RefNames.REFS_CHANGES).values()) {
+    for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
       String r = ref.getName();
       if ((lastPrefix != null && r.startsWith(lastPrefix))
           || !hashes.contains(ref.getObjectId().name())) {

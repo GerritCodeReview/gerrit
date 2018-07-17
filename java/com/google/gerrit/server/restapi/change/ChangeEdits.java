@@ -19,9 +19,7 @@ import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsDelete;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -33,6 +31,8 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestCollectionView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -71,30 +71,21 @@ import org.kohsuke.args4j.Option;
 
 @Singleton
 public class ChangeEdits
-    implements ChildCollection<ChangeResource, ChangeEditResource>,
-        AcceptsCreate<ChangeResource>,
-        AcceptsPost<ChangeResource>,
-        AcceptsDelete<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsDelete<ChangeResource> {
   private final DynamicMap<RestView<ChangeEditResource>> views;
-  private final Create.Factory createFactory;
   private final DeleteFile.Factory deleteFileFactory;
   private final Provider<Detail> detail;
   private final ChangeEditUtil editUtil;
-  private final Post post;
 
   @Inject
   ChangeEdits(
       DynamicMap<RestView<ChangeEditResource>> views,
-      Create.Factory createFactory,
       Provider<Detail> detail,
       ChangeEditUtil editUtil,
-      Post post,
       DeleteFile.Factory deleteFileFactory) {
     this.views = views;
-    this.createFactory = createFactory;
     this.detail = detail;
     this.editUtil = editUtil;
-    this.post = post;
     this.deleteFileFactory = deleteFileFactory;
   }
 
@@ -118,20 +109,11 @@ public class ChangeEdits
     return new ChangeEditResource(rsrc, edit.get(), id.get());
   }
 
-  @Override
-  public Create create(ChangeResource parent, IdString id) throws RestApiException {
-    return createFactory.create(id.get());
-  }
-
-  @Override
-  public Post post(ChangeResource parent) throws RestApiException {
-    return post;
-  }
-
   /**
-   * Create handler that is activated when collection element is accessed but doesn't exist, e. g.
-   * PUT request with a path was called but change edit wasn't created yet. Change edit is created
-   * and PUT handler is called.
+   * This method is invoked if a DELETE request on a non-existing member is done. For change edits
+   * this is the case if a DELETE request for a file in a change edit is done and the change edit
+   * doesn't exist yet (and hence the parse method returned ResourceNotFoundException). In this case
+   * we want to create the change edit on the fly and delete the file with the given id in it.
    */
   @Override
   public DeleteFile delete(ChangeResource parent, IdString id) throws RestApiException {
@@ -141,33 +123,32 @@ public class ChangeEdits
     return deleteFileFactory.create(id.get());
   }
 
-  public static class Create implements RestModifyView<ChangeResource, Put.Input> {
-
-    interface Factory {
-      Create create(String path);
-    }
-
+  /**
+   * Create handler that is activated when collection element is accessed but doesn't exist, e. g.
+   * PUT request with a path was called but change edit wasn't created yet. Change edit is created
+   * and PUT handler is called.
+   */
+  public static class Create
+      implements RestCreateView<ChangeResource, ChangeEditResource, Put.Input> {
     private final Put putEdit;
-    private final String path;
 
     @Inject
-    Create(Put putEdit, @Assisted String path) {
+    Create(Put putEdit) {
       this.putEdit = putEdit;
-      this.path = path;
     }
 
     @Override
-    public Response<?> apply(ChangeResource resource, Put.Input input)
+    public Response<?> apply(ChangeResource resource, IdString id, Put.Input input)
         throws AuthException, ResourceConflictException, IOException, OrmException,
             PermissionBackendException {
-      putEdit.apply(resource, path, input.content);
+      putEdit.apply(resource, id.get(), input.content);
       return Response.none();
     }
   }
 
   public static class DeleteFile implements RestModifyView<ChangeResource, Input> {
 
-    interface Factory {
+    public interface Factory {
       DeleteFile create(String path);
     }
 
@@ -256,7 +237,8 @@ public class ChangeEdits
    * The combination of two operations in one request is supported.
    */
   @Singleton
-  public static class Post implements RestModifyView<ChangeResource, Post.Input> {
+  public static class Post
+      implements RestCollectionView<ChangeResource, ChangeEditResource, Post.Input> {
     public static class Input {
       public String restorePath;
       public String oldPath;

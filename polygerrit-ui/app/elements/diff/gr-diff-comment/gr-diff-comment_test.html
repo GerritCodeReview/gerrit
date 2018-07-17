@@ -281,7 +281,8 @@ limitations under the License.
     });
 
     suite('draft update reporting', () => {
-      let timeEndStub;
+      let endStub;
+      let getTimerStub;
       let mockEvent;
 
       setup(() => {
@@ -290,22 +291,26 @@ limitations under the License.
             .returns(Promise.resolve({}));
         sandbox.stub(element, '_discardDraft')
             .returns(Promise.resolve({}));
-        timeEndStub = sandbox.stub(element.$.reporting, 'timeEnd');
+        endStub = sinon.stub();
+        getTimerStub = sandbox.stub(element.$.reporting, 'getTimer')
+            .returns({end: endStub});
       });
 
       test('create', () => {
         element.comment = {};
         return element._handleSave(mockEvent).then(() => {
-          assert.isTrue(timeEndStub.calledOnce);
-          assert.equal(timeEndStub.lastCall.args[0], 'CreateDraftComment');
+          assert.isTrue(endStub.calledOnce);
+          assert.isTrue(getTimerStub.calledOnce);
+          assert.equal(getTimerStub.lastCall.args[0], 'CreateDraftComment');
         });
       });
 
       test('update', () => {
         element.comment = {id: 'abc_123'};
         return element._handleSave(mockEvent).then(() => {
-          assert.isTrue(timeEndStub.calledOnce);
-          assert.equal(timeEndStub.lastCall.args[0], 'UpdateDraftComment');
+          assert.isTrue(endStub.calledOnce);
+          assert.isTrue(getTimerStub.calledOnce);
+          assert.equal(getTimerStub.lastCall.args[0], 'UpdateDraftComment');
         });
       });
 
@@ -313,10 +318,26 @@ limitations under the License.
         element.comment = {id: 'abc_123'};
         sandbox.stub(element, '_closeConfirmDiscardOverlay');
         return element._handleConfirmDiscard(mockEvent).then(() => {
-          assert.isTrue(timeEndStub.calledOnce);
-          assert.equal(timeEndStub.lastCall.args[0], 'DiscardDraftComment');
+          assert.isTrue(endStub.calledOnce);
+          assert.isTrue(getTimerStub.calledOnce);
+          assert.equal(getTimerStub.lastCall.args[0], 'DiscardDraftComment');
         });
       });
+    });
+
+    test('edit reports interaction', () => {
+      const reportStub = sandbox.stub(element.$.reporting,
+          'recordDraftInteraction');
+      MockInteractions.tap(element.$$('.edit'));
+      assert.isTrue(reportStub.calledOnce);
+    });
+
+    test('discard reports interaction', () => {
+      const reportStub = sandbox.stub(element.$.reporting,
+          'recordDraftInteraction');
+      element.draft = true;
+      MockInteractions.tap(element.$$('.discard'));
+      assert.isTrue(reportStub.calledOnce);
     });
   });
 
@@ -593,7 +614,8 @@ limitations under the License.
 
       setup(() => {
         discardStub = sandbox.stub(element, '_discardDraft');
-        overlayStub = sandbox.stub(element, '_openOverlay');
+        overlayStub = sandbox.stub(element, '_openOverlay')
+            .returns(Promise.resolve());
         mockEvent = {preventDefault: sinon.stub()};
       });
 
@@ -661,7 +683,6 @@ limitations under the License.
             __commentSide: 'right',
             __draft: true,
             __draftID: 'temp_draft_id',
-            __editing: false,
             id: 'baf0414d_40572e03',
             line: 5,
             message: 'saved!',
@@ -781,23 +802,6 @@ limitations under the License.
         assert.isTrue(updateStub.calledThrice);
         assert.equal(updateStub.lastCall.args[0], 0);
         assert.equal(element._numPendingDraftRequests.number, 0);
-      });
-    });
-
-    suite('saving progress indicators', () => {
-      setup(() => {
-        sandbox.stub(element, '_deleteDraft').returns(Promise.resolve());
-        element._savingMessage = '';
-      });
-
-      test('saving', () => {
-        element._saveDraft({});
-        assert.equal(element._savingMessage, 'Saving draft...');
-      });
-
-      test('discarding', () => {
-        element._discardDraft();
-        assert.equal(element._savingMessage, 'Discarding draft...');
       });
     });
 

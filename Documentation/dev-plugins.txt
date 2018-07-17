@@ -2313,6 +2313,16 @@ by implementing `com.google.gerrit.extensions.config.ExternalIncludedIn`,
 e.g. a plugin can provide a list of servers on which the change was
 deployed.
 
+[[change-report-formatting]]
+== Change Report Formatting
+
+When a change is pushed for review from the command line, Gerrit reports
+the change(s) received with their URL and subject.
+
+By implementing the
+`com.google.gerrit.server.git.ChangeReportFormatter` interface, a plugin
+may change the formatting of the report.
+
 [[links-to-external-tools]]
 == Links To External Tools
 
@@ -2724,7 +2734,7 @@ specific checks like IP filters.
 [source, java]
 ----
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.mail.receive.MailMessage;
+import com.google.gerrit.mail.MailMessage;
 
 public class MyPlugin implements MailFilter {
   public boolean shouldProcessMessage(MailMessage message) {
@@ -2860,6 +2870,17 @@ public class MyPluginModule extends AbstractModule {
 
 Plugin authors should also consider binding their SubmitRule using a `Gerrit-BatchModule`.
 See link:dev-plugins.html[Batch runtime] for more informations.
+
+
+The SubmitRule extension point allows you to write complex rules, but writing
+small self-contained rules should be preferred: doing so allows end users to
+compose several rules to form more complex submit checks.
+
+The `SubmitRequirement` class allows rules to communicate what the user needs
+to change in order to be compliant. These requirements should be kept once they
+are met, but marked as `OK`. If the requirements were not displayed, reviewers
+would need to use their precious time to manually check that they were met.
+
 
 == SEE ALSO
 

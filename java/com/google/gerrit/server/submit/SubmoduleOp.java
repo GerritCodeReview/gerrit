@@ -309,7 +309,7 @@ public class SubmoduleOp {
         continue;
       }
 
-      for (Ref ref : or.repo.getRefDatabase().getRefs(RefNames.REFS_HEADS).values()) {
+      for (Ref ref : or.repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_HEADS)) {
         if (r.getDestination() != null && !r.matchDestination(ref.getName())) {
           continue;
         }
@@ -421,9 +421,11 @@ public class SubmoduleOp {
       RevCommit newCommit = updateSubmodule(dc, ed, msgbuf, s);
       count++;
       if (newCommit != null) {
+        PersonIdent newCommitAuthor = newCommit.getAuthorIdent();
         if (author == null) {
-          author = newCommit.getAuthorIdent();
-        } else if (!author.equals(newCommit.getAuthorIdent())) {
+          author = new PersonIdent(newCommitAuthor, myIdent.getWhen());
+        } else if (!author.getName().equals(newCommitAuthor.getName())
+            || !author.getEmailAddress().equals(newCommitAuthor.getEmailAddress())) {
           author = myIdent;
         }
       }

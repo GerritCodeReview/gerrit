@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.DeleteTagsInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.HeadInput;
+import com.google.gerrit.extensions.api.projects.IndexProjectInput;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.restapi.project.GetConfig;
 import com.google.gerrit.server.restapi.project.GetDescription;
 import com.google.gerrit.server.restapi.project.GetHead;
 import com.google.gerrit.server.restapi.project.GetParent;
+import com.google.gerrit.server.restapi.project.Index;
 import com.google.gerrit.server.restapi.project.ListBranches;
 import com.google.gerrit.server.restapi.project.ListChildProjects;
 import com.google.gerrit.server.restapi.project.ListDashboards;
@@ -88,7 +90,7 @@ public class ProjectApiImpl implements ProjectApi {
   }
 
   private final PermissionBackend permissionBackend;
-  private final CreateProject.Factory createProjectFactory;
+  private final CreateProject createProject;
   private final ProjectApiImpl.Factory projectApi;
   private final ProjectsCollection projects;
   private final GetDescription getDescription;
@@ -118,11 +120,12 @@ public class ProjectApiImpl implements ProjectApi {
   private final SetHead setHead;
   private final GetParent getParent;
   private final SetParent setParent;
+  private final Index index;
 
   @AssistedInject
   ProjectApiImpl(
       PermissionBackend permissionBackend,
-      CreateProject.Factory createProjectFactory,
+      CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -150,10 +153,11 @@ public class ProjectApiImpl implements ProjectApi {
       SetHead setHead,
       GetParent getParent,
       SetParent setParent,
+      Index index,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
-        createProjectFactory,
+        createProject,
         projectApi,
         projects,
         getDescription,
@@ -182,13 +186,14 @@ public class ProjectApiImpl implements ProjectApi {
         setHead,
         getParent,
         setParent,
+        index,
         null);
   }
 
   @AssistedInject
   ProjectApiImpl(
       PermissionBackend permissionBackend,
-      CreateProject.Factory createProjectFactory,
+      CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -216,10 +221,11 @@ public class ProjectApiImpl implements ProjectApi {
       SetHead setHead,
       GetParent getParent,
       SetParent setParent,
+      Index index,
       @Assisted String name) {
     this(
         permissionBackend,
-        createProjectFactory,
+        createProject,
         projectApi,
         projects,
         getDescription,
@@ -248,12 +254,13 @@ public class ProjectApiImpl implements ProjectApi {
         setHead,
         getParent,
         setParent,
+        index,
         name);
   }
 
   private ProjectApiImpl(
       PermissionBackend permissionBackend,
-      CreateProject.Factory createProjectFactory,
+      CreateProject createProject,
       ProjectApiImpl.Factory projectApi,
       ProjectsCollection projects,
       GetDescription getDescription,
@@ -282,9 +289,10 @@ public class ProjectApiImpl implements ProjectApi {
       SetHead setHead,
       GetParent getParent,
       SetParent setParent,
+      Index index,
       String name) {
     this.permissionBackend = permissionBackend;
-    this.createProjectFactory = createProjectFactory;
+    this.createProject = createProject;
     this.projectApi = projectApi;
     this.projects = projects;
     this.getDescription = getDescription;
@@ -314,6 +322,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.getParent = getParent;
     this.setParent = setParent;
     this.name = name;
+    this.index = index;
   }
 
   @Override
@@ -330,9 +339,10 @@ public class ProjectApiImpl implements ProjectApi {
       if (in.name != null && !name.equals(in.name)) {
         throw new BadRequestException("name must match input.name");
       }
-      CreateProject impl = createProjectFactory.create(name);
-      permissionBackend.currentUser().checkAny(GlobalPermission.fromAnnotation(impl.getClass()));
-      impl.apply(TopLevelResource.INSTANCE, in);
+      permissionBackend
+          .currentUser()
+          .checkAny(GlobalPermission.fromAnnotation(createProject.getClass()));
+      createProject.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(name), in);
       return projectApi.create(projects.parse(name));
     } catch (Exception e) {
       throw asRestApiException("Cannot create project: " + e.getMessage(), e);
@@ -591,6 +601,17 @@ public class ProjectApiImpl implements ProjectApi {
       setParent.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set parent", e);
+    }
+  }
+
+  @Override
+  public void index(boolean indexChildren) throws RestApiException {
+    try {
+      IndexProjectInput input = new IndexProjectInput();
+      input.indexChildren = indexChildren;
+      index.apply(checkExists(), input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot index project", e);
     }
   }
 

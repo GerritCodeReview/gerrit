@@ -14,24 +14,21 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.common.base.Throwables;
-import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.account.AccountDirectory.DirectoryException;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.InternalAccountDirectory;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.EnumSet;
 
 @Singleton
 public class GetDetail implements RestReadView<AccountResource> {
-
   private final InternalAccountDirectory directory;
 
   @Inject
@@ -40,26 +37,13 @@ public class GetDetail implements RestReadView<AccountResource> {
   }
 
   @Override
-  public AccountDetailInfo apply(AccountResource rsrc) throws OrmException {
+  public AccountDetailInfo apply(AccountResource rsrc)
+      throws OrmException, PermissionBackendException {
     Account a = rsrc.getUser().getAccount();
     AccountDetailInfo info = new AccountDetailInfo(a.getId().get());
     info.registeredOn = a.getRegisteredOn();
     info.inactive = !a.isActive() ? true : null;
-    try {
-      directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
-    } catch (DirectoryException e) {
-      Throwables.throwIfInstanceOf(e.getCause(), OrmException.class);
-      throw new OrmException(e);
-    }
+    directory.fillAccountInfo(Collections.singleton(info), EnumSet.allOf(FillOptions.class));
     return info;
-  }
-
-  public static class AccountDetailInfo extends AccountInfo {
-    public Timestamp registeredOn;
-    public Boolean inactive;
-
-    public AccountDetailInfo(Integer id) {
-      super(id);
-    }
   }
 }

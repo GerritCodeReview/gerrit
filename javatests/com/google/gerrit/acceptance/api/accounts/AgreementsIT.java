@@ -177,7 +177,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     setApiUser(user);
     setUseContributorAgreements(InheritableBoolean.TRUE);
     exception.expect(AuthException.class);
-    exception.expectMessage("A Contributor Agreement must be completed");
+    exception.expectMessage("Contributor Agreement");
     gApi.changes().id(change.changeId).revert();
   }
 
@@ -209,7 +209,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     in.destination = dest.ref;
     in.message = change.subject;
     exception.expect(AuthException.class);
-    exception.expectMessage("A Contributor Agreement must be completed");
+    exception.expectMessage("Contributor Agreement");
     gApi.changes().id(change.changeId).current().cherryPick(in);
   }
 
@@ -227,7 +227,7 @@ public class AgreementsIT extends AbstractDaemonTest {
       gApi.changes().create(newChangeInput());
       fail("Expected AuthException");
     } catch (AuthException e) {
-      assertThat(e.getMessage()).contains("A Contributor Agreement must be completed");
+      assertThat(e.getMessage()).contains("Contributor Agreement");
     }
 
     // Sign the agreement

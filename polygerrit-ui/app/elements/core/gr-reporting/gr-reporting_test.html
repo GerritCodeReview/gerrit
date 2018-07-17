@@ -178,6 +178,62 @@ limitations under the License.
       ));
     });
 
+    test('timer object', () => {
+      const nowStub = sandbox.stub(element, 'now').returns(100);
+      const timer = element.getTimer('foo-bar');
+      nowStub.returns(150);
+      timer.end();
+      assert.isTrue(element.reporter.calledWithExactly(
+          'timing-report', 'UI Latency', 'foo-bar', 50));
+    });
+
+    test('timer object double call', () => {
+      const timer = element.getTimer('foo-bar');
+      timer.end();
+      assert.isTrue(element.reporter.calledOnce);
+      assert.throws(() => {
+        timer.end();
+        done();
+      }, 'Timer for "foo-bar" already ended.');
+    });
+
+    test('timer object maximum', () => {
+      const nowStub = sandbox.stub(element, 'now').returns(100);
+      const timer = element.getTimer('foo-bar').withMaximum(100);
+      nowStub.returns(150);
+      timer.end();
+      assert.isTrue(element.reporter.calledOnce);
+
+      timer.reset();
+      nowStub.returns(260);
+      timer.end();
+      assert.isTrue(element.reporter.calledOnce);
+    });
+
+    test('recordDraftInteraction', () => {
+      const key = 'TimeBetweenDraftActions';
+      const nowStub = sandbox.stub(element, 'now').returns(100);
+      const timingStub = sandbox.stub(element, '_reportTiming');
+      element.recordDraftInteraction();
+      assert.isFalse(timingStub.called);
+
+      nowStub.returns(200);
+      element.recordDraftInteraction();
+      assert.isTrue(timingStub.calledOnce);
+      assert.equal(timingStub.lastCall.args[0], key);
+      assert.equal(timingStub.lastCall.args[1], 100);
+
+      nowStub.returns(350);
+      element.recordDraftInteraction();
+      assert.isTrue(timingStub.calledTwice);
+      assert.equal(timingStub.lastCall.args[0], key);
+      assert.equal(timingStub.lastCall.args[1], 150);
+
+      nowStub.returns(370 + 2 * 60 * 1000);
+      element.recordDraftInteraction();
+      assert.isFalse(timingStub.calledThrice);
+    });
+
     test('timeEndWithAverage', () => {
       const nowStub = sandbox.stub(element, 'now').returns(0);
       nowStub.returns(1000);
@@ -208,7 +264,7 @@ limitations under the License.
         sandbox.stub(element, 'now').returns(42);
         element.pluginsLoaded();
         assert.isTrue(element.defaultReporter.calledWithExactly(
-            'timing-report', 'UI Latency', 'PluginsLoaded', 42
+            'timing-report', 'UI Latency', 'PluginsLoaded', 42, undefined
         ));
       });
 

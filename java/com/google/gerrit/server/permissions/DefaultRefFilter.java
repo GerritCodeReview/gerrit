@@ -299,9 +299,14 @@ class DefaultRefFilter {
       Map<Change.Id, Branch.NameKey> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(db.get(), project)) {
         ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
-        if (projectState.statePermitsRead()
-            && permissionBackendForProject.indexedChange(cd, notes).test(ChangePermission.READ)) {
+        if (!projectState.statePermitsRead()) {
+          continue;
+        }
+        try {
+          permissionBackendForProject.indexedChange(cd, notes).check(ChangePermission.READ);
           visibleChanges.put(cd.getId(), cd.change().getDest());
+        } catch (AuthException e) {
+          // Do nothing.
         }
       }
       return visibleChanges;
@@ -334,11 +339,16 @@ class DefaultRefFilter {
           "Failed to load change %s in %s", r.id(), projectState.getName());
       return null;
     }
+
+    if (!projectState.statePermitsRead()) {
+      return null;
+    }
+
     try {
-      if (projectState.statePermitsRead()
-          && permissionBackendForProject.change(r.notes()).test(ChangePermission.READ)) {
-        return r.notes();
-      }
+      permissionBackendForProject.change(r.notes()).check(ChangePermission.READ);
+      return r.notes();
+    } catch (AuthException e) {
+      // Skip.
     } catch (PermissionBackendException e) {
       logger.atSevere().withCause(e).log(
           "Failed to check permission for %s in %s", r.id(), projectState.getName());

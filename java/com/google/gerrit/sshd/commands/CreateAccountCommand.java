@@ -20,9 +20,11 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.CreateAccount;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -66,10 +68,12 @@ final class CreateAccountCommand extends SshCommand {
   @Argument(index = 0, required = true, metaVar = "USERNAME", usage = "name of the user account")
   private String username;
 
-  @Inject private CreateAccount.Factory createAccountFactory;
+  @Inject private CreateAccount createAccount;
 
   @Override
-  protected void run() throws OrmException, IOException, ConfigInvalidException, UnloggedFailure {
+  protected void run()
+      throws OrmException, IOException, ConfigInvalidException, UnloggedFailure,
+          PermissionBackendException {
     AccountInput input = new AccountInput();
     input.username = username;
     input.email = email;
@@ -78,7 +82,7 @@ final class CreateAccountCommand extends SshCommand {
     input.httpPassword = httpPassword;
     input.groups = Lists.transform(groups, AccountGroup.Id::toString);
     try {
-      createAccountFactory.create(username).apply(TopLevelResource.INSTANCE, input);
+      createAccount.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(username), input);
     } catch (RestApiException e) {
       throw die(e.getMessage());
     }

@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -155,7 +156,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       throws IOException, ResourceNotFoundException, PermissionBackendException {
     List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
-      Collection<Ref> heads = db.getRefDatabase().getRefs(Constants.R_HEADS).values();
+      Collection<Ref> heads = db.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
       refs = new ArrayList<>(heads.size() + 3);
       refs.addAll(heads);
       refs.addAll(
@@ -185,9 +186,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
         // showing the resolved value, show the name it references.
         //
         String target = ref.getTarget().getName();
-        if (!perm.ref(target).test(RefPermission.READ)) {
+
+        try {
+          perm.ref(target).check(RefPermission.READ);
+        } catch (AuthException e) {
           continue;
         }
+
         if (target.startsWith(Constants.R_HEADS)) {
           target = target.substring(Constants.R_HEADS.length());
         }
@@ -212,10 +217,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
         continue;
       }
 
-      if (perm.ref(ref.getName()).test(RefPermission.READ)) {
+      try {
+        perm.ref(ref.getName()).check(RefPermission.READ);
         branches.add(
             createBranchInfo(
                 perm.ref(ref.getName()), ref, rsrc.getProjectState(), rsrc.getUser(), targets));
+      } catch (AuthException e) {
+        // Do nothing.
       }
     }
     Collections.sort(branches, new BranchComparator());

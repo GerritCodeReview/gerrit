@@ -35,6 +35,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -75,7 +76,7 @@ public class CreateDraftComment
   @Override
   protected Response<CommentInfo> applyImpl(
       BatchUpdate.Factory updateFactory, RevisionResource rsrc, DraftInput in)
-      throws RestApiException, UpdateException, OrmException {
+      throws RestApiException, UpdateException, OrmException, PermissionBackendException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {

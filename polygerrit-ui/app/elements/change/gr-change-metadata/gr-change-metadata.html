@@ -27,6 +27,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-account-link/gr-account-link.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-label/gr-editable-label.html">
+<link rel="import" href="../../shared/gr-label/gr-label.html">
 <link rel="import" href="../../shared/gr-limited-text/gr-limited-text.html">
 <link rel="import" href="../../shared/gr-linked-chip/gr-linked-chip.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
@@ -37,21 +38,30 @@ limitations under the License.
 
 <dom-module id="gr-change-metadata">
   <template>
+    <style include="gr-voting-styles"></style>
     <style include="shared-styles">
-      .hideDisplay {
-        display: none;
+      :host {
+        display: table;
+      }
+      section {
+        display: table-row;
+      }
+      section:not(:first-of-type) .title,
+      section:not(:first-of-type) .value {
+        padding-top: .5em;
       }
       section:not(:first-of-type) {
         margin-top: 1em;
       }
       .title,
       .value {
-        display: block;
+        display: table-cell;
       }
       .title {
         color: var(--deemphasized-text-color);
         font-family: var(--font-family-bold);
         max-width: 20em;
+        padding-right: .5em;
         word-break: break-word;
       }
       gr-account-link {
@@ -63,6 +73,35 @@ limitations under the License.
       }
       gr-editable-label {
         max-width: 9em;
+      }
+      .labelValueContainer:not(:first-of-type) {
+        margin-top: .25em;
+      }
+      .labelValueContainer span {
+        align-items: baseline;
+        display: inline-flex;
+      }
+      .labelValueContainer {
+        border-radius: 3px;
+        padding: .1em .3em;
+      }
+      gr-label {
+        margin-right: .3em;
+        padding: .05em .85em;
+        text-align: center;
+        @apply --vote-chip-styles;
+      }
+      .max {
+        background-color: var(--vote-color-approved);
+      }
+      .min {
+        background-color: var(--vote-color-rejected);
+      }
+      .positive {
+        background-color: var(--vote-color-recommended);
+      }
+      .negative {
+        background-color: var(--vote-color-disliked);
       }
       .webLink {
         display: block;
@@ -95,36 +134,13 @@ limitations under the License.
       .parentList gr-commit-info {
         display: inline-block;
       }
+      .hideDisplay,
       #parentNotCurrentMessage {
         display: none;
       }
       .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
         --arrow-color: #ffa62f;
         display: inline-block;
-      }
-      .separatedSection {
-        border-top: 1px solid var(--border-color);
-        margin-top: .5em;
-        padding-top: .5em;
-      }
-      @media screen and (max-width: 50em), screen and (min-width: 75em) {
-        :host {
-          display: table;
-        }
-        section {
-          display: table-row;
-        }
-        section:not(:first-of-type) .title,
-        section:not(:first-of-type) .value {
-          padding-top: .5em;
-        }
-        .title,
-        .value {
-          display: table-cell;
-        }
-        .title {
-          padding-right: .5em;
-        }
       }
     </style>
     <gr-external-style id="externalStyle" name="change-metadata">
@@ -283,12 +299,43 @@ limitations under the License.
           </span>
         </section>
       </template>
-      <div class="separatedSection">
-        <gr-change-requirements
-            change="{{change}}"
-            account="[[account]]"
-            mutable="[[mutable]]"></gr-change-requirements>
-      </div>
+      <template is="dom-repeat"
+          items="[[_computeLabelNames(labels)]]" as="labelName">
+        <section>
+          <span class="title">[[labelName]]</span>
+          <span class="value">
+            <template is="dom-repeat"
+                items="[[_computeLabelValues(labelName, labels.*)]]"
+                as="label">
+              <div class="labelValueContainer">
+                <span>
+                  <gr-label
+                      has-tooltip
+                      title="[[_computeValueTooltip(change, label.value, labelName)]]"
+                      class$="[[label.className]] voteChip">
+                    [[label.value]]
+                  </gr-label>
+                  <gr-account-chip
+                      account="[[label.account]]"
+                      data-account-id$="[[label.account._account_id]]"
+                      label-name="[[labelName]]"
+                      removable="[[_computeCanDeleteVote(label.account, mutable)]]"
+                      transparent-background
+                      on-remove="_onDeleteVote"></gr-account-chip>
+                </span>
+              </div>
+            </template>
+          </span>
+        </section>
+      </template>
+      <template is="dom-if" if="[[_showRequirements]]">
+        <section class="requirementsStatus">
+          <span class="title">Submit Status</span>
+          <span class="value">
+            <gr-change-requirements change="[[change]]"></gr-change-requirements>
+          </span>
+        </section>
+      </template>
       <section id="webLinks" hidden$="[[!_computeWebLinks(commitInfo)]]">
         <span class="title">Links</span>
         <span class="value">

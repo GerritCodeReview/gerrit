@@ -95,6 +95,16 @@ public class Emails {
     return builder.build();
   }
 
+  /**
+   * Returns the accounts with the given email.
+   *
+   * <p>This method behaves just like {@link #getAccountFor(String)}, except that accounts are not
+   * looked up by their preferred email. Thus, this method does not rely on the accounts index.
+   */
+  public ImmutableSet<Account.Id> getAccountForExternal(String email) throws IOException {
+    return externalIds.byEmail(email).stream().map(ExternalId::accountId).collect(toImmutableSet());
+  }
+
   private <T> T executeIndexQuery(Action<T> action) throws OrmException {
     try {
       return retryHelper.execute(ActionType.INDEX_QUERY, action, OrmException.class::isInstance);

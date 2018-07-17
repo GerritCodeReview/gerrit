@@ -14,9 +14,12 @@
 
 package gerrit;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.UserIdentity;
+import com.google.gerrit.server.account.Emails;
+import com.google.gerrit.server.rules.PrologEnvironment;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
+import com.googlecode.prolog_cafe.exceptions.SystemException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Predicate;
@@ -24,6 +27,8 @@ import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import com.googlecode.prolog_cafe.lang.Term;
+import java.io.IOException;
+import org.eclipse.jgit.lib.PersonIdent;
 
 abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
   private static final SymbolTerm user = SymbolTerm.intern("user", 1);
@@ -36,7 +41,7 @@ abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
     cont = n;
   }
 
-  protected Operation exec(Prolog engine, UserIdentity userId) throws PrologException {
+  protected Operation exec(Prolog engine, PersonIdent userId) throws PrologException {
     engine.setB0();
     Term a1 = arg1.dereference();
     Term a2 = arg2.dereference();
@@ -46,7 +51,18 @@ abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
     Term nameTerm = Prolog.Nil;
     Term emailTerm = Prolog.Nil;
 
-    Account.Id id = userId.getAccount();
+    PrologEnvironment env = (PrologEnvironment) engine.control;
+    Emails emails = env.getArgs().getEmails();
+    Account.Id id = null;
+    try {
+      ImmutableSet<Account.Id> ids = emails.getAccountForExternal(userId.getEmailAddress());
+      if (ids.size() == 1) {
+        id = ids.iterator().next();
+      }
+    } catch (IOException e) {
+      throw new SystemException(e.getMessage());
+    }
+
     if (id == null) {
       idTerm = anonymous;
     } else {
@@ -58,7 +74,7 @@ abstract class AbstractCommitUserIdentityPredicate extends Predicate.P3 {
       nameTerm = SymbolTerm.create(name);
     }
 
-    String email = userId.getEmail();
+    String email = userId.getEmailAddress();
     if (email != null && !email.equals("")) {
       emailTerm = SymbolTerm.create(email);
     }

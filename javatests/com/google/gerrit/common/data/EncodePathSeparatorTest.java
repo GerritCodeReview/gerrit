@@ -14,20 +14,20 @@
 
 package com.google.gerrit.common.data;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import org.junit.Test;
 
 public class EncodePathSeparatorTest {
   @Test
   public void defaultBehaviour() {
-    assertEquals("a/b", new GitwebType().replacePathSeparator("a/b"));
+    assertThat(new GitwebType().replacePathSeparator("a/b")).isEqualTo("a/b");
   }
 
   @Test
   public void exclamationMark() {
     GitwebType gitwebType = new GitwebType();
     gitwebType.setPathSeparator('!');
-    assertEquals("a!b", gitwebType.replacePathSeparator("a/b"));
+    assertThat(gitwebType.replacePathSeparator("a/b")).isEqualTo("a!b");
   }
 }

@@ -17,8 +17,8 @@ package com.google.gerrit.acceptance;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.net.InetAddresses;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.mail.Address;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.List;

@@ -15,10 +15,13 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.AtomicLongMap;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -39,7 +42,9 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -51,6 +56,10 @@ import org.junit.Test;
 @NoHttpd
 public class ProjectIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ProjectIndexedListener> projectIndexedListeners;
+
+  @Inject
+  @IndexExecutor(BATCH)
+  private ListeningExecutorService executor;
 
   private ProjectIndexedCounter projectIndexedCounter;
   private RegistrationHandle projectIndexedCounterHandle;
@@ -381,6 +390,26 @@ public class ProjectIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void reindexProject() throws Exception {
+    createProject("child", project);
+    projectIndexedCounter.clear();
+
+    gApi.projects().name(allProjects.get()).index(false);
+    projectIndexedCounter.assertReindexOf(allProjects.get());
+  }
+
+  @Test
+  public void reindexProjectWithChildren() throws Exception {
+    Project.NameKey middle = createProject("middle", project);
+    Project.NameKey leave = createProject("leave", middle);
+    projectIndexedCounter.clear();
+
+    gApi.projects().name(project.get()).index(true);
+    projectIndexedCounter.assertReindexExactly(
+        ImmutableMap.of(project.get(), 1L, middle.get(), 1L, leave.get(), 1L));
+  }
+
   private ConfigInput createTestConfigInput() {
     ConfigInput input = new ConfigInput();
     input.description = "some description";
@@ -426,6 +455,11 @@ public class ProjectIT extends AbstractDaemonTest {
 
     void assertNoReindex() {
       assertThat(countsByProject).isEmpty();
+    }
+
+    void assertReindexExactly(ImmutableMap<String, Long> expected) {
+      assertThat(countsByProject.asMap()).containsExactlyEntriesIn(expected);
+      clear();
     }
   }
 }

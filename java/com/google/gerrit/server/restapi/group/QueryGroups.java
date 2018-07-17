@@ -26,6 +26,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.gwtorm.server.OrmException;
@@ -94,7 +95,8 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
 
   @Override
   public List<GroupInfo> apply(TopLevelResource resource)
-      throws BadRequestException, MethodNotAllowedException, OrmException {
+      throws BadRequestException, MethodNotAllowedException, OrmException,
+          PermissionBackendException {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }

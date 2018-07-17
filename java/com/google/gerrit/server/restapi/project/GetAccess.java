@@ -237,11 +237,15 @@ public class GetAccess implements RestReadView<ProjectResource> {
       }
     }
 
-    if (info.ownerOf.isEmpty()
-        && permissionBackend.currentUser().test(GlobalPermission.ADMINISTRATE_SERVER)) {
-      // Special case: If the section list is empty, this project has no current
-      // access control information. Fall back to site administrators.
-      info.ownerOf.add(AccessSection.ALL);
+    if (info.ownerOf.isEmpty()) {
+      try {
+        permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+        // Special case: If the section list is empty, this project has no current
+        // access control information. Fall back to site administrators.
+        info.ownerOf.add(AccessSection.ALL);
+      } catch (AuthException e) {
+        // Do nothing.
+      }
     }
 
     if (config.getRevision() != null) {

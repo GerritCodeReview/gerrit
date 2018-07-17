@@ -191,6 +191,13 @@ public interface ProjectApi {
   void parent(String parent) throws RestApiException;
 
   /**
+   * Reindex the project and children in case {@code indexChildren} is specified.
+   *
+   * @param indexChildren decides if children should be indexed recursively
+   */
+  void index(boolean indexChildren) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -342,6 +349,11 @@ public interface ProjectApi {
 
     @Override
     public void parent(String parent) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void index(boolean indexChildren) throws RestApiException {
       throw new NotImplementedException();
     }
   }

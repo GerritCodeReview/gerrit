@@ -50,6 +50,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyUtil;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -68,7 +69,7 @@ import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gerrit.server.update.RetryingRestCollectionView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -97,7 +98,8 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CreateChange
-    extends RetryingRestModifyView<TopLevelResource, ChangeInput, Response<ChangeInfo>> {
+    extends RetryingRestCollectionView<
+        TopLevelResource, ChangeResource, ChangeInput, Response<ChangeInfo>> {
   private final String anonymousCowardName;
   private final Provider<ReviewDb> db;
   private final GitRepositoryManager gitManager;
@@ -264,6 +266,12 @@ public class CreateChange
       AccountState accountState = me.state();
       GeneralPreferencesInfo info = accountState.getGeneralPreferences();
 
+      boolean isWorkInProgress =
+          input.workInProgress == null
+              ? rsrc.getProjectState().is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
+                  || MoreObjects.firstNonNull(info.workInProgressByDefault, false)
+              : input.workInProgress;
+
       // Add a Change-Id line if there isn't already one
       String commitMessage = subject;
       if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
@@ -307,7 +315,7 @@ public class CreateChange
       }
       ins.setTopic(topic);
       ins.setPrivate(isPrivate);
-      ins.setWorkInProgress(input.workInProgress != null && input.workInProgress);
+      ins.setWorkInProgress(isWorkInProgress);
       ins.setGroups(groups);
       ins.setNotify(input.notify);
       ins.setAccountsToNotify(notifyUtil.resolveAccounts(input.notifyDetails));

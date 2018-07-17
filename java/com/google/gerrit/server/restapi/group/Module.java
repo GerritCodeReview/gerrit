@@ -24,7 +24,9 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.group.db.GroupsUpdate;
+import com.google.gerrit.server.restapi.group.AddMembers.CreateMember;
 import com.google.gerrit.server.restapi.group.AddMembers.UpdateMember;
+import com.google.gerrit.server.restapi.group.AddSubgroups.CreateSubgroup;
 import com.google.gerrit.server.restapi.group.AddSubgroups.UpdateSubgroup;
 import com.google.gerrit.server.restapi.group.DeleteMembers.DeleteMember;
 import com.google.gerrit.server.restapi.group.DeleteSubgroups.DeleteSubgroup;
@@ -40,6 +42,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), MEMBER_KIND);
     DynamicMap.mapOf(binder(), SUBGROUP_KIND);
 
+    create(GROUP_KIND).to(CreateGroup.class);
     get(GROUP_KIND).to(GetGroup.class);
     put(GROUP_KIND).to(PutGroup.class);
     get(GROUP_KIND, "detail").to(GetDetail.class);
@@ -62,16 +65,17 @@ public class Module extends RestApiModule {
     get(GROUP_KIND, "log.audit").to(GetAuditLog.class);
 
     child(GROUP_KIND, "members").to(MembersCollection.class);
+    create(MEMBER_KIND).to(CreateMember.class);
     get(MEMBER_KIND).to(GetMember.class);
     put(MEMBER_KIND).to(UpdateMember.class);
     delete(MEMBER_KIND).to(DeleteMember.class);
 
     child(GROUP_KIND, "groups").to(SubgroupsCollection.class);
+    create(SUBGROUP_KIND).to(CreateSubgroup.class);
     get(SUBGROUP_KIND).to(GetSubgroup.class);
     put(SUBGROUP_KIND).to(UpdateSubgroup.class);
     delete(SUBGROUP_KIND).to(DeleteSubgroup.class);
 
-    factory(CreateGroup.Factory.class);
     factory(GroupsUpdate.Factory.class);
   }
 

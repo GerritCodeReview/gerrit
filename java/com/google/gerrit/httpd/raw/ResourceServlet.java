@@ -34,6 +34,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.httpd.HtmlDomUtil;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.gwtjsonrpc.server.RPCServletUtils;
 import java.io.IOException;
@@ -324,6 +325,7 @@ public abstract class ResourceServlet extends HttpServlet {
     }
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
   public static class Weigher implements com.google.common.cache.Weigher<Path, Resource> {
     @Override
     public int weigh(Path p, Resource r) {

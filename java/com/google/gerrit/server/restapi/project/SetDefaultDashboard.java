@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
-import com.google.gerrit.extensions.common.SetDashboardInput;
+import com.google.gerrit.extensions.api.projects.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -49,7 +49,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
   private final PermissionBackend permissionBackend;
 
   @Option(name = "--inherited", usage = "set dashboard inherited by children")
-  private boolean inherited;
+  boolean inherited;
 
   @Inject
   SetDefaultDashboard(
@@ -126,27 +126,6 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(
           String.format("invalid project.config: %s", e.getMessage()));
-    }
-  }
-
-  static class CreateDefault implements RestModifyView<ProjectResource, SetDashboardInput> {
-    private final Provider<SetDefaultDashboard> setDefault;
-
-    @Option(name = "--inherited", usage = "set dashboard inherited by children")
-    private boolean inherited;
-
-    @Inject
-    CreateDefault(Provider<SetDefaultDashboard> setDefault) {
-      this.setDefault = setDefault;
-    }
-
-    @Override
-    public Response<DashboardInfo> apply(ProjectResource resource, SetDashboardInput input)
-        throws RestApiException, IOException, PermissionBackendException {
-      SetDefaultDashboard set = setDefault.get();
-      set.inherited = inherited;
-      return set.apply(
-          DashboardResource.projectDefault(resource.getProjectState(), resource.getUser()), input);
     }
   }
 }

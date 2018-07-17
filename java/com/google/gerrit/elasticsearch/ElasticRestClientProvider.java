@@ -22,7 +22,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
@@ -38,18 +37,14 @@ import org.elasticsearch.client.RestClientBuilder;
 class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final HttpHost[] hosts;
-  private final String username;
-  private final String password;
+  private final ElasticConfiguration cfg;
 
   private RestClient client;
   private ElasticQueryAdapter adapter;
 
   @Inject
   ElasticRestClientProvider(ElasticConfiguration cfg) {
-    hosts = cfg.urls.toArray(new HttpHost[cfg.urls.size()]);
-    username = cfg.username;
-    password = cfg.password;
+    this.cfg = cfg;
   }
 
   public static LifecycleModule module() {
@@ -131,12 +126,15 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
   }
 
   private RestClient build() {
-    RestClientBuilder builder = RestClient.builder(hosts);
+    RestClientBuilder builder = RestClient.builder(cfg.getHosts());
+    builder.setMaxRetryTimeoutMillis(cfg.maxRetryTimeout);
     setConfiguredCredentialsIfAny(builder);
     return builder.build();
   }
 
   private void setConfiguredCredentialsIfAny(RestClientBuilder builder) {
+    String username = cfg.username;
+    String password = cfg.password;
     if (username != null && password != null) {
       CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
       credentialsProvider.setCredentials(

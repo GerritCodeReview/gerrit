@@ -408,7 +408,7 @@ public class ChangeEditModifier {
     }
 
     // Not allowed to edit if the current patch set is locked.
-    patchSetUtil.checkPatchSetNotLocked(notes, currentUser.get());
+    patchSetUtil.checkPatchSetNotLocked(notes);
     try {
       permissionBackend
           .currentUser()

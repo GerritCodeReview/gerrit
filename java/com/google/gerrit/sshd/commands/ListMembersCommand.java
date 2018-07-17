@@ -25,10 +25,10 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.ioutil.ColumnFormatter;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.ListMembers;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.io.PrintWriter;
 import java.util.List;
@@ -68,7 +68,7 @@ public class ListMembersCommand extends SshCommand {
       this.groupCache = groupCache;
     }
 
-    void display(PrintWriter writer) throws OrmException {
+    void display(PrintWriter writer) throws PermissionBackendException {
       Optional<InternalGroup> group = groupCache.get(new AccountGroup.NameKey(name));
       String errorText = "Group not found or not visible\n";
 

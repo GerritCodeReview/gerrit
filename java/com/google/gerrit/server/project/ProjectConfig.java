@@ -41,6 +41,7 @@ import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.common.errors.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -55,7 +56,6 @@ import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
-import com.google.gerrit.server.mail.Address;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -402,10 +402,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return mimeTypes;
   }
 
-  public GroupReference resolve(AccountGroup group) {
-    return resolve(GroupReference.forGroup(group));
-  }
-
   public GroupReference resolve(GroupReference group) {
     GroupReference groupRef = groupList.resolve(group);
     if (groupRef != null
@@ -502,6 +498,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     p.setDescription(rc.getString(PROJECT, null, KEY_DESCRIPTION));
     if (p.getDescription() == null) {
       p.setDescription("");
+    }
+    if (revision != null) {
+      p.setConfigRefState(revision.toObjectId().name());
     }
 
     if (rc.getStringList(ACCESS, null, KEY_INHERIT_FROM).length > 1) {
@@ -737,7 +736,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  private List<PermissionRule> loadPermissionRules(
+  private ImmutableList<PermissionRule> loadPermissionRules(
       Config rc,
       String section,
       String subsection,
@@ -746,7 +745,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       boolean useRange) {
     Permission perm = new Permission(varName);
     loadPermissionRules(rc, section, subsection, varName, groupsByName, perm, useRange);
-    return perm.getRules();
+    return ImmutableList.copyOf(perm.getRules());
   }
 
   private void loadPermissionRules(

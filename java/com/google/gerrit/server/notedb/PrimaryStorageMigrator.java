@@ -433,7 +433,7 @@ public class PrimaryStorageMigrator {
     ImmutableMap.Builder<Account.Id, ObjectId> draftIds = ImmutableMap.builder();
     try (Repository repo = repoManager.openRepository(allUsers)) {
       for (Ref draftRef :
-          repo.getRefDatabase().getRefs(RefNames.refsDraftCommentsPrefix(id)).values()) {
+          repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(id))) {
         Account.Id accountId = Account.Id.fromRef(draftRef.getName());
         if (accountId != null) {
           draftIds.put(accountId, draftRef.getObjectId().copy());

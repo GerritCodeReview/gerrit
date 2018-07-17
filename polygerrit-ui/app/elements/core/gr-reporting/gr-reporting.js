@@ -20,7 +20,8 @@
   // Latency reporting constants.
   const TIMING = {
     TYPE: 'timing-report',
-    CATEGORY: 'UI Latency',
+    CATEGORY_UI_LATENCY: 'UI Latency',
+    CATEGORY_RPC: 'RPC Timing',
     // Reported events - alphabetize below.
     APP_STARTED: 'App Started',
     PAGE_LOADED: 'Page Loaded',
@@ -95,6 +96,9 @@
 
   const INTERACTION_TYPE = 'interaction';
 
+  const DRAFT_ACTION_TIMER = 'TimeBetweenDraftActions';
+  const DRAFT_ACTION_TIMER_MAX = 2 * 60 * 1000; // 2 minutes.
+
   const pending = [];
 
   const onError = function(oldOnError, msg, url, line, column, error) {
@@ -141,6 +145,11 @@
         type: Object,
         value: STARTUP_TIMERS, // Shared across all instances.
       },
+
+      _timers: {
+        type: Object,
+        value: {timeBetweenDraftActions: null}, // Shared across all instances.
+      },
     },
 
     get performanceTiming() {
@@ -162,7 +171,16 @@
       report.apply(this, args);
     },
 
-    defaultReporter(type, category, eventName, eventValue) {
+    /**
+     * The default reporter reports events immediately.
+     * @param {string} type
+     * @param {string} category
+     * @param {string} eventName
+     * @param {string|number} eventValue
+     * @param {boolean|undefined} opt_noLog If true, the event will not be
+     *     logged to the JS console.
+     */
+    defaultReporter(type, category, eventName, eventValue, opt_noLog) {
       const detail = {
         type,
         category,
@@ -170,6 +188,7 @@
         value: eventValue,
       };
       document.dispatchEvent(new CustomEvent(type, {detail}));
+      if (opt_noLog) { return; }
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       } else {
@@ -178,7 +197,17 @@
       }
     },
 
-    cachingReporter(type, category, eventName, eventValue) {
+    /**
+     * The caching reporter will queue reports until plugins have loaded, and
+     * log events immediately if they're reported after plugins have loaded.
+     * @param {string} type
+     * @param {string} category
+     * @param {string} eventName
+     * @param {string|number} eventValue
+     * @param {boolean|undefined} opt_noLog If true, the event will not be
+     *     logged to the JS console.
+     */
+    cachingReporter(type, category, eventName, eventValue, opt_noLog) {
       if (type === ERROR.TYPE) {
         console.error(eventValue.error || eventName);
       }
@@ -188,9 +217,9 @@
             this.reporter(...args);
           }
         }
-        this.reporter(type, category, eventName, eventValue);
+        this.reporter(type, category, eventName, eventValue, opt_noLog);
       } else {
-        pending.push([type, category, eventName, eventValue]);
+        pending.push([type, category, eventName, eventValue, opt_noLog]);
       }
     },
 
@@ -200,8 +229,8 @@
     appStarted(hidden) {
       const startTime =
           new Date().getTime() - this.performanceTiming.navigationStart;
-      this.reporter(
-          TIMING.TYPE, TIMING.CATEGORY, TIMING.APP_STARTED, startTime);
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+          TIMING.APP_STARTED, startTime);
       if (hidden) {
         this.reporter(PAGE_VISIBILITY.TYPE, PAGE_VISIBILITY.CATEGORY,
             PAGE_VISIBILITY.STARTED_HIDDEN);
@@ -218,8 +247,8 @@
       } else {
         const loadTime = this.performanceTiming.loadEventEnd -
             this.performanceTiming.navigationStart;
-        this.reporter(
-            TIMING.TYPE, TIMING.CATEGORY, TIMING.PAGE_LOADED, loadTime);
+        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+            TIMING.PAGE_LOADED, loadTime);
       }
     },
 
@@ -307,8 +336,7 @@
     timeEnd(name) {
       if (!this._baselines.hasOwnProperty(name)) { return; }
       const baseTime = this._baselines[name];
-      const time = Math.round(this.now() - baseTime);
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY, name, time);
+      this._reportTiming(name, this.now() - baseTime);
       delete this._baselines[name];
     },
 
@@ -328,12 +356,99 @@
       // Guard against division by zero.
       if (!denominator) { return; }
       const time = Math.round(this.now() - baseTime);
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY, averageName,
-          Math.round(time / denominator));
+      this._reportTiming(averageName, time / denominator);
+    },
+
+    /**
+     * Send a timing report with an arbitrary time value.
+     * @param {string} name Timing name.
+     * @param {number} time The time to report as an integer of milliseconds.
+     */
+    _reportTiming(name, time) {
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name,
+          Math.round(time));
+    },
+
+    /**
+     * Get a timer object to for reporing a user timing. The start time will be
+     * the time that the object has been created, and the end time will be the
+     * time that the "end" method is called on the object.
+     * @param {string} name Timing name.
+     * @returns {!Object} The timer object.
+     */
+    getTimer(name) {
+      let called = false;
+      let start;
+      let max = null;
+
+      const timer = {
+
+        // Clear the timer and reset the start time.
+        reset: () => {
+          called = false;
+          start = this.now();
+          return timer;
+        },
+
+        // Stop the timer and report the intervening time.
+        end: () => {
+          if (called) {
+            throw new Error(`Timer for "${name}" already ended.`);
+          }
+          called = true;
+          const time = this.now() - start;
+
+          // If a maximum is specified and the time exceeds it, do not report.
+          if (max && time > max) { return timer; }
+
+          this._reportTiming(name, time);
+          return timer;
+        },
+
+        // Set a maximum reportable time. If a maximum is set and the timer is
+        // ended after the specified amount of time, the value is not reported.
+        withMaximum(maximum) {
+          max = maximum;
+          return timer;
+        },
+      };
+
+      // The timer is initialized to its creation time.
+      return timer.reset();
+    },
+
+    /**
+     * Log timing information for an RPC.
+     * @param {string} anonymizedUrl The URL of the RPC with tokens obfuscated.
+     * @param {number} elapsed The time elapsed of the RPC.
+     */
+    reportRpcTiming(anonymizedUrl, elapsed) {
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_RPC, 'RPC-' + anonymizedUrl,
+          elapsed, true);
     },
 
     reportInteraction(eventName, opt_msg) {
       this.reporter(INTERACTION_TYPE, this.category, eventName, opt_msg);
+    },
+
+    /**
+     * A draft interaction was started. Update the time-betweeen-draft-actions
+     * timer.
+     */
+    recordDraftInteraction() {
+      // If there is no timer defined, then this is the first interaction.
+      // Set up the timer so that it's ready to record the intervening time when
+      // called again.
+      const timer = this._timers.timeBetweenDraftActions;
+      if (!timer) {
+        // Create a timer with a maximum length.
+        this._timers.timeBetweenDraftActions = this.getTimer(DRAFT_ACTION_TIMER)
+            .withMaximum(DRAFT_ACTION_TIMER_MAX);
+        return;
+      }
+
+      // Mark the time and reinitialize the timer.
+      timer.end().reset();
     },
   });
 

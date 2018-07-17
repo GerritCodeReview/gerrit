@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.project;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -58,6 +59,23 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
     }
 
     return ProjectPredicates.description(description);
+  }
+
+  @Operator
+  public Predicate<ProjectData> state(String state) throws QueryParseException {
+    if (Strings.isNullOrEmpty(state)) {
+      throw error("state operator requires a value");
+    }
+    ProjectState parsedState;
+    try {
+      parsedState = ProjectState.valueOf(state.replace('-', '_').toUpperCase());
+    } catch (IllegalArgumentException e) {
+      throw error("state operator must be either 'active' or 'read-only'");
+    }
+    if (parsedState == ProjectState.HIDDEN) {
+      throw error("state operator must be either 'active' or 'read-only'");
+    }
+    return ProjectPredicates.state(parsedState);
   }
 
   @Override

@@ -41,6 +41,7 @@ public class Module extends RestApiModule {
     DynamicMap.mapOf(binder(), COMMIT_KIND);
     DynamicMap.mapOf(binder(), TAG_KIND);
 
+    create(PROJECT_KIND).to(CreateProject.class);
     put(PROJECT_KIND).to(PutProject.class);
     get(PROJECT_KIND).to(GetProject.class);
     get(PROJECT_KIND, "description").to(GetDescription.class);
@@ -67,13 +68,14 @@ public class Module extends RestApiModule {
     get(PROJECT_KIND, "statistics.git").to(GetStatistics.class);
     post(PROJECT_KIND, "gc").to(GarbageCollect.class);
     post(PROJECT_KIND, "index").to(Index.class);
+    post(PROJECT_KIND, "index.changes").to(IndexChanges.class);
 
     child(PROJECT_KIND, "branches").to(BranchesCollection.class);
+    create(BRANCH_KIND).to(CreateBranch.class);
     put(BRANCH_KIND).to(PutBranch.class);
     get(BRANCH_KIND).to(GetBranch.class);
     delete(BRANCH_KIND).to(DeleteBranch.class);
     post(PROJECT_KIND, "branches:delete").to(DeleteBranches.class);
-    factory(CreateBranch.Factory.class);
     get(BRANCH_KIND, "mergeable").to(CheckMergeability.class);
     factory(RefValidationHelper.Factory.class);
     get(BRANCH_KIND, "reflog").to(GetReflog.class);
@@ -86,17 +88,17 @@ public class Module extends RestApiModule {
     child(COMMIT_KIND, "files").to(FilesInCommitCollection.class);
 
     child(PROJECT_KIND, "tags").to(TagsCollection.class);
+    create(TAG_KIND).to(CreateTag.class);
     get(TAG_KIND).to(GetTag.class);
     put(TAG_KIND).to(PutTag.class);
     delete(TAG_KIND).to(DeleteTag.class);
     post(PROJECT_KIND, "tags:delete").to(DeleteTags.class);
-    factory(CreateTag.Factory.class);
 
     child(PROJECT_KIND, "dashboards").to(DashboardsCollection.class);
+    create(DASHBOARD_KIND).to(CreateDashboard.class);
     get(DASHBOARD_KIND).to(GetDashboard.class);
     put(DASHBOARD_KIND).to(SetDashboard.class);
     delete(DASHBOARD_KIND).to(DeleteDashboard.class);
-    factory(CreateProject.Factory.class);
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);

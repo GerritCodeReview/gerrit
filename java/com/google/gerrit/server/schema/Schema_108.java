@@ -89,7 +89,7 @@ public class Schema_108 extends SchemaVersion {
     rw.sort(RevSort.REVERSE, true);
 
     RefDatabase refdb = repo.getRefDatabase();
-    for (Ref ref : refdb.getRefs(Constants.R_HEADS).values()) {
+    for (Ref ref : refdb.getRefsByPrefix(Constants.R_HEADS)) {
       RevCommit c = maybeParseCommit(rw, ref.getObjectId(), ui);
       if (c != null) {
         rw.markUninteresting(c);
@@ -100,7 +100,7 @@ public class Schema_108 extends SchemaVersion {
         MultimapBuilder.hashKeys().arrayListValues().build();
     ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha =
         MultimapBuilder.hashKeys().arrayListValues().build();
-    for (Ref ref : refdb.getRefs(RefNames.REFS_CHANGES).values()) {
+    for (Ref ref : refdb.getRefsByPrefix(RefNames.REFS_CHANGES)) {
       ObjectId id = ref.getObjectId();
       if (ref.getObjectId() == null) {
         continue;

@@ -16,11 +16,10 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -33,7 +32,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gerrit.server.update.RetryingRestCollectionView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -44,38 +43,35 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PublishChangeEdit
-    implements ChildCollection<ChangeResource, ChangeEditResource>, AcceptsPost<ChangeResource> {
+    implements ChildCollection<ChangeResource, ChangeEditResource.Publish> {
 
-  private final Publish publish;
+  private final DynamicMap<RestView<ChangeEditResource.Publish>> views;
 
   @Inject
-  PublishChangeEdit(Publish publish) {
-    this.publish = publish;
+  PublishChangeEdit(DynamicMap<RestView<ChangeEditResource.Publish>> views) {
+    this.views = views;
   }
 
   @Override
-  public DynamicMap<RestView<ChangeEditResource>> views() {
-    throw new NotImplementedException();
+  public DynamicMap<RestView<ChangeEditResource.Publish>> views() {
+    return views;
   }
 
   @Override
-  public RestView<ChangeResource> list() {
-    throw new NotImplementedException();
+  public RestView<ChangeResource> list() throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Override
-  public ChangeEditResource parse(ChangeResource parent, IdString id) {
-    throw new NotImplementedException();
-  }
-
-  @Override
-  public Publish post(ChangeResource parent) throws RestApiException {
-    return publish;
+  public ChangeEditResource.Publish parse(ChangeResource parent, IdString id)
+      throws ResourceNotFoundException {
+    throw new ResourceNotFoundException();
   }
 
   @Singleton
   public static class Publish
-      extends RetryingRestModifyView<ChangeResource, PublishChangeEditInput, Response<?>> {
+      extends RetryingRestCollectionView<
+          ChangeResource, ChangeEditResource.Publish, PublishChangeEditInput, Response<?>> {
 
     private final ChangeEditUtil editUtil;
     private final NotifyUtil notifyUtil;

@@ -23,9 +23,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.api.plugins.PluginApi;
 import com.google.gerrit.extensions.api.plugins.Plugins.ListRequest;
-import com.google.gerrit.extensions.common.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -108,6 +108,9 @@ public class PluginIT extends AbstractDaemonTest {
     assertThat(api.get().disabled).isNull();
     assertPlugins(list().get(), PLUGINS);
 
+    // Using deprecated input
+    deprecatedInput();
+
     // Non-admin cannot disable
     setApiUser(user);
     try {
@@ -116,6 +119,15 @@ public class PluginIT extends AbstractDaemonTest {
     } catch (AuthException expected) {
       // Expected
     }
+  }
+
+  @SuppressWarnings("deprecation")
+  private void deprecatedInput() throws Exception {
+    com.google.gerrit.extensions.common.InstallPluginInput input =
+        new com.google.gerrit.extensions.common.InstallPluginInput();
+    input.raw = JS_PLUGIN_CONTENT;
+    gApi.plugins().install("legacy.html", input);
+    gApi.plugins().name("legacy").get();
   }
 
   @Test

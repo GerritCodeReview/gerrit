@@ -52,6 +52,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
@@ -62,7 +63,6 @@ import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestId;
@@ -402,6 +402,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       if (notes != null) {
         draftUpdate = draftUpdateFactory.create(notes, accountId, realAccountId, authorIdent, when);
       } else {
+        // tests will always take the notes != null path above.
         draftUpdate =
             draftUpdateFactory.create(getChange(), accountId, realAccountId, authorIdent, when);
       }
@@ -526,14 +527,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     checkComments(rnm.revisionNotes, builders);
 
     for (Map.Entry<RevId, RevisionNoteBuilder> e : builders.entrySet()) {
-      ObjectId data =
-          inserter.insert(
-              OBJ_BLOB,
-              e.getValue()
-                  .build(
-                      noteUtil.getChangeNoteJson(),
-                      noteUtil.getLegacyChangeNoteWrite(),
-                      noteUtil.getChangeNoteJson().getWriteJson()));
+      ObjectId data = inserter.insert(OBJ_BLOB, e.getValue().build(noteUtil.getChangeNoteJson()));
       rnm.noteMap.set(ObjectId.fromString(e.getKey().get()), data);
     }
 

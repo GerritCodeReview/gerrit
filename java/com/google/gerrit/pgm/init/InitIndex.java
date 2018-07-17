@@ -15,7 +15,6 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
@@ -63,13 +62,7 @@ class InitIndex implements InitStep {
     if (type == IndexType.ELASTICSEARCH) {
       Section elasticsearch = sections.get("elasticsearch", null);
       elasticsearch.string("Index Prefix", "prefix", "gerrit_");
-      String name = ui.readString("default", "Server Name");
-
-      Section defaultServer = sections.get("elasticsearch", name);
-      defaultServer.select(
-          "Transport protocol", "protocol", "http", Sets.newHashSet("http", "https"));
-      defaultServer.string("Hostname", "hostname", "localhost");
-      defaultServer.string("Port", "port", "9200");
+      elasticsearch.string("Server", "server", "http://localhost:9200");
       index.string("Result window size", "maxLimit", "10000");
     }
 

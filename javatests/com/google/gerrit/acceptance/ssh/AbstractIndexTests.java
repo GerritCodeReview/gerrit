@@ -15,32 +15,60 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.FluentIterable;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ChangeIndexedCounter;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.List;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 @UseSsh
 public abstract class AbstractIndexTests extends AbstractDaemonTest {
+  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+
+  private ChangeIndexedCounter changeIndexedCounter;
+  private RegistrationHandle changeIndexedCounterHandle;
+
   /** @param injector injector */
   public abstract void configureIndex(Injector injector) throws Exception;
 
+  @Before
+  public void addChangeIndexedCounter() {
+    changeIndexedCounter = new ChangeIndexedCounter();
+    changeIndexedCounterHandle = changeIndexedListeners.add(changeIndexedCounter);
+  }
+
+  @After
+  public void removeChangeIndexedCounter() {
+    if (changeIndexedCounterHandle != null) {
+      changeIndexedCounterHandle.remove();
+    }
+  }
+
   @Test
+  @GerritConfig(name = "index.autoReindexIfStale", value = "false")
   public void indexChange() throws Exception {
     configureIndex(server.getTestInjector());
 
     PushOneCommit.Result change = createChange("first change", "test1.txt", "test1");
     String changeId = change.getChangeId();
     String changeLegacyId = change.getChange().getId().toString();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
 
     disableChangeIndexWrites();
     amendChange(changeId, "second test", "test2.txt", "test2");
@@ -48,24 +76,55 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     assertChangeQuery("message:second", change.getChange(), false);
     enableChangeIndexWrites();
 
+    changeIndexedCounter.clear();
     String cmd = Joiner.on(" ").join("gerrit", "index", "changes", changeLegacyId);
     adminSshSession.exec(cmd);
+    adminSshSession.assertSuccess();
+
+    changeIndexedCounter.assertReindexOf(changeInfo, 1);
 
     assertChangeQuery("message:second", change.getChange(), true);
   }
 
-  protected void assertChangeQuery(String q, ChangeData change, Boolean assertTrue)
+  @Test
+  @GerritConfig(name = "index.autoReindexIfStale", value = "false")
+  public void indexProject() throws Exception {
+    configureIndex(server.getTestInjector());
+
+    PushOneCommit.Result change = createChange("first change", "test1.txt", "test1");
+    String changeId = change.getChangeId();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+
+    disableChangeIndexWrites();
+    amendChange(changeId, "second test", "test2.txt", "test2");
+
+    assertChangeQuery("message:second", change.getChange(), false);
+    enableChangeIndexWrites();
+
+    changeIndexedCounter.clear();
+    String cmd = Joiner.on(" ").join("gerrit", "index", "changes-in-project", project.get());
+    adminSshSession.exec(cmd);
+    adminSshSession.assertSuccess();
+
+    boolean indexing = true;
+    while (indexing) {
+      String out = adminSshSession.exec("gerrit show-queue --wide");
+      adminSshSession.assertSuccess();
+      indexing = out.contains("Index all changes of project " + project.get());
+    }
+
+    changeIndexedCounter.assertReindexOf(changeInfo, 1);
+
+    assertChangeQuery("message:second", change.getChange(), true);
+  }
+
+  protected void assertChangeQuery(String q, ChangeData change, boolean assertTrue)
       throws Exception {
-    List<ChangeInfo> result = query(q);
-    Iterable<Integer> ids = ids(result);
+    List<Integer> ids = query(q).stream().map(c -> c._number).collect(toList());
     if (assertTrue) {
       assertThat(ids).contains(change.getId().get());
     } else {
       assertThat(ids).doesNotContain(change.getId().get());
     }
-  }
-
-  protected static Iterable<Integer> ids(Iterable<ChangeInfo> changes) {
-    return FluentIterable.from(changes).transform(in -> in._number);
   }
 }

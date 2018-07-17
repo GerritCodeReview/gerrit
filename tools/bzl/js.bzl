@@ -2,37 +2,38 @@ NPMJS = "NPMJS"
 
 GERRIT = "GERRIT:"
 
-load("//lib/js:npm.bzl", "NPM_VERSIONS", "NPM_SHA1S")
+load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
+load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
 
 def _npm_tarball(name):
-  return "%s@%s.npm_binary.tgz" % (name, NPM_VERSIONS[name])
+    return "%s@%s.npm_binary.tgz" % (name, NPM_VERSIONS[name])
 
 def _npm_binary_impl(ctx):
-  """rule to download a NPM archive."""
-  name = ctx.name
-  version= NPM_VERSIONS[name]
-  sha1 = NPM_SHA1S[name]
+    """rule to download a NPM archive."""
+    name = ctx.name
+    version = NPM_VERSIONS[name]
+    sha1 = NPM_SHA1S[name]
 
-  dir = '%s-%s' % (name, version)
-  filename = '%s.tgz' % dir
-  base =  '%s@%s.npm_binary.tgz' % (name, version)
-  dest = ctx.path(base)
-  repository = ctx.attr.repository
-  if repository == GERRIT:
-    url = 'http://gerrit-maven.storage.googleapis.com/npm-packages/%s' % filename
-  elif repository == NPMJS:
-    url = 'http://registry.npmjs.org/%s/-/%s' % (name, filename)
-  else:
-    fail('repository %s not in {%s,%s}' % (repository, GERRIT, NPMJS))
+    dir = "%s-%s" % (name, version)
+    filename = "%s.tgz" % dir
+    base = "%s@%s.npm_binary.tgz" % (name, version)
+    dest = ctx.path(base)
+    repository = ctx.attr.repository
+    if repository == GERRIT:
+        url = "http://gerrit-maven.storage.googleapis.com/npm-packages/%s" % filename
+    elif repository == NPMJS:
+        url = "http://registry.npmjs.org/%s/-/%s" % (name, filename)
+    else:
+        fail("repository %s not in {%s,%s}" % (repository, GERRIT, NPMJS))
 
-  python = ctx.which("python")
-  script = ctx.path(ctx.attr._download_script)
+    python = ctx.which("python")
+    script = ctx.path(ctx.attr._download_script)
 
-  args = [python, script, "-o", dest, "-u", url, "-v", sha1]
-  out = ctx.execute(args)
-  if out.return_code:
-    fail("failed %s: %s" % (args, out.stderr))
-  ctx.file("BUILD", "package(default_visibility=['//visibility:public'])\nfilegroup(name='tarball', srcs=['%s'])" % base, False)
+    args = [python, script, "-o", dest, "-u", url, "-v", sha1]
+    out = ctx.execute(args)
+    if out.return_code:
+        fail("failed %s: %s" % (args, out.stderr))
+    ctx.file("BUILD", "package(default_visibility=['//visibility:public'])\nfilegroup(name='tarball', srcs=['%s'])" % base, False)
 
 npm_binary = repository_rule(
     attrs = {
@@ -46,64 +47,75 @@ npm_binary = repository_rule(
 
 # for use in repo rules.
 def _run_npm_binary_str(ctx, tarball, args):
-  python_bin = ctx.which("python")
-  return " ".join([
-    python_bin,
-    ctx.path(ctx.attr._run_npm),
-    ctx.path(tarball)] + args)
+    python_bin = ctx.which("python")
+    return " ".join([
+        python_bin,
+        ctx.path(ctx.attr._run_npm),
+        ctx.path(tarball),
+    ] + args)
 
 def _bower_archive(ctx):
-  """Download a bower package."""
-  download_name = '%s__download_bower.zip' % ctx.name
-  renamed_name = '%s__renamed.zip' % ctx.name
-  version_name = '%s__version.json' % ctx.name
+    """Download a bower package."""
+    download_name = "%s__download_bower.zip" % ctx.name
+    renamed_name = "%s__renamed.zip" % ctx.name
+    version_name = "%s__version.json" % ctx.name
 
-  cmd = [
-      ctx.which("python"),
-      ctx.path(ctx.attr._download_bower),
-      '-b', '%s' % _run_npm_binary_str(ctx, ctx.attr._bower_archive, []),
-      '-n', ctx.name,
-      '-p', ctx.attr.package,
-      '-v', ctx.attr.version,
-      '-s', ctx.attr.sha1,
-      '-o', download_name,
+    cmd = [
+        ctx.which("python"),
+        ctx.path(ctx.attr._download_bower),
+        "-b",
+        "%s" % _run_npm_binary_str(ctx, ctx.attr._bower_archive, []),
+        "-n",
+        ctx.name,
+        "-p",
+        ctx.attr.package,
+        "-v",
+        ctx.attr.version,
+        "-s",
+        ctx.attr.sha1,
+        "-o",
+        download_name,
     ]
 
-  out = ctx.execute(cmd)
-  if out.return_code:
-    fail("failed %s: %s" % (" ".join(cmd), out.stderr))
+    out = ctx.execute(cmd)
+    if out.return_code:
+        fail("failed %s: %s" % (" ".join(cmd), out.stderr))
 
-  _bash(ctx, " && " .join([
-    "TMP=$(mktemp -d || mktemp -d -t bazel-tmp)",
-    "TZ=UTC",
-    "export UTC",
-    "cd $TMP",
-    "mkdir bower_components",
-    "cd bower_components",
-    "unzip %s" % ctx.path(download_name),
-    "cd ..",
-    "find . -exec touch -t 198001010000 '{}' ';'",
-    "zip -Xr %s bower_components" % renamed_name,
-    "cd ..",
-    "rm -rf ${TMP}",
-  ]))
+    _bash(ctx, " && ".join([
+        "TMP=$(mktemp -d || mktemp -d -t bazel-tmp)",
+        "TZ=UTC",
+        "export UTC",
+        "cd $TMP",
+        "mkdir bower_components",
+        "cd bower_components",
+        "unzip %s" % ctx.path(download_name),
+        "cd ..",
+        "find . -exec touch -t 198001010000 '{}' ';'",
+        "zip -Xr %s bower_components" % renamed_name,
+        "cd ..",
+        "rm -rf ${TMP}",
+    ]))
 
-  dep_version = ctx.attr.semver if ctx.attr.semver else ctx.attr.version
-  ctx.file(version_name,
-           '"%s":"%s#%s"' % (ctx.name, ctx.attr.package, dep_version))
-  ctx.file(
-    "BUILD",
-    "\n".join([
-      "package(default_visibility=['//visibility:public'])",
-      "filegroup(name = 'zipfile', srcs = ['%s'], )" % download_name,
-      "filegroup(name = 'version_json', srcs = ['%s'], visibility=['//visibility:public'])" % version_name,
-    ]), False)
+    dep_version = ctx.attr.semver if ctx.attr.semver else ctx.attr.version
+    ctx.file(
+        version_name,
+        '"%s":"%s#%s"' % (ctx.name, ctx.attr.package, dep_version),
+    )
+    ctx.file(
+        "BUILD",
+        "\n".join([
+            "package(default_visibility=['//visibility:public'])",
+            "filegroup(name = 'zipfile', srcs = ['%s'], )" % download_name,
+            "filegroup(name = 'version_json', srcs = ['%s'], visibility=['//visibility:public'])" % version_name,
+        ]),
+        False,
+    )
 
 def _bash(ctx, cmd):
-  cmd_list = ["bash", "-c", cmd]
-  out = ctx.execute(cmd_list)
-  if out.return_code:
-    fail("failed %s: %s" % (" ".join(cmd_list), out.stderr))
+    cmd_list = ["bash", "-c", cmd]
+    out = ctx.execute(cmd_list)
+    if out.return_code:
+        fail("failed %s: %s" % (" ".join(cmd_list), out.stderr))
 
 bower_archive = repository_rule(
     _bower_archive,
@@ -119,26 +131,26 @@ bower_archive = repository_rule(
 )
 
 def _bower_component_impl(ctx):
-  transitive_zipfiles = depset([ctx.file.zipfile])
-  for d in ctx.attr.deps:
-    transitive_zipfiles += d.transitive_zipfiles
+    transitive_zipfiles = depset([ctx.file.zipfile])
+    for d in ctx.attr.deps:
+        transitive_zipfiles += d.transitive_zipfiles
 
-  transitive_licenses = depset()
-  if ctx.file.license:
-    transitive_licenses += depset([ctx.file.license])
+    transitive_licenses = depset()
+    if ctx.file.license:
+        transitive_licenses += depset([ctx.file.license])
 
-  for d in ctx.attr.deps:
-    transitive_licenses += d.transitive_licenses
+    for d in ctx.attr.deps:
+        transitive_licenses += d.transitive_licenses
 
-  transitive_versions = depset(ctx.files.version_json)
-  for d in ctx.attr.deps:
-    transitive_versions += d.transitive_versions
+    transitive_versions = depset(ctx.files.version_json)
+    for d in ctx.attr.deps:
+        transitive_versions += d.transitive_versions
 
-  return struct(
-    transitive_zipfiles=transitive_zipfiles,
-    transitive_versions=transitive_versions,
-    transitive_licenses=transitive_licenses,
-  )
+    return struct(
+        transitive_licenses = transitive_licenses,
+        transitive_versions = transitive_versions,
+        transitive_zipfiles = transitive_zipfiles,
+    )
 
 _common_attrs = {
     "deps": attr.label_list(providers = [
@@ -149,35 +161,37 @@ _common_attrs = {
 }
 
 def _js_component(ctx):
-  dir = ctx.outputs.zip.path + ".dir"
-  name = ctx.outputs.zip.basename
-  if name.endswith(".zip"):
-    name = name[:-4]
-  dest = "%s/%s" % (dir, name)
-  cmd = " && ".join([
-    "TZ=UTC",
-    "export TZ",
-    "mkdir -p %s" % dest,
-    "cp %s %s/" % (' '.join([s.path for s in ctx.files.srcs]), dest),
-    "cd %s" % dir,
-    "find . -exec touch -t 198001010000 '{}' ';'",
-    "zip -Xqr ../%s *" %  ctx.outputs.zip.basename
-  ])
+    dir = ctx.outputs.zip.path + ".dir"
+    name = ctx.outputs.zip.basename
+    if name.endswith(".zip"):
+        name = name[:-4]
+    dest = "%s/%s" % (dir, name)
+    cmd = " && ".join([
+        "TZ=UTC",
+        "export TZ",
+        "mkdir -p %s" % dest,
+        "cp %s %s/" % (" ".join([s.path for s in ctx.files.srcs]), dest),
+        "cd %s" % dir,
+        "find . -exec touch -t 198001010000 '{}' ';'",
+        "zip -Xqr ../%s *" % ctx.outputs.zip.basename,
+    ])
 
-  ctx.actions.run_shell(
-    inputs = ctx.files.srcs,
-    outputs = [ctx.outputs.zip],
-    command = cmd,
-    mnemonic = "GenBowerZip")
+    ctx.actions.run_shell(
+        inputs = ctx.files.srcs,
+        outputs = [ctx.outputs.zip],
+        command = cmd,
+        mnemonic = "GenBowerZip",
+    )
 
-  licenses = depset()
-  if ctx.file.license:
-    licenses += depset([ctx.file.license])
+    licenses = depset()
+    if ctx.file.license:
+        licenses += depset([ctx.file.license])
 
-  return struct(
-    transitive_zipfiles=list([ctx.outputs.zip]),
-    transitive_versions=depset(),
-    transitive_licenses=licenses)
+    return struct(
+        transitive_licenses = licenses,
+        transitive_versions = depset(),
+        transitive_zipfiles = list([ctx.outputs.zip]),
+    )
 
 js_component = rule(
     _js_component,
@@ -203,61 +217,65 @@ _bower_component = rule(
 )
 
 # TODO(hanwen): make license mandatory.
-def bower_component(name, license=None, **kwargs):
-  prefix = "//lib:LICENSE-"
-  if license and not license.startswith(prefix):
-    license = prefix + license
-  _bower_component(
-    name=name,
-    license=license,
-    zipfile="@%s//:zipfile"% name,
-    version_json="@%s//:version_json" % name,
-    **kwargs)
+def bower_component(name, license = None, **kwargs):
+    prefix = "//lib:LICENSE-"
+    if license and not license.startswith(prefix):
+        license = prefix + license
+    _bower_component(
+        name = name,
+        license = license,
+        zipfile = "@%s//:zipfile" % name,
+        version_json = "@%s//:version_json" % name,
+        **kwargs
+    )
 
 def _bower_component_bundle_impl(ctx):
-  """A bunch of bower components zipped up."""
-  zips = depset()
-  for d in ctx.attr.deps:
-    zips += d.transitive_zipfiles
+    """A bunch of bower components zipped up."""
+    zips = depset()
+    for d in ctx.attr.deps:
+        zips += d.transitive_zipfiles
 
-  versions = depset()
-  for d in ctx.attr.deps:
-    versions += d.transitive_versions
+    versions = depset()
+    for d in ctx.attr.deps:
+        versions += d.transitive_versions
 
-  licenses = depset()
-  for d in ctx.attr.deps:
-    licenses += d.transitive_versions
+    licenses = depset()
+    for d in ctx.attr.deps:
+        licenses += d.transitive_versions
 
-  out_zip = ctx.outputs.zip
-  out_versions = ctx.outputs.version_json
+    out_zip = ctx.outputs.zip
+    out_versions = ctx.outputs.version_json
 
-  ctx.actions.run_shell(
-    inputs=list(zips),
-    outputs=[out_zip],
-    command=" && ".join([
-      "p=$PWD",
-      "TZ=UTC",
-      "export TZ",
-      "rm -rf %s.dir" % out_zip.path,
-      "mkdir -p %s.dir/bower_components" % out_zip.path,
-      "cd %s.dir/bower_components" % out_zip.path,
-      "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips])),
-      "cd ..",
-      "find . -exec touch -t 198001010000 '{}' ';'",
-      "zip -Xqr $p/%s bower_components/*" % out_zip.path,
-    ]),
-    mnemonic="BowerCombine")
+    ctx.actions.run_shell(
+        inputs = list(zips),
+        outputs = [out_zip],
+        command = " && ".join([
+            "p=$PWD",
+            "TZ=UTC",
+            "export TZ",
+            "rm -rf %s.dir" % out_zip.path,
+            "mkdir -p %s.dir/bower_components" % out_zip.path,
+            "cd %s.dir/bower_components" % out_zip.path,
+            "for z in %s; do unzip -q $p/$z ; done" % " ".join(sorted([z.path for z in zips])),
+            "cd ..",
+            "find . -exec touch -t 198001010000 '{}' ';'",
+            "zip -Xqr $p/%s bower_components/*" % out_zip.path,
+        ]),
+        mnemonic = "BowerCombine",
+    )
 
-  ctx.actions.run_shell(
-    inputs=list(versions),
-    outputs=[out_versions],
-    mnemonic="BowerVersions",
-    command="(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions]), out_versions.path))
+    ctx.actions.run_shell(
+        inputs = list(versions),
+        outputs = [out_versions],
+        mnemonic = "BowerVersions",
+        command = "(echo '{' ; for j in  %s ; do cat $j; echo ',' ; done ; echo \\\"\\\":\\\"\\\"; echo '}') > %s" % (" ".join([v.path for v in versions]), out_versions.path),
+    )
 
-  return struct(
-    transitive_zipfiles=zips,
-    transitive_versions=versions,
-    transitive_licenses=licenses)
+    return struct(
+        transitive_licenses = licenses,
+        transitive_versions = versions,
+        transitive_zipfiles = zips,
+    )
 
 bower_component_bundle = rule(
     _bower_component_bundle_impl,
@@ -279,80 +297,99 @@ Outputs:
 """
 
 def _vulcanize_impl(ctx):
-  # intermediate artifact if split is wanted.
-  if ctx.attr.split:
-    vulcanized = ctx.new_file(
-      ctx.configuration.genfiles_dir, ctx.outputs.html, ".vulcanized.html")
-  else:
-    vulcanized = ctx.outputs.html
-  destdir = ctx.outputs.html.path + ".dir"
-  zips =  [z for d in ctx.attr.deps for z in d.transitive_zipfiles ]
+    # intermediate artifact if split is wanted.
+    if ctx.attr.split:
+        vulcanized = ctx.new_file(
+            ctx.configuration.genfiles_dir,
+            ctx.outputs.html,
+            ".vulcanized.html",
+        )
+    else:
+        vulcanized = ctx.outputs.html
+    destdir = ctx.outputs.html.path + ".dir"
+    zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles]
 
-  hermetic_npm_binary = " ".join([
-    'python',
-    "$p/" + ctx.file._run_npm.path,
-    "$p/" + ctx.file._vulcanize_archive.path,
-    '--inline-scripts',
-    '--inline-css',
-    '--strip-comments',
-    '--out-html', "$p/" + vulcanized.path,
-    ctx.file.app.path
-  ])
+    hermetic_npm_binary = " ".join([
+        "python",
+        "$p/" + ctx.file._run_npm.path,
+        "$p/" + ctx.file._vulcanize_archive.path,
+        "--inline-scripts",
+        "--inline-css",
+        "--strip-comments",
+        "--out-html",
+        "$p/" + vulcanized.path,
+        ctx.file.app.path,
+    ])
 
-  pkg_dir = ctx.attr.pkg.lstrip("/")
-  cmd = " && ".join([
-    # unpack dependencies.
-    "export PATH",
-    "p=$PWD",
-    "rm -rf %s" % destdir,
-    "mkdir -p %s/%s/bower_components" % (destdir, pkg_dir),
-    "for z in %s; do unzip -qd %s/%s/bower_components/ $z; done" % (
-      ' '.join([z.path for z in zips]), destdir, pkg_dir),
-    "tar -cf - %s | tar -C %s -xf -" % (" ".join([s.path for s in ctx.files.srcs]), destdir),
-    "cd %s" % destdir,
-    hermetic_npm_binary,
-  ])
+    pkg_dir = ctx.attr.pkg.lstrip("/")
+    cmd = " && ".join([
+        # unpack dependencies.
+        "export PATH",
+        "p=$PWD",
+        "rm -rf %s" % destdir,
+        "mkdir -p %s/%s/bower_components" % (destdir, pkg_dir),
+        "for z in %s; do unzip -qd %s/%s/bower_components/ $z; done" % (
+            " ".join([z.path for z in zips]),
+            destdir,
+            pkg_dir,
+        ),
+        "tar -cf - %s | tar -C %s -xf -" % (" ".join([s.path for s in ctx.files.srcs]), destdir),
+        "cd %s" % destdir,
+        hermetic_npm_binary,
+    ])
 
-  # Node/NPM is not (yet) hermeticized, so we have to get the binary
-  # from the environment, and it may be under $HOME, so we can't run
-  # in the sandbox.
-  node_tweaks = dict(
-    use_default_shell_env = True,
-    execution_requirements = {"local": "1"},
-  )
-  ctx.actions.run_shell(
-    mnemonic = "Vulcanize",
-    inputs = [ctx.file._run_npm, ctx.file.app,
-              ctx.file._vulcanize_archive
-    ] + list(zips) + ctx.files.srcs,
-    outputs = [vulcanized],
-    command = cmd,
-    **node_tweaks)
-
-  if ctx.attr.split:
-    hermetic_npm_command = "export PATH && " + " ".join([
-      'python',
-      ctx.file._run_npm.path,
-      ctx.file._crisper_archive.path,
-      "--always-write-script",
-      "--source", vulcanized.path,
-      "--html", ctx.outputs.html.path,
-      "--js", ctx.outputs.js.path])
-
+    # Node/NPM is not (yet) hermeticized, so we have to get the binary
+    # from the environment, and it may be under $HOME, so we can't run
+    # in the sandbox.
+    node_tweaks = dict(
+        execution_requirements = {"local": "1"},
+        use_default_shell_env = True,
+    )
     ctx.actions.run_shell(
-      mnemonic = "Crisper",
-      inputs = [ctx.file._run_npm, ctx.file.app,
-                ctx.file._crisper_archive, vulcanized],
-      outputs = [ctx.outputs.js, ctx.outputs.html],
-      command = hermetic_npm_command,
-      **node_tweaks)
+        mnemonic = "Vulcanize",
+        inputs = [
+            ctx.file._run_npm,
+            ctx.file.app,
+            ctx.file._vulcanize_archive,
+        ] + list(zips) + ctx.files.srcs,
+        outputs = [vulcanized],
+        command = cmd,
+        **node_tweaks
+    )
+
+    if ctx.attr.split:
+        hermetic_npm_command = "export PATH && " + " ".join([
+            "python",
+            ctx.file._run_npm.path,
+            ctx.file._crisper_archive.path,
+            "--always-write-script",
+            "--source",
+            vulcanized.path,
+            "--html",
+            ctx.outputs.html.path,
+            "--js",
+            ctx.outputs.js.path,
+        ])
+
+        ctx.actions.run_shell(
+            mnemonic = "Crisper",
+            inputs = [
+                ctx.file._run_npm,
+                ctx.file.app,
+                ctx.file._crisper_archive,
+                vulcanized,
+            ],
+            outputs = [ctx.outputs.js, ctx.outputs.html],
+            command = hermetic_npm_command,
+            **node_tweaks
+        )
 
 def _vulcanize_output_func(name, split):
-  _ignore = [name]  # unused.
-  out = {"html": "%{name}.html"}
-  if split:
-    out["js"] = "%{name}.js"
-  return out
+    _ignore = [name]  # unused.
+    out = {"html": "%{name}.html"}
+    if split:
+        out["js"] = "%{name}.js"
+    return out
 
 _vulcanize_rule = rule(
     _vulcanize_impl,
@@ -388,9 +425,96 @@ _vulcanize_rule = rule(
 )
 
 def vulcanize(*args, **kwargs):
-  """Vulcanize runs vulcanize and (optionally) crisper on a set of sources."""
-  _vulcanize_rule(*args, pkg=PACKAGE_NAME, **kwargs)
+    """Vulcanize runs vulcanize and (optionally) crisper on a set of sources."""
+    _vulcanize_rule(*args, pkg = PACKAGE_NAME, **kwargs)
 
-def polygerrit_plugin(*args, **kwargs):
-  """Bundles plugin dependencies for deployment."""
-  _vulcanize_rule(*args, pkg=PACKAGE_NAME, **kwargs)
+def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
+    """Bundles plugin dependencies for deployment.
+
+    This rule bundles all Polymer elements and JS dependencies into .html and .js files.
+    Run-time dependencies (e.g. JS libraries loaded after plugin starts) should be provided using "assets" property.
+    Output of this rule is a FileSet with "${name}_fs", with deploy artifacts in "plugins/${name}/static".
+
+    Args:
+      name: String, plugin name.
+      app: String, the main or root source file.
+      assets: Fileset, additional files to be used by plugin in runtime, exported to "plugins/${name}/static".
+      srcs: Source files required for combining.
+    """
+
+    # Combines all .js and .html files into foo_combined.js and foo_combined.html
+    _vulcanize_rule(
+        name = name + "_combined",
+        app = app,
+        srcs = srcs if app in srcs else srcs + [app],
+        pkg = PACKAGE_NAME,
+        **kwargs
+    )
+
+    closure_js_binary(
+        name = name + "_bin",
+        compilation_level = "SIMPLE",
+        defs = [
+            "--polymer_version=1",
+            "--language_out=ECMASCRIPT6",
+            "--rewrite_polyfills=false",
+        ],
+        deps = [
+            name + "_closure_lib",
+        ],
+    )
+
+    closure_js_library(
+        name = name + "_closure_lib",
+        srcs = [name + "_combined.js"],
+        convention = "GOOGLE",
+        no_closure_library = True,
+        deps = [
+            "//lib/polymer_externs:polymer_closure",
+            "//polygerrit-ui/externs:plugin",
+        ],
+    )
+
+    native.genrule(
+        name = name + "_rename_html",
+        srcs = [name + "_combined.html"],
+        outs = [name + ".html"],
+        cmd = "sed 's/<script src=\"" + name + "_combined.js\"/<script src=\"" + name + ".js\"/g' $(SRCS) > $(OUTS)",
+        output_to_bindir = True,
+    )
+
+    native.genrule(
+        name = name + "_rename_js",
+        srcs = [name + "_bin.js"],
+        outs = [name + ".js"],
+        cmd = "cp $< $@",
+        output_to_bindir = True,
+    )
+
+    static_files = [
+        name + ".js",
+        name + ".html",
+    ]
+
+    if assets:
+        nested, direct = [], []
+        for x in assets:
+            target = nested if "/" in x else direct
+            target.append(x)
+
+        static_files += direct
+
+        if nested:
+            native.genrule(
+                name = name + "_copy_assets",
+                srcs = assets,
+                outs = [f.split("/")[-1] for f in nested],
+                cmd = "cp $(SRCS) $(@D)",
+                output_to_bindir = True,
+            )
+            static_files += [":" + name + "_copy_assets"]
+
+    native.filegroup(
+        name = name,
+        srcs = static_files,
+    )

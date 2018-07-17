@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -33,27 +32,22 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 
 @Singleton
-public class EmailsCollection
-    implements ChildCollection<AccountResource, AccountResource.Email>,
-        AcceptsCreate<AccountResource> {
+public class EmailsCollection implements ChildCollection<AccountResource, AccountResource.Email> {
   private final DynamicMap<RestView<AccountResource.Email>> views;
   private final GetEmails list;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
-  private final CreateEmail.Factory createEmailFactory;
 
   @Inject
   EmailsCollection(
       DynamicMap<RestView<AccountResource.Email>> views,
       GetEmails list,
       Provider<CurrentUser> self,
-      PermissionBackend permissionBackend,
-      CreateEmail.Factory createEmailFactory) {
+      PermissionBackend permissionBackend) {
     this.views = views;
     this.list = list;
     this.self = self;
     this.permissionBackend = permissionBackend;
-    this.createEmailFactory = createEmailFactory;
   }
 
   @Override
@@ -84,10 +78,5 @@ public class EmailsCollection
   @Override
   public DynamicMap<RestView<Email>> views() {
     return views;
-  }
-
-  @Override
-  public CreateEmail create(AccountResource parent, IdString email) {
-    return createEmailFactory.create(email.get());
   }
 }

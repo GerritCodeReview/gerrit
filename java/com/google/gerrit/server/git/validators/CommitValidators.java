@@ -335,27 +335,26 @@ public class CommitValidators {
       StringBuilder sb = new StringBuilder();
       sb.append("ERROR: ").append(errMsg);
 
+      boolean hinted = false;
       if (c.getFullMessage().contains(CHANGE_ID_PREFIX)) {
         String lastLine = Iterables.getLast(Splitter.on('\n').split(c.getFullMessage()), "");
         if (!lastLine.contains(CHANGE_ID_PREFIX)) {
-          sb.append('\n');
-          sb.append('\n');
-          sb.append("Hint: A potential ");
-          sb.append(FooterConstants.CHANGE_ID.getName());
-          sb.append("Change-Id was found, but it was not in the ");
-          sb.append("footer (last paragraph) of the commit message.");
+          hinted = true;
+          sb.append("\n\n")
+              .append("Hint: run\n")
+              .append("  git commit --amend\n")
+              .append("and move 'Change-Id: Ixxx..' to the bottom on a separate line\n");
         }
       }
-      sb.append('\n');
-      sb.append('\n');
-      sb.append("Hint: To automatically insert ");
-      sb.append(FooterConstants.CHANGE_ID.getName());
-      sb.append(", install the hook:\n");
-      sb.append(getCommitMessageHookInstallationHint());
-      sb.append('\n');
-      sb.append("And then amend the commit:\n");
-      sb.append("  git commit --amend\n");
 
+      // Print only one hint to avoid overwhelming the user.
+      if (!hinted) {
+        sb.append("Hint: to automatically insert a Change-Id, install the hook:\n")
+            .append(getCommitMessageHookInstallationHint())
+            .append("\n")
+            .append("and then amend the commit:\n")
+            .append("  git commit --amend\n");
+      }
       return new CommitValidationMessage(sb.toString(), false);
     }
 

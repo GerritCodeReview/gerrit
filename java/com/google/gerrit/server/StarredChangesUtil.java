@@ -296,7 +296,11 @@ public class StarredChangesUtil {
 
   private static Set<String> getRefNames(Repository repo, String prefix) throws IOException {
     RefDatabase refDb = repo.getRefDatabase();
-    return refDb.getRefs(prefix).keySet();
+    return refDb
+        .getRefsByPrefix(prefix)
+        .stream()
+        .map(r -> r.getName().substring(prefix.length()))
+        .collect(toSet());
   }
 
   public ObjectId getObjectId(Account.Id accountId, Change.Id changeId) {

@@ -37,10 +37,11 @@ import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -64,13 +65,13 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectNameLockManager;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -89,12 +90,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
-public class CreateProject implements RestModifyView<TopLevelResource, ProjectInput> {
+public class CreateProject
+    implements RestCreateView<TopLevelResource, ProjectResource, ProjectInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public interface Factory {
-    CreateProject create(String name);
-  }
 
   private final Provider<ProjectsCollection> projectsCollection;
   private final Provider<GroupsCollection> groupsCollection;
@@ -114,7 +112,6 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
   private final DynamicItem<ProjectNameLockManager> lockManager;
-  private final String name;
 
   @Inject
   CreateProject(
@@ -135,8 +132,7 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      DynamicItem<ProjectNameLockManager> lockManager,
-      @Assisted String name) {
+      DynamicItem<ProjectNameLockManager> lockManager) {
     this.projectsCollection = projectsCollection;
     this.groupsCollection = groupsCollection;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
@@ -155,12 +151,12 @@ public class CreateProject implements RestModifyView<TopLevelResource, ProjectIn
     this.allProjects = allProjects;
     this.allUsers = allUsers;
     this.lockManager = lockManager;
-    this.name = name;
   }
 
   @Override
-  public Response<ProjectInfo> apply(TopLevelResource resource, ProjectInput input)
+  public Response<ProjectInfo> apply(TopLevelResource resource, IdString id, ProjectInput input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+    String name = id.get();
     if (input == null) {
       input = new ProjectInput();
     }

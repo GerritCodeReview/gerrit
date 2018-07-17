@@ -32,6 +32,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.change.PostReviewers.Addition;
@@ -55,6 +56,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   private final Provider<ReviewDb> db;
   private final PostReviewers postReviewers;
   private final AccountLoader.Factory accountLoaderFactory;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   PutAssignee(
@@ -63,13 +65,15 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       RetryHelper retryHelper,
       Provider<ReviewDb> db,
       PostReviewers postReviewers,
-      AccountLoader.Factory accountLoaderFactory) {
+      AccountLoader.Factory accountLoaderFactory,
+      PermissionBackend permissionBackend) {
     super(retryHelper);
     this.accounts = accounts;
     this.assigneeFactory = assigneeFactory;
     this.db = db;
     this.postReviewers = postReviewers;
     this.accountLoaderFactory = accountLoaderFactory;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -89,7 +93,11 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       throw new UnprocessableEntityException(input.assignee + " is not active");
     }
     try {
-      rsrc.permissions().database(db).user(assignee).check(ChangePermission.READ);
+      permissionBackend
+          .absentUser(assignee.getAccountId())
+          .database(db)
+          .change(rsrc.getNotes())
+          .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new AuthException("read not permitted for " + input.assignee);
     }

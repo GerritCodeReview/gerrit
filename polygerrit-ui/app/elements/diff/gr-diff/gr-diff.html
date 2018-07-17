@@ -40,7 +40,7 @@ limitations under the License.
       }
       .diffContainer {
         display: flex;
-        font: var(--font-size-small) var(--monospace-font-family);
+        font-family: var(--monospace-font-family);
         @apply --diff-container-styles;
       }
       .diffContainer.hiddenscroll {
@@ -89,7 +89,7 @@ limitations under the License.
       .lineNum,
       .content {
         /* Set font size based the user's diff preference. */
-        font-size: var(--font-size, var(--font-size-small));
+        font-size: var(--font-size, var(--font-size-normal));
         vertical-align: top;
         white-space: pre;
       }
@@ -185,7 +185,7 @@ limitations under the License.
         border-bottom: 1px solid var(--border-color);
         color: var(--link-color);
         font-family: var(--monospace-font-family);
-        font-size: var(--font-size, var(--font-size-small));
+        font-size: var(--font-size, var(--font-size-normal));
         padding: 0.5em 0 0.5em 4em;
       }
       #sizeWarning {
@@ -209,7 +209,7 @@ limitations under the License.
       td.blame {
         display: none;
         font-family: var(--font-family);
-        font-size: var(--font-size, var(--font-size-small));
+        font-size: var(--font-size, var(--font-size-normal));
         padding: 0 .5em;
         white-space: pre;
       }
@@ -235,7 +235,7 @@ limitations under the License.
       /** Since the line limit position is determined by charachter size, blank
        lines also need to have the same font size as everything else */
       .full-width .blank {
-        font-size: var(--font-size, var(--font-size-small));
+        font-size: var(--font-size, var(--font-size-normal));
       }
       /** Support the line length indicator **/
       .full-width td.content,

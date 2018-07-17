@@ -98,10 +98,10 @@ limitations under the License.
         font-family: var(--monospace-font-family);
       }
       .u-green {
-        color: var(--vote-text-color-recommended);
+        color: #388E3C;
       }
       .u-red {
-        color: var(--vote-text-color-disliked);
+        color: #D32F2F;
       }
       .label.u-green:not(.u-monospace),
       .label.u-red:not(.u-monospace) {
@@ -171,11 +171,14 @@ limitations under the License.
     </td>
     <td class="cell project"
         hidden$="[[isColumnHidden('Project', visibleChangeTableColumns)]]">
-      <a class="fullProject" href$="[[_computeProjectURL(change.project)]]">
-        [[change.project]]
+      <a class="fullProject" href$="[[_computeProjectURL(change)]]">
+        [[_computeProjectDisplay(change)]]
       </a>
-      <a class="truncatedProject" href$="[[_computeProjectURL(change.project)]]">
-        [[_computeTruncatedProject(change.project)]]
+      <a
+          class="truncatedProject"
+          href$="[[_computeProjectURL(change)]]"
+          title$="[[_computeProjectDisplay(change)]]">
+        [[_computeProjectDisplay(change, 'true')]]
       </a>
     </td>
     <td class="cell branch"

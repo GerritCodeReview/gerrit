@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -172,6 +173,8 @@ class PatchScriptBuilder {
       }
     }
 
+    correctForDifferencesInNewlineAtEnd();
+
     if (comments != null) {
       ensureCommentsVisible(comments);
     }
@@ -275,6 +278,43 @@ class PatchScriptBuilder {
       default:
         return entry.getNewName();
     }
+  }
+
+  private void correctForDifferencesInNewlineAtEnd() {
+    // a.src.size() is the size ignoring a newline at the end whereas a.size() considers it.
+    int aSize = a.src.size();
+    int bSize = b.src.size();
+
+    Optional<Edit> lastEdit = getLast(edits);
+    if (isNewlineAtEndDeleted()) {
+      Optional<Edit> lastLineEdit = lastEdit.filter(edit -> edit.getEndA() == aSize);
+      if (lastLineEdit.isPresent()) {
+        lastLineEdit.get().extendA();
+      } else {
+        Edit newlineEdit = new Edit(aSize, aSize + 1, bSize, bSize);
+        edits.add(newlineEdit);
+      }
+    } else if (isNewlineAtEndAdded()) {
+      Optional<Edit> lastLineEdit = lastEdit.filter(edit -> edit.getEndB() == bSize);
+      if (lastLineEdit.isPresent()) {
+        lastLineEdit.get().extendB();
+      } else {
+        Edit newlineEdit = new Edit(aSize, aSize, bSize, bSize + 1);
+        edits.add(newlineEdit);
+      }
+    }
+  }
+
+  private static <T> Optional<T> getLast(List<T> list) {
+    return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(list.size() - 1));
+  }
+
+  private boolean isNewlineAtEndDeleted() {
+    return !a.src.isMissingNewlineAtEnd() && b.src.isMissingNewlineAtEnd();
+  }
+
+  private boolean isNewlineAtEndAdded() {
+    return a.src.isMissingNewlineAtEnd() && !b.src.isMissingNewlineAtEnd();
   }
 
   private void ensureCommentsVisible(CommentDetail comments) {
@@ -396,14 +436,14 @@ class PatchScriptBuilder {
     for (EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
         if (hunk.isContextLine()) {
-          final String lineA = a.src.getString(hunk.getCurA());
+          String lineA = a.getSourceLine(hunk.getCurA());
           a.dst.addLine(hunk.getCurA(), lineA);
 
           if (ignoredWhitespace) {
             // If we ignored whitespace in some form, also get the line
             // from b when it does not exactly match the line from a.
             //
-            final String lineB = b.src.getString(hunk.getCurB());
+            String lineB = b.getSourceLine(hunk.getCurB());
             if (!lineA.equals(lineB)) {
               b.dst.addLine(hunk.getCurB(), lineB);
             }
@@ -437,11 +477,22 @@ class PatchScriptBuilder {
     final SparseFileContent dst = new SparseFileContent();
 
     int size() {
-      return src != null ? src.size() : 0;
+      if (src == null) {
+        return 0;
+      }
+      if (src.isMissingNewlineAtEnd()) {
+        return src.size();
+      }
+      return src.size() + 1;
     }
 
-    void addLine(int line) {
-      dst.addLine(line, src.getString(line));
+    void addLine(int lineNumber) {
+      String lineContent = getSourceLine(lineNumber);
+      dst.addLine(lineNumber, lineContent);
+    }
+
+    String getSourceLine(int lineNumber) {
+      return lineNumber >= src.size() ? "" : src.getString(lineNumber);
     }
 
     void resolve(Side other, ObjectId within) throws IOException {

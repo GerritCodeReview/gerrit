@@ -1259,11 +1259,13 @@ public class ChangeScreen extends Screen {
   }
 
   private void renderSubmitType(Change.Status status, boolean canSubmit, SubmitType submitType) {
-    if (canSubmit && status == Change.Status.NEW && !changeInfo.isWorkInProgress()) {
-      statusText.setInnerText(
-          changeInfo.mergeable() ? Util.C.readyToSubmit() : Util.C.mergeConflict());
+    if (status == Change.Status.NEW && !changeInfo.isWorkInProgress()) {
+      if (canSubmit) {
+        statusText.setInnerText(
+            changeInfo.mergeable() ? Util.C.readyToSubmit() : Util.C.mergeConflict());
+      }
+      setVisible(notMergeable, !changeInfo.mergeable());
     }
-    setVisible(notMergeable, !changeInfo.mergeable());
     submitActionText.setInnerText(com.google.gerrit.client.admin.Util.toLongString(submitType));
   }
 

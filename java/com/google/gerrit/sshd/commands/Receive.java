@@ -38,7 +38,6 @@ import java.util.Map;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.UnpackException;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
@@ -148,9 +147,9 @@ final class Receive extends AbstractGitCommand {
               .append("\n");
         }
 
-        Map<String, Ref> allRefs = rp.getRepository().getRefDatabase().getRefs(RefDatabase.ALL);
+        List<Ref> allRefs = rp.getRepository().getRefDatabase().getRefs();
         List<Ref> hidden = new ArrayList<>();
-        for (Ref ref : allRefs.values()) {
+        for (Ref ref : allRefs) {
           if (!adv.containsKey(ref.getName())) {
             hidden.add(ref);
           }

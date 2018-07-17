@@ -29,12 +29,14 @@ import com.google.gerrit.extensions.api.changes.MoveInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.Util;
+import java.util.Arrays;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -290,6 +292,44 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(changeId).get().branch).isEqualTo("master");
     assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
         .containsExactly((short) -2, (short) -1, (short) 0, (short) 0);
+  }
+
+  @Test
+  public void moveToBranchWithoutLabel() throws Exception {
+    createBranch(new Branch.NameKey(project, "foo"));
+    String testLabelA = "Label-A";
+    configLabel(testLabelA, LabelFunction.MAX_WITH_BLOCK, Arrays.asList("refs/heads/master"));
+
+    AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.allow(
+          u.getConfig(), Permission.forLabel(testLabelA), -1, +1, registered, "refs/heads/master");
+      u.save();
+    }
+
+    String changeId = createChange().getChangeId();
+
+    ReviewInput input = new ReviewInput();
+    input.label(testLabelA, -1);
+    gApi.changes().id(changeId).current().review(input);
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().keySet())
+        .containsExactly(testLabelA);
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email).votes().values())
+        .containsExactly((short) -1);
+
+    move(changeId, "foo");
+
+    // TODO(dpursehouse): Assert about state of labels after move
+  }
+
+  @Test
+  public void moveNoDestinationBranchSpecified() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    exception.expect(BadRequestException.class);
+    exception.expectMessage("destination branch is required");
+    move(r.getChangeId(), null);
   }
 
   private void move(int changeNum, String destination) throws RestApiException {

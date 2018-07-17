@@ -24,15 +24,14 @@ import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 
 public class ElasticIndexIT extends AbstractIndexTests {
-  private static ElasticContainer<?> container;
 
   private static Config getConfig(ElasticVersion version) {
     ElasticNodeInfo elasticNodeInfo;
-    container = ElasticContainer.createAndStart(version);
+    ElasticContainer<?> container = ElasticContainer.createAndStart(version);
     elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
-    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix);
+    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix, version);
     return cfg;
   }
 
@@ -47,8 +46,13 @@ public class ElasticIndexIT extends AbstractIndexTests {
   }
 
   @ConfigSuite.Config
-  public static Config elasticsearchV6() {
+  public static Config elasticsearchV6_2() {
     return getConfig(ElasticVersion.V6_2);
+  }
+
+  @ConfigSuite.Config
+  public static Config elasticsearchV6_3() {
+    return getConfig(ElasticVersion.V6_3);
   }
 
   @Override

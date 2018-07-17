@@ -37,9 +37,11 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
+import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -51,10 +53,10 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyUtil;
+import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
@@ -69,7 +71,7 @@ import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gerrit.server.update.RetryingRestCollectionView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -85,7 +87,8 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class PostReviewers
-    extends RetryingRestModifyView<ChangeResource, AddReviewerInput, AddReviewerResult> {
+    extends RetryingRestCollectionView<
+        ChangeResource, ReviewerResource, AddReviewerInput, AddReviewerResult> {
 
   public static final int DEFAULT_MAX_REVIEWERS_WITHOUT_CHECK = 10;
   public static final int DEFAULT_MAX_REVIEWERS = 20;
@@ -248,9 +251,7 @@ public class PostReviewers
       return null;
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.absentUser(reviewerUser.getAccountId()).ref(rsrc.getChange().getDest());
-    if (isValidReviewer(reviewerUser.getAccount(), perm)) {
+    if (isValidReviewer(rsrc.getChange().getDest(), reviewerUser.getAccount())) {
       return new Addition(
           reviewer,
           rsrc,
@@ -331,10 +332,8 @@ public class PostReviewers
               ChangeMessages.get().groupManyMembersConfirmation, group.getName(), members.size()));
     }
 
-    PermissionBackend.ForRef perm =
-        permissionBackend.user(rsrc.getUser()).ref(rsrc.getChange().getDest());
     for (Account member : members) {
-      if (isValidReviewer(member, perm)) {
+      if (isValidReviewer(rsrc.getChange().getDest(), member)) {
         reviewers.add(member.getId());
       }
     }
@@ -350,14 +349,17 @@ public class PostReviewers
       NotifyHandling notify,
       ListMultimap<RecipientType, Account.Id> accountsToNotify)
       throws PermissionBackendException {
-    if (!permissionBackend
-        .user(anonymousProvider.get())
-        .change(rsrc.getNotes())
-        .database(dbProvider)
-        .test(ChangePermission.READ)) {
+    try {
+      permissionBackend
+          .user(anonymousProvider.get())
+          .change(rsrc.getNotes())
+          .database(dbProvider)
+          .check(ChangePermission.READ);
+    } catch (AuthException e) {
       return fail(
           reviewer, MessageFormat.format(ChangeMessages.get().reviewerCantSeeChange, reviewer));
     }
+
     if (!migration.readChanges()) {
       // addByEmail depends on NoteDb.
       return fail(
@@ -371,7 +373,7 @@ public class PostReviewers
         reviewer, rsrc, null, ImmutableList.of(adr), state, notify, accountsToNotify, true);
   }
 
-  private boolean isValidReviewer(Account member, PermissionBackend.ForRef perm)
+  private boolean isValidReviewer(Branch.NameKey branch, Account member)
       throws PermissionBackendException {
     if (!member.isActive()) {
       return false;
@@ -380,7 +382,11 @@ public class PostReviewers
     // Does not account for draft status as a user might want to let a
     // reviewer see a draft.
     try {
-      perm.absentUser(member.getId()).check(RefPermission.READ);
+      permissionBackend
+          .absentUser(member.getId())
+          .database(dbProvider)
+          .ref(branch)
+          .check(RefPermission.READ);
       return true;
     } catch (AuthException e) {
       return false;
@@ -452,17 +458,13 @@ public class PostReviewers
       }
 
       ChangeData cd = changeDataFactory.create(dbProvider.get(), notes);
-      PermissionBackend.ForChange perm =
-          permissionBackend.user(caller).database(dbProvider).change(cd);
-
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
       PostReviewersOp.Result opResult = op.getResult();
       if (migration.readChanges() && state == CC) {
         result.ccs = Lists.newArrayListWithCapacity(opResult.addedCCs().size());
         for (Account.Id accountId : opResult.addedCCs()) {
-          result.ccs.add(
-              json.format(new ReviewerInfo(accountId.get()), perm.absentUser(accountId), cd));
+          result.ccs.add(json.format(new ReviewerInfo(accountId.get()), accountId, cd));
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : reviewersByEmail) {
@@ -475,7 +477,7 @@ public class PostReviewers
           result.reviewers.add(
               json.format(
                   new ReviewerInfo(psa.getAccountId().get()),
-                  perm.absentUser(psa.getAccountId()),
+                  psa.getAccountId(),
                   cd,
                   ImmutableList.of(psa)));
         }

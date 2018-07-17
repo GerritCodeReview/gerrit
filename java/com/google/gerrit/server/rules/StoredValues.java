@@ -20,7 +20,6 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.AnonymousUser;
@@ -34,8 +33,6 @@ import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
-import com.google.gerrit.server.patch.PatchSetInfoFactory;
-import com.google.gerrit.server.patch.PatchSetInfoNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -47,6 +44,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 public final class StoredValues {
   public static final StoredValue<Accounts> ACCOUNTS = create(Accounts.class);
@@ -74,32 +72,16 @@ public final class StoredValues {
     }
   }
 
-  public static final StoredValue<PatchSetInfo> PATCH_SET_INFO =
-      new StoredValue<PatchSetInfo>() {
+  public static final StoredValue<RevCommit> COMMIT =
+      new StoredValue<RevCommit>() {
         @Override
-        public PatchSetInfo createValue(Prolog engine) {
-          Change change = getChange(engine);
-          PatchSet ps = getPatchSet(engine);
-          PrologEnvironment env = (PrologEnvironment) engine.control;
-          PatchSetInfoFactory patchInfoFactory = env.getArgs().getPatchSetInfoFactory();
-          try {
-            return patchInfoFactory.get(change.getProject(), ps);
-          } catch (PatchSetInfoNotAvailableException e) {
-            throw new SystemException(e.getMessage());
-          }
-        }
-      };
-
-  public static final StoredValue<String> COMMIT_MESSAGE =
-      new StoredValue<String>() {
-        @Override
-        public String createValue(Prolog engine) {
+        public RevCommit createValue(Prolog engine) {
           Change change = getChange(engine);
           PatchSet ps = getPatchSet(engine);
           PrologEnvironment env = (PrologEnvironment) engine.control;
           PatchSetUtil patchSetUtil = env.getArgs().getPatchsetUtil();
           try {
-            return patchSetUtil.getFullCommitMessage(change.getProject(), ps);
+            return patchSetUtil.getRevCommit(change.getProject(), ps);
           } catch (IOException e) {
             throw new SystemException(e.getMessage());
           }

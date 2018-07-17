@@ -724,7 +724,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
     // Just scan repo for ref names, but get "old" values from cmds.
     for (Ref r :
-        allUsersRepo.repo.getRefDatabase().getRefs(RefNames.refsDraftCommentsPrefix(id)).values()) {
+        allUsersRepo.repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(id))) {
       old = allUsersRepo.cmds.get(r.getName());
       if (old.isPresent()) {
         allUsersRepo.cmds.add(new ReceiveCommand(old.get(), ObjectId.zeroId(), r.getName()));

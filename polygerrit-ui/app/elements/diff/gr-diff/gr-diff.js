@@ -405,6 +405,7 @@
      * @param {!Object=} opt_range
      */
     _createComment(lineEl, opt_lineNum, opt_side, opt_range) {
+      this.$.reporting.recordDraftInteraction();
       const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
       const contentEl = contentText.parentElement;
       const side = opt_side ||
@@ -851,6 +852,10 @@
         return null;
       }
       return this.getParentIndex(patchRangeRecord.base.basePatchNum);
+    },
+
+    expandAllContext() {
+      this._handleFullBypass();
     },
   });
 })();

@@ -21,6 +21,7 @@ import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -30,7 +31,6 @@ import com.google.gerrit.reviewdb.client.PatchSetInfo;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
-import com.google.gerrit.server.mail.MailHeader;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
@@ -403,12 +403,19 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected boolean isVisibleTo(Account.Id to) throws PermissionBackendException {
-    return projectState.statePermitsRead()
-        && args.permissionBackend
-            .absentUser(to)
-            .change(changeData)
-            .database(args.db)
-            .test(ChangePermission.READ);
+    if (!projectState.statePermitsRead()) {
+      return false;
+    }
+    try {
+      args.permissionBackend
+          .absentUser(to)
+          .change(changeData)
+          .database(args.db)
+          .check(ChangePermission.READ);
+      return true;
+    } catch (AuthException e) {
+      return false;
+    }
   }
 
   /** Find all users who are authors of any part of this change. */

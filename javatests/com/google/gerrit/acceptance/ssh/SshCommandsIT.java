@@ -93,7 +93,8 @@ public class SshCommandsIT extends AbstractDaemonTest {
                 }
               }),
           "index",
-          ImmutableList.of("changes", "project"), // "activate" and "start" are not included
+          ImmutableList.of(
+              "changes", "changes-in-project"), // "activate" and "start" are not included
           "logging",
           ImmutableList.of("ls", "set"),
           "plugin",

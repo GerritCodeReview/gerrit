@@ -22,6 +22,8 @@ acceptance_tests(
     group = "elastic",
     labels = [
         "elastic",
+        "exclusive",
+        "flaky",
         "pgm",
         "no_windows",
     ],

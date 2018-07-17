@@ -14,81 +14,93 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.common.base.MoreObjects;
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.apache.http.HttpHost;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 class ElasticConfiguration {
-  private static final String DEFAULT_HOST = "localhost";
-  private static final String DEFAULT_PORT = "9200";
-  private static final String DEFAULT_PROTOCOL = "http";
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  static final String SECTION_ELASTICSEARCH = "elasticsearch";
+  static final String KEY_PASSWORD = "password";
+  static final String KEY_USERNAME = "username";
+  static final String KEY_MAX_RETRY_TIMEOUT = "maxRetryTimeout";
+  static final String KEY_PREFIX = "prefix";
+  static final String KEY_SERVER = "server";
+  static final String DEFAULT_PORT = "9200";
+  static final String DEFAULT_USERNAME = "elastic";
+  static final int DEFAULT_MAX_RETRY_TIMEOUT_MS = 30000;
+  static final TimeUnit MAX_RETRY_TIMEOUT_UNIT = TimeUnit.MILLISECONDS;
 
   private final Config cfg;
+  private final List<HttpHost> hosts;
 
-  final List<HttpHost> urls;
   final String username;
   final String password;
-  final boolean requestCompression;
-  final long connectionTimeout;
-  final long maxConnectionIdleTime;
-  final TimeUnit maxConnectionIdleUnit = TimeUnit.MILLISECONDS;
-  final int maxTotalConnection;
-  final int readTimeout;
+  final int maxRetryTimeout;
   final String prefix;
 
   @Inject
   ElasticConfiguration(@GerritServerConfig Config cfg) {
     this.cfg = cfg;
-    this.username = cfg.getString("elasticsearch", null, "username");
-    this.password = cfg.getString("elasticsearch", null, "password");
-    this.requestCompression = cfg.getBoolean("elasticsearch", null, "requestCompression", false);
-    this.connectionTimeout =
-        cfg.getTimeUnit("elasticsearch", null, "connectionTimeout", 3000, TimeUnit.MILLISECONDS);
-    this.maxConnectionIdleTime =
-        cfg.getTimeUnit(
-            "elasticsearch", null, "maxConnectionIdleTime", 3000, TimeUnit.MILLISECONDS);
-    this.maxTotalConnection = cfg.getInt("elasticsearch", null, "maxTotalConnection", 1);
-    this.readTimeout =
-        (int) cfg.getTimeUnit("elasticsearch", null, "readTimeout", 3000, TimeUnit.MICROSECONDS);
-    this.prefix = Strings.nullToEmpty(cfg.getString("elasticsearch", null, "prefix"));
-
-    Set<String> subsections = cfg.getSubsections("elasticsearch");
-    if (subsections.isEmpty()) {
-      HttpHost httpHost =
-          new HttpHost(DEFAULT_HOST, Integer.valueOf(DEFAULT_PORT), DEFAULT_PROTOCOL);
-      this.urls = Collections.singletonList(httpHost);
-    } else {
-      this.urls = new ArrayList<>(subsections.size());
-      for (String subsection : subsections) {
-        String port = getString(cfg, subsection, "port", DEFAULT_PORT);
-        String host = getString(cfg, subsection, "hostname", DEFAULT_HOST);
-        String protocol = getString(cfg, subsection, "protocol", DEFAULT_PROTOCOL);
-
-        HttpHost httpHost = new HttpHost(host, Integer.valueOf(port), protocol);
-        this.urls.add(httpHost);
+    this.password = cfg.getString(SECTION_ELASTICSEARCH, null, KEY_PASSWORD);
+    this.username =
+        password == null
+            ? null
+            : firstNonNull(
+                cfg.getString(SECTION_ELASTICSEARCH, null, KEY_USERNAME), DEFAULT_USERNAME);
+    this.maxRetryTimeout =
+        (int)
+            cfg.getTimeUnit(
+                SECTION_ELASTICSEARCH,
+                null,
+                KEY_MAX_RETRY_TIMEOUT,
+                DEFAULT_MAX_RETRY_TIMEOUT_MS,
+                MAX_RETRY_TIMEOUT_UNIT);
+    this.prefix = Strings.nullToEmpty(cfg.getString(SECTION_ELASTICSEARCH, null, KEY_PREFIX));
+    this.hosts = new ArrayList<>();
+    for (String server : cfg.getStringList(SECTION_ELASTICSEARCH, null, KEY_SERVER)) {
+      try {
+        URI uri = new URI(server);
+        int port = uri.getPort();
+        HttpHost httpHost =
+            new HttpHost(
+                uri.getHost(), port == -1 ? Integer.valueOf(DEFAULT_PORT) : port, uri.getScheme());
+        this.hosts.add(httpHost);
+      } catch (URISyntaxException | IllegalArgumentException e) {
+        logger.atSevere().log("Invalid server URI %s: %s", server, e.getMessage());
       }
     }
+
+    if (hosts.isEmpty()) {
+      throw new ProvisionException("No valid Elasticsearch servers configured");
+    }
+
+    logger.atInfo().log("Elasticsearch servers: %s", hosts);
   }
 
   Config getConfig() {
     return cfg;
   }
 
-  String getIndexName(String name, int schemaVersion) {
-    return String.format("%s%s_%04d", prefix, name, schemaVersion);
+  HttpHost[] getHosts() {
+    return hosts.toArray(new HttpHost[hosts.size()]);
   }
 
-  private String getString(Config cfg, String subsection, String name, String defaultValue) {
-    return MoreObjects.firstNonNull(cfg.getString("elasticsearch", subsection, name), defaultValue);
+  String getIndexName(String name, int schemaVersion) {
+    return String.format("%s%s_%04d", prefix, name, schemaVersion);
   }
 }

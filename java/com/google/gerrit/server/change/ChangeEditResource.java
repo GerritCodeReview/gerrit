@@ -20,7 +20,7 @@ import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.inject.TypeLiteral;
 
 /**
- * Represents change edit resource, that is actualy two kinds of resources:
+ * Represents change edit resource, that is actually two kinds of resources:
  *
  * <ul>
  *   <li>the change edit itself
@@ -32,6 +32,10 @@ import com.google.inject.TypeLiteral;
 public class ChangeEditResource implements RestResource {
   public static final TypeLiteral<RestView<ChangeEditResource>> CHANGE_EDIT_KIND =
       new TypeLiteral<RestView<ChangeEditResource>>() {};
+  public static final TypeLiteral<RestView<ChangeEditResource.Publish>> CHANGE_EDIT_PUBLISH_KIND =
+      new TypeLiteral<RestView<ChangeEditResource.Publish>>() {};
+  public static final TypeLiteral<RestView<ChangeEditResource.Rebase>> CHANGE_EDIT_REBASE_KIND =
+      new TypeLiteral<RestView<ChangeEditResource.Rebase>>() {};
 
   private final ChangeResource change;
   private final ChangeEdit edit;
@@ -59,5 +63,17 @@ public class ChangeEditResource implements RestResource {
 
   public String getPath() {
     return path;
+  }
+
+  public static class Publish extends ChangeEditResource {
+    public Publish(ChangeResource change, ChangeEdit edit, String path) {
+      super(change, edit, path);
+    }
+  }
+
+  public static class Rebase extends ChangeEditResource {
+    public Rebase(ChangeResource change, ChangeEdit edit, String path) {
+      super(change, edit, path);
+    }
   }
 }

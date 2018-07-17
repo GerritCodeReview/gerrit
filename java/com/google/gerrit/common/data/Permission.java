@@ -27,6 +27,7 @@ public class Permission implements Comparable<Permission> {
   public static final String CREATE_SIGNED_TAG = "createSignedTag";
   public static final String CREATE_TAG = "createTag";
   public static final String DELETE = "delete";
+  public static final String DELETE_CHANGES = "deleteChanges";
   public static final String DELETE_OWN_CHANGES = "deleteOwnChanges";
   public static final String EDIT_ASSIGNEE = "editAssignee";
   public static final String EDIT_HASHTAGS = "editHashtags";
@@ -58,6 +59,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(CREATE_SIGNED_TAG.toLowerCase());
     NAMES_LC.add(CREATE_TAG.toLowerCase());
     NAMES_LC.add(DELETE.toLowerCase());
+    NAMES_LC.add(DELETE_CHANGES.toLowerCase());
     NAMES_LC.add(DELETE_OWN_CHANGES.toLowerCase());
     NAMES_LC.add(EDIT_ASSIGNEE.toLowerCase());
     NAMES_LC.add(EDIT_HASHTAGS.toLowerCase());
@@ -155,13 +157,16 @@ public class Permission implements Comparable<Permission> {
     exclusiveGroup = newExclusiveGroup;
   }
 
+  // TODO(ekempin): Make this method return an ImmutableList once the GWT UI is gone.
   public List<PermissionRule> getRules() {
-    initRules();
-    return rules;
+    if (rules == null) {
+      return new ArrayList<>();
+    }
+    return new ArrayList<>(rules);
   }
 
   public void setRules(List<PermissionRule> list) {
-    rules = list;
+    rules = new ArrayList<>(list);
   }
 
   public void add(PermissionRule rule) {
@@ -178,6 +183,12 @@ public class Permission implements Comparable<Permission> {
   public void removeRule(GroupReference group) {
     if (rules != null) {
       rules.removeIf(permissionRule -> sameGroup(permissionRule, group));
+    }
+  }
+
+  public void clearRules() {
+    if (rules != null) {
+      rules.clear();
     }
   }
 

@@ -20,10 +20,10 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.mail.Address;
 import com.google.gerrit.server.util.RequestId;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestChanges;
@@ -62,14 +62,14 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "Commit: "
             + update.getCommit().name()
             + "\n"
-            + "Reviewer: Change Owner <1@gerrit>\n"
-            + "CC: Other Account <2@gerrit>\n"
+            + "Reviewer: Gerrit User 1 <1@gerrit>\n"
+            + "CC: Gerrit User 2 <2@gerrit>\n"
             + "Label: Code-Review=-1\n"
             + "Label: Verified=+1\n",
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertThat(author.getName()).isEqualTo("Change Owner");
+    assertThat(author.getName()).isEqualTo("Gerrit User 1");
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
     assertThat(author.getWhen()).isEqualTo(new Date(c.getCreatedOn().getTime() + 1000));
     assertThat(author.getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
@@ -177,15 +177,15 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + submissionId.toStringForStorage()
             + "\n"
             + "Submitted-with: NOT_READY\n"
-            + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+            + "Submitted-with: OK: Verified: Gerrit User 1 <1@gerrit>\n"
             + "Submitted-with: NEED: Code-Review\n"
             + "Submitted-with: NOT_READY\n"
-            + "Submitted-with: OK: Verified: Change Owner <1@gerrit>\n"
+            + "Submitted-with: OK: Verified: Gerrit User 1 <1@gerrit>\n"
             + "Submitted-with: NEED: Alternative-Code-Review\n",
         commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertThat(author.getName()).isEqualTo("Change Owner");
+    assertThat(author.getName()).isEqualTo("Gerrit User 1");
     assertThat(author.getEmailAddress()).isEqualTo("1@gerrit");
     assertThat(author.getWhen()).isEqualTo(new Date(c.getCreatedOn().getTime() + 2000));
     assertThat(author.getTimeZone()).isEqualTo(TimeZone.getTimeZone("GMT-7:00"));
@@ -210,7 +210,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertBodyEquals("Update patch set 1\n\nComment on the change.\n\nPatch-set: 1\n", commit);
 
     PersonIdent author = commit.getAuthorIdent();
-    assertThat(author.getName()).isEqualTo("GerritAccount #3");
+    assertThat(author.getName()).isEqualTo("Gerrit User 3");
     assertThat(author.getEmailAddress()).isEqualTo("3@gerrit");
   }
 
@@ -245,7 +245,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nReviewer: Change Owner <1@gerrit>\n",
+        "Update patch set 1\n\nPatch-set: 1\nReviewer: Gerrit User 1 <1@gerrit>\n",
         update.getResult());
   }
 
@@ -360,7 +360,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
     RevCommit commit = parseCommit(update.getResult());
     PersonIdent author = commit.getAuthorIdent();
-    assertThat(author.getName()).isEqualTo("Other Account");
+    assertThat(author.getName()).isEqualTo("Gerrit User 2");
     assertThat(author.getEmailAddress()).isEqualTo("2@gerrit");
 
     assertBodyEquals(
@@ -369,7 +369,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "Message on behalf of other user\n"
             + "\n"
             + "Patch-set: 1\n"
-            + "Real-user: Change Owner <1@gerrit>\n",
+            + "Real-user: Gerrit User 1 <1@gerrit>\n",
         commit);
   }
 

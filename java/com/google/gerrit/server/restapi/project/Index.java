@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,57 +16,80 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
-import com.google.common.io.ByteStreams;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.IndexProjectInput;
+import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.MultiProgressMonitor;
-import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.index.IndexExecutor;
-import com.google.gerrit.server.index.change.AllChangesIndexer;
-import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.concurrent.Future;
-import org.eclipse.jgit.util.io.NullOutputStream;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.MAINTAIN_SERVER)
 @Singleton
-public class Index implements RestModifyView<ProjectResource, ProjectInput> {
+public class Index implements RestModifyView<ProjectResource, IndexProjectInput> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final Provider<AllChangesIndexer> allChangesIndexerProvider;
-  private final ChangeIndexer indexer;
+  private final ProjectIndexer indexer;
   private final ListeningExecutorService executor;
+  private final Provider<ListChildProjects> listChildProjectsProvider;
 
   @Inject
   Index(
-      Provider<AllChangesIndexer> allChangesIndexerProvider,
-      ChangeIndexer indexer,
-      @IndexExecutor(BATCH) ListeningExecutorService executor) {
-    this.allChangesIndexerProvider = allChangesIndexerProvider;
+      ProjectIndexer indexer,
+      @IndexExecutor(BATCH) ListeningExecutorService executor,
+      Provider<ListChildProjects> listChildProjectsProvider) {
     this.indexer = indexer;
     this.executor = executor;
+    this.listChildProjectsProvider = listChildProjectsProvider;
   }
 
   @Override
-  public Response.Accepted apply(ProjectResource resource, ProjectInput input) {
-    Project.NameKey project = resource.getNameKey();
-    Task mpt =
-        new MultiProgressMonitor(ByteStreams.nullOutputStream(), "Reindexing project")
-            .beginSubTask("", MultiProgressMonitor.UNKNOWN);
-    AllChangesIndexer allChangesIndexer = allChangesIndexerProvider.get();
-    allChangesIndexer.setVerboseOut(NullOutputStream.INSTANCE);
-    // The REST call is just a trigger for async reindexing, so it is safe to ignore the future's
-    // return value.
-    @SuppressWarnings("unused")
-    Future<Void> ignored =
-        executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt));
-    return Response.accepted("Project " + project + " submitted for reindexing");
+  public Response.Accepted apply(ProjectResource rsrc, IndexProjectInput input)
+      throws IOException, AuthException, OrmException, PermissionBackendException,
+          ResourceConflictException {
+    String response = "Project " + rsrc.getName() + " submitted for reindexing";
+
+    reindex(rsrc.getNameKey(), input.async);
+    if (Boolean.TRUE.equals(input.indexChildren)) {
+      ListChildProjects listChildProjects = listChildProjectsProvider.get();
+      listChildProjects.setRecursive(true);
+      for (ProjectInfo child : listChildProjects.apply(rsrc)) {
+        reindex(new Project.NameKey(child.name), input.async);
+      }
+
+      response += " (indexing children recursively)";
+    }
+    return Response.accepted(response);
+  }
+
+  private void reindex(Project.NameKey project, Boolean async) throws IOException {
+    if (Boolean.TRUE.equals(async)) {
+      @SuppressWarnings("unused")
+      Future<?> possiblyIgnoredError =
+          executor.submit(
+              () -> {
+                try {
+                  indexer.index(project);
+                } catch (IOException e) {
+                  logger.atWarning().withCause(e).log("reindexing project %s failed", project);
+                }
+              });
+    } else {
+      indexer.index(project);
+    }
   }
 }

@@ -23,10 +23,11 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -38,8 +39,8 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.RefUtil.InvalidRevisionException;
+import com.google.gerrit.server.project.TagResource;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.TimeZone;
 import org.eclipse.jgit.api.Git;
@@ -52,19 +53,13 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
+public class CreateTag implements RestCreateView<ProjectResource, TagResource, TagInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public interface Factory {
-    CreateTag create(String ref);
-  }
-
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;
   private final TagCache tagCache;
   private final GitReferenceUpdated referenceUpdated;
   private final WebLinks links;
-  private String ref;
 
   @Inject
   CreateTag(
@@ -72,19 +67,18 @@ public class CreateTag implements RestModifyView<ProjectResource, TagInput> {
       GitRepositoryManager repoManager,
       TagCache tagCache,
       GitReferenceUpdated referenceUpdated,
-      WebLinks webLinks,
-      @Assisted String ref) {
+      WebLinks webLinks) {
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.tagCache = tagCache;
     this.referenceUpdated = referenceUpdated;
     this.links = webLinks;
-    this.ref = ref;
   }
 
   @Override
-  public TagInfo apply(ProjectResource resource, TagInput input)
+  public TagInfo apply(ProjectResource resource, IdString id, TagInput input)
       throws RestApiException, IOException, PermissionBackendException, NoSuchProjectException {
+    String ref = id.get();
     if (input == null) {
       input = new TagInput();
     }

@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GcAssert;
@@ -56,7 +55,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   public void testGc() throws Exception {
     String response =
         adminSshSession.exec("gerrit gc \"" + project.get() + "\" \"" + project2.get() + "\"");
-    assertWithMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isFalse();
+    adminSshSession.assertSuccess();
     assertNoError(response);
     gcAssert.assertHasPackFile(project, project2);
     gcAssert.assertHasNoPackFile(allProjects, project3);
@@ -66,7 +65,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @UseLocalDisk
   public void testGcAll() throws Exception {
     String response = adminSshSession.exec("gerrit gc --all");
-    assertWithMessage(adminSshSession.getError()).that(adminSshSession.hasError()).isFalse();
+    adminSshSession.assertSuccess();
     assertNoError(response);
     gcAssert.assertHasPackFile(allProjects, project, project2, project3);
   }
@@ -74,7 +73,7 @@ public class GarbageCollectionIT extends AbstractDaemonTest {
   @Test
   public void gcWithoutCapability_Error() throws Exception {
     userSshSession.exec("gerrit gc --all");
-    assertThat(userSshSession.hasError()).isTrue();
+    userSshSession.assertFailure();
     String error = userSshSession.getError();
     assertThat(error).isNotNull();
     assertError("maintain server not permitted", error);

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -43,14 +42,12 @@ import java.io.IOException;
 import java.util.List;
 
 @Singleton
-public class ChangesCollection
-    implements RestCollection<TopLevelResource, ChangeResource>, AcceptsPost<TopLevelResource> {
+public class ChangesCollection implements RestCollection<TopLevelResource, ChangeResource> {
   private final Provider<ReviewDb> db;
   private final Provider<CurrentUser> user;
   private final Provider<QueryChanges> queryFactory;
   private final DynamicMap<RestView<ChangeResource>> views;
   private final ChangeFinder changeFinder;
-  private final CreateChange createChange;
   private final ChangeResource.Factory changeResourceFactory;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
@@ -62,7 +59,6 @@ public class ChangesCollection
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,
       ChangeFinder changeFinder,
-      CreateChange createChange,
       ChangeResource.Factory changeResourceFactory,
       PermissionBackend permissionBackend,
       ProjectCache projectCache) {
@@ -71,7 +67,6 @@ public class ChangesCollection
     this.queryFactory = queryFactory;
     this.views = views;
     this.changeFinder = changeFinder;
-    this.createChange = createChange;
     this.changeResourceFactory = changeResourceFactory;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
@@ -128,11 +123,6 @@ public class ChangesCollection
 
   public ChangeResource parse(ChangeNotes notes, CurrentUser user) {
     return changeResourceFactory.create(notes, user);
-  }
-
-  @Override
-  public CreateChange post(TopLevelResource parent) throws RestApiException {
-    return createChange;
   }
 
   private boolean canRead(ChangeNotes notes) throws PermissionBackendException, IOException {

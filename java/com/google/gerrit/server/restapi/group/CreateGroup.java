@@ -26,9 +26,10 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -42,19 +43,20 @@ import com.google.gerrit.server.account.CreateGroupArgs;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupUUID;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.group.InternalGroupDescription;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,11 +69,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
-public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput> {
-  public interface Factory {
-    CreateGroup create(@Assisted String name);
-  }
-
+public class CreateGroup implements RestCreateView<TopLevelResource, GroupResource, GroupInput> {
   private final Provider<IdentifiedUser> self;
   private final PersonIdent serverIdent;
   private final Provider<GroupsUpdate> groupsUpdateProvider;
@@ -82,7 +80,6 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   private final AddMembers addMembers;
   private final SystemGroupBackend systemGroupBackend;
   private final boolean defaultVisibleToAll;
-  private final String name;
   private final Sequences sequences;
 
   @Inject
@@ -97,7 +94,6 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
       AddMembers addMembers,
       SystemGroupBackend systemGroupBackend,
       @GerritServerConfig Config cfg,
-      @Assisted String name,
       Sequences sequences) {
     this.self = self;
     this.serverIdent = serverIdent;
@@ -109,7 +105,6 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
     this.addMembers = addMembers;
     this.systemGroupBackend = systemGroupBackend;
     this.defaultVisibleToAll = cfg.getBoolean("groups", "newGroupsVisibleToAll", false);
-    this.name = name;
     this.sequences = sequences;
   }
 
@@ -124,10 +119,11 @@ public class CreateGroup implements RestModifyView<TopLevelResource, GroupInput>
   }
 
   @Override
-  public GroupInfo apply(TopLevelResource resource, GroupInput input)
+  public GroupInfo apply(TopLevelResource resource, IdString id, GroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
           ResourceConflictException, OrmException, IOException, ConfigInvalidException,
-          ResourceNotFoundException {
+          ResourceNotFoundException, PermissionBackendException {
+    String name = id.get();
     if (input == null) {
       input = new GroupInput();
     }

@@ -29,9 +29,10 @@ import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -40,6 +41,7 @@ import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
@@ -47,12 +49,12 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.group.db.InternalGroupUpdate;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.GroupsCollection;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -61,11 +63,8 @@ import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
-public class CreateAccount implements RestModifyView<TopLevelResource, AccountInput> {
-  public interface Factory {
-    CreateAccount create(String username);
-  }
-
+public class CreateAccount
+    implements RestCreateView<TopLevelResource, AccountResource, AccountInput> {
   private final Sequences seq;
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
@@ -75,7 +74,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
   private final DynamicSet<AccountExternalIdCreator> externalIdCreators;
   private final Provider<GroupsUpdate> groupsUpdate;
   private final OutgoingEmailValidator validator;
-  private final String username;
 
   @Inject
   CreateAccount(
@@ -87,8 +85,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       AccountLoader.Factory infoLoader,
       DynamicSet<AccountExternalIdCreator> externalIdCreators,
       @UserInitiated Provider<GroupsUpdate> groupsUpdate,
-      OutgoingEmailValidator validator,
-      @Assisted String username) {
+      OutgoingEmailValidator validator) {
     this.seq = seq;
     this.groupsCollection = groupsCollection;
     this.authorizedKeys = authorizedKeys;
@@ -98,23 +95,23 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     this.externalIdCreators = externalIdCreators;
     this.groupsUpdate = groupsUpdate;
     this.validator = validator;
-    this.username = username;
   }
 
   @Override
-  public Response<AccountInfo> apply(TopLevelResource rsrc, @Nullable AccountInput input)
+  public Response<AccountInfo> apply(
+      TopLevelResource rsrc, IdString id, @Nullable AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          OrmException, IOException, ConfigInvalidException {
-    return apply(input != null ? input : new AccountInput());
+          OrmException, IOException, ConfigInvalidException, PermissionBackendException {
+    return apply(id, input != null ? input : new AccountInput());
   }
 
-  public Response<AccountInfo> apply(AccountInput input)
+  public Response<AccountInfo> apply(IdString id, AccountInput input)
       throws BadRequestException, ResourceConflictException, UnprocessableEntityException,
-          OrmException, IOException, ConfigInvalidException {
+          OrmException, IOException, ConfigInvalidException, PermissionBackendException {
+    String username = id.get();
     if (input.username != null && !username.equals(input.username)) {
       throw new BadRequestException("username must match URL");
     }
-
     if (!ExternalId.isValidUsername(username)) {
       throw new BadRequestException(
           "Username '" + username + "' must contain only letters, numbers, _, - or .");
@@ -122,19 +119,19 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     Set<AccountGroup.UUID> groups = parseGroups(input.groups);
 
-    Account.Id id = new Account.Id(seq.nextAccountId());
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
     List<ExternalId> extIds = new ArrayList<>();
 
     if (input.email != null) {
       if (!validator.isValid(input.email)) {
         throw new BadRequestException("invalid email address");
       }
-      extIds.add(ExternalId.createEmail(id, input.email));
+      extIds.add(ExternalId.createEmail(accountId, input.email));
     }
 
-    extIds.add(ExternalId.createUsername(username, id, input.httpPassword));
+    extIds.add(ExternalId.createUsername(username, accountId, input.httpPassword));
     for (AccountExternalIdCreator c : externalIdCreators) {
-      extIds.addAll(c.create(id, username, input.email));
+      extIds.addAll(c.create(accountId, username, input.email));
     }
 
     try {
@@ -142,7 +139,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
           .get()
           .insert(
               "Create Account via API",
-              id,
+              accountId,
               u -> u.setFullName(input.name).setPreferredEmail(input.email).addExternalIds(extIds));
     } catch (DuplicateExternalIdKeyException e) {
       if (e.getDuplicateKey().isScheme(SCHEME_USERNAME)) {
@@ -159,7 +156,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     for (AccountGroup.UUID groupUuid : groups) {
       try {
-        addGroupMember(groupUuid, id);
+        addGroupMember(groupUuid, accountId);
       } catch (NoSuchGroupException e) {
         throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid));
       }
@@ -167,7 +164,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
 
     if (input.sshKey != null) {
       try {
-        authorizedKeys.addKey(id, input.sshKey);
+        authorizedKeys.addKey(accountId, input.sshKey);
         sshKeyCache.evict(username);
       } catch (InvalidSshKeyException e) {
         throw new BadRequestException(e.getMessage());
@@ -175,7 +172,7 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
     }
 
     AccountLoader loader = infoLoader.create(true);
-    AccountInfo info = loader.get(id);
+    AccountInfo info = loader.get(accountId);
     loader.fill();
     return Response.created(info);
   }

@@ -14,13 +14,12 @@
 
 package gerrit;
 
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.Operation;
 import com.googlecode.prolog_cafe.lang.Prolog;
 import com.googlecode.prolog_cafe.lang.Term;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 public class PRED_commit_committer_3 extends AbstractCommitUserIdentityPredicate {
   public PRED_commit_committer_3(Term a1, Term a2, Term a3, Operation n) {
@@ -29,8 +28,7 @@ public class PRED_commit_committer_3 extends AbstractCommitUserIdentityPredicate
 
   @Override
   public Operation exec(Prolog engine) throws PrologException {
-    PatchSetInfo psInfo = StoredValues.PATCH_SET_INFO.get(engine);
-    UserIdentity committer = psInfo.getCommitter();
-    return exec(engine, committer);
+    RevCommit revCommit = StoredValues.COMMIT.get(engine);
+    return exec(engine, revCommit.getCommitterIdent());
   }
 }

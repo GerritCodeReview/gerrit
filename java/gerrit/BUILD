@@ -11,5 +11,6 @@ java_library(
         "//lib/flogger:api",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/prolog:runtime",
+        "@guava//jar",
     ],
 )

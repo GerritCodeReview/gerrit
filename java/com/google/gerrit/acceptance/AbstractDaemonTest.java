@@ -68,6 +68,10 @@ import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.index.project.ProjectIndex;
+import com.google.gerrit.index.project.ProjectIndexCollection;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -108,8 +112,6 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.group.GroupIndexer;
-import com.google.gerrit.server.mail.Address;
-import com.google.gerrit.server.mail.send.EmailHeader;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.MutableNotesMigration;
@@ -274,6 +276,7 @@ public abstract class AbstractDaemonTest {
 
   @Inject private ChangeIndexCollection changeIndexes;
   @Inject private AccountIndexCollection accountIndexes;
+  @Inject private ProjectIndexCollection projectIndexes;
   @Inject private EventRecorder.Factory eventRecorderFactory;
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private Provider<AnonymousUser> anonymousUser;
@@ -396,6 +399,8 @@ public abstract class AbstractDaemonTest {
     if (!testRequiresSsh) {
       baseConfig.setString("sshd", null, "listenAddress", "off");
     }
+
+    baseConfig.setInt("index", null, "batchThreads", -1);
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     Module module = createModule();
@@ -898,6 +903,41 @@ public abstract class AbstractDaemonTest {
     };
   }
 
+  protected AutoCloseable disableProjectIndex() {
+    disableProjectIndexWrites();
+    ProjectIndex searchIndex = projectIndexes.getSearchIndex();
+    if (!(searchIndex instanceof DisabledProjectIndex)) {
+      projectIndexes.setSearchIndex(new DisabledProjectIndex(searchIndex), false);
+    }
+
+    return new AutoCloseable() {
+      @Override
+      public void close() {
+        enableProjectIndexWrites();
+        ProjectIndex searchIndex = projectIndexes.getSearchIndex();
+        if (searchIndex instanceof DisabledProjectIndex) {
+          projectIndexes.setSearchIndex(((DisabledProjectIndex) searchIndex).unwrap(), false);
+        }
+      }
+    };
+  }
+
+  protected void disableProjectIndexWrites() {
+    for (ProjectIndex i : projectIndexes.getWriteIndexes()) {
+      if (!(i instanceof DisabledProjectIndex)) {
+        projectIndexes.addWriteIndex(new DisabledProjectIndex(i));
+      }
+    }
+  }
+
+  protected void enableProjectIndexWrites() {
+    for (ProjectIndex i : projectIndexes.getWriteIndexes()) {
+      if (i instanceof DisabledProjectIndex) {
+        projectIndexes.addWriteIndex(((DisabledProjectIndex) i).unwrap());
+      }
+    }
+  }
+
   protected static Gson newGson() {
     return OutputFormat.JSON_COMPACT.newGson();
   }
@@ -1075,7 +1115,7 @@ public abstract class AbstractDaemonTest {
       ProjectConfig config = ProjectConfig.read(md);
       AccessSection s = config.getAccessSection(ref, true);
       Permission p = s.getPermission(permission, true);
-      p.getRules().clear();
+      p.clearRules();
       config.commit(md);
       projectCache.evict(config.getProject());
     }
@@ -1305,8 +1345,7 @@ public abstract class AbstractDaemonTest {
 
   protected void assertDiffForNewFile(
       DiffInfo diff, RevCommit commit, String path, String expectedContentSideB) throws Exception {
-    List<String> expectedLines = new ArrayList<>();
-    Collections.addAll(expectedLines, expectedContentSideB.split("\n"));
+    List<String> expectedLines = ImmutableList.copyOf(expectedContentSideB.split("\n", -1));
 
     assertThat(diff.binary).isNull();
     assertThat(diff.changeType).isEqualTo(ChangeType.ADDED);
@@ -1572,16 +1611,38 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void configLabel(String label, LabelFunction func) throws Exception {
+    configLabel(label, func, ImmutableList.of());
+  }
+
+  protected void configLabel(String label, LabelFunction func, List<String> refPatterns)
+      throws Exception {
     configLabel(
-        project, label, func, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+        project,
+        label,
+        func,
+        refPatterns,
+        value(1, "Passes"),
+        value(0, "No score"),
+        value(-1, "Failed"));
   }
 
   protected void configLabel(
       Project.NameKey project, String label, LabelFunction func, LabelValue... value)
       throws Exception {
+    configLabel(project, label, func, ImmutableList.of(), value);
+  }
+
+  private void configLabel(
+      Project.NameKey project,
+      String label,
+      LabelFunction func,
+      List<String> refPatterns,
+      LabelValue... value)
+      throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       LabelType labelType = category(label, value);
       labelType.setFunction(func);
+      labelType.setRefPatterns(refPatterns);
       u.getConfig().getLabelSections().put(labelType.getName(), labelType);
       u.save();
     }

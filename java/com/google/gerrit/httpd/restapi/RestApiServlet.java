@@ -68,9 +68,7 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AcceptsDelete;
-import com.google.gerrit.extensions.restapi.AcceptsPost;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -88,6 +86,8 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
+import com.google.gerrit.extensions.restapi.RestCollectionView;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -308,12 +308,14 @@ public class RestApiServlet extends HttpServlet {
 
         if (isRead(req)) {
           viewData = new ViewData(null, rc.list());
-        } else if (rc instanceof AcceptsPost && isPost(req)) {
-          @SuppressWarnings("unchecked")
-          AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) rc;
-          viewData = new ViewData(null, ac.post(rsrc));
-        } else {
-          throw new MethodNotAllowedException();
+        } else if (isPost(req)) {
+          RestView<RestResource> restCollectionView =
+              rc.views().get("gerrit", "POST_ON_COLLECTION./");
+          if (restCollectionView != null) {
+            viewData = new ViewData(null, restCollectionView);
+          } else {
+            throw new MethodNotAllowedException();
+          }
         }
       } else {
         IdString id = path.remove(0);
@@ -323,17 +325,21 @@ public class RestApiServlet extends HttpServlet {
             checkPreconditions(req);
           }
         } catch (ResourceNotFoundException e) {
-          if (rc instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
-            @SuppressWarnings("unchecked")
-            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) rc;
-            viewData = new ViewData(null, ac.create(rsrc, id));
+          if (!path.isEmpty() || (!isPost(req) && !isPut(req))) {
+            throw e;
+          }
+
+          RestView<RestResource> createView = rc.views().get("gerrit", "CREATE./");
+          if (createView != null) {
+            viewData = new ViewData(null, createView);
             status = SC_CREATED;
+            path.add(id);
           } else {
             throw e;
           }
         }
         if (viewData.view == null) {
-          viewData = view(rsrc, rc, req.getMethod(), path);
+          viewData = view(rc, req.getMethod(), path);
         }
       }
       checkRequiresCapability(viewData);
@@ -346,10 +352,14 @@ public class RestApiServlet extends HttpServlet {
         if (path.isEmpty()) {
           if (isRead(req)) {
             viewData = new ViewData(null, c.list());
-          } else if (c instanceof AcceptsPost && isPost(req)) {
-            @SuppressWarnings("unchecked")
-            AcceptsPost<RestResource> ac = (AcceptsPost<RestResource>) c;
-            viewData = new ViewData(null, ac.post(rsrc));
+          } else if (isPost(req)) {
+            RestView<RestResource> restCollectionView =
+                c.views().get(viewData.pluginName, "POST_ON_COLLECTION./");
+            if (restCollectionView != null) {
+              viewData = new ViewData(null, restCollectionView);
+            } else {
+              throw new MethodNotAllowedException();
+            }
           } else if (c instanceof AcceptsDelete && isDelete(req)) {
             @SuppressWarnings("unchecked")
             AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
@@ -365,12 +375,20 @@ public class RestApiServlet extends HttpServlet {
           checkPreconditions(req);
           viewData = new ViewData(null, null);
         } catch (ResourceNotFoundException e) {
-          if (c instanceof AcceptsCreate && path.isEmpty() && (isPost(req) || isPut(req))) {
-            @SuppressWarnings("unchecked")
-            AcceptsCreate<RestResource> ac = (AcceptsCreate<RestResource>) c;
-            viewData = new ViewData(viewData.pluginName, ac.create(rsrc, id));
-            status = SC_CREATED;
-          } else if (c instanceof AcceptsDelete && path.isEmpty() && isDelete(req)) {
+          if (!path.isEmpty()) {
+            throw e;
+          }
+
+          if (isPost(req) || isPut(req)) {
+            RestView<RestResource> createView = c.views().get("gerrit", "CREATE./");
+            if (createView != null) {
+              viewData = new ViewData(null, createView);
+              status = SC_CREATED;
+              path.add(id);
+            } else {
+              throw e;
+            }
+          } else if (c instanceof AcceptsDelete && isDelete(req)) {
             @SuppressWarnings("unchecked")
             AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
             viewData = new ViewData(viewData.pluginName, ac.delete(rsrc, id));
@@ -380,7 +398,7 @@ public class RestApiServlet extends HttpServlet {
           }
         }
         if (viewData.view == null) {
-          viewData = view(rsrc, c, req.getMethod(), path);
+          viewData = view(c, req.getMethod(), path);
         }
         checkRequiresCapability(viewData);
       }
@@ -400,6 +418,32 @@ public class RestApiServlet extends HttpServlet {
         @SuppressWarnings("unchecked")
         RestModifyView<RestResource, Object> m =
             (RestModifyView<RestResource, Object>) viewData.view;
+
+        Type type = inputType(m);
+        inputRequestBody = parseRequest(req, type);
+        result = m.apply(rsrc, inputRequestBody);
+        if (inputRequestBody instanceof RawInput) {
+          try (InputStream is = req.getInputStream()) {
+            ServletUtils.consumeRequestBody(is);
+          }
+        }
+      } else if (viewData.view instanceof RestCreateView<?, ?, ?>) {
+        @SuppressWarnings("unchecked")
+        RestCreateView<RestResource, RestResource, Object> m =
+            (RestCreateView<RestResource, RestResource, Object>) viewData.view;
+
+        Type type = inputType(m);
+        inputRequestBody = parseRequest(req, type);
+        result = m.apply(rsrc, path.get(0), inputRequestBody);
+        if (inputRequestBody instanceof RawInput) {
+          try (InputStream is = req.getInputStream()) {
+            ServletUtils.consumeRequestBody(is);
+          }
+        }
+      } else if (viewData.view instanceof RestCollectionView<?, ?, ?>) {
+        @SuppressWarnings("unchecked")
+        RestCollectionView<RestResource, RestResource, Object> m =
+            (RestCollectionView<RestResource, RestResource, Object>) viewData.view;
 
         Type type = inputType(m);
         inputRequestBody = parseRequest(req, type);
@@ -735,6 +779,42 @@ public class RestApiServlet extends HttpServlet {
     return ((ParameterizedType) supertype).getActualTypeArguments()[1];
   }
 
+  private static Type inputType(RestCreateView<RestResource, RestResource, Object> m) {
+    // MyCreateView implements RestCreateView<SomeResource, SomeResource, MyInput>
+    TypeLiteral<?> typeLiteral = TypeLiteral.get(m.getClass());
+
+    // RestCreateView<SomeResource, SomeResource, MyInput>
+    // This is smart enough to resolve even when there are intervening subclasses, even if they have
+    // reordered type arguments.
+    TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestCreateView.class);
+
+    Type supertype = supertypeLiteral.getType();
+    checkState(
+        supertype instanceof ParameterizedType,
+        "supertype of %s is not parameterized: %s",
+        typeLiteral,
+        supertypeLiteral);
+    return ((ParameterizedType) supertype).getActualTypeArguments()[2];
+  }
+
+  private static Type inputType(RestCollectionView<RestResource, RestResource, Object> m) {
+    // MyCollectionView implements RestCollectionView<SomeResource, SomeResource, MyInput>
+    TypeLiteral<?> typeLiteral = TypeLiteral.get(m.getClass());
+
+    // RestCollectionView<SomeResource, SomeResource, MyInput>
+    // This is smart enough to resolve even when there are intervening subclasses, even if they have
+    // reordered type arguments.
+    TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestCollectionView.class);
+
+    Type supertype = supertypeLiteral.getType();
+    checkState(
+        supertype instanceof ParameterizedType,
+        "supertype of %s is not parameterized: %s",
+        typeLiteral,
+        supertypeLiteral);
+    return ((ParameterizedType) supertype).getActualTypeArguments()[2];
+  }
+
   private Object parseRequest(HttpServletRequest req, Type type)
       throws IOException, BadRequestException, SecurityException, IllegalArgumentException,
           NoSuchMethodException, IllegalAccessException, InstantiationException,
@@ -1066,10 +1146,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private ViewData view(
-      RestResource rsrc,
-      RestCollection<RestResource, RestResource> rc,
-      String method,
-      List<IdString> path)
+      RestCollection<RestResource, RestResource> rc, String method, List<IdString> path)
       throws AmbiguousViewException, RestApiException {
     DynamicMap<RestView<RestResource>> views = rc.views();
     final IdString projection = path.isEmpty() ? IdString.fromUrl("/") : path.remove(0);
@@ -1093,10 +1170,8 @@ public class RestApiServlet extends HttpServlet {
         return new ViewData(p.get(0), view);
       }
       view = views.get(p.get(0), "GET." + viewname);
-      if (view != null && view instanceof AcceptsPost && "POST".equals(method)) {
-        @SuppressWarnings("unchecked")
-        AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) view;
-        return new ViewData(p.get(0), ap.post(rsrc));
+      if (view != null) {
+        return new ViewData(p.get(0), view);
       }
       throw new ResourceNotFoundException(projection);
     }
@@ -1104,13 +1179,12 @@ public class RestApiServlet extends HttpServlet {
     String name = method + "." + p.get(0);
     RestView<RestResource> core = views.get("gerrit", name);
     if (core != null) {
-      return new ViewData(null, core);
+      return new ViewData("gerrit", core);
     }
+
     core = views.get("gerrit", "GET." + p.get(0));
-    if (core instanceof AcceptsPost && "POST".equals(method)) {
-      @SuppressWarnings("unchecked")
-      AcceptsPost<RestResource> ap = (AcceptsPost<RestResource>) core;
-      return new ViewData(null, ap.post(rsrc));
+    if (core != null) {
+      return new ViewData("gerrit", core);
     }
 
     Map<String, RestView<RestResource>> r = new TreeMap<>();

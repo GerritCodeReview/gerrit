@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
@@ -25,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -49,24 +49,20 @@ import java.io.IOException;
 
 @Singleton
 public class StarredChanges
-    implements ChildCollection<AccountResource, AccountResource.StarredChange>,
-        AcceptsCreate<AccountResource> {
+    implements ChildCollection<AccountResource, AccountResource.StarredChange> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangesCollection changes;
   private final DynamicMap<RestView<AccountResource.StarredChange>> views;
-  private final Provider<Create> createProvider;
   private final StarredChangesUtil starredChangesUtil;
 
   @Inject
   StarredChanges(
       ChangesCollection changes,
       DynamicMap<RestView<AccountResource.StarredChange>> views,
-      Provider<Create> createProvider,
       StarredChangesUtil starredChangesUtil) {
     this.changes = changes;
     this.views = views;
-    this.createProvider = createProvider;
     this.starredChangesUtil = starredChangesUtil;
   }
 
@@ -93,7 +89,7 @@ public class StarredChanges
     return new RestReadView<AccountResource>() {
       @Override
       public Object apply(AccountResource self)
-          throws BadRequestException, AuthException, OrmException {
+          throws BadRequestException, AuthException, OrmException, PermissionBackendException {
         QueryChanges query = changes.list();
         query.addQuery("starredby:" + self.getUser().getAccountId().get());
         return query.apply(TopLevelResource.INSTANCE);
@@ -101,42 +97,40 @@ public class StarredChanges
     };
   }
 
-  @Override
-  public RestModifyView<AccountResource, EmptyInput> create(AccountResource parent, IdString id)
-      throws RestApiException {
-    try {
-      return createProvider.get().setChange(changes.parse(TopLevelResource.INSTANCE, id));
-    } catch (ResourceNotFoundException e) {
-      throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
-    } catch (OrmException | PermissionBackendException | IOException e) {
-      logger.atSevere().withCause(e).log("cannot resolve change");
-      throw new UnprocessableEntityException("internal server error");
-    }
-  }
-
   @Singleton
-  public static class Create implements RestModifyView<AccountResource, EmptyInput> {
+  public static class Create
+      implements RestCreateView<AccountResource, AccountResource.StarredChange, EmptyInput> {
     private final Provider<CurrentUser> self;
+    private final ChangesCollection changes;
     private final StarredChangesUtil starredChangesUtil;
-    private ChangeResource change;
 
     @Inject
-    Create(Provider<CurrentUser> self, StarredChangesUtil starredChangesUtil) {
+    Create(
+        Provider<CurrentUser> self,
+        ChangesCollection changes,
+        StarredChangesUtil starredChangesUtil) {
       this.self = self;
+      this.changes = changes;
       this.starredChangesUtil = starredChangesUtil;
     }
 
-    public Create setChange(ChangeResource change) {
-      this.change = change;
-      return this;
-    }
-
     @Override
-    public Response<?> apply(AccountResource rsrc, EmptyInput in)
+    public Response<?> apply(AccountResource rsrc, IdString id, EmptyInput in)
         throws RestApiException, OrmException, IOException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to add starred change");
       }
+
+      ChangeResource change;
+      try {
+        change = changes.parse(TopLevelResource.INSTANCE, id);
+      } catch (ResourceNotFoundException e) {
+        throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
+      } catch (OrmException | PermissionBackendException | IOException e) {
+        logger.atSevere().withCause(e).log("cannot resolve change");
+        throw new UnprocessableEntityException("internal server error");
+      }
+
       try {
         starredChangesUtil.star(
             self.get().getAccountId(),

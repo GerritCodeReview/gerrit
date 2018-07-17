@@ -1354,6 +1354,32 @@ parameters `perm`, `account` and `ref`, for example:
 
 
 [[index]]
+=== Index project
+
+Adds or updates the current project (and children, if specified) in the secondary index.
+The indexing task is executed asynchronously in background and this command returns
+immediately if `async` is specified in the input.
+
+As an input, a link:#index-project-input[IndexProjectInput] entity can be provided.
+
+.Request
+----
+  POST /projects/MyProject/index HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "index_children": "true"
+    "async": "true"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
+[[index.changes]]
 === Index all changes in a project
 
 Adds or updates all the changes belonging to a project in the secondary index.
@@ -1362,7 +1388,7 @@ returns immediately.
 
 .Request
 ----
-  POST /projects/MyProject/index HTTP/1.0
+  POST /projects/MyProject/index.changes HTTP/1.0
 ----
 
 .Response
@@ -2864,10 +2890,13 @@ signed push validation is required on the project.
 |`reject_implicit_merges`|optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 implicit merges should be rejected on changes pushed to the project.
-|`private_by_default`     ||
+|`private_by_default`         ||
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 all new changes are set as private by default.
-|`max_object_size_limit`     ||
+|`work_in_progress_by_default`||
+link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
+all new changes are set as work-in-progress by default.
+|`max_object_size_limit`      ||
 The link:config-gerrit.html#receive.maxObjectSizeLimit[max object size
 limit] of this project as a link:#max-object-size-limit-info[
 MaxObjectSizeLimitInfo] entity.
@@ -3127,6 +3156,19 @@ project.
 The ref to which `HEAD` should be set, the `refs/heads` prefix can be
 omitted.
 |============================
+
+[[index-project-input]]
+=== IndexProjectInput
+The `IndexProjectInput` contains parameters for indexing a project.
+
+[options="header",cols="1,^2,4"]
+|================================
+|Field Name         ||Description
+|`index_children`   ||
+If children should be indexed recursively.
+|`async`            ||
+If projects should be indexed asynchronously.
+|================================
 
 [[inherited-boolean-info]]
 === InheritedBooleanInfo

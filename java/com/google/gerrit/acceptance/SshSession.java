@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.jcraft.jsch.ChannelExec;
@@ -75,12 +77,25 @@ public class SshSession {
     return exec(command, null);
   }
 
-  public boolean hasError() {
+  private boolean hasError() {
     return error != null;
   }
 
   public String getError() {
     return error;
+  }
+
+  public void assertSuccess() {
+    assertWithMessage(getError()).that(hasError()).isFalse();
+  }
+
+  public void assertFailure() {
+    assertThat(hasError()).isTrue();
+  }
+
+  public void assertFailure(String error) {
+    assertThat(hasError()).isTrue();
+    assertThat(getError()).contains(error);
   }
 
   public void close() {

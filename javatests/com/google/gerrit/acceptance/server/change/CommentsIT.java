@@ -634,13 +634,13 @@ public class CommentsIT extends AbstractDaemonTest {
                 + url
                 + "#/c/"
                 + c
-                + "/1/a.txt\n"
+                + "/1/a.txt \n"
                 + "File a.txt:\n"
                 + "\n"
                 + url
                 + "#/c/"
                 + c
-                + "/1/a.txt@a2\n"
+                + "/1/a.txt@a2 \n"
                 + "PS1, Line 2: \n"
                 + "what happened to this?\n"
                 + "\n"
@@ -648,7 +648,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + url
                 + "#/c/"
                 + c
-                + "/1/a.txt@1\n"
+                + "/1/a.txt@1 \n"
                 + "PS1, Line 1: ew\n"
                 + "nit: trailing whitespace\n"
                 + "\n"
@@ -656,13 +656,13 @@ public class CommentsIT extends AbstractDaemonTest {
                 + url
                 + "#/c/"
                 + c
-                + "/2/a.txt\n"
+                + "/2/a.txt \n"
                 + "File a.txt:\n"
                 + "\n"
                 + url
                 + "#/c/"
                 + c
-                + "/2/a.txt@a1\n"
+                + "/2/a.txt@a1 \n"
                 + "PS2, Line 1: \n"
                 + "comment 1 on base\n"
                 + "\n"
@@ -670,7 +670,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + url
                 + "#/c/"
                 + c
-                + "/2/a.txt@a2\n"
+                + "/2/a.txt@a2 \n"
                 + "PS2, Line 2: \n"
                 + "comment 2 on base\n"
                 + "\n"
@@ -678,7 +678,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + url
                 + "#/c/"
                 + c
-                + "/2/a.txt@1\n"
+                + "/2/a.txt@1 \n"
                 + "PS2, Line 1: ew\n"
                 + "join lines\n"
                 + "\n"
@@ -686,7 +686,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + url
                 + "#/c/"
                 + c
-                + "/2/a.txt@2\n"
+                + "/2/a.txt@2 \n"
                 + "PS2, Line 2: nten\n"
                 + "typo: content\n"
                 + "\n"
@@ -950,8 +950,6 @@ public class CommentsIT extends AbstractDaemonTest {
   @Test
   public void jsonCommentHasLegacyFormatFalse() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
-    assertThat(noteUtil.getChangeNoteJson().getWriteJson()).isTrue();
-
     PushOneCommit.Result result = createChange();
     Change.Id changeId = result.getChange().getId();
     addComment(result.getChangeId(), "comment");

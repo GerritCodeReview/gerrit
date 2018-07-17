@@ -39,7 +39,7 @@ public class TagApiImpl implements TagApi {
   }
 
   private final ListTags listTags;
-  private final CreateTag.Factory createTagFactory;
+  private final CreateTag createTag;
   private final DeleteTag deleteTag;
   private final TagsCollection tags;
   private final String ref;
@@ -48,13 +48,13 @@ public class TagApiImpl implements TagApi {
   @Inject
   TagApiImpl(
       ListTags listTags,
-      CreateTag.Factory createTagFactory,
+      CreateTag createTag,
       DeleteTag deleteTag,
       TagsCollection tags,
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.listTags = listTags;
-    this.createTagFactory = createTagFactory;
+    this.createTag = createTag;
     this.deleteTag = deleteTag;
     this.tags = tags;
     this.project = project;
@@ -64,7 +64,7 @@ public class TagApiImpl implements TagApi {
   @Override
   public TagApi create(TagInput input) throws RestApiException {
     try {
-      createTagFactory.create(ref).apply(project, input);
+      createTag.apply(project, IdString.fromDecoded(ref), input);
       return this;
     } catch (Exception e) {
       throw asRestApiException("Cannot create tag", e);

@@ -239,13 +239,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
     Map<RevId, RevisionNoteBuilder> builders = cache.getBuilders();
     for (Map.Entry<RevId, RevisionNoteBuilder> entry : builders.entrySet()) {
       ObjectId objectId = ObjectId.fromString(entry.getKey().get());
-      byte[] data =
-          entry
-              .getValue()
-              .build(
-                  noteUtil.getChangeNoteJson(),
-                  noteUtil.getLegacyChangeNoteWrite(),
-                  noteUtil.getChangeNoteJson().getWriteJson());
+      byte[] data = entry.getValue().build(noteUtil.getChangeNoteJson());
       if (data.length == 0) {
         revNotesMap.noteMap.remove(objectId);
       } else {

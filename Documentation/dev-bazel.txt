@@ -14,6 +14,28 @@ To build Gerrit from source, you need:
 * zip, unzip
 * gcc
 
+[[Java 9 support]]
+Java 9 is supported through alternative java toolchain
+link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
+The Java 9 support is backwards compatible. Java 8 is still the default.
+To build Gerrit with Java 9, specify JDK 9 java toolchain:
+
+```
+  $ bazel build \
+      --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java9 \
+      --java_toolchain=@bazel_tools//tools/jdk:toolchain_java9 \
+      :release
+```
+
+Note that the following option must be added to `container.javaOptions`
+in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 9:
+
+```
+[container]
+  javaOptions = --add-modules java.activation \
+      --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
+```
+
 [[build]]
 == Building on the Command Line
 
@@ -266,7 +288,9 @@ The following values are currently supported for the group name:
 
 * annotation
 * api
+* docker
 * edit
+* elastic
 * git
 * notedb
 * pgm
@@ -277,11 +301,13 @@ The following values are currently supported for the group name:
 [[elasticsearch]]
 === Elasticsearch
 
-Successfully running the elasticsearch tests may require setting the local
+Successfully running the Elasticsearch tests requires Docker, and
+may require setting the local
 link:https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html[virtual memory].
 
-Bazel link:https://github.com/bazelbuild/bazel/issues/3476[does not currently make container failures visible],
-if any.
+If Docker is not available, the Elasticsearch tests will be skipped.
+Note that Bazel currently does not show
+link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests].
 
 == Dependencies
 
@@ -390,6 +416,92 @@ Currently none of these caches have a maximum size limit. See
 link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue] for
 details. Users should watch the cache sizes and clean them manually if
 necessary.
+
+[[npm-binary]]
+== NPM Binaries
+
+Parts of the PolyGerrit build require running NPM-based JavaScript programs as
+"binaries". We don't attempt to resolve and download NPM dependencies at build
+time, but instead use pre-built bundles of the NPM binary along with all its
+dependencies. Some packages on
+link:https://docs.npmjs.com/misc/registry[registry.npmjs.org] come with their
+dependencies bundled, but this is the exception rather than the rule. More
+commonly, to add a new binary to this list, you will need to bundle the binary
+yourself.
+
+[NOTE]
+We can only use binaries that meet certain licensing requirements, and that do
+not include any native code.
+
+Start by checking that the license and file types of the bundle are acceptable:
+[source,bash]
+----
+  gerrit_repo=/path/to/gerrit
+  package=some-npm-package
+  version=1.2.3
+
+  npm install -g license-checker && \
+  rm -rf /tmp/$package-$version && mkdir -p /tmp/$package-$version && \
+  cd /tmp/$package-$version && \
+  npm install $package@$version && \
+  license-checker | grep licenses: | sort -u
+----
+
+This will output a list of the different licenses used by the package and all
+its transitive dependencies. We can only legally distribute a bundle via our
+storage bucket if the licenses allow us to do so. As long as all of the listed
+license are allowed by
+link:https://opensource.google.com/docs/thirdparty/licenses/[Google's
+standards]. Any `by_exception_only`, commercial, prohibited, or unlisted
+licenses are not allowed; otherwise, it is ok to distribute the source. If in
+doubt, contact a maintainer who is a Googler.
+
+Next, check the file types:
+[source,bash]
+----
+  cd /tmp/$package-$version
+  find . -type f | xargs file | grep -v 'ASCII\|UTF-8\|empty$'
+----
+
+If you see anything that looks like a native library or binary, then we can't
+use the bundle.
+
+If everything looks good, create the bundle, and note the SHA-1:
+[source,bash]
+----
+  $gerrit_repo/tools/js/npm_pack.py $package $version && \
+  sha1sum $package-$version.tgz
+----
+
+This creates a file named `$package-$version.tgz` in your working directory.
+
+Any project maintainer can upload this file to the
+link:https://console.cloud.google.com/storage/browser/gerrit-maven/npm-packages[storage
+bucket].
+
+Finally, add the new binary to the build process:
+----
+  # WORKSPACE
+  npm_binary(
+      name = "some-npm-package",
+      repository = GERRIT,
+  )
+
+  # lib/js/npm.bzl
+  NPM_VERSIONS = {
+    ...
+    "some-npm-package": "1.2.3",
+  }
+
+  NPM_SHA1S = {
+    ...
+    "some-npm-package": "<sha1>",
+  }
+----
+
+To use the binary from the Bazel build, you need to use the `run_npm_binary.py`
+wrapper script. For an example, see the use of `crisper` in `tools/bzl/js.bzl`.
+
 
 GERRIT
 ------

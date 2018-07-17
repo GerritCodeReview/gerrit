@@ -336,8 +336,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
             c ->
                 cfg.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
                     .getPermission(c, true)
-                    .getRules()
-                    .clear());
+                    .clearRules());
   }
 
   private PushResult push(String... refSpecs) throws Exception {

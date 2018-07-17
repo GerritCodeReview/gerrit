@@ -22,7 +22,6 @@
 
   function GrDiffBuilderBinary(diff, comments, prefs, projectName, outputEl) {
     GrDiffBuilder.call(this, diff, comments, prefs, projectName, outputEl);
-    console.log('binary village');
   }
 
   GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilder.prototype);

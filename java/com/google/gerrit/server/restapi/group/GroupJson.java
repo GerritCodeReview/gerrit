@@ -28,6 +28,7 @@ import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -75,17 +76,18 @@ public class GroupJson {
     return this;
   }
 
-  public GroupInfo format(GroupResource rsrc) throws OrmException {
+  public GroupInfo format(GroupResource rsrc) throws OrmException, PermissionBackendException {
     return createGroupInfo(rsrc.getGroup(), rsrc::getControl);
   }
 
-  public GroupInfo format(GroupDescription.Basic group) throws OrmException {
+  public GroupInfo format(GroupDescription.Basic group)
+      throws OrmException, PermissionBackendException {
     return createGroupInfo(group, Suppliers.memoize(() -> groupControlFactory.controlFor(group)));
   }
 
   private GroupInfo createGroupInfo(
       GroupDescription.Basic group, Supplier<GroupControl> groupControlSupplier)
-      throws OrmException {
+      throws OrmException, PermissionBackendException {
     GroupInfo info = createBasicGroupInfo(group);
 
     if (group instanceof GroupDescription.Internal) {
@@ -108,7 +110,7 @@ public class GroupJson {
       GroupInfo info,
       GroupDescription.Internal internalGroup,
       Supplier<GroupControl> groupControlSupplier)
-      throws OrmException {
+      throws OrmException, PermissionBackendException {
     info.description = Strings.emptyToNull(internalGroup.getDescription());
     info.groupId = internalGroup.getId().get();
 

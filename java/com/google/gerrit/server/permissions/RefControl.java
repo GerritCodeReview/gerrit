@@ -20,8 +20,8 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -131,6 +131,12 @@ class RefControl {
   /** @return true if this user can force edit topic names. */
   boolean canForceEditTopicName() {
     return canPerform(Permission.EDIT_TOPIC_NAME, false, true);
+  }
+
+  /** @return true if this user can delete changes. */
+  boolean canDeleteChanges(boolean isChangeOwner) {
+    return canPerform(Permission.DELETE_CHANGES)
+        || (isChangeOwner && canPerform(Permission.DELETE_OWN_CHANGES, isChangeOwner, false));
   }
 
   /** The range of permitted values associated with a label permission. */
@@ -402,21 +408,6 @@ class RefControl {
     private String resourcePath;
 
     @Override
-    public CurrentUser user() {
-      return getUser();
-    }
-
-    @Override
-    public ForRef user(CurrentUser user) {
-      return forUser(user).asForRef().database(db);
-    }
-
-    @Override
-    public ForRef absentUser(Account.Id id) {
-      return user(identifiedUserFactory.create(id));
-    }
-
-    @Override
     public String resourcePath() {
       if (resourcePath == null) {
         resourcePath =
@@ -472,6 +463,11 @@ class RefControl {
         }
       }
       return ok;
+    }
+
+    @Override
+    public BooleanCondition testCond(RefPermission perm) {
+      return new PermissionBackendCondition.ForRef(this, perm, getUser());
     }
 
     private boolean can(RefPermission perm) throws PermissionBackendException {

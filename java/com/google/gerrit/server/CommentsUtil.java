@@ -498,7 +498,7 @@ public class CommentsUtil {
   }
 
   private Collection<Ref> getDraftRefs(Repository repo, Change.Id changeId) throws IOException {
-    return repo.getRefDatabase().getRefs(RefNames.refsDraftCommentsPrefix(changeId)).values();
+    return repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(changeId));
   }
 
   private static <T extends Comment> List<T> sort(List<T> comments) {

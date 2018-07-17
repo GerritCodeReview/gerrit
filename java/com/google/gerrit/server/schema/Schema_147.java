@@ -56,8 +56,7 @@ public class Schema_147 extends SchemaVersion {
       Set<Account.Id> accountIdsFromReviewDb = scanAccounts(db);
       Set<Account.Id> accountIdsFromUserBranches =
           repo.getRefDatabase()
-              .getRefs(RefNames.REFS_USERS)
-              .values()
+              .getRefsByPrefix(RefNames.REFS_USERS)
               .stream()
               .map(r -> Account.Id.fromRef(r.getName()))
               .filter(Objects::nonNull)

@@ -51,7 +51,6 @@ import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -325,7 +324,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, null, project, id, null, null);
+            null, null, null, project, id, null, null);
     cd.currentPatchSet = new PatchSet(new PatchSet.Id(id, currentPatchSetId));
     return cd;
   }
@@ -338,7 +337,6 @@ public class ChangeData {
   private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
   private final GitRepositoryManager repoManager;
-  private final IdentifiedUser.GenericFactory userFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
   private final NotesMigration notesMigration;
@@ -407,7 +405,6 @@ public class ChangeData {
       ChangeNotes.Factory notesFactory,
       CommentsUtil commentsUtil,
       GitRepositoryManager repoManager,
-      IdentifiedUser.GenericFactory userFactory,
       MergeUtil.Factory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
       NotesMigration notesMigration,
@@ -428,7 +425,6 @@ public class ChangeData {
     this.notesFactory = notesFactory;
     this.commentsUtil = commentsUtil;
     this.repoManager = repoManager;
-    this.userFactory = userFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.mergeabilityCache = mergeabilityCache;
     this.notesMigration = notesMigration;
@@ -590,7 +586,7 @@ public class ChangeData {
       } catch (IOException e) {
         throw new OrmException("project state not available", e);
       }
-      labelTypes = state.getLabelTypes(change().getDest(), userFactory.create(change().getOwner()));
+      labelTypes = state.getLabelTypes(change().getDest());
     }
     return labelTypes;
   }
@@ -633,13 +629,7 @@ public class ChangeData {
         try {
           currentApprovals =
               ImmutableList.copyOf(
-                  approvalsUtil.byPatchSet(
-                      db,
-                      notes(),
-                      userFactory.create(c.getOwner()),
-                      c.currentPatchSetId(),
-                      null,
-                      null));
+                  approvalsUtil.byPatchSet(db, notes(), c.currentPatchSetId(), null, null));
         } catch (OrmException e) {
           if (e.getCause() instanceof NoSuchChangeException) {
             currentApprovals = Collections.emptyList();
@@ -1042,12 +1032,12 @@ public class ChangeData {
       editsByUser = new HashMap<>();
       Change.Id id = checkNotNull(change.getId());
       try (Repository repo = repoManager.openRepository(project())) {
-        for (Map.Entry<String, Ref> e :
-            repo.getRefDatabase().getRefs(RefNames.REFS_USERS).entrySet()) {
-          if (id.equals(Change.Id.fromEditRefPart(e.getKey()))) {
-            Account.Id accountId = Account.Id.fromRefPart(e.getKey());
+        for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_USERS)) {
+          String name = ref.getName().substring(RefNames.REFS_USERS.length());
+          if (id.equals(Change.Id.fromEditRefPart(name))) {
+            Account.Id accountId = Account.Id.fromRefPart(name);
             if (accountId != null) {
-              editsByUser.put(accountId, e.getValue());
+              editsByUser.put(accountId, ref);
             }
           }
         }

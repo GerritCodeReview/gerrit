@@ -16,11 +16,13 @@ package com.google.gerrit.server.plugins;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.common.InstallPluginInput;
+import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.common.PluginInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
@@ -88,6 +90,26 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
       return new URL(input.url).openStream();
     } catch (IOException e) {
       throw new BadRequestException(e.getMessage());
+    }
+  }
+
+  @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+  static class Create
+      implements RestCreateView<TopLevelResource, PluginResource, InstallPluginInput> {
+    private final PluginLoader loader;
+    private final Provider<InstallPlugin> install;
+
+    @Inject
+    Create(PluginLoader loader, Provider<InstallPlugin> install) {
+      this.loader = loader;
+      this.install = install;
+    }
+
+    @Override
+    public Response<PluginInfo> apply(
+        TopLevelResource parentResource, IdString id, InstallPluginInput input) throws Exception {
+      loader.checkRemoteAdminEnabled();
+      return install.get().setName(id.get()).setCreated(true).apply(parentResource, input);
     }
   }
 

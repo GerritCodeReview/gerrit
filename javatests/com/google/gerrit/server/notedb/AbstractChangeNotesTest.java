@@ -79,23 +79,9 @@ import org.junit.runner.RunWith;
 @Ignore
 @RunWith(ConfigSuite.class)
 public abstract class AbstractChangeNotesTest extends GerritBaseTests {
-  @ConfigSuite.Default
-  public static Config changeNotesLegacy() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "writeJson", false);
-    return cfg;
-  }
-
-  @ConfigSuite.Config
-  public static Config changeNotesJson() {
-    Config cfg = new Config();
-    cfg.setBoolean("notedb", null, "writeJson", true);
-    return cfg;
-  }
+  private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
 
   @ConfigSuite.Parameter public Config testConfig;
-
-  private static final TimeZone TZ = TimeZone.getTimeZone("America/Los_Angeles");
 
   protected Account.Id otherUserId;
   protected FakeAccountCache accountCache;
@@ -172,7 +158,6 @@ public abstract class AbstractChangeNotesTest extends GerritBaseTests {
                 bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
                 bind(MetricMaker.class).to(DisabledMetricMaker.class);
                 bind(ReviewDb.class).toProvider(Providers.<ReviewDb>of(null));
-
                 MutableNotesMigration migration = MutableNotesMigration.newDisabled();
                 migration.setFrom(NotesMigrationState.FINAL);
                 bind(MutableNotesMigration.class).toInstance(migration);

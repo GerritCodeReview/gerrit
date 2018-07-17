@@ -18,8 +18,9 @@
   'use strict';
 
   const NUMBER_FIXED_COLUMNS = 3;
-
   const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
+  const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
+  const MAX_SHORTCUT_CHARS = 5;
 
   Polymer({
     is: 'gr-change-list',
@@ -180,9 +181,15 @@
     },
 
     _computeLabelShortcut(labelName) {
-      return labelName.split('-').reduce((a, i) => {
-        return a + i[0].toUpperCase();
-      }, '');
+      if (labelName.startsWith(LABEL_PREFIX_INVALID_PROLOG)) {
+        labelName = labelName.slice(LABEL_PREFIX_INVALID_PROLOG.length);
+      }
+      return labelName.split('-')
+          .reduce((a, i) => {
+            if (!i) { return a; }
+            return a + i[0].toUpperCase();
+          }, '')
+          .slice(0, MAX_SHORTCUT_CHARS);
     },
 
     _changesChanged(changes) {
@@ -300,10 +307,7 @@
       }
 
       const changeEl = changeEls[index];
-      const change = changeEl.change;
-      const newVal = !change.starred;
-      changeEl.set('change.starred', newVal);
-      this.$.restAPI.saveChangeStarred(change._number, newVal);
+      changeEl.$$('gr-change-star').toggleStar();
     },
 
     _changeForIndex(index) {

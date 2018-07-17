@@ -18,13 +18,11 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsCreate;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NeedsParams;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -44,13 +42,10 @@ import com.google.inject.Provider;
 import java.util.Optional;
 
 public class GroupsCollection
-    implements RestCollection<TopLevelResource, GroupResource>,
-        AcceptsCreate<TopLevelResource>,
-        NeedsParams {
+    implements RestCollection<TopLevelResource, GroupResource>, NeedsParams {
   private final DynamicMap<RestView<GroupResource>> views;
   private final Provider<ListGroups> list;
   private final Provider<QueryGroups> queryGroups;
-  private final CreateGroup.Factory createGroup;
   private final GroupControl.Factory groupControlFactory;
   private final GroupBackend groupBackend;
   private final GroupCache groupCache;
@@ -63,7 +58,6 @@ public class GroupsCollection
       DynamicMap<RestView<GroupResource>> views,
       Provider<ListGroups> list,
       Provider<QueryGroups> queryGroups,
-      CreateGroup.Factory createGroup,
       GroupControl.Factory groupControlFactory,
       GroupBackend groupBackend,
       GroupCache groupCache,
@@ -71,7 +65,6 @@ public class GroupsCollection
     this.views = views;
     this.list = list;
     this.queryGroups = queryGroups;
-    this.createGroup = createGroup;
     this.groupControlFactory = groupControlFactory;
     this.groupBackend = groupBackend;
     this.groupCache = groupCache;
@@ -197,11 +190,6 @@ public class GroupsCollection
     }
 
     return null;
-  }
-
-  @Override
-  public CreateGroup create(TopLevelResource root, IdString name) throws RestApiException {
-    return createGroup.create(name.get());
   }
 
   @Override

@@ -50,7 +50,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
   @Override
   public DiffPreferencesInfo apply(AccountResource rsrc)
       throws RestApiException, ConfigInvalidException, IOException, PermissionBackendException {
-    if (self.get() != rsrc.getUser()) {
+    if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
     }
 

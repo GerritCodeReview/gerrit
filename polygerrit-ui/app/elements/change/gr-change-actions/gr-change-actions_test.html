@@ -252,8 +252,8 @@ limitations under the License.
       assert.deepEqual(result, actions);
     });
 
-    test('submit change', done => {
-      element.$.confirmSubmitDialog.$.confirm.focus = done;
+    test('submit change', () => {
+      const showSpy = sandbox.spy(element, '_showActionDialog');
       sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
       sandbox.stub(element, 'fetchChangeUpdates',
@@ -270,6 +270,30 @@ limitations under the License.
       const submitButton = element.$$('gr-button[data-action-key="submit"]');
       assert.ok(submitButton);
       MockInteractions.tap(submitButton);
+
+      flushAsynchronousOperations();
+      assert.isTrue(showSpy.calledWith(element.$.confirmSubmitDialog));
+    });
+
+    test('submit change, tap on icon', done => {
+      sandbox.stub(element.$.confirmSubmitDialog, 'resetFocus', done);
+      sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
+          .returns(Promise.resolve('test'));
+      sandbox.stub(element, 'fetchChangeUpdates',
+          () => { return Promise.resolve({isLatest: true}); });
+      sandbox.stub(element.$.overlay, 'open').returns(Promise.resolve());
+      element.change = {
+        revisions: {
+          rev1: {_number: 1},
+          rev2: {_number: 2},
+        },
+      };
+      element.latestPatchNum = '2';
+
+      const submitIcon =
+          element.$$('gr-button[data-action-key="submit"] iron-icon');
+      assert.ok(submitIcon);
+      MockInteractions.tap(submitIcon);
     });
 
     test('_handleSubmitConfirm', () => {
@@ -1364,7 +1388,7 @@ limitations under the License.
         setup(() => {
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
-          sendStub = sandbox.stub(element.$.restAPI, 'getChangeURLAndSend')
+          sendStub = sandbox.stub(element.$.restAPI, 'executeChangeAction')
               .returns(Promise.resolve({}));
         });
 
@@ -1373,8 +1397,8 @@ limitations under the License.
               .then(() => {
                 assert.isFalse(onShowAlert.called);
                 assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', null,
-                    '/endpoint', payload));
+                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+                    null, payload));
               });
         });
 
@@ -1383,8 +1407,8 @@ limitations under the License.
               .then(() => {
                 assert.isFalse(onShowAlert.called);
                 assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', 12, '/endpoint',
-                    payload));
+                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+                    12, payload));
               });
         });
       });
@@ -1394,7 +1418,7 @@ limitations under the License.
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: false}));
           const sendStub = sandbox.stub(element.$.restAPI,
-              'getChangeURLAndSend');
+              'executeChangeAction');
 
           return element._send('DELETE', payload, '/endpoint', true, cleanup)
               .then(() => {
@@ -1408,7 +1432,7 @@ limitations under the License.
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
           const sendStub = sandbox.stub(element.$.restAPI,
-              'getChangeURLAndSend',
+              'executeChangeAction',
               (num, method, patchNum, endpoint, payload, onErr) => {
                 onErr();
                 return Promise.resolve(null);

@@ -22,6 +22,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -80,10 +81,7 @@ public class ReviewerJson {
       ReviewerInfo info =
           format(
               new ReviewerInfo(rsrc.getReviewerUser().getAccountId().get()),
-              permissionBackend
-                  .absentUser(rsrc.getReviewerUser().getAccountId())
-                  .database(db)
-                  .change(cd),
+              rsrc.getReviewerUser().getAccountId(),
               cd);
       loader.put(info);
       infos.add(info);
@@ -97,22 +95,19 @@ public class ReviewerJson {
     return format(ImmutableList.<ReviewerResource>of(rsrc));
   }
 
-  public ReviewerInfo format(ReviewerInfo out, PermissionBackend.ForChange perm, ChangeData cd)
+  public ReviewerInfo format(ReviewerInfo out, Account.Id reviewer, ChangeData cd)
       throws OrmException, PermissionBackendException {
     PatchSet.Id psId = cd.change().currentPatchSetId();
     return format(
         out,
-        perm,
+        reviewer,
         cd,
         approvalsUtil.byPatchSetUser(
-            db.get(), cd.notes(), perm.user(), psId, new Account.Id(out._accountId), null, null));
+            db.get(), cd.notes(), psId, new Account.Id(out._accountId), null, null));
   }
 
   public ReviewerInfo format(
-      ReviewerInfo out,
-      PermissionBackend.ForChange perm,
-      ChangeData cd,
-      Iterable<PatchSetApproval> approvals)
+      ReviewerInfo out, Account.Id reviewer, ChangeData cd, Iterable<PatchSetApproval> approvals)
       throws OrmException, PermissionBackendException {
     LabelTypes labelTypes = cd.getLabelTypes();
 
@@ -128,6 +123,9 @@ public class ReviewerJson {
     // do not exist in the DB.
     PatchSet ps = cd.currentPatchSet();
     if (ps != null) {
+      PermissionBackend.ForChange perm =
+          permissionBackend.absentUser(reviewer).database(db).change(cd);
+
       for (SubmitRecord rec : submitRuleEvaluator.evaluate(cd)) {
         if (rec.labels == null) {
           continue;
@@ -135,10 +133,15 @@ public class ReviewerJson {
         for (SubmitRecord.Label label : rec.labels) {
           String name = label.label;
           LabelType type = labelTypes.byLabel(name);
-          if (!out.approvals.containsKey(name)
-              && type != null
-              && perm.test(new LabelPermission(type))) {
+          if (out.approvals.containsKey(name) || type == null) {
+            continue;
+          }
+
+          try {
+            perm.check(new LabelPermission(type));
             out.approvals.put(name, formatValue((short) 0));
+          } catch (AuthException e) {
+            // Do nothing.
           }
         }
       }

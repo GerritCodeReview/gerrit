@@ -83,6 +83,10 @@ public class DeleteComment
     CurrentUser user = userProvider.get();
     permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
 
+    if (input == null) {
+      input = new DeleteCommentInput();
+    }
+
     String newMessage = getCommentNewMessage(user.asIdentifiedUser().getName(), input.reason);
     DeleteCommentOp deleteCommentOp = new DeleteCommentOp(rsrc, newMessage);
     try (BatchUpdate batchUpdate =

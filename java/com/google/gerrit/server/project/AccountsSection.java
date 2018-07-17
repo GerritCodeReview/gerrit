@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.PermissionRule;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,14 @@ import java.util.List;
 public class AccountsSection {
   protected List<PermissionRule> sameGroupVisibility;
 
-  public List<PermissionRule> getSameGroupVisibility() {
+  public ImmutableList<PermissionRule> getSameGroupVisibility() {
     if (sameGroupVisibility == null) {
-      sameGroupVisibility = new ArrayList<>();
+      sameGroupVisibility = ImmutableList.of();
     }
-    return sameGroupVisibility;
+    return ImmutableList.copyOf(sameGroupVisibility);
   }
 
   public void setSameGroupVisibility(List<PermissionRule> sameGroupVisibility) {
-    this.sameGroupVisibility = sameGroupVisibility;
+    this.sameGroupVisibility = new ArrayList<>(sameGroupVisibility);
   }
 }

@@ -19,7 +19,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.DashboardApi;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
-import com.google.gerrit.extensions.common.SetDashboardInput;
+import com.google.gerrit.extensions.api.projects.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.permissions.PermissionBackendException;

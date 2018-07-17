@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
-import com.google.gerrit.extensions.common.SetDashboardInput;
+import com.google.gerrit.extensions.api.projects.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;

@@ -99,7 +99,7 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
     @Override
     @SuppressWarnings("unchecked")
     public List<ChangeInfo> apply(AccountResource rsrc)
-        throws BadRequestException, AuthException, OrmException {
+        throws BadRequestException, AuthException, OrmException, PermissionBackendException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to list stars of another account");
       }

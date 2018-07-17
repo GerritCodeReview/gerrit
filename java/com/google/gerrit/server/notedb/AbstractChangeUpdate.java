@@ -120,9 +120,7 @@ public abstract class AbstractChangeUpdate {
       ChangeNoteUtil noteUtil, PersonIdent serverIdent, CurrentUser u, Date when) {
     checkUserType(u);
     if (u instanceof IdentifiedUser) {
-      return noteUtil
-          .getLegacyChangeNoteWrite()
-          .newIdent(u.asIdentifiedUser().getAccount(), when, serverIdent);
+      return noteUtil.newIdent(u.asIdentifiedUser().getAccount(), when, serverIdent);
     } else if (u instanceof InternalUser) {
       return serverIdent;
     }
@@ -177,7 +175,7 @@ public abstract class AbstractChangeUpdate {
   }
 
   protected PersonIdent newIdent(Account.Id authorId, Date when) {
-    return noteUtil.getLegacyChangeNoteWrite().newIdent(authorId, when, serverIdent);
+    return noteUtil.newIdent(authorId, when, serverIdent);
   }
 
   /** Whether no updates have been done. */

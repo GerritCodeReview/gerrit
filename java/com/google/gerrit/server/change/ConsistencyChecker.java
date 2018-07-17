@@ -404,7 +404,7 @@ public class ConsistencyChecker {
       }
 
       List<PatchSet.Id> thisCommitPsIds = new ArrayList<>();
-      for (Ref ref : repo.getRefDatabase().getRefs(REFS_CHANGES).values()) {
+      for (Ref ref : repo.getRefDatabase().getRefsByPrefix(REFS_CHANGES)) {
         if (!ref.getObjectId().equals(commit)) {
           continue;
         }

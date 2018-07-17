@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -92,9 +93,6 @@ class ChangeControl {
   }
 
   private ChangeControl forUser(CurrentUser who) {
-    if (getUser().equals(who)) {
-      return this;
-    }
     return new ChangeControl(
         changeDataFactory, identifiedUserFactory, refControl.forUser(who), notes);
   }
@@ -263,21 +261,6 @@ class ChangeControl {
     }
 
     @Override
-    public CurrentUser user() {
-      return getUser();
-    }
-
-    @Override
-    public ForChange user(CurrentUser user) {
-      return user().equals(user) ? this : forUser(user).asForChange(cd, db);
-    }
-
-    @Override
-    public ForChange absentUser(Account.Id id) {
-      return user(identifiedUserFactory.create(id));
-    }
-
-    @Override
     public String resourcePath() {
       if (resourcePath == null) {
         resourcePath =
@@ -308,6 +291,11 @@ class ChangeControl {
       return ok;
     }
 
+    @Override
+    public BooleanCondition testCond(ChangePermissionOrLabel perm) {
+      return new PermissionBackendCondition.ForChange(this, perm, getUser());
+    }
+
     private boolean can(ChangePermissionOrLabel perm) throws PermissionBackendException {
       if (perm instanceof ChangePermission) {
         return can((ChangePermission) perm);
@@ -327,8 +315,7 @@ class ChangeControl {
           case ABANDON:
             return canAbandon();
           case DELETE:
-            return (isOwner() && refControl.canPerform(Permission.DELETE_OWN_CHANGES))
-                || getProjectControl().isAdmin();
+            return (getProjectControl().isAdmin() || (refControl.canDeleteChanges(isOwner())));
           case ADD_PATCH_SET:
             return canAddPatchSet();
           case EDIT_ASSIGNEE:

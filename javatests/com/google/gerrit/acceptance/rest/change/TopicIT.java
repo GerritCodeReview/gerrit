@@ -14,6 +14,8 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
@@ -35,5 +37,25 @@ public class TopicIT extends AbstractDaemonTest {
 
     response = adminRestSession.put(endpoint, "");
     response.assertNoContent();
+  }
+
+  @Test
+  public void leadingAndTrailingWhitespaceGetsSanitized() throws Exception {
+    Result result = createChange();
+    String endpoint = "/changes/" + result.getChangeId() + "/topic";
+    RestResponse response = adminRestSession.put(endpoint, "\t \t topic\t ");
+    response.assertOK();
+
+    assertThat(response.getEntityContent()).isEqualTo(")]}'\n\"topic\"");
+  }
+
+  @Test
+  public void containedWhitespaceDoesNotGetSanitized() throws Exception {
+    Result result = createChange();
+    String endpoint = "/changes/" + result.getChangeId() + "/topic";
+    RestResponse response = adminRestSession.put(endpoint, "t opic");
+    response.assertOK();
+
+    assertThat(response.getEntityContent()).isEqualTo(")]}'\n\"t opic\"");
   }
 }

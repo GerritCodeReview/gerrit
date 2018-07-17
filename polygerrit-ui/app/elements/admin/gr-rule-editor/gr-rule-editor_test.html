@@ -50,16 +50,16 @@ limitations under the License.
     suite('unit tests', () => {
       test('_computeForce, _computeForceClass, and _computeForceOptions',
           () => {
-            const FORCE_PUSH_OPTIONS = [
-              {
-                name: 'Block all pushes, block force push only',
-                value: false,
-              },
-              {
-                name: 'Allow fast-forward only push, allow all pushes',
-                value: true,
-              },
-            ];
+            const ForcePushOptions = {
+              ALLOW: [
+                {name: 'Allow pushing (but not force pushing)', value: false},
+                {name: 'Allow pushing with or without force', value: true},
+              ],
+              BLOCK: [
+                {name: 'Block pushing with or without force', value: false},
+                {name: 'Block force pushing', value: true},
+              ],
+            };
 
             const FORCE_EDIT_OPTIONS = [
               {
@@ -72,10 +72,26 @@ limitations under the License.
               },
             ];
             let permission = 'push';
-            assert.isTrue(element._computeForce(permission));
-            assert.equal(element._computeForceClass(permission), 'force');
-            assert.deepEqual(element._computeForceOptions(permission),
-                FORCE_PUSH_OPTIONS);
+            let action = 'ALLOW';
+            assert.isTrue(element._computeForce(permission, action));
+            assert.equal(element._computeForceClass(permission, action),
+                'force');
+            assert.deepEqual(element._computeForceOptions(permission, action),
+                ForcePushOptions.ALLOW);
+
+            action = 'BLOCK';
+            assert.isTrue(element._computeForce(permission, action));
+            assert.equal(element._computeForceClass(permission, action),
+                'force');
+            assert.deepEqual(element._computeForceOptions(permission, action),
+                ForcePushOptions.BLOCK);
+
+            action = 'DENY';
+            assert.isFalse(element._computeForce(permission, action));
+            assert.equal(element._computeForceClass(permission, action), '');
+            assert.equal(
+                element._computeForceOptions(permission, action).length, 0);
+
             permission = 'editTopicName';
             assert.isTrue(element._computeForce(permission));
             assert.equal(element._computeForceClass(permission), 'force');

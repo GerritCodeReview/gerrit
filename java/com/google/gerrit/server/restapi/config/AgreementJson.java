@@ -23,6 +23,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.group.GroupJson;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -48,7 +49,7 @@ public class AgreementJson {
     this.groupJson = groupJson;
   }
 
-  public AgreementInfo format(ContributorAgreement ca) {
+  public AgreementInfo format(ContributorAgreement ca) throws PermissionBackendException {
     AgreementInfo info = new AgreementInfo();
     info.name = ca.getName();
     info.description = ca.getDescription();

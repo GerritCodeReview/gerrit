@@ -316,15 +316,15 @@ because `Status=Submitted` is considered a closed issue.
 ==== Announce on Mailing List
 
 Send an email to the mailing list to announce the release. The content of the
-announcement email is generated with the `release-announcement.py` which
-automatically includes all the necessary links, hash values, and wraps the
-text in a PGP signature.
+announcement email is generated with the `release-announcement.py` script from
+the gerrit-release-tools repository, which automatically includes all the
+necessary links, hash values, and wraps the text in a PGP signature.
 
 For details refer to the documentation in the script's header, and/or the
 help text:
 
 ----
- ./tools/release-announcement.py --help
+ ~/gerrit-release-tools/release-announcement.py --help
 ----
 
 [[increase-version]]

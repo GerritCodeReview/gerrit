@@ -28,6 +28,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +43,7 @@ import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+@Singleton
 public class PureRevert {
   private final MergeUtil.Factory mergeUtilFactory;
   private final GitRepositoryManager repoManager;
@@ -108,8 +110,8 @@ public class PureRevert {
               .create(projectCache.checkedGet(notes.getProjectName()))
               .newThreeWayMerger(oi, repo.getConfig());
       merger.setBase(claimedRevertCommit.getParent(0));
-      merger.merge(claimedRevertCommit, claimedOriginalCommit);
-      if (merger.getResultTreeId() == null) {
+      boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
+      if (!success || merger.getResultTreeId() == null) {
         // Merge conflict during rebase
         return new PureRevertInfo(false);
       }
@@ -117,7 +119,7 @@ public class PureRevert {
       // Any differences between claimed original's parent and the rebase result indicate that the
       // claimedRevert is not a pure revert but made content changes
       try (DiffFormatter df = new DiffFormatter(new ByteArrayOutputStream())) {
-        df.setRepository(repo);
+        df.setReader(oi.newReader(), repo.getConfig());
         List<DiffEntry> entries =
             df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
         return new PureRevertInfo(entries.isEmpty());

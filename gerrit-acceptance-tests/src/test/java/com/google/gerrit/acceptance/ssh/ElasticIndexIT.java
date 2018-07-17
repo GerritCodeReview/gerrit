@@ -24,16 +24,14 @@ import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 
 public class ElasticIndexIT extends AbstractIndexTests {
-  private static ElasticContainer<?> container;
 
   private static Config getConfig(ElasticVersion version) {
     ElasticNodeInfo elasticNodeInfo;
-    container = ElasticContainer.createAndStart(version);
+    ElasticContainer<?> container = ElasticContainer.createAndStart(version);
     elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
-    String password = version == ElasticVersion.V5_6 ? "changeme" : null;
-    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix, password);
+    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix, version);
     return cfg;
   }
 

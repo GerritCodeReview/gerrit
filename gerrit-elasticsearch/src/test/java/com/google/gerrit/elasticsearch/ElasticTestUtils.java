@@ -32,11 +32,12 @@ public final class ElasticTestUtils {
     }
   }
 
-  public static void configure(Config config, int port, String prefix, String password) {
+  public static void configure(Config config, int port, String prefix, ElasticVersion version) {
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", null, "server", "http://localhost:" + port);
     config.setString("elasticsearch", null, "prefix", prefix);
     config.setInt("index", null, "maxLimit", 10000);
+    String password = version == ElasticVersion.V5_6 ? "changeme" : null;
     if (password != null) {
       config.setString("elasticsearch", null, "password", password);
     }

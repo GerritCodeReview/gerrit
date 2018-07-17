@@ -44,7 +44,8 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
     if (input == null || input.tags == null || input.tags.isEmpty()) {
       throw new BadRequestException("tags must be specified");
     }
-    deleteRef.delete(project.getProjectState(), ImmutableSet.copyOf(input.tags), R_TAGS);
+    deleteRef.deleteMultipleRefs(
+        project.getProjectState(), ImmutableSet.copyOf(input.tags), R_TAGS);
     return Response.none();
   }
 }

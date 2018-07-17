@@ -88,6 +88,24 @@
       "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c8d81d7_1f1e1deb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-17T14:45:46Z",
+      "side": 1,
+      "message": "Still isn\u0027t resolved. This isn\u0027t a matter of some proxies --- this is a matter of \"the user must not use DELETE this way\".\n\nFor example, suppose someone reads these docs and says \"I know my proxies can pass the DELETE body without trouble\", so they start using DELETE. Than a server admin changes their setup on the server side. These docs put them between a rock and hard place: clients can say \"the docs told me to do that\" and force them to roll back their change and return to a more permissive serving stack, even though the client was not doing anything that was ever intended to work.",
+      "parentUuid": "d2bb2bf7_31ec5757",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

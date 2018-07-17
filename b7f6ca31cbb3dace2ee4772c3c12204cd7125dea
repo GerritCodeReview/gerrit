@@ -52,6 +52,24 @@
       "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d9d32b6_2ec83bfb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-17T08:57:03Z",
+      "side": 1,
+      "message": "In other words, this isn\u0027t about handling some odd proxies --- this is about bodies in DELETE not working at all in practice. I don\u0027t think we should recommend or use any examples that use DELETE with body, since then people will try to imitate it and it\u0027s not supposed to work in the first place.",
+      "parentUuid": "d5e4646a_4cb4d2bb",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

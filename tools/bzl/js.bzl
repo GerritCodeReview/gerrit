@@ -471,7 +471,7 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
         no_closure_library = True,
         deps = [
             "//lib/polymer_externs:polymer_closure",
-            "//polygerrit-ui/externs:plugin",
+            "//polygerrit-ui/app/externs:plugin",
         ],
     )
 

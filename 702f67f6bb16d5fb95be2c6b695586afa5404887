@@ -670,6 +670,30 @@
     },
     {
       "key": {
+        "uuid": "9d1d4c58_9f507988",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-17T08:22:43Z",
+      "side": 1,
+      "message": "OK. Let\u0027s choose the first option.",
+      "parentUuid": "f028f241_677aec71",
+      "range": {
+        "startLine": 118,
+        "startChar": 56,
+        "endLine": 118,
+        "endChar": 57
+      },
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75ff30ee_3f22a2de",
         "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
         "patchSetId": 18
@@ -993,6 +1017,24 @@
     },
     {
       "key": {
+        "uuid": "0956e60e_d2c74d17",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-17T08:22:43Z",
+      "side": 1,
+      "message": "OK. Since assertThrows could not be used. We need to use try-catch.",
+      "parentUuid": "2d866e7b_f1019893",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7bd75c67_c94128d5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
         "patchSetId": 18
@@ -1043,6 +1085,24 @@
       "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b06e552_db380f6b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-17T08:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25c6dc0b_d5bd6435",
+      "revId": "702f67f6bb16d5fb95be2c6b695586afa5404887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2c581d0d_d566123f",
+        "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-17T08:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0ede3cf_8d53ee37",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 138,
+        "endChar": 100
+      },
+      "revId": "d6d37a5b9008395cfa81b24caad40a3ef2044946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49eb7148_e311afd3",
         "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
         "patchSetId": 19
@@ -39,6 +63,24 @@
       "revId": "d6d37a5b9008395cfa81b24caad40a3ef2044946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51b55280_7667df3d",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChangeMessage.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-17T08:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49eb7148_e311afd3",
+      "revId": "d6d37a5b9008395cfa81b24caad40a3ef2044946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "d6d37a5b9008395cfa81b24caad40a3ef2044946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff933ca4_27752afe",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-17T08:22:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8360ceb_fcea8d61",
+      "range": {
+        "startLine": 272,
+        "startChar": 12,
+        "endLine": 272,
+        "endChar": 25
+      },
+      "revId": "d6d37a5b9008395cfa81b24caad40a3ef2044946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

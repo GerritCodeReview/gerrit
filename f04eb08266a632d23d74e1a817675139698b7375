@@ -3,6 +3,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1aa6c7a2_eae3e0c5",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-17T09:21:04Z",
+      "side": 1,
+      "message": "drop",
+      "range": {
+        "startLine": 451,
+        "startChar": 41,
+        "endLine": 451,
+        "endChar": 48
+      },
+      "revId": "f04eb08266a632d23d74e1a817675139698b7375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c06d012_cfd8ead9",
         "filename": "tools/js/npm_pack.py",
         "patchSetId": 3
@@ -32,6 +55,24 @@
       "side": 1,
       "message": "Seems like this is unrelated to this change though.  Let\u0027s fix this in a separate commit.",
       "parentUuid": "2c06d012_cfd8ead9",
+      "revId": "f04eb08266a632d23d74e1a817675139698b7375",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ff77b38_f4e25155",
+        "filename": "tools/js/npm_pack.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-17T09:21:04Z",
+      "side": 1,
+      "message": "agree to fix in a separate commit. I\u0027d suggest\n\n  package.get(\"dependencies\", {}).keys()\n\nto avoid the if.",
+      "parentUuid": "5ba77d98_e77bc824",
       "revId": "f04eb08266a632d23d74e1a817675139698b7375",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

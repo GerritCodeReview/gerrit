@@ -1,10 +1,28 @@
 #!/bin/bash
 
+# NOSUBMIT
+
+echo '**************'
+echo '**************'
+echo '**************'
+
+set
+ls -l $(dirname $(which git))
+ls -l /usr/lib/git-core/
+
+echo '**************'
+echo '**************'
+echo '**************'
+
 set -eu
 
 hook=$(pwd)/resources/com/google/gerrit/server/tools/root/hooks/commit-msg
 
 cd $TEST_TMPDIR
+
+
+
+
 
 function fail {
   echo "FAIL: $1"

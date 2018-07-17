@@ -21,9 +21,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.TagResource;
 import com.google.gwtorm.server.OrmException;
@@ -34,12 +32,10 @@ import java.io.IOException;
 @Singleton
 public class DeleteTag implements RestModifyView<TagResource, Input> {
 
-  private final PermissionBackend permissionBackend;
   private final DeleteRef deleteRef;
 
   @Inject
-  DeleteTag(PermissionBackend permissionBackend, DeleteRef deleteRef) {
-    this.permissionBackend = permissionBackend;
+  DeleteTag(DeleteRef deleteRef) {
     this.deleteRef = deleteRef;
   }
 
@@ -53,12 +49,6 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
       throw new MethodNotAllowedException("not allowed to delete " + tag);
     }
 
-    permissionBackend
-        .currentUser()
-        .project(resource.getNameKey())
-        .ref(tag)
-        .check(RefPermission.DELETE);
-    resource.getProjectState().checkStatePermitsWrite();
     deleteRef.deleteSingleRef(resource.getProjectState(), tag);
     return Response.none();
   }

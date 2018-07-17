@@ -23,9 +23,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -39,16 +37,11 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final DeleteRef deleteRef;
-  private final PermissionBackend permissionBackend;
 
   @Inject
-  DeleteBranch(
-      Provider<InternalChangeQuery> queryProvider,
-      DeleteRef deleteRef,
-      PermissionBackend permissionBackend) {
+  DeleteBranch(Provider<InternalChangeQuery> queryProvider, DeleteRef deleteRef) {
     this.queryProvider = queryProvider;
     this.deleteRef = deleteRef;
-    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -59,9 +52,6 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
       throw new MethodNotAllowedException(
           "not allowed to delete branch " + rsrc.getBranchKey().get());
     }
-
-    permissionBackend.currentUser().ref(rsrc.getBranchKey()).check(RefPermission.DELETE);
-    rsrc.getProjectState().checkStatePermitsWrite();
 
     if (!queryProvider.get().setLimit(1).byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");

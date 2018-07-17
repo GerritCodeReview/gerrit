@@ -456,7 +456,7 @@ public class StaticModule extends ServletModule {
       // Special case assets during development that are built by Bazel and not
       // served out of the source tree.
       //
-      // In the war case, these are either inlined by vulcanize, or live under
+      // In the war case, these are either inlined, or live under
       // /polygerrit_ui in the war file, so we can just treat them as normal
       // assets.
       if (paths.isDev()) {

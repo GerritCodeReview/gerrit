@@ -424,6 +424,144 @@ _vulcanize_rule = rule(
     outputs = _vulcanize_output_func,
 )
 
+"""Groups a set of .html and .js together in a zip file.
+
+Outputs:
+  NAME-versions.json:
+    a JSON file containing a PKG-NAME => PKG-NAME#VERSION mapping for the
+    transitive dependencies.
+  NAME.zip:
+    a zip file containing the transitive dependencies for this bundle.
+"""
+
+def _bundle_impl(ctx):
+    # intermediate artifact if split is wanted.
+    if ctx.attr.split:
+        bundled = ctx.new_file(
+            ctx.configuration.genfiles_dir,
+            ctx.outputs.html,
+            ".bundled.html",
+        )
+    else:
+        bundled = ctx.outputs.html
+    destdir = ctx.outputs.html.path + ".dir"
+    zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles]
+
+    hermetic_npm_binary = " ".join([
+        "python",
+        "$p/" + ctx.file._run_npm.path,
+        "$p/" + ctx.file._bundler_archive.path,
+        "--inline-scripts",
+        "--inline-css",
+        "--strip-comments",
+        "--out-file",
+        "$p/" + bundled.path,
+        ctx.file.app.path,
+    ])
+
+    pkg_dir = ctx.attr.pkg.lstrip("/")
+    cmd = " && ".join([
+        # unpack dependencies.
+        "export PATH",
+        "p=$PWD",
+        "rm -rf %s" % destdir,
+        "mkdir -p %s/%s/bower_components" % (destdir, pkg_dir),
+        "for z in %s; do unzip -qd %s/%s/bower_components/ $z; done" % (
+            " ".join([z.path for z in zips]),
+            destdir,
+            pkg_dir,
+        ),
+        "tar -cf - %s | tar -C %s -xf -" % (" ".join([s.path for s in ctx.files.srcs]), destdir),
+        "cd %s" % destdir,
+        hermetic_npm_binary,
+    ])
+
+    # Node/NPM is not (yet) hermeticized, so we have to get the binary
+    # from the environment, and it may be under $HOME, so we can't run
+    # in the sandbox.
+    node_tweaks = dict(
+        execution_requirements = {"local": "1"},
+        use_default_shell_env = True,
+    )
+    ctx.actions.run_shell(
+        mnemonic = "Bundle",
+        inputs = [
+            ctx.file._run_npm,
+            ctx.file.app,
+            ctx.file._bundler_archive,
+        ] + list(zips) + ctx.files.srcs,
+        outputs = [bundled],
+        command = cmd,
+        **node_tweaks
+    )
+
+    if ctx.attr.split:
+        hermetic_npm_command = "export PATH && " + " ".join([
+            "python",
+            ctx.file._run_npm.path,
+            ctx.file._crisper_archive.path,
+            "--always-write-script",
+            "--source",
+            bundled.path,
+            "--html",
+            ctx.outputs.html.path,
+            "--js",
+            ctx.outputs.js.path,
+        ])
+
+        ctx.actions.run_shell(
+            mnemonic = "Crisper",
+            inputs = [
+                ctx.file._run_npm,
+                ctx.file.app,
+                ctx.file._crisper_archive,
+                bundled,
+            ],
+            outputs = [ctx.outputs.js, ctx.outputs.html],
+            command = hermetic_npm_command,
+            **node_tweaks
+        )
+
+def _bundle_output_func(name, split):
+    _ignore = [name]  # unused.
+    out = {"html": "%{name}.html"}
+    if split:
+        out["js"] = "%{name}.js"
+    return out
+
+_bundle_rule = rule(
+    _bundle_impl,
+    attrs = {
+        "deps": attr.label_list(providers = ["transitive_zipfiles"]),
+        "app": attr.label(
+            mandatory = True,
+            allow_single_file = True,
+        ),
+        "srcs": attr.label_list(allow_files = [
+            ".js",
+            ".html",
+            ".txt",
+            ".css",
+            ".ico",
+        ]),
+        "pkg": attr.string(mandatory = True),
+        "split": attr.bool(default = True),
+        "_run_npm": attr.label(
+            default = Label("//tools/js:run_npm_binary.py"),
+            allow_single_file = True,
+        ),
+        "_bundler_archive": attr.label(
+            default = Label("@polymer-bundler//:%s" % _npm_tarball("polymer-bundler")),
+            allow_single_file = True,
+        ),
+        "_crisper_archive": attr.label(
+            default = Label("@crisper//:%s" % _npm_tarball("crisper")),
+            allow_single_file = True,
+        ),
+    },
+    outputs = _bundle_output_func,
+)
+
 def vulcanize(*args, **kwargs):
     """Vulcanize runs vulcanize and (optionally) crisper on a set of sources."""
     _vulcanize_rule(*args, pkg = PACKAGE_NAME, **kwargs)
@@ -443,7 +581,7 @@ def polygerrit_plugin(name, app, srcs = [], assets = None, **kwargs):
     """
 
     # Combines all .js and .html files into foo_combined.js and foo_combined.html
-    _vulcanize_rule(
+    _bundle_rule(
         name = name + "_combined",
         app = app,
         srcs = srcs if app in srcs else srcs + [app],

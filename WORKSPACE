@@ -960,6 +960,11 @@ npm_binary(
 )
 
 npm_binary(
+    name = "polymer-bundler",
+    repository = GERRIT,
+)
+
+npm_binary(
     name = "crisper",
     repository = GERRIT,
 )

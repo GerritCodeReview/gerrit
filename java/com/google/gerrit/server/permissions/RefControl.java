@@ -22,7 +22,6 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -407,16 +406,6 @@ class RefControl {
 
   private class ForRefImpl extends ForRef {
     private String resourcePath;
-
-    @Override
-    public ForRef user(CurrentUser user) {
-      return forUser(user).asForRef().database(db);
-    }
-
-    @Override
-    public ForRef absentUser(Account.Id id) {
-      return user(identifiedUserFactory.create(id));
-    }
 
     @Override
     public String resourcePath() {

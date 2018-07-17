@@ -21,7 +21,6 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -322,16 +321,6 @@ class ProjectControl {
   private class ForProjectImpl extends ForProject {
     private DefaultRefFilter refFilter;
     private String resourcePath;
-
-    @Override
-    public ForProject user(CurrentUser user) {
-      return forUser(user).asForProject().database(db);
-    }
-
-    @Override
-    public ForProject absentUser(Account.Id id) {
-      return user(identifiedUserFactory.create(id));
-    }
 
     @Override
     public String resourcePath() {

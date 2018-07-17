@@ -36,12 +36,12 @@ import java.io.IOException;
 public class DeleteTag implements RestModifyView<TagResource, Input> {
 
   private final PermissionBackend permissionBackend;
-  private final DeleteRef.Factory deleteRefFactory;
+  private final DeleteRef deleteRef;
 
   @Inject
-  DeleteTag(PermissionBackend permissionBackend, DeleteRef.Factory deleteRefFactory) {
+  DeleteTag(PermissionBackend permissionBackend, DeleteRef deleteRef) {
     this.permissionBackend = permissionBackend;
-    this.deleteRefFactory = deleteRefFactory;
+    this.deleteRef = deleteRef;
   }
 
   @Override
@@ -60,7 +60,7 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
         .ref(tag)
         .check(RefPermission.DELETE);
     resource.getProjectState().checkStatePermitsWrite();
-    deleteRefFactory.create(resource).delete(ImmutableSet.of(tag));
+    deleteRef.delete(resource.getProjectState(), ImmutableSet.of(tag));
     return Response.none();
   }
 }

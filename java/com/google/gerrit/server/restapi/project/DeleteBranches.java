@@ -31,11 +31,11 @@ import java.io.IOException;
 
 @Singleton
 public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBranchesInput> {
-  private final DeleteRef.Factory deleteRefFactory;
+  private final DeleteRef deleteRef;
 
   @Inject
-  DeleteBranches(DeleteRef.Factory deleteRefFactory) {
-    this.deleteRefFactory = deleteRefFactory;
+  DeleteBranches(DeleteRef deleteRef) {
+    this.deleteRef = deleteRef;
   }
 
   @Override
@@ -44,7 +44,7 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
     if (input == null || input.branches == null || input.branches.isEmpty()) {
       throw new BadRequestException("branches must be specified");
     }
-    deleteRefFactory.create(project).delete(ImmutableSet.copyOf(input.branches), R_HEADS);
+    deleteRef.delete(project.getProjectState(), ImmutableSet.copyOf(input.branches), R_HEADS);
     return Response.none();
   }
 }

@@ -98,10 +98,10 @@ public class CreateBranchIT extends AbstractDaemonTest {
 
   private void assertCreateFails(Class<? extends RestApiException> errType, String errMsg)
       throws Exception {
-    exception.expect(errType);
     if (errMsg != null) {
       exception.expectMessage(errMsg);
     }
+    exception.expect(errType);
     branch().create(new BranchInput());
   }
 

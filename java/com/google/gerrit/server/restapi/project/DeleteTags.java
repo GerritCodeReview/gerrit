@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.projects.DeleteTagsInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -43,7 +44,7 @@ public class DeleteTags implements RestModifyView<ProjectResource, DeleteTagsInp
     if (input == null || input.tags == null || input.tags.isEmpty()) {
       throw new BadRequestException("tags must be specified");
     }
-    deleteRefFactory.create(project).refs(input.tags).prefix(R_TAGS).delete();
+    deleteRefFactory.create(project).delete(ImmutableSet.copyOf(input.tags), R_TAGS);
     return Response.none();
   }
 }

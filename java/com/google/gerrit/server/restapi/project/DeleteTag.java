@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -59,7 +60,7 @@ public class DeleteTag implements RestModifyView<TagResource, Input> {
         .ref(tag)
         .check(RefPermission.DELETE);
     resource.getProjectState().checkStatePermitsWrite();
-    deleteRefFactory.create(resource).ref(tag).delete();
+    deleteRefFactory.create(resource).delete(ImmutableSet.of(tag));
     return Response.none();
   }
 }

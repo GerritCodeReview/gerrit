@@ -15,8 +15,8 @@
 
 """This downloads an NPM binary, and bundles it with its dependencies.
 
-This is used to assemble a pinned version of crisper, hosted on the
-Google storage bucket ("repository=GERRIT" in WORKSPACE).
+For full instructions on adding new binaries to the build, see
+http://gerrit-review.googlesource.com/Documentation/dev-bazel.html#npm-binary
 """
 
 from __future__ import print_function

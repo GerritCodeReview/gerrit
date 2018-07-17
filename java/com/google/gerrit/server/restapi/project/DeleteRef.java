@@ -83,111 +83,138 @@ public class DeleteRef {
     this.queryProvider = queryProvider;
   }
 
-  public void delete(ProjectState projectState, ImmutableSet<String> refsToDelete)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
-    delete(projectState, refsToDelete, null);
-  }
-
-  public void delete(
-      ProjectState projectState, ImmutableSet<String> refsToDelete, @Nullable String prefix)
-      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
-    if (!refsToDelete.isEmpty()) {
-      try (Repository r = repoManager.openRepository(projectState.getNameKey())) {
-        if (refsToDelete.size() == 1) {
-          deleteSingleRef(
-              r, projectState.getNameKey(), Iterables.getOnlyElement(refsToDelete), prefix);
-        } else {
-          deleteMultipleRefs(r, projectState, refsToDelete, prefix);
-        }
-      }
-    }
-  }
-
-  private void deleteSingleRef(Repository r, Project.NameKey project, String ref, String prefix)
+  /**
+   * Deletes a single ref from the repository.
+   *
+   * @param project the project which the ref belongs to.
+   * @param ref the ref to be deleted.
+   * @throws IOException
+   * @throws ResourceConflictException
+   */
+  public void deleteSingleRef(Project.NameKey project, String ref)
       throws IOException, ResourceConflictException {
-    if (prefix != null && !ref.startsWith(R_REFS)) {
-      ref = prefix + ref;
-    }
-    RefUpdate.Result result;
-    RefUpdate u = r.updateRef(ref);
-    u.setExpectedOldObjectId(r.exactRef(ref).getObjectId());
-    u.setNewObjectId(ObjectId.zeroId());
-    u.setForceUpdate(true);
-    refDeletionValidator.validateRefOperation(project.get(), identifiedUser.get(), u);
-    int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
-    for (; ; ) {
-      try {
-        result = u.delete();
-      } catch (LockFailedException e) {
-        result = RefUpdate.Result.LOCK_FAILURE;
-      } catch (IOException e) {
-        logger.atSevere().withCause(e).log("Cannot delete %s", ref);
-        throw e;
+    deleteSingleRef(project, ref, null);
+  }
+
+  /**
+   * Deletes a single ref from the repository.
+   *
+   * @param project the project which the ref belongs to.
+   * @param ref the ref to be deleted.
+   * @param prefix the prefix of the ref.
+   * @throws IOException
+   * @throws ResourceConflictException
+   */
+  public void deleteSingleRef(Project.NameKey project, String ref, @Nullable String prefix)
+      throws IOException, ResourceConflictException {
+    try (Repository repository = repoManager.openRepository(project)) {
+      if (prefix != null && !ref.startsWith(R_REFS)) {
+        ref = prefix + ref;
       }
-      if (result == RefUpdate.Result.LOCK_FAILURE && --remainingLockFailureCalls > 0) {
+      RefUpdate.Result result;
+      RefUpdate u = repository.updateRef(ref);
+      u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
+      u.setNewObjectId(ObjectId.zeroId());
+      u.setForceUpdate(true);
+      refDeletionValidator.validateRefOperation(project.get(), identifiedUser.get(), u);
+      int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
+      for (; ; ) {
         try {
-          Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
-        } catch (InterruptedException ie) {
-          // ignore
+          result = u.delete();
+        } catch (LockFailedException e) {
+          result = RefUpdate.Result.LOCK_FAILURE;
+        } catch (IOException e) {
+          logger.atSevere().withCause(e).log("Cannot delete %s", ref);
+          throw e;
         }
-      } else {
-        break;
+        if (result == RefUpdate.Result.LOCK_FAILURE && --remainingLockFailureCalls > 0) {
+          try {
+            Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
+          } catch (InterruptedException ie) {
+            // ignore
+          }
+        } else {
+          break;
+        }
       }
-    }
 
-    switch (result) {
-      case NEW:
-      case NO_CHANGE:
-      case FAST_FORWARD:
-      case FORCED:
-        referenceUpdated.fire(project, u, ReceiveCommand.Type.DELETE, identifiedUser.get().state());
-        break;
+      switch (result) {
+        case NEW:
+        case NO_CHANGE:
+        case FAST_FORWARD:
+        case FORCED:
+          referenceUpdated.fire(
+              project, u, ReceiveCommand.Type.DELETE, identifiedUser.get().state());
+          break;
 
-      case REJECTED_CURRENT_BRANCH:
-        logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
-        throw new ResourceConflictException("cannot delete current branch");
+        case REJECTED_CURRENT_BRANCH:
+          logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
+          throw new ResourceConflictException("cannot delete current branch");
 
-      case IO_FAILURE:
-      case LOCK_FAILURE:
-      case NOT_ATTEMPTED:
-      case REJECTED:
-      case RENAMED:
-      case REJECTED_MISSING_OBJECT:
-      case REJECTED_OTHER_REASON:
-      default:
-        logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
-        throw new ResourceConflictException("cannot delete: " + result.name());
+        case IO_FAILURE:
+        case LOCK_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
+        default:
+          logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
+          throw new ResourceConflictException("cannot delete: " + result.name());
+      }
     }
   }
 
-  private void deleteMultipleRefs(
-      Repository r, ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)
+  /**
+   * Deletes a set of refs from the repository.
+   *
+   * @param projectState the {@code ProjectState} of the repository whose refs are to be deleted.
+   * @param refsToDelete the refs to be deleted.
+   * @param prefix the prefix of the refs.
+   * @throws OrmException
+   * @throws IOException
+   * @throws ResourceConflictException
+   * @throws PermissionBackendException
+   */
+  public void deleteMultipleRefs(
+      ProjectState projectState, ImmutableSet<String> refsToDelete, String prefix)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
-    BatchRefUpdate batchUpdate = r.getRefDatabase().newBatchUpdate();
-    batchUpdate.setAtomic(false);
-    ImmutableSet<String> refs =
-        prefix == null
-            ? refsToDelete
-            : refsToDelete
-                .stream()
-                .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
-                .collect(ImmutableSet.toImmutableSet());
-    for (String ref : refs) {
-      batchUpdate.addCommand(createDeleteCommand(projectState, r, ref));
+    if (refsToDelete.isEmpty()) {
+      return;
     }
-    try (RevWalk rw = new RevWalk(r)) {
-      batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+
+    if (refsToDelete.size() == 1) {
+      deleteSingleRef(projectState.getNameKey(), Iterables.getOnlyElement(refsToDelete), prefix);
+      return;
     }
-    StringBuilder errorMessages = new StringBuilder();
-    for (ReceiveCommand command : batchUpdate.getCommands()) {
-      if (command.getResult() == Result.OK) {
-        postDeletion(projectState.getNameKey(), command);
-      } else {
-        appendAndLogErrorMessage(errorMessages, command);
+
+    try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
+      BatchRefUpdate batchUpdate = repository.getRefDatabase().newBatchUpdate();
+      batchUpdate.setAtomic(false);
+      ImmutableSet<String> refs =
+          prefix == null
+              ? refsToDelete
+              : refsToDelete
+                  .stream()
+                  .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
+                  .collect(ImmutableSet.toImmutableSet());
+      for (String ref : refs) {
+        batchUpdate.addCommand(createDeleteCommand(projectState, repository, ref));
       }
-    }
-    if (errorMessages.length() > 0) {
-      throw new ResourceConflictException(errorMessages.toString());
+      try (RevWalk rw = new RevWalk(repository)) {
+        batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+      }
+      StringBuilder errorMessages = new StringBuilder();
+      for (ReceiveCommand command : batchUpdate.getCommands()) {
+        if (command.getResult() == Result.OK) {
+          postDeletion(projectState.getNameKey(), command);
+        } else {
+          appendAndLogErrorMessage(errorMessages, command);
+        }
+      }
+      if (errorMessages.length() > 0) {
+        throw new ResourceConflictException(errorMessages.toString());
+      }
     }
   }
 

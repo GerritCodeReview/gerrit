@@ -3,19 +3,16 @@
 Gerrit Code Review is a web-based code review tool built on
 https://git-scm.com/[Git version control].
 
-== What is Gerrit?
+== What is Gerrit Code Review?
 
-Gerrit makes code review possible. Gerrit provides a framework in which to
-review commits before they're accepted into a code base. Gerrit works equally
-well whether implemented in open source projects that limit the number of users
-who can approve changes (typical in open source software development) or in
-projects in which all contributors are trusted.
+Gerrit provides a framework you and your teams can use to review code before
+it's submitted to a code base.
 
-== What is Code Review?
+== What is a Code Review?
 
 Code reviews identify mistakes before customers find them. In a world of
-continuous integration, it's essential that code be robust before it's applied
-to a code base. When code is reviewed, developers:
+continuous integration, it's essential that code be robust before it's released.
+When code is reviewed, developers:
 
 . Work carefully and consistently
 . Learn best practices and new techniques from other developers
@@ -31,8 +28,8 @@ Code reviews typically turn up issues related to:
 
 == Learn Gerrit Code Review
 
-If you're new to Gerrit and want to learn how Gerrit can improve your
-developer workflow, see:
+If you're new to Gerrit and want to learn how Gerrit can improve your workflow,
+see:
 
 . link:intro-how-gerrit-works.html[How Gerrit Works]
 . link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]

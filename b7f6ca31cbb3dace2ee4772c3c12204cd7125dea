@@ -70,6 +70,24 @@
       "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2bb2bf7_31ec5757",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-17T09:18:49Z",
+      "side": 1,
+      "message": "\u003e Could the POST be the only case, or the DELETE be for the case without reason being specified?\n\nThese APIs are to delete a resource. So DELETE is a direct choice. These words are used in our doc to let users know DELETE with body may not work sometimes. If it happens, use POST. \n\nI agree we could change all of our doc to not say DELETE with body at all. Just recommend POST with body.",
+      "parentUuid": "2d9d32b6_2ec83bfb",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

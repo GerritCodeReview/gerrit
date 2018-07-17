@@ -14,14 +14,17 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.reviewdb.client.RefNames.isConfigRef;
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.R_REFS;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.DELETE;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -39,8 +42,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -65,8 +66,6 @@ public class DeleteRef {
   private final RefValidationHelper refDeletionValidator;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ProjectResource resource;
-  private final List<String> refsToDelete;
-  private String prefix;
 
   public interface Factory {
     DeleteRef create(ProjectResource r);
@@ -88,39 +87,28 @@ public class DeleteRef {
     this.refDeletionValidator = refDeletionValidatorFactory.create(DELETE);
     this.queryProvider = queryProvider;
     this.resource = resource;
-    this.refsToDelete = new ArrayList<>();
   }
 
-  public DeleteRef ref(String ref) {
-    this.refsToDelete.add(ref);
-    return this;
+  public void delete(ImmutableSet<String> refsToDelete)
+      throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
+    delete(refsToDelete, null);
   }
 
-  public DeleteRef refs(List<String> refs) {
-    this.refsToDelete.addAll(refs);
-    return this;
-  }
-
-  public DeleteRef prefix(String prefix) {
-    this.prefix = prefix;
-    return this;
-  }
-
-  public void delete()
+  public void delete(ImmutableSet<String> refsToDelete, @Nullable String prefix)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
     if (!refsToDelete.isEmpty()) {
       try (Repository r = repoManager.openRepository(resource.getNameKey())) {
         if (refsToDelete.size() == 1) {
-          deleteSingleRef(r);
+          deleteSingleRef(r, Iterables.getOnlyElement(refsToDelete), prefix);
         } else {
-          deleteMultipleRefs(r);
+          deleteMultipleRefs(r, refsToDelete, prefix);
         }
       }
     }
   }
 
-  private void deleteSingleRef(Repository r) throws IOException, ResourceConflictException {
-    String ref = refsToDelete.get(0);
+  private void deleteSingleRef(Repository r, String ref, String prefix)
+      throws IOException, ResourceConflictException {
     if (prefix != null && !ref.startsWith(R_REFS)) {
       ref = prefix + ref;
     }
@@ -177,17 +165,17 @@ public class DeleteRef {
     }
   }
 
-  private void deleteMultipleRefs(Repository r)
+  private void deleteMultipleRefs(Repository r, ImmutableSet<String> refsToDelete, String prefix)
       throws OrmException, IOException, ResourceConflictException, PermissionBackendException {
     BatchRefUpdate batchUpdate = r.getRefDatabase().newBatchUpdate();
     batchUpdate.setAtomic(false);
-    List<String> refs =
+    ImmutableSet<String> refs =
         prefix == null
             ? refsToDelete
             : refsToDelete
                 .stream()
                 .map(ref -> ref.startsWith(R_REFS) ? ref : prefix + ref)
-                .collect(toList());
+                .collect(toImmutableSet());
     for (String ref : refs) {
       batchUpdate.addCommand(createDeleteCommand(resource, r, ref));
     }

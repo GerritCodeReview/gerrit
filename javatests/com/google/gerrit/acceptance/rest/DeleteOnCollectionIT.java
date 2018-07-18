@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.project.BranchResource.BRANCH_KIND;
+import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static org.apache.http.HttpStatus.SC_NO_CONTENT;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -23,6 +24,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.extensions.restapi.RestCollectionView;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Module;
@@ -34,6 +36,15 @@ public class DeleteOnCollectionIT extends AbstractDaemonTest {
     return new RestApiModule() {
       @Override
       public void configure() {
+        deleteOnCollection(PROJECT_KIND)
+            .toInstance(
+                new RestCollectionView<TopLevelResource, ProjectResource, Object>() {
+                  @Override
+                  public Object apply(TopLevelResource parentResource, Object input)
+                      throws Exception {
+                    return Response.none();
+                  }
+                });
         deleteOnCollection(BRANCH_KIND)
             .toInstance(
                 new RestCollectionView<ProjectResource, BranchResource, Object>() {
@@ -45,6 +56,12 @@ public class DeleteOnCollectionIT extends AbstractDaemonTest {
                 });
       }
     };
+  }
+
+  @Test
+  public void deleteOnRootCollection() throws Exception {
+    RestResponse response = adminRestSession.delete("/projects/");
+    assertThat(response.getStatusCode()).isEqualTo(SC_NO_CONTENT);
   }
 
   @Test

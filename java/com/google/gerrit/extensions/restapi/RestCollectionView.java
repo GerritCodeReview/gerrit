@@ -18,8 +18,7 @@ package com.google.gerrit.extensions.restapi;
  * RestView on a RestCollection that supports accepting input.
  *
  * <p>The input must be supplied as JSON as the body of the HTTP request. RestCollectionViews can be
- * invoked by the HTTP methods {@code POST} and {@code DELETE} ({@code DELETE} is only supported on
- * child collections).
+ * invoked by the HTTP methods {@code POST} and {@code DELETE}.
  *
  * @param <P> type of the parent resource
  * @param <C> type of the child resource

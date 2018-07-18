@@ -68,6 +68,30 @@
       "revId": "b77107b9a84ed2a4ee0feaceaed46649e5a75a5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "748fc725_436f94b5",
+        "filename": "java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1023707
+      },
+      "writtenOn": "2018-07-18T22:15:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4ff30b8_1b4e17cf",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 27
+      },
+      "revId": "b77107b9a84ed2a4ee0feaceaed46649e5a75a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

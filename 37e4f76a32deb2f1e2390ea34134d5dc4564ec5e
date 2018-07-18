@@ -16,6 +16,74 @@
       "revId": "37e4f76a32deb2f1e2390ea34134d5dc4564ec5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03a4ce5e_1cb531a9",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T14:11:52Z",
+      "side": 1,
+      "message": "Can we remove the vulcanize binary?",
+      "revId": "37e4f76a32deb2f1e2390ea34134d5dc4564ec5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46f27276_b0beab95",
+        "filename": "lib/js/npm.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T14:11:52Z",
+      "side": 1,
+      "message": "Can we remove the vulcanize binary?",
+      "revId": "37e4f76a32deb2f1e2390ea34134d5dc4564ec5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1485f01_c1bed31b",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T14:11:52Z",
+      "side": 1,
+      "message": "The docstring should go nested as the first expression inside the def.",
+      "revId": "37e4f76a32deb2f1e2390ea34134d5dc4564ec5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f5fd259_9640923f",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T14:11:52Z",
+      "side": 1,
+      "message": "Can we remove the vulcanize definition?",
+      "revId": "37e4f76a32deb2f1e2390ea34134d5dc4564ec5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

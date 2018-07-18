@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "9438128d_fb71e7c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T15:29:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76cbc52a_4ea492f3",
+      "range": {
+        "startLine": 16,
+        "startChar": 53,
+        "endLine": 16,
+        "endChar": 59
+      },
+      "revId": "50bcc03baeb97e0f5aa365cf5cd5f3a56e520e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cd5c4f2_2bf302a1",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3
@@ -72,6 +96,30 @@
       "writtenOn": "2018-07-18T14:20:45Z",
       "side": 1,
       "message": "Can this just be a lambda?",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "50bcc03baeb97e0f5aa365cf5cd5f3a56e520e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e292eff_1b32e7f7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/DeleteOnCollectionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T15:29:36Z",
+      "side": 1,
+      "message": "I couldn\u0027t get this to work with a lambda.\n\nI tried:\n\n  deleteOnCollection(BRANCH_KIND)\n            .toInstance(\n                (RestCollectionView\u003cProjectResource, BranchResource, Object\u003e)\n                    (p, i) -\u003e Response.none());\n\nIt compiles, but fails at runtime with:\n\nERROR com.google.gerrit.httpd.restapi.RestApiServlet : Error in DELETE /a/projects/com.google.gerrit.acceptance.rest.DeleteOnCollectionIT_deleteOnChildCollection_project/branches\njava.lang.IllegalStateException: supertype of com.google.gerrit.acceptance.rest.DeleteOnCollectionIT$1$$Lambda$131/558404860 is not parameterized: com.google.gerrit.extensions.restapi.RestCollectionView\n\tat com.google.common.base.Preconditions.checkState(Preconditions.java:823)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.inputType(RestApiServlet.java:862)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:482)\n        ...",
+      "parentUuid": "e0ae96ad_601b24a5",
       "range": {
         "startLine": 39,
         "startChar": 16,

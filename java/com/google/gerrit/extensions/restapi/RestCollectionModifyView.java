@@ -15,8 +15,17 @@
 package com.google.gerrit.extensions.restapi;
 
 /**
- * Any type of view on {@link RestCollection}, see {@link RestCollectionModifyView} for updates and
- * deletes and {@link RestCollectionCreateView} for member creation.
+ * RestView on a RestCollection that supports accepting input.
+ *
+ * <p>The input must be supplied as JSON as the body of the HTTP request. RestCollectionModifyViews
+ * can be invoked by the HTTP methods {@code POST} and {@code DELETE}.
+ *
+ * @param <P> type of the parent resource
+ * @param <C> type of the child resource
+ * @param <I> type of input the JSON parser will parse the input into.
  */
-public interface RestCollectionView<P extends RestResource, C extends RestResource, I>
-    extends RestView<C> {}
+public interface RestCollectionModifyView<P extends RestResource, C extends RestResource, I>
+    extends RestCollectionView<P, C, I> {
+
+  Object apply(P parentResource, I input) throws Exception;
+}

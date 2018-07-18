@@ -29,7 +29,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
@@ -69,7 +69,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 @RequiresCapability(GlobalCapability.CREATE_GROUP)
-public class CreateGroup implements RestCreateView<TopLevelResource, GroupResource, GroupInput> {
+public class CreateGroup
+    implements RestCollectionCreateView<TopLevelResource, GroupResource, GroupInput> {
   private final Provider<IdentifiedUser> self;
   private final PersonIdent serverIdent;
   private final Provider<GroupsUpdate> groupsUpdateProvider;

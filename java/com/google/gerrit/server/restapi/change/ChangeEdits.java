@@ -29,9 +29,9 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestCollectionView;
-import com.google.gerrit.extensions.restapi.RestCreateView;
-import com.google.gerrit.extensions.restapi.RestDeleteMissingView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionDeleteMissingView;
+import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -109,7 +109,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
    * and PUT handler is called.
    */
   public static class Create
-      implements RestCreateView<ChangeResource, ChangeEditResource, Put.Input> {
+      implements RestCollectionCreateView<ChangeResource, ChangeEditResource, Put.Input> {
     private final Put putEdit;
 
     @Inject
@@ -127,7 +127,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
   }
 
   public static class DeleteFile
-      implements RestDeleteMissingView<ChangeResource, ChangeEditResource, Input> {
+      implements RestCollectionDeleteMissingView<ChangeResource, ChangeEditResource, Input> {
     private final DeleteContent deleteContent;
 
     @Inject
@@ -212,7 +212,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
    */
   @Singleton
   public static class Post
-      implements RestCollectionView<ChangeResource, ChangeEditResource, Post.Input> {
+      implements RestCollectionModifyView<ChangeResource, ChangeEditResource, Post.Input> {
     public static class Input {
       public String restorePath;
       public String oldPath;

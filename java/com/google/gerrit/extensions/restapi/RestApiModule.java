@@ -30,6 +30,7 @@ public abstract class RestApiModule extends FactoryModule {
   protected static final String POST = "POST";
   protected static final String CREATE = "CREATE";
   protected static final String DELETE_MISSING = "DELETE_MISSING";
+  protected static final String DELETE_ON_COLLECTION = "DELETE_ON_COLLECTION";
   protected static final String POST_ON_COLLECTION = "POST_ON_COLLECTION";
 
   protected <R extends RestResource> ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
@@ -52,6 +53,12 @@ public abstract class RestApiModule extends FactoryModule {
       TypeLiteral<RestView<R>> viewType) {
     return new RestCollectionViewBinder<>(
         bind(viewType).annotatedWith(export(POST_ON_COLLECTION, "/")));
+  }
+
+  protected <R extends RestResource> RestCollectionViewBinder<R> deleteOnCollection(
+      TypeLiteral<RestView<R>> viewType) {
+    return new RestCollectionViewBinder<>(
+        bind(viewType).annotatedWith(export(DELETE_ON_COLLECTION, "/")));
   }
 
   protected <R extends RestResource> CreateViewBinder<R> create(TypeLiteral<RestView<R>> viewType) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fa2f97_824d6fec",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-18T22:41:50Z",
+      "side": 1,
+      "message": "So, this code unpacks zip dependencies into bower_components/${package}\nAnd results in resemblejs being placed not in node_modules/resemblejs but bower_components/node_modules/resemblejs",
+      "revId": "30c18cf10a4eee73da9bb950752c60827420ae4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1531907723 +0200\nnonce APISObRvT2cN2PYR9DDZVQNpNQ71P8YG0fPyM4oPnsI+hlRVLuZfzgkDf8E/JiEzwR3JYkVC0QVP\n\n0000000000000000000000000000000000000000 a9843595c8ad524aa4476a39d21841895d116e3a refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltPDosACgkQUbX9l6DQ\n71FJMwf9Hh4Xf5eXstw/z7eMwNEvaMtEXACsnFC/pzgIBHQ12FTkob4Ml23dKraJ\n8IubWT919TdBsznj8IwecX/m5gxYJHVhr6XbuOfGEZXfG3S6py4U2CfaXro1Yz5h\n8lWm8Yp+pDaL3kQHuJHsIu95QbyuS2tIonawjRTwpVSPP9U3gC2Jch1NcYsPcXDs\nK7mVSyg2pW5ekY/jLXuDOig4zygyn4Dj1+B/XBSU/CjEqDd9FUmLfdH0pcvWdBze\namXq+vUGYU5lMUhFq+E4iqTjuDjpk8wqSTYF2HJPrSCQtoq/VFeuzY+DxlmPmOWK\nt0CtKXEVaegxvL5C4L27ipOczMqb+g\u003d\u003d\n\u003dxCU7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc3183c5_94dcb584",
+        "filename": "java/com/google/gerrit/server/plugins/InstallPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T14:28:30Z",
+      "side": 1,
+      "message": "I\u0027m not immediately seeing how renaming all RestVERBView interfaces to RestCollectionVERBView improves readability. The only entities in our REST hierarchy are collections of resources, so \"Collection\" seems a bit redundant. What is it adding here? Would there ever be such a thing as a \"RestFOOCreateView\" where FOO !\u003d Collection?",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 41
+      },
+      "revId": "a9843595c8ad524aa4476a39d21841895d116e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

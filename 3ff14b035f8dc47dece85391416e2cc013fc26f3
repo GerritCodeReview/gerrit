@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "d4e29b84_3be5ad46",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestDeleteView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T08:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5156442c_89ed9442",
+      "range": {
+        "startLine": 18,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 81
+      },
+      "revId": "3ff14b035f8dc47dece85391416e2cc013fc26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c809e3e_20645a96",
         "filename": "java/com/google/gerrit/extensions/restapi/RestDeleteView.java",
         "patchSetId": 1
@@ -46,6 +70,30 @@
       "revId": "3ff14b035f8dc47dece85391416e2cc013fc26f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1537be47_7bcf0b5b",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestDeleteView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T08:39:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c809e3e_20645a96",
+      "range": {
+        "startLine": 18,
+        "startChar": 82,
+        "endLine": 19,
+        "endChar": 77
+      },
+      "revId": "3ff14b035f8dc47dece85391416e2cc013fc26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

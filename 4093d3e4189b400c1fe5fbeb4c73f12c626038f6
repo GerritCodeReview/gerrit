@@ -64,6 +64,24 @@
       "revId": "4093d3e4189b400c1fe5fbeb4c73f12c626038f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bafc095_1ce8b71c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/DeleteOnCollectionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T15:30:43Z",
+      "side": 1,
+      "message": "same as on the predecessor change: this does\u0027t seem to work as a lambda,\nsee https://gerrit-review.googlesource.com/c/gerrit/+/189531/3/javatests/com/google/gerrit/acceptance/rest/DeleteOnCollectionIT.java#45",
+      "parentUuid": "fc79c30b_5b29a7d6",
+      "revId": "4093d3e4189b400c1fe5fbeb4c73f12c626038f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

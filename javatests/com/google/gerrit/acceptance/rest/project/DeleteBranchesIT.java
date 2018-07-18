@@ -28,6 +28,7 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -64,7 +65,24 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteBranchesForbidden() throws Exception {
+  public void deleteOneBranchWithoutPermissionForbidden() throws Exception {
+    ImmutableList<String> branchToDelete = ImmutableList.of("refs/heads/test-1");
+
+    DeleteBranchesInput input = new DeleteBranchesInput();
+    input.branches = branchToDelete;
+    setApiUser(user);
+    try {
+      project().deleteBranches(input);
+      fail("Expected AuthException");
+    } catch (AuthException e) {
+      assertThat(e).hasMessageThat().isEqualTo("delete not permitted for refs/heads/test-1");
+    }
+    setApiUser(admin);
+    assertBranches(BRANCHES);
+  }
+
+  @Test
+  public void deleteMultiBranchesWithoutPermissionForbidden() throws Exception {
     DeleteBranchesInput input = new DeleteBranchesInput();
     input.branches = BRANCHES;
     setApiUser(user);

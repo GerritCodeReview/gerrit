@@ -23,9 +23,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
@@ -38,17 +36,12 @@ import java.io.IOException;
 public class DeleteBranch implements RestModifyView<BranchResource, Input> {
 
   private final Provider<InternalChangeQuery> queryProvider;
-  private final DeleteRef.Factory deleteRefFactory;
-  private final PermissionBackend permissionBackend;
+  private final DeleteRef deleteRef;
 
   @Inject
-  DeleteBranch(
-      Provider<InternalChangeQuery> queryProvider,
-      DeleteRef.Factory deleteRefFactory,
-      PermissionBackend permissionBackend) {
+  DeleteBranch(Provider<InternalChangeQuery> queryProvider, DeleteRef deleteRef) {
     this.queryProvider = queryProvider;
-    this.deleteRefFactory = deleteRefFactory;
-    this.permissionBackend = permissionBackend;
+    this.deleteRef = deleteRef;
   }
 
   @Override
@@ -60,14 +53,11 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
           "not allowed to delete branch " + rsrc.getBranchKey().get());
     }
 
-    permissionBackend.currentUser().ref(rsrc.getBranchKey()).check(RefPermission.DELETE);
-    rsrc.getProjectState().checkStatePermitsWrite();
-
     if (!queryProvider.get().setLimit(1).byBranchOpen(rsrc.getBranchKey()).isEmpty()) {
       throw new ResourceConflictException("branch " + rsrc.getBranchKey() + " has open changes");
     }
 
-    deleteRefFactory.create(rsrc).ref(rsrc.getRef()).prefix(R_HEADS).delete();
+    deleteRef.deleteSingleRef(rsrc.getProjectState(), rsrc.getRef(), R_HEADS);
     return Response.none();
   }
 }

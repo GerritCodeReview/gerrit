@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -30,11 +31,11 @@ import java.io.IOException;
 
 @Singleton
 public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBranchesInput> {
-  private final DeleteRef.Factory deleteRefFactory;
+  private final DeleteRef deleteRef;
 
   @Inject
-  DeleteBranches(DeleteRef.Factory deleteRefFactory) {
-    this.deleteRefFactory = deleteRefFactory;
+  DeleteBranches(DeleteRef deleteRef) {
+    this.deleteRef = deleteRef;
   }
 
   @Override
@@ -43,7 +44,8 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
     if (input == null || input.branches == null || input.branches.isEmpty()) {
       throw new BadRequestException("branches must be specified");
     }
-    deleteRefFactory.create(project).refs(input.branches).prefix(R_HEADS).delete();
+    deleteRef.deleteMultipleRefs(
+        project.getProjectState(), ImmutableSet.copyOf(input.branches), R_HEADS);
     return Response.none();
   }
 }

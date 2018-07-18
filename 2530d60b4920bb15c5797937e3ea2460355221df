@@ -57,6 +57,30 @@
       "revId": "2530d60b4920bb15c5797937e3ea2460355221df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49408bb0_f80c1051",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListDashboards.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-18T07:53:03Z",
+      "side": 1,
+      "message": "right. done in \nhttps://gerrit-review.googlesource.com/c/gerrit/+/189510",
+      "parentUuid": "bc6a9295_eb2ab207",
+      "range": {
+        "startLine": 108,
+        "startChar": 8,
+        "endLine": 111,
+        "endChar": 0
+      },
+      "revId": "2530d60b4920bb15c5797937e3ea2460355221df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

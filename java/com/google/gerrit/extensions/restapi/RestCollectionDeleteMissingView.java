@@ -15,25 +15,29 @@
 package com.google.gerrit.extensions.restapi;
 
 /**
- * RestView that supports accepting input and creating a resource.
+ * RestView that supports accepting input and deleting a resource that is missing.
  *
- * <p>The input must be supplied as JSON as the body of the HTTP request. Create views can be
- * invoked by the HTTP methods {@code PUT} and {@code POST}.
+ * <p>The RestDeleteMissingView solely exists to support a special case for creating a change edit
+ * by deleting a path in the non-existing change edit. This interface should not be used for new
+ * REST API's.
  *
- * <p>The RestCreateView is only invoked when the parse method of the {@code RestCollection} throws
- * {@link ResourceNotFoundException}, and hence the resource doesn't exist yet.
+ * <p>The input must be supplied as JSON as the body of the HTTP request. Delete views can be
+ * invoked by the HTTP method {@code DELETE}.
+ *
+ * <p>The RestDeleteMissingView is only invoked when the parse method of the {@code RestCollection}
+ * throws {@link ResourceNotFoundException}, and hence the resource doesn't exist yet.
  *
  * @param <P> type of the parent resource
- * @param <C> type of the child resource that is created
+ * @param <C> type of the child resource that id deleted
  * @param <I> type of input the JSON parser will parse the input into.
  */
-public interface RestCreateView<P extends RestResource, C extends RestResource, I>
-    extends RestView<C> {
+public interface RestCollectionDeleteMissingView<P extends RestResource, C extends RestResource, I>
+    extends RestCollectionView<P, C, I> {
 
   /**
-   * Process the view operation by creating the resource.
+   * Process the view operation by deleting the resource.
    *
-   * @param parentResource parent resource of the resource that should be created
+   * @param parentResource parent resource of the resource that should be deleted
    * @param input input after parsing from request.
    * @return result to return to the client. Use {@link BinaryResult} to avoid automatic conversion
    *     to JSON.

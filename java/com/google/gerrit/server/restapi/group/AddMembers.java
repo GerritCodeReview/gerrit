@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -216,7 +216,8 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     return result;
   }
 
-  public static class CreateMember implements RestCreateView<GroupResource, MemberResource, Input> {
+  public static class CreateMember
+      implements RestCollectionCreateView<GroupResource, MemberResource, Input> {
     private final AddMembers put;
 
     @Inject

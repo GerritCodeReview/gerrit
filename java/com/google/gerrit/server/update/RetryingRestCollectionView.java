@@ -17,12 +17,12 @@ package com.google.gerrit.server.update;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.RestCollectionView;
+import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestResource;
 
 public abstract class RetryingRestCollectionView<
         P extends RestResource, C extends RestResource, I, O>
-    implements RestCollectionView<P, C, I> {
+    implements RestCollectionModifyView<P, C, I> {
   private final RetryHelper retryHelper;
 
   protected RetryingRestCollectionView(RetryHelper retryHelper) {

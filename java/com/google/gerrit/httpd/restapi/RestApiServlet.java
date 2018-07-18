@@ -85,9 +85,10 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionDeleteMissingView;
+import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestCollectionView;
-import com.google.gerrit.extensions.restapi.RestCreateView;
-import com.google.gerrit.extensions.restapi.RestDeleteMissingView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -456,10 +457,10 @@ public class RestApiServlet extends HttpServlet {
             ServletUtils.consumeRequestBody(is);
           }
         }
-      } else if (viewData.view instanceof RestCreateView<?, ?, ?>) {
+      } else if (viewData.view instanceof RestCollectionCreateView<?, ?, ?>) {
         @SuppressWarnings("unchecked")
-        RestCreateView<RestResource, RestResource, Object> m =
-            (RestCreateView<RestResource, RestResource, Object>) viewData.view;
+        RestCollectionCreateView<RestResource, RestResource, Object> m =
+            (RestCollectionCreateView<RestResource, RestResource, Object>) viewData.view;
 
         Type type = inputType(m);
         inputRequestBody = parseRequest(req, type);
@@ -469,10 +470,10 @@ public class RestApiServlet extends HttpServlet {
             ServletUtils.consumeRequestBody(is);
           }
         }
-      } else if (viewData.view instanceof RestDeleteMissingView<?, ?, ?>) {
+      } else if (viewData.view instanceof RestCollectionDeleteMissingView<?, ?, ?>) {
         @SuppressWarnings("unchecked")
-        RestDeleteMissingView<RestResource, RestResource, Object> m =
-            (RestDeleteMissingView<RestResource, RestResource, Object>) viewData.view;
+        RestCollectionDeleteMissingView<RestResource, RestResource, Object> m =
+            (RestCollectionDeleteMissingView<RestResource, RestResource, Object>) viewData.view;
 
         Type type = inputType(m);
         inputRequestBody = parseRequest(req, type);
@@ -482,10 +483,10 @@ public class RestApiServlet extends HttpServlet {
             ServletUtils.consumeRequestBody(is);
           }
         }
-      } else if (viewData.view instanceof RestCollectionView<?, ?, ?>) {
+      } else if (viewData.view instanceof RestCollectionModifyView<?, ?, ?>) {
         @SuppressWarnings("unchecked")
-        RestCollectionView<RestResource, RestResource, Object> m =
-            (RestCollectionView<RestResource, RestResource, Object>) viewData.view;
+        RestCollectionModifyView<RestResource, RestResource, Object> m =
+            (RestCollectionModifyView<RestResource, RestResource, Object>) viewData.view;
 
         Type type = inputType(m);
         inputRequestBody = parseRequest(req, type);
@@ -819,42 +820,6 @@ public class RestApiServlet extends HttpServlet {
         typeLiteral,
         supertypeLiteral);
     return ((ParameterizedType) supertype).getActualTypeArguments()[1];
-  }
-
-  private static Type inputType(RestCreateView<RestResource, RestResource, Object> m) {
-    // MyCreateView implements RestCreateView<SomeResource, SomeResource, MyInput>
-    TypeLiteral<?> typeLiteral = TypeLiteral.get(m.getClass());
-
-    // RestCreateView<SomeResource, SomeResource, MyInput>
-    // This is smart enough to resolve even when there are intervening subclasses, even if they have
-    // reordered type arguments.
-    TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestCreateView.class);
-
-    Type supertype = supertypeLiteral.getType();
-    checkState(
-        supertype instanceof ParameterizedType,
-        "supertype of %s is not parameterized: %s",
-        typeLiteral,
-        supertypeLiteral);
-    return ((ParameterizedType) supertype).getActualTypeArguments()[2];
-  }
-
-  private static Type inputType(RestDeleteMissingView<RestResource, RestResource, Object> m) {
-    // MyCreateView implements RestDeleteMissingView<SomeResource, SomeResource, MyInput>
-    TypeLiteral<?> typeLiteral = TypeLiteral.get(m.getClass());
-
-    // RestDeleteMissingView<SomeResource, SomeResource, MyInput>
-    // This is smart enough to resolve even when there are intervening subclasses, even if they have
-    // reordered type arguments.
-    TypeLiteral<?> supertypeLiteral = typeLiteral.getSupertype(RestDeleteMissingView.class);
-
-    Type supertype = supertypeLiteral.getType();
-    checkState(
-        supertype instanceof ParameterizedType,
-        "supertype of %s is not parameterized: %s",
-        typeLiteral,
-        supertypeLiteral);
-    return ((ParameterizedType) supertype).getActualTypeArguments()[2];
   }
 
   private static Type inputType(RestCollectionView<RestResource, RestResource, Object> m) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dca5fdb4_4195ee8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-18T14:30:50Z",
+      "side": 1,
+      "message": "Considering that you want to continue the approach chosen by RawText#isMissingNewlineAtEnd, I think that DiffEntry/FileHeader would need an indicator for an added/deleted/unchanged newline at the end. This could be a method which returns an enum (say NewlineAtEnd) with the values ADDED, DELETED, UNCHANGED.\n\nIt\u0027s not ideal as developers need to know to call this additional method on a DiffEntry/FileHeader but probably better than nothing. It would also allow us to move part of the workaround I added with this change closer to where we compute the JGit diff.\n\nIf possible, I would rather teach JGit to emit edits which aren\u0027t truncated at the end and to return an empty string instead of an exception when asked for the content of the last line with only a newline character. This could also be a special mode which is switched off by default if we don\u0027t want to break other existing code. I guess this isn\u0027t a variant I can ask for, is it?",
+      "parentUuid": "4c8283b4_5f032c46",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "7eff37c7b6f4649caf307d75004b337d139f157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61e52d93_f570a5b4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "7eff37c7b6f4649caf307d75004b337d139f157f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bf8725d_cc93000c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-18T14:30:50Z",
+      "side": 1,
+      "message": "RawText#isMissingNewlineAtEnd",
+      "parentUuid": "61e52d93_f570a5b4",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 27
+      },
+      "revId": "7eff37c7b6f4649caf307d75004b337d139f157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

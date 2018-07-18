@@ -56,7 +56,8 @@ def extract(path, outdir, bin):
                 extract_one(mem)
         # Extract bin last so other processes only short circuit when
         # extraction is finished.
-        extract_one(tar.getmember(bin))
+        if bin in tar.getnames():
+            extract_one(tar.getmember(bin))
 
 
 def main(args):
@@ -77,7 +78,9 @@ def main(args):
     sha1 = hashlib.sha1(open(path, 'rb').read()).hexdigest()
     outdir = '%s-%s' % (path[:-len(suffix)], sha1)
     rel_bin = os.path.join('package', 'bin', name)
+    rel_lib_bin = os.path.join('package', 'lib', 'bin', name + '.js')
     bin = os.path.join(outdir, rel_bin)
+    libbin = os.path.join(outdir, rel_lib_bin)
     if not os.path.isfile(bin):
         extract(path, outdir, rel_bin)
 
@@ -85,7 +88,12 @@ def main(args):
     if nodejs:
         # Debian installs Node.js as 'nodejs', due to a conflict with another
         # package.
-        subprocess.check_call([nodejs, bin] + args[1:])
+        if not os.path.isfile(bin) and os.path.isfile(libbin):
+            subprocess.check_call([nodejs, libbin] + args[1:])
+        else:
+            subprocess.check_call([nodejs, bin] + args[1:])
+    elif not os.path.isfile(bin) and os.path.isfile(libbin):
+        subprocess.check_call([libbin] + args[1:])
     else:
         subprocess.check_call([bin] + args[1:])
 

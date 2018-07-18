@@ -955,7 +955,7 @@ npm_binary(
 )
 
 npm_binary(
-    name = "vulcanize",
+    name = "polymer-bundler",
     repository = GERRIT,
 )
 

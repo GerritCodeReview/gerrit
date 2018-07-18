@@ -18,7 +18,8 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
+import com.google.gerrit.server.change.ChangeEditResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -29,8 +30,8 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Singleton
-public class DeleteChangeEdit implements RestModifyView<ChangeResource, Input> {
-
+public class DeleteChangeEdit
+    implements RestCollectionModifyView<ChangeResource, ChangeEditResource, Input> {
   private final ChangeEditUtil editUtil;
 
   @Inject

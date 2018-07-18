@@ -173,7 +173,7 @@ public class Module extends RestApiModule {
     create(CHANGE_EDIT_KIND).to(ChangeEdits.Create.class);
     deleteMissing(CHANGE_EDIT_KIND).to(ChangeEdits.DeleteFile.class);
     postOnCollection(CHANGE_EDIT_KIND).to(ChangeEdits.Post.class);
-    delete(CHANGE_KIND, "edit").to(DeleteChangeEdit.class);
+    deleteOnCollection(CHANGE_EDIT_KIND).to(DeleteChangeEdit.class);
     child(CHANGE_KIND, "edit:publish").to(PublishChangeEdit.class);
     postOnCollection(CHANGE_EDIT_PUBLISH_KIND).to(PublishChangeEdit.Publish.class);
     child(CHANGE_KIND, "edit:rebase").to(RebaseChangeEdit.class);

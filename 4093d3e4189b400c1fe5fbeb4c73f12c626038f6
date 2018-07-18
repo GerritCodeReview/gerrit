@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "35f51d3f_6566b146",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T22:49:06Z",
+      "side": 1,
+      "message": "Even given that I now agree with the preceding change, I\u0027m not convinced here. \"Delete all entities of type X on the server\" just really doesn\u0027t sound like something we would want to support.\n\nWhat place in the code were you looking at when you became confused? Would it help if instead we added a comment at that place? If the choice is between adding a comment and adding code that is only ever exercised in tests, I would prefer the comment.",
+      "parentUuid": "721ccecd_bf72ce30",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "4093d3e4189b400c1fe5fbeb4c73f12c626038f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc79c30b_5b29a7d6",
         "filename": "javatests/com/google/gerrit/acceptance/rest/DeleteOnCollectionIT.java",
         "patchSetId": 3

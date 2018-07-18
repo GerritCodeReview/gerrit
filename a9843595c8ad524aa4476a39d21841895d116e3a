@@ -23,6 +23,30 @@
       "revId": "a9843595c8ad524aa4476a39d21841895d116e3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55f50636_738433a1",
+        "filename": "java/com/google/gerrit/server/plugins/InstallPlugin.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T15:01:04Z",
+      "side": 1,
+      "message": "The purpose of this change is to remove duplicate code in RestApiServlet (the code that extracts the input type from the interface definition). We had almost the same code 3 times for RestCollectionView, RestCreateView and RestDeleteMissingView. We can have this code only once if all of these extend a common interface. Since all of these views are about collections, I thought naming this common interface \u0027RestCollectionView\u0027 is the best. But then I needed a new name for what is \u0027RestCollectionView\u0027 now and renamed it to \u0027RestCollectionModifyView\u0027 as this name is consistent with the existing \u0027RestModifyView\u0027 for views that modify REST resources. CREATE and DELETE_MISSING will always be supported for collections only. So we could keep them as \u0027RestCreateView\u0027 and \u0027RestDeleteMissingView\u0027, but for name consistency with \u0027RestCollectionModifyView\u0027 I added the \u0027Collection\u0027 part to their names too.",
+      "parentUuid": "cc3183c5_94dcb584",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 41
+      },
+      "revId": "a9843595c8ad524aa4476a39d21841895d116e3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

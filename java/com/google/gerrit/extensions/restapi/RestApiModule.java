@@ -169,21 +169,22 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
-    public <P extends RestResource, T extends RestCollectionView<P, C, ?>> ScopedBindingBuilder to(
-        Class<T> impl) {
+    public <P extends RestResource, T extends RestCollectionModifyView<P, C, ?>>
+        ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
     }
 
-    public <P extends RestResource, T extends RestCollectionView<P, C, ?>> void toInstance(T impl) {
+    public <P extends RestResource, T extends RestCollectionModifyView<P, C, ?>> void toInstance(
+        T impl) {
       binder.toInstance(impl);
     }
 
-    public <P extends RestResource, T extends RestCollectionView<P, C, ?>>
+    public <P extends RestResource, T extends RestCollectionModifyView<P, C, ?>>
         ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
-    public <P extends RestResource, T extends RestCollectionView<P, C, ?>>
+    public <P extends RestResource, T extends RestCollectionModifyView<P, C, ?>>
         ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
     }
@@ -196,21 +197,22 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
-    public <P extends RestResource, T extends RestCreateView<P, C, ?>> ScopedBindingBuilder to(
-        Class<T> impl) {
+    public <P extends RestResource, T extends RestCollectionCreateView<P, C, ?>>
+        ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
     }
 
-    public <P extends RestResource, T extends RestCreateView<P, C, ?>> void toInstance(T impl) {
+    public <P extends RestResource, T extends RestCollectionCreateView<P, C, ?>> void toInstance(
+        T impl) {
       binder.toInstance(impl);
     }
 
-    public <P extends RestResource, T extends RestCreateView<P, C, ?>>
+    public <P extends RestResource, T extends RestCollectionCreateView<P, C, ?>>
         ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
-    public <P extends RestResource, T extends RestCreateView<P, C, ?>>
+    public <P extends RestResource, T extends RestCollectionCreateView<P, C, ?>>
         ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
     }
@@ -223,22 +225,22 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
-    public <P extends RestResource, T extends RestDeleteMissingView<P, C, ?>>
+    public <P extends RestResource, T extends RestCollectionDeleteMissingView<P, C, ?>>
         ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
     }
 
-    public <P extends RestResource, T extends RestDeleteMissingView<P, C, ?>> void toInstance(
-        T impl) {
+    public <P extends RestResource, T extends RestCollectionDeleteMissingView<P, C, ?>>
+        void toInstance(T impl) {
       binder.toInstance(impl);
     }
 
-    public <P extends RestResource, T extends RestDeleteMissingView<P, C, ?>>
+    public <P extends RestResource, T extends RestCollectionDeleteMissingView<P, C, ?>>
         ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
-    public <P extends RestResource, T extends RestDeleteMissingView<P, C, ?>>
+    public <P extends RestResource, T extends RestCollectionDeleteMissingView<P, C, ?>>
         ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
     }

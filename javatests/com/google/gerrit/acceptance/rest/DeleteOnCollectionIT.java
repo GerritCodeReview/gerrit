@@ -22,7 +22,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.extensions.restapi.RestCollectionView;
+import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Module;
@@ -36,7 +36,7 @@ public class DeleteOnCollectionIT extends AbstractDaemonTest {
       public void configure() {
         deleteOnCollection(BRANCH_KIND)
             .toInstance(
-                new RestCollectionView<ProjectResource, BranchResource, Object>() {
+                new RestCollectionModifyView<ProjectResource, BranchResource, Object>() {
                   @Override
                   public Object apply(ProjectResource parentResource, Object input)
                       throws Exception {

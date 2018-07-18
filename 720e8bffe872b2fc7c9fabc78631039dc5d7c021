@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84c37aa8_1a869fe4",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-18T23:53:36Z",
+      "side": 1,
+      "message": "I don\u0027t think this line should have been changed; the quotes are not used in the actual query.\n\nOr if we do need to change it, it should consistently be changed for the \"LINES\" part too.",
+      "revId": "720e8bffe872b2fc7c9fabc78631039dc5d7c021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f273303_c0b55299",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-18T23:53:36Z",
+      "side": 1,
+      "message": "Same here, I\u0027m not sure if this needed to be changed.",
+      "revId": "720e8bffe872b2fc7c9fabc78631039dc5d7c021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -60,9 +60,9 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);
 
+    setApiUser(admin);
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Patch set is not a draft");
-    setApiUser(admin);
     deletePatchSet(changeId, ps);
   }
 
@@ -75,9 +75,9 @@ public class DeleteDraftPatchSetIT extends AbstractDaemonTest {
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.status).isEqualTo(ChangeStatus.DRAFT);
 
+    setApiUser(user);
     exception.expect(ResourceNotFoundException.class);
     exception.expectMessage("Not found: " + changeId);
-    setApiUser(user);
     deletePatchSet(changeId, ps);
   }
 

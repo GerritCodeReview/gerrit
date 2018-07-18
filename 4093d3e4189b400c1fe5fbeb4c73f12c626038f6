@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "721ccecd_bf72ce30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T14:53:54Z",
+      "side": 1,
+      "message": "I don\u0027t have any use-case for this, but when I was looking at this I was pretty confused that DELETE on a child collection works, but DELETE on a root collection is not supported. Since this is like 6 lines of extra code, I thought it\u0027s better to make this work and have all code for DELETE and CREATE on collections consistent.",
+      "parentUuid": "447d967f_9361c137",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "4093d3e4189b400c1fe5fbeb4c73f12c626038f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fc79c30b_5b29a7d6",
         "filename": "javatests/com/google/gerrit/acceptance/rest/DeleteOnCollectionIT.java",
         "patchSetId": 3

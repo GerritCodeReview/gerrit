@@ -30,7 +30,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -49,16 +48,11 @@ class ChangeControl {
   static class Factory {
     private final ChangeData.Factory changeDataFactory;
     private final ChangeNotes.Factory notesFactory;
-    private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
     @Inject
-    Factory(
-        ChangeData.Factory changeDataFactory,
-        ChangeNotes.Factory notesFactory,
-        IdentifiedUser.GenericFactory identifiedUserFactory) {
+    Factory(ChangeData.Factory changeDataFactory, ChangeNotes.Factory notesFactory) {
       this.changeDataFactory = changeDataFactory;
       this.notesFactory = notesFactory;
-      this.identifiedUserFactory = identifiedUserFactory;
     }
 
     ChangeControl create(
@@ -68,22 +62,17 @@ class ChangeControl {
     }
 
     ChangeControl create(RefControl refControl, ChangeNotes notes) {
-      return new ChangeControl(changeDataFactory, identifiedUserFactory, refControl, notes);
+      return new ChangeControl(changeDataFactory, refControl, notes);
     }
   }
 
   private final ChangeData.Factory changeDataFactory;
-  private final IdentifiedUser.GenericFactory identifiedUserFactory;
   private final RefControl refControl;
   private final ChangeNotes notes;
 
   private ChangeControl(
-      ChangeData.Factory changeDataFactory,
-      IdentifiedUser.GenericFactory identifiedUserFactory,
-      RefControl refControl,
-      ChangeNotes notes) {
+      ChangeData.Factory changeDataFactory, RefControl refControl, ChangeNotes notes) {
     this.changeDataFactory = changeDataFactory;
-    this.identifiedUserFactory = identifiedUserFactory;
     this.refControl = refControl;
     this.notes = notes;
   }

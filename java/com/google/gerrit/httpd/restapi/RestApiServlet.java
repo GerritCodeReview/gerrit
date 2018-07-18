@@ -316,6 +316,14 @@ public class RestApiServlet extends HttpServlet {
           } else {
             throw new MethodNotAllowedException();
           }
+        } else if (isDelete(req)) {
+          RestView<RestResource> restCollectionView =
+              rc.views().get("gerrit", "DELETE_ON_COLLECTION./");
+          if (restCollectionView != null) {
+            viewData = new ViewData(null, restCollectionView);
+          } else {
+            throw new MethodNotAllowedException();
+          }
         }
       } else {
         IdString id = path.remove(0);

@@ -163,8 +163,16 @@ public class CommentJsonMigratorTest extends AbstractChangeNotesTest {
     assertThat(getLegacyFormatMapForPublishedComments(notes, oldLog.get(3)))
         .containsExactly(ps1Comment1.key, true, ps1Comment2.key, true, ps2Comment1.key, true);
 
+    // Check that dryRun doesn't touch anything.
+    String refName = RefNames.changeMetaRef(c.getId());
+    ObjectId before = repo.getRefDatabase().getRef(refName).getObjectId();
+    ProjectMigrationResult dryRunResult = migrator.migrateProject(project, repo, true);
+    ObjectId after = repo.getRefDatabase().getRef(refName).getObjectId();
+    assertThat(before).isEqualTo(after);
+    assertThat(dryRunResult.refsUpdated).isEqualTo(ImmutableList.of(refName));
+
     ChangeNotes oldNotes = notes;
-    checkMigrate(project, ImmutableList.of(RefNames.changeMetaRef(c.getId())));
+    checkMigrate(project, ImmutableList.of(refName));
 
     // Comment content is the same.
     notes = newNotes(c);

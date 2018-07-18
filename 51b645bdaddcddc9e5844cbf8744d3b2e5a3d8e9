@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f380d027_02565aaa",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommentJsonMigratorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T11:37:23Z",
+      "side": 1,
+      "message": "[optional] Also check that dryRunResult.ok is true.",
+      "revId": "51b645bdaddcddc9e5844cbf8744d3b2e5a3d8e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

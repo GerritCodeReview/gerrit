@@ -26,6 +26,30 @@
     },
     {
       "key": {
+        "uuid": "561cbe9d_76ce8e1e",
+        "filename": "java/com/google/gerrit/common/data/GroupReference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T11:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7a363f_e6b61691",
+      "range": {
+        "startLine": 76,
+        "startChar": 31,
+        "endLine": 76,
+        "endChar": 56
+      },
+      "revId": "8b158f7f2ef4a34bb720748e0b5f33c7049d714c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90059644_9d6a54ad",
         "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2018-07-12T08:54:45Z",
       "side": 1,
       "message": "Here and below: The hashCode() contract says that two objects which are unequal according to the equals() method may still have the same hashcode. Since we internally defer to the JDK\u0027s hashcode implementation of the UUID string, this assertion might not be true on all JVMs.",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 84
+      },
+      "revId": "8b158f7f2ef4a34bb720748e0b5f33c7049d714c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45b9f487_5521676f",
+        "filename": "javatests/com/google/gerrit/common/data/GroupReferenceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-18T11:30:59Z",
+      "side": 1,
+      "message": "Good point. Done",
+      "parentUuid": "90059644_9d6a54ad",
       "range": {
         "startLine": 168,
         "startChar": 4,

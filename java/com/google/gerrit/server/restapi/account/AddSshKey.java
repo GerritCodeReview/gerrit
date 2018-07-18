@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestCollectionView;
+import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
@@ -47,7 +47,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class AddSshKey
-    implements RestCollectionView<AccountResource, AccountResource.SshKey, SshKeyInput> {
+    implements RestCollectionModifyView<AccountResource, AccountResource.SshKey, SshKeyInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<CurrentUser> self;

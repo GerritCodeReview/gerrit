@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -132,7 +132,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   }
 
   public static class CreateSubgroup
-      implements RestCreateView<GroupResource, SubgroupResource, Input> {
+      implements RestCollectionCreateView<GroupResource, SubgroupResource, Input> {
     private final AddSubgroups addSubgroups;
 
     @Inject

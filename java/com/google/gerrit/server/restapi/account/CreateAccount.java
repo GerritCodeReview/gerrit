@@ -32,7 +32,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -64,7 +64,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
 public class CreateAccount
-    implements RestCreateView<TopLevelResource, AccountResource, AccountInput> {
+    implements RestCollectionCreateView<TopLevelResource, AccountResource, AccountInput> {
   private final Sequences seq;
   private final GroupsCollection groupsCollection;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;

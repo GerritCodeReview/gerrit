@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DashboardResource;
 import com.google.gerrit.server.project.ProjectResource;
@@ -32,7 +32,7 @@ import org.kohsuke.args4j.Option;
 
 @Singleton
 public class CreateDashboard
-    implements RestCreateView<ProjectResource, DashboardResource, SetDashboardInput> {
+    implements RestCollectionCreateView<ProjectResource, DashboardResource, SetDashboardInput> {
   private final Provider<SetDefaultDashboard> setDefault;
 
   @Option(name = "--inherited", usage = "set dashboard inherited by children")

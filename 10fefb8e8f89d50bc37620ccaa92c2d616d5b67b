@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "b17737b8_03e93a0a",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-18T07:38:35Z",
+      "side": 1,
+      "message": "repeating \"Gerrit\" too much?",
+      "range": {
+        "startLine": 9,
+        "startChar": 74,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc53af19_3f48d204",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-18T07:38:35Z",
+      "side": 1,
+      "message": "drop",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9301759_1ce95fae",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2

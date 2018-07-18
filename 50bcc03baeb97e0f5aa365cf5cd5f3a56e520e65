@@ -85,6 +85,24 @@
     },
     {
       "key": {
+        "uuid": "35eb0b6a_43d81a9a",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T22:45:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "353715fa_18237045",
+      "revId": "50bcc03baeb97e0f5aa365cf5cd5f3a56e520e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0ae96ad_601b24a5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/DeleteOnCollectionIT.java",
         "patchSetId": 3
@@ -129,6 +147,30 @@
       "revId": "50bcc03baeb97e0f5aa365cf5cd5f3a56e520e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08e28ac9_f6b7a575",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/DeleteOnCollectionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T22:45:59Z",
+      "side": 1,
+      "message": "Ah, because it uses reflection, and lambdas don\u0027t play well with reflection. Ack.",
+      "parentUuid": "3e292eff_1b32e7f7",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "50bcc03baeb97e0f5aa365cf5cd5f3a56e520e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

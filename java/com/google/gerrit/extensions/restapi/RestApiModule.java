@@ -29,6 +29,7 @@ public abstract class RestApiModule extends FactoryModule {
   protected static final String DELETE = "DELETE";
   protected static final String POST = "POST";
   protected static final String CREATE = "CREATE";
+  protected static final String DELETE_MISSING = "DELETE_MISSING";
   protected static final String POST_ON_COLLECTION = "POST_ON_COLLECTION";
 
   protected <R extends RestResource> ReadViewBinder<R> get(TypeLiteral<RestView<R>> viewType) {
@@ -55,6 +56,11 @@ public abstract class RestApiModule extends FactoryModule {
 
   protected <R extends RestResource> CreateViewBinder<R> create(TypeLiteral<RestView<R>> viewType) {
     return new CreateViewBinder<>(bind(viewType).annotatedWith(export(CREATE, "/")));
+  }
+
+  protected <R extends RestResource> DeleteViewBinder<R> deleteMissing(
+      TypeLiteral<RestView<R>> viewType) {
+    return new DeleteViewBinder<>(bind(viewType).annotatedWith(export(DELETE_MISSING, "/")));
   }
 
   protected <R extends RestResource> ReadViewBinder<R> get(
@@ -198,6 +204,34 @@ public abstract class RestApiModule extends FactoryModule {
     }
 
     public <P extends RestResource, T extends RestCreateView<P, C, ?>>
+        ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
+      return binder.toProvider(provider);
+    }
+  }
+
+  public static class DeleteViewBinder<C extends RestResource> {
+    private final LinkedBindingBuilder<RestView<C>> binder;
+
+    private DeleteViewBinder(LinkedBindingBuilder<RestView<C>> binder) {
+      this.binder = binder;
+    }
+
+    public <P extends RestResource, T extends RestDeleteMissingView<P, C, ?>>
+        ScopedBindingBuilder to(Class<T> impl) {
+      return binder.to(impl);
+    }
+
+    public <P extends RestResource, T extends RestDeleteMissingView<P, C, ?>> void toInstance(
+        T impl) {
+      binder.toInstance(impl);
+    }
+
+    public <P extends RestResource, T extends RestDeleteMissingView<P, C, ?>>
+        ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
+      return binder.toProvider(providerType);
+    }
+
+    public <P extends RestResource, T extends RestDeleteMissingView<P, C, ?>>
         ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
     }

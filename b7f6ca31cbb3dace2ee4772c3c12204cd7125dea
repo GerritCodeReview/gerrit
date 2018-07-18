@@ -124,6 +124,24 @@
       "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0588dd28_441bfd2c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T22:41:55Z",
+      "side": 1,
+      "message": "If we agree that our official position should be \"do not use DELETE\" (and I agree with Jonathan that it should), then we should explicitly list DELETE as deprecated, with some explanation in the release notes saying why.\n\nFor this change, we should just not implement DELETE on this endpoint, and obviously update the documentation in this section. Jonathan, do you agree?\n\nUpdating all the other documentation to remove the disrecommended examples and make the deprecation official is beyond the scope of this change, but we should probably do it sooner rather than later.",
+      "parentUuid": "66af183a_18242357",
+      "revId": "b7f6ca31cbb3dace2ee4772c3c12204cd7125dea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

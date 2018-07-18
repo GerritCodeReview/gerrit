@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9cc2d04_2f9cfae7",
+        "filename": "java/com/google/gerrit/server/ioutil/HostPlatform.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2018-07-18T07:44:37Z",
+      "side": 1,
+      "message": "Copyright year doesn\u0027t need to be changed; the content of the file is mostly unchanged from the previous version.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d8d9ac788c38660b2868c857c8cc3842458448ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,4 +1,68 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1531907723 +0200\nnonce APISObRvT2cN2PYR9DDZVQNpNQ71P8YG0fPyM4oPnsI+hlRVLuZfzgkDf8E/JiEzwR3JYkVC0QVP\n\n0000000000000000000000000000000000000000 a9843595c8ad524aa4476a39d21841895d116e3a refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAltPDosACgkQUbX9l6DQ\n71FJMwf9Hh4Xf5eXstw/z7eMwNEvaMtEXACsnFC/pzgIBHQ12FTkob4Ml23dKraJ\n8IubWT919TdBsznj8IwecX/m5gxYJHVhr6XbuOfGEZXfG3S6py4U2CfaXro1Yz5h\n8lWm8Yp+pDaL3kQHuJHsIu95QbyuS2tIonawjRTwpVSPP9U3gC2Jch1NcYsPcXDs\nK7mVSyg2pW5ekY/jLXuDOig4zygyn4Dj1+B/XBSU/CjEqDd9FUmLfdH0pcvWdBze\namXq+vUGYU5lMUhFq+E4iqTjuDjpk8wqSTYF2HJPrSCQtoq/VFeuzY+DxlmPmOWK\nt0CtKXEVaegxvL5C4L27ipOczMqb+g\u003d\u003d\n\u003dxCU7\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "76cbc52a_4ea492f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T14:20:45Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 16,
+        "startChar": 53,
+        "endLine": 16,
+        "endChar": 59
+      },
+      "revId": "50bcc03baeb97e0f5aa365cf5cd5f3a56e520e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cd5c4f2_2bf302a1",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T14:20:45Z",
+      "side": 1,
+      "message": "Add a message here?\n\nSince some actual method handlers do \"really\" return 405, putting no message here makes it hard to distinguish whether the 405 came from RestApiServlet or the handler.",
+      "revId": "50bcc03baeb97e0f5aa365cf5cd5f3a56e520e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0ae96ad_601b24a5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/DeleteOnCollectionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010008
+      },
+      "writtenOn": "2018-07-18T14:20:45Z",
+      "side": 1,
+      "message": "Can this just be a lambda?",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "50bcc03baeb97e0f5aa365cf5cd5f3a56e520e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

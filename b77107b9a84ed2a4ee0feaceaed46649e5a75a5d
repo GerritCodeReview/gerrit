@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8705682_e74dabfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-18T12:27:41Z",
+      "side": 1,
+      "message": "This depends. If the newline character at the end of the line is excluded from the range, then the end line is 5996. If the newline character is included (probably only possible to specify via the REST API) and hence really the whole line is marked, the end line is 5997. I can imagine that this can occur especially for robot comments.",
+      "range": {
+        "startLine": 13,
+        "startChar": 24,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "b77107b9a84ed2a4ee0feaceaed46649e5a75a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12a7905b_bf22547a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-18T12:27:41Z",
+      "side": 1,
+      "message": "You\u0027re absolutely right here. The documentation is wrong regarding the end line. We had the behavior first and I added the documentation regarding 0/1-based and inclusive/exclusive 1.5 years ago after being confused by Gerrit\u0027s behavior and digging through the code to find out how it really works. I was probably thinking too much of the 1:0-2:0 case. Even for that case, considering end line as inclusive would be right.\n\nI don\u0027t think that we need the comment in the commit message which says that it\u0027s easier to change the documentation than the current behavior. As detailed above, I just got the documentation wrong.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 44
+      },
+      "revId": "b77107b9a84ed2a4ee0feaceaed46649e5a75a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4ff30b8_1b4e17cf",
+        "filename": "java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-18T12:27:41Z",
+      "side": 1,
+      "message": "Please do exactly the same as here for com.google.gerrit.reviewdb.client.Comment.Range.",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 27
+      },
+      "revId": "b77107b9a84ed2a4ee0feaceaed46649e5a75a5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

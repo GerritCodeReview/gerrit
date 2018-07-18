@@ -116,6 +116,30 @@
       "revId": "401825a5b1ddb78cf0e9a45c722b311d9c2d495f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a03160_8eb3dd18",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6005,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-18T12:27:41Z",
+      "side": 1,
+      "message": "If you think that it\u0027s clearer to talk about inclusive/exclusive in terms of tuples e.g. (end_line, end_character), feel free to adjust the documentation accordingly.\n\n\u003e Then the questions become:\n\u003e What does end_character default to if omitted?\n\nThat\u0027s not possible. If a range is specified, it must include all four parameters. We have three types of comments: file comments (no range), single line comments (no range), range comments (complete range).\n\n\u003e What happens if the range is empty or invalid?\n\nIt\u0027s possible to specify an empty range (e.g. 1:0-1:0). No idea if/how such a comment is displayed. For invalid see below.\n\nBy the way, such ranges are also used for fix suggestions of robot comments. In that context, empty ranges are used to insert new code/text without replacing any existing content.\n\n\u003e Gerrit folks, does anyone know right now what should happen if an invalid range is given? Would Gerrit be tolerant and try to \"fix\" it, or would it just reject the comment?\n\nA comment with an invalid range will be rejected if we can easily detect that it is invalid. Invalid aspects we detect:\n* start line \u003c\u003d 0\n* start character \u003c 0\n* end line \u003c\u003d 0\n* end character \u003c 0\n* start line \u003e end line\n* start line \u003d\u003d end line \u0026\u0026 start character \u003e end character\n\nWhat we can\u0027t easily detect is if the comment is outside of the available content of a file (too high line or too high character in a line). We simply accept those comments and hand them out when the REST endpoint is called.\n\nI\u0027m not sure how PolyGerrit handles such comments which are outside of the content. I remember a complaint that a comment on a last line containing only a newline wasn\u0027t shown prior to I1e15767fc1. So, I guess that comments on too high lines are simply omitted on the diff screen. No idea whether comments on too high characters show the same behavior.\n\n\u003e I think that explaining it as a range of characters from start (line, char) to end (line, char), and the ending bound is exclusive, makes sense to me.\n\nTo me, too.\n\n\u003e I would think the range (1,0):(2,0) would be all of line 1 and none of line 2. I imagine this was the thinking when saying end_line is exclusive.\n\nExactly.",
+      "parentUuid": "97f6bdef_5968ef74",
+      "range": {
+        "startLine": 6004,
+        "startChar": 0,
+        "endLine": 6005,
+        "endChar": 0
+      },
+      "revId": "401825a5b1ddb78cf0e9a45c722b311d9c2d495f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

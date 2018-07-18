@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9f4ddaec_22527736",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-18T14:40:32Z",
+      "side": 1,
+      "message": "\u003e Considering that you want\n\nJust to be clear, I wasn\u0027t proposing any particular answer, just trying to figure out what API change you were suggesting.\n\n\u003e If possible, I would rather teach JGit to emit edits which aren\u0027t truncated at the end and to return an empty string instead of an exception when asked for the content of the last line with only a newline character. This could also be a special mode which is switched off by default if we don\u0027t want to break other existing code.\n\nSounds like a reasonable thing to add. Ironically this is what I thought you meant when you said \"the flag approach\". :)",
+      "parentUuid": "dca5fdb4_4195ee8e",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "7eff37c7b6f4649caf307d75004b337d139f157f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61e52d93_f570a5b4",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -68,7 +68,6 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.TimeUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.restapi.AcceptsDelete;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -374,10 +373,14 @@ public class RestApiServlet extends HttpServlet {
             } else {
               throw new MethodNotAllowedException();
             }
-          } else if (c instanceof AcceptsDelete && isDelete(req)) {
-            @SuppressWarnings("unchecked")
-            AcceptsDelete<RestResource> ac = (AcceptsDelete<RestResource>) c;
-            viewData = new ViewData(null, ac.delete(rsrc));
+          } else if (isDelete(req)) {
+            RestView<RestResource> restCollectionView =
+                c.views().get(viewData.pluginName, "DELETE_ON_COLLECTION./");
+            if (restCollectionView != null) {
+              viewData = new ViewData(null, restCollectionView);
+            } else {
+              throw new MethodNotAllowedException();
+            }
           } else {
             throw new MethodNotAllowedException();
           }

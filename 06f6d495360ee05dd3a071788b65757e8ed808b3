@@ -22,6 +22,30 @@
       "revId": "06f6d495360ee05dd3a071788b65757e8ed808b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45ebbede_df90faf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2018-07-18T07:51:12Z",
+      "side": 1,
+      "message": "Yes. Will add tests.",
+      "parentUuid": "f1d7d1e5_7201e694",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "06f6d495360ee05dd3a071788b65757e8ed808b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

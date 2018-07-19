@@ -23,6 +23,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
 import java.io.OutputStream;
@@ -80,7 +81,8 @@ public class LegacyChangeNoteWrite {
    *     the same side.
    * @param out output stream to write to.
    */
-  void buildNote(ListMultimap<Integer, Comment> comments, OutputStream out) {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public void buildNote(ListMultimap<Integer, Comment> comments, OutputStream out) {
     if (comments.isEmpty()) {
       return;
     }

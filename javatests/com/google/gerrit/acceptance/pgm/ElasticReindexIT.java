@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2018 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,56 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import org.junit.Ignore;
+import com.google.gerrit.elasticsearch.ElasticContainer;
+import com.google.gerrit.elasticsearch.ElasticTestUtils;
+import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
+import com.google.gerrit.elasticsearch.ElasticVersion;
+import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Injector;
+import java.util.UUID;
+import org.eclipse.jgit.lib.Config;
+import org.junit.Before;
 
-@Ignore
-public class ElasticReindexIT extends AbstractReindexTests {}
+public class ElasticReindexIT extends AbstractReindexTests {
+
+  private static Config getConfig(ElasticVersion version) {
+    ElasticNodeInfo elasticNodeInfo;
+    ElasticContainer<?> container = ElasticContainer.createAndStart(version);
+    elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
+    String indicesPrefix = UUID.randomUUID().toString();
+    Config cfg = new Config();
+    ElasticTestUtils.configure(cfg, elasticNodeInfo.port, indicesPrefix, version);
+    return cfg;
+  }
+
+  @ConfigSuite.Default
+  public static Config elasticsearchV2() {
+    return getConfig(ElasticVersion.V2_4);
+  }
+
+  @ConfigSuite.Config
+  public static Config elasticsearchV5() {
+    return getConfig(ElasticVersion.V5_6);
+  }
+
+  @ConfigSuite.Config
+  public static Config elasticsearchV6_2() {
+    return getConfig(ElasticVersion.V6_2);
+  }
+
+  @ConfigSuite.Config
+  public static Config elasticsearchV6_3() {
+    return getConfig(ElasticVersion.V6_3);
+  }
+
+  @Override
+  public void configureIndex(Injector injector) throws Exception {
+    ElasticTestUtils.createAllIndexes(injector);
+  }
+
+  @Before
+  public void reindexFirstSinceElastic() throws Exception {
+    assertServerStartupFails();
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
+  }
+}

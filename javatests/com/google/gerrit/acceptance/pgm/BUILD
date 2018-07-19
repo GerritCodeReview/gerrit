@@ -21,6 +21,7 @@ acceptance_tests(
     srcs = ["ElasticReindexIT.java"],
     group = "elastic",
     labels = [
+        "docker",
         "elastic",
         "exclusive",
         "flaky",
@@ -30,7 +31,9 @@ acceptance_tests(
     vm_args = ["-Xmx512m"],
     deps = [
         ":util",
+        "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/server/schema",
+        "//javatests/com/google/gerrit/elasticsearch:elasticsearch_test_utils",
     ],
 )
 

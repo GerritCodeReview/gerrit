@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b4cb1a_d5e24ec8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-19T22:22:43Z",
+      "side": 1,
+      "message": "Why does this work without user action?",
+      "revId": "7635413efdbf014a52b6e3c93ed332e83318d611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ae59814_7485c9ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2018-07-19T22:22:43Z",
+      "side": 1,
+      "message": "This feels a bit complicated. Can \"mutable\" be private, at least?\nA bit cleaner would be to make it explicit.",
+      "revId": "7635413efdbf014a52b6e3c93ed332e83318d611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

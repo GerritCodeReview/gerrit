@@ -18,5 +18,5 @@ import com.google.inject.Injector;
 
 public class ReindexIT extends AbstractReindexTests {
   @Override
-  public void configureIndex(Injector injector) throws Exception {}
+  public void configureIndex(Injector injector) {}
 }

@@ -38,8 +38,9 @@
           this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins);
       const defaultTheme = config.default_theme;
       const pluginsPending =
-          [].concat(jsPlugins, htmlPlugins, defaultTheme || []).map(
-              p => this._urlFor(p));
+          [].concat(jsPlugins, htmlPlugins, defaultTheme || [])
+            .filter(p => !Gerrit._isPluginPreloaded(p))
+            .map(p => this._urlFor(p));
       Gerrit._setPluginsPending(pluginsPending);
       if (defaultTheme) {
         // Make theme first to be first to load.

@@ -55,6 +55,17 @@ public abstract class RestApiModule extends FactoryModule {
         bind(viewType).annotatedWith(export(POST_ON_COLLECTION, "/")));
   }
 
+  /**
+   * Creates a binder that allows to bind a REST view to handle {@code DELETE} on the REST
+   * collection of the provided view type.
+   *
+   * <p>This binding is ignored if the provided view type belongs to a root collection.
+   *
+   * @param viewType the type of the resources in the REST collection on which {@code DELETE} should
+   *     be handled
+   * @return binder that allows to bind an implementation for the REST view that should handle
+   *     {@code DELETE} on the REST collection of the provided view type
+   */
   protected <R extends RestResource> RestCollectionViewBinder<R> deleteOnCollection(
       TypeLiteral<RestView<R>> viewType) {
     return new RestCollectionViewBinder<>(

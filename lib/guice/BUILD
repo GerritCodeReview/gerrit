@@ -5,7 +5,6 @@ java_library(
     exports = [
         ":guice-library",
         ":javax-inject",
-        ":multibindings",
     ],
 )
 
@@ -44,11 +43,4 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = ["@javax_inject//jar"],
-)
-
-java_library(
-    name = "multibindings",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@multibindings//jar"],
 )

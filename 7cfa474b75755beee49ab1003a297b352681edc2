@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fefbdedb_ee655d89",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-19T22:14:13Z",
+      "side": 1,
+      "message": "Indent these one more level.",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 39
+      },
+      "revId": "7cfa474b75755beee49ab1003a297b352681edc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05986161_68ca7574",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1029297
+      },
+      "writtenOn": "2018-07-19T22:14:13Z",
+      "side": 1,
+      "message": "Should this go above #649?",
+      "revId": "7cfa474b75755beee49ab1003a297b352681edc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

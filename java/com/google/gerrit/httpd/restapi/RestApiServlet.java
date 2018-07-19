@@ -317,7 +317,7 @@ public class RestApiServlet extends HttpServlet {
           } else {
             throw new MethodNotAllowedException();
           }
-        }
+        } // else if (isDelete(req)): DELETE on root collections is not supported
       } else {
         IdString id = path.remove(0);
         try {

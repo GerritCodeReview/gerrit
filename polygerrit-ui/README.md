@@ -8,7 +8,7 @@ to get and install Bazel.
 
 ## Installing [Node.js](https://nodejs.org/en/download/) and npm packages
 
-The minimum nodejs version supported is 6.x+
+The minimum nodejs version supported is 8.x+
 
 ```sh
 # Debian experimental

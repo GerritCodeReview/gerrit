@@ -48,7 +48,6 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
 
   private static final String CHANGES = ChangeSchemaDefinitions.NAME;
 
-  private Project.NameKey project;
   private String changeId;
 
   @Test
@@ -135,7 +134,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   }
 
   private void setUpChange() throws Exception {
-    project = new Project.NameKey("project");
+    Project.NameKey project = new Project.NameKey("project");
     try (ServerContext ctx = startServer()) {
       configureIndex(ctx.getInjector());
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);

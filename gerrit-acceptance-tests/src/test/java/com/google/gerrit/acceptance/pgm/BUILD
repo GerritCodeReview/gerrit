@@ -20,7 +20,6 @@ acceptance_tests(
         "docker",
         "elastic",
         "exclusive",
-        "flaky",
         "pgm",
     ],
     deps = [

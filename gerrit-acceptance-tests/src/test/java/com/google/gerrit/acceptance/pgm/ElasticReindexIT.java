@@ -22,14 +22,13 @@ import com.google.gerrit.testutil.ConfigSuite;
 import com.google.inject.Injector;
 import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
-import org.junit.After;
+import org.junit.Before;
 
 public class ElasticReindexIT extends AbstractReindexTests {
-  private static ElasticContainer<?> container;
 
   private static Config getConfig(ElasticVersion version) {
     ElasticNodeInfo elasticNodeInfo;
-    container = ElasticContainer.createAndStart(version);
+    ElasticContainer<?> container = ElasticContainer.createAndStart(version);
     elasticNodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
@@ -62,11 +61,9 @@ public class ElasticReindexIT extends AbstractReindexTests {
     ElasticTestUtils.createAllIndexes(injector);
   }
 
-  @After
-  public void stopElasticServer() {
-    if (container != null) {
-      container.stop();
-      container = null;
-    }
+  @Before
+  public void reindexFirstSinceElastic() throws Exception {
+    assertServerStartupFails();
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
   }
 }

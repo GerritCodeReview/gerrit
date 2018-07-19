@@ -23,6 +23,7 @@ import com.google.inject.Injector;
 import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 import org.junit.After;
+import org.junit.Before;
 
 public class ElasticReindexIT extends AbstractReindexTests {
   private static ElasticContainer<?> container;
@@ -60,6 +61,12 @@ public class ElasticReindexIT extends AbstractReindexTests {
   @Override
   public void configureIndex(Injector injector) throws Exception {
     ElasticTestUtils.createAllIndexes(injector);
+  }
+
+  @Before
+  public void reindexFirstSinceElastic() throws Exception {
+    assertServerStartupFails();
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
   }
 
   @After

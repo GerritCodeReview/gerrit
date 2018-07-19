@@ -185,6 +185,15 @@ public class GerritServer implements AutoCloseable {
     checkArgument(!desc.memory(), "can't initialize site path for in-memory test: %s", desc);
     Config cfg = desc.buildConfig(baseConfig);
     Map<String, Config> pluginConfigs = desc.buildPluginConfigs();
+
+    MergeableFileBasedConfig gerritConfig =
+        new MergeableFileBasedConfig(
+            site.resolve("etc").resolve("gerrit.config").toFile(), FS.DETECTED);
+    gerritConfig.load();
+    gerritConfig.merge(cfg);
+    mergeTestConfig(gerritConfig);
+    gerritConfig.save();
+
     Init init = new Init();
     int rc =
         init.main(
@@ -194,14 +203,6 @@ public class GerritServer implements AutoCloseable {
     if (rc != 0) {
       throw new RuntimeException("Couldn't initialize site");
     }
-
-    MergeableFileBasedConfig gerritConfig =
-        new MergeableFileBasedConfig(
-            site.resolve("etc").resolve("gerrit.config").toFile(), FS.DETECTED);
-    gerritConfig.load();
-    gerritConfig.merge(cfg);
-    mergeTestConfig(gerritConfig);
-    gerritConfig.save();
 
     for (String pluginName : pluginConfigs.keySet()) {
       MergeableFileBasedConfig pluginCfg =

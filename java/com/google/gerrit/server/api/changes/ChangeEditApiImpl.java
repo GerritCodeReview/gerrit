@@ -47,8 +47,8 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   private final ChangeEdits.Detail editDetail;
   private final ChangeEdits.Post changeEditsPost;
   private final DeleteChangeEdit deleteChangeEdit;
-  private final RebaseChangeEdit.Rebase rebaseChangeEdit;
-  private final PublishChangeEdit.Publish publishChangeEdit;
+  private final RebaseChangeEdit rebaseChangeEdit;
+  private final PublishChangeEdit publishChangeEdit;
   private final ChangeEdits.Get changeEditsGet;
   private final ChangeEdits.Put changeEditsPut;
   private final ChangeEdits.DeleteContent changeEditDeleteContent;
@@ -62,8 +62,8 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       ChangeEdits.Detail editDetail,
       ChangeEdits.Post changeEditsPost,
       DeleteChangeEdit deleteChangeEdit,
-      RebaseChangeEdit.Rebase rebaseChangeEdit,
-      PublishChangeEdit.Publish publishChangeEdit,
+      RebaseChangeEdit rebaseChangeEdit,
+      PublishChangeEdit publishChangeEdit,
       ChangeEdits.Get changeEditsGet,
       ChangeEdits.Put changeEditsPut,
       ChangeEdits.DeleteContent changeEditDeleteContent,

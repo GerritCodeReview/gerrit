@@ -60,6 +60,9 @@ public class AccessSectionTest {
     Permission submitPermission = new Permission(Permission.SUBMIT);
     accessSection.setPermissions(ImmutableList.of(submitPermission));
     assertThat(accessSection.getPermissions()).containsExactly(submitPermission);
+
+    exception.expect(NullPointerException.class);
+    accessSection.setPermissions(null);
   }
 
   @Test
@@ -92,6 +95,9 @@ public class AccessSectionTest {
     Permission submitPermission = new Permission(Permission.SUBMIT);
     accessSection.setPermissions(ImmutableList.of(submitPermission));
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isEqualTo(submitPermission);
+
+    exception.expect(NullPointerException.class);
+    accessSection.getPermission(null);
   }
 
   @Test
@@ -108,6 +114,9 @@ public class AccessSectionTest {
 
     assertThat(accessSection.getPermission(Permission.SUBMIT, true))
         .isEqualTo(new Permission(Permission.SUBMIT));
+
+    exception.expect(NullPointerException.class);
+    accessSection.getPermission(null, true);
   }
 
   @Test
@@ -124,6 +133,9 @@ public class AccessSectionTest {
     assertThat(accessSection.getPermissions())
         .containsExactly(abandonPermission, rebasePermission, submitPermission)
         .inOrder();
+
+    exception.expect(NullPointerException.class);
+    accessSection.addPermission(null);
   }
 
   @Test
@@ -172,6 +184,9 @@ public class AccessSectionTest {
     assertThat(accessSection.getPermissions())
         .containsExactly(abandonPermission, rebasePermission)
         .inOrder();
+
+    exception.expect(NullPointerException.class);
+    accessSection.remove(null);
   }
 
   @Test
@@ -189,6 +204,9 @@ public class AccessSectionTest {
     assertThat(accessSection.getPermissions())
         .containsExactly(abandonPermission, rebasePermission)
         .inOrder();
+
+    exception.expect(NullPointerException.class);
+    accessSection.removePermission(null);
   }
 
   @Test
@@ -229,6 +247,9 @@ public class AccessSectionTest {
     assertThat(accessSection1.getPermissions())
         .containsExactly(abandonPermission, rebasePermission, submitPermission)
         .inOrder();
+
+    exception.expect(NullPointerException.class);
+    accessSection.mergeFrom(null);
   }
 
   @Test

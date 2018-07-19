@@ -315,11 +315,11 @@ public class RestApiServlet extends HttpServlet {
           if (restCollectionView != null) {
             viewData = new ViewData(null, restCollectionView);
           } else {
-            throw new MethodNotAllowedException();
+            throw methodNotAllowed(req);
           }
         } else {
           // DELETE on root collections is not supported
-          throw new MethodNotAllowedException();
+          throw methodNotAllowed(req);
         }
       } else {
         IdString id = path.remove(0);
@@ -375,7 +375,7 @@ public class RestApiServlet extends HttpServlet {
             if (restCollectionView != null) {
               viewData = new ViewData(null, restCollectionView);
             } else {
-              throw new MethodNotAllowedException();
+              throw methodNotAllowed(req);
             }
           } else if (isDelete(req)) {
             RestView<RestResource> restCollectionView =
@@ -383,10 +383,10 @@ public class RestApiServlet extends HttpServlet {
             if (restCollectionView != null) {
               viewData = new ViewData(null, restCollectionView);
             } else {
-              throw new MethodNotAllowedException();
+              throw methodNotAllowed(req);
             }
           } else {
-            throw new MethodNotAllowedException();
+            throw methodNotAllowed(req);
           }
           break;
         }
@@ -1279,6 +1279,19 @@ public class RestApiServlet extends HttpServlet {
 
   private static boolean isRead(HttpServletRequest req) {
     return "GET".equals(req.getMethod()) || "HEAD".equals(req.getMethod());
+  }
+
+  private static MethodNotAllowedException methodNotAllowed(HttpServletRequest req) {
+    return new MethodNotAllowedException(
+        String.format("Not implemented: %s %s", req.getMethod(), requestUri(req)));
+  }
+
+  private static String requestUri(HttpServletRequest req) {
+    String uri = req.getRequestURI();
+    if (uri.startsWith("/a/")) {
+      return uri.substring(2);
+    }
+    return uri;
   }
 
   private void checkRequiresCapability(ViewData d)

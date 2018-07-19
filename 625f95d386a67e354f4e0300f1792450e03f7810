@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12367313_4125dc41",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2018-07-19T13:56:43Z",
+      "side": 1,
+      "message": "Where is the test that is using this?\n\nIf this is going to be used by an internal test @UsedAt(UsedAt.Project.GOOGLE) might be more appropriate.",
+      "revId": "625f95d386a67e354f4e0300f1792450e03f7810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

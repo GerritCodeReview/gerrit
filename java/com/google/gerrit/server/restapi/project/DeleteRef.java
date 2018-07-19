@@ -132,9 +132,6 @@ public class DeleteRef {
           result = u.delete();
         } catch (LockFailedException e) {
           result = RefUpdate.Result.LOCK_FAILURE;
-        } catch (IOException e) {
-          logger.atSevere().withCause(e).log("Cannot delete %s", ref);
-          throw e;
         }
         if (result == RefUpdate.Result.LOCK_FAILURE && --remainingLockFailureCalls > 0) {
           try {

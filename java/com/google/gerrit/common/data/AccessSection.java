@@ -43,6 +43,8 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void setPermissions(List<Permission> list) {
+    checkNotNull(list);
+
     Set<String> names = new HashSet<>();
     for (Permission p : list) {
       if (!names.add(p.getName().toLowerCase())) {
@@ -60,6 +62,8 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
 
   @Nullable
   public Permission getPermission(String name, boolean create) {
+    checkNotNull(name);
+
     if (permissions != null) {
       for (Permission p : permissions) {
         if (p.getName().equalsIgnoreCase(name)) {
@@ -82,6 +86,8 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void addPermission(Permission permission) {
+    checkNotNull(permission);
+
     if (permissions == null) {
       permissions = new ArrayList<>();
     }
@@ -96,18 +102,21 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
   }
 
   public void remove(Permission permission) {
-    if (permission != null) {
-      removePermission(permission.getName());
-    }
+    checkNotNull(permission);
+    removePermission(permission.getName());
   }
 
   public void removePermission(String name) {
+    checkNotNull(name);
+
     if (permissions != null) {
       permissions.removeIf(permission -> name.equalsIgnoreCase(permission.getName()));
     }
   }
 
   public void mergeFrom(AccessSection section) {
+    checkNotNull(section);
+
     for (Permission src : section.getPermissions()) {
       Permission dst = getPermission(src.getName());
       if (dst != null) {
@@ -115,6 +124,13 @@ public class AccessSection extends RefConfigSection implements Comparable<Access
       } else {
         permissions.add(src);
       }
+    }
+  }
+
+  // TODO(ekempin): Once the GWT UI is gone use com.google.common.base.Preconditions.checkNotNull
+  private static void checkNotNull(Object reference) {
+    if (reference == null) {
+      throw new NullPointerException();
     }
   }
 

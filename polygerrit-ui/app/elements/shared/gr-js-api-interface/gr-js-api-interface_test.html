@@ -412,6 +412,15 @@ limitations under the License.
           element.EventType.ADMIN_MENU_LINKS);
     });
 
+    test('preloaded plugins are installed', () => {
+      const installStub = sandbox.stub();
+      Gerrit._preloadedPlugins = {foo: installStub};
+      Gerrit._installPreloadedPlugins();
+      assert.isTrue(installStub.called);
+      const pluginApi = installStub.lastCall.args[0];
+      assert.strictEqual(pluginApi.getPluginName(), 'foo');
+    });
+
     suite('test plugin with base url', () => {
       setup(() => {
         sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');

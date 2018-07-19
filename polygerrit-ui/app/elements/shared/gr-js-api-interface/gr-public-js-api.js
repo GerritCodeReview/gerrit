@@ -31,6 +31,8 @@
 
   let _pluginsPendingCount = -1;
 
+  const PRELOADED_PROTOCOL = 'preloaded:';
+
   const UNKNOWN_PLUGIN = 'unknown';
 
   const PANEL_ENDPOINTS_MAPPING = {
@@ -101,6 +103,15 @@
   // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
   window.$wnd = window;
 
+  function installPreloadedPlugins() {
+    if (!Gerrit._preloadedPlugins) { return; }
+    for (const name in Gerrit._preloadedPlugins) {
+      if (!Gerrit._preloadedPlugins.hasOwnProperty(name)) { continue; }
+      const callback = Gerrit._preloadedPlugins[name];
+      Gerrit.install(callback, API_VERSION, PRELOADED_PROTOCOL + name);
+    }
+  }
+
   function getPluginNameFromUrl(url) {
     if (!(url instanceof URL)) {
       try {
@@ -109,6 +120,9 @@
         console.warn(e);
         return null;
       }
+    }
+    if (url.protocol === PRELOADED_PROTOCOL) {
+      return url.pathname;
     }
     const base = Gerrit.BaseUrlBehavior.getBaseUrl();
     const pathname = url.pathname.replace(base, '');
@@ -432,6 +446,7 @@
   const app = document.querySelector('#app');
   if (!app) {
     // No gr-app found (running tests)
+    Gerrit._installPreloadedPlugins = installPreloadedPlugins;
     Gerrit._resetPlugins = () => {
       _allPluginsPromise = null;
       _pluginsInstalled = [];
@@ -622,5 +637,18 @@
     return `${pluginName}-screen-${screenName}`;
   };
 
+  Gerrit._isPluginPreloaded = function(url) {
+    const name = getPluginNameFromUrl(url);
+    if (name && Gerrit._preloadedPlugins) {
+      return name in Gerrit._preloadedPlugins;
+    } else {
+      return false;
+    }
+  };
+
   window.Gerrit = Gerrit;
+
+  // Preloaded plugins should be installed after Gerrit.install() is set,
+  // since plugin preloader substitutes Gerrit.install() temporarily.
+  installPreloadedPlugins();
 })(window);

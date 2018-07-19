@@ -16,6 +16,24 @@
       "revId": "625f95d386a67e354f4e0300f1792450e03f7810",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec19861_d0916a02",
+        "filename": "java/com/google/gerrit/server/notedb/LegacyChangeNoteWrite.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2018-07-19T14:55:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12367313_4125dc41",
+      "revId": "625f95d386a67e354f4e0300f1792450e03f7810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

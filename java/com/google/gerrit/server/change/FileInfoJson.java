@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RevId;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -68,7 +69,12 @@ public class FileInfoJson {
 
   private Map<String, FileInfo> toFileInfoMap(Change change, PatchListKey key)
       throws PatchListNotAvailableException {
-    PatchList list = patchListCache.get(key, change.getProject());
+    return toFileInfoMap(change.getProject(), key);
+  }
+
+  public Map<String, FileInfo> toFileInfoMap(Project.NameKey project, PatchListKey key)
+      throws PatchListNotAvailableException {
+    PatchList list = patchListCache.get(key, project);
 
     Map<String, FileInfo> files = new TreeMap<>();
     for (PatchListEntry e : list.getPatches()) {

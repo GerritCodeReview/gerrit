@@ -69,7 +69,7 @@ import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestCollectionView;
+import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -98,7 +98,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CreateChange
-    extends RetryingRestCollectionView<
+    extends RetryingRestCollectionModifyView<
         TopLevelResource, ChangeResource, ChangeInput, Response<ChangeInfo>> {
   private final String anonymousCowardName;
   private final Provider<ReviewDb> db;

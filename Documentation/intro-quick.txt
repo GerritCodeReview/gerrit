@@ -1,31 +1,47 @@
-= Gerrit Product Overview
+= Gerrit Code Review Product Overview
 
-Gerrit is a web-based code review tool built on top of the
-https://git-scm.com/[Git version control system]. This introduction provides
-an overview of Gerrit and describes how Gerrit integrates into a typical
-development workflow. It also provides a brief tutorial that shows how to manage
-a change using Gerrit.
+Gerrit Code Review is a web-based code review tool built on
+https://git-scm.com/[Git version control].
 
-== What is Gerrit?
+== What is Gerrit Code Review?
 
-Gerrit makes code review easy by providing a lightweight framework for reviewing
-commits before they are accepted by the codebase. Gerrit works equally well for
-projects where approving changes is restricted to selected users, as is typical
-for Open Source software development, as well as projects where all contributors
-are trusted.
+Gerrit provides a framework you and your teams can use to review code before it
+becomes part of the code base. Gerrit works equally well in open source projects
+that limit the number of users who can approve changes (typical in open source
+software development) and in projects in which all contributors are trusted.
 
-== Learn About Gerrit
+== What is Code Review?
 
-If you're new to Gerrit and want to know more about how it can improve your
-developer workflow, see the following topics:
+Code reviews can identify mistakes before they're found by customers. In a world
+of continuous integration, code must be tested before it's submitted to the
+master branch to become part of the code base. Tests confirm that a product
+works (and continues to work) as intended by the developers.
+
+When code is reviewed, developers:
+
+. Work carefully and consistently
+. Learn best practices and new techniques from other developers
+. Implement consistency and quality across the code base
+
+Code reviews typically turn up issues related to:
+
+. Design: Is code well-designed and suited to the code base?
+. Functionality: Does code perform as intended and in a way that is good for users?
+. Complexity: Can other developers understand and use the code?
+. Naming: Does the code contain clear names for elements such as variables, classes, and methods?
+. Comments: Are comments specific and complete?
+
+== Learn Gerrit Code Review
+
+If you're new to Gerrit and want to learn how Gerrit can improve your workflow,
+see:
 
 . link:intro-how-gerrit-works.html[How Gerrit Works]
 . link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]
 
 == Getting Started
 
-This documentation contains several guides to help you learn about the Gerrit
-features most relevant to you:
+To learn more, see:
 
 . link:intro-user.html[User Guide]
 . link:intro-project-owner.html[Project Owner Guide]

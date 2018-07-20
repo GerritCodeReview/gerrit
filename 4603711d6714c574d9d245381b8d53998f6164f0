@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b263be0a_95f2f856",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-20T15:01:44Z",
+      "side": 1,
+      "message": "Something I still have to decide: Invalidate the diff caches?",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 43
+      },
+      "revId": "4603711d6714c574d9d245381b8d53998f6164f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8018eeca_ababb628",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2018-07-20T15:01:44Z",
+      "side": 1,
+      "message": "I\u0027m not testing editsDueToRebase here as it\u0027s cumbersome to construct the correct commit structure and I want to get this fix out. I also tried to convert this test into a unit test and directly construct a PatchListEntry but I failed to construct a proper FileHeader. Thus, I\u0027m sticking with this approach for now.",
+      "range": {
+        "startLine": 193,
+        "startChar": 14,
+        "endLine": 193,
+        "endChar": 68
+      },
+      "revId": "4603711d6714c574d9d245381b8d53998f6164f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

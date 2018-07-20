@@ -42,6 +42,7 @@ import com.google.inject.name.Named;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
@@ -189,6 +190,29 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void harmfulMutationsOfEditsAreNotPossibleForPatchListEntry() throws Exception {
+    RevCommit commit =
+        commitBuilder().add("a.txt", "First line\nSecond line\n").message(SUBJECT_1).create();
+    pushHead(testRepo, "refs/heads/master", false);
+
+    PatchListKey diffKey = PatchListKey.againstDefaultBase(commit.copy(), Whitespace.IGNORE_NONE);
+    PatchList patchList = patchListCache.get(diffKey, project);
+
+    PatchListEntry patchListEntry = getEntryFor(patchList, "a.txt");
+    Edit outputEdit = Iterables.getOnlyElement(patchListEntry.getEdits());
+    Edit originalEdit =
+        new Edit(
+            outputEdit.getBeginA(),
+            outputEdit.getEndA(),
+            outputEdit.getBeginB(),
+            outputEdit.getEndB());
+
+    outputEdit.shift(5);
+
+    assertThat(patchListEntry.getEdits()).containsExactly(originalEdit);
+  }
+
+  @Test
   public void harmfulMutationsOfEditsAreNotPossibleForIntraLineDiffArgsAndCachedValue() {
     String a = "First line\nSecond line\n";
     String b = "1st line\n2nd line\n";
@@ -268,5 +292,16 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   private ObjectId getCurrentRevisionId(String changeId) throws Exception {
     return ObjectId.fromString(gApi.changes().id(changeId).get().currentRevision);
+  }
+
+  private static PatchListEntry getEntryFor(PatchList patchList, String filePath) {
+    Optional<PatchListEntry> patchListEntry =
+        patchList
+            .getPatches()
+            .stream()
+            .filter(entry -> entry.getNewName().equals(filePath))
+            .findAny();
+    return patchListEntry.orElseThrow(
+        () -> new IllegalStateException("No PatchListEntry for " + filePath + " exists"));
   }
 }

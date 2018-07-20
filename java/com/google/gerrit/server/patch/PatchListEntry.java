@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readBytes;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readEnum;
 import static com.google.gerrit.server.ioutil.BasicSerialization.readFixInt64;
@@ -187,11 +189,13 @@ public class PatchListEntry {
   }
 
   public ImmutableList<Edit> getEdits() {
-    return edits;
+    // Edits are mutable objects. As we serialize PatchListEntry asynchronously in H2CacheImpl, we
+    // must ensure that its state isn't modified until it was properly stored in the cache.
+    return deepCopyEdits(edits);
   }
 
   public ImmutableSet<Edit> getEditsDueToRebase() {
-    return editsDueToRebase;
+    return deepCopyEdits(editsDueToRebase);
   }
 
   public int getInsertions() {
@@ -232,6 +236,18 @@ public class PatchListEntry {
     p.setInsertions(insertions);
     p.setDeletions(deletions);
     return p;
+  }
+
+  private static ImmutableList<Edit> deepCopyEdits(List<Edit> edits) {
+    return edits.stream().map(PatchListEntry::copy).collect(toImmutableList());
+  }
+
+  private static ImmutableSet<Edit> deepCopyEdits(Set<Edit> edits) {
+    return edits.stream().map(PatchListEntry::copy).collect(toImmutableSet());
+  }
+
+  private static Edit copy(Edit edit) {
+    return new Edit(edit.getBeginA(), edit.getEndA(), edit.getBeginB(), edit.getEndB());
   }
 
   void writeTo(OutputStream out) throws IOException {

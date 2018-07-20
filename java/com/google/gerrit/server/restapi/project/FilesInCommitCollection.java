@@ -14,34 +14,46 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.server.change.FileInfoJson;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.FileResource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.kohsuke.args4j.Option;
 
 @Singleton
 public class FilesInCommitCollection implements ChildCollection<CommitResource, FileResource> {
   private final DynamicMap<RestView<FileResource>> views;
+  private final Provider<ListFiles> list;
   private final GitRepositoryManager repoManager;
 
   @Inject
   FilesInCommitCollection(
-      DynamicMap<RestView<FileResource>> views, GitRepositoryManager repoManager) {
+      DynamicMap<RestView<FileResource>> views,
+      Provider<ListFiles> list,
+      GitRepositoryManager repoManager) {
     this.views = views;
+    this.list = list;
     this.repoManager = repoManager;
   }
 
   @Override
   public RestView<CommitResource> list() throws ResourceNotFoundException {
-    throw new ResourceNotFoundException();
+    return list.get();
   }
 
   @Override
@@ -56,5 +68,33 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
   @Override
   public DynamicMap<RestView<FileResource>> views() {
     return views;
+  }
+
+  public static final class ListFiles implements RestReadView<CommitResource> {
+    @Option(name = "--parent", metaVar = "parent-number")
+    int parentNum;
+
+    private final FileInfoJson fileInfoJson;
+
+    @Inject
+    public ListFiles(FileInfoJson fileInfoJson) {
+      this.fileInfoJson = fileInfoJson;
+    }
+
+    @Override
+    public Object apply(CommitResource resource) throws PatchListNotAvailableException {
+      RevCommit commit = resource.getCommit();
+      PatchListKey key;
+
+      if (parentNum > 0) {
+        key =
+            PatchListKey.againstParentNum(
+                parentNum, commit, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+      } else {
+        key = PatchListKey.againstCommit(null, commit, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+      }
+
+      return fileInfoJson.toFileInfoMap(resource.getProjectState().getNameKey(), key);
+    }
   }
 }

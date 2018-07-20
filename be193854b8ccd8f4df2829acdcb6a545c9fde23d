@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28775f79_63a6595a",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-20T18:51:49Z",
+      "side": 1,
+      "message": "optional: \"submitted\" feels a bit jargony for this context, since a new reader doesn\u0027t know the workflow yet. Is the code submitted when I present a change for review (like submitting a paper I\u0027d want to present to a conference) or when it\u0027s been accepted and becomes part of the code base that other people use (as in Gerrit)?",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "be193854b8ccd8f4df2829acdcb6a545c9fde23d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

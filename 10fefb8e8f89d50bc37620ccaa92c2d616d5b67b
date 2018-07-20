@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "253a1d77_02147c2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-20T18:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cf9cdab_9161d0ce",
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b17737b8_03e93a0a",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d765ad75_4e0043b6",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-20T18:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b17737b8_03e93a0a",
+      "range": {
+        "startLine": 9,
+        "startChar": 74,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "8c16efd5_3bfbb0c0",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-20T18:51:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc53af19_3f48d204",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9301759_1ce95fae",
         "filename": "Documentation/intro-quick.txt",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2018-07-17T21:06:23Z",
       "side": 1,
       "message": "Here, I think the text is talking about code being robust when it lands in \"master\", even before it gets released to customers. That\u0027s important in a CI world because if your code is not reliable in \"master\" then you get used to not being able to trust tests.",
+      "range": {
+        "startLine": 17,
+        "startChar": 71,
+        "endLine": 17,
+        "endChar": 79
+      },
+      "revId": "10fefb8e8f89d50bc37620ccaa92c2d616d5b67b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cac1773_9e0ef413",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-20T18:51:49Z",
+      "side": 1,
+      "message": "ping --- I think here it means to say something like \"becomes part of the code base\" instead of \"is released\". In other words, the second sentence is not meant to be a paraphrase of the first but is bringing up an additional point.",
+      "parentUuid": "e9301759_1ce95fae",
       "range": {
         "startLine": 17,
         "startChar": 71,

@@ -144,10 +144,7 @@ public class ProjectsRestApiBindingsIT extends AbstractRestApiBindingsTest {
       ImmutableList.of(
           RestCall.get("/projects/%s/commits/%s"),
           RestCall.get("/projects/%s/commits/%s/in"),
-          RestCall.builder(GET, "/projects/%s/commits/%s/files")
-              // GET /projects/<project>/branches/<branch>/files is not implemented
-              .expectedResponseCode(SC_NOT_FOUND)
-              .build(),
+          RestCall.get("/projects/%s/commits/%s/files"),
           RestCall.post("/projects/%s/commits/%s/cherrypick"));
 
   /**

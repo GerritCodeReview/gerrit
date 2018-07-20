@@ -44,10 +44,11 @@ public abstract class Comment {
             .thenComparingInt(range -> range.endLine)
             .thenComparingInt(range -> range.endCharacter);
 
-    public int startLine; // 1-based, inclusive
-    public int startCharacter; // 0-based, inclusive
-    public int endLine; // 1-based, exclusive
-    public int endCharacter; // 0-based, exclusive
+    // Start position is inclusive; end position is exclusive.
+    public int startLine; // 1-based
+    public int startCharacter; // 0-based
+    public int endLine; // 1-based
+    public int endCharacter; // 0-based
 
     public boolean isValid() {
       return startLine > 0

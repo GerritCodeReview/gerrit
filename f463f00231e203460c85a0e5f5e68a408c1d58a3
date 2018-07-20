@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aab0cc6_b7c6af5d",
+        "filename": "Documentation/intro-quick.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2018-07-20T19:03:14Z",
+      "side": 1,
+      "message": "optional: I think I prefer the previous version of this sentence, since it\u0027s a little punchier:\n- it tells me that code review *does* help people in practice, instead of saying that it might\n- this might be just a matter of taste, but the active voice \"customers find them\" makes the stakes a little clearer to me --- it\u0027s better if the user isn\u0027t the first to find problems.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 68
+      },
+      "revId": "f463f00231e203460c85a0e5f5e68a408c1d58a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

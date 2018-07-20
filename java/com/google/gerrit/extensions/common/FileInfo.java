@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.common;
 
+import java.util.Objects;
+
 public class FileInfo {
   public Character status;
   public Boolean binary;
@@ -22,4 +24,18 @@ public class FileInfo {
   public Integer linesDeleted;
   public long sizeDelta;
   public long size;
+
+  public boolean equals(Object o) {
+    if (o instanceof FileInfo) {
+      FileInfo fileInfo = (FileInfo) o;
+      return Objects.equals(status, fileInfo.status)
+          && Objects.equals(binary, fileInfo.binary)
+          && Objects.equals(oldPath, fileInfo.oldPath)
+          && Objects.equals(linesInserted, fileInfo.linesInserted)
+          && Objects.equals(linesDeleted, fileInfo.linesDeleted)
+          && Objects.equals(sizeDelta, fileInfo.sizeDelta)
+          && Objects.equals(size, fileInfo.size);
+    }
+    return false;
+  }
 }

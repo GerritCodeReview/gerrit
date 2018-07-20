@@ -27,7 +27,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -53,7 +53,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class CreateTag implements RestCreateView<ProjectResource, TagResource, TagInput> {
+public class CreateTag implements RestCollectionCreateView<ProjectResource, TagResource, TagInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private final PermissionBackend permissionBackend;
   private final GitRepositoryManager repoManager;

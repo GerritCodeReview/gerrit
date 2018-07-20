@@ -27,7 +27,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountException;
@@ -48,7 +48,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class CreateEmail
-    implements RestCreateView<AccountResource, AccountResource.Email, EmailInput> {
+    implements RestCollectionCreateView<AccountResource, AccountResource.Email, EmailInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<CurrentUser> self;

@@ -41,7 +41,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
@@ -91,7 +91,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 
 @RequiresCapability(GlobalCapability.CREATE_PROJECT)
 public class CreateProject
-    implements RestCreateView<TopLevelResource, ProjectResource, ProjectInput> {
+    implements RestCollectionCreateView<TopLevelResource, ProjectResource, ProjectInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<ProjectsCollection> projectsCollection;

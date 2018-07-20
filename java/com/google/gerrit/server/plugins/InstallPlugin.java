@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.RestCreateView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.inject.Inject;
@@ -95,7 +95,7 @@ public class InstallPlugin implements RestModifyView<TopLevelResource, InstallPl
 
   @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
   static class Create
-      implements RestCreateView<TopLevelResource, PluginResource, InstallPluginInput> {
+      implements RestCollectionCreateView<TopLevelResource, PluginResource, InstallPluginInput> {
     private final PluginLoader loader;
     private final Provider<InstallPlugin> install;
 
